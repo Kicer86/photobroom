@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Configuration entry
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -20,28 +20,45 @@
 
 #include "entrydata.hpp"
 
-EntryData::EntryData()
+#include <string>
+
+struct EntryData::Data
+{
+    Data(): m_key(), m_value() {}
+
+    Data(const Data &other): m_key(), m_value()
+    {
+        m_key = other.m_key;
+        m_value = other.m_value;
+    }
+
+    Data(const std::string &key, const std::string &value): m_key(key), m_value(value)
+    {
+
+    }
+
+    virtual ~Data() {}
+
+    std::string m_key;
+    std::string m_value;
+};
+
+
+EntryData::EntryData(): m_data(new Data)
 {
 
 }
 
-EntryData::EntryData(const EntryData& other)
-{
-
-}
 
 EntryData::~EntryData()
 {
 
 }
 
-EntryData& EntryData::operator=(const EntryData& other)
-{
-    return *this;
-}
 
 bool EntryData::operator==(const EntryData& other) const
 {
-///TODO: return ...;
-}
+    const bool status = m_data->m_key == other.m_data->m_key;
 
+    return status;
+}

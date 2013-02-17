@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Configuration entry
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -21,15 +21,18 @@
 #ifndef ENTRYDATA_HPP
 #define ENTRYDATA_HPP
 
+#include <OpenLibrary/utils/data_ptr.hpp>
+
 class EntryData
 {
-
     public:
         EntryData();
-        EntryData(const EntryData& other);
         virtual ~EntryData();
-        virtual EntryData& operator=(const EntryData& other);
         virtual bool operator==(const EntryData& other) const;
+
+    private:
+        struct Data;
+        data_ptr<Data> m_data;
 };
 
 #endif // ENTRYDATA_HPP
