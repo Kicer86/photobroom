@@ -5,7 +5,8 @@ cmake_minimum_required(VERSION 2.8)
 
 
 set(BROOM_SOURCES
-    src/configurationfactory.cpp
+    src/configruation/configurationfactory.cpp
+    src/configuration/entrydata.cpp
     src/main.cpp
    )
 
