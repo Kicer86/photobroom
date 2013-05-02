@@ -1,11 +1,14 @@
 
 project(broom)
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
+
+add_subdirectory(src/analyzer)
+add_subdirectory(src/tests)
 
 find_package(OpenLibrary REQUIRED utils)
 
-include_directories(${OPENLIBRARY_INCLUDES})
+include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES})
 
 set(BROOM_SOURCES
     src/configuration/configurationfactory.cpp
@@ -13,7 +16,15 @@ set(BROOM_SOURCES
     src/main.cpp
    )
 
-add_executable(broom ${BROOM_SOURCES})
-set_target_properties(broom PROPERTIES COMPILE_FLAGS --std=c++11)
 
-add_subdirectory(src/tests)
+set(BROOM_HEADERS
+    src/configuration/configurationfactory.hpp
+    src/configuration/entrydata.hpp
+    src/configuration/iconfiguration.hpp
+	src/configuration/ientry.hpp
+   )
+
+source_group(configuration REGULAR_EXPRESSION .*configuration.* )
+
+add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
+target_link_libraries(broom analyzer)
