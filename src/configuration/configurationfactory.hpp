@@ -24,14 +24,15 @@
 class ConfigurationFactory
 {
     public:
-        ConfigurationFactory(const ConfigurationFactory &) = delete;
-        virtual ~ConfigurationFactory();
-        ConfigurationFactory& operator=(const ConfigurationFactory &) = delete;
 
         static ConfigurationFactory* instance();
 
     private:
         ConfigurationFactory();
+				
+		ConfigurationFactory(const ConfigurationFactory &); //=delete
+        virtual ~ConfigurationFactory();
+		ConfigurationFactory& operator=(const ConfigurationFactory &); //=delete
 };
 
 #endif // CONFIGURATIONFACTORY_HPP
