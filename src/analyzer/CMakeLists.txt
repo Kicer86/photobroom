@@ -2,6 +2,8 @@
 project(analyzer)
 
 find_package(OpenLibrary REQUIRED)
+find_package(Boost 1.53.0 COMPONENTS filesystem)
+
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 
 include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} .)
