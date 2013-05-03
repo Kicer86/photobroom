@@ -10,7 +10,8 @@ class FileAnalyzer: public IFileAnalyzer
 		FileAnalyzer();
 		virtual ~FileAnalyzer();
 
-		virtual bool isImage(const std::string &);
+		virtual bool isImage(const std::string &) override;
+		
 };
 
 #endif
