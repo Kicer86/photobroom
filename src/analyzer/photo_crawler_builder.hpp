@@ -4,9 +4,11 @@
 
 #include <memory>
 
+#include "analyzer_exports.hpp"
+
 struct IPhotoCrawler;
 
-struct PhotoCrawlerBuilder
+struct ANALYZER_EXPORTS PhotoCrawlerBuilder
 {
 	PhotoCrawlerBuilder();
 	virtual ~PhotoCrawlerBuilder();
