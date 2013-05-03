@@ -14,6 +14,7 @@ set(ANALYZER_SOURCES
 	implementation/file_analyzer.cpp
     implementation/filesystemscanner.cpp
 	implementation/photo_crawler.cpp
+	implementation/photo_crawler_builder.cpp
 	)
 
 set(ANALYZER_HEADERS 
@@ -22,7 +23,8 @@ set(ANALYZER_HEADERS
     implementation/ifile_system_scanner.hpp
 	implementation/ifile_analyzer.hpp
     implementation/photo_crawler.hpp
-	iphoto_crawler.hpp)
+	iphoto_crawler.hpp
+	photo_crawler_builder.hpp)
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
