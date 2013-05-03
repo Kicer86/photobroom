@@ -1,8 +1,15 @@
 
 #include "photo_crawler.hpp"
 
+#include "ifile_system_scanner.hpp"
 
-PhotoCrawler::PhotoCrawler()
+struct PhotoCrawler::Impl
+{
+	Impl() {}
+	virtual ~Impl() {}
+};
+
+PhotoCrawler::PhotoCrawler(IFileSystemScanner *scanner)
 {
 
 }
