@@ -6,13 +6,14 @@
 
 struct PhotoCrawler::Impl
 {
-	Impl(IFileSystemScanner *scanner): m_scanner(scanner) {}
+	Impl(IFileSystemScanner *scanner, IFileAnalyzer *analyzer): m_scanner(scanner), m_analyzer(analyzer) {}
 	virtual ~Impl() {}
 
 	IFileSystemScanner *m_scanner;
+	IFileAnalyzer *m_analyzer;
 };
 
-PhotoCrawler::PhotoCrawler(IFileSystemScanner *scanner, IFileAnalyzer *analyzer): m_impl(new Impl(scanner))
+PhotoCrawler::PhotoCrawler(IFileSystemScanner *scanner, IFileAnalyzer *analyzer): m_impl(new Impl(scanner, analyzer))
 {
 
 }
