@@ -1,8 +1,18 @@
 
 #include <iostream>
 
+#include "analyzer/photo_crawler.hpp"
+
 int main(int argc, char **argv)
 {
-    std::cout << "Hello, world!" << std::endl;
+	IPhotoCrawler *crawler = PhotoCrawlerFactory::get();
+
+	std::string path = "D:/zdjecia/Kicia";
+	std::vector<std::string> paths;
+
+	paths.push_back(path);
+
+	crawler->crawl(paths);
+
     return 0;
 }
