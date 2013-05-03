@@ -11,7 +11,7 @@ include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_
 add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 
 set(ANALYZER_SOURCES
-	implementation/file_analyzer.hpp
+	implementation/file_analyzer.cpp
     implementation/filesystemscanner.cpp
 	implementation/photo_crawler.cpp
 	)
