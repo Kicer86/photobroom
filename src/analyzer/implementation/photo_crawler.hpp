@@ -7,11 +7,12 @@
 #include "iphoto_crawler.hpp"
 
 struct IFileSystemScanner;
+struct IFileAnalyzer;
 
 class PhotoCrawler: public IPhotoCrawler
 {
     public:
-        PhotoCrawler(IFileSystemScanner *);
+        PhotoCrawler(IFileSystemScanner *, IFileAnalyzer *);
         virtual ~PhotoCrawler();
         
         virtual void crawl( const std::vector<std::string> & ) override;

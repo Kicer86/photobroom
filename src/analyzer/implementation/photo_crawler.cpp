@@ -2,6 +2,7 @@
 #include "photo_crawler.hpp"
 
 #include "ifile_system_scanner.hpp"
+#include "ifile_analyzer.hpp"
 
 struct PhotoCrawler::Impl
 {
@@ -11,7 +12,7 @@ struct PhotoCrawler::Impl
 	IFileSystemScanner *m_scanner;
 };
 
-PhotoCrawler::PhotoCrawler(IFileSystemScanner *scanner): m_impl(new Impl(scanner))
+PhotoCrawler::PhotoCrawler(IFileSystemScanner *scanner, IFileAnalyzer *analyzer): m_impl(new Impl(scanner))
 {
 
 }
