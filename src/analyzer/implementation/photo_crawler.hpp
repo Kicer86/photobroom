@@ -16,6 +16,7 @@ class PhotoCrawler: public IPhotoCrawler
         virtual ~PhotoCrawler();
         
         virtual void crawl( const std::vector<std::string> & ) override;
+		virtual void setRules(const Rules &) override;
 
 	private: 
 		struct Impl;

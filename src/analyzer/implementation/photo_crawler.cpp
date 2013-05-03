@@ -34,3 +34,9 @@ void PhotoCrawler::crawl(const std::vector< std::string > &paths)
 
 	}
 }
+
+
+void PhotoCrawler::setRules(const Rules &)
+{
+
+}
