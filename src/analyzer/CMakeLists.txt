@@ -1,12 +1,14 @@
 
 project(analyzer)
 
+add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
+find_package(Boost 1.53.0 COMPONENTS filesystem system)
 find_package(OpenLibrary REQUIRED)
-find_package(Boost 1.53.0 COMPONENTS filesystem)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 
 include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} .)
+add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 
 set(ANALYZER_SOURCES
     implementation/filesystemscanner.cpp
