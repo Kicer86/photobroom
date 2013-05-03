@@ -21,7 +21,7 @@
 #ifndef ANALYZER_FILESYSTEMSCANNER_HPP
 #define ANALYZER_FILESYSTEMSCANNER_HPP
 
-#include <ifile_system_scanner.hpp>
+#include "ifile_system_scanner.hpp"
 
 
 class FileSystemScanner : public IFileSystemScanner

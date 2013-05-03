@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    File system scanner implementation.
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -30,23 +30,9 @@ FileSystemScanner::FileSystemScanner()
 
 }
 
-FileSystemScanner::FileSystemScanner(const FileSystemScanner& other)
-{
-
-}
 
 FileSystemScanner::~FileSystemScanner()
 {
 
-}
-
-FileSystemScanner& FileSystemScanner::operator=(const FileSystemScanner& other)
-{
-    return *this;
-}
-
-bool FileSystemScanner::operator==(const FileSystemScanner& other) const
-{
-///TODO: return ...;
 }
 

@@ -7,7 +7,7 @@
 
 struct IFileSystemScanner
 {
-    virtual IFileSystemScanner() {}
+    virtual ~IFileSystemScanner() {}
     
     virtual std::vector<std::string> getFilesFor(const std::string &) = 0;
 };
