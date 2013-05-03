@@ -27,4 +27,6 @@ set(BROOM_HEADERS
 source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
+turnOnCpp11(broom)
+
 target_link_libraries(broom analyzer)
