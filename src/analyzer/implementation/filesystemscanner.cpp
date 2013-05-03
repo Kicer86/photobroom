@@ -20,9 +20,11 @@
 
 #include "filesystemscanner.hpp"
 
-std::vector< std::string, std::allocator< std::string > > FileSystemScanner::getFilesFor(const std::string& )
+std::vector< std::string, std::allocator< std::string > > FileSystemScanner::getFilesFor(const std::string &path)
 {
+	std::vector<std::string> results;
 
+	return results;
 }
 
 FileSystemScanner::FileSystemScanner()
