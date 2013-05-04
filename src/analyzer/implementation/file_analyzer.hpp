@@ -4,17 +4,16 @@
 
 #include <memory>
 
-#include "ifile_analyzer.hpp"
 #include "ianalyzer.hpp"
 
-class FileAnalyzer: public IAnalyzer, public IFileAnalyzer
+class FileAnalyzer: public IAnalyzer
 {
 	public:
 		FileAnalyzer();
 		virtual ~FileAnalyzer();
 
 		virtual bool isImage(const std::string &) override;
-        virtual void registerAnalyzer(IAnalyzer* ) override;
+        void registerAnalyzer(IAnalyzer *);
         
     private:
         struct Impl;

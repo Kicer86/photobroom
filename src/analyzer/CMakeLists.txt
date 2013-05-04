@@ -23,7 +23,6 @@ set(ANALYZER_HEADERS
 	implementation/file_analyzer.hpp
     implementation/filesystemscanner.hpp
     implementation/ifile_system_scanner.hpp
-	implementation/ifile_analyzer.hpp
     implementation/photo_crawler.hpp
     ianalyzer.hpp
 	iphoto_crawler.hpp
