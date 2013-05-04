@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Extension base analyzer for JPEG files
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -20,17 +20,16 @@
 
 #include "ext_jpeganalyzer.hpp"
 
-bool Ext_JpegAnalyzer::isImage(const std::string& )
-{
+#include <regex>
 
-}
+#include <boost/filesystem.hpp>
 
 Ext_JpegAnalyzer::Ext_JpegAnalyzer()
 {
 
 }
 
-Ext_JpegAnalyzer::Ext_JpegAnalyzer(const Ext_JpegAnalyzer& other)
+Ext_JpegAnalyzer::Ext_JpegAnalyzer(const Ext_JpegAnalyzer &)
 {
 
 }
@@ -40,13 +39,27 @@ Ext_JpegAnalyzer::~Ext_JpegAnalyzer()
 
 }
 
-Ext_JpegAnalyzer& Ext_JpegAnalyzer::operator=(const Ext_JpegAnalyzer& other)
+
+bool Ext_JpegAnalyzer::isImage(const std::string &file_path)
+{
+    boost::filesystem::path path(file_path);
+    
+    const std::string ext = path.extension().string();
+    
+    std::regex ext_regex("[Jj][Pp][Ee]?[Gg]");
+    const bool matches = std::regex_match(ext, ext_regex);
+    
+    return matches;
+}
+
+
+Ext_JpegAnalyzer& Ext_JpegAnalyzer::operator=(const Ext_JpegAnalyzer &)
 {
     return *this;
 }
 
-bool Ext_JpegAnalyzer::operator==(const Ext_JpegAnalyzer& other) const
+bool Ext_JpegAnalyzer::operator==(const Ext_JpegAnalyzer &) const
 {
-///TODO: return ...;
+    return true;
 }
 
