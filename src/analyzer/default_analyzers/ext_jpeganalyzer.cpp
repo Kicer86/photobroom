@@ -29,10 +29,12 @@ Ext_JpegAnalyzer::Ext_JpegAnalyzer()
 
 }
 
+
 Ext_JpegAnalyzer::Ext_JpegAnalyzer(const Ext_JpegAnalyzer &)
 {
 
 }
+
 
 Ext_JpegAnalyzer::~Ext_JpegAnalyzer()
 {
@@ -57,6 +59,7 @@ Ext_JpegAnalyzer& Ext_JpegAnalyzer::operator=(const Ext_JpegAnalyzer &)
 {
     return *this;
 }
+
 
 bool Ext_JpegAnalyzer::operator==(const Ext_JpegAnalyzer &) const
 {
