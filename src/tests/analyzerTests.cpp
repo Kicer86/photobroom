@@ -44,23 +44,62 @@ TEST_GROUP(FileAnalyzerShould)
 
 struct FakeAnalyzer: public IAnalyzer
 {
-    FakeAnalyzer() {}
+    FakeAnalyzer(bool result = false): m_counter(nullptr), m_result(result) {}
+    FakeAnalyzer(int *counter): m_counter(counter), m_result(false) {}
     virtual ~FakeAnalyzer() {}
     
     virtual bool isImage(const std::string &)
     {
-        count++;
+        if (m_counter != nullptr)
+            (*m_counter)++;
         
-        return false;        //it should force analyzer to iterate over all sub-analyzers
+        return m_result;
     }
     
-    static int count;
+    int *m_counter;
+    bool m_result;
 };
-
-int FakeAnalyzer::count = 0;
 
 
 TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
+{
+    FileAnalyzer analyzer;
+    
+    int counter;
+    
+    FakeAnalyzer *fake1 = new FakeAnalyzer(&counter);
+    FakeAnalyzer *fake2 = new FakeAnalyzer(&counter);
+    FakeAnalyzer *fake3 = new FakeAnalyzer(&counter);
+    
+    analyzer.registerAnalyzer(fake1);
+    analyzer.registerAnalyzer(fake2);
+    analyzer.registerAnalyzer(fake3);
+    
+    analyzer.isImage("");
+    
+    CHECK_EQUAL(3, counter);
+}
+
+
+TEST(FileAnalyzerShould, ReturnTrueIfAnyOfSubAnalyzersWasPositive)
+{
+    FileAnalyzer analyzer;
+    
+    FakeAnalyzer *fake1 = new FakeAnalyzer;
+    FakeAnalyzer *fake2 = new FakeAnalyzer;
+    FakeAnalyzer *fake3 = new FakeAnalyzer(true);
+    
+    analyzer.registerAnalyzer(fake1);
+    analyzer.registerAnalyzer(fake2);
+    analyzer.registerAnalyzer(fake3);
+    
+    const bool status = analyzer.isImage("");
+    
+    CHECK_EQUAL(true, status);
+}
+
+
+TEST(FileAnalyzerShould, ReturnFalseWhenNoneOfSubAnalyzersWasPositive)
 {
     FileAnalyzer analyzer;
     
@@ -72,7 +111,7 @@ TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
     analyzer.registerAnalyzer(fake2);
     analyzer.registerAnalyzer(fake3);
     
-    analyzer.isImage("");
+    const bool status = analyzer.isImage("");
     
-    CHECK_EQUAL(3, fake1->count);
+    CHECK_EQUAL(false, status);
 }
