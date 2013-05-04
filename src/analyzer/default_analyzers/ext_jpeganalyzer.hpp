@@ -21,7 +21,7 @@
 #ifndef EXT_JPEGANALYZER_HPP
 #define EXT_JPEGANALYZER_HPP
 
-#include <ianalyzer.hpp>
+#include "ianalyzer.hpp"
 
 
 class Ext_JpegAnalyzer : public IAnalyzer
