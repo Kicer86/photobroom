@@ -2,7 +2,7 @@
 project(analyzer)
 
 add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
-find_package(Boost 1.53.0 COMPONENTS filesystem system)
+find_package(Boost 1.53.0 COMPONENTS filesystem system regex)
 find_package(OpenLibrary REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})

@@ -20,9 +20,18 @@
 
 #include "ext_jpeganalyzer.hpp"
 
-#include <regex>
+//#include <regex>  doesn't work as expected in 4.7.2
 
 #include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
+
+namespace
+{
+    const boost::regex ext_regex("\\.jpe?g", boost::regex_constants::ECMAScript | 
+                                             boost::regex::icase | 
+                                             boost::regex::optimize);
+}
+
 
 Ext_JpegAnalyzer::Ext_JpegAnalyzer()
 {
@@ -44,12 +53,9 @@ Ext_JpegAnalyzer::~Ext_JpegAnalyzer()
 
 bool Ext_JpegAnalyzer::isImage(const std::string &file_path)
 {
-    boost::filesystem::path path(file_path);
-    
-    const std::string ext = path.extension().string();
-    
-    std::regex ext_regex("[Jj][Pp][Ee]?[Gg]");
-    const bool matches = std::regex_match(ext, ext_regex);
+    boost::filesystem::path path(file_path);    
+    const std::string ext = path.extension().string();    
+    const bool matches = boost::regex_match(ext, ext_regex);
     
     return matches;
 }
