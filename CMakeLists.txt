@@ -4,7 +4,7 @@ project(broom)
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 
 add_subdirectory(src/analyzer)
-#add_subdirectory(src/tests)
+add_subdirectory(src/tests)
 
 find_package(OpenLibrary REQUIRED utils)
 
