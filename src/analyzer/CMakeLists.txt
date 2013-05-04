@@ -11,6 +11,7 @@ include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_
 add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 
 set(ANALYZER_SOURCES
+    default_analyzers/ext_jpeganalyzer.cpp 
 	implementation/file_analyzer.cpp
     implementation/filesystemscanner.cpp
 	implementation/photo_crawler.cpp
@@ -18,11 +19,13 @@ set(ANALYZER_SOURCES
 	)
 
 set(ANALYZER_HEADERS 
+    default_analyzers/ext_jpeganalyzer.hpp 
 	implementation/file_analyzer.hpp
     implementation/filesystemscanner.hpp
     implementation/ifile_system_scanner.hpp
 	implementation/ifile_analyzer.hpp
     implementation/photo_crawler.hpp
+    ianalyzer.hpp
 	iphoto_crawler.hpp
 	photo_crawler_builder.hpp)
 
