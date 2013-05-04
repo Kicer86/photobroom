@@ -8,7 +8,7 @@
 
 struct FileAnalyzer::Impl
 {
-    Impl() 
+    Impl(): m_analyzers()
     {
     }
     
@@ -33,7 +33,16 @@ FileAnalyzer::~FileAnalyzer()
 
 bool FileAnalyzer::isImage(const std::string &path)
 {
-	return false;
+    bool status = false;
+	for (auto analyzer: m_impl->m_analyzers)
+    {
+        status = analyzer->isImage(path);
+        
+        if (status)
+            break;
+    }
+    
+    return status;
 }
 
 
