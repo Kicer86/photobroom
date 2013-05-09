@@ -1,5 +1,5 @@
 /*
-    Extension base analyzer for JPEG files
+    Extension base analyzer for JPEG, PNG, BMP, TIFF and some other files
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -18,24 +18,24 @@
 */
 
 
-#ifndef EXT_JPEGANALYZER_HPP
-#define EXT_JPEGANALYZER_HPP
+#ifndef EXT_DEFAULTANALYZER_HPP
+#define EXT_DEFAULTANALYZER_HPP
 
 #include "ianalyzer.hpp"
 
 
-class Ext_JpegAnalyzer : public IAnalyzer
+class Ext_DefaultAnalyzer : public IAnalyzer
 {
     public:
-        Ext_JpegAnalyzer();
-        virtual ~Ext_JpegAnalyzer();
+        Ext_DefaultAnalyzer();
+        virtual ~Ext_DefaultAnalyzer();
                 
         virtual bool isImage(const std::string& );
         
     private:
-        Ext_JpegAnalyzer(const Ext_JpegAnalyzer &);
-        virtual Ext_JpegAnalyzer& operator=(const Ext_JpegAnalyzer &);
-        virtual bool operator==(const Ext_JpegAnalyzer &) const;
+        Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &);
+        virtual Ext_DefaultAnalyzer& operator=(const Ext_DefaultAnalyzer &);
+        virtual bool operator==(const Ext_DefaultAnalyzer &) const;
 };
 
 #endif // EXT_JPEGANALYZER_HPP

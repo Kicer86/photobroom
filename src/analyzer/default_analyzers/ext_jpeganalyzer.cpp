@@ -1,5 +1,5 @@
 /*
-    Extension base analyzer for JPEG files
+    Extension base analyzer for JPEG, PNG, BMP, TIFF and some other files
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -33,25 +33,25 @@ namespace
 }
 
 
-Ext_JpegAnalyzer::Ext_JpegAnalyzer()
+Ext_DefaultAnalyzer::Ext_DefaultAnalyzer()
 {
 
 }
 
 
-Ext_JpegAnalyzer::Ext_JpegAnalyzer(const Ext_JpegAnalyzer &)
+Ext_DefaultAnalyzer::Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &)
 {
 
 }
 
 
-Ext_JpegAnalyzer::~Ext_JpegAnalyzer()
+Ext_DefaultAnalyzer::~Ext_DefaultAnalyzer()
 {
 
 }
 
 
-bool Ext_JpegAnalyzer::isImage(const std::string &file_path)
+bool Ext_DefaultAnalyzer::isImage(const std::string &file_path)
 {
     boost::filesystem::path path(file_path);    
     const std::string ext = path.extension().string();    
@@ -61,13 +61,13 @@ bool Ext_JpegAnalyzer::isImage(const std::string &file_path)
 }
 
 
-Ext_JpegAnalyzer& Ext_JpegAnalyzer::operator=(const Ext_JpegAnalyzer &)
+Ext_DefaultAnalyzer& Ext_DefaultAnalyzer::operator=(const Ext_DefaultAnalyzer &)
 {
     return *this;
 }
 
 
-bool Ext_JpegAnalyzer::operator==(const Ext_JpegAnalyzer &) const
+bool Ext_DefaultAnalyzer::operator==(const Ext_DefaultAnalyzer &) const
 {
     return true;
 }

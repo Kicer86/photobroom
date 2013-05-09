@@ -19,7 +19,7 @@ std::shared_ptr<IPhotoCrawler> PhotoCrawlerBuilder::build()
     FileAnalyzer *analyzer = new FileAnalyzer;
     
     //add subanalyzers
-    analyzer->registerAnalyzer(new Ext_JpegAnalyzer);
+    analyzer->registerAnalyzer(new Ext_DefaultAnalyzer);
     
     //build crawler
 	PhotoCrawler *crawler = new PhotoCrawler(new FileSystemScanner, analyzer);

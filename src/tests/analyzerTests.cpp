@@ -5,16 +5,16 @@
 
 #include <CppUTest/TestHarness.h>
 
-TEST_GROUP(Ext_JpegAnalyzerShould)
+TEST_GROUP(Ext_DefaultAnalyzerShould)
 {
 };
 
 
-TEST(Ext_JpegAnalyzerShould, ReturnTrueForJpegFiles)
+TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
 {
     EXPECT_N_LEAKS(58);   //probably someting in boost is released in weird way ;) valgrind doesn't show anything
     
-    Ext_JpegAnalyzer jpegAnalyzer;
+    Ext_DefaultAnalyzer jpegAnalyzer;
     
     const bool status1 = jpegAnalyzer.isImage("/home/image.jpg");
     const bool status2 = jpegAnalyzer.isImage("/home/image.jpeg");
