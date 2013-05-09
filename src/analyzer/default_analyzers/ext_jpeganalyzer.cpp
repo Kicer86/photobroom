@@ -20,7 +20,7 @@
 
 #include "ext_jpeganalyzer.hpp"
 
-//#include <regex>  doesn't work as expected in 4.7.2
+//#include <regex>  doesn't work as expected in gcc 4.7.2
 
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
