@@ -1,6 +1,6 @@
 
 
-#include "analyzer/default_analyzers/ext_jpeganalyzer.hpp"
+#include "analyzer/default_analyzers/ext_defaultanalyzer.hpp"
 #include "analyzer/implementation/file_analyzer.hpp"
 
 #include <CppUTest/TestHarness.h>

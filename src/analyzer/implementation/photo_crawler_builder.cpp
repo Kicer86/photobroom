@@ -4,7 +4,7 @@
 #include "photo_crawler.hpp"
 #include "file_analyzer.hpp"
 #include "filesystemscanner.hpp"
-#include "default_analyzers/ext_jpeganalyzer.hpp"
+#include "default_analyzers/ext_defaultanalyzer.hpp"
 
 PhotoCrawlerBuilder::PhotoCrawlerBuilder()
 {

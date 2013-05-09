@@ -18,7 +18,7 @@
 */
 
 
-#include "ext_jpeganalyzer.hpp"
+#include "ext_defaultanalyzer.hpp"
 
 //#include <regex>  doesn't work as expected in gcc 4.7.2
 
