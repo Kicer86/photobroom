@@ -20,6 +20,15 @@
 
 #include "databasefactory.hpp"
 
+#include <memory>
+
+#include "photosdatabase.hpp"
+
+namespace
+{
+    std::unique_ptr<IDatabase> defaultDatabase;
+}
+
 DatabaseFactory::DatabaseFactory()
 {
 
@@ -31,3 +40,11 @@ DatabaseFactory::~DatabaseFactory()
 
 }
 
+
+IDatabase* DatabaseFactory::get()
+{
+    if (defaultDatabase.get() == nullptr)
+        defaultDatabase.reset(new PhotosDatabase);
+    
+    return defaultDatabase.get();
+}

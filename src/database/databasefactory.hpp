@@ -21,12 +21,16 @@
 #ifndef DATABASEFACTORY_H
 #define DATABASEFACTORY_H
 
+struct IDatabase;
+
 class DatabaseFactory
 {
 
     public:
         DatabaseFactory();
         virtual ~DatabaseFactory();
+        
+        virtual IDatabase* get();
 };
 
 #endif // DATABASEFACTORY_H
