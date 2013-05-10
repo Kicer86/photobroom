@@ -35,7 +35,7 @@ struct PhotosDatabase::Impl
 };
 
 
-PhotosDatabase::PhotosDatabase():m_impl(new Impl)
+PhotosDatabase::PhotosDatabase(): m_impl(new Impl)
 {
 
 }
@@ -49,5 +49,5 @@ PhotosDatabase::~PhotosDatabase()
 
 bool PhotosDatabase::addFile(const std::string &path, const Database::Description &desc)
 {
-
+    return true;
 }

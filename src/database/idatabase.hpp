@@ -27,6 +27,9 @@ namespace Database
 {
     struct Description
     {
+        Description(): m_keys() {}
+        ~Description() {}
+        
         std::map<std::string, std::string> m_keys;        //key, value
     };
 
