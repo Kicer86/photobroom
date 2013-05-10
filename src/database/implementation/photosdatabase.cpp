@@ -29,9 +29,7 @@ struct PhotosDatabase::Impl
     
     ~Impl()
     {
-    }
-    
-    
+    }    
 };
 
 
