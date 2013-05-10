@@ -21,11 +21,13 @@
 #ifndef DATABASEFACTORY_H
 #define DATABASEFACTORY_H
 
+#include "database_exports.hpp"
+
 namespace Database
 {
     struct IDatabase;
 
-    class Factory
+    class DATABASE_EXPORTS Factory
     {
 
         public:

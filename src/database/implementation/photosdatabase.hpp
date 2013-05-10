@@ -25,13 +25,13 @@
 
 #include "idatabase.hpp"
 
-class PhotosDatabase: public IDatabase
+class PhotosDatabase: public Database::IDatabase
 {
     public:
         PhotosDatabase();
         virtual ~PhotosDatabase();
         
-        virtual bool addFile(const std::string &path, const Description &);
+        virtual bool addFile(const std::string &path, const Database::Description &);
         
     private:
         struct Impl;

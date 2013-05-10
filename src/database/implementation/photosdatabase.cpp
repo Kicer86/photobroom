@@ -47,7 +47,7 @@ PhotosDatabase::~PhotosDatabase()
 }
 
 
-bool PhotosDatabase::addFile(const std::string &path, const Description &desc)
+bool PhotosDatabase::addFile(const std::string &path, const Database::Description &desc)
 {
 
 }

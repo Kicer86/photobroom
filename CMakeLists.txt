@@ -31,4 +31,4 @@ add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
 turnOnCpp11(broom)
 turnOnAllWarnings(${BROOM_SOURCES})
 
-target_link_libraries(broom analyzer)
+target_link_libraries(broom analyzer database)

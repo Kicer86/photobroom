@@ -24,13 +24,14 @@
 
 #include "photosdatabase.hpp"
 
-namespace
-{
-    std::unique_ptr<IDatabase> defaultDatabase;
-}
-
 namespace Database
 {
+    
+    namespace
+    {
+        std::unique_ptr<IDatabase> defaultDatabase;
+    }
+    
 
     Factory::Factory()
     {
@@ -51,4 +52,5 @@ namespace Database
         
         return defaultDatabase.get();
     }
+    
 }
