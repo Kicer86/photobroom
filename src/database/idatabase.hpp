@@ -1,5 +1,5 @@
 /*
-    Database for photos
+    interface for databases
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -17,14 +17,13 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#ifndef IDATABASE_HPP
+#define IDATABASE_HPP
 
-#ifndef PHOTOSDATABASE_HPP
-#define PHOTOSDATABASE_HPP
-
-#include "idatabase.hpp"
-
-class PhotosDatabase: public IDatabase
+struct IDatabase
 {
+    virtual ~IDatabase() {}
+    
 };
 
-#endif // PHOTOSDATABASE_HPP
+#endif
