@@ -20,10 +20,15 @@
 #ifndef IDATABASE_HPP
 #define IDATABASE_HPP
 
+#include <string>
+
+struct Description;
+
 struct IDatabase
 {
     virtual ~IDatabase() {}
     
+    virtual bool addFile(const std::string &path, const Description &) = 0;
 };
 
 #endif
