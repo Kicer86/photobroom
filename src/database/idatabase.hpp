@@ -21,10 +21,14 @@
 #define IDATABASE_HPP
 
 #include <string>
+#include <map>
 
 namespace Database
 {
-    struct Description;
+    struct Description
+    {
+        std::map<std::string, std::string> m_keys;        //key, value
+    };
 
     struct IDatabase
     {
