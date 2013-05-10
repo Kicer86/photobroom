@@ -21,10 +21,21 @@
 #ifndef PHOTOSDATABASE_HPP
 #define PHOTOSDATABASE_HPP
 
+#include <memory>
+
 #include "idatabase.hpp"
 
 class PhotosDatabase: public IDatabase
 {
+    public:
+        PhotosDatabase();
+        virtual ~PhotosDatabase();
+        
+        virtual bool addFile(const std::string &path, const Description &);
+        
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif // PHOTOSDATABASE_HPP

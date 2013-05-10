@@ -21,7 +21,33 @@
 #include "photosdatabase.hpp"
 
 
+struct PhotosDatabase::Impl
+{
+    Impl()
+    {
+    }
+    
+    ~Impl()
+    {
+    }
+    
+    
+};
 
 
+PhotosDatabase::PhotosDatabase():m_impl(new Impl)
+{
+
+}
 
 
+PhotosDatabase::~PhotosDatabase()
+{
+
+}
+
+
+bool PhotosDatabase::addFile(const std::string &path, const Description &desc)
+{
+
+}
