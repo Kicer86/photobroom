@@ -22,13 +22,16 @@
 
 #include <string>
 
-struct Description;
-
-struct IDatabase
+namespace Database
 {
-    virtual ~IDatabase() {}
-    
-    virtual bool addFile(const std::string &path, const Description &) = 0;
-};
+    struct Description;
+
+    struct IDatabase
+    {
+        virtual ~IDatabase() {}
+        
+        virtual bool addFile(const std::string &path, const Description &) = 0;
+    };
+}
 
 #endif

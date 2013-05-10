@@ -21,16 +21,19 @@
 #ifndef DATABASEFACTORY_H
 #define DATABASEFACTORY_H
 
-struct IDatabase;
-
-class DatabaseFactory
+namespace Database
 {
+    struct IDatabase;
 
-    public:
-        DatabaseFactory();
-        virtual ~DatabaseFactory();
-        
-        virtual IDatabase* get();
-};
+    class Factory
+    {
+
+        public:
+            Factory();
+            virtual ~Factory();
+            
+            virtual IDatabase* get();
+    };
+}
 
 #endif // DATABASEFACTORY_H

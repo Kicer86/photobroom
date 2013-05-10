@@ -29,22 +29,26 @@ namespace
     std::unique_ptr<IDatabase> defaultDatabase;
 }
 
-DatabaseFactory::DatabaseFactory()
+namespace Database
 {
 
-}
+    Factory::Factory()
+    {
+
+    }
 
 
-DatabaseFactory::~DatabaseFactory()
-{
+    Factory::~Factory()
+    {
 
-}
+    }
 
 
-IDatabase* DatabaseFactory::get()
-{
-    if (defaultDatabase.get() == nullptr)
-        defaultDatabase.reset(new PhotosDatabase);
-    
-    return defaultDatabase.get();
+    IDatabase* Factory::get()
+    {
+        if (defaultDatabase.get() == nullptr)
+            defaultDatabase.reset(new PhotosDatabase);
+        
+        return defaultDatabase.get();
+    }
 }
