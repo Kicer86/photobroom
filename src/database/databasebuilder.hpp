@@ -18,39 +18,24 @@
 */
 
 
-#include "databasefactory.hpp"
+#ifndef DATABASEFACTORY_H
+#define DATABASEFACTORY_H
 
-#include <memory>
-
-#include "photosdatabase.hpp"
+#include "database_exports.hpp"
 
 namespace Database
 {
-    
-    namespace
-    {
-        std::unique_ptr<IDatabase> defaultDatabase;
-    }
-    
+    struct IDatabase;
 
-    Factory::Factory()
+    class DATABASE_EXPORTS Builder
     {
 
-    }
-
-
-    Factory::~Factory()
-    {
-
-    }
-
-
-    IDatabase* Factory::get()
-    {
-        if (defaultDatabase.get() == nullptr)
-            defaultDatabase.reset(new PhotosDatabase);
-        
-        return defaultDatabase.get();
-    }
-    
+        public:
+            Builder();
+            virtual ~Builder();
+            
+            virtual IDatabase* get();
+    };
 }
+
+#endif // DATABASEFACTORY_H

@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 
     std::vector<std::string> files = crawler->crawl(paths);
 
-    Database::IDatabase *database = Database::Factory().get();
+    Database::IDatabase *database = Database::Builder().get();
 
     for (auto f: files)
         database->addFile(f, Database::Description());

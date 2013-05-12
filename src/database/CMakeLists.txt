@@ -8,12 +8,12 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} .)
 
 set(DATABASE_SOURCES
-    implementation/databasefactory.cpp 
+    implementation/databasebuilder.cpp 
     implementation/photosdatabase.cpp
     )
 
 set(DATABASE_HEADERS 
-    databasefactory.hpp
+    databasebuilder.hpp
     iconfiguration.hpp
     idatabase.hpp
     implementation/photosdatabase.hpp
