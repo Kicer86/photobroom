@@ -13,7 +13,9 @@ set(DATABASE_SOURCES
     )
 
 set(DATABASE_HEADERS 
-    databasefactory.hpp 
+    databasefactory.hpp
+    iconfiguration.hpp
+    idatabase.hpp
     implementation/photosdatabase.hpp
     )
 
