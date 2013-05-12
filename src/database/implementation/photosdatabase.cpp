@@ -23,15 +23,15 @@
 
 struct PhotosDatabase::Impl
 {
-    Impl(IConfiguration *config): m_configuration(config)
+    Impl(Database::IConfiguration *config): m_configuration(config)
     {
     }
     
-    ~Impl()
+    virtual ~Impl()
     {
     }
     
-    IConfiguration *m_configuration;
+    Database::IConfiguration *m_configuration;
 };
 
 

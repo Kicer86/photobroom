@@ -18,11 +18,12 @@
 */
 
 
-#include "databasefactory.hpp"
+#include "databasebuilder.hpp"
 
 #include <memory>
 
 #include "photosdatabase.hpp"
+#include "iconfiguration.hpp"
 
 namespace Database
 {
@@ -48,7 +49,17 @@ namespace Database
     IDatabase* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
-            defaultDatabase.reset(new PhotosDatabase);
+        {
+            struct Config: public IConfiguration
+            {
+                virtual std::string getLocation() const
+                {
+                    return "/home/michal/.config/broom/";
+                }
+            };
+            
+            defaultDatabase.reset(new PhotosDatabase(new Config) );
+        }
         
         return defaultDatabase.get();
     }

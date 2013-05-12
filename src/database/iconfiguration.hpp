@@ -19,6 +19,7 @@
 
 #ifndef IDATABASE_CONFIGURATION_HPP
 #define IDATABASE_CONFIGURATION_HPP
+
 #include <string>
 
 namespace Database
@@ -28,3 +29,5 @@ namespace Database
         virtual std::string getLocation() const = 0;
     };
 }
+
+#endif

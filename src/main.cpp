@@ -6,7 +6,7 @@
 #include "analyzer/photo_crawler_builder.hpp"
 #include "analyzer/iphoto_crawler.hpp"
 #include "database/idatabase.hpp"
-#include "database/databasefactory.hpp"
+#include "database/databasebuilder.hpp"
 
 int main(int argc, char **argv)
 {
