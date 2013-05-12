@@ -23,17 +23,19 @@
 
 struct PhotosDatabase::Impl
 {
-    Impl()
+    Impl(IConfiguration *config): m_configuration(config)
     {
     }
     
     ~Impl()
     {
-    }    
+    }
+    
+    IConfiguration *m_configuration;
 };
 
 
-PhotosDatabase::PhotosDatabase(): m_impl(new Impl)
+PhotosDatabase::PhotosDatabase(Database::IConfiguration *config): m_impl(new Impl(config) )
 {
 
 }

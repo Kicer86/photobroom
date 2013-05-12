@@ -25,10 +25,15 @@
 
 #include "idatabase.hpp"
 
+namespace Database
+{
+    struct IConfiguration;
+}
+
 class PhotosDatabase: public Database::IDatabase
 {
     public:
-        PhotosDatabase();
+        PhotosDatabase(Database::IConfiguration *);
         virtual ~PhotosDatabase();
         
         virtual bool addFile(const std::string &path, const Database::Description &);
