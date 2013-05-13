@@ -22,8 +22,11 @@
 #define PHOTOSDATABASE_HPP
 
 #include <memory>
+#include <fstream>
 
 #include "idatabase.hpp"
+
+struct FS;
 
 namespace Database
 {
@@ -33,7 +36,7 @@ namespace Database
 class PhotosDatabase: public Database::IDatabase
 {
     public:
-        PhotosDatabase(Database::IConfiguration *);
+		PhotosDatabase(Database::IConfiguration *, FS *);
         virtual ~PhotosDatabase();
         
         virtual bool addFile(const std::string &path, const Database::Description &);

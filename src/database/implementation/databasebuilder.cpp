@@ -24,6 +24,7 @@
 
 #include "photosdatabase.hpp"
 #include "iconfiguration.hpp"
+#include "ifs.hpp"
 
 namespace Database
 {
@@ -57,8 +58,16 @@ namespace Database
                     return "/home/michal/.config/broom/";
                 }
             };
+
+			struct FSImpl: public FS
+			{
+				std::fstream* getFStream()
+				{
+					return new std::fstream;
+				}
+			};
             
-            defaultDatabase.reset(new PhotosDatabase(new Config) );
+			defaultDatabase.reset(new PhotosDatabase(new Config, new FSImpl) );
         }
         
         return defaultDatabase.get();

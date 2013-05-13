@@ -23,7 +23,7 @@
 
 struct PhotosDatabase::Impl
 {
-    Impl(Database::IConfiguration *config): m_configuration(config)
+	Impl(Database::IConfiguration *config, FS *stream): m_configuration(config)
     {
     }
     
@@ -35,7 +35,7 @@ struct PhotosDatabase::Impl
 };
 
 
-PhotosDatabase::PhotosDatabase(Database::IConfiguration *config): m_impl(new Impl(config) )
+PhotosDatabase::PhotosDatabase(Database::IConfiguration *config, FS *stream): m_impl(new Impl(config, stream) )
 {
 
 }
