@@ -20,6 +20,8 @@
 
 #include "databasebuilder.hpp"
 
+#include <assert.h>
+
 #include <memory>
 
 #include "photosdatabase.hpp"
@@ -55,7 +57,18 @@ namespace Database
             {
                 virtual std::string getLocation() const
                 {
-                    return "/home/michal/.config/broom/";
+					std::string result;
+#ifdef OS_UNIX
+					const char *home = getenv("HOME");
+                    result = std::string(home) + "/.config/broom/";
+#elif OS_WIN
+					const char *home = getenv("LOCALAPPDATA");
+					result = std::string(home) + "/broom/";
+#else 
+#error unknown os
+#endif
+					assert(result != "");
+					return result;
                 }
             };
 
