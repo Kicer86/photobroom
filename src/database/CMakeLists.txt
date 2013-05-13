@@ -7,6 +7,12 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 
 include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} .)
 
+if(UNIX)
+	add_definitions(-DOS_UNIX)
+elseif(WIN32)
+	add_definitions(-DOS_WIN)
+endif(UNIX)
+
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp 
     implementation/photosdatabase.cpp
