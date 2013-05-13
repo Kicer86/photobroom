@@ -23,7 +23,7 @@
 
 struct PhotosDatabase::Impl
 {
-	Impl(Database::IConfiguration *config, FS *stream): m_configuration(config)
+	Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_configuration(config), m_stream(stream)
     {
     }
     
@@ -32,10 +32,11 @@ struct PhotosDatabase::Impl
     }
     
     Database::IConfiguration *m_configuration;
+	std::shared_ptr<FS> m_stream;
 };
 
 
-PhotosDatabase::PhotosDatabase(Database::IConfiguration *config, FS *stream): m_impl(new Impl(config, stream) )
+PhotosDatabase::PhotosDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_impl(new Impl(config, stream) )
 {
 
 }
@@ -49,5 +50,6 @@ PhotosDatabase::~PhotosDatabase()
 
 bool PhotosDatabase::addFile(const std::string &path, const Database::Description &desc)
 {
+
     return true;
 }

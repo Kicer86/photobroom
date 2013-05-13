@@ -67,7 +67,7 @@ namespace Database
 				}
 			};
             
-			defaultDatabase.reset(new PhotosDatabase(new Config, new FSImpl) );
+			defaultDatabase.reset(new PhotosDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
         }
         
         return defaultDatabase.get();
