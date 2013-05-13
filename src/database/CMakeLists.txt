@@ -16,10 +16,11 @@ set(DATABASE_HEADERS
     databasebuilder.hpp
     iconfiguration.hpp
     idatabase.hpp
+	ifs.hpp
     implementation/photosdatabase.hpp
     )
 
-source_group(database REGULAR_EXPRESSION .*database.* )
+source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database STATIC ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database)

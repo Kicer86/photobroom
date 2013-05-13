@@ -1,6 +1,6 @@
 /*
-    Factory for database
-    Copyright (C) 2013  Micha≈Ç Walenciak <MichalWalenciak@gmail.com>
+    set of filesystem access functions
+    Copyright (C) 2013  Micha≥ Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,24 +18,14 @@
 */
 
 
-#ifndef DATABASEBUILDER_H
-#define DATABASEBUILDER_H
+#ifndef IFS_HPP
+#define IFS_HPP
 
-#include "database_exports.hpp"
+#include <fstream>
 
-namespace Database
+struct FS
 {
-    struct IDatabase;
+	virtual std::fstream *getFStream() = 0;
+};
 
-    class DATABASE_EXPORTS Builder
-    {
-
-        public:
-            Builder();
-            virtual ~Builder();
-            
-            virtual IDatabase* get();
-    };
-}
-
-#endif // DATABASEBUILDER_H
+#endif
