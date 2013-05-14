@@ -14,15 +14,17 @@ elseif(WIN32)
 endif(UNIX)
 
 set(DATABASE_SOURCES
-    implementation/databasebuilder.cpp 
+    implementation/databasebuilder.cpp
+    implementation/entrywritter.cpp
     implementation/photosdatabase.cpp
     )
 
-set(DATABASE_HEADERS 
+set(DATABASE_HEADERS
     databasebuilder.hpp
     iconfiguration.hpp
     idatabase.hpp
 	ifs.hpp
+	implementation/entrywritter.hpp 
     implementation/photosdatabase.hpp
     )
 
