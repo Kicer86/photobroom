@@ -23,10 +23,16 @@
 #include <unordered_map>
 #include <string>
 
+#include <boost/crc.hpp>
+
 #include "entry.hpp"
+#include "ifs.hpp"
+
+#define MAX_SIZE 65536
 
 struct PhotosDatabase::Impl
 {
+    
 	Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_configuration(config), m_stream(stream)
     {
     }
@@ -44,10 +50,32 @@ struct PhotosDatabase::Impl
     
     void add(const std::string &path, const Database::Description &description)
     {
+        boost::crc_32_type crc;
+        Entry entry;
         
+        std::iostream *input = m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
+        if (input != nullptr)
+            do
+            {
+                char buf[MAX_SIZE];
+                
+                input->read(buf, MAX_SIZE);
+                crc.process_bytes(buf, input->gcount());
+            }
+            while(input->fail() == false);
+            
+        entry.m_d->m_crc = crc();
+        entry.m_d->m_path = decoratePath(path);
+        
+        m_db[entry.m_d->m_crc] = std::move(entry);
     }
     
-    std::unordered_map<std::string, Entry> m_db;           //files managed by database
+    std::string decoratePath(const std::string &path) const
+    {
+        return std::string("file://") + path;
+    }
+    
+    std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
     
     Database::IConfiguration *m_configuration;
 	std::shared_ptr<FS> m_stream;
