@@ -31,6 +31,13 @@ struct PhotosDatabase::Impl
     {
     }
     
+    Impl(const PhotosDatabase::Impl &) {}
+    
+    Impl& operator=(const Impl &) 
+    {
+        return *this;
+    }
+    
     Database::IConfiguration *m_configuration;
 	std::shared_ptr<FS> m_stream;
 };

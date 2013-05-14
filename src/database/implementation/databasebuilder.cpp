@@ -55,6 +55,8 @@ namespace Database
         {
             struct Config: public IConfiguration
             {
+                virtual ~Config() {}
+                
                 virtual std::string getLocation() const
                 {
 					std::string result;
@@ -74,6 +76,8 @@ namespace Database
 
 			struct FSImpl: public FS
 			{
+                virtual ~FSImpl() {}
+                
 				std::fstream* getFStream()
 				{
 					return new std::fstream;

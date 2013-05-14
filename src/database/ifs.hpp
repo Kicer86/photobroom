@@ -25,6 +25,7 @@
 
 struct FS
 {
+    virtual ~FS() {}
 	virtual std::fstream *getFStream() = 0;
 };
 

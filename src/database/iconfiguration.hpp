@@ -26,6 +26,7 @@ namespace Database
 {
     struct IConfiguration
     {
+        virtual ~IConfiguration() {}
         virtual std::string getLocation() const = 0;      //returns base dir for configuration. Like ~/.config/broom
     };
 }
