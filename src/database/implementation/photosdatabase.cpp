@@ -20,6 +20,10 @@
 
 #include "photosdatabase.hpp"
 
+#include <unordered_map>
+#include <string>
+
+#include "entry.hpp"
 
 struct PhotosDatabase::Impl
 {
@@ -37,6 +41,13 @@ struct PhotosDatabase::Impl
     {
         return *this;
     }
+    
+    void add(const std::string &path, const Database::Description &description)
+    {
+        
+    }
+    
+    std::unordered_map<std::string, Entry> m_db;           //files managed by database
     
     Database::IConfiguration *m_configuration;
 	std::shared_ptr<FS> m_stream;
@@ -57,6 +68,7 @@ PhotosDatabase::~PhotosDatabase()
 
 bool PhotosDatabase::addFile(const std::string &path, const Database::Description &desc)
 {
-
+    
+    
     return true;
 }

@@ -21,22 +21,16 @@
 #ifndef ENTRY_HPP
 #define ENTRY_HPP
 
-#include <memory>
-
-class FS;
-
 class Entry
 {
     public:
-        Entry(const std::shared_ptr<FS> &);
+        Entry();
         virtual ~Entry();
         
     private:
         Entry(const Entry&);
         virtual Entry& operator=(const Entry&);
-        virtual bool operator==(const Entry&) const;
-        
-        std::shared_ptr<FS> m_fs;
+        virtual bool operator==(const Entry&) const;        
 };
 
 #endif // ENTRY_HPP

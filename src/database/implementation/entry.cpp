@@ -20,13 +20,13 @@
 
 #include "entry.hpp"
 
-Entry::Entry(const std::shared_ptr<FS> &fs): m_fs(fs)
+Entry::Entry()
 {
 
 }
 
 
-Entry::Entry(const Entry &): m_fs()
+Entry::Entry(const Entry &)
 {
 
 }
