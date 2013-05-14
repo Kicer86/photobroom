@@ -15,7 +15,7 @@ endif(UNIX)
 
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
-    implementation/entrywritter.cpp
+    implementation/entry.cpp
     implementation/photosdatabase.cpp
     )
 
@@ -24,7 +24,7 @@ set(DATABASE_HEADERS
     iconfiguration.hpp
     idatabase.hpp
 	ifs.hpp
-	implementation/entrywritter.hpp 
+	implementation/entry.hpp 
     implementation/photosdatabase.hpp
     )
 
