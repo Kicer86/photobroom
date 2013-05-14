@@ -21,12 +21,18 @@
 #ifndef IFS_HPP
 #define IFS_HPP
 
-#include <fstream>
+#include <iostream>
 
 struct FS
 {
     virtual ~FS() {}
-	virtual std::fstream *getFStream() = 0;
+        
+    //open and return file
+	virtual std::iostream* openStream(const std::string &filename, 
+                                      std::ios_base::openmode mode = std::ios_base::in|std::ios_base::out ) = 0;
+
+    //close opened file
+    virtual void closeStream(std::iostream *) = 0;
 };
 
 #endif

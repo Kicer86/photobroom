@@ -23,6 +23,7 @@
 #include <assert.h>
 
 #include <memory>
+#include <fcntl.h>
 
 #include "photosdatabase.hpp"
 #include "iconfiguration.hpp"
@@ -78,10 +79,25 @@ namespace Database
 			{
                 virtual ~FSImpl() {}
                 
-				std::fstream* getFStream()
+				virtual std::iostream* openStream(const std::string &filename, 
+                                                  std::ios_base::openmode mode)
 				{
-					return new std::fstream;
+					std::fstream *stream = new std::fstream;
+                    
+                    stream->open(filename.c_str(), mode);
+                    
+                    return stream;
 				}
+				
+                virtual void closeStream(std::iostream *stream)
+                {
+                    assert(dynamic_cast<std::fstream *>(stream));
+                    
+                    std::fstream *fstream = static_cast<std::fstream *>(stream);
+                    
+                    fstream->close();
+                    delete fstream;
+                };
 			};
             
 			defaultDatabase.reset(new PhotosDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
