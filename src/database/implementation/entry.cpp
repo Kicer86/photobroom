@@ -20,27 +20,41 @@
 
 #include "entry.hpp"
 
-Entry::Entry()
+Entry::Entry(): m_d(new Entry::Data)
 {
 
 }
 
 
-Entry::Entry(const Entry &)
+Entry::Entry(Entry &&other)
 {
+    *this = other;
+}
 
+
+Entry::Entry(const Entry &entry): Entry()
+{
+    *this = entry;
 }
 
 
 Entry::~Entry()
 {
-
 }
 
 
-Entry& Entry::operator=(const Entry &)
+Entry& Entry::operator=(const Entry &other)
 {
+    m_d = other.m_d;
+    
     return *this;
+}
+
+
+Entry& Entry::operator=(Entry &&other)
+{
+    m_d = std::move(other.m_d);
+    other.m_d = nullptr;
 }
 
 

@@ -21,15 +21,34 @@
 #ifndef ENTRY_HPP
 #define ENTRY_HPP
 
+#include <string>
+
+#include <OpenLibrary/utils/data_ptr.hpp>
+
 class Entry
 {
     public:
         Entry();
+        Entry(Entry &&);
         virtual ~Entry();
+        
+        virtual Entry& operator=(Entry &&);
+                
+        typedef __uint32_t crc32;
+        
+        struct Data
+        {
+            Data(): m_crc(-1), m_path("null") {}
+            
+            crc32       m_crc;
+            std::string m_path;         //strats with file: when localfile, or with db: when in database
+        };
+        
+        data_ptr<Data> m_d;
         
     private:
         Entry(const Entry&);
-        virtual Entry& operator=(const Entry&);
+        virtual Entry& operator=(const Entry &);
         virtual bool operator==(const Entry&) const;        
 };
 
