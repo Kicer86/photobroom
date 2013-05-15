@@ -18,8 +18,8 @@
 */
 
 
-#ifndef PHOTOSDATABASE_HPP
-#define PHOTOSDATABASE_HPP
+#ifndef MEMORYDATABASE_HPP
+#define MEMORYDATABASE_HPP
 
 #include <memory>
 #include <fstream>
@@ -32,11 +32,11 @@ namespace Database
 {
     struct IConfiguration;
    
-    class PhotosDatabase: public Database::IFrontend
+    class MemoryDatabase: public Database::IFrontend
     {
         public:
-            PhotosDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
-            virtual ~PhotosDatabase();
+            MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
+            virtual ~MemoryDatabase();
 
             virtual bool addFile(const std::string &path, const IFrontend::Description &);
             virtual void setBackend(IBackend *);
@@ -47,4 +47,4 @@ namespace Database
     };
 
 }
-#endif // PHOTOSDATABASE_HPP
+#endif // MEMORYDATABASE_HPP

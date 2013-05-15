@@ -25,7 +25,7 @@
 #include <memory>
 #include <fcntl.h>
 
-#include "photosdatabase.hpp"
+#include "memorydatabase.hpp"
 #include "iconfiguration.hpp"
 #include "ifs.hpp"
 
@@ -101,7 +101,7 @@ namespace Database
                 };
             };
             
-            defaultDatabase.reset(new PhotosDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
+            defaultDatabase.reset(new MemoryDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
         }
 
         return defaultDatabase.get();

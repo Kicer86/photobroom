@@ -18,7 +18,7 @@
 */
 
 
-#include "photosdatabase.hpp"
+#include "memorydatabase.hpp"
 
 #include <unordered_map>
 #include <string>
@@ -34,7 +34,7 @@
 namespace Database
 {
 
-    struct PhotosDatabase::Impl
+    struct MemoryDatabase::Impl
     {
 
         Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
@@ -50,7 +50,7 @@ namespace Database
         {
         }
 
-        Impl(const PhotosDatabase::Impl &): 
+        Impl(const MemoryDatabase::Impl &): 
             m_db(), 
             m_configuration(nullptr), 
             m_stream(nullptr), 
@@ -105,19 +105,19 @@ namespace Database
     };
 
 
-    PhotosDatabase::PhotosDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_impl(new Impl(config, stream) )
+    MemoryDatabase::MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_impl(new Impl(config, stream) )
     {
 
     }
 
 
-    PhotosDatabase::~PhotosDatabase()
+    MemoryDatabase::~MemoryDatabase()
     {
 
     }
 
 
-    bool PhotosDatabase::addFile(const std::string &path, const IFrontend::Description &desc)
+    bool MemoryDatabase::addFile(const std::string &path, const IFrontend::Description &desc)
     {
 
 
@@ -125,7 +125,7 @@ namespace Database
     }
     
     
-    void PhotosDatabase::setBackend(IBackend *backend)
+    void MemoryDatabase::setBackend(IBackend *backend)
     {
         m_impl->setBackend(backend);
     }

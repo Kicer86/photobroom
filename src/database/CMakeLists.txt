@@ -10,7 +10,7 @@ include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} .)
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
     implementation/entry.cpp
-    implementation/photosdatabase.cpp
+    implementation/memorydatabase.cpp
     )
 
 set(DATABASE_HEADERS
@@ -19,7 +19,7 @@ set(DATABASE_HEADERS
     idatabase.hpp
 	ifs.hpp
 	implementation/entry.hpp
-    implementation/photosdatabase.hpp
+    implementation/memorydatabase.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*database.* )
