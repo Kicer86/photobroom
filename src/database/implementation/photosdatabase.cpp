@@ -36,7 +36,7 @@ namespace Database
     struct PhotosDatabase::Impl
     {
 
-        Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_configuration(config), m_stream(stream)
+        Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_db(), m_configuration(config), m_stream(stream), m_backend(nullptr)
         {
         }
 
@@ -44,7 +44,7 @@ namespace Database
         {
         }
 
-        Impl(const PhotosDatabase::Impl &) {}
+        Impl(const PhotosDatabase::Impl &): m_db(), m_configuration(nullptr), m_stream(nullptr), m_backend(nullptr) {}
 
         Impl& operator=(const Impl &)
         {
@@ -78,11 +78,18 @@ namespace Database
         {
             return std::string("file://") + path;
         }
+        
+        void setBackend(IBackend *b)
+        {
+            m_backend = b;
+        }
 
-        std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
+        private:
+            std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
 
-        Database::IConfiguration *m_configuration;
-        std::shared_ptr<FS> m_stream;
+            Database::IConfiguration *m_configuration;
+            std::shared_ptr<FS> m_stream;
+            IBackend *m_backend;
     };
 
 
@@ -103,6 +110,12 @@ namespace Database
 
 
         return true;
+    }
+    
+    
+    void PhotosDatabase::setBackend(IBackend *backend)
+    {
+        m_impl->setBackend(backend);
     }
     
 }

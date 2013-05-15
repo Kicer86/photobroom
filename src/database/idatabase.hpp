@@ -24,7 +24,12 @@
 #include <map>
 
 namespace Database
-{
+{    
+    struct IBackend
+    {
+        virtual ~IBackend() {}
+    };
+        
     struct IFrontend
     {
         virtual ~IFrontend() {}
@@ -38,11 +43,7 @@ namespace Database
         };
         
         virtual bool addFile(const std::string &path, const Description &) = 0;
-    };
-    
-    struct IBackend
-    {
-        virtual ~IBackend() {}
+        virtual void setBackend(IBackend *) = 0;
     };
 }
 

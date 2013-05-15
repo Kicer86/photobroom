@@ -39,6 +39,7 @@ namespace Database
             virtual ~PhotosDatabase();
 
             virtual bool addFile(const std::string &path, const IFrontend::Description &);
+            virtual void setBackend(IBackend *);
 
         private:
             struct Impl;
