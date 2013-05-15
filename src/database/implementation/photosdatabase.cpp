@@ -22,6 +22,7 @@
 
 #include <unordered_map>
 #include <string>
+#include <deque>
 
 #include <boost/crc.hpp>
 
@@ -36,7 +37,12 @@ namespace Database
     struct PhotosDatabase::Impl
     {
 
-        Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_db(), m_configuration(config), m_stream(stream), m_backend(nullptr)
+        Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
+            m_db(), 
+            m_configuration(config), 
+            m_stream(stream), 
+            m_backend(nullptr),
+            m_toUpdate()
         {
         }
 
@@ -44,7 +50,13 @@ namespace Database
         {
         }
 
-        Impl(const PhotosDatabase::Impl &): m_db(), m_configuration(nullptr), m_stream(nullptr), m_backend(nullptr) {}
+        Impl(const PhotosDatabase::Impl &): 
+            m_db(), 
+            m_configuration(nullptr), 
+            m_stream(nullptr), 
+            m_backend(nullptr), 
+            m_toUpdate()
+            {}
 
         Impl& operator=(const Impl &)
         {
@@ -86,10 +98,10 @@ namespace Database
 
         private:
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
-
             Database::IConfiguration *m_configuration;
             std::shared_ptr<FS> m_stream;
             IBackend *m_backend;
+            std::deque<Entry::crc32> m_toUpdate;                    //entries to be stored in backend
     };
 
 
