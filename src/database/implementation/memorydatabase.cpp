@@ -37,7 +37,6 @@ namespace Database
 
     struct MemoryDatabase::Impl
     {
-
         Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
             m_db(), 
             m_configuration(config), 
@@ -52,16 +51,7 @@ namespace Database
         {
         }
 
-        Impl(const MemoryDatabase::Impl &): 
-            m_db(), 
-            m_configuration(nullptr), 
-            m_stream(nullptr), 
-            m_backend(nullptr), 
-            m_toUpdate(),
-            m_updateQueueMutex()
-        {
-            
-        }
+        Impl(const MemoryDatabase::Impl &);
 
         Impl& operator=(const Impl &)
         {
