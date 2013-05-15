@@ -20,6 +20,9 @@
 
 #include "configurationfactory.hpp"
 
+#include "iconfiguration.hpp"
+
+
 ConfigurationFactory::ConfigurationFactory()
 {
 
@@ -32,10 +35,9 @@ ConfigurationFactory::~ConfigurationFactory()
 }
 
 
-ConfigurationFactory* ConfigurationFactory::instance()
+std::shared_ptr<IConfiguration> ConfigurationFactory::get()
 {
-    static ConfigurationFactory _instance;
-
-    return &_instance;
+    std::shared_ptr<IConfiguration> result;
+    
+    return result;
 }
-

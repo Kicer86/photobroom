@@ -21,11 +21,15 @@
 #ifndef CONFIGURATIONFACTORY_HPP
 #define CONFIGURATIONFACTORY_HPP
 
+#include <memory>
+
+struct IConfiguration;
+
 class ConfigurationFactory
 {
     public:
 
-        static ConfigurationFactory* instance();
+        std::shared_ptr<IConfiguration> get();
 
     private:
         ConfigurationFactory();

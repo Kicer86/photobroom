@@ -20,6 +20,8 @@
 #ifndef ICONFIGURATION_HPP
 #define ICONFIGURATION_HPP
 
+#include <vector>
+
 struct IEntry;
 struct EntryData;
 
@@ -28,7 +30,7 @@ struct IConfiguration
     IConfiguration() {}
     virtual ~IConfiguration() {}
 
-    virtual addEntry(const IEntry &) = 0;
+    virtual void addEntry(const IEntry &) = 0;
     virtual const std::vector<const EntryData>& getEntries() = 0;
 
 };
