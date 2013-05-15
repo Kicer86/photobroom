@@ -21,10 +21,10 @@ int main(int argc, char **argv)
 
     std::vector<std::string> files = crawler->crawl(paths);
     
-    Database::IDatabaseFrontend *database = Database::Builder().get();
+    Database::IFrontend *database = Database::Builder().get();
 
     for (auto f: files)
-        database->addFile(f, Database::IDatabaseFrontend::Description());
+        database->addFile(f, Database::IFrontend::Description());
 
     return 0;
 }

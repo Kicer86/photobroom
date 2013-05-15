@@ -32,13 +32,13 @@ namespace Database
 {
     struct IConfiguration;
    
-    class PhotosDatabase: public Database::IDatabaseFrontend
+    class PhotosDatabase: public Database::IFrontend
     {
         public:
             PhotosDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
             virtual ~PhotosDatabase();
 
-            virtual bool addFile(const std::string &path, const IDatabaseFrontend::Description &);
+            virtual bool addFile(const std::string &path, const IFrontend::Description &);
 
         private:
             struct Impl;

@@ -34,7 +34,7 @@ namespace Database
 
     namespace
     {
-        std::unique_ptr<IDatabaseFrontend> defaultDatabase;
+        std::unique_ptr<IFrontend> defaultDatabase;
     }
 
 
@@ -50,7 +50,7 @@ namespace Database
     }
 
 
-    IDatabaseFrontend* Builder::get()
+    IFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
         {

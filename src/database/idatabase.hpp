@@ -25,9 +25,9 @@
 
 namespace Database
 {
-    struct IDatabaseFrontend
+    struct IFrontend
     {
-        virtual ~IDatabaseFrontend() {}
+        virtual ~IFrontend() {}
         
         struct Description
         {
@@ -40,9 +40,9 @@ namespace Database
         virtual bool addFile(const std::string &path, const Description &) = 0;
     };
     
-    struct IDatabaseBackend
+    struct IBackend
     {
-        virtual ~IDatabaseBackend() {}
+        virtual ~IBackend() {}
     };
 }
 

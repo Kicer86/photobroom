@@ -51,7 +51,7 @@ namespace Database
             return *this;
         }
 
-        void add(const std::string &path, const IDatabaseFrontend::Description &description)
+        void add(const std::string &path, const IFrontend::Description &description)
         {
             boost::crc_32_type crc;
             Entry entry;
@@ -98,7 +98,7 @@ namespace Database
     }
 
 
-    bool PhotosDatabase::addFile(const std::string &path, const IDatabaseFrontend::Description &desc)
+    bool PhotosDatabase::addFile(const std::string &path, const IFrontend::Description &desc)
     {
 
 

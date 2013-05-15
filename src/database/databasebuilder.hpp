@@ -25,14 +25,14 @@
 
 namespace Database
 {
-    struct IDatabaseFrontend;
+    struct IFrontend;
 
     struct DATABASE_EXPORTS Builder
     {
         Builder();
         virtual ~Builder();
         
-        virtual IDatabaseFrontend* get();
+        virtual IFrontend* get();
     };
 }
 
