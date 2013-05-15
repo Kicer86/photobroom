@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -18,11 +20,11 @@ int main(int argc, char **argv)
     paths.push_back(path);
 
     std::vector<std::string> files = crawler->crawl(paths);
-
-    Database::IDatabase *database = Database::Builder().get();
+    
+    Database::IDatabaseFrontend *database = Database::Builder().get();
 
     for (auto f: files)
-        database->addFile(f, Database::Description());
+        database->addFile(f, Database::IDatabaseFrontend::Description());
 
     return 0;
 }

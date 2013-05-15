@@ -7,12 +7,6 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 
 include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} .)
 
-if(UNIX)
-	add_definitions(-DOS_UNIX)
-elseif(WIN32)
-	add_definitions(-DOS_WIN)
-endif(UNIX)
-
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
     implementation/entry.cpp
@@ -24,8 +18,8 @@ set(DATABASE_HEADERS
     iconfiguration.hpp
     idatabase.hpp
 	ifs.hpp
-    photosdatabase.hpp
 	implementation/entry.hpp
+    implementation/photosdatabase.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*database.* )

@@ -25,19 +25,24 @@
 
 namespace Database
 {
-    struct Description
+    struct IDatabaseFrontend
     {
-        Description(): m_keys() {}
-        ~Description() {}
+        virtual ~IDatabaseFrontend() {}
         
-        std::map<std::string, std::string> m_keys;        //key, value
-    };
-
-    struct IDatabase
-    {
-        virtual ~IDatabase() {}
+        struct Description
+        {
+            Description(): m_keys() {}
+            ~Description() {}
+            
+            std::map<std::string, std::string> m_keys;        //key, value
+        };
         
         virtual bool addFile(const std::string &path, const Description &) = 0;
+    };
+    
+    struct IDatabaseBackend
+    {
+        virtual ~IDatabaseBackend() {}
     };
 }
 

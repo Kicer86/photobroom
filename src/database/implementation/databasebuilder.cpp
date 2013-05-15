@@ -34,7 +34,7 @@ namespace Database
 
     namespace
     {
-        std::unique_ptr<IDatabase> defaultDatabase;
+        std::unique_ptr<IDatabaseFrontend> defaultDatabase;
     }
 
 
@@ -50,11 +50,12 @@ namespace Database
     }
 
 
-    IDatabase* Builder::get()
+    IDatabaseFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
         {
-            struct Config: public IConfiguration
+            
+            struct Config: public Database::IConfiguration
             {
                 virtual ~Config() {}
 
@@ -68,7 +69,7 @@ namespace Database
                     const char *home = getenv("LOCALAPPDATA");
                     result = std::string(home) + "/broom/";
 #else
-#error unknown os
+    #error unknown os
 #endif
                     assert(result != "");
                     return result;
@@ -99,7 +100,7 @@ namespace Database
                     delete fstream;
                 };
             };
-
+            
             defaultDatabase.reset(new PhotosDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
         }
 

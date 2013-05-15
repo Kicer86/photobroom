@@ -1,5 +1,5 @@
 /*
-    Factory for database
+    Builder for database.
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -25,16 +25,14 @@
 
 namespace Database
 {
-    struct IDatabase;
+    struct IDatabaseFrontend;
 
-    class DATABASE_EXPORTS Builder
+    struct DATABASE_EXPORTS Builder
     {
-
-        public:
-            Builder();
-            virtual ~Builder();
-            
-            virtual IDatabase* get();
+        Builder();
+        virtual ~Builder();
+        
+        virtual IDatabaseFrontend* get();
     };
 }
 

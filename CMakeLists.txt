@@ -3,6 +3,13 @@ project(broom)
 
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 
+
+if(UNIX)
+    add_definitions(-DOS_UNIX)
+elseif(WIN32)
+    add_definitions(-DOS_WIN)
+endif(UNIX)
+
 add_subdirectory(src/analyzer)
 add_subdirectory(src/tests)
 add_subdirectory(src/database)
