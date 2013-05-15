@@ -90,9 +90,7 @@ namespace Database
 
             m_db[entry.m_d->m_crc] = std::move(entry);
             
-            m_updateQueueMutex.lock();
-            m_toUpdate.push_back(entry.m_d->m_crc);
-            m_updateQueueMutex.unlock();
+            registerUpdate(entry.m_d->m_crc);
         }
 
         std::string decoratePath(const std::string &path) const
@@ -112,6 +110,13 @@ namespace Database
             IBackend *m_backend;
             std::deque<Entry::crc32> m_toUpdate;                    //entries to be stored in backend
             std::mutex m_updateQueueMutex;
+            
+            void registerUpdate(const Entry::crc32 &item)
+            {            
+                m_updateQueueMutex.lock();
+                m_toUpdate.push_back(item);
+                m_updateQueueMutex.unlock();
+            }
     };
 
 
