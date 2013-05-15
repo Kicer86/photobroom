@@ -23,6 +23,7 @@
 #include <unordered_map>
 #include <string>
 #include <deque>
+#include <mutex>
 
 #include <boost/crc.hpp>
 
@@ -42,7 +43,8 @@ namespace Database
             m_configuration(config), 
             m_stream(stream), 
             m_backend(nullptr),
-            m_toUpdate()
+            m_toUpdate(),
+            m_updateQueueMutex()
         {
         }
 
@@ -55,8 +57,11 @@ namespace Database
             m_configuration(nullptr), 
             m_stream(nullptr), 
             m_backend(nullptr), 
-            m_toUpdate()
-            {}
+            m_toUpdate(),
+            m_updateQueueMutex()
+        {
+            
+        }
 
         Impl& operator=(const Impl &)
         {
@@ -84,6 +89,10 @@ namespace Database
             entry.m_d->m_path = decoratePath(path);
 
             m_db[entry.m_d->m_crc] = std::move(entry);
+            
+            m_updateQueueMutex.lock();
+            m_toUpdate.push_back(entry.m_d->m_crc);
+            m_updateQueueMutex.unlock();
         }
 
         std::string decoratePath(const std::string &path) const
@@ -102,6 +111,7 @@ namespace Database
             std::shared_ptr<FS> m_stream;
             IBackend *m_backend;
             std::deque<Entry::crc32> m_toUpdate;                    //entries to be stored in backend
+            std::mutex m_updateQueueMutex;
     };
 
 
