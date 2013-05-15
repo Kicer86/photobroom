@@ -26,7 +26,7 @@ Entry::Entry(): m_d(new Entry::Data)
 }
 
 
-Entry::Entry(Entry &&other)
+Entry::Entry(Entry &&other): m_d(std::move(other.m_d))
 {
     *this = other;
 }
@@ -55,6 +55,8 @@ Entry& Entry::operator=(Entry &&other)
 {
     m_d = std::move(other.m_d);
     other.m_d = nullptr;
+    
+    return *this;
 }
 
 

@@ -29,6 +29,7 @@ class Entry
 {
     public:
         Entry();
+        Entry(const Entry &);
         Entry(Entry &&);
         virtual ~Entry();
         
@@ -47,7 +48,6 @@ class Entry
         data_ptr<Data> m_d;
         
     private:
-        Entry(const Entry&);
         virtual Entry& operator=(const Entry &);
         virtual bool operator==(const Entry&) const;        
 };
