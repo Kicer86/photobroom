@@ -24,8 +24,8 @@ set(DATABASE_HEADERS
     iconfiguration.hpp
     idatabase.hpp
 	ifs.hpp
-	implementation/entry.hpp 
-    implementation/photosdatabase.hpp
+    photosdatabase.hpp
+	implementation/entry.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*database.* )
