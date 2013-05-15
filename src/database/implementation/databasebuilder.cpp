@@ -31,12 +31,12 @@
 
 namespace Database
 {
-    
+
     namespace
     {
         std::unique_ptr<IDatabase> defaultDatabase;
     }
-    
+
 
     Builder::Builder()
     {
@@ -57,53 +57,53 @@ namespace Database
             struct Config: public IConfiguration
             {
                 virtual ~Config() {}
-                
+
                 virtual std::string getLocation() const
                 {
-					std::string result;
+                    std::string result;
 #ifdef OS_UNIX
-					const char *home = getenv("HOME");
+                    const char *home = getenv("HOME");
                     result = std::string(home) + "/.config/broom/";
 #elif OS_WIN
-					const char *home = getenv("LOCALAPPDATA");
-					result = std::string(home) + "/broom/";
-#else 
+                    const char *home = getenv("LOCALAPPDATA");
+                    result = std::string(home) + "/broom/";
+#else
 #error unknown os
 #endif
-					assert(result != "");
-					return result;
+                    assert(result != "");
+                    return result;
                 }
             };
 
-			struct FSImpl: public FS
-			{
+            struct FSImpl: public FS
+            {
                 virtual ~FSImpl() {}
-                
-				virtual std::iostream* openStream(const std::string &filename, 
+
+                virtual std::iostream* openStream(const std::string &filename,
                                                   std::ios_base::openmode mode)
-				{
-					std::fstream *stream = new std::fstream;
-                    
+                {
+                    std::fstream *stream = new std::fstream;
+
                     stream->open(filename.c_str(), mode);
-                    
+
                     return stream;
-				}
-				
+                }
+
                 virtual void closeStream(std::iostream *stream)
                 {
                     assert(dynamic_cast<std::fstream *>(stream));
-                    
+
                     std::fstream *fstream = static_cast<std::fstream *>(stream);
-                    
+
                     fstream->close();
                     delete fstream;
                 };
-			};
-            
-			defaultDatabase.reset(new PhotosDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
+            };
+
+            defaultDatabase.reset(new PhotosDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
         }
-        
+
         return defaultDatabase.get();
     }
-    
+
 }

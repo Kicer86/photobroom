@@ -36,11 +36,11 @@ namespace Database
 class PhotosDatabase: public Database::IDatabase
 {
     public:
-		PhotosDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
+        PhotosDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
         virtual ~PhotosDatabase();
-        
+
         virtual bool addFile(const std::string &path, const Database::Description &);
-        
+
     private:
         struct Impl;
         std::unique_ptr<Impl> m_impl;
