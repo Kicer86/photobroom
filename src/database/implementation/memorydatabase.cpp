@@ -30,8 +30,6 @@
 #include "entry.hpp"
 #include "ifs.hpp"
 
-#define MAX_SIZE 65536
-
 namespace Database
 {
 
@@ -45,6 +43,7 @@ namespace Database
             m_toUpdate(),
             m_updateQueueMutex()
         {
+            
         }
 
         virtual ~Impl()
@@ -56,26 +55,14 @@ namespace Database
         Impl& operator=(const Impl &)
         {
             return *this;
-        }
+        }        
+             
 
         void add(const std::string &path, const IFrontend::Description &description)
         {
-            boost::crc_32_type crc;
             Entry entry;
 
-            std::iostream *input = m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
-
-            if (input != nullptr)
-                do
-                {
-                    char buf[MAX_SIZE];
-
-                    input->read(buf, MAX_SIZE);
-                    crc.process_bytes(buf, input->gcount());
-                }
-                while(input->fail() == false);
-
-            entry.m_d->m_crc = crc();
+            entry.m_d->m_crc = calcCrc(path);
             entry.m_d->m_path = decoratePath(path);
 
             m_db[entry.m_d->m_crc] = std::move(entry);
@@ -106,6 +93,27 @@ namespace Database
                 m_updateQueueMutex.lock();
                 m_toUpdate.push_back(item);
                 m_updateQueueMutex.unlock();
+            }
+            
+            Entry::crc32 calcCrc(const std::string &path) const
+            {
+                const int MAX_SIZE = 65536;
+                boost::crc_32_type crc;
+                std::iostream *input = m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
+
+                if (input != nullptr)
+                    do
+                    {
+                        char buf[MAX_SIZE];
+
+                        input->read(buf, MAX_SIZE);
+                        crc.process_bytes(buf, input->gcount());
+                    }
+                    while(input->fail() == false);
+                    
+                const Entry::crc32 sum = crc();
+                
+                return sum;
             }
     };
 
