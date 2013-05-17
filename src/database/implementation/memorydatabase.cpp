@@ -45,8 +45,6 @@ namespace Database
 
     struct MemoryDatabase::Impl
     {
-        constexpr static int queueLen = 256;
-        
         Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
             m_db(), 
             m_configuration(config),
@@ -54,7 +52,7 @@ namespace Database
             m_backend(nullptr),
             m_backendMutex(),
             m_backendSet(),
-            m_updateQueue(queueLen),
+			m_updateQueue(m_max_queue_len),
             m_storekeeperWork(true),
             m_storekeeper(trampoline, this)
         {
@@ -127,7 +125,7 @@ namespace Database
         }
 
         private:
-            constexpr static int m_max_queue_len = 256;             //max len of db queue
+            const static int m_max_queue_len = 256;             //max len of db queue
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
             Database::IConfiguration *m_configuration;
             std::shared_ptr<FS> m_stream;

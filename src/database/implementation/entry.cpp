@@ -32,7 +32,7 @@ Entry::Entry(Entry &&other): m_d(std::move(other.m_d))
 }
 
 
-Entry::Entry(const Entry &entry): Entry()
+Entry::Entry(const Entry &entry): m_d(new Entry::Data)
 {
     *this = entry;
 }

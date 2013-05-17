@@ -2,10 +2,11 @@
 project(database)
 
 find_package(OpenLibrary REQUIRED)
+find_package(Boost 1.53.0 COMPONENTS crc)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 
-include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} .)
+include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} .)
 
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp

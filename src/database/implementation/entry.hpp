@@ -35,11 +35,17 @@ class Entry
         
         virtual Entry& operator=(Entry &&);
                 
+#ifdef OS_UNIX
         typedef __uint32_t crc32;
+#elif defined OS_WIN
+		typedef unsigned __int32 crc32;
+#else
+#error unknown os
+#endif
         
         struct Data
         {
-            Data(): m_crc(-1), m_path("null") {}
+            Data(): m_crc(0xffffffff), m_path("null") {}
             
             crc32       m_crc;
             std::string m_path;         //strats with file: when localfile, or with db: when in database
