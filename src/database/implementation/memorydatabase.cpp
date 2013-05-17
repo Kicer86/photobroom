@@ -22,7 +22,10 @@
 
 #include <unordered_map>
 #include <string>
-#include <deque>      
+#include <deque>
+#include <thread>
+#include <condition_variable>
+#include <mutex>
 
 #include <boost/crc.hpp>
 
@@ -32,7 +35,11 @@
 #include "ifs.hpp"
 
 namespace Database
-{ 
+{    
+    namespace
+    {
+        void trampoline(MemoryDatabase::Impl *);
+    }
 
     struct MemoryDatabase::Impl
     {
@@ -40,10 +47,14 @@ namespace Database
         
         Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
             m_db(), 
-            m_configuration(config), 
-            m_stream(stream), 
+            m_configuration(config),
+            m_stream(stream),
             m_backend(nullptr),
-            m_toUpdate(queueLen)
+            m_backendMutex(),
+            m_backendSet(),
+            m_updateQueue(queueLen),
+            m_storekeeperWork(true),
+            m_storekeeper(trampoline, this)
         {
             
         }
@@ -85,12 +96,28 @@ namespace Database
         void setBackend(IBackend *b)
         {
             m_backend = b;
+            
+            if (m_backend != nullptr)
+                m_backendSet.notify_all();
         }
         
         
-        void operator()()      //storekeeper thread
+        void storekeeper()      //storekeeper thread
         {
-            Entry::crc32 entry = getItemToUpdate();
+            while (m_storekeeperWork)        //as long as we are forced to work...
+            {
+                do
+                {
+                    std::unique_lock<std::mutex> lock(m_backendMutex);
+                    
+                    while(m_backend == nullptr)
+                        m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
+                    
+                    Entry::crc32 entry = getItemToUpdate();
+                    
+                }
+                while(m_updateQueue.empty() == false);  //do not back to main loop as long as there some data to be stored
+            }
         }
 
         private:
@@ -99,16 +126,20 @@ namespace Database
             Database::IConfiguration *m_configuration;
             std::shared_ptr<FS> m_stream;
             IBackend *m_backend;
-            TS_Queue<std::deque<Entry::crc32>> m_toUpdate;          //entries to be stored in backend
+            std::mutex m_backendMutex;
+            std::condition_variable m_backendSet;
+            TS_Queue<std::deque<Entry::crc32>> m_updateQueue;       //entries to be stored in backend
+            bool m_storekeeperWork;
+            std::thread m_storekeeper;
             
             void registerUpdate(const Entry::crc32 &item)
             {                
-                m_toUpdate.push_back(item);
+                m_updateQueue.push_back(item);
             }
             
             Entry::crc32 getItemToUpdate()            
             {
-                const Entry::crc32 entry = m_toUpdate.pop_front();
+                const Entry::crc32 entry = m_updateQueue.pop_front();
                 
                 return entry;
             }
@@ -134,6 +165,14 @@ namespace Database
                 return sum;
             }
     };
+    
+    namespace
+    {
+        void trampoline(MemoryDatabase::Impl *impl)
+        {
+            impl->storekeeper();
+        }
+    }
 
 
     MemoryDatabase::MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_impl(new Impl(config, stream) )

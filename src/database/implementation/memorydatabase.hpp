@@ -26,15 +26,19 @@
 
 #include "idatabase.hpp"
 
+#include "database_exports.hpp"
+
 struct FS;
 
 namespace Database
 {
     struct IConfiguration;
    
-    class MemoryDatabase: public Database::IFrontend
+    class DATABASE_EXPORTS MemoryDatabase: public Database::IFrontend
     {
         public:
+            struct Impl;
+            
             MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
             virtual ~MemoryDatabase();
 
@@ -42,7 +46,6 @@ namespace Database
             virtual void setBackend(IBackend *);
 
         private:
-            struct Impl;
             std::unique_ptr<Impl> m_impl;
     };
 
