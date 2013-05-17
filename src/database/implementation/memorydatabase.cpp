@@ -22,36 +22,41 @@
 
 #include <unordered_map>
 #include <string>
-#include <deque>
-#include <mutex>
+#include <deque>      
 
 #include <boost/crc.hpp>
+
+#include <OpenLibrary/palgorithm/ts_queue.hpp>
 
 #include "entry.hpp"
 #include "ifs.hpp"
 
 namespace Database
-{
+{ 
 
     struct MemoryDatabase::Impl
     {
+        constexpr static int queueLen = 256;
+        
         Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
             m_db(), 
             m_configuration(config), 
             m_stream(stream), 
             m_backend(nullptr),
-            m_toUpdate(),
-            m_updateQueueMutex()
+            m_toUpdate(queueLen)
         {
             
         }
+        
 
         virtual ~Impl()
         {
         }
+        
 
         Impl(const MemoryDatabase::Impl &);
 
+        
         Impl& operator=(const Impl &)
         {
             return *this;
@@ -70,29 +75,42 @@ namespace Database
             registerUpdate(entry.m_d->m_crc);
         }
 
+        
         std::string decoratePath(const std::string &path) const
         {
             return std::string("file://") + path;
         }
         
+        
         void setBackend(IBackend *b)
         {
             m_backend = b;
         }
+        
+        
+        void operator()()      //storekeeper thread
+        {
+            Entry::crc32 entry = getItemToUpdate();
+        }
 
         private:
+            constexpr static int m_max_queue_len = 256;             //max len of db queue
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
             Database::IConfiguration *m_configuration;
             std::shared_ptr<FS> m_stream;
             IBackend *m_backend;
-            std::deque<Entry::crc32> m_toUpdate;                    //entries to be stored in backend
-            std::mutex m_updateQueueMutex;
+            TS_Queue<std::deque<Entry::crc32>> m_toUpdate;          //entries to be stored in backend
             
             void registerUpdate(const Entry::crc32 &item)
-            {            
-                m_updateQueueMutex.lock();
+            {                
                 m_toUpdate.push_back(item);
-                m_updateQueueMutex.unlock();
+            }
+            
+            Entry::crc32 getItemToUpdate()            
+            {
+                const Entry::crc32 entry = m_toUpdate.pop_front();
+                
+                return entry;
             }
             
             Entry::crc32 calcCrc(const std::string &path) const
