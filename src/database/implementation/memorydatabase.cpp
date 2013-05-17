@@ -20,6 +20,8 @@
 
 #include "memorydatabase.hpp"
 
+#include <assert.h>
+
 #include <unordered_map>
 #include <string>
 #include <deque>
@@ -62,6 +64,10 @@ namespace Database
 
         virtual ~Impl()
         {
+            m_storekeeperWork = false;  //quit thread
+            
+            assert(m_storekeeper.joinable());
+            m_storekeeper.join();       //wait for quit
         }
         
 
