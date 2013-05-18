@@ -36,6 +36,7 @@ namespace Database
 			virtual ~Entry();
         
 			virtual Entry& operator=(Entry &&);
+			virtual Entry& operator=(const Entry &);
                 
 #ifdef OS_UNIX
 			typedef __uint32_t crc32;
@@ -56,10 +57,9 @@ namespace Database
 			data_ptr<Data> m_d;
         
 		private:
-			virtual Entry& operator=(const Entry &);
 			virtual bool operator==(const Entry&) const;        
 	};
 
 }
 
-#endif // DATABASE_ENTRY_HPP
+#endif // ENTRY_HPP

@@ -85,7 +85,7 @@ namespace Database
             entry.m_d->m_crc = calcCrc(path);
             entry.m_d->m_path = decoratePath(path);
 
-            m_db[entry.m_d->m_crc] = std::move(entry);
+            m_db[entry.m_d->m_crc] = entry;
             
             registerUpdate(entry.m_d->m_crc);
         }
@@ -193,7 +193,7 @@ namespace Database
 
     bool MemoryDatabase::addFile(const std::string &path, const IFrontend::Description &desc)
     {
-
+		m_impl->add(path, desc);
 
         return true;
     }
