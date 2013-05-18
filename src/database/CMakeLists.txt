@@ -19,7 +19,7 @@ set(DATABASE_HEADERS
     iconfiguration.hpp
     idatabase.hpp
 	ifs.hpp
-	implementation/entry.hpp
+	entry.hpp
     implementation/memorydatabase.hpp
     )
 

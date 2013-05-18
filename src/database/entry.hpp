@@ -18,48 +18,44 @@
 */
 
 
-#ifndef DATABASE_ENTRY_HPP
-#define DATABASE_ENTRY_HPP
+#ifndef ENTRY_HPP
+#define ENTRY_HPP
 
 #include <string>
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
-namespace Database
+class Entry
 {
-	class Entry
-	{
-		public:
-			Entry();
-			Entry(const Entry &);
-			Entry(Entry &&);
-			virtual ~Entry();
+    public:
+        Entry();
+        Entry(const Entry &);
+        Entry(Entry &&);
+        virtual ~Entry();
         
-			virtual Entry& operator=(Entry &&);
+        virtual Entry& operator=(Entry &&);
                 
 #ifdef OS_UNIX
-			typedef __uint32_t crc32;
+        typedef __uint32_t crc32;
 #elif defined OS_WIN
-			typedef unsigned __int32 crc32;
+		typedef unsigned __int32 crc32;
 #else
-	#error unknown os
+#error unknown os
 #endif
         
-			struct Data
-			{
-				Data(): m_crc(0xffffffff), m_path("null") {}
+        struct Data
+        {
+            Data(): m_crc(0xffffffff), m_path("null") {}
             
-				crc32       m_crc;
-				std::string m_path;         //path starts with file (when localfile), or with db: (when in database)
-			};
+            crc32       m_crc;
+            std::string m_path;         //path starts with file (when localfile), or with db: (when in database)
+        };
         
-			data_ptr<Data> m_d;
+        data_ptr<Data> m_d;
         
-		private:
-			virtual Entry& operator=(const Entry &);
-			virtual bool operator==(const Entry&) const;        
-	};
+    private:
+        virtual Entry& operator=(const Entry &);
+        virtual bool operator==(const Entry&) const;        
+};
 
-}
-
-#endif // DATABASE_ENTRY_HPP
+#endif // ENTRY_HPP
