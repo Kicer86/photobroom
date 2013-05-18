@@ -3,9 +3,11 @@
 #include "database/implementation/memorydatabase.hpp"
 #include "database/iconfiguration.hpp"
 #include "database/ifs.hpp"
+#include "database/implementation/entry.hpp"
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include <CppUTest/TestHarness.h>
 
@@ -28,10 +30,24 @@ TEST_GROUP(MemoryDatabaseShould)
 
 		std::stringstream m_stream;
 	};
+
+	struct Backend: public Database::IBackend
+	{
+		virtual ~Backend() {}
+
+		virtual bool store(const Database::Entry &entry)
+		{
+			m_entries.push_back(entry);
+
+			return true;
+		}
+
+		std::vector<Database::Entry> m_entries;
+	};
 };
 
 
-TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackend)
+TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 {
 	struct Config: public Database::IConfiguration
 	{
@@ -41,6 +57,16 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackend)
 		}
 	};
 	
-	Database::MemoryDatabase *db = new Database::MemoryDatabase( new Config, std::shared_ptr<FS>(new FSImpl) );
-    CHECK_EQUAL(true, false);
+	std::shared_ptr<FSImpl> fs(new FSImpl);
+
+	fs->m_stream << "Test content of file to store";
+	Database::Entry::crc32 crc = 0;
+
+	Database::MemoryDatabase *db = new Database::MemoryDatabase( new Config, fs);
+	db->addFile("", Database::IFrontend::Description());
+
+	Backend backend;
+	db->setBackend(&backend);
+	
+	CHECK_EQUAL(2, backend.m_entries.size());
 }
