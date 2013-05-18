@@ -25,9 +25,14 @@
 
 namespace Database
 {    
+
+	class Entry;
+
     struct IBackend
     {
         virtual ~IBackend() {}
+
+		virtual bool store(const Database::Entry &) = 0;
     };
         
     struct IFrontend
