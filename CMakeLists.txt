@@ -4,11 +4,12 @@ project(broom)
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 
 
-if(UNIX)
+if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
 elseif(WIN32)
     add_definitions(-DOS_WIN)
-endif(UNIX)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif(UNIX OR CYGWIN)
 
 add_subdirectory(src/analyzer)
 add_subdirectory(src/tests)
