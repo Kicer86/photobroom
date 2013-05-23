@@ -29,7 +29,7 @@ namespace Database
 
 	Entry::Entry(Entry &&other): m_d(std::move(other.m_d))
 	{
-		*this = other;
+		this->operator=( std::move(other));
 	}
 
 
