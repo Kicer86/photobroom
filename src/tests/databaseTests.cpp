@@ -67,6 +67,9 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 
 	Backend backend;
 	db->setBackend(&backend);
+    
+    delete db;             //"flush" data ;)
 	
-	CHECK_EQUAL(2, backend.m_entries.size());
+    const int s = backend.m_entries.size();
+	CHECK_EQUAL(2, s);
 }
