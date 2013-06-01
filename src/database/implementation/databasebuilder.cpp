@@ -28,6 +28,7 @@
 #include "memorydatabase.hpp"
 #include "iconfiguration.hpp"
 #include "ifs.hpp"
+#include "implementation/backend.hpp"
 
 namespace Database
 {
@@ -102,6 +103,7 @@ namespace Database
             };
             
             defaultDatabase.reset(new MemoryDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
+            defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::PrimitiveBackend));
         }
 
         return defaultDatabase.get();
