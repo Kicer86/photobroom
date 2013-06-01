@@ -168,6 +168,8 @@ namespace Database
                     
                 const Entry::crc32 sum = crc();
                 
+                m_stream->closeStream(input);
+                
                 return sum;
             }
     };
