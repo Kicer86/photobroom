@@ -16,12 +16,12 @@ set(DATABASE_SOURCES
     )
 
 set(DATABASE_HEADERS
-    backend.hpp
     databasebuilder.hpp
     iconfiguration.hpp
     idatabase.hpp
 	ifs.hpp
 	entry.hpp
+    implementation/backend.hpp
     implementation/memorydatabase.hpp
     )
 
