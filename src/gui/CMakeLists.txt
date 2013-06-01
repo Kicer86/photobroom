@@ -1,16 +1,16 @@
 
 
-project(database)
+project(gui)
 
-find_package(Qt COMPONENTS QtGui QtCore)
+add_subdirectory(implementation/Qt)
 
-include_directories(${CMAKE_BINARY_DIR} ${QTGUI_INCLUDES} .)
+include_directories(${CMAKE_BINARY_DIR} .)
 
 set(GUI_SOURCES
     implementation/gui.cpp
     )
 
-set(DATABASE_HEADERS
+set(Gui_HEADERS
     gui.hpp
     )
 
