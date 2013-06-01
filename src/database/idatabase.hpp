@@ -22,6 +22,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 namespace Database
 {    
@@ -48,7 +49,7 @@ namespace Database
         };
         
         virtual bool addFile(const std::string &path, const Description &) = 0;
-        virtual void setBackend(IBackend *) = 0;
+        virtual void setBackend(const std::shared_ptr<IBackend> &) = 0;
     };
 }
 
