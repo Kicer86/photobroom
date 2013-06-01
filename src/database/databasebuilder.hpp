@@ -18,8 +18,8 @@
 */
 
 
-#ifndef DATABASEBUILDER_H
-#define DATABASEBUILDER_H
+#ifndef DATABASEBUILDER_HPP
+#define DATABASEBUILDER_HPP
 
 #include "database_exports.hpp"
 
@@ -36,4 +36,4 @@ namespace Database
     };
 }
 
-#endif // DATABASEBUILDER_H
+#endif // DATABASEBUILDER_HPP
