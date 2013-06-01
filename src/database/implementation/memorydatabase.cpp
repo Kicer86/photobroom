@@ -118,6 +118,8 @@ namespace Database
                         m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
                     
                     Entry::crc32 entry = getItemToUpdate();
+                    const Entry &dbEntry = m_db[entry];
+                    m_backend->store(dbEntry);
                     
                 }
                 while(m_updateQueue.empty() == false);  //do not back to main loop as long as there some data to be stored
