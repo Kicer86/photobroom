@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Qt based gui initializator
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -21,16 +21,18 @@
 #ifndef INITIALIZATOR_HPP
 #define INITIALIZATOR_HPP
 
-#include <../../home/michal/projects/sources/broom/src/gui/gui.hpp>
+#include "../../gui.hpp"
 
-
-class Initializator : public Gui::IUi
+namespace Gui
 {
-
-    public:
-        virtual int run();
-        virtual void init(int argc, char** argv);
-        virtual ~Initializator();
-};
+    class Initializator: public Gui::IUi
+    {
+        public:
+            virtual ~Initializator();
+            
+            virtual int run();
+            virtual void init(int argc, char** argv);
+    };
+}
 
 #endif // INITIALIZATOR_HPP

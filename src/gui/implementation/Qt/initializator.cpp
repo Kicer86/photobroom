@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Qt based gui initializator
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -20,20 +20,23 @@
 
 #include "initializator.hpp"
 
-int Initializator::run()
+namespace Gui
 {
+    
+    Initializator::~Initializator()
+    {
+
+    }
+
+
+    int Initializator::run()
+    {
+
+    }
+
+    void Initializator::init(int argc, char** argv)
+    {
+
+    }
 
 }
-
-void Initializator::init(int argc, char** argv)
-{
-
-}
-
-Initializator::~IUi()
-{
-
-}
-
-
-
