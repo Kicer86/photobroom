@@ -9,7 +9,6 @@
 #include "analyzer/iphoto_crawler.hpp"
 #include "database/idatabase.hpp"
 #include "database/databasebuilder.hpp"
-#include "database/backend.hpp"
 
 int main(int argc, char **argv)
 {
@@ -23,8 +22,6 @@ int main(int argc, char **argv)
     std::vector<std::string> files = crawler->crawl(paths);
     
     Database::IFrontend *database = Database::Builder().get();
-    Database::PrimitiveBackend backend;
-    database->setBackend(&backend);
 
     for (auto f: files)
         database->addFile(f, Database::IFrontend::Description());
