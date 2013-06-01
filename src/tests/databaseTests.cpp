@@ -65,11 +65,11 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 	Database::MemoryDatabase *db = new Database::MemoryDatabase( new Config, fs);
 	db->addFile("", Database::IFrontend::Description());
 
-	Backend backend;
-	db->setBackend(&backend);
+	std::shared_ptr<Backend> backend(new Backend);
+	db->setBackend(backend);
     
     delete db;             //"flush" data ;)
 	
-    const int s = backend.m_entries.size();
-	CHECK_EQUAL(2, s);
+    const int s = backend->m_entries.size();
+	CHECK_EQUAL(1, s);
 }
