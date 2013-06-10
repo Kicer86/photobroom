@@ -27,7 +27,7 @@ set(DATABASE_HEADERS
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database STATIC ${DATABASE_SOURCES} ${DATABASE_HEADERS})
+add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database)
 
 exportSymbols(database)
