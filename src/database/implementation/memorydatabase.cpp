@@ -97,7 +97,7 @@ namespace Database
         }
         
         
-        void setBackend(IBackend *b)
+        void setBackend(const std::shared_ptr<IBackend> &b)
         {
             m_backend = b;
             
@@ -118,6 +118,8 @@ namespace Database
                         m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
                     
                     Entry::crc32 entry = getItemToUpdate();
+                    const Entry &dbEntry = m_db[entry];
+                    m_backend->store(dbEntry);
                     
                 }
                 while(m_updateQueue.empty() == false);  //do not back to main loop as long as there some data to be stored
@@ -125,11 +127,11 @@ namespace Database
         }
 
         private:
-            const static int m_max_queue_len = 256;             //max len of db queue
+            const static int m_max_queue_len = 256;                 //max len of db queue
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
             Database::IConfiguration *m_configuration;
             std::shared_ptr<FS> m_stream;
-            IBackend *m_backend;
+            std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
             TS_Queue<std::deque<Entry::crc32>> m_updateQueue;       //entries to be stored in backend
@@ -166,6 +168,8 @@ namespace Database
                     
                 const Entry::crc32 sum = crc();
                 
+                m_stream->closeStream(input);
+                
                 return sum;
             }
     };
@@ -199,7 +203,7 @@ namespace Database
     }
     
     
-    void MemoryDatabase::setBackend(IBackend *backend)
+    void MemoryDatabase::setBackend(const std::shared_ptr<Database::IBackend> &backend)
     {
         m_impl->setBackend(backend);
     }

@@ -9,6 +9,7 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} .)
 
 set(DATABASE_SOURCES
+    implementation/backend.cpp
     implementation/databasebuilder.cpp
     implementation/entry.cpp
     implementation/memorydatabase.cpp
@@ -20,6 +21,7 @@ set(DATABASE_HEADERS
     idatabase.hpp
 	ifs.hpp
 	entry.hpp
+    implementation/backend.hpp
     implementation/memorydatabase.hpp
     )
 

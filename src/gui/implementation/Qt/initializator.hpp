@@ -1,5 +1,5 @@
 /*
-    Database entries manipulator
+    Qt based gui initializator
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -18,52 +18,21 @@
 */
 
 
-#include "entry.hpp"
-namespace Database
+#ifndef INITIALIZATOR_HPP
+#define INITIALIZATOR_HPP
+
+#include "../../gui.hpp"
+
+namespace Gui
 {
-	Entry::Entry(): m_d(new Entry::Data)
-	{
-
-	}
-
-
-	Entry::Entry(Entry &&other): m_d(std::move(other.m_d))
-	{
-		this->operator=( std::move(other));
-	}
-
-
-	Entry::Entry(const Entry &entry): m_d(new Entry::Data)
-	{
-		*this = entry;
-	}
-
-
-	Entry::~Entry()
-	{
-	}
-
-
-	Entry& Entry::operator=(const Entry &other)
-	{
-		m_d = other.m_d;
-    
-		return *this;
-	}
-
-
-	Entry& Entry::operator=(Entry &&other)
-	{
-		m_d = std::move(other.m_d);
-		other.m_d = nullptr;
-    
-		return *this;
-	}
-
-
-	bool Entry::operator==(const Entry &) const
-	{
-		return false;
-	}
-
+    class Initializator: public Gui::IUi
+    {
+        public:
+            virtual ~Initializator();
+            
+            virtual int run();
+            virtual void init(int argc, char** argv);
+    };
 }
+
+#endif // INITIALIZATOR_HPP

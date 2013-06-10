@@ -43,7 +43,7 @@ namespace Database
             virtual ~MemoryDatabase();
 
             virtual bool addFile(const std::string &path, const IFrontend::Description &);
-            virtual void setBackend(IBackend *);
+            virtual void setBackend(const std::shared_ptr<IBackend> &);
 
         private:
             std::unique_ptr<Impl> m_impl;

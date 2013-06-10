@@ -12,8 +12,9 @@ elseif(WIN32)
 endif(UNIX OR CYGWIN)
 
 add_subdirectory(src/analyzer)
-add_subdirectory(src/tests)
 add_subdirectory(src/database)
+add_subdirectory(src/gui)
+add_subdirectory(src/tests)
 
 find_package(OpenLibrary REQUIRED utils)
 

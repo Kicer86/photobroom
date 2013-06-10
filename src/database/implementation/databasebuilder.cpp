@@ -28,6 +28,7 @@
 #include "memorydatabase.hpp"
 #include "iconfiguration.hpp"
 #include "ifs.hpp"
+#include "implementation/backend.hpp"
 
 namespace Database
 {
@@ -78,7 +79,10 @@ namespace Database
 
             struct FSImpl: public FS
             {
-                virtual ~FSImpl() {}
+                virtual ~FSImpl() 
+                {
+                    
+                }
 
                 virtual std::iostream* openStream(const std::string &filename,
                                                   std::ios_base::openmode mode)
@@ -101,7 +105,12 @@ namespace Database
                 };
             };
             
-            defaultDatabase.reset(new MemoryDatabase(new Config, std::shared_ptr<FS>(new FSImpl)) );
+            Config *config = new Config;
+            std::shared_ptr<FS> fs(new FSImpl);
+            IFrontend *frontend = new MemoryDatabase(config, fs);
+            
+            defaultDatabase.reset(frontend);
+            defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::PrimitiveBackend));
         }
 
         return defaultDatabase.get();
