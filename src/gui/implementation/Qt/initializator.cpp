@@ -31,7 +31,7 @@ namespace Gui
 
     int Initializator::run()
     {
-
+		return 0;
     }
 
     void Initializator::init(int argc, char** argv)
