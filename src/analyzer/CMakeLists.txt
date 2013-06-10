@@ -30,7 +30,7 @@ set(ANALYZER_HEADERS
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
-add_library(analyzer STATIC ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
+add_library(analyzer SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(analyzer ${Boost_LIBRARIES})
 
 exportSymbols(analyzer)

@@ -16,7 +16,7 @@ set(QtGUI_HEADERS
 
 source_group(files REGULAR_EXPRESSION .*Qt.* )
 
-add_library(QtGui STATIC ${QtGUI_SOURCES} ${QtGUI_HEADERS})
+add_library(QtGui SHARED ${QtGUI_SOURCES} ${QtGUI_HEADERS})
 #target_link_libraries(QtGui)
 
 exportSymbols(QtGui)
