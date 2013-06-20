@@ -5,11 +5,11 @@
 #include <vector>
 #include <string>
 
-#include "analyzer_exports.hpp"
+#include "analyzer_export.h"
 
 struct Rules;
 
-struct ANALYZER_EXPORTS IPhotoCrawler
+struct ANALYZER_EXPORT IPhotoCrawler
 {
 	virtual ~IPhotoCrawler() {}
 
