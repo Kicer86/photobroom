@@ -18,7 +18,7 @@ add_subdirectory(src/tests)
 
 find_package(OpenLibrary REQUIRED utils)
 
-include_directories(${CMAKE_BINARY_DIR} ${OPENLIBRARY_INCLUDES})
+include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES})
 
 set(BROOM_SOURCES
     src/configuration/configurationfactory.cpp
