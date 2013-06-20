@@ -21,13 +21,13 @@
 #ifndef DATABASEBUILDER_HPP
 #define DATABASEBUILDER_HPP
 
-#include "database_exports.hpp"
+#include "database_export.h"
 
 namespace Database
 {
     struct IFrontend;
 
-    struct DATABASE_EXPORTS Builder
+    struct DATABASE_EXPORT Builder
     {
         Builder();
         virtual ~Builder();

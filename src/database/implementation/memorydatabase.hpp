@@ -26,7 +26,7 @@
 
 #include "idatabase.hpp"
 
-#include "database_exports.hpp"
+#include "database_export.h"
 
 struct FS;
 
@@ -34,7 +34,7 @@ namespace Database
 {
     struct IConfiguration;
    
-    class DATABASE_EXPORTS MemoryDatabase: public Database::IFrontend
+    class DATABASE_EXPORT MemoryDatabase: public Database::IFrontend
     {
         public:
             struct Impl;
