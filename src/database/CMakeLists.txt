@@ -50,14 +50,12 @@ include_directories(${CMAKE_SOURCE_DIR}/src
 set(TESTS
     tests/databaseTests.cpp
     tests/RunAllTests.cpp
+	${DATABASE_SOURCES}
     )
-
-add_library(database_static STATIC ${DATABASE_SOURCES})
-set_target_properties(database_static PROPERTIES COMPILE_FLAGS -DDATABASE_STATIC_DEFINE)
 
 add_executable(database_tests ${TESTS})
 set_target_properties(database_tests PROPERTIES COMPILE_FLAGS -DDATABASE_STATIC_DEFINE)
-target_link_libraries(database_tests database_static ${CPPUTEST_LIBRARIES})
+target_link_libraries(database_tests ${CPPUTEST_LIBRARIES})
 
 turnOnCpp11(database_tests)
 
