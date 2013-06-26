@@ -3,6 +3,7 @@ project(broom)
 
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 
+set(BUILD_TESTS FALSE CACHE BOOL "Build tests. Set to TRUE to build tests")
 
 if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
@@ -41,3 +42,6 @@ turnOnCpp11(broom)
 turnOnAllWarnings(${BROOM_SOURCES})
 
 target_link_libraries(broom analyzer database)
+
+message("Configuration: ")
+message("BUILD_TESTS...........${BUILD_TESTS}")
