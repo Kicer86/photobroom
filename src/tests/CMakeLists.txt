@@ -1,22 +1,26 @@
 
-project(tests)
+if (BUILD_TESTS)
 
-find_package(OpenLibrary REQUIRED)
+	project(tests)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+	find_package(OpenLibrary REQUIRED)
 
-find_package(CppUTest REQUIRED)
+	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-include_directories(${CMAKE_SOURCE_DIR}/src
-                    ${CPPUTEST_INCLUDE_DIRS}
-                    ${OPENLIBRARY_INCLUDES}
-                    ${CMAKE_BINARY_DIR})
+	find_package(CppUTest REQUIRED)
 
-set(TESTS
-    entrydata_tests.cpp
-    )
+	include_directories(${CMAKE_SOURCE_DIR}/src
+						${CPPUTEST_INCLUDE_DIRS}
+						${OPENLIBRARY_INCLUDES}
+						${CMAKE_BINARY_DIR})
 
-add_executable(tests RunAllTests.cpp ${TESTS})
-target_link_libraries(tests ${CPPUTEST_LIBRARIES})
+	set(TESTS
+		entrydata_tests.cpp
+		)
 
-turnOnCpp11(tests)
+	add_executable(tests RunAllTests.cpp ${TESTS})
+	target_link_libraries(tests ${CPPUTEST_LIBRARIES})
+
+	turnOnCpp11(tests)
+
+endif(BUILD_TESTS)
