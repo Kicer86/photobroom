@@ -37,3 +37,24 @@ target_link_libraries(analyzer ${Boost_LIBRARIES})
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)
 turnOnAllWarnings(${ANALYZER_SOURCES})
+
+
+#############################################################
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+find_package(CppUTest REQUIRED)
+
+include_directories(${CPPUTEST_INCLUDE_DIRS})
+
+set(TESTS
+    tests/analyzerTests.cpp
+	tests/RunAllTests.cpp 
+	${ANALYZER_SOURCES}
+    )
+
+add_executable(analyzer_tests ${TESTS})
+target_link_libraries(analyzer_tests ${CPPUTEST_LIBRARIES} ${Boost_LIBRARIES})
+set_target_properties(analyzer_tests PROPERTIES COMPILE_FLAGS -DANALYZER_STATIC_DEFINE)
+
+turnOnCpp11(analyzer_tests)

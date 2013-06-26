@@ -1,7 +1,7 @@
 
 
-#include "analyzer/default_analyzers/ext_defaultanalyzer.hpp"
-#include "analyzer/implementation/file_analyzer.hpp"
+#include "default_analyzers/ext_defaultanalyzer.hpp"
+#include "implementation/file_analyzer.hpp"
 
 #include <CppUTest/TestHarness.h>
 

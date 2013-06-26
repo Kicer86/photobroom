@@ -2,7 +2,8 @@
 
 #include <CppUTest/CommandLineTestRunner.h>
 
-IMPORT_TEST_GROUP(EntryDataTests);
+IMPORT_TEST_GROUP(Ext_DefaultAnalyzerShould);
+IMPORT_TEST_GROUP(FileAnalyzerShould);
 
 int main(int argc, char** argv)
 {
