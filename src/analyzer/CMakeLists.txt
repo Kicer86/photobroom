@@ -41,20 +41,25 @@ turnOnAllWarnings(${ANALYZER_SOURCES})
 
 #############################################################
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+if(BUILD_TESTS)
 
-find_package(CppUTest REQUIRED)
+	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-include_directories(${CPPUTEST_INCLUDE_DIRS})
+	find_package(CppUTest REQUIRED)
 
-set(TESTS
-    tests/analyzerTests.cpp
-	tests/RunAllTests.cpp 
-	${ANALYZER_SOURCES}
-    )
+	include_directories(${CPPUTEST_INCLUDE_DIRS})
 
-add_executable(analyzer_tests ${TESTS})
-target_link_libraries(analyzer_tests ${CPPUTEST_LIBRARIES} ${Boost_LIBRARIES})
-set_target_properties(analyzer_tests PROPERTIES COMPILE_FLAGS -DANALYZER_STATIC_DEFINE)
+	set(TESTS
+		tests/analyzerTests.cpp
+		tests/RunAllTests.cpp 
+		${ANALYZER_SOURCES}
+		)
 
-turnOnCpp11(analyzer_tests)
+	add_executable(analyzer_tests ${TESTS})
+	target_link_libraries(analyzer_tests ${CPPUTEST_LIBRARIES} ${Boost_LIBRARIES})
+	set_target_properties(analyzer_tests PROPERTIES COMPILE_FLAGS -DANALYZER_STATIC_DEFINE)
+
+	turnOnCpp11(analyzer_tests)
+
+endif(BUILD_TESTS)
+	

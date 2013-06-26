@@ -36,26 +36,28 @@ turnOnAllWarnings(${DATABASE_SOURCES})
 
 ##################################################################################
 
+if(BUILD_TESTS)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-find_package(CppUTest REQUIRED)
+	find_package(CppUTest REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/src
-                    ${CMAKE_SOURCE_DIR}/src/database
-                    ${CPPUTEST_INCLUDE_DIRS}
-                    ${OPENLIBRARY_INCLUDES}
-                    ${CMAKE_BINARY_DIR})
+	include_directories(${CMAKE_SOURCE_DIR}/src
+						${CMAKE_SOURCE_DIR}/src/database
+						${CPPUTEST_INCLUDE_DIRS}
+						${OPENLIBRARY_INCLUDES}
+						${CMAKE_BINARY_DIR})
 
-set(TESTS
-    tests/databaseTests.cpp
-    tests/RunAllTests.cpp
-	${DATABASE_SOURCES}
-    )
+	set(TESTS
+		tests/databaseTests.cpp
+		tests/RunAllTests.cpp
+		${DATABASE_SOURCES}
+		)
 
-add_executable(database_tests ${TESTS})
-set_target_properties(database_tests PROPERTIES COMPILE_FLAGS -DDATABASE_STATIC_DEFINE)
-target_link_libraries(database_tests ${CPPUTEST_LIBRARIES})
+	add_executable(database_tests ${TESTS})
+	set_target_properties(database_tests PROPERTIES COMPILE_FLAGS -DDATABASE_STATIC_DEFINE)
+	target_link_libraries(database_tests ${CPPUTEST_LIBRARIES})
 
-turnOnCpp11(database_tests)
+	turnOnCpp11(database_tests)
 
+endif(BUILD_TESTS)
