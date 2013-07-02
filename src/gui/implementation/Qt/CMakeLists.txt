@@ -1,10 +1,9 @@
 
-
 project(qtgui)
 
-find_package(Qt COMPONENTS QtGui QtCore)
+find_package(Qt5Widgets REQUIRED)
 
-include_directories(${CMAKE_BINARY_DIR} ${QTGUI_INCLUDES} .)
+include_directories(${CMAKE_BINARY_DIR} .)
 
 set(QtGUI_SOURCES 
     initializator.cpp    
@@ -17,7 +16,7 @@ set(QtGUI_HEADERS
 source_group(files REGULAR_EXPRESSION .*Qt.* )
 
 add_library(QtGui SHARED ${QtGUI_SOURCES} ${QtGUI_HEADERS})
-#target_link_libraries(QtGui)
+qt5_use_modules(QtGui Widgets)
 
 exportSymbols(QtGui)
 hideSymbols(QtGui)

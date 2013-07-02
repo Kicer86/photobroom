@@ -20,6 +20,8 @@
 
 #include "initializator.hpp"
 
+#include <QApplication>
+
 namespace Gui
 {
     
