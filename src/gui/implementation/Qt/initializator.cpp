@@ -80,16 +80,22 @@ namespace Gui
     }
 
 
-    int Initializator::run()
-    {
-        GuiThread::get()->run();
-        GuiThread::get()->quit();
-		return 0;
-    }
-
     void Initializator::init(int argc, char** argv)
     {
         GuiThread::get()->init(argc, argv);
+    }
+
+
+    int Initializator::run()
+    {
+        GuiThread::get()->run();
+        return 0;
+    }
+
+
+    void Initializator::quit()
+    {
+        GuiThread::get()->quit();
     }
 
 }

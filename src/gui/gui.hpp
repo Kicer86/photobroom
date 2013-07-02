@@ -14,6 +14,7 @@ namespace Gui
         virtual ~IUi() {}
         virtual void init (int argc, char **argv) = 0;
         virtual int run() = 0;
+        virtual void quit() = 0;
     };
     
     

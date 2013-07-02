@@ -30,8 +30,9 @@ namespace Gui
         public:
             virtual ~Initializator();
             
-            virtual int run();
             virtual void init(int argc, char** argv);
+            virtual int run();            
+            virtual void quit();
     };
 }
 
