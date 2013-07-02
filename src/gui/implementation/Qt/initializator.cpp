@@ -20,11 +20,33 @@
 
 #include "initializator.hpp"
 
+#include <thread>
+
 #include <QApplication>
 
 namespace Gui
 {
-    
+    namespace
+    {
+
+        void gui_thread(int argc, char **argv)
+        {
+            QApplication app(argc, argv);
+
+            app.exec();
+        }
+
+        struct GuiThread
+        {
+            GuiThread(int argc, char **argv): m_thread(nullptr)
+            {
+                m_thread = new std::thread(gui_thread, argc, argv);
+            }
+
+            std::thread *m_thread;
+        };
+    }
+
     Initializator::~Initializator()
     {
 
