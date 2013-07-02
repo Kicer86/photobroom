@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
     std::shared_ptr<IPhotoCrawler> crawler = PhotoCrawlerBuilder().build();
 
-    std::string path = "/home/michal/projects/sources/broom/Asia i kot";
+    std::string path = "Asia i kot";
     std::vector<std::string> paths;
 
     paths.push_back(path);
