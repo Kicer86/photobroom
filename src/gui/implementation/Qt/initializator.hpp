@@ -23,16 +23,17 @@
 
 #include "../../gui.hpp"
 
+#include "qtgui_export.h"
+
 namespace Gui
 {
-    class Initializator: public Gui::IUi
+    struct QTGUI_EXPORT Initializator: public Gui::IUi
     {
-        public:
-            virtual ~Initializator();
-            
-            virtual void init(int argc, char** argv);
-            virtual int run();            
-            virtual void quit();
+        virtual ~Initializator();
+
+        virtual void init(int argc, char** argv);
+        virtual int run();
+        virtual void quit();
     };
 }
 

@@ -6,6 +6,8 @@
 
 #include <memory>
 
+#include "gui_export.h"
+
 namespace Gui
 {
  
@@ -18,7 +20,7 @@ namespace Gui
     };
     
     
-    struct Factory
+    struct GUI_EXPORT Factory
     {
         static std::shared_ptr<IUi> get();
     };

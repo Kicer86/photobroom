@@ -41,7 +41,7 @@ add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
 turnOnCpp11(broom)
 turnOnAllWarnings(${BROOM_SOURCES})
 
-target_link_libraries(broom analyzer database)
+target_link_libraries(broom analyzer database gui)
 
 message("Configuration: ")
 message("BUILD_TESTS...........${BUILD_TESTS}")

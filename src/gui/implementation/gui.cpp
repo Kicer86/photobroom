@@ -7,8 +7,11 @@ namespace Gui
 {
     std::shared_ptr<IUi> Factory::get()
     {
-		IUi *ui = new Initializator;
+        static std::shared_ptr<IUi> result;
 
-		return std::shared_ptr<IUi>(ui);
+        if (result.get() == nullptr)
+            result.reset(new Initializator);
+
+        return result;
     }
 }

@@ -47,14 +47,14 @@ namespace Gui
 
             void run()
             {
-                m_thread = new std::thread(gui_thread, argc, argv);
+                m_thread = new std::thread(gui_thread, m_argc, m_argv);
             }
 
             void quit()
             {
                 assert(m_thread != nullptr);
 
-                m_thread.join();
+                m_thread->join();
             }
 
             static GuiThread* get()

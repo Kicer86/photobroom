@@ -4,11 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "analyzer/photo_crawler_builder.hpp"
 #include "analyzer/iphoto_crawler.hpp"
 #include "database/idatabase.hpp"
 #include "database/databasebuilder.hpp"
+#include "gui/gui.hpp"
 
 int main(int argc, char **argv)
 {
@@ -25,6 +27,12 @@ int main(int argc, char **argv)
 
     for (auto f: files)
         database->addFile(f, Database::IFrontend::Description());
+
+    std::shared_ptr<Gui::IUi> gui = Gui::Factory::get();
+
+    gui->init(argc, argv);
+    gui->run();
+    gui->quit();
 
     return 0;
 }
