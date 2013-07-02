@@ -20,6 +20,8 @@
 
 #include "initializator.hpp"
 
+#include <assert.h>
+
 #include <thread>
 
 #include <QApplication>
@@ -38,14 +40,39 @@ namespace Gui
 
         struct GuiThread
         {
-            GuiThread(int argc, char **argv): m_thread(nullptr)
+            void init(int argc, char **argv)
+            {
+                assert(m_thread == nullptr);
+            }
+
+            void run()
             {
                 m_thread = new std::thread(gui_thread, argc, argv);
             }
 
-            std::thread *m_thread;
+            void quit()
+            {
+                assert(m_thread != nullptr);
+
+                m_thread.join();
+            }
+
+            static GuiThread* get()
+            {
+            }
+
+            private:
+                GuiThread(int argc, char **argv): m_thread(nullptr), m_argc(0), m_argv(nullptr)
+                {
+
+                }
+
+                std::thread *m_thread;
+                int m_argc;
+                char **m_argv;
         };
     }
+
 
     Initializator::~Initializator()
     {
@@ -55,12 +82,14 @@ namespace Gui
 
     int Initializator::run()
     {
+        GuiThread::get()->run();
+        GuiThread::get()->quit();
 		return 0;
     }
 
     void Initializator::init(int argc, char** argv)
     {
-
+        GuiThread::get()->init(argc, argv);
     }
 
 }
