@@ -64,6 +64,7 @@ namespace Database
         virtual ~Impl()
         {
             m_storekeeperWork = false;  //quit thread
+            m_updateQueue.break_popping();
             
             assert(m_storekeeper.joinable());
             m_storekeeper.join();       //wait for quit
