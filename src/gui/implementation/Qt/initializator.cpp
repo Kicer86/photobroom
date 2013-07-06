@@ -43,6 +43,8 @@ namespace Gui
             void init(int argc, char **argv)
             {
                 assert(m_thread == nullptr);
+                m_argc = argc;
+                m_argv = argv;
             }
 
             void run()
@@ -59,10 +61,13 @@ namespace Gui
 
             static GuiThread* get()
             {
+                static GuiThread instance;
+                
+                return &instance;
             }
 
             private:
-                GuiThread(int argc, char **argv): m_thread(nullptr), m_argc(0), m_argv(nullptr)
+                GuiThread(): m_thread(nullptr), m_argc(0), m_argv(nullptr)
                 {
 
                 }
