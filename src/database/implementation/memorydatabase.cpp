@@ -30,6 +30,7 @@
 #include <mutex>
 
 #include <boost/crc.hpp>
+#include <boost/optional.hpp>
 
 #include <OpenLibrary/palgorithm/ts_queue.hpp>
 
@@ -117,9 +118,15 @@ namespace Database
                     while(m_backend == nullptr)
                         m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
                     
-                    Entry::crc32 entry = getItemToUpdate();
-                    const Entry &dbEntry = m_db[entry];
-                    m_backend->store(dbEntry);
+                    boost::optional<Entry::crc32> entry = getItemToUpdate();
+                    
+                    if (entry)
+                    {
+                        const Entry &dbEntry = m_db[*entry];
+                        m_backend->store(dbEntry);
+                    }
+                    else
+                        assert(m_storekeeperWork == false);       //the only reason for empty queue is that we are quiting
                     
                 }
                 while(m_updateQueue.empty() == false);  //do not back to main loop as long as there some data to be stored
@@ -143,9 +150,9 @@ namespace Database
                 m_updateQueue.push_back(item);
             }
             
-            Entry::crc32 getItemToUpdate()            
+            boost::optional<Entry::crc32> getItemToUpdate()            
             {
-                const Entry::crc32 entry = m_updateQueue.pop_front();
+                const boost::optional<Entry::crc32> entry = m_updateQueue.pop_front();
                 
                 return entry;
             }
