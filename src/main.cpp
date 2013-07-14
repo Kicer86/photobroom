@@ -30,9 +30,7 @@ int main(int argc, char **argv)
 
     std::shared_ptr<Gui::IUi> gui = Gui::Factory::get();
 
-    gui->init(argc, argv);
-    gui->run();
-    gui->quit();
+    gui->run(argc, argv);
 
     return 0;
 }

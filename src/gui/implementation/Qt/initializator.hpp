@@ -31,9 +31,7 @@ namespace Gui
     {
         virtual ~Initializator();
 
-        virtual void init(int argc, char** argv);
-        virtual int run();
-        virtual void quit();
+        virtual void run(int argc, char** argv);
     };
 }
 

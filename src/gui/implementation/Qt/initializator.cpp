@@ -26,37 +26,27 @@
 
 #include <QApplication>
 
+#include "ui_mainwindow.h"
+
 namespace Gui
 {
     namespace
     {
 
-        void gui_thread(int argc, char **argv)
-        {
-            QApplication app(argc, argv);
-
-            app.exec();
-        }
-
         struct GuiThread
         {
-            void init(int argc, char **argv)
+            void run(int argc, char **argv)
             {
-                assert(m_thread == nullptr);
-                m_argc = argc;
-                m_argv = argv;
-            }
+                QApplication app(argc, argv);
 
-            void run()
-            {
-                m_thread = new std::thread(gui_thread, m_argc, m_argv);
-            }
+                QMainWindow qMainWindow;
 
-            void quit()
-            {
-                assert(m_thread != nullptr);
+                Ui_MainWindow mainWindow;
+                mainWindow.setupUi(&qMainWindow);
 
-                m_thread->join();
+                qMainWindow.show();
+
+                app.exec();
             }
 
             static GuiThread* get()
@@ -67,14 +57,10 @@ namespace Gui
             }
 
             private:
-                GuiThread(): m_thread(nullptr), m_argc(0), m_argv(nullptr)
+                GuiThread()
                 {
 
                 }
-
-                std::thread *m_thread;
-                int m_argc;
-                char **m_argv;
         };
     }
 
@@ -85,22 +71,9 @@ namespace Gui
     }
 
 
-    void Initializator::init(int argc, char** argv)
+    void Initializator::run(int argc, char** argv)
     {
-        GuiThread::get()->init(argc, argv);
-    }
-
-
-    int Initializator::run()
-    {
-        GuiThread::get()->run();
-        return 0;
-    }
-
-
-    void Initializator::quit()
-    {
-        GuiThread::get()->quit();
+        GuiThread::get()->run(argc, argv);
     }
 
 }

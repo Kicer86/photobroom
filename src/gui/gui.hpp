@@ -14,9 +14,7 @@ namespace Gui
     struct IUi
     {
         virtual ~IUi() {}
-        virtual void init (int argc, char **argv) = 0;
-        virtual int run() = 0;
-        virtual void quit() = 0;
+        virtual void run (int argc, char **argv) = 0;
     };
     
     
