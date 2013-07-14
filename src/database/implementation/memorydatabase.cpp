@@ -128,7 +128,6 @@ namespace Database
                     }
                     else
                         assert(m_storekeeperWork == false);       //the only reason for empty queue is that we are quiting
-                    
                 }
                 while(m_updateQueue.empty() == false);  //do not back to main loop as long as there some data to be stored
             }
