@@ -1,7 +1,7 @@
 
 #include "gui.hpp"
 
-#include "implementation/Qt/initializator.hpp"
+#include "initializator.hpp"
 
 namespace Gui
 {

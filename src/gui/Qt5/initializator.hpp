@@ -21,7 +21,7 @@
 #ifndef INITIALIZATOR_HPP
 #define INITIALIZATOR_HPP
 
-#include "../../gui.hpp"
+#include "gui.hpp"
 
 #include "qtgui_export.h"
 

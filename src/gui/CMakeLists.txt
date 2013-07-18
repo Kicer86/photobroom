@@ -2,24 +2,32 @@
 
 project(gui)
 
-add_subdirectory(implementation/Qt)
+find_package(Qt5Widgets REQUIRED)
 
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/exports/ .)
 
 set(GUI_SOURCES
-    implementation/gui.cpp
+    Qt5/gui.cpp
+    Qt5/initializator.cpp
+    Qt5/mainwindow.cpp
     )
 
-set(Gui_HEADERS
+set(GUI_HEADERS
     gui.hpp
+    Qt5/initializator.hpp
     )
+
+set(GUI_HPP_FILES
+    Qt5/mainwindow.hpp)
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-add_library(gui SHARED ${GUI_SOURCES} ${GUI_HEADERS})
-target_link_libraries(gui QtGui)
+qt5_wrap_cpp(GUI_WRAPPED_MOC ${GUI_HPP_FILES})
+
+add_library(gui SHARED ${GUI_SOURCES} ${GUI_MOC_FILES} ${GUI_HEADERS} ${GUI_HPP_FILES})
+qt5_use_modules(gui Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
 turnOnCpp11(gui)

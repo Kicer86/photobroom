@@ -1,7 +1,7 @@
 
 project(qtgui)
 
-find_package(Qt5Widgets REQUIRED)
+
 
 include(GenerateExportHeader)
 
@@ -15,9 +15,9 @@ set(QtGUI_HEADERS
     initializator.hpp
     )
 
-set(QtGUI_UI 
-    ui/mainwindow.ui
-   )
+#set(QtGUI_UI 
+#    ui/mainwindow.ui
+#   )
 
 source_group(files REGULAR_EXPRESSION .*Qt.* )
 
