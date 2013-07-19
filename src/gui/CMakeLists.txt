@@ -1,5 +1,4 @@
 
-
 project(gui)
 
 find_package(Qt5Widgets REQUIRED)
@@ -12,6 +11,7 @@ set(GUI_SOURCES
     Qt5/gui.cpp
     Qt5/initializator.cpp
     Qt5/mainwindow.cpp
+    Qt5/centralwidget.cpp
     )
 
 set(GUI_HEADERS
@@ -20,7 +20,8 @@ set(GUI_HEADERS
     )
 
 set(GUI_HPP_FILES
-    Qt5/mainwindow.hpp)
+    Qt5/mainwindow.hpp
+    Qt5/centralwidget.hpp)
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
