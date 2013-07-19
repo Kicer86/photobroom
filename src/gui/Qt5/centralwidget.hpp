@@ -2,9 +2,9 @@
 #ifndef __CENTRAL_WIDGET_HPP__
 #define __CENTRAL_WIDGET_HPP__
 
-#include <QWidget>
+#include <QTabWidget>
 
-class CentralWidget: public QWidget
+class CentralWidget: public QTabWidget
 {
     public:
         CentralWidget(QWidget *);
