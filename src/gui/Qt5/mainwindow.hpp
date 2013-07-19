@@ -1,3 +1,4 @@
+
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
@@ -8,8 +9,6 @@
 
 class MainWindow : public QMainWindow
 {
-        Q_OBJECT
-
     public:
         explicit MainWindow(QWidget *parent = 0);
         virtual ~MainWindow();
@@ -18,12 +17,7 @@ class MainWindow : public QMainWindow
 
     private:
         struct GuiData;
-        std::unique_ptr<GuiData> m_gui;
-
-    signals:
-
-    public slots:
-    
+        std::unique_ptr<GuiData> m_gui;    
 };
 
 #endif // MAINWINDOW_HPP
