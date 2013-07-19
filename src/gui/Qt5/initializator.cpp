@@ -26,6 +26,7 @@
 
 #include <QApplication>
 
+#include "mainwindow.hpp"
 
 namespace Gui
 {
@@ -37,8 +38,9 @@ namespace Gui
             void run(int argc, char **argv)
             {
                 QApplication app(argc, argv);
+                MainWindow mainWindow;
 
-
+                mainWindow.show();
                 app.exec();
             }
 
