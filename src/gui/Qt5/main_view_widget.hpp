@@ -6,11 +6,8 @@
 
 class MainViewWidget : public QWidget
 {
-
     public:
         explicit MainViewWidget(QWidget *parent = 0);
-
-
 
 };
 
