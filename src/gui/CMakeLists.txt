@@ -13,6 +13,7 @@ set(GUI_SOURCES
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
     Qt5/main_view_widget.cpp
+    Qt5/preparing_photos_widget.cpp
     )
 
 set(GUI_HEADERS
@@ -24,6 +25,7 @@ set(GUI_HPP_FILES
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/main_view_widget.hpp
+    Qt5/preparing_photos_widget.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
