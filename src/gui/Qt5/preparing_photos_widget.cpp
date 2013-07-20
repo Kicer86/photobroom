@@ -3,4 +3,10 @@
 
 PreparingPhotosWidget::PreparingPhotosWidget(QWidget *parent): QWidget(parent)
 {
+
+}
+
+
+PreparingPhotosWidget::~PreparingPhotosWidget()
+{
 }

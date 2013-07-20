@@ -9,6 +9,7 @@ class PreparingPhotosWidget: public QWidget
 
     public:
         explicit PreparingPhotosWidget(QWidget *parent = 0);
+        virtual ~PreparingPhotosWidget();
 
 };
 
