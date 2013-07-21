@@ -3,17 +3,21 @@
 
 #include <QVBoxLayout>
 
-
-struct BrowseList: public QWidget
+namespace
 {
-    BrowseList(QWidget *parent): QWidget(parent)
-    {
-    }
 
-    ~BrowseList()
+    struct BrowseList: public QWidget
     {
-    }
-};
+        BrowseList(QWidget *parent): QWidget(parent)
+        {
+        }
+
+        ~BrowseList()
+        {
+        }
+    };
+
+}
 
 
 struct PreparingPhotosWidget::GuiData
