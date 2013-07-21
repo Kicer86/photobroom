@@ -13,6 +13,7 @@ set(GUI_SOURCES
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
     Qt5/main_view_widget.cpp
+    Qt5/photos_editor_widget.cpp
     Qt5/preparing_photos_widget.cpp
     )
 
@@ -22,6 +23,7 @@ set(GUI_HEADERS
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/main_view_widget.hpp
+    Qt5/photos_editor_widget.hpp
     Qt5/preparing_photos_widget.hpp
     )
 
