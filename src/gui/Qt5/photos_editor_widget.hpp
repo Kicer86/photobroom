@@ -6,7 +6,7 @@
 
 #include <QWidget>
 
-class PhotosEditorWidget : public QWidget
+class PhotosEditorWidget: public QWidget
 {
     public:
         explicit PhotosEditorWidget(QWidget *parent = 0);
@@ -22,6 +22,8 @@ class PhotosEditorWidget : public QWidget
         }
 
         void addPhoto(const std::string &);
+
+    protected:
 
     private:
         struct GuiData;
