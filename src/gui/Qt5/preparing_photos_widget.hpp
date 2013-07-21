@@ -2,7 +2,6 @@
 #ifndef PREPARING_PHOTOS_WIDGET_H
 #define PREPARING_PHOTOS_WIDGET_H
 
-#include <memory>
 
 #include <QWidget>
 
@@ -15,7 +14,7 @@ class PreparingPhotosWidget: public QWidget
 
     private:
         struct GuiData;
-        std::unique_ptr<GuiData> m_gui;
+        GuiData *m_gui;
 
 };
 

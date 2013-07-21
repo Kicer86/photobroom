@@ -69,35 +69,55 @@ namespace
         {
             QVBoxLayout *layout = new QVBoxLayout(this);
 
-            layout->addWidget(new BrowseLine(this));
+            BrowseLine *line = new BrowseLine(this);
+            layout->addWidget(line);
+            connect(line, SIGNAL(addPath(QString)), this, SLOT(addPathToAnalyze(QString)));
         }
 
         ~BrowseList()
         {
         }
+
+        signals:
+            void addPath(QString);
+
+        private slots:
+            void addPathToAnalyze(QString path)
+            {
+                emit addPath(path);
+            }
     };
 
 }
 
 
-struct PreparingPhotosWidget::GuiData
+struct PreparingPhotosWidget::GuiData: public QObject
 {
-    GuiData(QWidget *preparer): m_preparer(preparer)
+    GuiData(QWidget *preparer): QObject(this), m_preparer(preparer), m_editor(nullptr)
     {
         QVBoxLayout *layout = new QVBoxLayout(preparer);
 
         BrowseLine *browse = new BrowseLine(preparer);
-        PhotosEditorWidget *editor = new PhotosEditorWidget(preparer);
+        m_editor = new PhotosEditorWidget(preparer);
 
         browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+        connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
 
         layout->addWidget(browse);
-        layout->addWidget(editor);
+        layout->addWidget(m_editor);
     }
 
     ~GuiData() {}
 
-    QWidget *m_preparer;
+    private:
+        QWidget *m_preparer;
+        PhotosEditorWidget *m_editor;
+
+    private slots:
+        void pathToAnalyze(QString path)
+        {
+
+        }
 };
 
 
