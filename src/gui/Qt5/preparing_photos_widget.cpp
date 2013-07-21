@@ -33,14 +33,33 @@ namespace
             layout->addWidget(m_line);
             layout->addWidget(m_button);
             layout->addWidget(m_addButton);
+
+            connect(m_button, SIGNAL(clicked()), this, SLOT(browseButtonClicked()));
+            connect(m_addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
         }
 
         ~BrowseLine() {}
 
-        QFileDialog *m_dialog;
-        QPushButton *m_button;
-        QLineEdit   *m_line;
-        QPushButton *m_addButton;
+        signals:
+            void addPath(QString);
+
+        private slots:
+            QFileDialog *m_dialog;
+            QPushButton *m_button;
+            QLineEdit   *m_line;
+            QPushButton *m_addButton;
+
+            void browseButtonClicked()
+            {
+
+            }
+
+            void addButtonClicked()
+            {
+                const QString path = m_line->text();
+
+                emit addPath(path);
+            }
     };
 
 
