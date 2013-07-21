@@ -8,30 +8,39 @@
 #include <QFileDialog>
 #include <QLabel>
 
+#include "photos_editor_widget.hpp"
+
 namespace
 {
 
     struct BrowseLine: public QWidget
     {
 
-        BrowseLine(QWidget *parent): QWidget(parent), m_button(nullptr), m_line(nullptr)
+        BrowseLine(QWidget *parent):
+            QWidget(parent),
+            m_dialog(nullptr),
+            m_button(nullptr),
+            m_line(nullptr),
+            m_addButton(nullptr)
         {
             m_button = new QPushButton(tr("Browse"), this);
             m_line = new QLineEdit(this);
+            m_addButton = new QPushButton(tr("add"));
 
             QHBoxLayout *layout = new QHBoxLayout(this);
 
             layout->addWidget(new QLabel(tr("Path to photos:"), this));
             layout->addWidget(m_line);
             layout->addWidget(m_button);
+            layout->addWidget(m_addButton);
         }
 
         ~BrowseLine() {}
 
         QFileDialog *m_dialog;
         QPushButton *m_button;
-        QLineEdit *m_line;
-
+        QLineEdit   *m_line;
+        QPushButton *m_addButton;
     };
 
 
@@ -58,8 +67,13 @@ struct PreparingPhotosWidget::GuiData
     {
         QVBoxLayout *layout = new QVBoxLayout(preparer);
 
-        layout->addWidget(new BrowseList(preparer));
-        layout->addWidget(new QWidget(preparer));
+        BrowseLine *browse = new BrowseLine(preparer);
+        PhotosEditorWidget *editor = new PhotosEditorWidget(preparer);
+
+        browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        layout->addWidget(browse);
+        layout->addWidget(editor);
     }
 
     ~GuiData() {}
