@@ -19,13 +19,13 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     gui.hpp
     Qt5/initializator.hpp
-    )
-
-set(GUI_HPP_FILES
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/main_view_widget.hpp
     Qt5/preparing_photos_widget.hpp
+    )
+
+set(GUI_HPP_FILES
     )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
