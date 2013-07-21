@@ -6,6 +6,6 @@
 
 CentralWidget::CentralWidget(QWidget *parent): QTabWidget(parent)
 {
-    addTab(new MainViewWidget, tr("Photos"));
-    addTab(new PreparingPhotosWidget, tr("Add photos"));
+    addTab(new MainViewWidget(this), tr("Photos"));
+    addTab(new PreparingPhotosWidget(this), tr("Add photos"));
 }
