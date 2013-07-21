@@ -93,7 +93,7 @@ namespace
 
 struct PreparingPhotosWidget::GuiData: public QObject
 {
-    GuiData(QWidget *preparer): QObject(this), m_preparer(preparer), m_editor(nullptr)
+    GuiData(QWidget *preparer): QObject(preparer), m_preparer(preparer), m_editor(nullptr)
     {
         QVBoxLayout *layout = new QVBoxLayout(preparer);
 
