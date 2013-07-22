@@ -32,6 +32,7 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     Qt5/private/preparing_photos_widget_private.hpp
+    Qt5/preparing_photos_widget.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )

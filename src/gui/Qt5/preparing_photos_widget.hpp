@@ -8,6 +8,8 @@ class PhotosEditorWidget;
 
 class PreparingPhotosWidget: public QWidget
 {
+        Q_OBJECT
+
     public:
         explicit PreparingPhotosWidget(QWidget *parent = 0);
         virtual ~PreparingPhotosWidget();
