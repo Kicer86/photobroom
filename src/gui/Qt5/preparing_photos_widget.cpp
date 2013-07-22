@@ -7,6 +7,7 @@
 #include "photos_editor_widget.hpp"
 
 #include "analyzer/photo_crawler_builder.hpp"
+#include "analyzer/iphoto_crawler.hpp"
 
 
 PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
@@ -34,5 +35,9 @@ PreparingPhotosWidget::~PreparingPhotosWidget()
 
 void PreparingPhotosWidget::pathToAnalyze(QString path)
 {
+    std::shared_ptr<IPhotoCrawler> crawler = PhotoCrawlerBuilder().build();
 
+    std::vector<std::string> files = crawler->crawl(path.toStdString());
+
+    m_editor->addPhotos(files);
 }
