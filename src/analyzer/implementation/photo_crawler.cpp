@@ -26,18 +26,14 @@ PhotoCrawler::~PhotoCrawler()
 }
 
 
-std::vector<std::string> PhotoCrawler::crawl(const std::vector< std::string > &paths)
+std::vector<std::string> PhotoCrawler::crawl(const std::string &path)
 {
+    std::vector<std::string> files = m_impl->m_scanner->getFilesFor(path);
+
     std::vector<std::string> mediaFiles;
-    
-	for(auto path: paths)
-	{
-		std::vector<std::string> files = m_impl->m_scanner->getFilesFor(path);
-        
-        for(auto file: files)
-            if (m_impl->m_analyzer->isImage(file))
-                mediaFiles.push_back(file);
-	}
+    for(auto file: files)
+        if (m_impl->m_analyzer->isImage(file))
+            mediaFiles.push_back(file);
 	
 	return mediaFiles;
 }

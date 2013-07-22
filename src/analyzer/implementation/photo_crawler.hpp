@@ -15,7 +15,7 @@ class PhotoCrawler: public IPhotoCrawler
         PhotoCrawler(IFileSystemScanner *, IAnalyzer *);
         virtual ~PhotoCrawler();
         
-        std::vector<std::string> crawl( const std::vector< std::string >& paths ) override;
+        std::vector<std::string> crawl( const std::string& path ) override;
 		virtual void setRules(const Rules &) override;
 
 	private: 
