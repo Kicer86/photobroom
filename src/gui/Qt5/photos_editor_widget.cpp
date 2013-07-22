@@ -34,8 +34,18 @@ namespace
 
         void add(const PhotoInfo &photoInfo)
         {
+            QModelIndex parentIndex;
+            const int items = m_photos.size();
+            
+            beginInsertRows(parentIndex, items, items);
+            
             m_photos.push_back(photoInfo);
+            
+            endInsertRows();
         }
+        
+        //QAbstractItemModel:
+        
 
         //QAbstractListModel:
         int rowCount(const QModelIndex &/*parent*/) const
