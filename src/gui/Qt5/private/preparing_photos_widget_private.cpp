@@ -10,8 +10,8 @@
 
 #include "../photos_editor_widget.hpp"
 
-BrowseLine::BrowseLine(QWidget *parent):
-    QWidget(parent),
+BrowseLine::BrowseLine(QWidget *p):
+    QWidget(p),
     m_dialog(nullptr),
     m_button(nullptr),
     m_line(nullptr),
@@ -21,12 +21,12 @@ BrowseLine::BrowseLine(QWidget *parent):
     m_line = new QLineEdit(this);
     m_addButton = new QPushButton(tr("add"));
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
 
-    layout->addWidget(new QLabel(tr("Path to photos:"), this));
-    layout->addWidget(m_line);
-    layout->addWidget(m_button);
-    layout->addWidget(m_addButton);
+    mainLayout->addWidget(new QLabel(tr("Path to photos:"), this));
+    mainLayout->addWidget(m_line);
+    mainLayout->addWidget(m_button);
+    mainLayout->addWidget(m_addButton);
 
     connect(m_button, SIGNAL(clicked()), this, SLOT(browseButtonClicked()));
     connect(m_addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
@@ -53,12 +53,12 @@ void BrowseLine::addButtonClicked()
 }
 
 
-BrowseList::BrowseList(QWidget *parent): QWidget(parent)
+BrowseList::BrowseList(QWidget *p): QWidget(p)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     BrowseLine *line = new BrowseLine(this);
-    layout->addWidget(line);
+    mainLayout->addWidget(line);
     connect(line, SIGNAL(addPath(QString)), this, SLOT(addPathToAnalyze(QString)));
 }
 

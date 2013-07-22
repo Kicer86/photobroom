@@ -20,7 +20,7 @@ struct MainWindow::GuiData
 };
 
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_gui(new GuiData(this))
+MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_gui(new GuiData(this))
 {
 
 }

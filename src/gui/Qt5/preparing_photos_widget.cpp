@@ -9,11 +9,11 @@
 #include "analyzer/photo_crawler_builder.hpp"
 
 
-PreparingPhotosWidget::PreparingPhotosWidget(QWidget *parent):
-    QWidget(parent),
+PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
+    QWidget(p),
     m_editor(nullptr)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     BrowseLine *browse = new BrowseLine(this);
     m_editor = new PhotosEditorWidget(this);
@@ -21,8 +21,8 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *parent):
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
 
-    layout->addWidget(browse);
-    layout->addWidget(m_editor);
+    mainLayout->addWidget(browse);
+    mainLayout->addWidget(m_editor);
 }
 
 

@@ -12,6 +12,9 @@ class PreparingPhotosWidget: public QWidget
         explicit PreparingPhotosWidget(QWidget *parent = 0);
         virtual ~PreparingPhotosWidget();
 
+        PreparingPhotosWidget(const PreparingPhotosWidget &) = delete;
+        void operator=(const PreparingPhotosWidget &) = delete;
+
     private:
         PhotosEditorWidget *m_editor;
 

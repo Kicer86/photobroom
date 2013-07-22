@@ -17,6 +17,9 @@ struct BrowseLine: public QWidget
         BrowseLine(QWidget *);
         ~BrowseLine();
 
+        BrowseLine(const BrowseLine &) = delete;
+        void operator=(const BrowseLine &) = delete;
+
     signals:
         void addPath(QString);
 

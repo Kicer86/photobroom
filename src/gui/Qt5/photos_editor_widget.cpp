@@ -10,7 +10,7 @@ namespace
 {
     struct PhotoInfo
     {
-        PhotoInfo(const QString &path): pixmap(path), path(path)
+        PhotoInfo(const QString &p): pixmap(p), path(p)
         {
         }
 
@@ -27,6 +27,9 @@ namespace
 
     struct PhotosModel: public QAbstractListModel
     {
+
+        PhotosModel(): QAbstractListModel(), m_photos() {}
+
         std::vector<PhotoInfo> m_photos;
 
         void add(const PhotoInfo &photoInfo)
@@ -35,14 +38,14 @@ namespace
         }
 
         //QAbstractListModel:
-        int rowCount(const QModelIndex &parent) const
+        int rowCount(const QModelIndex &/*parent*/) const
         {
             return m_photos.size();
         }
 
-        QVariant data(const QModelIndex &index, int role) const
+        QVariant data(const QModelIndex &_index, int role) const
         {
-            const int row = index.row();
+            const int row = _index.row();
             const PhotoInfo &info = m_photos[row];
 
             QVariant result;
@@ -60,6 +63,8 @@ namespace
                 default:
                     break;
             }
+
+            return result;
         }
     };
 
@@ -77,7 +82,9 @@ struct PhotosEditorWidget::GuiData
         layout->addWidget(m_photosView);
     }
 
-    ~GuiData() {}
+    GuiData(const GuiData &) = delete;
+    ~GuiData() {}    
+    void operator=(const GuiData &) = delete;
 
     void addPhoto(const std::string &path)
     {
@@ -94,7 +101,7 @@ struct PhotosEditorWidget::GuiData
 };
 
 
-PhotosEditorWidget::PhotosEditorWidget(QWidget *parent): QWidget(parent), m_gui(new GuiData(this))
+PhotosEditorWidget::PhotosEditorWidget(QWidget *p): QWidget(p), m_gui(new GuiData(this))
 {
 }
 
