@@ -8,7 +8,6 @@
 #include <QFileDialog>
 #include <QLabel>
 
-#include "../preparing_photos_widget.hpp"
 #include "../photos_editor_widget.hpp"
 
 BrowseLine::BrowseLine(QWidget *parent):
@@ -73,31 +72,3 @@ void BrowseList::addPathToAnalyze(QString path)
 {
     emit addPath(path);
 }
-
-
-PreparingPhotosWidget::GuiData::GuiData(QWidget *preparer): QObject(preparer), m_preparer(preparer), m_editor(nullptr)
-{
-    QVBoxLayout *layout = new QVBoxLayout(preparer);
-
-    BrowseLine *browse = new BrowseLine(preparer);
-    m_editor = new PhotosEditorWidget(preparer);
-
-    browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
-
-    layout->addWidget(browse);
-    layout->addWidget(m_editor);
-}
-
-
-PreparingPhotosWidget::GuiData::~GuiData()
-{
-
-}
-
-
-void PreparingPhotosWidget::GuiData::pathToAnalyze(QString path)
-{
-
-}
-

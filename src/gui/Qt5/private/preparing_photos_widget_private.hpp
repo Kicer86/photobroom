@@ -4,14 +4,10 @@
 
 #include <QWidget>
 
-#include "../preparing_photos_widget.hpp"
-
 class QFileDialog;
 class QPushButton;
 class QLineEdit;
 class QPushButton;
-
-class PhotosEditorWidget;
 
 struct BrowseLine: public QWidget
 {
@@ -49,23 +45,6 @@ struct BrowseList: public QWidget
 
     private slots:
         void addPathToAnalyze(QString);
-};
-
-
-struct PreparingPhotosWidget::GuiData: public QObject
-{
-    Q_OBJECT
-
-    public:
-        GuiData(QWidget *);
-        ~GuiData();
-
-    private:
-        QWidget *m_preparer;
-        PhotosEditorWidget *m_editor;
-
-    private slots:
-        void pathToAnalyze(QString);
 };
 
 #endif

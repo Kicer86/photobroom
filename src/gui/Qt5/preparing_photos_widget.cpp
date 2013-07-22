@@ -2,17 +2,35 @@
 #include "preparing_photos_widget.hpp"
 #include "private/preparing_photos_widget_private.hpp"
 
+#include <QVBoxLayout>
+
 #include "photos_editor_widget.hpp"
 
 
-PreparingPhotosWidget::PreparingPhotosWidget(QWidget *parent): QWidget(parent), m_gui(new GuiData(this))
+PreparingPhotosWidget::PreparingPhotosWidget(QWidget *parent):
+    QWidget(parent),
+    m_editor(nullptr)
 {
+    QVBoxLayout *layout = new QVBoxLayout(this);
 
+    BrowseLine *browse = new BrowseLine(this);
+    m_editor = new PhotosEditorWidget(this);
+
+    browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
+
+    layout->addWidget(browse);
+    layout->addWidget(m_editor);
 }
 
 
 PreparingPhotosWidget::~PreparingPhotosWidget()
 {
+
 }
 
-//#include "moc_preparing_photos_widget.h"
+
+void PreparingPhotosWidget::pathToAnalyze(QString path)
+{
+
+}
