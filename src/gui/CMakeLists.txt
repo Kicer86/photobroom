@@ -5,7 +5,7 @@ find_package(Qt5Widgets REQUIRED)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/exports/ .)
+include_directories(. ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src)
 
 set(GUI_SOURCES
     Qt5/gui.cpp

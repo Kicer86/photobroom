@@ -6,6 +6,8 @@
 
 #include "photos_editor_widget.hpp"
 
+#include "analyzer/photo_crawler_builder.hpp"
+
 
 PreparingPhotosWidget::PreparingPhotosWidget(QWidget *parent):
     QWidget(parent),
