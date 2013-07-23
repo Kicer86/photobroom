@@ -8,6 +8,14 @@
 
 namespace
 {
+
+    //TODO: remove, use config
+    const int photoWidth = 120;
+    const int leftMargin = 20;
+    const int rightMargin = 20;
+    const int topMargin  = 20;
+    //
+    
     struct PhotoInfo
     {
         PhotoInfo(const QString &p): pixmap(p), path(p)
@@ -17,13 +25,6 @@ namespace
         QPixmap pixmap;
         QString path;
     };
-
-    //TODO: remove, use config
-    const int photoWidth = 120;
-    const int leftMargin = 20;
-    const int rightMargin = 20;
-    const int topMargin  = 20;
-    //
 
     struct PhotosModel: public QAbstractListModel
     {
@@ -77,14 +78,31 @@ namespace
             return result;
         }
     };
-    
+       
     
     struct PhotosView: public QAbstractItemView
     {
         explicit PhotosView(QWidget* p): QAbstractItemView(p) {}
         
+        virtual void paintEvent(QPaintEvent* )
+        {
+            
+        }
+        
+        //QAbstractItemView pure virtuals:
         virtual QRect visualRect(const QModelIndex& index) const
         {
+            QAbstractItemModel *dataModel = model();
+            QRect result;
+            
+            if (dataModel != nullptr)
+            {
+                QVariant image = dataModel->data(index, Qt::DisplayRole);
+                
+                result = image.toRect();
+            }
+            
+            return result;
         }
         
         virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible)
@@ -93,22 +111,31 @@ namespace
         
         virtual QModelIndex indexAt(const QPoint& point) const
         {
+            QModelIndex result;
+            
+            return result;
         }
         
         virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
         {
+            QModelIndex result;
+            
+            return result;
         }
         
         virtual int horizontalOffset() const
         {
+            return 0;
         }
         
         virtual int verticalOffset() const
         {
+            return 0;
         }
         
         virtual bool isIndexHidden(const QModelIndex& index) const
         {
+            return false;
         }
         
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
@@ -117,6 +144,9 @@ namespace
         
         virtual QRegion visualRegionForSelection(const QItemSelection& selection) const
         {
+            QRegion result;
+            
+            return result;
         }
     };
 
