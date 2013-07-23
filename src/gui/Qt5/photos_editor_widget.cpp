@@ -2,7 +2,7 @@
 #include "photos_editor_widget.hpp"
 
 #include <QVBoxLayout>
-#include <QListView>
+#include <QAbstractItemView>
 #include <QAbstractListModel>
 #include <QPixmap>
 
@@ -77,6 +77,48 @@ namespace
             return result;
         }
     };
+    
+    
+    struct PhotosView: public QAbstractItemView
+    {
+        explicit PhotosView(QWidget* p): QAbstractItemView(p) {}
+        
+        virtual QRect visualRect(const QModelIndex& index) const
+        {
+        }
+        
+        virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible)
+        {
+        }
+        
+        virtual QModelIndex indexAt(const QPoint& point) const
+        {
+        }
+        
+        virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
+        {
+        }
+        
+        virtual int horizontalOffset() const
+        {
+        }
+        
+        virtual int verticalOffset() const
+        {
+        }
+        
+        virtual bool isIndexHidden(const QModelIndex& index) const
+        {
+        }
+        
+        virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
+        {
+        }
+        
+        virtual QRegion visualRegionForSelection(const QItemSelection& selection) const
+        {
+        }
+    };
 
 }
 
@@ -85,7 +127,7 @@ struct PhotosEditorWidget::GuiData
 {
     GuiData(QWidget *editor): m_editor(editor), m_photosModel(), m_photosView(nullptr)
     {
-        m_photosView = new QListView(m_editor);
+        m_photosView = new PhotosView(m_editor);
         m_photosView->setModel(&m_photosModel);
 
         QVBoxLayout *layout = new QVBoxLayout(m_editor);
@@ -107,7 +149,7 @@ struct PhotosEditorWidget::GuiData
         QWidget *m_editor;
 
         PhotosModel m_photosModel;
-        QListView *m_photosView;
+        PhotosView *m_photosView;
 };
 
 
