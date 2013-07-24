@@ -1,10 +1,18 @@
 
 #include "photos_editor_widget.hpp"
 
+#include <assert.h>
+
 #include <QVBoxLayout>
 #include <QAbstractItemView>
 #include <QAbstractListModel>
 #include <QPixmap>
+#include <QPainter>
+
+//usefull links:
+//http://www.informit.com/articles/article.aspx?p=1613548
+//http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html
+//http://qt-project.org/doc/qt-5.1/qtwidgets/qabstractitemview.html
 
 namespace
 {
@@ -18,8 +26,11 @@ namespace
     
     struct PhotoInfo
     {
-        PhotoInfo(const QString &p): pixmap(p), path(p)
+        PhotoInfo(const QString &p): pixmap(), path(p)
         {
+            QPixmap tmp(p);
+            
+            pixmap = tmp.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
 
         QPixmap pixmap;
@@ -82,14 +93,92 @@ namespace
     
     struct PhotosView: public QAbstractItemView
     {
-        explicit PhotosView(QWidget* p): QAbstractItemView(p) {}
+        struct Cache
+        {            
+            std::vector<QRect> m_pos;         //position of items on grid
+            std::vector<int>   m_rows;        //each row's height
+            
+            void setItemsCount(int items)
+            {
+                m_pos.resize(items);
+                m_rows.resize(items);
+            }
+        };
         
+        std::unique_ptr<Cache> m_cache;
+        
+        explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(new Cache) {}
+        
+        void calculatePositions()
+        {
+            QAbstractItemModel *dataModel = model();
+            
+            if (dataModel != nullptr)
+            {
+                const int baseX = viewport()->x();
+                const int width = viewport()->width();
+                int x = baseX;
+                int y = viewport()->y();
+                int rowHeight = 0;
+                
+                const int items = dataModel->rowCount(QModelIndex());
+                m_cache->setItemsCount(items);
+                
+                for(int i = 0; i < items; i++)
+                {
+                    QModelIndex index = dataModel->index(i, 0);
+                    QVariant variant = dataModel->data(index, Qt::DecorationRole);
+                    
+                    QPixmap image = variant.value<QPixmap>();
+                    
+                    //image size
+                    QSize size = image.size();                    
+                    
+                    //save position
+                    QRect position(x, y, size.width(), size.height());
+                    m_cache->m_pos[i] = position;
+                    
+                    //calculate nex position
+                    if (x + size.width() >= width)
+                    {
+                        assert(rowHeight > 0);
+                        x = baseX;
+                        y += rowHeight;
+                        
+                        m_cache->m_rows[i] = rowHeight;
+                        rowHeight = 0;
+                    }
+                    else
+                    {
+                        x += size.width();
+                        rowHeight = std::max(rowHeight, size.height());                        
+                    }                    
+                    
+                }
+                
+            }
+        }        
+        
+        //QWidget's virtuals:
         virtual void paintEvent(QPaintEvent* )
         {
+            QPainter painter(viewport());
             
+            const int items = m_cache->m_pos.size();
+            QAbstractItemModel *dataModel = model();
+            
+            for (int i = 0; i < items; i++)
+            {
+                const QRect &rect = m_cache->m_pos[i];
+                QModelIndex idx = dataModel->index(i, 0);
+                QVariant rawData = dataModel->data(idx, Qt::DecorationRole);
+                QPixmap image = rawData.value<QPixmap>();
+                
+                painter.drawPixmap(rect, image);
+            }
         }
         
-        //QAbstractItemView pure virtuals:
+        //QAbstractItemView's pure virtuals:
         virtual QRect visualRect(const QModelIndex& index) const
         {
             QAbstractItemModel *dataModel = model();
@@ -97,9 +186,11 @@ namespace
             
             if (dataModel != nullptr)
             {
-                QVariant image = dataModel->data(index, Qt::DisplayRole);
+                const int row = index.row();
                 
-                result = image.toRect();
+                assert(row < m_cache->m_pos.size());
+                
+                result = m_cache->m_pos[row];
             }
             
             return result;
@@ -147,6 +238,18 @@ namespace
             QRegion result;
             
             return result;
+        }
+        
+        //QAbstractItemView's virtuals:
+        virtual void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector< int >& roles = QVector<int>())
+        {
+            QAbstractItemView::dataChanged(topLeft, bottomRight, roles);
+        }
+        
+        virtual void rowsInserted(const QModelIndex& parent, int start, int end)
+        {
+            calculatePositions();
+            QAbstractItemView::rowsInserted(parent, start, end);
         }
     };
 
