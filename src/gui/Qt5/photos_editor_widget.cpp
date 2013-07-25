@@ -217,13 +217,9 @@ namespace
                     {
                         //image size
                         QSize size = imageManager.size(i);
-
-                        //save position
-                        QRect position(x, y, size.width(), size.height());
-                        m_data->m_pos.push_back(position);
-
-                        //calculate nex position
-                        if (x + size.width() >= width)
+                        
+                        //check if position is correct
+                        if (x + size.width() >= width)      //no place? go to next row
                         {
                             assert(rowHeight > 0);
                             x = baseX;
@@ -232,12 +228,14 @@ namespace
                             m_data->m_rows.push_back(rowHeight);
                             rowHeight = 0;
                         }
-                        else
-                        {
-                            x += size.width();
-                            rowHeight = std::max(rowHeight, size.height());
-                        }
 
+                        //save position
+                        QRect position(x, y, size.width(), size.height());
+                        m_data->m_pos.push_back(position);
+                        
+                        x += size.width();
+                        
+                        rowHeight = std::max(rowHeight, size.height());
                     }
 
                 }
