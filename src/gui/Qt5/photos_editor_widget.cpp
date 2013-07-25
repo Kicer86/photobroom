@@ -37,10 +37,10 @@ namespace
         QString path;
     };
 
-    struct PhotosModel: public QAbstractListModel
+    struct ImagesModel: public QAbstractListModel
     {
 
-        PhotosModel(): QAbstractListModel(), m_photos() {}
+        ImagesModel(): QAbstractListModel(), m_photos() {}
 
         std::vector<PhotoInfo> m_photos;
 
@@ -203,11 +203,11 @@ namespace
     };
 
 
-    struct PhotosView: public QAbstractItemView
+    struct ImagesView: public QAbstractItemView
     {
         Cache m_cache;
 
-        explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(this) {}
+        explicit ImagesView(QWidget* p): QAbstractItemView(p), m_cache(this) {}
 
         //QWidget's virtuals:
         virtual void paintEvent(QPaintEvent* )
@@ -314,7 +314,7 @@ struct PhotosEditorWidget::GuiData
 {
         GuiData(QWidget *editor): m_editor(editor), m_photosModel(), m_photosView(nullptr)
         {
-            m_photosView = new PhotosView(m_editor);
+            m_photosView = new ImagesView(m_editor);
             m_photosView->setModel(&m_photosModel);
 
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
@@ -335,8 +335,8 @@ struct PhotosEditorWidget::GuiData
     private:
         QWidget *m_editor;
 
-        PhotosModel m_photosModel;
-        PhotosView *m_photosView;
+        ImagesModel m_photosModel;
+        ImagesView *m_photosView;
 };
 
 
