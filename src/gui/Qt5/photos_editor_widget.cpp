@@ -94,87 +94,130 @@ namespace
     struct PhotosView: public QAbstractItemView
     {
         struct Cache
-        {            
-            std::vector<QRect> m_pos;         //position of items on grid
-            std::vector<int>   m_rows;        //each row's height
+        {
+                Cache(QAbstractItemView *view): m_data(new MutableData(view)) {}
+                ~Cache() {}
             
-            void setItemsCount(int items)
-            {
-                m_pos.resize(items);
-                m_rows.resize(items);
-            }
+                void invalidate() const
+                {
+                    m_data->m_valid = false;
+                }
+                
+                size_t items() const
+                {
+                    validateCache();
+                    assert(m_data->m_pos.size() == m_data->m_rows.size());
+                    
+                    return m_data->m_pos.size();
+                }
+                
+                const QRect& pos(int i) const
+                {
+                    validateCache();
+                    return m_data->m_pos[i];
+                }
+            
+            private:                
+                struct MutableData
+                {
+                    MutableData(QAbstractItemView *view): m_valid(false), m_pos(), m_rows(), m_view(view) {}
+                    MutableData(const MutableData &) = delete;
+                    void operator=(const MutableData &) = delete;
+                    
+                    bool m_valid;
+                    std::vector<QRect> m_pos;         //position of items on grid
+                    std::vector<int>   m_rows;        //each row's height
+                    QAbstractItemView *m_view;
+                };
+                
+                std::unique_ptr<MutableData> m_data;
+                
+                void setItemsCount(int count) const
+                {
+                    m_data->m_pos.resize(count);
+                    m_data->m_rows.resize(count);
+                }
+                
+                void validateCache() const
+                {
+                    if (m_data->m_valid == false)
+                        reloadCache();
+                    
+                    m_data->m_valid = true;
+                }
+                
+                void reloadCache() const
+                {
+                    QAbstractItemModel *dataModel = m_data->m_view->model();
+            
+                    if (dataModel != nullptr)
+                    {
+                        const int baseX = m_data->m_view->viewport()->x();
+                        const int width = m_data->m_view->viewport()->width();
+                        int x = baseX;
+                        int y = m_data->m_view->viewport()->y();
+                        int rowHeight = 0;
+                        
+                        const int count = dataModel->rowCount(QModelIndex());
+                        setItemsCount(count);
+                        
+                        for(int i = 0; i < count; i++)
+                        {
+                            QModelIndex index = dataModel->index(i, 0);
+                            QVariant variant = dataModel->data(index, Qt::DecorationRole);
+                            
+                            QPixmap image = variant.value<QPixmap>();
+                            
+                            //image size
+                            QSize size = image.size();                    
+                            
+                            //save position
+                            QRect position(x, y, size.width(), size.height());
+                            m_data->m_pos[i] = position;
+                            
+                            //calculate nex position
+                            if (x + size.width() >= width)
+                            {
+                                assert(rowHeight > 0);
+                                x = baseX;
+                                y += rowHeight;
+                                
+                                m_data->m_rows[i] = rowHeight;
+                                rowHeight = 0;
+                            }
+                            else
+                            {
+                                x += size.width();
+                                rowHeight = std::max(rowHeight, size.height());                        
+                            }                    
+                            
+                        }
+                        
+                    }
+                }
         };
         
         std::unique_ptr<Cache> m_cache;
         
-        explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(new Cache) {}
-        
-        void calculatePositions()
-        {
-            QAbstractItemModel *dataModel = model();
-            
-            if (dataModel != nullptr)
-            {
-                const int baseX = viewport()->x();
-                const int width = viewport()->width();
-                int x = baseX;
-                int y = viewport()->y();
-                int rowHeight = 0;
-                
-                const int items = dataModel->rowCount(QModelIndex());
-                m_cache->setItemsCount(items);
-                
-                for(int i = 0; i < items; i++)
-                {
-                    QModelIndex index = dataModel->index(i, 0);
-                    QVariant variant = dataModel->data(index, Qt::DecorationRole);
-                    
-                    QPixmap image = variant.value<QPixmap>();
-                    
-                    //image size
-                    QSize size = image.size();                    
-                    
-                    //save position
-                    QRect position(x, y, size.width(), size.height());
-                    m_cache->m_pos[i] = position;
-                    
-                    //calculate nex position
-                    if (x + size.width() >= width)
-                    {
-                        assert(rowHeight > 0);
-                        x = baseX;
-                        y += rowHeight;
-                        
-                        m_cache->m_rows[i] = rowHeight;
-                        rowHeight = 0;
-                    }
-                    else
-                    {
-                        x += size.width();
-                        rowHeight = std::max(rowHeight, size.height());                        
-                    }                    
-                    
-                }
-                
-            }
-        }        
+        explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(new Cache(this)) {}
+       
         
         //QWidget's virtuals:
         virtual void paintEvent(QPaintEvent* )
         {
             QPainter painter(viewport());
             
-            const int items = m_cache->m_pos.size();
+            const int items = m_cache->items();
             QAbstractItemModel *dataModel = model();
             
             for (int i = 0; i < items; i++)
             {
-                const QRect &rect = m_cache->m_pos[i];
+                const QRect &position = m_cache->pos(i);
                 QModelIndex idx = dataModel->index(i, 0);
                 QVariant rawData = dataModel->data(idx, Qt::DecorationRole);
                 QPixmap image = rawData.value<QPixmap>();
                 
-                painter.drawPixmap(rect, image);
+                painter.drawPixmap(position, image);
             }
         }
         
@@ -186,11 +229,8 @@ namespace
             
             if (dataModel != nullptr)
             {
-                const int row = index.row();
-                
-                assert(row < m_cache->m_pos.size());
-                
-                result = m_cache->m_pos[row];
+                const int row = index.row();                
+                result = m_cache->pos(row);
             }
             
             return result;
@@ -248,8 +288,14 @@ namespace
         
         virtual void rowsInserted(const QModelIndex& parent, int start, int end)
         {
-            calculatePositions();
+            m_cache->invalidate();
             QAbstractItemView::rowsInserted(parent, start, end);
+        }
+        
+        virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
+        {
+            m_cache->invalidate();
+            QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
         }
     };
 
