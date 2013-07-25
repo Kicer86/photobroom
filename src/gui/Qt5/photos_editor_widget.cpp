@@ -22,6 +22,7 @@ namespace
     const int leftMargin = 20;
     const int rightMargin = 20;
     const int topMargin  = 20;
+    const int imageMargin = 10;
     //
 
     struct PhotoInfo
@@ -93,7 +94,51 @@ namespace
     
     struct ImageAdaptor
     {
+        ImageAdaptor(QAbstractItemModel *model): m_model(model) {}
+        ~ImageAdaptor() {}
         
+        QSize size(int i) const           //size of 'index' item in model
+        {
+            QPixmap image(getPixmap(i));
+
+            //image size
+            QSize size = image.size();
+            
+            //add margins
+            size.rwidth() += imageMargin * 2;
+            size.rheight() += imageMargin * 2;
+            
+            return size;
+        }
+        
+        void draw(int i, QPainter *painter, const QRect &rect) const
+        {
+            QPixmap image(getPixmap(i));
+            
+            //image size
+            QSize size = image.size();
+    
+            QPoint center = rect.center();
+            
+            QRect target(center.x() - size.width() / 2,
+                         center.y() - size.height() / 2,
+                         size.width(),
+                         size.height());
+            
+            painter->drawPixmap(target, image);
+        }
+        
+        QPixmap getPixmap(int i) const
+        {
+            QModelIndex index = m_model->index(i, 0);
+            QVariant variant = m_model->data(index, Qt::DecorationRole);
+
+            QPixmap image = variant.value<QPixmap>();
+            
+            return image;
+        }
+        
+        QAbstractItemModel *m_model;
     };
 
     
@@ -105,6 +150,7 @@ namespace
             void invalidate() const
             {
                 m_data->m_valid = false;
+                m_data->m_view->viewport()->update();
             }
 
             size_t items() const
@@ -165,16 +211,13 @@ namespace
 
                     const int count = dataModel->rowCount(QModelIndex());
                     setItemsCount(count);
+                    
+                    ImageAdaptor imageAdaptor(dataModel);
 
                     for(int i = 0; i < count; i++)
                     {
-                        QModelIndex index = dataModel->index(i, 0);
-                        QVariant variant = dataModel->data(index, Qt::DecorationRole);
-
-                        QPixmap image = variant.value<QPixmap>();
-
                         //image size
-                        QSize size = image.size();
+                        QSize size = imageAdaptor.size(i);
 
                         //save position
                         QRect position(x, y, size.width(), size.height());
@@ -216,15 +259,12 @@ namespace
 
             const int items = m_cache.items();
             QAbstractItemModel *dataModel = model();
-
+            ImageAdaptor imageAdaptor(dataModel);
+            
             for (int i = 0; i < items; i++)
             {
                 const QRect &position = m_cache.pos(i);
-                QModelIndex idx = dataModel->index(i, 0);
-                QVariant rawData = dataModel->data(idx, Qt::DecorationRole);
-                QPixmap image = rawData.value<QPixmap>();
-
-                painter.drawPixmap(position, image);
+                imageAdaptor.draw(i, &painter, position);
             }
         }
 
