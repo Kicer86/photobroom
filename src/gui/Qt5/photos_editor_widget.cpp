@@ -139,9 +139,10 @@ namespace
             void validateCache() const
             {
                 if (m_data->m_valid == false)
+                {
                     reloadCache();
-
-                m_data->m_valid = true;
+                    m_data->m_valid = true;
+                }
             }
 
             void reloadCache() const
@@ -201,7 +202,6 @@ namespace
         Cache m_cache;
 
         explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(this) {}
-
 
         //QWidget's virtuals:
         virtual void paintEvent(QPaintEvent* )
