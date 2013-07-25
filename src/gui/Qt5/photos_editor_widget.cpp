@@ -89,6 +89,12 @@ namespace
             return result;
         }
     };
+    
+    
+    struct ImageAdaptor
+    {
+        
+    };
 
     
     struct Cache
