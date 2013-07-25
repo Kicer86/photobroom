@@ -92,10 +92,10 @@ namespace
     };
     
     
-    struct ImageAdaptor
+    struct ImageManager
     {
-        ImageAdaptor(QAbstractItemModel *model): m_model(model) {}
-        ~ImageAdaptor() {}
+        ImageManager(QAbstractItemModel *model): m_model(model) {}
+        ~ImageManager() {}
         
         QSize size(int i) const           //size of 'index' item in model
         {
@@ -212,12 +212,12 @@ namespace
                     const int count = dataModel->rowCount(QModelIndex());
                     setItemsCount(count);
                     
-                    ImageAdaptor imageAdaptor(dataModel);
+                    ImageManager imageManager(dataModel);
 
                     for(int i = 0; i < count; i++)
                     {
                         //image size
-                        QSize size = imageAdaptor.size(i);
+                        QSize size = imageManager.size(i);
 
                         //save position
                         QRect position(x, y, size.width(), size.height());
@@ -259,12 +259,12 @@ namespace
 
             const int items = m_cache.items();
             QAbstractItemModel *dataModel = model();
-            ImageAdaptor imageAdaptor(dataModel);
+            ImageManager imageManager(dataModel);
             
             for (int i = 0; i < items; i++)
             {
                 const QRect &position = m_cache.pos(i);
-                imageAdaptor.draw(i, &painter, position);
+                imageManager.draw(i, &painter, position);
             }
         }
 
