@@ -156,7 +156,6 @@ namespace
             size_t items() const
             {
                 validateCache();
-                assert(m_data->m_pos.size() == m_data->m_rows.size());
 
                 return m_data->m_pos.size();
             }
@@ -182,10 +181,10 @@ namespace
 
             std::unique_ptr<MutableData> m_data;
 
-            void setItemsCount(int count) const
+            void flushData() const
             {
-                m_data->m_pos.resize(count);
-                m_data->m_rows.resize(count);
+                m_data->m_pos.clear();
+                m_data->m_rows.clear();
             }
 
             void validateCache() const
@@ -209,8 +208,8 @@ namespace
                     int y = m_data->m_view->viewport()->y();
                     int rowHeight = 0;
 
+                    flushData();
                     const int count = dataModel->rowCount(QModelIndex());
-                    setItemsCount(count);
                     
                     ImageManager imageManager(dataModel);
 
@@ -221,7 +220,7 @@ namespace
 
                         //save position
                         QRect position(x, y, size.width(), size.height());
-                        m_data->m_pos[i] = position;
+                        m_data->m_pos.push_back(position);
 
                         //calculate nex position
                         if (x + size.width() >= width)
@@ -230,7 +229,7 @@ namespace
                             x = baseX;
                             y += rowHeight;
 
-                            m_data->m_rows[i] = rowHeight;
+                            m_data->m_rows.push_back(rowHeight);
                             rowHeight = 0;
                         }
                         else
@@ -266,6 +265,12 @@ namespace
                 const QRect &position = m_cache.pos(i);
                 imageManager.draw(i, &painter, position);
             }
+        }
+        
+        virtual void resizeEvent(QResizeEvent* event)
+        {
+            m_cache.invalidate();
+            QAbstractItemView::resizeEvent(event);
         }
 
         //QAbstractItemView's pure virtuals:
