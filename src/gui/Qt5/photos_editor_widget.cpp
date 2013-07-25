@@ -197,9 +197,9 @@ namespace
                 }
         };
         
-        std::unique_ptr<Cache> m_cache;
+        Cache m_cache;
         
-        explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(new Cache(this)) {}
+        explicit PhotosView(QWidget* p): QAbstractItemView(p), m_cache(this) {}
        
         
         //QWidget's virtuals:
@@ -207,12 +207,12 @@ namespace
         {
             QPainter painter(viewport());
             
-            const int items = m_cache->items();
+            const int items = m_cache.items();
             QAbstractItemModel *dataModel = model();
             
             for (int i = 0; i < items; i++)
             {
-                const QRect &position = m_cache->pos(i);
+                const QRect &position = m_cache.pos(i);
                 QModelIndex idx = dataModel->index(i, 0);
                 QVariant rawData = dataModel->data(idx, Qt::DecorationRole);
                 QPixmap image = rawData.value<QPixmap>();
@@ -230,7 +230,7 @@ namespace
             if (dataModel != nullptr)
             {
                 const int row = index.row();                
-                result = m_cache->pos(row);
+                result = m_cache.pos(row);
             }
             
             return result;
@@ -283,18 +283,19 @@ namespace
         //QAbstractItemView's virtuals:
         virtual void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector< int >& roles = QVector<int>())
         {
+            m_cache.invalidate();
             QAbstractItemView::dataChanged(topLeft, bottomRight, roles);
         }
         
         virtual void rowsInserted(const QModelIndex& parent, int start, int end)
         {
-            m_cache->invalidate();
+            m_cache.invalidate();
             QAbstractItemView::rowsInserted(parent, start, end);
         }
         
         virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
         {
-            m_cache->invalidate();
+            m_cache.invalidate();
             QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
         }
     };
