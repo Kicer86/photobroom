@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 struct ITagData
 {
@@ -29,8 +30,11 @@ class TagData: public ITagData
         TagData();
         virtual ~TagData();
         
-        virtual std::vector< TagInfo > getTags() const;
+        virtual std::vector<TagInfo> getTags() const;
         virtual void setTag(const std::string& name, const std::string& values);
+        
+    private:
+        std::map<std::string, std::string> m_tags;
 };
 
 
