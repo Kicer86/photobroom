@@ -1,8 +1,7 @@
 
-
-
 #include <CppUTest/TestHarness.h>
 
+#include "../types.hpp"
 
 TEST_GROUP(TagDataShould)
 {
@@ -10,7 +9,7 @@ TEST_GROUP(TagDataShould)
 };
 
 
-TEST(TagDataShould, foo)
+TEST(TagDataShould, beConstructable)
 {
-	
+	TagData data;
 }

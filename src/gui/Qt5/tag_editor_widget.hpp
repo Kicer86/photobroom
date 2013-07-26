@@ -32,24 +32,6 @@ class QLineEdit;
 class QComboBox;
 
 
-class ITagData
-{
-    struct TagInfo
-    {
-        std::string name;
-        std::string values;
-    };
-    
-    virtual ~ITagData();
-    
-    //get list of tags
-    virtual std::vector<TagInfo> getTags() const = 0;
-    
-    //set tag and its values. Overvrite existing tags
-    virtual void setTag(const std::string &name, const std::string &values) = 0;
-};
-
-
 class TagEntry: public QWidget
 {
     public:

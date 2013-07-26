@@ -29,14 +29,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-ITagData::~ITagData()
-{
-
-}
-
-
-/*****************************************************************************/
-
 
 struct TagEditorWidget::Data
 {

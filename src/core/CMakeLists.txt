@@ -38,7 +38,7 @@ if(BUILD_TESTS)
 	set(TESTS
 		tests/coreTests.cpp
 		tests/RunAllTests.cpp
-		${CORESOURCES}
+		${CORE_SOURCES}
 		)
 
 	add_executable(core_tests ${TESTS})
