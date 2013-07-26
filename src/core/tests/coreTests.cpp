@@ -35,8 +35,8 @@ TEST(TagDataShould, returnWhatWasInserted)
     
     CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
     
-    CHECK_EQUAL("test1", dataSet[0].name);
-    CHECK_EQUAL("test2", dataSet[0].values);
+    CHECK_EQUAL(true, dataSet[0].name == "test1");
+    CHECK_EQUAL(true, dataSet[0].values == "test2");
 }
 
 
@@ -50,6 +50,6 @@ TEST(TagDataShould, overwritePreviousTagsValues)
     std::vector<TagData::TagInfo> dataSet = data.getTags();
     
     CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
-    CHECK_EQUAL("test1", dataSet[0].name);
-    CHECK_EQUAL("test3", dataSet[0].values);
+    CHECK_EQUAL(true, dataSet[0].name == "test1");
+    CHECK_EQUAL(true, dataSet[0].values == "test3");
 }

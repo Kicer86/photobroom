@@ -37,7 +37,7 @@ std::vector<TagData::TagInfo> TagData::getTags() const
 }
     
 
-void TagData::setTag(const std::string &name, const std::string &values)
+void TagData::setTag(const QString &name, const QString &values)
 {
     m_tags[name] = values;
 }

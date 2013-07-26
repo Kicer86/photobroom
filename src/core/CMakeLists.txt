@@ -2,11 +2,12 @@
 project(core)
 
 find_package(OpenLibrary REQUIRED)
+find_package(Qt5Core REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports .)
+include_directories(${Qt5Core_INCLUDE_DIRS} ${CMAKE_BINARY_DIR}/exports .)
 
 set(CORE_SOURCES
     implementation/types.cpp
@@ -19,6 +20,7 @@ set(CORE_HEADERS
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
+qt5_use_modules(core Core)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
@@ -42,6 +44,7 @@ if(BUILD_TESTS)
 		)
 
 	add_executable(core_tests ${TESTS})
+	qt5_use_modules(core_tests Core)
 	set_target_properties(core_tests PROPERTIES COMPILE_FLAGS -DCORE_STATIC_DEFINE)
 	target_link_libraries(core_tests ${CPPUTEST_LIBRARIES})
 

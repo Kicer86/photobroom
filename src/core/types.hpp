@@ -2,16 +2,17 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-#include <string>
 #include <vector>
 #include <map>
+
+#include <QString>
 
 struct ITagData
 {
     struct TagInfo
     {
-        std::string name;
-        std::string values;
+        QString name;
+        QString values;
     };
     
     virtual ~ITagData();
@@ -20,7 +21,7 @@ struct ITagData
     virtual std::vector<TagInfo> getTags() const = 0;
     
     //set tag and its values. Overvrite existing tags
-    virtual void setTag(const std::string &name, const std::string &values) = 0;
+    virtual void setTag(const QString &name, const QString &values) = 0;
 };
 
 
@@ -31,10 +32,10 @@ class TagData: public ITagData
         virtual ~TagData();
         
         virtual std::vector<TagInfo> getTags() const;
-        virtual void setTag(const std::string& name, const std::string& values);
+        virtual void setTag(const QString& name, const QString& values);
         
     private:
-        std::map<std::string, std::string> m_tags;
+        std::map<QString, QString> m_tags;
 };
 
 
@@ -47,7 +48,7 @@ class TagDataComposite: public ITagData
         void setTagDatas(std::vector<ITagData *>);
         
         virtual std::vector< TagInfo > getTags() const;
-        virtual void setTag(const std::string& name, const std::string& values);
+        virtual void setTag(const QString& name, const QString& values);
 };
 
 
