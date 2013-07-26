@@ -21,6 +21,8 @@
 #ifndef TAG_EDITOR_WIDGET_HPP
 #define TAG_EDITOR_WIDGET_HPP
 
+#include <memory>
+
 #include <QWidget>
 
 
@@ -33,6 +35,10 @@ class TagEditorWidget: public QWidget
         
         TagEditorWidget(const TagEditorWidget& other) = delete;
         virtual TagEditorWidget& operator=(const TagEditorWidget& other) = delete;
+        
+    private:
+        struct Data;
+        std::unique_ptr<Data> m_data;
         
 };
 

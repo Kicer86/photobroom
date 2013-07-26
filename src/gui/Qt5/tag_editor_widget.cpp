@@ -20,9 +20,23 @@
 
 #include "tag_editor_widget.hpp"
 
-TagEditorWidget::TagEditorWidget(QWidget *p): QWidget(p)
-{
+#include <vector>
 
+#include <QString>
+
+struct TagEditorWidget::Data
+{
+    //TODO: read tags from config
+    Data(): m_tags({"Event", "Place", "Date", "Time", "People"}) {}
+    ~Data() {}
+    
+    std::vector<QString> m_tags;
+};
+
+
+TagEditorWidget::TagEditorWidget(QWidget *p): QWidget(p), m_data(new Data)
+{
+    
 }
 
 
