@@ -63,7 +63,9 @@ class TagEditorWidget: public QWidget
         
     private:
         struct Data;
-        std::unique_ptr<Data> m_data;        
+        struct TagsManager;
+        std::unique_ptr<Data> m_data;
+        std::unique_ptr<TagsManager> m_manager;
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP

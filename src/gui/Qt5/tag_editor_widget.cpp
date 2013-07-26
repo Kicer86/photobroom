@@ -46,6 +46,12 @@ struct TagEditorWidget::Data
 };
 
 
+struct TagEditorWidget::TagsManager
+{
+    TagsManager(){}
+};
+
+
 /*****************************************************************************/
 
 
@@ -81,7 +87,10 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 /*****************************************************************************/
 
 
-TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): QWidget(p, f), m_data(new Data)
+TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): 
+    QWidget(p, f),
+    m_data(new Data),
+    m_manager(new TagsManager)
 {
     TagEntry *tagEntry = new TagEntry(this);
     tagEntry->setTags(m_data->getTags());
@@ -99,6 +108,6 @@ TagEditorWidget::~TagEditorWidget()
 
 void TagEditorWidget::setTags(ITagData *tagData)
 {
-
+    
 }
 
