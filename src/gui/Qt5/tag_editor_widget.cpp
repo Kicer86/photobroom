@@ -34,7 +34,7 @@ struct TagEditorWidget::Data
 };
 
 
-TagEditorWidget::TagEditorWidget(QWidget *p): QWidget(p), m_data(new Data)
+TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): QWidget(p, f), m_data(new Data)
 {
     
 }

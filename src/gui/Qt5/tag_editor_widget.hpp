@@ -26,11 +26,22 @@
 #include <QWidget>
 
 
+class TagEntry: public QWidget
+{
+    public:
+        explicit TagEntry(QWidget* parent = 0, Qt::WindowFlags f = 0);
+        virtual ~TagEntry();
+        
+        TagEntry(const TagEntry &) = delete;
+        void operator=(const TagEntry &) = delete;
+};
+
+
 class TagEditorWidget: public QWidget
 {
 
     public:
-        TagEditorWidget(QWidget *);
+        explicit TagEditorWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
         virtual ~TagEditorWidget();
         
         TagEditorWidget(const TagEditorWidget& other) = delete;
