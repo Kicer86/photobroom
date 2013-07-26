@@ -12,6 +12,7 @@ elseif(WIN32)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif(UNIX OR CYGWIN)
 
+add_subdirectory(src/core)
 add_subdirectory(src/analyzer)
 add_subdirectory(src/database)
 add_subdirectory(src/gui)
