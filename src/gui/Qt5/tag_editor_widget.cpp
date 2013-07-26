@@ -95,3 +95,10 @@ TagEditorWidget::~TagEditorWidget()
 {
 
 }
+
+
+void TagEditorWidget::setTags(ITagData *tagData)
+{
+
+}
+

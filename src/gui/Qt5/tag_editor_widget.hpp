@@ -27,6 +27,7 @@
 
 #include <QWidget>
 
+struct ITagData;
 class QString;
 class QLineEdit;
 class QComboBox;
@@ -57,6 +58,8 @@ class TagEditorWidget: public QWidget
         
         TagEditorWidget(const TagEditorWidget& other) = delete;
         virtual TagEditorWidget& operator=(const TagEditorWidget& other) = delete;
+        
+        void setTags(ITagData *);          //widget will work directly on provided set of data
         
     private:
         struct Data;
