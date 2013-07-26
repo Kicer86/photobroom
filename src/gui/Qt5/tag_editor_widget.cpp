@@ -29,6 +29,14 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+ITagData::~ITagData()
+{
+
+}
+
+
+/*****************************************************************************/
+
 
 struct TagEditorWidget::Data
 {
@@ -52,17 +60,14 @@ struct TagEditorWidget::Data
 TagEntry::TagEntry(QWidget* p, Qt::WindowFlags f): 
     QWidget(p, f), 
     m_tagsCombo(nullptr),
-    m_tagsList(nullptr),
-    m_addNext(nullptr)
+    m_tagsList(nullptr)
 {
     m_tagsCombo = new QComboBox(this);
     m_tagsList  = new QLineEdit(this);
-    m_addNext   = new QPushButton(this);
     
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_tagsCombo);
     mainLayout->addWidget(m_tagsList);
-    mainLayout->addWidget(m_addNext);
 }
 
 
