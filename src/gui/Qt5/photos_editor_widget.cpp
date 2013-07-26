@@ -142,10 +142,10 @@ namespace
     };
 
     
-    struct Cache
+    struct PositionsCache
     {
-            Cache(QAbstractItemView *view): m_data(new MutableData(view)) {}
-            ~Cache() {}
+            PositionsCache(QAbstractItemView *view): m_data(new MutableData(view)) {}
+            ~PositionsCache() {}
 
             void invalidate() const
             {
@@ -245,7 +245,7 @@ namespace
 
     struct ImagesView: public QAbstractItemView
     {
-        Cache m_cache;
+        PositionsCache m_cache;
 
         explicit ImagesView(QWidget* p): QAbstractItemView(p), m_cache(this) {}
 
