@@ -27,7 +27,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QHBoxLayout>
-
+#include <QVBoxLayout>
 
 
 struct TagEditorWidget::Data
@@ -80,7 +80,10 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 
 TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): QWidget(p, f), m_data(new Data)
 {
+    TagEntry *tagEntry = new TagEntry(this);
     
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->addWidget(tagEntry);
 }
 
 
