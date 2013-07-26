@@ -23,3 +23,19 @@ TEST(TagDataShould, returnEmptySetWhenConstructed)
     
     CHECK_EQUAL(0, static_cast<int>(dataSet.size()));
 }
+
+
+TEST(TagDataShould, returnWhatWasInserted)
+{
+    TagData data;
+    
+    data.setTag("test1", "test2");
+    
+    std::vector<TagData::TagInfo> dataSet = data.getTags();
+    
+    CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
+    
+    CHECK_EQUAL("test1", dataSet[0].name);
+    CHECK_EQUAL("test2", dataSet[0].values);
+}
+
