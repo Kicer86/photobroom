@@ -23,6 +23,12 @@
 #include <vector>
 
 #include <QString>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
+
+
 
 struct TagEditorWidget::Data
 {
@@ -32,6 +38,44 @@ struct TagEditorWidget::Data
     
     std::vector<QString> m_tags;
 };
+
+
+/*****************************************************************************/
+
+
+TagEntry::TagEntry(QWidget* p, Qt::WindowFlags f): 
+    QWidget(p, f), 
+    m_tagsCombo(nullptr),
+    m_tagsList(nullptr),
+    m_addNext(nullptr)
+{
+    m_tagsCombo = new QComboBox(this);
+    m_tagsList  = new QLineEdit(this);
+    m_addNext   = new QPushButton(this);
+    
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+    mainLayout->addWidget(m_tagsCombo);
+    mainLayout->addWidget(m_tagsList);
+    mainLayout->addWidget(m_addNext);
+}
+
+
+TagEntry::~TagEntry()
+{
+
+}
+
+
+void TagEntry::setTags(const std::vector<QString> &tags)
+{
+    m_tagsCombo->clear();
+    
+    for (const QString &tag: tags)
+        m_tagsCombo->addItem(tag);
+}
+
+
+/*****************************************************************************/
 
 
 TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): QWidget(p, f), m_data(new Data)

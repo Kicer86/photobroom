@@ -22,9 +22,14 @@
 #define TAG_EDITOR_WIDGET_HPP
 
 #include <memory>
+#include <vector>
 
 #include <QWidget>
 
+class QString;
+class QPushButton;
+class QLineEdit;
+class QComboBox;
 
 class TagEntry: public QWidget
 {
@@ -34,6 +39,13 @@ class TagEntry: public QWidget
         
         TagEntry(const TagEntry &) = delete;
         void operator=(const TagEntry &) = delete;
+        
+        void setTags(const std::vector<QString> &);
+        
+    private:
+        QComboBox   *m_tagsCombo;
+        QLineEdit   *m_tagsList;
+        QPushButton *m_addNext;
 };
 
 
