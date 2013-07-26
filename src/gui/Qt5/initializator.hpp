@@ -23,15 +23,15 @@
 
 #include "gui.hpp"
 
-#include "qtgui_export.h"
+#include "gui_export.h"
 
 namespace Gui
 {
-    struct QTGUI_EXPORT Initializator: public Gui::IUi
+    struct GUI_EXPORT Initializator: public Gui::IUi
     {
         virtual ~Initializator();
 
-        virtual void run(int argc, char** argv);
+        virtual void run(int argc, char** argv) override;
     };
 }
 

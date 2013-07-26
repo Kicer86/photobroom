@@ -22,8 +22,6 @@
 
 #include <assert.h>
 
-#include <thread>
-
 #include <QApplication>
 
 #include "mainwindow.hpp"

@@ -43,5 +43,6 @@ add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS})
 qt5_use_modules(gui Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
+target_link_libraries(gui analyzer)
 turnOnCpp11(gui)
 turnOnAllWarnings(${GUI_SOURCES})

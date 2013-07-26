@@ -19,8 +19,8 @@ set(DATABASE_HEADERS
     databasebuilder.hpp
     iconfiguration.hpp
     idatabase.hpp
-	ifs.hpp
-	entry.hpp
+    ifs.hpp
+    entry.hpp
     implementation/backend.hpp
     implementation/memorydatabase.hpp
     )
