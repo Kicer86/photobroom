@@ -36,7 +36,13 @@ struct TagEditorWidget::Data
     Data(): m_tags({"Event", "Place", "Date", "Time", "People"}) {}
     ~Data() {}
     
-    std::vector<QString> m_tags;
+    const std::vector<QString>& getTags() const
+    {
+        return m_tags;
+    }    
+    
+    private:
+        std::vector<QString> m_tags;
 };
 
 
@@ -81,6 +87,7 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): QWidget(p, f), m_data(new Data)
 {
     TagEntry *tagEntry = new TagEntry(this);
+    tagEntry->setTags(m_data->getTags());
     
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(tagEntry);
