@@ -33,6 +33,14 @@ class QLineEdit;
 class QComboBox;
 
 
+class TagsManagerSlots: QObject
+{
+    Q_OBJECT
+    
+    protected:
+};
+
+
 class TagEntry: public QWidget
 {
     public:
@@ -62,9 +70,7 @@ class TagEditorWidget: public QWidget
         void setTags(ITagData *);          //widget will work directly on provided set of data
         
     private:
-        struct Data;
         struct TagsManager;
-        std::unique_ptr<Data> m_data;
         std::unique_ptr<TagsManager> m_manager;
 };
 

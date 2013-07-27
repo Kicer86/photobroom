@@ -30,31 +30,6 @@
 #include <QVBoxLayout>
 
 
-struct TagEditorWidget::Data
-{
-    //TODO: read tags from config
-    Data(): m_tags({"Event", "Place", "Date", "Time", "People"}) {}
-    ~Data() {}
-    
-    const std::vector<QString>& getTags() const
-    {
-        return m_tags;
-    }    
-    
-    private:
-        std::vector<QString> m_tags;
-};
-
-
-struct TagEditorWidget::TagsManager
-{
-    TagsManager(){}
-};
-
-
-/*****************************************************************************/
-
-
 TagEntry::TagEntry(QWidget* p, Qt::WindowFlags f): 
     QWidget(p, f), 
     m_tagsCombo(nullptr),
@@ -87,16 +62,46 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 /*****************************************************************************/
 
 
+struct TagEditorWidget::TagsManager
+{
+    TagsManager(TagEditorWidget *tagWidget): 
+        m_avail_tags({"Event", "Place", "Date", "Time", "People"}),
+        m_tagWidget(tagWidget)
+    {
+        
+    }
+    
+    
+    void addEmptyLine()
+    {
+        TagEntry *tagEntry = new TagEntry(m_tagWidget);
+        
+        QLayout *lay = m_tagWidget->layout();
+        lay->addWidget(tagEntry);
+    }
+    
+    
+    void removeAll()
+    {
+        QLayout *lay = m_tagWidget->layout();
+        
+        while ( QLayoutItem *item = lay->takeAt(0) )
+            delete item;
+    }
+        
+    std::vector<QString> m_avail_tags;
+    TagEditorWidget *m_tagWidget;
+};
+
+
+/*****************************************************************************/
+
+
 TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): 
     QWidget(p, f),
-    m_data(new Data),
-    m_manager(new TagsManager)
-{
-    TagEntry *tagEntry = new TagEntry(this);
-    tagEntry->setTags(m_data->getTags());
-    
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->addWidget(tagEntry);
+    m_manager(new TagsManager(this))
+{   
+    new QVBoxLayout(this);
 }
 
 
