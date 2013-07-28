@@ -45,9 +45,6 @@ struct BrowseList: public QWidget
 
     signals:
         void addPath(QString);
-
-    private slots:
-        void addPathToAnalyze(QString);
 };
 
 #endif

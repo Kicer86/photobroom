@@ -59,16 +59,10 @@ BrowseList::BrowseList(QWidget *p): QWidget(p)
 
     BrowseLine *line = new BrowseLine(this);
     mainLayout->addWidget(line);
-    connect(line, SIGNAL(addPath(QString)), this, SLOT(addPathToAnalyze(QString)));
+    connect(line, SIGNAL(addPath(QString)), this, SIGNAL(addPath(QString)));
 }
 
 
 BrowseList::~BrowseList()
 {
-}
-
-
-void BrowseList::addPathToAnalyze(QString path)
-{
-    emit addPath(path);
 }
