@@ -20,6 +20,8 @@
 
 #include "tag_editor_widget.hpp"
 
+#include <assert.h>
+
 #include <vector>
 
 #include <QString>
@@ -104,8 +106,40 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             delete item;
     }
     
+    
     virtual void tagEdited()
     {
+        QLayout *lay = m_tagWidget->layout();
+        
+        //analyze each "TagEntry"
+        
+        auto getTagEntry = [&] (int i) -> TagEntry* 
+        {
+            QLayoutItem *item = lay->itemAt(i);
+            QWidget *widget = item->widget();
+            
+            assert(dynamic_cast<TagEntry *>(widget) != nullptr);
+            TagEntry *entry = static_cast<TagEntry *>(widget);
+            
+            return entry;
+        };
+        
+        while ( int items = lay->count() >= 2? lay->count() : 0)
+        {
+            TagEntry *last = getTagEntry(items - 1);
+            TagEntry *prev = getTagEntry(items - 2);
+            
+            if (last->m_tagsList->text().isEmpty() &&
+                prev->m_tagsList->text().isEmpty())
+            {
+                delete lay->takeAt(items - 1);
+            }
+            else
+                break;
+        }
+        
+        if (getTagEntry(lay->count() - 1)->m_tagsList->text().isEmpty() == false)
+            addEmptyLine();
     }
         
     std::vector<QString> m_avail_tags;
