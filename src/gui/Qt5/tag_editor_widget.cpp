@@ -124,16 +124,19 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             return entry;
         };
         
-        while ( int items = lay->count() >= 2? lay->count() : 0)
+        auto isEmpty = [&] (int i) -> bool
         {
-            TagEntry *last = getTagEntry(items - 1);
-            TagEntry *prev = getTagEntry(items - 2);
+            TagEntry *entry = getTagEntry(i);
             
-            if (last->m_tagsList->text().isEmpty() &&
-                prev->m_tagsList->text().isEmpty())
-            {
+            const bool empty = entry->m_tagsList->text().isEmpty();
+            
+            return empty;
+        };
+        
+        while ( int items = lay->count() >= 2? lay->count() : 0)
+        {            
+            if ( isEmpty(items - 1) && isEmpty(items - 2) )
                 delete lay->takeAt(items - 1);
-            }
             else
                 break;
         }
