@@ -34,27 +34,27 @@
 
 struct TagEntry: public QWidget
 {
-        explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
-        virtual ~TagEntry();
-        
-        TagEntry(const TagEntry &) = delete;
-        void operator=(const TagEntry &) = delete;
-        
-        void setTags(const std::vector<QString> &);
-        
-        QComboBox   *m_tagsCombo;
-        QLineEdit   *m_tagsList;
+    explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
+    virtual ~TagEntry();
+
+    TagEntry(const TagEntry &) = delete;
+    void operator=(const TagEntry &) = delete;
+
+    void setTags(const std::vector<QString> &);
+
+    QComboBox   *m_tagsCombo;
+    QLineEdit   *m_tagsList;
 };
 
 
-TagEntry::TagEntry(QWidget* p, Qt::WindowFlags f): 
-    QWidget(p, f), 
+TagEntry::TagEntry(QWidget *p, Qt::WindowFlags f):
+    QWidget(p, f),
     m_tagsCombo(nullptr),
     m_tagsList(nullptr)
 {
     m_tagsCombo = new QComboBox(this);
     m_tagsList  = new QLineEdit(this);
-    
+
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_tagsCombo);
     mainLayout->addWidget(m_tagsList);
@@ -70,7 +70,7 @@ TagEntry::~TagEntry()
 void TagEntry::setTags(const std::vector<QString> &tags)
 {
     m_tagsCombo->clear();
-    
+
     for (const QString &tag: tags)
         m_tagsCombo->addItem(tag);
 }
@@ -81,72 +81,72 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
 {
-    TagsManager(TagEditorWidget *tagWidget): 
-        m_avail_tags({"Event", "Place", "Date", "Time", "People"}),
-        m_tagWidget(tagWidget)
+    TagsManager(TagEditorWidget *tagWidget):
+        m_avail_tags( {"Event", "Place", "Date", "Time", "People"}),
+                  m_tagWidget(tagWidget)
     {
     }
-    
+
     TagsManager(const TagsManager &) = delete;
-    void operator=(const TagsManager &) = delete;    
-    
+    void operator=(const TagsManager &) = delete;
+
     void addEmptyLine()
     {
         TagEntry *tagEntry = new TagEntry(m_tagWidget);
         connect( tagEntry->m_tagsList, SIGNAL(textChanged(QString)), this, SLOT(tagEdited()) );
-        
+
         QLayout *lay = m_tagWidget->layout();
         lay->addWidget(tagEntry);
     }
-    
-    
+
+
     void removeAll()
     {
         QLayout *lay = m_tagWidget->layout();
-        
+
         while ( QLayoutItem *item = lay->takeAt(0) )
             delete item;
     }
-    
-    
+
+
     virtual void tagEdited()
     {
         QLayout *lay = m_tagWidget->layout();
-        
+
         //analyze each "TagEntry"
-        
-        auto getTagEntry = [&] (int i) -> TagEntry* 
+
+        auto getTagEntry = [&] (int i) -> TagEntry *
         {
             QLayoutItem *item = lay->itemAt(i);
             QWidget *widget = item->widget();
-            
+
             assert(dynamic_cast<TagEntry *>(widget) != nullptr);
             TagEntry *entry = static_cast<TagEntry *>(widget);
-            
+
             return entry;
         };
-        
+
         auto isEmpty = [&] (int i) -> bool
         {
             TagEntry *entry = getTagEntry(i);
-            
+
             const bool empty = entry->m_tagsList->text().isEmpty();
-            
+
             return empty;
         };
-        
-        while ( int items = lay->count() >= 2? lay->count() : 0)
-        {            
+
+        while ( int items = lay->count() >= 2 ? lay->count() : 0)
+        {
             if ( isEmpty(items - 1) && isEmpty(items - 2) )
                 delete lay->takeAt(items - 1);
             else
                 break;
         }
-        
+
         if (getTagEntry(lay->count() - 1)->m_tagsList->text().isEmpty() == false)
             addEmptyLine();
     }
-        
+
     std::vector<QString> m_avail_tags;
     TagEditorWidget *m_tagWidget;
 };
@@ -155,12 +155,12 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 /*****************************************************************************/
 
 
-TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f): 
+TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f):
     QWidget(p, f),
     m_manager(new TagsManager(this))
-{   
+{
     new QVBoxLayout(this);
-    
+
     m_manager->addEmptyLine();
 }
 
@@ -173,6 +173,5 @@ TagEditorWidget::~TagEditorWidget()
 
 void TagEditorWidget::setTags(ITagData *tagData)
 {
-    
-}
 
+}
