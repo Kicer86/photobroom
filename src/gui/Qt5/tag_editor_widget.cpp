@@ -31,6 +31,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include "core/types.hpp"
 
 struct TagEntry: public QWidget
 {
@@ -89,6 +90,19 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
     TagsManager(const TagsManager &) = delete;
     void operator=(const TagsManager &) = delete;
+    
+    void setTags(ITagData *tagData)
+    {
+        removeAll();
+        std::vector<ITagData::TagInfo> tags = tagData->getTags();
+        
+        for (auto &tag: tags)
+            addLine(tag.name, tag.values);
+    }
+    
+    void addLine(const QString &name, const QString &value)
+    {
+    }
 
     void addEmptyLine()
     {
@@ -173,5 +187,5 @@ TagEditorWidget::~TagEditorWidget()
 
 void TagEditorWidget::setTags(ITagData *tagData)
 {
-
+    m_manager->setTags(tagData);
 }
