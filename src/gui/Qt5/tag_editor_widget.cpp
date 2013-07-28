@@ -87,6 +87,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
     {
     }
     
+    TagsManager(const TagsManager &) = delete;
+    void operator=(const TagsManager &) = delete;    
     
     void addEmptyLine()
     {
