@@ -33,28 +33,12 @@ class QLineEdit;
 class QComboBox;
 
 
-class TagsManagerSlots: QObject
+class TagsManagerSlots: public QObject
 {
     Q_OBJECT
     
-    protected:
-};
-
-
-class TagEntry: public QWidget
-{
-    public:
-        explicit TagEntry(QWidget* parent = 0, Qt::WindowFlags f = 0);
-        virtual ~TagEntry();
-        
-        TagEntry(const TagEntry &) = delete;
-        void operator=(const TagEntry &) = delete;
-        
-        void setTags(const std::vector<QString> &);
-        
-    private:
-        QComboBox   *m_tagsCombo;
-        QLineEdit   *m_tagsList;
+    protected slots:
+        virtual void tagEdited() = 0;
 };
 
 
@@ -72,6 +56,8 @@ class TagEditorWidget: public QWidget
     private:
         struct TagsManager;
         std::unique_ptr<TagsManager> m_manager;
+        
+        
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP
