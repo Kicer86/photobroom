@@ -2,10 +2,12 @@
 project(gui)
 
 find_package(Qt5Widgets REQUIRED)
+find_package(OpenLibrary REQUIRED COMPONENTS QtExt)
 
 include(GenerateExportHeader)
 
-include_directories(. ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src)
+include_directories(${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
     Qt5/gui.cpp
