@@ -8,6 +8,7 @@ class QFileDialog;
 class QPushButton;
 class QLineEdit;
 class QPushButton;
+class QtExtChooseFile;
 
 struct BrowseLine: public QWidget
 {
@@ -28,6 +29,7 @@ struct BrowseLine: public QWidget
         QPushButton *m_button;
         QLineEdit   *m_line;
         QPushButton *m_addButton;
+        QtExtChooseFile *m_chooser;
 
     private slots:
         void browseButtonClicked();

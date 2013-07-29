@@ -7,6 +7,9 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QLabel>
+#include <QFileDialog>
+
+#include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
 #include "../photos_editor_widget.hpp"
 
@@ -15,7 +18,8 @@ BrowseLine::BrowseLine(QWidget *p):
     m_dialog(nullptr),
     m_button(nullptr),
     m_line(nullptr),
-    m_addButton(nullptr)
+    m_addButton(nullptr),
+    m_chooser(nullptr)
 {
     m_button = new QPushButton(tr("Browse"), this);
     m_line = new QLineEdit(this);
@@ -30,6 +34,10 @@ BrowseLine::BrowseLine(QWidget *p):
 
     connect(m_button, SIGNAL(clicked()), this, SLOT(browseButtonClicked()));
     connect(m_addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
+        
+    //prepare dialog for choosing files
+    QFileDialog *fileDialog = new QFileDialog(this);
+    m_chooser = new QtExtChooseFile(m_button, m_line, fileDialog);
 }
 
 
