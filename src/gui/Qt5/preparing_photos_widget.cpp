@@ -16,7 +16,6 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
     m_editor(nullptr),
     m_tagEditor(nullptr)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     BrowseLine *browse = new BrowseLine(this);
     m_editor = new PhotosEditorWidget(this);
@@ -24,10 +23,11 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
-
+    
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(browse);
     mainLayout->addWidget(m_editor);
-    mainLayout->addWidget(m_tagEditor);
+    mainLayout->addWidget(m_tagEditor);    
 }
 
 
