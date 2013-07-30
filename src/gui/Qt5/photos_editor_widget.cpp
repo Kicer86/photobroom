@@ -15,6 +15,7 @@
 //http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html
 //http://qt-project.org/doc/qt-5.1/qtwidgets/qabstractitemview.html
 
+
 namespace
 {
 
@@ -206,10 +207,10 @@ namespace
 
                 if (dataModel != nullptr)
                 {
-                    const int baseX = m_data->m_view->viewport()->x();
+                    const int baseX = 0;
                     const int width = m_data->m_view->viewport()->width();
                     int x = baseX;
-                    int y = m_data->m_view->viewport()->y();
+                    int y = 0;
                     int rowHeight = 0;
 
                     flushData();
@@ -247,7 +248,9 @@ namespace
                     m_data->m_rows.push_back(rowHeight);
                     m_data->m_totalHeight += rowHeight;
 
+                    //update scroll bars
                     updateScrollBars();
+
                 }
             }
 
@@ -255,11 +258,11 @@ namespace
             {
                 QSize areaSize = m_data->m_view->viewport()->size();
 
-                m_data->m_view->verticalScrollBar()->setPageStep(areaSize.height());
-                //horizontalScrollBar()->setPageStep(areaSize.width());
-                m_data->m_view->verticalScrollBar()->setRange(0, m_data->m_totalHeight - areaSize.height());
-                //horizontalScrollBar()->setRange(0, widgetSize.width() - areaSize.width());
-                //updateWidgetPosition();
+                const int avail_height = areaSize.height();
+                const int range_top = m_data->m_totalHeight - avail_height;
+
+                m_data->m_view->verticalScrollBar()->setPageStep(avail_height);
+                m_data->m_view->verticalScrollBar()->setRange(0, range_top);
             }
     };
 
@@ -281,7 +284,8 @@ namespace
             
             for (int i = 0; i < items; i++)
             {
-                const QRect &position = m_cache.pos(i);
+                QRect position = m_cache.pos(i);
+                position.moveTo(position.x(), position.y() - verticalScrollBar()->value() );
                 imageManager.draw(i, &painter, position);
             }
         }
@@ -300,8 +304,11 @@ namespace
 
             if (dataModel != nullptr)
             {
-                const int row = index.row();
-                result = m_cache.pos(row);
+                if (index.isValid())
+                {
+                    const int row = index.row();
+                    result = m_cache.pos(row);
+                }
             }
 
             return result;
@@ -332,7 +339,7 @@ namespace
 
         virtual int verticalOffset() const
         {
-            return 0;
+            return verticalScrollBar()->value();
         }
 
         virtual bool isIndexHidden(const QModelIndex& index) const
