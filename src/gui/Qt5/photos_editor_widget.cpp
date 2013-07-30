@@ -8,6 +8,7 @@
 #include <QAbstractListModel>
 #include <QPixmap>
 #include <QPainter>
+#include <QScrollBar>
 
 //useful links:
 //http://www.informit.com/articles/article.aspx?p=1613548
@@ -245,7 +246,20 @@ namespace
                     //save last row
                     m_data->m_rows.push_back(rowHeight);
                     m_data->m_totalHeight += rowHeight;
+
+                    updateScrollBars();
                 }
+            }
+
+            void updateScrollBars() const
+            {
+                QSize areaSize = m_data->m_view->viewport()->size();
+
+                m_data->m_view->verticalScrollBar()->setPageStep(areaSize.height());
+                //horizontalScrollBar()->setPageStep(areaSize.width());
+                m_data->m_view->verticalScrollBar()->setRange(0, m_data->m_totalHeight - areaSize.height());
+                //horizontalScrollBar()->setRange(0, widgetSize.width() - areaSize.width());
+                //updateWidgetPosition();
             }
     };
 
@@ -272,7 +286,7 @@ namespace
             }
         }
         
-        virtual void resizeEvent(QResizeEvent* event)
+        virtual void resizeEvent(QResizeEvent *event)
         {
             m_cache.invalidate();
             QAbstractItemView::resizeEvent(event);
