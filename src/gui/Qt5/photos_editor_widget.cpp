@@ -25,6 +25,7 @@ namespace
     const int imageMargin = 10;
     //
 
+    //TODO: scaling in thread, temporary bitmap
     struct PhotoInfo
     {
         PhotoInfo(const QString &p): pixmap(), path(p)
