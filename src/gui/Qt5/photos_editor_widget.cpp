@@ -98,20 +98,23 @@ namespace
     struct ImageManager
     {
         ImageManager(QAbstractItemModel *model): m_model(model) {}
+        ImageManager(const ImageManager &) = delete;
         ~ImageManager() {}
+
+        void operator=(const ImageManager &) = delete;
         
         QSize size(int i) const           //size of 'index' item in model
         {
             QPixmap image(getPixmap(i));
 
             //image size
-            QSize size = image.size();
+            QSize imageSize = image.size();
             
             //add margins
-            size.rwidth() += imageMargin * 2;
-            size.rheight() += imageMargin * 2;
+            imageSize.rwidth() += imageMargin * 2;
+            imageSize.rheight() += imageMargin * 2;
             
-            return size;
+            return imageSize;
         }
         
         void draw(int i, QPainter *painter, const QRect &rect) const
@@ -119,14 +122,14 @@ namespace
             QPixmap image(getPixmap(i));
             
             //image size
-            QSize size = image.size();
+            QSize imageSize = image.size();
     
             QPoint center = rect.center();
             
-            QRect target(center.x() - size.width() / 2,
-                         center.y() - size.height() / 2,
-                         size.width(),
-                         size.height());
+            QRect target(center.x() - imageSize.width() / 2,
+                         center.y() - imageSize.height() / 2,
+                         imageSize.width(),
+                         imageSize.height());
             
             painter->drawPixmap(target, image);
         }
