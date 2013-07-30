@@ -170,7 +170,7 @@ namespace
         private:
             struct MutableData
             {
-                MutableData(QAbstractItemView *view): m_valid(false), m_pos(), m_rows(), m_view(view) {}
+                MutableData(QAbstractItemView *view): m_valid(false), m_pos(), m_rows(), m_view(view), m_totalHeight(0) {}
                 MutableData(const MutableData &) = delete;
                 void operator=(const MutableData &) = delete;
 
@@ -178,6 +178,7 @@ namespace
                 std::vector<QRect> m_pos;         //position of items on grid
                 std::vector<int>   m_rows;        //each row's height
                 QAbstractItemView *m_view;
+                int                m_totalHeight;
             };
 
             std::unique_ptr<MutableData> m_data;
@@ -186,6 +187,7 @@ namespace
             {
                 m_data->m_pos.clear();
                 m_data->m_rows.clear();
+                m_data->m_totalHeight = 0;
             }
 
             void validateCache() const
@@ -227,6 +229,7 @@ namespace
                             y += rowHeight;
 
                             m_data->m_rows.push_back(rowHeight);
+                            m_data->m_totalHeight += rowHeight;
                             rowHeight = 0;
                         }
 
@@ -239,6 +242,9 @@ namespace
                         rowHeight = std::max(rowHeight, size.height());
                     }
 
+                    //save last row
+                    m_data->m_rows.push_back(rowHeight);
+                    m_data->m_totalHeight += rowHeight;
                 }
             }
     };
