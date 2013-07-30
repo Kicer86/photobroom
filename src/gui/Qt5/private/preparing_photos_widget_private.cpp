@@ -23,7 +23,7 @@ BrowseLine::BrowseLine(QWidget *p):
 {
     m_button = new QPushButton(tr("Browse"), this);
     m_line = new QLineEdit(this);
-    m_addButton = new QPushButton(tr("add"));
+    m_addButton = new QPushButton(tr("Add"));
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
 
