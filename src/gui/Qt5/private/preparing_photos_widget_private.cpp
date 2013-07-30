@@ -37,6 +37,7 @@ BrowseLine::BrowseLine(QWidget *p):
         
     //prepare dialog for choosing files
     QFileDialog *fileDialog = new QFileDialog(this);
+    fileDialog->setFileMode(QFileDialog::Directory);
     m_chooser = new QtExtChooseFile(m_button, m_line, fileDialog);
 }
 
