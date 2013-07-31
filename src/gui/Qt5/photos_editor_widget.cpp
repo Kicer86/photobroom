@@ -10,6 +10,8 @@
 #include <QPainter>
 #include <QScrollBar>
 
+#include "core/types.hpp"
+
 //useful links:
 //http://www.informit.com/articles/article.aspx?p=1613548
 //http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html
@@ -39,6 +41,7 @@ namespace
 
         QPixmap pixmap;
         QString path;
+        TagData tags;
     };
 
     struct ImagesModel: public QAbstractListModel

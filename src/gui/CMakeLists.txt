@@ -45,7 +45,7 @@ source_group(files REGULAR_EXPRESSION .*gui.* )
 qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 
 add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS})
-target_link_libraries(gui ${OPENLIBRARY_QTEXT_LIBRARIES})
+target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES})
 qt5_use_modules(gui Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
