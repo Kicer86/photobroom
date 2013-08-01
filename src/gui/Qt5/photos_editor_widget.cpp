@@ -327,6 +327,16 @@ namespace
         virtual QModelIndex indexAt(const QPoint& point) const
         {
             QModelIndex result;
+            for(int i = 0; i < m_cache.items(); i++)
+            {
+                const QRect &rect = m_cache.pos(i);
+
+                if (rect.contains(point))
+                {
+                    result = model()->index(i, 0);
+                    break;
+                }
+            }
 
             return result;
         }
