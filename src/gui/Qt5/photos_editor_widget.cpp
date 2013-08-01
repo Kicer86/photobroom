@@ -372,6 +372,24 @@ namespace
 
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
         {
+            QItemSelection selection;
+
+            //find all items in rect
+            for(int i = 0; i < m_cache.items(); i++)
+            {
+                QRect item = m_cache.pos(i);
+
+                if ( (rect & item).isEmpty() )
+                {
+                    QModelIndex index = model()->index(i, 0);
+
+                    selection.select(index, index);
+                }
+            }
+
+            selectionModel()->select(selection, command);
+
+            qDebug() << selection;
         }
 
         virtual QRegion visualRegionForSelection(const QItemSelection& selection) const
