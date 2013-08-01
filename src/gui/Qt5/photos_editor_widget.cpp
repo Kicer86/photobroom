@@ -9,6 +9,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QScrollBar>
+#include <QDebug>
 
 #include "core/types.hpp"
 
@@ -169,10 +170,15 @@ namespace
                 return m_data->m_pos.size();
             }
 
-            const QRect& pos(int i) const
+            QRect pos(int i) const
             {
                 validateCache();
-                return m_data->m_pos[i];
+                const int verticalOffset = m_data->m_view->verticalScrollBar()->value();
+
+                QRect rect = m_data->m_pos[i];
+                rect.moveTo(rect.x(), rect.y() - verticalOffset );
+
+                return rect;
             }
 
         private:
@@ -290,8 +296,7 @@ namespace
             
             for (int i = 0; i < items; i++)
             {
-                QRect position = m_cache.pos(i);
-                position.moveTo(position.x(), position.y() - verticalScrollBar()->value() );
+                const QRect position = m_cache.pos(i);
                 imageManager.draw(i, &painter, position);
             }
         }
@@ -337,6 +342,8 @@ namespace
                     break;
                 }
             }
+
+            qDebug() << result;
 
             return result;
         }
