@@ -296,7 +296,20 @@ namespace
             
             for (int i = 0; i < items; i++)
             {
+                QModelIndex index = model()->index(i, 0);
                 const QRect position = m_cache.pos(i);
+
+                //paint selection
+                const bool selected = selectionModel()->isSelected(index);
+
+                if (selected)
+                {
+                    painter.setPen(QColor(0, 0, 0, 0));
+                    painter.setBrush(QBrush(QColor(0, 0, 255)));
+                    painter.drawRect(position);
+                }
+
+                //paint image
                 imageManager.draw(i, &painter, position);
             }
         }
@@ -379,7 +392,7 @@ namespace
             {
                 QRect item = m_cache.pos(i);
 
-                if ( (rect & item).isEmpty() )
+                if ( (rect & item).isEmpty() == false )
                 {
                     QModelIndex index = model()->index(i, 0);
 
