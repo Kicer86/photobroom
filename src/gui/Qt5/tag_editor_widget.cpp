@@ -84,7 +84,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 {
     TagsManager(TagEditorWidget *tagWidget):
         m_avail_tags( {"Event", "Place", "Date", "Time", "People"}),
-                  m_tagWidget(tagWidget)
+        m_tagWidget(tagWidget)
     {
     }
 
