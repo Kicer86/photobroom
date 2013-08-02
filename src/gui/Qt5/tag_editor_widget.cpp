@@ -107,6 +107,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
     void addEmptyLine()
     {
         TagEntry *tagEntry = new TagEntry(m_tagWidget);
+        tagEntry->setTags(m_avail_tags);
         connect( tagEntry->m_tagsList, SIGNAL(textChanged(QString)), this, SLOT(tagEdited()) );
 
         QLayout *lay = m_tagWidget->layout();
