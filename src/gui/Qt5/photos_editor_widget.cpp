@@ -288,6 +288,7 @@ namespace
         //QWidget's virtuals:
         virtual void paintEvent(QPaintEvent* )
         {
+            //TODO: use itemDelegate() for painting
             QPainter painter(viewport());
 
             const int items = m_cache.items();
