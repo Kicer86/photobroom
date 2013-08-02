@@ -6,6 +6,8 @@
 
 #include <QWidget>
 
+class QItemSelectionModel;
+
 class PhotosEditorWidget: public QWidget
 {
     public:
@@ -22,6 +24,7 @@ class PhotosEditorWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
+        QItemSelectionModel* getSelectionModel();
 
     protected:
 

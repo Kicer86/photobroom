@@ -458,6 +458,11 @@ struct PhotosEditorWidget::GuiData
             m_photosModel.add(info);
         }
 
+        QItemSelectionModel* getSelectionModel()
+        {
+            return m_photosView->selectionModel();
+        }
+
     private:
         QWidget *m_editor;
 
@@ -480,4 +485,10 @@ PhotosEditorWidget::~PhotosEditorWidget()
 void PhotosEditorWidget::addPhoto(const std::string &photo)
 {
     m_gui->addPhoto(photo);
+}
+
+
+QItemSelectionModel* PhotosEditorWidget::getSelectionModel()
+{
+    return m_gui->getSelectionModel();
 }

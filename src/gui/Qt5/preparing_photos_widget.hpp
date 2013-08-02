@@ -4,6 +4,7 @@
 
 #include <QWidget>
 
+class QItemSelection;
 class TagEditorWidget;
 class PhotosEditorWidget;
 
@@ -24,6 +25,7 @@ class PreparingPhotosWidget: public QWidget
 
     private slots:
         void pathToAnalyze(QString);
+        void selectionChanged(const QItemSelection &);
 
 };
 

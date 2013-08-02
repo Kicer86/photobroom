@@ -39,6 +39,7 @@ class TagsManagerSlots: public QObject
     
     protected slots:
         virtual void tagEdited() = 0;
+        virtual void setTagsAndValues(ITagData *) = 0;
 };
 
 

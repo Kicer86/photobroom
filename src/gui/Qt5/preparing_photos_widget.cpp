@@ -3,6 +3,7 @@
 #include "private/preparing_photos_widget_private.hpp"
 
 #include <QVBoxLayout>
+#include <QItemSelectionModel>
 
 #include "photos_editor_widget.hpp"
 #include "tag_editor_widget.hpp"
@@ -23,6 +24,12 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
+
+    connect(m_editor->getSelectionModel(),
+            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            this,
+            SLOT(selectionChanged(const QItemSelection &))
+            );
     
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(browse);
@@ -44,4 +51,9 @@ void PreparingPhotosWidget::pathToAnalyze(QString path)
     std::vector<std::string> files = crawler->crawl(path.toStdString());
 
     m_editor->addPhotos(files);
+}
+
+
+void PreparingPhotosWidget::selectionChanged(const QItemSelection &selection)
+{
 }

@@ -162,6 +162,13 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             addEmptyLine();
     }
 
+
+    virtual void setTagsAndValues(ITagData *data)
+    {
+        setTags(data);
+    }
+
+
     std::vector<QString> m_avail_tags;
     TagEditorWidget *m_tagWidget;
 };
