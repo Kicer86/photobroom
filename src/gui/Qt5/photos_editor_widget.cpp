@@ -71,10 +71,7 @@ namespace
             endInsertRows();
         }
 
-
-
         //QAbstractItemModel:
-
 
         //QAbstractListModel:
         int rowCount(const QModelIndex &/*parent*/) const
