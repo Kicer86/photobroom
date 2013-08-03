@@ -452,7 +452,7 @@ struct PhotosEditorWidget::GuiData: private GuiDataSlots
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
             layout->addWidget(m_photosView);
 
-            connect(m_editor->getSelectionModel(),
+            connect(m_photosView->selectionModel(),
                     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
                     this,
                     SLOT(selectionChanged(const QItemSelection &))
