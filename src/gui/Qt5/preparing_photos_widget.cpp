@@ -17,7 +17,6 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
     m_editor(nullptr),
     m_tagEditor(nullptr)
 {
-
     BrowseLine *browse = new BrowseLine(this);
     m_editor = new PhotosEditorWidget(this);
     m_tagEditor = new TagEditorWidget(this);
