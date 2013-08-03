@@ -451,6 +451,12 @@ struct PhotosEditorWidget::GuiData: private GuiDataSlots
 
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
             layout->addWidget(m_photosView);
+
+            connect(m_editor->getSelectionModel(),
+                    SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+                    this,
+                    SLOT(selectionChanged(const QItemSelection &))
+                    );
         }
 
         GuiData(const GuiData &) = delete;
@@ -470,9 +476,13 @@ struct PhotosEditorWidget::GuiData: private GuiDataSlots
         ImagesModel m_photosModel;
         ImagesView *m_photosView;
 
-        void selectionChanged(const QItemSelection &)
+        void selectionChanged(const QItemSelection &selection)
         {
+            //collect list of tags
+            for (QModelIndex &index: selection.indexes())
+            {
 
+            }
         }
 };
 
