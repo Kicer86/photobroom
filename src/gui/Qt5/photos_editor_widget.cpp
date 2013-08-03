@@ -52,6 +52,12 @@ namespace
 
         ImagesModel(): QAbstractListModel(), m_photos() {}
 
+        ~ImagesModel()
+        {
+            for (PhotoInfo *photo: m_photos)
+                delete photo;
+        }
+
         void add(const PhotoInfo &photoInfo)
         {
             QModelIndex parentIndex;
@@ -59,10 +65,13 @@ namespace
 
             beginInsertRows(parentIndex, items, items);
 
-            m_photos.push_back(photoInfo);
+            PhotoInfo *photo = new PhotoInfo(photoInfo);
+            m_photos.push_back(photo);
 
             endInsertRows();
         }
+
+
 
         //QAbstractItemModel:
 
@@ -76,18 +85,18 @@ namespace
         QVariant data(const QModelIndex &_index, int role) const
         {
             const int row = _index.row();
-            const PhotoInfo &info = m_photos[row];
+            const PhotoInfo *info = m_photos[row];
 
             QVariant result;
 
             switch(role)
             {
                 case Qt::DisplayRole:
-                    result = info.path;
+                    result = info->path;
                     break;
 
                 case Qt::DecorationRole:
-                    result = info.pixmap;
+                    result = info->pixmap;
                     break;
 
                 default:
@@ -98,7 +107,7 @@ namespace
         }
 
         private:
-            std::vector<PhotoInfo> m_photos;
+            std::vector<PhotoInfo *> m_photos;
     };
     
     
