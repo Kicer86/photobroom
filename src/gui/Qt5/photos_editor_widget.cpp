@@ -71,6 +71,14 @@ namespace
             endInsertRows();
         }
 
+        PhotoInfo* get(const QModelIndex &index)
+        {
+            const int row = index.row();
+            PhotoInfo *result = m_photos[row];
+
+            return result;
+        }
+
         //QAbstractItemModel:
 
         //QAbstractListModel:
