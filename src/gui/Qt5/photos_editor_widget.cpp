@@ -52,8 +52,6 @@ namespace
 
         ImagesModel(): QAbstractListModel(), m_photos() {}
 
-        std::vector<PhotoInfo> m_photos;
-
         void add(const PhotoInfo &photoInfo)
         {
             QModelIndex parentIndex;
@@ -98,6 +96,9 @@ namespace
 
             return result;
         }
+
+        private:
+            std::vector<PhotoInfo> m_photos;
     };
     
     
