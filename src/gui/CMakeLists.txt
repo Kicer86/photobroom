@@ -38,6 +38,7 @@ set(GUI_FILES_TO_MOC
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/preparing_photos_widget.hpp
     Qt5/tag_editor_widget.hpp
+    Qt5/photos_editor_widget.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )

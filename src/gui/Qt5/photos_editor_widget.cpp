@@ -3,6 +3,8 @@
 
 #include <assert.h>
 
+#include <memory>
+
 #include <QVBoxLayout>
 #include <QAbstractItemView>
 #include <QAbstractListModel>
@@ -436,9 +438,13 @@ namespace
 }
 
 
-struct PhotosEditorWidget::GuiData
+GuiDataSlots::GuiDataSlots(QObject *p): QObject(p) {}
+GuiDataSlots::~GuiDataSlots() {}
+
+
+struct PhotosEditorWidget::GuiData: private GuiDataSlots
 {
-        GuiData(QWidget *editor): m_editor(editor), m_photosModel(), m_photosView(nullptr)
+        GuiData(QWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
         {
             m_photosView = new ImagesView(m_editor);
             m_photosView->setModel(&m_photosModel);
@@ -458,16 +464,16 @@ struct PhotosEditorWidget::GuiData
             m_photosModel.add(info);
         }
 
-        QItemSelectionModel* getSelectionModel()
-        {
-            return m_photosView->selectionModel();
-        }
-
     private:
         QWidget *m_editor;
 
         ImagesModel m_photosModel;
         ImagesView *m_photosView;
+
+        void selectionChanged(const QItemSelection &)
+        {
+
+        }
 };
 
 
@@ -485,10 +491,4 @@ PhotosEditorWidget::~PhotosEditorWidget()
 void PhotosEditorWidget::addPhoto(const std::string &photo)
 {
     m_gui->addPhoto(photo);
-}
-
-
-QItemSelectionModel* PhotosEditorWidget::getSelectionModel()
-{
-    return m_gui->getSelectionModel();
 }

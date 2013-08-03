@@ -2,11 +2,22 @@
 #ifndef PHOTOS_EDITOR_WIDGET_HPP
 #define PHOTOS_EDITOR_WIDGET_HPP
 
-#include <memory>
-
 #include <QWidget>
 
 class QItemSelectionModel;
+class QItemSelection;
+
+struct GuiDataSlots: public QObject
+{
+        Q_OBJECT
+
+    public:
+        GuiDataSlots(QObject *);
+        virtual ~GuiDataSlots();
+
+    protected slots:
+        virtual void selectionChanged(const QItemSelection &) = 0;
+};
 
 class PhotosEditorWidget: public QWidget
 {
@@ -24,13 +35,12 @@ class PhotosEditorWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
-        QItemSelectionModel* getSelectionModel();
 
     protected:
 
     private:
         struct GuiData;
-        std::unique_ptr<GuiData> m_gui;
+        GuiData *m_gui;
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP
