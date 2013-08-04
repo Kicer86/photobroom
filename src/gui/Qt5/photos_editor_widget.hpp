@@ -23,8 +23,11 @@ class PhotosEditorWidget: public QWidget
 {
     public:
         explicit PhotosEditorWidget(QWidget *parent = 0);
+        PhotosEditorWidget(const PhotosEditorWidget &) = delete;
         virtual ~PhotosEditorWidget();
 
+        void operator=(const PhotosEditorWidget &) = delete;
+        
         template<class T>
         void addPhotos(const T &collection)
         {
