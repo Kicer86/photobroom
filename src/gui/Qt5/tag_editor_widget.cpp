@@ -43,6 +43,7 @@ struct TagEntry: public QWidget
 
     void setListOfTags(const std::vector<QString> &);
     void selectTag(const QString &name);
+    void setTagValue(const QString &value);
 
     QComboBox   *m_tagsCombo;
     QLineEdit   *m_tagsList;
@@ -89,6 +90,11 @@ void TagEntry::selectTag(const QString &name)
 }
 
 
+void TagEntry::setTagValue(const QString &value)
+{
+    m_tagsList->setText(value);
+}
+
 /*****************************************************************************/
 
 
@@ -96,7 +102,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 {
         TagsManager(TagEditorWidget* tagWidget):
             m_avail_tags( {"Event", "Place", "Date", "Time", "People"}),
-            m_tagWidget(tagWidget)
+            m_tagWidget(tagWidget),
+            m_tagEntries()
         {
             new QVBoxLayout(tagWidget);
             addEmptyLine();
