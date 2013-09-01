@@ -127,7 +127,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             TagEntry* tagEntry = findEmptyLine();
 
             tagEntry->selectTag(name);
-
+            tagEntry->setTagValue(value);
         }
 
 
