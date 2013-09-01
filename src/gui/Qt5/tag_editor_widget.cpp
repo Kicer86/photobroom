@@ -41,7 +41,7 @@ struct TagEntry: public QWidget
     TagEntry(const TagEntry &) = delete;
     void operator=(const TagEntry &) = delete;
 
-    void setTags(const std::vector<QString> &);
+    void setListOfTags(const std::vector<QString> &);
     void selectTag(const QString &name);
 
     QComboBox   *m_tagsCombo;
@@ -69,7 +69,7 @@ TagEntry::~TagEntry()
 }
 
 
-void TagEntry::setTags(const std::vector<QString> &tags)
+void TagEntry::setListOfTags(const std::vector<QString> &tags)
 {
     m_tagsCombo->clear();
 
@@ -127,7 +127,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         TagEntry* addEmptyLine()
         {
             TagEntry* tagEntry = new TagEntry(m_tagWidget);
-            tagEntry->setTags(m_avail_tags);
+            tagEntry->setListOfTags(m_avail_tags);
             connect( tagEntry->m_tagsList, SIGNAL(textChanged(QString)), this, SLOT(tagEdited()) );
 
             QLayout* lay = m_tagWidget->layout();
