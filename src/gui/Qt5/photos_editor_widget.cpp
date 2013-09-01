@@ -35,7 +35,7 @@ namespace
     //TODO: scaling in thread, temporary bitmap
     struct PhotoInfo
     {
-        PhotoInfo(const QString &p): pixmap(), path(p)
+        PhotoInfo(const QString &p): pixmap(), path(p), tags()
         {
             QPixmap tmp(p);
 
@@ -71,9 +71,9 @@ namespace
             endInsertRows();
         }
 
-        PhotoInfo* get(const QModelIndex &index)
+        PhotoInfo* get(const QModelIndex &idx)
         {
-            const int row = index.row();
+            const int row = idx.row();
             PhotoInfo *result = m_photos[row];
 
             return result;
@@ -332,10 +332,10 @@ namespace
             }
         }
         
-        virtual void resizeEvent(QResizeEvent *event)
+        virtual void resizeEvent(QResizeEvent *e)
         {
             m_cache.invalidate();
-            QAbstractItemView::resizeEvent(event);
+            QAbstractItemView::resizeEvent(e);
         }
 
         //QAbstractItemView's pure virtuals:
@@ -356,14 +356,14 @@ namespace
             return result;
         }
 
-        virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible)
+        virtual void scrollTo(const QModelIndex& idx, ScrollHint hint = EnsureVisible)
         {
         }
 
         virtual QModelIndex indexAt(const QPoint& point) const
         {
             QModelIndex result;
-            for(int i = 0; i < m_cache.items(); i++)
+            for(size_t i = 0; i < m_cache.items(); i++)
             {
                 const QRect &rect = m_cache.pos(i);
 

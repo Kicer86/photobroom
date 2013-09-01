@@ -19,8 +19,11 @@ struct GuiDataSlots: public QObject
         virtual void selectionChanged(const QItemSelection &) = 0;
 };
 
+
 class PhotosEditorWidget: public QWidget
 {
+        Q_OBJECT
+        
     public:
         explicit PhotosEditorWidget(QWidget *parent = 0);
         PhotosEditorWidget(const PhotosEditorWidget &) = delete;
@@ -44,6 +47,9 @@ class PhotosEditorWidget: public QWidget
     private:
         struct GuiData;
         GuiData *m_gui;
+        
+    signals:
+        void selectionChanged();
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP
