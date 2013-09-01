@@ -82,95 +82,128 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
 {
-    TagsManager(TagEditorWidget *tagWidget):
-        m_avail_tags( {"Event", "Place", "Date", "Time", "People"}),
-        m_tagWidget(tagWidget)
-    {
-    }
-
-    TagsManager(const TagsManager &) = delete;
-    void operator=(const TagsManager &) = delete;
-    
-    void setTags(ITagData *tagData)
-    {
-        removeAll();
-        std::vector<ITagData::TagInfo> tags = tagData->getTags();
-        
-        for (auto &tag: tags)
-            addLine(tag.name, tag.values);
-    }
-    
-    void addLine(const QString &name, const QString &value)
-    {
-    }
-
-    void addEmptyLine()
-    {
-        TagEntry *tagEntry = new TagEntry(m_tagWidget);
-        tagEntry->setTags(m_avail_tags);
-        connect( tagEntry->m_tagsList, SIGNAL(textChanged(QString)), this, SLOT(tagEdited()) );
-
-        QLayout *lay = m_tagWidget->layout();
-        lay->addWidget(tagEntry);
-    }
-
-
-    void removeAll()
-    {
-        QLayout *lay = m_tagWidget->layout();
-
-        while ( QLayoutItem *item = lay->takeAt(0) )
-            delete item;
-    }
-
-
-    virtual void tagEdited()
-    {
-        QLayout *lay = m_tagWidget->layout();
-
-        //analyze each "TagEntry"
-
-        auto getTagEntry = [&] (int i) -> TagEntry *
+        TagsManager(TagEditorWidget* tagWidget):
+            m_avail_tags( {"Event", "Place", "Date", "Time", "People"}),
+            m_tagWidget(tagWidget)
         {
-            QLayoutItem *item = lay->itemAt(i);
-            QWidget *widget = item->widget();
-
-            assert(dynamic_cast<TagEntry *>(widget) != nullptr);
-            TagEntry *entry = static_cast<TagEntry *>(widget);
-
-            return entry;
-        };
-
-        auto isEmpty = [&] (int i) -> bool
-        {
-            TagEntry *entry = getTagEntry(i);
-
-            const bool empty = entry->m_tagsList->text().isEmpty();
-
-            return empty;
-        };
-
-        while ( int items = lay->count() >= 2 ? lay->count() : 0)
-        {
-            if ( isEmpty(items - 1) && isEmpty(items - 2) )
-                delete lay->takeAt(items - 1);
-            else
-                break;
+            new QVBoxLayout(tagWidget);
+            addEmptyLine();
         }
 
-        if (getTagEntry(lay->count() - 1)->m_tagsList->text().isEmpty() == false)
-            addEmptyLine();
-    }
+        TagsManager(const TagsManager&) = delete;
+        void operator=(const TagsManager&) = delete;
+
+        void setTags(ITagData* tagData)
+        {
+            removeAll();
+            std::vector<ITagData::TagInfo> tags = tagData->getTags();
+
+        for (auto & tag: tags)
+                addLine(tag.name, tag.values);
+        }
+
+    private:
+        void addLine(const QString& name, const QString& value)
+        {
+            TagEntry* tagEntry = findEmptyLine();
+
+            int idx = tagEntry->m_tagsCombo->findText(name);
+
+            if (idx == -1)
+                tagEntry->m_tagsCombo->addItem(name);
+            else
+                tagEntry->m_tagsCombo->setCurrentIndex(idx);
+        }
+
+        TagEntry* addEmptyLine()
+        {
+            TagEntry* tagEntry = new TagEntry(m_tagWidget);
+            tagEntry->setTags(m_avail_tags);
+            connect( tagEntry->m_tagsList, SIGNAL(textChanged(QString)), this, SLOT(tagEdited()) );
+
+            QLayout* lay = m_tagWidget->layout();
+            lay->addWidget(tagEntry);
+            m_tagEntries.push_back(tagEntry);
+
+            return tagEntry;
+        }
 
 
-    virtual void setTagsAndValues(ITagData *data)
-    {
-        setTags(data);
-    }
+        void removeAll()
+        {
+            QLayout* lay = m_tagWidget->layout();
+
+            while ( QLayoutItem* item = lay->takeAt(0) )
+                delete item;
+
+            m_tagEntries.clear();
+        }
 
 
-    std::vector<QString> m_avail_tags;
-    TagEditorWidget *m_tagWidget;
+        TagEntry* findEmptyLine()
+        {
+            TagEntry* result = nullptr;
+
+            for(TagEntry * item: m_tagEntries)
+            {
+                if (item->m_tagsList->text().isEmpty())
+                {
+                    result = item;
+                    break;
+                }
+            }
+
+            if (result == nullptr)
+                result = addEmptyLine();
+
+            return result;
+        }
+
+
+        virtual void tagEdited()
+        {
+            QLayout* lay = m_tagWidget->layout();
+
+            //analyze each "TagEntry"
+
+            auto getTagEntry = [&] (int i) -> TagEntry *
+            {
+                TagEntry* entry = m_tagEntries[i];
+
+                return entry;
+            };
+
+            auto isEmpty = [&] (int i) -> bool
+            {
+                TagEntry* entry = getTagEntry(i);
+
+                const bool empty = entry->m_tagsList->text().isEmpty();
+
+                return empty;
+            };
+
+            while ( int items = lay->count() >= 2 ? lay->count() : 0)
+            {
+                if ( isEmpty(items - 1) && isEmpty(items - 2) )
+                    delete lay->takeAt(items - 1);
+                else
+                    break;
+            }
+
+            if (getTagEntry(lay->count() - 1)->m_tagsList->text().isEmpty() == false)
+                addEmptyLine();
+        }
+
+
+        virtual void setTagsAndValues(ITagData* data)
+        {
+            setTags(data);
+        }
+
+
+        std::vector<QString> m_avail_tags;
+        TagEditorWidget* m_tagWidget;
+        std::vector<TagEntry*> m_tagEntries;
 };
 
 
@@ -181,9 +214,7 @@ TagEditorWidget::TagEditorWidget(QWidget *p, Qt::WindowFlags f):
     QWidget(p, f),
     m_manager(new TagsManager(this))
 {
-    new QVBoxLayout(this);
 
-    m_manager->addEmptyLine();
 }
 
 
