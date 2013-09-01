@@ -172,7 +172,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             TagEntry* result = nullptr;
 
-            for(TagEntry * item: m_tagEntries)
+            for(TagEntry* item: m_tagEntries)
             {
                 if (item->m_tagValue->text().isEmpty())
                 {
