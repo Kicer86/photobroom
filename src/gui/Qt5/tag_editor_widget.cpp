@@ -42,6 +42,7 @@ struct TagEntry: public QWidget
     void operator=(const TagEntry &) = delete;
 
     void setTags(const std::vector<QString> &);
+    void selectTag(const QString &name);
 
     QComboBox   *m_tagsCombo;
     QLineEdit   *m_tagsList;
@@ -77,6 +78,17 @@ void TagEntry::setTags(const std::vector<QString> &tags)
 }
 
 
+void TagEntry::selectTag(const QString &name)
+{
+    int idx = m_tagsCombo->findText(name);
+
+    if (idx == -1)
+        m_tagsCombo->addItem(name);
+    else
+        m_tagsCombo->setCurrentIndex(idx);
+}
+
+
 /*****************************************************************************/
 
 
@@ -107,13 +119,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             TagEntry* tagEntry = findEmptyLine();
 
-            int idx = tagEntry->m_tagsCombo->findText(name);
+            tagEntry->selectTag(name);
 
-            if (idx == -1)
-                tagEntry->m_tagsCombo->addItem(name);
-            else
-                tagEntry->m_tagsCombo->setCurrentIndex(idx);
         }
+
 
         TagEntry* addEmptyLine()
         {
