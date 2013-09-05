@@ -14,6 +14,7 @@
 #include <QDebug>
 
 #include "core/types.hpp"
+#include "data/photo_info.hpp"
 
 //useful links:
 //http://www.informit.com/articles/article.aspx?p=1613548
@@ -25,27 +26,12 @@ namespace
 {
 
     //TODO: remove, use config
-    const int photoWidth = 120;
     const int leftMargin = 20;
     const int rightMargin = 20;
     const int topMargin  = 20;
     const int imageMargin = 10;
     //
-
-    //TODO: scaling in thread, temporary bitmap
-    struct PhotoInfo
-    {
-        PhotoInfo(const QString &p): pixmap(), path(p), tags()
-        {
-            QPixmap tmp(p);
-
-            pixmap = tmp.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        }
-
-        QPixmap pixmap;
-        QString path;
-        TagData tags;
-    };
+ 
 
     struct ImagesModel: public QAbstractListModel
     {
@@ -97,11 +83,11 @@ namespace
             switch(role)
             {
                 case Qt::DisplayRole:
-                    result = info->path;
+                    result = info->getPath();
                     break;
 
                 case Qt::DecorationRole:
-                    result = info->pixmap;
+                    result = info->getPixmap();
                     break;
 
                 default:

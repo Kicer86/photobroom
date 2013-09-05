@@ -18,6 +18,7 @@ set(GUI_SOURCES
     Qt5/photos_editor_widget.cpp
     Qt5/preparing_photos_widget.cpp
     Qt5/private/preparing_photos_widget_private.cpp
+    Qt5/data/photo_info.cpp
     Qt5/tag_editor_widget.cpp
     )
 
@@ -30,6 +31,7 @@ set(GUI_HEADERS
     Qt5/photos_editor_widget.hpp
     Qt5/preparing_photos_widget.hpp
     Qt5/private/preparing_photos_widget_private.hpp
+    Qt5/data/photo_info.hpp
     Qt5/tag_editor_widget.hpp
     )
 

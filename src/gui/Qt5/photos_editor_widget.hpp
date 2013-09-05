@@ -7,6 +7,7 @@
 class QItemSelectionModel;
 class QItemSelection;
 
+
 struct GuiDataSlots: public QObject
 {
         Q_OBJECT
