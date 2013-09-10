@@ -22,6 +22,8 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
+    connect(m_editor, SIGNAL(selectionChanged(const QItemSelection&)),
+            this, SLOT(viewSelectionChanged(const QItemSelection &)));
     
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(browse);
@@ -43,4 +45,10 @@ void PreparingPhotosWidget::pathToAnalyze(QString path)
     std::vector<std::string> files = crawler->crawl(path.toStdString());
 
     m_editor->addPhotos(files);
+}
+
+
+void PreparingPhotosWidget::viewSelectionChanged(const QItemSelection &selection)
+{
+
 }

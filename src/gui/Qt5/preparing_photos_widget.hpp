@@ -6,6 +6,7 @@
 
 class TagEditorWidget;
 class PhotosEditorWidget;
+class QItemSelection;
 
 class PreparingPhotosWidget: public QWidget
 {
@@ -24,6 +25,7 @@ class PreparingPhotosWidget: public QWidget
 
     private slots:
         void pathToAnalyze(QString);
+        void viewSelectionChanged(const QItemSelection &);
 
 };
 
