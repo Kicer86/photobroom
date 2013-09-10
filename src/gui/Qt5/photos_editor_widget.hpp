@@ -50,7 +50,7 @@ class PhotosEditorWidget: public QWidget
         GuiData *m_gui;
         
     signals:
-        void selectionChanged();
+        void selectionChanged(const QItemSelection &);
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP

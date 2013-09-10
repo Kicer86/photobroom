@@ -462,7 +462,7 @@ struct PhotosEditorWidget::GuiData: private GuiDataSlots
             connect(m_photosView->selectionModel(),
                     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
                     editor,
-                    SIGNAL(selectionChanged()));
+                    SIGNAL(selectionChanged(const QItemSelection &)));
         }
 
         GuiData(const GuiData &) = delete;
