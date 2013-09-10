@@ -445,7 +445,7 @@ GuiDataSlots::~GuiDataSlots() {}
 
 struct PhotosEditorWidget::GuiData: private GuiDataSlots
 {
-        GuiData(QWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
+        GuiData(PhotosEditorWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
         {
             m_photosView = new ImagesView(m_editor);
             m_photosView->setModel(&m_photosModel);
@@ -458,6 +458,11 @@ struct PhotosEditorWidget::GuiData: private GuiDataSlots
                     this,
                     SLOT(selectionChanged(const QItemSelection &))
                     );
+
+            connect(m_photosView->selectionModel(),
+                    SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+                    editor,
+                    SIGNAL(selectionChanged()));
         }
 
         GuiData(const GuiData &) = delete;
