@@ -445,7 +445,7 @@ GuiDataSlots::~GuiDataSlots() {}
 
 struct PhotosViewWidget::GuiData: private GuiDataSlots
 {
-        GuiData(PhotosEditorWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
+        GuiData(PhotosViewWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
         {
             m_photosView = new ImagesView(m_editor);
             m_photosView->setModel(&m_photosModel);
