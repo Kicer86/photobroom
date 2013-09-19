@@ -4,6 +4,8 @@
 
 #include <QWidget>
 
+#include "data/photo_info.hpp"
+
 class QItemSelectionModel;
 class QItemSelection;
 
@@ -50,7 +52,7 @@ class PhotosViewWidget: public QWidget
         GuiData *m_gui;
         
     signals:
-        void selectionChanged(const QItemSelection &);
+        void selectionChanged(const std::vector<PhotoInfo::PhotoInfoPtr> &);
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP

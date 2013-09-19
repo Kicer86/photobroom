@@ -458,11 +458,6 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
                     this,
                     SLOT(selectionChanged(const QItemSelection &))
                     );
-
-            connect(m_photosView->selectionModel(),
-                    SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-                    editor,
-                    SIGNAL(selectionChanged(const QItemSelection &)));
         }
 
         GuiData(const GuiData &) = delete;
@@ -487,7 +482,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             //collect list of tags
             for (QModelIndex &index: selection.indexes())
             {
-
+                
             }
         }
 };
