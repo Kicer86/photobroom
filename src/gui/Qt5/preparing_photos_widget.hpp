@@ -21,7 +21,7 @@ class PreparingPhotosWidget: public QWidget
 
     private:
         PhotosViewWidget *m_editor;
-        TagEditorWidget    *m_tagEditor;
+        TagEditorWidget  *m_tagEditor;
 
     private slots:
         void pathToAnalyze(QString);
