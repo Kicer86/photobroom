@@ -40,8 +40,6 @@ namespace
 
         ~ImagesModel()
         {
-            for (PhotoInfo *photo: m_photos)
-                delete photo;
         }
 
         void add(const PhotoInfo &photoInfo)
@@ -51,16 +49,16 @@ namespace
 
             beginInsertRows(parentIndex, items, items);
 
-            PhotoInfo *photo = new PhotoInfo(photoInfo);
+            PhotoInfo::PhotoInfoPtr photo = std::make_shared<PhotoInfo>(photoInfo);
             m_photos.push_back(photo);
 
             endInsertRows();
         }
 
-        PhotoInfo* get(const QModelIndex &idx)
+        PhotoInfo::PhotoInfoPtr get(const QModelIndex &idx)
         {
             const int row = idx.row();
-            PhotoInfo *result = m_photos[row];
+            PhotoInfo::PhotoInfoPtr result = m_photos[row];
 
             return result;
         }
@@ -76,7 +74,7 @@ namespace
         QVariant data(const QModelIndex &_index, int role) const
         {
             const int row = _index.row();
-            const PhotoInfo *info = m_photos[row];
+            const PhotoInfo::PhotoInfoPtr info = m_photos[row];
 
             QVariant result;
 
@@ -98,7 +96,7 @@ namespace
         }
 
         private:
-            std::vector<PhotoInfo *> m_photos;
+            std::vector<PhotoInfo::PhotoInfoPtr> m_photos;
     };
     
     
@@ -480,9 +478,9 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
         void selectionChanged(const QItemSelection &selection)
         {
             //collect list of tags
-            for (QModelIndex &index: selection.indexes())
+            for (const QModelIndex &index: selection.indexes())
             {
-                
+                PhotoInfo::PhotoInfoPtr photoInfo = m_photosModel.get(index);
             }
         }
 };
