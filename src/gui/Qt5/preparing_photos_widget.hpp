@@ -4,6 +4,8 @@
 
 #include <QWidget>
 
+#include "data/photo_info.hpp"
+
 class TagEditorWidget;
 class PhotosViewWidget;
 class QItemSelection;
@@ -25,7 +27,7 @@ class PreparingPhotosWidget: public QWidget
 
     private slots:
         void pathToAnalyze(QString);
-        void viewSelectionChanged(const QItemSelection &);
+        void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >& selection);
 
 };
 

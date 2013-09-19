@@ -22,8 +22,8 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
-    connect(m_editor, SIGNAL(selectionChanged(const QItemSelection&)),
-            this, SLOT(viewSelectionChanged(const QItemSelection &)));
+    connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
+            this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
     
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(browse);
@@ -48,7 +48,7 @@ void PreparingPhotosWidget::pathToAnalyze(QString path)
 }
 
 
-void PreparingPhotosWidget::viewSelectionChanged(const QItemSelection &selection)
+void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& selection)
 {
 
 }
