@@ -52,7 +52,7 @@ class PhotosViewWidget: public QWidget
         GuiData *m_gui;
         
     signals:
-        void selectionChanged(const std::vector<PhotoInfo::PhotoInfoPtr> &);
+        void selectionChanged(const std::vector<PhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP

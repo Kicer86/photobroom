@@ -49,16 +49,16 @@ namespace
 
             beginInsertRows(parentIndex, items, items);
 
-            PhotoInfo::PhotoInfoPtr photo = std::make_shared<PhotoInfo>(photoInfo);
+            PhotoInfo::Ptr photo = std::make_shared<PhotoInfo>(photoInfo);
             m_photos.push_back(photo);
 
             endInsertRows();
         }
 
-        PhotoInfo::PhotoInfoPtr get(const QModelIndex &idx)
+        PhotoInfo::Ptr get(const QModelIndex &idx)
         {
             const int row = idx.row();
-            PhotoInfo::PhotoInfoPtr result = m_photos[row];
+            PhotoInfo::Ptr result = m_photos[row];
 
             return result;
         }
@@ -74,7 +74,7 @@ namespace
         QVariant data(const QModelIndex &_index, int role) const
         {
             const int row = _index.row();
-            const PhotoInfo::PhotoInfoPtr info = m_photos[row];
+            const PhotoInfo::Ptr info = m_photos[row];
 
             QVariant result;
 
@@ -96,7 +96,7 @@ namespace
         }
 
         private:
-            std::vector<PhotoInfo::PhotoInfoPtr> m_photos;
+            std::vector<PhotoInfo::Ptr> m_photos;
     };
     
     
@@ -480,7 +480,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             //collect list of tags
             for (const QModelIndex &index: selection.indexes())
             {
-                PhotoInfo::PhotoInfoPtr photoInfo = m_photosModel.get(index);
+                PhotoInfo::Ptr photoInfo = m_photosModel.get(index);
             }
         }
 };

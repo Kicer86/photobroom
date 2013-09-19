@@ -10,7 +10,7 @@ class QPixmap;
 class PhotoInfo
 {
     public:
-        typedef std::shared_ptr<PhotoInfo> PhotoInfoPtr;
+        typedef std::shared_ptr<PhotoInfo> Ptr;
         
         PhotoInfo(const QString &path);
         PhotoInfo(const PhotoInfo &);
