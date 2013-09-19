@@ -11,7 +11,7 @@
 
 #include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
-#include "../photos_editor_widget.hpp"
+#include "../photos_view_widget.hpp"
 
 BrowseLine::BrowseLine(QWidget *p):
     QWidget(p),

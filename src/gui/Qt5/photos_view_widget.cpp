@@ -1,5 +1,5 @@
 
-#include "photos_editor_widget.hpp"
+#include "photos_view_widget.hpp"
 
 #include <assert.h>
 
