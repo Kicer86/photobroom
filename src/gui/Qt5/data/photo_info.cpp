@@ -63,7 +63,7 @@ const QPixmap& PhotoInfo::getPixmap() const
 }
 
 
-const ITagData& PhotoInfo::getTags() const
+ITagData* PhotoInfo::getTags() const
 {
-    return m_data->tags;
+    return &m_data->tags;
 }
