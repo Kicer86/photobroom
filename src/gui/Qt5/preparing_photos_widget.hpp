@@ -5,7 +5,7 @@
 #include <QWidget>
 
 class TagEditorWidget;
-class PhotosEditorWidget;
+class PhotosViewWidget;
 class QItemSelection;
 
 class PreparingPhotosWidget: public QWidget
@@ -20,7 +20,7 @@ class PreparingPhotosWidget: public QWidget
         void operator=(const PreparingPhotosWidget &) = delete;
 
     private:
-        PhotosEditorWidget *m_editor;
+        PhotosViewWidget *m_editor;
         TagEditorWidget    *m_tagEditor;
 
     private slots:

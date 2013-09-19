@@ -443,7 +443,7 @@ GuiDataSlots::GuiDataSlots(QObject *p): QObject(p) {}
 GuiDataSlots::~GuiDataSlots() {}
 
 
-struct PhotosEditorWidget::GuiData: private GuiDataSlots
+struct PhotosViewWidget::GuiData: private GuiDataSlots
 {
         GuiData(PhotosEditorWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
         {
@@ -493,18 +493,18 @@ struct PhotosEditorWidget::GuiData: private GuiDataSlots
 };
 
 
-PhotosEditorWidget::PhotosEditorWidget(QWidget *p): QWidget(p), m_gui(new GuiData(this))
+PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_gui(new GuiData(this))
 {
 }
 
 
-PhotosEditorWidget::~PhotosEditorWidget()
+PhotosViewWidget::~PhotosViewWidget()
 {
 
 }
 
 
-void PhotosEditorWidget::addPhoto(const std::string &photo)
+void PhotosViewWidget::addPhoto(const std::string &photo)
 {
     m_gui->addPhoto(photo);
 }

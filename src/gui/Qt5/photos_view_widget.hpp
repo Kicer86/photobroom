@@ -21,16 +21,16 @@ struct GuiDataSlots: public QObject
 };
 
 
-class PhotosEditorWidget: public QWidget
+class PhotosViewWidget: public QWidget
 {
         Q_OBJECT
         
     public:
-        explicit PhotosEditorWidget(QWidget *parent = 0);
-        PhotosEditorWidget(const PhotosEditorWidget &) = delete;
-        virtual ~PhotosEditorWidget();
+        explicit PhotosViewWidget(QWidget *parent = 0);
+        PhotosViewWidget(const PhotosViewWidget &) = delete;
+        virtual ~PhotosViewWidget();
 
-        void operator=(const PhotosEditorWidget &) = delete;
+        void operator=(const PhotosViewWidget &) = delete;
         
         template<class T>
         void addPhotos(const T &collection)
