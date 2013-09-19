@@ -470,18 +470,22 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
         }
 
     private:
-        QWidget *m_editor;
+        PhotosViewWidget *m_editor;
 
         ImagesModel m_photosModel;
         ImagesView *m_photosView;
 
         void selectionChanged(const QItemSelection &selection)
         {
+            std::vector<PhotoInfo::Ptr> images;
             //collect list of tags
             for (const QModelIndex &index: selection.indexes())
             {
                 PhotoInfo::Ptr photoInfo = m_photosModel.get(index);
+                images.push_back(photoInfo);
             }
+            
+            emit m_editor->selectionChanged(images);
         }
 };
 
