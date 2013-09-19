@@ -7,6 +7,8 @@
 class QString;
 class QPixmap;
 
+struct ITagData;
+
 class PhotoInfo
 {
     public:
@@ -18,6 +20,7 @@ class PhotoInfo
         
         const QString& getPath() const;
         const QPixmap& getPixmap() const;
+        const ITagData& getTags() const;
 
     private:
         struct Data;

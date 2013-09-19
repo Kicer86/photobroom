@@ -61,3 +61,9 @@ const QPixmap& PhotoInfo::getPixmap() const
 {
     return m_data->pixmap;
 }
+
+
+const ITagData& PhotoInfo::getTags() const
+{
+    return m_data->tags;
+}
