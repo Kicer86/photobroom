@@ -58,17 +58,20 @@ TagDataComposite::~TagDataComposite()
 
 void TagDataComposite::setTagDatas(const std::vector<ITagData *> &tags)
 {
-    
+    m_tags = tags;
 }
 
 
 std::vector<TagData::TagInfo> TagDataComposite::getTags() const
 {
+    
 }
 
 
-void TagDataComposite::setTag(const QString &, const QString &)
+void TagDataComposite::setTag(const QString &name, const QString &values)
 {
+    for(ITagData *tag: m_tags)
+        tag->setTag(name, values);
 }
 
 
