@@ -41,3 +41,34 @@ void TagData::setTag(const QString &name, const QString &values)
 {
     m_tags[name] = values;
 }
+
+
+/*****************************************************************************/
+
+
+TagDataComposite::TagDataComposite()
+{
+}
+
+
+TagDataComposite::~TagDataComposite()
+{
+}
+
+
+void TagDataComposite::setTagDatas(const std::vector<ITagData *> &tags)
+{
+    
+}
+
+
+std::vector<TagData::TagInfo> TagDataComposite::getTags() const
+{
+}
+
+
+void TagDataComposite::setTag(const QString &, const QString &)
+{
+}
+
+
