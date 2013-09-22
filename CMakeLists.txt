@@ -4,6 +4,9 @@ project(broom)
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 
 set(BUILD_TESTS FALSE CACHE BOOL "Build tests. Set to TRUE to build tests")
+if(BUILD_TESTS)
+    enable_testing()
+endif(BUILD_TESTS)    
 
 if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
