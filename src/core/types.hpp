@@ -45,7 +45,7 @@ class TagDataComposite: public ITagData
         TagDataComposite();
         virtual ~TagDataComposite();
         
-        void setTagDatas(std::vector<ITagData *>);
+        void setTagDatas(const std::vector< ITagData* >&);
         
         virtual std::vector< TagInfo > getTags() const;
         virtual void setTag(const QString& name, const QString& values);
