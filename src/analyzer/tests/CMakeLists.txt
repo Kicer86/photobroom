@@ -1,25 +1,30 @@
 
 project(analyzer_tests)
 
-find_package(OpenLibrary REQUIRED)
+if(BUILD_TESTS)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+    find_package(OpenLibrary REQUIRED)
 
-find_package(CppUTest REQUIRED)
+    set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-include_directories(${CMAKE_SOURCE_DIR}/src 
-					${CMAKE_SOURCE_DIR}/src/analyzer
-					${CMAKE_SOURCE_DIR}/src/database
-                    ${CPPUTEST_INCLUDE_DIRS}
-					${OPENLIBRARY_INCLUDES}
-					${CMAKE_BINARY_DIR})
+    find_package(CppUTest REQUIRED)
 
-set(TESTS
-    analyzerTests.cpp
-    )
+    include_directories(${CMAKE_SOURCE_DIR}/src 
+                        ${CMAKE_SOURCE_DIR}/src/analyzer
+                        ${CMAKE_SOURCE_DIR}/src/database
+                        ${CPPUTEST_INCLUDE_DIRS}
+                        ${OPENLIBRARY_INCLUDES}
+                        ${CMAKE_BINARY_DIR})
 
-add_executable(analyzer_tests RunAllTests.cpp ${TESTS})
-target_link_libraries(analyzer_tests analyzer ${CPPUTEST_LIBRARIES})
+    set(TESTS
+        analyzerTests.cpp
+        )
 
-turnOnCpp11(analyzer_tests)
+    add_executable(analyzer_tests RunAllTests.cpp ${TESTS})
+    target_link_libraries(analyzer_tests analyzer ${CPPUTEST_LIBRARIES})
 
+    turnOnCpp11(analyzer_tests)
+
+    add_test(analyzer analyzer_tests)
+
+endif(BUILD_TESTS)
