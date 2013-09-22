@@ -22,5 +22,7 @@ if (BUILD_TESTS)
 	target_link_libraries(tests ${CPPUTEST_LIBRARIES})
 
 	turnOnCpp11(tests)
+	
+	add_test(main_tests tests)
 
 endif(BUILD_TESTS)
