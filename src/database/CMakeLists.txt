@@ -59,5 +59,12 @@ if(BUILD_TESTS)
 	target_link_libraries(database_tests ${CPPUTEST_LIBRARIES})
 
 	turnOnCpp11(database_tests)
+	
+	if(CMAKE_COMPILER_IS_GNUCXX)
+            #addFlags(database_tests COMPILE_FLAGS -pthread)
+            addFlags(database_tests LINK_FLAGS -pthread)
+	endif(CMAKE_COMPILER_IS_GNUCXX)
+	
+	add_test(database database_tests)
 
 endif(BUILD_TESTS)
