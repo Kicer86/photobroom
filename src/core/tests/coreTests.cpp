@@ -55,3 +55,34 @@ TEST(TagDataShould, overwritePreviousTagsValues)
 }
 
 
+
+/*************************************************************************/
+
+TEST_GROUP(TagDataCompositeShould)
+{
+    
+};
+
+
+TEST(TagDataCompositeShould, fillItsMinions)
+{
+    TagDataComposite data;
+
+    TagData minion1, minion2, minion3;
+    
+    data.setTagDatas( {&minion1, &minion2, &minion3} );    
+    data.setTag("name", "value");
+    
+    auto m1 = minion1.getTags();
+    CHECK_EQUAL(1, m1.size());
+    CHECK_EQUAL(true, m1[0].name == "name");
+    CHECK_EQUAL(true, m1[0].values == "value");
+    
+    CHECK_EQUAL(1, m1.size());
+    CHECK_EQUAL(true, m1[0].name == "name");
+    CHECK_EQUAL(true, m1[0].values == "value");
+    
+    CHECK_EQUAL(1, m1.size());
+    CHECK_EQUAL(true, m1[0].name == "name");
+    CHECK_EQUAL(true, m1[0].values == "value");
+}
