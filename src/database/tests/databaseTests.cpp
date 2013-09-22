@@ -17,7 +17,7 @@ TEST_GROUP(MemoryDatabaseShould)
 	struct FSImpl: public FS
 	{
 		//open and return file
-		std::iostream* openStream(const std::string &filename, std::ios_base::openmode mode)
+		std::iostream* openStream(const std::string &, std::ios_base::openmode)
 		{
 			return &m_stream;
 		}
@@ -25,7 +25,7 @@ TEST_GROUP(MemoryDatabaseShould)
 		//close opened file
 		void closeStream(std::iostream *stream)
 		{
-			delete stream;
+		
 		}
 
 		std::stringstream m_stream;
@@ -57,18 +57,20 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 		}
 	};
 	
-	std::shared_ptr<FSImpl> fs(new FSImpl);
+	std::shared_ptr<FSImpl> fs = std::make_shared<FSImpl>();
 
 	fs->m_stream << "Test content of file to store";
 	Database::Entry::crc32 crc = 0;
+    Config *config = new Config;
 
-	Database::MemoryDatabase *db = new Database::MemoryDatabase( new Config, fs);
+	Database::MemoryDatabase *db = new Database::MemoryDatabase(config, fs);
 	db->addFile("", Database::IFrontend::Description());
 
-	std::shared_ptr<Backend> backend(new Backend);
+	std::shared_ptr<Backend> backend = std::make_shared<Backend>();
 	db->setBackend(backend);
     
     delete db;             //"flush" data ;)
+    delete config;
 	
     const int s = backend->m_entries.size();
 	CHECK_EQUAL(1, s);
