@@ -1,6 +1,7 @@
 
 #include "types.hpp"
 
+#include "algo.hpp"
 
 ITagData::~ITagData()
 {
@@ -8,7 +9,7 @@ ITagData::~ITagData()
 }
 
 
-TagData::TagData(): ITagData()
+TagData::TagData(): ITagData(), m_tags()
 {
 }
 
@@ -19,21 +20,9 @@ TagData::~TagData()
 }
 
 
-std::vector<TagData::TagInfo> TagData::getTags() const
-{
-    std::vector<TagInfo> results;
-    
-    for(auto &entry: m_tags)
-    {
-        TagInfo info;
-        
-        info.name = entry.first;
-        info.values = entry.second;
-        
-        results.push_back(info);
-    }
-    
-    return results;
+const TagData::TagsList& TagData::getTags() const
+{   
+    return m_tags;
 }
     
 
@@ -62,9 +51,15 @@ void TagDataComposite::setTagDatas(const std::vector<ITagData *> &tags)
 }
 
 
-std::vector<TagData::TagInfo> TagDataComposite::getTags() const
+const ITagData::TagsList& TagDataComposite::getTags() const
 {
+    std::vector<TagData::TagInfo> result;
     
+    
+    for(ITagData *tag: m_tags)
+    {
+        
+    }
 }
 
 

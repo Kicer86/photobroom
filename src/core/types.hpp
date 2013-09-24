@@ -9,6 +9,8 @@
 
 struct ITagData
 {
+    typedef std::map<QString, QString> TagsList;
+    
     struct TagInfo
     {
         QString name;
@@ -18,7 +20,7 @@ struct ITagData
     virtual ~ITagData();
     
     //get list of tags
-    virtual std::vector<TagInfo> getTags() const = 0;
+    virtual const TagsList& getTags() const = 0;
     
     //set tag and its values. Overvrite existing tags
     virtual void setTag(const QString &name, const QString &values) = 0;
@@ -31,11 +33,11 @@ class TagData: public ITagData
         TagData();
         virtual ~TagData();
         
-        virtual std::vector<TagInfo> getTags() const;
-        virtual void setTag(const QString& name, const QString& values);
+        virtual const TagsList& getTags() const override;
+        virtual void setTag(const QString& name, const QString& values) override;
         
     private:
-        std::map<QString, QString> m_tags;
+        TagsList m_tags;
 };
 
 
@@ -47,8 +49,8 @@ class TagDataComposite: public ITagData
         
         void setTagDatas(const std::vector< ITagData* >&);
         
-        virtual std::vector< TagInfo > getTags() const;
-        virtual void setTag(const QString& name, const QString& values);
+        virtual const TagsList& getTags() const override;
+        virtual void setTag(const QString& name, const QString& values) override;
         
     private:
         std::vector<ITagData*> m_tags;
