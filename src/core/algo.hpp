@@ -7,18 +7,7 @@
 
 namespace Algo
 {     
-    
-    template<typename KeyType, typename ValType, typename... Args>
-    std::map<KeyType, ValType> map_intersection(const std::map<KeyType, ValType> &m1, Args... args)
-    {
-        std::map<KeyType, ValType> results = map_intersection<KeyType, ValType>(args...);
         
-        results = map_intersection<KeyType, ValType>(m1, results);
-        
-        return results;
-    }
-    
-    
     template<typename KeyType, typename ValType>
     std::map<KeyType, ValType> map_intersection(const std::map<KeyType, ValType> &m1, const std::map<KeyType, ValType> &m2)
     {
@@ -44,7 +33,6 @@ namespace Algo
         
         return results;
     }
-
     
 }
 
