@@ -12,15 +12,35 @@ struct ITagData
     typedef std::map<QString, QString> TagsList;
     
     struct TagInfo
-    {
-        QString name;
-        QString values;
+    {        
+        TagInfo(const TagsList::const_iterator &it): m_name(&it->first), m_values(&it->second) {}
+        TagInfo(const std::pair<QString, QString> &data): m_name(&data.first), m_values(&data.second) {}
+        
+        TagInfo operator=(const std::pair<QString, QString> &data)
+        {
+             m_name = &data.first; 
+             m_values = &data.second; 
+        }
+        
+        const QString& name() const
+        {
+            return *m_name;
+        }
+        
+        const QString& values() const
+        {
+            return *m_values;
+        }
+        
+        private:            
+            const QString *m_name;
+            const QString *m_values;
     };
     
     virtual ~ITagData();
     
     //get list of tags
-    virtual const TagsList& getTags() const = 0;
+    virtual TagsList getTags() const = 0;
     
     //set tag and its values. Overvrite existing tags
     virtual void setTag(const QString &name, const QString &values) = 0;
@@ -33,7 +53,7 @@ class TagData: public ITagData
         TagData();
         virtual ~TagData();
         
-        virtual const TagsList& getTags() const override;
+        virtual TagsList getTags() const override;
         virtual void setTag(const QString& name, const QString& values) override;
         
     private:
@@ -49,7 +69,7 @@ class TagDataComposite: public ITagData
         
         void setTagDatas(const std::vector< ITagData* >&);
         
-        virtual const TagsList& getTags() const override;
+        TagsList getTags() const override;
         virtual void setTag(const QString& name, const QString& values) override;
         
     private:

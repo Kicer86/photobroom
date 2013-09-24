@@ -20,7 +20,7 @@ TagData::~TagData()
 }
 
 
-const TagData::TagsList& TagData::getTags() const
+TagData::TagsList TagData::getTags() const
 {   
     return m_tags;
 }
@@ -51,15 +51,17 @@ void TagDataComposite::setTagDatas(const std::vector<ITagData *> &tags)
 }
 
 
-const ITagData::TagsList& TagDataComposite::getTags() const
+ITagData::TagsList TagDataComposite::getTags() const
 {
-    std::vector<TagData::TagInfo> result;
+    ITagData::TagsList result;
     
     
     for(ITagData *tag: m_tags)
     {
         
     }
+    
+    return result;
 }
 
 
