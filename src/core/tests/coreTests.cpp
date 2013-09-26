@@ -106,5 +106,32 @@ TEST(TagDataCompositeShould, getTagsFromMinionsWhenAllDataAreTheSame)
     
     auto info = data.getTags();
     
+    CHECK_EQUAL(1, info.size());
+}
+
+
+TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
+{
+    TagDataComposite data;
+
+    TagData minion1, minion2, minion3;
+    
+    data.setTagDatas( {&minion1, &minion2, &minion3} );
+    
+    minion1.setTag("name", "value");
+    minion2.setTag("name", "value");
+    minion3.setTag("name", "value");
+    
+    minion1.setTag("name2", "value2");
+    minion2.setTag("name2", "value2");
+    minion3.setTag("name2", "value2");
+    
+    minion1.setTag("name2", "value3");
+    minion2.setTag("name4", "value4");
+    minion3.setTag("name4", "value4");
+    
+    auto info = data.getTags();
+    
     CHECK_EQUAL(2, info.size());
 }
+
