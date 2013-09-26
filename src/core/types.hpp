@@ -16,10 +16,12 @@ struct ITagData
         TagInfo(const TagsList::const_iterator &it): m_name(&it->first), m_values(&it->second) {}
         TagInfo(const std::pair<QString, QString> &data): m_name(&data.first), m_values(&data.second) {}
         
-        TagInfo operator=(const std::pair<QString, QString> &data)
+        TagInfo& operator=(const std::pair<QString, QString> &data)
         {
              m_name = &data.first; 
-             m_values = &data.second; 
+             m_values = &data.second;
+             
+             return *this;
         }
         
         const QString& name() const

@@ -35,7 +35,7 @@ void TagData::setTag(const QString &name, const QString &values)
 /*****************************************************************************/
 
 
-TagDataComposite::TagDataComposite()
+TagDataComposite::TagDataComposite(): m_tags()
 {
 }
 
@@ -55,10 +55,12 @@ ITagData::TagsList TagDataComposite::getTags() const
 {
     ITagData::TagsList result;
     
-    
-    for(ITagData *tag: m_tags)
+    if (m_tags.size() > 0)
     {
+        result = m_tags[0]->getTags();
         
+        for(size_t i = 1; i < m_tags.size(); i++)
+            Algo::map_intersection(result, m_tags[i]->getTags());
     }
     
     return result;
