@@ -1,4 +1,5 @@
 
+#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
 
 #include "database/implementation/memorydatabase.hpp"
 #include "database/iconfiguration.hpp"

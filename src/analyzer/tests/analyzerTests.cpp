@@ -1,4 +1,5 @@
 
+#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
 
 #include "default_analyzers/ext_defaultanalyzer.hpp"
 #include "implementation/file_analyzer.hpp"

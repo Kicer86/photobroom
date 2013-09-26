@@ -1,4 +1,5 @@
 
+#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
 
 #include <CppUTest/CommandLineTestRunner.h>
 
