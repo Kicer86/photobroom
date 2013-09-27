@@ -126,12 +126,21 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
     minion2.setTag("name2", "value2");
     minion3.setTag("name2", "value2");
     
-    minion1.setTag("name2", "value3");
+    minion1.setTag("name3", "value3");
     minion2.setTag("name4", "value4");
     minion3.setTag("name4", "value4");
     
-    auto info = data.getTags();
+    auto list = data.getTags();
     
-    CHECK_EQUAL(2, info.size());
+    CHECK_EQUAL(2, list.size());
+    
+    auto it = list.begin();
+    ITagData::TagInfo info(*it);
+    CHECK_EQUAL("name", info.name().toStdString());
+    CHECK_EQUAL("value", info.values().toStdString());
+    
+    info = *(++it);
+    CHECK_EQUAL("name2", info.name().toStdString());
+    CHECK_EQUAL("value2", info.values().toStdString());
 }
 
