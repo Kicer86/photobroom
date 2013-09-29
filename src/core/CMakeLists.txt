@@ -38,7 +38,8 @@ if(BUILD_TESTS)
     include_directories(${CPPUTEST_INCLUDE_DIRS})
 
 	set(TESTS
-		tests/coreTests.cpp
+                tests/algoTests.cpp
+                tests/coreTests.cpp
 		tests/RunAllTests.cpp
 		${CORE_SOURCES}
 		)
