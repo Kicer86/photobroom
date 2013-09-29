@@ -60,7 +60,7 @@ ITagData::TagsList TagDataComposite::getTags() const
         result = m_tags[0]->getTags();
         
         for(size_t i = 1; i < m_tags.size(); i++)
-            Algo::map_intersection(result, m_tags[i]->getTags());
+            result = Algo::map_intersection(result, m_tags[i]->getTags());
     }
     
     return result;
