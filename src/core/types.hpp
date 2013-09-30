@@ -58,7 +58,7 @@ struct ITagData
     virtual TagsList getTags() const = 0;
     
     //set tag and its values. Overvrite existing tags
-    virtual void setTags(const QString& name, const std::set<QString>& values) = 0;
+    virtual void setTag(const QString& name, const std::set<QString>& values) = 0;
     virtual void setTag(const QString& name, const QString& value) = 0;
 };
 
@@ -68,6 +68,7 @@ class TagDataBase: public ITagData
         TagDataBase();
         virtual ~TagDataBase();
         
+        using ITagData::setTag;
         virtual void setTag(const QString &, const QString &) override;
 };
 
@@ -78,7 +79,9 @@ class TagData: public TagDataBase
         virtual ~TagData();
         
         virtual TagsList getTags() const override;
-        virtual void setTags(const QString &, const std::set<QString> &) override;
+        
+        using TagDataBase::setTag;
+        virtual void setTag(const QString &, const std::set<QString> &) override;
         
     private:
         TagsList m_tags;
@@ -94,7 +97,9 @@ class TagDataComposite: public TagDataBase
         void setTagDatas(const std::vector< ITagData* >&);
         
         TagsList getTags() const override;
-        virtual void setTags(const QString& name, const std::set<QString>& values) override;
+        
+        using TagDataBase::setTag;
+        virtual void setTag(const QString& name, const std::set<QString>& values) override;
         
     private:
         std::vector<ITagData*> m_tags;

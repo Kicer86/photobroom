@@ -27,7 +27,7 @@ void TagDataBase::setTag(const QString& name, const QString& value)
     std::set<QString> values;
     values.insert(value);
     
-    this->setTags(name, values);
+    this->setTag(name, values);
 }
 
 /*****************************************************************************/
@@ -50,7 +50,7 @@ TagData::TagsList TagData::getTags() const
 }
     
 
-void TagData::setTags(const QString &name, const std::set<QString> &values)
+void TagData::setTag(const QString &name, const std::set<QString> &values)
 {
     m_tags[name] = values;
 }
@@ -91,10 +91,10 @@ ITagData::TagsList TagDataComposite::getTags() const
 }
 
 
-void TagDataComposite::setTags(const QString& name, const std::set< QString >& values)
+void TagDataComposite::setTag(const QString& name, const std::set< QString >& values)
 {
     for(ITagData *tag: m_tags)
-        tag->setTags(name, values);
+        tag->setTag(name, values);
 }
 
 
