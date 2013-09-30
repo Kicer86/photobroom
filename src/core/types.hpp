@@ -14,32 +14,32 @@ struct ITagData
     
     struct TagInfo
     {        
-        TagInfo(const TagsList::const_iterator &it): m_name(&it->first), m_values(&it->second) {}
-        TagInfo(const std::pair<QString, std::set<QString>> &data): m_name(&data.first), m_values(&data.second) {}
+        TagInfo(const TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
+        TagInfo(const std::pair<QString, std::set<QString>> &data): m_name(data.first), m_values(data.second) {}
         
         TagInfo& operator=(const std::pair<QString, std::set<QString>> &data)
         {
-             m_name = &data.first; 
-             m_values = &data.second;
+             m_name = data.first; 
+             m_values = data.second;
              
              return *this;
         }
         
         const QString& name() const
         {
-            return *m_name;
+            return m_name;
         }
         
         const std::set<QString>& values() const
         {
-            return *m_values;
+            return m_values;
         }
         
         QString valuesString() const
         {
             QString result;
             
-            for(const QString &str: *m_values)
+            for(const QString &str: m_values)
             {
                 result += str + " ";                //TODO: temporary
             }
@@ -48,8 +48,8 @@ struct ITagData
         }
         
         private:            
-            const QString *m_name;
-            const std::set<QString> *m_values;
+            QString m_name;
+            std::set<QString> m_values;
     };
     
     virtual ~ITagData();
