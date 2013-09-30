@@ -38,7 +38,7 @@ TEST(TagDataShould, returnWhatWasInserted)
     CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
     
     CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).name() == "test1");
-    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).values() == "test2");
+    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).valuesString() == "test2");
 }
 
 
@@ -53,7 +53,7 @@ TEST(TagDataShould, overwritePreviousTagsValues)
     
     CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
     CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).name() == "test1");
-    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).values() == "test3");
+    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).valuesString() == "test3");
 }
 
 
@@ -78,17 +78,17 @@ TEST(TagDataCompositeShould, fillItsMinions)
     auto m1 = minion1.getTags();
     CHECK_EQUAL(1, m1.size());
     CHECK_EQUAL(true, ITagData::TagInfo(m1.begin()).name() == "name");
-    CHECK_EQUAL(true, ITagData::TagInfo(m1.begin()).values() == "value");
+    CHECK_EQUAL(true, ITagData::TagInfo(m1.begin()).valuesString() == "value");
     
     auto m2 = minion2.getTags();
     CHECK_EQUAL(1, m1.size());
-    CHECK_EQUAL(true, ITagData::TagInfo(m2.begin()).name() == "name");
-    CHECK_EQUAL(true, ITagData::TagInfo(m2.begin()).values() == "value");
+    CHECK_EQUAL("name", ITagData::TagInfo(m2.begin()).name().toStdString());
+    CHECK_EQUAL("value", ITagData::TagInfo(m2.begin()).valuesString().toStdString());
     
     auto m3 = minion3.getTags();
     CHECK_EQUAL(1, m1.size());
-    CHECK_EQUAL(true, ITagData::TagInfo(m3.begin()).name() == "name");
-    CHECK_EQUAL(true, ITagData::TagInfo(m3.begin()).values() == "value");
+    CHECK_EQUAL("name", ITagData::TagInfo(m3.begin()).name().toStdString());
+    CHECK_EQUAL("value", ITagData::TagInfo(m3.begin()).valuesString().toStdString());
 }
 
 
@@ -137,11 +137,11 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
     auto it = list.begin();
     ITagData::TagInfo info(*it);
     CHECK_EQUAL("name", info.name().toStdString());
-    CHECK_EQUAL("value", info.values().toStdString());
+    CHECK_EQUAL("value", info.valuesString().toStdString());
     
     info = *(++it);
     CHECK_EQUAL("name2", info.name().toStdString());
-    CHECK_EQUAL("value2", info.values().toStdString());
+    CHECK_EQUAL("value2", info.valuesString().toStdString());
 }
 
 

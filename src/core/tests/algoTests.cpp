@@ -20,7 +20,7 @@ TEST(MapIntersectionShould, returnNullWhenOneMapIsNull)
     m1[1] = 2;
     m1[2] = 3;
     
-    auto result = Algo::map_intersection(m1, m2);
+    auto result = Algo::map_intersection<int>(m1, m2);
     
     CHECK_EQUAL(0, result.size());
 }
@@ -38,7 +38,7 @@ TEST(MapIntersectionShould, returnOnlyCommonPartOfTwoMaps)
     m2[1] = 2;
     m2[3] = 4;
 
-    auto result = Algo::map_intersection(m1, m2);
+    auto result = Algo::map_intersection<int>(m1, m2);
 
     CHECK_EQUAL(2, result.size());
 }
@@ -60,8 +60,8 @@ TEST(MapIntersectionShould, returnOnlyCommonPartOfThreeMaps)
     m3[3] = 4;
     m3[4] = 5;
 
-    auto result = Algo::map_intersection(m1, m2);
-    result = Algo::map_intersection(result, m3);
+    auto result = Algo::map_intersection<int>(m1, m2);
+    result = Algo::map_intersection<int>(result, m3);
 
     CHECK_EQUAL(1, result.size());
 }
@@ -83,8 +83,8 @@ TEST(MapIntersectionShould, compareKeyOnly)
     m3[3] = 304;
     m3[4] = 305;
 
-    auto result = Algo::map_intersection(m1, m2);
-    result = Algo::map_intersection(result, m3);
+    auto result = Algo::map_intersection<int>(m1, m2);
+    result = Algo::map_intersection<int>(result, m3);
 
     CHECK_EQUAL(1, result.size());
 }

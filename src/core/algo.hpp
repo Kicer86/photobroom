@@ -6,21 +6,44 @@
 #include <map>
 
 namespace Algo
-{     
-        
-    template<typename KeyType, typename ValType>
-    std::map<KeyType, ValType> map_intersection(const std::map<KeyType, ValType> &m1, const std::map<KeyType, ValType> &m2)
+{   
+    
+    namespace Private
     {
-        std::map<KeyType, ValType> results;
+        template<typename SetT, typename ValueT>
+        static void inserter(SetT &set, const ValueT &value);
+        
+        template<typename T>
+        void inserter(std::set<T>& set, const T& value)
+        {
+            set.insert(value);
+        }
+        
+        template<typename T>
+        void inserter(std::set<T>& set, const std::set<T> &value)
+        {
+            set.insert(value.begin(), value.end());
+        }
+
+    }
+        
+    template<typename RetType, typename KeyType, typename ValType1, typename ValType2>
+    std::map<KeyType, std::set<RetType>> map_intersection(const std::map<KeyType, ValType1> &m1, const std::map<KeyType, ValType2> &m2)
+    {
+        std::map<KeyType, std::set<RetType>> results;
         
         auto it1 = m1.begin();
         auto it2 = m2.begin();
         
         while (it1 != m1.end() && it2 != m2.end())
         {
-            if (*it1 == *it2)
+            if (it1->first == it2->first)
             {
-                results.insert(*it1);
+                std::set<RetType> mergedResults;
+                Private::inserter(mergedResults, it1->second);
+                Private::inserter(mergedResults, it2->second);
+                
+                results.insert(std::make_pair(it1->first, mergedResults));
                 
                 ++it1;
                 ++it2;
