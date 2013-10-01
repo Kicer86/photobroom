@@ -8,6 +8,19 @@
 
 #include <QString>
 
+struct TagNameInfo
+{
+    QString name;
+    char separator;
+};
+
+
+struct ValueTypeInfo
+{
+    QString value;
+};
+
+
 struct ITagData
 {
     typedef QString NameType;
