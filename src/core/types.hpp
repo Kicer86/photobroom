@@ -10,7 +10,9 @@
 
 struct ITagData
 {
-    typedef std::map<QString, std::set<QString>> TagsList;
+    typedef QString ValueType;
+    typedef std::set<ValueType> TagValues;
+    typedef std::map<QString, TagValues> TagsList;
     
     struct TagInfo
     {        
@@ -30,7 +32,7 @@ struct ITagData
             return m_name;
         }
         
-        const std::set<QString>& values() const
+        const TagValues& values() const
         {
             return m_values;
         }
@@ -49,7 +51,7 @@ struct ITagData
         
         private:            
             QString m_name;
-            std::set<QString> m_values;
+            TagValues m_values;
     };
     
     virtual ~ITagData();
@@ -58,8 +60,8 @@ struct ITagData
     virtual TagsList getTags() const = 0;
     
     //set tag and its values. Overvrite existing tags
-    virtual void setTag(const QString& name, const std::set<QString>& values) = 0;
-    virtual void setTag(const QString& name, const QString& value) = 0;
+    virtual void setTag(const QString& name, const TagValues& values) = 0;
+    virtual void setTag(const QString& name, const ValueType& value) = 0;
 };
 
 class TagDataBase: public ITagData
@@ -69,7 +71,7 @@ class TagDataBase: public ITagData
         virtual ~TagDataBase();
         
         using ITagData::setTag;
-        virtual void setTag(const QString &, const QString &) override;
+        virtual void setTag(const QString &, const ValueType &) override;
 };
 
 class TagData: public TagDataBase
@@ -81,7 +83,7 @@ class TagData: public TagDataBase
         virtual TagsList getTags() const override;
         
         using TagDataBase::setTag;
-        virtual void setTag(const QString &, const std::set<QString> &) override;
+        virtual void setTag(const QString &, const TagValues &) override;
         
     private:
         TagsList m_tags;
@@ -94,12 +96,12 @@ class TagDataComposite: public TagDataBase
         TagDataComposite();
         virtual ~TagDataComposite();
         
-        void setTagDatas(const std::vector< ITagData* >&);
+        void setTagDatas(const std::vector<ITagData *> &);
         
         TagsList getTags() const override;
         
         using TagDataBase::setTag;
-        virtual void setTag(const QString& name, const std::set<QString>& values) override;
+        virtual void setTag(const QString& name, const TagValues& values) override;
         
     private:
         std::vector<ITagData*> m_tags;
