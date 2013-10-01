@@ -31,7 +31,7 @@ TEST(TagDataShould, returnWhatWasInserted)
 {
     TagData data;
     
-    data.setTag("test1", "test2");
+    data.setTag( ITagData::NameType("test1"), ITagData::ValueType("test2") );
     
     const ITagData::TagsList &dataSet = data.getTags();
     
@@ -46,8 +46,8 @@ TEST(TagDataShould, overwritePreviousTagsValues)
 {
     TagData data;
     
-    data.setTag("test1", "test2");
-    data.setTag("test1", "test3");
+    data.setTag( ITagData::NameType("test1"), ITagData::ValueType("test2") );
+    data.setTag( ITagData::NameType("test1"), ITagData::ValueType("test3") );
     
     const ITagData::TagsList& dataSet = data.getTags();
     
@@ -73,7 +73,7 @@ TEST(TagDataCompositeShould, fillItsMinions)
     TagData minion1, minion2, minion3;
     
     data.setTagDatas( {&minion1, &minion2, &minion3} );    
-    data.setTag("name", "value");
+    data.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
     
     auto m1 = minion1.getTags();
     CHECK_EQUAL(1, m1.size());
@@ -100,9 +100,9 @@ TEST(TagDataCompositeShould, getTagsFromMinionsWhenAllDataAreTheSame)
     
     data.setTagDatas( {&minion1, &minion2, &minion3} );
     
-    minion1.setTag("name", "value");
-    minion2.setTag("name", "value");
-    minion3.setTag("name", "value");
+    minion1.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
+    minion2.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
+    minion3.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
     
     auto info = data.getTags();
     
@@ -118,17 +118,17 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
     
     data.setTagDatas( {&minion1, &minion2, &minion3} );
     
-    minion1.setTag("name", "value");
-    minion2.setTag("name", "value");
-    minion3.setTag("name", "value");
+    minion1.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
+    minion2.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
+    minion3.setTag( ITagData::NameType("name"), ITagData::ValueType("value") );
     
-    minion1.setTag("name2", "value2");
-    minion2.setTag("name2", "value2");
-    minion3.setTag("name2", "value2");
+    minion1.setTag( ITagData::NameType("name2"), ITagData::ValueType("value2") );
+    minion2.setTag( ITagData::NameType("name2"), ITagData::ValueType("value2") );
+    minion3.setTag( ITagData::NameType("name2"), ITagData::ValueType("value2") );
     
-    minion1.setTag("name3", "value3");
-    minion2.setTag("name4", "value4");
-    minion3.setTag("name4", "value4");
+    minion1.setTag( ITagData::NameType("name3"), ITagData::ValueType("value3") );
+    minion2.setTag( ITagData::NameType("name4"), ITagData::ValueType("value4") );
+    minion3.setTag( ITagData::NameType("name4"), ITagData::ValueType("value4") );
     
     auto list = data.getTags();
     
@@ -154,13 +154,13 @@ TEST(TagDataCompositeShould, notReturnValuesForCommonTagsWithDifferentValues)
     
     data.setTagDatas( {&minion1, &minion2, &minion3} );
     
-    minion1.setTag("name", "value_1");
-    minion2.setTag("name", "value_2");
-    minion3.setTag("name", "value_3");
+    minion1.setTag( ITagData::NameType("name"), ITagData::ValueType("value_1") );
+    minion2.setTag( ITagData::NameType("name"), ITagData::ValueType("value_2") );
+    minion3.setTag( ITagData::NameType("name"), ITagData::ValueType("value_3") );
     
-    minion1.setTag("name2", "value_1");
-    minion2.setTag("name2", "value_2");
-    minion3.setTag("name2", "value_3");
+    minion1.setTag( ITagData::NameType("name2"), ITagData::ValueType("value_1") );
+    minion2.setTag( ITagData::NameType("name2"), ITagData::ValueType("value_2") );
+    minion3.setTag( ITagData::NameType("name2"), ITagData::ValueType("value_3") );
     
     auto list = data.getTags();
     

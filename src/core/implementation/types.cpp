@@ -24,7 +24,7 @@ TagDataBase::~TagDataBase()
 
 void TagDataBase::setTag(const ITagData::NameType& name, const ITagData::ValueType& value)
 {
-    std::set<QString> values;
+    ValuesSet values;
     values.insert(value);
     
     this->setTag(name, values);
@@ -84,7 +84,7 @@ ITagData::TagsList TagDataComposite::getTags() const
         result = m_tags[0]->getTags();
         
         for(size_t i = 1; i < m_tags.size(); i++)
-            result = Algo::map_intersection<QString>(result, m_tags[i]->getTags());
+            result = Algo::map_intersection<ValueType>(result, m_tags[i]->getTags());
     }
     
     return result;

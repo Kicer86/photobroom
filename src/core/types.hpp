@@ -2,6 +2,8 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+#include <assert.h>
+
 #include <vector>
 #include <map>
 #include <set>
@@ -12,19 +14,56 @@ struct TagNameInfo
 {
     QString name;
     char separator;
+    
+    TagNameInfo(const QString& n, char s = ';'): name(n), separator(s) {}
+    
+    operator QString() const
+    {
+        return name;
+    }
+    
+    bool operator==(const TagNameInfo& other) const
+    {
+        const bool result = name == other.name;
+        
+        assert(result == false || separator == other.separator);  //if result is true, then separators must be equal
+        
+        return result;
+    }
+    
+    bool operator<(const TagNameInfo& other) const
+    {
+        const bool result = name < other.name;
+        
+        return result;
+    }
 };
 
 
 struct ValueTypeInfo
 {
     QString value;
+    
+    ValueTypeInfo(const QString& v): value(v) {}
+    
+    operator QString() const
+    {
+        return value;
+    }
+    
+    bool operator<(const ValueTypeInfo& other) const
+    {
+        const bool result = value < other.value;
+        
+        return result;
+    }
 };
 
 
 struct ITagData
 {
-    typedef QString NameType;
-    typedef QString ValueType;
+    typedef TagNameInfo NameType;
+    typedef ValueTypeInfo ValueType;
     typedef std::set<ValueType> ValuesSet;
     typedef std::map<NameType, ValuesSet> TagsList;
     
@@ -41,7 +80,7 @@ struct ITagData
              return *this;
         }
         
-        const QString& name() const
+        QString name() const
         {
             return m_name;
         }
