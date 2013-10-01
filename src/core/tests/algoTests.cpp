@@ -89,3 +89,40 @@ TEST(MapIntersectionShould, compareKeyOnly)
     CHECK_EQUAL(1, result.size());
 }
 
+
+TEST(MapIntersectionShould, returnAllPossibleValuesForMergedKeys)
+{
+    std::map<int, int> m1, m2, m3;
+
+    m1[0] = 101;
+    m1[1] = 102;
+    m1[2] = 103;
+
+    m2[0] = 201;
+    m2[1] = 202;
+    m2[3] = 204;
+
+    m3[0] = 301;
+    m3[3] = 304;
+    m3[4] = 305;
+
+    auto result = Algo::map_intersection<int>(m1, m2);
+    result = Algo::map_intersection<int>(result, m3);
+
+    //make sure there is only one entry
+    CHECK_EQUAL(1, result.size());
+    
+    auto firstItem = *result.begin();
+    CHECK_EQUAL(3, firstItem.second.size());
+    
+    auto it = firstItem.second.begin();
+    
+    CHECK_EQUAL(101, *it);
+    
+    ++it;
+    CHECK_EQUAL(201, *it);
+    
+    ++it;
+    CHECK_EQUAL(301, *it);
+}
+
