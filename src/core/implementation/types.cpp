@@ -50,7 +50,7 @@ TagData::TagsList TagData::getTags() const
 }
     
 
-void TagData::setTag(const ITagData::NameType& name, const ITagData::TagValues& values)
+void TagData::setTag(const ITagData::NameType& name, const ITagData::ValuesSet& values)
 {
     m_tags[name] = values;
 }
@@ -91,7 +91,7 @@ ITagData::TagsList TagDataComposite::getTags() const
 }
 
 
-void TagDataComposite::setTag(const NameType& name, const TagValues& values)
+void TagDataComposite::setTag(const NameType& name, const ValuesSet& values)
 {
     for(ITagData *tag: m_tags)
         tag->setTag(name, values);
