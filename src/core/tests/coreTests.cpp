@@ -146,7 +146,7 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
 
 
 
-TEST(TagDataCompositeShould, notReturnValuesForCommonTagsWithDifferentValues)
+TEST(TagDataCompositeShould, ReturnMergedValuesForCommonTagsWithDifferentValues)
 {
     TagDataComposite data;
 
