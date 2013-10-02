@@ -42,20 +42,25 @@ struct TagNameInfo
 
 struct ValueTypeInfo
 {
-    QString value;
+    QString m_value;
     
-    ValueTypeInfo(const QString& v): value(v) {}
+    ValueTypeInfo(const QString& v): m_value(v) {}
     
     operator QString() const
     {
-        return value;
+        return m_value;
     }
     
     bool operator<(const ValueTypeInfo& other) const
     {
-        const bool result = value < other.value;
+        const bool result = m_value < other.m_value;
         
         return result;
+    }
+    
+    const QString& value() const
+    {
+        return m_value;
     }
 };
 

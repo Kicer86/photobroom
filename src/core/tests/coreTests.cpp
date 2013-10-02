@@ -169,11 +169,23 @@ TEST(TagDataCompositeShould, notReturnValuesForCommonTagsWithDifferentValues)
     auto it = list.begin();
     ITagData::TagInfo info(*it);
     CHECK_EQUAL("name", info.name().toStdString());
-    //CHECK_EQUAL("", info.values().toStdString());
+    
+    auto valIt = info.values().begin();
+    CHECK_EQUAL("value_1", valIt->value().toStdString());
+    ++valIt;
+    CHECK_EQUAL("value_2", valIt->value().toStdString());
+    ++valIt;
+    CHECK_EQUAL("value_3", valIt->value().toStdString());
     
     info = *(++it);
     CHECK_EQUAL("name2", info.name().toStdString());
-    //CHECK_EQUAL("", info.values().toStdString());
+        
+    valIt = info.values().begin();
+    CHECK_EQUAL("value_1", valIt->value().toStdString());
+    ++valIt;
+    CHECK_EQUAL("value_2", valIt->value().toStdString());
+    ++valIt;
+    CHECK_EQUAL("value_3", valIt->value().toStdString());
 }
 
 
