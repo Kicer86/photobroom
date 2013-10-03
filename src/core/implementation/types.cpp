@@ -69,7 +69,7 @@ TagDataComposite::~TagDataComposite()
 }
 
 
-void TagDataComposite::setTagDatas(const std::vector<ITagData *>& tags)
+void TagDataComposite::setTagDatas(const std::vector<std::shared_ptr<ITagData>>& tags)
 {
     m_tags = tags;
 }
@@ -93,6 +93,6 @@ ITagData::TagsList TagDataComposite::getTags() const
 
 void TagDataComposite::setTag(const NameType& name, const ValuesSet& values)
 {
-    for(ITagData *tag: m_tags)
+    for(const std::shared_ptr<ITagData> &tag: m_tags)
         tag->setTag(name, values);
 }

@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <memory>
 
 #include <QString>
 
@@ -154,7 +155,7 @@ class TagDataComposite: public TagDataBase
         TagDataComposite();
         virtual ~TagDataComposite();
         
-        void setTagDatas(const std::vector<ITagData *> &);
+        void setTagDatas(const std::vector<std::shared_ptr<ITagData>> &);
         
         TagsList getTags() const override;
         
@@ -162,7 +163,7 @@ class TagDataComposite: public TagDataBase
         virtual void setTag(const NameType& name, const ValuesSet& values) override;
         
     private:
-        std::vector<ITagData*> m_tags;
+        std::vector<std::shared_ptr<ITagData>> m_tags;
 };
 
 

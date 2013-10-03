@@ -20,7 +20,7 @@ class PhotoInfo
         
         const QString& getPath() const;
         const QPixmap& getPixmap() const;
-        ITagData* getTags() const;
+        std::shared_ptr<ITagData> getTags() const;
 
     private:
         struct Data;

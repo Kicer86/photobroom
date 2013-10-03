@@ -1,6 +1,8 @@
 
 #include "photo_info.hpp"
 
+#include <memory>
+
 #include <QString>
 #include <QPixmap>
 
@@ -15,7 +17,7 @@ namespace
 
 struct PhotoInfo::Data
 {
-    Data(const QString &p): pixmap(), path(p), tags() {}
+    Data(const QString &p): pixmap(), path(p), tags(std::make_shared<TagData>()) {}
     
     Data(const Data& other): 
         pixmap(other.pixmap),
@@ -25,7 +27,7 @@ struct PhotoInfo::Data
     
     QPixmap pixmap;
     QString path;
-    TagData tags;
+    std::shared_ptr<TagData> tags;
 };
 
 
@@ -63,7 +65,7 @@ const QPixmap& PhotoInfo::getPixmap() const
 }
 
 
-ITagData* PhotoInfo::getTags() const
+std::shared_ptr<ITagData> PhotoInfo::getTags() const
 {
-    return &m_data->tags;
+    return m_data->tags;
 }
