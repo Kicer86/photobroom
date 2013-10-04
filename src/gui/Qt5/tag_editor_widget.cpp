@@ -134,6 +134,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 ITagData::TagInfo tag(tagIt);
                 addLine(tag.name(), tag.valuesString());
             }
+            
+            m_tagData.reset(tagData);
         }
 
     private:
@@ -225,8 +227,11 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         virtual void tagEdited()
         {
+            //update gui
             deleteEmptyLines();
-            keepOneEmptyLine();            
+            keepOneEmptyLine();
+            
+            //save data
         }
 
 /*
@@ -239,6 +244,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         std::vector<QString> m_base_tags;
         TagEditorWidget* m_tagWidget;
         std::vector<TagEntry*> m_tagEntries;
+        std::shared_ptr<ITagData> m_tagData;
 };
 
 
