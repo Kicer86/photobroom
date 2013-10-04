@@ -115,7 +115,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         TagsManager(TagEditorWidget* tagWidget):
             m_base_tags( {"Event", "Place", "Date", "Time", "People"}),
             m_tagWidget(tagWidget),
-            m_tagEntries()
+            m_tagEntries(),
+            m_tagData(nullptr)
         {
             new QVBoxLayout(tagWidget);
             addEmptyLine();
@@ -135,7 +136,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 addLine(tag.name(), tag.valuesString());
             }
             
-            m_tagData.reset(tagData);
+            m_tagData = tagData;
         }
 
     private:

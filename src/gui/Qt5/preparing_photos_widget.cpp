@@ -2,6 +2,8 @@
 #include "preparing_photos_widget.hpp"
 #include "private/preparing_photos_widget_private.hpp"
 
+#include <memory>
+
 #include <QVBoxLayout>
 
 #include "photos_view_widget.hpp"
@@ -56,8 +58,9 @@ void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Pt
     for(const PhotoInfo::Ptr& photo: photos)
         tags.push_back(photo->getTags());
     
-    std::shared_ptr<TagDataComposite> tagsData(std::make_shared<TagDataComposite>());
+    TagDataComposite* tagsData = new TagDataComposite;
     tagsData->setTagDatas(tags);
     
-    m_tagEditor->setTags(tagsData);
+    std::shared_ptr<ITagData> tagsPtr(tagsData);
+    m_tagEditor->setTags(tagsPtr);
 }
