@@ -124,13 +124,16 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         TagsManager(const TagsManager&) = delete;
         void operator=(const TagsManager&) = delete;
 
-        void setTags(ITagData* tagData)
+        void setTags(const std::shared_ptr<ITagData>& tagData)
         {
             removeAll();
-            std::vector<ITagData::TagInfo> tags = tagData->getTags();
+            const ITagData::TagsList& tags = tagData->getTags();
 
-        for (auto & tag: tags)
-                addLine(tag.name, tag.values);
+            for (auto tagIt: tags)
+            {
+                ITagData::TagInfo tag(tagIt);
+                addLine(tag.name(), tag.valuesString());
+            }
         }
 
     private:
@@ -222,12 +225,12 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 addEmptyLine();
         }
 
-
+/*
         virtual void setTagsAndValues(ITagData* data)
         {
             setTags(data);
         }
-
+*/
 
         std::vector<QString> m_base_tags;
         TagEditorWidget* m_tagWidget;
@@ -252,7 +255,7 @@ TagEditorWidget::~TagEditorWidget()
 }
 
 
-void TagEditorWidget::setTags(ITagData *tagData)
+void TagEditorWidget::setTags(const std::shared_ptr<ITagData>& tagData)
 {
     m_manager->setTags(tagData);
 }

@@ -39,7 +39,7 @@ class TagsManagerSlots: public QObject
     
     protected slots:
         virtual void tagEdited() = 0;
-        virtual void setTagsAndValues(ITagData *) = 0;
+        //virtual void setTagsAndValues(ITagData *) = 0;
 };
 
 
@@ -52,7 +52,7 @@ class TagEditorWidget: public QWidget
         TagEditorWidget(const TagEditorWidget& other) = delete;
         virtual TagEditorWidget& operator=(const TagEditorWidget& other) = delete;
         
-        void setTags(ITagData *);          //widget will work directly on provided set of data
+        void setTags(const std::shared_ptr<ITagData> &);          //widget will work directly on provided set of data
         
     private:
         struct TagsManager;
