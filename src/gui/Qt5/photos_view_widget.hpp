@@ -49,7 +49,7 @@ class PhotosViewWidget: public QWidget
 
     private:
         struct GuiData;
-        GuiData *m_gui;
+        std::unique_ptr<GuiData> m_gui;
         
     signals:
         void selectionChanged(const std::vector<PhotoInfo::Ptr> &);

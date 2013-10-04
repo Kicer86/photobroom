@@ -189,24 +189,15 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
             return result;
         }
-
-
-        virtual void tagEdited()
+        
+        
+        void deleteEmptyLines()
         {
             QLayout* lay = m_tagWidget->layout();
 
-            //analyze each "TagEntry"
-
-            auto getTagEntry = [&] (int i) -> TagEntry *
-            {
-                TagEntry* entry = m_tagEntries[i];
-
-                return entry;
-            };
-
             auto isEmpty = [&] (int i) -> bool
             {
-                TagEntry* entry = getTagEntry(i);
+                TagEntry* entry = m_tagEntries[i];
 
                 const bool empty = entry->m_tagValue->text().isEmpty();
 
@@ -220,9 +211,22 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 else
                     break;
             }
-
-            if (getTagEntry(lay->count() - 1)->m_tagValue->text().isEmpty() == false)
+        }
+        
+        
+        void keepOneEmptyLine()
+        {
+            QLayout* lay = m_tagWidget->layout();
+            
+            if (m_tagEntries[lay->count() - 1]->m_tagValue->text().isEmpty() == false)
                 addEmptyLine();
+        }
+
+
+        virtual void tagEdited()
+        {
+            deleteEmptyLines();
+            keepOneEmptyLine();            
         }
 
 /*
