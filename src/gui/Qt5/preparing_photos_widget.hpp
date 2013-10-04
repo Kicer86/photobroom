@@ -27,7 +27,7 @@ class PreparingPhotosWidget: public QWidget
 
     private slots:
         void pathToAnalyze(QString);
-        void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >& selection);
+        void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >&);
 
 };
 

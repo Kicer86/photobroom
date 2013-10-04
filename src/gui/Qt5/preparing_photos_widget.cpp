@@ -9,6 +9,7 @@
 
 #include "analyzer/photo_crawler_builder.hpp"
 #include "analyzer/iphoto_crawler.hpp"
+#include "core/types.hpp"
 
 
 PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
@@ -48,7 +49,15 @@ void PreparingPhotosWidget::pathToAnalyze(QString path)
 }
 
 
-void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& selection)
+void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& photos)
 {
-
+    std::vector<std::shared_ptr<ITagData>> tags;
+    
+    for(const PhotoInfo::Ptr& photo: photos)
+        tags.push_back(photo->getTags());
+    
+    std::shared_ptr<TagDataComposite> tagsData(std::make_shared<TagDataComposite>());
+    tagsData->setTagDatas(tags);
+    
+    m_tagEditor->setTags(tagsData);
 }
