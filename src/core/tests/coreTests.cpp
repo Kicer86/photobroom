@@ -57,6 +57,19 @@ TEST(TagDataShould, overwritePreviousTagsValues)
 }
 
 
+TEST(TagDataShould, beClearable)
+{
+    TagData data;
+    
+    data.setTag( ITagData::NameType("test1"), ITagData::ValueType("test2") );
+    data.setTag( ITagData::NameType("test2"), ITagData::ValueType("test3") );
+    data.clear();
+    
+    const ITagData::TagsList& dataSet = data.getTags();
+    
+    CHECK_EQUAL(0, static_cast<int>(dataSet.size()));
+}
+
 
 /*************************************************************************/
 
@@ -151,7 +164,6 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
 }
 
 
-
 TEST(TagDataCompositeShould, ReturnMergedValuesForCommonTagsWithDifferentValues)
 {
     TagDataComposite data;
@@ -197,3 +209,30 @@ TEST(TagDataCompositeShould, ReturnMergedValuesForCommonTagsWithDifferentValues)
 }
 
 
+TEST(TagDataCompositeShould, beClearable)
+{
+    TagDataComposite data;
+
+    std::shared_ptr<TagData> minion1(std::make_shared<TagData>()),
+                             minion2(std::make_shared<TagData>()),
+                             minion3(std::make_shared<TagData>());
+    
+    data.setTagDatas( {minion1, minion2, minion3} );
+    
+    minion1->setTag( ITagData::NameType("name"), ITagData::ValueType("value_1") );
+    minion2->setTag( ITagData::NameType("name"), ITagData::ValueType("value_2") );
+    minion3->setTag( ITagData::NameType("name"), ITagData::ValueType("value_3") );
+    
+    minion1->setTag( ITagData::NameType("name2"), ITagData::ValueType("value_1") );
+    minion2->setTag( ITagData::NameType("name2"), ITagData::ValueType("value_2") );
+    minion3->setTag( ITagData::NameType("name2"), ITagData::ValueType("value_3") );
+    
+    data.clear();
+    
+    auto list = data.getTags();
+    
+    CHECK_EQUAL(0, list.size());
+    CHECK_EQUAL(0, minion1->getTags().size());
+    CHECK_EQUAL(0, minion1->getTags().size());
+    CHECK_EQUAL(0, minion1->getTags().size());
+}
