@@ -119,7 +119,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_tagData(nullptr)
         {
             new QVBoxLayout(tagWidget);
-            addEmptyLine();
+            keepOneEmptyLine();
         }
 
         TagsManager(const TagsManager&) = delete;
@@ -135,6 +135,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 ITagData::TagInfo tag(tagIt);
                 addLine(tag.name(), tag.valuesString());
             }
+            
+            keepOneEmptyLine();
             
             m_tagData = tagData;
         }
@@ -221,7 +223,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             QLayout* lay = m_tagWidget->layout();
             
-            if (m_tagEntries[lay->count() - 1]->m_tagValue->text().isEmpty() == false)
+            if ( lay->count() == 0 || m_tagEntries[lay->count() - 1]->m_tagValue->text().isEmpty() == false)
                 addEmptyLine();
         }
 
@@ -233,7 +235,18 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             keepOneEmptyLine();
             
             //save data
-            TagEntry* edit = getEditedTag();
+            //TagEntry* edit = getEditedTag();
+            
+            m_tagData->clear();
+            for (TagEntry* tagEntry: m_tagEntries)
+            {
+                const QString name = tagEntry->m_tagsCombo->currentText();
+                const QString value = tagEntry->m_tagValue->text();                
+                const QStringList values = value.split(";");  //use some constants                
+                const ITagData::ValuesSet vSet(values.begin(), values.end());
+                
+                m_tagData->setTag(name, vSet);
+            }
         }
         
         
