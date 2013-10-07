@@ -56,6 +56,12 @@ void TagData::setTag(const ITagData::NameType& name, const ITagData::ValuesSet& 
 }
 
 
+void TagData::clear()
+{
+    m_tags.clear();
+}
+
+
 /*****************************************************************************/
 
 
@@ -95,4 +101,11 @@ void TagDataComposite::setTag(const NameType& name, const ValuesSet& values)
 {
     for(const std::shared_ptr<ITagData> &tag: m_tags)
         tag->setTag(name, values);
+}
+
+
+void TagDataComposite::clear()
+{
+    for(const std::shared_ptr<ITagData> &tag: m_tags)
+        tag->clear();
 }
