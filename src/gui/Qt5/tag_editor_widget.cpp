@@ -233,16 +233,22 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             keepOneEmptyLine();
             
             //save data
-            QLineEdit *edit = getEditedTag();
+            TagEntry* edit = getEditedTag();
         }
         
         
-        QLineEdit* getEditedTag() const
+        TagEntry* getEditedTag() const
         {
             QObject* obj = QObject::sender();
             assert(qobject_cast<QLineEdit *>(obj) != nullptr);
             
-            QLineEdit* result = static_cast<QLineEdit *>(obj);
+            QLineEdit* lineEdit = static_cast<QLineEdit *>(obj);
+            QWidget* lineEditParent = lineEdit->parentWidget();
+            assert(dynamic_cast<TagEntry *>(lineEditParent) != nullptr);
+            
+            TagEntry* tagEntry = static_cast<TagEntry *>(lineEditParent);
+            
+            return tagEntry;
         }
 
 /*
