@@ -125,6 +125,8 @@ struct ITagData
     virtual void clear() = 0;
 };
 
+std::ostream& operator<<(std::ostream &, const ITagData &);
+
 class TagDataBase: public ITagData
 {
     public:

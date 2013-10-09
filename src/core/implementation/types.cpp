@@ -1,6 +1,8 @@
 
 #include "types.hpp"
 
+#include <iostream>
+
 #include "algo.hpp"
 
 ITagData::~ITagData()
@@ -8,6 +10,29 @@ ITagData::~ITagData()
 
 }
 
+
+std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
+{
+    for (std::pair<ITagData::NameType, ITagData::ValuesSet> tags: tagData.getTags())
+    {
+        stream << tags.first.name.toStdString() << ": ";
+        
+        ITagData::ValuesSet::const_iterator valuesIt = tags.second.cbegin();
+        ITagData::ValuesSet::const_iterator valuesEnd = tags.second.cend();
+        while (valuesIt != valuesEnd)
+        {
+            stream << valuesIt->value().toStdString();
+            
+            ++valuesIt;
+            if (valuesIt != valuesEnd)
+                stream << ", ";
+        }
+        
+        stream << std::endl;
+    }
+    
+    return stream;
+}
 
 /*****************************************************************************/
 
