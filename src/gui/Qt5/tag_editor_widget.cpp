@@ -122,7 +122,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_tagData(nullptr)
         {
             new QVBoxLayout(tagWidget);
-            keepOneEmptyLine();
         }
 
         TagsManager(const TagsManager&) = delete;
@@ -145,9 +144,11 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             }
             
             deleteRedundantLines();
-            keepOneEmptyLine();
-            
+                        
             m_tagData = tagData;
+            
+            if (m_tagData.get() != nullptr)   //no one empty line when no selection
+                keepOneEmptyLine();
             
             std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
