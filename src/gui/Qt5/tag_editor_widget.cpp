@@ -34,6 +34,12 @@
 
 #include "core/types.hpp"
 
+
+struct EntriesManager
+{
+    
+};
+
 struct TagEntry: public QWidget
 {
     explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
