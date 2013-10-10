@@ -144,6 +144,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 addLine(tag.name(), tag.valuesString());
             }
             
+            deleteRedundantLines();
             keepOneEmptyLine();
             
             m_tagData = tagData;
@@ -186,7 +187,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         }
         
         
-        void deleteEmptyLines()
+        void deleteRedundantLines()
         {
             QLayout* lay = m_tagWidget->layout();
 
@@ -221,7 +222,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         virtual void tagEdited()
         {
             //update gui
-            deleteEmptyLines();
+            deleteRedundantLines();
             keepOneEmptyLine();
             
             //save data
