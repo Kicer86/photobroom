@@ -23,6 +23,7 @@
 #include <assert.h>
 
 #include <vector>
+#include <iostream>
 
 #include <QString>
 #include <QComboBox>
@@ -127,6 +128,11 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         void setTags(const std::shared_ptr<ITagData>& tagData)
         {
+            if (m_tagData.get() != nullptr)
+                std::cout << "saving tags: " << (*m_tagData) << std::endl;
+            
+            m_tagData.reset();
+            
             removeAll();
             const ITagData::TagsList& tags = tagData->getTags();
 
@@ -139,6 +145,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             keepOneEmptyLine();
             
             m_tagData = tagData;
+            
+            std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
 
     private:
@@ -237,15 +245,20 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             //save data
             //TagEntry* edit = getEditedTag();
             
-            m_tagData->clear();
-            for (TagEntry* tagEntry: m_tagEntries)
+            if (m_tagData != nullptr)
             {
-                const QString name = tagEntry->m_tagsCombo->currentText();
-                const QString value = tagEntry->m_tagValue->text();                
-                const QStringList values = value.split(";");  //use some constants                
-                const ITagData::ValuesSet vSet(values.begin(), values.end());
+                m_tagData->clear();
+                for (TagEntry* tagEntry: m_tagEntries)
+                {
+                    const QString name = tagEntry->m_tagsCombo->currentText();
+                    const QString value = tagEntry->m_tagValue->text();                
+                    const QStringList values = value.split(";");  //use some constants                
+                    const ITagData::ValuesSet vSet(values.begin(), values.end());
+                    
+                    m_tagData->setTag(name, vSet);
+                }
                 
-                m_tagData->setTag(name, vSet);
+                std::cout << *m_tagData << std::endl;
             }
         }
         
