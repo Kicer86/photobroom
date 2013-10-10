@@ -154,7 +154,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
     private:
         void addLine(const QString& name, const QString& value)
         {
-            TagEntry* tagEntry = findEmptyLine();
+            TagEntry* tagEntry = addEmptyLine();
 
             tagEntry->selectTag(name);
             tagEntry->setTagValue(value);
@@ -165,7 +165,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             TagEntry* tagEntry = new TagEntry(m_tagWidget);
             tagEntry->setListOfBaseTags(m_base_tags);
-            connect( tagEntry->m_tagValue, SIGNAL(textChanged(QString)), this, SLOT(tagEdited()) );
+            connect( tagEntry->m_tagValue, SIGNAL(textEdited(QString)), this, SLOT(tagEdited()) );
 
             QLayout* lay = m_tagWidget->layout();
             lay->addWidget(tagEntry);
@@ -183,26 +183,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 delete item;
 
             m_tagEntries.clear();
-        }
-
-
-        TagEntry* findEmptyLine()
-        {
-            TagEntry* result = nullptr;
-
-            for(TagEntry* item: m_tagEntries)
-            {
-                if (item->m_tagValue->text().isEmpty())
-                {
-                    result = item;
-                    break;
-                }
-            }
-
-            if (result == nullptr)
-                result = addEmptyLine();
-
-            return result;
         }
         
         
