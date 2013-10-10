@@ -65,6 +65,8 @@ TagEntry::TagEntry(QWidget *p, Qt::WindowFlags f):
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_tagsCombo);
     mainLayout->addWidget(m_tagValue);
+    
+    m_tagsCombo->setEditable(true);
 }
 
 
