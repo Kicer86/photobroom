@@ -24,6 +24,9 @@
 
 #include <vector>
 #include <iostream>
+#include <set>
+#include <algorithm>
+#include <iterator>
 
 #include <QString>
 #include <QComboBox>
@@ -31,39 +34,169 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QStringListModel>
 
 #include "core/types.hpp"
 
+struct TagEntry;
 
-struct EntriesManager
+struct EntriesManager: public EntriesManagerSlots
 {
+        explicit EntriesManager(QObject* parent = 0);
     
+        TagEntry* constructEntry(QWidget *);
+        
+        QString getDefaultValue();
+        std::set<QString> getDefaultValues();
+        
+    private:
+        std::vector<TagEntry *> m_entries;
+        static std::set<QString> m_base_tags;        
+        QStringListModel m_combosModel;
+        
+        std::set<QString> usedValues() const;
+        void registerEmtry(TagEntry *);
+        
+    private slots:
+        void comboChanged() override;
 };
 
 struct TagEntry: public QWidget
 {
-    explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
-    virtual ~TagEntry();
+        friend class EntriesManager;
+        
+        virtual ~TagEntry();
 
-    TagEntry(const TagEntry &) = delete;
-    void operator=(const TagEntry &) = delete;
+        TagEntry(const TagEntry &) = delete;
+        void operator=(const TagEntry &) = delete;
 
-    void setListOfBaseTags(const std::vector<QString> &);
-    void selectTag(const QString &name);
-    void setTagValue(const QString &value);
-    void clear();
+        void selectTag(const QString &name);
+        void setTagValue(const QString &value);
+        void clear();
+        
+        QString getTagName() const;
+        QString getTagValue() const;
 
-    QComboBox   *m_tagsCombo;
-    QLineEdit   *m_tagValue;
-    std::vector<QString> m_baseTags;
+    private:
+        QComboBox   *m_tagsCombo;
+        QLineEdit   *m_tagValue;
+        
+        explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
+        
+    signals:
+        void tagEdited();
 };
+
+
+/**************************************************************************/
+
+
+std::set<QString> EntriesManager::m_base_tags( {"Event", "Place", "Date", "Time", "People"} );
+
+
+EntriesManager::EntriesManager(QObject* parent): EntriesManagerSlots(parent), m_entries(), m_combosModel()
+{
+    comboChanged();
+}
+
+
+TagEntry* EntriesManager::constructEntry(QWidget *p)
+{
+    TagEntry* result = new TagEntry(p);
+    registerEmtry(result);
+    
+    result->m_tagsCombo->setModel(&m_combosModel);
+    
+    return result;
+}
+
+
+
+void EntriesManager::registerEmtry(TagEntry* entry)
+{
+    m_entries.push_back(entry);
+    
+    connect(entry->m_tagsCombo, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboChanged()));
+}
+
+
+QString EntriesManager::getDefaultValue()
+{    
+    std::set<QString> avail = m_base_tags;
+    
+    for (TagEntry* entry: m_entries)
+    {
+        const QString n = entry->getTagName();
+        
+        avail.erase(n);
+    }
+    
+    QString result = "";
+    
+    if (avail.empty() == false)
+        result = *(avail.begin());
+    
+    return result;
+}
+
+
+std::set<QString> EntriesManager::usedValues() const
+{
+    std::set<QString> used;
+    for (TagEntry* entry: m_entries)
+    {
+        const QString n = entry->getTagName();
+        
+        used.insert(n);
+    }
+    
+    return used;
+}
+
+
+void EntriesManager::comboChanged()
+{
+    typedef std::set<QString> set_type;
+    
+    set_type usedNames;
+    
+    for(TagEntry* entry: m_entries)
+    {
+        QString name = entry->getTagName();
+        
+        const set_type::size_type usedNamesSize = usedNames.size();
+        
+        usedNames.insert(name);
+        
+        if (usedNamesSize == usedNames.size())
+        {
+            //TODO: mark comboBoxes with red
+        }
+    }
+    
+    //remove used names from model
+    set_type availNames;
+    
+    std::set_difference(m_base_tags.begin(), m_base_tags.end(),
+                        usedNames.begin(), usedNames.end(),
+                        std::inserter(availNames, availNames.begin()));
+       
+    QStringList data;
+    for(auto i: availNames)
+        data << i;
+    
+    m_combosModel.setStringList(data);
+}
+
+
+/**************************************************************************/
+
 
 
 TagEntry::TagEntry(QWidget *p, Qt::WindowFlags f):
     QWidget(p, f),
     m_tagsCombo(nullptr),
-    m_tagValue(nullptr),
-    m_baseTags()
+    m_tagValue(nullptr)
 {
     m_tagsCombo = new QComboBox(this);
     m_tagValue  = new QLineEdit(this);
@@ -73,20 +206,14 @@ TagEntry::TagEntry(QWidget *p, Qt::WindowFlags f):
     mainLayout->addWidget(m_tagValue);
     
     m_tagsCombo->setEditable(true);
+    
+    connect(m_tagValue, SIGNAL(textEdited(QString)), this, SIGNAL(tagEdited()));
 }
 
 
 TagEntry::~TagEntry()
 {
 
-}
-
-
-void TagEntry::setListOfBaseTags(const std::vector<QString> &tags)
-{
-    m_baseTags = tags;
-
-    clear();
 }
 
 
@@ -112,9 +239,27 @@ void TagEntry::clear()
     m_tagValue->clear();
     m_tagsCombo->clear();
 
-    for (const QString &tag: m_baseTags)
-        m_tagsCombo->addItem(tag);
+    //for (const QString &tag: m_baseTags)
+    //    m_tagsCombo->addItem(tag);
 }
+
+
+QString TagEntry::getTagName() const
+{
+    const QString result = m_tagsCombo->currentText();
+    
+    return result;
+}
+
+
+QString TagEntry::getTagValue() const
+{   
+    const QString result = m_tagValue->text();
+    
+    return result;
+}
+
+
 
 /*****************************************************************************/
 
@@ -122,10 +267,12 @@ void TagEntry::clear()
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
 {
         TagsManager(TagEditorWidget* tagWidget):
+            TagsManagerSlots(tagWidget),
             m_base_tags( {"Event", "Place", "Date", "Time", "People"}),
             m_tagWidget(tagWidget),
             m_tagEntries(),
-            m_tagData(nullptr)
+            m_tagData(nullptr),
+            m_entriesManager(new EntriesManager(this))
         {
             new QVBoxLayout(tagWidget);
         }
@@ -171,9 +318,9 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         TagEntry* addEmptyLine()
         {
-            TagEntry* tagEntry = new TagEntry(m_tagWidget);
-            tagEntry->setListOfBaseTags(m_base_tags);
-            connect( tagEntry->m_tagValue, SIGNAL(textEdited(QString)), this, SLOT(tagEdited()) );
+            TagEntry* tagEntry = m_entriesManager->constructEntry(m_tagWidget);
+            //tagEntry->setListOfBaseTags(m_base_tags);
+            connect( tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()) );
 
             QLayout* lay = m_tagWidget->layout();
             lay->addWidget(tagEntry);
@@ -202,7 +349,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             {
                 TagEntry* entry = m_tagEntries[i];
 
-                const bool empty = entry->m_tagValue->text().isEmpty();
+                const bool empty = entry->getTagValue().isEmpty();
 
                 return empty;
             };
@@ -221,7 +368,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             QLayout* lay = m_tagWidget->layout();
             
-            if ( lay->count() == 0 || m_tagEntries[lay->count() - 1]->m_tagValue->text().isEmpty() == false)
+            if ( lay->count() == 0 || m_tagEntries[lay->count() - 1]->getTagValue().isEmpty() == false)
                 addEmptyLine();
         }
 
@@ -240,8 +387,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 m_tagData->clear();
                 for (TagEntry* tagEntry: m_tagEntries)
                 {
-                    const QString name = tagEntry->m_tagsCombo->currentText();
-                    const QString value = tagEntry->m_tagValue->text();                
+                    const QString name = tagEntry->getTagName();
+                    const QString value = tagEntry->getTagValue();
                     const QStringList values = value.split(";");  //use some constants                
                     const ITagData::ValuesSet vSet(values.begin(), values.end());
                     
@@ -278,6 +425,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         TagEditorWidget* m_tagWidget;
         std::vector<TagEntry *> m_tagEntries;
         std::shared_ptr<ITagData> m_tagData;
+        EntriesManager* m_entriesManager;
 };
 
 
