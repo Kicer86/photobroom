@@ -35,6 +35,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QStringListModel>
+#include <QDebug>
 
 #include "core/types.hpp"
 
@@ -53,6 +54,7 @@ struct EntriesManager: public EntriesManagerSlots
         std::vector<TagEntry *> m_entries;
         static std::set<QString> m_base_tags;        
         QStringListModel m_combosModel;
+        QStringList  m_data;
         
         std::set<QString> usedValues() const;
         void registerEmtry(TagEntry *);
@@ -61,7 +63,7 @@ struct EntriesManager: public EntriesManagerSlots
         void comboChanged() override;
 };
 
-struct TagEntry: public QWidget
+struct TagEntry: public TagEntrySignals
 {
         friend class EntriesManager;
         
@@ -82,9 +84,6 @@ struct TagEntry: public QWidget
         QLineEdit   *m_tagValue;
         
         explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
-        
-    signals:
-        void tagEdited();
 };
 
 
@@ -94,7 +93,7 @@ struct TagEntry: public QWidget
 std::set<QString> EntriesManager::m_base_tags( {"Event", "Place", "Date", "Time", "People"} );
 
 
-EntriesManager::EntriesManager(QObject* parent): EntriesManagerSlots(parent), m_entries(), m_combosModel()
+EntriesManager::EntriesManager(QObject* parent): EntriesManagerSlots(parent), m_entries(), m_combosModel(), m_data()
 {
     comboChanged();
 }
@@ -180,21 +179,23 @@ void EntriesManager::comboChanged()
     std::set_difference(m_base_tags.begin(), m_base_tags.end(),
                         usedNames.begin(), usedNames.end(),
                         std::inserter(availNames, availNames.begin()));
-       
+    
     QStringList data;
     for(auto i: availNames)
         data << i;
     
-    m_combosModel.setStringList(data);
+    qDebug() << m_data << "\n" << data;
+    
+    if (m_data != data)
+        m_combosModel.setStringList(m_data = data);
 }
 
 
 /**************************************************************************/
 
 
-
 TagEntry::TagEntry(QWidget *p, Qt::WindowFlags f):
-    QWidget(p, f),
+    TagEntrySignals(p, f),
     m_tagsCombo(nullptr),
     m_tagValue(nullptr)
 {

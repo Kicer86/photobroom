@@ -57,6 +57,18 @@ class TagsManagerSlots: public QObject
 };
 
 
+class TagEntrySignals: public QWidget
+{
+    Q_OBJECT
+    
+    protected:
+        TagEntrySignals(QWidget *p, Qt::WindowFlags f): QWidget(p, f) {}
+    
+    signals:
+        void tagEdited();
+};
+
+
 class TagEditorWidget: public QWidget
 {
     public:

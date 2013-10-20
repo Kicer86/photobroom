@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 
 #include "photos_view_widget.hpp"
-#include "tag_editor_widget.hpp"
+#include "widgets/tag_editor/tag_editor_widget.hpp"
 
 #include "analyzer/photo_crawler_builder.hpp"
 #include "analyzer/iphoto_crawler.hpp"
