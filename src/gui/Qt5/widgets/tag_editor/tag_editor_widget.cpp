@@ -43,7 +43,7 @@
 
 struct TagEntry;
 
-struct EntriesManager: public EntriesManagerSlots
+struct EntriesManager: public QObject
 {
         explicit EntriesManager(QObject* parent = 0);
     
@@ -60,9 +60,6 @@ struct EntriesManager: public EntriesManagerSlots
         
         std::set<QString> usedValues() const;
         void registerEmtry(TagEntry *);
-        
-    private slots:
-        void comboChanged() override;
 };
 
 struct TagEntry: public TagEntrySignals
@@ -95,9 +92,9 @@ struct TagEntry: public TagEntrySignals
 std::set<QString> EntriesManager::m_base_tags( {"Event", "Place", "Date", "Time", "People"} );
 
 
-EntriesManager::EntriesManager(QObject* parent): EntriesManagerSlots(parent), m_entries(), m_combosModel(), m_data()
+EntriesManager::EntriesManager(QObject* parent): QObject(parent), m_entries(), m_combosModel(), m_data()
 {
-    comboChanged();
+
 }
 
 
@@ -114,8 +111,6 @@ TagEntry* EntriesManager::constructEntry(const QString& name, QWidget *p)
 void EntriesManager::registerEmtry(TagEntry* entry)
 {
     m_entries.push_back(entry);
-    
-    connect(entry->m_tagName, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboChanged()));
 }
 
 
@@ -152,7 +147,7 @@ std::set<QString> EntriesManager::usedValues() const
     return used;
 }
 
-
+/*
 void EntriesManager::comboChanged()
 {
     typedef std::set<QString> set_type;
@@ -189,7 +184,7 @@ void EntriesManager::comboChanged()
     if (m_data != data)
         m_combosModel.setStringList(m_data = data);
 }
-
+*/
 
 /**************************************************************************/
 

@@ -33,17 +33,6 @@ class QLineEdit;
 class QComboBox;
 
 
-class EntriesManagerSlots: public QObject
-{
-    Q_OBJECT
-    
-    protected:
-        EntriesManagerSlots(QObject *p): QObject(p) {}
-    
-    protected slots:
-        virtual void comboChanged() = 0;
-};
-
 class TagsManagerSlots: public QObject
 {
     Q_OBJECT
