@@ -59,7 +59,7 @@ struct EntriesManager: public QObject
         QStringList  m_data;
         
         std::set<QString> usedValues() const;
-        void registerEmtry(TagEntry *);
+        void registerEntry(TagEntry *);
 };
 
 struct TagEntry: public TagEntrySignals
@@ -101,14 +101,14 @@ EntriesManager::EntriesManager(QObject* parent): QObject(parent), m_entries(), m
 TagEntry* EntriesManager::constructEntry(const QString& name, QWidget *p)
 {
     TagEntry* result = new TagEntry(name, p);
-    registerEmtry(result);
+    registerEntry(result);
     
     return result;
 }
 
 
 
-void EntriesManager::registerEmtry(TagEntry* entry)
+void EntriesManager::registerEntry(TagEntry* entry)
 {
     m_entries.push_back(entry);
 }
