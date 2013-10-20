@@ -268,9 +268,13 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_entriesManager(new EntriesManager(this))
         {
             QLayout* layout = new QVBoxLayout(tagWidget);
-            
             TagDefinition* tag = new TagDefinition(tagWidget);
+            m_container = new QWidget(tagWidget);
+            
+            QLayout* containerLayout = new QVBoxLayout(m_container);
+            
             layout->addWidget(tag);
+            layout->addWidget(m_container);
         }
 
         TagsManager(const TagsManager&) = delete;
@@ -311,7 +315,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             
             connect(tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()));
 
-            QLayout* lay = m_tagWidget->layout();
+            QLayout* lay = m_container->layout();
             lay->addWidget(tagEntry);
             m_tagEntries.push_back(tagEntry);
 
@@ -321,7 +325,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         void removeAll()
         {
-            QLayout* lay = m_tagWidget->layout();
+            QLayout* lay = m_container->layout();
 
             while ( QLayoutItem* item = lay->takeAt(0) )
                 delete item;
@@ -419,6 +423,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         std::vector<TagEntry *> m_tagEntries;
         std::shared_ptr<ITagData> m_tagData;
         EntriesManager* m_entriesManager;
+        QWidget* m_container;
 };
 
 
