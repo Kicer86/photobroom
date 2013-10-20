@@ -267,7 +267,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_tagData(nullptr),
             m_entriesManager(new EntriesManager(this))
         {
-            new QVBoxLayout(tagWidget);
+            QLayout* layout = new QVBoxLayout(tagWidget);
+            
+            TagDefinition* tag = new TagDefinition(tagWidget);
+            layout->addWidget(tag);
         }
 
         TagsManager(const TagsManager&) = delete;
@@ -302,7 +305,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         }
 
     private:
-        void addLine(const QString& name, const QString& value)
+        void addLine(const QString& name, const QString& value = "")
         {
             TagEntry* tagEntry = m_entriesManager->constructEntry(name, m_tagWidget);
             
