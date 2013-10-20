@@ -29,13 +29,15 @@
 #include <iterator>
 
 #include <QString>
-#include <QComboBox>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QStringListModel>
 #include <QDebug>
+
+#include "tag_definition.hpp"
 
 #include "core/types.hpp"
 
@@ -45,7 +47,7 @@ struct EntriesManager: public EntriesManagerSlots
 {
         explicit EntriesManager(QObject* parent = 0);
     
-        TagEntry* constructEntry(QWidget *);
+        TagEntry* constructEntry(const QString& name, QWidget* p);
         
         QString getDefaultValue();
         std::set<QString> getDefaultValues();
@@ -72,7 +74,7 @@ struct TagEntry: public TagEntrySignals
         TagEntry(const TagEntry &) = delete;
         void operator=(const TagEntry &) = delete;
 
-        void selectTag(const QString &name);
+        //void selectTag(const QString &name);
         void setTagValue(const QString &value);
         void clear();
         
@@ -80,10 +82,10 @@ struct TagEntry: public TagEntrySignals
         QString getTagValue() const;
 
     private:
-        QComboBox   *m_tagsCombo;
-        QLineEdit   *m_tagValue;
+        QLabel    *m_tagName;
+        QLineEdit *m_tagValue;
         
-        explicit TagEntry(QWidget *parent, Qt::WindowFlags f = 0);
+        explicit TagEntry(const QString &, QWidget *parent, Qt::WindowFlags f = 0);
 };
 
 
@@ -99,12 +101,10 @@ EntriesManager::EntriesManager(QObject* parent): EntriesManagerSlots(parent), m_
 }
 
 
-TagEntry* EntriesManager::constructEntry(QWidget *p)
+TagEntry* EntriesManager::constructEntry(const QString& name, QWidget *p)
 {
-    TagEntry* result = new TagEntry(p);
+    TagEntry* result = new TagEntry(name, p);
     registerEmtry(result);
-    
-    result->m_tagsCombo->setModel(&m_combosModel);
     
     return result;
 }
@@ -115,7 +115,7 @@ void EntriesManager::registerEmtry(TagEntry* entry)
 {
     m_entries.push_back(entry);
     
-    connect(entry->m_tagsCombo, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboChanged()));
+    connect(entry->m_tagName, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboChanged()));
 }
 
 
@@ -194,19 +194,17 @@ void EntriesManager::comboChanged()
 /**************************************************************************/
 
 
-TagEntry::TagEntry(QWidget *p, Qt::WindowFlags f):
+TagEntry::TagEntry(const QString &name, QWidget *p, Qt::WindowFlags f):
     TagEntrySignals(p, f),
-    m_tagsCombo(nullptr),
+    m_tagName(nullptr),
     m_tagValue(nullptr)
 {
-    m_tagsCombo = new QComboBox(this);
+    m_tagName = new QLabel(name, this);
     m_tagValue  = new QLineEdit(this);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
-    mainLayout->addWidget(m_tagsCombo);
+    mainLayout->addWidget(m_tagName);
     mainLayout->addWidget(m_tagValue);
-    
-    m_tagsCombo->setEditable(true);
     
     connect(m_tagValue, SIGNAL(textEdited(QString)), this, SIGNAL(tagEdited()));
 }
@@ -217,17 +215,17 @@ TagEntry::~TagEntry()
 
 }
 
-
+/*
 void TagEntry::selectTag(const QString &name)
 {
-    int idx = m_tagsCombo->findText(name);
+    int idx = m_tagName->findText(name);
 
     if (idx == -1)
-        m_tagsCombo->addItem(name);
+        m_tagName->addItem(name);
     else
-        m_tagsCombo->setCurrentIndex(idx);
+        m_tagName->setCurrentIndex(idx);
 }
-
+*/
 
 void TagEntry::setTagValue(const QString &value)
 {
@@ -238,7 +236,7 @@ void TagEntry::setTagValue(const QString &value)
 void TagEntry::clear()
 {
     m_tagValue->clear();
-    m_tagsCombo->clear();
+    m_tagName->clear();
 
     //for (const QString &tag: m_baseTags)
     //    m_tagsCombo->addItem(tag);
@@ -247,8 +245,7 @@ void TagEntry::clear()
 
 QString TagEntry::getTagName() const
 {
-    const QString result = m_tagsCombo->currentText();
-    
+    const QString result = m_tagName->text();    
     return result;
 }
 
@@ -297,12 +294,14 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 addLine(tag.name(), tag.valuesString());
             }
             
-            deleteRedundantLines();
+            //deleteRedundantLines();
                         
             m_tagData = tagData;
             
+            /*
             if (m_tagData.get() != nullptr)   //no one empty line when no selection
                 keepOneEmptyLine();
+            */
             
             std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
@@ -310,24 +309,15 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
     private:
         void addLine(const QString& name, const QString& value)
         {
-            TagEntry* tagEntry = addEmptyLine();
-
-            tagEntry->selectTag(name);
-            tagEntry->setTagValue(value);
-        }
-
-
-        TagEntry* addEmptyLine()
-        {
-            TagEntry* tagEntry = m_entriesManager->constructEntry(m_tagWidget);
-            //tagEntry->setListOfBaseTags(m_base_tags);
-            connect( tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()) );
+            TagEntry* tagEntry = m_entriesManager->constructEntry(name, m_tagWidget);
+            
+            connect(tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()));
 
             QLayout* lay = m_tagWidget->layout();
             lay->addWidget(tagEntry);
             m_tagEntries.push_back(tagEntry);
 
-            return tagEntry;
+            tagEntry->setTagValue(value);
         }
 
 
@@ -342,6 +332,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         }
         
         
+        /*
         void deleteRedundantLines()
         {
             QLayout* lay = m_tagWidget->layout();
@@ -363,8 +354,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                     break;
             }
         }
+        */
         
         
+        /*
         void keepOneEmptyLine()
         {
             QLayout* lay = m_tagWidget->layout();
@@ -372,13 +365,14 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             if ( lay->count() == 0 || m_tagEntries[lay->count() - 1]->getTagValue().isEmpty() == false)
                 addEmptyLine();
         }
+        */
 
 
         virtual void tagEdited()
         {
             //update gui
-            deleteRedundantLines();
-            keepOneEmptyLine();
+            //deleteRedundantLines();
+            //keepOneEmptyLine();
             
             //save data
             //TagEntry* edit = getEditedTag();
