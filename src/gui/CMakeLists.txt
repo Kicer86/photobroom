@@ -20,7 +20,6 @@ set(GUI_SOURCES
     Qt5/private/preparing_photos_widget_private.cpp
     Qt5/data/photo_info.cpp
     Qt5/tag_editor_widget.cpp
-    Qt5/QComboBoxEx.cpp
     )
 
 set(GUI_HEADERS
@@ -34,7 +33,6 @@ set(GUI_HEADERS
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/data/photo_info.hpp
     Qt5/tag_editor_widget.hpp
-    Qt5/QComboBoxEx.hpp
     )
 
 #set of file to be moced
@@ -43,7 +41,6 @@ set(GUI_FILES_TO_MOC
     Qt5/preparing_photos_widget.hpp
     Qt5/tag_editor_widget.hpp
     Qt5/photos_view_widget.hpp
-    Qt5/QComboBoxEx.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
