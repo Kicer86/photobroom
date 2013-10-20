@@ -6,16 +6,28 @@
 
 class QPushButton;
 class QComboBox;
+class QString;
+class QAbstractItemModel;
 
 class TagDefinition: public QWidget
 {
+        Q_OBJECT        
+    
     public:
         explicit TagDefinition(QWidget* parent = 0, Qt::WindowFlags f = 0);
         virtual ~TagDefinition();
         
+        void setModel(QAbstractItemModel *) const;
+        
     private:
         QComboBox* m_comboBox;
         QPushButton* m_button;
+        
+    private slots:
+        void buttonPressed() const;
+        
+    signals:
+        void tagChoosen(const QString &) const;
 };
 
 #endif
