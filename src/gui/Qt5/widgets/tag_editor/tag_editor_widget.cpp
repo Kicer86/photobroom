@@ -253,7 +253,6 @@ QString TagEntry::getTagValue() const
 }
 
 
-
 /*****************************************************************************/
 
 
@@ -275,6 +274,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             
             layout->addWidget(tag);
             layout->addWidget(m_container);
+            
+            connect(tag, SIGNAL(tagChoosen(QString)), this, SLOT(addLine(QString)));
         }
 
         TagsManager(const TagsManager&) = delete;
@@ -309,7 +310,13 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         }
 
     private:
-        void addLine(const QString& name, const QString& value = "")
+        virtual void addLine(const QString& name) override
+        {
+            addLine(name, "");
+        }
+        
+        
+        void addLine(const QString& name, const QString& value)
         {
             TagEntry* tagEntry = m_entriesManager->constructEntry(name, m_tagWidget);
             
@@ -322,7 +329,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             tagEntry->setTagValue(value);
         }
 
-
+        
         void removeAll()
         {
             QLayout* lay = m_container->layout();
