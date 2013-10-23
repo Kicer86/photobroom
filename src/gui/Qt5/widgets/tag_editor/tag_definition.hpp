@@ -25,6 +25,7 @@ class TagDefinition: public QWidget
         
     private slots:
         void buttonPressed() const;
+        void comboChanged(const QString &) const;
         
     signals:
         void tagChoosen(const QString &) const;

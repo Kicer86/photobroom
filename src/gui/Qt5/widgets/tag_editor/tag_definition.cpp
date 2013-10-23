@@ -14,7 +14,11 @@ TagDefinition::TagDefinition(QWidget* parent, Qt::WindowFlags f): QWidget(parent
     layout->addWidget(m_comboBox);
     layout->addWidget(m_button);
     
+    m_comboBox->setEditable(true);
+    m_button->setEnabled(false);
+    
     connect(m_button, SIGNAL(pressed()), this, SLOT(buttonPressed()));
+    connect(m_comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
 }
 
 
@@ -34,4 +38,10 @@ void TagDefinition::buttonPressed() const
 {
     const QString name = m_comboBox->currentText();
     emit tagChoosen(name);
+}
+
+
+void TagDefinition::comboChanged(const QString &txt) const
+{
+    m_button->setDisabled(txt.isEmpty());
 }
