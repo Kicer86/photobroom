@@ -5,14 +5,17 @@
 #include <QPushButton>
 #include <QComboBox>
 
-TagDefinition::TagDefinition(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
+TagDefinition::TagDefinition(QWidget* p, Qt::WindowFlags f): 
+    QWidget(p, f), 
+    m_comboBox(nullptr),
+    m_button(nullptr)
 {    
     m_button = new QPushButton("+", this);
     m_comboBox = new QComboBox(this);
-    QHBoxLayout* layout = new QHBoxLayout(this);
+    QHBoxLayout* lay = new QHBoxLayout(this);
     
-    layout->addWidget(m_comboBox);
-    layout->addWidget(m_button);
+    lay->addWidget(m_comboBox);
+    lay->addWidget(m_button);
     
     m_comboBox->setEditable(true);
     m_button->setEnabled(false);

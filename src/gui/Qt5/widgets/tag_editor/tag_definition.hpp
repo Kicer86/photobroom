@@ -15,9 +15,12 @@ class TagDefinition: public QWidget
     
     public:
         explicit TagDefinition(QWidget* parent = 0, Qt::WindowFlags f = 0);
+        TagDefinition(const TagDefinition &) = delete;
         virtual ~TagDefinition();
         
         void setModel(QAbstractItemModel *) const;
+        
+        TagDefinition& operator=(const TagDefinition &) = delete;
         
     private:
         QComboBox* m_comboBox;
