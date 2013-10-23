@@ -92,7 +92,7 @@ struct TagEntry: public TagEntrySignals
 std::set<QString> EntriesManager::m_base_tags( {"Event", "Place", "Date", "Time", "People"} );
 
 
-EntriesManager::EntriesManager(QObject* parent): QObject(parent), m_entries(), m_combosModel(), m_data()
+EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
 {
 
 }
@@ -264,13 +264,14 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_tagWidget(tagWidget),
             m_tagEntries(),
             m_tagData(nullptr),
-            m_entriesManager(new EntriesManager(this))
+            m_entriesManager(new EntriesManager(this)),
+            m_container(nullptr)
         {
             QLayout* layout = new QVBoxLayout(tagWidget);
             TagDefinition* tag = new TagDefinition(tagWidget);
             m_container = new QWidget(tagWidget);
             
-            QLayout* containerLayout = new QVBoxLayout(m_container);
+            new QVBoxLayout(m_container);
             
             layout->addWidget(tag);
             layout->addWidget(m_container);

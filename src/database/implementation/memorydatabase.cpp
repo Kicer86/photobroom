@@ -82,6 +82,7 @@ namespace Database
 
         void add(const std::string &path, const IFrontend::Description &description)
         {
+            (void) description;
             Entry entry;
 
             entry.m_d->m_crc = calcCrc(path);

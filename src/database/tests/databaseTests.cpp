@@ -17,6 +17,7 @@ TEST_GROUP(MemoryDatabaseShould)
 {
 	struct FSImpl: public FS
 	{
+        FSImpl(): m_stream() {}
 		//open and return file
 		std::iostream* openStream(const std::string &, std::ios_base::openmode)
 		{
@@ -26,7 +27,7 @@ TEST_GROUP(MemoryDatabaseShould)
 		//close opened file
 		void closeStream(std::iostream *stream)
 		{
-		
+            (void) stream;
 		}
 
 		std::stringstream m_stream;
@@ -34,6 +35,7 @@ TEST_GROUP(MemoryDatabaseShould)
 
 	struct Backend: public Database::IBackend
 	{
+        Backend(): m_entries() {}
 		virtual ~Backend() {}
 
 		virtual bool store(const Database::Entry &entry)
@@ -61,7 +63,7 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 	std::shared_ptr<FSImpl> fs = std::make_shared<FSImpl>();
 
 	fs->m_stream << "Test content of file to store";
-	Database::Entry::crc32 crc = 0;
+	//Database::Entry::crc32 crc = 0;
     Config *config = new Config;
 
 	Database::MemoryDatabase *db = new Database::MemoryDatabase(config, fs);

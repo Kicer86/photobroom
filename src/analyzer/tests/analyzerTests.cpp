@@ -47,6 +47,7 @@ struct FakeAnalyzer: public IAnalyzer
 {
     FakeAnalyzer(bool result = false): m_counter(nullptr), m_result(result) {}
     FakeAnalyzer(int *counter): m_counter(counter), m_result(false) {}
+    FakeAnalyzer(const FakeAnalyzer &) = delete;
     virtual ~FakeAnalyzer() {}
     
     virtual bool isImage(const std::string &)
@@ -56,6 +57,8 @@ struct FakeAnalyzer: public IAnalyzer
         
         return m_result;
     }
+    
+    FakeAnalyzer& operator=(const FakeAnalyzer &) = delete;
     
     int *m_counter;
     bool m_result;

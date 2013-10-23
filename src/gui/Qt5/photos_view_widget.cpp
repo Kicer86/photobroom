@@ -342,6 +342,8 @@ namespace
 
         virtual void scrollTo(const QModelIndex& idx, ScrollHint hint = EnsureVisible)
         {
+            (void) idx;
+            (void) hint;
         }
 
         virtual QModelIndex indexAt(const QPoint& point) const
@@ -349,9 +351,9 @@ namespace
             QModelIndex result;
             for(size_t i = 0; i < m_cache.items(); i++)
             {
-                const QRect &rect = m_cache.pos(i);
+                const QRect &position = m_cache.pos(i);
 
-                if (rect.contains(point))
+                if (position.contains(point))
                 {
                     result = model()->index(i, 0);
                     break;
@@ -365,6 +367,8 @@ namespace
 
         virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
         {
+            (void) cursorAction;
+            (void) modifiers;
             QModelIndex result;
 
             return result;
@@ -382,15 +386,16 @@ namespace
 
         virtual bool isIndexHidden(const QModelIndex& index) const
         {
+            (void) index;
             return false;
         }
 
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
-        {
+        {            
             QItemSelection selection;
 
             //find all items in rect
-            for(int i = 0; i < m_cache.items(); i++)
+            for(size_t i = 0; i < m_cache.items(); i++)
             {
                 QRect item = m_cache.pos(i);
 
@@ -409,6 +414,7 @@ namespace
 
         virtual QRegion visualRegionForSelection(const QItemSelection& selection) const
         {
+            (void) selection;
             QRegion result;
 
             return result;
@@ -422,7 +428,7 @@ namespace
         }
 
         virtual void rowsInserted(const QModelIndex& parent, int start, int end)
-        {
+        {            
             m_cache.invalidate();
             QAbstractItemView::rowsInserted(parent, start, end);
         }

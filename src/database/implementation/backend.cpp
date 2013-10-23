@@ -18,6 +18,7 @@ namespace Database
     
     bool PrimitiveBackend::store(const Entry &entry)
     {
+        (void) entry;
 		return true;        
     }
     
