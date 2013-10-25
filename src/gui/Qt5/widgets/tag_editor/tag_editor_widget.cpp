@@ -147,44 +147,6 @@ std::set<QString> EntriesManager::usedValues() const
     return used;
 }
 
-/*
-void EntriesManager::comboChanged()
-{
-    typedef std::set<QString> set_type;
-    
-    set_type usedNames;
-    
-    for(TagEntry* entry: m_entries)
-    {
-        QString name = entry->getTagName();
-        
-        const set_type::size_type usedNamesSize = usedNames.size();
-        
-        usedNames.insert(name);
-        
-        if (usedNamesSize == usedNames.size())
-        {
-            //TODO: mark comboBoxes with red
-        }
-    }
-    
-    //remove used names from model
-    set_type availNames;
-    
-    std::set_difference(m_base_tags.begin(), m_base_tags.end(),
-                        usedNames.begin(), usedNames.end(),
-                        std::inserter(availNames, availNames.begin()));
-    
-    QStringList data;
-    for(auto i: availNames)
-        data << i;
-    
-    qDebug() << m_data << "\n" << data;
-    
-    if (m_data != data)
-        m_combosModel.setStringList(m_data = data);
-}
-*/
 
 /**************************************************************************/
 
@@ -210,17 +172,6 @@ TagEntry::~TagEntry()
 
 }
 
-/*
-void TagEntry::selectTag(const QString &name)
-{
-    int idx = m_tagName->findText(name);
-
-    if (idx == -1)
-        m_tagName->addItem(name);
-    else
-        m_tagName->setCurrentIndex(idx);
-}
-*/
 
 void TagEntry::setTagValue(const QString &value)
 {
@@ -297,16 +248,9 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 ITagData::TagInfo tag(tagIt);
                 addLine(tag.name(), tag.valuesString());
             }
-            
-            //deleteRedundantLines();
-                        
+                                    
             m_tagData = tagData;
-            
-            /*
-            if (m_tagData.get() != nullptr)   //no one empty line when no selection
-                keepOneEmptyLine();
-            */
-            
+                   
             std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
 
@@ -343,53 +287,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
             m_tagEntries.clear();
         }
-        
-        
-        /*
-        void deleteRedundantLines()
-        {
-            QLayout* lay = m_tagWidget->layout();
-
-            auto isEmpty = [&] (int i) -> bool
-            {
-                TagEntry* entry = m_tagEntries[i];
-
-                const bool empty = entry->getTagValue().isEmpty();
-
-                return empty;
-            };
-
-            while ( int items = lay->count() >= 2 ? lay->count() : 0)
-            {
-                if ( isEmpty(items - 1) && isEmpty(items - 2) )
-                    delete lay->takeAt(items - 1);
-                else
-                    break;
-            }
-        }
-        */
-        
-        
-        /*
-        void keepOneEmptyLine()
-        {
-            QLayout* lay = m_tagWidget->layout();
-            
-            if ( lay->count() == 0 || m_tagEntries[lay->count() - 1]->getTagValue().isEmpty() == false)
-                addEmptyLine();
-        }
-        */
-
+       
 
         virtual void tagEdited()
-        {
-            //update gui
-            //deleteRedundantLines();
-            //keepOneEmptyLine();
-            
-            //save data
-            //TagEntry* edit = getEditedTag();
-            
+        {            
             if (m_tagData != nullptr)
             {
                 m_tagData->clear();
@@ -421,13 +322,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             
             return tagEntry;
         }
-
-/*
-        virtual void setTagsAndValues(ITagData* data)
-        {
-            setTags(data);
-        }
-*/
 
         std::vector<QString> m_base_tags;
         TagEditorWidget* m_tagWidget;
