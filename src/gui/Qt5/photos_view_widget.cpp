@@ -328,13 +328,10 @@ namespace
             QAbstractItemModel *dataModel = model();
             QRect result;
 
-            if (dataModel != nullptr)
+            if (dataModel != nullptr && index.isValid())
             {
-                if (index.isValid())
-                {
-                    const int row = index.row();
-                    result = m_cache.pos(row);
-                }
+                const int row = index.row();
+                result = m_cache.pos(row);
             }
 
             return result;
