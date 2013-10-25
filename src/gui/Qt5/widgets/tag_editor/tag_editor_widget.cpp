@@ -267,24 +267,18 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             
             connect(tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()));
 
-            QLayout* lay = m_container->layout();
-            lay->addWidget(tagEntry);
-            m_tagEntries.push_back(tagEntry);
-
             tagEntry->setTagValue(value);
         }
 
+        void storeTagEntry(TagEntry* tagEntry)
+        {
+            QLayout* lay = m_container->layout();
+            lay->addWidget(tagEntry);
+            m_tagEntries.push_back(tagEntry);
+        }
         
         void removeAll()
         {
-            QLayout* lay = m_container->layout();
-
-            while ( QLayoutItem* item = lay->takeAt(0) )
-            {
-                delete item->widget();
-                delete item;
-            }
-
             m_tagEntries.clear();
         }
        
