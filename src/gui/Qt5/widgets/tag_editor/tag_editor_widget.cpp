@@ -48,18 +48,21 @@ struct EntriesManager: public QObject
         explicit EntriesManager(QObject* parent = 0);
     
         TagEntry* constructEntry(const QString& name, QWidget* p);
+        void removeAllEntries();
+        
+        const std::vector<std::unique_ptr<TagEntry>>& getTagEntries() const;
         
         QString getDefaultValue();
         std::set<QString> getDefaultValues();
         
     private:
-        std::vector<TagEntry *> m_entries;
+        std::vector<std::unique_ptr<TagEntry>> m_entries;
         static std::set<QString> m_base_tags;        
         QStringListModel m_combosModel;
-        QStringList  m_data;
+        QStringList m_data;
         
         std::set<QString> usedValues() const;
-        void registerEntry(TagEntry *);
+        void registerEntry(std::unique_ptr<TagEntry> &&);
 };
 
 struct TagEntry: public TagEntrySignals
@@ -98,19 +101,32 @@ EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosMod
 }
 
 
-TagEntry* EntriesManager::constructEntry(const QString& name, QWidget *p)
+TagEntry* EntriesManager::constructEntry(const QString& name, QWidget* p)
 {
-    TagEntry* result = new TagEntry(name, p);
-    registerEntry(result);
+    std::unique_ptr<TagEntry> tagEntry(new TagEntry(name, p));
+    TagEntry* result = tagEntry.get();
+    
+    registerEntry(std::move(tagEntry));
     
     return result;
 }
 
 
-
-void EntriesManager::registerEntry(TagEntry* entry)
+void EntriesManager::removeAllEntries()
 {
-    m_entries.push_back(entry);
+    m_entries.clear();
+}
+
+
+const std::vector<std::unique_ptr<TagEntry>>& EntriesManager::getTagEntries() const
+{
+    return m_entries;
+}
+
+
+void EntriesManager::registerEntry(std::unique_ptr<TagEntry>&& entry)
+{
+    m_entries.push_back(std::move(entry));
 }
 
 
@@ -118,7 +134,7 @@ QString EntriesManager::getDefaultValue()
 {    
     std::set<QString> avail = m_base_tags;
     
-    for (TagEntry* entry: m_entries)
+    for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
         const QString n = entry->getTagName();
         
@@ -137,7 +153,7 @@ QString EntriesManager::getDefaultValue()
 std::set<QString> EntriesManager::usedValues() const
 {
     std::set<QString> used;
-    for (TagEntry* entry: m_entries)
+    for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
         const QString n = entry->getTagName();
         
@@ -213,7 +229,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             TagsManagerSlots(tagWidget),
             m_base_tags( {"Event", "Place", "Date", "Time", "People"}),
             m_tagWidget(tagWidget),
-            m_tagEntries(),
             m_tagData(nullptr),
             m_entriesManager(new EntriesManager(this)),
             m_container(nullptr)
@@ -240,7 +255,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             
             m_tagData.reset();
             
-            removeAll();
+            m_entriesManager->removeAllEntries();
             const ITagData::TagsList& tags = tagData->getTags();
 
             for (auto tagIt: tags)
@@ -267,6 +282,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             
             connect(tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()));
 
+            storeTagEntry(tagEntry);
             tagEntry->setTagValue(value);
         }
 
@@ -274,21 +290,15 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             QLayout* lay = m_container->layout();
             lay->addWidget(tagEntry);
-            m_tagEntries.push_back(tagEntry);
         }
-        
-        void removeAll()
-        {
-            m_tagEntries.clear();
-        }
-       
-
+   
         virtual void tagEdited()
         {            
             if (m_tagData != nullptr)
             {
                 m_tagData->clear();
-                for (TagEntry* tagEntry: m_tagEntries)
+                auto& entries = m_entriesManager->getTagEntries();
+                for (const std::unique_ptr<TagEntry>& tagEntry: entries)
                 {
                     const QString name = tagEntry->getTagName();
                     const QString value = tagEntry->getTagValue();
@@ -319,7 +329,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         std::vector<QString> m_base_tags;
         TagEditorWidget* m_tagWidget;
-        std::vector<TagEntry *> m_tagEntries;
         std::shared_ptr<ITagData> m_tagData;
         EntriesManager* m_entriesManager;
         QWidget* m_container;
