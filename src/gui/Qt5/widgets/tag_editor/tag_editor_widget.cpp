@@ -336,7 +336,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             QLayout* lay = m_container->layout();
 
             while ( QLayoutItem* item = lay->takeAt(0) )
+            {
+                delete item->widget();
                 delete item;
+            }
 
             m_tagEntries.clear();
         }
