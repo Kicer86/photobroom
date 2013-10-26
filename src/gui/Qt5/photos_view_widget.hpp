@@ -19,7 +19,7 @@ struct GuiDataSlots: public QObject
         virtual ~GuiDataSlots();
 
     protected slots:
-        virtual void selectionChanged(const QItemSelection &) = 0;
+        virtual void selectionChanged() = 0;
 };
 
 

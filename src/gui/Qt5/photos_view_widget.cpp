@@ -285,6 +285,11 @@ namespace
         PositionsCache m_cache;
 
         explicit ImagesView(QWidget* p): QAbstractItemView(p), m_cache(this) {}
+        
+        QModelIndexList getSelection() const
+        {
+            return selectedIndexes();
+        }
 
         //QWidget's virtuals:
         virtual void paintEvent(QPaintEvent* )
@@ -405,8 +410,6 @@ namespace
             }
 
             selectionModel()->select(selection, command);
-
-            qDebug() << selection;
         }
 
         virtual QRegion visualRegionForSelection(const QItemSelection& selection) const
@@ -457,7 +460,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             connect(m_photosView->selectionModel(),
                     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
                     this,
-                    SLOT(selectionChanged(const QItemSelection &))
+                    SLOT(selectionChanged())
                     );
         }
 
@@ -478,11 +481,12 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
         ImagesModel m_photosModel;
         ImagesView *m_photosView;
 
-        void selectionChanged(const QItemSelection &selection)
+        void selectionChanged() override
         {
             std::vector<PhotoInfo::Ptr> images;
+            
             //collect list of tags
-            for (const QModelIndex &index: selection.indexes())
+            for (const QModelIndex &index: m_photosView->getSelection())
             {
                 PhotoInfo::Ptr photoInfo = m_photosModel.get(index);
                 images.push_back(photoInfo);
