@@ -486,7 +486,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             std::vector<PhotoInfo::Ptr> images;
             
             //collect list of tags
-            for (const QModelIndex &index: m_photosView->getSelection())
+            for (const QModelIndex& index: m_photosView->getSelection())
             {
                 PhotoInfo::Ptr photoInfo = m_photosModel.get(index);
                 images.push_back(photoInfo);
