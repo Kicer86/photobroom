@@ -92,7 +92,11 @@ struct TagEntry: public TagEntrySignals
 /**************************************************************************/
 
 
-std::set<QString> EntriesManager::m_base_tags( {"Event", "Place", "Date", "Time", "People"} );
+std::set<QString> EntriesManager::m_base_tags( {QObject::tr("Event"), 
+                                                QObject::tr("Place"), 
+                                                QObject::tr("Date"), 
+                                                QObject::tr("Time"),
+                                                QObject::tr("People"} );
 
 
 EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
