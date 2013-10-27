@@ -25,23 +25,20 @@
 #include <vector>
 #include <iostream>
 #include <set>
-#include <algorithm>
 #include <iterator>
 
 #include <QString>
-#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QStringListModel>
 #include <QDebug>
 
-#include "tag_definition.hpp"
-
 #include "core/types.hpp"
 
-struct TagEntry;
+#include "tag_definition.hpp"
+#include "tag_entry.hpp"
+
 
 struct EntriesManager: public QObject
 {
@@ -65,29 +62,6 @@ struct EntriesManager: public QObject
         void registerEntry(std::unique_ptr<TagEntry> &&);
 };
 
-struct TagEntry: public TagEntrySignals
-{
-        friend class EntriesManager;
-        
-        virtual ~TagEntry();
-
-        TagEntry(const TagEntry &) = delete;
-        void operator=(const TagEntry &) = delete;
-
-        //void selectTag(const QString &name);
-        void setTagValue(const QString &value);
-        void clear();
-        
-        QString getTagName() const;
-        QString getTagValue() const;
-
-    private:
-        QLabel    *m_tagName;
-        QLineEdit *m_tagValue;
-        
-        explicit TagEntry(const QString &, QWidget *parent, Qt::WindowFlags f = 0);
-};
-
 
 /**************************************************************************/
 
@@ -96,7 +70,7 @@ std::set<QString> EntriesManager::m_base_tags( {QObject::tr("Event"),
                                                 QObject::tr("Place"), 
                                                 QObject::tr("Date"), 
                                                 QObject::tr("Time"),
-                                                QObject::tr("People"} );
+                                                QObject::tr("People")} );
 
 
 EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
@@ -169,62 +143,6 @@ std::set<QString> EntriesManager::usedValues() const
 
 
 /**************************************************************************/
-
-
-TagEntry::TagEntry(const QString &name, QWidget *p, Qt::WindowFlags f):
-    TagEntrySignals(p, f),
-    m_tagName(nullptr),
-    m_tagValue(nullptr)
-{
-    m_tagName = new QLabel(name, this);
-    m_tagValue  = new QLineEdit(this);
-
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
-    mainLayout->addWidget(m_tagName);
-    mainLayout->addWidget(m_tagValue);
-    
-    connect(m_tagValue, SIGNAL(textEdited(QString)), this, SIGNAL(tagEdited()));
-}
-
-
-TagEntry::~TagEntry()
-{
-
-}
-
-
-void TagEntry::setTagValue(const QString &value)
-{
-    m_tagValue->setText(value);
-}
-
-
-void TagEntry::clear()
-{
-    m_tagValue->clear();
-    m_tagName->clear();
-
-    //for (const QString &tag: m_baseTags)
-    //    m_tagsCombo->addItem(tag);
-}
-
-
-QString TagEntry::getTagName() const
-{
-    const QString result = m_tagName->text();    
-    return result;
-}
-
-
-QString TagEntry::getTagValue() const
-{   
-    const QString result = m_tagValue->text();
-    
-    return result;
-}
-
-
-/*****************************************************************************/
 
 
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
