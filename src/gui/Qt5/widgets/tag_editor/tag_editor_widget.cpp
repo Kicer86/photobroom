@@ -288,6 +288,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
             storeTagEntry(tagEntry);
             tagEntry->setTagValue(value);
+            
+            updateAvailableTags();
         }
 
         void storeTagEntry(TagEntry* tagEntry)
@@ -315,8 +317,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 std::cout << *m_tagData << std::endl;
             }
         }
-        
-        
+                
         TagEntry* getEditedTag() const
         {
             QObject* obj = QObject::sender();
@@ -329,6 +330,11 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             TagEntry* tagEntry = static_cast<TagEntry *>(lineEditParent);
             
             return tagEntry;
+        }
+        
+        void updateAvailableTags() const
+        {
+            
         }
 
         std::vector<QString> m_base_tags;
