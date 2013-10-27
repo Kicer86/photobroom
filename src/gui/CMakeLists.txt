@@ -22,9 +22,10 @@ set(GUI_SOURCES
     Qt5/widgets/tag_editor/tag_editor_widget.cpp
     Qt5/widgets/tag_editor/tag_definition.cpp
     Qt5/widgets/tag_editor/tag_entry.cpp
+    Qt5/widgets/tag_editor/entries_manager.cpp 
     )
 
-set(GUI_HEADERS 
+set(GUI_HEADERS
     gui.hpp
     Qt5/initializator.hpp
     Qt5/mainwindow.hpp
@@ -37,6 +38,7 @@ set(GUI_HEADERS
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
+    Qt5/widgets/tag_editor/entries_manager.hpp 
     )
 
 #set of file to be moced

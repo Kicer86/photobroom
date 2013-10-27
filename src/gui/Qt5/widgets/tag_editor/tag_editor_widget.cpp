@@ -31,118 +31,13 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QStringListModel>
 #include <QDebug>
 
 #include "core/types.hpp"
 
 #include "tag_definition.hpp"
 #include "tag_entry.hpp"
-
-
-struct EntriesManager: public QObject
-{
-        explicit EntriesManager(QObject* parent = 0);
-    
-        TagEntry* constructEntry(const QString& name, QWidget* p);
-        void removeAllEntries();
-        
-        const std::vector<std::unique_ptr<TagEntry>>& getTagEntries() const;
-        
-        QString getDefaultValue();
-        std::set<QString> getDefaultValues();
-        
-    private:
-        std::vector<std::unique_ptr<TagEntry>> m_entries;
-        static std::set<QString> m_base_tags;        
-        QStringListModel m_combosModel;
-        QStringList m_data;
-        
-        std::set<QString> usedValues() const;
-        void registerEntry(std::unique_ptr<TagEntry> &&);
-};
-
-
-/**************************************************************************/
-
-
-std::set<QString> EntriesManager::m_base_tags( {QObject::tr("Event"), 
-                                                QObject::tr("Place"), 
-                                                QObject::tr("Date"), 
-                                                QObject::tr("Time"),
-                                                QObject::tr("People")} );
-
-
-EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
-{
-
-}
-
-
-TagEntry* EntriesManager::constructEntry(const QString& name, QWidget* p)
-{
-    std::unique_ptr<TagEntry> tagEntry(new TagEntry(name, p));
-    TagEntry* result = tagEntry.get();
-    
-    registerEntry(std::move(tagEntry));
-    
-    return result;
-}
-
-
-void EntriesManager::removeAllEntries()
-{
-    m_entries.clear();
-}
-
-
-const std::vector<std::unique_ptr<TagEntry>>& EntriesManager::getTagEntries() const
-{
-    return m_entries;
-}
-
-
-void EntriesManager::registerEntry(std::unique_ptr<TagEntry>&& entry)
-{
-    m_entries.push_back(std::move(entry));
-}
-
-
-QString EntriesManager::getDefaultValue()
-{    
-    std::set<QString> avail = m_base_tags;
-    
-    for (const std::unique_ptr<TagEntry>& entry: m_entries)
-    {
-        const QString n = entry->getTagName();
-        
-        avail.erase(n);
-    }
-    
-    QString result = "";
-    
-    if (avail.empty() == false)
-        result = *(avail.begin());
-    
-    return result;
-}
-
-
-std::set<QString> EntriesManager::usedValues() const
-{
-    std::set<QString> used;
-    for (const std::unique_ptr<TagEntry>& entry: m_entries)
-    {
-        const QString n = entry->getTagName();
-        
-        used.insert(n);
-    }
-    
-    return used;
-}
-
-
-/**************************************************************************/
+#include "entries_manager.hpp"
 
 
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
