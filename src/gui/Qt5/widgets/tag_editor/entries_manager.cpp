@@ -67,6 +67,19 @@ void EntriesManager::registerEntry(std::unique_ptr<TagEntry>&& entry)
 
 QString EntriesManager::getDefaultValue()
 {    
+    const std::set<QString> avail = getDefaultValues();
+
+    QString result = "";
+    
+    if (avail.empty() == false)
+        result = *(avail.begin());
+    
+    return result;
+}
+
+
+std::set<QString> EntriesManager::getDefaultValues()
+{
     std::set<QString> avail = m_base_tags;
     
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
@@ -76,12 +89,7 @@ QString EntriesManager::getDefaultValue()
         avail.erase(n);
     }
     
-    QString result = "";
-    
-    if (avail.empty() == false)
-        result = *(avail.begin());
-    
-    return result;
+    return avail;
 }
 
 
