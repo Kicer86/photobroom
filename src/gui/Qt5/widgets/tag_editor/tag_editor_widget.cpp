@@ -48,18 +48,23 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_tagWidget(tagWidget),
             m_tagData(nullptr),
             m_entriesManager(new EntriesManager(this)),
-            m_container(nullptr)
+            m_container(nullptr),
+            m_tag(nullptr),
+            m_model(new QStringListModel(this))
         {
             QLayout* layout = new QVBoxLayout(tagWidget);
-            TagDefinition* tag = new TagDefinition(tagWidget);
+            m_tag = new TagDefinition(tagWidget);
             m_container = new QWidget(tagWidget);
             
             new QVBoxLayout(m_container);
             
-            layout->addWidget(tag);
+            layout->addWidget(m_tag);
             layout->addWidget(m_container);
             
-            connect(tag, SIGNAL(tagChoosen(QString)), this, SLOT(addLine(QString)));
+            connect(m_tag, SIGNAL(tagChoosen(QString)), this, SLOT(addLine(QString)));
+            
+            updateAvailableTags();
+            m_tag->setModel(m_model);
         }
 
         TagsManager(const TagsManager&) = delete;
@@ -147,7 +152,13 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         
         void updateAvailableTags() const
         {
+            const std::set<QString> tags = m_entriesManager->getDefaultValues();
+            QStringList data;
             
+            for (auto& t: tags)
+                data << t;
+            
+            m_model->setStringList(data);
         }
 
         std::vector<QString> m_base_tags;
@@ -155,6 +166,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         std::shared_ptr<ITagData> m_tagData;
         EntriesManager* m_entriesManager;
         QWidget* m_container;
+        TagDefinition* m_tag;
+        QStringListModel* m_model;
 };
 
 
