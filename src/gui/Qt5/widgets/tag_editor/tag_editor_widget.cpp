@@ -44,7 +44,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 {
         TagsManager(TagEditorWidget* tagWidget):
             TagsManagerSlots(tagWidget),
-            m_base_tags( {"Event", "Place", "Date", "Time", "People"} ),
             m_tagWidget(tagWidget),
             m_tagData(nullptr),
             m_entriesManager(new EntriesManager(this)),
@@ -161,7 +160,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_model->setStringList(data);
         }
 
-        std::vector<QString> m_base_tags;
         TagEditorWidget* m_tagWidget;
         std::shared_ptr<ITagData> m_tagData;
         EntriesManager* m_entriesManager;
