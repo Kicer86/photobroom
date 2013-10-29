@@ -33,6 +33,13 @@ class QLineEdit;
 class QComboBox;
 
 
+struct TagInfo
+{
+    QString name;
+    std::string typeInfo;
+};
+
+
 class TagsManagerSlots: public QObject
 {
     Q_OBJECT
