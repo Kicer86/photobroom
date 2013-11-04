@@ -22,7 +22,8 @@ set(GUI_SOURCES
     Qt5/widgets/tag_editor/tag_editor_widget.cpp
     Qt5/widgets/tag_editor/tag_definition.cpp
     Qt5/widgets/tag_editor/tag_entry.cpp
-    Qt5/widgets/tag_editor/entries_manager.cpp 
+    Qt5/widgets/tag_editor/entries_manager.cpp
+    Qt5/widgets/tag_editor/ivalue_widget.cpp
     )
 
 set(GUI_HEADERS
@@ -39,6 +40,7 @@ set(GUI_HEADERS
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
     Qt5/widgets/tag_editor/entries_manager.hpp 
+    Qt5/widgets/tag_editor/ivalue_widget.hpp
     )
 
 #set of file to be moced
@@ -49,6 +51,7 @@ set(GUI_FILES_TO_MOC
     Qt5/photos_view_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
+    Qt5/widgets/tag_editor/ivalue_widget.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
