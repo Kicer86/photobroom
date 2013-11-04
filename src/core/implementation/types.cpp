@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
 {
     for (std::pair<ITagData::NameType, ITagData::ValuesSet> tags: tagData.getTags())
     {
-        stream << tags.first.name.toStdString() << ": ";
+        stream << tags.first.getName().toStdString() << ": ";
         
         ITagData::ValuesSet::const_iterator valuesIt = tags.second.cbegin();
         ITagData::ValuesSet::const_iterator valuesEnd = tags.second.cend();
@@ -25,7 +25,7 @@ std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
             
             ++valuesIt;
             if (valuesIt != valuesEnd)
-                stream << ", ";
+                stream << tags.first.getSeparator() << " ";
         }
         
         stream << std::endl;

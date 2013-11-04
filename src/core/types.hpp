@@ -13,10 +13,14 @@
 
 struct TagNameInfo
 {
-    QString name;
-    char separator;
+    enum class Type
+    {
+        Text,
+        Date,
+        Time,
+    };
     
-    TagNameInfo(const QString& n, char s = ';'): name(n), separator(s) {}
+    TagNameInfo(const QString& n, const Type t = Type::Text, char s = ';'): name(n), separator(s), type(t) {}
     
     operator QString() const
     {
@@ -38,6 +42,35 @@ struct TagNameInfo
         
         return result;
     }
+    
+    TagNameInfo& operator=(const TagNameInfo& other)
+    {
+        name = other.name;
+        separator = other.separator;
+        type = other.type;
+        
+        return *this;
+    }
+    
+    const QString& getName() const
+    {
+        return name;
+    }
+    
+    char getSeparator() const
+    {
+        return separator;
+    }
+    
+    Type getType() const
+    {
+        return type;
+    }
+    
+    private:
+        QString name;
+        char separator;
+        Type type;    
 };
 
 
@@ -87,6 +120,11 @@ struct ITagData
         }
         
         QString name() const
+        {
+            return m_name;
+        }
+        
+        ITagData::NameType getTypeInfo() const
         {
             return m_name;
         }
