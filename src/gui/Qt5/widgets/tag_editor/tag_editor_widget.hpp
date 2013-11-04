@@ -28,16 +28,11 @@
 #include <QWidget>
 
 struct ITagData;
+class TagInfo;
+
 class QString;
 class QLineEdit;
 class QComboBox;
-
-
-struct TagInfo
-{
-    QString name;
-    std::string typeInfo;
-};
 
 
 class TagsManagerSlots: public QObject
@@ -49,7 +44,7 @@ class TagsManagerSlots: public QObject
     
     protected slots:
         virtual void tagEdited() = 0;
-        virtual void addLine(const QString& name) = 0;
+        virtual void addLine(const TagInfo& name) = 0;
 };
 
 

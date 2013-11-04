@@ -82,7 +82,8 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             for (auto tagIt: tags)
             {
                 ITagData::TagInfo tag(tagIt);
-                addLine(tag.name(), tag.valuesString());
+                TagInfo tagInfo(tag);
+                addLine(tagInfo, tag.valuesString());
             }
                                     
             m_tagData = tagData;
@@ -91,15 +92,15 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         }
 
     private:
-        virtual void addLine(const QString& name) override
+        virtual void addLine(const TagInfo& info) override
         {
-            addLine(name, "");
+            addLine(info, "");
         }
         
         
-        void addLine(const QString& name, const QString& value)
+        void addLine(const TagInfo& info, const QString& value)
         {
-            TagEntry* tagEntry = m_entriesManager->constructEntry(name, m_tagWidget);
+            TagEntry* tagEntry = m_entriesManager->constructEntry(info, m_tagWidget);
             
             connect(tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()));
 
@@ -123,7 +124,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 auto& entries = m_entriesManager->getTagEntries();
                 for (const std::unique_ptr<TagEntry>& tagEntry: entries)
                 {
-                    const QString name = tagEntry->getTagName();
+                    const QString name = tagEntry->getTagInfo().name;
                     const QString value = tagEntry->getTagValue();
                     const QStringList values = value.split(";");  //use some constants                
                     const ITagData::ValuesSet vSet(values.begin(), values.end());
@@ -134,7 +135,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 std::cout << *m_tagData << std::endl;
             }
         }
-                
+        
         TagEntry* getEditedTag() const
         {
             QObject* obj = QObject::sender();
@@ -151,7 +152,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         
         void updateAvailableTags() const
         {
-            const std::set<QString> tags = m_entriesManager->getDefaultValues();
+            const std::set<TagInfo> tags = m_entriesManager->getDefaultValues();
             QStringList data;
             
             for (auto& t: tags)
