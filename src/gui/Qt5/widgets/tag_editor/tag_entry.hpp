@@ -25,8 +25,25 @@
 #include <QString>
 #include <QWidget>
 
+#include <core/types.hpp>
+
 class QLabel;
 class QLineEdit;
+class IValueWidget;
+
+
+struct TagInfo
+{
+    TagInfo(const std::initializer_list<QString>& data);
+    explicit TagInfo(const ITagData::TagInfo &);
+    
+    QString name;
+    std::string typeInfo;
+    
+    bool operator==(const TagInfo& other) const;    
+    bool operator<(const TagInfo& other) const;
+};
+
 
 class TagEntry: public QWidget
 {
@@ -39,19 +56,20 @@ class TagEntry: public QWidget
 
         TagEntry(const TagEntry &) = delete;
         void operator=(const TagEntry &) = delete;
-
+        
         //void selectTag(const QString &name);
         void setTagValue(const QString &value);
         void clear();
         
-        QString getTagName() const;
+        TagInfo getTagInfo() const;
         QString getTagValue() const;
 
     private:
-        QLabel    *m_tagName;
-        QLineEdit *m_tagValue;
+        QLabel       *m_tagName;
+        IValueWidget *m_tagValue;
+        TagInfo      m_tagInfo;
         
-        explicit TagEntry(const QString &, QWidget *parent, Qt::WindowFlags f = 0);
+        explicit TagEntry(const TagInfo &, QWidget *, Qt::WindowFlags f = 0);
     
     signals:
         void tagEdited();
