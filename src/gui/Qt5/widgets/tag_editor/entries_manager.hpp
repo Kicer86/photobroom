@@ -27,6 +27,8 @@
 #include <QObject>
 #include <QStringListModel>
 
+#include "tag_entry.hpp"
+
 class TagEntry;
 
 class EntriesManager: public QObject
@@ -34,17 +36,17 @@ class EntriesManager: public QObject
     public:
         explicit EntriesManager(QObject* parent = 0);
     
-        TagEntry* constructEntry(const QString& name, QWidget* p);
+        TagEntry* constructEntry(const TagInfo& name, QWidget* p);
         void removeAllEntries();
         
         const std::vector<std::unique_ptr<TagEntry>>& getTagEntries() const;
         
         QString getDefaultValue();
-        std::set<QString> getDefaultValues();
+        std::set< TagInfo > getDefaultValues();
         
     private:
         std::vector<std::unique_ptr<TagEntry>> m_entries;
-        static std::set<QString> m_base_tags;        
+        static std::set<TagInfo> m_base_tags;        
         QStringListModel m_combosModel;
         QStringList m_data;
         

@@ -20,14 +20,14 @@
 
 #include "entries_manager.hpp"
 
-#include "tag_entry.hpp"
 
-
-std::set<QString> EntriesManager::m_base_tags( {QObject::tr("Event"), 
-                                                QObject::tr("Place"), 
-                                                QObject::tr("Date"), 
-                                                QObject::tr("Time"),
-                                                QObject::tr("People")} );
+std::set<TagInfo> EntriesManager::m_base_tags( {
+                                                { QObject::tr("Event"), "QLineEdit" }, 
+                                                { QObject::tr("Place"), "QLineEdit" }, 
+                                                { QObject::tr("Date"), "QLineEdit" }, 
+                                                { QObject::tr("Time"), "QLineEdit" },
+                                                { QObject::tr("People"), "QLineEdit" },                                                    
+                                               } );
 
 
 EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
@@ -36,9 +36,9 @@ EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosMod
 }
 
 
-TagEntry* EntriesManager::constructEntry(const QString& name, QWidget* p)
+TagEntry* EntriesManager::constructEntry(const TagInfo& info, QWidget* p)
 {
-    std::unique_ptr<TagEntry> tagEntry(new TagEntry(name, p));
+    std::unique_ptr<TagEntry> tagEntry(new TagEntry(info, p));
     TagEntry* result = tagEntry.get();
     
     registerEntry(std::move(tagEntry));
@@ -78,15 +78,15 @@ QString EntriesManager::getDefaultValue()
 }
 
 
-std::set<QString> EntriesManager::getDefaultValues()
+std::set<TagInfo> EntriesManager::getDefaultValues()
 {
-    std::set<QString> avail = m_base_tags;
+    std::set<TagInfo> avail = m_base_tags;
     
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
-        const QString n = entry->getTagName();
+        const TagInfo& tagInfo = entry->getTagInfo();
         
-        avail.erase(n);
+        avail.erase(TagInfo(tagInfo));
     }
     
     return avail;
