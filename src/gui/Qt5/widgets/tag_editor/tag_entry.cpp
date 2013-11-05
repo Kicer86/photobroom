@@ -35,7 +35,7 @@ TagInfo::TagInfo(const std::initializer_list<QString>& data): name(), typeInfo()
     assert(data.size() == 2);
     
     name = *(data.begin());
-    typeInfo = data.end()->toStdString();
+    typeInfo = (data.begin() + 1)->toStdString();
 }
 
 
