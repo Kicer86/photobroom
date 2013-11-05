@@ -50,7 +50,7 @@ class EntriesManager: public QObject
         QStringListModel m_combosModel;
         QStringList m_data;
         
-        std::set<QString> usedValues() const;
+        std::set< TagInfo > usedValues() const;
         void registerEntry(std::unique_ptr<TagEntry> &&);
 };
 

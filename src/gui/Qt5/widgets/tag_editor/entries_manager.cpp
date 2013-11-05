@@ -67,12 +67,12 @@ void EntriesManager::registerEntry(std::unique_ptr<TagEntry>&& entry)
 
 QString EntriesManager::getDefaultValue()
 {    
-    const std::set<QString> avail = getDefaultValues();
+    const std::set<TagInfo> avail = getDefaultValues();
 
     QString result = "";
     
     if (avail.empty() == false)
-        result = *(avail.begin());
+        result = avail.begin()->name;
     
     return result;
 }
@@ -93,12 +93,12 @@ std::set<TagInfo> EntriesManager::getDefaultValues()
 }
 
 
-std::set<QString> EntriesManager::usedValues() const
+std::set<TagInfo> EntriesManager::usedValues() const
 {
-    std::set<QString> used;
+    std::set<TagInfo> used;
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
-        const QString n = entry->getTagName();
+        const TagInfo& n = entry->getTagInfo();
         
         used.insert(n);
     }
