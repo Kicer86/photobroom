@@ -32,12 +32,14 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QStandardItemModel>
 
 #include "core/types.hpp"
 
 #include "tag_definition.hpp"
 #include "tag_entry.hpp"
 #include "entries_manager.hpp"
+#include "converter.hpp"
 
 
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
@@ -49,7 +51,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_entriesManager(new EntriesManager(this)),
             m_container(nullptr),
             m_tag(nullptr),
-            m_model(new QStringListModel(this))
+            m_model(new QStandardItemModel(this))
         {
             QLayout* layout = new QVBoxLayout(tagWidget);
             m_tag = new TagDefinition(tagWidget);
@@ -150,15 +152,21 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             return tagEntry;
         }
         
+        void addItemToModel(const TagInfo& info) const
+        {
+            QStandardItem* item = Converter::convert(info);
+
+            m_model->appendRow(item);
+        }
+        
         void updateAvailableTags() const
         {
+            m_model->clear();
+            
             const std::set<TagInfo> tags = m_entriesManager->getDefaultValues();
-            QStringList data;
             
             for (auto& t: tags)
-                data << t;
-            
-            m_model->setStringList(data);
+                addItemToModel(t);          
         }
 
         TagEditorWidget* m_tagWidget;
@@ -166,7 +174,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         EntriesManager* m_entriesManager;
         QWidget* m_container;
         TagDefinition* m_tag;
-        QStringListModel* m_model;
+        QStandardItemModel* m_model;
 };
 
 
