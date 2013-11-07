@@ -39,7 +39,13 @@ void TagDefinition::setModel(QAbstractItemModel* model) const
 
 void TagDefinition::buttonPressed() const
 {
-    const QString name = m_comboBox->currentText();
+    const int idx = m_comboBox->currentIndex();
+    //TODO: react on invalid index
+    QAbstractItemModel* m = m_comboBox->model();
+    
+    
+    m->
+    
     emit tagChoosen(name);
 }
 
