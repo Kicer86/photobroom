@@ -4,6 +4,8 @@
 
 #include <QWidget>
 
+#include "tag_entry.hpp"
+
 class QPushButton;
 class QComboBox;
 class QString;
@@ -31,7 +33,7 @@ class TagDefinition: public QWidget
         void comboChanged(const QString &) const;
         
     signals:
-        void tagChoosen(const QString &) const;
+        void tagChoosen(const TagInfo &) const;
 };
 
 #endif

@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QComboBox>
 
+#include "converter.hpp"
+
 TagDefinition::TagDefinition(QWidget* p, Qt::WindowFlags f): 
     QWidget(p, f), 
     m_comboBox(nullptr),
@@ -43,10 +45,9 @@ void TagDefinition::buttonPressed() const
     //TODO: react on invalid index
     QAbstractItemModel* m = m_comboBox->model();
     
-    
-    m->
-    
-    emit tagChoosen(name);
+    TagInfo info = Converter::convert(m_comboBox);
+
+    emit tagChoosen(info);
 }
 
 
