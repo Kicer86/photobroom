@@ -40,6 +40,8 @@ struct TagInfo
     
     QString name;
     std::string typeInfo;
+
+    static std::string defaultType();
     
     bool operator==(const TagInfo& other) const;    
     bool operator<(const TagInfo& other) const;

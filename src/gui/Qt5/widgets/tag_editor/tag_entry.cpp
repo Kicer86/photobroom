@@ -78,6 +78,12 @@ bool TagInfo::operator<(const TagInfo& other) const
 }
 
 
+std::string TagInfo::defaultType()
+{
+    return "QLineEdit";
+}
+
+
 /***********************************************************************/
 
 
