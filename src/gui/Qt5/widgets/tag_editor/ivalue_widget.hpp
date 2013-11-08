@@ -25,7 +25,7 @@
 
 class QWidget;
 
-class IValueWidget: public QObject
+class IValueWidget: public virtual QObject
 {
         Q_OBJECT
     
