@@ -78,7 +78,7 @@ bool TagInfo::operator<(const TagInfo& other) const
 }
 
 
-std::string TagInfo::defaultType()
+QString TagInfo::defaultType()
 {
     return "QLineEdit";
 }
