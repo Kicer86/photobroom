@@ -23,6 +23,9 @@ class TagDefinition: public QWidget
         void setModel(QAbstractItemModel *) const;
         
         TagDefinition& operator=(const TagDefinition &) = delete;
+
+    public slots:
+        void enable(bool);
         
     private:
         QComboBox* m_comboBox;

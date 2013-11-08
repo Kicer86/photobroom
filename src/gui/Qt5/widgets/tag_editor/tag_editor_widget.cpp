@@ -89,6 +89,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             }
                                     
             m_tagData = tagData;
+            m_tag->enable(m_tagData->isValid());
                    
             std::cout << "got tags: " << (*m_tagData) << std::endl;
         }

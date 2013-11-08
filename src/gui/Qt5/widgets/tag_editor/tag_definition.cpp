@@ -24,6 +24,8 @@ TagDefinition::TagDefinition(QWidget* p, Qt::WindowFlags f):
     
     connect(m_button, SIGNAL(pressed()), this, SLOT(buttonPressed()));
     connect(m_comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
+
+    enable(false);
 }
 
 
@@ -39,11 +41,17 @@ void TagDefinition::setModel(QAbstractItemModel* model) const
 }
 
 
+void TagDefinition::enable(bool e)
+{
+    m_button->setEnabled(e);
+    m_comboBox->setEnabled(e);
+}
+
+
 void TagDefinition::buttonPressed() const
 {
     const int idx = m_comboBox->currentIndex();
     //TODO: react on invalid index
-    QAbstractItemModel* m = m_comboBox->model();
     
     TagInfo info = Converter::convert(m_comboBox);
 
