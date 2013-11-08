@@ -62,7 +62,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             layout->addWidget(m_tag);
             layout->addWidget(m_container);
             
-            connect(m_tag, SIGNAL(tagChoosen(QString)), this, SLOT(addLine(QString)));
+            connect(m_tag, SIGNAL(tagChoosen(TagInfo)), this, SLOT(addLine(TagInfo)));
             
             updateAvailableTags();
             m_tag->setModel(m_model);
