@@ -95,7 +95,7 @@ TagEntry::TagEntry(const TagInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
     m_tagName = new QLabel(tagInfo.name, this);
     
     int id = QMetaType::type(tagInfo.typeInfo.c_str());
-    assert(id != 0);
+    assert(id != QMetaType::UnknownType);
     QObject* rawObject = static_cast<QObject *>(QMetaType::create(id));
     assert(rawObject != nullptr);
     m_tagValue = dynamic_cast<IValueWidget *>(rawObject);
