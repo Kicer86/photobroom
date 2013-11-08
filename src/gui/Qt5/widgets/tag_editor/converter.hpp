@@ -21,14 +21,15 @@
 #ifndef CONVERTER_HPP
 #define CONVERTER_HPP
 
+#include "tag_entry.hpp"
 
 class QStandardItem;
-class TagInfo;
+class QComboBox;
 
 struct Converter
 {
     static QStandardItem* convert(const TagInfo &);
-    static TagInfo convert(QStandardItem *);
+    static TagInfo convert(QComboBox *);
 };
 
 #endif // CONVERTER_HPP

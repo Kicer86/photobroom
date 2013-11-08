@@ -21,20 +21,29 @@
 #include "converter.hpp"
 
 #include <QStandardItem>
+#include <QComboBox>
 
 #include "tag_entry.hpp"
 
 QStandardItem* Converter::convert(const TagInfo& tagInfo)
 {
     QStandardItem* item = new QStandardItem(tagInfo.name);    
-    item->setData( QString(tagInfo.typeInfo.c_str()) );
+    item->setData( QString(tagInfo.typeInfo.c_str()), Qt::UserRole );
     
     return item;
 }
 
 
-TagInfo Converter::convert(QStandardItem* item)
+TagInfo Converter::convert(QComboBox* item)
 {
+    const int idx = item->currentIndex();
+    const QString itemText = item->itemText(idx);
+    const QVariant typeInfoVar = item->itemData(idx, Qt::UserRole);
 
+    const QString typeInfo = typeInfoVar == QVariant::Invalid? "" : typeInfoVar.toString();
+
+    TagInfo info(itemText, typeInfo.toStdString());
+
+    return info;
 }
 
