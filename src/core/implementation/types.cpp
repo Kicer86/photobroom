@@ -2,6 +2,7 @@
 #include "types.hpp"
 
 #include <iostream>
+#include <algorithm>
 
 #include "algo.hpp"
 
@@ -87,6 +88,12 @@ void TagData::clear()
 }
 
 
+bool TagData::isValid() const
+{
+    return true;
+}
+
+
 /*****************************************************************************/
 
 
@@ -133,4 +140,16 @@ void TagDataComposite::clear()
 {
     for(const std::shared_ptr<ITagData> &tag: m_tags)
         tag->clear();
+}
+
+
+bool TagDataComposite::isValid() const
+{
+    bool status = false;
+
+    if (m_tags.empty() == false)
+        status = std::all_of(m_tags.begin(), m_tags.end(),
+                             [](const std::shared_ptr<ITagData> &tag) { return tag->isValid(); } );
+
+    return status;
 }

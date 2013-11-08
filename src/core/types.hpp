@@ -161,6 +161,8 @@ struct ITagData
     virtual void setTag(const NameType& name, const ValueType& value) = 0;
     
     virtual void clear() = 0;
+
+    virtual bool isValid() const = 0;
 };
 
 std::ostream& operator<<(std::ostream &, const ITagData &);
@@ -186,6 +188,8 @@ class TagData: public TagDataBase
         using TagDataBase::setTag;
         virtual void setTag(const NameType &, const ValuesSet &) override;
         virtual void clear() override;
+
+        virtual bool isValid() const override;
         
     private:
         TagsList m_tags;
@@ -205,6 +209,8 @@ class TagDataComposite: public TagDataBase
         using TagDataBase::setTag;
         virtual void setTag(const NameType& name, const ValuesSet& values) override;
         virtual void clear() override;
+
+        virtual bool isValid() const override;
         
     private:
         std::vector<std::shared_ptr<ITagData>> m_tags;
