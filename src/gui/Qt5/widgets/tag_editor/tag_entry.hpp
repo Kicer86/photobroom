@@ -36,6 +36,7 @@ struct TagInfo
 {
     TagInfo(const std::initializer_list<QString>& data);
     explicit TagInfo(const ITagData::TagInfo &);
+    TagInfo(const QString &, const std::string &);
     
     QString name;
     std::string typeInfo;

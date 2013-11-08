@@ -60,6 +60,12 @@ TagInfo::TagInfo(const ITagData::TagInfo &coreTagInfo): name(), typeInfo()
 }
 
 
+TagInfo::TagInfo(const QString& name, const std::string& type): name(name), typeInfo(type)
+{
+
+}
+
+
 bool TagInfo::operator==(const TagInfo& other) const
 {
     return name == other.name;
