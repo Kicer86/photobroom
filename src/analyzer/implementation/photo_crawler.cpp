@@ -7,7 +7,7 @@
 struct PhotoCrawler::Impl
 {
 	Impl(IFileSystemScanner *scanner, IAnalyzer *analyzer): m_scanner(scanner), m_analyzer(analyzer) {}
-	virtual ~Impl() {}
+	~Impl() {}
 
 	std::unique_ptr<IFileSystemScanner> m_scanner;
 	std::unique_ptr<IAnalyzer> m_analyzer;

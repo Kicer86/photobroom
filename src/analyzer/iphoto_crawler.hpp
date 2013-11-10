@@ -11,7 +11,7 @@ struct Rules;
 
 struct ANALYZER_EXPORT IPhotoCrawler
 {
-	virtual ~IPhotoCrawler() {}
+	virtual ~IPhotoCrawler();
 
     virtual std::vector<std::string> crawl(const std::string &) = 0;   //return list of media files for given path
     virtual void setRules(const Rules &) = 0;                          //provide crawl rules
