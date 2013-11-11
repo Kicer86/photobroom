@@ -40,7 +40,9 @@ TagInfo Converter::convert(QComboBox* item)
     const QString itemText = item->itemText(idx);
     const QVariant typeInfoVar = item->itemData(idx, Qt::UserRole);
 
-    const QString typeInfo = typeInfoVar == QVariant::Invalid? TagInfo::defaultType() : typeInfoVar.toString();
+    const TagNameInfo::Type typeInfo = typeInfoVar == QVariant::Invalid? 
+                                       TagInfo::defaultType(): 
+                                       static_cast<TagNameInfo::Type>(typeInfoVar.toInt());
 
     TagInfo info(itemText, typeInfo);
 

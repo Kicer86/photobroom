@@ -37,7 +37,10 @@ class IValueWidget: public QObject
         virtual void clear() = 0;
         
         virtual QString getValue() const = 0;
-        virtual QWidget* getWidget() = 0;        
+        virtual QWidget* getWidget() = 0;    
+        
+    signals:
+        void changed();
 };
 
 #endif // IVALUE_WIDGET_HPP

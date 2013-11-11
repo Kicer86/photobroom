@@ -13,7 +13,7 @@
 
 struct TagNameInfo
 {
-    enum class Type
+    enum Type
     {
         Text,
         Date,
@@ -215,6 +215,5 @@ class TagDataComposite: public TagDataBase
     private:
         std::vector<std::shared_ptr<ITagData>> m_tags;
 };
-
 
 #endif

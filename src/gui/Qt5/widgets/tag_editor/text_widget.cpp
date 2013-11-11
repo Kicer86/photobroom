@@ -21,9 +21,9 @@
 #include "text_widget.hpp"
 
 
-TextWidget::TextWidget(): IValueWidget(), QLineEdit()
+TextWidget::TextWidget(): IValueWidget(), m_lineEdit(new QLineEdit)
 {
-
+    connect(m_lineEdit, SIGNAL(editingFinished()), this, SIGNAL(changed()));
 }
 
 
@@ -35,31 +35,31 @@ TextWidget::~TextWidget()
 
 QWidget* TextWidget::getWidget()
 {
-    return this;
+    return m_lineEdit;
 }
 
 
 QString TextWidget::getValue() const
 {
-    const QString v = QLineEdit::text();
+    const QString v = m_lineEdit->text();
     return v;
 }
 
 
 void TextWidget::clear()
 {
-    QLineEdit::clear();
+    m_lineEdit->clear();
 }
 
 
 void TextWidget::setParent(QWidget* parent)
 {
-    QLineEdit::setParent(parent);
+    QObject::setParent(parent);
+    m_lineEdit->setParent(parent);
 }
 
 
 void TextWidget::setValue(const QString& v)
 {
-    QLineEdit::setText(v);
+    m_lineEdit->setText(v);
 }
-

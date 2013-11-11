@@ -23,12 +23,38 @@
 
 #include <assert.h>
 
+#include <memory>
+
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 
 #include "text_widget.hpp"
 
+namespace
+{
+    struct IType
+    {
+        virtual ~IType() {}
+        virtual IValueWidget* construct() = 0;
+    };
+    
+    template<typename T>
+    struct TypeData: public IType
+    {
+        virtual ~TypeData() {}
+        T* construct() { return new T; }
+    };
+    
+    std::map<TagNameInfo::Type, std::shared_ptr<IType>> typesMap = 
+    { 
+        {TagNameInfo::Type::Text, std::shared_ptr<IType>(new TypeData<TextWidget>) },
+        {TagNameInfo::Type::Time, std::shared_ptr<IType>(new TypeData<TextWidget>) },
+        {TagNameInfo::Type::Date, std::shared_ptr<IType>(new TypeData<TextWidget>) }
+    };
+}
+
+/*
 TagInfo::TagInfo(const std::initializer_list<QString>& data): name(), typeInfo()
 {
     assert(data.size() == 2);
@@ -36,6 +62,7 @@ TagInfo::TagInfo(const std::initializer_list<QString>& data): name(), typeInfo()
     name = *(data.begin());
     typeInfo = *(data.begin() + 1);
 }
+*/
 
 
 TagInfo::TagInfo(const ITagData::TagInfo &coreTagInfo): name(), typeInfo()
@@ -59,7 +86,7 @@ TagInfo::TagInfo(const ITagData::TagInfo &coreTagInfo): name(), typeInfo()
 }
 
 
-TagInfo::TagInfo(const QString& name, const QString& type): name(name), typeInfo(type)
+TagInfo::TagInfo(const QString& name, const TagNameInfo::Type& type): name(name), typeInfo(type)
 {
 
 }
@@ -77,29 +104,38 @@ bool TagInfo::operator<(const TagInfo& other) const
 }
 
 
-QString TagInfo::defaultType()
+TagNameInfo::Type TagInfo::defaultType()
 {
     return TagInfo::textType();
 }
 
 
-QString TagInfo::textType()
+TagNameInfo::Type TagInfo::textType()
 {
-    return "TextWidget";
+    return TagNameInfo::Text;
 }
 
 
-QString TagInfo::dateType()
+TagNameInfo::Type TagInfo::dateType()
 {
-    return "";
+    return TagNameInfo::Date;
 }
 
 
-QString TagInfo::timeType()
+TagNameInfo::Type TagInfo::timeType()
 {
-    return "";
+    return TagNameInfo::Time;
 }
 
+
+IValueWidget* TagInfo::construct(const TagNameInfo::Type& type)
+{
+    auto& t = typesMap[type];
+    
+    IValueWidget* result = t->construct();
+    
+    return result;
+}
 
 
 /***********************************************************************/
@@ -112,11 +148,7 @@ TagEntry::TagEntry(const TagInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
 {
     m_tagName = new QLabel(tagInfo.name, this);
     
-    int id = QMetaType::type(tagInfo.typeInfo.toUtf8().data());
-    assert(id != QMetaType::UnknownType);
-    QObject* rawObject = static_cast<QObject *>(QMetaType::create(id));
-    assert(rawObject != nullptr);
-    m_tagValue = dynamic_cast<IValueWidget *>(rawObject);
+    m_tagValue = TagInfo::construct(tagInfo.typeInfo);
     assert(m_tagValue != nullptr);
     m_tagValue->setParent(this);
 
@@ -124,7 +156,7 @@ TagEntry::TagEntry(const TagInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
     mainLayout->addWidget(m_tagName);
     mainLayout->addWidget(m_tagValue->getWidget());
     
-    connect(m_tagValue, SIGNAL(textEdited(QString)), this, SIGNAL(tagEdited()));
+    connect(m_tagValue, SIGNAL(changed()), this, SIGNAL(tagEdited()));
 }
 
 

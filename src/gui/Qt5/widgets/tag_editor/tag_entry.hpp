@@ -34,17 +34,19 @@ class IValueWidget;
 
 struct TagInfo
 {
-    TagInfo(const std::initializer_list<QString>& data);
+    //TagInfo(const std::initializer_list<QString>& data);
     explicit TagInfo(const ITagData::TagInfo &);
-    TagInfo(const QString& name, const QString& type);
+    TagInfo(const QString& name, const TagNameInfo::Type& type);
     
     QString name;
-    QString typeInfo;
+    TagNameInfo::Type typeInfo;
 
-    static QString defaultType();
-    static QString textType();
-    static QString dateType();
-    static QString timeType();
+    static TagNameInfo::Type defaultType();
+    static TagNameInfo::Type textType();
+    static TagNameInfo::Type dateType();
+    static TagNameInfo::Type timeType();
+    
+    static IValueWidget* construct(const TagNameInfo::Type& type);
     
     bool operator==(const TagInfo& other) const;    
     bool operator<(const TagInfo& other) const;

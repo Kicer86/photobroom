@@ -27,12 +27,14 @@
 #include "ivalue_widget.hpp"
 
 
-class TextWidget: public virtual IValueWidget, public virtual QLineEdit  //virtuals due to QObject
+class TextWidget: public IValueWidget
 {
-
     public:
         TextWidget();
+        TextWidget(const TextWidget &) = delete;
         virtual ~TextWidget();
+        
+        TextWidget& operator=(const TextWidget &) = delete;
         
         //IValueWidget:
         virtual QWidget* getWidget() override;
@@ -40,6 +42,9 @@ class TextWidget: public virtual IValueWidget, public virtual QLineEdit  //virtu
         virtual void clear() override;
         virtual void setParent(QWidget* ) override;
         virtual void setValue(const QString& ) override;
+        
+    private:
+        QLineEdit* m_lineEdit;
 };
 
 #endif // TEXT_WIDGET_H
