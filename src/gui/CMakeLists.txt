@@ -25,6 +25,7 @@ set(GUI_SOURCES
     Qt5/widgets/tag_editor/entries_manager.cpp
     Qt5/widgets/tag_editor/ivalue_widget.cpp
     Qt5/widgets/tag_editor/converter.cpp
+    Qt5/widgets/tag_editor/text_widget.cpp
     )
 
 set(GUI_HEADERS
@@ -43,6 +44,7 @@ set(GUI_HEADERS
     Qt5/widgets/tag_editor/entries_manager.hpp 
     Qt5/widgets/tag_editor/ivalue_widget.hpp
     Qt5/widgets/tag_editor/converter.hpp
+    Qt5/widgets/tag_editor/text_widget.hpp
     )
 
 #set of file to be moced
