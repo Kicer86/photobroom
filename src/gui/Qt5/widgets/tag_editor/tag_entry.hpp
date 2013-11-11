@@ -34,18 +34,19 @@ class IValueWidget;
 
 struct TagInfo
 {
-    explicit TagInfo(const ITagData::TagInfo &);
-    TagInfo(const QString& name, const TagNameInfo::Type& type);
-    
-    QString name;
-    TagNameInfo::Type typeInfo;
+    explicit TagInfo(const TagNameInfo &);
+    TagInfo(const QString& n, const TagNameInfo::Type t = TagNameInfo::Text, char s = ';');
 
-    static TagNameInfo::Type defaultType();
-    
+    static TagNameInfo::Type defaultType();    
     static IValueWidget* construct(const TagNameInfo::Type& type);
+    
+    const TagNameInfo& getInfo() const;
     
     bool operator==(const TagInfo& other) const;    
     bool operator<(const TagInfo& other) const;
+    
+    private:
+        TagNameInfo m_tagInfo;
 };
 
 

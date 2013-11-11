@@ -27,8 +27,8 @@
 
 QStandardItem* Converter::convert(const TagInfo& tagInfo)
 {
-    QStandardItem* item = new QStandardItem(tagInfo.name);    
-    item->setData( tagInfo.typeInfo, Qt::UserRole );
+    QStandardItem* item = new QStandardItem(tagInfo.getInfo().getName());    
+    item->setData( tagInfo.getInfo().getType(), Qt::UserRole );
     
     return item;
 }

@@ -21,6 +21,7 @@ struct TagNameInfo
     };
     
     TagNameInfo(const QString& n, const Type t = Type::Text, char s = ';'): name(n), separator(s), type(t) {}
+    TagNameInfo(const TagNameInfo& other): name(other.name), separator(other.separator), type(other.type) {}
     
     operator QString() const
     {

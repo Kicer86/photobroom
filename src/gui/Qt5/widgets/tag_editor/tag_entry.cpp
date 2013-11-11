@@ -55,14 +55,12 @@ namespace
 }
 
 
-TagInfo::TagInfo(const ITagData::TagInfo &coreTagInfo): name(), typeInfo()
+TagInfo::TagInfo(const TagNameInfo& coreTagInfo): m_tagInfo(coreTagInfo)
 {
-    name = coreTagInfo.getTypeInfo().getName();
-    typeInfo = coreTagInfo.getTypeInfo().getType();
 }
 
 
-TagInfo::TagInfo(const QString& name, const TagNameInfo::Type& type): name(name), typeInfo(type)
+TagInfo::TagInfo(const QString& n, const TagNameInfo::Type t, char s): m_tagInfo(n, t, s)
 {
 
 }
@@ -70,13 +68,13 @@ TagInfo::TagInfo(const QString& name, const TagNameInfo::Type& type): name(name)
 
 bool TagInfo::operator==(const TagInfo& other) const
 {
-    return name == other.name;
+    return m_tagInfo == other.m_tagInfo;
 }
 
 
 bool TagInfo::operator<(const TagInfo& other) const
 {
-    return name < other.name;
+    return m_tagInfo < other.m_tagInfo;
 }
 
 
@@ -96,6 +94,12 @@ IValueWidget* TagInfo::construct(const TagNameInfo::Type& type)
 }
 
 
+const TagNameInfo& TagInfo::getInfo() const
+{
+    return m_tagInfo;
+}
+
+
 /***********************************************************************/
 
 
@@ -104,9 +108,9 @@ TagEntry::TagEntry(const TagInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
     m_tagValue(nullptr),
     m_tagInfo(tagInfo)
 {
-    m_tagName = new QLabel(tagInfo.name, this);
+    m_tagName = new QLabel(tagInfo.getInfo().getName(), this);
     
-    m_tagValue = TagInfo::construct(tagInfo.typeInfo);
+    m_tagValue = TagInfo::construct(tagInfo.getInfo().getType());
     assert(m_tagValue != nullptr);
     m_tagValue->setParent(this);
 

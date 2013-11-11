@@ -74,7 +74,7 @@ QString EntriesManager::getDefaultValue()
     QString result = "";
     
     if (avail.empty() == false)
-        result = avail.begin()->name;
+        result = avail.begin()->getInfo().getName();
     
     return result;
 }
