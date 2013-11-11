@@ -20,13 +20,15 @@
 
 #include "entries_manager.hpp"
 
+#include "tag_entry.hpp"
+
 
 std::set<TagInfo> EntriesManager::m_base_tags( {
-                                                { QObject::tr("Event"), "QLineEdit" }, 
-                                                { QObject::tr("Place"), "QLineEdit" }, 
-                                                { QObject::tr("Date"), "QLineEdit" }, 
-                                                { QObject::tr("Time"), "QLineEdit" },
-                                                { QObject::tr("People"), "QLineEdit" },                                                    
+                                                { QObject::tr("Event"),  TagInfo::textType() }, 
+                                                { QObject::tr("Place"),  TagInfo::textType() }, 
+                                                { QObject::tr("Date"),   TagInfo::dateType() }, 
+                                                { QObject::tr("Time"),   TagInfo::timeType() },
+                                                { QObject::tr("People"), TagInfo::textType() },                                                    
                                                } );
 
 

@@ -36,12 +36,15 @@ struct TagInfo
 {
     TagInfo(const std::initializer_list<QString>& data);
     explicit TagInfo(const ITagData::TagInfo &);
-    TagInfo(const QString &, const std::string &);
+    TagInfo(const QString& name, const QString& type);
     
     QString name;
-    std::string typeInfo;
+    QString typeInfo;
 
     static QString defaultType();
+    static QString textType();
+    static QString dateType();
+    static QString timeType();
     
     bool operator==(const TagInfo& other) const;    
     bool operator<(const TagInfo& other) const;

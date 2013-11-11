@@ -25,7 +25,7 @@
 
 class QWidget;
 
-class IValueWidget: public virtual QObject
+class IValueWidget: public QObject
 {
         Q_OBJECT
     
@@ -37,7 +37,7 @@ class IValueWidget: public virtual QObject
         virtual void clear() = 0;
         
         virtual QString getValue() const = 0;
-        virtual QWidget* getWidget() const = 0;        
+        virtual QWidget* getWidget() = 0;        
 };
 
 #endif // IVALUE_WIDGET_HPP

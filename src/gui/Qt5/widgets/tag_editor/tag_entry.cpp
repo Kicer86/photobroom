@@ -27,15 +27,14 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "ivalue_widget.hpp"
-
+#include "text_widget.hpp"
 
 TagInfo::TagInfo(const std::initializer_list<QString>& data): name(), typeInfo()
 {
     assert(data.size() == 2);
     
     name = *(data.begin());
-    typeInfo = (data.begin() + 1)->toStdString();
+    typeInfo = *(data.begin() + 1);
 }
 
 
@@ -46,21 +45,21 @@ TagInfo::TagInfo(const ITagData::TagInfo &coreTagInfo): name(), typeInfo()
     switch (coreTagInfo.getTypeInfo().getType())
     {
         case TagNameInfo::Type::Text:
-            typeInfo = "QLineEdit";
+            typeInfo = textType();
             break;
             
         case TagNameInfo::Type::Time:
-            typeInfo = "QTimeEdit";
+            typeInfo = timeType();
             break;
             
         case TagNameInfo::Type::Date:
-            typeInfo = "QDateEdit";
+            typeInfo = dateType();
             break;
     }
 }
 
 
-TagInfo::TagInfo(const QString& name, const std::string& type): name(name), typeInfo(type)
+TagInfo::TagInfo(const QString& name, const QString& type): name(name), typeInfo(type)
 {
 
 }
@@ -80,8 +79,27 @@ bool TagInfo::operator<(const TagInfo& other) const
 
 QString TagInfo::defaultType()
 {
-    return "QLineEdit";
+    return TagInfo::textType();
 }
+
+
+QString TagInfo::textType()
+{
+    return "TextWidget";
+}
+
+
+QString TagInfo::dateType()
+{
+    return "";
+}
+
+
+QString TagInfo::timeType()
+{
+    return "";
+}
+
 
 
 /***********************************************************************/
@@ -94,7 +112,7 @@ TagEntry::TagEntry(const TagInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
 {
     m_tagName = new QLabel(tagInfo.name, this);
     
-    int id = QMetaType::type(tagInfo.typeInfo.c_str());
+    int id = QMetaType::type(tagInfo.typeInfo.toUtf8().data());
     assert(id != QMetaType::UnknownType);
     QObject* rawObject = static_cast<QObject *>(QMetaType::create(id));
     assert(rawObject != nullptr);

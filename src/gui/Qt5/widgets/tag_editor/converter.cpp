@@ -28,7 +28,7 @@
 QStandardItem* Converter::convert(const TagInfo& tagInfo)
 {
     QStandardItem* item = new QStandardItem(tagInfo.name);    
-    item->setData( QString(tagInfo.typeInfo.c_str()), Qt::UserRole );
+    item->setData( tagInfo.typeInfo, Qt::UserRole );
     
     return item;
 }
@@ -42,7 +42,7 @@ TagInfo Converter::convert(QComboBox* item)
 
     const QString typeInfo = typeInfoVar == QVariant::Invalid? TagInfo::defaultType() : typeInfoVar.toString();
 
-    TagInfo info(itemText, typeInfo.toStdString());
+    TagInfo info(itemText, typeInfo);
 
     return info;
 }
