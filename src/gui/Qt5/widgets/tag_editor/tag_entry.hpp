@@ -34,7 +34,6 @@ class IValueWidget;
 
 struct TagInfo
 {
-    //TagInfo(const std::initializer_list<QString>& data);
     explicit TagInfo(const ITagData::TagInfo &);
     TagInfo(const QString& name, const TagNameInfo::Type& type);
     
@@ -42,9 +41,6 @@ struct TagInfo
     TagNameInfo::Type typeInfo;
 
     static TagNameInfo::Type defaultType();
-    static TagNameInfo::Type textType();
-    static TagNameInfo::Type dateType();
-    static TagNameInfo::Type timeType();
     
     static IValueWidget* construct(const TagNameInfo::Type& type);
     

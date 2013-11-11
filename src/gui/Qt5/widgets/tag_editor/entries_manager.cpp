@@ -24,11 +24,11 @@
 
 
 std::set<TagInfo> EntriesManager::m_base_tags( {
-                                                { QObject::tr("Event"),  TagInfo::textType() }, 
-                                                { QObject::tr("Place"),  TagInfo::textType() }, 
-                                                { QObject::tr("Date"),   TagInfo::dateType() }, 
-                                                { QObject::tr("Time"),   TagInfo::timeType() },
-                                                { QObject::tr("People"), TagInfo::textType() },                                                    
+                                                { QObject::tr("Event"),  TagNameInfo::Text }, 
+                                                { QObject::tr("Place"),  TagNameInfo::Text }, 
+                                                { QObject::tr("Date"),   TagNameInfo::Date }, 
+                                                { QObject::tr("Time"),   TagNameInfo::Time },
+                                                { QObject::tr("People"), TagNameInfo::Text },                                                    
                                                } );
 
 

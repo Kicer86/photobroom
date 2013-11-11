@@ -54,35 +54,11 @@ namespace
     };
 }
 
-/*
-TagInfo::TagInfo(const std::initializer_list<QString>& data): name(), typeInfo()
-{
-    assert(data.size() == 2);
-    
-    name = *(data.begin());
-    typeInfo = *(data.begin() + 1);
-}
-*/
-
 
 TagInfo::TagInfo(const ITagData::TagInfo &coreTagInfo): name(), typeInfo()
 {
     name = coreTagInfo.getTypeInfo().getName();
-    
-    switch (coreTagInfo.getTypeInfo().getType())
-    {
-        case TagNameInfo::Type::Text:
-            typeInfo = textType();
-            break;
-            
-        case TagNameInfo::Type::Time:
-            typeInfo = timeType();
-            break;
-            
-        case TagNameInfo::Type::Date:
-            typeInfo = dateType();
-            break;
-    }
+    typeInfo = coreTagInfo.getTypeInfo().getType();
 }
 
 
@@ -106,25 +82,7 @@ bool TagInfo::operator<(const TagInfo& other) const
 
 TagNameInfo::Type TagInfo::defaultType()
 {
-    return TagInfo::textType();
-}
-
-
-TagNameInfo::Type TagInfo::textType()
-{
     return TagNameInfo::Text;
-}
-
-
-TagNameInfo::Type TagInfo::dateType()
-{
-    return TagNameInfo::Date;
-}
-
-
-TagNameInfo::Type TagInfo::timeType()
-{
-    return TagNameInfo::Time;
 }
 
 
