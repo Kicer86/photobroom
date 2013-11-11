@@ -36,7 +36,7 @@ class TagDefinition: public QWidget
         void comboChanged(const QString &) const;
         
     signals:
-        void tagChoosen(const TagInfo &) const;
+        void tagChoosen(const TagNameInfo &) const;
 };
 
 #endif

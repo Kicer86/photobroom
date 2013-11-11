@@ -62,7 +62,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             layout->addWidget(m_tag);
             layout->addWidget(m_container);
             
-            connect(m_tag, SIGNAL(tagChoosen(TagInfo)), this, SLOT(addLine(TagInfo)));
+            connect(m_tag, SIGNAL(tagChoosen(TagNameInfo)), this, SLOT(addLine(TagNameInfo)));
             
             updateAvailableTags();
             m_tag->setModel(m_model);
@@ -84,7 +84,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             for (auto tagIt: tags)
             {
                 ITagData::TagInfo tag(tagIt);
-                TagInfo tagInfo(tag.getTypeInfo());
+                TagNameInfo tagInfo(tag.getTypeInfo());
                 addLine(tagInfo, tag.valuesString());
             }
                                     
@@ -95,13 +95,13 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         }
 
     private:
-        virtual void addLine(const TagInfo& info) override
+        virtual void addLine(const TagNameInfo& info) override
         {
             addLine(info, "");
         }
         
         
-        void addLine(const TagInfo& info, const QString& value)
+        void addLine(const TagNameInfo& info, const QString& value)
         {
             TagEntry* tagEntry = m_entriesManager->constructEntry(info, m_tagWidget);
             
@@ -127,7 +127,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 auto& entries = m_entriesManager->getTagEntries();
                 for (const std::unique_ptr<TagEntry>& tagEntry: entries)
                 {
-                    const QString name = tagEntry->getTagInfo().getInfo().getName();
+                    const QString name = tagEntry->getTagInfo().getName();
                     const QString value = tagEntry->getTagValue();
                     const QStringList values = value.split(";");  //use some constants                
                     const ITagData::ValuesSet vSet(values.begin(), values.end());
@@ -153,7 +153,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             return tagEntry;
         }
         
-        void addItemToModel(const TagInfo& info) const
+        void addItemToModel(const TagNameInfo& info) const
         {
             QStandardItem* item = Converter::convert(info);
 
@@ -164,7 +164,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             m_model->clear();
             
-            const std::set<TagInfo> tags = m_entriesManager->getDefaultValues();
+            const std::set<TagNameInfo> tags = m_entriesManager->getDefaultValues();
             
             for (auto& t: tags)
                 addItemToModel(t);          

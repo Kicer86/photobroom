@@ -23,13 +23,13 @@
 #include "tag_entry.hpp"
 
 
-std::set<TagInfo> EntriesManager::m_base_tags( {
-                                                { QObject::tr("Event"),  TagNameInfo::Text }, 
-                                                { QObject::tr("Place"),  TagNameInfo::Text }, 
-                                                { QObject::tr("Date"),   TagNameInfo::Date }, 
-                                                { QObject::tr("Time"),   TagNameInfo::Time },
-                                                { QObject::tr("People"), TagNameInfo::Text },                                                    
-                                               } );
+std::set<TagNameInfo> EntriesManager::m_base_tags( {
+                                                    { QObject::tr("Event"),  TagNameInfo::Text }, 
+                                                    { QObject::tr("Place"),  TagNameInfo::Text }, 
+                                                    { QObject::tr("Date"),   TagNameInfo::Date }, 
+                                                    { QObject::tr("Time"),   TagNameInfo::Time },
+                                                    { QObject::tr("People"), TagNameInfo::Text },                                                    
+                                                   } );
 
 
 EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
@@ -38,7 +38,7 @@ EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosMod
 }
 
 
-TagEntry* EntriesManager::constructEntry(const TagInfo& info, QWidget* p)
+TagEntry* EntriesManager::constructEntry(const TagNameInfo& info, QWidget* p)
 {
     std::unique_ptr<TagEntry> tagEntry(new TagEntry(info, p));
     TagEntry* result = tagEntry.get();
@@ -69,38 +69,38 @@ void EntriesManager::registerEntry(std::unique_ptr<TagEntry>&& entry)
 
 QString EntriesManager::getDefaultValue()
 {    
-    const std::set<TagInfo> avail = getDefaultValues();
+    const std::set<TagNameInfo> avail = getDefaultValues();
 
     QString result = "";
     
     if (avail.empty() == false)
-        result = avail.begin()->getInfo().getName();
+        result = avail.begin()->getName();
     
     return result;
 }
 
 
-std::set<TagInfo> EntriesManager::getDefaultValues()
+std::set<TagNameInfo> EntriesManager::getDefaultValues()
 {
-    std::set<TagInfo> avail = m_base_tags;
+    std::set<TagNameInfo> avail = m_base_tags;
     
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
-        const TagInfo& tagInfo = entry->getTagInfo();
+        const TagNameInfo& tagInfo = entry->getTagInfo();
         
-        avail.erase(TagInfo(tagInfo));
+        avail.erase(tagInfo);
     }
     
     return avail;
 }
 
 
-std::set<TagInfo> EntriesManager::usedValues() const
+std::set<TagNameInfo> EntriesManager::usedValues() const
 {
-    std::set<TagInfo> used;
+    std::set<TagNameInfo> used;
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
-        const TagInfo& n = entry->getTagInfo();
+        const TagNameInfo& n = entry->getTagInfo();
         
         used.insert(n);
     }

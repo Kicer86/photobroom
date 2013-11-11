@@ -34,19 +34,8 @@ class IValueWidget;
 
 struct TagInfo
 {
-    explicit TagInfo(const TagNameInfo &);
-    TagInfo(const QString& n, const TagNameInfo::Type t = TagNameInfo::Text, char s = ';');
-
     static TagNameInfo::Type defaultType();    
     static IValueWidget* construct(const TagNameInfo::Type& type);
-    
-    const TagNameInfo& getInfo() const;
-    
-    bool operator==(const TagInfo& other) const;    
-    bool operator<(const TagInfo& other) const;
-    
-    private:
-        TagNameInfo m_tagInfo;
 };
 
 
@@ -66,15 +55,15 @@ class TagEntry: public QWidget
         void setTagValue(const QString &value);
         void clear();
         
-        TagInfo getTagInfo() const;
+        TagNameInfo getTagInfo() const;
         QString getTagValue() const;
 
     private:
         QLabel       *m_tagName;
         IValueWidget *m_tagValue;
-        TagInfo      m_tagInfo;
+        TagNameInfo   m_tagInfo;
         
-        explicit TagEntry(const TagInfo &, QWidget *, Qt::WindowFlags f = 0);
+        explicit TagEntry(const TagNameInfo &, QWidget *, Qt::WindowFlags f = 0);
     
     signals:
         void tagEdited();

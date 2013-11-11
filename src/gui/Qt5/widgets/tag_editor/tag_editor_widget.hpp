@@ -28,7 +28,7 @@
 #include <QWidget>
 
 struct ITagData;
-class TagInfo;
+class TagNameInfo;
 
 class QString;
 class QLineEdit;
@@ -44,7 +44,7 @@ class TagsManagerSlots: public QObject
     
     protected slots:
         virtual void tagEdited() = 0;
-        virtual void addLine(const TagInfo& name) = 0;
+        virtual void addLine(const TagNameInfo& name) = 0;
 };
 
 

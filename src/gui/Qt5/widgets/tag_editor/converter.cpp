@@ -25,26 +25,32 @@
 
 #include "tag_entry.hpp"
 
-QStandardItem* Converter::convert(const TagInfo& tagInfo)
+QStandardItem* Converter::convert(const TagNameInfo& tagInfo)
 {
-    QStandardItem* item = new QStandardItem(tagInfo.getInfo().getName());    
-    item->setData( tagInfo.getInfo().getType(), Qt::UserRole );
+    QStandardItem* item = new QStandardItem(tagInfo.getName());    
+    item->setData( tagInfo.getType(), Qt::UserRole );
+    item->setData( tagInfo.getSeparator(), Qt::UserRole + 1 );
     
     return item;
 }
 
 
-TagInfo Converter::convert(QComboBox* item)
+TagNameInfo Converter::convert(QComboBox *combo)
 {
-    const int idx = item->currentIndex();
-    const QString itemText = item->itemText(idx);
-    const QVariant typeInfoVar = item->itemData(idx, Qt::UserRole);
+    const int idx = combo->currentIndex();
+    const QString itemText = combo->itemText(idx);
+    const QVariant typeInfoVar = combo->itemData(idx, Qt::UserRole);
+    const QVariant separatorVar = combo->itemData(idx, Qt::UserRole + 1);
 
     const TagNameInfo::Type typeInfo = typeInfoVar == QVariant::Invalid? 
                                        TagInfo::defaultType(): 
                                        static_cast<TagNameInfo::Type>(typeInfoVar.toInt());
 
-    TagInfo info(itemText, typeInfo);
+    //TODO: use default separator as variable
+    const char separator = separatorVar == QVariant::Invalid? 
+                           ';': separatorVar.toChar().toLatin1();
+                                       
+    TagNameInfo info(itemText, typeInfo, separator);
 
     return info;
 }

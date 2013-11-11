@@ -28,8 +28,8 @@ class QComboBox;
 
 struct Converter
 {
-    static QStandardItem* convert(const TagInfo &);
-    static TagInfo convert(QComboBox *);
+    static QStandardItem* convert(const TagNameInfo &);
+    static TagNameInfo convert(QComboBox *);
 };
 
 #endif // CONVERTER_HPP
