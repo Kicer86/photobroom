@@ -6,7 +6,7 @@ find_package(OpenLibrary REQUIRED COMPONENTS QtExt)
 
 include(GenerateExportHeader)
 
-include_directories(${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src)
+include_directories(${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports/ ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
@@ -19,6 +19,10 @@ set(GUI_SOURCES
     Qt5/preparing_photos_widget.cpp
     Qt5/private/preparing_photos_widget_private.cpp
     Qt5/data/photo_info.cpp
+    Qt5/model_view/images_model.cpp
+    Qt5/model_view/images_view.cpp
+    Qt5/model_view/image_manager.cpp
+    Qt5/model_view/positions_cache.cpp
     Qt5/widgets/tag_editor/tag_editor_widget.cpp
     Qt5/widgets/tag_editor/tag_definition.cpp
     Qt5/widgets/tag_editor/tag_entry.cpp
@@ -38,6 +42,10 @@ set(GUI_HEADERS
     Qt5/preparing_photos_widget.hpp
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/data/photo_info.hpp
+    Qt5/model_view/images_model.hpp
+    Qt5/model_view/images_view.hpp
+    Qt5/model_view/image_manager.hpp 
+    Qt5/model_view/positions_cache.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
