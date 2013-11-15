@@ -11,6 +11,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QScrollBar>
+#include <QPushButton>
 #include <QDebug>
 
 #include "core/types.hpp"
@@ -456,6 +457,13 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
             layout->addWidget(m_photosView);
+            
+            QHBoxLayout *savePhotosLayout = new QHBoxLayout;
+            layout->addLayout(savePhotosLayout);
+            
+            QPushButton* saveButton = new QPushButton(tr("save photos"));
+            savePhotosLayout->addStretch(1);
+            savePhotosLayout->addWidget(saveButton);
 
             connect(m_photosView->selectionModel(),
                     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
