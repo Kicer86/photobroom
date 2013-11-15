@@ -20,6 +20,7 @@ struct GuiDataSlots: public QObject
 
     protected slots:
         virtual void selectionChanged() = 0;
+        virtual void savePhotos() = 0;
 };
 
 

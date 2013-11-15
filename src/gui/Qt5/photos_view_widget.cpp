@@ -470,6 +470,8 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
                     this,
                     SLOT(selectionChanged())
                     );
+            
+            connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePhotos()));
         }
 
         GuiData(const GuiData &) = delete;
@@ -501,6 +503,11 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             }
             
             emit m_editor->selectionChanged(images);
+        }
+        
+        void savePhotos() override
+        {
+            
         }
 };
 
