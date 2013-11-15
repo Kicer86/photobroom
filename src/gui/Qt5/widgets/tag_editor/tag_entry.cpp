@@ -75,6 +75,7 @@ IValueWidget* TagInfo::construct(const TagNameInfo::Type& type)
 
 
 TagEntry::TagEntry(const TagNameInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
+    QWidget(p, f),
     m_tagName(nullptr),
     m_tagValue(nullptr),
     m_tagInfo(tagInfo)

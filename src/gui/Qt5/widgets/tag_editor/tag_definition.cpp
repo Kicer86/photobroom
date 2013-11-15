@@ -50,7 +50,7 @@ void TagDefinition::enable(bool e)
 
 void TagDefinition::buttonPressed() const
 {
-    const int idx = m_comboBox->currentIndex();
+    //const int idx = m_comboBox->currentIndex();
     //TODO: react on invalid index
     
     TagNameInfo info = Converter::convert(m_comboBox);
