@@ -12,10 +12,12 @@ include_directories(${Qt5Core_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS} ${CMAKE_BINARY
 
 set(CORE_SOURCES
     implementation/types.cpp
+    implementation/tag_feeder.cpp
     )
 
 set(CORE_HEADERS
     types.hpp
+    tag_feeder.hpp
     )
 
 source_group(files REGULAR_EXPRESSION .*core.* )
