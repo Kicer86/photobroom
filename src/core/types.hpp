@@ -75,18 +75,18 @@ struct TagNameInfo
 };
 
 
-struct ValueTypeInfo
+struct TagValueInfo
 {
     QString m_value;
     
-    ValueTypeInfo(const QString& v): m_value(v) {}
+    TagValueInfo(const QString& v): m_value(v) {}
     
     operator QString() const
     {
         return m_value;
     }
     
-    bool operator<(const ValueTypeInfo& other) const
+    bool operator<(const TagValueInfo& other) const
     {
         const bool result = m_value < other.m_value;
         
@@ -102,7 +102,7 @@ struct ValueTypeInfo
 
 struct ITagData
 {
-    typedef std::set<ValueTypeInfo> ValuesSet;
+    typedef std::set<TagValueInfo> ValuesSet;
     typedef std::map<TagNameInfo, ValuesSet> TagsList;
     
     struct TagInfo
@@ -157,7 +157,7 @@ struct ITagData
     
     //set tag and its values. Overvrite existing tags
     virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
-    virtual void setTag(const TagNameInfo& name, const ValueTypeInfo& value) = 0;
+    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
     
     virtual void clear() = 0;
 
@@ -173,7 +173,7 @@ class TagDataBase: public ITagData
         virtual ~TagDataBase();
         
         using ITagData::setTag;
-        virtual void setTag(const TagNameInfo &, const ValueTypeInfo &) override;
+        virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
 };
 
 class TagData: public TagDataBase

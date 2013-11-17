@@ -48,7 +48,7 @@ TagDataBase::~TagDataBase()
 }
 
 
-void TagDataBase::setTag(const TagNameInfo& name, const ValueTypeInfo& value)
+void TagDataBase::setTag(const TagNameInfo& name, const TagValueInfo& value)
 {
     ValuesSet values;
     values.insert(value);
@@ -122,7 +122,7 @@ ITagData::TagsList TagDataComposite::getTags() const
         result = m_tags[0]->getTags();
         
         for(size_t i = 1; i < m_tags.size(); i++)
-            result = Algo::map_intersection<ValueTypeInfo>(result, m_tags[i]->getTags());
+            result = Algo::map_intersection<TagValueInfo>(result, m_tags[i]->getTags());
     }
     
     return result;
