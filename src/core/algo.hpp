@@ -51,7 +51,7 @@ namespace Algo
             else if (it1->first < it2->first)
                 ++it1;
             else 
-                ++it2;            
+                ++it2;
         }
         
         return results;
