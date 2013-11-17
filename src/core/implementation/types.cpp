@@ -14,7 +14,7 @@ ITagData::~ITagData()
 
 std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
 {
-    for (std::pair<ITagData::NameType, ITagData::ValuesSet> tags: tagData.getTags())
+    for (std::pair<TagNameInfo, ITagData::ValuesSet> tags: tagData.getTags())
     {
         stream << tags.first.getName().toStdString() << ": ";
         
@@ -48,7 +48,7 @@ TagDataBase::~TagDataBase()
 }
 
 
-void TagDataBase::setTag(const ITagData::NameType& name, const ITagData::ValueType& value)
+void TagDataBase::setTag(const TagNameInfo& name, const ValueTypeInfo& value)
 {
     ValuesSet values;
     values.insert(value);
@@ -76,7 +76,7 @@ TagData::TagsList TagData::getTags() const
 }
     
 
-void TagData::setTag(const ITagData::NameType& name, const ITagData::ValuesSet& values)
+void TagData::setTag(const TagNameInfo& name, const ITagData::ValuesSet& values)
 {
     m_tags[name] = values;
 }
@@ -122,14 +122,14 @@ ITagData::TagsList TagDataComposite::getTags() const
         result = m_tags[0]->getTags();
         
         for(size_t i = 1; i < m_tags.size(); i++)
-            result = Algo::map_intersection<ValueType>(result, m_tags[i]->getTags());
+            result = Algo::map_intersection<ValueTypeInfo>(result, m_tags[i]->getTags());
     }
     
     return result;
 }
 
 
-void TagDataComposite::setTag(const NameType& name, const ValuesSet& values)
+void TagDataComposite::setTag(const TagNameInfo& name, const ValuesSet& values)
 {
     for(const std::shared_ptr<ITagData> &tag: m_tags)
         tag->setTag(name, values);

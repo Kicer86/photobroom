@@ -102,17 +102,15 @@ struct ValueTypeInfo
 
 struct ITagData
 {
-    typedef TagNameInfo NameType;
-    typedef ValueTypeInfo ValueType;
-    typedef std::set<ValueType> ValuesSet;
-    typedef std::map<NameType, ValuesSet> TagsList;
+    typedef std::set<ValueTypeInfo> ValuesSet;
+    typedef std::map<TagNameInfo, ValuesSet> TagsList;
     
     struct TagInfo
     {        
         TagInfo(const TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-        TagInfo(const std::pair<NameType, ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+        TagInfo(const std::pair<TagNameInfo, ValuesSet> &data): m_name(data.first), m_values(data.second) {}
         
-        TagInfo& operator=(const std::pair<NameType, ValuesSet> &data)
+        TagInfo& operator=(const std::pair<TagNameInfo, ValuesSet> &data)
         {
              m_name = data.first; 
              m_values = data.second;
@@ -125,7 +123,7 @@ struct ITagData
             return m_name;
         }
         
-        ITagData::NameType getTypeInfo() const
+        TagNameInfo getTypeInfo() const
         {
             return m_name;
         }
@@ -148,7 +146,7 @@ struct ITagData
         }
         
         private:            
-            NameType m_name;
+            TagNameInfo m_name;
             ValuesSet m_values;
     };
     
@@ -158,8 +156,8 @@ struct ITagData
     virtual TagsList getTags() const = 0;
     
     //set tag and its values. Overvrite existing tags
-    virtual void setTag(const NameType& name, const ValuesSet& values) = 0;
-    virtual void setTag(const NameType& name, const ValueType& value) = 0;
+    virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
+    virtual void setTag(const TagNameInfo& name, const ValueTypeInfo& value) = 0;
     
     virtual void clear() = 0;
 
@@ -175,7 +173,7 @@ class TagDataBase: public ITagData
         virtual ~TagDataBase();
         
         using ITagData::setTag;
-        virtual void setTag(const NameType &, const ValueType &) override;
+        virtual void setTag(const TagNameInfo &, const ValueTypeInfo &) override;
 };
 
 class TagData: public TagDataBase
@@ -187,7 +185,7 @@ class TagData: public TagDataBase
         virtual TagsList getTags() const override;
         
         using TagDataBase::setTag;
-        virtual void setTag(const NameType &, const ValuesSet &) override;
+        virtual void setTag(const TagNameInfo &, const ValuesSet &) override;
         virtual void clear() override;
 
         virtual bool isValid() const override;
@@ -208,7 +206,7 @@ class TagDataComposite: public TagDataBase
         TagsList getTags() const override;
         
         using TagDataBase::setTag;
-        virtual void setTag(const NameType& name, const ValuesSet& values) override;
+        virtual void setTag(const TagNameInfo& name, const ValuesSet& values) override;
         virtual void clear() override;
 
         virtual bool isValid() const override;
