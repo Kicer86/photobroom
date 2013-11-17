@@ -2,6 +2,7 @@
 project(broom)
 
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 set(BUILD_TESTS FALSE CACHE BOOL "Build tests. Set to TRUE to build tests")
 if(BUILD_TESTS)

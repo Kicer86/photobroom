@@ -4,9 +4,6 @@ if (BUILD_TESTS)
 	project(tests)
 
 	find_package(OpenLibrary REQUIRED)
-
-	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-
 	find_package(CppUTest REQUIRED)
 
 	include_directories(${CMAKE_SOURCE_DIR}/src

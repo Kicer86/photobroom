@@ -3,11 +3,12 @@ project(core)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(Exiv2 REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${Qt5Core_INCLUDE_DIRS} ${CMAKE_BINARY_DIR}/exports .)
+include_directories(${Qt5Core_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS} ${CMAKE_BINARY_DIR}/exports .)
 
 set(CORE_SOURCES
     implementation/types.cpp
@@ -20,6 +21,7 @@ set(CORE_HEADERS
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
+target_link_libraries(core ${EXIV2_LIBRARIES})
 qt5_use_modules(core Core)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
@@ -35,7 +37,7 @@ if(BUILD_TESTS)
 
 	find_package(CppUTest REQUIRED)
 
-    include_directories(${CPPUTEST_INCLUDE_DIRS})
+        include_directories(${CPPUTEST_INCLUDE_DIRS})
 
 	set(TESTS
                 tests/algoTests.cpp
