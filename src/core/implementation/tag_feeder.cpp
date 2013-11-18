@@ -5,6 +5,8 @@
 
 #include <exiv2/exiv2.hpp>
 
+#include "types.hpp"
+
 struct ExifFeeder
 {
     void feed(const std::string& path, ITagData* tagData)
@@ -39,7 +41,11 @@ struct ExifFeeder
 
 std::unique_ptr<ITagData> TagFeeder::getTagsFor(const std::string &path)
 {
+    std::unique_ptr<ITagData> tagData(new TagData);
+    ExifFeeder feeder;
+    feeder.feed(path, tagData.get());
 
+    return tagData;
 }
 
 
