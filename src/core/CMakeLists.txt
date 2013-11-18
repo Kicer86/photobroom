@@ -51,7 +51,7 @@ if(BUILD_TESTS)
 	add_executable(core_tests ${TESTS})
 	qt5_use_modules(core_tests Core)
 	set_target_properties(core_tests PROPERTIES COMPILE_FLAGS -DCORE_STATIC_DEFINE)
-	target_link_libraries(core_tests ${CPPUTEST_LIBRARIES})
+        target_link_libraries(core_tests ${CPPUTEST_LIBRARIES} ${EXIV2_LIBRARIES})
 
 	turnOnCpp11(core_tests)
 	
