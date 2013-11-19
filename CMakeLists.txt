@@ -17,35 +17,28 @@ elseif(WIN32)
 endif(UNIX OR CYGWIN)
 
 add_subdirectory(src/core)
+add_subdirectory(src/configuration)
 add_subdirectory(src/analyzer)
 add_subdirectory(src/database)
 add_subdirectory(src/gui)
-add_subdirectory(src/tests)
 
 find_package(OpenLibrary REQUIRED utils)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES})
 
 set(BROOM_SOURCES
-    src/configuration/configurationfactory.cpp
-    src/configuration/entrydata.cpp
     src/main.cpp
    )
 
 
 set(BROOM_HEADERS
-    src/configuration/configurationfactory.hpp
-    src/configuration/entrydata.hpp
-    src/configuration/iconfiguration.hpp
    )
-
-source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
 turnOnCpp11(broom)
 turnOnAllWarnings(${BROOM_SOURCES})
 
-target_link_libraries(broom analyzer database gui)
+target_link_libraries(broom gui)
 
 message("Configuration: ")
 message("BUILD_TESTS...........${BUILD_TESTS}")
