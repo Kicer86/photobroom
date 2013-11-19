@@ -37,7 +37,6 @@ set(BROOM_HEADERS
     src/configuration/configurationfactory.hpp
     src/configuration/entrydata.hpp
     src/configuration/iconfiguration.hpp
-	src/configuration/ientry.hpp
    )
 
 source_group(configuration REGULAR_EXPRESSION .*configuration.* )
