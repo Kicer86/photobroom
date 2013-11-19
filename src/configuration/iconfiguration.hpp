@@ -22,7 +22,6 @@
 
 #include <vector>
 
-struct IEntry;
 struct EntryData;
 
 struct IConfiguration
@@ -30,9 +29,8 @@ struct IConfiguration
     IConfiguration() {}
     virtual ~IConfiguration() {}
 
-    virtual void addEntry(const IEntry &) = 0;
+    virtual void addEntry(const EntryData &) = 0;
     virtual const std::vector<const EntryData>& getEntries() = 0;
-
 };
 
 #endif  //ICONFIGURATION_HPP
