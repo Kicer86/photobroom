@@ -36,6 +36,7 @@ class ConfigurationKey
         std::string getKeyRaw() const;
         
         void setKey(const std::string &);
+        void setKey(const std::vector<std::string> &);
         
     private:
         struct Data;

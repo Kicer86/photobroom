@@ -36,6 +36,21 @@ struct ConfigurationKey::Data
         m_key = convert(raw);
     }
     
+    void setKey(const std::vector<std::string>& key)
+    {
+        m_key = key;
+    }
+    
+    std::string getKeyRaw() const
+    {
+        return convert(m_key);
+    }
+        
+    std::vector<std::string> getKey() const
+    {
+        return m_key;
+    }
+    
     static std::vector<std::string> convert(const std::string& raw)
     {
         char *rawData = new char[raw.size() + 1];
@@ -67,7 +82,23 @@ struct ConfigurationKey::Data
         return result;
     }
     
-    std::vector<std::string> m_key;    
+    static std::string convert(const std::vector<std::string>& key)
+    {
+        std::string result;
+        
+        for(size_t i = 0; i < key.size(); i++)
+        {
+            result += key[i];
+            
+            if (i + 1 < key.size())
+                result += "::";
+        }
+        
+        return result;
+    }
+    
+    private:    
+        std::vector<std::string> m_key;    
 };
 
 
@@ -85,13 +116,13 @@ ConfigurationKey::~ConfigurationKey()
 
 std::vector< std::string > ConfigurationKey::getKey() const
 {
-    return m_data->m_key;
+    return m_data->getKey();
 }
 
 
 std::string ConfigurationKey::getKeyRaw() const
 {
-
+    return m_data->getKeyRaw();
 }
 
 
@@ -100,6 +131,11 @@ void ConfigurationKey::setKey(const std::string& key)
     m_data->setKey(key);
 }
 
+
+void ConfigurationKey::setKey(const std::vector<std::string>& key)
+{
+    m_data->setKey(key);
+}
 
 
 /************************************************************************/
