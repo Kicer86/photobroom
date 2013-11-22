@@ -4,6 +4,7 @@
 #include <CppUTest/CommandLineTestRunner.h>
 
 IMPORT_TEST_GROUP(EntryDataTests);
+IMPORT_TEST_GROUP(ConfigurationKeyShould);
 
 int main(int argc, char** argv)
 {

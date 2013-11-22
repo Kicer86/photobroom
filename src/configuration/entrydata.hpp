@@ -21,7 +21,26 @@
 #ifndef ENTRYDATA_HPP
 #define ENTRYDATA_HPP
 
+#include <vector>
+#include <string>
+
 #include <OpenLibrary/utils/data_ptr.hpp>
+
+class ConfigurationKey
+{
+    public:
+        ConfigurationKey();
+        virtual ~ConfigurationKey();
+        
+        std::vector<std::string> getKey() const;
+        std::string getKeyRaw() const;
+        
+        void setKey(const std::string &);
+        
+    private:
+        struct Data;
+        data_ptr<Data> m_data;
+};
 
 class EntryData
 {

@@ -20,7 +20,89 @@
 
 #include "entrydata.hpp"
 
+#include <cstring>
 #include <string>
+
+
+struct ConfigurationKey::Data
+{
+    Data(): m_key()
+    {
+        
+    }
+    
+    void setKey(const std::string& raw)
+    {
+        m_key = convert(raw);
+    }
+    
+    static std::vector<std::string> convert(const std::string& raw)
+    {
+        char *rawData = new char[raw.size() + 1];
+        strcpy(rawData, raw.c_str());
+        
+        std::vector<char *> pointers;
+        size_t first_pos = 0, i = 0;
+        
+        while (i <= raw.size())
+        {
+            if (rawData[i] == ':' || rawData[i] == '\0')     // ':' means that '::' goes
+            {
+                rawData[i++] = '\0';
+                i++;                     // jump over first and second ':'
+                
+                pointers.push_back(&rawData[first_pos]);  //save current string
+                first_pos = i;                            //mark first char of next one
+            }
+            else
+                i++;
+        }
+        
+        std::vector<std::string> result(pointers.size());
+        for (size_t j = 0; j < pointers.size(); j++)
+            result[j] = pointers[j];
+        
+        delete rawData;
+        
+        return result;
+    }
+    
+    std::vector<std::string> m_key;    
+};
+
+
+ConfigurationKey::ConfigurationKey(): m_data(new Data)
+{
+
+}
+
+
+ConfigurationKey::~ConfigurationKey()
+{
+
+}
+
+
+std::vector< std::string > ConfigurationKey::getKey() const
+{
+    return m_data->m_key;
+}
+
+
+std::string ConfigurationKey::getKeyRaw() const
+{
+
+}
+
+
+void ConfigurationKey::setKey(const std::string& key)
+{
+    m_data->setKey(key);
+}
+
+
+
+/************************************************************************/
 
 struct EntryData::Data
 {
