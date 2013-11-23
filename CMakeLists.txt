@@ -36,6 +36,7 @@ set(BROOM_HEADERS
 
 add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
 target_link_libraries(broom gui)
+turnOnCpp11(broom)
 
 message("Configuration: ")
 message("BUILD_TESTS...........${BUILD_TESTS}")
