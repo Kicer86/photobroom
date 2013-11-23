@@ -31,10 +31,10 @@ add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
-turnOnAllWarnings(${DATABASE_SOURCES})
 
 
 ##################################################################################
+
 
 if(BUILD_TESTS)
 

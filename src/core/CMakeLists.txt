@@ -28,7 +28,6 @@ qt5_use_modules(core Core)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
-turnOnAllWarnings(${CORE_SOURCES})
 
 
 ##################################################################################

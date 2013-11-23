@@ -40,10 +40,10 @@ target_link_libraries(analyzer ${Boost_LIBRARIES})
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)
-turnOnAllWarnings(${ANALYZER_SOURCES})
 
 
 #############################################################
+
 
 if(BUILD_TESTS)
 

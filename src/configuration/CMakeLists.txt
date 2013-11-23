@@ -28,10 +28,10 @@ qt5_use_modules(configuration Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
-turnOnAllWarnings(${CONFIG_SOURCES})
 
 
 ##################################################################################
+
 
 if(BUILD_TESTS)
 
@@ -50,6 +50,7 @@ if(BUILD_TESTS)
     add_executable(configuration_tests ${TESTS})
     qt5_use_modules(configuration_tests Core)
     set_target_properties(configuration_tests PROPERTIES COMPILE_FLAGS -DCONFIGURATION_STATIC_DEFINE)
+    enableCodeCoverageForSources(configuration_tests ${CONFIG_SOURCES})
     target_link_libraries(configuration_tests ${CPPUTEST_LIBRARIES})
 
     turnOnCpp11(configuration_tests)
