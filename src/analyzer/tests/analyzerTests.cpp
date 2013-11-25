@@ -1,20 +1,12 @@
 
-#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
-
 #include "default_analyzers/ext_defaultanalyzer.hpp"
 #include "implementation/file_analyzer.hpp"
 
-#include <CppUTest/TestHarness.h>
-
-TEST_GROUP(Ext_DefaultAnalyzerShould)
-{
-};
+#include <gtest/gtest.h>
 
 
 TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
 {
-    EXPECT_N_LEAKS(58);   //probably someting in boost is released in weird way ;) valgrind doesn't show anything
-    
     Ext_DefaultAnalyzer jpegAnalyzer;
     
     const bool status1 = jpegAnalyzer.isImage("/home/image.jpg");
@@ -26,22 +18,17 @@ TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
     const bool status7 = jpegAnalyzer.isImage("image.jpg3");
     const bool status8 = jpegAnalyzer.isImage("/home/image .jpg");
     
-    CHECK_EQUAL(true, status1);
-    CHECK_EQUAL(true, status2);
-    CHECK_EQUAL(false, status3);
-    CHECK_EQUAL(false, status4);
-    CHECK_EQUAL(true, status5);
-    CHECK_EQUAL(true, status6);
-    CHECK_EQUAL(false, status7);
-    CHECK_EQUAL(true, status8);    
+    ASSERT_EQ(true, status1);
+    ASSERT_EQ(true, status2);
+    ASSERT_EQ(false, status3);
+    ASSERT_EQ(false, status4);
+    ASSERT_EQ(true, status5);
+    ASSERT_EQ(true, status6);
+    ASSERT_EQ(false, status7);
+    ASSERT_EQ(true, status8);    
 }
 
 /********************************************************************/
-
-TEST_GROUP(FileAnalyzerShould)
-{
-};
-
 
 struct FakeAnalyzer: public IAnalyzer
 {
@@ -81,7 +68,7 @@ TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
     
     analyzer.isImage("");
     
-    CHECK_EQUAL(3, counter);
+    ASSERT_EQ(3, counter);
 }
 
 
@@ -99,7 +86,7 @@ TEST(FileAnalyzerShould, ReturnTrueIfAnyOfSubAnalyzersWasPositive)
     
     const bool status = analyzer.isImage("");
     
-    CHECK_EQUAL(true, status);
+    ASSERT_EQ(true, status);
 }
 
 
@@ -117,5 +104,5 @@ TEST(FileAnalyzerShould, ReturnFalseWhenNoneOfSubAnalyzersWasPositive)
     
     const bool status = analyzer.isImage("");
     
-    CHECK_EQUAL(false, status);
+    ASSERT_EQ(false, status);
 }
