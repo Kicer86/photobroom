@@ -24,18 +24,6 @@
 #include "default_configuration.hpp"
 
 
-ConfigurationFactory::ConfigurationFactory()
-{
-
-}
-
-
-ConfigurationFactory::~ConfigurationFactory()
-{
-
-}
-
-
 std::shared_ptr<IConfiguration> ConfigurationFactory::get()
 {
     std::shared_ptr<IConfiguration> result(new DefaultConfiguration);

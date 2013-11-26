@@ -30,12 +30,9 @@ class ConfigurationFactory
     public:
         static std::shared_ptr<IConfiguration> get();
 
-    private:
-        ConfigurationFactory();
-				
-		ConfigurationFactory(const ConfigurationFactory &); //=delete
-        virtual ~ConfigurationFactory();
-		ConfigurationFactory& operator=(const ConfigurationFactory &); //=delete
+        ConfigurationFactory() = delete;
+        ConfigurationFactory(const ConfigurationFactory &) = delete;
+        ConfigurationFactory& operator=(const ConfigurationFactory &) = delete;
 };
 
 #endif // CONFIGURATIONFACTORY_HPP
