@@ -21,6 +21,7 @@
 #include "configurationfactory.hpp"
 
 #include "iconfiguration.hpp"
+#include "default_configuration.hpp"
 
 
 ConfigurationFactory::ConfigurationFactory()
@@ -37,7 +38,7 @@ ConfigurationFactory::~ConfigurationFactory()
 
 std::shared_ptr<IConfiguration> ConfigurationFactory::get()
 {
-    std::shared_ptr<IConfiguration> result;
+    std::shared_ptr<IConfiguration> result(new DefaultConfiguration);
     
     return result;
 }
