@@ -144,12 +144,6 @@ struct EntryData::Data
 {
     Data(): m_key(), m_value() {}
 
-    Data(const Data &other): m_key(), m_value()
-    {
-        m_key = other.m_key;
-        m_value = other.m_value;
-    }
-
     Data(const std::string &key, const std::string &value): m_key(key), m_value(value)
     {
 

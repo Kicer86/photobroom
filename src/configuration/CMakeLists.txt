@@ -11,8 +11,8 @@ include(GenerateExportHeader)
 include_directories(${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports .)
 
 set(CONFIG_SOURCES
-    configurationfactory.cpp
-    entrydata.cpp
+    private/configurationfactory.cpp
+    private/entrydata.cpp
    )
 
 set(CONFIG_HEADERS
@@ -25,6 +25,7 @@ if(BUILD_TESTS)
     include_directories(${GTEST_INCLUDE_DIRS})
     set(CONFIG_SOURCES ${CONFIG_SOURCES} 
         tests/entrydata_tests.cpp
+        tests/configurationfactory_tests.cpp
        )
 endif(BUILD_TESTS)
 

@@ -28,8 +28,7 @@ struct IConfiguration;
 class ConfigurationFactory
 {
     public:
-
-        std::shared_ptr<IConfiguration> get();
+        static std::shared_ptr<IConfiguration> get();
 
     private:
         ConfigurationFactory();

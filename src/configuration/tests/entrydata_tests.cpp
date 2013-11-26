@@ -66,3 +66,18 @@ TEST(ConfigurationKeyShould, acceptFormattedInput)
     
     ASSERT_EQ("One::Two::Three", result);
 }
+
+///////////////////////////////////////////////////////
+
+TEST(EntryDataShould, beConstructable)
+{
+    EntryData entry;
+}
+
+
+TEST(EntryDataShould, returnTrueForComparisonOfTwoEmptyEntries)
+{
+    EntryData entry1, entry2;
+    
+    ASSERT_EQ(entry1, entry2);
+}
