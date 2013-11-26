@@ -13,12 +13,14 @@ include_directories(${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${CMAKE_BINA
 set(CONFIG_SOURCES
     private/configurationfactory.cpp
     private/entrydata.cpp
+    private/default_configuration.cpp
    )
 
 set(CONFIG_HEADERS
     configurationfactory.hpp
     entrydata.hpp
     iconfiguration.hpp
+    private/default_configuration.hpp
    )
    
 if(BUILD_TESTS)
