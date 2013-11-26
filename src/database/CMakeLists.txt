@@ -36,7 +36,7 @@ turnOnCpp11(database)
 ##################################################################################
 
 
-if(BUILD_TESTS)
+if(BUILD_TESTS AND FALSE)
 
 	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
