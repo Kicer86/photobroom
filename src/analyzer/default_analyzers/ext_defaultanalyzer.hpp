@@ -33,9 +33,9 @@ class Ext_DefaultAnalyzer : public IAnalyzer
         virtual bool isImage(const std::string& );
         
     private:
-        Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &);
-        virtual Ext_DefaultAnalyzer& operator=(const Ext_DefaultAnalyzer &);
-        virtual bool operator==(const Ext_DefaultAnalyzer &) const;
+        Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &) = delete;
+        virtual Ext_DefaultAnalyzer& operator=(const Ext_DefaultAnalyzer &) = delete;
+        virtual bool operator==(const Ext_DefaultAnalyzer &) const = delete;
 };
 
 #endif // EXT_JPEGANALYZER_HPP

@@ -39,12 +39,6 @@ Ext_DefaultAnalyzer::Ext_DefaultAnalyzer()
 }
 
 
-Ext_DefaultAnalyzer::Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &)
-{
-
-}
-
-
 Ext_DefaultAnalyzer::~Ext_DefaultAnalyzer()
 {
 
@@ -58,17 +52,5 @@ bool Ext_DefaultAnalyzer::isImage(const std::string &file_path)
     const bool matches = boost::regex_match(ext, ext_regex);
     
     return matches;
-}
-
-
-Ext_DefaultAnalyzer& Ext_DefaultAnalyzer::operator=(const Ext_DefaultAnalyzer &)
-{
-    return *this;
-}
-
-
-bool Ext_DefaultAnalyzer::operator==(const Ext_DefaultAnalyzer &) const
-{
-    return true;
 }
 

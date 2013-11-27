@@ -31,14 +31,12 @@ class FileSystemScanner : public IFileSystemScanner
         FileSystemScanner();
         virtual ~FileSystemScanner();
         
-        virtual std::vector< std::string, std::allocator< std::string > > getFilesFor(const std::string& );
+        virtual std::vector<std::string> getFilesFor(const std::string& );
         
     private:
-		/*
-        FileSystemScanner(const FileSystemScanner& other);  //=delete
-        virtual FileSystemScanner& operator=(const FileSystemScanner& other); //=delete
-        virtual bool operator==(const FileSystemScanner& other) const;  //=delete
-		*/
+        FileSystemScanner(const FileSystemScanner& other) = delete;
+        virtual FileSystemScanner& operator=(const FileSystemScanner& other) = delete;
+        virtual bool operator==(const FileSystemScanner& other) const = delete;
 };
 
 #endif // FILESYSTEMSCANNER_HPP
