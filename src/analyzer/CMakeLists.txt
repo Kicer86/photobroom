@@ -4,7 +4,6 @@ project(analyzer)
 add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
 find_package(Boost 1.53.0 COMPONENTS filesystem system regex)
 find_package(OpenLibrary REQUIRED)
-find_package(GTest)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
@@ -35,9 +34,12 @@ set(ANALYZER_HEADERS
     )
     
 if(BUILD_TESTS)
-    include_directories(${GTEST_INCLUDE_DIRS})
+    find_package(GTest REQUIRED)
+    find_package(GMock REQUIRED)
+    include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIR})
     set(ANALYZER_SOURCES ${ANALYZER_SOURCES} 
         tests/analyzerTests.cpp
+        tests/photo_crawler_tests.cpp
        )
 endif(BUILD_TESTS)
 
@@ -51,5 +53,5 @@ turnOnCpp11(analyzer)
 
 if(BUILD_TESTS)
     enableTestsAndCodeCoverage(analyzer)
-    target_link_libraries(analyzer ${GTEST_LIBRARY})
+    target_link_libraries(analyzer ${GTEST_LIBRARY} ${GMock_LIBRARY})
 endif(BUILD_TESTS)
