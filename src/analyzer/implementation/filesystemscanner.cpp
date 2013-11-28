@@ -22,12 +22,10 @@
 
 #include <boost/filesystem.hpp>
 
-std::vector< std::string, std::allocator< std::string > > FileSystemScanner::getFilesFor(const std::string &dir_path)
+std::vector<std::string> FileSystemScanner::getFilesFor(const std::string &dir_path)
 {
     std::vector<std::string> results;
-
     boost::filesystem::path p(dir_path);
-
     boost::filesystem::recursive_directory_iterator dirIt(p), dirItEnd;
 
     for(; dirIt != dirItEnd; ++dirIt)
