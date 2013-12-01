@@ -6,15 +6,17 @@
 
 struct PhotoCrawler::Impl
 {
-	Impl(IFileSystemScanner *scanner, IAnalyzer *analyzer): m_scanner(scanner), m_analyzer(analyzer) {}
+	Impl(const std::shared_ptr<IFileSystemScanner>& scanner, 
+         const std::shared_ptr<IAnalyzer>& analyzer): m_scanner(scanner), m_analyzer(analyzer) {}
 	~Impl() {}
 
-	std::unique_ptr<IFileSystemScanner> m_scanner;
-	std::unique_ptr<IAnalyzer> m_analyzer;
+	std::shared_ptr<IFileSystemScanner> m_scanner;
+	std::shared_ptr<IAnalyzer> m_analyzer;
 };
 
 
-PhotoCrawler::PhotoCrawler(IFileSystemScanner *scanner, IAnalyzer *analyzer): m_impl(new Impl(scanner, analyzer))
+PhotoCrawler::PhotoCrawler(const std::shared_ptr<IFileSystemScanner>& scanner, 
+                           const std::shared_ptr<IAnalyzer>& analyzer): m_impl(new Impl(scanner, analyzer))
 {
 
 }

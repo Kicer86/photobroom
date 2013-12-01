@@ -12,7 +12,7 @@ struct IAnalyzer;
 class PhotoCrawler: public IPhotoCrawler
 {
     public:
-        PhotoCrawler(IFileSystemScanner *, IAnalyzer *);
+        PhotoCrawler(const std::shared_ptr<IFileSystemScanner> &, const std::shared_ptr<IAnalyzer> &);
         virtual ~PhotoCrawler();
         
         std::vector<std::string> crawl( const std::string& path ) override;
