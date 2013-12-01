@@ -3,21 +3,21 @@
 
 # - Try to find GMock
 # Once done this will define
-#  GMOCK_FOUND - System has LibXml2
-#  GMOCK_INCLUDE_DIRS - The LibXml2 include directories
+#  GMOCK_FOUND - System has GMock
+#  GMOCK_INCLUDE_DIRS - The GMock include directories
 #  GMOCK_SOURCES - Extra sources to be added to build
 
 
 find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
           
-find_path(GMOCK_INTERNALS src/gmock.cc
+find_path(GMOCK_INTERNALS src/gmock-all.cc
           HINTS ${GMOCK_INCLUDE_DIR}/.. 
                 ${GMOCK_DIR}
                 /usr/src/gmock                 #debian
          )
 
-find_file(GMOCK_SOURCE  src/gmock.cc
+find_file(GMOCK_SOURCE  src/gmock-all.cc
           HINTS ${GMOCK_INTERNALS})
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR} )

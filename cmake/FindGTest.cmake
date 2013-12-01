@@ -1,21 +1,20 @@
 
 # - Try to find GTest
 # Once done this will define
-#  GTEST_FOUND - System has LibXml2
-#  GTEST_INCLUDE_DIRS - The LibXml2 include directories
+#  GTEST_FOUND - System has GTest
+#  GTEST_INCLUDE_DIRS - The GTest include directories
 #  GTEST_SOURCES - Extra sources to be added to build
-
 
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
           
-find_path(GTEST_INTERNALS src/gtest.cc
+find_path(GTEST_INTERNALS src/gtest-all.cc
           HINTS ${GTEST_INCLUDE_DIR}/.. 
                 ${GTEST_DIR}
                 /usr/src/gtest                      #debian
          )
 
-find_file(GTEST_SOURCE  src/gtest.cc
+find_file(GTEST_SOURCE  src/gtest-all.cc
           HINTS ${GTEST_INTERNALS})
           
 set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} ${GTEST_INTERNALS})
