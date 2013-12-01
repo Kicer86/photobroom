@@ -12,7 +12,10 @@ find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
           
 find_path(GMOCK_INTERNALS src/gmock.cc
-          HINTS ${GMOCK_INCLUDE_DIR}/.. ${GMOCK_DIR})
+          HINTS ${GMOCK_INCLUDE_DIR}/.. 
+                ${GMOCK_DIR}
+                /usr/src/gmock                 #debian
+         )
 
 find_file(GMOCK_SOURCE  src/gmock.cc
           HINTS ${GMOCK_INTERNALS})

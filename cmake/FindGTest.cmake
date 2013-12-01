@@ -10,7 +10,10 @@ find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
           
 find_path(GTEST_INTERNALS src/gtest.cc
-          HINTS ${GTEST_INCLUDE_DIR}/.. ${GTEST_DIR})
+          HINTS ${GTEST_INCLUDE_DIR}/.. 
+                ${GTEST_DIR}
+                /usr/src/gtest                      #debian
+         )
 
 find_file(GTEST_SOURCE  src/gtest.cc
           HINTS ${GTEST_INTERNALS})
