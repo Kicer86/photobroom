@@ -20,7 +20,7 @@ find_path(GMOCK_INTERNALS src/gmock-all.cc
 find_file(GMOCK_SOURCE  src/gmock-all.cc
           HINTS ${GMOCK_INTERNALS})
 
-set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR} )
+set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR} ${GMOCK_INTERNALS})
 set(GMOCK_SOURCES      ${GMOCK_SOURCE} )
 
 include(FindPackageHandleStandardArgs)
