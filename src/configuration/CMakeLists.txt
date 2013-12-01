@@ -28,6 +28,7 @@ if(BUILD_TESTS)
     set(CONFIG_SOURCES ${CONFIG_SOURCES} 
         tests/entrydata_tests.cpp
         tests/configurationfactory_tests.cpp
+        ${GTEST_SOURCES}
        )
 endif(BUILD_TESTS)
 
@@ -41,5 +42,4 @@ turnOnCpp11(configuration)
 
 if(BUILD_TESTS)
     enableTestsAndCodeCoverage(configuration)
-    target_link_libraries(configuration ${GTEST_LIBRARY})
 endif(BUILD_TESTS)
