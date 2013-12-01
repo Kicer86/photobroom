@@ -8,17 +8,21 @@
 
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
-
-find_file(GTEST_SOURCE  src/gtest.cc
+          
+          
+find_path(GTEST_INTERNALS src/gtest.cc
           HINTS ${GTEST_INCLUDE_DIR}/.. ${GTEST_DIR})
 
-set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} )
+find_file(GTEST_SOURCE  src/gtest.cc
+          HINTS ${GTEST_INTERNALS})
+          
+set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} ${GTEST_INTERNALS})
 set(GTEST_SOURCES      ${GTEST_SOURCE} )
 
 include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GTEST_FOUND to TRUE
 # if all listed variables are TRUE
 find_package_handle_standard_args(GTest  DEFAULT_MSG
-                                  GTEST_SOURCE GTEST_INCLUDE_DIR)
+                                  GTEST_SOURCE GTEST_INCLUDE_DIR GTEST_INTERNALS)
 
-mark_as_advanced(GTEST_SOURCE GTEST_INCLUDE_DIR)
+mark_as_advanced(GTEST_SOURCE GTEST_INCLUDE_DIR GTEST_INTERNALS)
