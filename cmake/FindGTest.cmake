@@ -9,7 +9,6 @@
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
           
-          
 find_path(GTEST_INTERNALS src/gtest.cc
           HINTS ${GTEST_INCLUDE_DIR}/.. ${GTEST_DIR})
 
