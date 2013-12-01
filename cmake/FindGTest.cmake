@@ -4,6 +4,9 @@
 #  GTEST_FOUND - System has GTest
 #  GTEST_INCLUDE_DIRS - The GTest include directories
 #  GTEST_SOURCES - Extra sources to be added to build
+#  GTEST_LIBRARIES - GTest libraries
+
+find_package(Threads)
 
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
@@ -19,6 +22,7 @@ find_file(GTEST_SOURCE  src/gtest-all.cc
           
 set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} ${GTEST_INTERNALS})
 set(GTEST_SOURCES      ${GTEST_SOURCE} )
+set(GTEST_LIBRARIES    pthread)
 
 include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GTEST_FOUND to TRUE
