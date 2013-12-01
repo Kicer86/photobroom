@@ -36,7 +36,7 @@ set(ANALYZER_HEADERS
 if(BUILD_TESTS)
     find_package(GTest REQUIRED)
     find_package(GMock REQUIRED)
-    include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIR})
+    include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
     set(ANALYZER_SOURCES ${ANALYZER_SOURCES}
         tests/analyzerTests.cpp
         tests/photo_crawler_tests.cpp
