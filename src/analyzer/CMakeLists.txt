@@ -40,6 +40,8 @@ if(BUILD_TESTS)
     set(ANALYZER_SOURCES ${ANALYZER_SOURCES}
         tests/analyzerTests.cpp
         tests/photo_crawler_tests.cpp
+        ${GTEST_SOURCES}
+        ${GMOCK_SOURCES}
        )
 endif(BUILD_TESTS)
 
@@ -53,5 +55,4 @@ turnOnCpp11(analyzer)
 
 if(BUILD_TESTS)
     enableTestsAndCodeCoverage(analyzer)
-    target_link_libraries(analyzer ${GTEST_LIBRARY} ${GMock_LIBRARY})
 endif(BUILD_TESTS)
