@@ -17,6 +17,17 @@ TEST(ConfigurationKeyShould, successfulyParseOneLevelKey)
 }
 
 
+TEST(ConfigurationKeyShould, takeKeyValueWhileBeingConstructed)
+{
+    ConfigurationKey key("One");
+        
+    std::vector<std::string> result = key.getKey();
+    
+    ASSERT_EQ(result.size(), 1);
+    ASSERT_EQ("One", result[0]);
+}
+
+
 TEST(ConfigurationKeyShould, successfulyParseTwoLevelKey)
 {
     ConfigurationKey key;
@@ -80,4 +91,10 @@ TEST(EntryDataShould, returnTrueForComparisonOfTwoEmptyEntries)
     EntryData entry1, entry2;
     
     ASSERT_EQ(entry1, entry2);
+}
+
+
+TEST(EntryDataShould, acceptKeyAndValueWileBeingConstructed)
+{
+    EntryData entry("a::b::c", "value");
 }
