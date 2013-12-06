@@ -8,7 +8,6 @@
 #include "implementation/photo_crawler.hpp"
 #include "ianalyzer.hpp"
 
-/*
 
 struct FileSystemMock: public IFileSystemScanner
 {
@@ -34,5 +33,3 @@ TEST(PhotoCrawlerShould, beConstructable)
     
     PhotoCrawler photo_crawler(fileSystem, analyzer);
 }
-
-*/
