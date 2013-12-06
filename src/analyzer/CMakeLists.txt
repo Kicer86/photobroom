@@ -41,6 +41,7 @@ if(BUILD_TESTS)
         ${ANALYZER_SOURCES}
         tests/analyzerTests.cpp
         tests/photo_crawler_tests.cpp
+        tests/photo_crawler_builder_tests.cpp
        )
 endif(BUILD_TESTS)
 
