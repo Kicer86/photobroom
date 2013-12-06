@@ -25,10 +25,10 @@ set(CONFIG_HEADERS
    
 if(BUILD_TESTS)
     include_directories(${GTEST_INCLUDE_DIRS})
-    set(CONFIG_SOURCES ${CONFIG_SOURCES} 
+    set(CONFIG_SOURCES 
+        ${CONFIG_SOURCES} 
         tests/entrydata_tests.cpp
         tests/configurationfactory_tests.cpp
-        ${GTEST_SOURCES}
        )
 endif(BUILD_TESTS)
 
@@ -41,5 +41,6 @@ generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/export
 turnOnCpp11(configuration)
 
 if(BUILD_TESTS)
-    enableTestsAndCodeCoverage(configuration)
+    enableCodeCoverage(configuration)    
+    enableGTest(configuration GTEST)    
 endif(BUILD_TESTS)
