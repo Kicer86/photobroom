@@ -20,6 +20,7 @@
 
 #include "default_configuration.hpp"
 
+#include "entrydata.hpp"
 
 DefaultConfiguration::DefaultConfiguration()
 {
@@ -33,9 +34,11 @@ DefaultConfiguration::~DefaultConfiguration()
 }
 
 
-const std::vector<const EntryData>& DefaultConfiguration::getEntries()
+const std::vector< EntryData >& DefaultConfiguration::getEntries()
 {
-
+    static std::vector<EntryData> result;
+    
+    return result;
 }
 
 void DefaultConfiguration::addEntry(const EntryData& )

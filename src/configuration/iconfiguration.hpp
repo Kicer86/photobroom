@@ -30,7 +30,7 @@ struct IConfiguration
     virtual ~IConfiguration() {}
 
     virtual void addEntry(const EntryData &) = 0;
-    virtual const std::vector<const EntryData>& getEntries() = 0;
+    virtual const std::vector<EntryData>& getEntries() = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

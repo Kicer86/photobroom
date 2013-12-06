@@ -30,8 +30,8 @@ class DefaultConfiguration : public IConfiguration
         DefaultConfiguration();
         virtual ~DefaultConfiguration();
         
-        virtual const std::vector<const EntryData>& getEntries();
-        virtual void addEntry(const EntryData& );
+        virtual const std::vector<EntryData>& getEntries() override;
+        virtual void addEntry(const EntryData& ) override;
 };
 
 #endif // DEFAULT_CONFIGURATION_HPP
