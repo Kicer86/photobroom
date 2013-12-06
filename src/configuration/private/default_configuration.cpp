@@ -34,9 +34,12 @@ DefaultConfiguration::~DefaultConfiguration()
 }
 
 
-const std::vector< EntryData >& DefaultConfiguration::getEntries()
+const std::vector<EntryData>& DefaultConfiguration::getEntries()
 {
-    static std::vector<EntryData> result;
+    static std::vector<EntryData> result = 
+    {
+        EntryData("Database::location", "HOME"),
+    };
     
     return result;
 }
