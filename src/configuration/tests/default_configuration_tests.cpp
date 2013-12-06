@@ -12,3 +12,15 @@ TEST(DefaultConfigurationShould, returnDefaultEntries)
     
     ASSERT_EQ(false, entries.empty());
 }
+
+
+TEST(DefaultConfigurationShould, throwWhenEntryAdded)
+{
+    DefaultConfiguration configuration;
+    
+    ASSERT_THROW
+    (
+        configuration.addEntry(EntryData("Test", "Entry")),
+        std::logic_error
+    );
+}

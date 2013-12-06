@@ -20,6 +20,8 @@
 
 #include "default_configuration.hpp"
 
+#include <stdexcept>
+
 #include "entrydata.hpp"
 
 DefaultConfiguration::DefaultConfiguration()
@@ -46,6 +48,6 @@ const std::vector<EntryData>& DefaultConfiguration::getEntries()
 
 void DefaultConfiguration::addEntry(const EntryData& )
 {
-
+    throw std::logic_error("DefaultConfiguration cannot accept any data");
 }
 
