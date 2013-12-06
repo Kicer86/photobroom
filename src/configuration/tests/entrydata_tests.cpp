@@ -28,6 +28,18 @@ TEST(ConfigurationKeyShould, takeKeyValueWhileBeingConstructed)
 }
 
 
+TEST(ConfigurationKeyShould, takeStringWithKeyValueWhileBeingConstructed)
+{
+    const std::string keyValue("One");
+    ConfigurationKey key(keyValue);
+        
+    std::vector<std::string> result = key.getKey();
+    
+    ASSERT_EQ(result.size(), 1);
+    ASSERT_EQ("One", result[0]);
+}
+
+
 TEST(ConfigurationKeyShould, successfulyParseTwoLevelKey)
 {
     ConfigurationKey key;
