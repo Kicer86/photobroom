@@ -1,7 +1,7 @@
 
 #include <gtest/gtest.h>
 
-#include <entrydata.hpp>
+#include "entrydata.hpp"
 
 
 TEST(ConfigurationKeyShould, successfulyParseOneLevelKey)
