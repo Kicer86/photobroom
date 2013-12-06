@@ -29,6 +29,7 @@ if(BUILD_TESTS)
         ${CONFIG_SOURCES} 
         tests/entrydata_tests.cpp
         tests/configurationfactory_tests.cpp
+        tests/configurationfactory_tests.cpp
        )
 endif(BUILD_TESTS)
 
