@@ -2,12 +2,13 @@
 #include <gtest/gtest.h>
 
 #include "private/default_configuration.hpp"
+#include "entrydata.hpp"
 
 TEST(DefaultConfigurationShould, returnDefaultEntries)
 {
     DefaultConfiguration configuration;
     
-    const std::vector<const EntryData>& entries = configuration.getEntries();
+    const std::vector<EntryData>& entries = configuration.getEntries();
     
-    ASSERT_NE(0L, entries.size());
+    ASSERT_EQ(false, entries.empty());
 }
