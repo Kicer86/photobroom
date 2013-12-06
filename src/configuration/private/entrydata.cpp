@@ -31,6 +31,10 @@ struct ConfigurationKey::Data
         
     }
     
+    Data(const std::string& key): m_key(convert(key))
+    {
+    }
+    
     void setKey(const std::string& raw)
     {
         m_key = convert(raw);
@@ -108,6 +112,18 @@ ConfigurationKey::ConfigurationKey(): m_data(new Data)
 }
 
 
+ConfigurationKey::ConfigurationKey(const std::string& key): m_data(new Data(key))
+{
+    
+}
+
+
+ConfigurationKey::ConfigurationKey(const char *key): m_data(new Data(key))
+{
+    
+}
+
+
 ConfigurationKey::~ConfigurationKey()
 {
 
@@ -138,20 +154,25 @@ void ConfigurationKey::setKey(const std::vector<std::string>& key)
 }
 
 
+bool ConfigurationKey::operator==(const ConfigurationKey& other) const
+{
+    return m_data->getKey() == other.m_data->getKey();
+}
+
 /************************************************************************/
 
 struct EntryData::Data
 {
     Data(): m_key(), m_value() {}
 
-    Data(const std::string &key, const std::string &value): m_key(key), m_value(value)
+    Data(const ConfigurationKey& key, const std::string& value): m_key(key), m_value(value)
     {
 
     }
 
     virtual ~Data() {}
 
-    std::string m_key;
+    ConfigurationKey m_key;
     std::string m_value;
 };
 
@@ -159,6 +180,12 @@ struct EntryData::Data
 EntryData::EntryData(): m_data(new Data)
 {
 
+}
+
+
+EntryData::EntryData(const ConfigurationKey& key, const std::string& value): m_data(new Data(key, value))
+{
+    
 }
 
 

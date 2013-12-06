@@ -30,6 +30,8 @@ class ConfigurationKey
 {
     public:
         ConfigurationKey();
+        ConfigurationKey(const std::string &);
+        ConfigurationKey(const char *);
         virtual ~ConfigurationKey();
         
         std::vector<std::string> getKey() const;
@@ -37,6 +39,8 @@ class ConfigurationKey
         
         void setKey(const std::string &);
         void setKey(const std::vector<std::string> &);
+        
+        bool operator==(const ConfigurationKey& other) const;
         
     private:
         struct Data;
@@ -47,6 +51,7 @@ class EntryData
 {
     public:
         EntryData();
+        EntryData(const ConfigurationKey &, const std::string &);
         virtual ~EntryData();
         virtual bool operator==(const EntryData& other) const;
 
