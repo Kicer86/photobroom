@@ -7,7 +7,10 @@
 
 #include "analyzer_export.h"
 
-struct Rules;
+struct Rules
+{
+    
+};
 
 struct ANALYZER_EXPORT IPhotoCrawler
 {
