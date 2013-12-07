@@ -18,7 +18,6 @@ set(DATABASE_SOURCES
 
 set(DATABASE_HEADERS
     databasebuilder.hpp
-    iconfiguration.hpp
     idatabase.hpp
     ifs.hpp
     entry.hpp

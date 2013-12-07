@@ -39,7 +39,7 @@ namespace Database
         public:
             struct Impl;
             
-            MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
+            MemoryDatabase(const std::shared_ptr<FS> &);
             virtual ~MemoryDatabase();
 
             virtual bool addFile(const std::string &path, const IFrontend::Description &);

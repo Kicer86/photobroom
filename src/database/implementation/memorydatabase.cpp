@@ -46,9 +46,8 @@ namespace Database
 
     struct MemoryDatabase::Impl
     {
-        Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
-            m_db(), 
-            m_configuration(config),
+        Impl(const std::shared_ptr<FS> &stream): 
+            m_db(),
             m_stream(stream),
             m_backend(nullptr),
             m_backendMutex(),
@@ -69,14 +68,8 @@ namespace Database
         }
         
 
-        Impl(const MemoryDatabase::Impl &);
-
-        
-        Impl& operator=(const Impl &)
-        {
-            return *this;
-        }        
-             
+        Impl(const MemoryDatabase::Impl &) = delete;        
+        Impl& operator=(const Impl &) = delete;             
 
         void add(const std::string &path, const IFrontend::Description &description)
         {
@@ -131,7 +124,6 @@ namespace Database
         private:
             const static int m_max_queue_len = 256;                 //max len of db queue
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
-            Database::IConfiguration *m_configuration;
             std::shared_ptr<FS> m_stream;
             std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;
@@ -184,7 +176,7 @@ namespace Database
     }
 
 
-    MemoryDatabase::MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_impl(new Impl(config, stream) )
+    MemoryDatabase::MemoryDatabase(const std::shared_ptr<FS>& stream): m_impl(new Impl(stream) )
     {
 
     }
