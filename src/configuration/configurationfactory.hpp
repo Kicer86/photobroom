@@ -28,7 +28,7 @@ struct IConfiguration;
 class ConfigurationFactory
 {
     public:
-        static std::shared_ptr<IConfiguration> get();
+        static std::shared_ptr<IConfiguration> get();   //get configruation
 
         ConfigurationFactory() = delete;
         ConfigurationFactory(const ConfigurationFactory &) = delete;
