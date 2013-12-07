@@ -3,7 +3,6 @@ project(configuration)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
-find_package(GTest)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
@@ -24,6 +23,7 @@ set(CONFIG_HEADERS
    )
    
 if(BUILD_TESTS)
+    find_package(GTest)
     include_directories(${GTEST_INCLUDE_DIRS})
     set(CONFIG_SOURCES 
         ${CONFIG_SOURCES} 
