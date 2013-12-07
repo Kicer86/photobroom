@@ -1,19 +1,17 @@
 
-#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
-
-#include "database/implementation/memorydatabase.hpp"
-#include "database/iconfiguration.hpp"
-#include "database/ifs.hpp"
-#include "database/implementation/entry.hpp"
-
 #include <iostream>
 #include <sstream>
 #include <vector>
 
-#include <CppUTest/TestHarness.h>
+#include <gtest/gtest.h>
+
+#include "implementation/memorydatabase.hpp"
+#include "iconfiguration.hpp"
+#include "ifs.hpp"
+#include "implementation/entry.hpp"
 
 
-TEST_GROUP(MemoryDatabaseShould)
+namespace 
 {
 	struct FSImpl: public FS
 	{
@@ -47,7 +45,7 @@ TEST_GROUP(MemoryDatabaseShould)
 
 		std::vector<Database::Entry> m_entries;
 	};
-};
+}
 
 
 TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
@@ -63,7 +61,6 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 	std::shared_ptr<FSImpl> fs = std::make_shared<FSImpl>();
 
 	fs->m_stream << "Test content of file to store";
-	//Database::Entry::crc32 crc = 0;
     Config *config = new Config;
 
 	Database::MemoryDatabase *db = new Database::MemoryDatabase(config, fs);
@@ -76,5 +73,5 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
     delete config;
 	
     const int s = backend->m_entries.size();
-	CHECK_EQUAL(1, s);
+	ASSERT_EQ(1, s);
 }

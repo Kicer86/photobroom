@@ -3,10 +3,11 @@ project(database)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 COMPONENTS crc)
+find_package(GTest)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} .)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} .)
 
 set(DATABASE_SOURCES
     implementation/backend.cpp
@@ -24,6 +25,14 @@ set(DATABASE_HEADERS
     implementation/backend.hpp
     implementation/memorydatabase.hpp
     )
+    
+if(BUILD_TESTS)
+    include_directories(${GTEST_INCLUDE_DIRS})
+    set(DATABASE_SOURCES 
+        ${DATABASE_SOURCES} 
+        tests/databaseTests.cpp
+       )
+endif(BUILD_TESTS)
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 
@@ -32,39 +41,7 @@ add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
 
-
-##################################################################################
-
-
-if(BUILD_TESTS AND FALSE)
-
-	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-
-	find_package(CppUTest REQUIRED)
-
-	include_directories(${CMAKE_SOURCE_DIR}/src
-						${CMAKE_SOURCE_DIR}/src/database
-						${CPPUTEST_INCLUDE_DIRS}
-						${OPENLIBRARY_INCLUDES}
-						${CMAKE_BINARY_DIR})
-
-	set(TESTS
-		tests/databaseTests.cpp
-		tests/RunAllTests.cpp
-		${DATABASE_SOURCES}
-		)
-
-	add_executable(database_tests ${TESTS})
-	set_target_properties(database_tests PROPERTIES COMPILE_FLAGS -DDATABASE_STATIC_DEFINE)
-	target_link_libraries(database_tests ${CPPUTEST_LIBRARIES})
-
-	turnOnCpp11(database_tests)
-	
-	if(CMAKE_COMPILER_IS_GNUCXX)
-            #addFlags(database_tests COMPILE_FLAGS -pthread)
-            addFlags(database_tests LINK_FLAGS -pthread)
-	endif(CMAKE_COMPILER_IS_GNUCXX)
-	
-	add_test(database database_tests)
-
+if(BUILD_TESTS)
+    enableCodeCoverage(database)    
+    enableGTest(database GTEST)    
 endif(BUILD_TESTS)
