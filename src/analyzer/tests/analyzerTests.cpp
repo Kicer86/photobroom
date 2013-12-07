@@ -56,7 +56,7 @@ TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
 {
     FileAnalyzer analyzer;
     
-    int counter;
+    int counter = 0;
     
     FakeAnalyzer *fake1 = new FakeAnalyzer(&counter);
     FakeAnalyzer *fake2 = new FakeAnalyzer(&counter);
