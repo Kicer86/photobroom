@@ -142,7 +142,7 @@ namespace Database
             std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
-            TS_Queue<std::deque<Entry::crc32>> m_updateQueue;       //entries to be stored in backend
+            TS_Queue<Entry::crc32> m_updateQueue;                   //entries to be stored in backend
             bool m_storekeeperWork;
             std::thread m_storekeeper;
             
