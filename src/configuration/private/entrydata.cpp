@@ -81,7 +81,7 @@ struct ConfigurationKey::Data
         for (size_t j = 0; j < pointers.size(); j++)
             result[j] = pointers[j];
         
-        delete rawData;
+        delete [] rawData;
         
         return result;
     }
