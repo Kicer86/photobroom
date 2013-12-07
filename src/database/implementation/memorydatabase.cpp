@@ -54,7 +54,6 @@ namespace Database
             m_backendMutex(),
             m_backendSet(),
 			m_updateQueue(m_max_queue_len),
-            m_storekeeperWork(true),
             m_storekeeper(trampoline, this)
         {
             
@@ -63,7 +62,6 @@ namespace Database
 
         virtual ~Impl()
         {
-            m_storekeeperWork = false;  //quit thread
             m_updateQueue.break_popping();
             
             assert(m_storekeeper.joinable());
@@ -111,26 +109,22 @@ namespace Database
         
         void storekeeper()      //storekeeper thread
         {
-            while (m_storekeeperWork)        //as long as we are forced to work...
+            while (true)        //work forever
             {
-                do
+                std::unique_lock<std::mutex> lock(m_backendMutex);
+                
+                while(m_backend == nullptr)
+                    m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
+                
+                boost::optional<Entry::crc32> entry = getItemToUpdate();
+                
+                if (entry)
                 {
-                    std::unique_lock<std::mutex> lock(m_backendMutex);
-                    
-                    while(m_backend == nullptr)
-                        m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
-                    
-                    boost::optional<Entry::crc32> entry = getItemToUpdate();
-                    
-                    if (entry)
-                    {
-                        const Entry &dbEntry = m_db[*entry];
-                        m_backend->store(dbEntry);
-                    }
-                    else
-                        assert(m_storekeeperWork == false);       //the only reason for empty queue is that we are quiting
+                    const Entry &dbEntry = m_db[*entry];
+                    m_backend->store(dbEntry);
                 }
-                while(m_updateQueue.empty() == false);  //do not back to main loop as long as there some data to be stored
+                else
+                    break;                                      //the only reason for empty queue is that we are quiting
             }
         }
 
@@ -143,7 +137,6 @@ namespace Database
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
             TS_Queue<Entry::crc32> m_updateQueue;                   //entries to be stored in backend
-            bool m_storekeeperWork;
             std::thread m_storekeeper;
             
             void registerUpdate(const Entry::crc32 &item)
