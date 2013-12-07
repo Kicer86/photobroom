@@ -24,6 +24,13 @@
 
 #include "entrydata.hpp"
 
+
+struct DefaultConfiguration::Impl
+{
+    Impl() {}
+};
+
+
 DefaultConfiguration::DefaultConfiguration()
 {
 

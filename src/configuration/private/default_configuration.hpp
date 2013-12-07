@@ -21,7 +21,9 @@
 #ifndef DEFAULT_CONFIGURATION_HPP
 #define DEFAULT_CONFIGURATION_HPP
 
-#include <iconfiguration.hpp>
+#include <memory>
+
+#include "iconfiguration.hpp"
 
 
 class DefaultConfiguration : public IConfiguration
@@ -32,6 +34,10 @@ class DefaultConfiguration : public IConfiguration
         
         virtual const std::vector<EntryData>& getEntries() override;
         virtual void addEntry(const EntryData& ) override;
+        
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif // DEFAULT_CONFIGURATION_HPP
