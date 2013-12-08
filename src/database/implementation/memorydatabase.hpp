@@ -28,7 +28,7 @@
 
 #include "database_export.h"
 
-struct FS;
+struct IStreamFactory;
 
 namespace Database
 {
@@ -39,7 +39,7 @@ namespace Database
         public:
             struct Impl;
             
-            MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &);
+            MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<IStreamFactory> &);
             virtual ~MemoryDatabase();
 
             virtual bool addFile(const std::string &path, const IFrontend::Description &);

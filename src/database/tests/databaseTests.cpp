@@ -13,22 +13,17 @@
 
 namespace 
 {
-	struct FSImpl: public FS
-	{
-        FSImpl(): m_stream() {}
+    struct FSImpl: public IStreamFactory
+    {
+        FSImpl(): m_stream(new std::stringstream) {}
+
 		//open and return file
-		std::iostream* openStream(const std::string &, std::ios_base::openmode)
+        std::shared_ptr<std::iostream> openStream(const std::string &, std::ios_base::openmode) override
 		{
-			return &m_stream;
+            return m_stream;
 		}
 
-		//close opened file
-		void closeStream(std::iostream *stream)
-		{
-            (void) stream;
-		}
-
-		std::stringstream m_stream;
+        std::shared_ptr<std::stringstream> m_stream;
 	};
 
 	struct Backend: public Database::IBackend
@@ -60,7 +55,7 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 	
 	std::shared_ptr<FSImpl> fs = std::make_shared<FSImpl>();
 
-	fs->m_stream << "Test content of file to store";
+    *(fs->m_stream) << "Test content of file to store";
     Config *config = new Config;
 
 	Database::MemoryDatabase *db = new Database::MemoryDatabase(config, fs);

@@ -1,6 +1,6 @@
 /*
     set of filesystem access functions
-    Copyright (C) 2013  Micha≥ Walenciak <MichalWalenciak@gmail.com>
+    Copyright (C) 2013  Micha≈Ç Walenciak <MichalWalenciak@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,17 +22,15 @@
 #define IFS_HPP
 
 #include <iostream>
+#include <memory>
 
-struct FS
+struct IStreamFactory
 {
-    virtual ~FS() {}
+    virtual ~IStreamFactory() {}
         
     //open and return file
-	virtual std::iostream* openStream(const std::string &filename, 
-                                      std::ios_base::openmode mode = std::ios_base::in|std::ios_base::out ) = 0;
-
-    //close opened file
-    virtual void closeStream(std::iostream *) = 0;
+    virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
+                                                      std::ios_base::openmode mode = std::ios_base::in|std::ios_base::out ) = 0;
 };
 
 #endif

@@ -77,36 +77,26 @@ namespace Database
                 }
             };
 
-            struct FSImpl: public FS
+            struct FSImpl: public IStreamFactory
             {
                 virtual ~FSImpl() 
                 {
                     
                 }
 
-                virtual std::iostream* openStream(const std::string &filename,
-                                                  std::ios_base::openmode mode)
+                virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
+                                                  std::ios_base::openmode mode) override
                 {
-                    std::fstream *stream = new std::fstream;
+                    auto stream = std::make_shared<std::fstream>();
 
                     stream->open(filename.c_str(), mode);
 
                     return stream;
                 }
-
-                virtual void closeStream(std::iostream *stream)
-                {
-                    assert(dynamic_cast<std::fstream *>(stream));
-
-                    std::fstream *fstream = static_cast<std::fstream *>(stream);
-
-                    fstream->close();
-                    delete fstream;
-                };
             };
             
             Config *config = new Config;
-            std::shared_ptr<FS> fs(new FSImpl);
+            std::shared_ptr<IStreamFactory> fs(new FSImpl);
             IFrontend *frontend = new MemoryDatabase(config, fs);
             
             defaultDatabase.reset(frontend);

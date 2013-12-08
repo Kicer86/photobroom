@@ -46,7 +46,7 @@ namespace Database
 
     struct MemoryDatabase::Impl
     {
-        Impl(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): 
+        Impl(Database::IConfiguration *config, const std::shared_ptr<IStreamFactory> &stream):
             m_db(), 
             m_configuration(config),
             m_stream(stream),
@@ -132,7 +132,7 @@ namespace Database
             const static int m_max_queue_len = 256;                 //max len of db queue
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
             Database::IConfiguration *m_configuration;
-            std::shared_ptr<FS> m_stream;
+            std::shared_ptr<IStreamFactory> m_stream;
             std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
@@ -155,7 +155,7 @@ namespace Database
             {
                 const int MAX_SIZE = 65536;
                 boost::crc_32_type crc;
-                std::iostream *input = m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
+                std::shared_ptr<std::iostream> input = m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
 
                 if (input != nullptr)
                     do
@@ -168,8 +168,6 @@ namespace Database
                     while(input->fail() == false);
                     
                 const Entry::crc32 sum = crc();
-                
-                m_stream->closeStream(input);
                 
                 return sum;
             }
@@ -184,7 +182,7 @@ namespace Database
     }
 
 
-    MemoryDatabase::MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<FS> &stream): m_impl(new Impl(config, stream) )
+    MemoryDatabase::MemoryDatabase(Database::IConfiguration *config, const std::shared_ptr<IStreamFactory> &stream): m_impl(new Impl(config, stream) )
     {
 
     }
