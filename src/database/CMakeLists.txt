@@ -3,7 +3,6 @@ project(database)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 COMPONENTS crc)
-find_package(GTest)
 
 include(GenerateExportHeader)
 
@@ -26,6 +25,7 @@ set(DATABASE_HEADERS
     )
     
 if(BUILD_TESTS)
+    find_package(GTest)
     include_directories(${GTEST_INCLUDE_DIRS})
     set(DATABASE_SOURCES 
         ${DATABASE_SOURCES} 
