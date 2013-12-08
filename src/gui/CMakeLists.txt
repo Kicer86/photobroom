@@ -66,6 +66,15 @@ set(GUI_FILES_TO_MOC
     Qt5/widgets/tag_editor/ivalue_widget.hpp
     )
 
+if(BUILD_TESTS)
+    find_package(GTest)
+    include_directories(${GTEST_INCLUDE_DIRS})
+    set(GUI_SOURCES
+        ${GUI_SOURCES}
+       )
+endif(BUILD_TESTS)
+
+
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
 qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
@@ -77,3 +86,9 @@ qt5_use_modules(gui Widgets)
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
 target_link_libraries(gui analyzer)
 turnOnCpp11(gui)
+
+
+if(BUILD_TESTS)
+    enableCodeCoverage(gui)
+    enableGTest(gui GTEST)
+endif(BUILD_TESTS)
