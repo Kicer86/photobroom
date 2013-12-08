@@ -22,15 +22,19 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
 
         message("Trying to find GTest sources and register extra targets")
         find_file(GTEST_BASE_SOURCE src/gtest-all.cc
-                  HINTS /usr/src/gtest)
+                  HINTS /usr/src/gtest ${GTEST_DIR})
 
         find_file(GTEST_MAIN_SOURCE src/gtest_main.cc
-                  HINTS /usr/src/gtest)
+                  HINTS /usr/src/gtest ${GTEST_DIR})
+                  
+        if(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)
+            message(FATAL_ERROR "Could not find base for GTest sources. Set GTEST_DIR to proper value")
+        endif(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)
 
         add_library(gtest SHARED ${GTEST_BASE_SOURCE})
         add_library(gtest-main SHARED ${GTEST_MAIN_SOURCE})
 
-        get_filename_component(gtest_base_dir ${GTEST_BASE_SOURCE} DIRECTORY)
+        get_filename_component(gtest_base_dir ${GTEST_BASE_SOURCE} PATH)
         set_target_properties(gtest gtest-main PROPERTIES INCLUDE_DIRECTORIES ${gtest_base_dir}/../)
 
     endif(NOT TARGET gtest)
@@ -44,6 +48,6 @@ include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GTEST_FOUND to TRUE
 # if all listed variables are TRUE
 find_package_handle_standard_args(GTest DEFAULT_MSG
-                                  GTEST_INCLUDE_DIR )
+                                  GTEST_INCLUDE_DIR GTEST_BASE_SOURCE GTEST_MAIN_SOURCE)
 
-mark_as_advanced(GTEST_INCLUDE_DIR)
+mark_as_advanced(GTEST_INCLUDE_DIR GTEST_BASE_SOURCE GTEST_MAIN_SOURCE)
