@@ -26,7 +26,6 @@
 #include <fcntl.h>
 
 #include "memorydatabase.hpp"
-#include "iconfiguration.hpp"
 #include "ifs.hpp"
 #include "implementation/backend.hpp"
 
@@ -55,27 +54,6 @@ namespace Database
     {
         if (defaultDatabase.get() == nullptr)
         {
-            
-            struct Config: public Database::IConfiguration
-            {
-                virtual ~Config() {}
-
-                virtual std::string getLocation() const
-                {
-                    std::string result;
-#ifdef OS_UNIX
-                    const char *home = getenv("HOME");
-                    result = std::string(home) + "/.config/broom/";
-#elif OS_WIN
-                    const char *home = getenv("LOCALAPPDATA");
-                    result = std::string(home) + "/broom/";
-#else
-    #error unknown os
-#endif
-                    assert(result != "");
-                    return result;
-                }
-            };
 
             struct FSImpl: public IStreamFactory
             {
@@ -93,11 +71,10 @@ namespace Database
 
                     return stream;
                 }
-            };
-            
-            Config *config = new Config;
-            std::shared_ptr<IStreamFactory> fs(new FSImpl);
-            IFrontend *frontend = new MemoryDatabase(config, fs);
+            };            
+
+            std::shared_ptr<FS> fs(new FSImpl);
+            IFrontend *frontend = new MemoryDatabase(fs);
             
             defaultDatabase.reset(frontend);
             defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::PrimitiveBackend));
