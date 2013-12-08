@@ -1,15 +1,7 @@
 
-#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
-
-#include <CppUTest/TestHarness.h>
+#include <gtest/gtest.h>
 
 #include "../algo.hpp"
-
-TEST_GROUP(MapIntersectionShould)
-{
-	
-};
- 
 
 
 TEST(MapIntersectionShould, returnNullWhenOneMapIsNull)
@@ -22,7 +14,7 @@ TEST(MapIntersectionShould, returnNullWhenOneMapIsNull)
     
     auto result = Algo::map_intersection<int>(m1, m2);
     
-    CHECK_EQUAL(0, result.size());
+    ASSERT_EQ(0, result.size());
 }
 
 
@@ -40,7 +32,7 @@ TEST(MapIntersectionShould, returnOnlyCommonPartOfTwoMaps)
 
     auto result = Algo::map_intersection<int>(m1, m2);
 
-    CHECK_EQUAL(2, result.size());
+    ASSERT_EQ(2, result.size());
 }
 
 
@@ -63,7 +55,7 @@ TEST(MapIntersectionShould, returnOnlyCommonPartOfThreeMaps)
     auto result = Algo::map_intersection<int>(m1, m2);
     result = Algo::map_intersection<int>(result, m3);
 
-    CHECK_EQUAL(1, result.size());
+    ASSERT_EQ(1, result.size());
 }
 
 
@@ -86,7 +78,7 @@ TEST(MapIntersectionShould, compareKeyOnly)
     auto result = Algo::map_intersection<int>(m1, m2);
     result = Algo::map_intersection<int>(result, m3);
 
-    CHECK_EQUAL(1, result.size());
+    ASSERT_EQ(1, result.size());
 }
 
 
@@ -110,19 +102,19 @@ TEST(MapIntersectionShould, returnAllPossibleValuesForMergedKeys)
     result = Algo::map_intersection<int>(result, m3);
 
     //make sure there is only one entry
-    CHECK_EQUAL(1, result.size());
+    ASSERT_EQ(1, result.size());
     
     auto firstItem = *result.begin();
-    CHECK_EQUAL(3, firstItem.second.size());
+    ASSERT_EQ(3, firstItem.second.size());
     
     auto it = firstItem.second.begin();
     
-    CHECK_EQUAL(101, *it);
+    ASSERT_EQ(101, *it);
     
     ++it;
-    CHECK_EQUAL(201, *it);
+    ASSERT_EQ(201, *it);
     
     ++it;
-    CHECK_EQUAL(301, *it);
+    ASSERT_EQ(301, *it);
 }
 

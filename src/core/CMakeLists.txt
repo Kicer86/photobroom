@@ -20,6 +20,17 @@ set(CORE_HEADERS
     tag_feeder.hpp
     )
 
+if(BUILD_TESTS)
+    find_package(GTest)
+    include_directories(${GTEST_INCLUDE_DIRS})
+    set(CORE_SOURCES
+        ${CORE_SOURCES}
+        tests/coreTests.cpp
+        tests/algoTests.cpp
+       )
+endif(BUILD_TESTS)
+
+
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
@@ -29,31 +40,7 @@ qt5_use_modules(core Core)
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
 
-
-##################################################################################
-
 if(BUILD_TESTS)
-
-	set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-
-	find_package(CppUTest REQUIRED)
-
-        include_directories(${CPPUTEST_INCLUDE_DIRS})
-
-	set(TESTS
-                tests/algoTests.cpp
-                tests/coreTests.cpp
-		tests/RunAllTests.cpp
-		${CORE_SOURCES}
-		)
-
-	add_executable(core_tests ${TESTS})
-	qt5_use_modules(core_tests Core)
-	set_target_properties(core_tests PROPERTIES COMPILE_FLAGS -DCORE_STATIC_DEFINE)
-        target_link_libraries(core_tests ${CPPUTEST_LIBRARIES} ${EXIV2_LIBRARIES})
-
-	turnOnCpp11(core_tests)
-	
-	add_test(core core_tests)
-
+    enableCodeCoverage(core)
+    enableGTest(core GTEST)
 endif(BUILD_TESTS)

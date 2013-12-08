@@ -1,14 +1,7 @@
 
-#define CPPUTEST_MEM_LEAK_DETECTION_DISABLED
-
-#include <CppUTest/TestHarness.h>
+#include <gtest/gtest.h>
 
 #include "../types.hpp"
-
-TEST_GROUP(TagDataShould)
-{
-	
-};
 
 
 TEST(TagDataShould, beConstructable)
@@ -23,7 +16,7 @@ TEST(TagDataShould, returnEmptySetWhenConstructed)
     
     const ITagData::TagsList &dataSet = data.getTags();
     
-    CHECK_EQUAL(0, static_cast<int>(dataSet.size()));
+    ASSERT_EQ(0, static_cast<int>(dataSet.size()));
 }
 
 
@@ -35,10 +28,10 @@ TEST(TagDataShould, returnWhatWasInserted)
     
     const ITagData::TagsList &dataSet = data.getTags();
     
-    CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
+    ASSERT_EQ(1, static_cast<int>(dataSet.size()));
     
-    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).name() == "test1");
-    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).valuesString() == "test2");
+    ASSERT_EQ(true, ITagData::TagInfo(dataSet.begin()).name() == "test1");
+    ASSERT_EQ(true, ITagData::TagInfo(dataSet.begin()).valuesString() == "test2");
 }
 
 
@@ -51,9 +44,9 @@ TEST(TagDataShould, overwritePreviousTagsValues)
     
     const ITagData::TagsList& dataSet = data.getTags();
     
-    CHECK_EQUAL(1, static_cast<int>(dataSet.size()));
-    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).name() == "test1");
-    CHECK_EQUAL(true, ITagData::TagInfo(dataSet.begin()).valuesString() == "test3");
+    ASSERT_EQ(1, static_cast<int>(dataSet.size()));
+    ASSERT_EQ(true, ITagData::TagInfo(dataSet.begin()).name() == "test1");
+    ASSERT_EQ(true, ITagData::TagInfo(dataSet.begin()).valuesString() == "test3");
 }
 
 
@@ -67,16 +60,11 @@ TEST(TagDataShould, beClearable)
     
     const ITagData::TagsList& dataSet = data.getTags();
     
-    CHECK_EQUAL(0, static_cast<int>(dataSet.size()));
+    ASSERT_EQ(0, static_cast<int>(dataSet.size()));
 }
 
 
 /*************************************************************************/
-
-TEST_GROUP(TagDataCompositeShould)
-{
-    
-};
 
 
 TEST(TagDataCompositeShould, fillItsMinions)
@@ -91,19 +79,19 @@ TEST(TagDataCompositeShould, fillItsMinions)
     data.setTag( TagNameInfo("name"), TagValueInfo("value") );
     
     auto m1 = minion1->getTags();
-    CHECK_EQUAL(1, m1.size());
-    CHECK_EQUAL(true, ITagData::TagInfo(m1.begin()).name() == "name");
-    CHECK_EQUAL(true, ITagData::TagInfo(m1.begin()).valuesString() == "value");
+    ASSERT_EQ(1, m1.size());
+    ASSERT_EQ(true, ITagData::TagInfo(m1.begin()).name() == "name");
+    ASSERT_EQ(true, ITagData::TagInfo(m1.begin()).valuesString() == "value");
     
     auto m2 = minion2->getTags();
-    CHECK_EQUAL(1, m1.size());
-    CHECK_EQUAL("name", ITagData::TagInfo(m2.begin()).name().toStdString());
-    CHECK_EQUAL("value", ITagData::TagInfo(m2.begin()).valuesString().toStdString());
+    ASSERT_EQ(1, m1.size());
+    ASSERT_EQ("name", ITagData::TagInfo(m2.begin()).name().toStdString());
+    ASSERT_EQ("value", ITagData::TagInfo(m2.begin()).valuesString().toStdString());
     
     auto m3 = minion3->getTags();
-    CHECK_EQUAL(1, m1.size());
-    CHECK_EQUAL("name", ITagData::TagInfo(m3.begin()).name().toStdString());
-    CHECK_EQUAL("value", ITagData::TagInfo(m3.begin()).valuesString().toStdString());
+    ASSERT_EQ(1, m1.size());
+    ASSERT_EQ("name", ITagData::TagInfo(m3.begin()).name().toStdString());
+    ASSERT_EQ("value", ITagData::TagInfo(m3.begin()).valuesString().toStdString());
 }
 
 
@@ -123,7 +111,7 @@ TEST(TagDataCompositeShould, getTagsFromMinionsWhenAllDataAreTheSame)
     
     auto info = data.getTags();
     
-    CHECK_EQUAL(1, info.size());
+    ASSERT_EQ(1, info.size());
 }
 
 
@@ -151,16 +139,16 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
     
     auto list = data.getTags();
     
-    CHECK_EQUAL(2, list.size());
+    ASSERT_EQ(2, list.size());
     
     auto it = list.begin();
     ITagData::TagInfo info(*it);
-    CHECK_EQUAL("name", info.name().toStdString());
-    CHECK_EQUAL("value", info.valuesString().toStdString());
+    ASSERT_EQ("name", info.name().toStdString());
+    ASSERT_EQ("value", info.valuesString().toStdString());
     
     info = *(++it);
-    CHECK_EQUAL("name2", info.name().toStdString());
-    CHECK_EQUAL("value2", info.valuesString().toStdString());
+    ASSERT_EQ("name2", info.name().toStdString());
+    ASSERT_EQ("value2", info.valuesString().toStdString());
 }
 
 
@@ -184,28 +172,28 @@ TEST(TagDataCompositeShould, ReturnMergedValuesForCommonTagsWithDifferentValues)
     
     auto list = data.getTags();
     
-    CHECK_EQUAL(2, list.size());
+    ASSERT_EQ(2, list.size());
     
     auto it = list.begin();
     ITagData::TagInfo info(*it);
-    CHECK_EQUAL("name", info.name().toStdString());
+    ASSERT_EQ("name", info.name().toStdString());
     
     auto valIt = info.values().begin();
-    CHECK_EQUAL("value_1", valIt->value().toStdString());
+    ASSERT_EQ("value_1", valIt->value().toStdString());
     ++valIt;
-    CHECK_EQUAL("value_2", valIt->value().toStdString());
+    ASSERT_EQ("value_2", valIt->value().toStdString());
     ++valIt;
-    CHECK_EQUAL("value_3", valIt->value().toStdString());
+    ASSERT_EQ("value_3", valIt->value().toStdString());
     
     info = *(++it);
-    CHECK_EQUAL("name2", info.name().toStdString());
+    ASSERT_EQ("name2", info.name().toStdString());
         
     valIt = info.values().begin();
-    CHECK_EQUAL("value_1", valIt->value().toStdString());
+    ASSERT_EQ("value_1", valIt->value().toStdString());
     ++valIt;
-    CHECK_EQUAL("value_2", valIt->value().toStdString());
+    ASSERT_EQ("value_2", valIt->value().toStdString());
     ++valIt;
-    CHECK_EQUAL("value_3", valIt->value().toStdString());
+    ASSERT_EQ("value_3", valIt->value().toStdString());
 }
 
 
@@ -231,8 +219,8 @@ TEST(TagDataCompositeShould, beClearable)
     
     auto list = data.getTags();
     
-    CHECK_EQUAL(0, list.size());
-    CHECK_EQUAL(0, minion1->getTags().size());
-    CHECK_EQUAL(0, minion1->getTags().size());
-    CHECK_EQUAL(0, minion1->getTags().size());
+    ASSERT_EQ(0, list.size());
+    ASSERT_EQ(0, minion1->getTags().size());
+    ASSERT_EQ(0, minion1->getTags().size());
+    ASSERT_EQ(0, minion1->getTags().size());
 }
