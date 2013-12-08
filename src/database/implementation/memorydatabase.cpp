@@ -125,6 +125,7 @@ namespace Database
         private:
             const static int m_max_queue_len = 256;                 //max len of db queue
             std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
+            std::shared_ptr<IStreamFactory> m_stream;
             Database::IConfiguration *m_configuration;
             std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;

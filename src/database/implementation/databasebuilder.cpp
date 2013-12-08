@@ -73,7 +73,7 @@ namespace Database
                 }
             };            
 
-            std::shared_ptr<FS> fs(new FSImpl);
+            std::shared_ptr<IStreamFactory> fs(new FSImpl);
             IFrontend *frontend = new MemoryDatabase(fs);
             
             defaultDatabase.reset(frontend);
