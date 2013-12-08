@@ -2,7 +2,7 @@
 project(database)
 
 find_package(OpenLibrary REQUIRED)
-find_package(Boost 1.53.0 COMPONENTS crc)
+find_package(Boost 1.53.0 COMPONENTS crc integer)
 
 include(GenerateExportHeader)
 

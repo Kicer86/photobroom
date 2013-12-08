@@ -23,6 +23,8 @@
 
 #include <string>
 
+#include <boost/cstdint.hpp>
+
 #include <OpenLibrary/utils/data_ptr.hpp>
 
 namespace Database
@@ -37,14 +39,8 @@ namespace Database
         
 			virtual Entry& operator=(Entry &&);
 			virtual Entry& operator=(const Entry &);
-                
-#ifdef OS_UNIX
-			typedef __uint32_t crc32;
-#elif defined OS_WIN
-			typedef unsigned __int32 crc32;
-#else
-	#error unknown os
-#endif
+
+            typedef boost::uint32_t crc32;
         
 			struct Data
 			{
