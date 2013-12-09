@@ -28,12 +28,20 @@
 struct DefaultConfiguration::Impl
 {
     Impl() {}
+    
+    std::string getConfigDir() const
+    {
+        
+    }
 };
 
 
 DefaultConfiguration::DefaultConfiguration()
 {
-
+    std::vector<Configuration::EntryData> defaultEntries = 
+    {
+        Configuration::EntryData("Application::ConfigDir", "HOME"),
+    };
 }
 
 
