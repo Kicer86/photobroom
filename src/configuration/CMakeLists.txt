@@ -7,7 +7,7 @@ find_package(Qt5Core REQUIRED)
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports .)
+include_directories(${CMAKE_SOURCE_DIR}/src ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports .)
 
 set(CONFIG_SOURCES
     private/configurationfactory.cpp
@@ -37,6 +37,7 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
 qt5_use_modules(configuration Core)
+target_link_libraries(configuration system)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
