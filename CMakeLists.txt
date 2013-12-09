@@ -21,20 +21,15 @@ add_subdirectory(src/configuration)
 add_subdirectory(src/analyzer)
 add_subdirectory(src/database)
 add_subdirectory(src/gui)
+add_subdirectory(src/system)
 
 find_package(OpenLibrary REQUIRED utils)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES})
 
-set(BROOM_SOURCES
-    src/main.cpp
-   )
+set(BROOM_SOURCES src/main.cpp)
 
-
-set(BROOM_HEADERS
-   )
-
-add_executable(broom ${BROOM_SOURCES} ${BROOM_HEADERS})
+add_executable(broom ${BROOM_SOURCES})
 target_link_libraries(broom gui)
 turnOnCpp11(broom)
 
