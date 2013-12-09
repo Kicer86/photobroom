@@ -27,6 +27,7 @@
 
 #include "configuration/configurationfactory.hpp"
 #include "configuration/iconfiguration.hpp"
+#include "configuration/entrydata.hpp"
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
@@ -74,8 +75,13 @@ namespace Database
     IFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
-        {            
-            //ConfigurationFactory::get()->registerEntries();
+        {   
+            std::vector<Configuration::EntryData> entries = 
+            {
+                Configuration::EntryData("Database::Backend::DataLocation",  "")
+            };
+            
+            ConfigurationFactory::get()->registerEntries(entries);
             
             std::shared_ptr<IStreamFactory> fs(new StreamFactory);
             IFrontend *frontend = new MemoryDatabase(fs);
