@@ -11,8 +11,8 @@
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
                     
-find_library(GTEST_LIBRARY      libgtest.a)
-find_library(GTEST_MAIN_LIBRARY libgtest_main.a)
+find_library(GTEST_LIBRARY      libgtest.so)
+find_library(GTEST_MAIN_LIBRARY libgtest_main.so)
 
 set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} )
 

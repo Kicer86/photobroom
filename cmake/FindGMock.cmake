@@ -11,8 +11,8 @@
 find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
           
-find_library(GMOCK_LIBRARY      libgmock.a)
-find_library(GMOCK_MAIN_LIBRARY libgmock_main.a)
+find_library(GMOCK_LIBRARY      libgmock.so)
+find_library(GMOCK_MAIN_LIBRARY libgmock_main.so)
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR})
 
