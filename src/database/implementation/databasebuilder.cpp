@@ -35,6 +35,24 @@ namespace Database
     namespace
     {
         std::unique_ptr<IFrontend> defaultDatabase;
+        
+        struct StreamFactory: public IStreamFactory
+        {
+            virtual ~StreamFactory() 
+            {
+                
+            }
+
+            virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
+                                                std::ios_base::openmode mode) override
+            {
+                auto stream = std::make_shared<std::fstream>();
+
+                stream->open(filename.c_str(), mode);
+
+                return stream;
+            }
+        };     
     }
 
 
@@ -54,26 +72,7 @@ namespace Database
     {
         if (defaultDatabase.get() == nullptr)
         {
-
-            struct FSImpl: public IStreamFactory
-            {
-                virtual ~FSImpl() 
-                {
-                    
-                }
-
-                virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
-                                                  std::ios_base::openmode mode) override
-                {
-                    auto stream = std::make_shared<std::fstream>();
-
-                    stream->open(filename.c_str(), mode);
-
-                    return stream;
-                }
-            };            
-
-            std::shared_ptr<IStreamFactory> fs(new FSImpl);
+            std::shared_ptr<IStreamFactory> fs(new StreamFactory);
             IFrontend *frontend = new MemoryDatabase(fs);
             
             defaultDatabase.reset(frontend);
