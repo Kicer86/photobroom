@@ -6,7 +6,7 @@
 
 TEST(ConfigurationKeyShould, successfulyParseOneLevelKey)
 {
-    ConfigurationKey key;
+    Configuration::ConfigurationKey key;
     
     key.setKey("One");
     
@@ -19,7 +19,7 @@ TEST(ConfigurationKeyShould, successfulyParseOneLevelKey)
 
 TEST(ConfigurationKeyShould, takeKeyValueWhileBeingConstructed)
 {
-    ConfigurationKey key("One");
+    Configuration::ConfigurationKey key("One");
         
     std::vector<std::string> result = key.getKey();
     
@@ -31,7 +31,7 @@ TEST(ConfigurationKeyShould, takeKeyValueWhileBeingConstructed)
 TEST(ConfigurationKeyShould, takeStringWithKeyValueWhileBeingConstructed)
 {
     const std::string keyValue("One");
-    ConfigurationKey key(keyValue);
+    Configuration::ConfigurationKey key(keyValue);
         
     std::vector<std::string> result = key.getKey();
     
@@ -42,7 +42,7 @@ TEST(ConfigurationKeyShould, takeStringWithKeyValueWhileBeingConstructed)
 
 TEST(ConfigurationKeyShould, successfulyParseTwoLevelKey)
 {
-    ConfigurationKey key;
+    Configuration::ConfigurationKey key;
     
     key.setKey("One::Two");
     
@@ -56,7 +56,7 @@ TEST(ConfigurationKeyShould, successfulyParseTwoLevelKey)
 
 TEST(ConfigurationKeyShould, successfulyParseThreeLevelKey)
 {
-    ConfigurationKey key;
+    Configuration::ConfigurationKey key;
     
     key.setKey("One::Two::Three");
     
@@ -70,7 +70,7 @@ TEST(ConfigurationKeyShould, successfulyParseThreeLevelKey)
 
 TEST(ConfigurationKeyShould, returnResultInRawFormat)
 {
-    ConfigurationKey key;
+    Configuration::ConfigurationKey key;
     
     key.setKey("One::Two::Three");
     
@@ -81,7 +81,7 @@ TEST(ConfigurationKeyShould, returnResultInRawFormat)
 
 TEST(ConfigurationKeyShould, acceptFormattedInput)
 {
-    ConfigurationKey key;
+    Configuration::ConfigurationKey key;
     
     key.setKey({"One", "Two", "Three"});
     
@@ -94,13 +94,13 @@ TEST(ConfigurationKeyShould, acceptFormattedInput)
 
 TEST(EntryDataShould, beConstructable)
 {
-    EntryData entry;
+    Configuration::EntryData entry;
 }
 
 
 TEST(EntryDataShould, returnTrueForComparisonOfTwoEmptyEntries)
 {
-    EntryData entry1, entry2;
+    Configuration::EntryData entry1, entry2;
     
     ASSERT_EQ(entry1, entry2);
 }
@@ -108,5 +108,5 @@ TEST(EntryDataShould, returnTrueForComparisonOfTwoEmptyEntries)
 
 TEST(EntryDataShould, acceptKeyAndValueWileBeingConstructed)
 {
-    EntryData entry("a::b::c", "value");
+    Configuration::EntryData entry("a::b::c", "value");
 }

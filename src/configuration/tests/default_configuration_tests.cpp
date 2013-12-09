@@ -8,7 +8,7 @@ TEST(DefaultConfigurationShould, returnDefaultEntries)
 {
     DefaultConfiguration configuration;
     
-    const std::vector<EntryData>& entries = configuration.getEntries();
+    const std::vector<Configuration::EntryData>& entries = configuration.getEntries();
     
     ASSERT_EQ(false, entries.empty());
 }
@@ -20,7 +20,7 @@ TEST(DefaultConfigurationShould, throwWhenEntryAdded)
     
     ASSERT_THROW
     (
-        configuration.addEntry(EntryData("Test", "Entry")),
+        configuration.addEntry(Configuration::EntryData("Test", "Entry")),
         std::logic_error
     );
 }

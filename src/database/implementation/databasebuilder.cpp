@@ -26,6 +26,7 @@
 #include <fstream>
 
 #include "configuration/configurationfactory.hpp"
+#include "configuration/iconfiguration.hpp"
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
@@ -73,8 +74,8 @@ namespace Database
     IFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
-        {
-            
+        {            
+            //ConfigurationFactory::get()->registerEntries();
             
             std::shared_ptr<IStreamFactory> fs(new StreamFactory);
             IFrontend *frontend = new MemoryDatabase(fs);

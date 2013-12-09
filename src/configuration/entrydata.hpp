@@ -26,38 +26,43 @@
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
-class ConfigurationKey
+namespace Configuration
 {
-    public:
-        ConfigurationKey();
-        ConfigurationKey(const std::string &);
-        ConfigurationKey(const char *);
-        virtual ~ConfigurationKey();
-        
-        std::vector<std::string> getKey() const;
-        std::string getKeyRaw() const;
-        
-        void setKey(const std::string &);
-        void setKey(const std::vector<std::string> &);
-        
-        bool operator==(const ConfigurationKey& other) const;
-        
-    private:
-        struct Data;
-        data_ptr<Data> m_data;
-};
 
-class EntryData
-{
-    public:
-        EntryData();
-        EntryData(const ConfigurationKey &, const std::string &);
-        virtual ~EntryData();
-        virtual bool operator==(const EntryData& other) const;
+    class ConfigurationKey
+    {
+        public:
+            ConfigurationKey();
+            ConfigurationKey(const std::string &);
+            ConfigurationKey(const char *);
+            virtual ~ConfigurationKey();
+            
+            std::vector<std::string> getKey() const;
+            std::string getKeyRaw() const;
+            
+            void setKey(const std::string &);
+            void setKey(const std::vector<std::string> &);
+            
+            bool operator==(const ConfigurationKey& other) const;
+            
+        private:
+            struct Data;
+            data_ptr<Data> m_data;
+    };
 
-    private:
-        struct Data;
-        data_ptr<Data> m_data;
-};
+    class EntryData
+    {
+        public:
+            EntryData();
+            EntryData(const ConfigurationKey &, const std::string &);
+            virtual ~EntryData();
+            virtual bool operator==(const EntryData& other) const;
+
+        private:
+            struct Data;
+            data_ptr<Data> m_data;
+    };
+    
+}
 
 #endif // ENTRYDATA_HPP

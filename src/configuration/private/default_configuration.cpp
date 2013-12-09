@@ -43,18 +43,26 @@ DefaultConfiguration::~DefaultConfiguration()
 }
 
 
-const std::vector<EntryData>& DefaultConfiguration::getEntries()
+const std::vector<Configuration::EntryData>& DefaultConfiguration::getEntries()
 {
-    static std::vector<EntryData> result = 
+    static std::vector<Configuration::EntryData> result = 
     {
-        EntryData("Database::location", "HOME"),
+        Configuration::EntryData("Database::location", "HOME"),
     };
     
     return result;
 }
 
-void DefaultConfiguration::addEntry(const EntryData& )
+
+void DefaultConfiguration::addEntry(const Configuration::EntryData& )
 {
     throw std::logic_error("DefaultConfiguration cannot accept any data");
+}
+
+
+void DefaultConfiguration::registerEntries(const std::vector<Configuration::EntryData>& entries)
+{
+    for(const auto& entry: entries)
+        addEntry(entry);
 }
 
