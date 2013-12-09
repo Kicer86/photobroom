@@ -23,7 +23,9 @@
 #include <assert.h>
 
 #include <memory>
-#include <fcntl.h>
+#include <fstream>
+
+#include "configuration/configurationfactory.hpp"
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
@@ -44,7 +46,7 @@ namespace Database
             }
 
             virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
-                                                std::ios_base::openmode mode) override
+                                                              std::ios_base::openmode mode) override
             {
                 auto stream = std::make_shared<std::fstream>();
 
@@ -52,7 +54,7 @@ namespace Database
 
                 return stream;
             }
-        };     
+        };
     }
 
 
@@ -72,6 +74,8 @@ namespace Database
     {
         if (defaultDatabase.get() == nullptr)
         {
+            
+            
             std::shared_ptr<IStreamFactory> fs(new StreamFactory);
             IFrontend *frontend = new MemoryDatabase(fs);
             
