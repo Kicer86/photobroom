@@ -60,6 +60,7 @@ namespace Configuration
             EntryData& operator=(const EntryData& other) = default;
             
             std::string value() const;
+            ConfigurationKey key() const;
 
         private:
             struct Data;

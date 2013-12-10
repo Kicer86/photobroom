@@ -209,6 +209,12 @@ namespace Configuration
     {
         return m_data->m_value;
     }
+    
+    
+    Configuration::ConfigurationKey EntryData::key() const
+    {
+        return m_data->m_key;
+    }
 
 }
     
