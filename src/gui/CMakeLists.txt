@@ -84,7 +84,7 @@ target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES})
 qt5_use_modules(gui Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
-target_link_libraries(gui analyzer)
+target_link_libraries(gui analyzer database)
 turnOnCpp11(gui)
 
 
