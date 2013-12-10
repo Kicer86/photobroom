@@ -32,7 +32,7 @@ class ConfigurationFactory
 
         ConfigurationFactory() = delete;
         ConfigurationFactory(const ConfigurationFactory &) = delete;
-        ConfigurationFactory& operator=(const ConfigurationFactory &) = delete;
+        ConfigurationFactory& operator=(const ConfigurationFactory &) = delete;        
 };
 
 #endif // CONFIGURATIONFACTORY_HPP
