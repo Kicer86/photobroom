@@ -4,13 +4,13 @@
 #include "private/default_configuration.hpp"
 #include "entrydata.hpp"
 
-TEST(DefaultConfigurationShould, returnDefaultEntries)
+TEST(DefaultConfigurationShould, beFilledWithKnownSetOfEntries)
 {
     DefaultConfiguration configuration;
     
     const std::vector<Configuration::EntryData>& entries = configuration.getEntries();
     
-    ASSERT_EQ(false, entries.empty());
+    ASSERT_EQ(1, entries.size());
 }
 
 
