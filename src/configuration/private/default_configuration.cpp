@@ -64,6 +64,11 @@ struct DefaultConfiguration::Impl
         return result;
     }
     
+    void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data)
+    {
+        m_data[key] = data;
+    }
+    
     private:
         QHash<Configuration::ConfigurationKey, Configuration::EntryData> m_data;
 };
@@ -98,9 +103,9 @@ const std::vector<Configuration::EntryData> DefaultConfiguration::getEntries()
 }
 
 
-void DefaultConfiguration::addEntry(const Configuration::EntryData& )
+void DefaultConfiguration::addEntry(const Configuration::EntryData& entry)
 {
-    throw std::logic_error("DefaultConfiguration cannot accept any data");
+    m_impl->addEntry(entry.key(), entry);
 }
 
 
