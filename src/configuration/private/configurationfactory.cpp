@@ -29,7 +29,7 @@ const std::string Configuration::configLocation = "Application::ConfigDir";
 
 std::shared_ptr<IConfiguration> ConfigurationFactory::get()
 {
-    std::shared_ptr<IConfiguration> result(new DefaultConfiguration);
+    static std::shared_ptr<IConfiguration> result(new DefaultConfiguration);
     
     return result;
 }
