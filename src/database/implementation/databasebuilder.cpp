@@ -76,9 +76,17 @@ namespace Database
     {
         if (defaultDatabase.get() == nullptr)
         {   
+            std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+            boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
+            
+            assert(entry.is_initialized());
+            
+            const std::string configPath = entry->value();
+            const std::string dbPath = configPath + "/database";
+            
             std::vector<Configuration::EntryData> entries = 
             {
-                Configuration::EntryData("Database::Backend::DataLocation",  "")
+                Configuration::EntryData("Database::Backend::DataLocation",  dbPath)
             };
             
             ConfigurationFactory::get()->registerEntries(entries);
