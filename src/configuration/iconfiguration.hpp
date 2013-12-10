@@ -25,6 +25,9 @@
 namespace Configuration
 {    
     struct EntryData;
+    
+    //Base configuration keys
+    static const std::string configLocation;
 }
 
 struct IConfiguration
