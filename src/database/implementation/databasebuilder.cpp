@@ -35,6 +35,8 @@
 
 namespace Database
 {
+    
+    const std::string databaseLocation = "Database::Backend::DataLocation";
 
     namespace
     {
@@ -73,7 +75,7 @@ namespace Database
                 
                 std::vector<Configuration::EntryData> entries = 
                 {
-                    Configuration::EntryData("Database::Backend::DataLocation",  dbPath)
+                    Configuration::EntryData(databaseLocation, dbPath)
                 };
                 
                 config->registerEntries(entries);

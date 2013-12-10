@@ -21,11 +21,16 @@
 #ifndef DATABASEBUILDER_HPP
 #define DATABASEBUILDER_HPP
 
+#include <string>
+
 #include "database_export.h"
 
 namespace Database
 {
     struct IFrontend;
+    
+    //configuration keys for databases
+    extern const std::string databaseLocation;
 
     struct DATABASE_EXPORT Builder
     {
