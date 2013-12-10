@@ -203,6 +203,12 @@ namespace Configuration
 
         return status;
     }
+    
+    
+    std::string EntryData::value() const
+    {
+        return m_data->m_value;
+    }
 
 }
     
