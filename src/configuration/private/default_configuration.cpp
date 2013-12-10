@@ -81,7 +81,7 @@ DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
         Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
     };
     
-    registerEntries(defaultEntries);
+    registerDefaultEntries(defaultEntries);
 }
 
 
@@ -109,7 +109,7 @@ void DefaultConfiguration::addEntry(const Configuration::EntryData& entry)
 }
 
 
-void DefaultConfiguration::registerEntries(const std::vector<Configuration::EntryData>& entries)
+void DefaultConfiguration::registerDefaultEntries(const std::vector<Configuration::EntryData>& entries)
 {
     for(const auto& entry: entries)
         addEntry(entry);

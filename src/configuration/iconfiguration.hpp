@@ -40,7 +40,7 @@ struct IConfiguration
     virtual ~IConfiguration() {}
 
     virtual void addEntry(const Configuration::EntryData &) = 0;
-    virtual void registerEntries(const std::vector<Configuration::EntryData> &) = 0;
+    virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
     
     virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;    
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;

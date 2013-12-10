@@ -78,7 +78,7 @@ namespace Database
                     Configuration::EntryData(databaseLocation, dbPath)
                 };
                 
-                config->registerEntries(entries);
+                config->registerDefaultEntries(entries);
             }
         } initializer;
     }
