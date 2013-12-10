@@ -27,17 +27,17 @@
 
 uint qHash(const Configuration::ConfigurationKey& key, uint seed);
 
-class DefaultConfiguration : public IConfiguration
+class DefaultConfiguration: public IConfiguration
 {
     public:
         DefaultConfiguration();
         virtual ~DefaultConfiguration();
         
         virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey& ) const override;
-        const std::vector< Configuration::EntryData > getEntries() override;
+        const std::vector<Configuration::EntryData> getEntries() override;
         
-        virtual void addEntry(const Configuration::EntryData& ) override;
-        virtual void registerEntries(const std::vector<Configuration::EntryData>& ) override;
+        virtual void addEntry(const Configuration::EntryData &) override;
+        virtual void registerEntries(const std::vector<Configuration::EntryData> &) override;
         
     private:
         struct Impl;
