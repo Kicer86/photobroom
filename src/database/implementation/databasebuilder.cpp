@@ -57,6 +57,28 @@ namespace Database
                 return stream;
             }
         };
+        
+        //object which initializes configuration with db entries
+        struct ConfigurationInitializer
+        {
+            ConfigurationInitializer()
+            {
+                std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+                boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
+                
+                assert(entry.is_initialized());
+                
+                const std::string configPath = entry->value();
+                const std::string dbPath = configPath + "/database";
+                
+                std::vector<Configuration::EntryData> entries = 
+                {
+                    Configuration::EntryData("Database::Backend::DataLocation",  dbPath)
+                };
+                
+                config->registerEntries(entries);
+            }
+        } initializer;
     }
 
 
@@ -75,22 +97,7 @@ namespace Database
     IFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
-        {   
-            std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-            boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
-            
-            assert(entry.is_initialized());
-            
-            const std::string configPath = entry->value();
-            const std::string dbPath = configPath + "/database";
-            
-            std::vector<Configuration::EntryData> entries = 
-            {
-                Configuration::EntryData("Database::Backend::DataLocation",  dbPath)
-            };
-            
-            ConfigurationFactory::get()->registerEntries(entries);
-            
+        {            
             std::shared_ptr<IStreamFactory> fs(new StreamFactory);
             IFrontend *frontend = new MemoryDatabase(fs);
             
