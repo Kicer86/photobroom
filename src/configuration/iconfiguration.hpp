@@ -21,13 +21,17 @@
 #define ICONFIGURATION_HPP
 
 #include <vector>
+#include <string>
+
+#include <boost/optional.hpp>
 
 namespace Configuration
 {    
-    struct EntryData;
+    class EntryData;
+    class ConfigurationKey;
     
     //Base configuration keys
-    static const std::string configLocation;
+    extern const std::string configLocation;
 }
 
 struct IConfiguration
@@ -38,7 +42,8 @@ struct IConfiguration
     virtual void addEntry(const Configuration::EntryData &) = 0;
     virtual void registerEntries(const std::vector<Configuration::EntryData> &) = 0;
     
-    virtual const std::vector<Configuration::EntryData>& getEntries() = 0;
+    virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;    
+    virtual const std::vector<Configuration::EntryData> getEntries() = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

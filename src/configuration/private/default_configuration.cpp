@@ -22,26 +22,61 @@
 
 #include <stdexcept>
 
+#include <QHash>
+#include <QString>
+
+#include "system/system.hpp"
+
 #include "entrydata.hpp"
+
+uint qHash(const Configuration::ConfigurationKey& key, uint seed) noexcept(noexcept(qHash(QString())))
+{
+    return qHash(QString(key.getKeyRaw().c_str()), seed);
+}
 
 
 struct DefaultConfiguration::Impl
 {
-    Impl() {}
+    Impl(): m_data() {}
     
     std::string getConfigDir() const
     {
+        const std::string result = System::getApplicationConfigDir();
         
+        return result;
     }
+    
+    boost::optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const
+    {
+        boost::optional<Configuration::EntryData> result;
+        auto it = m_data.find(key);
+        
+        if (it != m_data.end())
+            result = it.value();
+        
+        return result;
+    }
+    
+    std::vector<Configuration::EntryData> getAll() const
+    {
+        std::vector<Configuration::EntryData> result(m_data.begin(), m_data.end());        
+        
+        return result;
+    }
+    
+    private:
+        QHash<Configuration::ConfigurationKey, Configuration::EntryData> m_data;
 };
 
 
-DefaultConfiguration::DefaultConfiguration()
+DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
 {
     std::vector<Configuration::EntryData> defaultEntries = 
     {
-        Configuration::EntryData("Application::ConfigDir", "HOME"),
+        Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
     };
+    
+    registerEntries(defaultEntries);
 }
 
 
@@ -51,14 +86,15 @@ DefaultConfiguration::~DefaultConfiguration()
 }
 
 
-const std::vector<Configuration::EntryData>& DefaultConfiguration::getEntries()
+boost::optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
 {
-    static std::vector<Configuration::EntryData> result = 
-    {
-        Configuration::EntryData("Database::location", "HOME"),
-    };
-    
-    return result;
+    return m_impl->find(key);
+}
+
+
+const std::vector<Configuration::EntryData> DefaultConfiguration::getEntries()
+{
+    return m_impl->getAll();
 }
 
 
