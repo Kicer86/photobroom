@@ -14,13 +14,9 @@ TEST(DefaultConfigurationShould, returnDefaultEntries)
 }
 
 
-TEST(DefaultConfigurationShould, throwWhenEntryAdded)
+TEST(DefaultConfigurationShould, acceptEntries)
 {
     DefaultConfiguration configuration;
-    
-    ASSERT_THROW
-    (
-        configuration.addEntry(Configuration::EntryData("Test", "Entry")),
-        std::logic_error
-    );
+
+    configuration.addEntry(Configuration::EntryData("Test", "Entry"));
 }
