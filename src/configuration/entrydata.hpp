@@ -57,7 +57,7 @@ namespace Configuration
             EntryData(const ConfigurationKey &, const std::string &);
             virtual ~EntryData();
             virtual bool operator==(const EntryData& other) const;
-            EntryData& operator=(const EntryData& other) = default;
+            EntryData& operator=(const EntryData &) = default;
             
             std::string value() const;
             ConfigurationKey key() const;
