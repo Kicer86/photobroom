@@ -7,5 +7,5 @@
 CentralWidget::CentralWidget(QWidget *p): QTabWidget(p)
 {
     addTab(new MainViewWidget(this), tr("Photos"));
-    addTab(new PreparingPhotosWidget(this), tr("Add photos"));
+    addTab(new PhotosStagingArea(this), tr("Add photos"));
 }

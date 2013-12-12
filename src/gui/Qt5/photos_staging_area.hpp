@@ -10,16 +10,16 @@ class TagEditorWidget;
 class PhotosViewWidget;
 class QItemSelection;
 
-class PreparingPhotosWidget: public QWidget
+class PhotosStagingArea: public QWidget
 {
         Q_OBJECT
 
     public:
-        explicit PreparingPhotosWidget(QWidget *parent = 0);
-        virtual ~PreparingPhotosWidget();
+        explicit PhotosStagingArea(QWidget *parent = 0);
+        virtual ~PhotosStagingArea();
 
-        PreparingPhotosWidget(const PreparingPhotosWidget &) = delete;
-        void operator=(const PreparingPhotosWidget &) = delete;
+        PhotosStagingArea(const PhotosStagingArea &) = delete;
+        void operator=(const PhotosStagingArea &) = delete;
 
     private:
         PhotosViewWidget *m_editor;

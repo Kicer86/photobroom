@@ -17,7 +17,7 @@
 #include "core/types.hpp"
 
 
-PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
+PhotosStagingArea::PhotosStagingArea(QWidget *p):
     QWidget(p),
     m_editor(nullptr),
     m_tagEditor(nullptr)
@@ -45,13 +45,13 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
 }
 
 
-PreparingPhotosWidget::~PreparingPhotosWidget()
+PhotosStagingArea::~PhotosStagingArea()
 {
 
 }
 
 
-void PreparingPhotosWidget::pathToAnalyze(QString path)
+void PhotosStagingArea::pathToAnalyze(QString path)
 {
     std::shared_ptr<IPhotoCrawler> crawler = PhotoCrawlerBuilder().build();
 
@@ -61,7 +61,7 @@ void PreparingPhotosWidget::pathToAnalyze(QString path)
 }
 
 
-void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& photos)
+void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& photos)
 {
     std::vector<std::shared_ptr<ITagData>> tags;
     
@@ -76,7 +76,7 @@ void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Pt
 }
 
 
-void PreparingPhotosWidget::savePhotos()
+void PhotosStagingArea::savePhotos()
 {
     /*
     for(m_editor->)
