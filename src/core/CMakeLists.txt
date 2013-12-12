@@ -8,7 +8,9 @@ find_package(Exiv2 REQUIRED)
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${Qt5Core_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS} ${CMAKE_BINARY_DIR}/exports .)
+include_directories(${CMAKE_BINARY_DIR}/exports)
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS})
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
     implementation/types.cpp
@@ -22,7 +24,7 @@ set(CORE_HEADERS
 
 if(BUILD_TESTS)
     find_package(GTest)
-    include_directories(${GTEST_INCLUDE_DIRS})
+    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
     set(CORE_SOURCES
         ${CORE_SOURCES}
         tests/coreTests.cpp

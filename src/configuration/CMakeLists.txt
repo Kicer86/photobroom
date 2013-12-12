@@ -7,7 +7,8 @@ find_package(Qt5Core REQUIRED)
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_SOURCE_DIR}/src ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports .)
+include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
 
 set(CONFIG_SOURCES
     private/configurationfactory.cpp
@@ -24,7 +25,7 @@ set(CONFIG_HEADERS
    
 if(BUILD_TESTS)
     find_package(GTest)
-    include_directories(${GTEST_INCLUDE_DIRS})
+    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
     set(CONFIG_SOURCES 
         ${CONFIG_SOURCES} 
         tests/entrydata_tests.cpp

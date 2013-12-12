@@ -6,7 +6,8 @@ find_package(OpenLibrary REQUIRED COMPONENTS QtExt)
 
 include(GenerateExportHeader)
 
-include_directories(${OPENLIBRARY_INCLUDES} ${CMAKE_BINARY_DIR}/exports/ ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src)
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Widgets_INCLUDE_DIRS} )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
@@ -68,7 +69,7 @@ set(GUI_FILES_TO_MOC
 
 if(BUILD_TESTS)
     find_package(GTest)
-    include_directories(${GTEST_INCLUDE_DIRS})
+    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
     set(GUI_SOURCES
         ${GUI_SOURCES}
        )

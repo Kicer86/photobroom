@@ -8,8 +8,10 @@ find_package(OpenLibrary REQUIRED)
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} .)
+include_directories(${CMAKE_BINARY_DIR}/exports)
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
 add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(ANALYZER_SOURCES
     default_analyzers/ext_defaultanalyzer.cpp
@@ -36,7 +38,7 @@ set(ANALYZER_HEADERS
 if(BUILD_TESTS)
     find_package(GTest REQUIRED)
     find_package(GMock REQUIRED)
-    include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
+    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
     set(ANALYZER_SOURCES 
         ${ANALYZER_SOURCES}
         tests/analyzerTests.cpp
