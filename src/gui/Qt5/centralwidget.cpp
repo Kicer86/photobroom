@@ -2,7 +2,7 @@
 #include "centralwidget.hpp"
 
 #include "main_view_widget.hpp"
-#include "preparing_photos_widget.hpp"
+#include "photos_staging_area.hpp"
 
 CentralWidget::CentralWidget(QWidget *p): QTabWidget(p)
 {

@@ -1,5 +1,5 @@
 
-#include "preparing_photos_widget.hpp"
+#include "photos_staging_area.hpp"
 #include "private/preparing_photos_widget_private.hpp"
 
 #include <memory>
