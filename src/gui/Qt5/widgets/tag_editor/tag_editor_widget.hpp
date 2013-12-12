@@ -57,7 +57,8 @@ class TagEditorWidget: public QWidget
         TagEditorWidget(const TagEditorWidget& other) = delete;
         virtual TagEditorWidget& operator=(const TagEditorWidget& other) = delete;
         
-        void setTags(const std::shared_ptr<ITagData> &);          //widget will work directly on provided set of data
+        //widget will work directly on provided set of data
+        void setTags(const std::shared_ptr<ITagData> &);
         
     private:
         struct TagsManager;
