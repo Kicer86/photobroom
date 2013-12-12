@@ -32,22 +32,13 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             m_photosView->setModel(&m_photosModel);
 
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
-            layout->addWidget(m_photosView);
-            
-            QHBoxLayout *savePhotosLayout = new QHBoxLayout;
-            layout->addLayout(savePhotosLayout);
-            
-            QPushButton* saveButton = new QPushButton(tr("save photos"));
-            savePhotosLayout->addStretch(1);
-            savePhotosLayout->addWidget(saveButton);
+            layout->addWidget(m_photosView);         
 
             connect(m_photosView->selectionModel(),
                     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
                     this,
                     SLOT(selectionChanged())
-                    );
-            
-            connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePhotos()));
+                    );            
         }
 
         GuiData(const GuiData &) = delete;
@@ -79,11 +70,6 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             }
             
             emit m_editor->selectionChanged(images);
-        }
-        
-        void savePhotos() override
-        {
-            
         }
 };
 

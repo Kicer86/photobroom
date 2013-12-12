@@ -4,13 +4,16 @@
 
 #include <memory>
 
-#include <QVBoxLayout>
+#include <QBoxLayout>
+#include <QPushButton>
 
 #include "photos_view_widget.hpp"
 #include "widgets/tag_editor/tag_editor_widget.hpp"
 
 #include "analyzer/photo_crawler_builder.hpp"
 #include "analyzer/iphoto_crawler.hpp"
+#include "database/databasebuilder.hpp"
+#include "database/idatabase.hpp"
 #include "core/types.hpp"
 
 
@@ -27,11 +30,18 @@ PreparingPhotosWidget::PreparingPhotosWidget(QWidget *p):
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
     connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
             this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
+        
+    QHBoxLayout* savePhotosLayout = new QHBoxLayout(nullptr);
+    QPushButton* saveButton = new QPushButton(tr("save photos"));
+    savePhotosLayout->addStretch(1);
+    savePhotosLayout->addWidget(saveButton);
+    connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePhotos()));
     
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(browse);
     mainLayout->addWidget(m_editor);
     mainLayout->addWidget(m_tagEditor);    
+    mainLayout->addLayout(savePhotosLayout);
 }
 
 
@@ -63,4 +73,15 @@ void PreparingPhotosWidget::viewSelectionChanged(const std::vector<PhotoInfo::Pt
     
     std::shared_ptr<ITagData> tagsPtr(tagsData);
     m_tagEditor->setTags(tagsPtr);
+}
+
+
+void PreparingPhotosWidget::savePhotos()
+{
+    /*
+    for(m_editor->)
+    {
+        Database::Builder::get()->addFile();
+    }
+    */
 }
