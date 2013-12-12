@@ -115,3 +115,9 @@ void DefaultConfiguration::registerDefaultEntries(const std::vector<Configuratio
         addEntry(entry);
 }
 
+
+void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey &)
+{
+
+}
+

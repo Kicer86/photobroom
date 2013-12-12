@@ -38,6 +38,7 @@ class DefaultConfiguration: public IConfiguration
         
         virtual void addEntry(const Configuration::EntryData &) override;
         virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) override;
+        virtual void registerKey(const Configuration::ConfigurationKey &) override;
         
     private:
         struct Impl;

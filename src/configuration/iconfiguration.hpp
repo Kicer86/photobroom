@@ -38,9 +38,19 @@ struct IConfiguration
 {
     IConfiguration() {}
     virtual ~IConfiguration() {}
-
-    virtual void addEntry(const Configuration::EntryData &) = 0;
+    
+    // This function registers a default entry with value.
+    // If a value for specified entry was already loaded from config file,
+    // this function does nothing.
     virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
+    
+    // This function introduces a configuration key.
+    // Before adding/loading values to configuration, each entry (Key) must be introduced.
+    // Unknown (not registered) keys will be treated as deprecated.
+    virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
+
+    // Add entry to config
+    virtual void addEntry(const Configuration::EntryData &) = 0;    
     
     virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;    
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;
