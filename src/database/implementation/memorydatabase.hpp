@@ -42,7 +42,7 @@ namespace Database
             MemoryDatabase(const std::shared_ptr<IStreamFactory> &);
             virtual ~MemoryDatabase();
 
-            virtual bool addFile(const std::string &path, const IFrontend::Description &);
+            virtual bool addPhoto(const PhotoInfo::Ptr &);
             virtual void setBackend(const std::shared_ptr<IBackend> &);
 
         private:

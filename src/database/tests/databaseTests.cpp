@@ -49,7 +49,7 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
     *(fs->m_stream) << "Test content of file to store";
 
 	Database::MemoryDatabase *db = new Database::MemoryDatabase(fs);
-	db->addFile("", Database::IFrontend::Description());
+	db->addPhoto(PhotoInfo::Ptr());
 
 	std::shared_ptr<Backend> backend = std::make_shared<Backend>();
 	db->setBackend(backend);

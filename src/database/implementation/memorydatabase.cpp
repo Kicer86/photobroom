@@ -50,6 +50,7 @@ namespace Database
         Impl(const std::shared_ptr<IStreamFactory> &stream):
             m_db(),
             m_stream(stream),
+            m_configuration(0),
             m_backend(nullptr),
             m_backendMutex(),
             m_backendSet(),
@@ -72,13 +73,14 @@ namespace Database
         Impl(const MemoryDatabase::Impl &) = delete;        
         Impl& operator=(const Impl &) = delete;             
 
-        void add(const std::string &path, const IFrontend::Description &description)
+        void add(const PhotoInfo::Ptr &)
         {
-            (void) description;
+            
+            //(void) description;
             Entry entry;
 
-            entry.m_d->m_crc = calcCrc(path);
-            entry.m_d->m_path = decoratePath(path);
+            //entry.m_d->m_crc = calcCrc(path);
+            //entry.m_d->m_path = decoratePath(path);
 
             m_db[entry.m_d->m_crc] = entry;
             
@@ -188,9 +190,9 @@ namespace Database
     }
 
 
-    bool MemoryDatabase::addFile(const std::string &path, const IFrontend::Description &desc)
+    bool MemoryDatabase::addPhoto(const PhotoInfo::Ptr& photo)
     {
-		m_impl->add(path, desc);
+        m_impl->add(photo);
 
         return true;
     }

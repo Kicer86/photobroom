@@ -24,6 +24,8 @@
 #include <map>
 #include <memory>
 
+#include "core/photo_info.hpp"
+
 namespace Database
 {    
 
@@ -40,15 +42,7 @@ namespace Database
     {
         virtual ~IFrontend() {}
         
-        struct Description
-        {
-            Description(): m_keys() {}
-            ~Description() {}
-            
-            std::map<std::string, std::string> m_keys;        //key, value
-        };
-        
-        virtual bool addFile(const std::string &path, const Description &) = 0;
+        virtual bool addPhoto(const PhotoInfo::Ptr &) = 0;
         virtual void setBackend(const std::shared_ptr<IBackend> &) = 0;
     };
 }
