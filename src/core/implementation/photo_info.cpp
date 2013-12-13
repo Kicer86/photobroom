@@ -6,8 +6,8 @@
 #include <QString>
 #include <QPixmap>
 
-#include "core/types.hpp"
-#include "core/tag_feeder.hpp"
+#include "types.hpp"
+#include "tag_feeder.hpp"
 
 namespace
 {

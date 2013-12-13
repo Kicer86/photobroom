@@ -23,7 +23,7 @@
 
 #include <QAbstractListModel>
 
-#include "../data/photo_info.hpp"
+#include "core/photo_info.hpp"
 
 class ImagesModel: public QAbstractListModel
 {

@@ -3,16 +3,18 @@ project(core)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 find_package(Exiv2 REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
+    implementation/photo_info.cpp
     implementation/types.cpp
     implementation/tag_feeder.cpp
     )
@@ -20,6 +22,7 @@ set(CORE_SOURCES
 set(CORE_HEADERS
     types.hpp
     tag_feeder.hpp
+    photo_info.hpp
     )
 
 if(BUILD_TESTS)
