@@ -44,6 +44,8 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
+        
+        const std::vector<PhotoInfo::Ptr>& getPhotos() const;
 
     protected:
 

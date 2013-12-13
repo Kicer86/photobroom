@@ -56,6 +56,12 @@ PhotoInfo::Ptr ImagesModel::get(const QModelIndex& idx)
 }
 
 
+const std::vector<PhotoInfo::Ptr>& ImagesModel::getAll() const
+{
+    return m_photos;
+}
+
+
 int ImagesModel::rowCount(const QModelIndex&) const
 {
     return m_photos.size();

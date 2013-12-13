@@ -51,6 +51,11 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
             m_photosModel.add(info);
         }
+        
+        const std::vector<PhotoInfo::Ptr>& getAllPhotos() const
+        {
+            return m_photosModel.getAll();
+        }
 
     private:
         PhotosViewWidget *m_editor;
@@ -89,3 +94,10 @@ void PhotosViewWidget::addPhoto(const std::string &photo)
 {
     m_gui->addPhoto(photo);
 }
+
+
+const std::vector<PhotoInfo::Ptr>& PhotosViewWidget::getPhotos() const
+{
+    return m_gui->getAllPhotos();
+}
+
