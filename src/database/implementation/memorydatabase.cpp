@@ -70,12 +70,11 @@ namespace Database
         }
         
 
-        Impl(const MemoryDatabase::Impl &) = delete;        
-        Impl& operator=(const Impl &) = delete;             
+        Impl(const MemoryDatabase::Impl &) = delete;
+        Impl& operator=(const Impl &) = delete;
 
         void add(const PhotoInfo::Ptr &)
         {
-            
             //(void) description;
             Entry entry;
 
