@@ -21,12 +21,12 @@ class APhotoInfo
     public:
         typedef std::shared_ptr<APhotoInfo> Ptr;
 
-        APhotoInfo(const QString &path);
+        APhotoInfo(const std::string &path);
         APhotoInfo(const APhotoInfo &);
         virtual ~APhotoInfo();
 
-        const QString& getPath() const;
-        const QPixmap& getPixmap() const;
+        const std::string& getPath() const;
+
         std::shared_ptr<ITagData> getTags() const;
 
         //photo data
@@ -46,14 +46,22 @@ class PhotoInfo: public APhotoInfo
         struct IManipulator
         {
             virtual ~IManipulator() {}
-            virtual void load(const T &) = 0;
+
+            virtual void set(T* photo, T* thumbnail) = 0;
+            virtual void load(const std::string &) = 0;
+
             virtual RawPhotoData rawPhoto() = 0;
             virtual RawPhotoData rawThumbnail() = 0;
         };
 
-        PhotoInfo(const QString& path, IManipulator* manipulator): APhotoInfo(path), m_photoData(new T), m_manipulator(manipulator)
+        PhotoInfo(const std::string& path, IManipulator* manipulator):
+            APhotoInfo(path),
+            m_photo(new T),
+            m_thumbnail(new T),
+            m_manipulator(manipulator)
         {
-
+            m_manipulator->set(m_photo.get(), m_thumbnail.get());
+            m_manipulator->load(path);
         }
 
         virtual ~PhotoInfo() {}
@@ -68,11 +76,22 @@ class PhotoInfo: public APhotoInfo
             return m_manipulator->rawThumbnail();
         }
 
+        const T& getPhoto() const
+        {
+            return *m_photo.get();
+        }
+
+        const T& getThumbnail() const
+        {
+            return *m_thumbnail.get();
+        }
+
         PhotoInfo(const PhotoInfo<T> &) = delete;
         PhotoInfo<T>& operator=(const PhotoInfo<T> &) = delete;
 
     private:
-        std::unique_ptr<T> m_photoData;
+        std::unique_ptr<T> m_photo;
+        std::unique_ptr<T> m_thumbnail;
         IManipulator* m_manipulator;
 };
 

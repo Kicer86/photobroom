@@ -9,41 +9,31 @@
 #include "tag.hpp"
 #include "tag_feeder.hpp"
 
-namespace
-{
-    //TODO: remove, use config
-    const int photoWidth = 120;
-}
-
 
 struct APhotoInfo::Data
 {
-    Data(const QString &p): pixmap(), path(p), tags()
+    Data(const std::string &p): path(p), tags()
     {
-        std::unique_ptr<ITagData> p_tags = TagFeeder::getTagsFor(p.toStdString());
+        std::unique_ptr<ITagData> p_tags = TagFeeder::getTagsFor(p);
 
         tags = std::move(p_tags);
     }
 
     Data(const Data& other):
-        pixmap(other.pixmap),
         path(other.path),
         tags(other.tags)
     {}
 
-    QPixmap pixmap;
-    QString path;
+    std::string path;
     std::shared_ptr<ITagData> tags;
 };
 
 
 //TODO: scaling in thread, temporary bitmap
 
-APhotoInfo::APhotoInfo(const QString &p): m_data(new Data(p))
+APhotoInfo::APhotoInfo(const std::string &p): m_data(new Data(p))
 {
-    QPixmap tmp(p);
 
-    m_data->pixmap = tmp.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 
@@ -59,15 +49,9 @@ APhotoInfo::~APhotoInfo()
 }
 
 
-const QString& APhotoInfo::getPath() const
+const std::string& APhotoInfo::getPath() const
 {
     return m_data->path;
-}
-
-
-const QPixmap& APhotoInfo::getPixmap() const
-{
-    return m_data->pixmap;
 }
 
 
