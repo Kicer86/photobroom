@@ -20,6 +20,13 @@
 //http://qt-project.org/doc/qt-5.1/qtwidgets/qabstractitemview.html
 
 
+namespace
+{
+    //TODO: remove, use config
+    const int photoWidth = 120;
+}
+
+
 GuiDataSlots::GuiDataSlots(QObject *p): QObject(p) {}
 GuiDataSlots::~GuiDataSlots() {}
 
@@ -28,17 +35,52 @@ namespace
 {
     struct PhotoManipulator: public PhotoInfo<QPixmap>::IManipulator
     {
-        virtual void load(const QPixmap& )
+        PhotoManipulator(): m_photo(nullptr), m_thumbnail(nullptr), m_photoRaw(), m_thumbnailRaw() {}
+
+        PhotoManipulator(const PhotoManipulator &) = delete;
+        PhotoManipulator& operator=(const PhotoManipulator &) = delete;
+
+        virtual void set(QPixmap* photoPixmap, QPixmap* thumbnailPixmap) override
         {
+            m_photo = photoPixmap;
+            m_thumbnail = thumbnailPixmap;
         }
 
-        virtual RawPhotoData rawPhoto()
+        virtual void load(const std::string& path) override
         {
+             m_photo->load(path.c_str());
+             m_photoRaw = m_photo->toImage();
+
+             //to do: thread
+             *m_thumbnail = m_photo->scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+             m_thumbnailRaw = m_thumbnail->toImage();
         }
 
-        virtual RawPhotoData rawThumbnail()
+        virtual RawPhotoData rawPhoto() override
         {
+            RawPhotoData data;
+
+            data.data = m_photoRaw.bits();
+            data.size = m_photoRaw.byteCount();
+
+            return data;
         }
+
+        virtual RawPhotoData rawThumbnail() override
+        {
+            RawPhotoData data;
+
+            data.data = m_thumbnailRaw.bits();
+            data.size = m_thumbnailRaw.byteCount();
+
+            return data;
+        }
+
+        QPixmap* m_photo;
+        QPixmap* m_thumbnail;
+
+        QImage m_photoRaw;
+        QImage m_thumbnailRaw;
     };
 }
 

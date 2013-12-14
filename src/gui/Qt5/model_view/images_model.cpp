@@ -20,6 +20,8 @@
 
 #include "images_model.hpp"
 
+#include <assert.h>
+
 #include <memory>
 
 #include <QPixmap>
@@ -72,16 +74,20 @@ QVariant ImagesModel::data(const QModelIndex& _index, int role) const
     const int row = _index.row();
     const APhotoInfo::Ptr info = m_photos[row];
 
+    APhotoInfo* aPhotoInfo = info.get();
+    assert(dynamic_cast<PhotoInfo<QPixmap> *>(aPhotoInfo) != nullptr);
+    PhotoInfo<QPixmap>* photoInfo = static_cast<PhotoInfo<QPixmap> *>(aPhotoInfo);
+
     QVariant result;
 
     switch(role)
     {
         case Qt::DisplayRole:
-            result = info->getPath();
+            result = QString( info->getPath().c_str() );
             break;
 
         case Qt::DecorationRole:
-            result = info->getPixmap();
+            result = photoInfo->getThumbnail();
             break;
 
         default:
