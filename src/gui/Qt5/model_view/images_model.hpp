@@ -31,9 +31,9 @@ class ImagesModel: public QAbstractListModel
         ImagesModel();
         virtual ~ImagesModel();
 
-        void add(const APhotoInfo &photoInfo);
+        void add(const APhotoInfo::Ptr &);
 
-        APhotoInfo::Ptr get(const QModelIndex &idx);
+        APhotoInfo::Ptr get(const QModelIndex &);
         const std::vector<APhotoInfo::Ptr>& getAll() const;
 
         //QAbstractItemModel:

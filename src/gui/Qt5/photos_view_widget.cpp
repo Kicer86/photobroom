@@ -24,6 +24,25 @@ GuiDataSlots::GuiDataSlots(QObject *p): QObject(p) {}
 GuiDataSlots::~GuiDataSlots() {}
 
 
+namespace
+{
+    struct PhotoManipulator: public PhotoInfo<QPixmap>::IManipulator
+    {
+        virtual void load(const QPixmap& )
+        {
+        }
+
+        virtual RawPhotoData rawPhoto()
+        {
+        }
+
+        virtual RawPhotoData rawThumbnail()
+        {
+        }
+    };
+}
+
+
 struct PhotosViewWidget::GuiData: private GuiDataSlots
 {
         GuiData(PhotosViewWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
@@ -47,7 +66,8 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
         void addPhoto(const std::string &path)
         {
-            APhotoInfo info(path.c_str());
+            APhotoInfo::Ptr info =
+                std::make_shared<PhotoInfo<QPixmap>>(path.c_str(), new PhotoManipulator);
 
             m_photosModel.add(info);
         }

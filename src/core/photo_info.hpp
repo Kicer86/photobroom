@@ -10,6 +10,12 @@ class QPixmap;
 
 struct ITagData;
 
+struct RawPhotoData
+{
+    uint8_t* data;
+    size_t   size;
+};
+
 class APhotoInfo
 {
     public:
@@ -22,6 +28,10 @@ class APhotoInfo
         const QString& getPath() const;
         const QPixmap& getPixmap() const;
         std::shared_ptr<ITagData> getTags() const;
+
+        //photo data
+        virtual RawPhotoData rawPhotoData() = 0;
+        virtual RawPhotoData rawThumbnailData() = 0;
 
     private:
         struct Data;
@@ -37,18 +47,32 @@ class PhotoInfo: public APhotoInfo
         {
             virtual ~IManipulator() {}
             virtual void load(const T &) = 0;
-            virtual uint8_t* rawData() = 0;
+            virtual RawPhotoData rawPhoto() = 0;
+            virtual RawPhotoData rawThumbnail() = 0;
         };
 
-        PhotoInfo(const QString& path, IManipulator* manipulator): APhotoInfo(path), m_manipulator(manipulator)
+        PhotoInfo(const QString& path, IManipulator* manipulator): APhotoInfo(path), m_photoData(new T), m_manipulator(manipulator)
         {
 
         }
 
         virtual ~PhotoInfo() {}
 
+        virtual RawPhotoData rawPhotoData() override
+        {
+            return m_manipulator->rawPhoto();
+        }
+
+        virtual RawPhotoData rawThumbnailData() override
+        {
+            return m_manipulator->rawThumbnail();
+        }
+
+        PhotoInfo(const PhotoInfo<T> &) = delete;
+        PhotoInfo<T>& operator=(const PhotoInfo<T> &) = delete;
+
     private:
-        T m_photoData;
+        std::unique_ptr<T> m_photoData;
         IManipulator* m_manipulator;
 };
 

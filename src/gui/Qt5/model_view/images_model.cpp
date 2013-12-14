@@ -33,14 +33,13 @@ ImagesModel::~ImagesModel()
 }
 
 
-void ImagesModel::add(const APhotoInfo& photoInfo)
+void ImagesModel::add(const APhotoInfo::Ptr& photo)
 {
     QModelIndex parentIndex;
     const int items = m_photos.size();
 
     beginInsertRows(parentIndex, items, items);
 
-    APhotoInfo::Ptr photo = std::make_shared<APhotoInfo>(photoInfo);
     m_photos.push_back(photo);
 
     endInsertRows();
