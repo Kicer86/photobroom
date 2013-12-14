@@ -26,14 +26,14 @@ struct GuiDataSlots: public QObject
 class PhotosViewWidget: public QWidget
 {
         Q_OBJECT
-        
+
     public:
         explicit PhotosViewWidget(QWidget *parent = 0);
         PhotosViewWidget(const PhotosViewWidget &) = delete;
         virtual ~PhotosViewWidget();
 
         void operator=(const PhotosViewWidget &) = delete;
-        
+
         template<class T>
         void addPhotos(const T &collection)
         {
@@ -44,17 +44,17 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
-        
-        const std::vector<PhotoInfo::Ptr>& getPhotos() const;
+
+        const std::vector<APhotoInfo::Ptr>& getPhotos() const;
 
     protected:
 
     private:
         struct GuiData;
         std::unique_ptr<GuiData> m_gui;
-        
+
     signals:
-        void selectionChanged(const std::vector<PhotoInfo::Ptr> &);
+        void selectionChanged(const std::vector<APhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP

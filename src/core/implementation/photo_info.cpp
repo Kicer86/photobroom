@@ -16,7 +16,7 @@ namespace
 }
 
 
-struct PhotoInfo::Data
+struct APhotoInfo::Data
 {
     Data(const QString &p): pixmap(), path(p), tags()
     {
@@ -39,7 +39,7 @@ struct PhotoInfo::Data
 
 //TODO: scaling in thread, temporary bitmap
 
-PhotoInfo::PhotoInfo(const QString &p): m_data(new Data(p))
+APhotoInfo::APhotoInfo(const QString &p): m_data(new Data(p))
 {
     QPixmap tmp(p);
 
@@ -47,31 +47,31 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data(p))
 }
 
 
-PhotoInfo::PhotoInfo(const PhotoInfo& other): m_data( new Data(*other.m_data.get()) )
+APhotoInfo::APhotoInfo(const APhotoInfo& other): m_data( new Data(*other.m_data.get()) )
 {
 
 }
 
 
-PhotoInfo::~PhotoInfo()
+APhotoInfo::~APhotoInfo()
 {
 
 }
 
 
-const QString& PhotoInfo::getPath() const
+const QString& APhotoInfo::getPath() const
 {
     return m_data->path;
 }
 
 
-const QPixmap& PhotoInfo::getPixmap() const
+const QPixmap& APhotoInfo::getPixmap() const
 {
     return m_data->pixmap;
 }
 
 
-std::shared_ptr<ITagData> PhotoInfo::getTags() const
+std::shared_ptr<ITagData> APhotoInfo::getTags() const
 {
     return m_data->tags;
 }

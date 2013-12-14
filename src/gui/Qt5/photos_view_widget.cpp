@@ -47,12 +47,12 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
         void addPhoto(const std::string &path)
         {
-            PhotoInfo info(path.c_str());
+            APhotoInfo info(path.c_str());
 
             m_photosModel.add(info);
         }
 
-        const std::vector<PhotoInfo::Ptr>& getAllPhotos() const
+        const std::vector<APhotoInfo::Ptr>& getAllPhotos() const
         {
             return m_photosModel.getAll();
         }
@@ -65,12 +65,12 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
         void selectionChanged() override
         {
-            std::vector<PhotoInfo::Ptr> images;
+            std::vector<APhotoInfo::Ptr> images;
 
             //collect list of tags
             for (const QModelIndex& index: m_photosView->getSelection())
             {
-                PhotoInfo::Ptr photoInfo = m_photosModel.get(index);
+                APhotoInfo::Ptr photoInfo = m_photosModel.get(index);
                 images.push_back(photoInfo);
             }
 
@@ -96,7 +96,7 @@ void PhotosViewWidget::addPhoto(const std::string &photo)
 }
 
 
-const std::vector<PhotoInfo::Ptr>& PhotosViewWidget::getPhotos() const
+const std::vector<APhotoInfo::Ptr>& PhotosViewWidget::getPhotos() const
 {
     return m_gui->getAllPhotos();
 }

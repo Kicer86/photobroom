@@ -1,5 +1,5 @@
 
-#ifndef PHOTO_INFO_HPP 
+#ifndef PHOTO_INFO_HPP
 #define PHOTO_INFO_HPP
 
 #include <memory>
@@ -9,15 +9,15 @@ class QPixmap;
 
 struct ITagData;
 
-class PhotoInfo
+class APhotoInfo
 {
     public:
-        typedef std::shared_ptr<PhotoInfo> Ptr;
-        
-        PhotoInfo(const QString &path);
-        PhotoInfo(const PhotoInfo &);
-        virtual ~PhotoInfo();
-        
+        typedef std::shared_ptr<APhotoInfo> Ptr;
+
+        APhotoInfo(const QString &path);
+        APhotoInfo(const APhotoInfo &);
+        virtual ~APhotoInfo();
+
         const QString& getPath() const;
         const QPixmap& getPixmap() const;
         std::shared_ptr<ITagData> getTags() const;

@@ -10,7 +10,7 @@
 #include "implementation/entry.hpp"
 
 
-namespace 
+namespace
 {
     struct FSImpl: public IStreamFactory
     {
@@ -49,13 +49,13 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
     *(fs->m_stream) << "Test content of file to store";
 
 	Database::MemoryDatabase *db = new Database::MemoryDatabase(fs);
-	db->addPhoto(PhotoInfo::Ptr());
+	db->addPhoto(APhotoInfo::Ptr());
 
 	std::shared_ptr<Backend> backend = std::make_shared<Backend>();
 	db->setBackend(backend);
-    
+
     delete db;             //"flush" data ;)
-	
+
     const int s = backend->m_entries.size();
 	ASSERT_EQ(1, s);
 }

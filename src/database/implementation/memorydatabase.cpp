@@ -38,7 +38,7 @@
 #include "ifs.hpp"
 
 namespace Database
-{    
+{
     namespace
     {
         void trampoline(MemoryDatabase::Impl *);
@@ -57,23 +57,23 @@ namespace Database
 			m_updateQueue(m_max_queue_len),
             m_storekeeper(trampoline, this)
         {
-            
+
         }
-        
+
 
         virtual ~Impl()
         {
             m_updateQueue.break_popping();
-            
+
             assert(m_storekeeper.joinable());
             m_storekeeper.join();       //wait for quit
         }
-        
+
 
         Impl(const MemoryDatabase::Impl &) = delete;
         Impl& operator=(const Impl &) = delete;
 
-        void add(const PhotoInfo::Ptr &)
+        void add(const APhotoInfo::Ptr &)
         {
             //(void) description;
             Entry entry;
@@ -82,37 +82,37 @@ namespace Database
             //entry.m_d->m_path = decoratePath(path);
 
             m_db[entry.m_d->m_crc] = entry;
-            
+
             registerUpdate(entry.m_d->m_crc);
         }
 
-        
+
         std::string decoratePath(const std::string &path) const
         {
             return std::string("file://") + path;
         }
-        
-        
+
+
         void setBackend(const std::shared_ptr<IBackend> &b)
         {
             m_backend = b;
-            
+
             if (m_backend != nullptr)
                 m_backendSet.notify_all();
         }
-        
-        
+
+
         void storekeeper()      //storekeeper thread
         {
             while (true)        //work forever
             {
                 std::unique_lock<std::mutex> lock(m_backendMutex);
-                
+
                 while(m_backend == nullptr)
                     m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
-                
+
                 boost::optional<Entry::crc32> entry = getItemToUpdate();
-                
+
                 if (entry)
                 {
                     const Entry &dbEntry = m_db[*entry];
@@ -133,19 +133,19 @@ namespace Database
             std::condition_variable m_backendSet;
             TS_Queue<Entry::crc32> m_updateQueue;                   //entries to be stored in backend
             std::thread m_storekeeper;
-            
+
             void registerUpdate(const Entry::crc32 &item)
-            {                
+            {
                 m_updateQueue.push_back(item);
             }
-            
-            boost::optional<Entry::crc32> getItemToUpdate()            
+
+            boost::optional<Entry::crc32> getItemToUpdate()
             {
                 const boost::optional<Entry::crc32> entry = m_updateQueue.pop_front();
-                
+
                 return entry;
             }
-            
+
             Entry::crc32 calcCrc(const std::string &path) const
             {
                 const int MAX_SIZE = 65536;
@@ -161,13 +161,13 @@ namespace Database
                         crc.process_bytes(buf, input->gcount());
                     }
                     while(input->fail() == false);
-                    
+
                 const Entry::crc32 sum = crc();
-                
+
                 return sum;
             }
     };
-    
+
     namespace
     {
         void trampoline(MemoryDatabase::Impl *impl)
@@ -189,17 +189,17 @@ namespace Database
     }
 
 
-    bool MemoryDatabase::addPhoto(const PhotoInfo::Ptr& photo)
+    bool MemoryDatabase::addPhoto(const APhotoInfo::Ptr& photo)
     {
         m_impl->add(photo);
 
         return true;
     }
-    
-    
+
+
     void MemoryDatabase::setBackend(const std::shared_ptr<Database::IBackend> &backend)
     {
         m_impl->setBackend(backend);
     }
-    
+
 }

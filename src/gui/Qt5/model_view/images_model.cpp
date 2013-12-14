@@ -33,30 +33,30 @@ ImagesModel::~ImagesModel()
 }
 
 
-void ImagesModel::add(const PhotoInfo& photoInfo)
+void ImagesModel::add(const APhotoInfo& photoInfo)
 {
     QModelIndex parentIndex;
     const int items = m_photos.size();
 
     beginInsertRows(parentIndex, items, items);
 
-    PhotoInfo::Ptr photo = std::make_shared<PhotoInfo>(photoInfo);
+    APhotoInfo::Ptr photo = std::make_shared<APhotoInfo>(photoInfo);
     m_photos.push_back(photo);
 
     endInsertRows();
 }
 
 
-PhotoInfo::Ptr ImagesModel::get(const QModelIndex& idx)
+APhotoInfo::Ptr ImagesModel::get(const QModelIndex& idx)
 {
     const int row = idx.row();
-    PhotoInfo::Ptr result = m_photos[row];
+    APhotoInfo::Ptr result = m_photos[row];
 
     return result;
 }
 
 
-const std::vector<PhotoInfo::Ptr>& ImagesModel::getAll() const
+const std::vector<APhotoInfo::Ptr>& ImagesModel::getAll() const
 {
     return m_photos;
 }
@@ -71,7 +71,7 @@ int ImagesModel::rowCount(const QModelIndex&) const
 QVariant ImagesModel::data(const QModelIndex& _index, int role) const
 {
     const int row = _index.row();
-    const PhotoInfo::Ptr info = m_photos[row];
+    const APhotoInfo::Ptr info = m_photos[row];
 
     QVariant result;
 

@@ -31,10 +31,10 @@ class ImagesModel: public QAbstractListModel
         ImagesModel();
         virtual ~ImagesModel();
 
-        void add(const PhotoInfo &photoInfo);
-        
-        PhotoInfo::Ptr get(const QModelIndex &idx);
-        const std::vector<PhotoInfo::Ptr>& getAll() const;
+        void add(const APhotoInfo &photoInfo);
+
+        APhotoInfo::Ptr get(const QModelIndex &idx);
+        const std::vector<APhotoInfo::Ptr>& getAll() const;
 
         //QAbstractItemModel:
 
@@ -43,7 +43,7 @@ class ImagesModel: public QAbstractListModel
         QVariant data(const QModelIndex &_index, int role) const;
 
     private:
-        std::vector<PhotoInfo::Ptr> m_photos;
+        std::vector<APhotoInfo::Ptr> m_photos;
 };
 
 #endif // IMAGES_MODEL_HPP

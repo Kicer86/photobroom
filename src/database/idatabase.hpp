@@ -27,7 +27,7 @@
 #include "core/photo_info.hpp"
 
 namespace Database
-{    
+{
 
 	class Entry;
 
@@ -37,12 +37,12 @@ namespace Database
 
 		virtual bool store(const Database::Entry &) = 0;
     };
-        
+
     struct IFrontend
     {
         virtual ~IFrontend() {}
-        
-        virtual bool addPhoto(const PhotoInfo::Ptr &) = 0;
+
+        virtual bool addPhoto(const APhotoInfo::Ptr &) = 0;
         virtual void setBackend(const std::shared_ptr<IBackend> &) = 0;
     };
 }
