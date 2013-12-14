@@ -48,12 +48,17 @@ namespace
 
         virtual void load(const std::string& path) override
         {
-             m_photo->load(path.c_str());
-             m_photoRaw = m_photo->toImage();
+            bool status = true;
 
-             //to do: thread
-             *m_thumbnail = m_photo->scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-             m_thumbnailRaw = m_thumbnail->toImage();
+            status = m_photo->load(path.c_str());
+            m_photoRaw = m_photo->toImage();
+            assert(status);
+
+            //to do: thread
+            //*m_thumbnail = m_photo->scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            status = m_thumbnail->load(":/gui/images/clock64.png");
+            m_thumbnailRaw = m_thumbnail->toImage();
+            assert(status);
         }
 
         virtual RawPhotoData rawPhoto() override
