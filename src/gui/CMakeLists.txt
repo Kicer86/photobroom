@@ -43,12 +43,12 @@ set(GUI_HEADERS
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/model_view/images_model.hpp
     Qt5/model_view/images_view.hpp
-    Qt5/model_view/image_manager.hpp 
+    Qt5/model_view/image_manager.hpp
     Qt5/model_view/positions_cache.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
-    Qt5/widgets/tag_editor/entries_manager.hpp 
+    Qt5/widgets/tag_editor/entries_manager.hpp
     Qt5/widgets/tag_editor/ivalue_widget.hpp
     Qt5/widgets/tag_editor/converter.hpp
     Qt5/widgets/tag_editor/text_widget.hpp
@@ -65,6 +65,8 @@ set(GUI_FILES_TO_MOC
     Qt5/widgets/tag_editor/ivalue_widget.hpp
     )
 
+set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
+
 if(BUILD_TESTS)
     find_package(GTest)
     include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
@@ -77,8 +79,9 @@ endif(BUILD_TESTS)
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
 qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
+qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
-add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS})
+add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_RESOURCES})
 target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES})
 qt5_use_modules(gui Widgets)
 
