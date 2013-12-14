@@ -3,9 +3,6 @@
 
 #include <memory>
 
-#include <QString>
-#include <QPixmap>
-
 #include "tag.hpp"
 #include "tag_feeder.hpp"
 
