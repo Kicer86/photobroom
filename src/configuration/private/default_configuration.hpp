@@ -25,21 +25,20 @@
 
 #include "iconfiguration.hpp"
 
-uint qHash(const Configuration::ConfigurationKey& key, uint seed);
 
 class DefaultConfiguration: public IConfiguration
 {
     public:
         DefaultConfiguration();
         virtual ~DefaultConfiguration();
-        
+
         virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey& ) const override;
         const std::vector<Configuration::EntryData> getEntries() override;
-        
+
         virtual void addEntry(const Configuration::EntryData &) override;
         virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) override;
         virtual void registerKey(const Configuration::ConfigurationKey &) override;
-        
+
     private:
         struct Impl;
         std::unique_ptr<Impl> m_impl;

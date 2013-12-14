@@ -21,66 +21,73 @@
 #include "default_configuration.hpp"
 
 #include <stdexcept>
-
-#include <QHash>
-#include <QString>
+#include <unordered_map>
 
 #include "system/system.hpp"
 
 #include "entrydata.hpp"
 
-uint qHash(const Configuration::ConfigurationKey& key, uint seed) noexcept(noexcept(qHash(QString())))
-{
-    return qHash(QString(key.getKeyRaw().c_str()), seed);
-}
 
+namespace
+{
+
+    struct hash
+    {
+        std::size_t operator()(const Configuration::ConfigurationKey& s) const
+        {
+            return std::hash<std::string>()(s.getKeyRaw());
+        }
+    };
+}
 
 struct DefaultConfiguration::Impl
 {
     Impl(): m_data() {}
-    
+
     std::string getConfigDir() const
     {
         const std::string result = System::getApplicationConfigDir();
-        
+
         return result;
     }
-    
+
     boost::optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const
     {
         boost::optional<Configuration::EntryData> result;
         auto it = m_data.find(key);
-        
+
         if (it != m_data.end())
-            result = it.value();
-        
+            result = it->second;
+
         return result;
     }
-    
+
     std::vector<Configuration::EntryData> getAll() const
     {
-        std::vector<Configuration::EntryData> result(m_data.begin(), m_data.end());        
-        
+        std::vector<Configuration::EntryData> result;
+        for(const auto& it: m_data)
+            result.push_back(it.second);
+
         return result;
     }
-    
+
     void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data)
     {
         m_data[key] = data;
     }
-    
+
     private:
-        QHash<Configuration::ConfigurationKey, Configuration::EntryData> m_data;
+        std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash> m_data;
 };
 
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
 {
-    std::vector<Configuration::EntryData> defaultEntries = 
+    std::vector<Configuration::EntryData> defaultEntries =
     {
         Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
     };
-    
+
     registerDefaultEntries(defaultEntries);
 }
 

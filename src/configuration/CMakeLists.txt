@@ -2,13 +2,12 @@
 project(configuration)
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5Core REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES})
 
 set(CONFIG_SOURCES
     private/configurationfactory.cpp
@@ -22,12 +21,12 @@ set(CONFIG_HEADERS
     iconfiguration.hpp
     private/default_configuration.hpp
    )
-   
+
 if(BUILD_TESTS)
     find_package(GTest)
     include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
-    set(CONFIG_SOURCES 
-        ${CONFIG_SOURCES} 
+    set(CONFIG_SOURCES
+        ${CONFIG_SOURCES}
         tests/entrydata_tests.cpp
         tests/configurationfactory_tests.cpp
         tests/default_configuration_tests.cpp
@@ -37,13 +36,12 @@ endif(BUILD_TESTS)
 source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
-qt5_use_modules(configuration Core)
 target_link_libraries(configuration system)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
 
 if(BUILD_TESTS)
-    enableCodeCoverage(configuration)    
-    enableGTest(configuration GTEST)    
+    enableCodeCoverage(configuration)
+    enableGTest(configuration GTEST)
 endif(BUILD_TESTS)
