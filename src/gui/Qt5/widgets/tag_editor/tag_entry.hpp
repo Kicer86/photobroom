@@ -25,7 +25,7 @@
 #include <QString>
 #include <QWidget>
 
-#include <core/types.hpp>
+#include <core/tag.hpp>
 
 class QLabel;
 class QLineEdit;
@@ -34,7 +34,7 @@ class IValueWidget;
 
 struct TagInfo
 {
-    static TagNameInfo::Type defaultType();    
+    static TagNameInfo::Type defaultType();
     static IValueWidget* construct(const TagNameInfo::Type& type);
 };
 
@@ -42,19 +42,19 @@ struct TagInfo
 class TagEntry: public QWidget
 {
         Q_OBJECT
-            
+
     public:
         friend class EntriesManager;
-        
+
         virtual ~TagEntry();
 
         TagEntry(const TagEntry &) = delete;
         void operator=(const TagEntry &) = delete;
-        
+
         //void selectTag(const QString &name);
         void setTagValue(const QString &value);
         void clear();
-        
+
         TagNameInfo getTagInfo() const;
         QString getTagValue() const;
 
@@ -62,9 +62,9 @@ class TagEntry: public QWidget
         QLabel       *m_tagName;
         IValueWidget *m_tagValue;
         TagNameInfo   m_tagInfo;
-        
+
         explicit TagEntry(const TagNameInfo &, QWidget *, Qt::WindowFlags f = 0);
-    
+
     signals:
         void tagEdited();
 };

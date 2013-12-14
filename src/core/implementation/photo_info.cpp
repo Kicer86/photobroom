@@ -6,7 +6,7 @@
 #include <QString>
 #include <QPixmap>
 
-#include "types.hpp"
+#include "tag.hpp"
 #include "tag_feeder.hpp"
 
 namespace
@@ -24,13 +24,13 @@ struct PhotoInfo::Data
 
         tags = std::move(p_tags);
     }
-    
-    Data(const Data& other): 
+
+    Data(const Data& other):
         pixmap(other.pixmap),
         path(other.path),
         tags(other.tags)
     {}
-    
+
     QPixmap pixmap;
     QString path;
     std::shared_ptr<ITagData> tags;

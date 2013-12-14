@@ -1,5 +1,5 @@
 
-#include "types.hpp"
+#include "tag.hpp"
 
 #include <iostream>
 #include <algorithm>
@@ -17,21 +17,21 @@ std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
     for (std::pair<TagNameInfo, ITagData::ValuesSet> tags: tagData.getTags())
     {
         stream << tags.first.getName().toStdString() << ": ";
-        
+
         ITagData::ValuesSet::const_iterator valuesIt = tags.second.cbegin();
         ITagData::ValuesSet::const_iterator valuesEnd = tags.second.cend();
         while (valuesIt != valuesEnd)
         {
             stream << valuesIt->value().toStdString();
-            
+
             ++valuesIt;
             if (valuesIt != valuesEnd)
                 stream << tags.first.getSeparator() << " ";
         }
-        
+
         stream << std::endl;
     }
-    
+
     return stream;
 }
 
@@ -39,7 +39,7 @@ std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
 
 
 TagDataBase::TagDataBase(): ITagData()
-{    
+{
 }
 
 
@@ -52,7 +52,7 @@ void TagDataBase::setTag(const TagNameInfo& name, const TagValueInfo& value)
 {
     ValuesSet values;
     values.insert(value);
-    
+
     this->setTag(name, values);
 }
 
@@ -66,15 +66,15 @@ TagData::TagData(): TagDataBase(), m_tags()
 
 TagData::~TagData()
 {
-    
+
 }
 
 
 TagData::TagsList TagData::getTags() const
-{   
+{
     return m_tags;
 }
-    
+
 
 void TagData::setTag(const TagNameInfo& name, const ITagData::ValuesSet& values)
 {
@@ -116,15 +116,15 @@ void TagDataComposite::setTagDatas(const std::vector<std::shared_ptr<ITagData>>&
 ITagData::TagsList TagDataComposite::getTags() const
 {
     ITagData::TagsList result;
-    
+
     if (m_tags.size() > 0)
     {
         result = m_tags[0]->getTags();
-        
+
         for(size_t i = 1; i < m_tags.size(); i++)
             result = Algo::map_intersection<TagValueInfo>(result, m_tags[i]->getTags());
     }
-    
+
     return result;
 }
 

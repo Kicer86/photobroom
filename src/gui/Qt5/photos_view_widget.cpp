@@ -9,7 +9,7 @@
 #include <QPixmap>
 #include <QPushButton>
 
-#include "core/types.hpp"
+#include "core/tag.hpp"
 #include "core/photo_info.hpp"
 #include "model_view/images_model.hpp"
 #include "model_view/images_view.hpp"
@@ -32,13 +32,13 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             m_photosView->setModel(&m_photosModel);
 
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
-            layout->addWidget(m_photosView);         
+            layout->addWidget(m_photosView);
 
             connect(m_photosView->selectionModel(),
                     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
                     this,
                     SLOT(selectionChanged())
-                    );            
+                    );
         }
 
         GuiData(const GuiData &) = delete;
@@ -51,7 +51,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
             m_photosModel.add(info);
         }
-        
+
         const std::vector<PhotoInfo::Ptr>& getAllPhotos() const
         {
             return m_photosModel.getAll();
@@ -66,14 +66,14 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
         void selectionChanged() override
         {
             std::vector<PhotoInfo::Ptr> images;
-            
+
             //collect list of tags
             for (const QModelIndex& index: m_photosView->getSelection())
             {
                 PhotoInfo::Ptr photoInfo = m_photosModel.get(index);
                 images.push_back(photoInfo);
             }
-            
+
             emit m_editor->selectionChanged(images);
         }
 };

@@ -12,9 +12,9 @@
 
 #include "analyzer/photo_crawler_builder.hpp"
 #include "analyzer/iphoto_crawler.hpp"
+#include "core/tag.hpp"
 #include "database/databasebuilder.hpp"
 #include "database/idatabase.hpp"
-#include "core/types.hpp"
 
 
 PhotosStagingArea::PhotosStagingArea(QWidget *p):
@@ -30,17 +30,17 @@ PhotosStagingArea::PhotosStagingArea(QWidget *p):
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
     connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
             this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
-        
+
     QHBoxLayout* savePhotosLayout = new QHBoxLayout(nullptr);
     QPushButton* saveButton = new QPushButton(tr("save photos"));
     savePhotosLayout->addStretch(1);
     savePhotosLayout->addWidget(saveButton);
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePhotos()));
-    
+
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(browse);
     mainLayout->addWidget(m_editor);
-    mainLayout->addWidget(m_tagEditor);    
+    mainLayout->addWidget(m_tagEditor);
     mainLayout->addLayout(savePhotosLayout);
 }
 
@@ -64,13 +64,13 @@ void PhotosStagingArea::pathToAnalyze(QString path)
 void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& photos)
 {
     std::vector<std::shared_ptr<ITagData>> tags;
-    
+
     for(const PhotoInfo::Ptr& photo: photos)
         tags.push_back(photo->getTags());
-    
+
     TagDataComposite* tagsData = new TagDataComposite;
     tagsData->setTagDatas(tags);
-    
+
     std::shared_ptr<ITagData> tagsPtr(tagsData);
     m_tagEditor->setTags(tagsPtr);
 }
@@ -80,7 +80,7 @@ void PhotosStagingArea::savePhotos()
 {
     const std::vector<PhotoInfo::Ptr> photos = m_editor->getPhotos();
     Database::IFrontend* db = Database::Builder().get();
-    
+
     for(const PhotoInfo::Ptr& photo: photos)
-        db->addPhoto(photo);    
+        db->addPhoto(photo);
 }

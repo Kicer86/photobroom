@@ -34,7 +34,7 @@
 #include <QDebug>
 #include <QStandardItemModel>
 
-#include "core/types.hpp"
+#include "core/tag.hpp"
 
 #include "tag_definition.hpp"
 #include "tag_entry.hpp"
@@ -56,14 +56,14 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             QLayout* layout = new QVBoxLayout(tagWidget);
             m_tag = new TagDefinition(tagWidget);
             m_container = new QWidget(tagWidget);
-            
+
             new QVBoxLayout(m_container);
-            
+
             layout->addWidget(m_tag);
             layout->addWidget(m_container);
-            
+
             connect(m_tag, SIGNAL(tagChoosen(TagNameInfo)), this, SLOT(addLine(TagNameInfo)));
-            
+
             updateAvailableTags();
             m_tag->setModel(m_model);
         }
@@ -75,9 +75,9 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             if (m_tagData.get() != nullptr)
                 std::cout << "saving tags: " << (*m_tagData) << std::endl;
-            
+
             m_tagData.reset();
-            
+
             m_entriesManager->removeAllEntries();
             const ITagData::TagsList& tags = tagData->getTags();
 
@@ -87,10 +87,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 TagNameInfo tagInfo(tag.getTypeInfo());
                 addLine(tagInfo, tag.valuesString());
             }
-                                    
+
             m_tagData = tagData;
             m_tag->enable(m_tagData->isValid());
-                   
+
             std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
 
@@ -99,17 +99,17 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
         {
             addLine(info, "");
         }
-        
-        
+
+
         void addLine(const TagNameInfo& info, const QString& value)
         {
             TagEntry* tagEntry = m_entriesManager->constructEntry(info, m_tagWidget);
-            
+
             connect(tagEntry, SIGNAL(tagEdited()), this, SLOT(tagEdited()));
 
             storeTagEntry(tagEntry);
             tagEntry->setTagValue(value);
-            
+
             updateAvailableTags();
         }
 
@@ -118,9 +118,9 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             QLayout* lay = m_container->layout();
             lay->addWidget(tagEntry);
         }
-   
+
         virtual void tagEdited()
-        {            
+        {
             if (m_tagData != nullptr)
             {
                 m_tagData->clear();
@@ -129,45 +129,45 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 {
                     const QString name = tagEntry->getTagInfo().getName();
                     const QString value = tagEntry->getTagValue();
-                    const QStringList values = value.split(";");  //use some constants                
+                    const QStringList values = value.split(";");  //use some constants
                     const ITagData::ValuesSet vSet(values.begin(), values.end());
-                    
+
                     m_tagData->setTag(name, vSet);
                 }
-                
+
                 std::cout << *m_tagData << std::endl;
             }
         }
-        
+
         TagEntry* getEditedTag() const
         {
             QObject* obj = QObject::sender();
             assert(qobject_cast<QLineEdit *>(obj) != nullptr);
-            
+
             QLineEdit* lineEdit = static_cast<QLineEdit *>(obj);
             QWidget* lineEditParent = lineEdit->parentWidget();
             assert(dynamic_cast<TagEntry *>(lineEditParent) != nullptr);
-            
+
             TagEntry* tagEntry = static_cast<TagEntry *>(lineEditParent);
-            
+
             return tagEntry;
         }
-        
+
         void addItemToModel(const TagNameInfo& info) const
         {
             QStandardItem* item = Converter::convert(info);
 
             m_model->appendRow(item);
         }
-        
+
         void updateAvailableTags() const
         {
             m_model->clear();
-            
+
             const std::set<TagNameInfo> tags = m_entriesManager->getDefaultValues();
-            
+
             for (auto& t: tags)
-                addItemToModel(t);          
+                addItemToModel(t);
         }
 
         TagEditorWidget* m_tagWidget;
