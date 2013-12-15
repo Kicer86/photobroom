@@ -6,10 +6,15 @@
 #include <QPixmap>
 #include <QImage>
 
+//TODO: use interface
+#include "photo_loader.hpp"
+
 namespace
 {
     //TODO: remove, use config
     const int photoWidth = 120;
+
+    PhotoLoader photoLoader;
 }
 
 
@@ -77,8 +82,8 @@ void PhotoInfo::load()
 {
     bool status = true;
 
-    //to do: thread
-    //*m_thumbnail = m_photo->scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    photoLoader.generateThumbnail(APhotoInfo::getPath().c_str(), nullptr);
+
     status = m_thumbnail->load(":/gui/images/clock64.png");
     assert(status);
 }
