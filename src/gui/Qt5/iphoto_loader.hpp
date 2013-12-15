@@ -16,8 +16,7 @@ struct IPhotoLoader
 
     virtual ~IPhotoLoader() {}
 
-    virtual void setNotifier(INotifier *) = 0;
-    virtual void generateThumbnail(const QString& path) = 0;
+    virtual void generateThumbnail(const QString& path, INotifier *) = 0;
     virtual QPixmap getThumbnailFor(const QString& path) = 0;
 };
 
