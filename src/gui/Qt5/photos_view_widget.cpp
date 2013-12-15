@@ -21,76 +21,8 @@
 //http://qt-project.org/doc/qt-5.1/qtwidgets/qabstractitemview.html
 
 
-namespace
-{
-    //TODO: remove, use config
-    const int photoWidth = 120;
-}
-
-
 GuiDataSlots::GuiDataSlots(QObject *p): QObject(p) {}
 GuiDataSlots::~GuiDataSlots() {}
-
-
-namespace
-{
-    struct PhotoManipulator: public PhotoInfo<QPixmap>::IManipulator
-    {
-        PhotoManipulator(): m_photo(nullptr), m_thumbnail(nullptr), m_photoRaw(), m_thumbnailRaw() {}
-
-        PhotoManipulator(const PhotoManipulator &) = delete;
-        PhotoManipulator& operator=(const PhotoManipulator &) = delete;
-
-        virtual void set(QPixmap* photoPixmap, QPixmap* thumbnailPixmap) override
-        {
-            m_photo = photoPixmap;
-            m_thumbnail = thumbnailPixmap;
-        }
-
-        virtual void load(const std::string& path) override
-        {
-            bool status = true;
-
-            status = m_photo->load(path.c_str());
-            m_photoRaw = m_photo->toImage();
-            assert(status);
-
-            //to do: thread
-            //*m_thumbnail = m_photo->scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            status = m_thumbnail->load(":/gui/images/clock64.png");
-            m_thumbnailRaw = m_thumbnail->toImage();
-            assert(status);
-        }
-
-        virtual RawPhotoData rawPhoto() override
-        {
-            RawPhotoData data;
-
-            data.data = m_photoRaw.bits();
-            data.size = m_photoRaw.byteCount();
-
-            return data;
-        }
-
-        virtual RawPhotoData rawThumbnail() override
-        {
-            RawPhotoData data;
-
-            data.data = m_thumbnailRaw.bits();
-            data.size = m_thumbnailRaw.byteCount();
-
-            return data;
-        }
-
-        std::string m_path;
-
-        QPixmap* m_photo;
-        QPixmap* m_thumbnail;
-
-        QImage m_photoRaw;
-        QImage m_thumbnailRaw;
-    };
-}
 
 
 struct PhotosViewWidget::GuiData: private GuiDataSlots
@@ -117,7 +49,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
         void addPhoto(const std::string &path)
         {
             APhotoInfo::Ptr info =
-                std::make_shared<PhotoInfo<QPixmap>>(path.c_str(), new PhotoManipulator);
+                std::make_shared<PhotoInfo>(path);
 
             m_photosModel.add(info);
         }

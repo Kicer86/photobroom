@@ -77,8 +77,8 @@ QVariant ImagesModel::data(const QModelIndex& _index, int role) const
     const APhotoInfo::Ptr info = m_photos[row];
 
     APhotoInfo* aPhotoInfo = info.get();
-    assert(dynamic_cast<PhotoInfo<QPixmap> *>(aPhotoInfo) != nullptr);
-    PhotoInfo<QPixmap>* photoInfo = static_cast<PhotoInfo<QPixmap> *>(aPhotoInfo);
+    assert(dynamic_cast<PhotoInfo *>(aPhotoInfo) != nullptr);        //impossible to fail ;)
+    PhotoInfo* photoInfo = static_cast<PhotoInfo *>(aPhotoInfo);
 
     QVariant result;
 
