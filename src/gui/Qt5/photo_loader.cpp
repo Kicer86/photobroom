@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <unordered_map>
+#include <memory>
 
 #include <QPixmap>
 
@@ -32,8 +33,21 @@ class ThreadSafeResource
         struct Deleter
         {
             Deleter(std::unique_lock<std::mutex>* lock): m_lock(lock) {}
-            Deleter(const Deleter &) = default;
+            Deleter(Deleter&& other)
+            {
+                m_lock = other.m_lock;
+                other.m_lock = nullptr;
+            }
+
+            Deleter(const Deleter &) = delete;
             Deleter& operator=(const Deleter &) = delete;
+            Deleter& operator=(Deleter&& other)
+            {
+                m_lock = other.m_lock;
+                other.m_lock = nullptr;
+
+                return *this;
+            }
 
             virtual ~Deleter()
             {
