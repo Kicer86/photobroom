@@ -26,6 +26,8 @@
 
 #include <QPixmap>
 
+#include "../photo_info.hpp"
+
 
 ImagesModel::ImagesModel() : QAbstractListModel(), m_photos() {}
 

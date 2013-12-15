@@ -13,6 +13,7 @@
 #include "core/photo_info.hpp"
 #include "model_view/images_model.hpp"
 #include "model_view/images_view.hpp"
+#include "photo_info.hpp"
 
 //useful links:
 //http://www.informit.com/articles/article.aspx?p=1613548
@@ -80,6 +81,8 @@ namespace
 
             return data;
         }
+
+        std::string m_path;
 
         QPixmap* m_photo;
         QPixmap* m_thumbnail;

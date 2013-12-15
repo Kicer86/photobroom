@@ -16,6 +16,7 @@ set(GUI_SOURCES
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
     Qt5/main_view_widget.cpp
+    Qt5/photo_info.cpp
     Qt5/photos_view_widget.cpp
     Qt5/photos_staging_area.cpp
     Qt5/private/preparing_photos_widget_private.cpp
@@ -38,6 +39,7 @@ set(GUI_HEADERS
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/main_view_widget.hpp
+    Qt5/photo_info.hpp
     Qt5/photos_view_widget.hpp
     Qt5/photos_staging_area.hpp
     Qt5/private/preparing_photos_widget_private.hpp
