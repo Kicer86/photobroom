@@ -2,7 +2,7 @@
 project(core)
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core REQUIRED)
 find_package(Exiv2 REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
