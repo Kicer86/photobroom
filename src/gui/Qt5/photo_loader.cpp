@@ -32,12 +32,15 @@ class ThreadSafeResource
         struct Deleter
         {
             Deleter(std::unique_lock<std::mutex>* lock): m_lock(lock) {}
+            Deleter(const Deleter &) = default;
+            Deleter& operator=(const Deleter &) = delete;
+
             virtual ~Deleter()
             {
                 assert(m_lock == nullptr);
             }
 
-            void operator() (T* resource)
+            void operator() (T *)
             {
                 //do not delete resource - delete lock instead, it will lock resource inside of ThreadSafeResource again
 
@@ -51,9 +54,12 @@ class ThreadSafeResource
         friend struct Deleter;
 
         template<typename... Args>
-        ThreadSafeResource(const Args&... args): m_resource(args...)
+        ThreadSafeResource(const Args&... args): m_mutex(), m_resource(args...)
         {
         }
+
+        ThreadSafeResource(const ThreadSafeResource<T> &) = delete;
+        ThreadSafeResource<T>& operator=(const ThreadSafeResource<T> &) = delete;
 
         std::unique_ptr<T, Deleter> get()
         {
@@ -81,12 +87,6 @@ struct PhotoLoader::Data
 
         QString path;
         IPhotoLoader::INotifier *notifier;
-    };
-
-    struct Results
-    {
-        QString path;
-        QPixmap thumbnail;
     };
 
     //TODO: configurable?
@@ -133,11 +133,14 @@ struct PhotoLoader::Data
             QPixmap pixmap(task.path);
             QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
+            auto data = std::make_pair(task.path, thumbnail);
+
+            m_results.get()->insert(data);
         }
 };
 
 
-static void trampoline(PhotoLoader::Data *data)
+static void trampoline(PhotoLoader::Data* data)
 {
     data->taskEater();
 }
