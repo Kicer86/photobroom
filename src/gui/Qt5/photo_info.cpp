@@ -89,5 +89,5 @@ void PhotoInfo::thumbnailReady(const QString& path)
 {
     *m_thumbnail = photoLoader.getThumbnailFor(path);
 
-    emit thumbnailChanged();
+    emit thumbnailChanged(this);
 }

@@ -36,7 +36,7 @@ class PhotoInfo: public QObject, public APhotoInfo, IPhotoLoader::INotifier
         void thumbnailReady(const QString &);
 
     signals:
-        void thumbnailChanged();
+        void thumbnailChanged(PhotoInfo *);
 };
 
 
