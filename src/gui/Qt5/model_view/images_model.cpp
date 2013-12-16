@@ -39,12 +39,12 @@ ImagesModel::~ImagesModel()
 
 void ImagesModel::add(const APhotoInfo::Ptr& photo)
 {
+    //TODO: should be changed?
     APhotoInfo* aPhotoInfo = photo.get();
     assert(dynamic_cast<PhotoInfo *>(aPhotoInfo) != nullptr);        //impossible to fail ;)
     PhotoInfo* photoInfo = static_cast<PhotoInfo *>(aPhotoInfo);
 
     connect(photoInfo, SIGNAL(thumbnailChanged(PhotoInfo *)), this, SLOT(photoInfoChanged(PhotoInfo *)));
-
 
     QModelIndex parentIndex;
     const int items = m_photos.size();
