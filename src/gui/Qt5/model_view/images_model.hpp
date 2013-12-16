@@ -25,8 +25,12 @@
 
 #include "core/photo_info.hpp"
 
+class PhotoInfo;
+
 class ImagesModel: public QAbstractListModel
 {
+        Q_OBJECT
+
     public:
         ImagesModel();
         virtual ~ImagesModel();
@@ -44,6 +48,9 @@ class ImagesModel: public QAbstractListModel
 
     private:
         std::vector<APhotoInfo::Ptr> m_photos;
+
+    private slots:
+        void photoInfoChanged(PhotoInfo *);
 };
 
 #endif // IMAGES_MODEL_HPP

@@ -39,6 +39,13 @@ ImagesModel::~ImagesModel()
 
 void ImagesModel::add(const APhotoInfo::Ptr& photo)
 {
+    APhotoInfo* aPhotoInfo = photo.get();
+    assert(dynamic_cast<PhotoInfo *>(aPhotoInfo) != nullptr);        //impossible to fail ;)
+    PhotoInfo* photoInfo = static_cast<PhotoInfo *>(aPhotoInfo);
+
+    connect(photoInfo, SIGNAL(thumbnailChanged(PhotoInfo *)), this, SLOT(photoInfoChanged(PhotoInfo *)));
+
+
     QModelIndex parentIndex;
     const int items = m_photos.size();
 
@@ -65,7 +72,7 @@ const std::vector<APhotoInfo::Ptr>& ImagesModel::getAll() const
 }
 
 
-int ImagesModel::rowCount(const QModelIndex&) const
+int ImagesModel::rowCount(const QModelIndex &) const
 {
     return m_photos.size();
 }
@@ -97,5 +104,25 @@ QVariant ImagesModel::data(const QModelIndex& _index, int role) const
     }
 
     return result;
+}
+
+
+void ImagesModel::photoInfoChanged(PhotoInfo* photoInfo)
+{
+    //TODO: optimize?
+    size_t i = 0;
+    for(; m_photos.size(); i++)
+    {
+        if (m_photos[i].get() == photoInfo)
+            break;
+    }
+
+    if (i < m_photos.size())
+    {
+        QModelIndex idx = index(i, 0);
+        emit dataChanged(idx, idx);
+    }
+    else
+        assert("index out of scope");
 }
 
