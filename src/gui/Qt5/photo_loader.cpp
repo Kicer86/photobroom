@@ -33,7 +33,7 @@ class ThreadSafeResource
         struct Deleter
         {
             Deleter(std::unique_lock<std::mutex>* lock): m_lock(lock) {}
-            Deleter(Deleter&& other)
+            Deleter(Deleter&& other): m_lock(nullptr)
             {
                 m_lock = other.m_lock;
                 other.m_lock = nullptr;
@@ -123,6 +123,19 @@ struct PhotoLoader::Data
         m_tasks.push_back(task);
     }
 
+    QPixmap getPixmap(const QString& path)
+    {
+        auto results = m_results.get();
+
+        auto f = results->find(path);
+        QPixmap result = f != results->end()? f->second: QPixmap();
+
+        if (f != results->end())
+            results->erase(f);
+
+        return result;
+    }
+
     private:
         friend void trampoline(PhotoLoader::Data *data);
         TS_Queue<Task> m_tasks;
@@ -179,5 +192,5 @@ void PhotoLoader::generateThumbnail(const QString& path, IPhotoLoader::INotifier
 
 QPixmap PhotoLoader::getThumbnailFor(const QString& path)
 {
-
+    return m_data->getPixmap(path);
 }

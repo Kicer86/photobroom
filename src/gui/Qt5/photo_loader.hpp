@@ -12,12 +12,13 @@ class PhotoLoader: public IPhotoLoader
 {
     public:
         struct Data;
-        
+
         PhotoLoader();
         virtual ~PhotoLoader();
 
         void generateThumbnail(const QString &, IPhotoLoader::INotifier *) override;
         QPixmap getThumbnailFor(const QString &) override;
+        
     private:
         std::unique_ptr<Data> m_data;
 };
