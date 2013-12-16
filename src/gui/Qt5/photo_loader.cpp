@@ -163,6 +163,8 @@ struct PhotoLoader::Data
             auto data = std::make_pair(task.path, thumbnail);
 
             m_results.get()->insert(data);
+
+            task.notifier->thumbnailReady(task.path);
         }
 };
 
