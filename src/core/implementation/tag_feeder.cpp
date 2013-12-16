@@ -21,6 +21,7 @@ struct ExifFeeder
             Exiv2::ExifData::const_iterator end = exifData.end();
             for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i)
             {
+                /*
                 const char* tn = i->typeName();
                 std::cout << std::setw(44) << std::setfill(' ') << std::left
                           << i->key() << " "
@@ -33,6 +34,7 @@ struct ExifFeeder
                           << i->count() << "  "
                           << std::dec << i->value()
                           << "\n";
+                */
             }
         }
     }
