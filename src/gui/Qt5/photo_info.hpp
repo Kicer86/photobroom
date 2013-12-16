@@ -2,13 +2,18 @@
 #ifndef GUI_PHOTO_INFO_HPP
 #define GUI_PHOTO_INFO_HPP
 
+#include <QObject>
+
 #include "core/photo_info.hpp"
+#include "iphoto_loader.hpp"
 
 class QPixmap;
 class QImage;
 
-class PhotoInfo: public APhotoInfo
+class PhotoInfo: public QObject, public APhotoInfo, IPhotoLoader::INotifier
 {
+        Q_OBJECT
+
     public:
         PhotoInfo(const std::string& path);
 
@@ -28,6 +33,10 @@ class PhotoInfo: public APhotoInfo
         QImage*  m_thumbnailRaw;
 
         void load();
+        void thumbnailReady(const QString &);
+
+    signals:
+        void thumbnailChanged();
 };
 
 

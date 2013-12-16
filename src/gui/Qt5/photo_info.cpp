@@ -80,10 +80,14 @@ const QPixmap &PhotoInfo::getThumbnail() const
 
 void PhotoInfo::load()
 {
-    bool status = true;
+    photoLoader.generateThumbnail(APhotoInfo::getPath().c_str(), this);
+    m_thumbnail->load(":/gui/images/clock64.png");
+}
 
-    photoLoader.generateThumbnail(APhotoInfo::getPath().c_str(), nullptr);
 
-    status = m_thumbnail->load(":/gui/images/clock64.png");
-    assert(status);
+void PhotoInfo::thumbnailReady(const QString& path)
+{
+    *m_thumbnail = photoLoader.getThumbnailFor(path);
+
+    emit thumbnailChanged();
 }
