@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <memory>
 
+#include <omp.h>
+
 #include <QPixmap>
 
 #include <OpenLibrary/palgorithm/ts_queue.hpp>
@@ -144,14 +146,22 @@ struct PhotoLoader::Data
 
         void taskEater()
         {
-            while(true)
+            #pragma omp parallel
             {
-                boost::optional<Task> task = m_tasks.pop_front();
+                const int id = omp_get_thread_num();
+                std::cout << "Starting QPixmap resizer's thread #" << id << std::endl;
 
-                if (task)
-                    eatTask(task.get());
-                else
-                    break;
+                while(true)
+                {
+                    boost::optional<Task> task = m_tasks.pop_front();
+
+                    if (task)
+                        eatTask(task.get());
+                    else
+                        break;
+                }
+
+                std::cout << "Quitting QPixmap resizer's thread #" << id << std::endl;
             }
         }
 
