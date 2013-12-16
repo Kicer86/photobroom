@@ -35,7 +35,7 @@ RawPhotoData PhotoInfo::rawPhotoData()
 {
     //TODO: introduce some cache
     const QPixmap photo = getPhoto();
-    QImage image= photo.toImage();
+    QImage image = photo.toImage();
 
     RawPhotoData data;
 

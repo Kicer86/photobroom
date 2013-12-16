@@ -48,8 +48,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
         void addPhoto(const std::string &path)
         {
-            APhotoInfo::Ptr info =
-                std::make_shared<PhotoInfo>(path);
+            APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
 
             m_photosModel.add(info);
         }
