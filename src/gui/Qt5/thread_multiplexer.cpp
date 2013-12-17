@@ -6,7 +6,7 @@
 
 ThreadMultiplexer::ThreadMultiplexer(): QObject(), IThreadMultiplexer< PhotoInfo* >(), m_getter(nullptr)
 {
-
+    connect(this, SIGNAL(propagate(PhotoInfo*)), this, SLOT(propagated(PhotoInfo*)), Qt::QueuedConnection);
 }
 
 
