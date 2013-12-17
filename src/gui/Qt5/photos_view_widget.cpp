@@ -27,7 +27,11 @@ GuiDataSlots::~GuiDataSlots() {}
 
 struct PhotosViewWidget::GuiData: private GuiDataSlots
 {
-        GuiData(PhotosViewWidget *editor): GuiDataSlots(editor), m_editor(editor), m_photosModel(), m_photosView(nullptr)
+        GuiData(PhotosViewWidget *editor):
+            GuiDataSlots(editor),
+            m_editor(editor),
+            m_photosModel(),
+            m_photosView(nullptr)
         {
             m_photosView = new ImagesView(m_editor);
             m_photosView->setModel(&m_photosModel);
@@ -48,7 +52,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
         void addPhoto(const std::string &path)
         {
-            APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
+            APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path, &m_photosModel);
 
             m_photosModel.add(info);
         }
