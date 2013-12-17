@@ -24,13 +24,12 @@
 #include <QAbstractListModel>
 
 #include "core/photo_info.hpp"
+#include "Qt5/thread_multiplexer.hpp"
 
 class PhotoInfo;
 
-class ImagesModel: public QAbstractListModel
+class ImagesModel: public QAbstractListModel, public IThreadMultiplexer<PhotoInfo *>::IGetter
 {
-        Q_OBJECT
-
     public:
         ImagesModel();
         virtual ~ImagesModel();
@@ -46,11 +45,11 @@ class ImagesModel: public QAbstractListModel
         int rowCount(const QModelIndex &/*parent*/) const;
         QVariant data(const QModelIndex &_index, int role) const;
 
+        //IThreadMultiplexer::IGetter:
+        virtual void getSignal(PhotoInfo * const &);
+
     private:
         std::vector<APhotoInfo::Ptr> m_photos;
-
-    private slots:
-        void photoInfoChanged(PhotoInfo *);
 };
 
 #endif // IMAGES_MODEL_HPP

@@ -39,13 +39,6 @@ ImagesModel::~ImagesModel()
 
 void ImagesModel::add(const APhotoInfo::Ptr& photo)
 {
-    //TODO: should be changed?
-    APhotoInfo* aPhotoInfo = photo.get();
-    assert(dynamic_cast<PhotoInfo *>(aPhotoInfo) != nullptr);        //impossible to fail ;)
-    PhotoInfo* photoInfo = static_cast<PhotoInfo *>(aPhotoInfo);
-
-    connect(photoInfo, SIGNAL(thumbnailChanged(PhotoInfo *)), this, SLOT(photoInfoChanged(PhotoInfo *)));
-
     QModelIndex parentIndex;
     const int items = m_photos.size();
 
@@ -107,7 +100,7 @@ QVariant ImagesModel::data(const QModelIndex& _index, int role) const
 }
 
 
-void ImagesModel::photoInfoChanged(PhotoInfo* photoInfo)
+void ImagesModel::getSignal(PhotoInfo* const& photoInfo)
 {
     //TODO: optimize?
     size_t i = 0;
