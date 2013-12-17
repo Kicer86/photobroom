@@ -64,10 +64,8 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
-    Qt5/photo_info.hpp
     Qt5/photos_staging_area.hpp
     Qt5/photos_view_widget.hpp
-    Qt5/model_view/images_model.hpp
     Qt5/thread_multiplexer.hpp
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
