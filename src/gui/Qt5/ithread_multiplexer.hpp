@@ -15,7 +15,6 @@ struct IThreadMultiplexer
 
     virtual void send(const T &) = 0;     //threads should write here
     virtual void setGetter(IGetter *) = 0;
-
 };
 
 #endif
