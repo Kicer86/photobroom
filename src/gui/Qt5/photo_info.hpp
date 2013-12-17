@@ -6,16 +6,15 @@
 
 #include "core/photo_info.hpp"
 #include "iphoto_loader.hpp"
+#include "thread_multiplexer.hpp"
 
 class QPixmap;
 class QImage;
 
-class PhotoInfo: public QObject, public APhotoInfo, IPhotoLoader::INotifier
+class PhotoInfo: public APhotoInfo, IPhotoLoader::INotifier
 {
-        Q_OBJECT
-
     public:
-        PhotoInfo(const std::string& path);
+        PhotoInfo(const std::string& path, ThreadMultiplexer::IGetter *);   //getter will be informed when a certain thumbnail is ready
 
         virtual ~PhotoInfo();
 
@@ -31,12 +30,12 @@ class PhotoInfo: public QObject, public APhotoInfo, IPhotoLoader::INotifier
     private:
         QPixmap* m_thumbnail;
         QImage*  m_thumbnailRaw;
+        ThreadMultiplexer m_multpilexer;
 
         void load();
-        void thumbnailReady(const QString &);
+        virtual void thumbnailReady(const QString &) override;
 
-    signals:
-        void thumbnailChanged(PhotoInfo *);
+
 };
 
 

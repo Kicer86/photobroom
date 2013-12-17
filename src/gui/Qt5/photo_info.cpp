@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QImage>
 
+
 //TODO: use interface
 #include "photo_loader.hpp"
 
@@ -18,8 +19,13 @@ namespace
 }
 
 
-PhotoInfo::PhotoInfo(const std::string &path): APhotoInfo(path), m_thumbnail(new QPixmap), m_thumbnailRaw(nullptr)
+PhotoInfo::PhotoInfo(const std::string &path, ThreadMultiplexer::IGetter* getter):
+    APhotoInfo(path),
+    m_thumbnail(new QPixmap),
+    m_thumbnailRaw(nullptr),
+    m_multpilexer()
 {
+    m_multpilexer.setGetter(getter);
     load();
 }
 
@@ -89,5 +95,5 @@ void PhotoInfo::thumbnailReady(const QString& path)
 {
     *m_thumbnail = photoLoader.getThumbnailFor(path);
 
-    emit thumbnailChanged(this);
+    m_multpilexer.send(this);
 }
