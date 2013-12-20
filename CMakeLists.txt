@@ -7,7 +7,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set(BUILD_TESTS FALSE CACHE BOOL "Build tests. Set to TRUE to build tests")
 if(BUILD_TESTS)
     enable_testing()
-endif(BUILD_TESTS)    
+endif(BUILD_TESTS)
 
 if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
@@ -15,6 +15,8 @@ elseif(WIN32)
     add_definitions(-DOS_WIN)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif(UNIX OR CYGWIN)
+
+include(GenerateExportHeader)
 
 add_subdirectory(src/core)
 add_subdirectory(src/configuration)
