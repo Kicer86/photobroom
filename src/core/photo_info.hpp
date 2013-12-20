@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <cstdint>
+#include <string>
 
 class QString;
 class QPixmap;

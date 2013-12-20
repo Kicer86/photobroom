@@ -3,6 +3,7 @@
 #define TAG_FEEDER_HPP
 
 #include <memory>
+#include <string>
 
 struct ITagData;
 
