@@ -24,8 +24,8 @@ set(ANALYZER_SOURCES
     implementation/photo_crawler_builder.cpp
     )
 
-set(ANALYZER_HEADERS 
-    default_analyzers/ext_defaultanalyzer.hpp 
+set(ANALYZER_HEADERS
+    default_analyzers/ext_defaultanalyzer.hpp
     implementation/file_analyzer.hpp
     implementation/filesystemscanner.hpp
     implementation/ifile_system_scanner.hpp
@@ -34,12 +34,12 @@ set(ANALYZER_HEADERS
     iphoto_crawler.hpp
     photo_crawler_builder.hpp
     )
-    
+
 if(BUILD_TESTS)
     find_package(GTest REQUIRED)
     find_package(GMock REQUIRED)
     include_directories(SYSTEM ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
-    set(ANALYZER_SOURCES 
+    set(ANALYZER_SOURCES
         ${ANALYZER_SOURCES}
         tests/analyzerTests.cpp
         tests/photo_crawler_tests.cpp
@@ -56,6 +56,7 @@ generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/ana
 turnOnCpp11(analyzer)
 
 if(BUILD_TESTS)
-    enableCodeCoverage(analyzer)    
+    target_link_libraries(analyzer ${GMOCK_LIBRARY})
+    enableCodeCoverage(analyzer)
     enableGTest(analyzer GMOCK)
 endif(BUILD_TESTS)
