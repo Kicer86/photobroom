@@ -4,7 +4,7 @@ project(gui)
 find_package(Qt5Widgets REQUIRED)
 find_package(OpenLibrary REQUIRED COMPONENTS QtExt palgorithm)
 find_package(OpenMP REQUIRED)
-find_package(boost REQUIRED optional)
+find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 

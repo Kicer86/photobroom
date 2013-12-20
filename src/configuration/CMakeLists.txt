@@ -2,7 +2,7 @@
 project(configuration)
 
 find_package(OpenLibrary REQUIRED)
-find_package(boost REQUIRED optional)
+find_package(Boost REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
