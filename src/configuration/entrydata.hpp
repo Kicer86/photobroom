@@ -26,10 +26,12 @@
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
+#include "configuration_export.h"
+
 namespace Configuration
 {
 
-    class ConfigurationKey
+    class CONFIGURATION_EXPORT ConfigurationKey
     {
         public:
             ConfigurationKey();
@@ -50,7 +52,7 @@ namespace Configuration
             data_ptr<Data> m_data;
     };
 
-    class EntryData
+	class CONFIGURATION_EXPORT EntryData
     {
         public:
             EntryData();
