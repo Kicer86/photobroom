@@ -50,7 +50,11 @@ endif(BUILD_TESTS)
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
 add_library(analyzer SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(analyzer ${Boost_LIBRARIES} ${GMOCK_LIBRARY})
+target_link_libraries(analyzer ${Boost_LIBRARIES})
+
+if(BUILD_TESTS)
+    target_link_libraries(analyzer ${GMOCK_LIBRARY})
+endif(BUILD_TESTS)
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)
