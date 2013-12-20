@@ -2,12 +2,13 @@
 project(configuration)
 
 find_package(OpenLibrary REQUIRED)
+find_package(boost REQUIRED optional)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
 
 set(CONFIG_SOURCES
     private/configurationfactory.cpp

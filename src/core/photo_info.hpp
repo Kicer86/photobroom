@@ -4,6 +4,9 @@
 
 #include <memory>
 #include <cstdint>
+#include <string>
+
+#include "core_export.h"
 
 class QString;
 class QPixmap;
@@ -16,7 +19,7 @@ struct RawPhotoData
     size_t   size;
 };
 
-class APhotoInfo
+class CORE_EXPORT APhotoInfo
 {
     public:
         typedef std::shared_ptr<APhotoInfo> Ptr;

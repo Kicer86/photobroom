@@ -25,13 +25,15 @@
 
 #include <boost/optional.hpp>
 
+#include "configuration_export.h"
+
 namespace Configuration
 {    
     class EntryData;
     class ConfigurationKey;
     
     //Base configuration keys
-    extern const std::string configLocation;
+	extern CONFIGURATION_EXPORT const std::string configLocation;
 }
 
 struct IConfiguration

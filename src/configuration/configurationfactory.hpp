@@ -23,9 +23,11 @@
 
 #include <memory>
 
+#include "configuration_export.h"
+
 struct IConfiguration;
 
-class ConfigurationFactory
+class CONFIGURATION_EXPORT ConfigurationFactory
 {
     public:
         static std::shared_ptr<IConfiguration> get();   //get configruation

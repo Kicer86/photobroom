@@ -2,7 +2,7 @@
 project(analyzer)
 
 add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
-find_package(Boost 1.53.0 COMPONENTS filesystem system regex)
+find_package(Boost 1.53.0 REQUIRED filesystem system regex)
 find_package(OpenLibrary REQUIRED)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
@@ -50,7 +50,7 @@ endif(BUILD_TESTS)
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
 add_library(analyzer SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(analyzer ${Boost_LIBRARIES} ${GMOCK_LIBRARY})
+target_link_libraries(analyzer ${Boost_LIBRARIES})
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)

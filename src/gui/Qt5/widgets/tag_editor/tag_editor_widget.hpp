@@ -28,7 +28,7 @@
 #include <QWidget>
 
 struct ITagData;
-class TagNameInfo;
+struct TagNameInfo;
 
 class QString;
 class QLineEdit;

@@ -3,7 +3,9 @@
 
 #include <assert.h>
 
-#include <exiv2/exiv2.hpp>
+#ifdef USE_EXIV
+	#include <exiv2/exiv2.hpp>
+#endif
 
 #include "tag.hpp"
 
@@ -11,6 +13,7 @@ struct ExifFeeder
 {
     void feed(const std::string& path, ITagData* tagData)
     {
+#ifdef USE_EXIV
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
@@ -37,7 +40,11 @@ struct ExifFeeder
                 */
             }
         }
-    }
+#else
+		(void)path;
+		(void)tagData;
+#endif
+	}
 };
 
 
