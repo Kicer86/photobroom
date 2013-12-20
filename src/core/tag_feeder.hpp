@@ -5,9 +5,11 @@
 #include <memory>
 #include <string>
 
+#include "core_export.h"
+
 struct ITagData;
 
-class TagFeeder
+class CORE_EXPORT TagFeeder
 {
     public:
         TagFeeder() = delete;

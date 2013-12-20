@@ -11,6 +11,8 @@
 
 #include <QString>
 
+#include "core_export.h"
+
 struct TagNameInfo
 {
     enum Type
@@ -164,9 +166,9 @@ struct ITagData
     virtual bool isValid() const = 0;
 };
 
-std::ostream& operator<<(std::ostream &, const ITagData &);
+CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);
 
-class TagDataBase: public ITagData
+class CORE_EXPORT TagDataBase : public ITagData
 {
     public:
         TagDataBase();
@@ -176,7 +178,7 @@ class TagDataBase: public ITagData
         virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
 };
 
-class TagData: public TagDataBase
+class CORE_EXPORT TagData : public TagDataBase
 {
     public:
         TagData();
@@ -195,7 +197,7 @@ class TagData: public TagDataBase
 };
 
 
-class TagDataComposite: public TagDataBase
+class CORE_EXPORT TagDataComposite : public TagDataBase
 {
     public:
         TagDataComposite();
