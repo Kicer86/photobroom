@@ -3,13 +3,22 @@ project(core)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
-find_package(Exiv2 REQUIRED)
+find_package(Exiv2)
+
+if(EXIV2)
+	add_definitions(-DUSE_EXIV2=)
+endif(EXIV2)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${Qt5Widgets_INCLUDE_DIRS} ${EXIV2_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Widgets_INCLUDE_DIRS})
+
+if(EXIV2)
+	include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
+endif(EXIV2)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
@@ -38,8 +47,11 @@ endif(BUILD_TESTS)
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
-target_link_libraries(core ${EXIV2_LIBRARIES})
 qt5_use_modules(core Widgets)
+
+if(EXIV2)
+	target_link_libraries(core ${EXIV2_LIBRARIES})
+endif(EXIV2)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
