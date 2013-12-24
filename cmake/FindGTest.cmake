@@ -11,8 +11,8 @@
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include)
                     
-find_library(GTEST_LIBRARY      libgtest.so)
-find_library(GTEST_MAIN_LIBRARY libgtest_main.so)
+find_library(GTEST_LIBRARY      libgtest.a)
+find_library(GTEST_MAIN_LIBRARY libgtest_main.a)
 
 set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} )
 
@@ -31,8 +31,8 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
             message(FATAL_ERROR "Could not find base for GTest sources. Set GTEST_DIR to proper value")
         endif(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)
 
-        add_library(gtest SHARED ${GTEST_BASE_SOURCE})
-        add_library(gtest-main SHARED ${GTEST_MAIN_SOURCE})
+        add_library(gtest STATIC ${GTEST_BASE_SOURCE})
+        add_library(gtest-main STATIC ${GTEST_MAIN_SOURCE})
 
         get_filename_component(gtest_base_dir ${GTEST_BASE_SOURCE} PATH)
         set_target_properties(gtest gtest-main PROPERTIES INCLUDE_DIRECTORIES ${gtest_base_dir}/../)

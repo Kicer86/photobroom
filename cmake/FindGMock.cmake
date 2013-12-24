@@ -11,8 +11,8 @@
 find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
           
-find_library(GMOCK_LIBRARY      libgmock.so)
-find_library(GMOCK_MAIN_LIBRARY libgmock_main.so)
+find_library(GMOCK_LIBRARY      libgmock.a)
+find_library(GMOCK_MAIN_LIBRARY libgmock_main.a)
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR})
 
@@ -31,8 +31,8 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
             message(FATAL_ERROR "Could not find base for GMock sources. Set GMOCK_DIR to proper value")
         endif(NOT GMOCK_BASE_SOURCE OR NOT GMOCK_MAIN_SOURCE)    
 
-        add_library(gmock SHARED ${GMOCK_BASE_SOURCE})
-        add_library(gmock-main SHARED ${GMOCK_MAIN_SOURCE})
+        add_library(gmock STATIC ${GMOCK_BASE_SOURCE})
+        add_library(gmock-main STATIC ${GMOCK_MAIN_SOURCE})
 
         get_filename_component(gmock_base_dir ${GMOCK_BASE_SOURCE} PATH)
         set_target_properties(gmock gmock-main PROPERTIES INCLUDE_DIRECTORIES ${gmock_base_dir}/../)
