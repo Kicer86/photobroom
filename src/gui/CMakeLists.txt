@@ -78,11 +78,7 @@ set(GUI_FILES_TO_MOC
 set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
 
 if(BUILD_TESTS)
-    find_package(GTest)
-    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
-    set(GUI_SOURCES
-        ${GUI_SOURCES}
-       )
+    #TODO
 endif(BUILD_TESTS)
 
 #photo loader uses openmp
@@ -102,9 +98,3 @@ addFlags(gui LINK_FLAGS ${OpenMP_CXX_FLAGS})
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
 target_link_libraries(gui analyzer database)
 turnOnCpp11(gui)
-
-
-if(BUILD_TESTS)
-    enableCodeCoverage(gui)
-    enableGTest(gui GTEST)
-endif(BUILD_TESTS)
