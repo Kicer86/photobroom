@@ -16,7 +16,7 @@ include_directories(${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 
 if(EXIV2)
-	include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
+    include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
 endif(EXIV2)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -34,20 +34,23 @@ set(CORE_HEADERS
     )
 
 if(BUILD_TESTS)
-    find_package(GTest)
-    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
-    set(CORE_SOURCES
-        ${CORE_SOURCES}
-        tests/coreTests.cpp
-        tests/algoTests.cpp
-       )
+    addTestTarget(core
+                        SOURCES
+                            ${CORE_SOURCES}
+                            tests/coreTests.cpp
+                            tests/algoTests.cpp
+                        TEST_LIBRARY
+                            GTEST
+                )
+    turnOnCpp11(core_test)
+    qt5_use_modules(core_test Core)
 endif(BUILD_TESTS)
 
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
-qt5_use_modules(core Widgets)
+qt5_use_modules(core Core)
 
 if(EXIV2)
 	target_link_libraries(core ${EXIV2_LIBRARIES})
@@ -55,8 +58,3 @@ endif(EXIV2)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
-
-if(BUILD_TESTS)
-    enableCodeCoverage(core)
-    enableGTest(core GTEST)
-endif(BUILD_TESTS)

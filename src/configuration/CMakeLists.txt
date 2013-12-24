@@ -24,14 +24,17 @@ set(CONFIG_HEADERS
    )
 
 if(BUILD_TESTS)
-    find_package(GTest)
-    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
-    set(CONFIG_SOURCES
-        ${CONFIG_SOURCES}
-        tests/entrydata_tests.cpp
-        tests/configurationfactory_tests.cpp
-        tests/default_configuration_tests.cpp
+    addTestTarget(configuration SOURCES
+                                    ${CONFIG_SOURCES}
+                                    tests/entrydata_tests.cpp
+                                    tests/configurationfactory_tests.cpp
+                                    tests/default_configuration_tests.cpp
+                                TEST_LIBRARY
+                                    GTEST
        )
+    target_link_libraries(configuration_test system)
+    turnOnCpp11(configuration_test)
+
 endif(BUILD_TESTS)
 
 source_group(configuration REGULAR_EXPRESSION .*configuration.* )
@@ -42,7 +45,3 @@ target_link_libraries(configuration system)
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
 
-if(BUILD_TESTS)
-    enableCodeCoverage(configuration)
-    enableGTest(configuration GTEST)
-endif(BUILD_TESTS)

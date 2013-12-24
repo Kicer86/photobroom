@@ -36,15 +36,19 @@ set(ANALYZER_HEADERS
     )
 
 if(BUILD_TESTS)
-    find_package(GTest REQUIRED)
-    find_package(GMock REQUIRED)
-    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
-    set(ANALYZER_SOURCES
-        ${ANALYZER_SOURCES}
-        tests/analyzerTests.cpp
-        tests/photo_crawler_tests.cpp
-        tests/photo_crawler_builder_tests.cpp
-       )
+
+    addTestTarget(analyzer
+                            TEST_LIBRARY
+                                GMOCK
+                            SOURCES
+                                ${ANALYZER_SOURCES}
+                                tests/analyzerTests.cpp
+                                tests/photo_crawler_tests.cpp
+                                tests/photo_crawler_builder_tests.cpp
+                )
+    target_link_libraries(analyzer_test ${Boost_LIBRARIES})
+    turnOnCpp11(analyzer_test)
+
 endif(BUILD_TESTS)
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
@@ -54,9 +58,3 @@ target_link_libraries(analyzer ${Boost_LIBRARIES})
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)
-
-if(BUILD_TESTS)
-    target_link_libraries(analyzer ${GMOCK_LIBRARY})
-    enableCodeCoverage(analyzer)
-    enableGTest(analyzer GMOCK)
-endif(BUILD_TESTS)

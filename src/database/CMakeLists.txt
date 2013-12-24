@@ -24,12 +24,15 @@ set(DATABASE_HEADERS
     )
 
 if(BUILD_TESTS)
-    find_package(GTest)
-    include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
-    set(DATABASE_SOURCES
-        ${DATABASE_SOURCES}
-        tests/databaseTests.cpp
+
+    addTestTarget(database  SOURCES
+                                ${DATABASE_SOURCES}
+                                tests/databaseTests.cpp
+                            TEST_LIBRARY
+                                GTEST
        )
+    target_link_libraries(database_test configuration)
+    turnOnCpp11(database_test)
 endif(BUILD_TESTS)
 
 source_group(files REGULAR_EXPRESSION .*database.* )
@@ -39,8 +42,3 @@ target_link_libraries(database configuration)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
-
-if(BUILD_TESTS)
-    enableCodeCoverage(database)
-    enableGTest(database GTEST)
-endif(BUILD_TESTS)
