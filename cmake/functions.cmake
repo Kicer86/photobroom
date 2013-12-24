@@ -14,9 +14,18 @@ function(addTestTarget target)
 
     #find which library should be used
     if("${TEST_LIBRARY}" STREQUAL "GTEST")
-        set(link_library ${GTEST_MAIN_LIBRARY} ${GTEST_LIBRARY})  #in GTest 1.7 main library contains only mian function. Linking against base library is required
+
+        find_package(GTest)
+        include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
+        set(link_library ${GTEST_MAIN_LIBRARY} ${GTEST_LIBRARY})
+
     elseif("${TEST_LIBRARY}" STREQUAL "GMOCK")
+
+        find_package(GTest REQUIRED)
+        find_package(GMock REQUIRED)
+        include_directories(SYSTEM ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
         set(link_library ${GMOCK_MAIN_LIBRARY} ${GMOCK_LIBRARY})
+
     else()
         message(FATAL_ERROR "For 'mode' argument use 'GTEST' or 'GMOCK'. Currently ${mode} was provided")
     endif()
