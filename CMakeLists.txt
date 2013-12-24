@@ -17,6 +17,7 @@ elseif(WIN32)
 endif(UNIX OR CYGWIN)
 
 include(GenerateExportHeader)
+include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 
 add_subdirectory(src/core)
 add_subdirectory(src/configuration)
