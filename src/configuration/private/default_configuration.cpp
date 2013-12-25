@@ -25,6 +25,8 @@
 #include <unordered_set>
 
 #include <QString>
+#include <QXmlStreamReader>
+#include <QFile>
 
 #include "entrydata.hpp"
 
@@ -123,5 +125,8 @@ void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey &)
 
 bool DefaultConfiguration::loadXml(const QString& path)
 {
+    QFile data(path);
+    QXmlStreamReader reader(&data);
+
 
 }

@@ -26,8 +26,6 @@ set(CONFIG_SOURCES
     private/configurationfactory.cpp
     private/entrydata.cpp
     private/default_configuration.cpp
-    private/xml_reader.cpp
-    private/xml_reader_builder.cpp
    )
 
 set(CONFIG_HEADERS
@@ -35,9 +33,6 @@ set(CONFIG_HEADERS
     entrydata.hpp
     iconfiguration.hpp
     private/default_configuration.hpp
-    private/ixml_reader.hpp
-    private/xml_reader.hpp
-    private/xml_reader_builder.hpp
    )
 
 set(CONFIG_RESOURCE_FILES ${CMAKE_CURRENT_BINARY_DIR}/resources.qrc)   #file needs to be configured
