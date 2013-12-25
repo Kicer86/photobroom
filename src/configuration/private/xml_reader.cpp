@@ -7,9 +7,9 @@
 namespace
 {
 
-    bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map )
+    bool readXmlFile(QIODevice& device, QSettings::SettingsMap& map)
     {
-        QXmlStreamReader xmlReader( &device );
+        QXmlStreamReader xmlReader(&device);
 
         QString currentElementName;
         while( !xmlReader.atEnd() )
@@ -17,46 +17,37 @@ namespace
             xmlReader.readNext();
             while( xmlReader.isStartElement() )
             {
-                if( xmlReader.name() == "SettingsMap" )
-                {
-                    xmlReader.readNext();
-                    continue;
-                }
-
                 if( !currentElementName.isEmpty() )
-                {
                     currentElementName += "/";
-                }
+
                 currentElementName += xmlReader.name().toString();
                 xmlReader.readNext();
             }
 
             if( xmlReader.isEndElement() )
-            {
                 continue;
-            }
 
             if( xmlReader.isCharacters() && !xmlReader.isWhitespace() )
             {
-                QString key = currentElementName;
-                QString value = xmlReader.text().toString();
+                const QString key = currentElementName;
+                const QString value = xmlReader.text().toString();
 
-                map[ key ] = value;
+                map[key] = value;
 
                 currentElementName.clear();
             }
         }
 
         if( xmlReader.hasError() )
-        {
             return false;
-        }
 
         return true;
     }
 
     bool writeXmlFile( QIODevice& device, const QSettings::SettingsMap& map )
     {
+        return false;        //xml files used by configuration always will be read only
+        /*
         QXmlStreamWriter xmlWriter( &device );
         xmlWriter.setAutoFormatting( true );
 
@@ -80,6 +71,7 @@ namespace
         xmlWriter.writeEndDocument();
 
         return true;
+        */
     }
 
 }
