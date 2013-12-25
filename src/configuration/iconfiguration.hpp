@@ -42,13 +42,14 @@ struct IConfiguration
     virtual ~IConfiguration() {}
     
     // This function registers a default entry with value.
-    // If a value for specified entry was already loaded from config file,
-    // this function does nothing.
+    // If a value for specified entry exists in config file,
+    // will be prefered.
     virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
     
     // This function introduces a configuration key.
     // Before adding/loading values to configuration, each entry (Key) must be introduced.
-    // Unknown (not registered) keys will be treated as deprecated.
+    // Unknown (not registered) keys will be treated as deprecated,
+    // and dev-warning will be printed in output.
     virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
 
     // Add entry to config
