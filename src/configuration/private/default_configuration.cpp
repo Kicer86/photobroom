@@ -22,6 +22,7 @@
 
 #include <stdexcept>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "system/system.hpp"
 
@@ -42,7 +43,7 @@ namespace
 
 struct DefaultConfiguration::Impl
 {
-    Impl(): m_data() {}
+    Impl(): m_known_keys(), m_data() {}
 
     std::string getConfigDir() const
     {
@@ -77,6 +78,7 @@ struct DefaultConfiguration::Impl
     }
 
     private:
+        std::unordered_set<Configuration::ConfigurationKey, hash> m_known_keys;
         std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash> m_data;
 };
 
