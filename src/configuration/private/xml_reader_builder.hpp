@@ -6,15 +6,17 @@
 
 struct IXmlReader;
 
-class CONFIGURATION_EXPORT ConfigurationBuilder
+class CONFIGURATION_EXPORT XmlReaderBuilder
 {
     public:
-        ConfigurationBuilder() = delete;
-        virtual ~ConfigurationBuilder();
+        virtual ~XmlReaderBuilder();
 
-        static ConfigurationBuilder* get();
+        static XmlReaderBuilder* get();
 
         IXmlReader* build();
+
+    private:
+        XmlReaderBuilder();
 };
 
 #endif
