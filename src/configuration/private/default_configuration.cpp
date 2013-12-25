@@ -130,3 +130,8 @@ void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey &)
 
 }
 
+
+bool DefaultConfiguration::loadXml(const QString& path)
+{
+
+}

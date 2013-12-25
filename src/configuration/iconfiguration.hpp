@@ -27,6 +27,8 @@
 
 #include "configuration_export.h"
 
+class QString;
+
 namespace Configuration
 {    
     class EntryData;
@@ -52,6 +54,10 @@ struct IConfiguration
     // Unknown (not registered) keys will be treated as deprecated,
     // and dev-warning will be printed in output.
     virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
+
+    // loadXml function will load entries from provieded xml file which can introduce
+    // known and default keys/entries
+    virtual bool loadXml(const QString &) = 0;
 
     // Add entry to config
     virtual void addEntry(const Configuration::EntryData &) = 0;    
