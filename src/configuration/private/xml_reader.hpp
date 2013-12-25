@@ -10,7 +10,7 @@ class XmlReader: public IXmlReader
         XmlReader();
         virtual ~XmlReader();
 
-        virtual QSettings* getSettings() override;
+        virtual std::unique_ptr<QSettings> readSettings(const QString &) override;
 };
 
 #endif
