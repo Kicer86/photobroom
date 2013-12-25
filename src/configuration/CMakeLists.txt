@@ -42,6 +42,7 @@ if(BUILD_TESTS)
        )
     target_link_libraries(configuration_test system)
     turnOnCpp11(configuration_test)
+    qt5_use_modules(configuration_test Core)
 
 endif(BUILD_TESTS)
 
