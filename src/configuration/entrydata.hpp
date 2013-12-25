@@ -28,6 +28,8 @@
 
 #include "configuration_export.h"
 
+class QString;
+
 namespace Configuration
 {
 
@@ -37,16 +39,17 @@ namespace Configuration
             ConfigurationKey();
             ConfigurationKey(const std::string &);
             ConfigurationKey(const char *);
+            ConfigurationKey(const QString &);
             virtual ~ConfigurationKey();
-            
+
             std::vector<std::string> getKey() const;
             std::string getKeyRaw() const;
-            
+
             void setKey(const std::string &);
             void setKey(const std::vector<std::string> &);
-            
+
             bool operator==(const ConfigurationKey& other) const;
-            
+
         private:
             struct Data;
             data_ptr<Data> m_data;
@@ -60,7 +63,7 @@ namespace Configuration
             virtual ~EntryData();
             virtual bool operator==(const EntryData& other) const;
             EntryData& operator=(const EntryData &) = default;
-            
+
             std::string value() const;
             ConfigurationKey key() const;
 
@@ -68,7 +71,7 @@ namespace Configuration
             struct Data;
             data_ptr<Data> m_data;
     };
-    
+
 }
 
 #endif // ENTRYDATA_HPP

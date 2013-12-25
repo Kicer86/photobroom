@@ -23,88 +23,94 @@
 #include <cstring>
 #include <string>
 
+#include <QString>
+
 namespace Configuration
 {
-    
+
     struct ConfigurationKey::Data
     {
         Data(): m_key()
         {
-            
+
         }
-        
-        Data(const std::string& key): m_key(convert(key))
+
+        Data(const std::string& key): m_key(key)
         {
         }
-        
+
+        Data(const QString& key): m_key(key.toStdString())
+        {
+        }
+
         void setKey(const std::string& raw)
         {
-            m_key = convert(raw);
+            m_key = raw;
         }
-        
+
         void setKey(const std::vector<std::string>& key)
         {
-            m_key = key;
+            m_key = convert(key);
         }
-        
+
         std::string getKeyRaw() const
-        {
-            return convert(m_key);
-        }
-            
-        std::vector<std::string> getKey() const
         {
             return m_key;
         }
-        
+
+        std::vector<std::string> getKey() const
+        {
+            return convert(m_key);
+        }
+
         static std::vector<std::string> convert(const std::string& raw)
         {
             char *rawData = new char[raw.size() + 1];
             strcpy(rawData, raw.c_str());
-            
+
             std::vector<char *> pointers;
             size_t first_pos = 0, i = 0;
-            
+
             while (i <= raw.size())
             {
                 if (rawData[i] == ':' || rawData[i] == '\0')     // ':' means that '::' goes
                 {
                     rawData[i++] = '\0';
                     i++;                     // jump over first and second ':'
-                    
+
                     pointers.push_back(&rawData[first_pos]);  //save current string
                     first_pos = i;                            //mark first char of next one
                 }
                 else
                     i++;
             }
-            
+
             std::vector<std::string> result(pointers.size());
             for (size_t j = 0; j < pointers.size(); j++)
                 result[j] = pointers[j];
-            
+
             delete [] rawData;
-            
+
             return result;
         }
-        
+
         static std::string convert(const std::vector<std::string>& key)
         {
             std::string result;
-            
+
             for(size_t i = 0; i < key.size(); i++)
             {
                 result += key[i];
-                
+
                 if (i + 1 < key.size())
                     result += "::";
             }
-            
+
             return result;
         }
-        
-        private:    
-            std::vector<std::string> m_key;    
+
+        private:
+            std::string m_key;
     };
 
 
@@ -116,13 +122,19 @@ namespace Configuration
 
     ConfigurationKey::ConfigurationKey(const std::string& key): m_data(new Data(key))
     {
-        
+
     }
 
 
-    ConfigurationKey::ConfigurationKey(const char *key): m_data(new Data(key))
+    ConfigurationKey::ConfigurationKey(const char *key): m_data(new Data(std::string(key)))
     {
-        
+
+    }
+
+
+    ConfigurationKey::ConfigurationKey(const QString& key): m_data(new Data(key))
+    {
+
     }
 
 
@@ -187,7 +199,7 @@ namespace Configuration
 
     EntryData::EntryData(const ConfigurationKey& key, const std::string& value): m_data(new Data(key, value))
     {
-        
+
     }
 
 
@@ -203,18 +215,17 @@ namespace Configuration
 
         return status;
     }
-    
-    
+
+
     std::string EntryData::value() const
     {
         return m_data->m_value;
     }
-    
-    
+
+
     Configuration::ConfigurationKey EntryData::key() const
     {
         return m_data->m_key;
     }
 
 }
-    
