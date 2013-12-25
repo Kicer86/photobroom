@@ -1,6 +1,7 @@
 
 #usage:
 #addTestTarget(`target` SOURCES source files TEST_LIBRARY gtest|gmock)
+#function will add executable with tests and will register it for ctest.
 
 function(addTestTarget target)
 
@@ -9,8 +10,11 @@ function(addTestTarget target)
     #get sources
     parseArguments(SOURCES TEST_LIBRARY ARGUMENTS ${ARGN})
 
+    #test_bin_name
+    set(test_bin ${target}_test)
+
     #add test executable
-    add_executable(${target}_test ${SOURCES})
+    add_executable(${test_bin} ${SOURCES})
 
     #find which library should be used
     if("${TEST_LIBRARY}" STREQUAL "GTEST")
@@ -31,12 +35,12 @@ function(addTestTarget target)
     endif()
 
     #link agains test library
-    target_link_libraries(${target}_test ${link_library} ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${test_bin} ${link_library} ${CMAKE_THREAD_LIBS_INIT})
 
     #enable code coverage
-    enableCodeCoverage(${target}_test)
+    enableCodeCoverage(${test_bin})
 
     #add test
-    add_test(${target}_test ${target}_test)
+    add_test(${target} ${test_bin})
 
 endfunction(addTestTarget)
