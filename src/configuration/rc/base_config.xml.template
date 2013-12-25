@@ -7,7 +7,7 @@
 
 	-- default values
 	<defaults>
-		<base path="">    -- default path for configuration is unknown at compilation time
+		<base path="@CONF_DIR@">    -- default path for configuration
 	</defaults>
-	
+
 </configuration>
