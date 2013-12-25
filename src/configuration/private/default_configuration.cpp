@@ -72,9 +72,67 @@ struct DefaultConfiguration::Impl
         m_data[key] = data;
     }
 
+    void introduceKey(const Configuration::ConfigurationKey& key)
+    {
+        m_known_keys.insert(key);
+    }
+
+    bool loadXml(const QString& path)
+    {
+        QFile data(path);
+        bool status = data.open(QIODevice::ReadOnly);
+
+        if (status)
+        {
+            QXmlStreamReader reader(&data);
+
+            while(reader.atEnd() == false)
+            {
+                if (reader.isStartElement())
+                {
+                    const QStringRef name = reader.name();
+
+                    if (name == "keys")
+                        parseXml_Keys(&reader);
+                }
+
+                reader.readNext();
+            }
+        }
+
+        return status;
+    }
+
     private:
         std::unordered_set<Configuration::ConfigurationKey, hash> m_known_keys;
         std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash> m_data;
+
+        bool parseXml_Keys(QXmlStreamReader* reader)
+        {
+            bool status = true;
+
+            while (reader->readNext() == QXmlStreamReader::StartElement)       //start element should came
+            {
+                const QStringRef name = reader->name();
+
+                Configuration::ConfigurationKey key(name.toString());
+                introduceKey(key);
+
+                const QXmlStreamReader::TokenType type = reader->readNext();   //now we expect end element
+
+                if (type != QXmlStreamReader::EndElement)
+                {
+                    status = false;
+                    break;
+                }
+            }
+
+            //here we expect end element for <keys>
+            if (reader->tokenType() != QXmlStreamReader::EndElement)
+                status = false;
+
+            return status;
+        }
 };
 
 
@@ -117,16 +175,13 @@ void DefaultConfiguration::registerDefaultEntries(const std::vector<Configuratio
 }
 
 
-void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey &)
+void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey& key)
 {
-
+    m_impl->introduceKey(key);
 }
 
 
 bool DefaultConfiguration::loadXml(const QString& path)
 {
-    QFile data(path);
-    QXmlStreamReader reader(&data);
-
-
+    return m_impl->loadXml(path);
 }
