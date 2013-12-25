@@ -24,7 +24,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "system/system.hpp"
+#include <QString>
 
 #include "entrydata.hpp"
 
@@ -44,13 +44,6 @@ namespace
 struct DefaultConfiguration::Impl
 {
     Impl(): m_known_keys(), m_data() {}
-
-    std::string getConfigDir() const
-    {
-        const std::string result = System::getApplicationConfigDir();
-
-        return result;
-    }
 
     boost::optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const
     {
@@ -85,12 +78,9 @@ struct DefaultConfiguration::Impl
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
 {
-    std::vector<Configuration::EntryData> defaultEntries =
-    {
-        Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
-    };
+    bool status = loadXml(":/config/base_config.xml");
 
-    registerDefaultEntries(defaultEntries);
+    assert(status);
 }
 
 
