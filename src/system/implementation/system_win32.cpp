@@ -5,6 +5,9 @@
 
 std::string System::getApplicationConfigDir()
 {
-	return "c:\\test";
-}
+   std::string result(getenv("APPDATA"));
 
+   result += "/broom";
+
+   return result;
+}
