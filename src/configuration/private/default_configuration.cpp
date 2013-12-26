@@ -116,7 +116,7 @@ struct DefaultConfiguration::Impl
                                   << name.toString().toStdString()
                                   << ")"
                                   << std::endl;
-                                  
+
                         status = false;
                         break;
                     }
@@ -191,7 +191,16 @@ struct DefaultConfiguration::Impl
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
 {
+    //load static data
     loadXml(":/config/base_config.xml");
+
+    //load dynamic data
+    std::vector<Configuration::EntryData> defaultEntries =
+    {
+        Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
+    };
+
+    registerDefaultEntries(defaultEntries);
 }
 
 
