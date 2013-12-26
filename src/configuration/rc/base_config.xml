@@ -2,12 +2,12 @@
 
 	-- introduce known configuration keys
 	<keys>
-		<base />          -- base path for configurations, databases etc
+		<key name="Application::ConfigDir" />    -- base path for configurations, databases etc
 	</keys>
 
 	-- default values
 	<defaults>
-		<base path="">    -- default path for configuration is unknown at compilation time
+
 	</defaults>
-	
+
 </configuration>
