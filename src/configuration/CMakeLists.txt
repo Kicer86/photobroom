@@ -46,6 +46,7 @@ if(BUILD_TESTS)
                                 TEST_LIBRARY
                                     GTEST
        )
+    target_link_libraries(configuration_test system)
     turnOnCpp11(configuration_test)
     qt5_use_modules(configuration_test Core)
 
@@ -56,6 +57,7 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
 add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS} ${CONFIG_RESOURCES})
+target_link_libraries(configuration system)
 qt5_use_modules(configuration Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)

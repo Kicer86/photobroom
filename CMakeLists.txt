@@ -24,6 +24,7 @@ add_subdirectory(src/configuration)
 add_subdirectory(src/analyzer)
 add_subdirectory(src/database)
 add_subdirectory(src/gui)
+add_subdirectory(src/system)
 
 find_package(OpenLibrary REQUIRED utils)
 

@@ -28,6 +28,8 @@
 #include <QXmlStreamReader>
 #include <QFile>
 
+#include "system/system.hpp"
+
 #include "entrydata.hpp"
 
 
@@ -46,6 +48,13 @@ namespace
 struct DefaultConfiguration::Impl
 {
     Impl(): m_known_keys(), m_data() {}
+
+    std::string getConfigDir() const
+    {
+        const std::string result = System::getApplicationConfigDir();
+
+        return result;
+    }
 
     boost::optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const
     {
@@ -138,9 +147,12 @@ struct DefaultConfiguration::Impl
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
 {
-    bool status = loadXml(":/config/base_config.xml");
+    std::vector<Configuration::EntryData> defaultEntries =
+    {
+        Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
+    };
 
-    assert(status);
+    registerDefaultEntries(defaultEntries);
 }
 
 
