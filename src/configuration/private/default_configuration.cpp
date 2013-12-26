@@ -90,6 +90,7 @@ struct DefaultConfiguration::Impl
     {
         QFile data(path);
         bool status = data.open(QIODevice::ReadOnly);
+        int level = 0;
 
         if (status)
         {
@@ -99,11 +100,30 @@ struct DefaultConfiguration::Impl
             {
                 if (reader.isStartElement())
                 {
+                    level++;
+
                     const QStringRef name = reader.name();
 
-                    if (name == "keys")
+                    if (name == "configuration" && level == 1)
+                    {
+                        //just do nothing
+                    }
+                    else if (name == "keys" && level == 2)
                         parseXml_Keys(&reader);
+                    else
+                    {
+                        std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
+                                  << name.toString().toStdString()
+                                  << ")"
+                                  << std::endl;
+                                  
+                        status = false;
+                        break;
+                    }
                 }
+
+                if (reader.isEndElement())
+                    level--;
 
                 reader.readNext();
             }
