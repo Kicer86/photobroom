@@ -58,6 +58,8 @@ struct DefaultConfiguration::Impl
 
     boost::optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const
     {
+        verifyKey(key);
+
         boost::optional<Configuration::EntryData> result;
         auto it = m_data.find(key);
 
@@ -78,6 +80,8 @@ struct DefaultConfiguration::Impl
 
     void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data)
     {
+        verifyKey(key);
+
         m_data[key] = data;
     }
 
@@ -185,6 +189,12 @@ struct DefaultConfiguration::Impl
                                 type != QXmlStreamReader::NoToken;
 
             return status;
+        }
+
+        void verifyKey(const Configuration::ConfigurationKey& key) const
+        {
+            if (m_known_keys.find(key) == m_known_keys.end())
+                std::cerr << "DefaultConfiguration: unknown key: " << key.getKeyRaw() << std::endl;
         }
 };
 
