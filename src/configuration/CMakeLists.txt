@@ -11,17 +11,6 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
-if(UNIX)
-    set(CONF_DIR "$ENV{HOME}/.config/broom")
-elseif(WIN32)
-    set(CONF_DIR "$ENV{APPDATA}/broom")
-else()
-    message(FATAL_ERROR "Problems with determining Operating System for configruation dir purposes")
-endif(UNIX)
-
-configure_file(rc/base_config.xml.template ${CMAKE_CURRENT_BINARY_DIR}/base_config.xml @ONLY)
-configure_file(rc/resources.qrc.template   ${CMAKE_CURRENT_BINARY_DIR}/resources.qrc   COPYONLY)
-
 set(CONFIG_SOURCES
     private/configurationfactory.cpp
     private/entrydata.cpp
@@ -35,7 +24,7 @@ set(CONFIG_HEADERS
     private/default_configuration.hpp
    )
 
-set(CONFIG_RESOURCE_FILES ${CMAKE_CURRENT_BINARY_DIR}/resources.qrc)   #file needs to be configured
+set(CONFIG_RESOURCE_FILES rc/resources.qrc)
 
 if(BUILD_TESTS)
     addTestTarget(configuration SOURCES
