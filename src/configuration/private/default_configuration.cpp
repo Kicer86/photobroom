@@ -78,11 +78,16 @@ struct DefaultConfiguration::Impl
         return result;
     }
 
-    void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data)
+    void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data, bool def = false)
     {
         verifyKey(key);
 
-        m_data[key] = data;
+        //for default entries
+        //add only those which are not present yet
+        bool add = def? m_data.find(key) == m_data.end(): true;
+
+        if (add)
+            m_data[key] = data;
     }
 
     void introduceKey(const Configuration::ConfigurationKey& key)
@@ -241,7 +246,7 @@ void DefaultConfiguration::addEntry(const Configuration::EntryData& entry)
 void DefaultConfiguration::registerDefaultEntries(const std::vector<Configuration::EntryData>& entries)
 {
     for(const auto& entry: entries)
-        addEntry(entry);
+        m_impl->addEntry(entry.key(), entry, true);
 }
 
 
