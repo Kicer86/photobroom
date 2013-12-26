@@ -120,14 +120,20 @@ struct DefaultConfiguration::Impl
         {
             bool status = true;
 
-            while (reader->readNext() == QXmlStreamReader::StartElement)       //start element should came
+            status = gotoNextUseful(reader);
+
+            while (status && reader->tokenType() == QXmlStreamReader::StartElement)       //start element should came
             {
                 const QStringRef name = reader->name();
 
                 Configuration::ConfigurationKey key(name.toString());
                 introduceKey(key);
 
-                const QXmlStreamReader::TokenType type = reader->readNext();   //now we expect end element
+                status = gotoNextUseful(reader);
+                if (status == false)
+                    break;
+
+                const QXmlStreamReader::TokenType type = reader->tokenType();   //now we expect end element
 
                 if (type != QXmlStreamReader::EndElement)
                 {
@@ -137,8 +143,26 @@ struct DefaultConfiguration::Impl
             }
 
             //here we expect end element for <keys>
-            if (reader->tokenType() != QXmlStreamReader::EndElement)
+            const QXmlStreamReader::TokenType type = reader->tokenType();
+            if (type != QXmlStreamReader::EndElement)
                 status = false;
+
+            return status;
+        }
+
+        bool gotoNextUseful(QXmlStreamReader* reader)
+        {
+            QXmlStreamReader::TokenType type = QXmlStreamReader::Invalid;
+
+            do
+            {
+                type = reader->readNext();
+            }
+            while(type == QXmlStreamReader::Comment || type == QXmlStreamReader::Characters);
+
+            const bool status = reader->hasError() == false &&
+                                type != QXmlStreamReader::Invalid &&
+                                type != QXmlStreamReader::NoToken;
 
             return status;
         }
@@ -147,12 +171,7 @@ struct DefaultConfiguration::Impl
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
 {
-    std::vector<Configuration::EntryData> defaultEntries =
-    {
-        Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
-    };
-
-    registerDefaultEntries(defaultEntries);
+    loadXml(":/config/base_config.xml");
 }
 
 
