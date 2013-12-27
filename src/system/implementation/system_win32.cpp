@@ -2,6 +2,7 @@
 #include "../system.hpp"
 
 #include <string>
+#include <cstdlib>
 
 std::string System::getApplicationConfigDir()
 {
