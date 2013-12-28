@@ -34,6 +34,7 @@ if(BUILD_TESTS)
                                     tests/entrydata_tests.cpp
                                     tests/configurationfactory_tests.cpp
                                     tests/default_configuration_tests.cpp
+                                    tests/default_configuration_private_tests.cpp
                                 TEST_LIBRARY
                                     GTEST
        )
