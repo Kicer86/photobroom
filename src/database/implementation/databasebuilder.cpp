@@ -109,7 +109,7 @@ namespace Database
             IFrontend *frontend = new MemoryDatabase(fs);
 
             defaultDatabase.reset(frontend);
-            defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::PrimitiveBackend));
+            defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::DefaultBackend));
         }
 
         return defaultDatabase.get();

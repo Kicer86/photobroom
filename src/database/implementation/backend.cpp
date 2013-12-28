@@ -5,21 +5,21 @@
 
 namespace Database
 {
-    
-    PrimitiveBackend::PrimitiveBackend()
+
+    DefaultBackend::DefaultBackend()
     {
     }
-    
-    
-    PrimitiveBackend::~PrimitiveBackend()
+
+
+    DefaultBackend::~DefaultBackend()
     {
     }
-    
-    
-    bool PrimitiveBackend::store(const Entry &entry)
+
+
+    bool DefaultBackend::store(const Entry &entry)
     {
         (void) entry;
-		return true;        
+		return true;
     }
-    
+
 }

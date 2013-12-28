@@ -7,15 +7,15 @@
 namespace Database
 {
 
-    class PrimitiveBackend: public IBackend
+    class DefaultBackend: public IBackend
     {
         public:
-            PrimitiveBackend();
-            virtual ~PrimitiveBackend();
-            
+            DefaultBackend();
+            virtual ~DefaultBackend();
+
             virtual bool store(const Entry& );
     };
-    
+
 }
 
 #endif
