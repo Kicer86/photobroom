@@ -29,32 +29,32 @@
 
 namespace Database
 {
-	class Entry
-	{
-		public:
-			Entry();
-			Entry(const Entry &);
-			Entry(Entry &&);
-			virtual ~Entry();
-        
-			virtual Entry& operator=(Entry &&);
-			virtual Entry& operator=(const Entry &);
+    class Entry
+    {
+        public:
+            Entry();
+            Entry(const Entry&);
+            Entry(Entry && );
+            virtual ~Entry();
+
+            virtual Entry& operator=(Entry && );
+            virtual Entry& operator=(const Entry&);
 
             typedef boost::uint32_t crc32;
-        
-			struct Data
-			{
-				Data(): m_crc(0xffffffff), m_path("null") {}
-            
-				crc32       m_crc;
-				std::string m_path;         //path starts with file (when localfile), or with db: (when in database)
-			};
-        
-			data_ptr<Data> m_d;
-        
-		private:
-			virtual bool operator==(const Entry&) const;        
-	};
+
+            struct Data
+            {
+                Data(): m_crc(0xffffffff), m_path("null") {}
+
+                crc32       m_crc;
+                std::string m_path;         //path starts with file (when localfile), or with db: (when in database)
+            };
+
+            data_ptr<Data> m_d;
+
+        private:
+            virtual bool operator==(const Entry&) const;
+    };
 
 }
 

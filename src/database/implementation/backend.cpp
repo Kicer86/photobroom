@@ -19,7 +19,7 @@ namespace Database
     bool DefaultBackend::store(const Entry &entry)
     {
         (void) entry;
-		return true;
+        return true;
     }
 
 }
