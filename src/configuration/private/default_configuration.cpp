@@ -232,6 +232,9 @@ DefaultConfiguration::DefaultConfiguration(): m_impl(new Impl)
     };
 
     registerDefaultEntries(defaultEntries);
+
+    std::cout << "DefaultConfiguration: using " << m_impl->getConfigDir() << " "
+              << "for broom's base dir" << std::endl;
 }
 
 
