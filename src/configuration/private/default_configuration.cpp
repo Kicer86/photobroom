@@ -116,7 +116,7 @@ struct DefaultConfiguration::Impl
         int level = 0;
         bool status = true;
 
-        while(reader.atEnd() == false)
+        while(status && reader.atEnd() == false)
         {
             if (reader.isStartElement())
             {
@@ -124,12 +124,14 @@ struct DefaultConfiguration::Impl
 
                 const QStringRef name = reader.name();
 
-                if (name == "configuration" && level == 1)
+                if (level == 1 && name == "configuration")
                 {
                     //just do nothing
                 }
-                else if (name == "keys" && level == 2)
-                    parseXml_Keys(&reader);
+                else if (level == 2 && name == "keys")
+                    status = parseXml_Keys(&reader);
+                else if (level == 2 && name == "defaults")
+                    status = parseXml_DefaultKeys(&reader);
                 else
                 {
                     std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
@@ -177,6 +179,62 @@ struct DefaultConfiguration::Impl
                     }
                     else
                         std::cerr << "DefaultConfiguration: in <keys> section there is a key with null name" << std::endl;
+                }
+                else
+                {
+                    status = false;
+                    break;
+                }
+
+                status = gotoNextUseful(reader);
+                if (status == false)
+                    break;
+
+                const QXmlStreamReader::TokenType type = reader->tokenType();   //now we expect end element
+
+                if (type != QXmlStreamReader::EndElement)
+                {
+                    status = false;
+                    break;
+                }
+            }
+
+            //here we expect end element for <keys>
+            const QXmlStreamReader::TokenType type = reader->tokenType();
+            if (type != QXmlStreamReader::EndElement)
+                status = false;
+
+            return status;
+        }
+
+        bool parseXml_DefaultKeys(QXmlStreamReader* reader)
+        {
+            bool status = true;
+
+            status = gotoNextUseful(reader);
+
+            while (status && reader->tokenType() == QXmlStreamReader::StartElement)       //start element should came
+            {
+                const QStringRef token = reader->name();
+
+                if (token == "key")
+                {
+                    const QXmlStreamAttributes attrs = reader->attributes();
+                    const QStringRef name = attrs.value("name");
+                    const QStringRef value = attrs.value("value");
+
+                    if (name.isEmpty() == false)
+                    {
+                        //introduce key
+                        Configuration::ConfigurationKey key(name.toString());
+                        introduceKey(key);
+
+                        //set default value
+                        Configuration::EntryData entry(key, value.toString().toStdString());
+                        addEntry(key, entry);
+                    }
+                    else
+                        std::cerr << "DefaultConfiguration: in <defaults> section there is a key with null name" << std::endl;
                 }
                 else
                 {
