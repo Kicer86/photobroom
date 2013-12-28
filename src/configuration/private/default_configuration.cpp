@@ -153,10 +153,26 @@ struct DefaultConfiguration::Impl
 
             while (status && reader->tokenType() == QXmlStreamReader::StartElement)       //start element should came
             {
-                const QStringRef name = reader->name();
+                const QStringRef token = reader->name();
 
-                Configuration::ConfigurationKey key(name.toString());
-                introduceKey(key);
+                if (token == "key")
+                {
+                    const QXmlStreamAttributes attrs = reader->attributes();
+                    const QStringRef name = attrs.value("name");
+
+                    if (name.isEmpty() == false)
+                    {
+                        Configuration::ConfigurationKey key(name.toString());
+                        introduceKey(key);
+                    }
+                    else
+                        std::cerr << "DefaultConfiguration: in <keys> section there is a key with null name" << std::endl;
+                }
+                else
+                {
+                    status = false;
+                    break;
+                }
 
                 status = gotoNextUseful(reader);
                 if (status == false)
