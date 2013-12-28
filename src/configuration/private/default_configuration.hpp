@@ -25,6 +25,7 @@
 
 #include "iconfiguration.hpp"
 
+struct DefaultConfigurationPrivate;
 
 class DefaultConfiguration: public IConfiguration
 {
@@ -42,8 +43,7 @@ class DefaultConfiguration: public IConfiguration
         virtual bool useXml(const std::string &) override;
 
     private:
-        struct Impl;
-        std::unique_ptr<Impl> m_impl;
+        std::unique_ptr<DefaultConfigurationPrivate> m_impl;
 };
 
 #endif // DEFAULT_CONFIGURATION_HPP
