@@ -246,6 +246,9 @@ bool DefaultConfigurationPrivate::parseXml_DefaultKeys(QXmlStreamReader* reader)
             status = false;
             break;
         }
+
+        //let's move to next element
+        status = gotoNextUseful(reader);
     }
 
     //here we expect end element for <keys>
