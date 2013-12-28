@@ -5,6 +5,7 @@
 #include <QXmlStreamReader>
 
 #include "private/default_configuration_private.hpp"
+#include "entrydata.hpp"
 
 
 //access to private parts of DefaultConfigurationPrivate
@@ -75,6 +76,7 @@ TEST(DefaultConfigurationPrivateShould, ParseSimplestXmlWithoutError)
     ASSERT_EQ(true, status2);
 }
 
+/********************************************************************************/
 
 struct DefaultConfigurationPrivateFunctionsShould: public ::testing::Test
 {
@@ -140,6 +142,8 @@ TEST_F(DefaultConfigurationPrivateFunctionsShould, LoadProvidedKeys)
 
     ASSERT_EQ(3, prv.getKnownKeys().size());      //three introduced keys
     ASSERT_EQ(0, prv.getData().size());           //no data
+
+
 }
 
 
@@ -156,6 +160,9 @@ TEST_F(DefaultConfigurationPrivateFunctionsShould, LoadProvidedDefault)
 
     ASSERT_EQ(1, prv.getKnownKeys().size());      //one introduced key
     ASSERT_EQ(1, prv.getData().size());           //no data
+
+    auto data = prv.getData();
+    ASSERT_EQ(Configuration::EntryData("1", "2"), data["1"]); //data for key '1' should be equal to '1':'2'
 }
 
 
@@ -174,4 +181,9 @@ TEST_F(DefaultConfigurationPrivateFunctionsShould, LoadProvidedDefaults)
 
     ASSERT_EQ(3, prv.getKnownKeys().size());      //three introduced keys
     ASSERT_EQ(3, prv.getData().size());           //no data
+
+    auto data = prv.getData();
+    ASSERT_EQ(Configuration::EntryData("1", "2"), data["1"]);
+    ASSERT_EQ(Configuration::EntryData("2", "4"), data["2"]);
+    ASSERT_EQ(Configuration::EntryData("3", "6"), data["3"]);
 }
