@@ -35,18 +35,18 @@
 
 namespace Database
 {
-    
+
     const std::string databaseLocation = "Database::Backend::DataLocation";
 
     namespace
     {
         std::unique_ptr<IFrontend> defaultDatabase;
-        
+
         struct StreamFactory: public IStreamFactory
         {
-            virtual ~StreamFactory() 
+            virtual ~StreamFactory()
             {
-                
+
             }
 
             virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
@@ -59,7 +59,7 @@ namespace Database
                 return stream;
             }
         };
-        
+
         //object which initializes configuration with db entries
         struct ConfigurationInitializer
         {
@@ -67,18 +67,23 @@ namespace Database
             {
                 std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
                 boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
-                
+
                 assert(entry.is_initialized());
-                
+
                 const std::string configPath = entry->value();
                 const std::string dbPath = configPath + "/database";
-                
-                std::vector<Configuration::EntryData> entries = 
-                {
-                    Configuration::EntryData(databaseLocation, dbPath)
-                };
-                
-                config->registerDefaultEntries(entries);
+
+                const std::string configuration_xml =
+                    "<configuration>                                        "
+                    "   <keys>                                              "
+                    "   </keys>                                             "
+                    "                                                       "
+                    "   <defaults>                                          "
+                    "       <key name='Database::Backend::DataLocation' value='" + dbPath + "' />"
+                    "   </defaults>                                         "
+                    "</configuration>                                       ";
+
+                config->useXml(configuration_xml);
             }
         } initializer;
     }
@@ -99,10 +104,10 @@ namespace Database
     IFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
-        {            
+        {
             std::shared_ptr<IStreamFactory> fs(new StreamFactory);
             IFrontend *frontend = new MemoryDatabase(fs);
-            
+
             defaultDatabase.reset(frontend);
             defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::PrimitiveBackend));
         }
