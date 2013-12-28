@@ -120,6 +120,7 @@ struct DefaultConfiguration::Impl
         {
             if (reader.isStartElement())
             {
+                std::cout << "DefaultConfiguration: found start element: " << reader.name().toString().toStdString() << std::endl;
                 level++;
 
                 const QStringRef name = reader.name();
@@ -129,9 +130,15 @@ struct DefaultConfiguration::Impl
                     //just do nothing
                 }
                 else if (level == 2 && name == "keys")
+                {
                     status = parseXml_Keys(&reader);
+                    gotoNextUseful(&reader);            //jump over end element
+                }
                 else if (level == 2 && name == "defaults")
+                {
                     status = parseXml_DefaultKeys(&reader);
+                    gotoNextUseful(&reader);            //jump over end element
+                }
                 else
                 {
                     std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
@@ -145,7 +152,10 @@ struct DefaultConfiguration::Impl
             }
 
             if (reader.isEndElement())
+            {
+                std::cout << "DefaultConfiguration: found end element: " << reader.name().toString().toStdString() << std::endl;
                 level--;
+            }
 
             reader.readNext();
         }
