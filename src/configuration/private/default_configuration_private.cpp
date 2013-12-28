@@ -176,13 +176,17 @@ bool DefaultConfigurationPrivate::parseXml_Keys(QXmlStreamReader* reader)
         if (status == false)
             break;
 
-        const QXmlStreamReader::TokenType type = reader->tokenType();   //now we expect end element
+        //now we expect end element for <key>
+        const QXmlStreamReader::TokenType type = reader->tokenType();
 
         if (type != QXmlStreamReader::EndElement)
         {
             status = false;
             break;
         }
+
+        //let's move to next element
+        status = gotoNextUseful(reader);
     }
 
     //here we expect end element for <keys>
