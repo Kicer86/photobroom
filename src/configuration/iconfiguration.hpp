@@ -30,10 +30,10 @@
 class QString;
 
 namespace Configuration
-{    
+{
     class EntryData;
     class ConfigurationKey;
-    
+
     //Base configuration keys
     extern CONFIGURATION_EXPORT const std::string configLocation;       //application dir with configuration,
                                                                         //databases etc
@@ -43,12 +43,12 @@ struct IConfiguration
 {
     IConfiguration() {}
     virtual ~IConfiguration() {}
-    
+
     // This function registers a default entry with value.
     // If a value for specified entry exists in config file,
     // will be prefered.
     virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
-    
+
     // This function introduces a configuration key.
     // Before adding/loading values to configuration, each entry (Key) must be introduced.
     // Unknown (not registered) keys will be treated as deprecated,
@@ -59,10 +59,13 @@ struct IConfiguration
     // known and default keys/entries
     virtual bool loadXml(const QString &) = 0;
 
+    // same as loadXml but takes string with xml code
+    virtual bool useXml(const std::string &) = 0;
+
     // Add entry to config
-    virtual void addEntry(const Configuration::EntryData &) = 0;    
-    
-    virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;    
+    virtual void addEntry(const Configuration::EntryData &) = 0;
+
+    virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;
 };
 

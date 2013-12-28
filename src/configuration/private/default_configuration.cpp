@@ -99,43 +99,53 @@ struct DefaultConfiguration::Impl
     {
         QFile data(path);
         bool status = data.open(QIODevice::ReadOnly);
-        int level = 0;
 
         if (status)
         {
-            QXmlStreamReader reader(&data);
+            QString buffer = data.readAll();
 
-            while(reader.atEnd() == false)
+            status = useXml(buffer);
+        }
+
+        return status;
+    }
+
+    bool useXml(const QString &xml)
+    {
+        QXmlStreamReader reader(xml);
+        int level = 0;
+        bool status = true;
+
+        while(reader.atEnd() == false)
+        {
+            if (reader.isStartElement())
             {
-                if (reader.isStartElement())
+                level++;
+
+                const QStringRef name = reader.name();
+
+                if (name == "configuration" && level == 1)
                 {
-                    level++;
-
-                    const QStringRef name = reader.name();
-
-                    if (name == "configuration" && level == 1)
-                    {
-                        //just do nothing
-                    }
-                    else if (name == "keys" && level == 2)
-                        parseXml_Keys(&reader);
-                    else
-                    {
-                        std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
-                                  << name.toString().toStdString()
-                                  << ")"
-                                  << std::endl;
-
-                        status = false;
-                        break;
-                    }
+                    //just do nothing
                 }
+                else if (name == "keys" && level == 2)
+                    parseXml_Keys(&reader);
+                else
+                {
+                    std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
+                                << name.toString().toStdString()
+                                << ")"
+                                << std::endl;
 
-                if (reader.isEndElement())
-                    level--;
-
-                reader.readNext();
+                    status = false;
+                    break;
+                }
             }
+
+            if (reader.isEndElement())
+                level--;
+
+            reader.readNext();
         }
 
         return status;
@@ -279,3 +289,10 @@ bool DefaultConfiguration::loadXml(const QString& path)
 {
     return m_impl->loadXml(path);
 }
+
+
+bool DefaultConfiguration::useXml(const std::string& xml)
+{
+    return m_impl->useXml(xml.c_str());
+}
+

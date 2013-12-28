@@ -39,6 +39,7 @@ class DefaultConfiguration: public IConfiguration
         virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) override;
         virtual void registerKey(const Configuration::ConfigurationKey &) override;
         virtual bool loadXml(const QString &) override;
+        virtual bool useXml(const std::string &) override;
 
     private:
         struct Impl;
