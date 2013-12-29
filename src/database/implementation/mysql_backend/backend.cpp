@@ -18,7 +18,42 @@
 namespace Database
 {
 
-    MySqlBackend::MySqlBackend() noexcept(true)
+    struct MySqlBackend::Data
+    {
+        Data(): m_initialized(false) {}
+
+        bool init() noexcept(true)
+        {
+            bool status = true;
+
+            if (m_initialized == false)
+            {
+                auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
+
+                //create directories
+                if (entry)
+                {
+                    boost::filesystem::path storage(entry->value());
+
+                    if (boost::filesystem::exists(storage) == false)
+                        status = boost::filesystem::create_directories(storage);
+                }
+
+                //start mysql process
+
+
+                m_initialized = status;
+            }
+
+            return status;
+        }
+
+        private:
+            bool m_initialized;
+    };
+
+
+    MySqlBackend::MySqlBackend(): m_data(new Data)
     {
 
     }
@@ -29,31 +64,15 @@ namespace Database
     }
 
 
-    bool MySqlBackend::init() noexcept(true)
-    {
-        auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
-        bool status = true;
-
-        //create directories
-        if (entry)
-        {
-            boost::filesystem::path storage(entry->value());
-
-            if (boost::filesystem::exists(storage) == false)
-                status = boost::filesystem::create_directories(storage);
-        }
-
-        //start mysql process
-
-
-        return status;
-    }
-
-
     bool MySqlBackend::store(const Entry &entry)
     {
         (void) entry;
         return true;
     }
 
+
+    bool MySqlBackend::init()
+    {
+        m_data->init();
+    }
 }

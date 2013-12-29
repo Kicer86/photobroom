@@ -37,6 +37,11 @@ namespace
 			return true;
 		}
 
+		virtual bool init()
+        {
+            return true;
+        }
+
 		std::vector<Database::Entry> m_entries;
 	};
 }

@@ -108,7 +108,7 @@ namespace Database
             std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
             std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
 
-            std::shared_ptr<Database::MySqlBackend> backend = std::make_shared<Database::MySqlBackend>();
+            std::shared_ptr<Database::IBackend> backend = std::make_shared<Database::MySqlBackend>();
             const bool status = backend->init();
 
             if (status)
