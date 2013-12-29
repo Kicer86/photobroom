@@ -73,6 +73,6 @@ namespace Database
 
     bool MySqlBackend::init()
     {
-        m_data->init();
+        return m_data->init();
     }
 }
