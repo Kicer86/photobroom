@@ -76,6 +76,35 @@ TEST(DefaultConfigurationPrivateShould, ParseSimplestXmlWithoutError)
     ASSERT_EQ(true, status2);
 }
 
+
+
+TEST(DefaultConfigurationPrivateShould, LoadProvidedDefaultsAndKeys)
+{
+    const std::string xml =
+         "<configuration>"
+         "    <keys>"
+         "        <key name='4' />"
+         "    </keys>"
+         "    <defaults>"
+         "        <key name='1' value='2'/>"
+         "        <key name='2' value='4'/>"
+         "        <key name='3' value='6'/>"
+         "    </defaults>"
+         "</configuration>";
+
+    PublicWrapper prv;
+    const bool status = prv.useXml(xml.c_str());
+    ASSERT_EQ(true, status);
+
+    ASSERT_EQ(4, prv.getKnownKeys().size());      //four introduced keys
+    ASSERT_EQ(3, prv.getData().size());           //3 default entries
+
+    auto data = prv.getData();
+    ASSERT_EQ(Configuration::EntryData("1", "2"), data["1"]);
+    ASSERT_EQ(Configuration::EntryData("2", "4"), data["2"]);
+    ASSERT_EQ(Configuration::EntryData("3", "6"), data["3"]);
+}
+
 /********************************************************************************/
 
 struct DefaultConfigurationPrivateFunctionsShould: public ::testing::Test
@@ -187,3 +216,4 @@ TEST_F(DefaultConfigurationPrivateFunctionsShould, LoadProvidedDefaults)
     ASSERT_EQ(Configuration::EntryData("2", "4"), data["2"]);
     ASSERT_EQ(Configuration::EntryData("3", "6"), data["3"]);
 }
+
