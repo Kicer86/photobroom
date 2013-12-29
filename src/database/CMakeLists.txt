@@ -21,25 +21,10 @@ set(DATABASE_HEADERS
     implementation/memorydatabase.hpp
     )
 
-set(BACKEND mysql)
-
-#determine which backend should be used
-if(BACKEND STREQUAL "mysql")
-
-    find_package(Qt5Core REQUIRED)
-    include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
-
-    set(DATABASE_SOURCES ${DATABASE_SOURCES}
-                         implementation/mysql_backend/backend.cpp)
-
-    set(DATABASE_HEADERS ${DATABASE_HEADERS}
-                         implementation/mysql_backend/backend.hpp)
-
-endif(BACKEND STREQUAL "mysql")
-
 if(BUILD_TESTS)
     addTestTarget(database  SOURCES
-                                ${DATABASE_SOURCES}
+                                implementation/entry.cpp
+                                implementation/memorydatabase.cpp
                                 tests/databaseTests.cpp
                             TEST_LIBRARY
                                 GTEST
@@ -53,9 +38,16 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database configuration ${Boost_LIBRARIES})
 
-if(BACKEND STREQUAL "mysql")
-    qt5_use_modules(database Core)
-endif(BACKEND STREQUAL "mysql")
-
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
+
+
+set(BACKEND mysql)
+
+#determine which backend should be used
+if(BACKEND STREQUAL "mysql")
+
+    add_subdirectory(implementation/mysql_backend)
+    target_link_libraries(database database_mysql_backend)
+
+endif(BACKEND STREQUAL "mysql")
