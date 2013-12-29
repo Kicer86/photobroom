@@ -7,11 +7,11 @@
 namespace Database
 {
 
-    class DefaultBackend: public IBackend
+    class MySqlBackend: public IBackend
     {
         public:
-            DefaultBackend() noexcept(true);
-            virtual ~DefaultBackend();
+            MySqlBackend() noexcept(true);
+            virtual ~MySqlBackend();
 
             bool init() noexcept(true);
             virtual bool store(const Entry& );

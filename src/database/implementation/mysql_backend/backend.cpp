@@ -18,18 +18,18 @@
 namespace Database
 {
 
-    DefaultBackend::DefaultBackend() noexcept(true)
+    MySqlBackend::MySqlBackend() noexcept(true)
     {
 
     }
 
 
-    DefaultBackend::~DefaultBackend()
+    MySqlBackend::~MySqlBackend()
     {
     }
 
 
-    bool DefaultBackend::init() noexcept(true)
+    bool MySqlBackend::init() noexcept(true)
     {
         auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
         bool status = true;
@@ -50,7 +50,7 @@ namespace Database
     }
 
 
-    bool DefaultBackend::store(const Entry &entry)
+    bool MySqlBackend::store(const Entry &entry)
     {
         (void) entry;
         return true;
