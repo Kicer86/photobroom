@@ -8,7 +8,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
-    implementation/backend.cpp
     implementation/databasebuilder.cpp
     implementation/entry.cpp
     implementation/memorydatabase.cpp
@@ -19,12 +18,26 @@ set(DATABASE_HEADERS
     idatabase.hpp
     ifs.hpp
     entry.hpp
-    implementation/backend.hpp
     implementation/memorydatabase.hpp
     )
 
-if(BUILD_TESTS)
+set(BACKEND mysql)
 
+#determine which backend should be used
+if(BACKEND STREQUAL "mysql")
+
+    find_package(Qt5Core REQUIRED)
+    include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+
+    set(DATABASE_SOURCES ${DATABASE_SOURCES}
+                         implementation/mysql_backend/backend.cpp)
+
+    set(DATABASE_HEADERS ${DATABASE_HEADERS}
+                         implementation/mysql_backend/backend.hpp)
+
+endif(BACKEND STREQUAL "mysql")
+
+if(BUILD_TESTS)
     addTestTarget(database  SOURCES
                                 ${DATABASE_SOURCES}
                                 tests/databaseTests.cpp
@@ -39,6 +52,10 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database configuration ${Boost_LIBRARIES})
+
+if(BACKEND STREQUAL "mysql")
+    qt5_use_modules(database Core)
+endif(BACKEND STREQUAL "mysql")
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)

@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 
+#include <QProcess>
+
 #include <boost/filesystem.hpp>
 
 #include "configuration/configurationfactory.hpp"
@@ -32,6 +34,7 @@ namespace Database
         auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
         bool status = true;
 
+        //create directories
         if (entry)
         {
             boost::filesystem::path storage(entry->value());
@@ -39,6 +42,9 @@ namespace Database
             if (boost::filesystem::exists(storage) == false)
                 status = boost::filesystem::create_directories(storage);
         }
+
+        //start mysql process
+
 
         return status;
     }
