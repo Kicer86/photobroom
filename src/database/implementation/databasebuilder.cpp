@@ -105,11 +105,17 @@ namespace Database
     {
         if (defaultDatabase.get() == nullptr)
         {
-            std::shared_ptr<IStreamFactory> fs(new StreamFactory);
-            IFrontend *frontend = new MemoryDatabase(fs);
+            std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
+            std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
 
-            defaultDatabase.reset(frontend);
-            defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::DefaultBackend));
+            std::shared_ptr<Database::DefaultBackend> backend = std::make_shared<Database::DefaultBackend>();
+            const bool status = backend->init();
+
+            if (status)
+            {
+                defaultDatabase = std::move(frontend);
+                defaultDatabase->setBackend(backend);
+            }
         }
 
         return defaultDatabase.get();

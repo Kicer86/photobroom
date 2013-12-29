@@ -16,26 +16,31 @@
 namespace Database
 {
 
-    DefaultBackend::DefaultBackend()
+    DefaultBackend::DefaultBackend() noexcept(true)
+    {
+
+    }
+
+
+    DefaultBackend::~DefaultBackend()
+    {
+    }
+
+
+    bool DefaultBackend::init() noexcept(true)
     {
         auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
+        bool status = true;
 
         if (entry)
         {
             boost::filesystem::path storage(entry->value());
 
             if (boost::filesystem::exists(storage) == false)
-            {
-                const bool status = boost::filesystem::create_directories(storage);
-                if (status == false)
-                    throw std::runtime_error("Could not create database directory: " + storage.string());
-            }
+                status = boost::filesystem::create_directories(storage);
         }
-    }
 
-
-    DefaultBackend::~DefaultBackend()
-    {
+        return status;
     }
 
 

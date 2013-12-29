@@ -10,9 +10,10 @@ namespace Database
     class DefaultBackend: public IBackend
     {
         public:
-            DefaultBackend();
+            DefaultBackend() noexcept(true);
             virtual ~DefaultBackend();
 
+            bool init() noexcept(true);
             virtual bool store(const Entry& );
     };
 
