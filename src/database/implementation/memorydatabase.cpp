@@ -54,7 +54,7 @@ namespace Database
             m_backend(nullptr),
             m_backendMutex(),
             m_backendSet(),
-			m_updateQueue(m_max_queue_len),
+            m_updateQueue(m_max_queue_len),
             m_storekeeper(trampoline, this)
         {
 
