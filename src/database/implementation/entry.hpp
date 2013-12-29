@@ -27,27 +27,31 @@
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
+#include "core/photo_info.hpp"
+
 namespace Database
 {
     class Entry
     {
         public:
             Entry();
-            Entry(const Entry&);
+            Entry(const Entry&) = default;
+            Entry(const APhotoInfo::Ptr &);
             Entry(Entry && );
             virtual ~Entry();
 
             virtual Entry& operator=(Entry && );
-            virtual Entry& operator=(const Entry&);
+            virtual Entry& operator=(const Entry&) = default;
 
             typedef boost::uint32_t crc32;
 
             struct Data
             {
-                Data(): m_crc(0xffffffff), m_path("null") {}
+                Data(const APhotoInfo::Ptr& photoInfo = nullptr): m_crc(0xffffffff), m_path("null"), m_photoInfo(photoInfo) {}
 
                 crc32       m_crc;
-                std::string m_path;         //path starts with file (when localfile), or with db: (when in database)
+                std::string m_path;         //path starts with 'file:' (when localfile), or with 'db:' (when in database)
+                APhotoInfo::Ptr  m_photoInfo;
             };
 
             data_ptr<Data> m_d;

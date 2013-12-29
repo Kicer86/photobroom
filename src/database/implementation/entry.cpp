@@ -27,28 +27,20 @@ namespace Database
     }
 
 
-    Entry::Entry(Entry && other): m_d(std::move(other.m_d))
+    Entry::Entry(Entry&& other): m_d(std::move(other.m_d))
     {
-        this->operator=( std::move(other));
+        this->operator=(std::move(other));
     }
 
 
-    Entry::Entry(const Entry& entry): m_d(new Entry::Data)
+    Entry::Entry(const APhotoInfo::Ptr& ptr): m_d(new Entry::Data(ptr))
     {
-        *this = entry;
+
     }
 
 
     Entry::~Entry()
     {
-    }
-
-
-    Entry& Entry::operator=(const Entry& other)
-    {
-        m_d = other.m_d;
-
-        return *this;
     }
 
 

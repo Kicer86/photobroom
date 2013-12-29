@@ -73,10 +73,10 @@ namespace Database
         Impl(const MemoryDatabase::Impl &) = delete;
         Impl& operator=(const Impl &) = delete;
 
-        void add(const APhotoInfo::Ptr &)
+        void add(const APhotoInfo::Ptr& photoInfo)
         {
             //(void) description;
-            Entry entry;
+            Entry entry(photoInfo);
 
             //entry.m_d->m_crc = calcCrc(path);
             //entry.m_d->m_path = decoratePath(path);
