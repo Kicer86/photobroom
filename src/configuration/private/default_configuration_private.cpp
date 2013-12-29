@@ -98,7 +98,6 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
     {
         if (reader.isStartElement())
         {
-            std::cout << "DefaultConfiguration: found start element: " << reader.name().toString().toStdString() << std::endl;
             level++;
 
             const QStringRef name = reader.name();
@@ -124,10 +123,7 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
         }
 
         if (reader.isEndElement())
-        {
-            std::cout << "DefaultConfiguration: found end element: " << reader.name().toString().toStdString() << std::endl;
             level--;
-        }
 
         reader.readNext();
     }
