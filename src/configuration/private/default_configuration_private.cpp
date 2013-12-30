@@ -83,6 +83,8 @@ bool DefaultConfigurationPrivate::loadXml(const QString& path)
 
         status = useXml(buffer);
     }
+    else
+        std::cerr << "DefaultConfiguration: error \"" << data.errorString().toStdString() << "\" while opening file " << path.toStdString() << " (err code: " << data.error() << ")" << std::endl;
 
     return status;
 }
