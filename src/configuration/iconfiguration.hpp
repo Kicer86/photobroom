@@ -35,8 +35,8 @@ namespace Configuration
     class ConfigurationKey;
 
     //Base configuration keys
-    extern CONFIGURATION_EXPORT const std::string configLocation;       //application dir with configuration,
-                                                                        //databases etc
+    extern CONFIGURATION_EXPORT const char* configLocation;       //application dir with configuration,
+                                                                  //databases etc
 }
 
 struct IConfiguration

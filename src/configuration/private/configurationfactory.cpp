@@ -24,12 +24,12 @@
 #include "default_configuration.hpp"
 
 
-const std::string Configuration::configLocation = "Application::ConfigDir";
+const char* Configuration::configLocation = "Application::ConfigDir";
 
 
 std::shared_ptr<IConfiguration> ConfigurationFactory::get()
 {
     static std::shared_ptr<IConfiguration> result(new DefaultConfiguration);
-    
+
     return result;
 }

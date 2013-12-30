@@ -36,7 +36,7 @@
 namespace Database
 {
 
-    const std::string databaseLocation = "Database::Backend::DataLocation";
+    const char* databaseLocation = "Database::Backend::DataLocation";
 
     namespace
     {
@@ -116,6 +116,7 @@ namespace Database
                 defaultDatabase = std::move(frontend);
                 defaultDatabase->setBackend(backend);
             }
+            //else TODO: emit signal to signalize there are some problems at initialization
         }
 
         return defaultDatabase.get();
