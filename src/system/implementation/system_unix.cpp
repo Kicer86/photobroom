@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#include <boost/regex.hpp>
+
 #include <QProcess>
 
 namespace
@@ -37,5 +39,14 @@ std::string System::findProgram(const std::string& name)
 {
     const std::string result = run("whereis " + name);
 
-    return result;
+    boost::cmatch results;
+    const boost::regex regex(name + ": ([^ ]+).*");
+
+    const bool matches = boost::regex_match(result.c_str(), results, regex);
+
+    std::string path;
+    if (matches)
+        path = results[1].str();
+
+    return path;
 }
