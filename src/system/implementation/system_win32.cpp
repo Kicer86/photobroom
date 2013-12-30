@@ -11,3 +11,9 @@ std::string System::getApplicationConfigDir()
 
    return result;
 }
+
+
+std::string System::findProgram(const std::string &)
+{
+    static_assert(false, "Not implemented");
+}
