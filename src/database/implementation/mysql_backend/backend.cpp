@@ -14,13 +14,15 @@
 #include "entry.hpp"
 #include "databasebuilder.hpp"
 
+#include "mysql_server.hpp"
+
 
 namespace Database
 {
 
     struct MySqlBackend::Data
     {
-        Data(): m_initialized(false) {}
+        Data(): m_initialized(false), m_server() {}
 
         bool init() noexcept(true)
         {
@@ -40,7 +42,7 @@ namespace Database
                 }
 
                 //start mysql process
-
+                m_server.run_server();
 
                 m_initialized = status;
             }
@@ -50,6 +52,7 @@ namespace Database
 
         private:
             bool m_initialized;
+            MySqlServer m_server;
     };
 
 

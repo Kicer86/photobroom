@@ -20,6 +20,10 @@
 #ifndef MYSQLSERVER_H
 #define MYSQLSERVER_H
 
+#include <memory>
+
+class QProcess;
+
 class MySqlServer
 {
     public:
@@ -29,6 +33,11 @@ class MySqlServer
 
         MySqlServer& operator=(const MySqlServer &) = delete;
         bool operator==(const MySqlServer &) = delete;
+
+        bool run_server();
+
+    private:
+        std::unique_ptr<QProcess> m_serverProcess;
 };
 
 #endif // MYSQLSERVER_H

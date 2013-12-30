@@ -4,7 +4,7 @@
 
 #include "idatabase.hpp"
 
-#include <utils/data_ptr.hpp>
+#include <memory>
 
 #include "database_mysql_backend_export.h"
 
@@ -23,7 +23,7 @@ namespace Database
 
         private:
             struct Data;
-            data_ptr<Data> m_data;
+            std::unique_ptr<Data> m_data;
     };
 
 }
