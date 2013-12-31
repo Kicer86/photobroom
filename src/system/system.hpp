@@ -11,6 +11,7 @@ struct SYSTEM_EXPORT System
 {
     static std::string getApplicationConfigDir();
     static std::string findProgram(const std::string& name);
+    static std::string userName();
 };
 
 

@@ -50,3 +50,15 @@ std::string System::findProgram(const std::string& name)
 
     return path;
 }
+
+
+std::string System::userName()
+{
+    const std::string result = run("whoami");
+
+    QString name(result.c_str());
+    name = name.simplified();
+
+    return name.toStdString();
+}
+
