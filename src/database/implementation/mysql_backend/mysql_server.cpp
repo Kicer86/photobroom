@@ -167,12 +167,11 @@ MySqlServer::MySqlServer(): m_serverProcess(new QProcess)
 }
 
 
-
 MySqlServer::~MySqlServer()
 {
     std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
 
-    m_serverProcess->close();
+    m_serverProcess->terminate();
     m_serverProcess->waitForFinished();
 
     std::cout << "MySQL Database Backend: MySQL server down" << std::endl;
@@ -218,7 +217,7 @@ bool MySqlServer::run_server()
                 m_serverProcess->setArguments(args);
                 m_serverProcess->closeWriteChannel();
 
-                std::cout << "Starting: " << path << " " << args.join(" ").toStdString() << std::endl;
+                std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
 
                 m_serverProcess->start();
 
