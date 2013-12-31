@@ -7,11 +7,16 @@
 #include <memory>
 
 #include "gui/gui.hpp"
+#include "configuration/configurationfactory.hpp"
+#include "configuration/iconfiguration.hpp"
 
 int main(int argc, char **argv)
 {
-    std::shared_ptr<Gui::IUi> gui = Gui::Factory::get();
+    //load configuration
+    ConfigurationFactory::get()->load();
 
+    //start gui
+    std::shared_ptr<Gui::IUi> gui = Gui::Factory::get();
     gui->run(argc, argv);
 
     return 0;
