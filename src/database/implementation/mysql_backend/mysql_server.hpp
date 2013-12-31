@@ -38,6 +38,8 @@ class MySqlServer
 
     private:
         std::unique_ptr<QProcess> m_serverProcess;
+
+        std::string getDaemonPath() const;
 };
 
 #endif // MYSQLSERVER_H

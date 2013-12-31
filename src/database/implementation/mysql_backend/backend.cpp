@@ -37,6 +37,8 @@ namespace Database
                 {
                     boost::filesystem::path storage(entry->value());
 
+                    storage /= "MySQL";
+
                     if (boost::filesystem::exists(storage) == false)
                         status = boost::filesystem::create_directories(storage);
                 }
