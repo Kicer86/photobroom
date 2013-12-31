@@ -38,7 +38,7 @@ namespace
     const char* MySQL_daemon = "Database::Backend::MySQL::Server";
 
     const char* MySQL_config =
-    "Config based on Akonadi's config file                                                        \n"
+    "#Config based on Akonadi's config file                                                        \n"
     "[mysqld]                                                                                     \n"
 
     "# strict query parsing/interpretation                                                        \n"
@@ -207,7 +207,7 @@ bool MySqlServer::run_server()
 
             status = true;
             if (boost::filesystem::exists(baseDataPath) == false)
-                status = boost::filesystem::create_directories(baseDataPath);
+                status = initDB(baseDataPath, mysql_config);
 
             if (status)
             {
@@ -252,3 +252,33 @@ std::string MySqlServer::getDaemonPath() const
 }
 
 
+bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptions) const
+{
+    const std::string path = System::findProgram("mysql_install_db");
+    bool status = false;
+
+    if (path.empty() == false)
+    {
+        QProcess init;
+
+        const std::string userName = System::userName();
+        const std::string dataDirOption  = "--datadir=" + dbDir;
+        const std::string userNameOption = "--user=" + userName;
+
+        init.start( path.c_str(), {dataDirOption.c_str(), userNameOption.c_str(), extraOptions.c_str()} );
+        status = init.waitForStarted();
+        init.waitForFinished();
+
+        status = init.exitCode() == QProcess::NormalExit;
+
+        if (!status)
+        {
+            std::cerr << "MySQL Database Backend: database initialization failed:" << std::endl;
+            std::cerr << QString(init.readAll()).toStdString() << std::endl << std::endl;
+
+            boost::filesystem::remove(dbDir);
+        }
+    }
+
+    return status;
+}

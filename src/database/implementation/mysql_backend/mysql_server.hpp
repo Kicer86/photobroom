@@ -40,6 +40,7 @@ class MySqlServer
         std::unique_ptr<QProcess> m_serverProcess;
 
         std::string getDaemonPath() const;
+        bool initDB(const std::string &, const std::string &) const;
 };
 
 #endif // MYSQLSERVER_H
