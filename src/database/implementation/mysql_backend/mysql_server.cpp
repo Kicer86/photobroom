@@ -38,12 +38,7 @@ namespace
     const char* MySQL_daemon = "Database::Backend::MySQL::Server";
 
     const char* MySQL_config =
-    "#                                                                                            \n"
-    "# Global Akonadi MySQL server settings,                                                      \n"
-    "# These settings can be adjusted using $HOME/.config/akonadi/mysql-local.conf                \n"
-    "#                                                                                            \n"
-    "# Based on advice by Kris Köhntopp <kris@mysql.com>                                          \n"
-    "#                                                                                            \n"
+    "Config based on Akonadi's config file                                                        \n"
     "[mysqld]                                                                                     \n"
 
     "# strict query parsing/interpretation                                                        \n"
@@ -175,7 +170,12 @@ MySqlServer::MySqlServer(): m_serverProcess(new QProcess)
 
 MySqlServer::~MySqlServer()
 {
+    std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
 
+    m_serverProcess->close();
+    m_serverProcess->waitForFinished();
+
+    std::cout << "MySQL Database Backend: MySQL server down" << std::endl;
 }
 
 
@@ -206,6 +206,7 @@ bool MySqlServer::run_server()
             const std::string mysql_datadir = "--datadir=" + baseDataPath;
             const std::string mysql_socket  = "--socket=" + basePath + "mysql.socket";
 
+            status = true;
             if (boost::filesystem::exists(baseDataPath) == false)
                 status = boost::filesystem::create_directories(baseDataPath);
 
