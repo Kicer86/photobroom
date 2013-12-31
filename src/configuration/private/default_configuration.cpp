@@ -30,16 +30,7 @@
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPrivate)
 {
-    //load static data
-    loadXml(":/config/base_config.xml");
-
-    //load dynamic data
-    std::vector<Configuration::EntryData> defaultEntries =
-    {
-        Configuration::EntryData(Configuration::configLocation, m_impl->getConfigDir()),
-    };
-
-    registerDefaultEntries(defaultEntries);
+    registerInitializer(this);
 
     std::cout << "DefaultConfiguration: using " << m_impl->getConfigDir() << " "
               << "for broom's base dir" << std::endl;
@@ -83,9 +74,36 @@ void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey& ke
 }
 
 
-bool DefaultConfiguration::loadXml(const QString& path)
+void DefaultConfiguration::registerInitializer(Configuration::IInitializer* i)
 {
-    return m_impl->loadXml(path);
+    m_impl->registerInitializer(i);
+}
+
+
+bool DefaultConfiguration::load()
+{
+    m_impl->load();
+}
+
+
+std::string DefaultConfiguration::getXml()
+{
+    const std::string baseConfig =
+    "<configuration>"
+
+    "    <!-- introduce known configuration keys -->"
+    "    <keys>"
+    "        <key name='" + std::string(Configuration::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+    "    </keys>"
+
+    "    <!-- default values -->"
+    "    <defaults>"
+    "        <key name='" + std::string(Configuration::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+    "    </defaults>"
+
+    "</configuration>";
+
+    return baseConfig;
 }
 
 

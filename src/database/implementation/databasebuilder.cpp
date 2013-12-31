@@ -61,9 +61,15 @@ namespace Database
         };
 
         //object which initializes configuration with db entries
-        struct ConfigurationInitializer
+        struct ConfigurationInitializer: public Configuration::IInitializer
         {
             ConfigurationInitializer()
+            {
+                std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+                config->registerInitializer(this);
+            }
+
+            virtual std::string getXml()
             {
                 std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
                 boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
@@ -83,7 +89,7 @@ namespace Database
                     "   </defaults>                                         "
                     "</configuration>                                       ";
 
-                config->useXml(configuration_xml);
+                return configuration_xml;
             }
         } initializer;
     }

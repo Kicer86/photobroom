@@ -9,8 +9,13 @@
 
 #include "entrydata.hpp"
 
+
 class QXmlStreamReader;
 
+namespace Configuration
+{
+    struct IInitializer;
+}
 
 struct DefaultConfigurationPrivate
 {
@@ -22,8 +27,9 @@ struct DefaultConfigurationPrivate
     std::vector<Configuration::EntryData> getAll() const;
     void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data, bool def = false);
     void introduceKey(const Configuration::ConfigurationKey& key);
-    bool loadXml(const QString& path);
     bool useXml(const QString &xml);
+    void registerInitializer(Configuration::IInitializer *);
+    bool load();
 
     protected:
         struct hash
@@ -36,6 +42,7 @@ struct DefaultConfigurationPrivate
 
         std::unordered_set<Configuration::ConfigurationKey, hash> m_known_keys;
         std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash> m_data;
+        std::vector<Configuration::IInitializer *> m_initializers;
 
         bool parseXml_Keys(QXmlStreamReader* reader);
         bool parseXml_DefaultKeys(QXmlStreamReader* reader);

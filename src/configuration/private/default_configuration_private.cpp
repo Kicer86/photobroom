@@ -7,6 +7,8 @@
 
 #include "system/system.hpp"
 
+#include "iconfiguration.hpp"
+
 
 DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data()
 {
@@ -72,24 +74,6 @@ void DefaultConfigurationPrivate::introduceKey(const Configuration::Configuratio
 }
 
 
-bool DefaultConfigurationPrivate::loadXml(const QString& path)
-{
-    QFile data(path);
-    bool status = data.open(QIODevice::ReadOnly);
-
-    if (status)
-    {
-        QString buffer = data.readAll();
-
-        status = useXml(buffer);
-    }
-    else
-        std::cerr << "DefaultConfiguration: error \"" << data.errorString().toStdString() << "\" while opening file " << path.toStdString() << " (err code: " << data.error() << ")" << std::endl;
-
-    return status;
-}
-
-
 bool DefaultConfigurationPrivate::useXml(const QString& xml)
 {
     QXmlStreamReader reader(xml);
@@ -131,6 +115,22 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
     }
 
     return status;
+}
+
+
+void DefaultConfigurationPrivate::registerInitializer(Configuration::IInitializer* i)
+{
+    m_initializers.push_back(i);
+}
+
+
+bool DefaultConfigurationPrivate::load()
+{
+    for(Configuration::IInitializer* i: m_initializers)
+    {
+        const std::string xml = i->getXml();
+        useXml(xml.c_str());
+    }
 }
 
 
