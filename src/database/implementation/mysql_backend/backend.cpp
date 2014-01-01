@@ -46,7 +46,9 @@ namespace Database
                     if (status)
                     {
                         //start mysql process
-                        const QString storagePath(storage.c_str());
+                        QString storagePath(storage.c_str());
+                        storagePath += "/";
+                        
                         const QString socketPath = m_server.run_server(storagePath);
 
                         if (socketPath.isEmpty() == false)
