@@ -54,6 +54,9 @@ namespace Database
                             //setup db connection
                             *db = QSqlDatabase::addDatabase("QMYSQL", "Backend");
                             db->setConnectOptions("UNIX_SOCKET=" + socketPath);
+                            db->setHostName("localhost");
+                            db->setDatabaseName("broom");
+                            db->setUserName("root");
                         }
 
                         m_initialized = socketPath.isEmpty() == false;;
