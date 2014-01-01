@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include <QProcess>
+#include <QSqlDatabase>
 
 #include <boost/filesystem.hpp>
 
@@ -45,9 +46,17 @@ namespace Database
                     if (status)
                     {
                         //start mysql process
-                        status = m_server.run_server(storage.string());
+                        const QString storagePath(storage.c_str());
+                        const QString socketPath = m_server.run_server(storagePath);
 
-                        m_initialized = status;
+                        if (socketPath.isEmpty() == false)
+                        {
+                            //setup db connection
+                            *db = QSqlDatabase::addDatabase("QMYSQL", "Backend");
+                            db->setConnectOptions("UNIX_SOCKET=" + socketPath);
+                        }
+
+                        m_initialized = socketPath.isEmpty() == false;;
                     }
                 }
             }

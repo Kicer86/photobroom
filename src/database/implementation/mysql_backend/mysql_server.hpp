@@ -22,6 +22,8 @@
 
 #include <memory>
 
+#include <QString>
+
 class QProcess;
 
 class MySqlServer
@@ -34,7 +36,7 @@ class MySqlServer
         MySqlServer& operator=(const MySqlServer &) = delete;
         bool operator==(const MySqlServer &) = delete;
 
-        bool run_server(const std::string &);
+        QString run_server(const QString &);  //returns socket or null if failed
 
     private:
         std::unique_ptr<QProcess> m_serverProcess;
