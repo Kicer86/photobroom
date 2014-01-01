@@ -21,6 +21,8 @@
 
 #include "sql_backend.hpp"
 
+#include <QSqlDatabase>
+
 ASqlBackend::ASqlBackend()
 {
 
@@ -31,3 +33,18 @@ ASqlBackend::~ASqlBackend()
 {
 
 }
+
+
+bool ASqlBackend::openDB(QSqlDatabase*)
+{
+
+}
+
+
+void ASqlBackend::initDatabase()
+{
+
+}
+
+
+

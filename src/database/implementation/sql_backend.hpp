@@ -24,6 +24,8 @@
 
 #include "idatabase.hpp"
 
+class QSqlDatabase;
+
 class ASqlBackend: public Database::IBackend
 {
     public:
@@ -34,7 +36,8 @@ class ASqlBackend: public Database::IBackend
         ASqlBackend& operator=(const ASqlBackend& other) = delete;
         bool operator==(const ASqlBackend& other) = delete;
 
-
+        bool openDB(QSqlDatabase *);     //should be called on init() with prepared database data.
+        virtual void initDatabase();     //creates all necessary tables and databases in empty database
 };
 
 #endif // ASQLBACKEND_H
