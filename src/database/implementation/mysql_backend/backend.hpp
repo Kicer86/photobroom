@@ -18,8 +18,7 @@ namespace Database
             MySqlBackend();
             virtual ~MySqlBackend();
 
-            virtual bool store(const Entry &) override;
-            virtual bool init() override;
+            virtual bool openDB(QSqlDatabase *) override;
 
         private:
             struct Data;

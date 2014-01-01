@@ -23,7 +23,7 @@
 
 #include <QSqlDatabase>
 
-ASqlBackend::ASqlBackend()
+ASqlBackend::ASqlBackend(): m_db(new QSqlDatabase)
 {
 
 }
@@ -35,16 +35,16 @@ ASqlBackend::~ASqlBackend()
 }
 
 
-bool ASqlBackend::openDB(QSqlDatabase*)
+bool ASqlBackend::init()
 {
+    const bool status = openDB(m_db.get());
 
+    return status;
 }
 
 
-void ASqlBackend::initDatabase()
+bool ASqlBackend::store(const Database::Entry&)
 {
-
+    return false;
 }
-
-
 

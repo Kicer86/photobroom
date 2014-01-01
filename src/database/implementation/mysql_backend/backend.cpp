@@ -24,7 +24,7 @@ namespace Database
     {
         Data(): m_initialized(false), m_server() {}
 
-        bool init() noexcept(true)
+        bool openDB(QSqlDatabase* db) noexcept(true)
         {
             bool status = true;
 
@@ -32,7 +32,7 @@ namespace Database
             {
                 auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
 
-                //create directories
+                //create base directory
                 if (entry)
                 {
                     boost::filesystem::path storage(entry->value());
@@ -69,15 +69,8 @@ namespace Database
     }
 
 
-    bool MySqlBackend::store(const Entry &entry)
+    bool MySqlBackend::openDB(QSqlDatabase *db)
     {
-        (void) entry;
-        return true;
-    }
-
-
-    bool MySqlBackend::init()
-    {
-        return m_data->init();
+        return m_data->openDB(db);
     }
 }
