@@ -178,51 +178,44 @@ MySqlServer::~MySqlServer()
 }
 
 
-bool MySqlServer::run_server()
+bool MySqlServer::run_server(const std::string& basePath)
 {
     bool status = false;
     const std::string path = getDaemonPath();
 
     if (path.empty() == false)
     {
-        std::shared_ptr<IConfiguration> config = ConfigurationFactory::get();
-        boost::optional<Configuration::EntryData> dbPath = config->findEntry(Database::databaseLocation);
+        const std::string configFile = basePath + "mysql.conf";
+        const std::string baseDataPath = basePath + "db_data";
 
-        if (dbPath)
+        if (boost::filesystem::exists(configFile) == false)
         {
-            const std::string basePath = dbPath->value() + "/MySQL/";
-            const std::string configFile = basePath + "mysql.conf";
-            const std::string baseDataPath = basePath + "db_data";
+            std::ofstream os(configFile);
 
-            if (boost::filesystem::exists(configFile) == false)
-            {
-                std::ofstream os(configFile);
+            os << MySQL_config;
+        }
 
-                os << MySQL_config;
-            }
+        const std::string mysql_config  = "--defaults-file=" + configFile;
+        const std::string mysql_datadir = "--datadir=" + baseDataPath;
+        const std::string mysql_socket  = "--socket=" + basePath + "mysql.socket";
 
-            const std::string mysql_config  = "--defaults-file=" + configFile;
-            const std::string mysql_datadir = "--datadir=" + baseDataPath;
-            const std::string mysql_socket  = "--socket=" + basePath + "mysql.socket";
+        status = true;
+        if (boost::filesystem::exists(baseDataPath) == false)
+            status = initDB(baseDataPath, mysql_config);
 
-            status = true;
-            if (boost::filesystem::exists(baseDataPath) == false)
-                status = initDB(baseDataPath, mysql_config);
+        if (status)
+        {
+            QStringList args = { mysql_config.c_str(), mysql_datadir.c_str(), mysql_socket.c_str() };
 
-            if (status)
-            {
-                QStringList args = { mysql_config.c_str(), mysql_datadir.c_str(), mysql_socket.c_str() };
+            m_serverProcess->setProgram(path.c_str());
+            m_serverProcess->setArguments(args);
+            m_serverProcess->closeWriteChannel();
 
-                m_serverProcess->setProgram(path.c_str());
-                m_serverProcess->setArguments(args);
-                m_serverProcess->closeWriteChannel();
+            std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
 
-                std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
+            m_serverProcess->start();
 
-                m_serverProcess->start();
-
-                status = m_serverProcess->waitForStarted();
-            }
+            status = m_serverProcess->waitForStarted();
         }
     }
 

@@ -41,12 +41,15 @@ namespace Database
 
                     if (boost::filesystem::exists(storage) == false)
                         status = boost::filesystem::create_directories(storage);
+
+                    if (status)
+                    {
+                        //start mysql process
+                        status = m_server.run_server(storage.string());
+
+                        m_initialized = status;
+                    }
                 }
-
-                //start mysql process
-                m_server.run_server();
-
-                m_initialized = status;
             }
 
             return status;

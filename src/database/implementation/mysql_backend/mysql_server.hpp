@@ -34,7 +34,7 @@ class MySqlServer
         MySqlServer& operator=(const MySqlServer &) = delete;
         bool operator==(const MySqlServer &) = delete;
 
-        bool run_server();
+        bool run_server(const std::string &);
 
     private:
         std::unique_ptr<QProcess> m_serverProcess;
