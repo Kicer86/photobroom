@@ -35,7 +35,10 @@ namespace Database
     {
         virtual ~IBackend() {}
 
+        //store data
         virtual bool store(const Database::Entry&) = 0;
+
+        //init backend - connect to database or create new one
         virtual bool init() = 0;
     };
 
