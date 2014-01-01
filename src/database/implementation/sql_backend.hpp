@@ -44,7 +44,7 @@ class ASqlBackend: public Database::IBackend
         bool operator==(const ASqlBackend& other) = delete;
 
     protected:
-        virtual bool openDB(QSqlDatabase*) = 0;     //will be called from init(). Prepare database here
+        virtual bool prepareDB(QSqlDatabase*) = 0;     //will be called from init(). Prepare database here
 
     private:
         virtual bool init() override final;

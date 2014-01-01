@@ -37,7 +37,12 @@ ASqlBackend::~ASqlBackend()
 
 bool ASqlBackend::init()
 {
-    const bool status = openDB(m_db.get());
+    const bool status = prepareDB(m_db.get());
+
+    if (status)
+    {
+        m_db->open();
+    }
 
     return status;
 }

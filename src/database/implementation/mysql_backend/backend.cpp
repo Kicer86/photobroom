@@ -25,7 +25,7 @@ namespace Database
     {
         Data(): m_initialized(false), m_server() {}
 
-        bool openDB(QSqlDatabase* db) noexcept(true)
+        bool prepareDB(QSqlDatabase* db) noexcept(true)
         {
             bool status = true;
 
@@ -84,8 +84,8 @@ namespace Database
     }
 
 
-    bool MySqlBackend::openDB(QSqlDatabase *db)
+    bool MySqlBackend::prepareDB(QSqlDatabase *db)
     {
-        return m_data->openDB(db);
+        return m_data->prepareDB(db);
     }
 }
