@@ -7,12 +7,12 @@
 #include <memory>
 
 #include "database_mysql_backend_export.h"
-
+#include "../sql_backend.hpp"
 
 namespace Database
 {
 
-    class DATABASE_MYSQL_BACKEND_EXPORT MySqlBackend: public IBackend
+    class DATABASE_MYSQL_BACKEND_EXPORT MySqlBackend: public ASqlBackend
     {
         public:
             MySqlBackend();
