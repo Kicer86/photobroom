@@ -21,10 +21,38 @@
 #define MYSQLSERVER_H
 
 #include <memory>
+#include <condition_variable>
+#include <mutex>
 
 #include <QString>
+#include <QObject>
 
 class QProcess;
+class QFileSystemWatcher;
+
+struct DiskObserver: public QObject
+{
+    Q_OBJECT
+
+public:
+    DiskObserver(const QString &);
+    DiskObserver(const DiskObserver &) = delete;
+    ~DiskObserver();
+
+    DiskObserver& operator=(const DiskObserver &) = delete;
+
+    bool waitForChange();
+
+private slots:
+    void dirChanged(const QString &);
+
+private:
+    std::condition_variable m_semaphore;
+    std::mutex m_mutex;
+    QFileSystemWatcher* m_watcher;
+    QString m_socketPath;
+};
+
 
 class MySqlServer
 {

@@ -22,7 +22,8 @@
 #include <QProcess>
 #include <QFile>
 #include <QDir>
-#include <QLocalSocket>
+//#include <QLocalSocket>
+#include <QFileSystemWatcher>
 
 #include <boost/optional.hpp>
 
@@ -161,6 +162,50 @@ namespace
 }
 
 
+/*******************************************************************************************/
+
+
+DiskObserver::DiskObserver(const QString &socketPath):
+    m_semaphore(),
+    m_mutex(),
+    m_watcher(new QFileSystemWatcher),
+    m_socketPath(socketPath)
+{
+    const QFileInfo socketFile(socketPath);
+    const QString socketDir = socketFile.absolutePath();
+
+    connect( m_watcher, SIGNAL(directoryChanged(QString)), this, SLOT(dirChanged(QString)) );
+    m_watcher->addPath(socketDir);
+}
+
+
+DiskObserver::~DiskObserver()
+{
+    delete m_watcher;
+}
+
+bool DiskObserver::waitForChange()
+{
+    auto cond = [&]
+    {
+        return QFile::exists(m_socketPath);
+    };
+
+    std::unique_lock<std::mutex> lock;
+    const bool status = m_semaphore.wait_for(lock, std::chrono::seconds(10), cond);
+
+    return status;
+}
+
+
+void DiskObserver::dirChanged(const QString &)
+{
+    m_semaphore.notify_all();
+}
+
+
+/*******************************************************************************************/
+
 MySqlServer::MySqlServer(): m_serverProcess(new QProcess)
 {
 
@@ -264,6 +309,13 @@ bool MySqlServer::createConfig(const QString& configFile) const
 
 bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 {
+    //wait for socket to appear
+    DiskObserver observer(socketPath);
+
+    bool status = observer.waitForChange();
+
+    /*
+    //check socket
     QLocalSocket socket;
 
     socket.connectToServer(socketPath, QIODevice::ReadOnly);
@@ -276,6 +328,8 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
         std::cout << "done." << std::endl;
     else
         std::cout << "error: " << socket.errorString().toStdString() << std::endl;
+
+    */
 
     return status;
 }
