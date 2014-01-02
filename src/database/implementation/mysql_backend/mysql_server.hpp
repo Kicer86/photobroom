@@ -43,6 +43,7 @@ class MySqlServer
 
         std::string getDaemonPath() const;
         bool initDB(const std::string &, const std::string &) const;
+        bool createConfig(const QString &) const;
 };
 
 #endif // MYSQLSERVER_H

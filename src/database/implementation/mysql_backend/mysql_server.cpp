@@ -189,37 +189,34 @@ QString MySqlServer::run_server(const QString& basePath)
         const QString baseDataPath = basePath + "db_data";
         const QString socketPath = basePath + "mysql.socket";
 
-        if (QFile::exists(configFile) == false)
-        {
-            QFile os(configFile);
-
-            os.open(QFile::WriteOnly);
-            os.write(MySQL_config);
-        }
-
-        const QString mysql_config  = "--defaults-file=" + configFile;
-        const QString mysql_datadir = "--datadir=" + baseDataPath;
-        const QString mysql_socket  = "--socket=" + socketPath;
-
-        status = true;
-        if (QDir(baseDataPath).exists() == false)
-            status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
+        status = createConfig(configFile);
 
         if (status)
         {
-            QStringList args = { mysql_config, mysql_datadir, mysql_socket};
+            const QString mysql_config  = "--defaults-file=" + configFile;
+            const QString mysql_datadir = "--datadir=" + baseDataPath;
+            const QString mysql_socket  = "--socket=" + socketPath;
 
-            m_serverProcess->setProgram(path.c_str());
-            m_serverProcess->setArguments(args);
-            m_serverProcess->closeWriteChannel();
+            status = true;
+            if (QDir(baseDataPath).exists() == false)
+                status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
 
-            std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
+            if (status)
+            {
+                QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
-            m_serverProcess->start();
+                m_serverProcess->setProgram(path.c_str());
+                m_serverProcess->setArguments(args);
+                m_serverProcess->closeWriteChannel();
 
-            status = m_serverProcess->waitForStarted();
+                std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
 
-            result = status? socketPath : "";
+                m_serverProcess->start();
+
+                status = m_serverProcess->waitForStarted();
+
+                result = status? socketPath : "";
+            }
         }
     }
 
@@ -275,6 +272,24 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
 
             status = QDir(dbDir.c_str()).rmdir(dbDir.c_str());
         }
+    }
+
+    return status;
+}
+
+
+bool MySqlServer::createConfig(const QString& configFile) const
+{
+    bool status = true;
+
+    if (QFile::exists(configFile) == false)
+    {
+        QFile os(configFile);
+
+        status = os.open(QFile::WriteOnly);
+
+        if (status)
+            status = os.write(MySQL_config) != -1;
     }
 
     return status;
