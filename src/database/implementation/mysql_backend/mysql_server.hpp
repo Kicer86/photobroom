@@ -21,14 +21,14 @@
 #define MYSQLSERVER_H
 
 #include <memory>
-#include <condition_variable>
-#include <mutex>
 
 #include <QString>
 #include <QObject>
 
 class QProcess;
 class QFileSystemWatcher;
+class QTimer;
+class QEventLoop;
 
 struct DiskObserver: public QObject
 {
@@ -45,12 +45,16 @@ public:
 
 private slots:
     void dirChanged(const QString &);
+    void timeout();
 
 private:
-    std::condition_variable m_semaphore;
-    std::mutex m_mutex;
     QFileSystemWatcher* m_watcher;
     QString m_socketPath;
+    QTimer* m_timer;
+    bool m_timeout;
+    QEventLoop* m_eventLoop;
+
+    void eventOccured();
 };
 
 

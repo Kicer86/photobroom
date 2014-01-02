@@ -22,8 +22,9 @@
 #include <QProcess>
 #include <QFile>
 #include <QDir>
-//#include <QLocalSocket>
+#include <QTimer>
 #include <QFileSystemWatcher>
+#include <QEventLoop>
 
 #include <boost/optional.hpp>
 
@@ -166,15 +167,17 @@ namespace
 
 
 DiskObserver::DiskObserver(const QString &socketPath):
-    m_semaphore(),
-    m_mutex(),
     m_watcher(new QFileSystemWatcher),
-    m_socketPath(socketPath)
+    m_socketPath(socketPath),
+    m_timer(new QTimer),
+    m_timeout(false),
+    m_eventLoop(new QEventLoop)
 {
     const QFileInfo socketFile(socketPath);
     const QString socketDir = socketFile.absolutePath();
 
     connect( m_watcher, SIGNAL(directoryChanged(QString)), this, SLOT(dirChanged(QString)) );
+    connect( m_timer, SIGNAL(timeout()), this, SLOT(timeout()) );
     m_watcher->addPath(socketDir);
 }
 
@@ -182,25 +185,45 @@ DiskObserver::DiskObserver(const QString &socketPath):
 DiskObserver::~DiskObserver()
 {
     delete m_watcher;
+    delete m_timer;
+    delete m_eventLoop;
 }
 
 bool DiskObserver::waitForChange()
 {
-    auto cond = [&]
-    {
-        return QFile::exists(m_socketPath);
-    };
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(10e3);
+    m_timer->start();
 
-    std::unique_lock<std::mutex> lock;
-    const bool status = m_semaphore.wait_for(lock, std::chrono::seconds(10), cond);
+    const int result = m_eventLoop->exec();
 
-    return status;
+    return result == 0;
 }
 
 
 void DiskObserver::dirChanged(const QString &)
 {
-    m_semaphore.notify_all();
+    eventOccured();
+}
+
+
+void DiskObserver::timeout()
+{
+    m_timeout = true;
+    eventOccured();
+}
+
+
+void DiskObserver::eventOccured()
+{
+    const bool exists = QFile::exists(this->m_socketPath);
+
+    if (exists)
+        m_eventLoop->exit(0);     //file exists -> quit with status "ok"
+    else if(m_timeout)
+        m_eventLoop->exit(1);     //timeout + file desn't exist = error
+
+    //no timeout and no file, keep waiting
 }
 
 
@@ -310,9 +333,17 @@ bool MySqlServer::createConfig(const QString& configFile) const
 bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 {
     //wait for socket to appear
-    DiskObserver observer(socketPath);
 
-    bool status = observer.waitForChange();
+    std::cout << "MySqlServer: waiting for MySQL server to get up: " << std::flush;
+
+    DiskObserver observer(socketPath);
+    const bool status = observer.waitForChange();
+
+    if (status)
+        std::cout << "done." << std::endl;
+    else
+        std::cout << "timeout error." << std::endl;
+
 
     /*
     //check socket
