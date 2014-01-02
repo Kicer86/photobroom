@@ -25,6 +25,11 @@ namespace Database
     {
         Data(): m_initialized(false), m_server() {}
 
+        ~Data()
+        {
+
+        }
+
         bool prepareDB(QSqlDatabase* db) noexcept(true)
         {
             bool status = true;
