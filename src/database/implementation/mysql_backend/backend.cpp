@@ -57,7 +57,6 @@ namespace Database
                             *db = QSqlDatabase::addDatabase("QMYSQL", "Backend");
                             db->setConnectOptions("UNIX_SOCKET=" + socketPath);
                             db->setHostName("localhost");
-                            db->setDatabaseName("broom");
                             db->setUserName("root");
                         }
 
@@ -83,6 +82,8 @@ namespace Database
 
     MySqlBackend::~MySqlBackend()
     {
+        //close all connections before shutting down server
+        ASqlBackend::closeConnections();
     }
 
 

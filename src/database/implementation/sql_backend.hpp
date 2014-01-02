@@ -27,6 +27,7 @@
 #include <memory>
 
 class QSqlDatabase;
+class QSqlQuery;
 
 namespace Database
 {
@@ -43,14 +44,18 @@ class ASqlBackend: public Database::IBackend
         ASqlBackend& operator=(const ASqlBackend& other) = delete;
         bool operator==(const ASqlBackend& other) = delete;
 
+        void closeConnections();
+
     protected:
         virtual bool prepareDB(QSqlDatabase*) = 0;     //will be called from init(). Prepare database here
 
-    private:
+    private:        
+        std::unique_ptr<QSqlDatabase> m_db;
+
         virtual bool init() override final;
         virtual bool store(const Database::Entry &) override final;
 
-        std::unique_ptr<QSqlDatabase> m_db;
+        bool exec(const QString &, QSqlQuery *) const;
 };
 
 #endif // ASQLBACKEND_H

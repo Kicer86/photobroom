@@ -21,7 +21,12 @@
 
 #include "sql_backend.hpp"
 
+#include <iostream>
+
 #include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QVariant>
 
 ASqlBackend::ASqlBackend(): m_db(new QSqlDatabase)
 {
@@ -35,13 +40,30 @@ ASqlBackend::~ASqlBackend()
 }
 
 
+void ASqlBackend::closeConnections()
+{
+    m_db->close();
+}
+
+
 bool ASqlBackend::init()
 {
-    const bool status = prepareDB(m_db.get());
+    bool status = prepareDB(m_db.get());
 
     if (status)
     {
-        m_db->open();
+        status = m_db->open();
+
+        if (status)
+        {
+            QSqlQuery query(*m_db.get());
+            status = exec("show databases like 'broom';", &query);
+
+            if (status && query.next() == false)
+                status = exec("create database if not exists `broom`;", &query);
+        }
+        else
+            std::cerr << "SQLBackend: error opening database: " << m_db->lastError().text().toStdString() << std::endl;
     }
 
     return status;
@@ -53,3 +75,16 @@ bool ASqlBackend::store(const Database::Entry&)
     return false;
 }
 
+
+bool ASqlBackend::exec(const QString& query, QSqlQuery* result) const
+{
+    result->exec(query);
+
+    const bool status = result->exec();
+
+    if (status == false)
+        std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
+                  << " while performing query: " << query.toStdString() << std::endl;
+
+    return status;
+}
