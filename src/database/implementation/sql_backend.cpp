@@ -28,7 +28,34 @@
 #include <QSqlQuery>
 #include <QVariant>
 
-ASqlBackend::ASqlBackend(): m_db(new QSqlDatabase)
+
+struct ASqlBackend::Data
+{
+    Data(): m_db() {}
+    ~Data()
+    {
+
+    }
+
+    QSqlDatabase m_db;
+
+    bool exec(const QString& query, QSqlQuery* result) const
+    {
+        result->exec(query);
+
+        const bool status = result->exec();
+
+        if (status == false)
+            std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
+                      << " while performing query: " << query.toStdString() << std::endl;
+
+        return status;
+    }
+
+};
+
+
+ASqlBackend::ASqlBackend(): m_data(new Data)
 {
 
 }
@@ -42,28 +69,29 @@ ASqlBackend::~ASqlBackend()
 
 void ASqlBackend::closeConnections()
 {
-    m_db->close();
+    QSqlDriver* d = m_data->m_db.driver();
+    m_data->m_db.close();
 }
 
 
 bool ASqlBackend::init()
 {
-    bool status = prepareDB(m_db.get());
+    bool status = prepareDB(&m_data->m_db);
 
     if (status)
     {
-        status = m_db->open();
+        status = m_data->m_db.open();
 
         if (status)
         {
-            QSqlQuery query(*m_db.get());
-            status = exec("show databases like 'broom';", &query);
+            QSqlQuery query(m_data->m_db);
+            status = m_data->exec("show databases like 'broom';", &query);
 
             if (status && query.next() == false)
-                status = exec("create database if not exists `broom`;", &query);
+                status = m_data->exec("create database if not exists `broom`;", &query);
         }
         else
-            std::cerr << "SQLBackend: error opening database: " << m_db->lastError().text().toStdString() << std::endl;
+            std::cerr << "SQLBackend: error opening database: " << m_data->m_db.lastError().text().toStdString() << std::endl;
     }
 
     return status;
@@ -73,18 +101,4 @@ bool ASqlBackend::init()
 bool ASqlBackend::store(const Database::Entry&)
 {
     return false;
-}
-
-
-bool ASqlBackend::exec(const QString& query, QSqlQuery* result) const
-{
-    result->exec(query);
-
-    const bool status = result->exec();
-
-    if (status == false)
-        std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
-                  << " while performing query: " << query.toStdString() << std::endl;
-
-    return status;
 }

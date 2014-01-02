@@ -26,14 +26,15 @@
 
 #include <memory>
 
-class QSqlDatabase;
 class QSqlQuery;
+class QSqlDatabase;
 
 namespace Database
 {
     class Entry;
 }
 
+//TODO: close in namespace?
 class ASqlBackend: public Database::IBackend
 {
     public:
@@ -49,13 +50,12 @@ class ASqlBackend: public Database::IBackend
     protected:
         virtual bool prepareDB(QSqlDatabase*) = 0;     //will be called from init(). Prepare database here
 
-    private:        
-        std::unique_ptr<QSqlDatabase> m_db;
+    private:
+        struct Data;
+        std::unique_ptr<Data> m_data;
 
         virtual bool init() override final;
         virtual bool store(const Database::Entry &) override final;
-
-        bool exec(const QString &, QSqlQuery *) const;
 };
 
 #endif // ASQLBACKEND_H
