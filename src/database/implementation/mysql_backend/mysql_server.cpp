@@ -180,48 +180,11 @@ MySqlServer::~MySqlServer()
 
 QString MySqlServer::run_server(const QString& basePath)
 {
-    bool status = false;
     QString result = "";
     const std::string path = getDaemonPath();
 
     if (path.empty() == false)
-    {
-        const QString configFile = basePath + "mysql.conf";
-        const QString baseDataPath = basePath + "db_data";
-        const QString socketPath = basePath + "mysql.socket";
-
-        status = createConfig(configFile);
-
-        if (status)
-        {
-            const QString mysql_config  = "--defaults-file=" + configFile;
-            const QString mysql_datadir = "--datadir=" + baseDataPath;
-            const QString mysql_socket  = "--socket=" + socketPath;
-
-            status = true;
-            if (QDir(baseDataPath).exists() == false)
-                status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
-
-            if (status)
-            {
-                QStringList args = { mysql_config, mysql_datadir, mysql_socket};
-
-                m_serverProcess->setProgram(path.c_str());
-                m_serverProcess->setArguments(args);
-                m_serverProcess->closeWriteChannel();
-
-                std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
-
-                m_serverProcess->start();
-                status = m_serverProcess->waitForStarted();
-
-                if (status)
-                    status = waitForServerToStart(socketPath);
-
-                result = status? socketPath : "";
-            }
-        }
-    }
+        result = startProcess(path.c_str(), basePath);
 
     return result;
 }
@@ -317,3 +280,45 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
     return status;
 }
 
+
+QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath) const
+{
+    QString result;
+    const QString configFile = basePath + "mysql.conf";
+    const QString baseDataPath = basePath + "db_data";
+    const QString socketPath = basePath + "mysql.socket";
+
+    bool status = createConfig(configFile);
+
+    if (status)
+    {
+        const QString mysql_config  = "--defaults-file=" + configFile;
+        const QString mysql_datadir = "--datadir=" + baseDataPath;
+        const QString mysql_socket  = "--socket=" + socketPath;
+
+        status = true;
+        if (QDir(baseDataPath).exists() == false)
+            status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
+
+        if (status)
+        {
+            QStringList args = { mysql_config, mysql_datadir, mysql_socket};
+
+            m_serverProcess->setProgram(daemonPath);
+            m_serverProcess->setArguments(args);
+            m_serverProcess->closeWriteChannel();
+
+            std::cout << "MySQL Database Backend: " << daemonPath.toStdString() << " " << args.join(" ").toStdString() << std::endl;
+
+            m_serverProcess->start();
+            status = m_serverProcess->waitForStarted();
+
+            if (status)
+                status = waitForServerToStart(socketPath);
+
+            result = status? socketPath : "";
+        }
+    }
+
+    return result;
+}
