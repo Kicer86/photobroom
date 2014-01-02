@@ -22,6 +22,7 @@
 #include <QProcess>
 #include <QFile>
 #include <QDir>
+#include <QLocalSocket>
 
 #include <boost/optional.hpp>
 
@@ -212,8 +213,10 @@ QString MySqlServer::run_server(const QString& basePath)
                 std::cout << "MySQL Database Backend: " << path << " " << args.join(" ").toStdString() << std::endl;
 
                 m_serverProcess->start();
-
                 status = m_serverProcess->waitForStarted();
+
+                if (status)
+                    status = waitForServerToStart(socketPath);
 
                 result = status? socketPath : "";
             }
@@ -294,3 +297,23 @@ bool MySqlServer::createConfig(const QString& configFile) const
 
     return status;
 }
+
+
+bool MySqlServer::waitForServerToStart(const QString& socketPath) const
+{
+    QLocalSocket socket;
+
+    socket.connectToServer(socketPath, QIODevice::ReadOnly);
+
+    std::cout << "MySqlServer: waiting for MySQL server to get up: " << std::flush;
+
+    const bool status = socket.waitForConnected(10000);
+
+    if (status)
+        std::cout << "done." << std::endl;
+    else
+        std::cout << "error: " << socket.errorString().toStdString() << std::endl;
+
+    return status;
+}
+
