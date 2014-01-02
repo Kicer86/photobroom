@@ -15,6 +15,7 @@ set(CONFIG_SOURCES
     private/configurationfactory.cpp
     private/entrydata.cpp
     private/default_configuration.cpp
+    private/default_configuration_private.cpp
    )
 
 set(CONFIG_HEADERS
@@ -22,6 +23,7 @@ set(CONFIG_HEADERS
     entrydata.hpp
     iconfiguration.hpp
     private/default_configuration.hpp
+    private/default_configuration_private.hpp
    )
 
 set(CONFIG_RESOURCE_FILES rc/resources.qrc)
@@ -32,6 +34,7 @@ if(BUILD_TESTS)
                                     tests/entrydata_tests.cpp
                                     tests/configurationfactory_tests.cpp
                                     tests/default_configuration_tests.cpp
+                                    tests/default_configuration_private_tests.cpp
                                 TEST_LIBRARY
                                     GTEST
        )
@@ -51,4 +54,3 @@ qt5_use_modules(configuration Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
-

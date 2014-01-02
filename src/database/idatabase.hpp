@@ -29,21 +29,25 @@
 namespace Database
 {
 
-	class Entry;
+    class Entry;
 
     struct IBackend
     {
         virtual ~IBackend() {}
 
-		virtual bool store(const Database::Entry &) = 0;
+        //store data
+        virtual bool store(const Database::Entry&) = 0;
+
+        //init backend - connect to database or create new one
+        virtual bool init() = 0;
     };
 
     struct IFrontend
     {
         virtual ~IFrontend() {}
 
-        virtual bool addPhoto(const APhotoInfo::Ptr &) = 0;
-        virtual void setBackend(const std::shared_ptr<IBackend> &) = 0;
+        virtual bool addPhoto(const APhotoInfo::Ptr&) = 0;
+        virtual void setBackend(const std::shared_ptr<IBackend>&) = 0;
     };
 }
 

@@ -28,15 +28,15 @@
 namespace Database
 {
     struct IFrontend;
-    
+
     //configuration keys for databases
-    extern const std::string databaseLocation;
+    extern const char* databaseLocation;
 
     struct DATABASE_EXPORT Builder
     {
         Builder();
         virtual ~Builder();
-        
+
         virtual IFrontend* get();
     };
 }

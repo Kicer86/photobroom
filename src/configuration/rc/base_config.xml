@@ -1,11 +1,11 @@
 <configuration>
 
-	-- introduce known configuration keys
+    <!-- introduce known configuration keys -->
 	<keys>
-		<key name="Application::ConfigDir" />    -- base path for configurations, databases etc
+        <key name="Application::ConfigDir" />    <!-- base path for configurations, databases etc -->
 	</keys>
 
-	-- default values
+	<!-- default values -->
 	<defaults>
 
 	</defaults>

@@ -25,8 +25,9 @@
 
 #include "iconfiguration.hpp"
 
+struct DefaultConfigurationPrivate;
 
-class DefaultConfiguration: public IConfiguration
+class DefaultConfiguration: public IConfiguration, public Configuration::IInitializer
 {
     public:
         DefaultConfiguration();
@@ -38,11 +39,15 @@ class DefaultConfiguration: public IConfiguration
         virtual void addEntry(const Configuration::EntryData &) override;
         virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) override;
         virtual void registerKey(const Configuration::ConfigurationKey &) override;
-        virtual bool loadXml(const QString &) override;
+        virtual void registerInitializer(Configuration::IInitializer*) override;
+        virtual bool load() override;
+
+        virtual std::string getXml() override;
 
     private:
-        struct Impl;
-        std::unique_ptr<Impl> m_impl;
+        std::unique_ptr<DefaultConfigurationPrivate> m_impl;
+
+        virtual bool useXml(const std::string &);
 };
 
 #endif // DEFAULT_CONFIGURATION_HPP

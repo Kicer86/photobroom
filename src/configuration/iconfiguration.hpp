@@ -30,39 +30,48 @@
 class QString;
 
 namespace Configuration
-{    
+{
     class EntryData;
     class ConfigurationKey;
-    
+
     //Base configuration keys
-    extern CONFIGURATION_EXPORT const std::string configLocation;       //application dir with configuration,
-                                                                        //databases etc
+    extern CONFIGURATION_EXPORT const char* configLocation;       //application dir with configuration,
+                                                                  //databases etc
+
+    struct IInitializer
+    {
+        virtual ~IInitializer() {}
+
+        virtual std::string getXml() = 0;
+    };
 }
 
 struct IConfiguration
 {
     IConfiguration() {}
     virtual ~IConfiguration() {}
-    
+
     // This function registers a default entry with value.
     // If a value for specified entry exists in config file,
     // will be prefered.
     virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
-    
+
     // This function introduces a configuration key.
     // Before adding/loading values to configuration, each entry (Key) must be introduced.
     // Unknown (not registered) keys will be treated as deprecated,
     // and dev-warning will be printed in output.
     virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
 
-    // loadXml function will load entries from provieded xml file which can introduce
-    // known and default keys/entries
-    virtual bool loadXml(const QString &) = 0;
+    //function registers configuration initializer which will be used to load key names and defaults
+    virtual void registerInitializer(Configuration::IInitializer *) = 0;
 
     // Add entry to config
-    virtual void addEntry(const Configuration::EntryData &) = 0;    
-    
-    virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;    
+    virtual void addEntry(const Configuration::EntryData &) = 0;
+
+    // loads data from initializers and disk storage
+    virtual bool load() = 0;
+
+    virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;
 };
 

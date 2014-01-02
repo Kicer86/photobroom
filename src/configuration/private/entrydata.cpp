@@ -211,7 +211,8 @@ namespace Configuration
 
     bool EntryData::operator==(const EntryData& other) const
     {
-        const bool status = m_data->m_key == other.m_data->m_key;
+        const bool status = m_data->m_key == other.m_data->m_key &&
+                            m_data->m_value == other.m_data->m_value;
 
         return status;
     }

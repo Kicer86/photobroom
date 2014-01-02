@@ -31,22 +31,22 @@
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
-#include "implementation/backend.hpp"
+#include "implementation/mysql_backend/backend.hpp"
 
 namespace Database
 {
-    
-    const std::string databaseLocation = "Database::Backend::DataLocation";
+
+    const char* databaseLocation = "Database::Backend::DataLocation";
 
     namespace
     {
         std::unique_ptr<IFrontend> defaultDatabase;
-        
+
         struct StreamFactory: public IStreamFactory
         {
-            virtual ~StreamFactory() 
+            virtual ~StreamFactory()
             {
-                
+
             }
 
             virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
@@ -59,26 +59,37 @@ namespace Database
                 return stream;
             }
         };
-        
+
         //object which initializes configuration with db entries
-        struct ConfigurationInitializer
+        struct ConfigurationInitializer: public Configuration::IInitializer
         {
             ConfigurationInitializer()
             {
                 std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+                config->registerInitializer(this);
+            }
+
+            virtual std::string getXml()
+            {
+                std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
                 boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
-                
+
                 assert(entry.is_initialized());
-                
+
                 const std::string configPath = entry->value();
                 const std::string dbPath = configPath + "/database";
-                
-                std::vector<Configuration::EntryData> entries = 
-                {
-                    Configuration::EntryData(databaseLocation, dbPath)
-                };
-                
-                config->registerDefaultEntries(entries);
+
+                const std::string configuration_xml =
+                    "<configuration>                                        "
+                    "   <keys>                                              "
+                    "   </keys>                                             "
+                    "                                                       "
+                    "   <defaults>                                          "
+                    "       <key name='Database::Backend::DataLocation' value='" + dbPath + "' />"
+                    "   </defaults>                                         "
+                    "</configuration>                                       ";
+
+                return configuration_xml;
             }
         } initializer;
     }
@@ -99,12 +110,19 @@ namespace Database
     IFrontend* Builder::get()
     {
         if (defaultDatabase.get() == nullptr)
-        {            
-            std::shared_ptr<IStreamFactory> fs(new StreamFactory);
-            IFrontend *frontend = new MemoryDatabase(fs);
-            
-            defaultDatabase.reset(frontend);
-            defaultDatabase->setBackend(std::shared_ptr<Database::IBackend>(new Database::PrimitiveBackend));
+        {
+            std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
+            std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
+
+            std::shared_ptr<Database::IBackend> backend = std::make_shared<Database::MySqlBackend>();
+            const bool status = backend->init();
+
+            if (status)
+            {
+                defaultDatabase = std::move(frontend);
+                defaultDatabase->setBackend(backend);
+            }
+            //else TODO: emit signal to signalize there are some problems at initialization
         }
 
         return defaultDatabase.get();
