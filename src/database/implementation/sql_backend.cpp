@@ -70,7 +70,9 @@ ASqlBackend::~ASqlBackend()
 void ASqlBackend::closeConnections()
 {
     QSqlDriver* d = m_data->m_db.driver();
-    m_data->m_db.close();
+
+    if (m_data->m_db.isValid() && m_data->m_db.isOpen())
+        m_data->m_db.close();
 }
 
 
