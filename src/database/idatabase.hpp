@@ -40,6 +40,9 @@ namespace Database
 
         //init backend - connect to database or create new one
         virtual bool init() = 0;
+
+        //close database connection
+        virtual void closeConnections() = 0;
     };
 
     struct IFrontend
@@ -48,6 +51,8 @@ namespace Database
 
         virtual bool addPhoto(const APhotoInfo::Ptr&) = 0;
         virtual void setBackend(const std::shared_ptr<IBackend>&) = 0;
+
+        virtual void close() = 0;
     };
 }
 

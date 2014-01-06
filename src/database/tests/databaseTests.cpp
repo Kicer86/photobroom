@@ -42,6 +42,11 @@ namespace
             return true;
         }
 
+        void closeConnections()
+        {
+
+        }
+
         std::vector<Database::Entry> m_entries;
     };
 }

@@ -63,10 +63,7 @@ namespace Database
 
         virtual ~Impl()
         {
-            m_updateQueue.break_popping();
-
-            assert(m_storekeeper.joinable());
-            m_storekeeper.join();       //wait for quit
+           //TODO: assert for db opened
         }
 
 
@@ -75,7 +72,8 @@ namespace Database
 
         void add(const APhotoInfo::Ptr& photoInfo)
         {
-            //(void) description;
+            //TODO: check for db opened
+
             Entry entry(photoInfo);
 
             //entry.m_d->m_crc = calcCrc(path);
@@ -121,6 +119,18 @@ namespace Database
                 else
                     break;                                      //the only reason for empty queue is that we are quiting
             }
+        }
+
+        void close()
+        {
+            //flush data
+            m_updateQueue.break_popping();
+
+            assert(m_storekeeper.joinable());
+            m_storekeeper.join();       //wait for quit
+
+            //close db
+            m_backend->closeConnections();
         }
 
         private:
@@ -202,4 +212,9 @@ namespace Database
         m_impl->setBackend(backend);
     }
 
+
+    void MemoryDatabase::close()
+    {
+        m_impl->close();
+    }
 }

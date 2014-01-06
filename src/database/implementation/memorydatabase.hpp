@@ -34,7 +34,7 @@ namespace Database
 {
     struct IConfiguration;
 
-    class DATABASE_EXPORT MemoryDatabase: public Database::IFrontend
+    class DATABASE_EXPORT MemoryDatabase final: public Database::IFrontend
     {
         public:
             struct Impl;
@@ -42,8 +42,10 @@ namespace Database
             MemoryDatabase(const std::shared_ptr<IStreamFactory> &);
             virtual ~MemoryDatabase();
 
-            virtual bool addPhoto(const APhotoInfo::Ptr &);
-            virtual void setBackend(const std::shared_ptr<IBackend> &);
+            virtual bool addPhoto(const APhotoInfo::Ptr &) override;
+            virtual void setBackend(const std::shared_ptr<IBackend> &) override;
+
+            virtual void close() override;
 
         private:
             std::unique_ptr<Impl> m_impl;
