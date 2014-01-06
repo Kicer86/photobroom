@@ -191,11 +191,17 @@ DiskObserver::~DiskObserver()
 
 bool DiskObserver::waitForChange()
 {
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(10e3);
-    m_timer->start();
+    const bool exists = QFile::exists(this->m_socketPath);
+    int result = 0;
 
-    const int result = m_eventLoop->exec();
+    if (!exists)
+    {
+        m_timer->setSingleShot(true);
+        m_timer->setInterval(10e3);
+        m_timer->start();
+
+        result = m_eventLoop->exec();
+    }
 
     return result == 0;
 }
@@ -240,7 +246,7 @@ MySqlServer::~MySqlServer()
     std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
 
     m_serverProcess->terminate();
-    m_serverProcess->waitForFinished();
+    m_serverProcess->waitForFinished();  //TODO: zwiecha?
 
     std::cout << "MySQL Database Backend: MySQL server down" << std::endl;
 }
@@ -343,24 +349,6 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
         std::cout << "done." << std::endl;
     else
         std::cout << "timeout error." << std::endl;
-
-
-    /*
-    //check socket
-    QLocalSocket socket;
-
-    socket.connectToServer(socketPath, QIODevice::ReadOnly);
-
-    std::cout << "MySqlServer: waiting for MySQL server to get up: " << std::flush;
-
-    const bool status = socket.waitForConnected(10000);
-
-    if (status)
-        std::cout << "done." << std::endl;
-    else
-        std::cout << "error: " << socket.errorString().toStdString() << std::endl;
-
-    */
 
     return status;
 }
