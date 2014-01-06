@@ -361,7 +361,17 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
     const QString baseDataPath = basePath + "db_data";
     const QString socketPath = basePath + "mysql.socket";
 
-    bool status = createConfig(configFile);
+    bool status= true;
+
+    if (QFile::exists(socketPath))
+    {
+        status = false;
+
+        std::cerr << "MySQL server already running!" << std::endl;
+    }
+
+    if (status)
+        status = createConfig(configFile);
 
     if (status)
     {
