@@ -51,7 +51,7 @@ namespace Database
 
                 crc32       m_crc;
                 std::string m_path;         //path starts with 'file:' (when localfile), or with 'db:' (when in database)
-                APhotoInfo::Ptr  m_photoInfo;
+                APhotoInfo::Ptr m_photoInfo;
             };
 
             data_ptr<Data> m_d;
