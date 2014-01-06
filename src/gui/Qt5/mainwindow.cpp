@@ -1,6 +1,11 @@
 
 #include "mainwindow.hpp"
 
+#include <QCloseEvent>
+
+#include "database/databasebuilder.hpp"
+#include "database/idatabase.hpp"
+
 #include "centralwidget.hpp"
 
 namespace
@@ -28,4 +33,12 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_gui(new GuiData(this))
 
 MainWindow::~MainWindow()
 {
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    Database::Builder().get()->close();
+
+    e->accept();
 }

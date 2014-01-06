@@ -7,7 +7,7 @@
 #include <QMainWindow>
 
 
-class MainWindow : public QMainWindow
+class MainWindow final: public QMainWindow
 {
     public:
         explicit MainWindow(QWidget *parent = 0);
@@ -17,7 +17,9 @@ class MainWindow : public QMainWindow
 
     private:
         struct GuiData;
-        std::unique_ptr<GuiData> m_gui;    
+        std::unique_ptr<GuiData> m_gui;
+
+        void closeEvent(QCloseEvent *);
 };
 
 #endif // MAINWINDOW_HPP
