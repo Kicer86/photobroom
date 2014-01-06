@@ -87,8 +87,7 @@ namespace Database
 
     MySqlBackend::~MySqlBackend()
     {
-        //close all connections before shutting down server
-        ASqlBackend::closeConnections();
+        //TODO: assert for db closed. In needs to be closed before MySQL server termination
     }
 
 
