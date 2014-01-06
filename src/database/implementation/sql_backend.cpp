@@ -70,7 +70,16 @@ ASqlBackend::~ASqlBackend()
 void ASqlBackend::closeConnections()
 {
     if (m_data->m_db.isValid() && m_data->m_db.isOpen())
+    {
+        std::cout << "ASqlBackend: closing database connections." << std::endl;
         m_data->m_db.close();
+
+        // Reset belowe is necessary.
+        // There is a problem:when application is being closed, all qt resources (libraries etc) are being removed.
+        // And it may happend that a driver for particular sql database will be removed before database is destroyed.
+        // This will lead to crash as in database's destructor calls to driver are made.
+        m_data.reset(nullptr);        //destroy database.
+    }
 }
 
 
@@ -100,5 +109,13 @@ bool ASqlBackend::init()
 
 bool ASqlBackend::store(const Database::Entry&)
 {
-    return false;
+    bool status = false;
+
+    if (m_data)
+    {
+    }
+    else
+        std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+
+    return status;
 }
