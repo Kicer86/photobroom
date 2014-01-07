@@ -56,6 +56,8 @@ class ASqlBackend: public Database::IBackend
 
         virtual bool init() override final;
         virtual bool store(const Database::Entry &) override final;
+
+        bool checkStructure();
 };
 
 #endif // ASQLBACKEND_H
