@@ -30,7 +30,7 @@
 
 namespace
 {
-    const char db_version[] = "1.0";
+    const char db_version[] = "0.1";
 }
 
 
