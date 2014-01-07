@@ -92,6 +92,21 @@ void ASqlBackend::closeConnections()
 }
 
 
+bool ASqlBackend::assureTableExists(const QString &name, const QString &columnsDesc) const
+{
+    QSqlQuery query(m_data->m_db);
+
+    bool status = m_data->exec( QString("SHOW TABLES LIKE '%1';").arg(name), &query );
+
+    //create table 'name' if doesn't exist
+    bool empty = query.next() == false;
+    if (status && empty)
+        status = m_data->exec( QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc), &query );
+
+    return status;
+}
+
+
 bool ASqlBackend::init()
 {
     bool status = prepareDB(&m_data->m_db);
@@ -139,17 +154,9 @@ bool ASqlBackend::checkStructure()
 
     //check if table 'version_history' exists
     if (status)
-        status = m_data->exec("SHOW TABLES LIKE 'version_history';", &query);
-
-    //create table 'version_history' if doesn't exist
-    empty = query.next() == false;
-    if (status && empty)
-        status = m_data->exec("CREATE TABLE version_history("
-                              "id INT AUTO_INCREMENT PRIMARY KEY, "
-                              "version DECIMAL(4,2) NOT NULL, "    //xx.yy
-                              "date TIMESTAMP NOT NULL)",
-                              &query
-                              );
+        status = assureTableExists("version_history", "id INT AUTO_INCREMENT PRIMARY KEY, "
+                                                      "version DECIMAL(4,2) NOT NULL, "    //xx.yy
+                                                      "date TIMESTAMP NOT NULL");
 
     //at least one row must be present in table 'version_history'
     if (status)

@@ -50,6 +50,8 @@ class ASqlBackend: public Database::IBackend
     protected:
         virtual bool prepareDB(QSqlDatabase*) = 0;     //will be called from init(). Prepare database here
 
+        virtual bool assureTableExists(const QString&, const QString &) const;
+
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
