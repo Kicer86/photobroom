@@ -55,7 +55,8 @@ namespace Database
             m_backendMutex(),
             m_backendSet(),
             m_updateQueue(m_max_queue_len),
-            m_storekeeper(trampoline, this)
+            m_storekeeper(trampoline, this),
+            m_dbClosed(false)
         {
 
         }
@@ -63,7 +64,13 @@ namespace Database
 
         virtual ~Impl()
         {
-           //TODO: assert for db opened
+            assert(m_dbClosed);
+
+            if (!m_dbClosed)
+                close();             //should be done manually due to possible Qt bug: https://bugreports.qt-project.org/browse/QTBUG-35977
+
+            // some interesting information:
+            // http://stackoverflow.com/questions/13999432/stdthread-terminate-called-without-an-active-exception-dont-want-to-joi
         }
 
 
@@ -131,6 +138,8 @@ namespace Database
 
             //close db
             m_backend->closeConnections();
+
+            m_dbClosed = true;
         }
 
         private:
@@ -143,6 +152,7 @@ namespace Database
             std::condition_variable m_backendSet;
             TS_Queue<Entry::crc32> m_updateQueue;                   //entries to be stored in backend
             std::thread m_storekeeper;
+            bool m_dbClosed;
 
             void registerUpdate(const Entry::crc32 &item)
             {

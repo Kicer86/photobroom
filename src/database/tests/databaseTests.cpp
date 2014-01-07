@@ -64,6 +64,7 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
     std::shared_ptr<Backend> backend = std::make_shared<Backend>();
     db->setBackend(backend);
 
+    db->close();
     delete db;             //"flush" data ;)
 
     const int s = backend->m_entries.size();
