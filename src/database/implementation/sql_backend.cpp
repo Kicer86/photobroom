@@ -101,7 +101,7 @@ bool ASqlBackend::assureTableExists(const QString &name, const QString &columnsD
     //create table 'name' if doesn't exist
     bool empty = query.next() == false;
     if (status && empty)
-        status = m_data->exec( QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc), &query );
+        status = m_data->exec( prepareCreationQuery(name, columnsDesc), &query );
 
     return status;
 }

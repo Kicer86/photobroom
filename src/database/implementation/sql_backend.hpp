@@ -48,7 +48,15 @@ class ASqlBackend: public Database::IBackend
         void closeConnections();
 
     protected:
-        virtual bool prepareDB(QSqlDatabase*) = 0;     //will be called from init(). Prepare database here
+        //will be called from init(). Prepare database here
+        virtual bool prepareDB(QSqlDatabase*) = 0;
+
+        // Create table with given name and columns decription.
+        // It may be necessary for table to meet features:
+        // - FOREIGN KEY
+        //
+        // More features may be added in future.
+        virtual QString prepareCreationQuery(const QString& name, const QString& columns) const = 0;
 
         virtual bool assureTableExists(const QString&, const QString &) const;
 

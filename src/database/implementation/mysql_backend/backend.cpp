@@ -95,4 +95,15 @@ namespace Database
     {
         return m_data->prepareDB(db);
     }
+
+
+    QString MySqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
+    {
+        //Here we force InnoDB engine which may be default
+        //http://dev.mysql.com/doc/refman/5.5/en/innodb-default-se.html
+
+        const QString result = QString("CREATE TABLE %1(%2) ENGINE=InnoDB;").arg(name).arg(columns);
+
+        return result;
+    }
 }

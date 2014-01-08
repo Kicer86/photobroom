@@ -12,13 +12,14 @@
 namespace Database
 {
 
-    class DATABASE_MYSQL_BACKEND_EXPORT MySqlBackend: public ASqlBackend
+    class DATABASE_MYSQL_BACKEND_EXPORT MySqlBackend final: public ASqlBackend
     {
         public:
             MySqlBackend();
             virtual ~MySqlBackend();
 
             virtual bool prepareDB(QSqlDatabase*) override;
+            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
 
         private:
             struct Data;
