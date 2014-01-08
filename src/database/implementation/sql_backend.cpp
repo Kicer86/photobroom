@@ -173,5 +173,17 @@ bool ASqlBackend::checkStructure()
                                       " VALUES(%1, CURRENT_TIMESTAMP);")
                                      .arg(db_version), &query);
 
+    //photos table
+    if (status)
+        status = assureTableExists("photos", "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+                                             "store_date TIMESTAMP NOT NULL, "
+                                             "path VARCHAR(1024) NOT NULL");
+
+    //tags table
+    if (status)
+        status = assureTableExists("tags", "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+                                           "photo_id BIGINT UNSIGNED NOT NULL, "
+                                           "FOREIGN KEY(photo_id) REFERENCES photos(id)");
+
     return status;
 }
