@@ -92,6 +92,12 @@ void ASqlBackend::closeConnections()
 }
 
 
+QString ASqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
+{
+    return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
+}
+
+
 bool ASqlBackend::assureTableExists(const QString &name, const QString &columnsDesc) const
 {
     QSqlQuery query(m_data->m_db);

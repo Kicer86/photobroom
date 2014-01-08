@@ -56,7 +56,8 @@ class ASqlBackend: public Database::IBackend
         // - FOREIGN KEY
         //
         // More features may be added in future.
-        virtual QString prepareCreationQuery(const QString& name, const QString& columns) const = 0;
+        // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
+        virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
 
         virtual bool assureTableExists(const QString&, const QString &) const;
 
