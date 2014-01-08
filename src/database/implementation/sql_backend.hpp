@@ -32,44 +32,44 @@ class QSqlDatabase;
 namespace Database
 {
     class Entry;
+
+    class ASqlBackend: public Database::IBackend
+    {
+        public:
+            ASqlBackend();
+            ASqlBackend(const ASqlBackend& other) = delete;
+            virtual ~ASqlBackend();
+
+            ASqlBackend& operator=(const ASqlBackend& other) = delete;
+            bool operator==(const ASqlBackend& other) = delete;
+
+            void closeConnections();
+
+        protected:
+            //will be called from init(). Prepare database here
+            virtual bool prepareDB(QSqlDatabase*) = 0;
+
+            // Create table with given name and columns decription.
+            // It may be necessary for table to meet features:
+            // - FOREIGN KEY
+            //
+            // More features may be added in future.
+            // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
+            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
+
+            virtual bool assureTableExists(const QString&, const QString &) const;
+
+        private:
+            struct Data;
+            std::unique_ptr<Data> m_data;
+
+            virtual bool init() override final;
+            virtual bool store(const Database::Entry &) override final;
+
+            bool checkStructure();
+    };
+
 }
-
-//TODO: close in namespace?
-class ASqlBackend: public Database::IBackend
-{
-    public:
-        ASqlBackend();
-        ASqlBackend(const ASqlBackend& other) = delete;
-        virtual ~ASqlBackend();
-
-        ASqlBackend& operator=(const ASqlBackend& other) = delete;
-        bool operator==(const ASqlBackend& other) = delete;
-
-        void closeConnections();
-
-    protected:
-        //will be called from init(). Prepare database here
-        virtual bool prepareDB(QSqlDatabase*) = 0;
-
-        // Create table with given name and columns decription.
-        // It may be necessary for table to meet features:
-        // - FOREIGN KEY
-        //
-        // More features may be added in future.
-        // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
-        virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
-
-        virtual bool assureTableExists(const QString&, const QString &) const;
-
-    private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
-
-        virtual bool init() override final;
-        virtual bool store(const Database::Entry &) override final;
-
-        bool checkStructure();
-};
 
 #endif // ASQLBACKEND_H
 

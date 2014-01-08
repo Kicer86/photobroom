@@ -33,163 +33,167 @@ namespace
     const char db_version[] = "0.1";
 }
 
-
-struct ASqlBackend::Data
+namespace Database
 {
-    Data(): m_db() {}
-    ~Data()
+
+    struct ASqlBackend::Data
+    {
+        Data(): m_db() {}
+        ~Data()
+        {
+
+        }
+
+        QSqlDatabase m_db;
+
+        bool exec(const QString& query, QSqlQuery* result) const
+        {
+            const bool status = result->exec(query);
+
+            if (status == false)
+                std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
+                          << " while performing query: " << query.toStdString() << std::endl;
+
+            return status;
+        }
+
+
+        bool store(const Database::Entry& entry)
+        {
+            return false;
+        }
+
+    };
+
+
+    ASqlBackend::ASqlBackend(): m_data(new Data)
     {
 
     }
 
-    QSqlDatabase m_db;
 
-    bool exec(const QString& query, QSqlQuery* result) const
+    ASqlBackend::~ASqlBackend()
     {
-        const bool status = result->exec(query);
 
-        if (status == false)
-            std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
-                      << " while performing query: " << query.toStdString() << std::endl;
+    }
+
+
+    void ASqlBackend::closeConnections()
+    {
+        if (m_data->m_db.isValid() && m_data->m_db.isOpen())
+        {
+            std::cout << "ASqlBackend: closing database connections." << std::endl;
+            m_data->m_db.close();
+
+            // Reset belowe is necessary.
+            // There is a problem:when application is being closed, all qt resources (libraries etc) are being removed.
+            // And it may happend that a driver for particular sql database will be removed before database is destroyed.
+            // This will lead to crash as in database's destructor calls to driver are made.
+            m_data.reset(nullptr);        //destroy database.
+        }
+    }
+
+
+    QString ASqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
+    {
+        return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
+    }
+
+
+    bool ASqlBackend::assureTableExists(const QString &name, const QString &columnsDesc) const
+    {
+        QSqlQuery query(m_data->m_db);
+
+        bool status = m_data->exec( QString("SHOW TABLES LIKE '%1';").arg(name), &query );
+
+        //create table 'name' if doesn't exist
+        bool empty = query.next() == false;
+        if (status && empty)
+            status = m_data->exec( prepareCreationQuery(name, columnsDesc), &query );
 
         return status;
     }
 
 
-    bool store(const Database::Entry& entry)
+    bool ASqlBackend::init()
     {
-        return false;
+        bool status = prepareDB(&m_data->m_db);
+
+        if (status)
+            status = m_data->m_db.open();
+
+        if (status)
+            status = checkStructure();
+        else
+            std::cerr << "SQLBackend: error opening database: " << m_data->m_db.lastError().text().toStdString() << std::endl;
+
+        //TODO: crash when status == false;
+        return status;
     }
 
-};
 
-
-ASqlBackend::ASqlBackend(): m_data(new Data)
-{
-
-}
-
-
-ASqlBackend::~ASqlBackend()
-{
-
-}
-
-
-void ASqlBackend::closeConnections()
-{
-    if (m_data->m_db.isValid() && m_data->m_db.isOpen())
+    bool ASqlBackend::store(const Database::Entry& entry)
     {
-        std::cout << "ASqlBackend: closing database connections." << std::endl;
-        m_data->m_db.close();
+        bool status = false;
 
-        // Reset belowe is necessary.
-        // There is a problem:when application is being closed, all qt resources (libraries etc) are being removed.
-        // And it may happend that a driver for particular sql database will be removed before database is destroyed.
-        // This will lead to crash as in database's destructor calls to driver are made.
-        m_data.reset(nullptr);        //destroy database.
+        if (m_data)
+            status = m_data->store(entry);
+        else
+            std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+
+        return status;
     }
-}
 
 
-QString ASqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
-{
-    return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
-}
+    bool ASqlBackend::checkStructure()
+    {
+        //check if database 'broom' exists
+        QSqlQuery query(m_data->m_db);
+        bool status = m_data->exec("SHOW DATABASES LIKE 'broom';", &query);
 
+        //create database broom if doesn't exists
+        bool empty = query.next() == false;
+        if (status && empty)
+            status = m_data->exec("CREATE DATABASE IF NOT EXISTS `broom`;", &query);
 
-bool ASqlBackend::assureTableExists(const QString &name, const QString &columnsDesc) const
-{
-    QSqlQuery query(m_data->m_db);
+        //use 'broom' database
+        if (status)
+            status = m_data->exec("USE broom;", &query);
 
-    bool status = m_data->exec( QString("SHOW TABLES LIKE '%1';").arg(name), &query );
+        //check if table 'version_history' exists
+        if (status)
+            status = assureTableExists("version_history", "id INT AUTO_INCREMENT PRIMARY KEY, "
+                                                          "version DECIMAL(4,2) NOT NULL, "    //xx.yy
+                                                          "date TIMESTAMP NOT NULL");
 
-    //create table 'name' if doesn't exist
-    bool empty = query.next() == false;
-    if (status && empty)
-        status = m_data->exec( prepareCreationQuery(name, columnsDesc), &query );
+        //at least one row must be present in table 'version_history'
+        if (status)
+            status = m_data->exec("SELECT COUNT(*) FROM version_history;", &query);
 
-    return status;
-}
+        if (status)
+            status = query.next() == true;
 
+        const QVariant rows = status? query.value(0): QVariant(0);
 
-bool ASqlBackend::init()
-{
-    bool status = prepareDB(&m_data->m_db);
+        //insert first entry
+        if (status && rows == 0)
+            status = m_data->exec(QString("INSERT INTO version_history(version, date)"
+                                          " VALUES(%1, CURRENT_TIMESTAMP);")
+                                         .arg(db_version), &query);
 
-    if (status)
-        status = m_data->m_db.open();
+        //photos table
+        if (status)
+            status = assureTableExists("photos", "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+                                                 "store_date TIMESTAMP NOT NULL, "
+                                                 "path VARCHAR(1024) NOT NULL");
 
-    if (status)
-        status = checkStructure();
-    else
-        std::cerr << "SQLBackend: error opening database: " << m_data->m_db.lastError().text().toStdString() << std::endl;
+        //tags table
+        if (status)
+            status = assureTableExists("tags", "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+                                               "photo_id BIGINT UNSIGNED NOT NULL, "
+                                               "FOREIGN KEY(photo_id) REFERENCES photos(id)");
 
-    //TODO: crash when status == false;
-    return status;
-}
+        return status;
+    }
 
-
-bool ASqlBackend::store(const Database::Entry& entry)
-{
-    bool status = false;
-
-    if (m_data)
-        status = m_data->store(entry);
-    else
-        std::cerr << "ASqlBackend: database object does not exist." << std::endl;
-
-    return status;
-}
-
-
-bool ASqlBackend::checkStructure()
-{
-    //check if database 'broom' exists
-    QSqlQuery query(m_data->m_db);
-    bool status = m_data->exec("SHOW DATABASES LIKE 'broom';", &query);
-
-    //create database broom if doesn't exists
-    bool empty = query.next() == false;
-    if (status && empty)
-        status = m_data->exec("CREATE DATABASE IF NOT EXISTS `broom`;", &query);
-
-    //use 'broom' database
-    if (status)
-        status = m_data->exec("USE broom;", &query);
-
-    //check if table 'version_history' exists
-    if (status)
-        status = assureTableExists("version_history", "id INT AUTO_INCREMENT PRIMARY KEY, "
-                                                      "version DECIMAL(4,2) NOT NULL, "    //xx.yy
-                                                      "date TIMESTAMP NOT NULL");
-
-    //at least one row must be present in table 'version_history'
-    if (status)
-        status = m_data->exec("SELECT COUNT(*) FROM version_history;", &query);
-
-    if (status)
-        status = query.next() == true;
-
-    const QVariant rows = status? query.value(0): QVariant(0);
-
-    //insert first entry
-    if (status && rows == 0)
-        status = m_data->exec(QString("INSERT INTO version_history(version, date)"
-                                      " VALUES(%1, CURRENT_TIMESTAMP);")
-                                     .arg(db_version), &query);
-
-    //photos table
-    if (status)
-        status = assureTableExists("photos", "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-                                             "store_date TIMESTAMP NOT NULL, "
-                                             "path VARCHAR(1024) NOT NULL");
-
-    //tags table
-    if (status)
-        status = assureTableExists("tags", "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-                                           "photo_id BIGINT UNSIGNED NOT NULL, "
-                                           "FOREIGN KEY(photo_id) REFERENCES photos(id)");
-
-    return status;
 }
