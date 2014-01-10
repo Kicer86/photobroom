@@ -31,6 +31,44 @@
 namespace
 {
     const char db_version[] = "0.1";
+
+    struct TableDefinition
+    {
+        const QString name;
+        const QList<QString> columns;
+
+        TableDefinition(const QString& n, const std::initializer_list<QString>& c):
+            name(n), columns(c)
+        {
+
+        }
+    };
+
+    TableDefinition table_versionHistory("version_history",
+                                            {
+                                                "id INT AUTO_INCREMENT PRIMARY KEY",
+                                                "version DECIMAL(4,2) NOT NULL",       //xx.yy
+                                                "date TIMESTAMP NOT NULL"
+                                            }
+                                         );
+
+    TableDefinition table_photos("photos",
+                                    {
+                                        "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                        "store_date TIMESTAMP NOT NULL",
+                                        "path VARCHAR(1024) NOT NULL"
+                                    }
+                                 );
+
+    TableDefinition table_tags("tags",
+                                    {
+                                        "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                        "name VARCHAR(256) NOT NULL",
+                                        "value VARCHAR(2048)",
+                                        "photo_id BIGINT UNSIGNED NOT NULL",
+                                        "FOREIGN KEY(photo_id) REFERENCES photos(id)"
+                                    }
+                               );
 }
 
 namespace Database
