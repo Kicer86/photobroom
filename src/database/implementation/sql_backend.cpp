@@ -187,9 +187,12 @@ namespace Database
                                                  "store_date TIMESTAMP NOT NULL, "
                                                  "path VARCHAR(1024) NOT NULL");
 
+        //TODO: use config below
         //tags table
         if (status)
             status = assureTableExists("tags", "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+                                               "name VARCHAR(256) NOT NULL, "
+                                               "value VARCHAR(2048), "
                                                "photo_id BIGINT UNSIGNED NOT NULL, "
                                                "FOREIGN KEY(photo_id) REFERENCES photos(id)");
 
