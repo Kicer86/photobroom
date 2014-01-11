@@ -28,7 +28,10 @@
 #include <QSqlQuery>
 #include <QVariant>
 
+#include "configuration/constraints.hpp"
+
 #include "../reusable/table_definition.hpp"
+
 
 namespace Database
 {
@@ -67,8 +70,8 @@ namespace Database
             table_tags("tags",
                             {
                                 "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                "name VARCHAR(256) NOT NULL",
-                                "value VARCHAR(2048)",
+                                QString("name VARCHAR(%1) NOT NULL").arg(Constraints::database_tag_name_len),
+                                QString("value VARCHAR(%1)").arg(Constraints::database_tag_value_len),
                                 "type INT UNSIGNED NOT NULL",
                                 "photo_id BIGINT UNSIGNED NOT NULL",
                                 "FOREIGN KEY(photo_id) REFERENCES photos(id)",
