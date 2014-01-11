@@ -7,7 +7,7 @@
 #include <memory>
 
 #include "database_mysql_backend_export.h"
-#include "../sql_backend.hpp"
+#include "../reusable/sql_backend.hpp"
 
 namespace Database
 {

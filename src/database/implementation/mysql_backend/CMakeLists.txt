@@ -6,7 +6,7 @@ find_package(Qt5Sql REQUIRED)
 
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS})
 
-set(BACKEND_SOURCES mysql_server.cpp backend.cpp ../sql_backend.cpp)
+set(BACKEND_SOURCES mysql_server.cpp backend.cpp ../reusable/sql_backend.cpp ../reusable/table_definition.cpp)
 
 set(BACKEND_HEADERS mysql_server.hpp backend.hpp)
 

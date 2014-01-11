@@ -32,6 +32,7 @@ class QSqlDatabase;
 namespace Database
 {
     class Entry;
+    struct TableDefinition;
 
     class ASqlBackend: public Database::IBackend
     {
@@ -57,7 +58,7 @@ namespace Database
             // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
 
-            virtual bool assureTableExists(const QString&, const QString &) const;
+            virtual bool assureTableExists(const TableDefinition &) const;
 
         private:
             struct Data;

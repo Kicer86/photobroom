@@ -28,51 +28,44 @@
 #include <QSqlQuery>
 #include <QVariant>
 
-namespace
-{
-    const char db_version[] = "0.1";
-
-    struct TableDefinition
-    {
-        const QString name;
-        const QList<QString> columns;
-
-        TableDefinition(const QString& n, const std::initializer_list<QString>& c):
-            name(n), columns(c)
-        {
-
-        }
-    };
-
-    TableDefinition table_versionHistory("version_history",
-                                            {
-                                                "id INT AUTO_INCREMENT PRIMARY KEY",
-                                                "version DECIMAL(4,2) NOT NULL",       //xx.yy
-                                                "date TIMESTAMP NOT NULL"
-                                            }
-                                         );
-
-    TableDefinition table_photos("photos",
-                                    {
-                                        "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                        "store_date TIMESTAMP NOT NULL",
-                                        "path VARCHAR(1024) NOT NULL"
-                                    }
-                                 );
-
-    TableDefinition table_tags("tags",
-                                    {
-                                        "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                        "name VARCHAR(256) NOT NULL",
-                                        "value VARCHAR(2048)",
-                                        "photo_id BIGINT UNSIGNED NOT NULL",
-                                        "FOREIGN KEY(photo_id) REFERENCES photos(id)"
-                                    }
-                               );
-}
+#include "../reusable/table_definition.hpp"
 
 namespace Database
 {
+    namespace
+    {
+        const char db_version[] = "0.1";
+
+        TableDefinition
+            table_versionHistory("version_history",
+                                    {
+                                        "id INT AUTO_INCREMENT PRIMARY KEY",
+                                        "version DECIMAL(4,2) NOT NULL",       //xx.yy
+                                        "date TIMESTAMP NOT NULL"
+                                    }
+                                 );
+
+        TableDefinition
+            table_photos("photos",
+                            {
+                                "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "store_date TIMESTAMP NOT NULL",
+                                "path VARCHAR(1024) NOT NULL"
+                            }
+                         );
+
+        TableDefinition
+            table_tags("tags",
+                            {
+                                "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "name VARCHAR(256) NOT NULL",
+                                "value VARCHAR(2048)",
+                                "photo_id BIGINT UNSIGNED NOT NULL",
+                                "FOREIGN KEY(photo_id) REFERENCES photos(id)"
+                            }
+                       );
+    }
+
 
     struct ASqlBackend::Data
     {
@@ -138,16 +131,23 @@ namespace Database
     }
 
 
-    bool ASqlBackend::assureTableExists(const QString &name, const QString &columnsDesc) const
+    bool ASqlBackend::assureTableExists(const TableDefinition& definition) const
     {
         QSqlQuery query(m_data->m_db);
 
-        bool status = m_data->exec( QString("SHOW TABLES LIKE '%1';").arg(name), &query );
+        bool status = m_data->exec( QString("SHOW TABLES LIKE '%1';").arg(definition.name), &query );
 
         //create table 'name' if doesn't exist
         bool empty = query.next() == false;
         if (status && empty)
-            status = m_data->exec( prepareCreationQuery(name, columnsDesc), &query );
+        {
+            QString columnsDesc;
+            const int size = definition.columns.size();
+            for(int i = 0; i < size; i++)
+                columnsDesc += definition.columns[i] + (i + 1 < size? ", ": "");
+
+            status = m_data->exec( prepareCreationQuery(definition.name, columnsDesc), &query );
+        }
 
         return status;
     }
@@ -200,9 +200,7 @@ namespace Database
 
         //check if table 'version_history' exists
         if (status)
-            status = assureTableExists("version_history", "id INT AUTO_INCREMENT PRIMARY KEY, "
-                                                          "version DECIMAL(4,2) NOT NULL, "    //xx.yy
-                                                          "date TIMESTAMP NOT NULL");
+            status = assureTableExists(table_versionHistory);
 
         //at least one row must be present in table 'version_history'
         if (status)
@@ -221,18 +219,12 @@ namespace Database
 
         //photos table
         if (status)
-            status = assureTableExists("photos", "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-                                                 "store_date TIMESTAMP NOT NULL, "
-                                                 "path VARCHAR(1024) NOT NULL");
+            status = assureTableExists(table_photos);
 
         //TODO: use config below
         //tags table
         if (status)
-            status = assureTableExists("tags", "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-                                               "name VARCHAR(256) NOT NULL, "
-                                               "value VARCHAR(2048), "
-                                               "photo_id BIGINT UNSIGNED NOT NULL, "
-                                               "FOREIGN KEY(photo_id) REFERENCES photos(id)");
+            status = assureTableExists(table_tags);
 
         return status;
     }
