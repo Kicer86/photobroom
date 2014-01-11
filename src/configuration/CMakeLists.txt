@@ -28,7 +28,6 @@ set(CONFIG_HEADERS
     private/default_configuration_private.hpp
    )
 
-set(CONFIG_RESOURCE_FILES rc/resources.qrc)
 
 if(BUILD_TESTS)
     addTestTarget(configuration SOURCES
@@ -50,7 +49,7 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
-add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS} ${CONFIG_RESOURCES})
+add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
 target_link_libraries(configuration system)
 qt5_use_modules(configuration Core)
 
