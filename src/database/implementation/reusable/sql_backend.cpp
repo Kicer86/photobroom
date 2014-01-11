@@ -54,14 +54,25 @@ namespace Database
                             }
                          );
 
+
+        TableDefinition
+            table_tag_types("tag_types",
+                            {
+                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY"  ,
+                                "name VARCHAR(32) NOT NULL"
+                            }
+                           );
+
         TableDefinition
             table_tags("tags",
                             {
-                                "tag_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 "name VARCHAR(256) NOT NULL",
                                 "value VARCHAR(2048)",
+                                "type INT UNSIGNED NOT NULL",
                                 "photo_id BIGINT UNSIGNED NOT NULL",
-                                "FOREIGN KEY(photo_id) REFERENCES photos(id)"
+                                "FOREIGN KEY(photo_id) REFERENCES photos(id)",
+                                "FOREIGN KEY(type) REFERENCES tag_types(id)"
                             }
                        );
     }
@@ -221,7 +232,10 @@ namespace Database
         if (status)
             status = assureTableExists(table_photos);
 
-        //TODO: use config below
+        //tag types
+        if (status)
+            status = assureTableExists(table_tag_types);
+
         //tags table
         if (status)
             status = assureTableExists(table_tags);
