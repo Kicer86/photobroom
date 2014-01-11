@@ -1,6 +1,8 @@
 
 project(database)
 
+add_subdirectory(implementation/reusable)
+
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem)
 
