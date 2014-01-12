@@ -13,7 +13,7 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Co
 
 set(CONFIG_SOURCES
     private/configurationfactory.cpp
-    private/constraints.cpp
+    private/constants.cpp
     private/entrydata.cpp
     private/default_configuration.cpp
     private/default_configuration_private.cpp
@@ -21,7 +21,7 @@ set(CONFIG_SOURCES
 
 set(CONFIG_HEADERS
     configurationfactory.hpp
-    constraints.hpp
+    constants.hpp
     entrydata.hpp
     iconfiguration.hpp
     private/default_configuration.hpp
