@@ -22,6 +22,7 @@
 #include "sql_backend.hpp"
 
 #include <iostream>
+#include <set>
 
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -30,7 +31,7 @@
 
 #include "configuration/constants.hpp"
 
-#include "../reusable/table_definition.hpp"
+#include "table_definition.hpp"
 
 #define TAB_TAG_TYPES "tag_types"
 #define TAB_VER_HIST  "version_history"
@@ -65,6 +66,7 @@ namespace Database
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
+                                "default BOOL NOT NULL"
                             }
                            );
 
@@ -252,7 +254,14 @@ namespace Database
     {
         QSqlQuery query(m_data->m_db);
 
-        bool status = m_data->exec("SELECT name FROM " TAB_TAG_TYPES ";", &query);
+        const std::set<std::string> defaultTags(Consts::DefaultTags::tags_list.begin(),
+                                                Consts::DefaultTags::tags_list.end());
+
+        bool status = m_data->exec("SELECT name FROM " TAB_TAG_TYPES " WHERE 'default'='TRUE';", &query);
+
+
+
+        return status;
     }
 
 }
