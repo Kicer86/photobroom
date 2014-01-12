@@ -23,6 +23,7 @@
 #define ASQLBACKEND_H
 
 #include <memory>
+#include <vector>
 
 #include "database/idatabase.hpp"
 #include "sql_backend_base_export.h"
@@ -71,6 +72,7 @@ namespace Database
 
             bool checkStructure();
             bool addDefaultTagsDefinitions();
+            bool addDefaultTagsDefinitions(const std::vector<QString> &);
     };
 
 }

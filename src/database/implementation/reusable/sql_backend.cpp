@@ -66,7 +66,7 @@ namespace Database
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
-                                "default BOOL NOT NULL"
+                                "buildin BOOL NOT NULL"
                             }
                            );
 
@@ -246,6 +246,9 @@ namespace Database
         if (status)
             status = assureTableExists(table_tags);
 
+        if (status)
+            status = addDefaultTagsDefinitions();
+
         return status;
     }
 
@@ -254,14 +257,50 @@ namespace Database
     {
         QSqlQuery query(m_data->m_db);
 
-        const std::set<std::string> defaultTags(Consts::DefaultTags::tags_list.begin(),
-                                                Consts::DefaultTags::tags_list.end());
+        const std::set<QString> defaultTags(Consts::DefaultTags::tags_list.begin(),
+                                            Consts::DefaultTags::tags_list.end());
 
-        bool status = m_data->exec("SELECT name FROM " TAB_TAG_TYPES " WHERE 'default'='TRUE';", &query);
+        bool status = m_data->exec("SELECT name FROM " TAB_TAG_TYPES " WHERE buildin=TRUE;", &query);
+
+        std::set<QString> storedTags;
+        while(query.next())
+        {
+            const QString row = query.value("name").toString();
+
+            storedTags.insert(row);
+        }
+
+        std::vector<QString> diff;
+        std::set_difference(defaultTags.begin(), defaultTags.end(),
+                            storedTags.begin(), storedTags.end(),
+                            std::back_inserter(diff));
+
+        if (status)
+            status = addDefaultTagsDefinitions(diff);
+
+        return status;   
+    }
 
 
+    bool ASqlBackend::addDefaultTagsDefinitions(const std::vector<QString>& tags)
+    {
+        bool status = true;
+
+        if (tags.empty() == false)
+        {
+            QSqlQuery query(m_data->m_db);
+
+            for(const QString& tag: tags)
+            {
+                const QString queryStr = QString("INSERT INTO " TAB_TAG_TYPES "(name, buildin) values('%1', TRUE);").arg(tag);
+                status = m_data->exec(queryStr, &query);
+
+                if (!status)
+                    break;
+            }
+        }
 
         return status;
     }
 
-}
+ }
