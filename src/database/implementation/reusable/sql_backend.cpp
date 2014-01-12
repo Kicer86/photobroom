@@ -44,7 +44,7 @@ namespace Database
         TableDefinition
             table_versionHistory(TAB_VER_HIST,
                                     {
-                                        "id INT AUTO_INCREMENT PRIMARY KEY",
+                                        "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                         "version DECIMAL(4,2) NOT NULL",       //xx.yy
                                         "date TIMESTAMP NOT NULL"
                                     }
@@ -53,7 +53,7 @@ namespace Database
         TableDefinition
             table_photos("photos",
                             {
-                                "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 "store_date TIMESTAMP NOT NULL",
                                 "path VARCHAR(1024) NOT NULL"
                             }
@@ -63,19 +63,18 @@ namespace Database
         TableDefinition
             table_tag_types(TAB_TAG_TYPES,
                             {
-                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY"  ,
-                                "name VARCHAR(32) NOT NULL"
+                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
                             }
                            );
 
         TableDefinition
             table_tags("tags",
                             {
-                                "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
+                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
                                 "type INT UNSIGNED NOT NULL",
-                                "photo_id BIGINT UNSIGNED NOT NULL",
+                                "photo_id INT UNSIGNED NOT NULL",
                                 "FOREIGN KEY(photo_id) REFERENCES photos(id)",
                                 "FOREIGN KEY(type) REFERENCES " TAB_TAG_TYPES "(id)"
                             }
