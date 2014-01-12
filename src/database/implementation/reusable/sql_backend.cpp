@@ -32,6 +32,8 @@
 
 #include "../reusable/table_definition.hpp"
 
+#define TAB_TAG_TYPES "tag_types"
+#define TAB_VER_HIST  "version_history"
 
 namespace Database
 {
@@ -40,7 +42,7 @@ namespace Database
         const char db_version[] = "0.1";
 
         TableDefinition
-            table_versionHistory("version_history",
+            table_versionHistory(TAB_VER_HIST,
                                     {
                                         "id INT AUTO_INCREMENT PRIMARY KEY",
                                         "version DECIMAL(4,2) NOT NULL",       //xx.yy
@@ -59,7 +61,7 @@ namespace Database
 
 
         TableDefinition
-            table_tag_types("tag_types",
+            table_tag_types(TAB_TAG_TYPES,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY"  ,
                                 "name VARCHAR(32) NOT NULL"
@@ -75,7 +77,7 @@ namespace Database
                                 "type INT UNSIGNED NOT NULL",
                                 "photo_id BIGINT UNSIGNED NOT NULL",
                                 "FOREIGN KEY(photo_id) REFERENCES photos(id)",
-                                "FOREIGN KEY(type) REFERENCES tag_types(id)"
+                                "FOREIGN KEY(type) REFERENCES " TAB_TAG_TYPES "(id)"
                             }
                        );
     }
@@ -218,7 +220,7 @@ namespace Database
 
         //at least one row must be present in table 'version_history'
         if (status)
-            status = m_data->exec("SELECT COUNT(*) FROM version_history;", &query);
+            status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER_HIST ";", &query);
 
         if (status)
             status = query.next() == true;
@@ -227,7 +229,7 @@ namespace Database
 
         //insert first entry
         if (status && rows == 0)
-            status = m_data->exec(QString("INSERT INTO version_history(version, date)"
+            status = m_data->exec(QString("INSERT INTO " TAB_VER_HIST "(version, date)"
                                           " VALUES(%1, CURRENT_TIMESTAMP);")
                                          .arg(db_version), &query);
 
@@ -244,6 +246,14 @@ namespace Database
             status = assureTableExists(table_tags);
 
         return status;
+    }
+
+
+    bool ASqlBackend::addDefaultTagsDefinitions()
+    {
+        QSqlQuery query(m_data->m_db);
+
+        bool status = m_data->exec("SELECT name FROM " TAB_TAG_TYPES ";", &query);
     }
 
 }

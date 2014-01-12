@@ -70,6 +70,7 @@ namespace Database
             virtual bool store(const Database::Entry &) override final;
 
             bool checkStructure();
+            bool addDefaultTagsDefinitions();
     };
 
 }
