@@ -5,10 +5,12 @@
 #include <QString>
 #include <QList>
 
+#include "sql_backend_base_export.h"
+
 namespace Database
 {
 
-    struct TableDefinition
+    struct SQL_BACKEND_BASE_EXPORT TableDefinition
     {
         const QString name;
         const QList<QString> columns;

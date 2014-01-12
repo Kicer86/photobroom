@@ -22,9 +22,10 @@
 #ifndef ASQLBACKEND_H
 #define ASQLBACKEND_H
 
-#include "idatabase.hpp"
-
 #include <memory>
+
+#include "database/idatabase.hpp"
+#include "sql_backend_base_export.h"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -34,7 +35,7 @@ namespace Database
     class Entry;
     struct TableDefinition;
 
-    class ASqlBackend: public Database::IBackend
+    class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
         public:
             ASqlBackend();
