@@ -18,6 +18,7 @@ namespace Consts
         extern const char tag_people[];
         extern const char tag_place[];
         extern const char tag_date[];
+        extern const char tag_time[];
         extern const char tag_event[];
 
         extern const std::vector<const char *> tags_list;
