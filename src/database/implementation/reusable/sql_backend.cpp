@@ -234,6 +234,8 @@ namespace Database
                                           " VALUES(%1, CURRENT_TIMESTAMP);")
                                          .arg(db_version), &query);
 
+        //TODO: check last entry with current version
+
         //photos table
         if (status)
             status = assureTableExists(table_photos);
