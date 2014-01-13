@@ -1,6 +1,8 @@
 
 #include "constants.hpp"
 
+#include <QtGlobal>
+
 namespace Consts
 {
     namespace Constraints
@@ -11,10 +13,10 @@ namespace Consts
 
     namespace DefaultTags
     {
-        const char tag_people[] = "People";
-        const char tag_place[]  = "Place";
-        const char tag_date[]   = "Date";
-        const char tag_event[]  = "Event";
+        const char tag_people[] = QT_TRANSLATE_NOOP("Default Tag Name", "People");
+        const char tag_place[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Place");
+        const char tag_date[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Date");
+        const char tag_event[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Event");
 
         const std::vector<const char *> tags_list({tag_people, tag_place, tag_date, tag_event});
     }
