@@ -21,14 +21,15 @@
 #include "entries_manager.hpp"
 
 #include "tag_entry.hpp"
+#include "configuration/constants.hpp"
 
 
 std::set<TagNameInfo> EntriesManager::m_base_tags( {
-                                                    { QObject::tr("Event"),  TagNameInfo::Text }, 
-                                                    { QObject::tr("Place"),  TagNameInfo::Text }, 
-                                                    { QObject::tr("Date"),   TagNameInfo::Date }, 
-                                                    { QObject::tr("Time"),   TagNameInfo::Time },
-                                                    { QObject::tr("People"), TagNameInfo::Text },                                                    
+                                                    { Consts::DefaultTags::tag_event,  TagNameInfo::Text },
+                                                    { Consts::DefaultTags::tag_place,  TagNameInfo::Text },
+                                                    { Consts::DefaultTags::tag_date,   TagNameInfo::Date },
+                                                    { Consts::DefaultTags::tag_time,   TagNameInfo::Time },
+                                                    { Consts::DefaultTags::tag_people, TagNameInfo::Text },
                                                    } );
 
 
