@@ -36,5 +36,23 @@ add_executable(broom ${BROOM_SOURCES})
 target_link_libraries(broom gui)
 turnOnCpp11(broom)
 
+#documentation
+find_program(DOXYGEN doxygen)
+
+if(DOXYGEN)
+
+    add_custom_target(documentation
+                      COMMAND ${DOXYGEN} ${CMAKE_SOURCE_DIR}/Doxyfile
+                      WORKING_DIRECTORY ${CMAKE_BINARY_DIR} )
+
+endif(DOXYGEN)
+
+message("")
+message("*************************************************************")
 message("Configuration: ")
 message("BUILD_TESTS...........${BUILD_TESTS}")
+message("")
+message("Extra targets:")
+message("documentation          - generates html in build dir")
+message("generate_code_coverage - generates code coverage in build dir")
+message("")
