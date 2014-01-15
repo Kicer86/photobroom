@@ -19,9 +19,15 @@
 
 
 #include "entry.hpp"
+
+#include <boost/crc.hpp>
+
+#include "ifs.hpp"
+
 namespace Database
 {
-    Entry::Entry(): m_d(new Entry::Data)
+
+    Entry::Entry(const std::shared_ptr<IStreamFactory>& stream): m_d(new Entry::Data(stream))
     {
 
     }
@@ -33,7 +39,8 @@ namespace Database
     }
 
 
-    Entry::Entry(const APhotoInfo::Ptr& ptr): m_d(new Entry::Data(ptr))
+    Entry::Entry(const APhotoInfo::Ptr& ptr, const std::shared_ptr<IStreamFactory>& stream):
+        m_d(new Entry::Data(stream, ptr))
     {
 
     }
@@ -57,5 +64,54 @@ namespace Database
     {
         return false;
     }
+
+
+    Entry::crc32 Entry::calcCrc(const std::string &path) const
+    {
+        const int MAX_SIZE = 65536;
+        boost::crc_32_type crc;
+        std::shared_ptr<std::iostream> input = m_d->m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
+
+        if (input != nullptr)
+            do
+            {
+                char buf[MAX_SIZE];
+
+                input->read(buf, MAX_SIZE);
+                crc.process_bytes(buf, input->gcount());
+            }
+            while(input->fail() == false);
+
+        const Entry::crc32 sum = crc();
+
+        return sum;
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    Entry::Data::Data(const std::shared_ptr<IStreamFactory> &stream, const APhotoInfo::Ptr &photoInfo):
+        m_crc(0xffffffff),
+        m_path("null"),
+        m_photoInfo(photoInfo),
+        m_stream(stream)
+    {
+
+    }
+
+
+    Entry::Data::Data(const std::shared_ptr<IStreamFactory> &stream): Data(stream, nullptr)
+    {
+
+    }
+
+
+    Entry::Data::Data(): Data(nullptr, nullptr)
+    {
+
+    }
+
+
 
 }

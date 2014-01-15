@@ -22,6 +22,7 @@
 #define DATABASE_ENTRY_HPP
 
 #include <string>
+#include <memory>
 
 #include <boost/cstdint.hpp>
 
@@ -29,14 +30,16 @@
 
 #include "core/photo_info.hpp"
 
+struct IStreamFactory;
+
 namespace Database
 {
     class Entry
     {
         public:
-            Entry();
+            Entry(const std::shared_ptr<IStreamFactory>& stream = nullptr);
             Entry(const Entry&) = default;
-            Entry(const APhotoInfo::Ptr &);
+            Entry(const APhotoInfo::Ptr &, const std::shared_ptr<IStreamFactory> &);
             Entry(Entry && );
             virtual ~Entry();
 
@@ -47,17 +50,23 @@ namespace Database
 
             struct Data
             {
-                Data(const APhotoInfo::Ptr& photoInfo = nullptr): m_crc(0xffffffff), m_path("null"), m_photoInfo(photoInfo) {}
+                Data(const std::shared_ptr<IStreamFactory>& stream, const APhotoInfo::Ptr& photoInfo);
+                Data(const std::shared_ptr<IStreamFactory>& stream);
+                Data(const Data &) = default;
+                Data();
 
                 crc32       m_crc;
                 std::string m_path;         //path starts with 'file:' (when localfile), or with 'db:' (when in database)
                 APhotoInfo::Ptr m_photoInfo;
+                std::shared_ptr<IStreamFactory> m_stream;
             };
 
             data_ptr<Data> m_d;
 
         private:
             virtual bool operator==(const Entry&) const;
+
+            crc32 calcCrc(const std::string &path) const;
     };
 
 }
