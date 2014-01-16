@@ -4,24 +4,26 @@
 
 #include <vector>
 
+#include "configuration_export.h"
+
 namespace Consts
 {
 
-    namespace Constraints
+	struct CONFIGURATION_EXPORT Constraints
     {
-        extern const unsigned int database_tag_name_len;
-        extern const unsigned int database_tag_value_len;
-    }
+        static const unsigned int database_tag_name_len;
+        static const unsigned int database_tag_value_len;
+	};
 
-    namespace DefaultTags
+	struct CONFIGURATION_EXPORT DefaultTags
     {
-        extern const char tag_people[];
-        extern const char tag_place[];
-        extern const char tag_date[];
-        extern const char tag_event[];
+		static const char tag_people[];
+		static const char tag_place[];
+		static const char tag_date[];
+		static const char tag_event[];
 
-        extern const std::vector<const char *> tags_list;
-    }
+		static const std::vector<const char *> tags_list;
+	};
 
 }
 #endif

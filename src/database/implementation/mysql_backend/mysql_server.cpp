@@ -19,6 +19,8 @@
 
 #include "mysql_server.hpp"
 
+#include <iostream>
+
 #include <QProcess>
 #include <QFile>
 #include <QDir>

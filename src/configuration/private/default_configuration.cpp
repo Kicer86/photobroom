@@ -20,6 +20,8 @@
 
 #include "default_configuration.hpp"
 
+#include <iostream>
+
 #include <QString>
 
 #include "system/system.hpp"
@@ -82,7 +84,7 @@ void DefaultConfiguration::registerInitializer(Configuration::IInitializer* i)
 
 bool DefaultConfiguration::load()
 {
-    m_impl->load();
+    return m_impl->load();
 }
 
 
