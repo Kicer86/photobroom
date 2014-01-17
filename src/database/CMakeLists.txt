@@ -19,7 +19,6 @@ set(DATABASE_HEADERS
     databasebuilder.hpp
     idatabase.hpp
     ifs.hpp
-    entry.hpp
     implementation/memorydatabase.hpp
     )
 
