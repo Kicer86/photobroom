@@ -25,6 +25,10 @@ class HashFunctions
 {
     public:
         static std::string sha256(const std::string &);
+        static std::string sha256(std::istream &);
+
+    private:
+        static std::string format(unsigned char *);
 };
 
 #endif // HASHFUNCTIONS_H
