@@ -30,11 +30,13 @@
 #include <QVariant>
 
 #include "configuration/constants.hpp"
+#include "../entry.hpp"
 
 #include "table_definition.hpp"
 
 #define TAB_TAG_TYPES "tag_types"
 #define TAB_VER_HIST  "version_history"
+#define TAB_PHOTOS    "photos"
 
 namespace Database
 {
@@ -52,7 +54,7 @@ namespace Database
                                  );
 
         TableDefinition
-            table_photos("photos",
+            table_photos(TAB_PHOTOS,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 "store_date TIMESTAMP NOT NULL",
@@ -108,7 +110,15 @@ namespace Database
 
         bool store(const Database::Entry& entry)
         {
-            return false;
+            QSqlQuery query(m_db);
+
+            const QString query_str = QString("INSERT INTO " TAB_PHOTOS
+                                              "(store_date, path) VALUES(CURRENT_TIMESTAMP, \"%1\");"
+                                              ).arg(entry.m_d->m_path.c_str());
+
+            bool status = exec(query_str, &query);
+
+            return status;
         }
 
     };
@@ -248,13 +258,16 @@ namespace Database
         if (status)
             status = assureTableExists(table_tags);
 
+        /*
         if (status)
             status = addDefaultTagsDefinitions();
+        */
 
         return status;
     }
 
 
+    /*
     bool ASqlBackend::addDefaultTagsDefinitions()
     {
         QSqlQuery query(m_data->m_db);
@@ -280,7 +293,7 @@ namespace Database
         if (status)
             status = addDefaultTagsDefinitions(diff);
 
-        return status;   
+        return status;
     }
 
 
@@ -304,5 +317,6 @@ namespace Database
 
         return status;
     }
+    */
 
  }

@@ -3,9 +3,10 @@ project(SQL_Backends_base)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
+find_package(OpenLibrary REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
 
 set(SOURCES sql_backend.cpp table_definition.cpp)
 set(HEADERS sql_backend.hpp table_definition.hpp)
