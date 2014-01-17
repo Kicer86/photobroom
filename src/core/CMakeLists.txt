@@ -3,6 +3,7 @@ project(core)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(OpenSSL REQUIRED)
 find_package(Exiv2)
 
 if(EXIV2)
@@ -22,12 +23,14 @@ endif(EXIV2)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
+    implementation/hash_functions.cpp
     implementation/photo_info.cpp
     implementation/tag.cpp
     implementation/tag_feeder.cpp
     )
 
 set(CORE_HEADERS
+    hash_functions.hpp
     tag.hpp
     tag_feeder.hpp
     photo_info.hpp
@@ -44,16 +47,18 @@ if(BUILD_TESTS)
                 )
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core)
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES})
 endif(BUILD_TESTS)
 
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
+target_link_libraries(core ${OPENSSL_LIBRARIES})
 qt5_use_modules(core Core)
 
 if(EXIV2)
-	target_link_libraries(core ${EXIV2_LIBRARIES})
+    target_link_libraries(core ${EXIV2_LIBRARIES})
 endif(EXIV2)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
