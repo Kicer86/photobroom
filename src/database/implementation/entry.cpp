@@ -20,9 +20,9 @@
 
 #include "entry.hpp"
 
-#include <boost/crc.hpp>
-
+#include "core/hash_functions.hpp"
 #include "ifs.hpp"
+
 
 namespace Database
 {
@@ -66,52 +66,23 @@ namespace Database
     }
 
 
-    Entry::crc32 Entry::calcCrc(const std::string &path) const
-    {
-        const int MAX_SIZE = 65536;
-        boost::crc_32_type crc;
-        std::shared_ptr<std::iostream> input = m_d->m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
-
-        if (input != nullptr)
-            do
-            {
-                char buf[MAX_SIZE];
-
-                input->read(buf, MAX_SIZE);
-                crc.process_bytes(buf, input->gcount());
-            }
-            while(input->fail() == false);
-
-        const Entry::crc32 sum = crc();
-
-        return sum;
-    }
-
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    Entry::Data::Data(const std::shared_ptr<IStreamFactory> &stream, const APhotoInfo::Ptr &photoInfo):
-        m_crc(0xffffffff),
+    Entry::Data::Data(const std::shared_ptr<IStreamFactory>& stream, const APhotoInfo::Ptr& photoInfo):
+        m_hash(""),
         m_path("null"),
         m_photoInfo(photoInfo),
         m_stream(stream)
     {
+        if (stream.get() && photoInfo.get())
+        {
+            m_path = photoInfo->getPath();
+            auto file = stream->openStream(m_path, std::ios_base::in | std::ios_base::binary);
 
+            m_hash = HashFunctions::sha256(*file.get());
+
+        }
     }
-
-
-    Entry::Data::Data(const std::shared_ptr<IStreamFactory> &stream): Data(stream, nullptr)
-    {
-
-    }
-
-
-    Entry::Data::Data(): Data(nullptr, nullptr)
-    {
-
-    }
-
-
 
 }

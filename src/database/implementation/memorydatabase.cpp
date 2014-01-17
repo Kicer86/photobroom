@@ -29,7 +29,6 @@
 #include <condition_variable>
 #include <mutex>
 
-#include <boost/crc.hpp>
 #include <boost/optional.hpp>
 
 #include <OpenLibrary/palgorithm/ts_queue.hpp>
@@ -81,14 +80,10 @@ namespace Database
         {
             //TODO: check for db opened
 
-            Entry entry(photoInfo);
+            Entry entry(photoInfo, m_stream);
 
-            //entry.m_d->m_crc = calcCrc(path);
-            //entry.m_d->m_path = decoratePath(path);
-
-            m_db[entry.m_d->m_crc] = entry;
-
-            registerUpdate(entry.m_d->m_crc);
+            m_db[entry.m_d->m_hash] = entry;
+            registerUpdate(entry.m_d->m_hash);
         }
 
 
@@ -116,11 +111,12 @@ namespace Database
                 while(m_backend == nullptr)
                     m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
 
-                boost::optional<Entry::crc32> entry = getItemToUpdate();
+                boost::optional<Entry::hash> entry = getItemToUpdate();
 
                 if (entry)
                 {
-                    const Entry &dbEntry = m_db[*entry];
+                    const Entry::hash& hash = *entry;
+                    const Entry &dbEntry = m_db[hash];
                     m_backend->store(dbEntry);
                 }
                 else
@@ -144,47 +140,26 @@ namespace Database
 
         private:
             const static int m_max_queue_len = 256;                 //max len of db queue
-            std::unordered_map<Entry::crc32, Entry> m_db;           //files managed by database
+            std::unordered_map<Entry::hash, Entry> m_db;            //files managed by database
             std::shared_ptr<IStreamFactory> m_stream;
             Database::IConfiguration *m_configuration;
             std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
-            TS_Queue<Entry::crc32> m_updateQueue;                   //entries to be stored in backend
+            TS_Queue<Entry::hash> m_updateQueue;                    //entries to be stored in backend
             std::thread m_storekeeper;
             bool m_dbClosed;
 
-            void registerUpdate(const Entry::crc32 &item)
+            void registerUpdate(const Entry::hash &item)
             {
                 m_updateQueue.push_back(item);
             }
 
-            boost::optional<Entry::crc32> getItemToUpdate()
+            boost::optional<Entry::hash> getItemToUpdate()
             {
-                const boost::optional<Entry::crc32> entry = m_updateQueue.pop_front();
+                const boost::optional<Entry::hash> entry = m_updateQueue.pop_front();
 
                 return entry;
-            }
-
-            Entry::crc32 calcCrc(const std::string &path) const
-            {
-                const int MAX_SIZE = 65536;
-                boost::crc_32_type crc;
-                std::shared_ptr<std::iostream> input = m_stream->openStream(path, std::ios_base::in | std::ios_base::binary);
-
-                if (input != nullptr)
-                    do
-                    {
-                        char buf[MAX_SIZE];
-
-                        input->read(buf, MAX_SIZE);
-                        crc.process_bytes(buf, input->gcount());
-                    }
-                    while(input->fail() == false);
-
-                const Entry::crc32 sum = crc();
-
-                return sum;
             }
     };
 

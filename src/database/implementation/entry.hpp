@@ -24,8 +24,6 @@
 #include <string>
 #include <memory>
 
-#include <boost/cstdint.hpp>
-
 #include <OpenLibrary/utils/data_ptr.hpp>
 
 #include "core/photo_info.hpp"
@@ -46,16 +44,14 @@ namespace Database
             virtual Entry& operator=(Entry && );
             virtual Entry& operator=(const Entry&) = default;
 
-            typedef boost::uint32_t crc32;
+            typedef std::string hash;
 
             struct Data
             {
-                Data(const std::shared_ptr<IStreamFactory>& stream, const APhotoInfo::Ptr& photoInfo);
-                Data(const std::shared_ptr<IStreamFactory>& stream);
+                Data(const std::shared_ptr<IStreamFactory>& stream = nullptr, const APhotoInfo::Ptr& photoInfo = nullptr);
                 Data(const Data &) = default;
-                Data();
 
-                crc32       m_crc;
+                Entry::hash m_hash;
                 std::string m_path;         //path starts with 'file:' (when localfile), or with 'db:' (when in database)
                 APhotoInfo::Ptr m_photoInfo;
                 std::shared_ptr<IStreamFactory> m_stream;
@@ -65,8 +61,6 @@ namespace Database
 
         private:
             virtual bool operator==(const Entry&) const;
-
-            crc32 calcCrc(const std::string &path) const;
     };
 
 }
