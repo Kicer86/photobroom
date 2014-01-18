@@ -23,10 +23,9 @@ struct APhotoInfo::Data
 
     std::string path;
     std::shared_ptr<ITagData> tags;
+    APhotoInfo::Hash hash;
 };
 
-
-//TODO: scaling in thread, temporary bitmap
 
 APhotoInfo::APhotoInfo(const std::string &p): m_data(new Data(p))
 {
@@ -55,4 +54,10 @@ const std::string& APhotoInfo::getPath() const
 std::shared_ptr<ITagData> APhotoInfo::getTags() const
 {
     return m_data->tags;
+}
+
+
+const APhotoInfo::Hash& APhotoInfo::getHash() const
+{
+    return m_data->hash;
 }

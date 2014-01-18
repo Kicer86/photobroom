@@ -11,10 +11,18 @@
 class QPixmap;
 class QImage;
 
+struct IStreamFactory;
+
 class PhotoInfo: public APhotoInfo, IPhotoLoader::INotifier
 {
     public:
-        PhotoInfo(const std::string& path, ThreadMultiplexer::IGetter *);   //getter will be informed when a certain thumbnail is ready
+        struct PhotoData
+        {
+            std::string path;
+            std::shared_ptr<IStreamFactory> streamFactory;
+        };
+        
+        PhotoInfo(const PhotoData& data, ThreadMultiplexer::IGetter *);   //getter will be informed when a certain thumbnail is ready
 
         virtual ~PhotoInfo();
 
@@ -32,7 +40,7 @@ class PhotoInfo: public APhotoInfo, IPhotoLoader::INotifier
         QImage*  m_thumbnailRaw;
         ThreadMultiplexer m_multpilexer;
 
-        void load();
+        void load(const std::shared_ptr<IStreamFactory> &);
         virtual void thumbnailReady(const QString &) override;
 
 

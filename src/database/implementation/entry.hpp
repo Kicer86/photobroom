@@ -35,26 +35,22 @@ namespace Database
     class Entry
     {
         public:
-            Entry(const std::shared_ptr<IStreamFactory>& stream = nullptr);
+            Entry();
             Entry(const Entry&) = default;
-            Entry(const APhotoInfo::Ptr &, const std::shared_ptr<IStreamFactory> &);
+            Entry(const APhotoInfo::Ptr &);
             Entry(Entry && );
             virtual ~Entry();
 
             virtual Entry& operator=(Entry && );
             virtual Entry& operator=(const Entry&) = default;
 
-            typedef std::string hash;
-
             struct Data
             {
-                Data(const std::shared_ptr<IStreamFactory>& stream = nullptr, const APhotoInfo::Ptr& photoInfo = nullptr);
+                Data(const APhotoInfo::Ptr& photoInfo = nullptr);
                 Data(const Data &) = default;
 
-                Entry::hash m_hash;
                 std::string m_path;         //path starts with 'file:' (when localfile), or with 'db:' (when in database)
                 APhotoInfo::Ptr m_photoInfo;
-                std::shared_ptr<IStreamFactory> m_stream;
             };
 
             data_ptr<Data> m_d;

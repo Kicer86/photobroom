@@ -23,6 +23,7 @@ class CORE_EXPORT APhotoInfo
 {
     public:
         typedef std::shared_ptr<APhotoInfo> Ptr;
+        typedef std::string Hash;
 
         APhotoInfo(const std::string &path);
         APhotoInfo(const APhotoInfo &);
@@ -34,7 +35,9 @@ class CORE_EXPORT APhotoInfo
 
         //photo data
         virtual RawPhotoData rawPhotoData() = 0;
-        virtual RawPhotoData rawThumbnailData() = 0;
+        virtual RawPhotoData rawThumbnailData() = 0;   // a temporary thumbnail may be returned when final one is not yet generated
+        
+        const Hash& getHash() const;                   // function may return empty hash, when it is not yet calculated
 
     private:
         struct Data;

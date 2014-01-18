@@ -80,10 +80,13 @@ namespace Database
         {
             //TODO: check for db opened
 
-            Entry entry(photoInfo, m_stream);
+            Entry entry(photoInfo);
 
-            m_db[entry.m_d->m_hash] = entry;
-            registerUpdate(entry.m_d->m_hash);
+            const APhotoInfo::Hash hash = entry.m_d->m_photoInfo->getHash();
+            assert(hash.empty() == false);
+            
+            m_db[hash] = entry;
+            registerUpdate(hash);
         }
 
 
@@ -111,11 +114,11 @@ namespace Database
                 while(m_backend == nullptr)
                     m_backendSet.wait(lock, [&]{ return m_backend != nullptr; } );      //wait for signal if no backend
 
-                boost::optional<Entry::hash> entry = getItemToUpdate();
+                boost::optional<APhotoInfo::Hash> entry = getItemToUpdate();
 
                 if (entry)
                 {
-                    const Entry::hash& hash = *entry;
+                    const APhotoInfo::Hash& hash = *entry;
                     const Entry &dbEntry = m_db[hash];
                     m_backend->store(dbEntry);
                 }
@@ -140,24 +143,24 @@ namespace Database
 
         private:
             const static int m_max_queue_len = 256;                 //max len of db queue
-            std::unordered_map<Entry::hash, Entry> m_db;            //files managed by database
+            std::unordered_map<APhotoInfo::Hash, Entry> m_db;       //files managed by database
             std::shared_ptr<IStreamFactory> m_stream;
             Database::IConfiguration *m_configuration;
             std::shared_ptr<IBackend> m_backend;
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
-            TS_Queue<Entry::hash> m_updateQueue;                    //entries to be stored in backend
+            TS_Queue<APhotoInfo::Hash> m_updateQueue;               //entries to be stored in backend
             std::thread m_storekeeper;
             bool m_dbClosed;
 
-            void registerUpdate(const Entry::hash &item)
+            void registerUpdate(const APhotoInfo::Hash &item)
             {
                 m_updateQueue.push_back(item);
             }
 
-            boost::optional<Entry::hash> getItemToUpdate()
+            boost::optional<APhotoInfo::Hash> getItemToUpdate()
             {
-                const boost::optional<Entry::hash> entry = m_updateQueue.pop_front();
+                const boost::optional<APhotoInfo::Hash> entry = m_updateQueue.pop_front();
 
                 return entry;
             }

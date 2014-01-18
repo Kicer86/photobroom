@@ -27,7 +27,7 @@
 namespace Database
 {
 
-    Entry::Entry(const std::shared_ptr<IStreamFactory>& stream): m_d(new Entry::Data(stream))
+    Entry::Entry(): m_d(new Entry::Data)
     {
 
     }
@@ -39,8 +39,8 @@ namespace Database
     }
 
 
-    Entry::Entry(const APhotoInfo::Ptr& ptr, const std::shared_ptr<IStreamFactory>& stream):
-        m_d(new Entry::Data(stream, ptr))
+    Entry::Entry(const APhotoInfo::Ptr& ptr):
+        m_d(new Entry::Data(ptr))
     {
 
     }
@@ -69,20 +69,11 @@ namespace Database
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    Entry::Data::Data(const std::shared_ptr<IStreamFactory>& stream, const APhotoInfo::Ptr& photoInfo):
-        m_hash(""),
+    Entry::Data::Data(const APhotoInfo::Ptr& photoInfo):
         m_path("null"),
-        m_photoInfo(photoInfo),
-        m_stream(stream)
+        m_photoInfo(photoInfo)
     {
-        if (stream.get() && photoInfo.get())
-        {
-            m_path = photoInfo->getPath();
-            auto file = stream->openStream(m_path, std::ios_base::in | std::ios_base::binary);
 
-            m_hash = HashFunctions::sha256(*file.get());
-
-        }
     }
 
 }
