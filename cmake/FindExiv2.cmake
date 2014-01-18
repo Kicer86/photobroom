@@ -11,6 +11,6 @@ set(EXIV2_LIBRARIES ${EXIV2_LIBRARY} )
 set(EXIV2_INCLUDE_DIRS ${EXIV2_INCLUDE_DIR} )
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(CppUTest DEFAULT_MSG EXIV2_LIBRARY EXIV2_INCLUDE_DIR)
+find_package_handle_standard_args(Exiv2 DEFAULT_MSG EXIV2_LIBRARY EXIV2_INCLUDE_DIR)
 
 mark_as_advanced(EXIV2_INCLUDE_DIR EXIV2_LIBRARY)

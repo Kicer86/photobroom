@@ -30,7 +30,7 @@ namespace Database
 
         }
 
-        bool prepareDB(QSqlDatabase* db) noexcept(true)
+        bool prepareDB(QSqlDatabase* db)
         {
             bool status = true;
 
@@ -51,9 +51,10 @@ namespace Database
                     if (status)
                     {
                         //start mysql process
-                        QString storagePath(storage.c_str());
+                        const std::string storageString = storage.string();
+                        QString storagePath(storageString.c_str());
                         storagePath += "/";
-                        
+
                         const QString socketPath = m_server.run_server(storagePath);
 
                         if (socketPath.isEmpty() == false)

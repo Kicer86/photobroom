@@ -2,6 +2,8 @@
 
 #include "default_configuration_private.hpp"
 
+#include <iostream>
+
 #include <QXmlStreamReader>
 #include <QFile>
 
@@ -126,11 +128,18 @@ void DefaultConfigurationPrivate::registerInitializer(Configuration::IInitialize
 
 bool DefaultConfigurationPrivate::load()
 {
+	bool status = true;
+
     for(Configuration::IInitializer* i: m_initializers)
     {
         const std::string xml = i->getXml();
-        useXml(xml.c_str());
+        status = useXml(xml.c_str());
+
+		if (!status)
+			break;
     }
+
+	return status;
 }
 
 
