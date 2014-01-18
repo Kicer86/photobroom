@@ -39,6 +39,9 @@ class CORE_EXPORT APhotoInfo
         
         const Hash& getHash() const;                   // function may return empty hash, when it is not yet calculated
 
+    protected:
+        void setHash(const Hash &);
+
     private:
         struct Data;
         std::unique_ptr<Data> m_data;

@@ -24,7 +24,7 @@
 class HashFunctions
 {
     public:
-        static std::string sha256(const std::string &);
+        static std::string sha256(const unsigned char *, unsigned int len);
         static std::string sha256(std::istream &);
 
     private:

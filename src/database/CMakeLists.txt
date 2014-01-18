@@ -30,14 +30,14 @@ if(BUILD_TESTS)
                             TEST_LIBRARY
                                 GTEST
        )
-    target_link_libraries(database_test configuration ${Boost_LIBRARIES})
+    target_link_libraries(database_test configuration core ${Boost_LIBRARIES})
     turnOnCpp11(database_test)
 endif(BUILD_TESTS)
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
-target_link_libraries(database configuration ${Boost_LIBRARIES})
+target_link_libraries(database configuration core ${Boost_LIBRARIES})
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)

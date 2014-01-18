@@ -6,7 +6,7 @@
 #include <QPixmap>
 #include <QImage>
 
-
+#include "database/ifs.hpp"
 #include "core/hash_functions.hpp"
 //TODO: use interface
 #include "photo_loader.hpp"
@@ -21,13 +21,13 @@ namespace
 }
 
 
-PhotoInfo::PhotoInfo(const PhotoInfo::PhotoData &data, IThreadMultiplexer< PhotoInfo * >::IGetter *):
-    APhotoInfo(data.path),
+PhotoInfo::PhotoInfo(const std::string& path, IThreadMultiplexer< PhotoInfo * >::IGetter* getter):
+    APhotoInfo(path),
     m_thumbnail(new QPixmap),
     m_thumbnailRaw(nullptr),
     m_multpilexer()
 {
-    m_multpilexer.setGetter();
+    m_multpilexer.setGetter(getter);
     load();
 }
 
@@ -86,15 +86,14 @@ const QPixmap &PhotoInfo::getThumbnail() const
 }
 
 
-void PhotoInfo::load(const std::shared_ptr<IStreamFactory>& streamFactory)
+void PhotoInfo::load()
 {
     photoLoader.generateThumbnail(APhotoInfo::getPath().c_str(), this);
     m_thumbnail->load(":/gui/images/clock64.png");                        //use temporary thumbnail until final one is ready
     
     //TODO: move this task to photoLoader
-    auto file = streamFactory->openStream(APhotoInfo::getPath(), std::ios_base::in | std::ios_base::binary);
-
-    const APhotoInfo::Hash hash = HashFunctions::sha256(*file.get());
+    const RawPhotoData& data = rawPhotoData();
+    const APhotoInfo::Hash hash = HashFunctions::sha256(data.data, data.size);
     APhotoInfo::setHash(hash);
 }
 
