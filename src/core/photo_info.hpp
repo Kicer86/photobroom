@@ -42,8 +42,10 @@ class CORE_EXPORT APhotoInfo
         //photo data
         virtual RawPhotoData rawPhotoData() = 0;
         virtual RawPhotoData rawThumbnailData() = 0;   // a temporary thumbnail may be returned when final one is not yet generated
-        
-        const Hash& getHash() const;                   // function may return empty hash, when it is not yet calculated
+
+        // Function may return empty hash, when it is not yet calculated.
+        // The returned value is hash of photo's content (pixels) not whole file itself.
+        const Hash& getHash() const;
 
     protected:
         void setHash(const Hash &);
