@@ -17,6 +17,12 @@ struct RawPhotoData
 {
     uint8_t* data;
     size_t   size;
+
+    RawPhotoData(): data(nullptr), size(0) {}
+    ~RawPhotoData()
+    {
+        delete [] data;
+    }
 };
 
 class CORE_EXPORT APhotoInfo

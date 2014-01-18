@@ -41,14 +41,16 @@ PhotoInfo::~PhotoInfo()
 
 RawPhotoData PhotoInfo::rawPhotoData()
 {
-    //TODO: introduce some cache
+    //TODO: introduce some cache for image/raw data
     const QPixmap photo = getPhoto();
     QImage image = photo.toImage();
 
     RawPhotoData data;
 
-    data.data = image.bits();
     data.size = image.byteCount();
+    data.data = new uchar[data.size];
+
+    memcpy(data.data, image.bits(), data.size);
 
     return data;
 }
