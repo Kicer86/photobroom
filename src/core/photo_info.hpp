@@ -18,11 +18,13 @@ struct RawPhotoData
     uint8_t* data;
     size_t   size;
 
-    RawPhotoData(): data(nullptr), size(0) {}
-    ~RawPhotoData()
-    {
-        delete [] data;
-    }
+    RawPhotoData();
+    ~RawPhotoData();
+
+    RawPhotoData(const RawPhotoData &) = delete;
+    RawPhotoData(RawPhotoData&& other);
+    
+    RawPhotoData& operator=(const RawPhotoData &) = delete;
 };
 
 class CORE_EXPORT APhotoInfo

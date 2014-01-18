@@ -8,6 +8,24 @@
 #include "tag_feeder.hpp"
 
 
+RawPhotoData::RawPhotoData(): data(nullptr), size(0)
+{
+
+}
+
+
+RawPhotoData::~RawPhotoData()
+{
+    delete [] data;
+}
+
+
+RawPhotoData::RawPhotoData(RawPhotoData && other): data(other.data), size(other.size)
+{
+    other.data = 0;
+}
+
+
 struct APhotoInfo::Data
 {
     Data(const std::string &p): path(p), tags(), hash(), hashMutex()
