@@ -4,7 +4,7 @@
 
 #include <QObject>
 
-#include "core/photo_info.hpp"
+#include "core/aphoto_info.hpp"
 #include "iphoto_loader.hpp"
 #include "thread_multiplexer.hpp"
 

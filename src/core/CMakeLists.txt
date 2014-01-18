@@ -24,7 +24,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
     implementation/hash_functions.cpp
-    implementation/photo_info.cpp
+    implementation/aphoto_info.cpp
     implementation/tag.cpp
     implementation/tag_feeder.cpp
     )
@@ -33,7 +33,7 @@ set(CORE_HEADERS
     hash_functions.hpp
     tag.hpp
     tag_feeder.hpp
-    photo_info.hpp
+    aphoto_info.hpp
     )
 
 if(BUILD_TESTS)

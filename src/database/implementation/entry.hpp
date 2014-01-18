@@ -26,7 +26,7 @@
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
-#include "core/photo_info.hpp"
+#include "core/aphoto_info.hpp"
 
 struct IStreamFactory;
 

@@ -24,7 +24,7 @@
 #include <map>
 #include <memory>
 
-#include "core/photo_info.hpp"
+#include "core/aphoto_info.hpp"
 
 namespace Database
 {

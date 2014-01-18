@@ -10,7 +10,7 @@
 #include <QPushButton>
 
 #include "core/tag.hpp"
-#include "core/photo_info.hpp"
+#include "core/aphoto_info.hpp"
 #include "model_view/images_model.hpp"
 #include "model_view/images_view.hpp"
 #include "photo_info.hpp"
