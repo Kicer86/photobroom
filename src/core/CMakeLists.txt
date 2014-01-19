@@ -23,17 +23,19 @@ endif(EXIV2)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
-    implementation/hash_functions.cpp
     implementation/aphoto_info.cpp
+    implementation/hash_functions.cpp
     implementation/tag.cpp
     implementation/tag_feeder.cpp
+    implementation/task_executor.cpp
     )
 
 set(CORE_HEADERS
+    aphoto_info.hpp
     hash_functions.hpp
     tag.hpp
     tag_feeder.hpp
-    aphoto_info.hpp
+    task_executor.hpp
     )
 
 if(BUILD_TESTS)
