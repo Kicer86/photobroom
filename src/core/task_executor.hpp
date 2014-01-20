@@ -20,6 +20,8 @@
 #ifndef TASKEXECUTOR_H
 #define TASKEXECUTOR_H
 
+#include <memory>
+
 struct ITaskExecutor
 {
     struct ITask
@@ -30,7 +32,7 @@ struct ITaskExecutor
 
     virtual ~ITaskExecutor();
 
-    virtual void add(ITask *) = 0;
+    virtual void add(const std::shared_ptr<ITask> &) = 0;
 };
 
 

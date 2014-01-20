@@ -14,7 +14,7 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
 
 if(EXIV2)
     include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
