@@ -81,7 +81,7 @@ TaskExecutor::~TaskExecutor()
 
 void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 {
-    m_tasks.push_back(std::move(task));
+    m_tasks.push_back(task);
 }
 
 
