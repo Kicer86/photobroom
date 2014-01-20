@@ -7,7 +7,6 @@
 #include <QImage>
 
 #include "database/ifs.hpp"
-#include "core/hash_functions.hpp"
 //TODO: use interface
 #include "photo_loader.hpp"
 
@@ -92,11 +91,6 @@ void PhotoInfo::load()
 {
     photoLoader.generateThumbnail(APhotoInfo::getPath().c_str(), this);
     m_thumbnail->load(":/gui/images/clock64.png");                        //use temporary thumbnail until final one is ready
-
-    //TODO: move this task to photoLoader
-    const RawPhotoData& data = rawPhotoData();
-    const APhotoInfo::Hash hash = HashFunctions::sha256(data.data, data.size);
-    APhotoInfo::setHash(hash);
 }
 
 

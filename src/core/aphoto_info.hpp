@@ -23,9 +23,11 @@ struct RawPhotoData
 
     RawPhotoData(const RawPhotoData &) = delete;
     RawPhotoData(RawPhotoData&& other);
-    
+
     RawPhotoData& operator=(const RawPhotoData &) = delete;
 };
+
+struct HashAssigner;
 
 class CORE_EXPORT APhotoInfo
 {
@@ -49,12 +51,12 @@ class CORE_EXPORT APhotoInfo
         // The returned value is hash of photo's content (pixels) not whole file itself.
         const Hash& getHash() const;
 
-    protected:
-        void setHash(const Hash &);
-
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
+
+        friend struct HashAssigner;
+        void setHash(const Hash &);
 };
 
 #endif
