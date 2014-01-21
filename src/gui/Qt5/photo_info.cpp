@@ -7,17 +7,30 @@
 #include <QImage>
 
 #include "database/ifs.hpp"
-//TODO: use interface
-#include "photo_loader.hpp"
+#include "core/task_executor.hpp"
 
 
 namespace
 {
     //TODO: remove, use config
     const int photoWidth = 120;
-
-    PhotoLoader photoLoader;
 }
+
+struct ThumbnailGenerator: ITaskExecutor::ITask
+{
+    ThumbnailGenerator(PhotoInfo* photoInfo): ITask(), m_photoInfo(photoInfo) {}
+    virtual ~ThumbnailGenerator() {}
+
+    virtual void perform()
+    {
+        QPixmap pixmap(m_photoInfo->getPath().c_str());
+        QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        m_photoInfo->thumbnailReady(thumbnail);
+    }
+
+    PhotoInfo* m_photoInfo;
+};
 
 
 PhotoInfo::PhotoInfo(const std::string& path, IThreadMultiplexer< PhotoInfo * >::IGetter* getter):
@@ -89,14 +102,16 @@ const QPixmap &PhotoInfo::getThumbnail() const
 
 void PhotoInfo::load()
 {
-    photoLoader.generateThumbnail(APhotoInfo::getPath().c_str(), this);
+    auto task = std::make_shared<ThumbnailGenerator>(this);  //generate thumbnail
+    TaskExecutorConstructor::get()->add(task);
+
     m_thumbnail->load(":/gui/images/clock64.png");                        //use temporary thumbnail until final one is ready
 }
 
 
-void PhotoInfo::thumbnailReady(const QString& path)
+void PhotoInfo::thumbnailReady(const QPixmap& thumbnail)
 {
-    *m_thumbnail = photoLoader.getThumbnailFor(path);
+    *m_thumbnail = thumbnail;
 
     m_multpilexer.send(this);
 }

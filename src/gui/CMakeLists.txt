@@ -2,8 +2,7 @@
 project(gui)
 
 find_package(Qt5Widgets REQUIRED)
-find_package(OpenLibrary REQUIRED COMPONENTS QtExt palgorithm)
-find_package(OpenMP REQUIRED)
+find_package(OpenLibrary REQUIRED COMPONENTS QtExt)
 find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
@@ -81,8 +80,6 @@ if(BUILD_TESTS)
     #TODO
 endif(BUILD_TESTS)
 
-#photo loader uses openmp
-addSourceFlags(Qt5/photo_loader.cpp COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
@@ -90,10 +87,8 @@ qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_RESOURCES})
-target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES})
 qt5_use_modules(gui Widgets)
-addFlags(gui LINK_FLAGS ${OpenMP_CXX_FLAGS})
-
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
 target_link_libraries(gui analyzer database)

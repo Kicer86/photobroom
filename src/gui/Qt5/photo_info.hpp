@@ -5,15 +5,15 @@
 #include <QObject>
 
 #include "core/aphoto_info.hpp"
-#include "iphoto_loader.hpp"
 #include "thread_multiplexer.hpp"
 
 class QPixmap;
 class QImage;
 
 struct IStreamFactory;
+struct ThumbnailGenerator;
 
-class PhotoInfo: public APhotoInfo, IPhotoLoader::INotifier
+class PhotoInfo: public APhotoInfo
 {
     public:
         PhotoInfo(const std::string& path, ThreadMultiplexer::IGetter *);   //getter will be informed when a certain thumbnail is ready
@@ -30,12 +30,13 @@ class PhotoInfo: public APhotoInfo, IPhotoLoader::INotifier
         PhotoInfo& operator=(const PhotoInfo &) = delete;
 
     private:
+        friend struct ThumbnailGenerator;
         QPixmap* m_thumbnail;
         QImage*  m_thumbnailRaw;
         ThreadMultiplexer m_multpilexer;
 
         void load();
-        virtual void thumbnailReady(const QString &) override;
+        void thumbnailReady(const QPixmap &);
 
 
 };
