@@ -18,7 +18,6 @@ set(GUI_SOURCES
     Qt5/centralwidget.cpp
     Qt5/main_view_widget.cpp
     Qt5/photo_info.cpp
-    Qt5/photo_loader.cpp
     Qt5/photos_view_widget.cpp
     Qt5/photos_staging_area.cpp
     Qt5/thread_multiplexer.cpp
@@ -44,7 +43,6 @@ set(GUI_HEADERS
     Qt5/centralwidget.hpp
     Qt5/main_view_widget.hpp
     Qt5/photo_info.hpp
-    Qt5/photo_loader.hpp
     Qt5/photos_view_widget.hpp
     Qt5/photos_staging_area.hpp
     Qt5/thread_multiplexer.hpp
