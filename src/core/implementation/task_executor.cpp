@@ -96,6 +96,12 @@ void TaskExecutor::eat()
         {
             boost::optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
 
+            /*
+            **(ThreadSafeOutput.get()) << "TaskExecutor thread #" << id
+                                       << " takes task. " << m_tasks.size() << " tasks left"
+                                       << std::endl;
+            */
+
             if (opt_task)
             {
                 std::shared_ptr<ITask> task = *opt_task;
