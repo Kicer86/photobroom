@@ -57,8 +57,9 @@ namespace Database
             table_photos(TAB_PHOTOS,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                "store_date TIMESTAMP NOT NULL",
-                                "path VARCHAR(1024) NOT NULL"
+                                "hash VARCHAR(256) NOT NULL",
+                                "path VARCHAR(1024) NOT NULL",
+                                "store_date TIMESTAMP NOT NULL"
                             }
                          );
 
@@ -112,9 +113,13 @@ namespace Database
         {
             QSqlQuery query(m_db);
 
-            const QString query_str = QString("INSERT INTO " TAB_PHOTOS
-                                              "(store_date, path) VALUES(CURRENT_TIMESTAMP, \"%1\");"
-                                              ).arg(entry.m_d->m_path.c_str());
+            const APhotoInfo::Ptr data = entry.m_d->m_photoInfo;
+
+            const QString query_str =
+                QString("INSERT INTO " TAB_PHOTOS
+                        "(store_date, path, hash) VALUES(CURRENT_TIMESTAMP, \"%1\", \"%2\");"
+                       ).arg(data->getPath().c_str())
+                        .arg(data->getHash().c_str());
 
             bool status = exec(query_str, &query);
 

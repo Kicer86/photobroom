@@ -70,7 +70,6 @@ namespace Database
 
 
     Entry::Data::Data(const APhotoInfo::Ptr& photoInfo):
-        m_path("null"),
         m_photoInfo(photoInfo)
     {
 

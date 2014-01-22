@@ -49,7 +49,6 @@ namespace Database
                 Data(const APhotoInfo::Ptr& photoInfo = nullptr);
                 Data(const Data &) = default;
 
-                std::string m_path;         //path starts with 'file:' (when localfile), or with 'db:' (when in database)
                 APhotoInfo::Ptr m_photoInfo;
             };
 
