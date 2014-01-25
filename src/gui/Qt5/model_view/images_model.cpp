@@ -29,7 +29,7 @@
 #include "../photo_info.hpp"
 
 
-ImagesModel::ImagesModel() : QAbstractListModel(), m_photos() {}
+ImagesModel::ImagesModel(QObject* parent) : QAbstractListModel(parent), m_photos() {}
 
 
 ImagesModel::~ImagesModel()

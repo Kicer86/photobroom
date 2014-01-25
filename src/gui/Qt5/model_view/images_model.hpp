@@ -31,7 +31,7 @@ class PhotoInfo;
 class ImagesModel: public QAbstractListModel, public IThreadMultiplexer<PhotoInfo *>::IGetter
 {
     public:
-        ImagesModel();
+        ImagesModel(QObject *);
         virtual ~ImagesModel();
 
         void add(const APhotoInfo::Ptr &);
