@@ -30,11 +30,12 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
         GuiData(PhotosViewWidget *editor):
             GuiDataSlots(editor),
             m_editor(editor),
-            m_photosModel(),
+            m_photosModel(nullptr),
             m_photosView(nullptr)
         {
+            m_photosModel = new ImagesModel(m_editor);
             m_photosView = new ImagesView(m_editor);
-            m_photosView->setModel(&m_photosModel);
+            m_photosView->setModel(m_photosModel);
 
             QVBoxLayout *layout = new QVBoxLayout(m_editor);
             layout->addWidget(m_photosView);
@@ -52,21 +53,21 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
 
         void addPhoto(const std::string &path)
         {
-            APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path, &m_photosModel);
+            APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path, m_photosModel);
 
-            m_photosModel.add(info);
+            m_photosModel->add(info);
         }
 
         const std::vector<APhotoInfo::Ptr>& getAllPhotos() const
         {
-            return m_photosModel.getAll();
+            return m_photosModel->getAll();
         }
 
     private:
         PhotosViewWidget *m_editor;
 
-        ImagesModel m_photosModel;
-        ImagesView *m_photosView;
+        ImagesModel* m_photosModel;
+        ImagesView*  m_photosView;
 
         void selectionChanged() override
         {
@@ -75,7 +76,7 @@ struct PhotosViewWidget::GuiData: private GuiDataSlots
             //collect list of tags
             for (const QModelIndex& index: m_photosView->getSelection())
             {
-                APhotoInfo::Ptr photoInfo = m_photosModel.get(index);
+                APhotoInfo::Ptr photoInfo = m_photosModel->get(index);
                 images.push_back(photoInfo);
             }
 
