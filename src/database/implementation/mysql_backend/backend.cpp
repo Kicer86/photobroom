@@ -5,6 +5,7 @@
 
 #include <QProcess>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 
 #include <boost/filesystem.hpp>
 
@@ -20,6 +21,7 @@
 
 namespace Database
 {
+    const char* QDatabaseName = "Backend";
 
     struct MySqlBackend::Data
     {
@@ -60,10 +62,12 @@ namespace Database
                         if (socketPath.isEmpty() == false)
                         {
                             //setup db connection
-                            *db = QSqlDatabase::addDatabase("QMYSQL", "Backend");
-                            db->setConnectOptions("UNIX_SOCKET=" + socketPath);
-                            db->setHostName("localhost");
-                            db->setUserName("root");
+                            m_db = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
+                            m_db.setConnectOptions("UNIX_SOCKET=" + socketPath);
+                            m_db.setHostName("localhost");
+                            m_db.setUserName("root");
+
+                            *db = m_db;
                         }
 
                         m_initialized = socketPath.isEmpty() == false;;
@@ -74,9 +78,9 @@ namespace Database
             return status;
         }
 
-        private:
-            bool m_initialized;
-            MySqlServer m_server;
+        bool m_initialized;
+        MySqlServer m_server;
+        QSqlDatabase m_db;
     };
 
 
@@ -95,6 +99,13 @@ namespace Database
     bool MySqlBackend::prepareDB(QSqlDatabase *db)
     {
         return m_data->prepareDB(db);
+    }
+
+
+    bool MySqlBackend::addTag(const QString& name)
+    {
+        QSqlQuery query(m_data->m_db);
+        exec("", &query);
     }
 
 
