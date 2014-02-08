@@ -57,8 +57,8 @@ namespace Database
             table_photos(TAB_PHOTOS,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                "hash VARCHAR(256) NOT NULL",
-                                "path VARCHAR(1024) NOT NULL",
+                                "hash VARCHAR(256) NOT NULL UNIQUE",
+                                "path VARCHAR(1024) NOT NULL UNIQUE",
                                 "store_date TIMESTAMP NOT NULL"
                             }
                          );
