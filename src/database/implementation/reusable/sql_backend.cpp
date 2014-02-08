@@ -29,10 +29,13 @@
 #include <QSqlQuery>
 #include <QVariant>
 
+#include <core/tag.hpp>
+
 #include "configuration/constants.hpp"
 #include "../entry.hpp"
 
 #include "table_definition.hpp"
+
 
 #define TAB_TAG_TYPES "tag_types"
 #define TAB_VER_HIST  "version_history"
@@ -115,6 +118,7 @@ namespace Database
 
             const APhotoInfo::Ptr data = entry.m_d->m_photoInfo;
 
+            //store path and hash
             const QString query_str =
                 QString("INSERT INTO " TAB_PHOTOS
                         "(store_date, path, hash) VALUES(CURRENT_TIMESTAMP, \"%1\", \"%2\");"
@@ -122,6 +126,19 @@ namespace Database
                         .arg(data->getHash().c_str());
 
             bool status = exec(query_str, &query);
+
+            //store tags
+            std::shared_ptr<ITagData> tags = data->getTags();
+
+            ITagData::TagsList tagsList = tags->getTags();
+            for(auto it = tagsList.begin(); it != tagsList.end(); ++it)
+            {
+                const TagNameInfo& nameInfo = it->first;
+                const ITagData::ValuesSet& valueInfo = it->second;
+
+                const QString& name = nameInfo.getName();
+
+            }
 
             return status;
         }
@@ -182,6 +199,12 @@ namespace Database
         }
 
         return status;
+    }
+
+
+    bool ASqlBackend::exec(const QString& query, QSqlQuery* status) const
+    {
+        return m_data->exec(query, status);
     }
 
 

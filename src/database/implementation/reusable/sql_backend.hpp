@@ -52,6 +52,11 @@ namespace Database
             //will be called from init(). Prepare database here
             virtual bool prepareDB(QSqlDatabase*) = 0;
 
+            //add tag to 'tags' table. The problem here is that tag names are unique. MERGE stetement should be used, but MySQL doesn't support it.
+            //INSERT...ON DUPLICATE KEY UPDATE needs to be used there.
+            //http://stackoverflow.com/questions/548541/insert-ignore-vs-insert-on-duplicate-key-update
+            virtual bool addTag(const QString &) = 0;
+
             // Create table with given name and columns decription.
             // It may be necessary for table to meet features:
             // - FOREIGN KEY
@@ -62,6 +67,9 @@ namespace Database
 
             //make sure table exists
             virtual bool assureTableExists(const TableDefinition &) const;
+
+            //execute query. Functio for inheriting classes
+            virtual bool exec(const QString &, QSqlQuery *) const;
 
         private:
             struct Data;
