@@ -66,7 +66,7 @@ namespace Database
 
 
         TableDefinition
-            table_tag_types(TAB_TAG_NAMES,
+            table_tag_names(TAB_TAG_NAMES,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
@@ -289,7 +289,7 @@ namespace Database
 
         //tag types
         if (status)
-            status = assureTableExists(table_tag_types);
+            status = assureTableExists(table_tag_names);
 
         //tags table
         if (status)
