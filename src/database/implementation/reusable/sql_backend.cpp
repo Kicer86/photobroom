@@ -37,10 +37,6 @@
 #include "table_definition.hpp"
 
 
-#define TAB_TAG_TYPES "tag_types"
-#define TAB_VER_HIST  "version_history"
-#define TAB_PHOTOS    "photos"
-
 namespace Database
 {
     namespace
@@ -60,19 +56,21 @@ namespace Database
             table_photos(TAB_PHOTOS,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
-                                "hash VARCHAR(256) NOT NULL UNIQUE",
-                                "path VARCHAR(1024) NOT NULL UNIQUE",
-                                "store_date TIMESTAMP NOT NULL"
+                                "hash VARCHAR(256) NOT NULL",
+                                "path VARCHAR(1024) NOT NULL",
+                                "store_date TIMESTAMP NOT NULL",
+                                "KEY(hash(256))",
+                                "KEY(path(1024))"
                             }
                          );
 
 
         TableDefinition
-            table_tag_types(TAB_TAG_TYPES,
+            table_tag_types(TAB_TAG_NAMES,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
-                                "buildin BOOL NOT NULL"
+                                QString("UNIQUE(name(%1))").arg(Consts::Constraints::database_tag_name_len)
                             }
                            );
 
@@ -84,7 +82,7 @@ namespace Database
                                 "type INT UNSIGNED NOT NULL",
                                 "photo_id INT UNSIGNED NOT NULL",
                                 "FOREIGN KEY(photo_id) REFERENCES photos(id)",
-                                "FOREIGN KEY(type) REFERENCES " TAB_TAG_TYPES "(id)"
+                                "FOREIGN KEY(type) REFERENCES " TAB_TAG_NAMES "(id)"
                             }
                        );
     }
@@ -92,13 +90,14 @@ namespace Database
 
     struct ASqlBackend::Data
     {
-        Data(): m_db() {}
+        Data(ASqlBackend* backend): m_db(), m_backend(backend) {}
         ~Data()
         {
 
         }
 
         QSqlDatabase m_db;
+        ASqlBackend* m_backend;
 
         bool exec(const QString& query, QSqlQuery* result) const
         {
@@ -107,6 +106,25 @@ namespace Database
             if (status == false)
                 std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
                           << " while performing query: " << query.toStdString() << std::endl;
+
+            return status;
+        }
+
+
+        bool storeTags(const std::shared_ptr<ITagData>& tags)
+        {
+            bool status = true;
+
+            ITagData::TagsList tagsList = tags->getTags();
+            for(auto it = tagsList.begin(); it != tagsList.end(); ++it)
+            {
+                const TagNameInfo& nameInfo = it->first;
+                const ITagData::ValuesSet& valueInfo = it->second;
+
+                const QString& name = nameInfo.getName();
+
+                status = m_backend->addTag(name);
+            }
 
             return status;
         }
@@ -129,16 +147,7 @@ namespace Database
 
             //store tags
             std::shared_ptr<ITagData> tags = data->getTags();
-
-            ITagData::TagsList tagsList = tags->getTags();
-            for(auto it = tagsList.begin(); it != tagsList.end(); ++it)
-            {
-                const TagNameInfo& nameInfo = it->first;
-                const ITagData::ValuesSet& valueInfo = it->second;
-
-                const QString& name = nameInfo.getName();
-
-            }
+            status = storeTags(tags);
 
             return status;
         }
@@ -146,7 +155,7 @@ namespace Database
     };
 
 
-    ASqlBackend::ASqlBackend(): m_data(new Data)
+    ASqlBackend::ASqlBackend(): m_data(new Data(this))
     {
 
     }
