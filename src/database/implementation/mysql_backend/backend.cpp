@@ -105,7 +105,13 @@ namespace Database
     bool MySqlBackend::addTag(const QString& name)
     {
         QSqlQuery query(m_data->m_db);
-        exec("", &query);
+        const QString queryStr = QString("INSERT INTO %1 (name) VALUES ('%2') ON DUPLICATE KEY UPDATE id=id;")
+                                    .arg(TAB_TAG_NAMES)
+                                    .arg(name);
+
+        const bool status = exec(queryStr, &query);
+
+        return status;
     }
 
 
