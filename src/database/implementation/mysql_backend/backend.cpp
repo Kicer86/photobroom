@@ -5,7 +5,6 @@
 
 #include <QProcess>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 
 #include <boost/filesystem.hpp>
 
@@ -61,13 +60,14 @@ namespace Database
 
                         if (socketPath.isEmpty() == false)
                         {
+                            QSqlDatabase db_obj;
                             //setup db connection
-                            m_db = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
-                            m_db.setConnectOptions("UNIX_SOCKET=" + socketPath);
-                            m_db.setHostName("localhost");
-                            m_db.setUserName("root");
+                            db_obj = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
+                            db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+                            db_obj.setHostName("localhost");
+                            db_obj.setUserName("root");
 
-                            *db = m_db;
+                            *db = db_obj;
                         }
 
                         m_initialized = socketPath.isEmpty() == false;;
@@ -80,7 +80,6 @@ namespace Database
 
         bool m_initialized;
         MySqlServer m_server;
-        QSqlDatabase m_db;
     };
 
 
@@ -102,16 +101,14 @@ namespace Database
     }
 
 
-    bool MySqlBackend::addTag(const QString& name)
+    QString MySqlBackend::addTag(const QString& name)
     {
-        QSqlQuery query(m_data->m_db);
         const QString queryStr = QString("INSERT INTO %1 (name) VALUES ('%2') ON DUPLICATE KEY UPDATE id=id;")
                                     .arg(TAB_TAG_NAMES)
                                     .arg(name);
 
-        const bool status = exec(queryStr, &query);
 
-        return status;
+        return queryStr;
     }
 
 

@@ -70,6 +70,7 @@ namespace Database
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
+                                QString("type VARCHAR(%2) NOT NULL").arg(Consts::Constraints::database_tag_type_len),
                                 QString("UNIQUE(name(%1))").arg(Consts::Constraints::database_tag_name_len)
                             }
                            );
@@ -120,10 +121,11 @@ namespace Database
             {
                 const TagNameInfo& nameInfo = it->first;
                 const ITagData::ValuesSet& valueInfo = it->second;
-
                 const QString& name = nameInfo.getName();
+                const QString query_str = m_backend->addTag(name);
 
-                status = m_backend->addTag(name);
+                QSqlQuery query(m_db);
+                status = exec(query_str, &query);
             }
 
             return status;
