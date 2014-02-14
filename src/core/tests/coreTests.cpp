@@ -24,7 +24,7 @@ TEST(TagDataShould, returnWhatWasInserted)
 {
     TagData data;
 
-    data.setTag( TagNameInfo("test1"), TagValueInfo("test2") );
+    data.setTag( TagNameInfo("test1", TagNameInfo::Text), TagValueInfo("test2") );
 
     const ITagData::TagsList &dataSet = data.getTags();
 
@@ -39,8 +39,8 @@ TEST(TagDataShould, overwritePreviousTagsValues)
 {
     TagData data;
 
-    data.setTag( TagNameInfo("test1"), TagValueInfo("test2") );
-    data.setTag( TagNameInfo("test1"), TagValueInfo("test3") );
+    data.setTag( TagNameInfo("test1", TagNameInfo::Text), TagValueInfo("test2") );
+    data.setTag( TagNameInfo("test1", TagNameInfo::Text), TagValueInfo("test3") );
 
     const ITagData::TagsList& dataSet = data.getTags();
 
@@ -54,8 +54,8 @@ TEST(TagDataShould, beClearable)
 {
     TagData data;
 
-    data.setTag( TagNameInfo("test1"), TagValueInfo("test2") );
-    data.setTag( TagNameInfo("test2"), TagValueInfo("test3") );
+    data.setTag( TagNameInfo("test1", TagNameInfo::Text), TagValueInfo("test2") );
+    data.setTag( TagNameInfo("test2", TagNameInfo::Text), TagValueInfo("test3") );
     data.clear();
 
     const ITagData::TagsList& dataSet = data.getTags();
@@ -76,7 +76,7 @@ TEST(TagDataCompositeShould, fillItsMinions)
                              minion3(std::make_shared<TagData>());
 
     data.setTagDatas( {minion1, minion2, minion3} );
-    data.setTag( TagNameInfo("name"), TagValueInfo("value") );
+    data.setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
 
     auto m1 = minion1->getTags();
     ASSERT_EQ(1, m1.size());
@@ -105,9 +105,9 @@ TEST(TagDataCompositeShould, getTagsFromMinionsWhenAllDataAreTheSame)
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
-    minion1->setTag( TagNameInfo("name"), TagValueInfo("value") );
-    minion2->setTag( TagNameInfo("name"), TagValueInfo("value") );
-    minion3->setTag( TagNameInfo("name"), TagValueInfo("value") );
+    minion1->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
+    minion2->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
+    minion3->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
 
     auto info = data.getTags();
 
@@ -125,17 +125,17 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
-    minion1->setTag( TagNameInfo("name"), TagValueInfo("value") );
-    minion2->setTag( TagNameInfo("name"), TagValueInfo("value") );
-    minion3->setTag( TagNameInfo("name"), TagValueInfo("value") );
+    minion1->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
+    minion2->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
+    minion3->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
 
-    minion1->setTag( TagNameInfo("name2"), TagValueInfo("value2") );
-    minion2->setTag( TagNameInfo("name2"), TagValueInfo("value2") );
-    minion3->setTag( TagNameInfo("name2"), TagValueInfo("value2") );
+    minion1->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value2") );
+    minion2->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value2") );
+    minion3->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value2") );
 
-    minion1->setTag( TagNameInfo("name3"), TagValueInfo("value3") );
-    minion2->setTag( TagNameInfo("name4"), TagValueInfo("value4") );
-    minion3->setTag( TagNameInfo("name4"), TagValueInfo("value4") );
+    minion1->setTag( TagNameInfo("name3", TagNameInfo::Text), TagValueInfo("value3") );
+    minion2->setTag( TagNameInfo("name4", TagNameInfo::Text), TagValueInfo("value4") );
+    minion3->setTag( TagNameInfo("name4", TagNameInfo::Text), TagValueInfo("value4") );
 
     auto list = data.getTags();
 
@@ -162,13 +162,13 @@ TEST(TagDataCompositeShould, ReturnMergedValuesForCommonTagsWithDifferentValues)
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
-    minion1->setTag( TagNameInfo("name"), TagValueInfo("value_1") );
-    minion2->setTag( TagNameInfo("name"), TagValueInfo("value_2") );
-    minion3->setTag( TagNameInfo("name"), TagValueInfo("value_3") );
+    minion1->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value_1") );
+    minion2->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value_2") );
+    minion3->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value_3") );
 
-    minion1->setTag( TagNameInfo("name2"), TagValueInfo("value_1") );
-    minion2->setTag( TagNameInfo("name2"), TagValueInfo("value_2") );
-    minion3->setTag( TagNameInfo("name2"), TagValueInfo("value_3") );
+    minion1->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value_1") );
+    minion2->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value_2") );
+    minion3->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value_3") );
 
     auto list = data.getTags();
 
@@ -207,13 +207,13 @@ TEST(TagDataCompositeShould, beClearable)
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
-    minion1->setTag( TagNameInfo("name"), TagValueInfo("value_1") );
-    minion2->setTag( TagNameInfo("name"), TagValueInfo("value_2") );
-    minion3->setTag( TagNameInfo("name"), TagValueInfo("value_3") );
+    minion1->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value_1") );
+    minion2->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value_2") );
+    minion3->setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value_3") );
 
-    minion1->setTag( TagNameInfo("name2"), TagValueInfo("value_1") );
-    minion2->setTag( TagNameInfo("name2"), TagValueInfo("value_2") );
-    minion3->setTag( TagNameInfo("name2"), TagValueInfo("value_3") );
+    minion1->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value_1") );
+    minion2->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value_2") );
+    minion3->setTag( TagNameInfo("name2", TagNameInfo::Text), TagValueInfo("value_3") );
 
     data.clear();
 
