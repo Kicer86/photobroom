@@ -127,9 +127,9 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                 auto& entries = m_entriesManager->getTagEntries();
                 for (const std::unique_ptr<TagEntry>& tagEntry: entries)
                 {
-                    const QString name = tagEntry->getTagInfo().getName();
+                    const TagNameInfo name = tagEntry->getTagInfo();
                     const QString value = tagEntry->getTagValue();
-                    const QStringList values = value.split(";");  //use some constants
+                    const QStringList values = value.split(name.getSeparator());
                     const ITagData::ValuesSet vSet(values.begin(), values.end());
 
                     m_tagData->setTag(name, vSet);
