@@ -6,6 +6,7 @@
 namespace Consts
 {
 	const unsigned int Constraints::database_tag_name_len = 64;
+    const unsigned int Constraints::database_tag_type_len = 32;
 	const unsigned int Constraints::database_tag_value_len = 2048;
 
 	const char DefaultTags::tag_people[] = QT_TRANSLATE_NOOP("Default Tag Name", "People");
