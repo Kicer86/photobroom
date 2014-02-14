@@ -108,7 +108,6 @@ namespace Database
                                     .arg(name)
                                     .arg(type);
 
-
         return queryStr;
     }
 
