@@ -101,11 +101,12 @@ namespace Database
     }
 
 
-    QString MySqlBackend::addTag(const QString& name)
+    QString MySqlBackend::addTag(const QString& name, const QString& type)
     {
-        const QString queryStr = QString("INSERT INTO %1 (name) VALUES ('%2') ON DUPLICATE KEY UPDATE id=id;")
+        const QString queryStr = QString("INSERT INTO %1 (name, type) VALUES ('%2', '%3') ON DUPLICATE KEY UPDATE id=id;")
                                     .arg(TAB_TAG_NAMES)
-                                    .arg(name);
+                                    .arg(name)
+                                    .arg(type);
 
 
         return queryStr;

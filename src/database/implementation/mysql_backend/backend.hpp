@@ -19,7 +19,7 @@ namespace Database
             virtual ~MySqlBackend();
 
             virtual bool prepareDB(QSqlDatabase*) override;
-            virtual QString addTag(const QString&) override;
+            virtual QString addTag(const QString &, const QString &) override;
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
 
         private:

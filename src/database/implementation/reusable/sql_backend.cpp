@@ -122,7 +122,8 @@ namespace Database
                 const TagNameInfo& nameInfo = it->first;
                 const ITagData::ValuesSet& valueInfo = it->second;
                 const QString& name = nameInfo.getName();
-                const QString query_str = m_backend->addTag(name);
+                const QString type = nameInfo.getTypeName();
+                const QString query_str = m_backend->addTag(name, type);
 
                 QSqlQuery query(m_db);
                 status = exec(query_str, &query);

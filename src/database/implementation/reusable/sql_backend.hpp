@@ -59,7 +59,7 @@ namespace Database
             //add tag to 'tags' table. The problem here is that tag names are unique. MERGE stetement should be used, but MySQL doesn't support it.
             //INSERT...ON DUPLICATE KEY UPDATE needs to be used there.
             //http://stackoverflow.com/questions/548541/insert-ignore-vs-insert-on-duplicate-key-update
-            virtual QString addTag(const QString &) = 0;
+            virtual QString addTag(const QString &, const QString &) = 0;
 
             // Create table with given name and columns decription.
             // It may be necessary for table to meet features:
