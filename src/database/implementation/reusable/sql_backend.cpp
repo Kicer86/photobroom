@@ -76,7 +76,7 @@ namespace Database
                            );
 
         TableDefinition
-            table_tags("tags",
+            table_tags(TAB_TAGS,
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
@@ -112,20 +112,54 @@ namespace Database
         }
 
 
-        bool storeTags(const std::shared_ptr<ITagData>& tags)
+        int storeTag(const TagNameInfo& nameInfo) const
         {
+            const QString& name = nameInfo.getName();
+            const QString type = nameInfo.getTypeName();
+            QSqlQuery query(m_db);
+
+            //check if tag exists
+            const QString find_tag_query = QString("SELECT id, name FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
+            bool status = exec(find_tag_query, &query);
+
+            int result = -1;
+            if (status && query.next())
+                result = query.value(0).toInt();
+
+            if (status && result == -1)  //tag not yet in database
+            {
+                const QString queryStr = QString("INSERT INTO %1 (name, type) VALUES ('%2', '%3');")
+                            .arg(TAB_TAG_NAMES)
+                            .arg(name)
+                            .arg(type);
+
+                status = exec(queryStr, &query);
+                result = query.lastInsertId().toInt();
+            }
+
+            return result;
+        }
+
+
+        bool applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
+        {
+            QSqlQuery query(m_db);
             bool status = true;
 
             ITagData::TagsList tagsList = tags->getTags();
-            for(auto it = tagsList.begin(); it != tagsList.end(); ++it)
+            for(auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
             {
-                const TagNameInfo& nameInfo = it->first;
-                const ITagData::ValuesSet& valueInfo = it->second;
-                const QString& name = nameInfo.getName();
-                const QString type = nameInfo.getTypeName();
-                const QString query_str = m_backend->addTag(name, type);
+                //store tag
+                const int tag_id = storeTag(it->first);
 
-                QSqlQuery query(m_db);
+                //store path and hash
+                const QString query_str =
+                    QString("INSERT INTO " TAB_TAGS
+                            "(value, photo_id, type) VALUES(\"%1\", \"%2\", \"%3\");"
+                        ).arg("it->second")
+                         .arg(photo_id)
+                         .arg(tag_id);
+
                 status = exec(query_str, &query);
             }
 
@@ -147,10 +181,19 @@ namespace Database
                         .arg(data->getHash().c_str());
 
             bool status = exec(query_str, &query);
+            QVariant photo_id;
+
+            if (status)
+            {
+                photo_id  = query.lastInsertId(); //WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                status = photo_id.isValid();
+            }
 
             //store used tags
             std::shared_ptr<ITagData> tags = data->getTags();
-            status = storeTags(tags);
+
+            if (status)
+                status = applyTags(photo_id.toInt(), tags);
 
             return status;
         }
