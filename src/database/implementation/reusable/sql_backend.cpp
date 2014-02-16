@@ -148,7 +148,7 @@ namespace Database
 
             bool status = exec(query_str, &query);
 
-            //store tags
+            //store used tags
             std::shared_ptr<ITagData> tags = data->getTags();
             status = storeTags(tags);
 
