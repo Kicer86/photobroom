@@ -101,17 +101,6 @@ namespace Database
     }
 
 
-    QString MySqlBackend::addTag(const QString& name, const QString& type)
-    {
-        const QString queryStr = QString("INSERT INTO %1 (name, type) VALUES ('%2', '%3') ON DUPLICATE KEY UPDATE id=id;")
-                                    .arg(TAB_TAG_NAMES)
-                                    .arg(name)
-                                    .arg(type);
-
-        return queryStr;
-    }
-
-
     QString MySqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
     {
         //Here we force InnoDB engine which may be default
