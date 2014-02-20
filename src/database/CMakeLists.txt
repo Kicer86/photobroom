@@ -5,9 +5,10 @@ add_subdirectory(implementation/reusable)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem)
+find_package(QxOrm REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${QXORM_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
@@ -37,7 +38,7 @@ endif(BUILD_TESTS)
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
-target_link_libraries(database configuration core ${Boost_LIBRARIES})
+target_link_libraries(database configuration core ${Boost_LIBRARIES} ${QXORM_LIBRARIES})
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
