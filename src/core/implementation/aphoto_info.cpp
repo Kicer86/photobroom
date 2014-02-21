@@ -16,6 +16,9 @@ struct HashAssigner: public ITaskExecutor::ITask
     {
     }
 
+    HashAssigner(const HashAssigner &) = delete;
+    HashAssigner& operator=(const HashAssigner &) = delete;
+
     virtual void perform() override
     {
         const RawPhotoData& data = m_photoInfo->rawPhotoData();
