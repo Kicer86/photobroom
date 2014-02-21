@@ -13,6 +13,9 @@ class MainViewWidget : public QWidget
         explicit MainViewWidget(QWidget *parent = 0);
         virtual ~MainViewWidget();
 
+        MainViewWidget(const MainViewWidget &) = delete;
+        MainViewWidget& operator=(const MainViewWidget &) = delete;
+
     private:
         ImagesModel* m_imagesModel;
         ImagesView*  m_imagesView;
