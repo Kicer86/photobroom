@@ -152,15 +152,21 @@ namespace Database
                 //store tag
                 const int tag_id = storeTag(it->first);
 
-                //store path and hash
-                const QString query_str =
-                    QString("INSERT INTO " TAB_TAGS
-                            "(value, photo_id, type) VALUES(\"%1\", \"%2\", \"%3\");"
-                        ).arg("it->second")
-                         .arg(photo_id)
-                         .arg(tag_id);
+                //store tag values
+                const ITagData::ValuesSet& values = it->second;
+                for(auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
+                {
+                    const TagValueInfo& valueInfo = *it_v;
 
-                status = exec(query_str, &query);
+                    const QString query_str =
+                        QString("INSERT INTO " TAB_TAGS
+                                "(value, photo_id, type) VALUES(\"%1\", \"%2\", \"%3\");"
+                            ).arg(valueInfo.value())
+                            .arg(photo_id)
+                            .arg(tag_id);
+
+                    status = exec(query_str, &query);
+                }
             }
 
             return status;
