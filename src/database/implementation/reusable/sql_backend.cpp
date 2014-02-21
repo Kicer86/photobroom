@@ -97,6 +97,9 @@ namespace Database
 
         }
 
+        Data(const Data &) = delete;
+        Data& operator=(const Data &) = delete;
+
         QSqlDatabase m_db;
         ASqlBackend* m_backend;
 
