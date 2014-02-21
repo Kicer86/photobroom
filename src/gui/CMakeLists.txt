@@ -7,7 +7,7 @@ find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/Qt5)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Widgets_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -17,10 +17,10 @@ set(GUI_SOURCES
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
     Qt5/main_view_widget.cpp
-    Qt5/photo_info.cpp
     Qt5/photos_view_widget.cpp
     Qt5/photos_staging_area.cpp
     Qt5/thread_multiplexer.cpp
+    Qt5/data/photo_info.cpp
     Qt5/private/preparing_photos_widget_private.cpp
     Qt5/model_view/images_model.cpp
     Qt5/model_view/images_view.cpp
@@ -38,14 +38,13 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     gui.hpp
     Qt5/initializator.hpp
-    Qt5/iphoto_loader.hpp
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/main_view_widget.hpp
-    Qt5/photo_info.hpp
     Qt5/photos_view_widget.hpp
     Qt5/photos_staging_area.hpp
     Qt5/thread_multiplexer.hpp
+    Qt5/data/photo_info.hpp
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/model_view/images_model.hpp
     Qt5/model_view/images_view.hpp

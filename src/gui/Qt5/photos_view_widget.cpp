@@ -9,11 +9,12 @@
 #include <QPixmap>
 #include <QPushButton>
 
-#include "core/tag.hpp"
-#include "core/aphoto_info.hpp"
+#include <core/tag.hpp>
+#include <core/aphoto_info.hpp>
+
 #include "model_view/images_model.hpp"
 #include "model_view/images_view.hpp"
-#include "photo_info.hpp"
+#include "data/photo_info.hpp"
 
 //useful links:
 //http://www.informit.com/articles/article.aspx?p=1613548

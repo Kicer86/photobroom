@@ -26,7 +26,7 @@
 
 #include <QPixmap>
 
-#include "../photo_info.hpp"
+#include "data/photo_info.hpp"
 
 
 ImagesModel::ImagesModel(QObject* parent) : QAbstractListModel(parent), m_photos() {}
