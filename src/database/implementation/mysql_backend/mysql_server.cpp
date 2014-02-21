@@ -250,6 +250,7 @@ MySqlServer::~MySqlServer()
 {
 #ifdef KEEP_MYSQL_ALIVE
     std::cout << "MySQL server left alive" << std::endl;
+
 #else
     std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
 
@@ -369,14 +370,14 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
     const bool alive = QFile::exists(socketPath);
     bool status = true;
 
+#ifndef KEEP_MYSQL_ALIVE
     if (alive)
     {
         status = false;
 
         std::cerr << "MySQL server already running!" << std::endl;
     }
-    
-    QString result;
+#endif
 
     if (!alive)
     {
@@ -401,23 +402,27 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             {
                 QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
+#ifdef KEEP_MYSQL_ALIVE
+                status = m_serverProcess->startDetached(daemonPath, args);
+#else
                 m_serverProcess->setProgram(daemonPath);
                 m_serverProcess->setArguments(args);
                 m_serverProcess->closeWriteChannel();
 
                 std::cout << "MySQL Database Backend: " << daemonPath.toStdString() << " " << args.join(" ").toStdString() << std::endl;
 
-                m_serverProcess->start();
+                m_serverProcess->startDetached();
                 status = m_serverProcess->waitForStarted();
 
                 if (status)
                     status = waitForServerToStart(socketPath);
-
-                result = status? socketPath : "";
+#endif
             }
         }
 
     }
+
+    const QString result = status? socketPath : "";
 
     return result;
 }
