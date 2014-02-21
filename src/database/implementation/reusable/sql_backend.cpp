@@ -150,14 +150,14 @@ namespace Database
             bool status = true;
 
             ITagData::TagsList tagsList = tags->getTags();
-            for(auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
+            for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
             {
                 //store tag
                 const int tag_id = storeTag(it->first);
 
                 //store tag values
                 const ITagData::ValuesSet& values = it->second;
-                for(auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
+                for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
                 {
                     const TagValueInfo& valueInfo = *it_v;
 
