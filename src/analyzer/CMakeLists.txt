@@ -53,7 +53,7 @@ endif(BUILD_TESTS)
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
-add_library(analyzer SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
+add_library(analyzer ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(analyzer ${Boost_LIBRARIES})
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)

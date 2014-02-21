@@ -36,7 +36,7 @@ endif(BUILD_TESTS)
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
+add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database configuration core ${Boost_LIBRARIES})
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)

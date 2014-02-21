@@ -49,7 +49,7 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
-add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
+add_library(configuration ${CONFIG_SOURCES} ${CONFIG_HEADERS})
 target_link_libraries(configuration system)
 qt5_use_modules(configuration Core)
 

@@ -17,7 +17,7 @@ endif(WIN32)
 
 set(SYSTEM_HEADERS system.hpp)
 
-add_library(system SHARED ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
+add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
 
 target_link_libraries(system ${Boost_LIBRARIES})

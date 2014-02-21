@@ -50,8 +50,7 @@ if(BUILD_TESTS)
                 )
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
-    addFlags(core_test LINK_FLAGS ${OpenMP_CXX_FLAGS})
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
 endif(BUILD_TESTS)
 
 #task executor uses openmp
@@ -59,10 +58,10 @@ addSourceFlags(implementation/task_executor.cpp COMPILE_FLAGS ${OpenMP_CXX_FLAGS
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core SHARED ${CORE_SOURCES} ${CORE_HEADERS})
-target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
+target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
 qt5_use_modules(core Core)
-addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
+#addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
 
 if(EXIV2)
     target_link_libraries(core ${EXIV2_LIBRARIES})
