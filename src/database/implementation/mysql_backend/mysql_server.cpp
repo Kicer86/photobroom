@@ -37,6 +37,9 @@
 
 #include "databasebuilder.hpp"
 
+// remove line below to force broom to term mysql server when broom's going donw
+#define KEEP_MYSQL_ALIVE
+
 namespace
 {
     const char* MySQL_daemon = "Database::Backend::MySQL::Server";
@@ -245,12 +248,16 @@ MySqlServer::MySqlServer(): m_serverProcess(new QProcess)
 
 MySqlServer::~MySqlServer()
 {
+#ifdef KEEP_MYSQL_ALIVE
+    std::cout << "MySQL server left alive" << std::endl;
+#else
     std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
 
     m_serverProcess->terminate();
     m_serverProcess->waitForFinished();  //TODO: zwiecha?
 
     std::cout << "MySQL Database Backend: MySQL server down" << std::endl;
+#endif
 }
 
 
@@ -358,51 +365,58 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 
 QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath) const
 {
-    QString result;
-    const QString configFile = basePath + "mysql.conf";
-    const QString baseDataPath = basePath + "db_data";
     const QString socketPath = basePath + "mysql.socket";
+    const bool alive = QFile::exists(socketPath);
+    bool status = true;
 
-    bool status= true;
-
-    if (QFile::exists(socketPath))
+    if (alive)
     {
         status = false;
 
         std::cerr << "MySQL server already running!" << std::endl;
     }
+    
+    QString result;
 
-    if (status)
-        status = createConfig(configFile);
-
-    if (status)
+    if (!alive)
     {
-        const QString mysql_config  = "--defaults-file=" + configFile;
-        const QString mysql_datadir = "--datadir=" + baseDataPath;
-        const QString mysql_socket  = "--socket=" + socketPath;
 
-        status = true;
-        if (QDir(baseDataPath).exists() == false)
-            status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
+        const QString configFile = basePath + "mysql.conf";
+        const QString baseDataPath = basePath + "db_data";
+
+        if (status)
+            status = createConfig(configFile);
 
         if (status)
         {
-            QStringList args = { mysql_config, mysql_datadir, mysql_socket};
+            const QString mysql_config  = "--defaults-file=" + configFile;
+            const QString mysql_datadir = "--datadir=" + baseDataPath;
+            const QString mysql_socket  = "--socket=" + socketPath;
 
-            m_serverProcess->setProgram(daemonPath);
-            m_serverProcess->setArguments(args);
-            m_serverProcess->closeWriteChannel();
-
-            std::cout << "MySQL Database Backend: " << daemonPath.toStdString() << " " << args.join(" ").toStdString() << std::endl;
-
-            m_serverProcess->start();
-            status = m_serverProcess->waitForStarted();
+            status = true;
+            if (QDir(baseDataPath).exists() == false)
+                status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
 
             if (status)
-                status = waitForServerToStart(socketPath);
+            {
+                QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
-            result = status? socketPath : "";
+                m_serverProcess->setProgram(daemonPath);
+                m_serverProcess->setArguments(args);
+                m_serverProcess->closeWriteChannel();
+
+                std::cout << "MySQL Database Backend: " << daemonPath.toStdString() << " " << args.join(" ").toStdString() << std::endl;
+
+                m_serverProcess->start();
+                status = m_serverProcess->waitForStarted();
+
+                if (status)
+                    status = waitForServerToStart(socketPath);
+
+                result = status? socketPath : "";
+            }
         }
+
     }
 
     return result;
