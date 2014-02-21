@@ -4,7 +4,7 @@
 
 #include <QWidget>
 
-#include "core/aphoto_info.hpp"
+#include <core/aphoto_info.hpp>
 
 class QItemSelectionModel;
 class QItemSelection;

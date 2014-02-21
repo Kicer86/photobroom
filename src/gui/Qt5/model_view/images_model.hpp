@@ -23,8 +23,9 @@
 
 #include <QAbstractListModel>
 
-#include "core/aphoto_info.hpp"
-#include "Qt5/thread_multiplexer.hpp"
+#include <core/aphoto_info.hpp>
+
+#include "data/thread_multiplexer.hpp"
 
 class PhotoInfo;
 
