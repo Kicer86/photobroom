@@ -21,6 +21,9 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
     ThumbnailGenerator(PhotoInfo* photoInfo): ITask(), m_photoInfo(photoInfo) {}
     virtual ~ThumbnailGenerator() {}
 
+    ThumbnailGenerator(const ThumbnailGenerator &) = delete;
+    ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
+
     virtual void perform()
     {
         QPixmap pixmap(m_photoInfo->getPath().c_str());

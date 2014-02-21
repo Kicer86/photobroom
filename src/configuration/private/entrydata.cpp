@@ -197,7 +197,7 @@ namespace Configuration
     }
 
 
-    EntryData::EntryData(const ConfigurationKey& key, const std::string& value): m_data(new Data(key, value))
+    EntryData::EntryData(const ConfigurationKey& k, const std::string& v): m_data(new Data(k, v))
     {
 
     }

@@ -12,7 +12,7 @@
 #include "iconfiguration.hpp"
 
 
-DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data()
+DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data(), m_initializers()
 {
 
 }
