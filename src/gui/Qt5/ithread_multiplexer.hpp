@@ -13,7 +13,7 @@ struct IThreadMultiplexer
 
     virtual ~IThreadMultiplexer() {}
 
-    virtual void send(const T &) = 0;     //threads should write here
+    virtual void send(const T &) = 0;           //threads should write here
     virtual void setGetter(IGetter *) = 0;
 };
 
