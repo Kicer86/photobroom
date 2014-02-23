@@ -1,8 +1,6 @@
 
 #include "constants.hpp"
 
-#include <QtGlobal>
-
 namespace Consts
 {
 	const unsigned int Constraints::database_tag_name_len = 64;
