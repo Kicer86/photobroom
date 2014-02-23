@@ -1,11 +1,11 @@
- 
+
 
 #rules for finding Exiv2
 #based on http://www.vtk.org/Wiki/CMake:How_To_Find_Libraries
 
 find_path(EXIV2_INCLUDE_DIR exiv2/exiv2.hpp)
 
-find_library(EXIV2_LIBRARY NAMES libexiv2.so)
+find_library(EXIV2_LIBRARY NAMES exiv2)
 
 set(EXIV2_LIBRARIES ${EXIV2_LIBRARY} )
 set(EXIV2_INCLUDE_DIRS ${EXIV2_INCLUDE_DIR} )
