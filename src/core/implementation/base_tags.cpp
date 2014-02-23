@@ -21,13 +21,36 @@
 
 #include <configuration/constants.hpp>
 
+namespace
+{
+    struct DefaultTags
+    {
+        static const char tag_people[];
+        static const char tag_place[];
+        static const char tag_time[];
+        static const char tag_date[];
+        static const char tag_event[];
+
+        static const std::vector<const char *> tags_list;
+    };
+
+
+    const char DefaultTags::tag_people[] = QT_TRANSLATE_NOOP("Default Tag Name", "People");
+    const char DefaultTags::tag_place[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Place");
+    const char DefaultTags::tag_date[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Date");
+    const char DefaultTags::tag_time[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Time");
+    const char DefaultTags::tag_event[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Event");
+
+    const std::vector<const char *> DefaultTags::tags_list({ tag_people, tag_place, tag_date, tag_event });
+}
+
 
 std::map<BaseTagsList, TagNameInfo> BaseTags::m_base_tags( {
-                                                { BaseTagsList::Event,  TagNameInfo(Consts::DefaultTags::tag_event,  TagNameInfo::Text) },
-                                                { BaseTagsList::Place,  TagNameInfo(Consts::DefaultTags::tag_place,  TagNameInfo::Text) },
-                                                { BaseTagsList::Date,   TagNameInfo(Consts::DefaultTags::tag_date,   TagNameInfo::Date) },
-                                                { BaseTagsList::Time,   TagNameInfo(Consts::DefaultTags::tag_time,   TagNameInfo::Time) },
-                                                { BaseTagsList::People, TagNameInfo(Consts::DefaultTags::tag_people, TagNameInfo::Text) },
+                                                { BaseTagsList::Event,  TagNameInfo(DefaultTags::tag_event,  TagNameInfo::Text) },
+                                                { BaseTagsList::Place,  TagNameInfo(DefaultTags::tag_place,  TagNameInfo::Text) },
+                                                { BaseTagsList::Date,   TagNameInfo(DefaultTags::tag_date,   TagNameInfo::Date) },
+                                                { BaseTagsList::Time,   TagNameInfo(DefaultTags::tag_time,   TagNameInfo::Time) },
+                                                { BaseTagsList::People, TagNameInfo(DefaultTags::tag_people, TagNameInfo::Text) },
                                              } );
 
 TagNameInfo BaseTags::get(const BaseTagsList &item)

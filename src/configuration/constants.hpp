@@ -16,16 +16,7 @@ namespace Consts
         static const unsigned int database_tag_value_len;
 	};
 
-	struct CONFIGURATION_EXPORT DefaultTags
-    {
-		static const char tag_people[];
-		static const char tag_place[];
-        static const char tag_time[];
-		static const char tag_date[];
-		static const char tag_event[];
 
-		static const std::vector<const char *> tags_list;
-	};
 
 }
 #endif
