@@ -20,11 +20,10 @@
 
 #include "entries_manager.hpp"
 
+#include <core/base_tags.hpp>
+#include <configuration/constants.hpp>
+
 #include "tag_entry.hpp"
-#include "configuration/constants.hpp"
-
-
-
 
 
 EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
@@ -77,7 +76,8 @@ QString EntriesManager::getDefaultValue()
 
 std::set<TagNameInfo> EntriesManager::getDefaultValues()
 {
-    std::set<TagNameInfo> avail = m_base_tags;
+    auto tags = BaseTags::getAll();
+    std::set<TagNameInfo> avail(tags.begin(), tags.end());
 
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
