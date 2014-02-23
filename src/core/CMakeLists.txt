@@ -8,13 +8,13 @@ find_package(OpenMP REQUIRED)
 find_package(Exiv2)
 
 if(EXIV2_FOUND)
-	add_definitions(-DUSE_EXIV2=)
+	add_definitions(-DUSE_EXIV)
 endif(EXIV2_FOUND)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports)
+include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
 
 if(EXIV2_FOUND)
@@ -25,6 +25,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
     implementation/aphoto_info.cpp
+    implementation/base_tags.cpp
     implementation/hash_functions.cpp
     implementation/tag.cpp
     implementation/tag_feeder.cpp
@@ -33,6 +34,7 @@ set(CORE_SOURCES
 
 set(CORE_HEADERS
     aphoto_info.hpp
+    base_tags.hpp
     hash_functions.hpp
     tag.hpp
     tag_feeder.hpp
