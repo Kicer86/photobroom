@@ -24,13 +24,7 @@
 #include "configuration/constants.hpp"
 
 
-std::set<TagNameInfo> EntriesManager::m_base_tags( {
-                                                    { Consts::DefaultTags::tag_event,  TagNameInfo::Text },
-                                                    { Consts::DefaultTags::tag_place,  TagNameInfo::Text },
-                                                    { Consts::DefaultTags::tag_date,   TagNameInfo::Date },
-                                                    { Consts::DefaultTags::tag_time,   TagNameInfo::Time },
-                                                    { Consts::DefaultTags::tag_people, TagNameInfo::Text },
-                                                   } );
+
 
 
 EntriesManager::EntriesManager(QObject* p): QObject(p), m_entries(), m_combosModel(), m_data()
@@ -43,9 +37,9 @@ TagEntry* EntriesManager::constructEntry(const TagNameInfo& info, QWidget* p)
 {
     std::unique_ptr<TagEntry> tagEntry(new TagEntry(info, p));
     TagEntry* result = tagEntry.get();
-    
+
     registerEntry(std::move(tagEntry));
-    
+
     return result;
 }
 
@@ -69,14 +63,14 @@ void EntriesManager::registerEntry(std::unique_ptr<TagEntry>&& entry)
 
 
 QString EntriesManager::getDefaultValue()
-{    
+{
     const std::set<TagNameInfo> avail = getDefaultValues();
 
     QString result = "";
-    
+
     if (avail.empty() == false)
         result = avail.begin()->getName();
-    
+
     return result;
 }
 
@@ -84,14 +78,14 @@ QString EntriesManager::getDefaultValue()
 std::set<TagNameInfo> EntriesManager::getDefaultValues()
 {
     std::set<TagNameInfo> avail = m_base_tags;
-    
+
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
         const TagNameInfo& tagInfo = entry->getTagInfo();
-        
+
         avail.erase(tagInfo);
     }
-    
+
     return avail;
 }
 
@@ -102,9 +96,9 @@ std::set<TagNameInfo> EntriesManager::usedValues() const
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
         const TagNameInfo& n = entry->getTagInfo();
-        
+
         used.insert(n);
     }
-    
+
     return used;
 }

@@ -35,21 +35,20 @@ class EntriesManager: public QObject
 {
     public:
         explicit EntriesManager(QObject* parent = 0);
-    
+
         TagEntry* constructEntry(const TagNameInfo &, QWidget* p);
         void removeAllEntries();
-        
+
         const std::vector<std::unique_ptr<TagEntry>>& getTagEntries() const;
-        
+
         QString getDefaultValue();
         std::set< TagNameInfo > getDefaultValues();
-        
+
     private:
         std::vector<std::unique_ptr<TagEntry>> m_entries;
-        static std::set<TagNameInfo> m_base_tags;        
         QStringListModel m_combosModel;
         QStringList m_data;
-        
+
         std::set< TagNameInfo > usedValues() const;
         void registerEntry(std::unique_ptr<TagEntry> &&);
 };
