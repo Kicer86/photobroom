@@ -53,6 +53,18 @@ std::map<BaseTagsList, TagNameInfo> BaseTags::m_base_tags( {
                                                 { BaseTagsList::People, TagNameInfo(DefaultTags::tag_people, TagNameInfo::Text) },
                                              } );
 
+
+std::vector<TagNameInfo> BaseTags::collectTags()
+{
+    std::vector<TagNameInfo> result;
+
+    for(const auto it: m_base_tags)
+        result.push_back(it.second);
+    
+    return result;
+}
+
+
 TagNameInfo BaseTags::get(const BaseTagsList &item)
 {
     auto p = m_base_tags.find(item);
@@ -63,3 +75,12 @@ TagNameInfo BaseTags::get(const BaseTagsList &item)
 
     return result;
 }
+
+
+const std::vector<TagNameInfo>& BaseTags::getAll()
+{
+    static std::vector<TagNameInfo> tags = collectTags();
+
+    return tags;
+}
+

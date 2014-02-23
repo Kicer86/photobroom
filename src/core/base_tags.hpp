@@ -21,6 +21,7 @@
 #define BASETAGS_H
 
 #include <map>
+#include <vector>
 
 #include "tag.hpp"
 
@@ -36,11 +37,13 @@ enum class BaseTagsList
 class BaseTags
 {
     static std::map<BaseTagsList, TagNameInfo> m_base_tags;
+    static std::vector<TagNameInfo> collectTags();
 
     public:
         BaseTags() = delete;
 
         static TagNameInfo get(const BaseTagsList &);
+        static const std::vector<TagNameInfo>& getAll();
 };
 
 #endif // BASETAGS_H
