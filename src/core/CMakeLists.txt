@@ -53,6 +53,12 @@ if(BUILD_TESTS)
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core)
     target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
+
+    #TODO: remove it?
+    if(EXIV2_FOUND)
+        target_link_libraries(core_test ${EXIV2_LIBRARIES})
+    endif(EXIV2_FOUND)
+
 endif(BUILD_TESTS)
 
 #task executor uses openmp
