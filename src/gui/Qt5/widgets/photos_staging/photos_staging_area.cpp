@@ -13,7 +13,7 @@
 #include <database/databasebuilder.hpp>
 #include <database/idatabase.hpp>
 
-#include "photos_view_widget.hpp"
+#include "widgets/photos_view_widget.hpp"
 #include "widgets/tag_editor/tag_editor_widget.hpp"
 
 PhotosStagingArea::PhotosStagingArea(QWidget *p):

@@ -16,9 +16,6 @@ set(GUI_SOURCES
     Qt5/initializator.cpp
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
-    Qt5/main_view_widget.cpp
-    Qt5/photos_view_widget.cpp
-    Qt5/photos_staging_area.cpp
     Qt5/data/photo_info.cpp
     Qt5/data/thread_multiplexer.cpp
     Qt5/private/preparing_photos_widget_private.cpp
@@ -26,6 +23,9 @@ set(GUI_SOURCES
     Qt5/model_view/images_view.cpp
     Qt5/model_view/image_manager.cpp
     Qt5/model_view/positions_cache.cpp
+    Qt5/widgets/browse_view/main_view_widget.cpp
+    Qt5/widgets/photos_view_widget.cpp
+    Qt5/widgets/photos_staging/photos_staging_area.cpp
     Qt5/widgets/tag_editor/tag_editor_widget.cpp
     Qt5/widgets/tag_editor/tag_definition.cpp
     Qt5/widgets/tag_editor/tag_entry.cpp
@@ -40,9 +40,6 @@ set(GUI_HEADERS
     Qt5/initializator.hpp
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
-    Qt5/main_view_widget.hpp
-    Qt5/photos_view_widget.hpp
-    Qt5/photos_staging_area.hpp
     Qt5/data/photo_info.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/private/preparing_photos_widget_private.hpp
@@ -50,6 +47,9 @@ set(GUI_HEADERS
     Qt5/model_view/images_view.hpp
     Qt5/model_view/image_manager.hpp
     Qt5/model_view/positions_cache.hpp
+    Qt5/widgets/browse_view/main_view_widget.hpp
+    Qt5/widgets/photos_view_widget.hpp
+    Qt5/widgets/photos_staging/photos_staging_area.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
@@ -61,10 +61,10 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
-    Qt5/photos_staging_area.hpp
-    Qt5/photos_view_widget.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/private/preparing_photos_widget_private.hpp
+    Qt5/widgets/photos_view_widget.hpp
+    Qt5/widgets/photos_staging/photos_staging_area.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp

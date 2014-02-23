@@ -11,7 +11,7 @@
 
 #include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
-#include "../photos_view_widget.hpp"
+#include "widgets/photos_view_widget.hpp"
 
 BrowseLine::BrowseLine(QWidget *p):
     QWidget(p),
@@ -34,7 +34,7 @@ BrowseLine::BrowseLine(QWidget *p):
 
     connect(m_button, SIGNAL(clicked()), this, SLOT(browseButtonClicked()));
     connect(m_addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
-        
+
     //prepare dialog for choosing files
     QFileDialog *fileDialog = new QFileDialog(this);
     fileDialog->setFileMode(QFileDialog::Directory);
