@@ -17,6 +17,7 @@ struct TagNameInfo
 {
     enum Type
     {
+        Invalid,
         Text,
         Date,
         Time,
@@ -83,6 +84,11 @@ struct TagNameInfo
 
         switch(type)
         {
+            case Invalid:
+                assert(!"bug");       //TODO: error handling
+                result = "Invalid";
+                break;
+
             case Text:
                 result = "Text";
                 break;
