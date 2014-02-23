@@ -7,9 +7,9 @@ find_package(OpenSSL REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(Exiv2)
 
-if(EXIV2)
+if(EXIV2_FOUND)
 	add_definitions(-DUSE_EXIV2=)
-endif(EXIV2)
+endif(EXIV2_FOUND)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
@@ -17,9 +17,9 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
 
-if(EXIV2)
+if(EXIV2_FOUND)
     include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
-endif(EXIV2)
+endif(EXIV2_FOUND)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -63,9 +63,15 @@ target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARI
 qt5_use_modules(core Core)
 #addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
 
-if(EXIV2)
+if(EXIV2_FOUND)
     target_link_libraries(core ${EXIV2_LIBRARIES})
-endif(EXIV2)
+endif(EXIV2_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
+
+if(EXIV2_FOUND)
+    message(STATUS "Exiv2 library found")
+else()
+    message(WARNING "Optional library Exiv2 not found")
+endif(EXIV2_FOUND)
