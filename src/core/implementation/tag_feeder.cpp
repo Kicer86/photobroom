@@ -3,11 +3,18 @@
 
 #include <assert.h>
 
-#ifdef USE_EXIV
-	#include <exiv2/exiv2.hpp>
+#ifdef IN_KDEVELOP_PARSER
+    #define USE_EXIV
 #endif
 
-#include "tag.hpp"
+#ifdef USE_EXIV
+    #include <QStringList>
+	#include <exiv2/exiv2.hpp>
+
+    #include <configuration/constants.hpp>
+#endif
+
+#include "base_tags.hpp"
 
 struct ExifFeeder
 {
@@ -18,13 +25,32 @@ struct ExifFeeder
         assert(image.get() != 0);
         image->readMetadata();
 
-        Exiv2::ExifData &exifData = image->exifData();
+        const Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty() == false)
         {
+
+            Exiv2::ExifData::const_iterator tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+            if (tag_date != exifData.end())
+            {
+                QString v(tag_date->toString().c_str());
+                QStringList time_splitted = v.split(" ");
+
+                if (time_splitted.size() == 2)
+                {
+                    QString date = time_splitted[0];
+                    const QString time = time_splitted[1];
+
+                    date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
+
+                    tagData->setTag(BaseTags::get(BaseTagsList::Date), date);
+                    tagData->setTag(BaseTags::get(BaseTagsList::Time), time);
+                }
+            }
+
+            /*
             Exiv2::ExifData::const_iterator end = exifData.end();
             for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i)
             {
-                /*
                 const char* tn = i->typeName();
                 std::cout << std::setw(44) << std::setfill(' ') << std::left
                           << i->key() << " "
@@ -37,8 +63,8 @@ struct ExifFeeder
                           << i->count() << "  "
                           << std::dec << i->value()
                           << "\n";
-                */
             }
+            */
         }
 #else
 		(void)path;
