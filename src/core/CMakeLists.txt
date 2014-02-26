@@ -13,10 +13,7 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
 
-if(EXIV2_FOUND)
-    add_definitions(-DUSE_EXIV)
-    include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
-endif(EXIV2_FOUND)
+
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -26,7 +23,6 @@ set(CORE_SOURCES
     implementation/hash_functions.cpp
     implementation/itagfeeder.cpp
     implementation/tag.cpp
-    implementation/exif_tag_feeder.cpp
     implementation/task_executor.cpp
     )
 
@@ -37,8 +33,15 @@ set(CORE_HEADERS
     itagfeeder.hpp
     tag.hpp
     task_executor.hpp
-    implementation/exif_tag_feeder.hpp
     )
+    
+if(EXIV2_FOUND)
+    add_definitions(-DUSE_EXIV)
+    include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
+    set(CORE_SOURCES ${CORE_SOURCES} implementation/exif_tag_feeder.cpp)
+    set(CORE_HEADERS ${CORE_HEADERS} implementation/exif_tag_feeder.hpp)
+endif(EXIV2_FOUND)
+
 
 if(BUILD_TESTS)
     addTestTarget(core
