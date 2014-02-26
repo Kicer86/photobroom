@@ -6,16 +6,17 @@
 #include <string>
 
 #include "core_export.h"
+#include "itagfeeder.hpp"
 
 struct ITagData;
 
-class CORE_EXPORT TagFeeder
+class CORE_EXPORT TagFeeder: public ITagFeeder
 {
     public:
-        TagFeeder() = delete;
+        TagFeeder();
 
-        static std::unique_ptr<ITagData> getTagsFor(const std::string& path);
-        static void update(ITagData *, const std::string& path);
+        virtual std::unique_ptr<ITagData> getTagsFor(const std::string& path) override;
+        virtual void update(ITagData *, const std::string& path) override;
 };
 
 #endif

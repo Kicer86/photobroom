@@ -24,6 +24,7 @@ set(CORE_SOURCES
     implementation/aphoto_info.cpp
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
+    implementation/itagfeeder.cpp
     implementation/tag.cpp
     implementation/tag_feeder.cpp
     implementation/task_executor.cpp
@@ -33,9 +34,10 @@ set(CORE_HEADERS
     aphoto_info.hpp
     base_tags.hpp
     hash_functions.hpp
+    itagfeeder.hpp
     tag.hpp
-    tag_feeder.hpp
     task_executor.hpp
+    implementation/tag_feeder.hpp
     )
 
 if(BUILD_TESTS)

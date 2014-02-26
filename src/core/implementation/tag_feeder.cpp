@@ -3,16 +3,10 @@
 
 #include <assert.h>
 
-#ifdef IN_KDEVELOP_PARSER
-    #define USE_EXIV
-#endif
+#include <QStringList>
+#include <exiv2/exiv2.hpp>
 
-#ifdef USE_EXIV
-    #include <QStringList>
-	#include <exiv2/exiv2.hpp>
-
-    #include <configuration/constants.hpp>
-#endif
+#include <configuration/constants.hpp>
 
 #include "base_tags.hpp"
 
@@ -20,7 +14,6 @@ struct ExifFeeder
 {
     void feed(const std::string& path, ITagData* tagData)
     {
-#ifdef USE_EXIV
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
@@ -66,12 +59,14 @@ struct ExifFeeder
             }
             */
         }
-#else
-		(void)path;
-		(void)tagData;
-#endif
-	}
+    }
 };
+
+
+TagFeeder::TagFeeder()
+{
+
+}
 
 
 std::unique_ptr<ITagData> TagFeeder::getTagsFor(const std::string &path)
