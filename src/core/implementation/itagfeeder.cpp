@@ -26,7 +26,7 @@ std::shared_ptr<ITagFeeder> TagFeederFactory::get()
     
     if (result.get() == nullptr)
 #ifdef USE_EXIV
-        result.reset(new TagFeeder);
+        result.reset(new ExifTagFeeder);
 #else
         result.reset(new NullFeeder);
 #endif

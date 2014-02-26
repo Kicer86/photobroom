@@ -10,10 +10,10 @@
 
 struct ITagData;
 
-class CORE_EXPORT TagFeeder: public ITagFeeder
+class CORE_EXPORT ExifTagFeeder: public ITagFeeder
 {
     public:
-        TagFeeder();
+        ExifTagFeeder();
 
         virtual std::unique_ptr<ITagData> getTagsFor(const std::string& path) override;
         virtual void update(ITagData *, const std::string& path) override;

@@ -11,13 +11,13 @@
 #include "base_tags.hpp"
 
 
-TagFeeder::TagFeeder()
+ExifTagFeeder::ExifTagFeeder()
 {
 
 }
 
 
-std::unique_ptr<ITagData> TagFeeder::getTagsFor(const std::string &path)
+std::unique_ptr<ITagData> ExifTagFeeder::getTagsFor(const std::string &path)
 {
     std::unique_ptr<ITagData> tagData(new TagData);
     feed(path, tagData.get());
@@ -26,13 +26,13 @@ std::unique_ptr<ITagData> TagFeeder::getTagsFor(const std::string &path)
 }
 
 
-void TagFeeder::update(ITagData *tagData, const std::string &path)
+void ExifTagFeeder::update(ITagData *tagData, const std::string &path)
 {
 
 }
 
 
-void TagFeeder::feed(const std::string& path, ITagData* tagData)
+void ExifTagFeeder::feed(const std::string& path, ITagData* tagData)
 {
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
     assert(image.get() != 0);
