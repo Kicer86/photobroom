@@ -26,7 +26,7 @@ set(CORE_SOURCES
     implementation/hash_functions.cpp
     implementation/itagfeeder.cpp
     implementation/tag.cpp
-    implementation/tag_feeder.cpp
+    implementation/exif_tag_feeder.cpp
     implementation/task_executor.cpp
     )
 
@@ -37,7 +37,7 @@ set(CORE_HEADERS
     itagfeeder.hpp
     tag.hpp
     task_executor.hpp
-    implementation/tag_feeder.hpp
+    implementation/exif_tag_feeder.hpp
     )
 
 if(BUILD_TESTS)
