@@ -5,9 +5,10 @@ add_subdirectory(implementation/reusable)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem)
+find_package(Qt5Core REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
@@ -29,6 +30,8 @@ if(BUILD_TESTS)
                                 GTEST
        )
     target_link_libraries(database_test configuration core ${Boost_LIBRARIES})
+    qt5_use_modules(database_test Core)
+
     turnOnCpp11(database_test)
 endif(BUILD_TESTS)
 
@@ -36,6 +39,7 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database configuration core ${Boost_LIBRARIES})
+qt5_use_modules(database Core)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)

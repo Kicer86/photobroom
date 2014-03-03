@@ -78,6 +78,9 @@ namespace Database
             virtual bool init() override final;
             virtual bool store(const APhotoInfo::Ptr &) override final;
 
+            virtual std::vector<TagNameInfo> listTags() override final;
+            virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override final;
+
             bool checkStructure();
             bool addDefaultTagsDefinitions();
             bool addDefaultTagsDefinitions(const std::vector<QString> &);

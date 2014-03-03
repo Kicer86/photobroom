@@ -24,7 +24,8 @@
 #include <map>
 #include <memory>
 
-#include "core/aphoto_info.hpp"
+#include <core/aphoto_info.hpp>
+#include <core/tag.hpp>
 
 namespace Database
 {
@@ -35,6 +36,10 @@ namespace Database
 
         //store data
         virtual bool store(const APhotoInfo::Ptr &) = 0;
+
+        //read data
+        virtual std::vector<TagNameInfo> listTags() = 0;
+        virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
 
         //init backend - connect to database or create new one
         virtual bool init() = 0;

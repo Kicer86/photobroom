@@ -298,6 +298,19 @@ namespace Database
     }
 
 
+    std::vector<TagNameInfo> ASqlBackend::listTags()
+    {
+
+    }
+
+
+    std::vector<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName)
+    {
+
+    }
+
+
+
     bool ASqlBackend::checkStructure()
     {
         //check if database 'broom' exists
