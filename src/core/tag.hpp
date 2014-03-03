@@ -17,10 +17,11 @@ struct TagNameInfo
 {
     enum Type
     {
-        Invalid,
-        Text,
-        Date,
-        Time,
+        //indexed, as those values will be stored in db.
+        Invalid = 0,
+        Text    = 1,
+        Date    = 2,
+        Time    = 3,
     };
 
     TagNameInfo(const QString& n, const Type t, char s = ';'): name(n), separator(s), type(t)
