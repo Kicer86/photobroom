@@ -68,7 +68,7 @@ namespace Database
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
-                                QString("type VARCHAR(%2) NOT NULL").arg(Consts::Constraints::database_tag_type_len),
+                                        "type INT NOT NULL",
                                 QString("UNIQUE(name(%1))").arg(Consts::Constraints::database_tag_name_len)
                             }
                            );
@@ -116,7 +116,7 @@ namespace Database
         int storeTag(const TagNameInfo& nameInfo) const
         {
             const QString& name = nameInfo.getName();
-            const QString type = nameInfo.getTypeName();
+            const int type = nameInfo.getType();
             QSqlQuery query(m_db);
 
             //check if tag exists
@@ -201,6 +201,27 @@ namespace Database
                 status = applyTags(photo_id.toInt(), tags);
 
             return status;
+        }
+
+
+        std::vector<TagNameInfo> listTags() const
+        {
+            QSqlQuery query(m_db);
+            const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
+
+            bool status = exec(query_str, &query);
+            std::vector<TagNameInfo> result;
+
+            while (status && query.next())
+            {
+                const QString name = query.value(0).toString();
+                const int value    = query.value(1).toInt();
+
+                TagNameInfo tagName(name, value);
+                result.push_back(tagName);
+            }
+
+            return result;
         }
 
     };
@@ -300,7 +321,14 @@ namespace Database
 
     std::vector<TagNameInfo> ASqlBackend::listTags()
     {
+        std::vector<TagNameInfo> result;
 
+        if (m_data)
+            result = m_data->listTags();
+        else
+            std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+
+        return result;
     }
 
 
