@@ -29,6 +29,11 @@ struct TagNameInfo
 
     }
 
+    TagNameInfo(const QString& n, int t, char s = ';'): TagNameInfo(n, Type(t), s)
+    {
+
+    }
+
     TagNameInfo(const TagNameInfo& other): name(other.name), separator(other.separator), type(other.type)
     {
 
