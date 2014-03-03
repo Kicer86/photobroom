@@ -176,11 +176,9 @@ namespace Database
         }
 
 
-        bool store(const Database::Entry& entry)
+        bool store(const APhotoInfo::Ptr& data)
         {
             QSqlQuery query(m_db);
-
-            const APhotoInfo::Ptr data = entry.m_d->m_photoInfo;
 
             //store path and hash
             const QString query_str =
@@ -289,7 +287,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::store(const Database::Entry& entry)
+    bool ASqlBackend::store(const APhotoInfo::Ptr& entry)
     {
         bool status = false;
 

@@ -76,7 +76,7 @@ namespace Database
             std::unique_ptr<Data> m_data;
 
             virtual bool init() override final;
-            virtual bool store(const Database::Entry &) override final;
+            virtual bool store(const APhotoInfo::Ptr &) override final;
 
             bool checkStructure();
             bool addDefaultTagsDefinitions();

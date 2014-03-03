@@ -80,12 +80,10 @@ namespace Database
         {
             //TODO: check for db opened
 
-            Entry entry(photoInfo);
-
-            const APhotoInfo::Hash hash = entry.m_d->m_photoInfo->getHash();
+            const APhotoInfo::Hash hash = photoInfo->getHash();
             assert(hash.empty() == false);
-            
-            m_db[hash] = entry;
+
+            m_db[hash] = photoInfo;
             registerUpdate(hash);
         }
 
@@ -119,7 +117,7 @@ namespace Database
                 if (entry)
                 {
                     const APhotoInfo::Hash& hash = *entry;
-                    const Entry &dbEntry = m_db[hash];
+                    const APhotoInfo::Ptr&  dbEntry = m_db[hash];
                     m_backend->store(dbEntry);
                 }
                 else
@@ -142,8 +140,8 @@ namespace Database
         }
 
         private:
-            const static int m_max_queue_len = 256;                 //max len of db queue
-            std::unordered_map<APhotoInfo::Hash, Entry> m_db;       //files managed by database
+            const static int m_max_queue_len = 256;                      //max len of db queue
+            std::unordered_map<APhotoInfo::Hash, APhotoInfo::Ptr> m_db;  //files managed by database
             std::shared_ptr<IStreamFactory> m_stream;
             Database::IConfiguration *m_configuration;
             std::shared_ptr<IBackend> m_backend;

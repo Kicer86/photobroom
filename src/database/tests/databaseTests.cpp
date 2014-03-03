@@ -30,7 +30,7 @@ namespace
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool store(const Database::Entry& entry)
+        virtual bool store(const APhotoInfo::Ptr& entry)
         {
             m_entries.push_back(entry);
 

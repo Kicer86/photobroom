@@ -29,14 +29,12 @@
 namespace Database
 {
 
-    class Entry;
-
     struct IBackend
     {
         virtual ~IBackend() {}
 
         //store data
-        virtual bool store(const Database::Entry&) = 0;
+        virtual bool store(const APhotoInfo::Ptr &) = 0;
 
         //init backend - connect to database or create new one
         virtual bool init() = 0;

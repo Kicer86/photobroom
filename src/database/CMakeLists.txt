@@ -11,7 +11,6 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
-    implementation/entry.cpp
     implementation/memorydatabase.cpp
     )
 
@@ -24,7 +23,6 @@ set(DATABASE_HEADERS
 
 if(BUILD_TESTS)
     addTestTarget(database  SOURCES
-                                implementation/entry.cpp
                                 implementation/memorydatabase.cpp
                                 tests/databaseTests.cpp
                             TEST_LIBRARY
