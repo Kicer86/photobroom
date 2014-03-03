@@ -84,33 +84,6 @@ struct TagNameInfo
         return type;
     }
 
-    QString getTypeName() const
-    {
-        QString result;
-
-        switch(type)
-        {
-            case Invalid:
-                assert(!"bug");       //TODO: error handling
-                result = "Invalid";
-                break;
-
-            case Text:
-                result = "Text";
-                break;
-
-            case Date:
-                result = "Date";
-                break;
-
-            case Time:
-                result = "Time";
-                break;
-        }
-
-        return result;
-    }
-
     private:
         QString name;
         char separator;
