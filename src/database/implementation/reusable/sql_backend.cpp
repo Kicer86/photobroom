@@ -30,9 +30,7 @@
 #include <QVariant>
 
 #include <core/tag.hpp>
-
-#include "configuration/constants.hpp"
-#include "../entry.hpp"
+#include <configuration/constants.hpp>
 
 #include "table_definition.hpp"
 

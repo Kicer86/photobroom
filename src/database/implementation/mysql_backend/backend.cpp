@@ -8,11 +8,10 @@
 
 #include <boost/filesystem.hpp>
 
-#include "configuration/configurationfactory.hpp"
-#include "configuration/iconfiguration.hpp"
-#include "configuration/entrydata.hpp"
+#include <configuration/configurationfactory.hpp>
+#include <configuration/iconfiguration.hpp>
+#include <configuration/entrydata.hpp>
 
-#include "entry.hpp"
 #include "databasebuilder.hpp"
 
 #include "mysql_server.hpp"
