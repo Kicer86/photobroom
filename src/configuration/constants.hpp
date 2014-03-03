@@ -12,7 +12,6 @@ namespace Consts
 	struct CONFIGURATION_EXPORT Constraints
     {
         static const unsigned int database_tag_name_len;
-        static const unsigned int database_tag_type_len;
         static const unsigned int database_tag_value_len;
 	};
 
