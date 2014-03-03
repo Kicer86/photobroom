@@ -82,8 +82,6 @@ namespace Database
             virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override final;
 
             bool checkStructure();
-            bool addDefaultTagsDefinitions();
-            bool addDefaultTagsDefinitions(const std::vector<QString> &);
     };
 
 }
