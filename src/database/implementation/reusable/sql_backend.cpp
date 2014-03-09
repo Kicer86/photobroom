@@ -41,6 +41,9 @@ namespace Database
 {
     namespace
     {
+        //check for proper sizes
+        static_assert(sizeof(unsigned int) >= 4, "unsigned int is smaller than MySQL's equivalent");
+
         const char db_version[] = "0.1";
 
         TableDefinition
@@ -218,8 +221,8 @@ namespace Database
 
             while (status && query.next())
             {
-                const QString name = query.value(0).toString();
-                const int value    = query.value(1).toInt();
+                const QString name       = query.value(0).toString();
+                const unsigned int value = query.value(1).toUInt();
 
                 TagNameInfo tagName(name, value);
                 result.push_back(tagName);
@@ -240,7 +243,7 @@ namespace Database
             {
                 QSqlQuery query(m_db);
                 const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE id=\"%1\";")
-                                            .arg(*tagId);
+                                          .arg(*tagId);
 
                 const bool status = exec(query_str, &query);
 
