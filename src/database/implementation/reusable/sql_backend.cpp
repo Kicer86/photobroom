@@ -118,6 +118,23 @@ namespace Database
         }
 
 
+        bool createDB(const QString& dbName) const
+        {
+            //check if database exists
+            QSqlQuery query(m_db);
+            bool status = exec(QString("SHOW DATABASES LIKE '%1';").arg(dbName), &query);
+
+            //create database if doesn't exists
+            bool empty = query.next() == false;
+            if (status && empty)
+                status = exec(QString("CREATE DATABASE `%1`;").arg(dbName), &query);
+
+            //switch to database
+            if (status)
+                status = exec(QString("USE %1;").arg(dbName), &query);
+        }
+
+
         boost::optional<unsigned int> storeTag(const TagNameInfo& nameInfo) const
         {
             const QString& name = nameInfo.getName();
@@ -396,22 +413,13 @@ namespace Database
 
     bool ASqlBackend::checkStructure()
     {
-        //check if database 'broom' exists
-        QSqlQuery query(m_data->m_db);
-        bool status = m_data->exec("SHOW DATABASES LIKE 'broom';", &query);
-
-        //create database broom if doesn't exists
-        bool empty = query.next() == false;
-        if (status && empty)
-            status = m_data->exec("CREATE DATABASE IF NOT EXISTS `broom`;", &query);
-
-        //use 'broom' database
-        if (status)
-            status = m_data->exec("USE broom;", &query);
+        bool status = m_data->createDB("broom");
 
         //check if table 'version_history' exists
         if (status)
             status = assureTableExists(table_versionHistory);
+
+        QSqlQuery query(m_data->m_db);
 
         //at least one row must be present in table 'version_history'
         if (status)
