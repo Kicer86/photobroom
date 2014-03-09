@@ -44,7 +44,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(unsigned int) >= 4, "unsigned int is smaller than MySQL's equivalent");
 
-        const char db_version[] = "0.1";
+        const char db_version[] = "0.01";
 
         TableDefinition
             table_versionHistory(TAB_VER_HIST,
