@@ -7,7 +7,6 @@
 
 #include "implementation/memorydatabase.hpp"
 #include "ifs.hpp"
-#include "implementation/entry.hpp"
 
 
 namespace
@@ -30,24 +29,34 @@ namespace
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool store(const APhotoInfo::Ptr& entry)
+        virtual bool store(const APhotoInfo::Ptr& entry) override final
         {
             m_entries.push_back(entry);
 
             return true;
         }
 
-        virtual bool init()
+        virtual bool init() override final
         {
             return true;
         }
 
-        void closeConnections()
+        virtual void closeConnections() override final
         {
 
         }
 
-        std::vector<Database::Entry> m_entries;
+        virtual std::vector<TagNameInfo> listTags() override final
+        {
+            return std::vector<TagNameInfo>();
+        }
+
+        virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override final
+        {
+            return std::vector<TagValueInfo>();
+        }
+
+        std::vector<APhotoInfo::Ptr> m_entries;
     };
 }
 
