@@ -132,6 +132,8 @@ namespace Database
             //switch to database
             if (status)
                 status = exec(QString("USE %1;").arg(dbName), &query);
+
+            return status;
         }
 
 
@@ -251,7 +253,6 @@ namespace Database
 
         std::vector<TagValueInfo> listTagValues(const TagNameInfo& tagName)
         {
-            QSqlQuery query(m_db);
             const boost::optional<unsigned int> tagId = findTagByName(tagName);
 
             std::vector<TagValueInfo> result;
@@ -264,7 +265,7 @@ namespace Database
 
                 const bool status = exec(query_str, &query);
 
-                while (query.next())
+                while (status && query.next())
                 {
                     const QString value = query.value(0).toString();
 
