@@ -5,7 +5,7 @@
 #include <mutex>
 
 #include "tag.hpp"
-#include "tag_feeder.hpp"
+#include "itagfeeder.hpp"
 #include "task_executor.hpp"
 #include "hash_functions.hpp"
 
@@ -52,7 +52,7 @@ struct APhotoInfo::Data
 {
     Data(const std::string &p): path(p), tags(), hash(), hashMutex()
     {
-        std::unique_ptr<ITagData> p_tags = TagFeeder::getTagsFor(p);
+        std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
         tags = std::move(p_tags);
     }
