@@ -24,6 +24,8 @@
 #include <iostream>
 #include <set>
 
+#include <boost/optional.hpp>
+
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -113,32 +115,29 @@ namespace Database
         }
 
 
-        int storeTag(const TagNameInfo& nameInfo) const
+        boost::optional<unsigned int> storeTag(const TagNameInfo& nameInfo) const
         {
             const QString& name = nameInfo.getName();
             const int type = nameInfo.getType();
             QSqlQuery query(m_db);
 
             //check if tag exists
-            const QString find_tag_query = QString("SELECT id, name FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
-            bool status = exec(find_tag_query, &query);
+            boost::optional<unsigned int> tagId = findTagByName(name);
 
-            int result = -1;
-            if (status && query.next())
-                result = query.value(0).toInt();
-
-            if (status && result == -1)  //tag not yet in database
+            if (! tagId)  //tag not yet in database
             {
                 const QString queryStr = QString("INSERT INTO %1 (name, type) VALUES ('%2', '%3');")
                             .arg(TAB_TAG_NAMES)
                             .arg(name)
                             .arg(type);
 
-                status = exec(queryStr, &query);
-                result = query.lastInsertId().toInt();
+                const bool status = exec(queryStr, &query);
+
+                if (status)
+                    tagId = query.lastInsertId().toUInt();
             }
 
-            return result;
+            return tagId;
         }
 
 
@@ -151,23 +150,28 @@ namespace Database
             for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
             {
                 //store tag
-                const int tag_id = storeTag(it->first);
+                const boost::optional<unsigned int> tag_id = storeTag(it->first);
 
-                //store tag values
-                const ITagData::ValuesSet& values = it->second;
-                for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
+                if (tag_id)
                 {
-                    const TagValueInfo& valueInfo = *it_v;
+                    //store tag values
+                    const ITagData::ValuesSet& values = it->second;
+                    for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
+                    {
+                        const TagValueInfo& valueInfo = *it_v;
 
-                    const QString query_str =
-                        QString("INSERT INTO " TAB_TAGS
-                                "(value, photo_id, type) VALUES(\"%1\", \"%2\", \"%3\");"
-                            ).arg(valueInfo.value())
-                            .arg(photo_id)
-                            .arg(tag_id);
+                        const QString query_str =
+                            QString("INSERT INTO " TAB_TAGS
+                                    "(value, photo_id, type) VALUES(\"%1\", \"%2\", \"%3\");"
+                                ).arg(valueInfo.value())
+                                .arg(photo_id)
+                                .arg(*tag_id);
 
-                    status = exec(query_str, &query);
+                        status = exec(query_str, &query);
+                    }
                 }
+                else
+                    status = false;
             }
 
             return status;
@@ -190,7 +194,7 @@ namespace Database
 
             if (status)
             {
-                photo_id  = query.lastInsertId(); //WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
                 status = photo_id.isValid();
             }
 
@@ -209,7 +213,7 @@ namespace Database
             QSqlQuery query(m_db);
             const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
 
-            bool status = exec(query_str, &query);
+            const bool status = exec(query_str, &query);
             std::vector<TagNameInfo> result;
 
             while (status && query.next())
@@ -223,6 +227,48 @@ namespace Database
 
             return result;
         }
+
+
+        std::vector<TagValueInfo> listTagValues(const TagNameInfo& tagName)
+        {
+            QSqlQuery query(m_db);
+            const boost::optional<unsigned int> tagId = findTagByName(tagName);
+
+            std::vector<TagValueInfo> result;
+
+            if (tagId)
+            {
+                QSqlQuery query(m_db);
+                const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE id=\"%1\";")
+                                            .arg(*tagId);
+
+                const bool status = exec(query_str, &query);
+
+                while (query.next())
+                {
+                    const QString value = query.value(0).toString();
+
+                    TagValueInfo valueInfo(value);
+                    result.push_back(valueInfo);
+                }
+            }
+
+            return result;
+        }
+
+        private:
+            boost::optional<unsigned int> findTagByName(const QString& name) const
+            {
+                QSqlQuery query(m_db);
+                const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
+                const bool status = exec(find_tag_query, &query);
+
+                boost::optional<unsigned int> result;
+                if (status && query.next())
+                    result = query.value(0).toInt();
+
+                return result;
+            }
 
     };
 
@@ -334,9 +380,15 @@ namespace Database
 
     std::vector<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName)
     {
+        std::vector<TagValueInfo> result;
 
+        if (m_data)
+            result = m_data->listTagValues(tagName);
+        else
+            std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+
+        return result;
     }
-
 
 
     bool ASqlBackend::checkStructure()
