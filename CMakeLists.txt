@@ -4,7 +4,14 @@ project(broom)
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-set(BUILD_TESTS FALSE CACHE BOOL "Build tests. Set to TRUE to build tests")
+
+include(FeatureSummary)
+include(GenerateExportHeader)
+include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
+
+
+option(BUILD_TESTS "Build tests. Set to ON to build tests")
+add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable")
 if(BUILD_TESTS)
     enable_testing()
 endif(BUILD_TESTS)
@@ -16,8 +23,6 @@ elseif(WIN32)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif(UNIX OR CYGWIN)
 
-include(GenerateExportHeader)
-include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 
 add_subdirectory(src/core)
 add_subdirectory(src/configuration)
@@ -50,10 +55,9 @@ endif(DOXYGEN)
 
 message("")
 message("*************************************************************")
-message("Configuration: ")
-message("BUILD_TESTS...........${BUILD_TESTS}")
-message("")
 message("Extra targets:")
 message("documentation          - generates html in build dir")
 message("generate_code_coverage - generates code coverage in build dir")
 message("")
+
+feature_summary(WHAT ALL)
