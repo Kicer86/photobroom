@@ -19,8 +19,11 @@
 
 #include "task_executor.hpp"
 
+#ifdef USE_OPENMP
+    #include <omp.h>
+#endif
+
 #include <thread>
-#include <omp.h>
 
 #include <OpenLibrary/palgorithm/ts_queue.hpp>
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
@@ -89,8 +92,10 @@ void TaskExecutor::eat()
 {
     #pragma omp parallel
     {
+#if USE_OPENMP
         const int id = omp_get_thread_num();
         **(ThreadSafeOutput.get()) << "Starting TaskExecutor thread #" << id << std::endl;
+#endif
 
         while(true)
         {
@@ -111,7 +116,9 @@ void TaskExecutor::eat()
                 break;
         }
 
+#ifdef USE_OPENMP
         **(ThreadSafeOutput.get()) << "Quitting TaskExecutor thread #" << id << std::endl;
+#endif
     }
 }
 

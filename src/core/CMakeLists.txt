@@ -4,7 +4,7 @@ project(core)
 find_package(OpenLibrary REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(OpenMP REQUIRED)
+find_package(OpenMP)
 find_package(Exiv2)
 
 include(${OPENLIBRARY_CMAKE_INCLUDES})
@@ -64,7 +64,10 @@ if(BUILD_TESTS)
 endif(BUILD_TESTS)
 
 #task executor uses openmp
-addSourceFlags(implementation/task_executor.cpp COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
+if(OPENMP_FOUND)
+    addSourceFlags(implementation/task_executor.cpp COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
+    add_definitions(-DUSE_OPENMP)
+endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
