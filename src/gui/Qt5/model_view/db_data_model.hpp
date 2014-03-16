@@ -22,7 +22,7 @@
 
 #include <QModelIndex>
 
-class DBDataModel :  QAbstractListModel
+class DBDataModel final: public QAbstractListModel
 {
     public:
         DBDataModel();
@@ -32,6 +32,7 @@ class DBDataModel :  QAbstractListModel
         DBDataModel& operator=(const DBDataModel& other) = delete;
         bool operator==(const DBDataModel& other) = delete;
 
+    private:
         virtual QVariant data(const QModelIndex& index, int role);
         virtual int rowCount(const QModelIndex& parent);
         virtual void fetchMore(const QModelIndex& parent);

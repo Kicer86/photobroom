@@ -19,7 +19,7 @@
 
 #include "db_data_model.hpp"
 
-DBDataModel::DBDataModel()
+DBDataModel::DBDataModel(): QAbstractListModel()
 {
 
 }
