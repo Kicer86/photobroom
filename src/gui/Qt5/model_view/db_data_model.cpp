@@ -19,15 +19,54 @@
 
 #include "db_data_model.hpp"
 
+#include <core/base_tags.hpp>
+
 
 struct DBDataModel::Impl
 {
-    Impl() {}
+    Impl(): m_hierarchy(), m_dirty(true)
+    {
+        Hierarchy hierarchy;
+        hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
+
+        setHierarchy(hierarchy);
+    }
+
     ~Impl() {}
+
+    void setHierarchy(const Hierarchy& hierarchy)
+    {
+        m_hierarchy = hierarchy;
+        m_dirty = true;
+    }
+
+    bool isDirty() const
+    {
+        return m_dirty;
+    }
+
+    bool canFetchMore(const QModelIndex& parent) const
+    {
+        const unsigned int total   = getPhotosCount(parent);
+        const unsigned int fetched = getFetchedPhotosCount(parent);
+    }
+
+    private:
+        Hierarchy m_hierarchy;
+        bool m_dirty;
+
+        unsigned int getPhotosCount(const QModelIndex& parent) const
+        {
+
+        }
+
+        unsigned int getFetchedPhotosCount(const QModelIndex& parent) const
+        {
+        }
 };
 
 
-DBDataModel::DBDataModel(): QAbstractItemModel()
+DBDataModel::DBDataModel(): QAbstractItemModel(), m_impl(new Impl)
 {
 
 }
@@ -36,6 +75,12 @@ DBDataModel::DBDataModel(): QAbstractItemModel()
 DBDataModel::~DBDataModel()
 {
 
+}
+
+
+void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
+{
+    m_impl->setHierarchy(hierarchy);
 }
 
 

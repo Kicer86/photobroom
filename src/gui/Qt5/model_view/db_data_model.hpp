@@ -24,11 +24,31 @@
 
 #include <QAbstractItemModel>
 
+
+struct Hierarchy
+{
+    struct Level
+    {
+        QString tagName;
+
+        enum class Order
+        {
+            ascending,
+            descending
+        } order;
+    };
+
+    std::vector<Level> levels;
+};
+
+
 class DBDataModel final: public QAbstractItemModel
 {
     public:
         DBDataModel();
         ~DBDataModel();
+
+        void setHierarchy(const Hierarchy &);
 
     private:
         DBDataModel(const DBDataModel& other) = delete;
