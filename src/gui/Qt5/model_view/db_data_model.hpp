@@ -20,9 +20,9 @@
 #ifndef DBDATAMODEL_H
 #define DBDATAMODEL_H
 
-#include <QModelIndex>
+#include <QAbstractItemModel>
 
-class DBDataModel final: public QAbstractListModel
+class DBDataModel final: public QAbstractItemModel
 {
     public:
         DBDataModel();
@@ -33,10 +33,14 @@ class DBDataModel final: public QAbstractListModel
         bool operator==(const DBDataModel& other) = delete;
 
     private:
-        virtual QVariant data(const QModelIndex& index, int role);
-        virtual int rowCount(const QModelIndex& parent);
-        virtual void fetchMore(const QModelIndex& parent);
-        virtual bool canFetchMore(const QModelIndex& parent);
+        virtual bool canFetchMore(const QModelIndex& parent) const override;
+        virtual void fetchMore(const QModelIndex& parent) override;
+
+        virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+        virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+        virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+        virtual QModelIndex parent(const QModelIndex& child) const override;
+        virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 };
 
 #endif // DBDATAMODEL_H

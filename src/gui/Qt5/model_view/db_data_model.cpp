@@ -19,7 +19,7 @@
 
 #include "db_data_model.hpp"
 
-DBDataModel::DBDataModel(): QAbstractListModel()
+DBDataModel::DBDataModel(): QAbstractItemModel()
 {
 
 }
@@ -31,13 +31,7 @@ DBDataModel::~DBDataModel()
 }
 
 
-QVariant DBDataModel::data(const QModelIndex& index, int role)
-{
-
-}
-
-
-int DBDataModel::rowCount(const QModelIndex& parent)
+bool DBDataModel::canFetchMore(const QModelIndex& parent) const
 {
 
 }
@@ -49,7 +43,31 @@ void DBDataModel::fetchMore(const QModelIndex& parent)
 }
 
 
-bool DBDataModel::canFetchMore(const QModelIndex& parent)
+int DBDataModel::columnCount(const QModelIndex& parent) const
+{
+
+}
+
+
+QVariant DBDataModel::data(const QModelIndex& index, int role) const
+{
+
+}
+
+
+QModelIndex DBDataModel::index(int row, int column, const QModelIndex& parent) const
+{
+
+}
+
+
+QModelIndex DBDataModel::parent(const QModelIndex& child) const
+{
+
+}
+
+
+int DBDataModel::rowCount(const QModelIndex& parent) const
 {
 
 }
