@@ -20,19 +20,21 @@
 #ifndef DBDATAMODEL_H
 #define DBDATAMODEL_H
 
+#include <memory>
+
 #include <QAbstractItemModel>
 
 class DBDataModel final: public QAbstractItemModel
 {
     public:
         DBDataModel();
-        DBDataModel(const DBDataModel& other) = delete;
         ~DBDataModel();
 
+    private:
+        DBDataModel(const DBDataModel& other) = delete;
         DBDataModel& operator=(const DBDataModel& other) = delete;
         bool operator==(const DBDataModel& other) = delete;
 
-    private:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
 
@@ -41,6 +43,9 @@ class DBDataModel final: public QAbstractItemModel
         virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
         virtual QModelIndex parent(const QModelIndex& child) const override;
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif // DBDATAMODEL_H

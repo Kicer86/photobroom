@@ -19,6 +19,14 @@
 
 #include "db_data_model.hpp"
 
+
+struct DBDataModel::Impl
+{
+    Impl() {}
+    ~Impl() {}
+};
+
+
 DBDataModel::DBDataModel(): QAbstractItemModel()
 {
 
