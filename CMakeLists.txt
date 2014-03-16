@@ -9,13 +9,20 @@ include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 
-
+#options:
+option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
 option(BUILD_TESTS "Build tests. Set to ON to build tests")
-add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable")
+
+#options description:
+add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
+add_feature_info("Build shared libraries" BUILD_SHARED_LIBS "Builds all libraries as shared. Feature controlled by BUILD_SHARED_LIBS variable.")
+
+#tests
 if(BUILD_TESTS)
     enable_testing()
 endif(BUILD_TESTS)
 
+#system related definitions
 if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
 elseif(WIN32)
