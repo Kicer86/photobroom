@@ -94,7 +94,12 @@ namespace Database
 
     struct ASqlBackend::Data
     {
-        Data(ASqlBackend* backend): m_db(), m_backend(backend) {}
+
+        QSqlDatabase m_db;
+        ASqlBackend* m_backend;
+        std::vector<SortInfo> m_sortInfo;
+
+        Data(ASqlBackend* backend): m_db(), m_backend(backend), m_sortInfo() {}
         ~Data()
         {
 
@@ -102,10 +107,6 @@ namespace Database
 
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
-
-        QSqlDatabase m_db;
-        ASqlBackend* m_backend;
-        std::vector<SortInfo> m_sortInfo;
 
         bool exec(const QString& query, QSqlQuery* result) const
         {
@@ -422,7 +423,7 @@ namespace Database
 
     void ASqlBackend::setPhotosSorting(const std::vector<SortInfo>& sortInfo)
     {
-
+        m_data->setSortInfo(sortInfo);
     }
 
 
