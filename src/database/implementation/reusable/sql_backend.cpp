@@ -105,6 +105,7 @@ namespace Database
 
         QSqlDatabase m_db;
         ASqlBackend* m_backend;
+        std::vector<SortInfo> m_sortInfo;
 
         bool exec(const QString& query, QSqlQuery* result) const
         {
@@ -277,6 +278,13 @@ namespace Database
             return result;
         }
 
+
+        void setSortInfo(const std::vector<SortInfo>& sortInfo)
+        {
+            m_sortInfo = sortInfo;
+        }
+
+
         private:
             boost::optional<unsigned int> findTagByName(const QString& name) const
             {
@@ -409,6 +417,12 @@ namespace Database
             std::cerr << "ASqlBackend: database object does not exist." << std::endl;
 
         return result;
+    }
+
+
+    void ASqlBackend::setPhotosSorting(const std::vector<SortInfo>& sortInfo)
+    {
+
     }
 
 

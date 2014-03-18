@@ -24,37 +24,36 @@ namespace
         std::shared_ptr<std::stringstream> m_stream;
     };
 
-    struct Backend: public Database::IBackend
+    struct Backend final: public Database::IBackend
     {
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool store(const APhotoInfo::Ptr& entry) override final
+        virtual bool store(const APhotoInfo::Ptr& entry) override
         {
             m_entries.push_back(entry);
 
             return true;
         }
 
-        virtual bool init() override final
+        virtual bool init() override
         {
             return true;
         }
 
-        virtual void closeConnections() override final
-        {
+        virtual void closeConnections() override { }
 
-        }
-
-        virtual std::vector<TagNameInfo> listTags() override final
+        virtual std::vector<TagNameInfo> listTags() override
         {
             return std::vector<TagNameInfo>();
         }
 
-        virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override final
+        virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override
         {
             return std::vector<TagValueInfo>();
         }
+
+        virtual void setPhotosSorting(const std::vector< Database::SortInfo >&) override { }
 
         std::vector<APhotoInfo::Ptr> m_entries;
     };

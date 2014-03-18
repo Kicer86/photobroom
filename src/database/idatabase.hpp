@@ -30,6 +30,12 @@
 namespace Database
 {
 
+    struct SortInfo
+    {
+        unsigned int tagID;
+        bool ascending;
+    };
+
     struct IBackend
     {
         virtual ~IBackend() {}
@@ -40,6 +46,9 @@ namespace Database
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;
         virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
+
+        //various
+        virtual void setPhotosSorting(const std::vector<SortInfo> &) = 0;
 
         //init backend - connect to database or create new one
         virtual bool init() = 0;
