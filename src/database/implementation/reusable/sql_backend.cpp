@@ -280,6 +280,11 @@ namespace Database
         }
 
 
+        PhotoIterator getPhotos()
+        {
+        }
+
+
         void setSortInfo(const std::vector<SortInfo>& sortInfo)
         {
             m_sortInfo = sortInfo;
