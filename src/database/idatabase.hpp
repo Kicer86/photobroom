@@ -32,7 +32,7 @@ namespace Database
 
     struct SortInfo
     {
-        unsigned int tagID;
+        QString tagName;
         bool ascending;
     };
 
