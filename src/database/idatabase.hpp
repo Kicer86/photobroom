@@ -36,6 +36,10 @@ namespace Database
         bool ascending;
     };
 
+    struct PhotoIterator
+    {
+    };
+
     struct IBackend
     {
         virtual ~IBackend() {}
@@ -46,6 +50,7 @@ namespace Database
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;
         virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
+        virtual PhotoIterator getPhotos() = 0;
 
         //various
         virtual void setPhotosSorting(const std::vector<SortInfo> &) = 0;

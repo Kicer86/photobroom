@@ -421,6 +421,13 @@ namespace Database
     }
 
 
+    PhotoIterator ASqlBackend::getPhotos()
+    {
+        return PhotoIterator();
+    }
+
+
+
     void ASqlBackend::setPhotosSorting(const std::vector<SortInfo>& sortInfo)
     {
         m_data->setSortInfo(sortInfo);

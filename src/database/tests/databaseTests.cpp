@@ -53,6 +53,11 @@ namespace
             return std::vector<TagValueInfo>();
         }
 
+        virtual Database::PhotoIterator getPhotos()
+        {
+            return Database::PhotoIterator();
+        }
+
         virtual void setPhotosSorting(const std::vector< Database::SortInfo >&) override { }
 
         std::vector<APhotoInfo::Ptr> m_entries;
