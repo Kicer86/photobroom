@@ -39,8 +39,8 @@ class CORE_EXPORT APhotoInfo
         typedef std::shared_ptr<APhotoInfo> Ptr;
         typedef std::string Hash;
 
-        APhotoInfo(const std::string &path);
-        APhotoInfo(const APhotoInfoInitData &);
+        APhotoInfo(const std::string &path);      //load all data from provided path
+        APhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
         APhotoInfo(const APhotoInfo &);
         virtual ~APhotoInfo();
 
