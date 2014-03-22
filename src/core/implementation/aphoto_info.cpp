@@ -57,6 +57,14 @@ struct APhotoInfo::Data
         tags = std::move(p_tags);
     }
 
+    Data(const APhotoInfoInitData& initData):
+        path(initData.path),
+        tags(initData.tags),
+        hash(initData.hash),
+        hashMutex()
+    {
+    }
+
     Data(const Data& other):
         path(other.path),
         tags(other.tags),
@@ -76,6 +84,12 @@ APhotoInfo::APhotoInfo(const std::string &p): m_data(new Data(p))
 {
     auto task = std::make_shared<HashAssigner>(this);     //calculate hash of 'this'
     TaskExecutorConstructor::get()->add(task);
+}
+
+
+APhotoInfo::APhotoInfo(const APhotoInfoInitData& init): m_data(new Data(init))
+{
+    //TODO: run hash to verify data consistency?
 }
 
 

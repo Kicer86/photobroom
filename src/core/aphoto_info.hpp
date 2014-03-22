@@ -27,10 +27,7 @@ struct CORE_EXPORT RawPhotoData
     RawPhotoData& operator=(const RawPhotoData &) = delete;
 };
 
-struct APhotoInfoInitData
-{
-};
-
+struct APhotoInfoInitData;
 struct HashAssigner;
 
 class CORE_EXPORT APhotoInfo
@@ -62,6 +59,14 @@ class CORE_EXPORT APhotoInfo
 
         friend struct HashAssigner;
         void setHash(const Hash &);
+};
+
+
+struct APhotoInfoInitData
+{
+    std::string path;
+    std::shared_ptr<ITagData> tags;
+    APhotoInfo::Hash hash;
 };
 
 #endif
