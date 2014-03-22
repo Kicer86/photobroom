@@ -55,3 +55,4 @@ qt5_use_modules(configuration Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
+hideSymbols(configuration)

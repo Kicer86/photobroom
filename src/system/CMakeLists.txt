@@ -23,3 +23,4 @@ generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/syste
 target_link_libraries(system ${Boost_LIBRARIES})
 qt5_use_modules(system Core)
 turnOnCpp11(system)
+hideSymbols(system)
