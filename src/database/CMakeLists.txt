@@ -13,12 +13,14 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Co
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
     implementation/memorydatabase.cpp
+    implementation/photo_iterator.cpp
     )
 
 set(DATABASE_HEADERS
     databasebuilder.hpp
     idatabase.hpp
     ifs.hpp
+    photo_iterator.hpp
     implementation/memorydatabase.hpp
     )
 
@@ -29,7 +31,7 @@ if(BUILD_TESTS)
                             TEST_LIBRARY
                                 GTEST
        )
-    target_link_libraries(database_test configuration core ${Boost_LIBRARIES})
+    target_link_libraries(database_test configuration core database ${Boost_LIBRARIES})
     qt5_use_modules(database_test Core)
 
     turnOnCpp11(database_test)
@@ -43,6 +45,7 @@ qt5_use_modules(database Core)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
+hideSymbols(database)
 
 
 set(BACKEND mysql)

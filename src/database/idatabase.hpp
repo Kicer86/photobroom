@@ -27,6 +27,8 @@
 #include <core/aphoto_info.hpp>
 #include <core/tag.hpp>
 
+#include "photo_iterator.hpp"
+
 namespace Database
 {
 
@@ -36,9 +38,6 @@ namespace Database
         bool ascending;
     };
 
-    struct PhotoIterator
-    {
-    };
 
     struct IBackend
     {
