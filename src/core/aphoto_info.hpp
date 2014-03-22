@@ -13,7 +13,7 @@ class QPixmap;
 
 struct ITagData;
 
-struct RawPhotoData
+struct CORE_EXPORT RawPhotoData
 {
     uint8_t* data;
     size_t   size;

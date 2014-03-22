@@ -25,6 +25,8 @@
 
 #include "tag.hpp"
 
+#include "core_export.h"
+
 enum class BaseTagsList
 {
     Event,
@@ -34,7 +36,7 @@ enum class BaseTagsList
     People
 };
 
-class BaseTags
+class CORE_EXPORT BaseTags
 {
     static std::map<BaseTagsList, TagNameInfo> m_base_tags;
     static std::vector<TagNameInfo> collectTags();

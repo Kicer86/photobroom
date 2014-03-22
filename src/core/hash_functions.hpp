@@ -19,9 +19,12 @@
 
 #ifndef HASHFUNCTIONS_H
 #define HASHFUNCTIONS_H
+
 #include <string>
 
-class HashFunctions
+#include "core_export.h"
+
+class CORE_EXPORT HashFunctions
 {
     public:
         static std::string sha256(const unsigned char *, unsigned int len);

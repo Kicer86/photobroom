@@ -13,7 +13,7 @@
 
 #include "core_export.h"
 
-struct TagNameInfo
+struct CORE_EXPORT TagNameInfo
 {
     enum Type
     {
@@ -91,7 +91,7 @@ struct TagNameInfo
 };
 
 
-struct TagValueInfo
+struct CORE_EXPORT TagValueInfo
 {
     QString m_value;
 

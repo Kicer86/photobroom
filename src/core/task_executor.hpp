@@ -22,9 +22,11 @@
 
 #include <memory>
 
-struct ITaskExecutor
+#include "core_export.h"
+
+struct CORE_EXPORT ITaskExecutor
 {
-    struct ITask
+    struct CORE_EXPORT ITask
     {
         virtual ~ITask();
         virtual void perform() = 0;
@@ -36,7 +38,7 @@ struct ITaskExecutor
 };
 
 
-struct TaskExecutorConstructor
+struct CORE_EXPORT TaskExecutorConstructor
 {
     static ITaskExecutor* get();
 };
