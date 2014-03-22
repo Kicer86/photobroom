@@ -282,6 +282,16 @@ namespace Database
 
         PhotoIterator getPhotos()
         {
+            QSqlQuery query(m_db);
+            const QString queryStr = QString("SELECT %1.path, %1.hash, %2.name, %3.value"
+                                             " FROM %3 INNER JOIN (%1, %2)"
+                                             " ON (%1.id=%3.photo_id AND %2.id=%3.type)")
+                                             .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS);
+
+            exec(queryStr, &query);
+            PhotoIterator result(query);
+
+            return result;
         }
 
 
