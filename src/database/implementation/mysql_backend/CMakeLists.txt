@@ -17,4 +17,4 @@ target_link_libraries(database_mysql_backend sql_backend_base)
 qt5_use_modules(database_mysql_backend Core Sql)
 turnOnCpp11(database_mysql_backend)
 generate_export_header(database_mysql_backend EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_mysql_backend_export.h)
-
+hideSymbols(database_mysql_backend)
