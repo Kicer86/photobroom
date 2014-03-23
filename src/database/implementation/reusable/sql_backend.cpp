@@ -83,10 +83,10 @@ namespace Database
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
-                                "type INT UNSIGNED NOT NULL",
+                                "name_id INT UNSIGNED NOT NULL",
                                 "photo_id INT UNSIGNED NOT NULL",
                                 "FOREIGN KEY(photo_id) REFERENCES photos(id)",
-                                "FOREIGN KEY(type) REFERENCES " TAB_TAG_NAMES "(id)"
+                                "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)"
                             }
                        );
 
@@ -216,7 +216,7 @@ namespace Database
 
                         const QString query_str =
                             QString("INSERT INTO " TAB_TAGS
-                                    "(value, photo_id, type) VALUES(\"%1\", \"%2\", \"%3\");"
+                                    "(value, photo_id, name_id) VALUES(\"%1\", \"%2\", \"%3\");"
                                 ).arg(valueInfo.value())
                                 .arg(photo_id)
                                 .arg(*tag_id);
