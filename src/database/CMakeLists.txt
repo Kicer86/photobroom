@@ -14,6 +14,7 @@ set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
     implementation/memorydatabase.cpp
     implementation/photo_iterator.cpp
+    implementation/db_photo_info.cpp
     )
 
 set(DATABASE_HEADERS
@@ -21,6 +22,7 @@ set(DATABASE_HEADERS
     idatabase.hpp
     ifs.hpp
     photo_iterator.hpp
+    implementation/db_photo_info.hpp
     implementation/memorydatabase.hpp
     )
 
