@@ -64,6 +64,8 @@ class CORE_EXPORT APhotoInfo
 
 struct APhotoInfoInitData
 {
+    APhotoInfoInitData();
+
     std::string path;
     std::shared_ptr<ITagData> tags;
     APhotoInfo::Hash hash;

@@ -135,3 +135,10 @@ void APhotoInfo::setHash(const Hash& hash)
     assert(m_data->hash.empty());
     m_data->hash = hash;
 }
+
+
+APhotoInfoInitData::APhotoInfoInitData(): path(), tags(), hash()
+{
+
+}
+
