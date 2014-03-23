@@ -20,18 +20,34 @@
 #ifndef PHOTOITERATOR_H
 #define PHOTOITERATOR_H
 
+#include <QVariant>
+
 #include <utils/data_ptr.hpp>
+
+#include <core/aphoto_info.hpp>
 
 #include "database_export.h"
 
 class QSqlQuery;
+class APhotoInfo;
 
 namespace Database
 {
+    struct IQuery
+    {
+        virtual ~IQuery() {}
+
+        virtual bool gotoNext() = 0;                             //move to next data entry
+        virtual QVariant getField(const QString &) = 0;          //get value for given name in current entry
+        virtual bool valid() const = 0;
+
+        virtual std::shared_ptr<IQuery> clone() = 0;
+    };
+
     class DATABASE_EXPORT PhotoIterator
     {
         public:
-            PhotoIterator(const QSqlQuery &);
+            PhotoIterator(const std::shared_ptr<IQuery> &);
             PhotoIterator(const PhotoIterator &) = default;
             PhotoIterator();
             virtual ~PhotoIterator();
@@ -42,6 +58,7 @@ namespace Database
             PhotoIterator& operator++();
             PhotoIterator operator++(int);
             PhotoIterator& operator=(const PhotoIterator &) = default;
+            APhotoInfo* operator->();
 
         private:
             struct Impl;

@@ -89,6 +89,36 @@ namespace Database
                                 "FOREIGN KEY(type) REFERENCES " TAB_TAG_NAMES "(id)"
                             }
                        );
+
+
+
+        struct DBQuery: IQuery
+        {
+            DBQuery(const QSqlQuery& query): m_query(query) {}
+
+            virtual std::shared_ptr<IQuery> clone()
+            {
+                auto result = std::make_shared<DBQuery>(m_query);
+                return result;
+            }
+
+            virtual QVariant getField(const QString& name)
+            {
+                return m_query.value(name);
+            }
+
+            virtual bool gotoNext()
+            {
+                return m_query.next();
+            }
+
+            virtual bool valid() const
+            {
+                return m_query.isValid();
+            }
+
+            QSqlQuery m_query;
+        };
     }
 
 
@@ -289,7 +319,9 @@ namespace Database
                                              .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS);
 
             exec(queryStr, &query);
-            PhotoIterator result(query);
+            auto dbQuery = std::make_shared<DBQuery>(query);
+
+            PhotoIterator result(dbQuery);
 
             return result;
         }

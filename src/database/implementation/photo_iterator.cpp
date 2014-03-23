@@ -19,23 +19,49 @@
 
 #include "photo_iterator.hpp"
 
-#include <QtSql/QSqlQuery>
+#include <QVariant>
+
+#include "implementation/db_photo_info.hpp"
 
 namespace Database
 {
 
     struct PhotoIterator::Impl
     {
-        QSqlQuery m_query;
+        std::shared_ptr<IQuery> m_query;
+        APhotoInfo::Ptr m_photoInfo;
+
+        void calculatePhotoInfo()
+        {
+            if (m_photoInfo.get() == nullptr)
+            {
+                APhotoInfoInitData data;
+
+                const unsigned int id = m_query->getField("id").toInt();
+                data.path = m_query->getField("path").toString().toStdString();
+                data.hash = m_query->getField("hash").toString().toStdString();
+
+                m_photoInfo.reset(new DBPhotoInfo(m_query, data));
+
+                //QSqlQuery query = m_query;
+
+
+            }
+        }
+
+        void invalidate()
+        {
+            m_photoInfo.reset();
+        }
     };
 
 
-    PhotoIterator::PhotoIterator(const QSqlQuery& query): m_impl(new Impl)
+    PhotoIterator::PhotoIterator(const std::shared_ptr<IQuery>& query): m_impl(new Impl)
     {
         m_impl->m_query = query;
 
         //goto first item
-        ++(*this);
+        m_impl->m_query->gotoNext();
     }
 
 
@@ -53,21 +79,34 @@ namespace Database
 
     PhotoIterator::operator bool ()
     {
-        const bool result = m_impl->m_query.isValid();
+        const bool result = m_impl->m_query->valid();
         return result;
     }
 
 
     bool PhotoIterator::operator!()
     {
-        const bool result = m_impl->m_query.isValid();
+        const bool result = m_impl->m_query->valid();
         return !result;
     }
 
 
     PhotoIterator& PhotoIterator::operator++()
     {
-        m_impl->m_query.next();
+        //get id of current photo
+        const unsigned int id = m_impl->m_query->getField("id").toInt();
+        unsigned int n_id = 0;
+        bool n = true;
+        do
+        {
+            n = m_impl->m_query->gotoNext();
+
+            if (n)
+                n_id = m_impl->m_query->getField("id").toInt();
+        }
+        while (n && id == n_id);   //next row as long as ids are equal
+
+        return *this;
     }
 
 
@@ -77,6 +116,12 @@ namespace Database
 
         ++(*this);
         return other;
+    }
+
+
+    APhotoInfo* PhotoIterator::operator->()
+    {
+
     }
 
 }
