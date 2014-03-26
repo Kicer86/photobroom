@@ -45,7 +45,7 @@ include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES})
 set(BROOM_SOURCES src/main.cpp)
 
 add_executable(broom ${BROOM_SOURCES})
-target_link_libraries(broom gui)
+target_link_libraries(broom gui configuration)
 turnOnCpp11(broom)
 
 
