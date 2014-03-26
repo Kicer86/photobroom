@@ -8,6 +8,7 @@
 
 #include "implementation/memorydatabase.hpp"
 #include "ifs.hpp"
+#include "photo_iterator.hpp"
 
 
 namespace
@@ -72,6 +73,14 @@ namespace
         MOCK_METHOD0(rawPhotoData, const RawPhotoData & ());
         MOCK_METHOD0(rawThumbnailData, const RawPhotoData & ());
         MOCK_CONST_METHOD0(getHash, const Hash & ());
+    };
+
+    struct MockQuery: Database::IQuery
+    {
+        MOCK_METHOD0(gotoNext, bool());
+        MOCK_METHOD1(getField, QVariant(const QString &));
+        MOCK_CONST_METHOD0(valid, bool());
+        MOCK_METHOD0(clone, std::shared_ptr<IQuery>());
     };
 }
 
