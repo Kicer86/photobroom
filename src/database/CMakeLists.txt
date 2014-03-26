@@ -31,7 +31,7 @@ if(BUILD_TESTS)
                                 implementation/memorydatabase.cpp
                                 tests/databaseTests.cpp
                             TEST_LIBRARY
-                                GTEST
+                                GMOCK
        )
     target_link_libraries(database_test configuration core database ${Boost_LIBRARIES})
     qt5_use_modules(database_test Core)

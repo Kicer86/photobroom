@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include "implementation/memorydatabase.hpp"
 #include "ifs.hpp"
@@ -62,17 +63,33 @@ namespace
 
         std::vector<APhotoInfo::Ptr> m_entries;
     };
+
+
+    struct MockPhotoInfo: IPhotoInfo
+    {
+        MOCK_CONST_METHOD0(getPath, const std::string & ());
+        MOCK_CONST_METHOD0(getTags, std::shared_ptr<ITagData>());
+        MOCK_METHOD0(rawPhotoData, const RawPhotoData & ());
+        MOCK_METHOD0(rawThumbnailData, const RawPhotoData & ());
+        MOCK_CONST_METHOD0(getHash, const Hash & ());
+    };
 }
 
 
 TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 {
     std::shared_ptr<FSImpl> fs = std::make_shared<FSImpl>();
+    auto photoInfo = std::make_shared<MockPhotoInfo>();
+
+    using ::testing::ReturnRef;
+    IPhotoInfo::Hash hash("0123456789abcdef");
+    EXPECT_CALL(*photoInfo, getHash()).Times(1).WillOnce(ReturnRef(hash));
 
     *(fs->m_stream) << "Test content of file to store";
 
     Database::MemoryDatabase* db = new Database::MemoryDatabase(fs);
-    db->addPhoto(APhotoInfo::Ptr());
+
+    db->addPhoto(photoInfo);
 
     std::shared_ptr<Backend> backend = std::make_shared<Backend>();
     db->setBackend(backend);
