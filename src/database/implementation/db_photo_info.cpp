@@ -62,13 +62,13 @@ DBPhotoInfo::~DBPhotoInfo()
 }
 
 
-RawPhotoData DBPhotoInfo::rawThumbnailData()
+const RawPhotoData& DBPhotoInfo::rawThumbnailData()
 {
 
 }
 
 
-RawPhotoData DBPhotoInfo::rawPhotoData()
+const RawPhotoData& DBPhotoInfo::rawPhotoData()
 {
 
 }

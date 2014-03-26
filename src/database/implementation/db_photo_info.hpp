@@ -39,8 +39,8 @@ class DBPhotoInfo: public APhotoInfo
         DBPhotoInfo& operator=(const DBPhotoInfo& other) = delete;
         bool operator==(const DBPhotoInfo& other) = delete;
 
-        virtual RawPhotoData rawThumbnailData();
-        virtual RawPhotoData rawPhotoData();
+        virtual const RawPhotoData& rawThumbnailData();
+        virtual const RawPhotoData& rawPhotoData();
 };
 
 #endif // DBPHOTOINFO_H

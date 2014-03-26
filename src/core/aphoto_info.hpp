@@ -42,8 +42,8 @@ struct IPhotoInfo
     virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
 
     //photo data
-    virtual RawPhotoData rawPhotoData() = 0;
-    virtual RawPhotoData rawThumbnailData() = 0;             // a temporary thumbnail may be returned when final one is not yet generated
+    virtual const RawPhotoData& rawPhotoData() = 0;
+    virtual const RawPhotoData& rawThumbnailData() = 0;      // a temporary thumbnail may be returned when final one is not yet generated
 
     // Function may return empty hash, when it is not yet calculated.
     // The returned value is hash of photo's content (pixels) not whole file itself.

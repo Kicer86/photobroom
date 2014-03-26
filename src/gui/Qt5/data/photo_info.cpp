@@ -54,37 +54,35 @@ PhotoInfo::~PhotoInfo()
 }
 
 
-RawPhotoData PhotoInfo::rawPhotoData()
+const RawPhotoData& PhotoInfo::rawPhotoData()
 {
-    //TODO: introduce some cache for image/raw data
     const QPixmap photo = getPhoto();
     QImage image = photo.toImage();
 
-    RawPhotoData data;
+    if (m_photoData.data == nullptr)
+    {
+        m_photoData.size = image.byteCount();
+        m_photoData.data = new uchar[m_photoData.size];
 
-    data.size = image.byteCount();
-    data.data = new uchar[data.size];
+        memcpy(m_photoData.data, image.bits(), m_photoData.size);
+    }
 
-    memcpy(data.data, image.bits(), data.size);
-
-    return data;
+    return m_photoData;
 }
 
 
-RawPhotoData PhotoInfo::rawThumbnailData()
+const RawPhotoData& PhotoInfo::rawThumbnailData()
 {
-    RawPhotoData data;
-
     if (m_thumbnailRaw == nullptr)
     {
         m_thumbnailRaw = new QImage;
         *m_thumbnailRaw = m_thumbnail->toImage();
     }
 
-    data.data = m_thumbnailRaw->bits();
-    data.size = m_thumbnailRaw->byteCount();
+    m_thumbnailData.size = m_thumbnailRaw->byteCount();
+    m_thumbnailData.data = m_thumbnailRaw->bits();
 
-    return data;
+    return m_thumbnailData;
 }
 
 

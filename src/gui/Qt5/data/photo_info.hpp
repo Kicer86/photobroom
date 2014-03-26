@@ -20,8 +20,8 @@ class PhotoInfo: public APhotoInfo
 
         virtual ~PhotoInfo();
 
-        virtual RawPhotoData rawPhotoData() override;
-        virtual RawPhotoData rawThumbnailData() override;
+        virtual const RawPhotoData& rawPhotoData() override;
+        virtual const RawPhotoData& rawThumbnailData() override;
 
         const QPixmap getPhoto() const;
         const QPixmap& getThumbnail() const;
@@ -34,11 +34,11 @@ class PhotoInfo: public APhotoInfo
         QPixmap* m_thumbnail;
         QImage*  m_thumbnailRaw;
         ThreadMultiplexer m_multpilexer;
+        RawPhotoData m_photoData;
+        RawPhotoData m_thumbnailData;
 
         void load();
         void thumbnailReady(const QPixmap &);
-
-
 };
 
 
