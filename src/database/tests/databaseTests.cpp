@@ -82,7 +82,7 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
     auto photoInfo = std::make_shared<MockPhotoInfo>();
 
     using ::testing::ReturnRef;
-    IPhotoInfo::Hash hash("0123456789abcdef");
+    const IPhotoInfo::Hash hash("0123456789abcdef");
     EXPECT_CALL(*photoInfo, getHash()).Times(1).WillOnce(ReturnRef(hash));
 
     *(fs->m_stream) << "Test content of file to store";
