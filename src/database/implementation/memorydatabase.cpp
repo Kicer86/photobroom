@@ -75,11 +75,11 @@ namespace Database
         Impl(const MemoryDatabase::Impl &) = delete;
         Impl& operator=(const Impl &) = delete;
 
-        void add(const APhotoInfo::Ptr& photoInfo)
+        void add(const IPhotoInfo::Ptr& photoInfo)
         {
             //TODO: check for db opened
 
-            const APhotoInfo::Hash hash = photoInfo->getHash();
+            const IPhotoInfo::Hash& hash = photoInfo->getHash();
             assert(hash.empty() == false);
 
             m_db[hash] = photoInfo;
