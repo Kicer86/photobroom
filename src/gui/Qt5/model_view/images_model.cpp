@@ -74,9 +74,9 @@ int ImagesModel::rowCount(const QModelIndex &) const
 QVariant ImagesModel::data(const QModelIndex& _index, int role) const
 {
     const int row = _index.row();
-    const APhotoInfo::Ptr info = m_photos[row];
+    const IPhotoInfo::Ptr info = m_photos[row];
 
-    APhotoInfo* aPhotoInfo = info.get();
+    IPhotoInfo* aPhotoInfo = info.get();
     assert(dynamic_cast<PhotoInfo *>(aPhotoInfo) != nullptr);        //impossible to fail ;)
     PhotoInfo* photoInfo = static_cast<PhotoInfo *>(aPhotoInfo);
 
