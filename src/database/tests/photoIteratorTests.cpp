@@ -40,7 +40,7 @@ TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
     //initial condition in ++operator
     EXPECT_CALL(*query, valid()).Times(AtLeast(1)).WillOnce(Return(true));
 
-    //first in constructor, when twice in ++operator until (from first row to second, and from second to third)
+    //first in constructor, when twice in ++operator until we move to second photo (from first row to second, and from second to third)
     EXPECT_CALL(*query, gotoNext()).Times(3).WillRepeatedly(Return(true));
 
     //called three times on each of rows
