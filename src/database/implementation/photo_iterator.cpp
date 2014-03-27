@@ -79,32 +79,37 @@ namespace Database
 
     PhotoIterator::operator bool ()
     {
-        const bool result = m_impl->m_query->valid();
+        const bool result = m_impl->m_query.get() != nullptr &&
+                            m_impl->m_query->valid();
         return result;
     }
 
 
     bool PhotoIterator::operator!()
     {
-        const bool result = m_impl->m_query->valid();
+        const bool result = m_impl->m_query.get() != nullptr &&
+                            m_impl->m_query->valid();
         return !result;
     }
 
 
     PhotoIterator& PhotoIterator::operator++()
     {
-        //get id of current photo
-        const unsigned int id = m_impl->m_query->getField("id").toInt();
-        unsigned int n_id = 0;
-        bool n = true;
-        do
+        if ( *this )
         {
-            n = m_impl->m_query->gotoNext();
+            //get id of current photo
+            const unsigned int id = m_impl->m_query->getField("id").toInt();
+            unsigned int n_id = 0;
+            bool n = true;
+            do
+            {
+                n = m_impl->m_query->gotoNext();
 
-            if (n)
-                n_id = m_impl->m_query->getField("id").toInt();
+                if (n)
+                    n_id = m_impl->m_query->getField("id").toInt();
+            }
+            while (n && id == n_id);   //next row as long as ids are equal
         }
-        while (n && id == n_id);   //next row as long as ids are equal
 
         return *this;
     }
@@ -112,7 +117,7 @@ namespace Database
 
     PhotoIterator PhotoIterator::operator++(int)
     {
-        PhotoIterator other;
+        PhotoIterator other = *this;
 
         ++(*this);
         return other;
