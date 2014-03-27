@@ -65,3 +65,32 @@ TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
 
     Database::PhotoIterator photoIt(query);
 }
+
+
+TEST(PhotoIteratorShould, BeCopyable)
+{
+    auto query = std::make_shared<MockQuery>();
+
+    using ::testing::Return;
+    using ::testing::AtLeast;
+
+
+    EXPECT_CALL(*query, valid()).Times(AtLeast(1)).WillOnce(Return(true));
+
+    //first in constructor, when once in ++operator
+    EXPECT_CALL(*query, gotoNext()).Times(2).WillRepeatedly(Return(true));
+
+    //called two times on each of rows
+    EXPECT_CALL(*query, getField(Database::IQuery::Fields::Id))
+        .Times(2)
+        .WillOnce(Return(QVariant("1")))
+        .WillOnce(Return(QVariant("2")));
+
+    Database::PhotoIterator photoIt(query);
+    Database::PhotoIterator photoIt2(photoIt);
+
+    ++photoIt2;
+
+    //photoIt should point to first row, photoIt2 to second one
+    ///ASSERT_EQ("1", photoIt->
+}
