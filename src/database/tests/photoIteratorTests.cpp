@@ -28,3 +28,39 @@ TEST(PhotoIteratorShould, BeInvalidWhenConstructedWithNoArguments)
     ASSERT_EQ(false, static_cast<bool>(photoIt));
     ASSERT_EQ(true, ! photoIt);
 }
+
+
+TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
+{
+    auto query = std::make_shared<MockQuery>();
+
+    using ::testing::Return;
+
+    //initial condition in ++operator
+    EXPECT_CALL(*query, valid()).Times(1).WillOnce(Return(true));
+
+    //first in constructor, when twice in ++operator until (from first row to second, and from second to third)
+    EXPECT_CALL(*query, gotoNext()).Times(3).WillRepeatedly(Return(true));
+
+    //called three times on each of rows
+    EXPECT_CALL(*query, getField(QString("id")))
+        .Times(3)
+        .WillOnce(Return(QVariant("1")))
+        .WillOnce(Return(QVariant("1")))
+        .WillOnce(Return(QVariant("2")));
+
+    Database::PhotoIterator photoIt(query);
+
+    ++photoIt;
+}
+
+
+TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
+{
+    auto query = std::make_shared<MockQuery>();
+
+    using ::testing::Return;
+    EXPECT_CALL(*query, gotoNext()).Times(1).WillOnce(Return(true));
+
+    Database::PhotoIterator photoIt(query);
+}
