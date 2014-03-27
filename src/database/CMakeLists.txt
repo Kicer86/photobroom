@@ -30,6 +30,7 @@ if(BUILD_TESTS)
     addTestTarget(database  SOURCES
                                 implementation/memorydatabase.cpp
                                 tests/databaseTests.cpp
+                                tests/photoIteratorTests.cpp
                             TEST_LIBRARY
                                 GMOCK
        )
