@@ -77,7 +77,16 @@ set(GUI_FILES_TO_MOC
 set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
 
 if(BUILD_TESTS)
-    #TODO
+    addTestTarget(gui  SOURCES
+                           Qt5/model_view/db_data_model.cpp
+                           tests/db_data_model_tests.cpp
+                       TEST_LIBRARY
+                           GMOCK
+       )
+    target_link_libraries(gui_test gui)
+    qt5_use_modules(gui_test Core)
+
+    turnOnCpp11(gui_test)
 endif(BUILD_TESTS)
 
 
