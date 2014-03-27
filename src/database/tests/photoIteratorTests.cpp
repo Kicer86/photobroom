@@ -30,7 +30,7 @@ TEST(PhotoIteratorShould, BeInvalidWhenConstructedWithNoArguments)
 }
 
 
-TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
+TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
 {
     auto query = std::make_shared<MockQuery>();
 
@@ -56,7 +56,7 @@ TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
 }
 
 
-TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
+TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
 {
     auto query = std::make_shared<MockQuery>();
 
