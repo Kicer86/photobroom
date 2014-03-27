@@ -35,6 +35,15 @@ namespace Database
 {
     struct IQuery
     {
+        enum class Fields
+        {
+            Id,
+            Path,
+            Hash,
+            TagName,
+            TagValue
+        };
+
         virtual ~IQuery() {}
 
         virtual bool gotoNext() = 0;                             //move to next data entry
