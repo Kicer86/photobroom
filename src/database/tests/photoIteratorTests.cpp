@@ -21,7 +21,9 @@ namespace
 }
 
 
-TEST(PhotoIteratorShould, Work)
+TEST(PhotoIteratorShould, BeInvalidWhenConstructedWithNoArguments)
 {
+    Database::PhotoIterator photoIt;
 
+    ASSERT_EQ(true, static_cast<bool>(photoIt));
 }
