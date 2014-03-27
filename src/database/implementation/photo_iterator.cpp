@@ -37,9 +37,9 @@ namespace Database
             {
                 APhotoInfoInitData data;
 
-                const unsigned int id = m_query->getField("id").toInt();
-                data.path = m_query->getField("path").toString().toStdString();
-                data.hash = m_query->getField("hash").toString().toStdString();
+                const unsigned int id = m_query->getField(IQuery::Fields::Id).toInt();
+                data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
+                data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
                 m_photoInfo.reset(new DBPhotoInfo(m_query, data));
 
@@ -98,7 +98,7 @@ namespace Database
         if ( *this )
         {
             //get id of current photo
-            const unsigned int id = m_impl->m_query->getField("id").toInt();
+            const unsigned int id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
             unsigned int n_id = 0;
             bool n = true;
             do
@@ -106,7 +106,7 @@ namespace Database
                 n = m_impl->m_query->gotoNext();
 
                 if (n)
-                    n_id = m_impl->m_query->getField("id").toInt();
+                    n_id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
             }
             while (n && id == n_id);   //next row as long as ids are equal
         }

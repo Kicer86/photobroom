@@ -41,13 +41,14 @@ namespace Database
             Path,
             Hash,
             TagName,
-            TagValue
+            TagValue,
+            TagType,
         };
 
         virtual ~IQuery() {}
 
         virtual bool gotoNext() = 0;                             //move to next data entry
-        virtual QVariant getField(const QString &) = 0;          //get value for given name in current entry
+        virtual QVariant getField(Fields) = 0;          //get value for given name in current entry
         virtual bool valid() const = 0;
 
         virtual std::shared_ptr<IQuery> clone() = 0;

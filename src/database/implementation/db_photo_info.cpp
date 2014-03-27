@@ -29,20 +29,20 @@ DBPhotoInfo::DBPhotoInfo(const std::shared_ptr<Database::IQuery> &q, const APhot
     const std::shared_ptr<Database::IQuery> query = q->clone();
 
     //current photo's id
-    const unsigned int id = query->getField("id").toInt();
+    const unsigned int id = query->getField(Database::IQuery::Fields::Id).toInt();
     bool n = true;
     std::shared_ptr<ITagData> tags = APhotoInfo::getTags();
 
     //gather tags until we get into next photo
     while (n)
     {
-        const unsigned int n_id = query->getField("id").toInt();
+        const unsigned int n_id = query->getField(Database::IQuery::Fields::Id).toInt();
 
         if (n_id == id) // still the same photo?
         {
-            const unsigned int type = query->getField("type").toInt();
-            const QString name  = query->getField("name").toString();
-            const QString value = query->getField("value").toString();
+            const unsigned int type = query->getField(Database::IQuery::Fields::TagType).toInt();
+            const QString name  = query->getField(Database::IQuery::Fields::TagName).toString();
+            const QString value = query->getField(Database::IQuery::Fields::TagValue).toString();
 
             const TagNameInfo tagInfo(name, type);
             tags->setTag(tagInfo, value);

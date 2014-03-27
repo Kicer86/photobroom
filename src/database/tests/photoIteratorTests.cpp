@@ -14,7 +14,7 @@ namespace
     struct MockQuery: Database::IQuery
     {
         MOCK_METHOD0(gotoNext, bool());
-        MOCK_METHOD1(getField, QVariant(const QString &));
+        MOCK_METHOD1(getField, QVariant(Database::IQuery::Fields));
         MOCK_CONST_METHOD0(valid, bool());
         MOCK_METHOD0(clone, std::shared_ptr<IQuery>());
     };
@@ -43,7 +43,7 @@ TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
     EXPECT_CALL(*query, gotoNext()).Times(3).WillRepeatedly(Return(true));
 
     //called three times on each of rows
-    EXPECT_CALL(*query, getField(QString("id")))
+    EXPECT_CALL(*query, getField(Database::IQuery::Fields::Id))
         .Times(3)
         .WillOnce(Return(QVariant("1")))
         .WillOnce(Return(QVariant("1")))
