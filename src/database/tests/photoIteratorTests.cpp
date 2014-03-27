@@ -25,5 +25,6 @@ TEST(PhotoIteratorShould, BeInvalidWhenConstructedWithNoArguments)
 {
     Database::PhotoIterator photoIt;
 
-    ASSERT_EQ(true, static_cast<bool>(photoIt));
+    ASSERT_EQ(false, static_cast<bool>(photoIt));
+    ASSERT_EQ(true, ! photoIt);
 }
