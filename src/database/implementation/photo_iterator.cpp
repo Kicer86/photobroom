@@ -21,6 +21,8 @@
 
 #include <QVariant>
 
+#include <core/tag.hpp>
+
 #include "implementation/db_photo_info.hpp"
 
 namespace Database
@@ -29,7 +31,7 @@ namespace Database
     struct PhotoIterator::Impl
     {
         std::shared_ptr<IQuery> m_query;
-        APhotoInfo::Ptr m_photoInfo;
+        IPhotoInfo::Ptr m_photoInfo;
 
         void calculatePhotoInfo()
         {
@@ -41,11 +43,26 @@ namespace Database
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                m_photoInfo.reset(new DBPhotoInfo(m_query, data));
+                IPhotoInfo* photoInfo = new DBPhotoInfo(m_query, data);
+                m_photoInfo.reset(photoInfo);
 
-                //QSqlQuery query = m_query;
+                //do not modify original query, use clone
+                std::shared_ptr<IQuery> query = m_query->clone();
+                std::shared_ptr<ITagData> tags = m_photoInfo->getTags();
 
+                bool status = true;
+                do
+                {
+                    const QString tagName  = m_query->getField(IQuery::Fields::TagName).toString();
+                    const QString tagValue = m_query->getField(IQuery::Fields::TagValue).toString();
+                    const int     tagType  = m_query->getField(IQuery::Fields::TagType).toInt();
 
+                    //append tag
+                    tags->setTag(TagNameInfo(tagName, tagType), tagValue);
+
+                    status = query->gotoNext();
+                }
+                while (status);
             }
         }
 
@@ -124,9 +141,10 @@ namespace Database
     }
 
 
-    APhotoInfo* PhotoIterator::operator->()
+    IPhotoInfo* PhotoIterator::operator->()
     {
-
+        m_impl->calculatePhotoInfo();
+        return m_impl->m_photoInfo.get();
     }
 
 }

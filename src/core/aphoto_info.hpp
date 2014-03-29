@@ -74,7 +74,7 @@ class CORE_EXPORT APhotoInfo: public IPhotoInfo
 };
 
 
-struct APhotoInfoInitData
+struct CORE_EXPORT APhotoInfoInitData
 {
     APhotoInfoInitData();
 

@@ -68,7 +68,7 @@ namespace Database
             PhotoIterator& operator++();
             PhotoIterator operator++(int);
             PhotoIterator& operator=(const PhotoIterator &) = default;
-            APhotoInfo* operator->();
+            IPhotoInfo* operator->();
 
         private:
             struct Impl;
