@@ -56,6 +56,12 @@ struct DBDataModel::Impl
         m_backend = backend;
     }
 
+    void close()
+    {
+        if (m_backend)
+            m_backend->closeConnections();
+    }
+
     private:
         Hierarchy m_hierarchy;
         bool m_dirty;
@@ -146,5 +152,5 @@ void DBDataModel::setBackend(const std::shared_ptr<Database::IBackend>& backend)
 
 void DBDataModel::close()
 {
-
+    m_impl->close();
 }
