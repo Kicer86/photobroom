@@ -62,8 +62,8 @@ namespace Database
             PhotoIterator();
             virtual ~PhotoIterator();
 
-            operator bool();
-            bool operator !();
+            operator bool() const;
+            bool operator !() const;
 
             PhotoIterator& operator++();
             PhotoIterator operator++(int);

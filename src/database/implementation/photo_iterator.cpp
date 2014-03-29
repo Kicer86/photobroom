@@ -94,7 +94,7 @@ namespace Database
     }
 
 
-    PhotoIterator::operator bool ()
+    PhotoIterator::operator bool() const
     {
         const bool result = m_impl->m_query.get() != nullptr &&
                             m_impl->m_query->valid();
@@ -102,7 +102,7 @@ namespace Database
     }
 
 
-    bool PhotoIterator::operator!()
+    bool PhotoIterator::operator!() const
     {
         const bool result = m_impl->m_query.get() != nullptr &&
                             m_impl->m_query->valid();
