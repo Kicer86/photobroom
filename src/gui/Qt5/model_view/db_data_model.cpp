@@ -124,3 +124,21 @@ int DBDataModel::rowCount(const QModelIndex& parent) const
 {
 
 }
+
+
+bool DBDataModel::addPhoto(const IPhotoInfo::Ptr& photoInfo)
+{
+
+}
+
+
+void DBDataModel::setBackend(const std::shared_ptr<Database::IBackend>& backend)
+{
+
+}
+
+
+void DBDataModel::close()
+{
+
+}

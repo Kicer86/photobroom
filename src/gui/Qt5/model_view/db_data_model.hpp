@@ -24,6 +24,8 @@
 
 #include <QAbstractItemModel>
 
+#include <database/idatabase.hpp>
+
 
 struct Hierarchy
 {
@@ -42,7 +44,7 @@ struct Hierarchy
 };
 
 
-class DBDataModel final: public QAbstractItemModel
+class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
 {
     public:
         DBDataModel();
@@ -51,10 +53,7 @@ class DBDataModel final: public QAbstractItemModel
         void setHierarchy(const Hierarchy &);
 
     private:
-        DBDataModel(const DBDataModel& other) = delete;
-        DBDataModel& operator=(const DBDataModel& other) = delete;
-        bool operator==(const DBDataModel& other) = delete;
-
+        //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
 
@@ -63,6 +62,16 @@ class DBDataModel final: public QAbstractItemModel
         virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
         virtual QModelIndex parent(const QModelIndex& child) const override;
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+
+        //Database::IFrontend:
+        virtual bool addPhoto(const IPhotoInfo::Ptr &) override;
+        virtual void setBackend(const std::shared_ptr<Database::IBackend> &) override;
+        virtual void close() override;
+
+        //own:
+        DBDataModel(const DBDataModel& other) = delete;
+        DBDataModel& operator=(const DBDataModel& other) = delete;
+        bool operator==(const DBDataModel& other) = delete;
 
         struct Impl;
         std::unique_ptr<Impl> m_impl;
