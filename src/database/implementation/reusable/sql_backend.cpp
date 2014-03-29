@@ -498,7 +498,7 @@ namespace Database
 
     PhotoIterator ASqlBackend::getPhotos()
     {
-        return PhotoIterator();
+        return m_data->getPhotos();
     }
 
 
