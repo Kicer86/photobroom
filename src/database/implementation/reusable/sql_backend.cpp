@@ -338,6 +338,23 @@ namespace Database
         }
 
 
+        unsigned int getPhotosCount()
+        {
+            // according to: http://stackoverflow.com/questions/5060366/mysql-fastest-way-to-count-number-of-rows
+            // it may be not fastest method
+            const QString queryStr = QString("SELECT COUNT(*) FROM %1;").arg(TAB_PHOTOS);
+
+            QSqlQuery query(m_db);
+            const bool status = exec(queryStr, &query);
+
+            unsigned int result = 0;
+            if (status && query.next())
+                result = query.value(0).toInt();
+
+            return result;
+        }
+
+
         void setSortInfo(const std::vector<SortInfo>& sortInfo)
         {
             m_sortInfo = sortInfo;
@@ -484,6 +501,11 @@ namespace Database
         return PhotoIterator();
     }
 
+
+    unsigned int ASqlBackend::getPhotosCount()
+    {
+        return m_data->getPhotosCount();
+    }
 
 
     void ASqlBackend::setPhotosSorting(const std::vector<SortInfo>& sortInfo)

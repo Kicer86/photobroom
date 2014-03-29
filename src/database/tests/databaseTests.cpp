@@ -60,6 +60,11 @@ namespace
             return Database::PhotoIterator();
         }
 
+        virtual unsigned int getPhotosCount()
+        {
+            return 0;
+        }
+
         virtual void setPhotosSorting(const std::vector< Database::SortInfo >&) override { }
 
         std::vector<APhotoInfo::Ptr> m_entries;

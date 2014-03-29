@@ -50,6 +50,7 @@ namespace Database
         virtual std::vector<TagNameInfo> listTags() = 0;
         virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
         virtual PhotoIterator getPhotos() = 0;
+        virtual unsigned int getPhotosCount() = 0;
 
         //various
         virtual void setPhotosSorting(const std::vector<SortInfo> &) = 0;
