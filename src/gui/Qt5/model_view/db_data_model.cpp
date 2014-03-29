@@ -51,9 +51,15 @@ struct DBDataModel::Impl
         const unsigned int fetched = getFetchedPhotosCount(parent);
     }
 
+    void setBackend(const std::shared_ptr<Database::IBackend>& backend)
+    {
+        m_backend = backend;
+    }
+
     private:
         Hierarchy m_hierarchy;
         bool m_dirty;
+        std::shared_ptr<Database::IBackend> m_backend;
 
         unsigned int getPhotosCount(const QModelIndex& parent) const
         {
@@ -134,7 +140,7 @@ bool DBDataModel::addPhoto(const IPhotoInfo::Ptr& photoInfo)
 
 void DBDataModel::setBackend(const std::shared_ptr<Database::IBackend>& backend)
 {
-
+    m_impl->setBackend(backend);
 }
 
 
