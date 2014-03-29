@@ -45,10 +45,26 @@ struct DBDataModel::Impl
         return m_dirty;
     }
 
-    bool canFetchMore(const QModelIndex& parent) const
+    Database::PhotoIterator& getIterator()
     {
-        const unsigned int total   = getPhotosCount(parent);
-        const unsigned int fetched = getFetchedPhotosCount(parent);
+        if (m_dirty)
+        {
+            m_dirty = false;
+            m_iterator = m_backend->getPhotos();
+        }
+
+        return m_iterator;
+    }
+
+    bool canFetchMore(const QModelIndex& parent)
+    {
+        //const unsigned int total   = getPhotosCount(parent);
+        //const unsigned int fetched = getFetchedPhotosCount(parent);
+
+        //const bool status = fetched < total;
+        //assert(status == getIterator().isValid());
+
+        return static_cast<bool>(getIterator());
     }
 
     void setBackend(const std::shared_ptr<Database::IBackend>& backend)
@@ -66,15 +82,19 @@ struct DBDataModel::Impl
         Hierarchy m_hierarchy;
         bool m_dirty;
         std::shared_ptr<Database::IBackend> m_backend;
+        Database::PhotoIterator m_iterator;
 
+        /*
         unsigned int getPhotosCount(const QModelIndex& parent) const
         {
-
+            return m_backend->getPhotosCount();
         }
 
         unsigned int getFetchedPhotosCount(const QModelIndex& parent) const
         {
+
         }
+        */
 };
 
 
@@ -98,7 +118,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 bool DBDataModel::canFetchMore(const QModelIndex& parent) const
 {
-
+    return m_impl->canFetchMore(parent);
 }
 
 
