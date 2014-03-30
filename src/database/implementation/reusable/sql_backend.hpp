@@ -80,10 +80,9 @@ namespace Database
 
             virtual std::vector<TagNameInfo> listTags() override final;
             virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override final;
-            virtual PhotoIterator getPhotos() final;
-            virtual unsigned int getPhotosCount() final;
+            virtual QueryList getAllPhotos() override final;
 
-            virtual void setPhotosSorting(const std::vector<SortInfo> &) final;
+            virtual void setPhotosSorting(const std::vector<SortInfo> &) override final;
 
             bool checkStructure();
     };

@@ -128,6 +128,11 @@ namespace Database
                 return m_query.isValid();
             }
 
+            virtual int size() const
+            {
+                return m_query.size();
+            }
+
             QSqlQuery m_query;
         };
     }
@@ -321,7 +326,7 @@ namespace Database
         }
 
 
-        PhotoIterator getPhotos()
+        QueryList getAllPhotos()
         {
             QSqlQuery query(m_db);
             const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
@@ -333,24 +338,7 @@ namespace Database
             DBQuery* dbQuery = new DBQuery(query);
             InterfaceContainer<IQuery> container(dbQuery);
 
-            PhotoIterator result(container);
-
-            return result;
-        }
-
-
-        unsigned int getPhotosCount()
-        {
-            // according to: http://stackoverflow.com/questions/5060366/mysql-fastest-way-to-count-number-of-rows
-            // it may be not fastest method
-            const QString queryStr = QString("SELECT COUNT(*) FROM %1;").arg(TAB_PHOTOS);
-
-            QSqlQuery query(m_db);
-            const bool status = exec(queryStr, &query);
-
-            unsigned int result = 0;
-            if (status && query.next())
-                result = query.value(0).toInt();
+            QueryList result(container);
 
             return result;
         }
@@ -497,15 +485,9 @@ namespace Database
     }
 
 
-    PhotoIterator ASqlBackend::getPhotos()
+    QueryList ASqlBackend::getAllPhotos()
     {
-        return m_data->getPhotos();
-    }
-
-
-    unsigned int ASqlBackend::getPhotosCount()
-    {
-        return m_data->getPhotosCount();
+        return m_data->getAllPhotos();
     }
 
 

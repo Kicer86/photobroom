@@ -20,6 +20,7 @@
 #include "db_data_model.hpp"
 
 #include <core/base_tags.hpp>
+#include <database/query_list.hpp>
 
 
 struct DBDataModel::Impl
@@ -50,7 +51,8 @@ struct DBDataModel::Impl
         if (m_dirty)
         {
             m_dirty = false;
-            m_iterator = m_backend->getPhotos();
+            Database::QueryList list = m_backend->getAllPhotos();
+            m_iterator = list.begin();
         }
 
         return m_iterator;

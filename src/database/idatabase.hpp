@@ -28,6 +28,7 @@
 #include <core/tag.hpp>
 
 #include "photo_iterator.hpp"
+#include "query_list.hpp"
 
 namespace Database
 {
@@ -49,8 +50,7 @@ namespace Database
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;
         virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
-        virtual PhotoIterator getPhotos() = 0;
-        virtual unsigned int getPhotosCount() = 0;
+        virtual QueryList getAllPhotos() = 0;
 
         //various
         virtual void setPhotosSorting(const std::vector<SortInfo> &) = 0;

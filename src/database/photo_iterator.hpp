@@ -52,6 +52,7 @@ namespace Database
         virtual bool gotoNext() = 0;                    //move to next data row
         virtual QVariant getField(Fields) = 0;          //get value for given name in current row
         virtual bool valid() const = 0;
+        virtual int size() const = 0;                   //number of rows
 
         virtual IQuery* clone() const = 0;
     };
