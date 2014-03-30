@@ -30,8 +30,20 @@ namespace Database
 
     struct PhotoIterator::Impl
     {
-        std::shared_ptr<IQuery> m_query;
+        std::unique_ptr<IQuery> m_query;
         IPhotoInfo::Ptr m_photoInfo;
+
+        Impl(std::unique_ptr<IQuery>&& query): m_query(std::move(query)), m_photoInfo()
+        {
+        }
+
+        Impl(): m_query(), m_photoInfo()
+        {
+        }
+
+        Impl(const Impl& other): m_query(other.m_query->clone()), m_photoInfo(other.m_photoInfo)
+        {
+        }
 
         void calculatePhotoInfo()
         {
@@ -43,7 +55,7 @@ namespace Database
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                IPhotoInfo* photoInfo = new DBPhotoInfo(m_query, data);
+                IPhotoInfo* photoInfo = new DBPhotoInfo(m_query.get(), data);
                 m_photoInfo.reset(photoInfo);
 
                 //do not modify original query, use clone
@@ -70,13 +82,17 @@ namespace Database
         {
             m_photoInfo.reset();
         }
+
+        Impl& operator=(const Impl& other)
+        {
+            m_query = std::move(other.m_query->clone());
+            m_photoInfo = other.m_photoInfo;
+        }
     };
 
 
-    PhotoIterator::PhotoIterator(const std::shared_ptr<IQuery>& query): m_impl(new Impl)
+    PhotoIterator::PhotoIterator(std::unique_ptr<Database::IQuery>&& query): m_impl(new Impl(std::move(query)))
     {
-        m_impl->m_query = query;
-
         //goto first item
         m_impl->m_query->gotoNext();
     }

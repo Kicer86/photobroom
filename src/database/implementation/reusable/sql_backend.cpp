@@ -96,10 +96,10 @@ namespace Database
         {
             DBQuery(const QSqlQuery& query): m_query(query) {}
 
-            virtual std::shared_ptr<IQuery> clone()
+            virtual std::unique_ptr<IQuery>&& clone() const
             {
-                auto result = std::make_shared<DBQuery>(m_query);
-                return result;
+                std::unique_ptr<IQuery> result(new DBQuery(m_query));
+                return std::move(result);
             }
 
             virtual QVariant getField(Fields name)
@@ -330,9 +330,9 @@ namespace Database
                                              .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS);
 
             exec(queryStr, &query);
-            auto dbQuery = std::make_shared<DBQuery>(query);
+            std::unique_ptr<IQuery> dbQuery(new DBQuery(query));
 
-            PhotoIterator result(dbQuery);
+            PhotoIterator result(std::move(dbQuery));
 
             return result;
         }

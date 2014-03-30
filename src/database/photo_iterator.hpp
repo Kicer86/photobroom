@@ -47,17 +47,19 @@ namespace Database
 
         virtual ~IQuery() {}
 
-        virtual bool gotoNext() = 0;                             //move to next data entry
+        virtual bool gotoNext() = 0;                    //move to next data entry
         virtual QVariant getField(Fields) = 0;          //get value for given name in current entry
         virtual bool valid() const = 0;
 
-        virtual std::shared_ptr<IQuery> clone() = 0;
+        virtual std::unique_ptr<IQuery>&& clone() const = 0;
+
+        IQuery& operator=(const IQuery &) = delete;     //use close()
     };
 
     class DATABASE_EXPORT PhotoIterator
     {
         public:
-            PhotoIterator(const std::shared_ptr<IQuery> &);
+            PhotoIterator(std::unique_ptr<IQuery> &&);
             PhotoIterator(const PhotoIterator &) = default;
             PhotoIterator();
             virtual ~PhotoIterator();

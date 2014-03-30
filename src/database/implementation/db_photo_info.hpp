@@ -32,7 +32,7 @@ namespace Database
 class DBPhotoInfo: public APhotoInfo
 {
     public:
-        DBPhotoInfo(const std::shared_ptr<Database::IQuery> &, const APhotoInfoInitData &);
+        DBPhotoInfo(const Database::IQuery *, const APhotoInfoInitData &);
         DBPhotoInfo(const DBPhotoInfo& other) = delete;
         ~DBPhotoInfo();
 
