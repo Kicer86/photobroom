@@ -40,7 +40,9 @@ PhotoInfo::PhotoInfo(const std::string& path, IThreadMultiplexer< PhotoInfo * >:
     APhotoInfo(path),
     m_thumbnail(new QPixmap),
     m_thumbnailRaw(nullptr),
-    m_multpilexer()
+    m_multpilexer(),
+    m_photoData(),
+    m_thumbnailData()
 {
     m_multpilexer.setGetter(getter);
     load();

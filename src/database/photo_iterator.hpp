@@ -69,14 +69,14 @@ namespace Database
 
             }
 
-            InterfaceContainer(const InterfaceContainer& other)
+            InterfaceContainer(const InterfaceContainer& other): m_data(other->clone())
             {
-                m_data.reset(other->clone());
+
             }
 
             ~InterfaceContainer()
             {
-                
+
             }
 
             IQuery* operator*() const
