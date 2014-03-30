@@ -20,14 +20,29 @@
 #ifndef QUERYLIST_H
 #define QUERYLIST_H
 
-class QueryList
+#include "photo_iterator.hpp"
+
+namespace Database
 {
-    public:
-        QueryList();
-        QueryList(const QueryList& other);
-        ~QueryList();
-        QueryList& operator=(const QueryList& other);
-        bool operator==(const QueryList& other);
-};
+    struct IQuery;
+
+    class QueryList final
+    {
+        public:
+            QueryList();
+            QueryList(std::unique_ptr<IQuery> &&);
+            QueryList(const QueryList& other);
+            ~QueryList();
+            QueryList& operator=(const QueryList& other);
+            bool operator==(const QueryList& other);
+
+            PhotoIterator begin();
+            PhotoIterator end();
+            PhotoIterator find();
+
+        private:
+
+    };
+}
 
 #endif // QUERYLIST_H

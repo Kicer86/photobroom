@@ -19,31 +19,36 @@
 
 #include "query_list.hpp"
 
-QueryList::QueryList()
+namespace Database
 {
 
-}
+    QueryList::QueryList()
+    {
+
+    }
 
 
-QueryList::QueryList(const QueryList& other)
-{
+    QueryList::QueryList(const QueryList& other)
+    {
 
-}
-
-
-QueryList::~QueryList()
-{
-
-}
+    }
 
 
-QueryList& QueryList::operator=(const QueryList& other)
-{
+    QueryList::~QueryList()
+    {
 
-}
+    }
 
 
-bool QueryList::operator==(const QueryList& other)
-{
+    QueryList& QueryList::operator=(const QueryList& other)
+    {
 
+    }
+
+
+    bool QueryList::operator==(const QueryList& other)
+    {
+
+    }
+    
 }
