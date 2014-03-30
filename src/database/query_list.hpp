@@ -22,11 +22,13 @@
 
 #include "photo_iterator.hpp"
 
+#include "database_export.h"
+
 namespace Database
 {
     struct IQuery;
 
-    class QueryList final
+    class DATABASE_EXPORT QueryList final
     {
         public:
             QueryList();
