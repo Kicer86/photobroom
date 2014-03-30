@@ -38,6 +38,7 @@ namespace Database
             PhotoIterator begin();
             PhotoIterator end();
             PhotoIterator find();
+            int size() const;
 
         private:
             InterfaceContainer<IQuery> m_query;

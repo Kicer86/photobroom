@@ -58,4 +58,9 @@ namespace Database
     }
 
 
+    int QueryList::size() const
+    {
+        return m_query->size();
+    }
+
 }
