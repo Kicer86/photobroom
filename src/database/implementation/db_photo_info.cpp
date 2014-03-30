@@ -24,9 +24,9 @@
 #include "photo_iterator.hpp"
 
 
-DBPhotoInfo::DBPhotoInfo(const Database::IQuery* q, const APhotoInfoInitData& data): APhotoInfo(data)
+DBPhotoInfo::DBPhotoInfo(const Database::InterfaceContainer<Database::IQuery>& q, const APhotoInfoInitData& data): APhotoInfo(data)
 {
-    const std::unique_ptr<Database::IQuery> query = q->clone();
+    const Database::InterfaceContainer<Database::IQuery> query = q;
 
     //current photo's id
     const unsigned int id = query->getField(Database::IQuery::Fields::Id).toInt();

@@ -33,6 +33,8 @@ class APhotoInfo;
 
 namespace Database
 {
+    //IQuery represents a result of database query.
+    //It can access one row of data at once.
     struct IQuery
     {
         enum class Fields
@@ -47,19 +49,59 @@ namespace Database
 
         virtual ~IQuery() {}
 
-        virtual bool gotoNext() = 0;                    //move to next data entry
-        virtual QVariant getField(Fields) = 0;          //get value for given name in current entry
+        virtual bool gotoNext() = 0;                    //move to next data row
+        virtual QVariant getField(Fields) = 0;          //get value for given name in current row
         virtual bool valid() const = 0;
 
-        virtual std::unique_ptr<IQuery>&& clone() const = 0;
+        virtual IQuery* clone() const = 0;
+    };
 
-        IQuery& operator=(const IQuery &) = delete;     //use close()
+    template<typename T>
+    class InterfaceContainer final
+    {
+        public:
+            InterfaceContainer(): m_data()
+            {
+            }
+
+            InterfaceContainer(T* i): m_data(i)         //container takes care of interface
+            {
+
+            }
+
+            InterfaceContainer(const InterfaceContainer& other)
+            {
+                m_data.reset(other->clone());
+            }
+
+            ~InterfaceContainer()
+            {
+                
+            }
+
+            IQuery* operator*() const
+            {
+                return m_data.get();
+            }
+
+            IQuery* operator->() const
+            {
+                return m_data.get();
+            }
+
+            InterfaceContainer& operator=(const InterfaceContainer& other)
+            {
+                m_data.reset(other->clone());
+            }
+
+        private:
+            std::unique_ptr<T> m_data;
     };
 
     class DATABASE_EXPORT PhotoIterator
     {
         public:
-            PhotoIterator(std::unique_ptr<IQuery> &&);
+            PhotoIterator(const InterfaceContainer<IQuery> &);
             PhotoIterator(const PhotoIterator &) = default;
             PhotoIterator();
             virtual ~PhotoIterator();

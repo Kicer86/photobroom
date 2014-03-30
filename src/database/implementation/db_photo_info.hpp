@@ -27,12 +27,15 @@ class QSqlQuery;
 namespace Database
 {
     struct IQuery;
+
+    template<typename T>
+    class InterfaceContainer;
 }
 
 class DBPhotoInfo: public APhotoInfo
 {
     public:
-        DBPhotoInfo(const Database::IQuery *, const APhotoInfoInitData &);
+        DBPhotoInfo(const Database::InterfaceContainer<Database::IQuery> &, const APhotoInfoInitData &);
         DBPhotoInfo(const DBPhotoInfo& other) = delete;
         ~DBPhotoInfo();
 

@@ -30,20 +30,19 @@ namespace Database
 
     struct PhotoIterator::Impl
     {
-        std::unique_ptr<IQuery> m_query;
+        InterfaceContainer<IQuery> m_query;
         IPhotoInfo::Ptr m_photoInfo;
 
-        Impl(std::unique_ptr<IQuery>&& query): m_query(std::move(query)), m_photoInfo()
+        Impl(const InterfaceContainer<IQuery>& query): m_query(query), m_photoInfo()
         {
+            m_query->gotoNext();
         }
 
         Impl(): m_query(), m_photoInfo()
         {
         }
 
-        Impl(const Impl& other): m_query(other.m_query->clone()), m_photoInfo(other.m_photoInfo)
-        {
-        }
+        Impl(const Impl& other) = default;
 
         void calculatePhotoInfo()
         {
@@ -55,11 +54,11 @@ namespace Database
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                IPhotoInfo* photoInfo = new DBPhotoInfo(m_query.get(), data);
+                IPhotoInfo* photoInfo = new DBPhotoInfo(m_query, data);
                 m_photoInfo.reset(photoInfo);
 
                 //do not modify original query, use clone
-                std::shared_ptr<IQuery> query = m_query->clone();
+                InterfaceContainer<IQuery> query = m_query;
                 std::shared_ptr<ITagData> tags = m_photoInfo->getTags();
 
                 bool status = true;
@@ -83,18 +82,13 @@ namespace Database
             m_photoInfo.reset();
         }
 
-        Impl& operator=(const Impl& other)
-        {
-            m_query = std::move(other.m_query->clone());
-            m_photoInfo = other.m_photoInfo;
-        }
+        Impl& operator=(const Impl &) = default;
     };
 
 
-    PhotoIterator::PhotoIterator(std::unique_ptr<Database::IQuery>&& query): m_impl(new Impl(std::move(query)))
+    PhotoIterator::PhotoIterator(const InterfaceContainer<IQuery>& query): m_impl(new Impl(query))
     {
-        //goto first item
-        m_impl->m_query->gotoNext();
+
     }
 
 
@@ -112,7 +106,7 @@ namespace Database
 
     PhotoIterator::operator bool() const
     {
-        const bool result = m_impl->m_query.get() != nullptr &&
+        const bool result = *m_impl->m_query != nullptr &&
                             m_impl->m_query->valid();
         return result;
     }
@@ -120,7 +114,7 @@ namespace Database
 
     bool PhotoIterator::operator!() const
     {
-        const bool result = m_impl->m_query.get() != nullptr &&
+        const bool result = *m_impl->m_query != nullptr &&
                             m_impl->m_query->valid();
         return !result;
     }

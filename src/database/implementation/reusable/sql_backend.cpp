@@ -96,10 +96,10 @@ namespace Database
         {
             DBQuery(const QSqlQuery& query): m_query(query) {}
 
-            virtual std::unique_ptr<IQuery>&& clone() const
+            virtual IQuery* clone() const
             {
-                std::unique_ptr<IQuery> result(new DBQuery(m_query));
-                return std::move(result);
+                IQuery* result = new DBQuery(m_query);
+                return result;
             }
 
             virtual QVariant getField(Fields name)
@@ -330,9 +330,10 @@ namespace Database
                                              .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS);
 
             exec(queryStr, &query);
-            std::unique_ptr<IQuery> dbQuery(new DBQuery(query));
+            DBQuery* dbQuery = new DBQuery(query);
+            InterfaceContainer<IQuery> container(dbQuery);
 
-            PhotoIterator result(std::move(dbQuery));
+            PhotoIterator result(container);
 
             return result;
         }
