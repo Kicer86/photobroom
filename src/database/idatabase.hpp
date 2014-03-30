@@ -62,7 +62,7 @@ namespace Database
         virtual void closeConnections() = 0;
     };
 
-    struct IFrontend
+    struct IFrontend            //TODO: deprecated?
     {
         virtual ~IFrontend() {}
 

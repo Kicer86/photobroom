@@ -29,7 +29,7 @@
 
 class PhotoInfo;
 
-class ImagesModel: public QAbstractListModel, public IThreadMultiplexer<PhotoInfo *>::IGetter
+class __attribute__ ((deprecated)) ImagesModel: public QAbstractListModel, public IThreadMultiplexer<PhotoInfo *>::IGetter
 {
     public:
         ImagesModel(QObject *);

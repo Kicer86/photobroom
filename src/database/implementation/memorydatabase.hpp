@@ -34,7 +34,7 @@ namespace Database
 {
     struct IConfiguration;
 
-    class DATABASE_EXPORT MemoryDatabase final: public Database::IFrontend
+    class DATABASE_EXPORT __attribute__ ((deprecated)) MemoryDatabase final: public Database::IFrontend
     {
         public:
             struct Impl;
