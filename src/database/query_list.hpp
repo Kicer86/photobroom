@@ -30,18 +30,17 @@ namespace Database
     {
         public:
             QueryList();
-            QueryList(std::unique_ptr<IQuery> &&);
-            QueryList(const QueryList& other);
+            QueryList(const InterfaceContainer<IQuery> &);
+            QueryList(const QueryList &) = default;
             ~QueryList();
-            QueryList& operator=(const QueryList& other);
-            bool operator==(const QueryList& other);
+            QueryList& operator=(const QueryList &) = default;
 
             PhotoIterator begin();
             PhotoIterator end();
             PhotoIterator find();
 
         private:
-
+            InterfaceContainer<IQuery> m_query;
     };
 }
 

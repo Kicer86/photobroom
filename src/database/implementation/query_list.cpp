@@ -22,13 +22,13 @@
 namespace Database
 {
 
-    QueryList::QueryList()
+    QueryList::QueryList(): m_query()
     {
 
     }
 
 
-    QueryList::QueryList(const QueryList& other)
+    QueryList::QueryList(const InterfaceContainer<IQuery>& query): m_query(query)
     {
 
     }
@@ -40,15 +40,22 @@ namespace Database
     }
 
 
-    QueryList& QueryList::operator=(const QueryList& other)
+    PhotoIterator QueryList::begin()
     {
-
+        return PhotoIterator(m_query);     //return iterator feeded with query
     }
 
 
-    bool QueryList::operator==(const QueryList& other)
+    PhotoIterator QueryList::end()
     {
-
+        return PhotoIterator();            //return invalid iterator
     }
-    
+
+
+    PhotoIterator QueryList::find()
+    {
+        return PhotoIterator();
+    }
+
+
 }
