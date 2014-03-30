@@ -1,5 +1,5 @@
 
-project(configuration)
+project(configuration CXX)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost REQUIRED)

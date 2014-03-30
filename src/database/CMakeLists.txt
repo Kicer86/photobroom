@@ -1,5 +1,5 @@
 
-project(database)
+project(database CXX)
 
 add_subdirectory(implementation/reusable)
 

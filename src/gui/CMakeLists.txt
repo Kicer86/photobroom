@@ -1,5 +1,5 @@
 
-project(gui)
+project(gui CXX)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)

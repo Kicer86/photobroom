@@ -1,5 +1,5 @@
 
-project(analyzer)
+project(analyzer CXX)
 
 add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
 find_package(Boost 1.53.0 REQUIRED filesystem system regex)
