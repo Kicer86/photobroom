@@ -1,5 +1,5 @@
 
-project(core)
+project(core CXX)
 
 find_package(OpenLibrary REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)

@@ -1,5 +1,5 @@
 
-project(system)
+project(system CXX)
 
 include(GenerateExportHeader)
 
