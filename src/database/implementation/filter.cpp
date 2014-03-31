@@ -33,22 +33,22 @@ namespace Database
 
     }
 
-    
-    void Filter::addGroup(const GroupDescription&)
-    {
 
+    void Filter::addGroup(const GroupDescription& group)
+    {
+        m_groups.push_back(group);
     }
 
 
-    void Filter::addFilter(const FilterDescription&)
+    void Filter::addFilter(const FilterDescription& filter)
     {
-
+        m_filters.push_back(filter);
     }
 
 
-    void Filter::addSorting(const SortingDescription&)
+    void Filter::addSorting(const SortingDescription& sorting)
     {
-
+        m_sortings.push_back(sorting);
     }
 
 }
