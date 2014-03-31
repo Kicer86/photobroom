@@ -92,6 +92,7 @@ namespace Database
 
 
 
+        //TODO: new file
         struct DBQuery: IQuery
         {
             DBQuery(const QSqlQuery& query): m_query(query) {}
