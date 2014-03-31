@@ -33,12 +33,7 @@
 namespace Database
 {
 
-    struct SortInfo
-    {
-        QString tagName;
-        bool ascending;
-    };
-
+    class Filter;
 
     struct IBackend
     {
@@ -51,9 +46,7 @@ namespace Database
         virtual std::vector<TagNameInfo> listTags() = 0;
         virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
         virtual QueryList getAllPhotos() = 0;
-
-        //various
-        virtual void setPhotosSorting(const std::vector<SortInfo> &) = 0;
+        virtual QueryList getPhotos(const Filter &) = 0;
 
         //init backend - connect to database or create new one
         virtual bool init() = 0;

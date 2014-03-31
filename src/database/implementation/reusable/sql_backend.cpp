@@ -144,9 +144,8 @@ namespace Database
 
         QSqlDatabase m_db;
         ASqlBackend* m_backend;
-        std::vector<SortInfo> m_sortInfo;
 
-        Data(ASqlBackend* backend): m_db(), m_backend(backend), m_sortInfo() {}
+        Data(ASqlBackend* backend): m_db(), m_backend(backend) {}
         ~Data()
         {
 
@@ -345,12 +344,6 @@ namespace Database
         }
 
 
-        void setSortInfo(const std::vector<SortInfo>& sortInfo)
-        {
-            m_sortInfo = sortInfo;
-        }
-
-
         private:
             boost::optional<unsigned int> findTagByName(const QString& name) const
             {
@@ -492,9 +485,9 @@ namespace Database
     }
 
 
-    void ASqlBackend::setPhotosSorting(const std::vector<SortInfo>& sortInfo)
+    QueryList ASqlBackend::getPhotos(const Filter&)
     {
-        m_data->setSortInfo(sortInfo);
+
     }
 
 
