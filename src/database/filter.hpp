@@ -23,12 +23,14 @@
 #include <memory>
 #include <vector>
 
+#include <QString>
+
 namespace Database
 {
 
     struct GroupDescription
     {
-
+        QString tagName;
     };
 
     struct FilterDescription
