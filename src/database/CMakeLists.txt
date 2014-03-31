@@ -12,6 +12,7 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Co
 
 set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
+    implementation/filter.cpp
     implementation/memorydatabase.cpp
     implementation/photo_iterator.cpp
     implementation/db_photo_info.cpp
@@ -20,6 +21,7 @@ set(DATABASE_SOURCES
 
 set(DATABASE_HEADERS
     databasebuilder.hpp
+    filter.hpp
     idatabase.hpp
     ifs.hpp
     photo_iterator.hpp
