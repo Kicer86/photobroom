@@ -21,7 +21,7 @@
 #define FILTER_H
 
 #include <memory>
-#include <list>
+#include <vector>
 
 namespace Database
 {
@@ -78,9 +78,9 @@ namespace Database
             }
 
         private:
-            std::list<GroupDescription> m_groups;
-            std::list<FilterDescription> m_filters;
-            std::list<SortingDescription> m_sortings;
+            std::vector<GroupDescription> m_groups;
+            std::vector<FilterDescription> m_filters;
+            std::vector<SortingDescription> m_sortings;
     };
 }
 #endif // FILTER_H
