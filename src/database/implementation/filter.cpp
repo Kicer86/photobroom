@@ -51,4 +51,23 @@ namespace Database
         m_sortings.push_back(sorting);
     }
 
+
+    const std::vector<GroupDescription>& Filter::getGroups() const
+    {
+        return m_groups;
+    }
+
+
+    const std::vector<FilterDescription>& Filter::getFilters() const
+    {
+        return m_filters;
+    }
+
+
+    const std::vector<SortingDescription>& Filter::getSortings() const
+    {
+        return m_sortings;
+    }
+
+
 }

@@ -79,6 +79,10 @@ namespace Database
                     addSorting(item);
             }
 
+            const std::vector<GroupDescription>& getGroups() const;
+            const std::vector< FilterDescription >& getFilters() const;
+            const std::vector< SortingDescription >& getSortings() const;
+
         private:
             std::vector<GroupDescription> m_groups;
             std::vector<FilterDescription> m_filters;
