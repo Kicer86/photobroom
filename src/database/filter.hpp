@@ -28,7 +28,7 @@
 namespace Database
 {
 
-    struct GroupDescription
+    struct __attribute__((deprecated)) GroupDescription
     {
         QString tagName;
     };
@@ -38,7 +38,7 @@ namespace Database
 
     };
 
-    struct SortingDescription
+    struct __attribute__ ((deprecated)) SortingDescription
     {
 
     };
