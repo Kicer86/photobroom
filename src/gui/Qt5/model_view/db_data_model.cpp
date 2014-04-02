@@ -21,6 +21,7 @@
 
 #include <core/base_tags.hpp>
 #include <database/query_list.hpp>
+#include <unordered_map>
 
 
 struct DBDataModel::Impl
@@ -60,11 +61,11 @@ struct DBDataModel::Impl
 
     bool canFetchMore(const QModelIndex& parent)
     {
-        //const unsigned int total   = getPhotosCount(parent);
-        //const unsigned int fetched = getFetchedPhotosCount(parent);
-
-        //const bool status = fetched < total;
-        //assert(status == getIterator().isValid());
+        const quintptr id = parent.internalId();
+        if (m_indicesData.find(id) == m_indicesData.end())  //index not in database? It must be the root!
+        {
+            //fill first level data
+        }
 
         return static_cast<bool>(getIterator());
     }
@@ -81,22 +82,29 @@ struct DBDataModel::Impl
     }
 
     private:
+        struct IdxData
+        {
+        };
+
+        std::unordered_map<quintptr, IdxData> m_indicesData;
         Hierarchy m_hierarchy;
         bool m_dirty;
         std::shared_ptr<Database::IBackend> m_backend;
         Database::PhotoIterator m_iterator;
 
-        /*
-        unsigned int getPhotosCount(const QModelIndex& parent) const
+        //function returns set of tags on particular 'level' for 'parent'
+        std::vector<TagValueInfo> getLevelInfo(int level, const QModelIndex& parent)
         {
-            return m_backend->getPhotosCount();
-        }
+            std::vector<TagValueInfo> result;
 
-        unsigned int getFetchedPhotosCount(const QModelIndex& parent) const
-        {
+            if (level <= m_hierarchy.levels.size())
+            {
+                const TagNameInfo& tagNameInfo = m_hierarchy.levels[level - 1].tagName;
 
+                if (level == 1)
+                    result = m_backend->listTagValues(tagNameInfo);
+            }
         }
-        */
 };
 
 

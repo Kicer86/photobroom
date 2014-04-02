@@ -31,7 +31,7 @@ struct Hierarchy
 {
     struct Level
     {
-        QString tagName;
+        TagNameInfo tagName;
 
         enum class Order
         {
