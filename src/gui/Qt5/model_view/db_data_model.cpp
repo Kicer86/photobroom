@@ -81,7 +81,7 @@ struct DBDataModel::Impl
     {
         IdxData* idxData = getParentIdxDataFor(parent);
 
-        std::vector<TagValueInfo> tags = getLevelInfo(idxData->m_level + 1, parent);
+        std::set<TagValueInfo> tags = getLevelInfo(idxData->m_level + 1, parent);
         const int level = idxData->m_level;
 
         for(const TagValueInfo& tag: tags)
@@ -135,9 +135,9 @@ struct DBDataModel::Impl
         Database::PhotoIterator m_iterator;
 
         //function returns set of tags on particular 'level' for 'parent'
-        std::vector<TagValueInfo> getLevelInfo(int level, const QModelIndex& parent)
+        std::set<TagValueInfo> getLevelInfo(int level, const QModelIndex& parent)
         {
-            std::vector<TagValueInfo> result;
+            std::set<TagValueInfo> result;
 
             if (level <= m_hierarchy.levels.size())
             {

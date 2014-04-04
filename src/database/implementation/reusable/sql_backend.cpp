@@ -299,11 +299,11 @@ namespace Database
         }
 
 
-        std::vector<TagValueInfo> listTagValues(const TagNameInfo& tagName)
+        std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName)
         {
             const boost::optional<unsigned int> tagId = findTagByName(tagName);
 
-            std::vector<TagValueInfo> result;
+            std::set<TagValueInfo> result;
 
             if (tagId)
             {
@@ -318,7 +318,7 @@ namespace Database
                     const QString value = query.value(0).toString();
 
                     TagValueInfo valueInfo(value);
-                    result.push_back(valueInfo);
+                    result.insert(valueInfo);
                 }
             }
 
@@ -466,9 +466,9 @@ namespace Database
     }
 
 
-    std::vector<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName)
+    std::set<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName)
     {
-        std::vector<TagValueInfo> result;
+        std::set<TagValueInfo> result;
 
         if (m_data)
             result = m_data->listTagValues(tagName);

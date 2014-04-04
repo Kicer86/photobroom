@@ -44,7 +44,7 @@ namespace Database
 
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;
-        virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
+        virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
         virtual QueryList getAllPhotos() = 0;
         virtual QueryList getPhotos(const Filter &) = 0;
 

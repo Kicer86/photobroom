@@ -79,7 +79,7 @@ namespace Database
             virtual bool store(const APhotoInfo::Ptr &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;
-            virtual std::vector<TagValueInfo> listTagValues(const TagNameInfo&) override final;
+            virtual std::set<TagValueInfo> listTagValues(const TagNameInfo&) override final;
             virtual QueryList getAllPhotos() override final;
             virtual QueryList getPhotos(const Filter &) override final;
 
