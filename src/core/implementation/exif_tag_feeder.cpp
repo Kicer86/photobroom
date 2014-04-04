@@ -26,7 +26,7 @@ std::unique_ptr<ITagData> ExifTagFeeder::getTagsFor(const std::string &path)
 }
 
 
-void ExifTagFeeder::update(ITagData *tagData, const std::string &path)
+void ExifTagFeeder::update(ITagData *, const std::string &)
 {
 
 }

@@ -22,7 +22,7 @@
 namespace Database
 {
 
-    Filter::Filter(): m_groups(), m_filters(), m_sortings()
+    Filter::Filter(): m_filters()
     {
 
     }
@@ -34,27 +34,9 @@ namespace Database
     }
 
 
-    void Filter::addGroup(const GroupDescription& group)
-    {
-        m_groups.push_back(group);
-    }
-
-
     void Filter::addFilter(const FilterDescription& filter)
     {
         m_filters.push_back(filter);
-    }
-
-
-    void Filter::addSorting(const SortingDescription& sorting)
-    {
-        m_sortings.push_back(sorting);
-    }
-
-
-    const std::vector<GroupDescription>& Filter::getGroups() const
-    {
-        return m_groups;
     }
 
 
@@ -62,12 +44,5 @@ namespace Database
     {
         return m_filters;
     }
-
-
-    const std::vector<SortingDescription>& Filter::getSortings() const
-    {
-        return m_sortings;
-    }
-
 
 }

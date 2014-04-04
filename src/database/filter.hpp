@@ -28,17 +28,7 @@
 namespace Database
 {
 
-    struct __attribute__((deprecated)) GroupDescription
-    {
-        QString tagName;
-    };
-
     struct FilterDescription
-    {
-
-    };
-
-    struct __attribute__ ((deprecated)) SortingDescription
     {
 
     };
@@ -54,16 +44,7 @@ namespace Database
             Filter& operator=(const Filter &) = delete;
             bool operator==(const Filter &) = delete;
 
-            void addGroup(const GroupDescription &);
             void addFilter(const FilterDescription &);
-            void addSorting(const SortingDescription &);
-
-            template<typename T>
-            void addGroups(const T& container)
-            {
-                for(const auto& item: container)
-                    addGroup(item);
-            }
 
             template<typename T>
             void addFilters(const T& container)
@@ -72,21 +53,10 @@ namespace Database
                     addFilter(item);
             }
 
-            template<typename T>
-            void addSortings(const T& container)
-            {
-                for(const auto& item: container)
-                    addSorting(item);
-            }
-
-            const std::vector<GroupDescription>& getGroups() const;
             const std::vector< FilterDescription >& getFilters() const;
-            const std::vector< SortingDescription >& getSortings() const;
 
         private:
-            std::vector<GroupDescription> m_groups;
             std::vector<FilterDescription> m_filters;
-            std::vector<SortingDescription> m_sortings;
     };
 }
 #endif // FILTER_H

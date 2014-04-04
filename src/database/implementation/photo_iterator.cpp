@@ -42,7 +42,7 @@ namespace Database
         {
         }
 
-        Impl(const Impl& other) = default;
+        Impl(const Impl &) = default;
 
         void calculatePhotoInfo()
         {
@@ -50,7 +50,7 @@ namespace Database
             {
                 APhotoInfoInitData data;
 
-                const unsigned int id = m_query->getField(IQuery::Fields::Id).toInt();
+                //const unsigned int id = m_query->getField(IQuery::Fields::Id).toInt();
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 

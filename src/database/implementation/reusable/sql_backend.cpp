@@ -487,7 +487,7 @@ namespace Database
 
     QueryList ASqlBackend::getPhotos(const Filter&)
     {
-
+        assert(!"not implemented");
     }
 
 

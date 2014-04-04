@@ -64,11 +64,11 @@ DBPhotoInfo::~DBPhotoInfo()
 
 const RawPhotoData& DBPhotoInfo::rawThumbnailData()
 {
-
+    assert(!"not implemented");
 }
 
 
 const RawPhotoData& DBPhotoInfo::rawPhotoData()
 {
-
+    assert(!"not implemented");
 }

@@ -52,10 +52,10 @@ void TextWidget::clear()
 }
 
 
-void TextWidget::setParent(QWidget* parent)
+void TextWidget::setParent(QWidget* p)
 {
-    QObject::setParent(parent);
-    m_lineEdit->setParent(parent);
+    QObject::setParent(p);
+    m_lineEdit->setParent(p);
 }
 
 
