@@ -218,7 +218,7 @@ int DBDataModel::rowCount(const QModelIndex& parent) const
 {
     IdxData* idxData = m_impl->getParentIdxDataFor(parent);
 
-    //TODO: rowCount() is called before canFetchMore() and fetchMore(). Is it ok?
+    //TODO: rowCount() is called before first canFetchMore() and fetchMore(). Is it ok?
     //      load data if data is not loaded yet
     if (idxData->m_loaded == false)
         m_impl->fetchMore(parent);
