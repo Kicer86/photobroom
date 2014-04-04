@@ -22,11 +22,14 @@
 #define DATABASEBUILDER_HPP
 
 #include <string>
+#include <memory>
 
 #include "database_export.h"
 
 namespace Database
 {
+
+    struct IBackend;
     struct IFrontend;
 
     //configuration keys for databases
@@ -38,6 +41,7 @@ namespace Database
         virtual ~Builder();
 
         virtual IFrontend* get();
+        std::shared_ptr<Database::IBackend> getBackend();
     };
 }
 

@@ -41,6 +41,7 @@ namespace Database
     namespace
     {
         std::unique_ptr<IFrontend> defaultDatabase;
+        std::shared_ptr<IBackend> defaultBackend;
 
         struct StreamFactory: public IStreamFactory
         {
@@ -113,11 +114,9 @@ namespace Database
         {
             std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
             std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
-            std::shared_ptr<Database::IBackend> backend = std::make_shared<Database::MySqlBackend>();
-            
-            const bool status = backend->init();
+            std::shared_ptr<Database::IBackend> backend = getBackend();
 
-            if (status)
+            if (backend.get() != nullptr)
             {
                 defaultDatabase = std::move(frontend);
                 defaultDatabase->setBackend(backend);
@@ -127,5 +126,21 @@ namespace Database
 
         return defaultDatabase.get();
     }
+
+
+    std::shared_ptr<IBackend> Builder::getBackend()
+    {
+        if (defaultBackend.get() == nullptr)
+        {
+            defaultBackend = std::make_shared<Database::MySqlBackend>();
+            const bool status = defaultBackend->init();
+
+            if (!status)
+                defaultBackend.reset();
+        }
+
+        return defaultBackend;
+    }
+
 
 }
