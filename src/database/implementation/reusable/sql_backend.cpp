@@ -308,7 +308,7 @@ namespace Database
             if (tagId)
             {
                 QSqlQuery query(m_db);
-                const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE id=\"%1\";")
+                const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
                                           .arg(*tagId);
 
                 const bool status = exec(query_str, &query);
