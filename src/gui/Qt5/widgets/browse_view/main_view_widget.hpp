@@ -4,8 +4,8 @@
 
 #include <QWidget>
 
-class ImagesView;
-class ImagesModel;
+class QAbstractItemView;
+class QAbstractItemModel;
 
 class MainViewWidget : public QWidget
 {
@@ -17,8 +17,8 @@ class MainViewWidget : public QWidget
         MainViewWidget& operator=(const MainViewWidget &) = delete;
 
     private:
-        ImagesModel* m_imagesModel;
-        ImagesView*  m_imagesView;
+        QAbstractItemModel* m_imagesModel;
+        QAbstractItemView*  m_imagesView;
 };
 
 #endif // MAIN_VIEW_WIDGET_HPP

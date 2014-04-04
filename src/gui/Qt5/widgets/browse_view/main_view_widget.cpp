@@ -2,14 +2,23 @@
 #include "main_view_widget.hpp"
 
 #include <QVBoxLayout>
+#include <QTreeView>
+
+#include <database/databasebuilder.hpp>
 
 #include "model_view/images_view.hpp"
 #include "model_view/images_model.hpp"
+#include "model_view/db_data_model.hpp"
 
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
-    m_imagesModel = new ImagesModel(this);
-    m_imagesView = new ImagesView(this);
+    DBDataModel* dbModel = new DBDataModel(this);
+    dbModel->setBackend(Database::Builder().getBackend());
+
+    m_imagesModel = dbModel;
+    m_imagesView = new QTreeView(this);
+
+    m_imagesView->setModel(m_imagesModel);
 
     QVBoxLayout* main_layout = new QVBoxLayout(this);
     main_layout->addWidget(m_imagesView);
