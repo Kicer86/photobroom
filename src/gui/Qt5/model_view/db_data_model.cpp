@@ -24,9 +24,27 @@
 #include <unordered_map>
 
 
+//namespace
+//{
+    struct IdxData
+    {
+        int m_level;
+        std::vector<IdxData *> m_children;
+        QMap<int, QVariant> m_data;
+        bool m_loaded;
+
+        IdxData(int level, const QString& name): m_level(level), m_children(), m_data(), m_loaded(false)
+        {
+            m_data[Qt::DisplayRole] = name;
+        }
+
+    };
+//}
+
+
 struct DBDataModel::Impl
 {
-    Impl(): m_hierarchy(), m_dirty(true)
+    Impl(): m_root(0, "root"), m_hierarchy(), m_dirty(true)
     {
         Hierarchy hierarchy;
         hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
@@ -59,15 +77,25 @@ struct DBDataModel::Impl
         return m_iterator;
     }
 
+    void fetchMore(const QModelIndex& parent)
+    {
+        IdxData* idxData = getParentIdxDataFor(parent);
+
+        std::vector<TagValueInfo> tags = getLevelInfo(idxData->m_level + 1, parent);
+        const int level = idxData->m_level;
+
+        for(const TagValueInfo& tag: tags)
+            idxData->m_children.push_back(new IdxData(level + 1, tag));
+
+        idxData->m_loaded = true;
+    }
+
     bool canFetchMore(const QModelIndex& parent)
     {
-        const quintptr id = parent.internalId();
-        if (m_indicesData.find(id) == m_indicesData.end())  //index not in database? It must be the root!
-        {
-            //fill first level data
-        }
+        IdxData* idxData = getParentIdxDataFor(parent);
+        const bool status = !idxData->m_loaded;
 
-        return static_cast<bool>(getIterator());
+        return status;
     }
 
     void setBackend(const std::shared_ptr<Database::IBackend>& backend)
@@ -81,12 +109,26 @@ struct DBDataModel::Impl
             m_backend->closeConnections();
     }
 
-    private:
-        struct IdxData
-        {
-        };
+    IdxData* getIdxDataFor(const QModelIndex& obj)
+    {
+        IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
 
-        std::unordered_map<quintptr, IdxData> m_indicesData;
+        return idxData;
+    }
+
+    IdxData* getParentIdxDataFor(const QModelIndex& parent)
+    {
+        IdxData* idxData = getIdxDataFor(parent);
+
+        if (idxData == nullptr)
+            idxData = &m_root;
+
+        return idxData;
+    }
+
+    private:
+        IdxData m_root;
+
         Hierarchy m_hierarchy;
         bool m_dirty;
         std::shared_ptr<Database::IBackend> m_backend;
@@ -104,11 +146,13 @@ struct DBDataModel::Impl
                 if (level == 1)
                     result = m_backend->listTagValues(tagNameInfo);
             }
+
+            return result;
         }
 };
 
 
-DBDataModel::DBDataModel(): QAbstractItemModel(), m_impl(new Impl)
+DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl)
 {
 
 }
@@ -134,43 +178,60 @@ bool DBDataModel::canFetchMore(const QModelIndex& parent) const
 
 void DBDataModel::fetchMore(const QModelIndex& parent)
 {
-
+    m_impl->fetchMore(parent);
 }
 
 
 int DBDataModel::columnCount(const QModelIndex& parent) const
 {
-
+    return 1;
 }
 
 
 QVariant DBDataModel::data(const QModelIndex& index, int role) const
 {
+    IdxData* idxData = m_impl->getIdxDataFor(index);
+    const QVariant& v = idxData->m_data[role];
 
+    return v;
 }
 
 
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& parent) const
 {
+    IdxData* pData = m_impl->getParentIdxDataFor(parent);
+    IdxData* cData = pData->m_children[row];
 
+    QModelIndex idx = createIndex(row, column, cData);
+
+    return idx;
 }
 
 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
-
+    return QModelIndex();
 }
 
 
 int DBDataModel::rowCount(const QModelIndex& parent) const
 {
+    IdxData* idxData = m_impl->getParentIdxDataFor(parent);
 
+    //TODO: rowCount() is called before canFetchMore() and fetchMore(). Is it ok?
+    //      load data if data is not loaded yet
+    if (idxData->m_loaded == false)
+        m_impl->fetchMore(parent);
+
+    const size_t children = idxData->m_children.size();
+
+    return children;
 }
 
 
 bool DBDataModel::addPhoto(const IPhotoInfo::Ptr& photoInfo)
 {
-
+    return false;
 }
 
 

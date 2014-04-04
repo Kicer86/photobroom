@@ -47,10 +47,15 @@ struct Hierarchy
 class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
 {
     public:
-        DBDataModel();
+        DBDataModel(QObject* p);
         ~DBDataModel();
 
         void setHierarchy(const Hierarchy &);
+
+        //Database::IFrontend:
+        virtual bool addPhoto(const IPhotoInfo::Ptr &) override;
+        virtual void setBackend(const std::shared_ptr<Database::IBackend> &) override;
+        virtual void close() override;
 
     private:
         //QAbstractItemModel:
@@ -62,11 +67,6 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
         virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
         virtual QModelIndex parent(const QModelIndex& child) const override;
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-
-        //Database::IFrontend:
-        virtual bool addPhoto(const IPhotoInfo::Ptr &) override;
-        virtual void setBackend(const std::shared_ptr<Database::IBackend> &) override;
-        virtual void close() override;
 
         //own:
         DBDataModel(const DBDataModel& other) = delete;
