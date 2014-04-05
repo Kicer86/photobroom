@@ -529,7 +529,7 @@ namespace Database
         QSqlQuery query(m_data->m_db);
 
         QString queryStr = QString("SELECT "
-                                   "%1.id, %2.name, %1.value %1.name_id "
+                                   "%1.id, %2.name, %1.value, %1.name_id "
                                    "FROM "
                                    "%1 "
                                    "JOIN "
