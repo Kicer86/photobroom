@@ -33,6 +33,8 @@ class APhotoInfo;
 
 namespace Database
 {
+    struct IBackend;
+
     //IQuery represents a result of database query.
     //It can access one row of data at once.
     struct IQuery
@@ -53,6 +55,7 @@ namespace Database
         virtual QVariant getField(Fields) const = 0;    //get value for given name in current row
         virtual bool valid() const = 0;
         virtual int size() const = 0;                   //number of rows
+        virtual IBackend* backend() const = 0;          //source backend
 
         virtual IQuery* clone() const = 0;
     };

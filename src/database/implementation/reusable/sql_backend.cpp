@@ -96,15 +96,15 @@ namespace Database
         //TODO: new file
         struct DBQuery: IQuery
         {
-            DBQuery(const QSqlQuery& query): m_query(query) {}
+            DBQuery(const QSqlQuery& query, IBackend* backend): m_query(query), m_backend(backend) {}
 
             virtual IQuery* clone() const
             {
-                IQuery* result = new DBQuery(m_query);
+                IQuery* result = new DBQuery(m_query, m_backend);
                 return result;
             }
 
-            virtual QVariant getField(Fields name)
+            virtual QVariant getField(Fields name) const
             {
                 QString nameStr;
                 switch (name)
@@ -135,7 +135,13 @@ namespace Database
                 return m_query.size();
             }
 
+            virtual IBackend* backend() const
+            {
+                return m_backend;
+            }
+
             QSqlQuery m_query;
+            IBackend* m_backend;
         };
     }
 
@@ -338,7 +344,7 @@ namespace Database
                                              .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
 
             exec(queryStr, &query);
-            DBQuery* dbQuery = new DBQuery(query);
+            DBQuery* dbQuery = new DBQuery(query, m_backend);
             InterfaceContainer<IQuery> container(dbQuery);
 
             QueryList result(container);
@@ -511,6 +517,42 @@ namespace Database
     QueryList ASqlBackend::getPhotos(const Filter& filter)
     {
         return m_data->getPhotos(filter);
+    }
+
+
+    TagData ASqlBackend::getTagsFor(const PhotoIterator& iterator)
+    {
+        const IQuery* const iquery = iterator.query();
+        const QVariant idRaw = iquery->getField(IQuery::Fields::Id);
+        const unsigned int photoId = idRaw.toInt();
+
+        QSqlQuery query(m_data->m_db);
+
+        QString queryStr = QString("SELECT "
+                                   "%1.id, %2.name, %1.value %1.name_id "
+                                   "FROM "
+                                   "%1 "
+                                   "JOIN "
+                                   "%2 "
+                                   "ON %2.id = %1.name_id "
+                                   "WHERE %1.photo_id = '%3';")
+                                   .arg(TAB_TAGS)
+                                   .arg(TAB_TAG_NAMES)
+                                   .arg(photoId);
+
+        const bool status = m_data->exec(queryStr, &query);
+        TagData tagData;
+
+        while(status && query.next())
+        {
+            const QString name  = query.value(1).toString();
+            const QString value = query.value(2).toString();
+            const unsigned int tagType = query.value(3).toInt();
+
+            tagData.setTag(TagNameInfo(name, tagType), value);
+        }
+
+        return tagData;
     }
 
 
