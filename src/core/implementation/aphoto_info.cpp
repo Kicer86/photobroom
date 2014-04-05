@@ -137,7 +137,7 @@ void APhotoInfo::setHash(const Hash& hash)
 }
 
 
-APhotoInfoInitData::APhotoInfoInitData(): path(), tags(), hash()
+APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 {
 
 }
