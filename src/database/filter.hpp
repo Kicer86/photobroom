@@ -25,16 +25,19 @@
 
 #include <QString>
 
+#include "database_export.h"
+
 namespace Database
 {
 
     struct FilterDescription
     {
-
+        QString tagName;
+        QString tagValue;
     };
 
 
-    class Filter
+    class DATABASE_EXPORT Filter
     {
         public:
             Filter();
