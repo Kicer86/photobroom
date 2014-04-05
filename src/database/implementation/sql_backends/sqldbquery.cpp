@@ -18,3 +18,72 @@
  */
 
 #include "sqldbquery.hpp"
+namespace Database
+{
+    
+    Database::IQuery* SqlDBQuery::clone() const
+    {
+        IQuery* result = new SqlDBQuery(m_query, m_backend);
+        return result;
+    }
+
+
+    QVariant SqlDBQuery::getField(IQuery::Fields name) const
+    {
+        QString nameStr;
+
+        switch (name)
+        {
+            case IQuery::Fields::Id:
+                nameStr = "id";
+                break;
+
+            case IQuery::Fields::Hash:
+                nameStr = "hash";
+                break;
+
+            case IQuery::Fields::Path:
+                nameStr = "path";
+                break;
+
+            case IQuery::Fields::TagName:
+                nameStr = "name";
+                break;
+
+            case IQuery::Fields::TagValue:
+                nameStr = "value";
+                break;
+
+            case IQuery::Fields::TagType:
+                nameStr = "type";
+                break;
+        }
+
+        return m_query.value(nameStr);
+    }
+
+
+    bool SqlDBQuery::gotoNext()
+    {
+        return m_query.next();
+    }
+
+
+    bool SqlDBQuery::valid() const
+    {
+        return m_query.isValid();
+    }
+
+
+    int SqlDBQuery::size() const
+    {
+        return m_query.size();
+    }
+
+
+    IBackend* SqlDBQuery::backend() const
+    {
+        return m_backend;
+    }
+}
+
