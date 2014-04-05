@@ -22,6 +22,7 @@
 #include <QVariant>
 
 #include <core/tag.hpp>
+#include <database/idatabase.hpp>
 
 #include "implementation/db_photo_info.hpp"
 
@@ -32,13 +33,14 @@ namespace Database
     {
         InterfaceContainer<IQuery> m_query;
         IPhotoInfo::Ptr m_photoInfo;
+        PhotoIterator* m_iterator;
 
-        Impl(const InterfaceContainer<IQuery>& query): m_query(query), m_photoInfo()
+        Impl(const InterfaceContainer<IQuery>& query, PhotoIterator* iterator): m_query(query), m_photoInfo(), m_iterator(iterator)
         {
             m_query->gotoNext();
         }
 
-        Impl(): m_query(), m_photoInfo()
+        Impl(): m_query(), m_photoInfo(), m_iterator(nullptr)
         {
         }
 
@@ -48,32 +50,21 @@ namespace Database
         {
             if (m_photoInfo.get() == nullptr)
             {
+                //load photo data
                 APhotoInfoInitData data;
 
                 //const unsigned int id = m_query->getField(IQuery::Fields::Id).toInt();
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                IPhotoInfo* photoInfo = new DBPhotoInfo(m_query, data);
+                IPhotoInfo* photoInfo = new DBPhotoInfo(data);
                 m_photoInfo.reset(photoInfo);
 
-                //do not modify original query, use clone
-                InterfaceContainer<IQuery> query = m_query;
+                //load tags
+                const TagData tagData = m_query->backend()->getTagsFor(*m_iterator);
+
                 std::shared_ptr<ITagData> tags = m_photoInfo->getTags();
-
-                bool status = true;
-                do
-                {
-                    const QString tagName  = m_query->getField(IQuery::Fields::TagName).toString();
-                    const QString tagValue = m_query->getField(IQuery::Fields::TagValue).toString();
-                    const int     tagType  = m_query->getField(IQuery::Fields::TagType).toInt();
-
-                    //append tag
-                    tags->setTag(TagNameInfo(tagName, tagType), tagValue);
-
-                    status = query->gotoNext();
-                }
-                while (status);
+                tags->setTags(tags->getTags());
             }
         }
 
@@ -86,7 +77,7 @@ namespace Database
     };
 
 
-    PhotoIterator::PhotoIterator(const InterfaceContainer<IQuery>& query): m_impl(new Impl(query))
+    PhotoIterator::PhotoIterator(const InterfaceContainer<IQuery>& query): m_impl(new Impl(query, this))
     {
 
     }
@@ -127,15 +118,14 @@ namespace Database
             //get id of current photo
             const unsigned int id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
             unsigned int n_id = 0;
-            bool n = true;
-            do
-            {
-                n = m_impl->m_query->gotoNext();
+            const bool status = m_impl->m_query->gotoNext();
 
-                if (n)
-                    n_id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
-            }
-            while (n && id == n_id);   //next row as long as ids are equal
+            if (status)
+                n_id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
+
+            assert(!status || id != n_id);     //just a check if next photo is next one ;)
+
+            m_impl->invalidate();              //any cached data is not valid now
         }
 
         return *this;
