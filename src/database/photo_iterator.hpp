@@ -50,7 +50,7 @@ namespace Database
         virtual ~IQuery() {}
 
         virtual bool gotoNext() = 0;                    //move to next data row
-        virtual QVariant getField(Fields) = 0;          //get value for given name in current row
+        virtual QVariant getField(Fields) const = 0;    //get value for given name in current row
         virtual bool valid() const = 0;
         virtual int size() const = 0;                   //number of rows
 
@@ -115,6 +115,8 @@ namespace Database
             PhotoIterator& operator=(const PhotoIterator &) = default;
             IPhotoInfo* operator->();
             IPhotoInfo* operator*();
+
+            const IQuery* query() const;
 
         private:
             struct Impl;

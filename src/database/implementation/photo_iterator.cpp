@@ -164,4 +164,10 @@ namespace Database
         return m_impl->m_photoInfo.get();
     }
 
+
+    const IQuery* PhotoIterator::query() const
+    {
+        return *(m_impl->m_query);
+    }
+
 }
