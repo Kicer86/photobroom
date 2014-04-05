@@ -22,6 +22,12 @@
 namespace Database
 {
 
+    FilterDescription::FilterDescription(): tagName(), tagValue()
+    {
+
+    }
+
+
     bool FilterDescription::empty() const
     {
         return tagName.isEmpty();

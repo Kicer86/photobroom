@@ -30,7 +30,7 @@ namespace
 {
     struct IdxData
     {
-        int m_level;
+        size_t m_level;
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         bool m_loaded;
@@ -40,7 +40,8 @@ namespace
         int m_row;
         int m_column;
 
-        //for node construction (tags)
+        // By default IdxData is constructed as leaf - 'loaded' and 'photo' are set to true.
+        // to change IdxData into node, call setNodeData()
         IdxData(IdxData* parent, const QString& name):
             m_level(-1),
             m_children(),
@@ -54,6 +55,9 @@ namespace
         {
             init(parent, name);
         }
+
+        IdxData(const IdxData &) = delete;
+        IdxData& operator=(const IdxData &) = delete;
 
         void init(IdxData* parent, const QString& name)
         {
@@ -81,7 +85,7 @@ namespace
 
 struct DBDataModel::Impl
 {
-    Impl(): m_root(nullptr, "root"), m_hierarchy(), m_dirty(true)
+    Impl(): m_root(nullptr, "root"), m_hierarchy(), m_dirty(true), m_backend(), m_iterator()
     {
         m_root.setNodeData(Database::FilterDescription()); //called just to mark root as node, not a leaf
         Hierarchy hierarchy;
@@ -115,14 +119,14 @@ struct DBDataModel::Impl
         return m_iterator;
     }
 
-    void fetchMore(const QModelIndex& parent)
+    void fetchMore(const QModelIndex& _parent)
     {
-        IdxData* idxData = getParentIdxDataFor(parent);
-        const int level = idxData->m_level;
+        IdxData* idxData = getParentIdxDataFor(_parent);
+        const size_t level = idxData->m_level;
 
         if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
         {
-            std::set<TagValueInfo> tags = getLevelInfo(level + 1, parent);
+            std::set<TagValueInfo> tags = getLevelInfo(level + 1, _parent);
 
             int row = 0;
             for(const TagValueInfo& tag: tags)
@@ -141,7 +145,7 @@ struct DBDataModel::Impl
         else if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
         {
             Database::Filter filter;
-            buildFilterFor(parent, &filter);
+            buildFilterFor(_parent, &filter);
 
             Database::QueryList photos = m_backend->getPhotos(filter);
 
@@ -160,9 +164,9 @@ struct DBDataModel::Impl
         idxData->m_loaded = true;
     }
 
-    bool canFetchMore(const QModelIndex& parent)
+    bool canFetchMore(const QModelIndex& _parent)
     {
-        IdxData* idxData = getParentIdxDataFor(parent);
+        IdxData* idxData = getParentIdxDataFor(_parent);
         const bool status = !idxData->m_loaded;
 
         return status;
@@ -186,9 +190,9 @@ struct DBDataModel::Impl
         return idxData;
     }
 
-    IdxData* getParentIdxDataFor(const QModelIndex& parent)
+    IdxData* getParentIdxDataFor(const QModelIndex& _parent)
     {
-        IdxData* idxData = getIdxDataFor(parent);
+        IdxData* idxData = getIdxDataFor(_parent);
 
         if (idxData == nullptr)
             idxData = &m_root;
@@ -196,13 +200,13 @@ struct DBDataModel::Impl
         return idxData;
     }
 
-    bool hasChildren(const QModelIndex& parent)
+    bool hasChildren(const QModelIndex& _parent)
     {
         // Always return true for unloaded nodes.
         // This prevents view from calling rowCount() before canFetchMore()
 
         bool status = false;
-        IdxData* idxData = getParentIdxDataFor(parent);
+        IdxData* idxData = getParentIdxDataFor(_parent);
         if (!idxData->m_loaded)
             status = true;              //data not loaded assume there is something
         else
@@ -229,7 +233,7 @@ struct DBDataModel::Impl
         Database::PhotoIterator m_iterator;
 
         //function returns set of tags on particular 'level' for 'parent'
-        std::set<TagValueInfo> getLevelInfo(int level, const QModelIndex& parent)
+        std::set<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
         {
             std::set<TagValueInfo> result;
 
@@ -254,6 +258,9 @@ struct DBDataModel::Impl
                 buildFilterFor(_parent.parent(), filter);
         }
 };
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl)
@@ -314,10 +321,10 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
     IdxData* idxData = m_impl->parent(child);
-    QModelIndex parent = idxData? createIndex(idxData->m_row, idxData->m_column, idxData):
-                                  QModelIndex();
+    QModelIndex parentIdx = idxData? createIndex(idxData->m_row, idxData->m_column, idxData):
+                                     QModelIndex();
 
-    return parent;
+    return parentIdx;
 }
 
 

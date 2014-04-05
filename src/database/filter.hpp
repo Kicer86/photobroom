@@ -30,12 +30,14 @@
 namespace Database
 {
 
-    struct FilterDescription
+    struct DATABASE_EXPORT FilterDescription
     {
         QString tagName;
         QString tagValue;
 
         bool empty() const;
+
+        FilterDescription();
     };
 
 
