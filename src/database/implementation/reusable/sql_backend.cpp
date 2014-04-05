@@ -33,6 +33,7 @@
 
 #include <core/tag.hpp>
 #include <configuration/constants.hpp>
+#include <database/filter.hpp>
 
 #include "table_definition.hpp"
 
@@ -326,13 +327,15 @@ namespace Database
         }
 
 
-        QueryList getAllPhotos()
+        QueryList getPhotos(const Filter& filter)
         {
+            const QString filterStr = generateFilterQuery(filter);
+
             QSqlQuery query(m_db);
             const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
                                              " FROM %3 LEFT JOIN (%1, %2)"
-                                             " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) ORDER BY id")
-                                             .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS);
+                                             " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY id")
+                                             .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
 
             exec(queryStr, &query);
             DBQuery* dbQuery = new DBQuery(query);
@@ -358,6 +361,26 @@ namespace Database
                 return result;
             }
 
+            QString generateFilterQuery(const Filter& filter)
+            {
+                QString result;
+                const std::vector <Database::FilterDescription >& filters = filter.getFilters();
+
+                if (filters.empty() == false)
+                    result += "WHERE";
+
+                for(size_t i = 0; i < filters.size(); i++)
+                {
+                    const Database::FilterDescription& f = filters[i];
+
+                    if (i > 0)
+                        result += " AND";
+
+                    result += QString(" name = '%1' AND value = '%2'").arg(f.tagName, f.tagValue);
+                }
+
+                return result;
+            }
     };
 
 
@@ -481,13 +504,13 @@ namespace Database
 
     QueryList ASqlBackend::getAllPhotos()
     {
-        return m_data->getAllPhotos();
+        return m_data->getPhotos(Filter());  //like getPhotos but without any filters
     }
 
 
-    QueryList ASqlBackend::getPhotos(const Filter&)
+    QueryList ASqlBackend::getPhotos(const Filter& filter)
     {
-        assert(!"not implemented");
+        return m_data->getPhotos(filter);
     }
 
 
