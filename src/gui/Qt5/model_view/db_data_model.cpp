@@ -19,32 +19,55 @@
 
 #include "db_data_model.hpp"
 
-#include <core/base_tags.hpp>
-#include <database/query_list.hpp>
 #include <unordered_map>
 
+#include <core/base_tags.hpp>
+#include <database/query_list.hpp>
+#include <database/filter.hpp>
 
-//namespace
-//{
+
+namespace
+{
     struct IdxData
     {
         int m_level;
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         bool m_loaded;
+        Database::FilterDescription m_filter;
+        bool m_photo;                            //leaf or node?
 
-        IdxData(int level, const QString& name): m_level(level), m_children(), m_data(), m_loaded(false)
+        //for node construction (tags)
+        IdxData(int level, const QString& name, const Database::FilterDescription& filter):
+            m_level(level),
+            m_children(),
+            m_data(),
+            m_loaded(false),
+            m_filter(filter),
+            m_photo(false)
         {
             m_data[Qt::DisplayRole] = name;
         }
 
+        //for leaf construction (photos)
+        IdxData(int level, const std::string& name):
+            m_level(level),
+            m_children(),
+            m_data(),
+            m_loaded(true),
+            m_filter(),
+            m_photo(true)
+        {
+            m_data[Qt::DisplayRole] = name.c_str();
+        }
+
     };
-//}
+}
 
 
 struct DBDataModel::Impl
 {
-    Impl(): m_root(0, "root"), m_hierarchy(), m_dirty(true)
+    Impl(): m_root(0, "root", Database::FilterDescription()), m_hierarchy(), m_dirty(true)
     {
         Hierarchy hierarchy;
         hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
@@ -80,12 +103,33 @@ struct DBDataModel::Impl
     void fetchMore(const QModelIndex& parent)
     {
         IdxData* idxData = getParentIdxDataFor(parent);
-
-        std::set<TagValueInfo> tags = getLevelInfo(idxData->m_level + 1, parent);
         const int level = idxData->m_level;
 
-        for(const TagValueInfo& tag: tags)
-            idxData->m_children.push_back(new IdxData(level + 1, tag));
+        if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
+        {
+            std::set<TagValueInfo> tags = getLevelInfo(level + 1, parent);
+
+            for(const TagValueInfo& tag: tags)
+            {
+                Database::FilterDescription fdesc;
+                fdesc.tagName = m_hierarchy.levels[level].tagName;
+                fdesc.tagValue = tag;
+
+                idxData->m_children.push_back(new IdxData(level + 1, tag, fdesc));
+            }
+        }
+        else if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
+        {
+            Database::Filter filter;
+            buildFilterFor(parent, &filter);
+
+            Database::QueryList photos = m_backend->getPhotos(filter);
+
+            for(IPhotoInfo* photoInfo: photos)
+                idxData->m_children.push_back( new IdxData(level + 1, photoInfo->getPath()) );
+        }
+        else
+            assert(!"should not happen");
 
         idxData->m_loaded = true;
     }
@@ -126,6 +170,21 @@ struct DBDataModel::Impl
         return idxData;
     }
 
+    bool hasChildren(const QModelIndex& parent)
+    {
+        // Always return true for unloaded nodes.
+        // This prevents view from calling rowCount() before canFetchMore()
+
+        bool status = false;
+        IdxData* idxData = getParentIdxDataFor(parent);
+        if (!idxData->m_loaded)
+            status = true;              //data not loaded assume there is something
+        else
+            status = !idxData->m_photo; //return true for nodes only, not for leafs
+
+        return status;
+    }
+
     private:
         IdxData m_root;
 
@@ -148,6 +207,16 @@ struct DBDataModel::Impl
             }
 
             return result;
+        }
+
+        void buildFilterFor(const QModelIndex& parent, Database::Filter* filter)
+        {
+            IdxData* idxData = getParentIdxDataFor(parent);
+
+            filter->addFilter(idxData->m_filter);
+
+            if (idxData->m_level > 0)
+                buildFilterFor(parent.parent(), filter);
         }
 };
 
@@ -217,15 +286,15 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 int DBDataModel::rowCount(const QModelIndex& parent) const
 {
     IdxData* idxData = m_impl->getParentIdxDataFor(parent);
-
-    //TODO: rowCount() is called before first canFetchMore() and fetchMore(). Is it ok?
-    //      load data if data is not loaded yet
-    if (idxData->m_loaded == false)
-        m_impl->fetchMore(parent);
-
     const size_t children = idxData->m_children.size();
 
     return children;
+}
+
+
+bool DBDataModel::hasChildren(const QModelIndex& parent) const
+{
+    return m_impl->hasChildren(parent);
 }
 
 
