@@ -56,6 +56,14 @@ void TagDataBase::setTag(const TagNameInfo& name, const TagValueInfo& value)
     this->setTag(name, values);
 }
 
+
+void TagDataBase::setTags(const TagsList& tags)
+{
+    for(auto tag: tags)
+        setTag(tag.first, tag.second);
+}
+
+
 /*****************************************************************************/
 
 

@@ -174,6 +174,7 @@ struct ITagData
     //set tag and its values. Overvrite existing tags
     virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
     virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
+    virtual void setTags(const TagsList &) = 0;
 
     virtual void clear() = 0;
 
@@ -190,6 +191,7 @@ class CORE_EXPORT TagDataBase : public ITagData
 
         using ITagData::setTag;
         virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
+        virtual void setTags(const TagsList &) override;
 };
 
 class CORE_EXPORT TagData : public TagDataBase
