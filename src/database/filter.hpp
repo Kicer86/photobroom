@@ -34,6 +34,8 @@ namespace Database
     {
         QString tagName;
         QString tagValue;
+
+        bool empty() const;
     };
 
 
@@ -41,11 +43,10 @@ namespace Database
     {
         public:
             Filter();
-            Filter(const Filter &) = delete;
+            Filter(const Filter &) = default;
             ~Filter();
 
-            Filter& operator=(const Filter &) = delete;
-            bool operator==(const Filter &) = delete;
+            Filter& operator=(const Filter &) = default;
 
             void addFilter(const FilterDescription &);
 

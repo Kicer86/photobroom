@@ -22,6 +22,12 @@
 namespace Database
 {
 
+    bool FilterDescription::empty() const
+    {
+        return tagName.isEmpty();
+    }
+
+
     Filter::Filter(): m_filters()
     {
 
@@ -36,7 +42,8 @@ namespace Database
 
     void Filter::addFilter(const FilterDescription& filter)
     {
-        m_filters.push_back(filter);
+        if (! filter.empty())
+            m_filters.push_back(filter);
     }
 
 
