@@ -31,7 +31,11 @@
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
+
+//TODO: remove
 #include "implementation/sql_backends/mysql_backend/backend.hpp"
+#include "implementation/sqlite_backend/backend.hpp"
+
 
 namespace Database
 {
@@ -132,7 +136,7 @@ namespace Database
     {
         if (defaultBackend.get() == nullptr)
         {
-            defaultBackend = std::make_shared<Database::MySqlBackend>();
+            defaultBackend = std::make_shared<Database::SQLiteBackend>();
             const bool status = defaultBackend->init();
 
             if (!status)

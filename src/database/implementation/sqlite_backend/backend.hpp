@@ -1,22 +1,22 @@
 
-#ifndef DATABASE_MYSQL_BACKEND_HPP
-#define DATABASE_MYSQL_BACKEND_HPP
+#ifndef DATABASE_SQLITE_BACKEND_HPP
+#define DATABASE_SQLITE_BACKEND_HPP
 
 #include "idatabase.hpp"
 
 #include <memory>
 
-#include "database_mysql_backend_export.h"
-#include "implementation/sql_backends/sql_backend.hpp"
+#include "database_sqlite_backend_export.h"
+#include "../reusable/sql_backend.hpp"
 
 namespace Database
 {
 
-    class DATABASE_MYSQL_BACKEND_EXPORT MySqlBackend final: public ASqlBackend
+    class DATABASE_SQLITE_BACKEND_EXPORT SQLiteBackend final: public ASqlBackend
     {
         public:
-            MySqlBackend();
-            virtual ~MySqlBackend();
+            SQLiteBackend();
+            virtual ~SQLiteBackend();
 
             virtual bool prepareDB(QSqlDatabase*) override;
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
