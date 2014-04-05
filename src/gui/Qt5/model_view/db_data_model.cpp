@@ -36,29 +36,43 @@ namespace
         bool m_loaded;
         Database::FilterDescription m_filter;
         bool m_photo;                            //leaf or node?
+        IdxData* m_parent;
+        int m_row;
+        int m_column;
 
         //for node construction (tags)
-        IdxData(int level, const QString& name, const Database::FilterDescription& filter):
-            m_level(level),
-            m_children(),
-            m_data(),
-            m_loaded(false),
-            m_filter(filter),
-            m_photo(false)
-        {
-            m_data[Qt::DisplayRole] = name;
-        }
-
-        //for leaf construction (photos)
-        IdxData(int level, const std::string& name):
-            m_level(level),
+        IdxData(IdxData* parent, const QString& name):
+            m_level(-1),
             m_children(),
             m_data(),
             m_loaded(true),
             m_filter(),
-            m_photo(true)
+            m_photo(true),
+            m_parent(),
+            m_row(0),
+            m_column(0)
         {
-            m_data[Qt::DisplayRole] = name.c_str();
+            init(parent, name);
+        }
+
+        void init(IdxData* parent, const QString& name)
+        {
+            m_data[Qt::DisplayRole] = name;
+            m_parent = parent;
+            m_level = parent? parent->m_level + 1: 0;
+        }
+
+        void setNodeData(const Database::FilterDescription& filter)
+        {
+            m_filter = filter;
+            m_photo = false;
+            m_loaded = false;
+        }
+
+        void setPosition(int row, int col)
+        {
+            m_row = row;
+            m_column = col;
         }
 
     };
@@ -67,8 +81,9 @@ namespace
 
 struct DBDataModel::Impl
 {
-    Impl(): m_root(0, "root", Database::FilterDescription()), m_hierarchy(), m_dirty(true)
+    Impl(): m_root(nullptr, "root"), m_hierarchy(), m_dirty(true)
     {
+        m_root.setNodeData(Database::FilterDescription()); //called just to mark root as node, not a leaf
         Hierarchy hierarchy;
         hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
@@ -109,13 +124,18 @@ struct DBDataModel::Impl
         {
             std::set<TagValueInfo> tags = getLevelInfo(level + 1, parent);
 
+            int row = 0;
             for(const TagValueInfo& tag: tags)
             {
                 Database::FilterDescription fdesc;
                 fdesc.tagName = m_hierarchy.levels[level].tagName;
                 fdesc.tagValue = tag;
 
-                idxData->m_children.push_back(new IdxData(level + 1, tag, fdesc));
+                IdxData* newItem = new IdxData(idxData, tag);
+                newItem->setNodeData(fdesc);
+                newItem->setPosition(row++, 0);
+
+                idxData->m_children.push_back(newItem);
             }
         }
         else if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
@@ -125,8 +145,14 @@ struct DBDataModel::Impl
 
             Database::QueryList photos = m_backend->getPhotos(filter);
 
+            int row = 0;
             for(IPhotoInfo* photoInfo: photos)
-                idxData->m_children.push_back( new IdxData(level + 1, photoInfo->getPath()) );
+            {
+                IdxData* newItem = new IdxData(idxData, photoInfo->getPath().c_str());
+                newItem->setPosition(row++, 0);
+
+                idxData->m_children.push_back(newItem);
+            }
         }
         else
             assert(!"should not happen");
@@ -185,6 +211,15 @@ struct DBDataModel::Impl
         return status;
     }
 
+
+    IdxData* parent(const QModelIndex& child)
+    {
+        IdxData* idxData = getIdxDataFor(child);
+        IdxData* result  = idxData->m_parent;
+
+        return result;
+    }
+
     private:
         IdxData m_root;
 
@@ -209,14 +244,14 @@ struct DBDataModel::Impl
             return result;
         }
 
-        void buildFilterFor(const QModelIndex& parent, Database::Filter* filter)
+        void buildFilterFor(const QModelIndex& _parent, Database::Filter* filter)
         {
-            IdxData* idxData = getParentIdxDataFor(parent);
+            IdxData* idxData = getParentIdxDataFor(_parent);
 
             filter->addFilter(idxData->m_filter);
 
             if (idxData->m_level > 0)
-                buildFilterFor(parent.parent(), filter);
+                buildFilterFor(_parent.parent(), filter);
         }
 };
 
@@ -239,38 +274,37 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 }
 
 
-bool DBDataModel::canFetchMore(const QModelIndex& parent) const
+bool DBDataModel::canFetchMore(const QModelIndex& _parent) const
 {
-    return m_impl->canFetchMore(parent);
+    return m_impl->canFetchMore(_parent);
 }
 
 
-void DBDataModel::fetchMore(const QModelIndex& parent)
+void DBDataModel::fetchMore(const QModelIndex& _parent)
 {
-    m_impl->fetchMore(parent);
+    m_impl->fetchMore(_parent);
 }
 
 
-int DBDataModel::columnCount(const QModelIndex& parent) const
+int DBDataModel::columnCount(const QModelIndex &) const
 {
     return 1;
 }
 
 
-QVariant DBDataModel::data(const QModelIndex& index, int role) const
+QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    IdxData* idxData = m_impl->getIdxDataFor(index);
+    IdxData* idxData = m_impl->getIdxDataFor(_index);
     const QVariant& v = idxData->m_data[role];
 
     return v;
 }
 
 
-QModelIndex DBDataModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
-    IdxData* pData = m_impl->getParentIdxDataFor(parent);
+    IdxData* pData = m_impl->getParentIdxDataFor(_parent);
     IdxData* cData = pData->m_children[row];
-
     QModelIndex idx = createIndex(row, column, cData);
 
     return idx;
@@ -279,22 +313,26 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& parent) c
 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
-    return QModelIndex();
+    IdxData* idxData = m_impl->parent(child);
+    QModelIndex parent = idxData? createIndex(idxData->m_row, idxData->m_column, idxData):
+                                  QModelIndex();
+
+    return parent;
 }
 
 
-int DBDataModel::rowCount(const QModelIndex& parent) const
+int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
-    IdxData* idxData = m_impl->getParentIdxDataFor(parent);
-    const size_t children = idxData->m_children.size();
+    IdxData* idxData = m_impl->getParentIdxDataFor(_parent);
+    const size_t count = idxData->m_children.size();
 
-    return children;
+    return count;
 }
 
 
-bool DBDataModel::hasChildren(const QModelIndex& parent) const
+bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 {
-    return m_impl->hasChildren(parent);
+    return m_impl->hasChildren(_parent);
 }
 
 
