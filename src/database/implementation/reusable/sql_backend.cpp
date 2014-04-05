@@ -94,13 +94,13 @@ namespace Database
 
 
         //TODO: new file
-        struct DBQuery: IQuery
+        struct SqlDBQuery: IQuery
         {
-            DBQuery(const QSqlQuery& query, IBackend* backend): m_query(query), m_backend(backend) {}
+            SqlDBQuery(const QSqlQuery& query, IBackend* backend): m_query(query), m_backend(backend) {}
 
             virtual IQuery* clone() const
             {
-                IQuery* result = new DBQuery(m_query, m_backend);
+                IQuery* result = new SqlDBQuery(m_query, m_backend);
                 return result;
             }
 
@@ -344,7 +344,7 @@ namespace Database
                                              .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
 
             exec(queryStr, &query);
-            DBQuery* dbQuery = new DBQuery(query, m_backend);
+            SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
             InterfaceContainer<IQuery> container(dbQuery);
 
             QueryList result(container);
