@@ -37,8 +37,6 @@
 
 #include "databasebuilder.hpp"
 
-// remove line below to force broom to term mysql server when broom's going donw
-#define KEEP_MYSQL_ALIVE
 
 namespace
 {
@@ -248,17 +246,12 @@ MySqlServer::MySqlServer(): m_serverProcess(new QProcess)
 
 MySqlServer::~MySqlServer()
 {
-#ifdef KEEP_MYSQL_ALIVE
-    std::cout << "MySQL server left alive" << std::endl;
-
-#else
     std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
 
     m_serverProcess->terminate();
     m_serverProcess->waitForFinished();  //TODO: zwiecha?
 
     std::cout << "MySQL Database Backend: MySQL server down" << std::endl;
-#endif
 }
 
 
@@ -370,15 +363,6 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
     const bool alive = QFile::exists(socketPath);
     bool status = true;
 
-#ifndef KEEP_MYSQL_ALIVE
-    if (alive)
-    {
-        status = false;
-
-        std::cerr << "MySQL server already running!" << std::endl;
-    }
-#endif
-
     if (!alive)
     {
 
@@ -402,9 +386,6 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             {
                 QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
-#ifdef KEEP_MYSQL_ALIVE
-                status = m_serverProcess->startDetached(daemonPath, args);
-#else
                 m_serverProcess->setProgram(daemonPath);
                 m_serverProcess->setArguments(args);
                 m_serverProcess->closeWriteChannel();
@@ -416,7 +397,6 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
 
                 if (status)
                     status = waitForServerToStart(socketPath);
-#endif
             }
         }
 
