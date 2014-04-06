@@ -1,6 +1,7 @@
 
 #include "../system.hpp"
 
+#include <assert.h>
 #include <string>
 #include <cstdlib>
 
@@ -17,7 +18,7 @@ std::string System::getApplicationConfigDir()
 std::string System::findProgram(const std::string &)
 {
     //TODO: use "where"
-    static_assert(false, "Not implemented");
+    assert(!"Not implemented");
 }
 
 
