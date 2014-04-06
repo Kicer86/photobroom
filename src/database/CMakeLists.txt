@@ -53,14 +53,3 @@ qt5_use_modules(database Core)
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
 hideSymbols(database)
-
-
-set(BACKEND mysql)
-
-#determine which backend should be used
-if(BACKEND STREQUAL "mysql")
-
-    add_subdirectory(implementation/mysql_backend)
-    target_link_libraries(database database_mysql_backend)
-
-endif(BACKEND STREQUAL "mysql")

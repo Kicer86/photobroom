@@ -1,5 +1,5 @@
 
-project(SQL_Backends_base)
+project(SQL_Backends)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
@@ -18,3 +18,14 @@ qt5_use_modules(sql_backend_base Core Sql)
 turnOnCpp11(sql_backend_base)
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/sql_backend_base_export.h)
+
+
+set(BACKEND mysql)
+
+#determine which backend should be used
+if(BACKEND STREQUAL "mysql")
+
+    add_subdirectory(mysql_backend)
+    #target_link_libraries(sql_backend_base database_mysql_backend)
+
+endif(BACKEND STREQUAL "mysql")
