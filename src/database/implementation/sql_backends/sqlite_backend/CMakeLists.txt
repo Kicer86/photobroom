@@ -4,7 +4,7 @@ project(SQLite_Backend)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/src/database/implementation/)
+include_directories(${CMAKE_SOURCE_DIR}/src/database/)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS})
 
 set(BACKEND_SOURCES backend.cpp)

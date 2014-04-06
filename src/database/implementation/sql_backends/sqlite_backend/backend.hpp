@@ -2,12 +2,13 @@
 #ifndef DATABASE_SQLITE_BACKEND_HPP
 #define DATABASE_SQLITE_BACKEND_HPP
 
-#include "idatabase.hpp"
 
 #include <memory>
 
+#include <database/idatabase.hpp>
+#include <database/implementation/sql_backends/sql_backend.hpp>
+
 #include "database_sqlite_backend_export.h"
-#include "../reusable/sql_backend.hpp"
 
 namespace Database
 {

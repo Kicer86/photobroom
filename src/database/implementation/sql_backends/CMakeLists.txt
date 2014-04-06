@@ -25,14 +25,14 @@ set(BACKEND sqlite)
 #determine which backend should be used
 if(BACKEND STREQUAL "mysql")
 
-    add_subdirectory(implementation/mysql_backend)
-    target_link_libraries(database database_mysql_backend)
+    add_subdirectory(mysql_backend)
+    #target_link_libraries(database database_mysql_backend)
 
 endif(BACKEND STREQUAL "mysql")
 
 if(BACKEND STREQUAL "sqlite")
 
-    add_subdirectory(implementation/sqlite_backend)
-    target_link_libraries(database database_sqlite_backend)
+    add_subdirectory(sqlite_backend)
+    #target_link_libraries(database database_sqlite_backend)
 
 endif(BACKEND STREQUAL "sqlite")
