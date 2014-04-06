@@ -1,7 +1,7 @@
 
 project(database CXX)
 
-add_subdirectory(implementation/reusable)
+add_subdirectory(implementation/sql_backends)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem)
