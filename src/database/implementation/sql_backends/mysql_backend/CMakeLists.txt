@@ -12,7 +12,7 @@ set(BACKEND_HEADERS mysql_server.hpp backend.hpp)
 
 qt5_wrap_cpp(BACKEND_WRAPPED_CPP mysql_server.hpp)
 
-add_library(database_mysql_backend SHARED ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_WRAPPED_CPP})
+add_library(database_mysql_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_WRAPPED_CPP})
 target_link_libraries(database_mysql_backend sql_backend_base)
 qt5_use_modules(database_mysql_backend Core Sql)
 turnOnCpp11(database_mysql_backend)
