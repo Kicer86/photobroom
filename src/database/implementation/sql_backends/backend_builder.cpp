@@ -24,10 +24,41 @@ namespace Database
 
     namespace
     {
+        struct PluginFinder final
+        {
+            PluginFinder() {}
+            ~PluginFinder() {}
+
+            void load()
+            {
+                /*
+                pluginsDir = QDir(qApp->applicationDirPath());
+
+#if defined(Q_OS_WIN)
+    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+        pluginsDir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (pluginsDir.dirName() == "MacOS") {
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+    }
+#endif
+    pluginsDir.cd("plugins");
+    */
+            }
+        };
+
+
     }
 
+    struct BackendBuilder::Impl
+    {
+        PluginFinder m_finder;
+    };
 
-    BackendBuilder::BackendBuilder()
+
+    BackendBuilder::BackendBuilder(): m_impl(new Impl)
     {
 
     }
@@ -39,7 +70,7 @@ namespace Database
     }
 
 
-    std::unique_ptr< ASqlBackend > BackendBuilder::get()
+    std::unique_ptr<ASqlBackend> BackendBuilder::get()
     {
 
     }

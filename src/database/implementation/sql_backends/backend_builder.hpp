@@ -36,6 +36,10 @@ namespace Database
             BackendBuilder& operator=(const BackendBuilder& other) = delete;
 
             std::unique_ptr<Database::ASqlBackend> get();
+
+        private:
+            struct Impl;
+            std::unique_ptr<Impl> m_impl;
     };
 
 }
