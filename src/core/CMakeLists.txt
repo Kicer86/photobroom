@@ -1,6 +1,8 @@
 
 project(core CXX)
 
+# openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
+
 find_package(OpenLibrary REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -11,9 +13,7 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES})
-
-
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${OPENSSL_INCLUDE_DIR})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
