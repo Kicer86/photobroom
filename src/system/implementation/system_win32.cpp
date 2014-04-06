@@ -23,6 +23,7 @@ std::string System::findProgram(const std::string &)
 
 std::string System::userName()
 {
-    //http://stackoverflow.com/questions/11587426/get-current-username-in-c-on-windows
-    static_assert(false, "Not implemented");
+    std::string result(getenv("USERNAME"));
+
+    return result;
 }
