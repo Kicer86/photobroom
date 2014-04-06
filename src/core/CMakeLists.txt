@@ -6,6 +6,7 @@ project(core CXX)
 find_package(OpenLibrary REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(Boost REQUIRED)
 find_package(OpenMP)
 find_package(Exiv2)
 
@@ -13,7 +14,7 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${OPENSSL_INCLUDE_DIR})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
