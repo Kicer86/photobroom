@@ -32,24 +32,8 @@ elseif(WIN32)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif(UNIX OR CYGWIN)
 
-
-add_subdirectory(src/core)
-add_subdirectory(src/configuration)
-add_subdirectory(src/analyzer)
-add_subdirectory(src/database)
-add_subdirectory(src/gui)
-add_subdirectory(src/system)
-
-find_package(OpenLibrary REQUIRED utils)
-
-include_directories(${CMAKE_BINARY_DIR}/exports ${OPENLIBRARY_INCLUDES})
-
-set(BROOM_SOURCES src/main.cpp)
-
-add_executable(broom ${BROOM_SOURCES})
-target_link_libraries(broom gui configuration)
-turnOnCpp11(broom)
-
+#subdirs
+add_subdirectory(src)
 
 #documentation
 find_program(DOXYGEN doxygen)
@@ -63,6 +47,7 @@ if(DOXYGEN)
 
 endif(DOXYGEN)
 
+#info
 message("")
 message("*************************************************************")
 message("Extra targets:")
