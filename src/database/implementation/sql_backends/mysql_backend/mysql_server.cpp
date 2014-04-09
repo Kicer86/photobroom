@@ -30,12 +30,11 @@
 
 #include <boost/optional.hpp>
 
-#include "configuration/configurationfactory.hpp"
-#include "configuration/iconfiguration.hpp"
-#include "configuration/entrydata.hpp"
-#include "system/system.hpp"
-
-#include "databasebuilder.hpp"
+#include <configuration/configurationfactory.hpp>
+#include <configuration/iconfiguration.hpp>
+#include <configuration/entrydata.hpp>
+#include <database/databasebuilder.hpp>
+#include <system/system.hpp>
 
 
 namespace
@@ -392,7 +391,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
 
                 std::cout << "MySQL Database Backend: " << daemonPath.toStdString() << " " << args.join(" ").toStdString() << std::endl;
 
-                m_serverProcess->startDetached();
+                m_serverProcess->start();
                 status = m_serverProcess->waitForStarted();
 
                 if (status)
