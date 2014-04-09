@@ -3,9 +3,10 @@ project(SQLite_Backend)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
+find_package(OpenLibrary REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/src/database/)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR}/src/ ${CMAKE_BINARY_DIR}/exports)
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} )
 
 set(BACKEND_SOURCES backend.cpp)
 set(BACKEND_HEADERS backend.hpp)

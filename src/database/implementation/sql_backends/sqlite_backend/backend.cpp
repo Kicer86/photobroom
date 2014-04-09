@@ -10,8 +10,7 @@
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
-
-#include "databasebuilder.hpp"
+#include <database/databasebuilder.hpp>
 
 
 namespace Database
