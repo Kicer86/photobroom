@@ -20,19 +20,19 @@ hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/sql_backend_base_export.h)
 
 
-set(BACKEND sqlite)
+#set(BACKEND sqlite)
 
 #determine which backend should be used
-if(BACKEND STREQUAL "mysql")
+#if(BACKEND STREQUAL "mysql")
 
     add_subdirectory(mysql_backend)
     #target_link_libraries(database database_mysql_backend)
 
-endif(BACKEND STREQUAL "mysql")
+#endif(BACKEND STREQUAL "mysql")
 
-if(BACKEND STREQUAL "sqlite")
+#if(BACKEND STREQUAL "sqlite")
 
     add_subdirectory(sqlite_backend)
     #target_link_libraries(database database_sqlite_backend)
 
-endif(BACKEND STREQUAL "sqlite")
+#endif(BACKEND STREQUAL "sqlite")
