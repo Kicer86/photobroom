@@ -20,8 +20,11 @@
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
 
+#include <QString>
+
 namespace FileSystem
 {
-};
+    QString getPluginsPath();
+}
 
 #endif // FILESYSTEM_H
