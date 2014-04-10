@@ -8,6 +8,7 @@ find_package(Boost REQUIRED COMPONENTS regex)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if (WIN32)
     set(SYSTEM_SOURCES implementation/system_win32.cpp)
@@ -15,7 +16,8 @@ else()
     set(SYSTEM_SOURCES implementation/system_unix.cpp)
 endif(WIN32)
 
-set(SYSTEM_HEADERS system.hpp)
+set(SYSTEM_SOURCES ${SYSTEM_SOURCES} implementation/filesystem.cpp)
+set(SYSTEM_HEADERS system.hpp filesystem.hpp)
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
