@@ -78,8 +78,13 @@ namespace Database
 
             QObject* load(const QString& path)
             {
+                std::cout << "Loading database plugin: " << path.toStdString() << std::endl;
                 QPluginLoader loader(path);
                 QObject* plugin = loader.instance();
+
+                if (plugin == nullptr)
+                    std::cerr << "\tError: " << loader.errorString().toStdString() << std::endl;
+
                 return plugin;
             }
 
