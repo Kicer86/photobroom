@@ -53,3 +53,5 @@ qt5_use_modules(database Core)
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)
 hideSymbols(database)
+
+install(TARGETS database RUNTIME LIBRARY DESTINATION lib/broom/)

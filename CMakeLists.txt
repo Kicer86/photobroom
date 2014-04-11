@@ -12,12 +12,10 @@ include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 #options:
 option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
 option(BUILD_TESTS "Build tests. Set to ON to build tests")
-option(BUILD_LOCAL "Mark project to work in build tree" FALSE)
 
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
 add_feature_info("Build shared libraries" BUILD_SHARED_LIBS "Builds all libraries as shared. Feature controlled by BUILD_SHARED_LIBS variable.")
-add_feature_info("Mark project to work in build tree" BUILD_LOCAL "When BUILD_LOCAL variable is set to TRUE project will work in build tree without installing. Useful only in development environment")
 
 #tests
 if(BUILD_TESTS)

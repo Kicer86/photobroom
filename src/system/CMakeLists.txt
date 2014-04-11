@@ -26,3 +26,5 @@ target_link_libraries(system ${Boost_LIBRARIES})
 qt5_use_modules(system Core)
 turnOnCpp11(system)
 hideSymbols(system)
+
+install(TARGETS system RUNTIME LIBRARY DESTINATION lib/broom/)

@@ -17,3 +17,5 @@ set(BROOM_SOURCES main.cpp)
 add_executable(broom ${BROOM_SOURCES})
 target_link_libraries(broom gui configuration)
 turnOnCpp11(broom)
+
+install(TARGETS broom RUNTIME DESTINATION bin)

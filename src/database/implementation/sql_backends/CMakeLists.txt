@@ -21,3 +21,5 @@ qt5_use_modules(sql_backend_base Core Sql)
 turnOnCpp11(sql_backend_base)
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/sql_backend_base_export.h)
+
+install(TARGETS sql_backend_base RUNTIME LIBRARY DESTINATION lib/broom/)

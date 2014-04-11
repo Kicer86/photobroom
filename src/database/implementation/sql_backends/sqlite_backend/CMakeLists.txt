@@ -19,3 +19,5 @@ qt5_use_modules(database_sqlite_backend Core Sql)
 turnOnCpp11(database_sqlite_backend)
 hideSymbols(database_sqlite_backend)
 generate_export_header(database_sqlite_backend EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_sqlite_backend_export.h)
+
+install(TARGETS database_sqlite_backend RUNTIME LIBRARY DESTINATION lib/broom/plugins/database)

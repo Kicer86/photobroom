@@ -85,6 +85,4 @@ generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_ex
 turnOnCpp11(core)
 hideSymbols(core)
 
-if(NOT EXIV2_FOUND)
-    message(STATUS "Optional library Exiv2 not found")
-endif(NOT EXIV2_FOUND)
+install(TARGETS core RUNTIME LIBRARY DESTINATION lib/broom/)

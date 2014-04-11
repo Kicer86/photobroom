@@ -103,3 +103,5 @@ generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_expo
 target_link_libraries(gui analyzer database)
 turnOnCpp11(gui)
 hideSymbols(gui)
+
+install(TARGETS gui RUNTIME LIBRARY DESTINATION lib/broom/)
