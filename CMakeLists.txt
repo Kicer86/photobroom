@@ -33,6 +33,13 @@ endif(UNIX OR CYGWIN)
 set(PATH_LIBS     "lib/broom")
 set(PATH_PLUGINS  "lib/broom/plugins")
 
+# RPATH
+# http://www.cmake.org/Wiki/CMake_RPATH_handling
+set(CMAKE_SKIP_BUILD_RPATH  FALSE)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 #subdirs
 add_subdirectory(src)
 
