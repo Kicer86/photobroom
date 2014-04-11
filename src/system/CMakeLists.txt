@@ -6,7 +6,7 @@ include(GenerateExportHeader)
 find_package(Qt5Core REQUIRED)
 find_package(Boost REQUIRED COMPONENTS regex)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/)
+include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR})
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

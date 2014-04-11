@@ -22,9 +22,11 @@
 
 #include <QString>
 
-namespace FileSystem
+#include "system_export.h"
+
+struct SYSTEM_EXPORT FileSystem
 {
-    QString getPluginsPath();
-}
+    static QString getPluginsPath();
+};
 
 #endif // FILESYSTEM_H

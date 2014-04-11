@@ -18,3 +18,11 @@
  */
 
 #include "filesystem.hpp"
+
+#include "paths.hpp"
+
+QString FileSystem::getPluginsPath()
+{
+    return Paths::plugins;
+}
+
