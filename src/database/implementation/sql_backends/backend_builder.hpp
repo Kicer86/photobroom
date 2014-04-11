@@ -22,11 +22,13 @@
 
 #include <memory>
 
+#include "sql_backend_base_export.h"
+
 namespace Database
 {
     class ASqlBackend;
 
-    class BackendBuilder
+    class SQL_BACKEND_BASE_EXPORT BackendBuilder
     {
         public:
             BackendBuilder();

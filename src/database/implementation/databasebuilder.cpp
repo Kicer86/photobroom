@@ -32,10 +32,11 @@
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
 
-//TODO: remove
-#include "implementation/sql_backends/mysql_backend/backend.hpp"
-#include "implementation/sql_backends/sqlite_backend/backend.hpp"
+#include "implementation/sql_backends/backend_builder.hpp"
+#include "implementation/sql_backends/sql_backend.hpp"
 
+
+//TODO: cleanup this file!
 
 namespace Database
 {
@@ -46,6 +47,7 @@ namespace Database
     {
         std::unique_ptr<IFrontend> defaultDatabase;
         std::shared_ptr<IBackend> defaultBackend;
+        BackendBuilder backendBuilder;
 
         struct StreamFactory: public IStreamFactory
         {
@@ -136,7 +138,7 @@ namespace Database
     {
         if (defaultBackend.get() == nullptr)
         {
-            defaultBackend = std::make_shared<Database::SQLiteBackend>();
+            defaultBackend = backendBuilder.get();
             const bool status = defaultBackend->init();
 
             if (!status)

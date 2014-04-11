@@ -19,6 +19,16 @@
 
 #include "backend_builder.hpp"
 
+#include <iostream>
+
+#include <QDir>
+#include <QPluginLoader>
+
+#include <system/filesystem.hpp>
+#include <database/idatabase.hpp>
+
+#include "sql_backend.hpp"
+
 namespace Database
 {
 
@@ -26,27 +36,56 @@ namespace Database
     {
         struct PluginFinder final
         {
-            PluginFinder() {}
+            PluginFinder(): m_plugins(), m_found(false) {}
             ~PluginFinder() {}
 
-            void load()
+            void find()
             {
-                /*
-                pluginsDir = QDir(qApp->applicationDirPath());
+                if (!m_found)
+                {
+                    QDir pluginsDir = FileSystem::getPluginsPath();
 
-#if defined(Q_OS_WIN)
-    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
-        pluginsDir.cdUp();
-#elif defined(Q_OS_MAC)
-    if (pluginsDir.dirName() == "MacOS") {
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-    }
-#endif
-    pluginsDir.cd("plugins");
-    */
+                    pluginsDir.cd("database");
+                    m_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
+
+                    m_found = true;
+
+                    for(const QFileInfo& info: m_plugins)
+                        std::cout << "Found database plugin: " << info.absoluteFilePath().toStdString() << std::endl;
+                }
             }
+
+            ASqlBackend* load()
+            {
+                find();
+
+                ASqlBackend* result = nullptr;
+
+                //TODO: load plugins basing on config etc
+                for(const QFileInfo& info: m_plugins)
+                {
+                    const QString path = info.absoluteFilePath();
+                    if (path.contains("sqlite"))
+                    {
+                        QObject* rawPlugin = load(path);
+                        result = dynamic_cast<ASqlBackend *>(rawPlugin);
+
+                        break;
+                    }
+                }
+
+                return result;
+            }
+
+            QObject* load(const QString& path)
+            {
+                QPluginLoader loader(path);
+                QObject* plugin = loader.instance();
+                return plugin;
+            }
+
+            QFileInfoList m_plugins;
+            bool m_found;
         };
 
 
@@ -72,7 +111,9 @@ namespace Database
 
     std::unique_ptr<ASqlBackend> BackendBuilder::get()
     {
+        std::unique_ptr<ASqlBackend> result(m_impl->m_finder.load());
 
+        return result;
     }
 
 }

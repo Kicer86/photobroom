@@ -47,7 +47,7 @@ endif(BUILD_TESTS)
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS})
-target_link_libraries(database configuration core ${Boost_LIBRARIES})
+target_link_libraries(database sql_backend_base configuration core ${Boost_LIBRARIES})
 qt5_use_modules(database Core)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
