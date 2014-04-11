@@ -4,7 +4,6 @@ project(broom CXX)
 cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
@@ -29,6 +28,10 @@ elseif(WIN32)
     add_definitions(-DOS_WIN)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif(UNIX OR CYGWIN)
+
+#base paths
+set(PATH_LIBS     "lib/broom")
+set(PATH_PLUGINS  "lib/broom/plugins")
 
 #subdirs
 add_subdirectory(src)

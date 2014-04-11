@@ -18,6 +18,7 @@ endif(WIN32)
 
 set(SYSTEM_SOURCES ${SYSTEM_SOURCES} implementation/filesystem.cpp)
 set(SYSTEM_HEADERS system.hpp filesystem.hpp)
+configure_file(paths.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
@@ -27,4 +28,4 @@ qt5_use_modules(system Core)
 turnOnCpp11(system)
 hideSymbols(system)
 
-install(TARGETS system RUNTIME LIBRARY DESTINATION lib/broom/)
+install(TARGETS system RUNTIME LIBRARY DESTINATION ${PATH_LIBS})

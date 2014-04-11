@@ -104,4 +104,4 @@ target_link_libraries(gui analyzer database)
 turnOnCpp11(gui)
 hideSymbols(gui)
 
-install(TARGETS gui RUNTIME LIBRARY DESTINATION lib/broom/)
+install(TARGETS gui RUNTIME LIBRARY DESTINATION ${PATH_LIBS})

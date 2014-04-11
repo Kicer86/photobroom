@@ -20,4 +20,4 @@ turnOnCpp11(database_mysql_backend)
 hideSymbols(database_mysql_backend)
 generate_export_header(database_mysql_backend EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_mysql_backend_export.h)
 
-install(TARGETS database_mysql_backend RUNTIME LIBRARY DESTINATION lib/broom/plugins/database)
+install(TARGETS database_mysql_backend RUNTIME LIBRARY DESTINATION ${PATH_PLUGINS}/database)

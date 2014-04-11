@@ -57,4 +57,4 @@ generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/export
 turnOnCpp11(configuration)
 hideSymbols(configuration)
 
-install(TARGETS configuration RUNTIME LIBRARY DESTINATION lib/broom/)
+install(TARGETS configuration RUNTIME LIBRARY DESTINATION ${PATH_LIBS})
