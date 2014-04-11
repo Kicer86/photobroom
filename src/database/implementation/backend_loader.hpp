@@ -26,7 +26,7 @@
 
 namespace Database
 {
-    class ASqlBackend;
+    class IBackend;
 
     class SQL_BACKEND_BASE_EXPORT BackendBuilder
     {
@@ -37,7 +37,7 @@ namespace Database
 
             BackendBuilder& operator=(const BackendBuilder& other) = delete;
 
-            std::unique_ptr<Database::ASqlBackend> get();
+            std::unique_ptr<Database::IBackend> get();
 
         private:
             struct Impl;

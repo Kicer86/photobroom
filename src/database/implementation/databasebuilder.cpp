@@ -31,10 +31,7 @@
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
-
-#include "implementation/sql_backends/backend_builder.hpp"
-#include "implementation/sql_backends/sql_backend.hpp"
-
+#include "backend_loader.hpp"
 
 //TODO: cleanup this file!
 

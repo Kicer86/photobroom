@@ -6,7 +6,7 @@
 #include <memory>
 
 #include <database/idatabase.hpp>
-#include <database/implementation/sql_backends/sql_backend.hpp>
+#include <database/sql_backends/sql_backend.hpp>
 
 #include "database_mysql_backend_export.h"
 

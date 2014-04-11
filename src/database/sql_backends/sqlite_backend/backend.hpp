@@ -8,7 +8,7 @@
 #include <QtPlugin>
 
 #include <database/idatabase.hpp>
-#include <database/implementation/sql_backends/sql_backend.hpp>
+#include <database/sql_backends/sql_backend.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
 #include "database_sqlite_backend_export.h"

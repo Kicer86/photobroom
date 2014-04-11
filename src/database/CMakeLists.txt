@@ -1,7 +1,7 @@
 
 project(database CXX)
 
-add_subdirectory(implementation/sql_backends)
+add_subdirectory(sql_backends)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem)
@@ -11,6 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
+    implementation/backend_loader.cpp
     implementation/databasebuilder.cpp
     implementation/filter.cpp
     implementation/memorydatabase.cpp
@@ -26,6 +27,7 @@ set(DATABASE_HEADERS
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
+    implementation/backend_loader.hpp
     implementation/db_photo_info.hpp
     implementation/memorydatabase.hpp
     )
@@ -47,7 +49,7 @@ endif(BUILD_TESTS)
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS})
-target_link_libraries(database sql_backend_base configuration core ${Boost_LIBRARIES})
+target_link_libraries(database configuration core ${Boost_LIBRARIES})
 qt5_use_modules(database Core)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
