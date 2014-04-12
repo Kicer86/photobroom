@@ -62,6 +62,7 @@ namespace Database
                             //setup db connection
                             db_obj = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
                             db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+                            db_obj.setDatabaseName("broom");
                             db_obj.setHostName("localhost");
                             db_obj.setUserName("root");
 
