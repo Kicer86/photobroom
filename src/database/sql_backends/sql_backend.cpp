@@ -44,14 +44,14 @@ namespace Database
     namespace
     {
         //check for proper sizes
-        static_assert(sizeof(unsigned int) >= 4, "unsigned int is smaller than MySQL's equivalent");
+        static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
         const char db_version[] = "0.01";
 
         TableDefinition
             table_versionHistory(TAB_VER_HIST,
                                     {
-                                        "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                        "id INTEGER PRIMARY KEY AUTOINCREMENT",
                                         "version DECIMAL(4,2) NOT NULL",       //xx.yy
                                         "date TIMESTAMP NOT NULL"
                                     }
@@ -60,7 +60,7 @@ namespace Database
         TableDefinition
             table_photos(TAB_PHOTOS,
                             {
-                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "id INTEGER PRIMARY KEY AUTOINCREMENT",
                                 "hash VARCHAR(256) NOT NULL",
                                 "path VARCHAR(1024) NOT NULL",
                                 "store_date TIMESTAMP NOT NULL"
@@ -75,7 +75,7 @@ namespace Database
         TableDefinition
             table_tag_names(TAB_TAG_NAMES,
                             {
-                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "id INTEGER PRIMARY KEY AUTOINCREMENT",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
                                         "type INT NOT NULL"
                             },
@@ -87,10 +87,10 @@ namespace Database
         TableDefinition
             table_tags(TAB_TAGS,
                             {
-                                "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
+                                "id INTEGER PRIMARY KEY AUTOINCREMENT",
                                 QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
-                                "name_id INT UNSIGNED NOT NULL",
-                                "photo_id INT UNSIGNED NOT NULL",
+                                "name_id INTEGER NOT NULL",
+                                "photo_id INTEGER NOT NULL",
                                 "FOREIGN KEY(photo_id) REFERENCES photos(id)",
                                 "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)"
                             }
@@ -155,7 +155,7 @@ namespace Database
 
             if (! tagId)  //tag not yet in database
             {
-                const QString queryStr = QString("INSERT INTO %1 (name, type) VALUES ('%2', '%3');")
+                const QString queryStr = QString("INSERT INTO %1 (id, name, type) VALUES (NULL, '%2', '%3');")
                             .arg(TAB_TAG_NAMES)
                             .arg(name)
                             .arg(type);
@@ -191,7 +191,7 @@ namespace Database
 
                         const QString query_str =
                             QString("INSERT INTO " TAB_TAGS
-                                    "(value, photo_id, name_id) VALUES(\"%1\", \"%2\", \"%3\");"
+                                    "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
                                 ).arg(valueInfo.value())
                                 .arg(photo_id)
                                 .arg(*tag_id);
@@ -214,7 +214,7 @@ namespace Database
             //store path and hash
             const QString query_str =
                 QString("INSERT INTO " TAB_PHOTOS
-                        "(store_date, path, hash) VALUES(CURRENT_TIMESTAMP, \"%1\", \"%2\");"
+                        "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");"
                        ).arg(data->getPath().c_str())
                         .arg(data->getHash().c_str());
 
@@ -292,7 +292,7 @@ namespace Database
             QSqlQuery query(m_db);
             const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
                                              " FROM %3 LEFT JOIN (%1, %2)"
-                                             " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY id")
+                                             " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY %1.id")
                                              .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
 
             exec(queryStr, &query);
