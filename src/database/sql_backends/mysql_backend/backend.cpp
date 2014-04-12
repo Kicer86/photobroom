@@ -24,58 +24,7 @@ namespace Database
     {
         Data(): m_initialized(false), m_server() {}
 
-        ~Data()
-        {
-
-        }
-
-        bool prepareDB(QSqlDatabase* db)
-        {
-            bool status = true;
-
-            if (m_initialized == false)
-            {
-                auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
-
-                //create base directory
-                if (entry)
-                {
-                    boost::filesystem::path storage(entry->value());
-
-                    storage /= "MySQL";
-
-                    if (boost::filesystem::exists(storage) == false)
-                        status = boost::filesystem::create_directories(storage);
-
-                    if (status)
-                    {
-                        //start mysql process
-                        const std::string storageString = storage.string();
-                        QString storagePath(storageString.c_str());
-                        storagePath += "/";
-
-                        const QString socketPath = m_server.run_server(storagePath);
-
-                        if (socketPath.isEmpty() == false)
-                        {
-                            QSqlDatabase db_obj;
-                            //setup db connection
-                            db_obj = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
-                            db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
-                            db_obj.setDatabaseName("broom");
-                            db_obj.setHostName("localhost");
-                            db_obj.setUserName("root");
-
-                            *db = db_obj;
-                        }
-
-                        m_initialized = socketPath.isEmpty() == false;;
-                    }
-                }
-            }
-
-            return status;
-        }
+        ~Data() { }
 
         bool m_initialized;
         MySqlServer m_server;
@@ -96,7 +45,56 @@ namespace Database
 
     bool MySqlBackend::prepareDB(QSqlDatabase *db)
     {
-        return m_data->prepareDB(db);
+        bool status = true;
+
+        if (m_data->m_initialized == false)
+        {
+            auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
+
+            //create base directory
+            if (entry)
+            {
+                boost::filesystem::path storage(entry->value());
+
+                storage /= "MySQL";
+
+                if (boost::filesystem::exists(storage) == false)
+                    status = boost::filesystem::create_directories(storage);
+
+                if (status)
+                {
+                    //start mysql process
+                    const std::string storageString = storage.string();
+                    QString storagePath(storageString.c_str());
+                    storagePath += "/";
+
+                    const QString socketPath = m_data->m_server.run_server(storagePath);
+
+                    if (socketPath.isEmpty() == false)
+                    {
+                        QSqlDatabase db_obj;
+                        //setup db connection
+                        db_obj = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
+                        db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+                        //db_obj.setDatabaseName("broom");
+                        db_obj.setHostName("localhost");
+                        db_obj.setUserName("root");
+
+                        *db = db_obj;
+                    }
+
+                    m_data->m_initialized = socketPath.isEmpty() == false;;
+                }
+            }
+        }
+
+        return status;
+    }
+
+
+    bool MySqlBackend::onAfterOpen()
+    {
+        return ASqlBackend::createDB();
     }
 
 

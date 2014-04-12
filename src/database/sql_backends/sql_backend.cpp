@@ -375,11 +375,23 @@ namespace Database
         return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
     }
 
+
     QString ASqlBackend::prepareFindTableQuery(const QString& name) const
     {
         return QString("SHOW TABLES LIKE '%1';").arg(name);
     }
 
+
+    bool ASqlBackend::createDB()
+    {
+        return m_data->createDB("broom");
+    }
+
+
+    bool ASqlBackend::onAfterOpen()
+    {
+        return true;
+    }
 
 
     bool ASqlBackend::assureTableExists(const TableDefinition& definition) const
@@ -433,6 +445,9 @@ namespace Database
 
         if (status)
             status = m_data->m_db.open();
+
+        if (status)
+            status = onAfterOpen();
 
         if (status)
             status = checkStructure();
@@ -533,7 +548,7 @@ namespace Database
 
     bool ASqlBackend::checkStructure()
     {
-        bool status = true; //m_data->createDB("broom");
+        bool status = true;
 
         //check if table 'version_history' exists
         if (status)
