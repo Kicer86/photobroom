@@ -64,6 +64,8 @@ namespace Database
             // More features may be added in future.
             // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
+            
+            virtual QString prepareFindTableQuery(const QString& name) const;
 
             //make sure table exists
             virtual bool assureTableExists(const TableDefinition &) const;
