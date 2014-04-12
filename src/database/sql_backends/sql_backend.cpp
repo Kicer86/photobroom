@@ -63,9 +63,11 @@ namespace Database
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 "hash VARCHAR(256) NOT NULL",
                                 "path VARCHAR(1024) NOT NULL",
-                                "store_date TIMESTAMP NOT NULL",
-                                "KEY(hash(256))",
-                                "KEY(path(1024))"
+                                "store_date TIMESTAMP NOT NULL"
+                            },
+                            {
+                                { "hash", "INDEX", "(hash)"  },   //256 limit required by MySQL
+                                { "path", "INDEX", "(path)" }     //1024 limit required by MySQL
                             }
                          );
 
@@ -75,8 +77,10 @@ namespace Database
                             {
                                 "id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY",
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
-                                        "type INT NOT NULL",
-                                QString("UNIQUE(name(%1))").arg(Consts::Constraints::database_tag_name_len)
+                                        "type INT NOT NULL"
+                            },
+                            {
+                                { "name", "UNIQUE INDEX", "(name)" }    //.arg(Consts::Constraints::database_tag_name_len)} required by MySQL
                             }
                            );
 
@@ -395,6 +399,22 @@ namespace Database
                 columnsDesc += definition.columns[i] + (i + 1 < size? ", ": "");
 
             status = m_data->exec( prepareCreationQuery(definition.name, columnsDesc), &query );
+
+            if (status && definition.keys.empty() == false)
+            {
+                const int size = definition.keys.size();
+                for(int i = 0; status && i < size; i++)
+                {
+                    QString indexDesc;
+
+                    indexDesc += "CREATE " + definition.keys[i].type;
+                    indexDesc += " " + definition.keys[i].name + "_idx";
+                    indexDesc += " ON " + definition.name;
+                    indexDesc += " " + definition.keys[i].def + ";";
+
+                    status = m_data->exec(indexDesc, &query);
+                }
+            }
         }
 
         return status;

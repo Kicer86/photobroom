@@ -4,8 +4,10 @@
 namespace Database
 {
 
-    TableDefinition::TableDefinition(const QString &n, const std::initializer_list<QString> &c):
-        name(n), columns(c)
+    TableDefinition::TableDefinition(const QString &n,
+                                     const std::initializer_list<QString> &c,
+                                     const std::initializer_list<KeyDefinition>& k):
+        name(n), columns(c), keys(k)
     {
 
     }
