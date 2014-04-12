@@ -46,7 +46,14 @@ namespace Database
 
                     if (status)
                     {
+                        storage /= "backend.db";
 
+                        QSqlDatabase db_obj;
+                        //setup db connection
+                        db_obj = QSqlDatabase::addDatabase("QSQLITE", QDatabaseName);
+                        db_obj.setDatabaseName(storage.c_str());
+
+                        *db = db_obj;
                     }
                 }
             }
@@ -66,7 +73,7 @@ namespace Database
 
     SQLiteBackend::~SQLiteBackend()
     {
-        //TODO: assert for db closed. In needs to be closed before MySQL server termination
+
     }
 
 
@@ -76,13 +83,10 @@ namespace Database
     }
 
 
-    QString SQLiteBackend::prepareCreationQuery(const QString& name, const QString& columns) const
+    QString SQLiteBackend::prepareFindTableQuery(const QString& name) const
     {
-        //Here we force InnoDB engine which may be default
-        //http://dev.mysql.com/doc/refman/5.5/en/innodb-default-se.html
-
-        const QString result = QString("CREATE TABLE %1(%2) ENGINE=InnoDB;").arg(name).arg(columns);
-
-        return result;
+        return QString("SELECT name FROM sqlite_master WHERE name='%1';").arg(name);
     }
+
+
 }

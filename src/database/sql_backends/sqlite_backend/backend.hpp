@@ -27,7 +27,7 @@ namespace Database
             virtual ~SQLiteBackend();
 
             virtual bool prepareDB(QSqlDatabase*) override;
-            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
+            virtual QString prepareFindTableQuery(const QString& name) const;
 
         private:
             struct Data;
