@@ -12,6 +12,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/databasebuilder.hpp>
+#include <sql_backends/table_definition.hpp>
 
 #include "mysql_server.hpp"
 
@@ -107,4 +108,24 @@ namespace Database
 
         return result;
     }
+
+
+    QString MySqlBackend::prepareColumnDescription(const ColDefinition& col) const
+    {
+        QString result;
+
+        switch(col.type)
+        {
+            case ColDefinition::Type::Regular:
+                result = col.name;
+                break;
+
+            case ColDefinition::Type::ID:
+                result = col.name + " " + "UNSIGNED INT PRIMARY KEY AUTO_INCREMENT";
+                break;
+        }
+
+        return result;
+    }
+
 }

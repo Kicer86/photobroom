@@ -26,10 +26,11 @@ namespace Database
             SQLiteBackend();
             virtual ~SQLiteBackend();
 
-            virtual bool prepareDB(QSqlDatabase*) override;
-            virtual QString prepareFindTableQuery(const QString& name) const;
-
         private:
+            virtual bool prepareDB(QSqlDatabase*) override;
+            virtual QString prepareFindTableQuery(const QString& name) const override;
+            virtual QString prepareColumnDescription(const ColDefinition&) const override;
+
             struct Data;
             std::unique_ptr<Data> m_data;
     };

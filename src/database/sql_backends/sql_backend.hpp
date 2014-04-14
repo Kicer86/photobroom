@@ -40,6 +40,7 @@ namespace Database
 {
     class Entry;
     struct TableDefinition;
+    struct ColDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
@@ -54,7 +55,7 @@ namespace Database
             void closeConnections();
 
         protected:
-            //will be called from init(). Prepare database here
+            //will be called from init(). Prepare QSqlDatabase object here
             virtual bool prepareDB(QSqlDatabase*) = 0;
 
             // Create table with given name and columns decription.
@@ -64,15 +65,20 @@ namespace Database
             // More features may be added in future.
             // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
+
+            //prepare query for finding table with given name
             virtual QString prepareFindTableQuery(const QString& name) const;
 
-            //cretaes db. Can be called in onAfterOpen in backends which need it
+            //prepare column description for CREATE TABLE matching provided info.
+            virtual QString prepareColumnDescription(const ColDefinition &) const = 0;
+
+            //Creates sql database. Can be called in onAfterOpen in backends which need it
             virtual bool createDB();
 
-            //called after db open.
+            //called after db open. May be used by backends for some extra steps after open.
             virtual bool onAfterOpen();
 
-            //make sure table exists
+            //make sure table exists. Makes sure a table maching TableDefinition exists in database
             virtual bool assureTableExists(const TableDefinition &) const;
 
             //execute query. Function for inheriting classes

@@ -64,7 +64,7 @@ namespace Database
                 for(const QFileInfo& info: m_plugins)
                 {
                     const QString path = info.absoluteFilePath();
-                    if (path.contains("mysql"))
+                    if (path.contains("sqlite"))
                     {
                         QObject* rawPlugin = load(path);
                         result = dynamic_cast<Database::IBackend *>(rawPlugin);

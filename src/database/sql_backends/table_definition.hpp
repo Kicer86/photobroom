@@ -11,6 +11,19 @@
 namespace Database
 {
 
+    struct SQL_BACKEND_BASE_EXPORT ColDefinition
+    {
+        QString name;
+        enum class Type
+        {
+            ID,
+            Regular,
+        } type;
+
+        ColDefinition(const char *, Type t = Type::Regular);
+        ColDefinition(const QString &, Type t = Type::Regular);
+    };
+
     struct SQL_BACKEND_BASE_EXPORT TableDefinition
     {
         struct KeyDefinition
@@ -21,11 +34,11 @@ namespace Database
         };
 
         const QString name;
-        const QList<QString> columns;
+        const QList<ColDefinition> columns;
         const QList<KeyDefinition> keys;
 
         TableDefinition(const QString& n,
-                        const std::initializer_list<QString>& c,
+                        const std::initializer_list<ColDefinition>& c,
                         const std::initializer_list<KeyDefinition>& k = { }
                        );
     };

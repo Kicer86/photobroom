@@ -51,7 +51,7 @@ namespace Database
         TableDefinition
             table_versionHistory(TAB_VER_HIST,
                                     {
-                                        "id INTEGER PRIMARY KEY AUTOINCREMENT",
+                                        { "id", ColDefinition::Type::ID },
                                         "version DECIMAL(4,2) NOT NULL",       //xx.yy
                                         "date TIMESTAMP NOT NULL"
                                     }
@@ -60,7 +60,7 @@ namespace Database
         TableDefinition
             table_photos(TAB_PHOTOS,
                             {
-                                "id INTEGER PRIMARY KEY AUTOINCREMENT",
+                                { "id", ColDefinition::Type::ID },
                                 "hash VARCHAR(256) NOT NULL",
                                 "path VARCHAR(1024) NOT NULL",
                                 "store_date TIMESTAMP NOT NULL"
@@ -75,7 +75,7 @@ namespace Database
         TableDefinition
             table_tag_names(TAB_TAG_NAMES,
                             {
-                                "id INTEGER PRIMARY KEY AUTOINCREMENT",
+                                { "id", ColDefinition::Type::ID },
                                 QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
                                         "type INT NOT NULL"
                             },
@@ -87,7 +87,7 @@ namespace Database
         TableDefinition
             table_tags(TAB_TAGS,
                             {
-                                "id INTEGER PRIMARY KEY AUTOINCREMENT",
+                                { "id", ColDefinition::Type::ID },
                                 QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
                                 "name_id INTEGER NOT NULL",
                                 "photo_id INTEGER NOT NULL",
@@ -408,7 +408,10 @@ namespace Database
             QString columnsDesc;
             const int size = definition.columns.size();
             for(int i = 0; i < size; i++)
-                columnsDesc += definition.columns[i] + (i + 1 < size? ", ": "");
+            {
+                const bool notlast = i + 1 < size;
+                columnsDesc += prepareColumnDescription(definition.columns[i]) + (notlast? ", ": "");
+            }
 
             status = m_data->exec( prepareCreationQuery(definition.name, columnsDesc), &query );
 

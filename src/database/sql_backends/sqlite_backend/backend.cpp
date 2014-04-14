@@ -11,7 +11,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/databasebuilder.hpp>
-
+#include <sql_backends/table_definition.hpp>
 
 namespace Database
 {
@@ -88,5 +88,23 @@ namespace Database
         return QString("SELECT name FROM sqlite_master WHERE name='%1';").arg(name);
     }
 
+
+    QString SQLiteBackend::prepareColumnDescription(const ColDefinition& col) const
+    {
+        QString result;
+
+        switch(col.type)
+        {
+            case ColDefinition::Type::Regular:
+                result = col.name;
+                break;
+
+            case ColDefinition::Type::ID:
+                result = col.name + " " + "INTEGER PRIMARY KEY AUTOINCREMENT";
+                break;
+        }
+
+        return result;
+    }
 
 }
