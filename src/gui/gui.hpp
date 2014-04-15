@@ -10,17 +10,17 @@
 
 namespace Gui
 {
- 
+
     struct IUi
     {
         virtual ~IUi() {}
         virtual void run (int argc, char **argv) = 0;
     };
-    
+
     
     struct GUI_EXPORT Factory
     {
-        static std::shared_ptr<IUi> get();
+        static std::unique_ptr<IUi> get();
     };
 }
 

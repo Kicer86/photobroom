@@ -1,17 +1,34 @@
 
 #include "gui.hpp"
 
-#include "initializator.hpp"
+#include <QApplication>
+
+#include "mainwindow.hpp"
 
 namespace Gui
 {
-    std::shared_ptr<IUi> Factory::get()
+    namespace
     {
-        static std::shared_ptr<IUi> result;
+        struct Gui: IUi
+        {
+            Gui() {}
+            Gui(const Gui &) = delete;
+            Gui& operator=(const Gui &) = delete;
 
-        if (result.get() == nullptr)
-            result.reset(new Initializator);
+            void run(int argc, char **argv)
+            {
+                QApplication app(argc, argv);
+                MainWindow mainWindow;
 
-        return result;
+                mainWindow.show();
+                app.exec();
+            }
+        };
+    }
+
+
+    std::unique_ptr<IUi> Factory::get()
+    {
+        return std::unique_ptr<IUi>(new Gui);
     }
 }

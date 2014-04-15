@@ -8,13 +8,6 @@
 
 #include "centralwidget.hpp"
 
-namespace
-{
-
-
-
-}
-
 
 struct MainWindow::GuiData
 {

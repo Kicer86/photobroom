@@ -14,7 +14,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
     Qt5/gui.cpp
-    Qt5/initializator.cpp
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
     Qt5/data/photo_info.cpp
@@ -40,7 +39,6 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    Qt5/initializator.hpp
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/data/photo_info.hpp
