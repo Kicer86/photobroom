@@ -31,7 +31,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    Database::Builder().get()->close();
+    Database::Builder::instance()->get()->close();
 
     e->accept();
 }

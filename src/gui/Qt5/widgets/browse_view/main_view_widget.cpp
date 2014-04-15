@@ -14,7 +14,7 @@
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
     DBDataModel* dbModel = new DBDataModel(this);
-    dbModel->setBackend(Database::Builder().getBackend());
+    dbModel->setBackend(Database::Builder::instance()->getBackend());
 
     m_imagesModel = dbModel;
     m_imagesView = new ImagesTreeView(this);

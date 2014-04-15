@@ -42,9 +42,6 @@ namespace Database
 
     namespace
     {
-        std::unique_ptr<IFrontend> defaultDatabase;
-        std::shared_ptr<IBackend> defaultBackend;
-        BackendBuilder backendBuilder;
 
         struct StreamFactory: public IStreamFactory
         {
@@ -98,8 +95,15 @@ namespace Database
         } initializer;
     }
 
+    struct Builder::Impl
+    {
+        std::unique_ptr<IFrontend> defaultDatabase;
+        std::shared_ptr<IBackend> defaultBackend;
+        BackendBuilder backendBuilder;
+    };
 
-    Builder::Builder()
+
+    Builder::Builder(): m_impl(new Impl)
     {
 
     }
@@ -111,9 +115,17 @@ namespace Database
     }
 
 
+    Builder* Builder::instance()
+    {
+        static Builder builder;
+        return &builder;
+    }
+
+
+
     IFrontend* Builder::get()
     {
-        if (defaultDatabase.get() == nullptr)
+        if (m_impl->defaultDatabase.get() == nullptr)
         {
             std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
             std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
@@ -121,28 +133,28 @@ namespace Database
 
             if (backend.get() != nullptr)
             {
-                defaultDatabase = std::move(frontend);
-                defaultDatabase->setBackend(backend);
+                m_impl->defaultDatabase = std::move(frontend);
+                m_impl->defaultDatabase->setBackend(backend);
             }
             //else TODO: emit signal to signalize there are some problems at initialization
         }
 
-        return defaultDatabase.get();
+        return m_impl->defaultDatabase.get();
     }
 
 
     std::shared_ptr<IBackend> Builder::getBackend()
     {
-        if (defaultBackend.get() == nullptr)
+        if (m_impl->defaultBackend.get() == nullptr)
         {
-            defaultBackend = backendBuilder.get();
-            const bool status = defaultBackend->init();
+            m_impl->defaultBackend = m_impl->backendBuilder.get();
+            const bool status = m_impl->defaultBackend->init();
 
             if (!status)
-                defaultBackend.reset();
+                m_impl->defaultBackend.reset();
         }
 
-        return defaultBackend;
+        return m_impl->defaultBackend;
     }
 
 

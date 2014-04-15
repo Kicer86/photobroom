@@ -37,11 +37,18 @@ namespace Database
 
     struct DATABASE_EXPORT Builder
     {
-        Builder();
         virtual ~Builder();
 
-        virtual IFrontend* get();
+        static Builder* instance();
+
+        virtual IFrontend* __attribute__((deprecated)) get();
         std::shared_ptr<Database::IBackend> getBackend();
+
+        private:
+            struct Impl;
+            std::unique_ptr<Impl> m_impl;
+
+            Builder();
     };
 }
 
