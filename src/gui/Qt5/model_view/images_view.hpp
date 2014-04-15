@@ -27,16 +27,16 @@
 
 class PositionsCache;
 
-class ImagesView: public QAbstractItemView
+class __attribute__((deprecated)) ImagesView: public QAbstractItemView
 {
     public:
         explicit ImagesView(QWidget* p);
         virtual ~ImagesView();
-        
+
         QModelIndexList getSelection() const;
 
         //QWidget's virtuals:
-        virtual void paintEvent(QPaintEvent* );        
+        virtual void paintEvent(QPaintEvent* );
         virtual void resizeEvent(QResizeEvent *e);
 
         //QAbstractItemView's pure virtuals:
@@ -49,12 +49,12 @@ class ImagesView: public QAbstractItemView
         virtual bool isIndexHidden(const QModelIndex& index) const;
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
         virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
-        
+
         //QAbstractItemView's virtuals:
         virtual void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector< int >& roles = QVector<int>());
         virtual void rowsInserted(const QModelIndex& parent, int start, int end);
         virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
-        
+
     private:
         std::unique_ptr<PositionsCache> m_cache;
 };
