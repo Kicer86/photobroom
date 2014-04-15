@@ -3,6 +3,7 @@
 
 #include <QVBoxLayout>
 #include <QTreeView>
+#include <QPushButton>
 
 #include <database/databasebuilder.hpp>
 
@@ -22,11 +23,22 @@ MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), 
 
     QVBoxLayout* main_layout = new QVBoxLayout(this);
     main_layout->addWidget(m_imagesView);
+
+    QPushButton* button = new QPushButton("Refresh", this);
+    connect(button, SIGNAL(pressed()), this, SLOT(refresh()));
+    main_layout->addWidget(button);
 }
 
 
 MainViewWidget::~MainViewWidget()
 {
 
+}
+
+
+void MainViewWidget::refresh()
+{
+    m_imagesView->setModel(nullptr);
+    m_imagesView->setModel(m_imagesModel);
 }
 

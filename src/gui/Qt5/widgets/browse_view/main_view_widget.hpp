@@ -9,6 +9,8 @@ class QAbstractItemModel;
 
 class MainViewWidget : public QWidget
 {
+        Q_OBJECT
+
     public:
         explicit MainViewWidget(QWidget *parent = 0);
         virtual ~MainViewWidget();
@@ -19,6 +21,9 @@ class MainViewWidget : public QWidget
     private:
         QAbstractItemModel* m_imagesModel;
         QAbstractItemView*  m_imagesView;
+
+    private slots:
+        void refresh();
 };
 
 #endif // MAIN_VIEW_WIDGET_HPP
