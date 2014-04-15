@@ -157,5 +157,4 @@ namespace Database
         return m_impl->defaultBackend;
     }
 
-
 }
