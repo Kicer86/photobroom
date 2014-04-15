@@ -7,7 +7,7 @@
 
 #include <database/databasebuilder.hpp>
 
-#include "model_view/images_view.hpp"
+#include "model_view/images_tree_view.hpp"
 #include "model_view/images_model.hpp"
 #include "model_view/db_data_model.hpp"
 
@@ -17,7 +17,7 @@ MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), 
     dbModel->setBackend(Database::Builder().getBackend());
 
     m_imagesModel = dbModel;
-    m_imagesView = new QTreeView(this);
+    m_imagesView = new ImagesTreeView(this);
 
     m_imagesView->setModel(m_imagesModel);
 
