@@ -143,7 +143,7 @@ namespace Database
     }
 
 
-    std::shared_ptr<IBackend> Builder::getBackend()
+    std::shared_ptr<IBackend> Builder::getBackend(Type type)
     {
         if (m_impl->defaultBackend.get() == nullptr)
         {

@@ -37,12 +37,18 @@ namespace Database
 
     struct DATABASE_EXPORT Builder
     {
+        enum Type
+        {
+            Base,
+            Temporary
+        };
+
         virtual ~Builder();
 
         static Builder* instance();
 
         virtual IFrontend* __attribute__((deprecated)) get();
-        std::shared_ptr<Database::IBackend> getBackend();
+        std::shared_ptr<Database::IBackend> getBackend(Type type = Base);
 
         private:
             struct Impl;
