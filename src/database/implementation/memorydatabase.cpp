@@ -93,7 +93,7 @@ namespace Database
         }
 
 
-        void setBackend(const std::shared_ptr<IBackend> &b)
+        void setBackend(IBackend* b)
         {
             m_backend = b;
 
@@ -143,7 +143,7 @@ namespace Database
             std::unordered_map<APhotoInfo::Hash, APhotoInfo::Ptr> m_db;  //files managed by database
             std::shared_ptr<IStreamFactory> m_stream;
             Database::IConfiguration *m_configuration;
-            std::shared_ptr<IBackend> m_backend;
+            IBackend* m_backend;
             std::mutex m_backendMutex;
             std::condition_variable m_backendSet;
             TS_Queue<APhotoInfo::Hash> m_updateQueue;               //entries to be stored in backend
@@ -192,7 +192,7 @@ namespace Database
     }
 
 
-    void MemoryDatabase::setBackend(const std::shared_ptr<Database::IBackend> &backend)
+    void MemoryDatabase::setBackend(Database::IBackend* backend)
     {
         m_impl->setBackend(backend);
     }

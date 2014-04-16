@@ -100,6 +100,8 @@ namespace Database
         std::unique_ptr<IFrontend> defaultDatabase;
         std::shared_ptr<IBackend> defaultBackend;
         BackendBuilder backendBuilder;
+
+        std::map<Builder::Type, std::unique_ptr<IBackend>> m_backends;
     };
 
 
@@ -129,9 +131,9 @@ namespace Database
         {
             std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
             std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
-            std::shared_ptr<Database::IBackend> backend = getBackend();
+            Database::IBackend* backend = getBackend();
 
-            if (backend.get() != nullptr)
+            if (backend != nullptr)
             {
                 m_impl->defaultDatabase = std::move(frontend);
                 m_impl->defaultDatabase->setBackend(backend);
@@ -143,7 +145,7 @@ namespace Database
     }
 
 
-    std::shared_ptr<IBackend> Builder::getBackend(Type type)
+    IBackend* Builder::getBackend(Type type)
     {
         const char* dbType = nullptr;
         switch(type)
@@ -152,16 +154,21 @@ namespace Database
             case Temporary: dbType = "tmp";   break;
         }
 
-        if (m_impl->defaultBackend.get() == nullptr)
-        {
-            m_impl->defaultBackend = m_impl->backendBuilder.get();
-            const bool status = m_impl->defaultBackend->init(dbType);
+        auto backendIt = m_impl->m_backends.find(type);
 
-            if (!status)
-                m_impl->defaultBackend.reset();
+        if (backendIt == m_impl->m_backends.end())
+        {
+            std::unique_ptr<IBackend> backend = m_impl->backendBuilder.get();
+            const bool status = backend->init(dbType);
+
+            if (status)
+            {
+                auto insertIt = m_impl->m_backends.emplace( std::make_pair(type, std::move(backend)) );
+                backendIt = insertIt.first;
+            }
         }
 
-        return m_impl->defaultBackend;
+        return backendIt->second.get();
     }
 
 }

@@ -54,7 +54,7 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
 
         //Database::IFrontend:
         virtual bool addPhoto(const IPhotoInfo::Ptr &) override;
-        virtual void setBackend(const std::shared_ptr<Database::IBackend> &) override;
+        virtual void setBackend(Database::IBackend *) override;
         virtual void close() override;
 
     private:

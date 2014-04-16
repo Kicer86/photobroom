@@ -43,7 +43,7 @@ namespace Database
             virtual ~MemoryDatabase();
 
             virtual bool addPhoto(const APhotoInfo::Ptr &) override;
-            virtual void setBackend(const std::shared_ptr<IBackend> &) override;
+            virtual void setBackend(IBackend *) override;
 
             virtual void close() override;
 

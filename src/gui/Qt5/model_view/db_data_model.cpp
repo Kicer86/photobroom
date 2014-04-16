@@ -172,7 +172,7 @@ struct DBDataModel::Impl
         return status;
     }
 
-    void setBackend(const std::shared_ptr<Database::IBackend>& backend)
+    void setBackend(Database::IBackend* backend)
     {
         m_backend = backend;
     }
@@ -229,7 +229,7 @@ struct DBDataModel::Impl
 
         Hierarchy m_hierarchy;
         bool m_dirty;
-        std::shared_ptr<Database::IBackend> m_backend;
+        Database::IBackend* m_backend;
         Database::PhotoIterator m_iterator;
 
         //function returns set of tags on particular 'level' for 'parent'
@@ -349,7 +349,7 @@ bool DBDataModel::addPhoto(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-void DBDataModel::setBackend(const std::shared_ptr<Database::IBackend>& backend)
+void DBDataModel::setBackend(Database::IBackend* backend)
 {
     m_impl->setBackend(backend);
 }

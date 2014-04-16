@@ -48,7 +48,7 @@ namespace Database
         static Builder* instance();
 
         virtual IFrontend* __attribute__((deprecated)) get();
-        std::shared_ptr<Database::IBackend> getBackend(Type type = Base);
+            IBackend* getBackend(Database::Builder::Type type = Base);
 
         private:
             struct Impl;
