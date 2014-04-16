@@ -53,18 +53,13 @@ namespace
             m_row(0),
             m_column(0)
         {
-            init(parent, name);
-        }
-
-        IdxData(const IdxData &) = delete;
-        IdxData& operator=(const IdxData &) = delete;
-
-        void init(IdxData* parent, const QString& name)
-        {
             m_data[Qt::DisplayRole] = name;
             m_parent = parent;
             m_level = parent? parent->m_level + 1: 0;
         }
+
+        IdxData(const IdxData &) = delete;
+        IdxData& operator=(const IdxData &) = delete;
 
         void setNodeData(const Database::FilterDescription& filter)
         {
