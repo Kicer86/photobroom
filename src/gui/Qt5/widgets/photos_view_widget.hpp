@@ -9,18 +9,8 @@
 class QItemSelectionModel;
 class QItemSelection;
 
-
-struct GuiDataSlots: public QObject
-{
-        Q_OBJECT
-
-    public:
-        GuiDataSlots(QObject *);
-        virtual ~GuiDataSlots();
-
-    protected slots:
-        virtual void selectionChanged() = 0;
-};
+class ImagesModel;
+class ImagesTreeView;
 
 
 class PhotosViewWidget: public QWidget
@@ -44,14 +34,14 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
-
         const std::vector<APhotoInfo::Ptr>& getPhotos() const;
 
-    protected:
-
     private:
-        struct GuiData;
-        std::unique_ptr<GuiData> m_gui;
+        ImagesModel*    m_photosModel;
+        ImagesTreeView* m_photosView;
+
+    private slots:
+        void selectionChanged();
 
     signals:
         void selectionChanged(const std::vector<APhotoInfo::Ptr> &);
