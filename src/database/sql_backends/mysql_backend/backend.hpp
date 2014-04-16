@@ -26,7 +26,7 @@ namespace Database
             virtual ~MySqlBackend();
 
         private:
-            virtual bool prepareDB(QSqlDatabase*) override;
+            virtual bool prepareDB(QSqlDatabase *, const char* name) override;
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareColumnDescription(const ColDefinition&) const override;
             virtual bool onAfterOpen() override;

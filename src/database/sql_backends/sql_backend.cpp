@@ -382,9 +382,9 @@ namespace Database
     }
 
 
-    bool ASqlBackend::createDB()
+    bool ASqlBackend::createDB(const char* name)
     {
-        return m_data->createDB("broom");
+        return m_data->createDB(name);
     }
 
 
@@ -444,7 +444,7 @@ namespace Database
 
     bool ASqlBackend::init(const char* dbName)
     {
-        bool status = prepareDB(&m_data->m_db);
+        bool status = prepareDB(&m_data->m_db, dbName);
 
         if (status)
             status = m_data->m_db.open();

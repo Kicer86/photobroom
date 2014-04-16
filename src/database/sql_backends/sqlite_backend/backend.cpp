@@ -26,7 +26,7 @@ namespace Database
 
         }
 
-        bool prepareDB(QSqlDatabase* db)
+        bool prepareDB(QSqlDatabase* db, const char* name)
         {
             bool status = true;
 
@@ -46,7 +46,7 @@ namespace Database
 
                     if (status)
                     {
-                        storage /= "backend.db";
+                        storage /= std::string(name) + ".db";
 
                         QSqlDatabase db_obj;
                         //setup db connection
@@ -77,9 +77,9 @@ namespace Database
     }
 
 
-    bool SQLiteBackend::prepareDB(QSqlDatabase *db)
+    bool SQLiteBackend::prepareDB(QSqlDatabase* db, const char* name)
     {
-        return m_data->prepareDB(db);
+        return m_data->prepareDB(db, name);
     }
 
 

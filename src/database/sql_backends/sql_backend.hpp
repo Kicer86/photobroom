@@ -56,7 +56,7 @@ namespace Database
 
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
-            virtual bool prepareDB(QSqlDatabase*) = 0;
+            virtual bool prepareDB(QSqlDatabase *, const char* name) = 0;
 
             // Create table with given name and columns decription.
             // It may be necessary for table to meet features:
@@ -73,7 +73,7 @@ namespace Database
             virtual QString prepareColumnDescription(const ColDefinition &) const = 0;
 
             //Creates sql database. Can be called in onAfterOpen in backends which need it
-            virtual bool createDB();
+            virtual bool createDB(const char *);
 
             //called after db open. May be used by backends for some extra steps after open.
             virtual bool onAfterOpen();

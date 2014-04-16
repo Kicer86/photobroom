@@ -23,12 +23,13 @@ namespace Database
 
     struct MySqlBackend::Data
     {
-        Data(): m_initialized(false), m_server() {}
+        Data(): m_initialized(false), m_server(), m_dbName(nullptr) {}
 
         ~Data() { }
 
         bool m_initialized;
         MySqlServer m_server;
+        const char* m_dbName;
     };
 
 
@@ -44,12 +45,13 @@ namespace Database
     }
 
 
-    bool MySqlBackend::prepareDB(QSqlDatabase *db)
+    bool MySqlBackend::prepareDB(QSqlDatabase* db, const char* name)
     {
         bool status = true;
 
         if (m_data->m_initialized == false)
         {
+            m_data->m_dbName = name;
             auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
 
             //create base directory
@@ -95,7 +97,7 @@ namespace Database
 
     bool MySqlBackend::onAfterOpen()
     {
-        return ASqlBackend::createDB();
+        return ASqlBackend::createDB(m_data->m_dbName);
     }
 
 
