@@ -141,17 +141,17 @@ namespace Database
     }
 
 
-    IPhotoInfo* PhotoIterator::operator->()
+    IPhotoInfo::Ptr PhotoIterator::operator->()
     {
         m_impl->calculatePhotoInfo();
-        return m_impl->m_photoInfo.get();
+        return m_impl->m_photoInfo;
     }
 
 
-    IPhotoInfo* PhotoIterator::operator*()
+    IPhotoInfo::Ptr PhotoIterator::operator*()
     {
         m_impl->calculatePhotoInfo();
-        return m_impl->m_photoInfo.get();
+        return m_impl->m_photoInfo;
     }
 
 
