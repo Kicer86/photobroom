@@ -35,27 +35,22 @@ namespace
         QMap<int, QVariant> m_data;
         bool m_loaded;
         Database::FilterDescription m_filter;
-        bool m_photo;                            //leaf or node?
+        IPhotoInfo::Ptr m_photo;                            //leaf or node? nullptr for node, real data for photo
         IdxData* m_parent;
         int m_row;
         int m_column;
 
-        // By default IdxData is constructed as leaf - 'loaded' and 'photo' are set to true.
-        // to change IdxData into node, call setNodeData()
-        IdxData(IdxData* parent, const QString& name):
-            m_level(-1),
-            m_children(),
-            m_data(),
-            m_loaded(true),
-            m_filter(),
-            m_photo(true),
-            m_parent(),
-            m_row(0),
-            m_column(0)
+        // node constructor
+        IdxData(IdxData* parent, const QString& name): IdxData(parent)
         {
             m_data[Qt::DisplayRole] = name;
-            m_parent = parent;
-            m_level = parent? parent->m_level + 1: 0;
+        }
+
+        //leaf constructor
+        IdxData(IdxData* parent, const IPhotoInfo::Ptr& photo): IdxData(parent)
+        {
+            m_photo = photo;
+            m_data[Qt::DisplayRole] = photo->getPath().c_str();
         }
 
         IdxData(const IdxData &) = delete;
@@ -74,6 +69,21 @@ namespace
             m_column = col;
         }
 
+        private:
+            IdxData(IdxData* parent):
+                m_level(-1),
+                m_children(),
+                m_data(),
+                m_loaded(false),
+                m_filter(),
+                m_photo(nullptr),
+                m_parent(),
+                m_row(0),
+                m_column(0)
+            {
+                m_parent = parent;
+                m_level = parent? parent->m_level + 1: 0;
+            }
     };
 }
 
@@ -145,9 +155,9 @@ struct DBDataModel::Impl
             Database::QueryList photos = m_backend->getPhotos(filter);
 
             int row = 0;
-            for(IPhotoInfo* photoInfo: photos)
+            for(IPhotoInfo::Ptr photoInfo: photos)
             {
-                IdxData* newItem = new IdxData(idxData, photoInfo->getPath().c_str());
+                IdxData* newItem = new IdxData(idxData, photoInfo);
                 newItem->setPosition(row++, 0);
 
                 idxData->m_children.push_back(newItem);
@@ -273,6 +283,19 @@ DBDataModel::~DBDataModel()
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
     m_impl->setHierarchy(hierarchy);
+}
+
+
+IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
+{
+    IdxData* idxData = m_impl->getIdxDataFor(idx);
+    return idxData->m_photo;
+}
+
+
+const std::vector< IPhotoInfo::Ptr > DBDataModel::getPhotos()
+{
+
 }
 
 

@@ -51,6 +51,8 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
         ~DBDataModel();
 
         void setHierarchy(const Hierarchy &);
+        APhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const std::vector<APhotoInfo::Ptr> getPhotos();
 
         //Database::IFrontend:
         virtual bool addPhoto(const IPhotoInfo::Ptr &) override;
