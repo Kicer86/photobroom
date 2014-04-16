@@ -88,7 +88,7 @@ namespace Database
             struct Data;
             std::unique_ptr<Data> m_data;
 
-            virtual bool init() override final;
+            virtual bool init(const char *) override final;
             virtual bool store(const APhotoInfo::Ptr &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;

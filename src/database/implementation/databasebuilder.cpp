@@ -145,10 +145,17 @@ namespace Database
 
     std::shared_ptr<IBackend> Builder::getBackend(Type type)
     {
+        const char* dbType = nullptr;
+        switch(type)
+        {
+            case Base:      dbType = "broom"; break;
+            case Temporary: dbType = "tmp";   break;
+        }
+
         if (m_impl->defaultBackend.get() == nullptr)
         {
             m_impl->defaultBackend = m_impl->backendBuilder.get();
-            const bool status = m_impl->defaultBackend->init();
+            const bool status = m_impl->defaultBackend->init(dbType);
 
             if (!status)
                 m_impl->defaultBackend.reset();

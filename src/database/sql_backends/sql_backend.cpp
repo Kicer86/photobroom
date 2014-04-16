@@ -442,7 +442,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::init()
+    bool ASqlBackend::init(const char* dbName)
     {
         bool status = prepareDB(&m_data->m_db);
 

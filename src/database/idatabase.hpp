@@ -34,7 +34,7 @@
 
 namespace Database
 {
-    
+
     class Filter;
 
     struct IBackend
@@ -52,7 +52,7 @@ namespace Database
         virtual TagData getTagsFor(const PhotoIterator &) = 0;
 
         //init backend - connect to database or create new one
-        virtual bool init() = 0;
+        virtual bool init(const char *) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
