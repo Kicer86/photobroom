@@ -9,7 +9,7 @@
 class QItemSelectionModel;
 class QItemSelection;
 
-class ImagesModel;
+class DBDataModel;
 class ImagesTreeView;
 
 
@@ -34,10 +34,10 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
-        const std::vector<APhotoInfo::Ptr>& getPhotos() const;
+        std::vector< IPhotoInfo::Ptr > getPhotos() const;
 
     private:
-        ImagesModel*    m_photosModel;
+        DBDataModel*    m_photosModel;
         ImagesTreeView* m_photosView;
 
     private slots:

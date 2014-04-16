@@ -11,8 +11,9 @@
 
 #include <core/tag.hpp>
 #include <core/aphoto_info.hpp>
+#include <database/databasebuilder.hpp>
 
-#include "model_view/images_model.hpp"
+#include "model_view/db_data_model.hpp"
 #include "model_view/images_tree_view.hpp"
 #include "data/photo_info.hpp"
 
@@ -24,7 +25,10 @@
 
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
-    m_photosModel = new ImagesModel(this);
+    Database::IBackend* backend = Database::Builder::instance()->getBackend(Database::Builder::Temporary);
+    m_photosModel = new DBDataModel(this);
+    m_photosModel->setBackend(backend);
+
     m_photosView = new ImagesTreeView(this);
     m_photosView->setModel(m_photosModel);
 
@@ -47,15 +51,15 @@ PhotosViewWidget::~PhotosViewWidget()
 
 void PhotosViewWidget::addPhoto(const std::string &path)
 {
-    APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path, m_photosModel);
+    APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path, nullptr);
 
-    m_photosModel->add(info);
+    m_photosModel->addPhoto(info);
 }
 
 
-const std::vector<APhotoInfo::Ptr>& PhotosViewWidget::getPhotos() const
+std::vector<APhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 {
-    return m_photosModel->getAll();
+    return m_photosModel->getPhotos();
 }
 
 
@@ -66,7 +70,7 @@ void PhotosViewWidget::selectionChanged()
     //collect list of tags
     for (const QModelIndex& index: m_photosView->selectionModel()->selectedIndexes())
     {
-        APhotoInfo::Ptr photoInfo = m_photosModel->get(index);
+        APhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
         images.push_back(photoInfo);
     }
 
