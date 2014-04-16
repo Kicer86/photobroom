@@ -19,7 +19,6 @@
 
 namespace Database
 {
-    const char* QDatabaseName = "Backend";
 
     struct MySqlBackend::Data
     {
@@ -77,7 +76,7 @@ namespace Database
                     {
                         QSqlDatabase db_obj;
                         //setup db connection
-                        db_obj = QSqlDatabase::addDatabase("QMYSQL", QDatabaseName);
+                        db_obj = QSqlDatabase::addDatabase("QMYSQL", name);
                         db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
                         //db_obj.setDatabaseName("broom");
                         db_obj.setHostName("localhost");

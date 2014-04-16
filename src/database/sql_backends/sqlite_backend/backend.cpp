@@ -15,7 +15,6 @@
 
 namespace Database
 {
-    const char* QDatabaseName = "Backend";
 
     struct SQLiteBackend::Data
     {
@@ -50,7 +49,7 @@ namespace Database
 
                         QSqlDatabase db_obj;
                         //setup db connection
-                        db_obj = QSqlDatabase::addDatabase("QSQLITE", QDatabaseName);
+                        db_obj = QSqlDatabase::addDatabase("QSQLITE", name);
                         db_obj.setDatabaseName(storage.c_str());
 
                         *db = db_obj;
