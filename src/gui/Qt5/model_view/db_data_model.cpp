@@ -31,14 +31,14 @@ namespace
     struct IdxData
     {
         size_t m_level;
+        IdxData* m_parent;
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
-        bool m_loaded;
         Database::FilterDescription m_filter;
-        bool m_photo;                            //leaf or node?
-        IdxData* m_parent;
         int m_row;
         int m_column;
+        bool m_loaded;
+        bool m_photo;                            //leaf or node?
 
         // By default IdxData is constructed as leaf - 'loaded' and 'photo' are set to true.
         // to change IdxData into node, call setNodeData()
