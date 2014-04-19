@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef BACKENDBUILDER_H
-#define BACKENDBUILDER_H
+#ifndef PLUGIN_LOADER_HPP
+#define PLUGIN_LOADER_HPP
 
 #include <memory>
 
@@ -28,14 +28,14 @@ namespace Database
 {
     class IPlugin;
 
-    class SQL_BACKEND_BASE_EXPORT BackendBuilder
+    class SQL_BACKEND_BASE_EXPORT PluginLoader
     {
         public:
-            BackendBuilder();
-            BackendBuilder(const BackendBuilder& other) = delete;
-            ~BackendBuilder();
+            PluginLoader();
+            PluginLoader(const PluginLoader& other) = delete;
+            ~PluginLoader();
 
-            BackendBuilder& operator=(const BackendBuilder& other) = delete;
+            PluginLoader& operator=(const PluginLoader& other) = delete;
 
             std::unique_ptr<Database::IPlugin> get();
 
@@ -46,4 +46,4 @@ namespace Database
 
 }
 
-#endif // BACKENDBUILDER_H
+#endif // PLUGIN_LOADER_HPP

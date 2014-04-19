@@ -95,25 +95,25 @@ namespace Database
 
     }
 
-    struct BackendBuilder::Impl
+    struct PluginLoader::Impl
     {
         PluginFinder m_finder;
     };
 
 
-    BackendBuilder::BackendBuilder(): m_impl(new Impl)
+    PluginLoader::PluginLoader(): m_impl(new Impl)
     {
 
     }
 
 
-    BackendBuilder::~BackendBuilder()
+    PluginLoader::~PluginLoader()
     {
 
     }
 
 
-    std::unique_ptr<Database::IPlugin> BackendBuilder::get()
+    std::unique_ptr<Database::IPlugin> PluginLoader::get()
     {
         std::unique_ptr<Database::IPlugin> result(m_impl->m_finder.load());
 

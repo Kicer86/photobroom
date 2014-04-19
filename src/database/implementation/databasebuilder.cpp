@@ -101,7 +101,7 @@ namespace Database
         std::unique_ptr<IFrontend> defaultDatabase;
         std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
-        BackendBuilder backendBuilder;
+        PluginLoader backendBuilder;
 
         std::map<Builder::Type, std::unique_ptr<IBackend>> m_backends;
 
