@@ -6,6 +6,7 @@
 #include <memory>
 
 #include <database/idatabase.hpp>
+#include <database/idatabase_plugin.hpp>
 #include <database/sql_backends/sql_backend.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
@@ -14,13 +15,8 @@
 namespace Database
 {
 
-    class DATABASE_MYSQL_BACKEND_EXPORT MySqlBackend final: public QObject, public ASqlBackend
+    class MySqlBackend final: public ASqlBackend
     {
-            Q_OBJECT
-            Q_PLUGIN_METADATA(IID BackendInterface_iid FILE "mysql_backend.json")
-            Q_INTERFACES(Database::IBackend)   //usage base interface. 'Database' namespace is obligatory
-
-
         public:
             MySqlBackend();
             virtual ~MySqlBackend();
@@ -34,6 +30,21 @@ namespace Database
             struct Data;
             std::unique_ptr<Data> m_data;
     };
+
+
+    class DATABASE_MYSQL_BACKEND_EXPORT MySqlPlugin final: public QObject, public IPlugin
+    {
+            Q_OBJECT
+            Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "mysql_backend.json")
+            Q_INTERFACES(Database::IPlugin)   //'Database' namespace is obligatory
+
+        public:
+            MySqlPlugin();
+            virtual ~MySqlPlugin();
+
+            virtual std::unique_ptr<IBackend> constructBackend();
+    };
+
 
 }
 

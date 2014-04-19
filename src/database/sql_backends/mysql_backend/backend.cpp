@@ -129,4 +129,23 @@ namespace Database
         return result;
     }
 
+
+    MySqlPlugin::MySqlPlugin(): QObject()
+    {
+
+    }
+
+
+    MySqlPlugin::~MySqlPlugin()
+    {
+
+    }
+
+
+    std::unique_ptr<IBackend> MySqlPlugin::constructBackend()
+    {
+        return std::unique_ptr<IBackend>(new MySqlBackend);
+    }
+
+
 }

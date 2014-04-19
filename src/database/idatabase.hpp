@@ -30,8 +30,6 @@
 #include "photo_iterator.hpp"
 #include "query_list.hpp"
 
-#define BackendInterface_iid "org.broom.plugins.database.ibackend"
-
 namespace Database
 {
 

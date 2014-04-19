@@ -25,7 +25,7 @@
 #include <QPluginLoader>
 
 #include <system/filesystem.hpp>
-#include <database/idatabase.hpp>
+#include <database/idatabase_plugin.hpp>
 
 
 namespace Database
@@ -54,11 +54,11 @@ namespace Database
                 }
             }
 
-            Database::IBackend* load()
+            Database::IPlugin* load()
             {
                 find();
 
-                Database::IBackend* result = nullptr;
+                Database::IPlugin* result = nullptr;
 
                 //TODO: load plugins basing on config etc
                 for(const QFileInfo& info: m_plugins)
@@ -67,7 +67,7 @@ namespace Database
                     if (path.contains("sqlite"))
                     {
                         QObject* rawPlugin = load(path);
-                        result = dynamic_cast<Database::IBackend *>(rawPlugin);
+                        result = dynamic_cast<Database::IPlugin *>(rawPlugin);
 
                         break;
                     }
@@ -113,9 +113,9 @@ namespace Database
     }
 
 
-    std::unique_ptr<Database::IBackend> BackendBuilder::get()
+    std::unique_ptr<Database::IPlugin> BackendBuilder::get()
     {
-        std::unique_ptr<Database::IBackend> result(m_impl->m_finder.load());
+        std::unique_ptr<Database::IPlugin> result(m_impl->m_finder.load());
 
         return result;
     }

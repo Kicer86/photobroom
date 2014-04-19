@@ -8,6 +8,7 @@
 #include <QtPlugin>
 
 #include <database/idatabase.hpp>
+#include <database/idatabase_plugin.hpp>
 #include <database/sql_backends/sql_backend.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
@@ -16,12 +17,8 @@
 namespace Database
 {
 
-    class DATABASE_SQLITE_BACKEND_EXPORT SQLiteBackend final: public QObject, public ASqlBackend
+    class SQLiteBackend final: public ASqlBackend
     {
-            Q_OBJECT
-            Q_PLUGIN_METADATA(IID BackendInterface_iid FILE "sqlite_backend.json")
-            Q_INTERFACES(Database::IBackend)   //usage base interface. 'Database' namespace is obligatory
-
         public:
             SQLiteBackend();
             virtual ~SQLiteBackend();
@@ -33,6 +30,20 @@ namespace Database
 
             struct Data;
             std::unique_ptr<Data> m_data;
+    };
+
+    
+    class DATABASE_SQLITE_BACKEND_EXPORT SQLitePlugin final: public QObject, public IPlugin
+    {
+            Q_OBJECT
+            Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "sqlite_backend.json")
+            Q_INTERFACES(Database::IPlugin)   //'Database' namespace is obligatory
+
+        public:
+            SQLitePlugin();
+            virtual ~SQLitePlugin();
+
+            virtual std::unique_ptr<IBackend> constructBackend();
     };
 
 }

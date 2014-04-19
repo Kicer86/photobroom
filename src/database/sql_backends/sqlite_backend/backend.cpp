@@ -106,4 +106,23 @@ namespace Database
         return result;
     }
 
+
+    SQLitePlugin::SQLitePlugin(): QObject()
+    {
+
+    }
+
+
+    SQLitePlugin::~SQLitePlugin()
+    {
+
+    }
+
+
+    std::unique_ptr<IBackend> SQLitePlugin::constructBackend()
+    {
+        return std::unique_ptr<IBackend>(new SQLiteBackend);
+    }
+
+
 }

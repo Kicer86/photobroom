@@ -25,13 +25,14 @@
 #include <memory>
 #include <fstream>
 
-#include "configuration/configurationfactory.hpp"
-#include "configuration/iconfiguration.hpp"
-#include "configuration/entrydata.hpp"
+#include <configuration/configurationfactory.hpp>
+#include <configuration/iconfiguration.hpp>
+#include <configuration/entrydata.hpp>
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
 #include "backend_loader.hpp"
+#include "idatabase_plugin.hpp"
 
 //TODO: cleanup this file!
 
@@ -98,10 +99,19 @@ namespace Database
     struct Builder::Impl
     {
         std::unique_ptr<IFrontend> defaultDatabase;
+        std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
         BackendBuilder backendBuilder;
 
         std::map<Builder::Type, std::unique_ptr<IBackend>> m_backends;
+
+        IPlugin* getPlugin()
+        {
+            if (plugin.get() == nullptr)
+                plugin = backendBuilder.get();
+
+            return plugin.get();
+        }
     };
 
 
@@ -158,7 +168,7 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            std::unique_ptr<IBackend> backend = m_impl->backendBuilder.get();
+            std::unique_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
             const bool status = backend->init(dbType);
 
             if (status)
