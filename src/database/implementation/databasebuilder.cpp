@@ -105,6 +105,9 @@ namespace Database
 
         std::map<Builder::Type, std::unique_ptr<IBackend>> m_backends;
 
+        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), m_backends()
+        {}
+
         IPlugin* getPlugin()
         {
             if (plugin.get() == nullptr)

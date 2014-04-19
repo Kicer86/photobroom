@@ -97,6 +97,8 @@ namespace Database
 
     struct PluginLoader::Impl
     {
+        Impl(): m_finder() {}
+
         PluginFinder m_finder;
     };
 
