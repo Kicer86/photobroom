@@ -30,15 +30,15 @@ namespace
 {
     struct IdxData
     {
-        size_t m_level;
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
-        bool m_loaded;
         Database::FilterDescription m_filter;
         IPhotoInfo::Ptr m_photo;                            //leaf or node? nullptr for node, real data for photo
         IdxData* m_parent;
+        size_t m_level;
         int m_row;
         int m_column;
+        bool m_loaded;
 
         // node constructor
         IdxData(IdxData* parent, const QString& name): IdxData(parent)
@@ -71,15 +71,15 @@ namespace
 
         private:
             IdxData(IdxData* parent):
-                m_level(-1),
                 m_children(),
                 m_data(),
-                m_loaded(false),
                 m_filter(),
                 m_photo(nullptr),
                 m_parent(),
+                m_level(-1),
                 m_row(0),
-                m_column(0)
+                m_column(0),
+                m_loaded(false)
             {
                 m_parent = parent;
                 m_level = parent? parent->m_level + 1: 0;
