@@ -47,8 +47,8 @@ namespace Database
 
         static Builder* instance();
 
-        virtual IFrontend* __attribute__((deprecated)) get();
-            IBackend* getBackend(Database::Builder::Type type = Base);
+        IFrontend* __attribute__((deprecated)) get();
+        IBackend* getBackend(Database::Builder::Type type = Base);  //always the same backend is returned for given type
 
         private:
             struct Impl;
