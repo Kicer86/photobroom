@@ -17,7 +17,7 @@
  *
  */
 
-#include "backend_loader.hpp"
+#include "plugin_loader.hpp"
 
 #include <iostream>
 

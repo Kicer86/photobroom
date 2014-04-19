@@ -31,7 +31,7 @@
 
 #include "memorydatabase.hpp"
 #include "ifs.hpp"
-#include "backend_loader.hpp"
+#include "plugin_loader.hpp"
 #include "idatabase_plugin.hpp"
 
 //TODO: cleanup this file!

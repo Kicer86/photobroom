@@ -11,7 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
-    implementation/backend_loader.cpp
+    implementation/plugin_loader.cpp
     implementation/databasebuilder.cpp
     implementation/filter.cpp
     implementation/memorydatabase.cpp
@@ -27,7 +27,7 @@ set(DATABASE_HEADERS
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
-    implementation/backend_loader.hpp
+    implementation/plugin_loader.hpp
     implementation/db_photo_info.hpp
     implementation/memorydatabase.hpp
     )
