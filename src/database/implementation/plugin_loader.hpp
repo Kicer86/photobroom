@@ -26,7 +26,7 @@
 
 namespace Database
 {
-    class IPlugin;
+    struct IPlugin;
 
     class SQL_BACKEND_BASE_EXPORT PluginLoader
     {
