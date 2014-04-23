@@ -69,6 +69,18 @@ namespace
             m_column = col;
         }
 
+        void addChild(IdxData* child)
+        {
+            child->setPosition(m_children.size(), 0);
+            m_children.push_back(child);
+        }
+
+        void addChild(const APhotoInfo::Ptr& photoInfo)
+        {
+            IdxData* child = new IdxData(this, photoInfo);
+            addChild(child);
+        }
+
         private:
             IdxData(IdxData* parent):
                 m_children(),
@@ -133,7 +145,6 @@ struct DBDataModel::Impl
         {
             std::set<TagValueInfo> tags = getLevelInfo(level + 1, _parent);
 
-            int row = 0;
             for(const TagValueInfo& tag: tags)
             {
                 Database::FilterDescription fdesc;
@@ -142,9 +153,8 @@ struct DBDataModel::Impl
 
                 IdxData* newItem = new IdxData(idxData, tag);
                 newItem->setNodeData(fdesc);
-                newItem->setPosition(row++, 0);
 
-                idxData->m_children.push_back(newItem);
+                idxData->addChild(newItem);
             }
         }
         else if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
@@ -154,13 +164,10 @@ struct DBDataModel::Impl
 
             Database::QueryList photos = m_backend->getPhotos(filter);
 
-            int row = 0;
             for(IPhotoInfo::Ptr photoInfo: photos)
             {
                 IdxData* newItem = new IdxData(idxData, photoInfo);
-                newItem->setPosition(row++, 0);
-
-                idxData->m_children.push_back(newItem);
+                idxData->addChild(newItem);
             }
         }
         else
@@ -229,7 +236,12 @@ struct DBDataModel::Impl
         return result;
     }
 
-    private:
+    void addPhoto(const APhotoInfo::Ptr& photo)
+    {
+        m_root.addChild(photo);
+    }
+
+
         IdxData m_root;
 
         Hierarchy m_hierarchy;
@@ -363,7 +375,13 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 
 bool DBDataModel::addPhoto(const IPhotoInfo::Ptr& photoInfo)
 {
-    return false;
+    const int row = m_impl->m_root.m_children.size();
+
+    beginInsertRows(QModelIndex(), row, row);
+    m_impl->addPhoto(photoInfo);
+    endInsertRows();
+
+    return true;
 }
 
 
