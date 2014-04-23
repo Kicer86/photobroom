@@ -36,15 +36,13 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 };
 
 
-PhotoInfo::PhotoInfo(const std::string& path, IThreadMultiplexer< PhotoInfo * >::IGetter* getter):
+PhotoInfo::PhotoInfo(const std::string& path):
     APhotoInfo(path),
     m_thumbnail(new QPixmap),
     m_thumbnailRaw(nullptr),
-    m_multpilexer(),
     m_photoData(),
     m_thumbnailData()
 {
-    m_multpilexer.setGetter(getter);
     load();
 }
 
@@ -108,13 +106,11 @@ void PhotoInfo::load()
     auto task = std::make_shared<ThumbnailGenerator>(this);  //generate thumbnail
     TaskExecutorConstructor::get()->add(task);
 
-    m_thumbnail->load(":/gui/images/clock64.png");                        //use temporary thumbnail until final one is ready
+    m_thumbnail->load(":/gui/images/clock64.png");           //use temporary thumbnail until final one is ready
 }
 
 
 void PhotoInfo::thumbnailReady(const QPixmap& thumbnail)
 {
     *m_thumbnail = thumbnail;
-
-    m_multpilexer.send(this);
 }

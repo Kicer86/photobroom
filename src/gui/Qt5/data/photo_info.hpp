@@ -5,7 +5,6 @@
 #include <QObject>
 
 #include "core/aphoto_info.hpp"
-#include "thread_multiplexer.hpp"
 
 class QPixmap;
 class QImage;
@@ -16,7 +15,7 @@ struct ThumbnailGenerator;
 class PhotoInfo: public APhotoInfo
 {
     public:
-        PhotoInfo(const std::string& path, ThreadMultiplexer::IGetter *);   //getter will be informed when a certain thumbnail is ready
+        PhotoInfo(const std::string& path);
 
         virtual ~PhotoInfo();
 
@@ -33,7 +32,6 @@ class PhotoInfo: public APhotoInfo
         friend struct ThumbnailGenerator;
         QPixmap* m_thumbnail;
         QImage*  m_thumbnailRaw;
-        ThreadMultiplexer m_multpilexer;
         RawPhotoData m_photoData;
         RawPhotoData m_thumbnailData;
 
