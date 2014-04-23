@@ -51,7 +51,7 @@ PhotosViewWidget::~PhotosViewWidget()
 
 void PhotosViewWidget::addPhoto(const std::string &path)
 {
-    APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path, nullptr);
+    APhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
 
     m_photosModel->addPhoto(info);
 }
