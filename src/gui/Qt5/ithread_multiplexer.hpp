@@ -8,7 +8,7 @@ struct IThreadMultiplexer
     struct IGetter
     {
         virtual ~IGetter() {}
-        virtual void getSignal(const T &) = 0;  //main thread will read here
+        virtual void signalEmited(const T &) = 0;  //main thread will read here
     };
 
     virtual ~IThreadMultiplexer() {}

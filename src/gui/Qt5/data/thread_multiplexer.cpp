@@ -32,5 +32,5 @@ void ThreadMultiplexer::send(PhotoInfo* const& photoInfo)
 void ThreadMultiplexer::propagated(PhotoInfo* photoInfo)
 {
     if (m_getter != nullptr)
-        m_getter->getSignal(photoInfo);
+        m_getter->signalEmited(photoInfo);
 }

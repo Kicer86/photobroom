@@ -100,7 +100,7 @@ QVariant ImagesModel::data(const QModelIndex& _index, int role) const
 }
 
 
-void ImagesModel::getSignal(PhotoInfo* const& photoInfo)
+void ImagesModel::signalEmited(PhotoInfo* const& photoInfo)
 {
     //TODO: optimize?
     size_t i = 0;

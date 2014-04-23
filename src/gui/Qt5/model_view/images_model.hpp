@@ -47,7 +47,7 @@ class __attribute__ ((deprecated)) ImagesModel: public QAbstractListModel, publi
         QVariant data(const QModelIndex &_index, int role) const;
 
         //IThreadMultiplexer::IGetter:
-        virtual void getSignal(PhotoInfo * const &);
+        virtual void signalEmited(PhotoInfo * const &) override;
 
     private:
         std::vector<APhotoInfo::Ptr> m_photos;
