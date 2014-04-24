@@ -5,6 +5,7 @@
 #include <QWidget>
 
 #include <core/aphoto_info.hpp>
+#include <core/time_guardian.hpp>
 
 class QItemSelectionModel;
 class QItemSelection;
@@ -27,6 +28,8 @@ class PhotosViewWidget: public QWidget
         template<class T>
         void addPhotos(const T &collection)
         {
+            TIME_GUARDIAN("Photos storage", 100, "Too long!");
+
             for(auto &photo: collection)
             {
                 addPhoto(photo);
