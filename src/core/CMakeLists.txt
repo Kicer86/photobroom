@@ -25,6 +25,7 @@ set(CORE_SOURCES
     implementation/itagfeeder.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
+    implementation/time_guardian.cpp
     )
 
 set(CORE_HEADERS
@@ -34,6 +35,7 @@ set(CORE_HEADERS
     itagfeeder.hpp
     tag.hpp
     task_executor.hpp
+    time_guardian.hpp
     )
 
 if(EXIV2_FOUND)
