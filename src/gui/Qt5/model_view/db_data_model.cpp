@@ -242,12 +242,14 @@ struct DBDataModel::Impl
     }
 
 
-        IdxData m_root;
+    IdxData m_root;
 
-        Hierarchy m_hierarchy;
-        bool m_dirty;
-        Database::IBackend* m_backend;
-        Database::PhotoIterator m_iterator;
+    Hierarchy m_hierarchy;
+    bool m_dirty;
+    Database::IBackend* m_backend;
+    Database::PhotoIterator m_iterator;
+
+    private:
 
         //function returns set of tags on particular 'level' for 'parent'
         std::set<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
