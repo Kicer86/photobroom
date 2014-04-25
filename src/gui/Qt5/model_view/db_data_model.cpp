@@ -33,12 +33,12 @@ namespace
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         Database::FilterDescription m_filter;
-        IPhotoInfo::Ptr m_photo;                            //leaf or node? nullptr for node, real data for photo
+        IPhotoInfo::Ptr m_photo;
         IdxData* m_parent;
         size_t m_level;
         int m_row;
         int m_column;
-        bool m_loaded;
+        bool m_loaded;                          // true when we have loaded all children of item (if any)
 
         // node constructor
         IdxData(IdxData* parent, const QString& name): IdxData(parent)
@@ -51,6 +51,7 @@ namespace
         {
             m_photo = photo;
             m_data[Qt::DisplayRole] = photo->getPath().c_str();
+            m_loaded = true;
         }
 
         IdxData(const IdxData &) = delete;
@@ -59,8 +60,6 @@ namespace
         void setNodeData(const Database::FilterDescription& filter)
         {
             m_filter = filter;
-            m_photo = false;
-            m_loaded = false;
         }
 
         void setPosition(int row, int col)
