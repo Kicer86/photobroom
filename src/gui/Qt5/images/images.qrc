@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/gui/images">
         <file>clock.svg</file>
-        <file>clock64.png</file>
-        <file>clock128.png</file>
-        <file>clock32.png</file>
     </qresource>
 </RCC>

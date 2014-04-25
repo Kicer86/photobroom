@@ -5,6 +5,7 @@
 
 #include <QPixmap>
 #include <QImage>
+#include <QtSvg/QSvgRenderer>
 
 #include "database/ifs.hpp"
 #include "core/task_executor.hpp"
@@ -61,7 +62,7 @@ void PhotoInfo::load()
     auto task = std::make_shared<ThumbnailGenerator>(this);  //generate thumbnail
     TaskExecutorConstructor::get()->add(task);
 
-    m_thumbnail->load(":/gui/images/clock64.png");           //use temporary thumbnail until final one is ready
+    m_thumbnail->load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
 }
 
 
