@@ -23,7 +23,7 @@ class PhotoInfo: public APhotoInfo
         virtual const RawPhotoData& rawThumbnailData() override;
 
         const QPixmap getPhoto() const;
-        const QPixmap& getThumbnail() const;
+        const QPixmap& getThumbnail() const override;
 
         PhotoInfo(const PhotoInfo &) = delete;
         PhotoInfo& operator=(const PhotoInfo &) = delete;

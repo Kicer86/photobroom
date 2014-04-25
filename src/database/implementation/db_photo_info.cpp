@@ -46,3 +46,9 @@ const RawPhotoData& DBPhotoInfo::rawPhotoData()
 {
     assert(!"not implemented");
 }
+
+
+const QPixmap& DBPhotoInfo::getThumbnail() const
+{
+    assert(!"not implemented");
+}

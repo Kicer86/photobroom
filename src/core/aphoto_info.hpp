@@ -13,7 +13,7 @@ class QPixmap;
 
 struct ITagData;
 
-struct CORE_EXPORT RawPhotoData
+struct CORE_EXPORT __attribute__((deprecated)) RawPhotoData
 {
     uint8_t* data;
     size_t   size;
@@ -44,6 +44,8 @@ struct IPhotoInfo
     //photo data
     virtual const RawPhotoData& rawPhotoData() = 0;
     virtual const RawPhotoData& rawThumbnailData() = 0;      // a temporary thumbnail may be returned when final one is not yet generated
+
+    virtual const QPixmap& getThumbnail() const = 0;
 
     // Function may return empty hash, when it is not yet calculated.
     // The returned value is hash of photo's content (pixels) not whole file itself.
