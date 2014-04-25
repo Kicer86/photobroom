@@ -12,21 +12,6 @@ class QString;
 class QPixmap;
 
 struct ITagData;
-
-struct CORE_EXPORT __attribute__((deprecated)) RawPhotoData
-{
-    uint8_t* data;
-    size_t   size;
-
-    RawPhotoData();
-    ~RawPhotoData();
-
-    RawPhotoData(const RawPhotoData &) = delete;
-    RawPhotoData(RawPhotoData&& other);
-
-    RawPhotoData& operator=(const RawPhotoData &) = delete;
-};
-
 struct APhotoInfoInitData;
 struct HashAssigner;
 
@@ -42,10 +27,7 @@ struct IPhotoInfo
     virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
 
     //photo data
-    virtual const RawPhotoData& rawPhotoData() = 0;
-    virtual const RawPhotoData& rawThumbnailData() = 0;      // a temporary thumbnail may be returned when final one is not yet generated
-
-    virtual const QPixmap& getThumbnail() const = 0;
+    virtual const QPixmap& getThumbnail() const = 0;        // a temporary thumbnail may be returned when final one is not yet generated
 
     // Function may return empty hash, when it is not yet calculated.
     // The returned value is hash of photo's content (pixels) not whole file itself.

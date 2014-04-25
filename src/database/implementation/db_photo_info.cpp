@@ -19,6 +19,8 @@
 
 #include "db_photo_info.hpp"
 
+#include <assert.h>
+
 #include <core/tag.hpp>
 
 #include "photo_iterator.hpp"
@@ -33,18 +35,6 @@ DBPhotoInfo::DBPhotoInfo(const APhotoInfoInitData& data): APhotoInfo(data)
 DBPhotoInfo::~DBPhotoInfo()
 {
 
-}
-
-
-const RawPhotoData& DBPhotoInfo::rawThumbnailData()
-{
-    assert(!"not implemented");
-}
-
-
-const RawPhotoData& DBPhotoInfo::rawPhotoData()
-{
-    assert(!"not implemented");
 }
 
 

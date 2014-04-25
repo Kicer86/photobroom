@@ -38,10 +38,7 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 
 PhotoInfo::PhotoInfo(const std::string& path):
     APhotoInfo(path),
-    m_thumbnail(new QPixmap),
-    m_thumbnailRaw(nullptr),
-    m_photoData(),
-    m_thumbnailData()
+    m_thumbnail(new QPixmap)
 {
     load();
 }
@@ -50,48 +47,6 @@ PhotoInfo::PhotoInfo(const std::string& path):
 PhotoInfo::~PhotoInfo()
 {
     delete m_thumbnail;
-    delete m_thumbnailRaw;
-}
-
-
-const RawPhotoData& PhotoInfo::rawPhotoData()
-{
-    if (m_photoData.data == nullptr)
-    {
-        const QPixmap photo = getPhoto();
-        QImage image = photo.toImage();
-
-        m_photoData.size = image.byteCount();
-        m_photoData.data = new uchar[m_photoData.size];
-
-        memcpy(m_photoData.data, image.bits(), m_photoData.size);
-    }
-
-    return m_photoData;
-}
-
-
-const RawPhotoData& PhotoInfo::rawThumbnailData()
-{
-    if (m_thumbnailRaw == nullptr)
-    {
-        m_thumbnailRaw = new QImage;
-        *m_thumbnailRaw = m_thumbnail->toImage();
-    }
-
-    m_thumbnailData.size = m_thumbnailRaw->byteCount();
-    m_thumbnailData.data = m_thumbnailRaw->bits();
-
-    return m_thumbnailData;
-}
-
-
-const QPixmap PhotoInfo::getPhoto() const
-{
-    const std::string path = APhotoInfo::getPath();
-    const QPixmap pixmap(path.c_str());
-
-    return pixmap;
 }
 
 

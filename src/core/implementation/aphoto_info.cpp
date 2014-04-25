@@ -4,6 +4,8 @@
 #include <memory>
 #include <mutex>
 
+#include <QImage>
+
 #include "tag.hpp"
 #include "itagfeeder.hpp"
 #include "task_executor.hpp"
@@ -21,31 +23,13 @@ struct HashAssigner: public ITaskExecutor::ITask
 
     virtual void perform() override
     {
-        const RawPhotoData& data = m_photoInfo->rawPhotoData();
-        const APhotoInfo::Hash hash = HashFunctions::sha256(data.data, data.size);
+        QImage image(m_photoInfo->getPath().c_str());
+        const APhotoInfo::Hash hash = HashFunctions::sha256(image.bits(), image.byteCount());
         m_photoInfo->setHash(hash);
     }
 
     APhotoInfo* m_photoInfo;
 };
-
-
-RawPhotoData::RawPhotoData(): data(nullptr), size(0)
-{
-
-}
-
-
-RawPhotoData::~RawPhotoData()
-{
-    delete [] data;
-}
-
-
-RawPhotoData::RawPhotoData(RawPhotoData && other): data(other.data), size(other.size)
-{
-    other.data = 0;
-}
 
 
 struct APhotoInfo::Data

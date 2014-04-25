@@ -5,6 +5,7 @@ project(core CXX)
 
 find_package(OpenLibrary REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED)
 find_package(OpenMP)
@@ -14,7 +15,11 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
+                           ${Qt5Gui_INCLUDE_DIRS}
+                           ${OPENLIBRARY_INCLUDES}
+                           ${OPENSSL_INCLUDE_DIR}
+                           ${Boost_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -56,7 +61,7 @@ if(BUILD_TESTS)
                             GTEST
                 )
     turnOnCpp11(core_test)
-    qt5_use_modules(core_test Core)
+    qt5_use_modules(core_test Core Gui)
     target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
 
     #TODO: remove it?
@@ -76,7 +81,7 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
 target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
-qt5_use_modules(core Core)
+qt5_use_modules(core Core Gui)
 #addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
 
 if(EXIV2_FOUND)
