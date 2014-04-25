@@ -106,8 +106,7 @@ void PhotoInfo::load()
     auto task = std::make_shared<ThumbnailGenerator>(this);  //generate thumbnail
     TaskExecutorConstructor::get()->add(task);
 
-    QPixmap pixmap(getPhoto());
-    *m_thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::FastTransformation);
+    m_thumbnail->load(":/gui/images/clock64.png");           //use temporary thumbnail until final one is ready
 }
 
 
