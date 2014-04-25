@@ -56,11 +56,11 @@ PhotoInfo::~PhotoInfo()
 
 const RawPhotoData& PhotoInfo::rawPhotoData()
 {
-    const QPixmap photo = getPhoto();
-    QImage image = photo.toImage();
-
     if (m_photoData.data == nullptr)
     {
+        const QPixmap photo = getPhoto();
+        QImage image = photo.toImage();
+
         m_photoData.size = image.byteCount();
         m_photoData.data = new uchar[m_photoData.size];
 
