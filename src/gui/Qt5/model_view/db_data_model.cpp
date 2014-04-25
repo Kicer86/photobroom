@@ -21,6 +21,8 @@
 
 #include <unordered_map>
 
+#include <QPixmap>
+
 #include <core/base_tags.hpp>
 #include <database/query_list.hpp>
 #include <database/filter.hpp>
@@ -51,6 +53,7 @@ namespace
         {
             m_photo = photo;
             m_data[Qt::DisplayRole] = photo->getPath().c_str();
+            m_data[Qt::DecorationRole] = photo->getThumbnail();
             m_loaded = true;
         }
 
