@@ -49,7 +49,7 @@ namespace
         }
 
         //leaf constructor
-        IdxData(IdxData* parent, const APhotoInfo::Ptr& photo): IdxData(parent)
+        IdxData(IdxData* parent, const IPhotoInfo::Ptr& photo): IdxData(parent)
         {
             m_photo = photo;
             m_data[Qt::DisplayRole] = photo->getPath().c_str();
