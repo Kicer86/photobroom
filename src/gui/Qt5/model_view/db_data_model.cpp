@@ -73,6 +73,7 @@ namespace
 
         void addChild(IdxData* child)
         {
+            assert(m_photo.get() == nullptr);             //child (leaf) cannot accept any child
             child->setPosition(m_children.size(), 0);
             m_children.push_back(child);
         }
