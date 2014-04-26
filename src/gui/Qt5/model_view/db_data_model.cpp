@@ -254,7 +254,6 @@ struct DBDataModel::Impl
     Database::PhotoIterator m_iterator;
 
     private:
-
         //function returns set of tags on particular 'level' for 'parent'
         std::set<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
         {
