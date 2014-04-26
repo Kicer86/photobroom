@@ -69,4 +69,6 @@ void PhotoInfo::load()
 void PhotoInfo::thumbnailReady(const QPixmap& thumbnail)
 {
     *m_thumbnail = thumbnail;
+
+    emit updated();
 }
