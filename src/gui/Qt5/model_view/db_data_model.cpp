@@ -349,6 +349,10 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
     IdxData* cData = pData->m_children[row];
     QModelIndex idx = createIndex(row, column, cData);
 
+    //check data consistency
+    assert(cData->m_row == row);
+    assert(cData->m_column == column);
+
     return idx;
 }
 
