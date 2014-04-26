@@ -43,6 +43,11 @@ set(CORE_HEADERS
     time_guardian.hpp
     )
 
+set(CORE_MOC
+    aphoto_info.hpp)
+
+qt5_wrap_cpp(CORE_MOCED ${CORE_MOC})
+
 if(EXIV2_FOUND)
     add_definitions(-DUSE_EXIV)
     include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
@@ -55,6 +60,7 @@ if(BUILD_TESTS)
     addTestTarget(core
                         SOURCES
                             ${CORE_SOURCES}
+                            ${CORE_MOCED}
                             tests/coreTests.cpp
                             tests/algoTests.cpp
                         TEST_LIBRARY
@@ -79,10 +85,10 @@ endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
+add_library(core ${CORE_SOURCES} ${CORE_HEADERS} ${CORE_MOCED})
 target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
 qt5_use_modules(core Core Gui)
-#addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
+addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
 
 if(EXIV2_FOUND)
     target_link_libraries(core ${EXIV2_LIBRARIES})

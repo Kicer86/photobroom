@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <string>
 
+#include <QObject>
+
 #include "core_export.h"
 
 class QString;
@@ -34,12 +36,14 @@ struct IPhotoInfo
     virtual const Hash& getHash() const = 0;
 };
 
-class CORE_EXPORT APhotoInfo: public IPhotoInfo
+class CORE_EXPORT APhotoInfo: public QObject, public IPhotoInfo
 {
+        Q_OBJECT
+
     public:
         APhotoInfo(const std::string &path);      //load all data from provided path
         APhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
-        APhotoInfo(const APhotoInfo &);
+        APhotoInfo(const APhotoInfo &) = delete;
         virtual ~APhotoInfo();
 
         const std::string& getPath() const;
@@ -55,6 +59,11 @@ class CORE_EXPORT APhotoInfo: public IPhotoInfo
 
         friend struct HashAssigner;
         void setHash(const Hash &);
+
+    signals:
+        // APhoto has been updated (hash calculated or thumbnail generated).
+        // Signal may be emmited from any thread.
+        void updated();
 };
 
 
