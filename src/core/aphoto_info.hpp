@@ -18,28 +18,35 @@ struct APhotoInfoInitData;
 struct HashAssigner;
 
 
-struct IPhotoInfo
+struct IPhotoInfo: public QObject
 {
-    typedef std::shared_ptr<IPhotoInfo> Ptr;
-    typedef std::string Hash;
+    Q_OBJECT
 
-    virtual ~IPhotoInfo() {}
+    public:
+        typedef std::shared_ptr<IPhotoInfo> Ptr;
+        typedef std::string Hash;
 
-    virtual const std::string& getPath() const = 0;
-    virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
+        virtual ~IPhotoInfo() {}
 
-    //photo data
-    virtual const QPixmap& getThumbnail() const = 0;         // a temporary thumbnail may be returned when final one is not yet generated
+        virtual const std::string& getPath() const = 0;
+        virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
 
-    // Function may return empty hash, when it is not yet calculated.
-    // The returned value is hash of photo's content (pixels) not whole file itself.
-    virtual const Hash& getHash() const = 0;
+        //photo data
+        virtual const QPixmap& getThumbnail() const = 0;         // a temporary thumbnail may be returned when final one is not yet generated
+
+        // Function may return empty hash, when it is not yet calculated.
+        // The returned value is hash of photo's content (pixels) not whole file itself.
+        virtual const Hash& getHash() const = 0;
+
+    signals:
+        // IPhoto has been updated (hash calculated or thumbnail generated).
+        // Signal may be emmited from any thread.
+        void updated();
+
 };
 
-class CORE_EXPORT APhotoInfo: public QObject, public IPhotoInfo
+class CORE_EXPORT APhotoInfo: public IPhotoInfo
 {
-        Q_OBJECT
-
     public:
         APhotoInfo(const std::string &path);      //load all data from provided path
         APhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
@@ -59,11 +66,6 @@ class CORE_EXPORT APhotoInfo: public QObject, public IPhotoInfo
 
         friend struct HashAssigner;
         void setHash(const Hash &);
-
-    signals:
-        // APhoto has been updated (hash calculated or thumbnail generated).
-        // Signal may be emmited from any thread.
-        void updated();
 };
 
 
