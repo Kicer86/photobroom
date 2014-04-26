@@ -65,11 +65,6 @@ namespace
             m_filter = filter;
         }
 
-        void setPosition(int row, int col)
-        {
-            m_row = row;
-            m_column = col;
-        }
 
         void addChild(IdxData* child)
         {
@@ -98,6 +93,12 @@ namespace
             {
                 m_parent = parent;
                 m_level = parent? parent->m_level + 1: 0;
+            }
+
+            void setPosition(int row, int col)
+            {
+                m_row = row;
+                m_column = col;
             }
     };
 }
