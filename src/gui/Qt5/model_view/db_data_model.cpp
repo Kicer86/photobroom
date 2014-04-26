@@ -30,7 +30,7 @@
 
 namespace
 {
-    struct IdxData
+    struct IdxData: public QObject
     {
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
@@ -49,13 +49,17 @@ namespace
         }
 
         //leaf constructor
-        IdxData(IdxData* parent, const IPhotoInfo::Ptr& photo): IdxData(parent)
+        IdxData(IdxData* parent, const APhotoInfo::Ptr& photo): IdxData(parent)
         {
             m_photo = photo;
             m_data[Qt::DisplayRole] = photo->getPath().c_str();
             m_data[Qt::DecorationRole] = photo->getThumbnail();
             m_loaded = true;
+
+            connect(photo.get(), SIGNAL(updated()), this, SLOT(photoUpdated()));
         }
+
+        virtual ~IdxData() {}
 
         IdxData(const IdxData &) = delete;
         IdxData& operator=(const IdxData &) = delete;
@@ -80,6 +84,8 @@ namespace
         }
 
         private:
+            Q_OBJECT
+
             IdxData(IdxData* parent):
                 m_children(),
                 m_data(),
@@ -99,6 +105,11 @@ namespace
             {
                 m_row = row;
                 m_column = col;
+            }
+
+        private slots:
+            void photoUpdated()
+            {
             }
     };
 }
@@ -243,6 +254,7 @@ struct DBDataModel::Impl
     void addPhoto(const APhotoInfo::Ptr& photo)
     {
         m_root.addChild(photo);
+
     }
 
 
