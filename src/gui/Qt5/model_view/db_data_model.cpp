@@ -21,99 +21,10 @@
 
 #include <unordered_map>
 
-#include <QPixmap>
-
 #include <core/base_tags.hpp>
 #include <database/query_list.hpp>
-#include <database/filter.hpp>
 
-
-namespace
-{
-    struct IdxData: public QObject
-    {
-        std::vector<IdxData *> m_children;
-        QMap<int, QVariant> m_data;
-        Database::FilterDescription m_filter;
-        IPhotoInfo::Ptr m_photo;
-        IdxData* m_parent;
-        size_t m_level;
-        int m_row;
-        int m_column;
-        bool m_loaded;                          // true when we have loaded all children of item (if any)
-
-        // node constructor
-        IdxData(IdxData* parent, const QString& name): IdxData(parent)
-        {
-            m_data[Qt::DisplayRole] = name;
-        }
-
-        //leaf constructor
-        IdxData(IdxData* parent, const IPhotoInfo::Ptr& photo): IdxData(parent)
-        {
-            m_photo = photo;
-            m_data[Qt::DisplayRole] = photo->getPath().c_str();
-            m_data[Qt::DecorationRole] = photo->getThumbnail();
-            m_loaded = true;
-
-            connect(photo.get(), SIGNAL(updated()), this, SLOT(photoUpdated()));
-        }
-
-        virtual ~IdxData() {}
-
-        IdxData(const IdxData &) = delete;
-        IdxData& operator=(const IdxData &) = delete;
-
-        void setNodeData(const Database::FilterDescription& filter)
-        {
-            m_filter = filter;
-        }
-
-
-        void addChild(IdxData* child)
-        {
-            assert(m_photo.get() == nullptr);             //child (leaf) cannot accept any child
-            child->setPosition(m_children.size(), 0);
-            m_children.push_back(child);
-        }
-
-        void addChild(const APhotoInfo::Ptr& photoInfo)
-        {
-            IdxData* child = new IdxData(this, photoInfo);
-            addChild(child);
-        }
-
-        private:
-            Q_OBJECT
-
-            IdxData(IdxData* parent):
-                m_children(),
-                m_data(),
-                m_filter(),
-                m_photo(nullptr),
-                m_parent(),
-                m_level(-1),
-                m_row(0),
-                m_column(0),
-                m_loaded(false)
-            {
-                m_parent = parent;
-                m_level = parent? parent->m_level + 1: 0;
-            }
-
-            void setPosition(int row, int col)
-            {
-                m_row = row;
-                m_column = col;
-            }
-
-        private slots:
-            void photoUpdated()
-            {
-            }
-    };
-}
-
+#include "idx_data.hpp"
 
 struct DBDataModel::Impl
 {
