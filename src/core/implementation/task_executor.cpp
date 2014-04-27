@@ -87,7 +87,7 @@ void TaskExecutor::add(const std::shared_ptr<ITask> &task)
     m_tasks.push_back(task);
 }
 
-
+//TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
     #pragma omp parallel
