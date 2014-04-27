@@ -280,8 +280,7 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
     IdxData* idxData = m_impl->parent(child);
-    QModelIndex parentIdx = idxData? createIndex(idxData->m_row, idxData->m_column, idxData):
-                                     QModelIndex();
+    QModelIndex parentIdx = idxData? createIndex(idxData): QModelIndex();
 
     return parentIdx;
 }
@@ -323,4 +322,18 @@ void DBDataModel::setBackend(Database::IBackend* backend)
 void DBDataModel::close()
 {
     m_impl->close();
+}
+
+
+QModelIndex DBDataModel::createIndex(IdxData* idxData) const
+{
+    const QModelIndex idx = createIndex(idxData->m_row, idxData->m_column, idxData);
+    return idx;
+}
+
+
+void DBDataModel::idxUpdated(IdxData* idxData)
+{
+    QModelIndex idx = createIndex(idxData);
+    emit dataChanged(idx, idx);
 }

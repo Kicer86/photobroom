@@ -26,6 +26,7 @@
 
 #include <database/idatabase.hpp>
 
+struct IdxData;
 
 struct Hierarchy
 {
@@ -49,6 +50,9 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
     public:
         DBDataModel(QObject* p);
         ~DBDataModel();
+        DBDataModel(const DBDataModel& other) = delete;
+        DBDataModel& operator=(const DBDataModel& other) = delete;
+        bool operator==(const DBDataModel& other) = delete;
 
         void setHierarchy(const Hierarchy &);
         APhotoInfo::Ptr getPhoto(const QModelIndex &) const;
@@ -60,6 +64,8 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
         virtual void close() override;
 
     private:
+        friend struct IdxData;
+
         //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
@@ -72,12 +78,14 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
         //own:
-        DBDataModel(const DBDataModel& other) = delete;
-        DBDataModel& operator=(const DBDataModel& other) = delete;
-        bool operator==(const DBDataModel& other) = delete;
+        using QAbstractItemModel::createIndex;
+        QModelIndex createIndex(IdxData *) const;
 
         struct Impl;
         std::unique_ptr<Impl> m_impl;
+
+        //used by friends
+        void idxUpdated(IdxData *);
 };
 
 #endif // DBDATAMODEL_H
