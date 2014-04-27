@@ -28,7 +28,7 @@
 
 struct DBDataModel::Impl
 {
-    Impl(): m_root(nullptr, "root"), m_hierarchy(), m_dirty(true), m_backend(), m_iterator()
+    Impl(DBDataModel* model): m_root(model, nullptr, "root"), m_hierarchy(), m_dirty(true), m_backend(), m_iterator()
     {
         m_root.setNodeData(Database::FilterDescription()); //called just to mark root as node, not a leaf
         Hierarchy hierarchy;
@@ -77,7 +77,7 @@ struct DBDataModel::Impl
                 fdesc.tagName = m_hierarchy.levels[level].tagName;
                 fdesc.tagValue = tag;
 
-                IdxData* newItem = new IdxData(idxData, tag);
+                IdxData* newItem = new IdxData(m_root.m_model, idxData, tag);
                 newItem->setNodeData(fdesc);
 
                 idxData->addChild(newItem);
@@ -92,7 +92,7 @@ struct DBDataModel::Impl
 
             for(IPhotoInfo::Ptr photoInfo: photos)
             {
-                IdxData* newItem = new IdxData(idxData, photoInfo);
+                IdxData* newItem = new IdxData(m_root.m_model, idxData, photoInfo);
                 idxData->addChild(newItem);
             }
         }
@@ -153,7 +153,6 @@ struct DBDataModel::Impl
         return status;
     }
 
-
     IdxData* parent(const QModelIndex& child)
     {
         IdxData* idxData = getIdxDataFor(child);
@@ -168,9 +167,7 @@ struct DBDataModel::Impl
 
     }
 
-
     IdxData m_root;
-
     Hierarchy m_hierarchy;
     bool m_dirty;
     Database::IBackend* m_backend;
@@ -208,7 +205,7 @@ struct DBDataModel::Impl
 ////////////////////////////////////////////////////////////////////////////////
 
 
-DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl)
+DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl(this))
 {
 
 }

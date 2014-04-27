@@ -26,6 +26,8 @@
 #include <core/aphoto_info.hpp>
 #include <database/filter.hpp>
 
+class DBDataModel;
+
 struct IdxData: public QObject
 {
     std::vector<IdxData *> m_children;
@@ -33,16 +35,17 @@ struct IdxData: public QObject
     Database::FilterDescription m_filter;
     IPhotoInfo::Ptr m_photo;
     IdxData* m_parent;
+    DBDataModel* m_model;
     size_t m_level;
     int m_row;
     int m_column;
     bool m_loaded;                          // true when we have loaded all children of item (if any)
 
     // node constructor
-    IdxData(IdxData* parent, const QString& name);
+    IdxData(DBDataModel *, IdxData* parent, const QString& name);
 
     //leaf constructor
-    IdxData(IdxData* parent, const IPhotoInfo::Ptr& photo);
+    IdxData(DBDataModel *, IdxData* parent, const IPhotoInfo::Ptr &);
 
     virtual ~IdxData();
 
@@ -56,7 +59,7 @@ struct IdxData: public QObject
     private:
         Q_OBJECT
 
-        IdxData(IdxData* parent);
+        IdxData(DBDataModel *, IdxData* parent);
         void setPosition(int row, int col);
 
     private slots:

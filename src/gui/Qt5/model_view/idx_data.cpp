@@ -24,13 +24,13 @@
 #include <QPixmap>
 #include <QVariant>
 
-IdxData::IdxData(IdxData* parent, const QString& name) : IdxData(parent)
+IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
     m_data[Qt::DisplayRole] = name;
 }
 
 
-IdxData::IdxData(IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(parent)
+IdxData::IdxData(DBDataModel* model, IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
     m_data[Qt::DisplayRole] = photo->getPath().c_str();
@@ -60,17 +60,18 @@ void IdxData::addChild(IdxData* child)
 
 void IdxData::addChild(const APhotoInfo::Ptr& photoInfo)
 {
-    IdxData* child = new IdxData(this, photoInfo);
+    IdxData* child = new IdxData(m_model, this, photoInfo);
     addChild(child);
 }
 
 
-IdxData::IdxData(IdxData* parent) :
+IdxData::IdxData(DBDataModel* model, IdxData* parent) :
     m_children(),
     m_data(),
     m_filter(),
     m_photo(nullptr),
     m_parent(),
+    m_model(model),
     m_level(-1),
     m_row(0),
     m_column(0),
