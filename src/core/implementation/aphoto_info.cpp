@@ -58,6 +58,8 @@ struct APhotoInfo::Data
         m_observer(other.m_observer)
     {}
 
+    Data& operator=(const Data &) = delete;
+
     std::string path;
     std::shared_ptr<ITagData> tags;
     APhotoInfo::Hash hash;
