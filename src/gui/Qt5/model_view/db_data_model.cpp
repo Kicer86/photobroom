@@ -207,7 +207,13 @@ struct DBDataModel::Impl
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl(this))
 {
-
+    // Register QVector of ints - required by queued signals.
+    // It is necessary, as model emits dataChanged() signal.
+    // And it may happen from various threads as IdxInfo will inform us about photo change,
+    // and photo updaters are run in threads.
+    // View classes will connect to dataChanged and will make sure it always come from main thread
+    // (gui operations are forbiden from non-main thread).
+    qRegisterMetaType<QVector<int>>("QVector<int>");
 }
 
 
