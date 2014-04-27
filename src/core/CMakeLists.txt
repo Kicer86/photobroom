@@ -88,7 +88,6 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 add_library(core ${CORE_SOURCES} ${CORE_HEADERS} ${CORE_MOCED})
 target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
 qt5_use_modules(core Core Gui)
-addFlags(core LINK_FLAGS ${OpenMP_CXX_FLAGS})
 
 if(EXIV2_FOUND)
     target_link_libraries(core ${EXIV2_LIBRARIES})
