@@ -67,7 +67,6 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
-    Qt5/model_view/idx_data.hpp
     Qt5/widgets/browse_view/main_view_widget.hpp
     Qt5/widgets/photos_staging/photos_staging_area.hpp
     Qt5/widgets/photos_view_widget.hpp

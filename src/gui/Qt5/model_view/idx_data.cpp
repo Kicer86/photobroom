@@ -38,7 +38,7 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const IPhotoInfo::Ptr& pho
     m_loaded = true;
 
     updateLeafData();
-    connect(photo.get(), SIGNAL(updated()), this, SLOT(photoUpdated()));
+    photo->registerObserver(this);
 }
 
 

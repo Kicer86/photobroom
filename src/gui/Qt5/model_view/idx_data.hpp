@@ -20,15 +20,16 @@
 #ifndef IDXDATA_HPP
 #define IDXDATA_HPP
 
-#include <QObject>
 #include <QMap>
 
 #include <core/aphoto_info.hpp>
 #include <database/filter.hpp>
 
+class QVariant;
+
 class DBDataModel;
 
-struct IdxData: public QObject
+struct IdxData: public IPhotoInfo::IObserver
 {
     std::vector<IdxData *> m_children;
     QMap<int, QVariant> m_data;
@@ -57,14 +58,12 @@ struct IdxData: public QObject
     void addChild(const APhotoInfo::Ptr& photoInfo);
 
     private:
-        Q_OBJECT
-
         IdxData(DBDataModel *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
 
-    private slots:
-        void photoUpdated();
+        //IObserver:
+        void photoUpdated() override;
 };
 
 #endif // IDXDATA_HPP
