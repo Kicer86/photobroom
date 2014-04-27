@@ -61,6 +61,7 @@ struct IdxData: public QObject
 
         IdxData(DBDataModel *, IdxData* parent);
         void setPosition(int row, int col);
+        void updateLeafData();
 
     private slots:
         void photoUpdated();

@@ -35,10 +35,9 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : Idx
 IdxData::IdxData(DBDataModel* model, IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
-    m_data[Qt::DisplayRole] = photo->getPath().c_str();
-    m_data[Qt::DecorationRole] = photo->getThumbnail();
     m_loaded = true;
 
+    updateLeafData();
     connect(photo.get(), SIGNAL(updated()), this, SLOT(photoUpdated()));
 }
 
@@ -90,7 +89,15 @@ void IdxData::setPosition(int row, int col)
 }
 
 
+void IdxData::updateLeafData()
+{
+    m_data[Qt::DisplayRole] = m_photo->getPath().c_str();
+    m_data[Qt::DecorationRole] = m_photo->getThumbnail();
+}
+
+
 void IdxData::photoUpdated()
 {
+    updateLeafData();
     m_model->idxUpdated(this);
 }
