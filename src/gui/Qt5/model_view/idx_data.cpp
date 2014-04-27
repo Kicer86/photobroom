@@ -70,14 +70,13 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent) :
     m_data(),
     m_filter(),
     m_photo(nullptr),
-    m_parent(),
+    m_parent(parent),
     m_model(model),
     m_level(-1),
     m_row(0),
     m_column(0),
     m_loaded(false)
 {
-    m_parent = parent;
     m_level = parent ? parent->m_level + 1 : 0;
 }
 
