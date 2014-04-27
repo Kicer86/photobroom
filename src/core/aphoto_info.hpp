@@ -6,8 +6,6 @@
 #include <cstdint>
 #include <string>
 
-#include <QObject>
-
 #include "core_export.h"
 
 class QString;
@@ -17,32 +15,31 @@ struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
-//TODO: remove QObject
-struct CORE_EXPORT IPhotoInfo: public QObject
+struct CORE_EXPORT IPhotoInfo
 {
-    Q_OBJECT
+    struct IObserver
+    {
+        IObserver() {};
+        virtual void photoUpdated() = 0;
+    };
 
-    public:
-        typedef std::shared_ptr<IPhotoInfo> Ptr;
-        typedef std::string Hash;
+    typedef std::shared_ptr<IPhotoInfo> Ptr;
+    typedef std::string Hash;
 
-        virtual ~IPhotoInfo() {}
+    virtual ~IPhotoInfo() {}
 
-        virtual const std::string& getPath() const = 0;
-        virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
+    virtual const std::string& getPath() const = 0;
+    virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
 
-        //photo data
-        virtual const QPixmap& getThumbnail() const = 0;         // a temporary thumbnail may be returned when final one is not yet generated
+    //photo data
+    virtual const QPixmap& getThumbnail() const = 0;         // a temporary thumbnail may be returned when final one is not yet generated
 
-        // Function may return empty hash, when it is not yet calculated.
-        // The returned value is hash of photo's content (pixels) not whole file itself.
-        virtual const Hash& getHash() const = 0;
+    // Function may return empty hash, when it is not yet calculated.
+    // The returned value is hash of photo's content (pixels) not whole file itself.
+    virtual const Hash& getHash() const = 0;
 
-    signals:
-        // IPhoto has been updated (hash calculated or thumbnail generated).
-        // Signal may be emmited from any thread.
-        void updated();
-
+    //regoster photo updates observer
+    virtual void registerObserver(IObserver *);
 };
 
 class CORE_EXPORT APhotoInfo: public IPhotoInfo
@@ -53,12 +50,17 @@ class CORE_EXPORT APhotoInfo: public IPhotoInfo
         APhotoInfo(const APhotoInfo &) = delete;
         virtual ~APhotoInfo();
 
-        const std::string& getPath() const;
-        std::shared_ptr<ITagData> getTags() const;
+        const std::string& getPath() const override;
+        std::shared_ptr<ITagData> getTags() const override;
 
         // Function may return empty hash, when it is not yet calculated.
         // The returned value is hash of photo's content (pixels) not whole file itself.
-        const Hash& getHash() const;
+        const Hash& getHash() const override;
+
+        void registerObserver(IObserver *) override;
+
+    protected:
+        void updated();
 
     private:
         struct Data;

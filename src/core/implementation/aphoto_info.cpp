@@ -34,7 +34,7 @@ struct HashAssigner: public ITaskExecutor::ITask
 
 struct APhotoInfo::Data
 {
-    Data(const std::string &p): path(p), tags(), hash(), hashMutex()
+    Data(const std::string &p): path(p), tags(), hash(), hashMutex(), m_observer(nullptr)
     {
         std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
@@ -45,7 +45,8 @@ struct APhotoInfo::Data
         path(initData.path),
         tags(initData.tags),
         hash(initData.hash),
-        hashMutex()
+        hashMutex(),
+        m_observer(nullptr)
     {
     }
 
@@ -53,14 +54,15 @@ struct APhotoInfo::Data
         path(other.path),
         tags(other.tags),
         hash(other.hash),
-        hashMutex()
+        hashMutex(),
+        m_observer(other.m_observer)
     {}
 
     std::string path;
     std::shared_ptr<ITagData> tags;
     APhotoInfo::Hash hash;
-
     std::mutex hashMutex;
+    IObserver* m_observer;
 };
 
 
@@ -105,6 +107,20 @@ const APhotoInfo::Hash& APhotoInfo::getHash() const
 }
 
 
+void APhotoInfo::registerObserver(IPhotoInfo::IObserver* observer)
+{
+    assert(m_data->m_observer == nullptr);
+    m_data->m_observer = observer;
+}
+
+
+void APhotoInfo::updated()
+{
+    if (m_data->m_observer != nullptr)
+        m_data->m_observer->photoUpdated();
+}
+
+
 void APhotoInfo::setHash(const Hash& hash)
 {
     //hash may be simultaneously read and write, protect it
@@ -115,7 +131,7 @@ void APhotoInfo::setHash(const Hash& hash)
 
     lock.release(); //write done
 
-    emit updated();
+    updated();
 }
 
 
