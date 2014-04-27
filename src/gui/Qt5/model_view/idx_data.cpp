@@ -24,6 +24,8 @@
 #include <QPixmap>
 #include <QVariant>
 
+#include "db_data_model.hpp"
+
 IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
     m_data[Qt::DisplayRole] = name;
@@ -90,4 +92,5 @@ void IdxData::setPosition(int row, int col)
 
 void IdxData::photoUpdated()
 {
+    m_model->idxUpdated(this);
 }

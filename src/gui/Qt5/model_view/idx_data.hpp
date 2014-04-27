@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef IDXDATA_H
-#define IDXDATA_H
+#ifndef IDXDATA_HPP
+#define IDXDATA_HPP
 
 #include <QObject>
 #include <QMap>
@@ -66,4 +66,4 @@ struct IdxData: public QObject
         void photoUpdated();
 };
 
-#endif // IDXDATA_H
+#endif // IDXDATA_HPP
