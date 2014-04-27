@@ -417,8 +417,8 @@ namespace Database
 
             if (status && definition.keys.empty() == false)
             {
-                const int size = definition.keys.size();
-                for(int i = 0; status && i < size; i++)
+                const int keys = definition.keys.size();
+                for(int i = 0; status && i < keys; i++)
                 {
                     QString indexDesc;
 

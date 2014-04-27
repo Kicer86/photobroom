@@ -24,15 +24,17 @@
 
 #include <memory>
 #include <fstream>
+#include <map>
 
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 
-#include "memorydatabase.hpp"
+//#include "memorydatabase.hpp"
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
 #include "idatabase_plugin.hpp"
+#include "idatabase.hpp"
 
 //TODO: cleanup this file!
 
@@ -137,7 +139,7 @@ namespace Database
     }
 
 
-
+    /*
     IFrontend* Builder::get()
     {
         if (m_impl->defaultDatabase.get() == nullptr)
@@ -156,7 +158,7 @@ namespace Database
 
         return m_impl->defaultDatabase.get();
     }
-
+    */
 
     IBackend* Builder::getBackend(Type type)
     {

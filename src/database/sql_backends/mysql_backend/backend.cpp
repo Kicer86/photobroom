@@ -23,6 +23,8 @@ namespace Database
     struct MySqlBackend::Data
     {
         Data(): m_initialized(false), m_server(), m_dbName(nullptr) {}
+        Data(const Data &) = delete;
+        Data& operator=(const Data &) = delete;
 
         ~Data() { }
 

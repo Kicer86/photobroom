@@ -77,9 +77,12 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<APhotoInfo::Ptr>&
 
 void PhotosStagingArea::savePhotos()
 {
+    assert(!"reimplement");
+    /*
     const std::vector<APhotoInfo::Ptr> photos = m_editor->getPhotos();
     Database::IFrontend* db = Database::Builder::instance()->get();
 
     for(const APhotoInfo::Ptr& photo: photos)
         db->addPhoto(photo);
+    */
 }

@@ -14,7 +14,6 @@ set(DATABASE_SOURCES
     implementation/plugin_loader.cpp
     implementation/databasebuilder.cpp
     implementation/filter.cpp
-    implementation/memorydatabase.cpp
     implementation/photo_iterator.cpp
     implementation/db_photo_info.cpp
     implementation/query_list.cpp
@@ -29,12 +28,10 @@ set(DATABASE_HEADERS
     query_list.hpp
     implementation/plugin_loader.hpp
     implementation/db_photo_info.hpp
-    implementation/memorydatabase.hpp
     )
 
 if(BUILD_TESTS)
     addTestTarget(database  SOURCES
-                                implementation/memorydatabase.cpp
                                 tests/databaseTests.cpp
                                 tests/photoIteratorTests.cpp
                             TEST_LIBRARY

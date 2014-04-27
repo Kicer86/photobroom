@@ -29,7 +29,7 @@ namespace Database
 
     struct SqlDBQuery: IQuery
     {
-        SqlDBQuery(const QSqlQuery& query, IBackend* backend): m_query(query), m_backend(backend) {}
+        SqlDBQuery(const QSqlQuery& query, IBackend* ibackend): m_query(query), m_backend(ibackend) {}
         SqlDBQuery(const SqlDBQuery &) = delete;
         SqlDBQuery& operator=(const SqlDBQuery &) = delete;
 
