@@ -15,7 +15,7 @@ struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
-struct CORE_EXPORT IPhotoInfo
+struct IPhotoInfo
 {
     struct IObserver
     {
@@ -38,8 +38,8 @@ struct CORE_EXPORT IPhotoInfo
     // The returned value is hash of photo's content (pixels) not whole file itself.
     virtual const Hash& getHash() const = 0;
 
-    //regoster photo updates observer
-    virtual void registerObserver(IObserver *);
+    //register photo updates observer
+    virtual void registerObserver(IObserver *) = 0;
 };
 
 class CORE_EXPORT APhotoInfo: public IPhotoInfo
