@@ -50,17 +50,13 @@ struct IdxData: public QObject
     IdxData& operator=(const IdxData &) = delete;
 
     void setNodeData(const Database::FilterDescription& filter);
-
-
     void addChild(IdxData* child);
-
     void addChild(const APhotoInfo::Ptr& photoInfo);
 
     private:
         Q_OBJECT
 
         IdxData(IdxData* parent);
-
         void setPosition(int row, int col);
 
     private slots:

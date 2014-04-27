@@ -17,8 +17,8 @@ struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
-
-struct IPhotoInfo: public QObject
+//TODO: remove QObject
+struct CORE_EXPORT IPhotoInfo: public QObject
 {
     Q_OBJECT
 
