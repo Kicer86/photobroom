@@ -98,6 +98,8 @@ namespace Database
                        );
     }
 
+    struct StorePhoto;
+
     struct ASqlBackend::Data
     {
         QSqlDatabase m_db;
@@ -117,9 +119,13 @@ namespace Database
         QueryList getPhotos(const Filter& filter);
 
         private:
+            friend struct StorePhoto;
             boost::optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const Filter& filter);
             bool applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
+
+            //for friends:
+            bool storePhoto(const APhotoInfo::Ptr& data);
     };
 
 
@@ -134,9 +140,11 @@ namespace Database
 
         virtual void perform()
         {
+            bool status = m_data->storePhoto(m_photo);
 
+            if (status == false)
+                std::cerr << "error while storing photo in database" << std::endl;
         }
-
     };
 
 
@@ -206,70 +214,10 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
+    bool ASqlBackend::Data::store(const IPhotoInfo::Ptr& data)
     {
-        QSqlQuery query(m_db);
-        bool status = true;
-
-        ITagData::TagsList tagsList = tags->getTags();
-        for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
-        {
-            //store tag
-            const boost::optional<unsigned int> tag_id = storeTag(it->first);
-
-            if (tag_id)
-            {
-                //store tag values
-                const ITagData::ValuesSet& values = it->second;
-                for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
-                {
-                    const TagValueInfo& valueInfo = *it_v;
-
-                    const QString query_str =
-                        QString("INSERT INTO " TAB_TAGS
-                                "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
-                            ).arg(valueInfo.value())
-                            .arg(photo_id)
-                            .arg(*tag_id);
-
-                    status = exec(query_str, &query);
-                }
-            }
-            else
-                status = false;
-        }
-
-        return status;
-    }
-
-
-    bool ASqlBackend::Data::store(const APhotoInfo::Ptr& data)
-    {
-        QSqlQuery query(m_db);
-
-        //store path and hash
-        const QString query_str =
-            QString("INSERT INTO " TAB_PHOTOS
-                    "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");"
-                    ).arg(data->getPath().c_str())
-                    .arg(data->getHash().c_str());
-
-        bool status = exec(query_str, &query);
-        QVariant photo_id;
-
-        if (status)
-        {
-            photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = photo_id.isValid();
-        }
-
-        //store used tags
-        std::shared_ptr<ITagData> tags = data->getTags();
-
-        if (status)
-            status = applyTags(photo_id.toInt(), tags);
-
-        return status;
+        auto task = std::make_shared<StorePhoto>(this, data);
+        TaskExecutorConstructor::get()->add(task);
     }
 
 
@@ -353,6 +301,7 @@ namespace Database
         return result;
     }
 
+
     QString ASqlBackend::Data::generateFilterQuery(const Filter& filter)
     {
         QString result;
@@ -372,6 +321,73 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    bool ASqlBackend::Data::applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
+    {
+        QSqlQuery query(m_db);
+        bool status = true;
+
+        ITagData::TagsList tagsList = tags->getTags();
+        for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
+        {
+            //store tag
+            const boost::optional<unsigned int> tag_id = storeTag(it->first);
+
+            if (tag_id)
+            {
+                //store tag values
+                const ITagData::ValuesSet& values = it->second;
+                for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
+                {
+                    const TagValueInfo& valueInfo = *it_v;
+
+                    const QString query_str =
+                        QString("INSERT INTO " TAB_TAGS
+                                "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
+                            ).arg(valueInfo.value())
+                            .arg(photo_id)
+                            .arg(*tag_id);
+
+                    status = exec(query_str, &query);
+                }
+            }
+            else
+                status = false;
+        }
+
+        return status;
+    }
+
+
+    bool ASqlBackend::Data::storePhoto(const APhotoInfo::Ptr& data)
+    {
+        QSqlQuery query(m_db);
+
+        //store path and hash
+        const QString query_str =
+            QString("INSERT INTO " TAB_PHOTOS
+                    "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");"
+                    ).arg(data->getPath().c_str())
+                    .arg(data->getHash().c_str());
+
+        bool status = exec(query_str, &query);
+        QVariant photo_id;
+
+        if (status)
+        {
+            photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = photo_id.isValid();
+        }
+
+        //store used tags
+        std::shared_ptr<ITagData> tags = data->getTags();
+
+        if (status)
+            status = applyTags(photo_id.toInt(), tags);
+
+        return status;
     }
 
 
