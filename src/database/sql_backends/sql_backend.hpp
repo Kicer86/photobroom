@@ -45,6 +45,8 @@ namespace Database
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
         public:
+            struct Data;
+
             ASqlBackend();
             ASqlBackend(const ASqlBackend& other) = delete;
             virtual ~ASqlBackend();
@@ -85,7 +87,6 @@ namespace Database
             virtual bool exec(const QString &, QSqlQuery *) const;
 
         private:
-            struct Data;
             std::unique_ptr<Data> m_data;
 
             virtual bool init(const char *) override final;

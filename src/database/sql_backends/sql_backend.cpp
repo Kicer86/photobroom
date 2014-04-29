@@ -32,6 +32,7 @@
 #include <QVariant>
 
 #include <core/tag.hpp>
+#include <core/task_executor.hpp>
 #include <configuration/constants.hpp>
 #include <database/filter.hpp>
 
@@ -97,249 +98,284 @@ namespace Database
                        );
     }
 
-
     struct ASqlBackend::Data
     {
-
         QSqlDatabase m_db;
         ASqlBackend* m_backend;
 
-        Data(ASqlBackend* backend): m_db(), m_backend(backend) {}
-        ~Data()
-        {
-
-        }
-
+        Data(ASqlBackend* backend);
+        ~Data();
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
-        bool exec(const QString& query, QSqlQuery* result) const
+        bool exec(const QString& query, QSqlQuery* result) const;
+        bool createDB(const QString& dbName) const;
+        boost::optional<unsigned int> storeTag(const TagNameInfo& nameInfo) const;
+        bool store(const APhotoInfo::Ptr& data);
+        std::vector<TagNameInfo> listTags() const;
+        std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
+        QueryList getPhotos(const Filter& filter);
+
+        private:
+            boost::optional<unsigned int> findTagByName(const QString& name) const;
+            QString generateFilterQuery(const Filter& filter);
+            bool applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
+    };
+
+
+    struct StorePhoto: ITaskExecutor::ITask
+    {
+        ASqlBackend::Data* m_data;
+        const APhotoInfo::Ptr& m_photo;
+
+        StorePhoto(ASqlBackend::Data* data, const APhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
         {
-            const bool status = result->exec(query);
-
-            if (status == false)
-                std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
-                          << " while performing query: " << query.toStdString() << std::endl;
-
-            return status;
         }
 
-
-        bool createDB(const QString& dbName) const
+        virtual void perform()
         {
-            //check if database exists
-            QSqlQuery query(m_db);
-            bool status = exec(QString("SHOW DATABASES LIKE '%1';").arg(dbName), &query);
 
-            //create database if doesn't exists
-            bool empty = query.next() == false;
-            if (status && empty)
-                status = exec(QString("CREATE DATABASE `%1`;").arg(dbName), &query);
+        }
 
-            //switch to database
+    };
+
+
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_db(), m_backend(backend) {}
+
+
+    ASqlBackend::Data::~Data()
+    {
+
+    }
+
+
+    bool ASqlBackend::Data::exec(const QString& query, QSqlQuery* result) const
+    {
+        const bool status = result->exec(query);
+
+        if (status == false)
+            std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
+                        << " while performing query: " << query.toStdString() << std::endl;
+
+        return status;
+    }
+
+
+    bool ASqlBackend::Data::createDB(const QString& dbName) const
+    {
+        //check if database exists
+        QSqlQuery query(m_db);
+        bool status = exec(QString("SHOW DATABASES LIKE '%1';").arg(dbName), &query);
+
+        //create database if doesn't exists
+        bool empty = query.next() == false;
+        if (status && empty)
+            status = exec(QString("CREATE DATABASE `%1`;").arg(dbName), &query);
+
+        //switch to database
+        if (status)
+            status = exec(QString("USE %1;").arg(dbName), &query);
+
+        return status;
+    }
+
+
+    boost::optional<unsigned int> ASqlBackend::Data::storeTag(const TagNameInfo& nameInfo) const
+    {
+        const QString& name = nameInfo.getName();
+        const int type = nameInfo.getType();
+        QSqlQuery query(m_db);
+
+        //check if tag exists
+        boost::optional<unsigned int> tagId = findTagByName(name);
+
+        if (! tagId)  //tag not yet in database
+        {
+            const QString queryStr = QString("INSERT INTO %1 (id, name, type) VALUES (NULL, '%2', '%3');")
+                        .arg(TAB_TAG_NAMES)
+                        .arg(name)
+                        .arg(type);
+
+            const bool status = exec(queryStr, &query);
+
             if (status)
-                status = exec(QString("USE %1;").arg(dbName), &query);
-
-            return status;
+                tagId = query.lastInsertId().toUInt();
         }
 
+        return tagId;
+    }
 
-        boost::optional<unsigned int> storeTag(const TagNameInfo& nameInfo) const
+
+    bool ASqlBackend::Data::applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
+    {
+        QSqlQuery query(m_db);
+        bool status = true;
+
+        ITagData::TagsList tagsList = tags->getTags();
+        for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
-            const QString& name = nameInfo.getName();
-            const int type = nameInfo.getType();
-            QSqlQuery query(m_db);
+            //store tag
+            const boost::optional<unsigned int> tag_id = storeTag(it->first);
 
-            //check if tag exists
-            boost::optional<unsigned int> tagId = findTagByName(name);
-
-            if (! tagId)  //tag not yet in database
+            if (tag_id)
             {
-                const QString queryStr = QString("INSERT INTO %1 (id, name, type) VALUES (NULL, '%2', '%3');")
-                            .arg(TAB_TAG_NAMES)
-                            .arg(name)
-                            .arg(type);
-
-                const bool status = exec(queryStr, &query);
-
-                if (status)
-                    tagId = query.lastInsertId().toUInt();
-            }
-
-            return tagId;
-        }
-
-
-        bool applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
-        {
-            QSqlQuery query(m_db);
-            bool status = true;
-
-            ITagData::TagsList tagsList = tags->getTags();
-            for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
-            {
-                //store tag
-                const boost::optional<unsigned int> tag_id = storeTag(it->first);
-
-                if (tag_id)
+                //store tag values
+                const ITagData::ValuesSet& values = it->second;
+                for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
                 {
-                    //store tag values
-                    const ITagData::ValuesSet& values = it->second;
-                    for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
-                    {
-                        const TagValueInfo& valueInfo = *it_v;
+                    const TagValueInfo& valueInfo = *it_v;
 
-                        const QString query_str =
-                            QString("INSERT INTO " TAB_TAGS
-                                    "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
-                                ).arg(valueInfo.value())
-                                .arg(photo_id)
-                                .arg(*tag_id);
+                    const QString query_str =
+                        QString("INSERT INTO " TAB_TAGS
+                                "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
+                            ).arg(valueInfo.value())
+                            .arg(photo_id)
+                            .arg(*tag_id);
 
-                        status = exec(query_str, &query);
-                    }
+                    status = exec(query_str, &query);
                 }
-                else
-                    status = false;
             }
-
-            return status;
+            else
+                status = false;
         }
 
+        return status;
+    }
 
-        bool store(const APhotoInfo::Ptr& data)
+
+    bool ASqlBackend::Data::store(const APhotoInfo::Ptr& data)
+    {
+        QSqlQuery query(m_db);
+
+        //store path and hash
+        const QString query_str =
+            QString("INSERT INTO " TAB_PHOTOS
+                    "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");"
+                    ).arg(data->getPath().c_str())
+                    .arg(data->getHash().c_str());
+
+        bool status = exec(query_str, &query);
+        QVariant photo_id;
+
+        if (status)
         {
-            QSqlQuery query(m_db);
-
-            //store path and hash
-            const QString query_str =
-                QString("INSERT INTO " TAB_PHOTOS
-                        "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");"
-                       ).arg(data->getPath().c_str())
-                        .arg(data->getHash().c_str());
-
-            bool status = exec(query_str, &query);
-            QVariant photo_id;
-
-            if (status)
-            {
-                photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-                status = photo_id.isValid();
-            }
-
-            //store used tags
-            std::shared_ptr<ITagData> tags = data->getTags();
-
-            if (status)
-                status = applyTags(photo_id.toInt(), tags);
-
-            return status;
+            photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = photo_id.isValid();
         }
 
+        //store used tags
+        std::shared_ptr<ITagData> tags = data->getTags();
 
-        std::vector<TagNameInfo> listTags() const
+        if (status)
+            status = applyTags(photo_id.toInt(), tags);
+
+        return status;
+    }
+
+
+    std::vector<TagNameInfo> ASqlBackend::Data::listTags() const
+    {
+        QSqlQuery query(m_db);
+        const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
+
+        const bool status = exec(query_str, &query);
+        std::vector<TagNameInfo> result;
+
+        while (status && query.next())
+        {
+            const QString name       = query.value(0).toString();
+            const unsigned int value = query.value(1).toUInt();
+
+            TagNameInfo tagName(name, value);
+            result.push_back(tagName);
+        }
+
+        return result;
+    }
+
+
+    std::set<TagValueInfo> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
+    {
+        const boost::optional<unsigned int> tagId = findTagByName(tagName);
+
+        std::set<TagValueInfo> result;
+
+        if (tagId)
         {
             QSqlQuery query(m_db);
-            const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
+            const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
+                                        .arg(*tagId);
 
             const bool status = exec(query_str, &query);
-            std::vector<TagNameInfo> result;
 
             while (status && query.next())
             {
-                const QString name       = query.value(0).toString();
-                const unsigned int value = query.value(1).toUInt();
+                const QString value = query.value(0).toString();
 
-                TagNameInfo tagName(name, value);
-                result.push_back(tagName);
+                TagValueInfo valueInfo(value);
+                result.insert(valueInfo);
             }
-
-            return result;
         }
 
+        return result;
+    }
 
-        std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName)
+
+    QueryList ASqlBackend::Data::getPhotos(const Filter& filter)
+    {
+        const QString filterStr = generateFilterQuery(filter);
+
+        QSqlQuery query(m_db);
+        const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
+                                            " FROM %3 LEFT JOIN (%1, %2)"
+                                            " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY %1.id")
+                                            .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
+
+        exec(queryStr, &query);
+        SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
+        InterfaceContainer<IQuery> container(dbQuery);
+
+        QueryList result(container);
+
+        return result;
+    }
+
+    boost::optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
+    {
+        QSqlQuery query(m_db);
+        const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
+        const bool status = exec(find_tag_query, &query);
+
+        boost::optional<unsigned int> result;
+        if (status && query.next())
+            result = query.value(0).toInt();
+
+        return result;
+    }
+
+    QString ASqlBackend::Data::generateFilterQuery(const Filter& filter)
+    {
+        QString result;
+        const std::vector <Database::FilterDescription >& filters = filter.getFilters();
+
+        if (filters.empty() == false)
+            result += "WHERE";
+
+        for(size_t i = 0; i < filters.size(); i++)
         {
-            const boost::optional<unsigned int> tagId = findTagByName(tagName);
+            const Database::FilterDescription& f = filters[i];
 
-            std::set<TagValueInfo> result;
+            if (i > 0)
+                result += " AND";
 
-            if (tagId)
-            {
-                QSqlQuery query(m_db);
-                const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
-                                          .arg(*tagId);
-
-                const bool status = exec(query_str, &query);
-
-                while (status && query.next())
-                {
-                    const QString value = query.value(0).toString();
-
-                    TagValueInfo valueInfo(value);
-                    result.insert(valueInfo);
-                }
-            }
-
-            return result;
+            result += QString(" name = '%1' AND value = '%2'").arg(f.tagName, f.tagValue);
         }
 
-
-        QueryList getPhotos(const Filter& filter)
-        {
-            const QString filterStr = generateFilterQuery(filter);
-
-            QSqlQuery query(m_db);
-            const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
-                                             " FROM %3 LEFT JOIN (%1, %2)"
-                                             " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY %1.id")
-                                             .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
-
-            exec(queryStr, &query);
-            SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
-            InterfaceContainer<IQuery> container(dbQuery);
-
-            QueryList result(container);
-
-            return result;
-        }
+        return result;
+    }
 
 
-        private:
-            boost::optional<unsigned int> findTagByName(const QString& name) const
-            {
-                QSqlQuery query(m_db);
-                const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
-                const bool status = exec(find_tag_query, &query);
-
-                boost::optional<unsigned int> result;
-                if (status && query.next())
-                    result = query.value(0).toInt();
-
-                return result;
-            }
-
-            QString generateFilterQuery(const Filter& filter)
-            {
-                QString result;
-                const std::vector <Database::FilterDescription >& filters = filter.getFilters();
-
-                if (filters.empty() == false)
-                    result += "WHERE";
-
-                for(size_t i = 0; i < filters.size(); i++)
-                {
-                    const Database::FilterDescription& f = filters[i];
-
-                    if (i > 0)
-                        result += " AND";
-
-                    result += QString(" name = '%1' AND value = '%2'").arg(f.tagName, f.tagValue);
-                }
-
-                return result;
-            }
-    };
+    ///////////////////////////////////////////////////////////////////////
 
 
     ASqlBackend::ASqlBackend(): m_data(new Data(this))
