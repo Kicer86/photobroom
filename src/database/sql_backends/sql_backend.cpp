@@ -132,7 +132,7 @@ namespace Database
     struct StorePhoto: ITaskExecutor::ITask
     {
         ASqlBackend::Data* m_data;
-        const APhotoInfo::Ptr& m_photo;
+        APhotoInfo::Ptr m_photo;
 
         StorePhoto(ASqlBackend::Data* data, const APhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
         {
