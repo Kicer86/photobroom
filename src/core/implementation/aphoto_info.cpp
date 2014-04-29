@@ -104,7 +104,7 @@ const APhotoInfo::Hash& APhotoInfo::getHash() const
     //hash may be simultaneously read and write, protect it
     std::unique_lock<std::mutex> lock(m_data->hashMutex);
 
-    assert(m_data->hash.empty() == false);
+    //assert(m_data->hash.empty() == false);
     return m_data->hash;
 }
 
