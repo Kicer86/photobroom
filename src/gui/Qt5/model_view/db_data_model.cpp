@@ -164,7 +164,7 @@ struct DBDataModel::Impl
     void addPhoto(const APhotoInfo::Ptr& photo)
     {
         m_root.addChild(photo);
-
+        m_backend->store(photo);
     }
 
     IdxData m_root;
