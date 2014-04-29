@@ -131,7 +131,7 @@ void APhotoInfo::setHash(const Hash& hash)
     assert(m_data->hash.empty());
     m_data->hash = hash;
 
-    lock.release(); //write done
+    lock.unlock(); //write done
 
     updated();
 }
