@@ -15,6 +15,8 @@ struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
+
+//TODO: instead of self loading photo, change PhotoInfo into POD, and add set of data loaders
 struct IPhotoInfo
 {
     struct IObserver
