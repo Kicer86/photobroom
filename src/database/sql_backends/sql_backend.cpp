@@ -138,9 +138,12 @@ namespace Database
         {
         }
 
+        StorePhoto(const StorePhoto &) = delete;
+        StorePhoto& operator=(const StorePhoto &) = delete;
+
         virtual void perform()
         {
-            bool status = m_data->storePhoto(m_photo);
+            bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data
 
             if (status == false)
                 std::cerr << "error while storing photo in database" << std::endl;
@@ -218,6 +221,8 @@ namespace Database
     {
         auto task = std::make_shared<StorePhoto>(this, data);
         TaskExecutorConstructor::get()->add(task);
+
+        return true;
     }
 
 
