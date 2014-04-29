@@ -112,7 +112,7 @@ namespace Database
 
         bool exec(const QString& query, QSqlQuery* result) const;
         bool createDB(const QString& dbName) const;
-        boost::optional<unsigned int> storeTag(const TagNameInfo& nameInfo) const;
+        boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
         bool store(const APhotoInfo::Ptr& data);
         std::vector<TagNameInfo> listTags() const;
         std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
@@ -188,7 +188,7 @@ namespace Database
     }
 
 
-    boost::optional<unsigned int> ASqlBackend::Data::storeTag(const TagNameInfo& nameInfo) const
+    boost::optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
     {
         const QString& name = nameInfo.getName();
         const int type = nameInfo.getType();
@@ -333,7 +333,7 @@ namespace Database
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
             //store tag
-            const boost::optional<unsigned int> tag_id = storeTag(it->first);
+            const boost::optional<unsigned int> tag_id = store(it->first);
 
             if (tag_id)
             {
