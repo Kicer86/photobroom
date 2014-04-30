@@ -13,7 +13,14 @@
 
 struct PhotoInfo::Data
 {
-    Data(const std::string &p): path(p), tags(), hash(), hashMutex(), thumbnailMutex(), m_observer(nullptr), m_thumbnail()
+    Data(const std::string &p):
+        path(p),
+        tags(),
+        hash(),
+        hashMutex(),
+        thumbnailMutex(),
+        m_observer(nullptr),
+        m_thumbnail()
     {
         std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
