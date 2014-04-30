@@ -32,7 +32,7 @@ namespace Database
     struct PhotoIterator::Impl
     {
         InterfaceContainer<IQuery> m_query;
-        APhotoInfo::Ptr m_photoInfo;
+        PhotoInfo::Ptr m_photoInfo;
         PhotoIterator* m_iterator;
 
         Impl(const InterfaceContainer<IQuery>& query, PhotoIterator* iterator): m_query(query), m_photoInfo(), m_iterator(iterator)
@@ -57,7 +57,7 @@ namespace Database
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                APhotoInfo* photoInfo = new APhotoInfo(data);
+                PhotoInfo* photoInfo = new PhotoInfo(data);
                 m_photoInfo.reset(photoInfo);
 
                 //load tags
@@ -141,14 +141,14 @@ namespace Database
     }
 
 
-    APhotoInfo::Ptr PhotoIterator::operator->()
+    PhotoInfo::Ptr PhotoIterator::operator->()
     {
         m_impl->calculatePhotoInfo();
         return m_impl->m_photoInfo;
     }
 
 
-    APhotoInfo::Ptr PhotoIterator::operator*()
+    PhotoInfo::Ptr PhotoIterator::operator*()
     {
         m_impl->calculatePhotoInfo();
         return m_impl->m_photoInfo;

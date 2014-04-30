@@ -51,13 +51,13 @@ PhotosViewWidget::~PhotosViewWidget()
 
 void PhotosViewWidget::addPhoto(const std::string &path)
 {
-    APhotoInfo::Ptr info = PhotoInfoGenerator().get(path);
+    PhotoInfo::Ptr info = PhotoInfoGenerator().get(path);
 
     m_photosModel->addPhoto(info);
 }
 
 
-std::vector<APhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
+std::vector<PhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 {
     return m_photosModel->getPhotos();
 }
@@ -65,12 +65,12 @@ std::vector<APhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 
 void PhotosViewWidget::selectionChanged()
 {
-    std::vector<APhotoInfo::Ptr> images;
+    std::vector<PhotoInfo::Ptr> images;
 
     //collect list of tags
     for (const QModelIndex& index: m_photosView->selectionModel()->selectedIndexes())
     {
-        APhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
+        PhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
         images.push_back(photoInfo);
     }
 

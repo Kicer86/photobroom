@@ -27,8 +27,8 @@ PhotosStagingArea::PhotosStagingArea(QWidget *p):
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
-    connect(m_editor, SIGNAL(selectionChanged(const std::vector<APhotoInfo::Ptr> &)),
-            this, SLOT(viewSelectionChanged(const std::vector<APhotoInfo::Ptr> &)));
+    connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
+            this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
 
     QHBoxLayout* savePhotosLayout = new QHBoxLayout(nullptr);
     QPushButton* saveButton = new QPushButton(tr("save photos"));
@@ -60,11 +60,11 @@ void PhotosStagingArea::pathToAnalyze(QString path)
 }
 
 
-void PhotosStagingArea::viewSelectionChanged(const std::vector<APhotoInfo::Ptr>& photos)
+void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& photos)
 {
     std::vector<std::shared_ptr<ITagData>> tags;
 
-    for(const APhotoInfo::Ptr& photo: photos)
+    for(const PhotoInfo::Ptr& photo: photos)
         tags.push_back(photo->getTags());
 
     TagDataComposite* tagsData = new TagDataComposite;

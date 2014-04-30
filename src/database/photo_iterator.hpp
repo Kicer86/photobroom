@@ -29,7 +29,7 @@
 #include "database_export.h"
 
 class QSqlQuery;
-class APhotoInfo;
+class PhotoInfo;
 
 namespace Database
 {
@@ -116,8 +116,8 @@ namespace Database
             PhotoIterator& operator++();
             PhotoIterator operator++(int);
             PhotoIterator& operator=(const PhotoIterator &) = default;
-            APhotoInfo::Ptr operator->();
-            APhotoInfo::Ptr operator*();
+            PhotoInfo::Ptr operator->();
+            PhotoInfo::Ptr operator*();
 
             const IQuery* query() const;
 

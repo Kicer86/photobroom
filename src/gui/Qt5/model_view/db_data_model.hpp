@@ -55,11 +55,11 @@ class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
         bool operator==(const DBDataModel& other) = delete;
 
         void setHierarchy(const Hierarchy &);
-        APhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::vector<APhotoInfo::Ptr> getPhotos();
+        PhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const std::vector<PhotoInfo::Ptr> getPhotos();
 
         //Database::IFrontend:
-        virtual bool addPhoto(const APhotoInfo::Ptr &) override;
+        virtual bool addPhoto(const PhotoInfo::Ptr &) override;
         virtual void setBackend(Database::IBackend *) override;
         virtual void close() override;
 

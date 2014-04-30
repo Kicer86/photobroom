@@ -37,7 +37,7 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
-        std::vector<APhotoInfo::Ptr> getPhotos() const;
+        std::vector<PhotoInfo::Ptr> getPhotos() const;
 
     private:
         DBDataModel*    m_photosModel;
@@ -47,7 +47,7 @@ class PhotosViewWidget: public QWidget
         void selectionChanged();
 
     signals:
-        void selectionChanged(const std::vector<APhotoInfo::Ptr> &);
+        void selectionChanged(const std::vector<PhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP

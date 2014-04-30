@@ -14,7 +14,7 @@ class PhotoInfoGenerator final
         PhotoInfoGenerator(const PhotoInfoGenerator &) = delete;
         PhotoInfoGenerator& operator=(const PhotoInfoGenerator &) = delete;
 
-        APhotoInfo::Ptr get(const std::string& path);
+        PhotoInfo::Ptr get(const std::string& path);
 };
 
 #endif

@@ -32,7 +32,7 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : Idx
 }
 
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent, const APhotoInfo::Ptr& photo) : IdxData(model, parent)
+IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
     m_loaded = true;
@@ -59,7 +59,7 @@ void IdxData::addChild(IdxData* child)
 }
 
 
-void IdxData::addChild(const APhotoInfo::Ptr& photoInfo)
+void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
 {
     IdxData* child = new IdxData(m_model, this, photoInfo);
     addChild(child);

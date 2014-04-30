@@ -90,7 +90,7 @@ struct DBDataModel::Impl
 
             Database::QueryList photos = m_backend->getPhotos(filter);
 
-            for(APhotoInfo::Ptr photoInfo: photos)
+            for(PhotoInfo::Ptr photoInfo: photos)
             {
                 IdxData* newItem = new IdxData(m_root.m_model, idxData, photoInfo);
                 idxData->addChild(newItem);
@@ -161,7 +161,7 @@ struct DBDataModel::Impl
         return result;
     }
 
-    void addPhoto(const APhotoInfo::Ptr& photo)
+    void addPhoto(const PhotoInfo::Ptr& photo)
     {
         m_root.addChild(photo);
         m_backend->store(photo);
@@ -229,16 +229,16 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 }
 
 
-APhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
+PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IdxData* idxData = m_impl->getIdxDataFor(idx);
     return idxData->m_photo;
 }
 
 
-const std::vector<APhotoInfo::Ptr> DBDataModel::getPhotos()
+const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
 {
-    return std::vector<APhotoInfo::Ptr>();
+    return std::vector<PhotoInfo::Ptr>();
 }
 
 
@@ -307,7 +307,7 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 }
 
 
-bool DBDataModel::addPhoto(const APhotoInfo::Ptr& photoInfo)
+bool DBDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 {
     const int row = m_impl->m_root.m_children.size();
 

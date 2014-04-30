@@ -40,7 +40,7 @@ namespace Database
         virtual ~IBackend() {}
 
         //store data
-        virtual bool store(const APhotoInfo::Ptr &) = 0;
+        virtual bool store(const PhotoInfo::Ptr &) = 0;
 
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;
@@ -60,7 +60,7 @@ namespace Database
     {
         virtual ~IFrontend() {}
 
-        virtual bool addPhoto(const APhotoInfo::Ptr&) = 0;
+        virtual bool addPhoto(const PhotoInfo::Ptr&) = 0;
         virtual void setBackend(IBackend *) = 0;
 
         virtual void close() = 0;

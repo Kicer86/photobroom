@@ -8,14 +8,13 @@
 
 #include "core_export.h"
 
-class QString;
 class QPixmap;
 
 struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
-class CORE_EXPORT APhotoInfo final
+class CORE_EXPORT PhotoInfo final
 {
     public:
         struct IObserver
@@ -24,13 +23,13 @@ class CORE_EXPORT APhotoInfo final
             virtual void photoUpdated() = 0;
         };
 
-        typedef std::shared_ptr<APhotoInfo> Ptr;
+        typedef std::shared_ptr<PhotoInfo> Ptr;
         typedef std::string Hash;
 
-        APhotoInfo(const std::string &path);      //load all data from provided path
-        APhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
-        APhotoInfo(const APhotoInfo &) = delete;
-        virtual ~APhotoInfo();
+        PhotoInfo(const std::string &path);      //load all data from provided path
+        PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
+        PhotoInfo(const PhotoInfo &) = delete;
+        virtual ~PhotoInfo();
 
         const std::string& getPath() const;
         std::shared_ptr<ITagData> getTags() const;
@@ -62,7 +61,7 @@ struct CORE_EXPORT APhotoInfoInitData
 
     std::string path;
     std::shared_ptr<ITagData> tags;
-    APhotoInfo::Hash hash;
+    PhotoInfo::Hash hash;
 };
 
 #endif

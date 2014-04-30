@@ -27,7 +27,7 @@ class PhotosStagingArea: public QWidget
 
     private slots:
         void pathToAnalyze(QString);
-        void viewSelectionChanged(const std::vector< APhotoInfo::Ptr >&);
+        void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >&);
         void savePhotos();
 
 };

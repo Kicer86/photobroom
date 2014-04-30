@@ -20,7 +20,7 @@ namespace
 
 struct ThumbnailGenerator: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(const APhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
+    ThumbnailGenerator(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -34,12 +34,12 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
         m_photoInfo->setThumbnail(thumbnail);
     }
 
-    APhotoInfo::Ptr m_photoInfo;
+    PhotoInfo::Ptr m_photoInfo;
 };
 
 struct HashAssigner: public ITaskExecutor::ITask
 {
-    HashAssigner(const APhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    HashAssigner(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
     {
     }
 
@@ -49,11 +49,11 @@ struct HashAssigner: public ITaskExecutor::ITask
     virtual void perform() override
     {
         QImage image(m_photoInfo->getPath().c_str());
-        const APhotoInfo::Hash hash = HashFunctions::sha256(image.bits(), image.byteCount());
+        const PhotoInfo::Hash hash = HashFunctions::sha256(image.bits(), image.byteCount());
         m_photoInfo->setHash(hash);
     }
 
-    APhotoInfo::Ptr m_photoInfo;
+    PhotoInfo::Ptr m_photoInfo;
 };
 
 
@@ -69,9 +69,9 @@ PhotoInfoGenerator::~PhotoInfoGenerator()
 }
 
 
-APhotoInfo::Ptr PhotoInfoGenerator::get(const std::string& path)
+PhotoInfo::Ptr PhotoInfoGenerator::get(const std::string& path)
 {
-    APhotoInfo::Ptr result = std::make_shared<APhotoInfo>(path);
+    PhotoInfo::Ptr result = std::make_shared<PhotoInfo>(path);
     QPixmap tmpThumbnail;
     tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
     result->setThumbnail(tmpThumbnail);

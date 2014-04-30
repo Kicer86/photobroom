@@ -29,12 +29,12 @@ class QVariant;
 
 class DBDataModel;
 
-struct IdxData: public APhotoInfo::IObserver
+struct IdxData: public PhotoInfo::IObserver
 {
     std::vector<IdxData *> m_children;
     QMap<int, QVariant> m_data;
     Database::FilterDescription m_filter;
-    APhotoInfo::Ptr m_photo;
+    PhotoInfo::Ptr m_photo;
     IdxData* m_parent;
     DBDataModel* m_model;
     size_t m_level;
@@ -46,7 +46,7 @@ struct IdxData: public APhotoInfo::IObserver
     IdxData(DBDataModel *, IdxData* parent, const QString& name);
 
     //leaf constructor
-    IdxData(DBDataModel *, IdxData* parent, const APhotoInfo::Ptr &);
+    IdxData(DBDataModel *, IdxData* parent, const PhotoInfo::Ptr &);
 
     virtual ~IdxData();
 
@@ -55,7 +55,7 @@ struct IdxData: public APhotoInfo::IObserver
 
     void setNodeData(const Database::FilterDescription& filter);
     void addChild(IdxData* child);
-    void addChild(const APhotoInfo::Ptr& photoInfo);
+    void addChild(const PhotoInfo::Ptr& photoInfo);
 
     private:
         IdxData(DBDataModel *, IdxData* parent);

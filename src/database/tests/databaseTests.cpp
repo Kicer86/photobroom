@@ -31,7 +31,7 @@ namespace
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool store(const APhotoInfo::Ptr& entry) override
+        virtual bool store(const PhotoInfo::Ptr& entry) override
         {
             m_entries.push_back(entry);
 
@@ -65,7 +65,7 @@ namespace
             return 0;
         }
 
-        std::vector<APhotoInfo::Ptr> m_entries;
+        std::vector<PhotoInfo::Ptr> m_entries;
     };
 
     /*

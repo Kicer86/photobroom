@@ -113,7 +113,7 @@ namespace Database
         bool exec(const QString& query, QSqlQuery* result) const;
         bool createDB(const QString& dbName) const;
         boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-        bool store(const APhotoInfo::Ptr& data);
+        bool store(const PhotoInfo::Ptr& data);
         std::vector<TagNameInfo> listTags() const;
         std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
         QueryList getPhotos(const Filter& filter);
@@ -125,16 +125,16 @@ namespace Database
             bool applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
 
             //for friends:
-            bool storePhoto(const APhotoInfo::Ptr& data);
+            bool storePhoto(const PhotoInfo::Ptr& data);
     };
 
 
     struct StorePhoto: ITaskExecutor::ITask
     {
         ASqlBackend::Data* m_data;
-        APhotoInfo::Ptr m_photo;
+        PhotoInfo::Ptr m_photo;
 
-        StorePhoto(ASqlBackend::Data* data, const APhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
+        StorePhoto(ASqlBackend::Data* data, const PhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
         {
         }
 
@@ -217,7 +217,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const APhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::store(const PhotoInfo::Ptr& data)
     {
         auto task = std::make_shared<StorePhoto>(this, data);
         TaskExecutorConstructor::get()->add(task);
@@ -366,7 +366,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storePhoto(const APhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::storePhoto(const PhotoInfo::Ptr& data)
     {
         QSqlQuery query(m_db);
 
@@ -519,7 +519,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::store(const APhotoInfo::Ptr& entry)
+    bool ASqlBackend::store(const PhotoInfo::Ptr& entry)
     {
         bool status = false;
 
