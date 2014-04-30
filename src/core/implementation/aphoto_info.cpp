@@ -13,7 +13,7 @@
 
 struct PhotoInfo::Data
 {
-    Data(const std::string &p): path(p), tags(), hash(), hashMutex(), m_observer(nullptr)
+    Data(const std::string &p): path(p), tags(), hash(), hashMutex(), thumbnailMutex(), m_observer(nullptr), m_thumbnail()
     {
         std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
@@ -25,7 +25,9 @@ struct PhotoInfo::Data
         tags(initData.tags),
         hash(initData.hash),
         hashMutex(),
-        m_observer(nullptr)
+        thumbnailMutex(),
+        m_observer(nullptr),
+        m_thumbnail()
     {
     }
 
@@ -34,7 +36,9 @@ struct PhotoInfo::Data
         tags(other.tags),
         hash(other.hash),
         hashMutex(),
-        m_observer(other.m_observer)
+        thumbnailMutex(),
+        m_observer(other.m_observer),
+        m_thumbnail()
     {}
 
     Data& operator=(const Data &) = delete;
