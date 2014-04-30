@@ -43,6 +43,7 @@ struct PhotoInfo::Data
     std::shared_ptr<ITagData> tags;
     PhotoInfo::Hash hash;
     std::mutex hashMutex;
+    std::mutex thumbnailMutex;
     IObserver* m_observer;
     QPixmap m_thumbnail;
 };
@@ -50,8 +51,7 @@ struct PhotoInfo::Data
 
 PhotoInfo::PhotoInfo(const std::string &p): m_data(new Data(p))
 {
-    //auto task = std::make_shared<HashAssigner>(this);     //calculate hash of 'this'
-    //TaskExecutorConstructor::get()->add(task);
+
 }
 
 
@@ -81,6 +81,9 @@ std::shared_ptr<ITagData> PhotoInfo::getTags() const
 
 const QPixmap& PhotoInfo::getThumbnail() const
 {
+    //thumbnail may be simultaneously read and write, protect it
+    std::unique_lock<std::mutex> lock(m_data->thumbnailMutex);
+
     return m_data->m_thumbnail;
 }
 
@@ -90,6 +93,7 @@ const PhotoInfo::Hash& PhotoInfo::getHash() const
     //hash may be simultaneously read and write, protect it
     std::unique_lock<std::mutex> lock(m_data->hashMutex);
 
+    //TODO: restore assert
     //assert(m_data->hash.empty() == false);
     return m_data->hash;
 }
@@ -125,8 +129,12 @@ void PhotoInfo::setHash(const Hash& hash)
 
 void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 {
-    //TODO: mutex
+    //thumnail may be simultaneously read and write, protect it
+    std::unique_lock<std::mutex> lock(m_data->hashMutex);
+
     m_data->m_thumbnail = thumbnail;
+
+    lock.unlock(); //write done
 
     updated();
 }
@@ -136,4 +144,3 @@ APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 {
 
 }
-
