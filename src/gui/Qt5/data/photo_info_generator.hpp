@@ -5,17 +5,16 @@
 #include <core/aphoto_info.hpp>
 
 
-class PhotoInfoGenerator
+class PhotoInfoGenerator final
 {
     public:
         PhotoInfoGenerator();
-        virtual ~PhotoInfoGenerator();
+        ~PhotoInfoGenerator();
 
         PhotoInfoGenerator(const PhotoInfoGenerator &) = delete;
         PhotoInfoGenerator& operator=(const PhotoInfoGenerator &) = delete;
 
         APhotoInfo::Ptr get(const std::string& path);
 };
-
 
 #endif

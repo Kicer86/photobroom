@@ -1,5 +1,5 @@
 
-#include "photo_info.hpp"
+#include "photo_info_generator.hpp"
 
 #include <assert.h>
 
