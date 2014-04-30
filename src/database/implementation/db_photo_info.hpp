@@ -20,6 +20,7 @@
 #ifndef DBPHOTOINFO_H
 #define DBPHOTOINFO_H
 
+/*
 #include <core/aphoto_info.hpp>
 
 class QSqlQuery;
@@ -36,5 +37,6 @@ class DBPhotoInfo: public APhotoInfo
 
         virtual const QPixmap& getThumbnail() const;
 };
+*/
 
 #endif // DBPHOTOINFO_H

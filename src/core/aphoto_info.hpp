@@ -15,7 +15,7 @@ struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
-class CORE_EXPORT APhotoInfo
+class CORE_EXPORT APhotoInfo final
 {
     public:
         struct IObserver

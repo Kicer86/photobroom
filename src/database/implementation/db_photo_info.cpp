@@ -17,8 +17,10 @@
  *
  */
 
+
 #include "db_photo_info.hpp"
 
+/*
 #include <assert.h>
 
 #include <core/tag.hpp>
@@ -42,3 +44,4 @@ const QPixmap& DBPhotoInfo::getThumbnail() const
 {
     assert(!"not implemented");
 }
+*/

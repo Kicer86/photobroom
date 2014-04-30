@@ -57,7 +57,7 @@ namespace Database
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                APhotoInfo* photoInfo = new DBPhotoInfo(data);
+                APhotoInfo* photoInfo = new APhotoInfo(data);
                 m_photoInfo.reset(photoInfo);
 
                 //load tags
