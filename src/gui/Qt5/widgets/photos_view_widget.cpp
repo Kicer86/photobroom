@@ -32,8 +32,8 @@ PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullpt
     m_photosView = new ImagesTreeView(this);
     m_photosView->setModel(m_photosModel);
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(m_photosView);
+    QVBoxLayout *main_layout = new QVBoxLayout(this);
+    main_layout->addWidget(m_photosView);
 
     connect(m_photosView->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
