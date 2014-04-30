@@ -9,9 +9,9 @@
 
 #include "ithread_multiplexer.hpp"
 
-class PhotoInfo;
+class PhotoInfoGenerator;
 
-class ThreadMultiplexer: public QObject, public IThreadMultiplexer<PhotoInfo *>
+class ThreadMultiplexer: public QObject, public IThreadMultiplexer<PhotoInfoGenerator *>
 {
         Q_OBJECT
 
@@ -22,17 +22,17 @@ class ThreadMultiplexer: public QObject, public IThreadMultiplexer<PhotoInfo *>
 
         ThreadMultiplexer& operator=(const ThreadMultiplexer &) = delete;
 
-        virtual void send(PhotoInfo* const& );
+        virtual void send(PhotoInfoGenerator* const& );
         virtual void setGetter(IGetter* );
 
     private:
         IGetter* m_getter;
 
     private slots:
-        void propagated(PhotoInfo *);
+        void propagated(PhotoInfoGenerator *);
 
     signals:
-        void propagate(PhotoInfo *);
+        void propagate(PhotoInfoGenerator *);
 };
 
 #endif

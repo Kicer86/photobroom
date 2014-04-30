@@ -9,28 +9,7 @@
 #include "tag.hpp"
 #include "itagfeeder.hpp"
 #include "task_executor.hpp"
-//#include "hash_functions.hpp"
 
-/*
-struct HashAssigner: public ITaskExecutor::ITask
-{
-    HashAssigner(APhotoInfo *photoInfo): ITask(), m_photoInfo(photoInfo)
-    {
-    }
-
-    HashAssigner(const HashAssigner &) = delete;
-    HashAssigner& operator=(const HashAssigner &) = delete;
-
-    virtual void perform() override
-    {
-        QImage image(m_photoInfo->getPath().c_str());
-        const APhotoInfo::Hash hash = HashFunctions::sha256(image.bits(), image.byteCount());
-        m_photoInfo->setHash(hash);
-    }
-
-    APhotoInfo* m_photoInfo;
-};
-*/
 
 struct APhotoInfo::Data
 {
@@ -139,6 +118,15 @@ void APhotoInfo::setHash(const Hash& hash)
     m_data->hash = hash;
 
     lock.unlock(); //write done
+
+    updated();
+}
+
+
+void APhotoInfo::setThumbnail(const QPixmap& thumbnail)
+{
+    //TODO: mutex
+    m_data->m_thumbnail = thumbnail;
 
     updated();
 }

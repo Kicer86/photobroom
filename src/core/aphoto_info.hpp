@@ -43,6 +43,8 @@ class CORE_EXPORT APhotoInfo
         const Hash& getHash() const;
 
         void registerObserver(IObserver *);
+        void setHash(const Hash &);
+        void setThumbnail(const QPixmap &);
 
     protected:
         void updated();
@@ -51,8 +53,6 @@ class CORE_EXPORT APhotoInfo
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        friend struct HashAssigner;
-        void setHash(const Hash &);
 };
 
 

@@ -8,7 +8,6 @@
 #include <database/databasebuilder.hpp>
 
 #include "model_view/images_tree_view.hpp"
-#include "model_view/images_model.hpp"
 #include "model_view/db_data_model.hpp"
 
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)

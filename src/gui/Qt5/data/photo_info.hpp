@@ -2,34 +2,19 @@
 #ifndef GUI_PHOTO_INFO_HPP
 #define GUI_PHOTO_INFO_HPP
 
-#include <QObject>
+#include <core/aphoto_info.hpp>
 
-#include "core/aphoto_info.hpp"
 
-class QPixmap;
-class QImage;
-
-struct IStreamFactory;
-struct ThumbnailGenerator;
-
-class PhotoInfo: public APhotoInfo
+class PhotoInfoGenerator
 {
     public:
-        PhotoInfo(const std::string& path);
+        PhotoInfoGenerator();
+        virtual ~PhotoInfoGenerator();
 
-        virtual ~PhotoInfo();
+        PhotoInfoGenerator(const PhotoInfoGenerator &) = delete;
+        PhotoInfoGenerator& operator=(const PhotoInfoGenerator &) = delete;
 
-        const QPixmap& getThumbnail() const;
-
-        PhotoInfo(const PhotoInfo &) = delete;
-        PhotoInfo& operator=(const PhotoInfo &) = delete;
-
-    private:
-        friend struct ThumbnailGenerator;
-        QPixmap* m_thumbnail;
-
-        void load();
-        void thumbnailReady(const QPixmap &);
+        APhotoInfo::Ptr get(const std::string& path);
 };
 
 

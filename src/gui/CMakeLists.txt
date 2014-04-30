@@ -21,7 +21,6 @@ set(GUI_SOURCES
     Qt5/private/preparing_photos_widget_private.cpp
     Qt5/model_view/db_data_model.cpp
     Qt5/model_view/idx_data.cpp
-    Qt5/model_view/images_model.cpp
     Qt5/model_view/images_tree_view.cpp
     Qt5/model_view/images_view.cpp
     Qt5/model_view/image_manager.cpp
@@ -47,7 +46,6 @@ set(GUI_HEADERS
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/idx_data.hpp
-    Qt5/model_view/images_model.hpp
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/images_view.hpp
     Qt5/model_view/image_manager.hpp

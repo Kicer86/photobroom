@@ -7,8 +7,9 @@
 #include <QImage>
 #include <QtSvg/QSvgRenderer>
 
-#include "database/ifs.hpp"
-#include "core/task_executor.hpp"
+#include <database/ifs.hpp>
+#include <core/task_executor.hpp>
+#include <core/hash_functions.hpp>
 
 
 namespace
@@ -19,7 +20,7 @@ namespace
 
 struct ThumbnailGenerator: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(PhotoInfo* photoInfo): ITask(), m_photoInfo(photoInfo) {}
+    ThumbnailGenerator(const APhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -30,45 +31,58 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
         QPixmap pixmap(m_photoInfo->getPath().c_str());
         QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-        m_photoInfo->thumbnailReady(thumbnail);
+        m_photoInfo->setThumbnail(thumbnail);
     }
 
-    PhotoInfo* m_photoInfo;
+    APhotoInfo::Ptr m_photoInfo;
+};
+
+struct HashAssigner: public ITaskExecutor::ITask
+{
+    HashAssigner(const APhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    {
+    }
+
+    HashAssigner(const HashAssigner &) = delete;
+    HashAssigner& operator=(const HashAssigner &) = delete;
+
+    virtual void perform() override
+    {
+        QImage image(m_photoInfo->getPath().c_str());
+        const APhotoInfo::Hash hash = HashFunctions::sha256(image.bits(), image.byteCount());
+        m_photoInfo->setHash(hash);
+    }
+
+    APhotoInfo::Ptr m_photoInfo;
 };
 
 
-PhotoInfo::PhotoInfo(const std::string& path):
-    APhotoInfo(path),
-    m_thumbnail(new QPixmap)
+PhotoInfoGenerator::PhotoInfoGenerator()
 {
-    load();
+
 }
 
 
-PhotoInfo::~PhotoInfo()
+PhotoInfoGenerator::~PhotoInfoGenerator()
 {
-    delete m_thumbnail;
+
 }
 
 
-const QPixmap &PhotoInfo::getThumbnail() const
+APhotoInfo::Ptr PhotoInfoGenerator::get(const std::string& path)
 {
-    return *m_thumbnail;
-}
+    APhotoInfo::Ptr result = std::make_shared<APhotoInfo>(path);
+    QPixmap tmpThumbnail;
+    tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
+    result->setThumbnail(tmpThumbnail);
 
-
-void PhotoInfo::load()
-{
-    auto task = std::make_shared<ThumbnailGenerator>(this);  //generate thumbnail
+    //add generators
+    auto task = std::make_shared<ThumbnailGenerator>(result);  //generate thumbnail
     TaskExecutorConstructor::get()->add(task);
 
-    m_thumbnail->load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
+    auto task_hash = std::make_shared<HashAssigner>(result);   //generate hash
+    TaskExecutorConstructor::get()->add(task);
+
+    return result;
 }
 
-
-void PhotoInfo::thumbnailReady(const QPixmap& thumbnail)
-{
-    *m_thumbnail = thumbnail;
-
-    emit updated();
-}
