@@ -32,7 +32,7 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : Idx
 }
 
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(model, parent)
+IdxData::IdxData(DBDataModel* model, IdxData* parent, const APhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
     m_loaded = true;

@@ -37,7 +37,7 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const std::string &);
-        std::vector< IPhotoInfo::Ptr > getPhotos() const;
+        std::vector<APhotoInfo::Ptr> getPhotos() const;
 
     private:
         DBDataModel*    m_photosModel;

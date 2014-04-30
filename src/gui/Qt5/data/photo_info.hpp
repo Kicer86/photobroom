@@ -19,7 +19,7 @@ class PhotoInfo: public APhotoInfo
 
         virtual ~PhotoInfo();
 
-        const QPixmap& getThumbnail() const override;
+        const QPixmap& getThumbnail() const;
 
         PhotoInfo(const PhotoInfo &) = delete;
         PhotoInfo& operator=(const PhotoInfo &) = delete;
@@ -27,7 +27,7 @@ class PhotoInfo: public APhotoInfo
     private:
         friend struct ThumbnailGenerator;
         QPixmap* m_thumbnail;
-        
+
         void load();
         void thumbnailReady(const QPixmap &);
 };

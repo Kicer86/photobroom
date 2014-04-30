@@ -217,7 +217,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const IPhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::store(const APhotoInfo::Ptr& data)
     {
         auto task = std::make_shared<StorePhoto>(this, data);
         TaskExecutorConstructor::get()->add(task);

@@ -34,7 +34,7 @@ class DBPhotoInfo: public APhotoInfo
         DBPhotoInfo& operator=(const DBPhotoInfo& other) = delete;
         bool operator==(const DBPhotoInfo& other) = delete;
 
-        virtual const QPixmap& getThumbnail() const override;
+        virtual const QPixmap& getThumbnail() const;
 };
 
 #endif // DBPHOTOINFO_H

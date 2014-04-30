@@ -68,13 +68,14 @@ namespace
         std::vector<APhotoInfo::Ptr> m_entries;
     };
 
-
+    /*
     struct MockPhotoInfo: IPhotoInfo
     {
         MOCK_CONST_METHOD0(getPath, const std::string & ());
         MOCK_CONST_METHOD0(getTags, std::shared_ptr<ITagData>());
         MOCK_CONST_METHOD0(getHash, const Hash & ());
     };
+    */
 
     struct MockQuery: Database::IQuery
     {

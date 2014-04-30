@@ -4,14 +4,14 @@
 #include <memory>
 #include <mutex>
 
-#include <QImage>
+#include <QPixmap>
 
 #include "tag.hpp"
 #include "itagfeeder.hpp"
 #include "task_executor.hpp"
-#include "hash_functions.hpp"
+//#include "hash_functions.hpp"
 
-
+/*
 struct HashAssigner: public ITaskExecutor::ITask
 {
     HashAssigner(APhotoInfo *photoInfo): ITask(), m_photoInfo(photoInfo)
@@ -30,7 +30,7 @@ struct HashAssigner: public ITaskExecutor::ITask
 
     APhotoInfo* m_photoInfo;
 };
-
+*/
 
 struct APhotoInfo::Data
 {
@@ -65,13 +65,14 @@ struct APhotoInfo::Data
     APhotoInfo::Hash hash;
     std::mutex hashMutex;
     IObserver* m_observer;
+    QPixmap m_thumbnail;
 };
 
 
 APhotoInfo::APhotoInfo(const std::string &p): m_data(new Data(p))
 {
-    auto task = std::make_shared<HashAssigner>(this);     //calculate hash of 'this'
-    TaskExecutorConstructor::get()->add(task);
+    //auto task = std::make_shared<HashAssigner>(this);     //calculate hash of 'this'
+    //TaskExecutorConstructor::get()->add(task);
 }
 
 
@@ -99,6 +100,12 @@ std::shared_ptr<ITagData> APhotoInfo::getTags() const
 }
 
 
+const QPixmap& APhotoInfo::getThumbnail() const
+{
+    return m_data->m_thumbnail;
+}
+
+
 const APhotoInfo::Hash& APhotoInfo::getHash() const
 {
     //hash may be simultaneously read and write, protect it
@@ -109,7 +116,7 @@ const APhotoInfo::Hash& APhotoInfo::getHash() const
 }
 
 
-void APhotoInfo::registerObserver(IPhotoInfo::IObserver* observer)
+void APhotoInfo::registerObserver(IObserver* observer)
 {
     assert(m_data->m_observer == nullptr);
     m_data->m_observer = observer;

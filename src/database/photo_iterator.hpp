@@ -116,8 +116,8 @@ namespace Database
             PhotoIterator& operator++();
             PhotoIterator operator++(int);
             PhotoIterator& operator=(const PhotoIterator &) = default;
-            IPhotoInfo::Ptr operator->();
-            IPhotoInfo::Ptr operator*();
+            APhotoInfo::Ptr operator->();
+            APhotoInfo::Ptr operator*();
 
             const IQuery* query() const;
 

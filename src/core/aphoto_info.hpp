@@ -15,51 +15,34 @@ struct ITagData;
 struct APhotoInfoInitData;
 struct HashAssigner;
 
-
-//TODO: instead of self loading photo, change PhotoInfo into POD, and add set of data loaders
-struct IPhotoInfo
-{
-    struct IObserver
-    {
-        IObserver() {};
-        virtual void photoUpdated() = 0;
-    };
-
-    typedef std::shared_ptr<IPhotoInfo> Ptr;
-    typedef std::string Hash;
-
-    virtual ~IPhotoInfo() {}
-
-    virtual const std::string& getPath() const = 0;
-    virtual std::shared_ptr<ITagData> getTags() const = 0;   // read-write access to tags
-
-    //photo data
-    virtual const QPixmap& getThumbnail() const = 0;         // a temporary thumbnail may be returned when final one is not yet generated
-
-    // Function may return empty hash, when it is not yet calculated.
-    // The returned value is hash of photo's content (pixels) not whole file itself.
-    virtual const Hash& getHash() const = 0;
-
-    //register photo updates observer
-    virtual void registerObserver(IObserver *) = 0;
-};
-
-class CORE_EXPORT APhotoInfo: public IPhotoInfo
+class CORE_EXPORT APhotoInfo
 {
     public:
+        struct IObserver
+        {
+            IObserver() {};
+            virtual void photoUpdated() = 0;
+        };
+
+        typedef std::shared_ptr<APhotoInfo> Ptr;
+        typedef std::string Hash;
+
         APhotoInfo(const std::string &path);      //load all data from provided path
         APhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
         APhotoInfo(const APhotoInfo &) = delete;
         virtual ~APhotoInfo();
 
-        const std::string& getPath() const override;
-        std::shared_ptr<ITagData> getTags() const override;
+        const std::string& getPath() const;
+        std::shared_ptr<ITagData> getTags() const;
+
+        //photo data
+        const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated
 
         // Function may return empty hash, when it is not yet calculated.
         // The returned value is hash of photo's content (pixels) not whole file itself.
-        const Hash& getHash() const override;
+        const Hash& getHash() const;
 
-        void registerObserver(IObserver *) override;
+        void registerObserver(IObserver *);
 
     protected:
         void updated();
