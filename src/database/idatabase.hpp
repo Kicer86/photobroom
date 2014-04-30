@@ -24,7 +24,7 @@
 #include <map>
 #include <memory>
 
-#include <core/aphoto_info.hpp>
+#include <core/photo_info.hpp>
 #include <core/tag.hpp>
 
 #include "photo_iterator.hpp"

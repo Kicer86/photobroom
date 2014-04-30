@@ -24,7 +24,7 @@
 
 #include <utils/data_ptr.hpp>
 
-#include <core/aphoto_info.hpp>
+#include <core/photo_info.hpp>
 
 #include "database_export.h"
 

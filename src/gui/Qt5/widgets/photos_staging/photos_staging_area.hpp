@@ -4,7 +4,7 @@
 
 #include <QWidget>
 
-#include "core/aphoto_info.hpp"
+#include <core/photo_info.hpp>
 
 class TagEditorWidget;
 class PhotosViewWidget;

@@ -2,7 +2,7 @@
 #ifndef GUI_PHOTO_INFO_HPP
 #define GUI_PHOTO_INFO_HPP
 
-#include <core/aphoto_info.hpp>
+#include <core/photo_info.hpp>
 
 
 class PhotoInfoGenerator final

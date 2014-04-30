@@ -1,5 +1,5 @@
 
-#include "aphoto_info.hpp"
+#include "photo_info.hpp"
 
 #include <memory>
 #include <mutex>

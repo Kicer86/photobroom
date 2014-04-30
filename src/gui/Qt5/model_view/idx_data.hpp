@@ -22,7 +22,7 @@
 
 #include <QMap>
 
-#include <core/aphoto_info.hpp>
+#include <core/photo_info.hpp>
 #include <database/filter.hpp>
 
 class QVariant;
