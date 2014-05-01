@@ -141,6 +141,16 @@ namespace Database
         StorePhoto(const StorePhoto &) = delete;
         StorePhoto& operator=(const StorePhoto &) = delete;
 
+        virtual bool canBePerformed() const
+        {
+            return true;
+        }
+
+        virtual std::string name() const
+        {
+            return std::string("Storing photo ") + m_photo->getPath();
+        }
+
         virtual void perform()
         {
             bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data

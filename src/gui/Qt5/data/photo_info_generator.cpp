@@ -26,7 +26,17 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
     ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
-    virtual void perform()
+    virtual bool canBePerformed() const
+    {
+        return true;
+    }
+
+    virtual std::string name() const
+    {
+        return std::string("Thumbnail generation for: ") + m_photoInfo->getPath();
+    }
+
+    virtual void perform() override
     {
         QPixmap pixmap(m_photoInfo->getPath().c_str());
         QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -45,6 +55,16 @@ struct HashAssigner: public ITaskExecutor::ITask
 
     HashAssigner(const HashAssigner &) = delete;
     HashAssigner& operator=(const HashAssigner &) = delete;
+
+    virtual bool canBePerformed() const
+    {
+        return true;
+    }
+
+    virtual std::string name() const
+    {
+        return std::string("Hash generation for: ") + m_photoInfo->getPath();
+    }
 
     virtual void perform() override
     {
