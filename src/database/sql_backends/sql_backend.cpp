@@ -148,7 +148,7 @@ namespace Database
 
         virtual std::string name() const
         {
-            return std::string("Storing photo ") + m_photo->getPath();
+            return "Photo storing";
         }
 
         virtual void perform()

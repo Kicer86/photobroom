@@ -33,7 +33,7 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 
     virtual std::string name() const
     {
-        return std::string("Thumbnail generation for: ") + m_photoInfo->getPath();
+        return "Photo thumbnail generation";
     }
 
     virtual void perform() override
@@ -63,7 +63,7 @@ struct HashAssigner: public ITaskExecutor::ITask
 
     virtual std::string name() const
     {
-        return std::string("Hash generation for: ") + m_photoInfo->getPath();
+        return "Photo hash generation";
     }
 
     virtual void perform() override
