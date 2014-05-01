@@ -102,20 +102,21 @@ void TaskExecutor::eat()
         {
             boost::optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
 
-            **(ThreadSafeOutput.get()) << "TaskExecutor thread #" << id
-                                       << " takes task. " << m_tasks.size() << " tasks left"
-                                       << std::endl;
-
             if (opt_task)
             {
                 std::shared_ptr<ITask> task = *opt_task;
+
+                **(ThreadSafeOutput.get()) << "TaskExecutor thread #" << id
+                                       << " takes " << task->name() << " task. "
+                                       << m_tasks.size() << " tasks left"
+                                       << std::endl;
 
                 const auto start = std::chrono::steady_clock::now();
                 task->perform();
                 const auto end = std::chrono::steady_clock::now();
                 const auto diff = end - start;
                 const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-                **(ThreadSafeOutput.get()) << "Task's execution time: " << diff_ms << "ms" << std::endl;
+                **(ThreadSafeOutput.get()) << "'" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
             }
             else
                 break;
