@@ -36,7 +36,7 @@ struct TimeGuardian::Data
 
 TimeGuardian::TimeGuardian(): m_data(new Data)
 {
-    m_data->m_start = std::chrono::steady_clock::now();
+
 }
 
 
@@ -63,5 +63,11 @@ void TimeGuardian::setLimit(unsigned int ms, const std::string& message)
 void TimeGuardian::setTitle(const std::string& title)
 {
     m_data->m_title = title;
+}
+
+
+void TimeGuardian::begin()
+{
+    m_data->m_start = std::chrono::steady_clock::now();
 }
 

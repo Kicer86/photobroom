@@ -26,7 +26,10 @@
 
 class string;
 
-#define TIME_GUARDIAN(t,l,m) TimeGuardian _guardian; _guardian.setLimit(l,m); _guardian.setTitle(t)
+#define TIME_GUARDIAN(t,l,m) TimeGuardian _guardian;  \
+                             _guardian.setLimit(l,m); \
+                             _guardian.setTitle(t);   \
+                             _guardian.begin();
 
 class CORE_EXPORT TimeGuardian
 {
@@ -37,6 +40,7 @@ class CORE_EXPORT TimeGuardian
 
         void setLimit(unsigned int ms, const std::string& message);
         void setTitle(const std::string &);
+        void begin();
 
         TimeGuardian& operator=(const TimeGuardian& other) = delete;
 
