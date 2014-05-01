@@ -81,7 +81,7 @@ PhotoInfo::Ptr PhotoInfoGenerator::get(const std::string& path)
     TaskExecutorConstructor::get()->add(task);
 
     auto task_hash = std::make_shared<HashAssigner>(result);   //generate hash
-    TaskExecutorConstructor::get()->add(task);
+    TaskExecutorConstructor::get()->add(task_hash);
 
     return result;
 }
