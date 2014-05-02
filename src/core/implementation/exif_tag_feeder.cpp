@@ -34,7 +34,17 @@ void ExifTagFeeder::update(ITagData *, const std::string &)
 
 void ExifTagFeeder::feed(const std::string& path, ITagData* tagData)
 {
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+    Exiv2::Image::AutoPtr image;
+
+    try
+    {
+        image = Exiv2::ImageFactory::open(path);
+    }
+    catch(Exiv2::AnyError& error)
+    {
+        return;
+    }
+
     assert(image.get() != 0);
     image->readMetadata();
 
