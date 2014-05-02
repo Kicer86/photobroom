@@ -60,6 +60,8 @@ struct TaskExecutor: public ITaskExecutor
         friend void trampoline(TaskExecutor* executor);
 
         void eat();
+        void execute(const std::shared_ptr<ITask>& task) const;
+        int getId() const;
 };
 
 
@@ -93,12 +95,8 @@ void TaskExecutor::eat()
 {
     #pragma omp parallel
     {
-#if USE_OPENMP
-        const int id = omp_get_thread_num();
+        const int id = getId();
         **(ThreadSafeOutput.get()) << "Starting TaskExecutor thread #" << id << std::endl;
-#else
-        const int id = 0;
-#endif
 
         while(true)
         {
@@ -108,30 +106,48 @@ void TaskExecutor::eat()
             {
                 std::shared_ptr<ITask> task = *opt_task;
 
-                /*
-                **(ThreadSafeOutput.get()) << "TaskExecutor thread #" << id
-                                       << " takes " << task->name() << " task. "
-                                       << m_tasks.size() << " tasks left"
-                                       << std::endl;
-                */
-
-                const auto start = std::chrono::steady_clock::now();
-                task->perform();
-                const auto end = std::chrono::steady_clock::now();
-                const auto diff = end - start;
-                const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-                **(ThreadSafeOutput.get()) << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
+                if (task->canBePerformed())
+                    execute(task);
+                else
+                    add(task);      //postpone
             }
             else
                 break;
         }
 
-#ifdef USE_OPENMP
         **(ThreadSafeOutput.get()) << "Quitting TaskExecutor thread #" << id << std::endl;
-#endif
     }
 }
 
+
+void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
+{
+    /*
+    **(ThreadSafeOutput.get()) << "TaskExecutor thread #" << id
+                            << " takes " << task->name() << " task. "
+                            << m_tasks.size() << " tasks left"
+                            << std::endl;
+    */
+    const int id = getId();
+    const auto start = std::chrono::steady_clock::now();
+    task->perform();
+    const auto end = std::chrono::steady_clock::now();
+    const auto diff = end - start;
+    const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+    **(ThreadSafeOutput.get()) << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
+}
+
+
+int TaskExecutor::getId() const
+{
+#if USE_OPENMP
+    const int id = omp_get_thread_num();
+#else
+    const int id = 0;
+#endif
+
+    return id;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
