@@ -78,6 +78,8 @@ if(OPENMP_FOUND)
     add_definitions(-DUSE_OPENMP)
 endif()
 
+#addSourceFlags(implementation/photo_info.cpp COMPILE_FLAGS -fgnu-tm)
+
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
