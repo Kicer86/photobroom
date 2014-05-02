@@ -6,6 +6,11 @@
 
 #include <core/photo_info.hpp>
 
+namespace Database
+{
+    struct IFrontend;
+}
+
 class TagEditorWidget;
 class PhotosViewWidget;
 class QItemSelection;
@@ -15,7 +20,7 @@ class PhotosStagingArea: public QWidget
         Q_OBJECT
 
     public:
-        explicit PhotosStagingArea(QWidget *parent = 0);
+        explicit PhotosStagingArea(Database::IFrontend *, QWidget * = 0);
         virtual ~PhotosStagingArea();
 
         PhotosStagingArea(const PhotosStagingArea &) = delete;
@@ -24,6 +29,7 @@ class PhotosStagingArea: public QWidget
     private:
         PhotosViewWidget *m_editor;
         TagEditorWidget  *m_tagEditor;
+        Database::IFrontend* m_frontend;
 
     private slots:
         void pathToAnalyze(QString);

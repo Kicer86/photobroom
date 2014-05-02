@@ -4,6 +4,7 @@
 
 #include <QTabWidget>
 
+
 class CentralWidget: public QTabWidget
 {
     public:

@@ -16,10 +16,11 @@
 #include "widgets/photos_view_widget.hpp"
 #include "widgets/tag_editor/tag_editor_widget.hpp"
 
-PhotosStagingArea::PhotosStagingArea(QWidget *p):
+PhotosStagingArea::PhotosStagingArea(Database::IFrontend* frontend, QWidget *p):
     QWidget(p),
     m_editor(nullptr),
-    m_tagEditor(nullptr)
+    m_tagEditor(nullptr),
+    m_frontend(frontend)
 {
     BrowseLine *browse = new BrowseLine(this);
     m_editor = new PhotosViewWidget(this);
@@ -77,12 +78,8 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& 
 
 void PhotosStagingArea::savePhotos()
 {
-    assert(!"reimplement");
-    /*
-    const std::vector<APhotoInfo::Ptr> photos = m_editor->getPhotos();
-    Database::IFrontend* db = Database::Builder::instance()->get();
+    const std::vector<PhotoInfo::Ptr> photos = m_editor->getPhotos();
 
-    for(const APhotoInfo::Ptr& photo: photos)
-        db->addPhoto(photo);
-    */
+    for(const PhotoInfo::Ptr& photo: photos)
+        m_frontend->addPhoto(photo);
 }
