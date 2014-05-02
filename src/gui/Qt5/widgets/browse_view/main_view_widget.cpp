@@ -41,3 +41,8 @@ void MainViewWidget::refresh()
     m_imagesView->setModel(m_imagesModel);
 }
 
+
+Database::IFrontend* MainViewWidget::getFronted()
+{
+    return m_imagesModel;
+}

@@ -5,7 +5,12 @@
 #include <QWidget>
 
 class QAbstractItemView;
-class QAbstractItemModel;
+
+class DBDataModel;
+namespace Database
+{
+    struct IFrontend;
+}
 
 class MainViewWidget : public QWidget
 {
@@ -18,8 +23,10 @@ class MainViewWidget : public QWidget
         MainViewWidget(const MainViewWidget &) = delete;
         MainViewWidget& operator=(const MainViewWidget &) = delete;
 
+        Database::IFrontend* getFronted();
+
     private:
-        QAbstractItemModel* m_imagesModel;
+        DBDataModel* m_imagesModel;
         QAbstractItemView*  m_imagesView;
 
     private slots:
