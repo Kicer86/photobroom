@@ -18,6 +18,7 @@ namespace
     const int photoWidth = 120;
 }
 
+
 struct ThumbnailGenerator: ITaskExecutor::ITask
 {
     ThumbnailGenerator(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
@@ -46,6 +47,7 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 
     PhotoInfo::Ptr m_photoInfo;
 };
+
 
 struct HashAssigner: public ITaskExecutor::ITask
 {
@@ -105,4 +107,3 @@ PhotoInfo::Ptr PhotoInfoGenerator::get(const std::string& path)
 
     return result;
 }
-
