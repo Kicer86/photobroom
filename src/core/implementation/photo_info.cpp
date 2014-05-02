@@ -20,7 +20,8 @@ struct PhotoInfo::Data
         hashMutex(),
         thumbnailMutex(),
         m_observer(nullptr),
-        m_thumbnail()
+        m_thumbnail(),
+        m_loadedData()
     {
         std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
@@ -34,7 +35,8 @@ struct PhotoInfo::Data
         hashMutex(),
         thumbnailMutex(),
         m_observer(nullptr),
-        m_thumbnail()
+        m_thumbnail(),
+        m_loadedData()
     {
     }
 
@@ -45,7 +47,8 @@ struct PhotoInfo::Data
         hashMutex(),
         thumbnailMutex(),
         m_observer(other.m_observer),
-        m_thumbnail()
+        m_thumbnail(),
+        m_loadedData()
     {}
 
     Data& operator=(const Data &) = delete;
@@ -57,6 +60,14 @@ struct PhotoInfo::Data
     std::mutex thumbnailMutex;
     IObserver* m_observer;
     QPixmap m_thumbnail;
+
+    struct LoadedData
+    {
+        LoadedData(): m_thumbnail(false), m_hash(false) {}
+
+        bool m_thumbnail;
+        bool m_hash;
+    } m_loadedData;
 };
 
 
@@ -104,9 +115,20 @@ const PhotoInfo::Hash& PhotoInfo::getHash() const
     //hash may be simultaneously read and write, protect it
     std::unique_lock<std::mutex> lock(m_data->hashMutex);
 
-    //TODO: restore assert
-    //assert(m_data->hash.empty() == false);
+    assert(isHashLoaded());
     return m_data->hash;
+}
+
+
+bool PhotoInfo::isLoaded() const
+{
+    return isHashLoaded() && m_data->m_loadedData.m_thumbnail;
+}
+
+
+bool PhotoInfo::isHashLoaded() const
+{
+    return m_data->m_loadedData.m_hash;
 }
 
 
@@ -131,6 +153,7 @@ void PhotoInfo::setHash(const Hash& hash)
 
     assert(m_data->hash.empty());
     m_data->hash = hash;
+    m_data->m_loadedData.m_hash = true;
 
     lock.unlock(); //write done
 
@@ -144,6 +167,7 @@ void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
     std::unique_lock<std::mutex> lock(m_data->hashMutex);
 
     m_data->m_thumbnail = thumbnail;
+    m_data->m_loadedData.m_thumbnail = true;
 
     lock.unlock(); //write done
 

@@ -24,7 +24,7 @@ class CORE_EXPORT PhotoInfo final
         };
 
         typedef std::shared_ptr<PhotoInfo> Ptr;
-        typedef std::string Hash;
+        typedef std::string Hash;                // Hash is hash of photo's content (pixels) not whole file itself.
 
         PhotoInfo(const std::string &path);      //load all data from provided path
         PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
@@ -33,13 +33,10 @@ class CORE_EXPORT PhotoInfo final
 
         const std::string& getPath() const;
         std::shared_ptr<ITagData> getTags() const;
-
-        //photo data
-        const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated
-
-        // Function may return empty hash, when it is not yet calculated.
-        // The returned value is hash of photo's content (pixels) not whole file itself.
-        const Hash& getHash() const;
+        const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated.
+        const Hash& getHash() const;             // Do not call until isHashLoaded()
+        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one.
+        bool isHashLoaded() const;               // returns true if hash is not null
 
         void registerObserver(IObserver *);
         void setHash(const Hash &);
