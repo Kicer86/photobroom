@@ -25,6 +25,7 @@
 #include <string>
 
 #include <openssl/sha.h>
+#include <openssl/md5.h>
 
 std::string HashFunctions::sha256(const unsigned char* str, unsigned int len)
 {
@@ -34,7 +35,7 @@ std::string HashFunctions::sha256(const unsigned char* str, unsigned int len)
     SHA256_Update(&sha256, str, len);
     SHA256_Final(hash, &sha256);
 
-    return format(hash);
+    return format(hash, SHA256_DIGEST_LENGTH);
 }
 
 
@@ -56,14 +57,48 @@ std::string HashFunctions::sha256(std::istream& stream)
 
     SHA256_Final(hash, &sha256);
 
-    return format(hash);
+    return format(hash, SHA256_DIGEST_LENGTH);
 }
 
 
-std::string HashFunctions::format(unsigned char* raw)
+std::string HashFunctions::md5(const unsigned char* str, unsigned int len)
+{
+    unsigned char hash[MD5_DIGEST_LENGTH];
+    MD5_CTX md5;
+    MD5_Init(&md5);
+    MD5_Update(&md5, str, len);
+    MD5_Final(hash, &md5);
+
+    return format(hash, MD5_DIGEST_LENGTH);
+}
+
+
+std::string HashFunctions::md5(std::istream& stream)
+{
+    unsigned char hash[MD5_DIGEST_LENGTH];
+    MD5_CTX md5;
+    MD5_Init(&md5);
+
+    while (stream.eof() == false)
+    {
+        unsigned char buffer[65536];
+        stream.read(reinterpret_cast<char *>(buffer), 65536);
+
+        const int got = stream.gcount();
+
+        MD5_Update(&md5, buffer, got);
+    }
+
+    MD5_Final(hash, &md5);
+
+    return format(hash, MD5_DIGEST_LENGTH);
+}
+
+
+std::string HashFunctions::format(unsigned char* raw, int len)
 {
     std::stringstream ss;
-    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    for(int i = 0; i < len; i++)
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(raw[i]);
 
     return ss.str();

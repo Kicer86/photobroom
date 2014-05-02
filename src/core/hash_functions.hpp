@@ -30,8 +30,11 @@ class CORE_EXPORT HashFunctions
         static std::string sha256(const unsigned char *, unsigned int len);
         static std::string sha256(std::istream &);
 
+        static std::string md5(const unsigned char *, unsigned int len);
+        static std::string md5(std::istream &);
+
     private:
-        static std::string format(unsigned char *);
+        static std::string format(unsigned char* raw, int len);
 };
 
 #endif // HASHFUNCTIONS_H
