@@ -143,7 +143,7 @@ namespace Database
 
         virtual bool canBePerformed() const
         {
-            return true;
+            return m_photo->isLoaded();
         }
 
         virtual std::string name() const
@@ -153,7 +153,7 @@ namespace Database
 
         virtual void perform()
         {
-            bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data
+            const bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data
 
             if (status == false)
                 std::cerr << "error while storing photo in database" << std::endl;
@@ -302,6 +302,7 @@ namespace Database
 
         return result;
     }
+
 
     boost::optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
     {
