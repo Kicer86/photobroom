@@ -50,6 +50,8 @@ namespace Database
         //IFrontend* __attribute__((deprecated)) get();
         IBackend* getBackend(Database::Builder::Type type = Base);  //always the same backend is returned for given type
 
+        void closeAll();
+        
         private:
             struct Impl;
             std::unique_ptr<Impl> m_impl;
