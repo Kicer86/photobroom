@@ -19,7 +19,7 @@ struct PhotoInfo::Data
         hash(),
         hashMutex(),
         thumbnailMutex(),
-        m_observer(nullptr),
+        m_observer(),
         m_thumbnail(),
         m_loadedData()
     {
@@ -34,7 +34,7 @@ struct PhotoInfo::Data
         hash(initData.hash),
         hashMutex(),
         thumbnailMutex(),
-        m_observer(nullptr),
+        m_observer(),
         m_thumbnail(),
         m_loadedData()
     {
@@ -58,7 +58,7 @@ struct PhotoInfo::Data
     PhotoInfo::Hash hash;
     std::mutex hashMutex;
     std::mutex thumbnailMutex;
-    IObserver* m_observer;
+    std::set<IObserver *> m_observer;
     QPixmap m_thumbnail;
 
     struct LoadedData
@@ -134,15 +134,21 @@ bool PhotoInfo::isHashLoaded() const
 
 void PhotoInfo::registerObserver(IObserver* observer)
 {
-    assert(m_data->m_observer == nullptr);
-    m_data->m_observer = observer;
+    m_data->m_observer.insert(observer);
 }
+
+
+void PhotoInfo::unregisterObserver(IObserver* observer)
+{
+    m_data->m_observer.erase(observer);
+}
+
 
 
 void PhotoInfo::updated()
 {
-    if (m_data->m_observer != nullptr)
-        m_data->m_observer->photoUpdated();
+    for(IObserver* observer: m_data->m_observer)
+        observer->photoUpdated();
 }
 
 
