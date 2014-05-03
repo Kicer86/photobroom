@@ -92,10 +92,20 @@ namespace Database
                                 QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
                                 "name_id INTEGER NOT NULL",
                                 "photo_id INTEGER NOT NULL",
-                                "FOREIGN KEY(photo_id) REFERENCES photos(id)",
+                                "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)",
                                 "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)"
                             }
                        );
+
+        TableDefinition
+            table_thumbnails(TAB_THUMBS,
+                             {
+                                { "id", ColDefinition::Type::ID },
+                                "photo_id INTEGER NOT NULL",
+                                "data BLOB",
+                                "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
+                             }
+                            );
     }
 
     struct StorePhoto;
@@ -650,6 +660,10 @@ namespace Database
         //tags table
         if (status)
             status = assureTableExists(table_tags);
+
+        //thumbnails table
+        if (status)
+            status = assureTableExists(table_thumbnails);
 
         /*
         if (status)
