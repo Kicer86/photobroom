@@ -37,6 +37,9 @@ struct DBDataModel::Impl
         setHierarchy(hierarchy);
     }
 
+    Impl(const Impl &) = delete;
+    Impl& operator=(const Impl &) = delete;
+
     ~Impl() {}
 
     void setHierarchy(const Hierarchy& hierarchy)
@@ -167,6 +170,22 @@ struct DBDataModel::Impl
         m_backend->store(photo);
     }
 
+    void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
+    {
+        for(const IdxData* child: idx->m_children)
+        {
+            if (child->m_loaded)
+            {
+                if (child->m_photo.get() == nullptr)
+                    getPhotosFor(child, result);
+                else
+                    result->push_back(child->m_photo);
+            }
+            else
+                assert(!"load not implemented");
+        }
+    }
+
     IdxData m_root;
     Hierarchy m_hierarchy;
     bool m_dirty;
@@ -238,7 +257,10 @@ PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 
 const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
 {
-    return std::vector<PhotoInfo::Ptr>();
+    std::vector<PhotoInfo::Ptr> result;
+    m_impl->getPhotosFor(&m_impl->m_root, &result);
+
+    return result;
 }
 
 
