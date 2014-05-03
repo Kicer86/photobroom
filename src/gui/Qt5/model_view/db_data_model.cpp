@@ -167,7 +167,6 @@ struct DBDataModel::Impl
     void addPhoto(const PhotoInfo::Ptr& photo)
     {
         m_root.addChild(photo);
-        m_backend->store(photo);
     }
 
     void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
@@ -184,6 +183,13 @@ struct DBDataModel::Impl
             else
                 assert(!"load not implemented");
         }
+    }
+
+    //store or update photo in DB
+    void storeInDB(const PhotoInfo::Ptr& photoInfo)
+    {
+        if (photoInfo->isLoaded())
+            m_backend->store(photoInfo);
     }
 
     IdxData m_root;
@@ -337,6 +343,8 @@ bool DBDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
     m_impl->addPhoto(photoInfo);
     endInsertRows();
 
+    m_impl->storeInDB(photoInfo);
+
     return true;
 }
 
@@ -364,4 +372,7 @@ void DBDataModel::idxUpdated(IdxData* idxData)
 {
     QModelIndex idx = createIndex(idxData);
     emit dataChanged(idx, idx);
+
+    PhotoInfo::Ptr photoInfo = idxData->m_photo;
+    m_impl->storeInDB(photoInfo);
 }
