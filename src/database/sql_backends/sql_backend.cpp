@@ -132,7 +132,7 @@ namespace Database
             friend struct StorePhoto;
             boost::optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const Filter& filter);
-            bool applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
+            bool storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
 
             //for friends:
             bool storePhoto(const PhotoInfo::Ptr& data);
@@ -345,7 +345,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::applyTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
+    bool ASqlBackend::Data::storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
     {
         QSqlQuery query(m_db);
         bool status = true;
@@ -406,7 +406,7 @@ namespace Database
         std::shared_ptr<ITagData> tags = data->getTags();
 
         if (status)
-            status = applyTags(photo_id.toInt(), tags);
+            status = storeTags(photo_id.toInt(), tags);
 
         return status;
     }
