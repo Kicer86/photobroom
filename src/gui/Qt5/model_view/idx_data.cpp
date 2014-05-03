@@ -42,7 +42,11 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& phot
 }
 
 
-IdxData::~IdxData() {}
+IdxData::~IdxData()
+{
+    if (m_photo.get() != nullptr)
+        m_photo->unregisterObserver(this);
+}
 
 
 void IdxData::setNodeData(const Database::FilterDescription& filter)
