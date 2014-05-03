@@ -77,7 +77,7 @@ namespace Database
     };
 
 
-    PhotoIterator::PhotoIterator(const InterfaceContainer<IQuery>& query): m_impl(new Impl(query, this))
+    PhotoIterator::PhotoIterator(const InterfaceContainer<IQuery>& iquery): m_impl(new Impl(iquery, this))
     {
 
     }
