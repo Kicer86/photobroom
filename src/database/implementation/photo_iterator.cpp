@@ -57,8 +57,7 @@ namespace Database
                 data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
                 data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
 
-                PhotoInfo* photoInfo = new PhotoInfo(data);
-                m_photoInfo.reset(photoInfo);
+                m_photoInfo = std::make_shared<PhotoInfo>(data);
 
                 //load tags
                 const TagData tagData = m_query->backend()->getTagsFor(*m_iterator);
