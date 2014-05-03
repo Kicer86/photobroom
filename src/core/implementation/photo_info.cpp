@@ -13,6 +13,7 @@
 
 struct PhotoInfo::Data
 {
+    //TODO: remove constructors 'Data' is meant to be POD
     Data(const std::string &p):
         path(p),
         tags(),
@@ -38,6 +39,7 @@ struct PhotoInfo::Data
         m_thumbnail(),
         m_loadedData()
     {
+        m_loadedData.m_hash = !hash.empty();
     }
 
     Data(const Data& other):
@@ -49,7 +51,9 @@ struct PhotoInfo::Data
         m_observers(other.m_observers),
         m_thumbnail(),
         m_loadedData()
-    {}
+    {
+        m_loadedData.m_hash = !hash.empty();
+    }
 
     Data& operator=(const Data &) = delete;
 
