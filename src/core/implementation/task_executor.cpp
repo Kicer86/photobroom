@@ -106,10 +106,7 @@ void TaskExecutor::eat()
             {
                 std::shared_ptr<ITask> task = *opt_task;
 
-                if (task->canBePerformed())
-                    execute(task);
-                else
-                    add(task);      //postpone
+                execute(task);
             }
             else
                 break;

@@ -30,9 +30,7 @@ struct CORE_EXPORT ITaskExecutor
     {
         virtual ~ITask();
 
-        virtual bool canBePerformed() const = 0;    //can by used by tasks with dependencies
         virtual std::string name() const = 0;       //task's name
-
         virtual void perform() = 0;
     };
 

@@ -27,12 +27,7 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
     ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
-    virtual bool canBePerformed() const
-    {
-        return true;
-    }
-
-    virtual std::string name() const
+    virtual std::string name() const override
     {
         return "Photo thumbnail generation";
     }
@@ -58,12 +53,7 @@ struct HashAssigner: public ITaskExecutor::ITask
     HashAssigner(const HashAssigner &) = delete;
     HashAssigner& operator=(const HashAssigner &) = delete;
 
-    virtual bool canBePerformed() const
-    {
-        return true;
-    }
-
-    virtual std::string name() const
+    virtual std::string name() const override
     {
         return "Photo hash generation";
     }
