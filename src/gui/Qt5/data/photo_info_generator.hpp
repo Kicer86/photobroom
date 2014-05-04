@@ -5,7 +5,8 @@
 #include <core/photo_info.hpp>
 
 
-class PhotoInfoGenerator final
+//TODO: construct photo manualy. Add fillers manualy on demand
+class __attribute__((deprecated)) PhotoInfoGenerator final
 {
     public:
         PhotoInfoGenerator();
