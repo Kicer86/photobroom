@@ -30,6 +30,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QPixmap>
+#include <QBuffer>
 
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
@@ -106,6 +108,18 @@ namespace Database
                                 "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                              }
                             );
+
+        QString toPrintable(const QPixmap& pixmap)
+        {
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+
+            pixmap.save(&buffer, "JPEG");
+
+            return bytes.toBase64().data();
+        }
+
     }
 
     struct StorePhoto;
@@ -132,6 +146,7 @@ namespace Database
             friend struct StorePhoto;
             boost::optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const Filter& filter);
+            bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
 
             //for friends:
@@ -181,7 +196,7 @@ namespace Database
 
         if (status == false)
             std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
-                        << " while performing query: " << query.toStdString() << std::endl;
+                      << " while performing query: " << query.toStdString() << std::endl;
 
         return status;
     }
@@ -345,6 +360,21 @@ namespace Database
     }
 
 
+    bool ASqlBackend::Data::storeThumbnail(int photo_id, const QPixmap& pixmap) const
+    {
+        QString query_str("INSERT INTO " TAB_THUMBS
+                          "(id, photo_id, data) VALUES(NULL, \"%1\", \"%2\")");
+
+        query_str = query_str.arg(photo_id);
+        query_str = query_str.arg(toPrintable(pixmap));
+
+        QSqlQuery query(m_db);
+        bool status = exec(query_str, &query);
+
+        return status;
+    }
+
+
     bool ASqlBackend::Data::storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
     {
         QSqlQuery query(m_db);
@@ -407,6 +437,9 @@ namespace Database
 
         if (status)
             status = storeTags(photo_id.toInt(), tags);
+
+        if (status)
+            status = storeThumbnail(photo_id.toInt(), data->getThumbnail());
 
         return status;
     }
