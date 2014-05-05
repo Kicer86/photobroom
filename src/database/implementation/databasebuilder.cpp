@@ -169,9 +169,7 @@ namespace Database
     void Builder::closeAll()
     {
         for(auto& backend: m_impl->m_backends)
-        {
             backend.second->closeConnections();
-        }
     }
 
 }
