@@ -15,7 +15,6 @@
 
 #include "model_view/db_data_model.hpp"
 #include "model_view/images_tree_view.hpp"
-#include "data/photo_info_generator.hpp"
 
 //useful links:
 //http://www.informit.com/articles/article.aspx?p=1613548

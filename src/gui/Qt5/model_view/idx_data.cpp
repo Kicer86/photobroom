@@ -27,7 +27,7 @@
 #include <core/photo_info.hpp>
 
 #include "db_data_model.hpp"
-#include "data/photo_info_generator.hpp"
+#include "data/photo_info_updater.hpp"
 
 IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {

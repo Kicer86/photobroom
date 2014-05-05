@@ -16,7 +16,7 @@ set(GUI_SOURCES
     Qt5/gui.cpp
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
-    Qt5/data/photo_info_generator.cpp
+    Qt5/data/photo_info_updater.cpp
     Qt5/data/thread_multiplexer.cpp
     Qt5/private/preparing_photos_widget_private.cpp
     Qt5/model_view/db_data_model.cpp
@@ -41,7 +41,7 @@ set(GUI_HEADERS
     gui.hpp
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
-    Qt5/data/photo_info_generator.hpp
+    Qt5/data/photo_info_updater.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/model_view/db_data_model.hpp
@@ -79,7 +79,7 @@ set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
 
 if(BUILD_TESTS)
     addTestTarget(gui  SOURCES
-                           Qt5/data/photo_info_generator.cpp
+                           Qt5/data/photo_info_updater.cpp
                            Qt5/model_view/idx_data.cpp
                            Qt5/model_view/db_data_model.cpp
                            tests/db_data_model_tests.cpp
