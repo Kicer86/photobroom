@@ -191,6 +191,19 @@ void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 }
 
 
+void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
+{
+    //thumnail may be simultaneously read and write, protect it
+    std::unique_lock<std::mutex> lock(m_data->hashMutex);
+
+    m_data->m_thumbnail = thumbnail;
+
+    lock.unlock(); //write done
+
+    updated();
+}
+
+
 APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 {
 

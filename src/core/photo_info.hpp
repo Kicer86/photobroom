@@ -44,6 +44,7 @@ class CORE_EXPORT PhotoInfo final
         void unregisterObserver(IObserver *);
         void setHash(const Hash &);
         void setThumbnail(const QPixmap &);
+        void setTemporaryThumbnail(const QPixmap &);  // set temporary thumbnail. isThumbnailLoaded() won't return true
 
     protected:
         void updated();
