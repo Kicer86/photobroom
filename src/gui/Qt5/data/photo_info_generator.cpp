@@ -3,6 +3,8 @@
 
 #include <assert.h>
 
+#include <memory>
+
 #include <QPixmap>
 #include <QImage>
 #include <QtSvg/QSvgRenderer>
@@ -69,31 +71,27 @@ struct HashAssigner: public ITaskExecutor::ITask
 };
 
 
-PhotoInfoGenerator::PhotoInfoGenerator()
+PhotoInfoUpdater::PhotoInfoUpdater()
 {
 
 }
 
 
-PhotoInfoGenerator::~PhotoInfoGenerator()
+PhotoInfoUpdater::~PhotoInfoUpdater()
 {
 
 }
 
 
-PhotoInfo::Ptr PhotoInfoGenerator::get(const std::string& path)
+void PhotoInfoUpdater::updateHash(const PhotoInfo::Ptr& photoInfo)
 {
-    PhotoInfo::Ptr result = std::make_shared<PhotoInfo>(path);
-    QPixmap tmpThumbnail;
-    tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
-    result->setThumbnail(tmpThumbnail);
-
-    //add generators
-    auto task = std::make_shared<ThumbnailGenerator>(result);  //generate thumbnail
+    auto task = std::make_shared<HashAssigner>(photoInfo);
     TaskExecutorConstructor::get()->add(task);
+}
 
-    auto task_hash = std::make_shared<HashAssigner>(result);   //generate hash
-    TaskExecutorConstructor::get()->add(task_hash);
 
-    return result;
+void PhotoInfoUpdater::updateThumbnail(const PhotoInfo::Ptr& photoInfo)
+{
+    auto task = std::make_shared<ThumbnailGenerator>(photoInfo);
+    TaskExecutorConstructor::get()->add(task);
 }

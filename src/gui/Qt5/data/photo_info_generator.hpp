@@ -4,18 +4,18 @@
 
 #include <core/photo_info.hpp>
 
-
 //TODO: construct photo manualy. Add fillers manualy on demand
-class __attribute__((deprecated)) PhotoInfoGenerator final
+class PhotoInfoUpdater final
 {
     public:
-        PhotoInfoGenerator();
-        ~PhotoInfoGenerator();
+        PhotoInfoUpdater();
+        ~PhotoInfoUpdater();
 
-        PhotoInfoGenerator(const PhotoInfoGenerator &) = delete;
-        PhotoInfoGenerator& operator=(const PhotoInfoGenerator &) = delete;
+        PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
+        PhotoInfoUpdater& operator=(const PhotoInfoUpdater &) = delete;
 
-        PhotoInfo::Ptr get(const std::string& path);
+        static void updateHash(const PhotoInfo::Ptr &);
+        static void updateThumbnail(const PhotoInfo::Ptr &);
 };
 
 #endif
