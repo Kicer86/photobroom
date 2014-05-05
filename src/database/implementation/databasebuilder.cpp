@@ -165,8 +165,8 @@ namespace Database
         const char* dbType = nullptr;
         switch(type)
         {
-            case Base:      dbType = "broom"; break;
-            case Temporary: dbType = "tmp";   break;
+            case Base:  dbType = "broom"; break;
+            case Stage: dbType = "stage"; break;
         }
 
         auto backendIt = m_impl->m_backends.find(type);

@@ -40,7 +40,7 @@ namespace Database
         enum Type
         {
             Base,
-            Temporary
+            Stage,
         };
 
         virtual ~Builder();
@@ -51,7 +51,7 @@ namespace Database
         IBackend* getBackend(Database::Builder::Type type = Base);  //always the same backend is returned for given type
 
         void closeAll();
-        
+
         private:
             struct Impl;
             std::unique_ptr<Impl> m_impl;
