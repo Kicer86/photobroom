@@ -126,13 +126,19 @@ const PhotoInfo::Hash& PhotoInfo::getHash() const
 
 bool PhotoInfo::isLoaded() const
 {
-    return isHashLoaded() && m_data->m_loadedData.m_thumbnail;
+    return isHashLoaded() && isThumbnailLoaded();
 }
 
 
 bool PhotoInfo::isHashLoaded() const
 {
     return m_data->m_loadedData.m_hash;
+}
+
+
+bool PhotoInfo::isThumbnailLoaded() const
+{
+    return m_data->m_loadedData.m_thumbnail;
 }
 
 

@@ -35,9 +35,10 @@ class CORE_EXPORT PhotoInfo final
         std::shared_ptr<ITagData> getTags() const;
         const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;             // Do not call until isHashLoaded()
-        
+
         bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one.
         bool isHashLoaded() const;               // returns true if hash is not null
+        bool isThumbnailLoaded() const;          // returns true if thumbnail is loaded
 
         void registerObserver(IObserver *);
         void unregisterObserver(IObserver *);
