@@ -51,7 +51,11 @@ PhotosViewWidget::~PhotosViewWidget()
 
 void PhotosViewWidget::addPhoto(const std::string &path)
 {
-    PhotoInfo::Ptr info = PhotoInfoGenerator().get(path);
+    PhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
+
+    QPixmap tmpThumbnail;
+    tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
+    info->setThumbnail(tmpThumbnail);
 
     m_photosModel->addPhoto(info);
 }
