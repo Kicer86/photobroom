@@ -79,6 +79,7 @@ set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
 
 if(BUILD_TESTS)
     addTestTarget(gui  SOURCES
+                           Qt5/data/photo_info_generator.cpp
                            Qt5/model_view/idx_data.cpp
                            Qt5/model_view/db_data_model.cpp
                            tests/db_data_model_tests.cpp
