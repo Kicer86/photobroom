@@ -139,27 +139,6 @@ namespace Database
     }
 
 
-    /*
-    IFrontend* Builder::get()
-    {
-        if (m_impl->defaultDatabase.get() == nullptr)
-        {
-            std::shared_ptr<IStreamFactory> fs = std::make_shared<StreamFactory>();
-            std::unique_ptr<IFrontend> frontend(new MemoryDatabase(fs));
-            Database::IBackend* backend = getBackend();
-
-            if (backend != nullptr)
-            {
-                m_impl->defaultDatabase = std::move(frontend);
-                m_impl->defaultDatabase->setBackend(backend);
-            }
-            //else TODO: emit signal to signalize there are some problems at initialization
-        }
-
-        return m_impl->defaultDatabase.get();
-    }
-    */
-
     IBackend* Builder::getBackend(Type type)
     {
         const char* dbType = nullptr;
