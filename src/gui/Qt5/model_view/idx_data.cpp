@@ -24,7 +24,10 @@
 #include <QPixmap>
 #include <QVariant>
 
+#include <core/photo_info.hpp>
+
 #include "db_data_model.hpp"
+#include "data/photo_info_generator.hpp"
 
 IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
@@ -39,6 +42,12 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& phot
 
     updateLeafData();
     photo->registerObserver(this);
+
+    if (photo->isHashLoaded() == false)
+        PhotoInfoUpdater::updateHash(photo);
+
+    if (photo->isThumbnailLoaded() == false)
+        PhotoInfoUpdater::updateThumbnail(photo);
 }
 
 
