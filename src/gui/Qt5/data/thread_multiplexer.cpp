@@ -4,9 +4,9 @@
 #include <assert.h>
 
 
-ThreadMultiplexer::ThreadMultiplexer(): QObject(), IThreadMultiplexer< PhotoInfoGenerator* >(), m_getter(nullptr)
+ThreadMultiplexer::ThreadMultiplexer(): QObject(), IThreadMultiplexer< PhotoInfoUpdater* >(), m_getter(nullptr)
 {
-    connect(this, SIGNAL(propagate(PhotoInfoGenerator*)), this, SLOT(propagated(PhotoInfoGenerator*)), Qt::QueuedConnection);
+    connect(this, SIGNAL(propagate(PhotoInfoUpdater*)), this, SLOT(propagated(PhotoInfoUpdater*)), Qt::QueuedConnection);
 }
 
 
@@ -16,20 +16,20 @@ ThreadMultiplexer::~ThreadMultiplexer()
 }
 
 
-void ThreadMultiplexer::setGetter(IThreadMultiplexer< PhotoInfoGenerator* >::IGetter* getter)
+void ThreadMultiplexer::setGetter(IThreadMultiplexer< PhotoInfoUpdater* >::IGetter* getter)
 {
     m_getter = getter;
 }
 
 
-void ThreadMultiplexer::send(PhotoInfoGenerator* const& photoInfo)
+void ThreadMultiplexer::send(PhotoInfoUpdater* const& photoInfo)
 {
     if (m_getter != nullptr)
         emit propagate(photoInfo);
 }
 
 
-void ThreadMultiplexer::propagated(PhotoInfoGenerator* photoInfo)
+void ThreadMultiplexer::propagated(PhotoInfoUpdater* photoInfo)
 {
     if (m_getter != nullptr)
         m_getter->signalEmited(photoInfo);
