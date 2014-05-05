@@ -54,7 +54,7 @@ void PhotosViewWidget::addPhoto(const std::string &path)
 
     QPixmap tmpThumbnail;
     tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
-    info->setThumbnail(tmpThumbnail);
+    info->setTemporaryThumbnail(tmpThumbnail);
 
     m_photosModel->addPhoto(info);
 }
