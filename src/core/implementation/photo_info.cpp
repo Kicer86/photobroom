@@ -14,9 +14,9 @@
 struct PhotoInfo::Data
 {
     //TODO: remove constructors 'Data' is meant to be POD
-    Data(const std::string &p):
-        path(p),
-        tags(),
+    Data():
+        path(),
+        tags(new TagData),
         hash(),
         hashMutex(),
         thumbnailMutex(),
@@ -24,37 +24,10 @@ struct PhotoInfo::Data
         m_thumbnail(),
         m_loadedData()
     {
-        std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
-        tags = std::move(p_tags);
     }
 
-    Data(const APhotoInfoInitData& initData):
-        path(initData.path),
-        tags(initData.tags),
-        hash(initData.hash),
-        hashMutex(),
-        thumbnailMutex(),
-        m_observers(),
-        m_thumbnail(),
-        m_loadedData()
-    {
-        m_loadedData.m_hash = !hash.empty();
-    }
-
-    Data(const Data& other):
-        path(other.path),
-        tags(other.tags),
-        hash(other.hash),
-        hashMutex(),
-        thumbnailMutex(),
-        m_observers(other.m_observers),
-        m_thumbnail(),
-        m_loadedData()
-    {
-        m_loadedData.m_hash = !hash.empty();
-    }
-
+    Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
     std::string path;
@@ -75,15 +48,23 @@ struct PhotoInfo::Data
 };
 
 
-PhotoInfo::PhotoInfo(const std::string &p): m_data(new Data(p))
+PhotoInfo::PhotoInfo(const std::string &p): m_data(new Data)
 {
+    std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
+    m_data->tags = std::move(p_tags);
+    m_data->path = p;
 }
 
 
-PhotoInfo::PhotoInfo(const APhotoInfoInitData& init): m_data(new Data(init))
+PhotoInfo::PhotoInfo(const APhotoInfoInitData& init): m_data(new Data)
 {
     //TODO: run hash to verify data consistency?
+
+    m_data->path = init.path;
+    m_data->tags = init.tags;
+
+    setHash(init.hash);
 }
 
 
