@@ -204,6 +204,12 @@ void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
 }
 
 
+void PhotoInfo::markStagingArea(bool)
+{
+
+}
+
+
 APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 {
 
