@@ -105,7 +105,13 @@ namespace Database
         std::shared_ptr<IBackend> defaultBackend;
         PluginLoader backendBuilder;
 
-        std::map<Builder::Type, std::unique_ptr<IBackend>> m_backends;
+        //bavkend type
+        enum Type
+        {
+            Main,
+        };
+
+        std::map<Type, std::unique_ptr<IBackend>> m_backends;
 
         Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), m_backends()
         {}
@@ -139,16 +145,11 @@ namespace Database
     }
 
 
-    IBackend* Builder::getBackend(Type type)
+    IBackend* Builder::getBackend()
     {
-        const char* dbType = nullptr;
-        switch(type)
-        {
-            case Base:  dbType = "broom"; break;
-            case Stage: dbType = "stage"; break;
-        }
+        const char* dbType = "broom";
 
-        auto backendIt = m_impl->m_backends.find(type);
+        auto backendIt = m_impl->m_backends.find(Impl::Main);
 
         if (backendIt == m_impl->m_backends.end())
         {
@@ -157,7 +158,7 @@ namespace Database
 
             if (status)
             {
-                auto insertIt = m_impl->m_backends.emplace( std::make_pair(type, std::move(backend)) );
+                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(backend)) );
                 backendIt = insertIt.first;
             }
         }

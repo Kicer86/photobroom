@@ -24,7 +24,7 @@
 
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
-    Database::IBackend* backend = Database::Builder::instance()->getBackend(Database::Builder::Stage);
+    Database::IBackend* backend = Database::Builder::instance()->getBackend();
     m_photosModel = new DBDataModel(this);
     m_photosModel->setBackend(backend);
 

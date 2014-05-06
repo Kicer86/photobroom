@@ -37,18 +37,12 @@ namespace Database
 
     struct DATABASE_EXPORT Builder
     {
-        enum Type
-        {
-            Base,
-            Stage,
-        };
-
         virtual ~Builder();
 
         static Builder* instance();
 
         //IFrontend* __attribute__((deprecated)) get();
-        IBackend* getBackend(Database::Builder::Type type = Base);  //always the same backend is returned for given type
+        IBackend* getBackend();  //always the same backend is returned
 
         void closeAll();
 
