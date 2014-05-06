@@ -119,6 +119,15 @@ namespace Database
                         }
                        );
 
+
+        //all tables
+        TableDefinition tables[] = {table_versionHistory,
+                                    table_photos,
+                                    table_tag_names,
+                                    table_tags,
+                                    table_thumbnails,
+                                    table_flags};
+
         QString toPrintable(const QPixmap& pixmap)
         {
             QByteArray bytes;
