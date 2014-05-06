@@ -676,11 +676,16 @@ namespace Database
 
     bool ASqlBackend::checkStructure()
     {
-        bool status = true;
+        bool status = m_data->m_db.transaction();
 
-        //check if table 'version_history' exists
+        //check tables existance
         if (status)
-            status = assureTableExists(table_versionHistory);
+            for (TableDefinition& table: tables)
+            {
+                status = assureTableExists(table);
+                if (!status)
+                    break;
+            }
 
         QSqlQuery query(m_data->m_db);
 
@@ -701,30 +706,10 @@ namespace Database
 
         //TODO: check last entry with current version
 
-        //photos table
         if (status)
-            status = assureTableExists(table_photos);
-
-        //tag types
-        if (status)
-            status = assureTableExists(table_tag_names);
-
-        //tags table
-        if (status)
-            status = assureTableExists(table_tags);
-
-        //thumbnails table
-        if (status)
-            status = assureTableExists(table_thumbnails);
-
-        //flags tables
-        if (status)
-            status = assureTableExists(table_flags);
-
-        /*
-        if (status)
-            status = addDefaultTagsDefinitions();
-        */
+            status = m_data->m_db.commit();
+        else
+            m_data->m_db.rollback();
 
         return status;
     }
