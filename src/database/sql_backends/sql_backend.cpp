@@ -109,6 +109,16 @@ namespace Database
                              }
                             );
 
+        TableDefinition
+            table_flags(TAB_FLAGS,
+                        {
+                            { "id", ColDefinition::Type::ID },
+                            "photo_id INTEGER NOT NULL",
+                            "staging_area BOOL",
+                            "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
+                        }
+                       );
+
         QString toPrintable(const QPixmap& pixmap)
         {
             QByteArray bytes;
@@ -697,6 +707,10 @@ namespace Database
         //thumbnails table
         if (status)
             status = assureTableExists(table_thumbnails);
+
+        //flags tables
+        if (status)
+            status = assureTableExists(table_flags);
 
         /*
         if (status)

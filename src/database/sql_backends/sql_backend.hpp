@@ -36,6 +36,7 @@ class QSqlDatabase;
 #define TAB_PHOTOS    "photos"
 #define TAB_TAGS      "tags"
 #define TAB_THUMBS    "thumbnails"
+#define TAB_FLAGS     "flags"
 
 namespace Database
 {
