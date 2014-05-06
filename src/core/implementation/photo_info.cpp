@@ -6,6 +6,8 @@
 
 #include <QPixmap>
 
+#include <OpenLibrary/palgorithm/ts_resource.hpp>
+
 #include "tag.hpp"
 #include "itagfeeder.hpp"
 #include "task_executor.hpp"
@@ -18,8 +20,6 @@ struct PhotoInfo::Data
         path(),
         tags(new TagData),
         hash(),
-        hashMutex(),
-        thumbnailMutex(),
         m_observers(),
         m_thumbnail(),
         m_loadedData()
@@ -32,11 +32,9 @@ struct PhotoInfo::Data
 
     std::string path;
     std::shared_ptr<ITagData> tags;
-    PhotoInfo::Hash hash;
-    std::mutex hashMutex;
-    std::mutex thumbnailMutex;
+    ThreadSafeResource<PhotoInfo::Hash> hash;
     std::set<IObserver *> m_observers;
-    QPixmap m_thumbnail;
+    ThreadSafeResource<QPixmap> m_thumbnail;
 
     struct LoadedData
     {
@@ -88,20 +86,18 @@ std::shared_ptr<ITagData> PhotoInfo::getTags() const
 
 const QPixmap& PhotoInfo::getThumbnail() const
 {
-    //thumbnail may be simultaneously read and write, protect it
-    std::unique_lock<std::mutex> lock(m_data->thumbnailMutex);
+    auto result = m_data->m_thumbnail.get();
 
-    return m_data->m_thumbnail;
+    return *result.get();
 }
 
 
 const PhotoInfo::Hash& PhotoInfo::getHash() const
 {
-    //hash may be simultaneously read and write, protect it
-    std::unique_lock<std::mutex> lock(m_data->hashMutex);
-
     assert(isHashLoaded());
-    return m_data->hash;
+    auto result = m_data->hash.get();
+
+    return *result.get();
 }
 
 
@@ -145,14 +141,12 @@ void PhotoInfo::updated()
 
 void PhotoInfo::setHash(const Hash& hash)
 {
-    //hash may be simultaneously read and write, protect it
-    std::unique_lock<std::mutex> lock(m_data->hashMutex);
+    assert(m_data->hash.get()->empty());
 
-    assert(m_data->hash.empty());
-    m_data->hash = hash;
-    m_data->m_loadedData.m_hash = true;
-
-    lock.unlock(); //write done
+    {
+        *m_data->hash.get() = hash;
+        m_data->m_loadedData.m_hash = true;
+    }
 
     updated();
 }
@@ -160,13 +154,10 @@ void PhotoInfo::setHash(const Hash& hash)
 
 void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 {
-    //thumnail may be simultaneously read and write, protect it
-    std::unique_lock<std::mutex> lock(m_data->hashMutex);
-
-    m_data->m_thumbnail = thumbnail;
-    m_data->m_loadedData.m_thumbnail = true;
-
-    lock.unlock(); //write done
+    {
+        *m_data->m_thumbnail.get() = thumbnail;
+        m_data->m_loadedData.m_thumbnail = true;
+    }
 
     updated();
 }
@@ -174,12 +165,9 @@ void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 
 void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
 {
-    //thumnail may be simultaneously read and write, protect it
-    std::unique_lock<std::mutex> lock(m_data->hashMutex);
-
-    m_data->m_thumbnail = thumbnail;
-
-    lock.unlock(); //write done
+    {
+        *m_data->m_thumbnail.get() = thumbnail;
+    }
 
     updated();
 }
