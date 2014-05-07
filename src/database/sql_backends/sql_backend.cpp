@@ -166,7 +166,8 @@ namespace Database
             boost::optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const Filter& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
-            bool storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const;
+            bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
+            bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
 
             //for friends:
             bool storePhoto(const PhotoInfo::Ptr& data);
@@ -431,6 +432,21 @@ namespace Database
     }
 
 
+    bool ASqlBackend::Data::storeFlags(int photo_id, const PhotoInfo::Ptr& photoInfo) const
+    {
+        QString query_str("INSERT INTO " TAB_FLAGS
+                          "(id, photo_id, staging_area) VALUES(NULL, \"%1\", \"%2\")");
+
+        query_str = query_str.arg(photo_id);
+        query_str = query_str.arg(photoInfo->isMarkedStagingArea()? "TRUE": "FALSE");
+
+        QSqlQuery query(m_db);
+        bool status = exec(query_str, &query);
+
+        return status;
+    }
+
+
     bool ASqlBackend::Data::storePhoto(const PhotoInfo::Ptr& data)
     {
         QSqlQuery query(m_db);
@@ -459,6 +475,9 @@ namespace Database
 
         if (status)
             status = storeThumbnail(photo_id.toInt(), data->getThumbnail());
+
+        if (status)
+            status = storeFlags(photo_id.toInt(), data);
 
         return status;
     }
