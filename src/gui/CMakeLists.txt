@@ -26,7 +26,7 @@ set(GUI_SOURCES
     Qt5/model_view/image_manager.cpp
     Qt5/model_view/positions_cache.cpp
     Qt5/widgets/browse_view/main_view_widget.cpp
-    Qt5/widgets/photos_view_widget.cpp
+    Qt5/widgets/photos_staging/photos_view_widget.cpp
     Qt5/widgets/photos_staging/photos_staging_area.cpp
     Qt5/widgets/tag_editor/tag_editor_widget.cpp
     Qt5/widgets/tag_editor/tag_definition.cpp
@@ -51,7 +51,7 @@ set(GUI_HEADERS
     Qt5/model_view/image_manager.hpp
     Qt5/model_view/positions_cache.hpp
     Qt5/widgets/browse_view/main_view_widget.hpp
-    Qt5/widgets/photos_view_widget.hpp
+    Qt5/widgets/photos_staging/photos_view_widget.hpp
     Qt5/widgets/photos_staging/photos_staging_area.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
@@ -67,7 +67,7 @@ set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
     Qt5/widgets/browse_view/main_view_widget.hpp
     Qt5/widgets/photos_staging/photos_staging_area.hpp
-    Qt5/widgets/photos_view_widget.hpp
+    Qt5/widgets/photos_staging/photos_view_widget.hpp
     Qt5/private/preparing_photos_widget_private.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
