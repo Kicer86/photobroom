@@ -18,7 +18,6 @@ set(GUI_SOURCES
     Qt5/centralwidget.cpp
     Qt5/data/photo_info_updater.cpp
     Qt5/data/thread_multiplexer.cpp
-    Qt5/private/preparing_photos_widget_private.cpp
     Qt5/model_view/db_data_model.cpp
     Qt5/model_view/idx_data.cpp
     Qt5/model_view/images_tree_view.cpp
@@ -43,7 +42,6 @@ set(GUI_HEADERS
     Qt5/centralwidget.hpp
     Qt5/data/photo_info_updater.hpp
     Qt5/data/thread_multiplexer.hpp
-    Qt5/private/preparing_photos_widget_private.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/idx_data.hpp
     Qt5/model_view/images_tree_view.hpp
@@ -68,7 +66,6 @@ set(GUI_FILES_TO_MOC
     Qt5/widgets/browse_view/main_view_widget.hpp
     Qt5/widgets/photos_staging/photos_staging_area.hpp
     Qt5/widgets/photos_staging/photos_view_widget.hpp
-    Qt5/private/preparing_photos_widget_private.hpp
     Qt5/widgets/tag_editor/tag_editor_widget.hpp
     Qt5/widgets/tag_editor/tag_definition.hpp
     Qt5/widgets/tag_editor/tag_entry.hpp
