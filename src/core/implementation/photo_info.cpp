@@ -86,9 +86,9 @@ std::shared_ptr<ITagData> PhotoInfo::getTags() const
 
 const QPixmap& PhotoInfo::getThumbnail() const
 {
-    auto result = m_data->m_thumbnail.get();
+    auto result = m_data->m_thumbnail.lock();
 
-    return *result.get();
+    return result.get();
 }
 
 
@@ -141,11 +141,9 @@ void PhotoInfo::updated()
 
 void PhotoInfo::setHash(const Hash& hash)
 {
-    assert(m_data->hash.get()->empty());
-
     m_data->hash.lock().get() = hash;
     m_data->m_loadedData.m_hash = true;
-    
+
     updated();
 }
 
@@ -162,7 +160,7 @@ void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
 {
     m_data->m_thumbnail.lock().get() = thumbnail;
-   
+
     updated();
 }
 
