@@ -15,13 +15,18 @@
 
 struct PhotoInfo::Data
 {
-    //TODO: remove constructors 'Data' is meant to be POD
+    enum Flags
+    {
+        StagingArea = 1,
+    };
+
     Data():
         path(),
         tags(new TagData),
-        hash(),
         m_observers(),
+        hash(),
         m_thumbnail(),
+        m_flags(0),
         m_loadedData()
     {
 
@@ -32,9 +37,10 @@ struct PhotoInfo::Data
 
     std::string path;
     std::shared_ptr<ITagData> tags;
-    ThreadSafeResource<PhotoInfo::Hash> hash;
     std::set<IObserver *> m_observers;
+    ThreadSafeResource<PhotoInfo::Hash> hash;
     ThreadSafeResource<QPixmap> m_thumbnail;
+    ThreadSafeResource<unsigned int> m_flags;
 
     struct LoadedData
     {
@@ -165,9 +171,14 @@ void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
 }
 
 
-void PhotoInfo::markStagingArea(bool)
+void PhotoInfo::markStagingArea(bool on)
 {
+    auto flags = m_data->m_flags.lock();
 
+    if (on)
+        flags.get() |= Data::StagingArea;
+    else
+        flags.get() &= ~Data::StagingArea;
 }
 
 
