@@ -53,6 +53,7 @@ class CORE_EXPORT PhotoInfo final
 
         //flags
         void markStagingArea(bool = true);            // mark photo as stage area's photo
+        bool isMarkedStagingArea() const;
 
     protected:
         void updated();
