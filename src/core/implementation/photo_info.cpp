@@ -13,6 +13,12 @@
 #include "task_executor.hpp"
 
 
+APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
+{
+
+}
+
+
 struct PhotoInfo::Data
 {
     enum Flags
@@ -185,10 +191,4 @@ void PhotoInfo::markStagingArea(bool on)
 bool PhotoInfo::isMarkedStagingArea() const
 {
     return (m_data->m_flags.lock().get() & Data::StagingArea) > 0;
-}
-
-
-APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
-{
-
 }
