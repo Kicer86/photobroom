@@ -451,14 +451,20 @@ namespace Database
     {
         QSqlQuery query(m_db);
 
-        //store path and hash
-        const QString query_str =
-            QString("INSERT INTO " TAB_PHOTOS
-                    "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");"
-                    ).arg(data->getPath().c_str())
-                    .arg(data->getHash().c_str());
+        bool status = m_db.transaction();
 
-        bool status = exec(query_str, &query);
+        //store path and hash
+        QString query_str =
+            "INSERT INTO " TAB_PHOTOS
+            "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");";
+
+
+        query_str = query_str.arg(data->getPath().c_str());
+        query_str = query_str.arg(data->getHash().c_str());
+
+        if (status)
+            status = exec(query_str, &query);
+
         QVariant photo_id;
 
         if (status)
@@ -478,6 +484,11 @@ namespace Database
 
         if (status)
             status = storeFlags(photo_id.toInt(), data);
+
+        if (status)
+            status = m_db.commit();
+        else
+            m_db.rollback();
 
         return status;
     }
