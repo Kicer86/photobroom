@@ -7,7 +7,6 @@
 
 #include <QPixmap>
 #include <QImage>
-#include <QtSvg/QSvgRenderer>
 
 #include <database/ifs.hpp>
 #include <core/task_executor.hpp>
