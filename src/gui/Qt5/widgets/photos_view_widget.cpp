@@ -51,6 +51,7 @@ PhotosViewWidget::~PhotosViewWidget()
 void PhotosViewWidget::addPhoto(const std::string &path)
 {
     PhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
+    info->markStagingArea();
 
     QPixmap tmpThumbnail;
     tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
