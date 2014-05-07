@@ -95,9 +95,9 @@ const QPixmap& PhotoInfo::getThumbnail() const
 const PhotoInfo::Hash& PhotoInfo::getHash() const
 {
     assert(isHashLoaded());
-    auto result = m_data->hash.get();
+    auto result = m_data->hash.lock();
 
-    return *result.get();
+    return result.get();
 }
 
 
@@ -143,21 +143,17 @@ void PhotoInfo::setHash(const Hash& hash)
 {
     assert(m_data->hash.get()->empty());
 
-    {
-        *m_data->hash.get() = hash;
-        m_data->m_loadedData.m_hash = true;
-    }
-
+    m_data->hash.lock().get() = hash;
+    m_data->m_loadedData.m_hash = true;
+    
     updated();
 }
 
 
 void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 {
-    {
-        *m_data->m_thumbnail.get() = thumbnail;
-        m_data->m_loadedData.m_thumbnail = true;
-    }
+    m_data->m_thumbnail.lock().get() = thumbnail;
+    m_data->m_loadedData.m_thumbnail = true;
 
     updated();
 }
@@ -165,10 +161,8 @@ void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 
 void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
 {
-    {
-        *m_data->m_thumbnail.get() = thumbnail;
-    }
-
+    m_data->m_thumbnail.lock().get() = thumbnail;
+   
     updated();
 }
 
