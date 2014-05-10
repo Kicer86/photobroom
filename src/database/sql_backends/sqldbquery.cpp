@@ -32,6 +32,7 @@ namespace Database
     {
         QString nameStr;
 
+        //TODO: synchronize column names with filter query generation in ASqlBackend
         switch (name)
         {
             case IQuery::Fields::Id:
