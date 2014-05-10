@@ -59,7 +59,7 @@ namespace Database
                     addFilter(item);
             }
 
-            const std::vector< FilterDescription >& getFilters() const;
+            const std::vector<FilterDescription>& getFilters() const;
 
         private:
             std::vector<FilterDescription> m_filters;

@@ -35,27 +35,27 @@ namespace Database
         switch (name)
         {
             case IQuery::Fields::Id:
-                nameStr = "id";
+                nameStr = "photos_id";
                 break;
 
             case IQuery::Fields::Hash:
-                nameStr = "hash";
+                nameStr = "photos.hash";
                 break;
 
             case IQuery::Fields::Path:
-                nameStr = "path";
+                nameStr = "photos.path";
                 break;
 
             case IQuery::Fields::TagName:
-                nameStr = "name";
+                nameStr = "tag_names.name";
                 break;
 
             case IQuery::Fields::TagValue:
-                nameStr = "value";
+                nameStr = "tags_value.value";
                 break;
 
             case IQuery::Fields::TagType:
-                nameStr = "type";
+                nameStr = "tag_names.type";
                 break;
         }
 

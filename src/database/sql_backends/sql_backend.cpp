@@ -165,6 +165,7 @@ namespace Database
             friend struct StorePhoto;
             boost::optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const Filter& filter);
+            QString generateFilterQuery(const Filter& filter, int);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
             bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
@@ -326,13 +327,9 @@ namespace Database
 
     QueryList ASqlBackend::Data::getPhotos(const Filter& filter)
     {
-        const QString filterStr = generateFilterQuery(filter);
+        const QString queryStr = generateFilterQuery(filter);
 
         QSqlQuery query(m_db);
-        const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
-                                         " FROM %3 LEFT JOIN (%1, %2)"
-                                         " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY %1.id")
-                                         .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
 
         exec(queryStr, &query);
         SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
@@ -360,20 +357,42 @@ namespace Database
 
     QString ASqlBackend::Data::generateFilterQuery(const Filter& filter)
     {
+        return generateFilterQuery(filter, filter.getFilters().size() - 1);
+    }
+
+
+    QString ASqlBackend::Data::generateFilterQuery(const Filter& filter, int level)
+    {
         QString result;
-        const std::vector <Database::FilterDescription >& filters = filter.getFilters();
+        const std::vector<Database::FilterDescription>& filters = filter.getFilters();
 
-        if (filters.empty() == false)
-            result += "WHERE";
-
-        for(size_t i = 0; i < filters.size(); i++)
+        if (level < filters.size())
         {
-            const Database::FilterDescription& f = filters[i];
+            const Database::FilterDescription& desciption = filters[level];
 
-            if (i > 0)
-                result += " AND";
+            if (level == 0)
+            {
+                result = "SELECT %1.id AS photos_id, %1.path, %1.hash, %2.type, %2.name, %3.value FROM %1";
+                result = result.arg(TAB_PHOTOS);
+                result = result.arg(TAB_TAG_NAMES);
+                result = result.arg(TAB_TAGS);
+            }
+            else
+            {
+                const QString nested = generateFilterQuery(filter, level + 1);
 
-            result += QString(" name = '%1' AND value = '%2'").arg(f.tagName, f.tagValue);
+                result =  "SELECT * FROM ";
+                result += "(" + nested + ") AS level_%1";
+
+                result = result.arg(level);
+            }
+
+            result += " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
+                      " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
+                      " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
+
+            result = result.arg(desciption.tagName);
+            result = result.arg(desciption.tagValue);
         }
 
         return result;
