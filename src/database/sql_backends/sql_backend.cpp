@@ -330,9 +330,9 @@ namespace Database
 
         QSqlQuery query(m_db);
         const QString queryStr = QString("SELECT %1.id, %1.path, %1.hash, %2.type, %2.name, %3.value"
-                                            " FROM %3 LEFT JOIN (%1, %2)"
-                                            " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY %1.id")
-                                            .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
+                                         " FROM %3 LEFT JOIN (%1, %2)"
+                                         " ON (%1.id=%3.photo_id AND %2.id=%3.name_id) %4 ORDER BY %1.id")
+                                         .arg(TAB_PHOTOS).arg(TAB_TAG_NAMES).arg(TAB_TAGS).arg(filterStr);
 
         exec(queryStr, &query);
         SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
