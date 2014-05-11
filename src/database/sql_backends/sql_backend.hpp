@@ -97,7 +97,7 @@ namespace Database
             virtual std::vector<TagNameInfo> listTags() override final;
             virtual std::set<TagValueInfo> listTagValues(const TagNameInfo&) override final;
             virtual QueryList getAllPhotos() override final;
-            virtual QueryList getPhotos(const Filter &) override final;
+            virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) override final;
             virtual TagData getTagsFor(const PhotoIterator&) override final;
 
             bool checkStructure();

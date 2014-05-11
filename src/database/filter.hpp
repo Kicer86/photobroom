@@ -27,42 +27,41 @@
 
 #include "database_export.h"
 
+#define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) { visitor->visit(this); }
+
 namespace Database
 {
+    struct IFilterVisitor;
+    struct FilterEmpty;
+    struct FilterDescription;
 
-    struct DATABASE_EXPORT FilterDescription
+    struct IFilter
     {
+        typedef std::shared_ptr<IFilter> Ptr;
+
+        virtual void visitMe(IFilterVisitor *) = 0;
+    };
+
+    struct DATABASE_EXPORT IFilterVisitor
+    {
+        virtual void visit(FilterEmpty *) = 0;
+        virtual void visit(FilterDescription *) = 0;
+    };
+
+    struct FilterEmpty: IFilter
+    {
+        FILTER_COMMAND
+    };
+
+    struct DATABASE_EXPORT FilterDescription: IFilter
+    {        
+        FILTER_COMMAND
+
         QString tagName;
         QString tagValue;
-
-        bool empty() const;
 
         FilterDescription();
     };
 
-
-    class DATABASE_EXPORT Filter
-    {
-        public:
-            Filter();
-            Filter(const Filter &) = default;
-            ~Filter();
-
-            Filter& operator=(const Filter &) = default;
-
-            void addFilter(const FilterDescription &);
-
-            template<typename T>
-            void addFilters(const T& container)
-            {
-                for(const auto& item: container)
-                    addFilter(item);
-            }
-
-            const std::vector<FilterDescription>& getFilters() const;
-
-        private:
-            std::vector<FilterDescription> m_filters;
-    };
 }
 #endif // FILTER_H

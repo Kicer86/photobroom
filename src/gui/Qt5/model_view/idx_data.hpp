@@ -33,7 +33,7 @@ struct IdxData: public PhotoInfo::IObserver
 {
     std::vector<IdxData *> m_children;
     QMap<int, QVariant> m_data;
-    Database::FilterDescription m_filter;
+    Database::IFilter::Ptr m_filter;
     PhotoInfo::Ptr m_photo;
     IdxData* m_parent;
     DBDataModel* m_model;
@@ -53,7 +53,7 @@ struct IdxData: public PhotoInfo::IObserver
     IdxData(const IdxData &) = delete;
     IdxData& operator=(const IdxData &) = delete;
 
-    void setNodeData(const Database::FilterDescription& filter);
+    void setNodeData(const Database::IFilter::Ptr& filter);
     void addChild(IdxData* child);
     void addChild(const PhotoInfo::Ptr& photoInfo);
 

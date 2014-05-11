@@ -20,9 +20,11 @@
 #include "db_data_model.hpp"
 
 #include <unordered_map>
+#include <memory>
 
 #include <core/base_tags.hpp>
 #include <database/query_list.hpp>
+#include <database/filter.hpp>
 
 #include "idx_data.hpp"
 
@@ -30,7 +32,7 @@ struct DBDataModel::Impl
 {
     Impl(DBDataModel* model): m_root(model, nullptr, "root"), m_hierarchy(), m_dirty(true), m_backend(), m_iterator()
     {
-        m_root.setNodeData(Database::FilterDescription()); //called just to mark root as node, not a leaf
+        m_root.setNodeData(std::make_shared<Database::FilterEmpty>()); //called just to mark root as node, not a leaf
         Hierarchy hierarchy;
         hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
@@ -76,9 +78,9 @@ struct DBDataModel::Impl
 
             for(const TagValueInfo& tag: tags)
             {
-                Database::FilterDescription fdesc;
-                fdesc.tagName = m_hierarchy.levels[level].tagName;
-                fdesc.tagValue = tag;
+                auto fdesc = std::make_shared<Database::FilterDescription>();
+                fdesc->tagName = m_hierarchy.levels[level].tagName;
+                fdesc->tagValue = tag;
 
                 IdxData* newItem = new IdxData(m_root.m_model, idxData, tag);
                 newItem->setNodeData(fdesc);
@@ -88,7 +90,7 @@ struct DBDataModel::Impl
         }
         else if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
         {
-            Database::Filter filter;
+            std::vector<Database::IFilter::Ptr> filter;
             buildFilterFor(_parent, &filter);
 
             Database::QueryList photos = m_backend->getPhotos(filter);
@@ -215,11 +217,11 @@ struct DBDataModel::Impl
             return result;
         }
 
-        void buildFilterFor(const QModelIndex& _parent, Database::Filter* filter)
+        void buildFilterFor(const QModelIndex& _parent, std::vector<Database::IFilter::Ptr>* filter)
         {
             IdxData* idxData = getParentIdxDataFor(_parent);
 
-            filter->addFilter(idxData->m_filter);
+            filter->push_back(idxData->m_filter);
 
             if (idxData->m_level > 0)
                 buildFilterFor(_parent.parent(), filter);

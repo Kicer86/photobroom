@@ -29,11 +29,10 @@
 
 #include "photo_iterator.hpp"
 #include "query_list.hpp"
+#include "filter.hpp"
 
 namespace Database
 {
-
-    class Filter;
 
     struct IBackend
     {
@@ -46,7 +45,7 @@ namespace Database
         virtual std::vector<TagNameInfo> listTags() = 0;
         virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
         virtual QueryList getAllPhotos() = 0;
-        virtual QueryList getPhotos(const Filter &) = 0;
+        virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) = 0;
         virtual TagData getTagsFor(const PhotoIterator &) = 0;
 
         //init backend - connect to database or create new one

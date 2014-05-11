@@ -58,7 +58,7 @@ IdxData::~IdxData()
 }
 
 
-void IdxData::setNodeData(const Database::FilterDescription& filter)
+void IdxData::setNodeData(const Database::IFilter::Ptr& filter)
 {
     m_filter = filter;
 }

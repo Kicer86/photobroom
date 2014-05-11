@@ -139,6 +139,74 @@ namespace Database
             return bytes.toBase64().data();
         }
 
+
+        struct SqlFiltersVisitor: IFilterVisitor
+        {
+            SqlFiltersVisitor(): m_temporary_result() {}
+            virtual ~SqlFiltersVisitor() {}
+
+            QString parse(const std::vector<IFilter::Ptr>& filters)
+            {
+                QString result;
+                const size_t s = filters.size();
+                bool nest_previous = true;
+                m_temporary_result = "";
+
+                for (size_t i = 0; i < s; i++)
+                {
+                    if (i > 0) // not first filter? Nest previous one
+                    {
+                        if (nest_previous) //really nest?
+                        {
+                            result = "SELECT * FROM "
+                                     "( " + result + ") AS level_%1";
+
+                            result = result.arg(i);
+                        }
+                    }
+                    else
+                    {
+                        result = "SELECT %1.id AS photos_id, %1.path, %1.hash, %2.type, %2.name, %3.value FROM %1";
+                        result = result.arg(TAB_PHOTOS);
+                        result = result.arg(TAB_TAG_NAMES);
+                        result = result.arg(TAB_TAGS);
+                    }
+
+                    const size_t index = s - i - 1;
+                    m_temporary_result = "";
+                    filters[index]->visitMe(this);
+
+                    nest_previous = m_temporary_result.isEmpty() == false;
+                    result += m_temporary_result;
+                    m_temporary_result = "";
+                }
+
+                return result;
+            }
+
+            // IFilterVisitor interface
+            void visit(FilterEmpty *)
+            {
+            }
+
+            void visit(FilterDescription* desciption)
+            {
+                QString result;
+
+                result += " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
+                          " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
+                          " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
+
+                result = result.arg(desciption->tagName);
+                result = result.arg(desciption->tagValue);
+
+                m_temporary_result = result;
+            }
+
+            private:
+                QString m_temporary_result;
+        };
+
     }
 
     struct StorePhoto;
@@ -159,13 +227,12 @@ namespace Database
         bool store(const PhotoInfo::Ptr& data);
         std::vector<TagNameInfo> listTags() const;
         std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
-        QueryList getPhotos(const Filter& filter);
+        QueryList getPhotos(const std::vector<IFilter::Ptr>& filter);
 
         private:
             friend struct StorePhoto;
             boost::optional<unsigned int> findTagByName(const QString& name) const;
-            QString generateFilterQuery(const Filter& filter);
-            QString generateFilterQuery(const Filter& filter, int);
+            QString generateFilterQuery(const std::vector<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
             bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
@@ -325,7 +392,7 @@ namespace Database
     }
 
 
-    QueryList ASqlBackend::Data::getPhotos(const Filter& filter)
+    QueryList ASqlBackend::Data::getPhotos(const std::vector<IFilter::Ptr>& filter)
     {
         const QString queryStr = generateFilterQuery(filter);
 
@@ -355,48 +422,13 @@ namespace Database
     }
 
 
-    QString ASqlBackend::Data::generateFilterQuery(const Filter& filter)
+    QString ASqlBackend::Data::generateFilterQuery(const std::vector<IFilter::Ptr>& filters)
     {
-        return generateFilterQuery(filter, filter.getFilters().size() - 1);
-    }
-
-
-    QString ASqlBackend::Data::generateFilterQuery(const Filter& filter, int level)
-    {
-        QString result;
-        const std::vector<Database::FilterDescription>& filters = filter.getFilters();
-
-        if (level < filters.size())
-        {
-            const Database::FilterDescription& desciption = filters[level];
-
-            if (level == 0)
-            {
-                result = "SELECT %1.id AS photos_id, %1.path, %1.hash, %2.type, %2.name, %3.value FROM %1";
-                result = result.arg(TAB_PHOTOS);
-                result = result.arg(TAB_TAG_NAMES);
-                result = result.arg(TAB_TAGS);
-            }
-            else
-            {
-                const QString nested = generateFilterQuery(filter, level + 1);
-
-                result =  "SELECT * FROM ";
-                result += "(" + nested + ") AS level_%1";
-
-                result = result.arg(level);
-            }
-
-            result += " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
-                      " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
-                      " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
-
-            result = result.arg(desciption.tagName);
-            result = result.arg(desciption.tagValue);
-        }
+        SqlFiltersVisitor visitor;
+        const QString result = visitor.parse(filters);
 
         return result;
-    }
+    }   
 
 
     bool ASqlBackend::Data::storeThumbnail(int photo_id, const QPixmap& pixmap) const
@@ -677,11 +709,12 @@ namespace Database
 
     QueryList ASqlBackend::getAllPhotos()
     {
-        return m_data->getPhotos(Filter());  //like getPhotos but without any filters
+        std::vector<IFilter::Ptr> emptyList;
+        return m_data->getPhotos(emptyList);  //like getPhotos but without any filters
     }
 
 
-    QueryList ASqlBackend::getPhotos(const Filter& filter)
+    QueryList ASqlBackend::getPhotos(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->getPhotos(filter);
     }

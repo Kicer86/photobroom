@@ -27,35 +27,4 @@ namespace Database
 
     }
 
-
-    bool FilterDescription::empty() const
-    {
-        return tagName.isEmpty();
-    }
-
-
-    Filter::Filter(): m_filters()
-    {
-
-    }
-
-
-    Filter::~Filter()
-    {
-
-    }
-
-
-    void Filter::addFilter(const FilterDescription& filter)
-    {
-        if (! filter.empty())
-            m_filters.push_back(filter);
-    }
-
-
-    const std::vector<FilterDescription>& Filter::getFilters() const
-    {
-        return m_filters;
-    }
-
 }
