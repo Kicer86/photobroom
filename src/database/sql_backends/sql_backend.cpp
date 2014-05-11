@@ -194,9 +194,9 @@ namespace Database
                 {
                     QString result;
 
-                    result += " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
-                              " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
-                              " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
+                    result = " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
+                             " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
+                             " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
 
                     result = result.arg(desciption->tagName);
                     result = result.arg(desciption->tagValue);
@@ -206,7 +206,14 @@ namespace Database
 
                 void visit(FilterFlags* flags) override
                 {
+                    QString result;
 
+                    result =  " JOIN " TAB_FLAGS " ON " TAB_FLAGS ".photo_id = photos_id";
+                    result += " WHERE " TAB_FLAGS ".staging_area = '%1'";
+
+                    result = result.arg(flags->stagingArea? "TRUE": "FALSE");
+
+                    m_temporary_result = result;
                 }
 
                 QString m_temporary_result;
@@ -572,8 +579,8 @@ namespace Database
             std::cout << "ASqlBackend: closing database connections." << std::endl;
             m_data->m_db.close();
 
-            // Reset belowe is necessary.
-            // There is a problem:when application is being closed, all qt resources (libraries etc) are being removed.
+            // Reset below is necessary.
+            // There is a problem: when application is being closed, all qt resources (libraries etc) are being removed.
             // And it may happend that a driver for particular sql database will be removed before database is destroyed.
             // This will lead to crash as in database's destructor calls to driver are made.
             m_data.reset(nullptr);        //destroy database.
