@@ -27,4 +27,10 @@ namespace Database
 
     }
 
+
+    FilterFlags::FilterFlags(): stagingArea(false)
+    {
+
+    }
+
 }

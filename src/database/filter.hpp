@@ -27,13 +27,14 @@
 
 #include "database_export.h"
 
-#define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) { visitor->visit(this); }
+#define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); }
 
 namespace Database
 {
     struct IFilterVisitor;
     struct FilterEmpty;
     struct FilterDescription;
+    struct FilterFlags;
 
     struct IFilter
     {
@@ -46,9 +47,12 @@ namespace Database
     {
         virtual void visit(FilterEmpty *) = 0;
         virtual void visit(FilterDescription *) = 0;
+        virtual void visit(FilterFlags *) = 0;
     };
 
-    struct FilterEmpty: IFilter
+    //filters
+
+    struct DATABASE_EXPORT FilterEmpty: IFilter
     {
         FILTER_COMMAND
     };
@@ -61,6 +65,15 @@ namespace Database
         QString tagValue;
 
         FilterDescription();
+    };
+
+    struct DATABASE_EXPORT FilterFlags: IFilter
+    {
+        FILTER_COMMAND
+
+        bool stagingArea;
+
+        FilterFlags();
     };
 
 }

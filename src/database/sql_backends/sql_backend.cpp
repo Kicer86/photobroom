@@ -184,26 +184,31 @@ namespace Database
                 return result;
             }
 
-            // IFilterVisitor interface
-            void visit(FilterEmpty *)
-            {
-            }
-
-            void visit(FilterDescription* desciption)
-            {
-                QString result;
-
-                result += " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
-                          " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
-                          " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
-
-                result = result.arg(desciption->tagName);
-                result = result.arg(desciption->tagValue);
-
-                m_temporary_result = result;
-            }
-
             private:
+                // IFilterVisitor interface
+                void visit(FilterEmpty *) override
+                {
+                }
+
+                void visit(FilterDescription* desciption) override
+                {
+                    QString result;
+
+                    result += " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
+                              " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
+                              " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
+
+                    result = result.arg(desciption->tagName);
+                    result = result.arg(desciption->tagValue);
+
+                    m_temporary_result = result;
+                }
+
+                void visit(FilterFlags* flags) override
+                {
+
+                }
+
                 QString m_temporary_result;
         };
 
