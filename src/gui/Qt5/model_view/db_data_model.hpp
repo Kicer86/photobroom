@@ -45,7 +45,7 @@ struct Hierarchy
 };
 
 
-class DBDataModel final: public QAbstractItemModel, public Database::IFrontend
+class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 {
     public:
         DBDataModel(QObject* p);
