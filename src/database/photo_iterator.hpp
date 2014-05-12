@@ -44,9 +44,6 @@ namespace Database
             Id,
             Path,
             Hash,
-            TagName,
-            TagValue,
-            TagType,
         };
 
         virtual ~IQuery() {}

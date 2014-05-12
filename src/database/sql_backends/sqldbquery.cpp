@@ -20,7 +20,7 @@
 #include "sqldbquery.hpp"
 namespace Database
 {
-    
+
     Database::IQuery* SqlDBQuery::clone() const
     {
         IQuery* result = new SqlDBQuery(m_query, m_backend);
@@ -40,23 +40,11 @@ namespace Database
                 break;
 
             case IQuery::Fields::Hash:
-                nameStr = "photos.hash";
+                nameStr = "photos_hash";
                 break;
 
             case IQuery::Fields::Path:
-                nameStr = "photos.path";
-                break;
-
-            case IQuery::Fields::TagName:
-                nameStr = "tag_names.name";
-                break;
-
-            case IQuery::Fields::TagValue:
-                nameStr = "tags_value.value";
-                break;
-
-            case IQuery::Fields::TagType:
-                nameStr = "tag_names.type";
+                nameStr = "photos_path";
                 break;
         }
 

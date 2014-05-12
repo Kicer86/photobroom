@@ -166,10 +166,8 @@ namespace Database
                     }
                     else
                     {
-                        result = "SELECT %1.id AS photos_id, %1.path, %1.hash, %2.type, %2.name, %3.value FROM %1";
+                        result = "SELECT %1.id AS photos_id, %1.path AS photos_path, %1.hash AS photos_hash FROM %1";
                         result = result.arg(TAB_PHOTOS);
-                        result = result.arg(TAB_TAG_NAMES);
-                        result = result.arg(TAB_TAGS);
                     }
 
                     const size_t index = s - i - 1;
@@ -440,7 +438,7 @@ namespace Database
         const QString result = visitor.parse(filters);
 
         return result;
-    }   
+    }
 
 
     bool ASqlBackend::Data::storeThumbnail(int photo_id, const QPixmap& pixmap) const
