@@ -34,7 +34,7 @@ struct IdxData: public PhotoInfo::IObserver
     std::vector<IdxData *> m_children;
     QMap<int, QVariant> m_data;
     Database::IFilter::Ptr m_filter;
-    PhotoInfo::Ptr m_photo;
+    PhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
     IdxData* m_parent;
     DBDataModel* m_model;
     size_t m_level;
