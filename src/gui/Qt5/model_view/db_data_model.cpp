@@ -188,7 +188,7 @@ struct DBDataModel::Impl
     }
 
     //store or update photo in DB
-    void storeInDB(const PhotoInfo::Ptr& photoInfo)
+    void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
     {
         if (photoInfo->isLoaded())
             m_backend->store(photoInfo);
@@ -357,7 +357,7 @@ IdxData& DBDataModel::getRootIdxData()
 
 void DBDataModel::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 {
-    m_impl->storeInDB(photoInfo);
+    m_impl->updatePhotoInDB(photoInfo);
 }
 
 
@@ -374,5 +374,5 @@ void DBDataModel::idxUpdated(IdxData* idxData)
     emit dataChanged(idx, idx);
 
     PhotoInfo::Ptr photoInfo = idxData->m_photo;
-    m_impl->storeInDB(photoInfo);
+    m_impl->updatePhotoInDB(photoInfo);
 }
