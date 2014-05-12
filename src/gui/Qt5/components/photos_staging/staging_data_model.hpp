@@ -32,6 +32,8 @@ class StagingDataModel: public DBDataModel
         ~StagingDataModel();
 
         StagingDataModel& operator=(const StagingDataModel &) = delete;
+
+        bool addPhoto(const PhotoInfo::Ptr &);
 };
 
 #endif // STAGINGDATAMODEL_H

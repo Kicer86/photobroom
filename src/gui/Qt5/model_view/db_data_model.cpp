@@ -337,20 +337,6 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 }
 
 
-bool DBDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
-{
-    const int row = m_impl->m_root.m_children.size();
-
-    beginInsertRows(QModelIndex(), row, row);
-    m_impl->addPhoto(photoInfo);
-    endInsertRows();
-
-    m_impl->storeInDB(photoInfo);
-
-    return true;
-}
-
-
 void DBDataModel::setBackend(Database::IBackend* backend)
 {
     m_impl->setBackend(backend);
@@ -360,6 +346,18 @@ void DBDataModel::setBackend(Database::IBackend* backend)
 void DBDataModel::close()
 {
     m_impl->close();
+}
+
+
+IdxData& DBDataModel::getRootIdxData()
+{
+    return m_impl->m_root;
+}
+
+
+void DBDataModel::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
+{
+    m_impl->storeInDB(photoInfo);
 }
 
 

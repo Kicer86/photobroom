@@ -59,7 +59,6 @@ namespace Database
     {
         virtual ~IFrontend() {}
 
-        virtual bool addPhoto(const PhotoInfo::Ptr&) = 0;
         virtual void setBackend(IBackend *) = 0;
 
         virtual void close() = 0;

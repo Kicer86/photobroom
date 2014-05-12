@@ -75,10 +75,11 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& 
 }
 
 
+//TODO: rewrite
 void PhotosStagingArea::savePhotos()
 {
     const std::vector<PhotoInfo::Ptr> photos = m_editor->getPhotos();
 
-    for(const PhotoInfo::Ptr& photo: photos)
-        m_frontend->addPhoto(photo);
+    //for(const PhotoInfo::Ptr& photo: photos)
+    //    m_frontend->addPhoto(photo);
 }

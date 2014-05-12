@@ -19,7 +19,7 @@
 #include <core/photo_info.hpp>
 #include <database/databasebuilder.hpp>
 
-#include "model_view/db_data_model.hpp"
+#include "components/photos_staging/staging_data_model.hpp"
 #include "model_view/images_tree_view.hpp"
 
 //useful links:
@@ -95,7 +95,7 @@ BrowseList::~BrowseList()
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
     Database::IBackend* backend = Database::Builder::instance()->getBackend();
-    m_photosModel = new DBDataModel(this);
+    m_photosModel = new StagingDataModel(this);
     m_photosModel->setBackend(backend);
 
     m_photosView = new ImagesTreeView(this);

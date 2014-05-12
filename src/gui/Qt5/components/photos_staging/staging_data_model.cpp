@@ -19,6 +19,8 @@
 
 #include "staging_data_model.hpp"
 
+#include "model_view/idx_data.hpp"
+
 StagingDataModel::StagingDataModel(QObject* p): DBDataModel(p)
 {
 
@@ -28,4 +30,21 @@ StagingDataModel::StagingDataModel(QObject* p): DBDataModel(p)
 StagingDataModel::~StagingDataModel()
 {
 
+}
+
+
+bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
+{
+    photoInfo->markStagingArea();   //mark photo as being in staging area
+
+    IdxData& root = DBDataModel::getRootIdxData();
+    const int row = root.m_children.size();
+
+    beginInsertRows(QModelIndex(), row, row);
+    root.addChild(photoInfo);
+    endInsertRows();
+
+    DBDataModel::updatePhotoInDB(photoInfo);
+
+    return true;
 }

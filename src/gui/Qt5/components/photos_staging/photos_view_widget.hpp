@@ -15,7 +15,7 @@ class QLineEdit;
 class QPushButton;
 class QtExtChooseFile;
 
-class DBDataModel;
+class StagingDataModel;
 class ImagesTreeView;
 
 struct BrowseLine: public QWidget
@@ -84,8 +84,8 @@ class PhotosViewWidget: public QWidget
         std::vector<PhotoInfo::Ptr> getPhotos() const;
 
     private:
-        DBDataModel*    m_photosModel;
-        ImagesTreeView* m_photosView;
+        StagingDataModel* m_photosModel;
+        ImagesTreeView*   m_photosView;
 
     private slots:
         void selectionChanged();
