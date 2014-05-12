@@ -41,7 +41,7 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
     const int row = root.m_children.size();
 
     beginInsertRows(QModelIndex(), row, row);
-    root.addChild(photoInfo);
+    root.addChild(photoInfo);                   //TODO: smarter algorithm?
     endInsertRows();
 
     DBDataModel::updatePhotoInDB(photoInfo);
