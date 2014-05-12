@@ -24,16 +24,16 @@ set(GUI_SOURCES
     Qt5/model_view/images_view.cpp
     Qt5/model_view/image_manager.cpp
     Qt5/model_view/positions_cache.cpp
-    Qt5/widgets/browse_view/main_view_widget.cpp
-    Qt5/widgets/photos_staging/photos_view_widget.cpp
-    Qt5/widgets/photos_staging/photos_staging_area.cpp
-    Qt5/widgets/tag_editor/tag_editor_widget.cpp
-    Qt5/widgets/tag_editor/tag_definition.cpp
-    Qt5/widgets/tag_editor/tag_entry.cpp
-    Qt5/widgets/tag_editor/entries_manager.cpp
-    Qt5/widgets/tag_editor/ivalue_widget.cpp
-    Qt5/widgets/tag_editor/converter.cpp
-    Qt5/widgets/tag_editor/text_widget.cpp
+    Qt5/components/browse_view/main_view_widget.cpp
+    Qt5/components/photos_staging/photos_view_widget.cpp
+    Qt5/components/photos_staging/photos_staging_area.cpp
+    Qt5/components/tag_editor/tag_editor_widget.cpp
+    Qt5/components/tag_editor/tag_definition.cpp
+    Qt5/components/tag_editor/tag_entry.cpp
+    Qt5/components/tag_editor/entries_manager.cpp
+    Qt5/components/tag_editor/ivalue_widget.cpp
+    Qt5/components/tag_editor/converter.cpp
+    Qt5/components/tag_editor/text_widget.cpp
     )
 
 set(GUI_HEADERS
@@ -48,28 +48,28 @@ set(GUI_HEADERS
     Qt5/model_view/images_view.hpp
     Qt5/model_view/image_manager.hpp
     Qt5/model_view/positions_cache.hpp
-    Qt5/widgets/browse_view/main_view_widget.hpp
-    Qt5/widgets/photos_staging/photos_view_widget.hpp
-    Qt5/widgets/photos_staging/photos_staging_area.hpp
-    Qt5/widgets/tag_editor/tag_editor_widget.hpp
-    Qt5/widgets/tag_editor/tag_definition.hpp
-    Qt5/widgets/tag_editor/tag_entry.hpp
-    Qt5/widgets/tag_editor/entries_manager.hpp
-    Qt5/widgets/tag_editor/ivalue_widget.hpp
-    Qt5/widgets/tag_editor/converter.hpp
-    Qt5/widgets/tag_editor/text_widget.hpp
+    Qt5/components/browse_view/main_view_widget.hpp
+    Qt5/components/photos_staging/photos_view_widget.hpp
+    Qt5/components/photos_staging/photos_staging_area.hpp
+    Qt5/components/tag_editor/tag_editor_widget.hpp
+    Qt5/components/tag_editor/tag_definition.hpp
+    Qt5/components/tag_editor/tag_entry.hpp
+    Qt5/components/tag_editor/entries_manager.hpp
+    Qt5/components/tag_editor/ivalue_widget.hpp
+    Qt5/components/tag_editor/converter.hpp
+    Qt5/components/tag_editor/text_widget.hpp
     )
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
-    Qt5/widgets/browse_view/main_view_widget.hpp
-    Qt5/widgets/photos_staging/photos_staging_area.hpp
-    Qt5/widgets/photos_staging/photos_view_widget.hpp
-    Qt5/widgets/tag_editor/tag_editor_widget.hpp
-    Qt5/widgets/tag_editor/tag_definition.hpp
-    Qt5/widgets/tag_editor/tag_entry.hpp
-    Qt5/widgets/tag_editor/ivalue_widget.hpp
+    Qt5/components/browse_view/main_view_widget.hpp
+    Qt5/components/photos_staging/photos_staging_area.hpp
+    Qt5/components/photos_staging/photos_view_widget.hpp
+    Qt5/components/tag_editor/tag_editor_widget.hpp
+    Qt5/components/tag_editor/tag_definition.hpp
+    Qt5/components/tag_editor/tag_entry.hpp
+    Qt5/components/tag_editor/ivalue_widget.hpp
     )
 
 set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
