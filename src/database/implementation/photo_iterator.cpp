@@ -20,7 +20,6 @@
 #include "photo_iterator.hpp"
 
 #include <QVariant>
-#include <QPixmap>
 
 #include <core/tag.hpp>
 #include <database/idatabase.hpp>
