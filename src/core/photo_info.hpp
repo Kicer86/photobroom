@@ -17,6 +17,7 @@ struct HashAssigner;
 class CORE_EXPORT PhotoInfo final
 {
     public:
+        typedef int Id;
         struct IObserver
         {
             IObserver() {};
