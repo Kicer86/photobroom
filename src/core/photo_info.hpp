@@ -55,13 +55,11 @@ class CORE_EXPORT PhotoInfo final
         void markStagingArea(bool = true);            // mark photo as stage area's photo
         bool isMarkedStagingArea() const;
 
-    protected:
-        void updated();
-
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
 
+        void updated();
 };
 
 
