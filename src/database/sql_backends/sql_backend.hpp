@@ -98,8 +98,11 @@ namespace Database
             virtual std::set<TagValueInfo> listTagValues(const TagNameInfo&) override final;
             virtual QueryList getAllPhotos() override final;
             virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) override final;
-            virtual TagData getTagsFor(const PhotoIterator&) override final;
+            virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) override final;
 
+            TagData getTagsFor(const PhotoInfo::Id &);
+            void getThumbnailFor(const PhotoInfo::Id &, QPixmap *);
+            APhotoInfoInitData getPhotoDataFor(const PhotoInfo::Id &);
             bool checkStructure();
     };
 

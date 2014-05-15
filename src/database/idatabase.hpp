@@ -46,7 +46,7 @@ namespace Database
         virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;
         virtual QueryList getAllPhotos() = 0;
         virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) = 0;
-        virtual TagData getTagsFor(const PhotoIterator &) = 0;
+        virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;
 
         //init backend - connect to database or create new one
         virtual bool init(const char *) = 0;

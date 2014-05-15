@@ -34,7 +34,7 @@ namespace Database
         SqlDBQuery& operator=(const SqlDBQuery &) = delete;
 
         virtual IQuery* clone() const;
-        virtual QVariant getField(Fields name) const;
+        virtual PhotoInfo::Id getId() const;
         virtual bool gotoNext();
         virtual bool valid() const;
         virtual int size() const;

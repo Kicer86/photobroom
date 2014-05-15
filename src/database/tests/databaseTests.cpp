@@ -3,6 +3,8 @@
 #include <sstream>
 #include <vector>
 
+#include <QVariant>
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 

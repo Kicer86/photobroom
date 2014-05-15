@@ -20,6 +20,7 @@
 #include "photo_iterator.hpp"
 
 #include <QVariant>
+#include <QPixmap>
 
 #include <core/tag.hpp>
 #include <database/idatabase.hpp>
@@ -50,20 +51,9 @@ namespace Database
         {
             if (m_photoInfo.get() == nullptr)
             {
-                //load photo data
-                APhotoInfoInitData data;
+                const unsigned int photoId = m_query->getId();
 
-                //const unsigned int id = m_query->getField(IQuery::Fields::Id).toInt();
-                data.path = m_query->getField(IQuery::Fields::Path).toString().toStdString();
-                data.hash = m_query->getField(IQuery::Fields::Hash).toString().toStdString();
-
-                m_photoInfo = std::make_shared<PhotoInfo>(data);
-
-                //load tags
-                const TagData tagData = m_query->backend()->getTagsFor(*m_iterator);
-
-                std::shared_ptr<ITagData> tags = m_photoInfo->getTags();
-                tags->setTags(tags->getTags());
+                m_photoInfo = m_query->backend()->getPhoto(photoId);
             }
         }
 
@@ -115,12 +105,12 @@ namespace Database
         if ( *this )
         {
             //get id of current photo
-            const unsigned int id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
+            const unsigned int id = m_impl->m_query->getId();
             unsigned int n_id = 0;
             const bool status = m_impl->m_query->gotoNext();
 
             if (status)
-                n_id = m_impl->m_query->getField(IQuery::Fields::Id).toInt();
+                n_id = m_impl->m_query->getId();
 
             assert(!status || id != n_id);     //just a check if next photo is next one ;)
 

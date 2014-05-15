@@ -17,6 +17,8 @@
  *
  */
 
+#include <QVariant>
+
 #include "sqldbquery.hpp"
 namespace Database
 {
@@ -28,27 +30,10 @@ namespace Database
     }
 
 
-    QVariant SqlDBQuery::getField(IQuery::Fields name) const
+    PhotoInfo::Id SqlDBQuery::getId() const
     {
-        QString nameStr;
-
-        //TODO: synchronize column names with filter query generation in ASqlBackend
-        switch (name)
-        {
-            case IQuery::Fields::Id:
-                nameStr = "photos_id";
-                break;
-
-            case IQuery::Fields::Hash:
-                nameStr = "photos_hash";
-                break;
-
-            case IQuery::Fields::Path:
-                nameStr = "photos_path";
-                break;
-        }
-
-        return m_query.value(nameStr);
+        static_assert(sizeof(PhotoInfo::Id) <= sizeof(int), "bad type !");   //TODO: watchout for type
+        return m_query.value("photos_id").toInt();
     }
 
 

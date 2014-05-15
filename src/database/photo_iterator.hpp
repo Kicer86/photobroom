@@ -20,8 +20,6 @@
 #ifndef PHOTOITERATOR_H
 #define PHOTOITERATOR_H
 
-#include <QVariant>
-
 #include <utils/data_ptr.hpp>
 
 #include <core/photo_info.hpp>
@@ -39,17 +37,10 @@ namespace Database
     //It can access one row of data at once.
     struct IQuery
     {
-        enum class Fields
-        {
-            Id,
-            Path,
-            Hash,
-        };
-
         virtual ~IQuery() {}
 
         virtual bool gotoNext() = 0;                    //move to next data row
-        virtual QVariant getField(Fields) const = 0;    //get value for given name in current row
+        virtual PhotoInfo::Id getId() const = 0;        //get photo Id
         virtual bool valid() const = 0;
         virtual int size() const = 0;                   //number of rows
         virtual IBackend* backend() const = 0;          //source backend

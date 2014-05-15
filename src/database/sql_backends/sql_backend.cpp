@@ -32,6 +32,7 @@
 #include <QVariant>
 #include <QPixmap>
 #include <QBuffer>
+#include <QString>
 
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
@@ -166,7 +167,7 @@ namespace Database
                     }
                     else
                     {
-                        result = "SELECT %1.id AS photos_id, %1.path AS photos_path, %1.hash AS photos_hash FROM %1";
+                        result = "SELECT %1.id AS photos_id FROM %1";
                         result = result.arg(TAB_PHOTOS);
                     }
 
@@ -730,12 +731,28 @@ namespace Database
     }
 
 
-    TagData ASqlBackend::getTagsFor(const PhotoIterator& iterator)
+    PhotoInfo::Ptr ASqlBackend::getPhoto(const PhotoInfo::Id& id)
     {
-        const IQuery* const iquery = iterator.query();
-        const QVariant idRaw = iquery->getField(IQuery::Fields::Id);
-        const unsigned int photoId = idRaw.toInt();
+        APhotoInfoInitData data = getPhotoDataFor(id);
+        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
 
+        //load tags
+        const TagData tagData = getTagsFor(id);
+
+        std::shared_ptr<ITagData> tags = photoInfo->getTags();
+        tags->setTags(tags->getTags());
+
+        //load thumbnail
+        QPixmap thumbnail;
+        getThumbnailFor(id, &thumbnail);
+        photoInfo->setThumbnail(thumbnail);
+
+        return photoInfo;
+    }
+
+
+    TagData ASqlBackend::getTagsFor(const PhotoInfo::Id& photoId)
+    {
         QSqlQuery query(m_data->m_db);
 
         QString queryStr = QString("SELECT "
@@ -763,6 +780,50 @@ namespace Database
         }
 
         return tagData;
+    }
+
+
+    void ASqlBackend::getThumbnailFor(const PhotoInfo::Id& photoId, QPixmap* pixmap)
+    {
+        QSqlQuery query(m_data->m_db);
+
+        QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
+
+        queryStr = queryStr.arg(TAB_THUMBS);
+        queryStr = queryStr.arg(photoId);
+
+        const bool status = m_data->exec(queryStr, &query);
+
+        if(status && query.next())
+        {
+            const QVariant variant = query.value(0);
+            *pixmap = variant.value<QPixmap>();
+        }
+    }
+
+
+    APhotoInfoInitData ASqlBackend::getPhotoDataFor(const PhotoInfo::Id& id)
+    {
+        APhotoInfoInitData data;
+        QSqlQuery query(m_data->m_db);
+
+        QString queryStr = QString("SELECT path, hash FROM %1 WHERE %1.id = '%2'");
+
+        queryStr = queryStr.arg(TAB_PHOTOS);
+        queryStr = queryStr.arg(id);
+
+        const bool status = m_data->exec(queryStr, &query);
+
+        if(status && query.next())
+        {
+            const QVariant path = query.value(0);
+            const QVariant hash = query.value(1);
+
+            data.path = path.toString().toStdString();
+            data.hash = hash.toString().toStdString();
+        }
+
+        return data;
     }
 
 

@@ -7,15 +7,13 @@
 #include <gmock/gmock.h>
 
 #include "photo_iterator.hpp"
-//#include "interface
-
 
 namespace
 {
     struct MockQuery: Database::IQuery
     {
         MOCK_METHOD0(gotoNext, bool());
-        MOCK_CONST_METHOD1(getField, QVariant(Database::IQuery::Fields));
+        MOCK_CONST_METHOD0(getId, PhotoInfo::Id());
         MOCK_CONST_METHOD0(valid, bool());
         MOCK_CONST_METHOD0(size, int());
         MOCK_CONST_METHOD0(backend, Database::IBackend*());
@@ -48,11 +46,11 @@ TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
     EXPECT_CALL(*static_cast<MockQuery *>(*queryContainer), gotoNext()).Times(3).WillRepeatedly(Return(true));
 
     //called three times on each of rows
-    EXPECT_CALL(*static_cast<MockQuery *>(*queryContainer), getField(Database::IQuery::Fields::Id))
+    EXPECT_CALL(*static_cast<MockQuery *>(*queryContainer), getId())
         .Times(3)
-        .WillOnce(Return(QVariant("1")))
-        .WillOnce(Return(QVariant("1")))
-        .WillOnce(Return(QVariant("2")));
+        .WillOnce(Return(1))
+        .WillOnce(Return(1))
+        .WillOnce(Return(2));
 
     //Database::PhotoIterator photoIt(queryContainer);
 
