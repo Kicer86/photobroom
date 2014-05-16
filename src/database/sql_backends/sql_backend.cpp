@@ -129,7 +129,7 @@ namespace Database
                                     table_thumbnails,
                                     table_flags};
 
-        QString toPrintable(const QPixmap& pixmap)
+        QByteArray toPrintable(const QPixmap& pixmap)
         {
             QByteArray bytes;
             QBuffer buffer(&bytes);
@@ -137,7 +137,22 @@ namespace Database
 
             pixmap.save(&buffer, "JPEG");
 
-            return bytes.toBase64().data();
+            return bytes.toBase64();
+        }
+
+        QPixmap fromPrintable(const QByteArray& data)
+        {
+            const QByteArray bytes = QByteArray::fromBase64(data);
+            QPixmap pixmap;
+
+            const bool status = pixmap.loadFromData(bytes, "JPEG");
+
+            if (status == false)
+            {
+                //TODO: load thumbnail from file
+            }
+
+            return pixmap;
         }
 
 
@@ -448,7 +463,7 @@ namespace Database
                           "(id, photo_id, data) VALUES(NULL, \"%1\", \"%2\")");
 
         query_str = query_str.arg(photo_id);
-        query_str = query_str.arg(toPrintable(pixmap));
+        query_str = query_str.arg( QString(toPrintable(pixmap)) );
 
         QSqlQuery query(m_db);
         bool status = exec(query_str, &query);
@@ -797,7 +812,8 @@ namespace Database
         if(status && query.next())
         {
             const QVariant variant = query.value(0);
-            *pixmap = variant.value<QPixmap>();
+            QByteArray data(variant.toByteArray());
+            *pixmap = fromPrintable(data);
         }
     }
 
