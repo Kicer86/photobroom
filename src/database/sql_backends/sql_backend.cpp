@@ -251,17 +251,22 @@ namespace Database
         bool createDB(const QString& dbName) const;
         boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
         bool store(const PhotoInfo::Ptr& data);
+        PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &);
         std::vector<TagNameInfo> listTags() const;
         std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
         QueryList getPhotos(const std::vector<IFilter::Ptr>& filter);
 
         private:
             friend struct StorePhoto;
+
             boost::optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::vector<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
             bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
+            TagData getTagsFor(const PhotoInfo::Id &);
+            QPixmap getThumbnailFor(const PhotoInfo::Id &);
+            APhotoInfoInitData getPhotoDataFor(const PhotoInfo::Id &);
 
             //for friends:
             bool storePhoto(const PhotoInfo::Ptr& data);
@@ -571,6 +576,105 @@ namespace Database
     }
 
 
+    PhotoInfo::Ptr ASqlBackend::Data::getPhoto(const PhotoInfo::Id& id)
+    {
+        APhotoInfoInitData data = getPhotoDataFor(id);
+        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+
+        //load tags
+        const TagData tagData = getTagsFor(id);
+
+        std::shared_ptr<ITagData> tags = photoInfo->getTags();
+        tags->setTags(tags->getTags());
+
+        //load thumbnail
+        const QPixmap thumbnail= getThumbnailFor(id);
+        photoInfo->setThumbnail(thumbnail);
+
+        return photoInfo;
+    }
+
+
+    TagData ASqlBackend::Data::getTagsFor(const PhotoInfo::Id& photoId)
+    {
+        QSqlQuery query(m_db);
+
+        QString queryStr = QString("SELECT "
+                                   "%1.id, %2.name, %1.value, %1.name_id "
+                                   "FROM "
+                                   "%1 "
+                                   "JOIN "
+                                   "%2 "
+                                   "ON %2.id = %1.name_id "
+                                   "WHERE %1.photo_id = '%3';")
+                                   .arg(TAB_TAGS)
+                                   .arg(TAB_TAG_NAMES)
+                                   .arg(photoId);
+
+        const bool status = exec(queryStr, &query);
+        TagData tagData;
+
+        while(status && query.next())
+        {
+            const QString name  = query.value(1).toString();
+            const QString value = query.value(2).toString();
+            const unsigned int tagType = query.value(3).toInt();
+
+            tagData.setTag(TagNameInfo(name, tagType), value);
+        }
+
+        return tagData;
+    }
+
+
+    QPixmap ASqlBackend::Data::getThumbnailFor(const PhotoInfo::Id& id)
+    {
+        QPixmap pixmap;
+        QSqlQuery query(m_db);
+
+        QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
+
+        queryStr = queryStr.arg(TAB_THUMBS);
+        queryStr = queryStr.arg(id);
+
+        const bool status = exec(queryStr, &query);
+
+        if(status && query.next())
+        {
+            const QVariant variant = query.value(0);
+            QByteArray data(variant.toByteArray());
+            pixmap = fromPrintable(data);
+        }
+
+        return pixmap;
+    }
+
+
+    APhotoInfoInitData ASqlBackend::Data::getPhotoDataFor(const PhotoInfo::Id& id)
+    {
+        APhotoInfoInitData data;
+        QSqlQuery query(m_db);
+
+        QString queryStr = QString("SELECT path, hash FROM %1 WHERE %1.id = '%2'");
+
+        queryStr = queryStr.arg(TAB_PHOTOS);
+        queryStr = queryStr.arg(id);
+
+        const bool status = exec(queryStr, &query);
+
+        if(status && query.next())
+        {
+            const QVariant path = query.value(0);
+            const QVariant hash = query.value(1);
+
+            data.path = path.toString().toStdString();
+            data.hash = hash.toString().toStdString();
+        }
+
+        return data;
+    }
+
+
     ///////////////////////////////////////////////////////////////////////
 
 
@@ -748,98 +852,7 @@ namespace Database
 
     PhotoInfo::Ptr ASqlBackend::getPhoto(const PhotoInfo::Id& id)
     {
-        APhotoInfoInitData data = getPhotoDataFor(id);
-        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
-
-        //load tags
-        const TagData tagData = getTagsFor(id);
-
-        std::shared_ptr<ITagData> tags = photoInfo->getTags();
-        tags->setTags(tags->getTags());
-
-        //load thumbnail
-        QPixmap thumbnail;
-        getThumbnailFor(id, &thumbnail);
-        photoInfo->setThumbnail(thumbnail);
-
-        return photoInfo;
-    }
-
-
-    TagData ASqlBackend::getTagsFor(const PhotoInfo::Id& photoId)
-    {
-        QSqlQuery query(m_data->m_db);
-
-        QString queryStr = QString("SELECT "
-                                   "%1.id, %2.name, %1.value, %1.name_id "
-                                   "FROM "
-                                   "%1 "
-                                   "JOIN "
-                                   "%2 "
-                                   "ON %2.id = %1.name_id "
-                                   "WHERE %1.photo_id = '%3';")
-                                   .arg(TAB_TAGS)
-                                   .arg(TAB_TAG_NAMES)
-                                   .arg(photoId);
-
-        const bool status = m_data->exec(queryStr, &query);
-        TagData tagData;
-
-        while(status && query.next())
-        {
-            const QString name  = query.value(1).toString();
-            const QString value = query.value(2).toString();
-            const unsigned int tagType = query.value(3).toInt();
-
-            tagData.setTag(TagNameInfo(name, tagType), value);
-        }
-
-        return tagData;
-    }
-
-
-    void ASqlBackend::getThumbnailFor(const PhotoInfo::Id& photoId, QPixmap* pixmap)
-    {
-        QSqlQuery query(m_data->m_db);
-
-        QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
-
-        queryStr = queryStr.arg(TAB_THUMBS);
-        queryStr = queryStr.arg(photoId);
-
-        const bool status = m_data->exec(queryStr, &query);
-
-        if(status && query.next())
-        {
-            const QVariant variant = query.value(0);
-            QByteArray data(variant.toByteArray());
-            *pixmap = fromPrintable(data);
-        }
-    }
-
-
-    APhotoInfoInitData ASqlBackend::getPhotoDataFor(const PhotoInfo::Id& id)
-    {
-        APhotoInfoInitData data;
-        QSqlQuery query(m_data->m_db);
-
-        QString queryStr = QString("SELECT path, hash FROM %1 WHERE %1.id = '%2'");
-
-        queryStr = queryStr.arg(TAB_PHOTOS);
-        queryStr = queryStr.arg(id);
-
-        const bool status = m_data->exec(queryStr, &query);
-
-        if(status && query.next())
-        {
-            const QVariant path = query.value(0);
-            const QVariant hash = query.value(1);
-
-            data.path = path.toString().toStdString();
-            data.hash = hash.toString().toStdString();
-        }
-
-        return data;
+        return m_data->getPhoto(id);
     }
 
 
