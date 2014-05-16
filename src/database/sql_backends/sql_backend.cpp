@@ -70,8 +70,8 @@ namespace Database
                                 "store_date TIMESTAMP NOT NULL"
                             },
                             {
-                                { "hash", "INDEX", "(hash)"  },   //256 limit required by MySQL
-                                { "path", "INDEX", "(path)" }     //1024 limit required by MySQL
+                                { "ph_hash", "INDEX", "(hash)"  },   //256 limit required by MySQL
+                                { "ph_path", "INDEX", "(path)" }     //1024 limit required by MySQL
                             }
                          );
 
@@ -84,7 +84,7 @@ namespace Database
                                         "type INT NOT NULL"
                             },
                             {
-                                { "name", "UNIQUE INDEX", "(name)" }    //.arg(Consts::Constraints::database_tag_name_len)} required by MySQL
+                                { "tn_name", "UNIQUE INDEX", "(name)" }    //.arg(Consts::Constraints::database_tag_name_len)} required by MySQL
                             }
                            );
 
@@ -107,6 +107,9 @@ namespace Database
                                 "photo_id INTEGER NOT NULL",
                                 "data BLOB",
                                 "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
+                             },
+                             {
+                                 { "th_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one thumbnail per photo
                              }
                             );
 
@@ -117,6 +120,9 @@ namespace Database
                             "photo_id INTEGER NOT NULL",
                             "staging_area BOOL",
                             "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
+                        },
+                        {
+                            { "fl_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one set of flags per photo
                         }
                        );
 
