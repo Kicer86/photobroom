@@ -372,10 +372,14 @@ namespace Database
     }
 
 
+    //TODO: threads cannot be used with sql connections:
+    //      http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
     bool ASqlBackend::Data::store(const PhotoInfo::Ptr& data)
     {
-        auto task = std::make_shared<StorePhoto>(this, data);
-        TaskExecutorConstructor::get()->add(task);
+        //auto task = std::make_shared<StorePhoto>(this, data);
+        //TaskExecutorConstructor::get()->add(task);
+
+        storePhoto(data);
 
         return true;
     }
@@ -545,7 +549,6 @@ namespace Database
         QString query_str =
             "INSERT INTO " TAB_PHOTOS
             "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");";
-
 
         query_str = query_str.arg(data->getPath().c_str());
         query_str = query_str.arg(data->getHash().c_str());
