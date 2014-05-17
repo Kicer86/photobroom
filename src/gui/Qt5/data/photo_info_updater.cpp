@@ -4,6 +4,7 @@
 #include <assert.h>
 
 #include <memory>
+#include <fstream>
 
 #include <QPixmap>
 #include <QImage>
@@ -61,9 +62,29 @@ struct HashAssigner: public ITaskExecutor::ITask
 
     virtual void perform() override
     {
-        QImage image(m_photoInfo->getPath().c_str());
-        const PhotoInfo::Hash hash = HashFunctions::sha256(image.bits(), image.byteCount());
+        std::fstream photo;
+        photo.open(m_photoInfo->getPath());
+
+        const size_t size = fileSize(photo);
+        char* buffer = new char[size];
+        photo.read(buffer, size);
+        photo.close();
+
+        unsigned char* data = reinterpret_cast<unsigned char *>(buffer);
+
+        const PhotoInfo::Hash hash = HashFunctions::sha256(data, size);
         m_photoInfo->setHash(hash);
+
+        delete [] buffer;
+    }
+
+    size_t fileSize(std::fstream& stream) const
+    {
+        stream.seekg(0, std::ios::end);
+        const size_t size = stream.tellg();
+        stream.seekg(0);
+
+        return size;
     }
 
     PhotoInfo::Ptr m_photoInfo;

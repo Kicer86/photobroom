@@ -30,10 +30,7 @@
 std::string HashFunctions::sha256(const unsigned char* str, unsigned int len)
 {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, str, len);
-    SHA256_Final(hash, &sha256);
+    SHA256(str, len, hash);
 
     return format(hash, SHA256_DIGEST_LENGTH);
 }
@@ -64,10 +61,7 @@ std::string HashFunctions::sha256(std::istream& stream)
 std::string HashFunctions::md5(const unsigned char* str, unsigned int len)
 {
     unsigned char hash[MD5_DIGEST_LENGTH];
-    MD5_CTX md5;
-    MD5_Init(&md5);
-    MD5_Update(&md5, str, len);
-    MD5_Final(hash, &md5);
+    MD5(str, len, hash);
 
     return format(hash, MD5_DIGEST_LENGTH);
 }

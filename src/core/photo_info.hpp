@@ -25,7 +25,7 @@ class CORE_EXPORT PhotoInfo final
         };
 
         typedef std::shared_ptr<PhotoInfo> Ptr;
-        typedef std::string Hash;                // Hash is hash of photo's content (pixels) not whole file itself.
+        typedef std::string Hash;                // Hash is hash of photo's file
 
         PhotoInfo(const std::string &path);      //load all data from provided path
         PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
