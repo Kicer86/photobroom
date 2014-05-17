@@ -65,7 +65,7 @@ struct HashAssigner: public ITaskExecutor::ITask
         std::fstream photo;
         photo.open(m_photoInfo->getPath());
 
-        const size_t size = fileSize(photo);
+        const std::streampos size = fileSize(photo);
         char* buffer = new char[size];
         photo.read(buffer, size);
         photo.close();
@@ -78,10 +78,10 @@ struct HashAssigner: public ITaskExecutor::ITask
         delete [] buffer;
     }
 
-    size_t fileSize(std::fstream& stream) const
+    std::streampos fileSize(std::fstream& stream) const
     {
         stream.seekg(0, std::ios::end);
-        const size_t size = stream.tellg();
+        const std::streampos size = stream.tellg();
         stream.seekg(0);
 
         return size;
