@@ -203,7 +203,7 @@ struct DBDataModel::Impl
 
     private:
         //function returns set of tags on particular 'level' for 'parent'
-        std::set<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
+        std::set<TagValueInfo> getLevelInfo(size_t level, const QModelIndex &)
         {
             std::set<TagValueInfo> result;
 

@@ -151,7 +151,7 @@ bool ImagesView::isIndexHidden(const QModelIndex& index) const
 }
 
 
-void ImagesView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
+void ImagesView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags command)
 {
     QItemSelection selection;
 
@@ -160,7 +160,7 @@ void ImagesView::setSelection(const QRect& rect, QItemSelectionModel::SelectionF
     {
         QRect item = m_cache->pos(i);
 
-        if ( (rect & item).isEmpty() == false )
+        if ( (_rect & item).isEmpty() == false )
         {
             QModelIndex index = model()->index(i, 0);
 
@@ -188,15 +188,15 @@ void ImagesView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bott
 }
 
 
-void ImagesView::rowsInserted(const QModelIndex& parent, int start, int end)
+void ImagesView::rowsInserted(const QModelIndex& _parent, int start, int end)
 {
     m_cache->invalidate();
-    QAbstractItemView::rowsInserted(parent, start, end);
+    QAbstractItemView::rowsInserted(_parent, start, end);
 }
 
 
-void ImagesView::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
+void ImagesView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
 {
     m_cache->invalidate();
-    QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
+    QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
 }

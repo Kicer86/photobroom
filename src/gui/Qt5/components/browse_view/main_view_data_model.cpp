@@ -19,6 +19,8 @@
 
 #include "main_view_data_model.hpp"
 
+#include <memory>
+
 #include <database/filter.hpp>
 
 MainViewDataModel::MainViewDataModel(QObject* p): DBDataModel(p)
@@ -35,10 +37,10 @@ MainViewDataModel::~MainViewDataModel()
 
 std::vector<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters() const
 {
-    auto flags = std::make_shared<Database::FilterFlags>();
-    flags->stagingArea = false;
+    auto filter = std::make_shared<Database::FilterFlags>();
+    filter->stagingArea = false;
 
-    const std::vector<Database::IFilter::Ptr> result({flags});
+    const std::vector<Database::IFilter::Ptr> result({filter});
 
     return result;
 }

@@ -19,6 +19,8 @@
 
 #include "staging_data_model.hpp"
 
+#include <memory>
+
 #include "model_view/idx_data.hpp"
 
 StagingDataModel::StagingDataModel(QObject* p): DBDataModel(p)
@@ -52,10 +54,10 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 
 std::vector<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() const
 {
-    auto flags = std::make_shared<Database::FilterFlags>();
-    flags->stagingArea = true;
+    auto filter = std::make_shared<Database::FilterFlags>();
+    filter->stagingArea = true;
 
-    const std::vector<Database::IFilter::Ptr> result({flags});
+    const std::vector<Database::IFilter::Ptr> result({filter});
 
     return result;
 }

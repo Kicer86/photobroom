@@ -42,6 +42,8 @@ struct Hierarchy
     };
 
     std::vector<Level> levels;
+
+    Hierarchy(): levels() {}
 };
 
 
