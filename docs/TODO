@@ -1,0 +1,14 @@
+Sets of tasks: finished, to be done, dropped
+
+TODO:
+- Model: filter out top level groups without any children
+- Staging Model: automatically move added photos to right posistions
+- use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
+- database: react properly when photo already in database (updating photo)
+- gui: 'save photos' button must switch 'staging area' flag
+- PhotoInfo: review and refactor flags structs
+
+DONE:
+
+
+DROPPED:
