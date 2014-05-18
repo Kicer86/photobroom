@@ -24,8 +24,6 @@
 #include <core/tag.hpp>
 #include <database/idatabase.hpp>
 
-#include "implementation/db_photo_info.hpp"
-
 namespace Database
 {
 

@@ -18,7 +18,6 @@ set(DATABASE_SOURCES
     implementation/databasebuilder.cpp
     implementation/filter.cpp
     implementation/photo_iterator.cpp
-    implementation/db_photo_info.cpp
     implementation/query_list.cpp
     )
 
@@ -30,7 +29,6 @@ set(DATABASE_HEADERS
     photo_iterator.hpp
     query_list.hpp
     implementation/plugin_loader.hpp
-    implementation/db_photo_info.hpp
     )
 
 if(BUILD_TESTS)
