@@ -92,6 +92,7 @@ struct DBDataModel::Impl
         {
             std::vector<Database::IFilter::Ptr> filter;
             buildFilterFor(_parent, &filter);
+            addExtraFitlers(&filter);
 
             Database::QueryList photos = m_backend->getPhotos(filter);
 
@@ -126,7 +127,7 @@ struct DBDataModel::Impl
             m_backend->closeConnections();
     }
 
-    IdxData* getIdxDataFor(const QModelIndex& obj)
+    IdxData* getIdxDataFor(const QModelIndex& obj) const
     {
         IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
 
@@ -225,6 +226,12 @@ struct DBDataModel::Impl
 
             if (idxData->m_level > 0)
                 buildFilterFor(_parent.parent(), filter);
+        }
+
+        void addExtraFitlers(std::vector<Database::IFilter::Ptr>* filter) const
+        {
+            const auto modelSpecificFilters = m_root.m_model->getModelSpecificFilters();
+            filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
         }
 };
 
