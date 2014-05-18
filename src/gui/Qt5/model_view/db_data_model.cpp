@@ -92,7 +92,7 @@ struct DBDataModel::Impl
         {
             std::vector<Database::IFilter::Ptr> filter;
             buildFilterFor(_parent, &filter);
-            addExtraFitlers(&filter);
+            buildExtraFilters(&filter);
 
             Database::QueryList photos = m_backend->getPhotos(filter);
 
@@ -228,7 +228,7 @@ struct DBDataModel::Impl
                 buildFilterFor(_parent.parent(), filter);
         }
 
-        void addExtraFitlers(std::vector<Database::IFilter::Ptr>* filter) const
+        void buildExtraFilters(std::vector<Database::IFilter::Ptr>* filter) const
         {
             const auto modelSpecificFilters = m_root.m_model->getModelSpecificFilters();
             filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
