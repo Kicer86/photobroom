@@ -113,6 +113,8 @@ namespace Database
                              }
                             );
 
+
+        //set of flags used internally
         TableDefinition
             table_flags(TAB_FLAGS,
                         {
