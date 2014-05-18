@@ -1,5 +1,5 @@
 /*
- * Small modification od DBDataModel for staging purposes.
+ * Small modification od DBDataModel for main view purposes.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,26 +17,23 @@
  *
  */
 
-#ifndef STAGINGDATAMODEL_H
-#define STAGINGDATAMODEL_H
+#include "main_view_data_model.hpp"
 
-#include "model_view/db_data_model.hpp"
+#include "model_view/idx_data.hpp"
 
-class QObject;
-
-class StagingDataModel: public DBDataModel
+MainViewDataModel::MainViewDataModel(QObject* p): DBDataModel(p)
 {
-    public:
-        StagingDataModel(QObject *);
-        StagingDataModel(const StagingDataModel &) = delete;
-        ~StagingDataModel();
 
-        StagingDataModel& operator=(const StagingDataModel &) = delete;
+}
 
-        bool addPhoto(const PhotoInfo::Ptr &);
 
-        // DBDataModel interface:
-        virtual std::vector< Database::IFilter::Ptr > getModelSpecificFilters() const;
-};
+MainViewDataModel::~MainViewDataModel()
+{
 
-#endif // STAGINGDATAMODEL_H
+}
+
+
+std::vector<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters() const
+{
+
+}

@@ -48,3 +48,9 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 
     return true;
 }
+
+
+std::vector<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() const
+{
+
+}

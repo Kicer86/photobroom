@@ -66,6 +66,8 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         IdxData& getRootIdxData();
         void updatePhotoInDB(const PhotoInfo::Ptr &);
 
+        virtual std::vector<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
+
     private:
         friend struct IdxData;
 

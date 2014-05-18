@@ -8,11 +8,11 @@
 #include <database/databasebuilder.hpp>
 
 #include "model_view/images_tree_view.hpp"
-#include "model_view/db_data_model.hpp"
+#include "main_view_data_model.hpp"
 
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
-    DBDataModel* dbModel = new DBDataModel(this);
+    DBDataModel* dbModel = new MainViewDataModel(this);
     dbModel->setBackend(Database::Builder::instance()->getBackend());
 
     m_imagesModel = dbModel;
