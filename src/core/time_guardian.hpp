@@ -21,6 +21,7 @@
 #define TIMEGUARDIAN_H
 
 #include <memory>
+#include <string>
 
 #include "core_export.h"
 

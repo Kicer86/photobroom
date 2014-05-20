@@ -30,7 +30,7 @@ struct TimeGuardian::Data
     std::string m_limitMessage;
     std::string m_title;
 
-    std::chrono::time_point<std::chrono::steady_clock> m_start;
+	std::chrono::system_clock::time_point m_start;
 };
 
 
@@ -42,7 +42,7 @@ TimeGuardian::TimeGuardian(): m_data(new Data)
 
 TimeGuardian::~TimeGuardian()
 {
-    const auto end = std::chrono::steady_clock::now();
+	const std::chrono::system_clock::time_point end = std::chrono::steady_clock::now();
     const auto diff = end - m_data->m_start;
     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
 

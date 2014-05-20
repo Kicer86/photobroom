@@ -27,6 +27,7 @@
 
 class PositionsCache;
 
+/*
 class __attribute__((deprecated)) ImagesView: public QAbstractItemView
 {
     public:
@@ -58,5 +59,6 @@ class __attribute__((deprecated)) ImagesView: public QAbstractItemView
     private:
         std::unique_ptr<PositionsCache> m_cache;
 };
+*/
 
 #endif // IMAGES_VIEW_HPP
