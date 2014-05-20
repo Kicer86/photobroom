@@ -3,8 +3,8 @@
 #define DATABASE_TABLE_DEFINITION_HPP
 
 #include <QString>
-#include <QList>
-#include <QPair>
+
+
 
 #include "sql_backend_base_export.h"
 
@@ -34,8 +34,8 @@ namespace Database
         };
 
         const QString name;
-        const QList<ColDefinition> columns;
-        const QList<KeyDefinition> keys;
+        const std::vector<ColDefinition> columns;
+        const std::vector<KeyDefinition> keys;
 
         TableDefinition(const QString& n,
                         const std::initializer_list<ColDefinition>& c,
