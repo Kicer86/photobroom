@@ -94,4 +94,4 @@ generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_ex
 turnOnCpp11(core)
 hideSymbols(core)
 
-install(TARGETS core RUNTIME LIBRARY ARCHIVE DESTINATION ${PATH_LIBS})
+install(TARGETS core DESTINATION ${PATH_LIBS})

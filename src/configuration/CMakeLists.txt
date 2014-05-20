@@ -57,4 +57,4 @@ generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/export
 turnOnCpp11(configuration)
 hideSymbols(configuration)
 
-install(TARGETS configuration RUNTIME LIBRARY ARCHIVE DESTINATION ${PATH_LIBS})
+install(TARGETS configuration DESTINATION ${PATH_LIBS})

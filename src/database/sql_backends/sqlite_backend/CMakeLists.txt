@@ -4,7 +4,7 @@ project(SQLite_Backend)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(OpenLibrary REQUIRED)
-find_package(boost REQUIRED filesystem system)
+find_package(Boost 1.53.0 REQUIRED filesystem system)
 
 add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
 include_directories(${CMAKE_SOURCE_DIR}/src/

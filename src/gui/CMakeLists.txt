@@ -108,4 +108,4 @@ target_link_libraries(gui analyzer database)
 turnOnCpp11(gui)
 hideSymbols(gui)
 
-install(TARGETS gui RUNTIME LIBRARY ARCHIVE DESTINATION ${PATH_LIBS})
+install(TARGETS gui DESTINATION ${PATH_LIBS})

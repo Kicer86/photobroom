@@ -9,7 +9,7 @@ add_subdirectory(gui)
 add_subdirectory(system)
 
 find_package(OpenLibrary REQUIRED utils)
-find_package(boost REQUIRED optional)
+find_package(Boost REQUIRED)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})

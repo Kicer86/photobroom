@@ -60,4 +60,4 @@ generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/ana
 turnOnCpp11(analyzer)
 hideSymbols(analyzer)
 
-install(TARGETS analyzer RUNTIME LIBRARY ARCHIVE DESTINATION ${PATH_LIBS})
+install(TARGETS analyzer DESTINATION ${PATH_LIBS})

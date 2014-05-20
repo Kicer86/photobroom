@@ -28,4 +28,4 @@ qt5_use_modules(system Core)
 turnOnCpp11(system)
 hideSymbols(system)
 
-install(TARGETS system RUNTIME LIBRARY ARCHIVE DESTINATION ${PATH_LIBS})
+install(TARGETS system DESTINATION ${PATH_LIBS})
