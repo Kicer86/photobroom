@@ -96,7 +96,7 @@ void TaskExecutor::eat()
     #pragma omp parallel
     {
         const int id = getId();
-        **(ThreadSafeOutput.get()) << "Starting TaskExecutor thread #" << id << std::endl;
+        *ThreadSafeOutput.lock().get() << "Starting TaskExecutor thread #" << id << std::endl;
 
         while(true)
         {
@@ -112,7 +112,7 @@ void TaskExecutor::eat()
                 break;
         }
 
-        **(ThreadSafeOutput.get()) << "Quitting TaskExecutor thread #" << id << std::endl;
+        *ThreadSafeOutput.lock().get() << "Quitting TaskExecutor thread #" << id << std::endl;
     }
 }
 
@@ -131,7 +131,7 @@ void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
     const auto end = std::chrono::steady_clock::now();
     const auto diff = end - start;
     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-    **(ThreadSafeOutput.get()) << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
+    *ThreadSafeOutput.lock().get() << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
 }
 
 

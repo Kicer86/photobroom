@@ -50,7 +50,8 @@ namespace Database
                         QSqlDatabase db_obj;
                         //setup db connection
                         db_obj = QSqlDatabase::addDatabase("QSQLITE", name);
-                        db_obj.setDatabaseName(storage.c_str());
+						const std::string storage_path = storage.string();
+                        db_obj.setDatabaseName(storage_path.c_str());
 
                         *db = db_obj;
                     }

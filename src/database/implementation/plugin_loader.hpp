@@ -22,13 +22,13 @@
 
 #include <memory>
 
-#include "sql_backend_base_export.h"
+#include "database_export.h"
 
 namespace Database
 {
     struct IPlugin;
 
-    class SQL_BACKEND_BASE_EXPORT PluginLoader
+	class DATABASE_EXPORT PluginLoader
     {
         public:
             PluginLoader();

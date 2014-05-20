@@ -19,6 +19,8 @@ std::string System::findProgram(const std::string &)
 {
     //TODO: use "where"
     assert(!"Not implemented");
+
+	return "";
 }
 
 

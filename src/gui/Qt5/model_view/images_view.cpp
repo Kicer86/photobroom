@@ -27,6 +27,7 @@
 #include "positions_cache.hpp"
 #include "image_manager.hpp"
 
+/*
 ImagesView::ImagesView(QWidget* p) : QAbstractItemView(p), m_cache( new PositionsCache(this) ) {}
 
 
@@ -200,3 +201,5 @@ void ImagesView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int
     m_cache->invalidate();
     QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
 }
+
+*/
