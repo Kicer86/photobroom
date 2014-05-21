@@ -2,9 +2,9 @@
 #ifndef DATABASE_TABLE_DEFINITION_HPP
 #define DATABASE_TABLE_DEFINITION_HPP
 
+#include <vector>
+
 #include <QString>
-
-
 
 #include "sql_backend_base_export.h"
 
