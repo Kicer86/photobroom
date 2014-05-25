@@ -9,7 +9,7 @@ include(${OPENLIBRARY_CMAKE_INCLUDES})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

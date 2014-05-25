@@ -10,7 +10,10 @@ add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from 
 include_directories(${CMAKE_SOURCE_DIR}/src/
                     ${CMAKE_SOURCE_DIR}/src/database/
                     ${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS} ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
+                           ${Qt5Sql_INCLUDE_DIRS}
+                           ${OPENLIBRARY_INCLUDE_DIRS}
+                           ${Boost_INCLUDE_DIRS})
 
 set(BACKEND_SOURCES backend.cpp)
 set(BACKEND_HEADERS backend.hpp)

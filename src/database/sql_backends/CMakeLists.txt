@@ -14,7 +14,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Sql_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDES}
+                           ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Boost_INCLUDE_DIRS})
 
 set(SOURCES sqldbquery.cpp sql_backend.cpp table_definition.cpp)

@@ -9,7 +9,7 @@ find_package(Qt5Core REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM
-                    ${OPENLIBRARY_INCLUDES}
+                    ${OPENLIBRARY_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS}
                     ${Qt5Core_INCLUDE_DIRS})
 

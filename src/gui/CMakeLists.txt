@@ -9,7 +9,11 @@ find_package(Boost REQUIRED)
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/Qt5)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
+                           ${Qt5Widgets_INCLUDE_DIRS}
+                           ${Qt5Gui_INCLUDE_DIRS}
+                           ${Boost_INCLUDE_DIRS})
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
@@ -100,7 +104,7 @@ qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_RESOURCES})
-target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES})
+target_link_libraries(gui core ${OPENLIBRARY_LIBRARIES})
 qt5_use_modules(gui Widgets Gui)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)

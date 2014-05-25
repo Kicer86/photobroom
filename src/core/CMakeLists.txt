@@ -3,7 +3,7 @@ project(core CXX)
 
 # openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
 
-find_package(OpenLibrary REQUIRED palgorithm)
+find_package(OpenLibrary 1.1 REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -17,7 +17,7 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDES}
+                           ${OPENLIBRARY_INCLUDE_DIRS}
                            ${OPENSSL_INCLUDE_DIR}
                            ${Boost_INCLUDE_DIRS})
 
@@ -63,7 +63,7 @@ if(BUILD_TESTS)
                 )
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core Gui)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES} ${OpenMP_CXX_FLAGS})
 
     #TODO: remove it?
     if(EXIV2_FOUND)
