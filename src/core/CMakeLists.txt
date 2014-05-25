@@ -11,7 +11,7 @@ find_package(Boost REQUIRED)
 find_package(OpenMP)
 find_package(Exiv2)
 
-include(${OPENLIBRARY_CMAKE_INCLUDES})
+include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)

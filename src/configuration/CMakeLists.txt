@@ -5,7 +5,7 @@ find_package(OpenLibrary REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Qt5Core REQUIRED)
 
-include(${OPENLIBRARY_CMAKE_INCLUDES})
+include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)

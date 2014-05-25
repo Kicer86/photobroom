@@ -5,7 +5,7 @@ add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from 
 find_package(Boost 1.53.0 REQUIRED filesystem system regex)
 find_package(OpenLibrary REQUIRED)
 
-include(${OPENLIBRARY_CMAKE_INCLUDES})
+include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
