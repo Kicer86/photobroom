@@ -33,7 +33,7 @@ namespace Database
     struct IFrontend;
 
     //configuration keys for databases
-    extern const char* databaseLocation DATABASE_EXPORT;
+	extern DATABASE_EXPORT const char* databaseLocation;
 
     struct DATABASE_EXPORT Builder
     {

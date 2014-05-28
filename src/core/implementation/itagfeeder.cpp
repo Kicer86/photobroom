@@ -1,7 +1,9 @@
 
 #include "itagfeeder.hpp"
 
+#ifdef USE_EXIV
 #include "exif_tag_feeder.hpp"
+#endif
 #include "tag.hpp"
 
 

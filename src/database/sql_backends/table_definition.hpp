@@ -4,7 +4,7 @@
 
 #include <QString>
 
-
+#include <vector>
 
 #include "sql_backend_base_export.h"
 
