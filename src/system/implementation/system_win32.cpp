@@ -5,13 +5,27 @@
 #include <string>
 #include <cstdlib>
 
+namespace
+{
+	std::string readVar(const char* name)
+	{
+		char* result = nullptr;
+		size_t size = 0;
+
+		_dupenv_s(&result, &size, name);
+
+		return std::string(result);
+	}
+}
+
+
 std::string System::getApplicationConfigDir()
 {
-   std::string result(getenv("APPDATA"));
+	std::string result(readVar("APPDATA"));
 
-   result += "/broom";
+	result += "/broom";
 
-   return result;
+	return result;
 }
 
 
@@ -26,7 +40,7 @@ std::string System::findProgram(const std::string &)
 
 std::string System::userName()
 {
-    std::string result(getenv("USERNAME"));
+    const std::string result(readVar("USERNAME"));
 
     return result;
 }

@@ -2,6 +2,7 @@
 #ifndef DATABASE_TABLE_DEFINITION_HPP
 #define DATABASE_TABLE_DEFINITION_HPP
 
+
 #include <vector>
 
 #include <QString>
