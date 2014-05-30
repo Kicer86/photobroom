@@ -41,7 +41,7 @@ namespace Database
 
         static Builder* instance();
 
-        //IFrontend* __attribute__((deprecated)) get();
+		void initConfig();
         IBackend* getBackend();  //always the same backend is returned
 
         void closeAll();

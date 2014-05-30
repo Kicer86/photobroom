@@ -64,13 +64,12 @@ namespace Database
             }
         };
 
-        //object which initializes configuration with db entries
+        //class which initializes configuration with db entries
         struct ConfigurationInitializer: public Configuration::IInitializer
         {
             ConfigurationInitializer()
             {
-                std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-                config->registerInitializer(this);
+
             }
 
             virtual std::string getXml()
@@ -95,7 +94,7 @@ namespace Database
 
                 return configuration_xml;
             }
-        } initializer;
+        };
     }
 
     struct Builder::Impl
@@ -104,6 +103,7 @@ namespace Database
         std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
         PluginLoader backendBuilder;
+		ConfigurationInitializer configInitializer;
 
         //bavkend type
         enum Type
@@ -143,6 +143,13 @@ namespace Database
         static Builder builder;
         return &builder;
     }
+
+
+	void Builder::initConfig()
+	{
+		std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+		config->registerInitializer(&m_impl->configInitializer);
+	}
 
 
     IBackend* Builder::getBackend()
