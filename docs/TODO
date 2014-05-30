@@ -10,6 +10,7 @@ TODO:
 - core: make photos tagger a new task
 - core: PhotoInfo should store information about which data have been loaded and which not. Even empty photo should be storen in database and updated on every change
 - database should work in separate thread. Data model when askend on non fetched photos should return some empty list, and refresh proper node while data are being fetched
+- rethink configuration concepts
 
 DONE:
 
