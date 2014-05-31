@@ -18,14 +18,27 @@ class CORE_EXPORT PhotoInfo final
 {
     public:
         typedef int Id;
+        typedef std::shared_ptr<PhotoInfo> Ptr;
+        typedef std::string Hash;                // Hash is hash of photo's file
+
         struct IObserver
         {
             IObserver() {};
             virtual void photoUpdated() = 0;
         };
 
-        typedef std::shared_ptr<PhotoInfo> Ptr;
-        typedef std::string Hash;                // Hash is hash of photo's file
+        struct Flags
+        {
+            //information
+            bool stagingArea;
+
+            //related to data loading
+            bool tagsLoaded;
+            bool hashLoaded;
+            bool thumbnailLoaded;
+
+            Flags();
+        };
 
         PhotoInfo(const std::string &path);      //load all data from provided path
         PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
@@ -54,7 +67,7 @@ class CORE_EXPORT PhotoInfo final
 
         //flags
         void markStagingArea(bool = true);            // mark photo as stage area's photo
-        bool isMarkedStagingArea() const;
+        Flags getFlags() const;
 
     private:
         struct Data;

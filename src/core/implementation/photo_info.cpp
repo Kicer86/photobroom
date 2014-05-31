@@ -13,6 +13,12 @@
 #include "task_executor.hpp"
 
 
+PhotoInfo::Flags::Flags(): stagingArea(false), tagsLoaded(false), hashLoaded(false), thumbnailLoaded(false)
+{
+
+}
+
+
 APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 {
 
@@ -21,19 +27,13 @@ APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 
 struct PhotoInfo::Data
 {
-    enum Flags
-    {
-        StagingArea = 1,
-    };
-
     Data():
         path(),
         tags(new TagData),
         m_observers(),
         hash(),
         m_thumbnail(),
-        m_flags(0),
-        m_loadedData()
+        m_flags()
     {
 
     }
@@ -46,15 +46,7 @@ struct PhotoInfo::Data
     std::set<IObserver *> m_observers;
     ThreadSafeResource<PhotoInfo::Hash> hash;
     ThreadSafeResource<QPixmap> m_thumbnail;
-    ThreadSafeResource<unsigned int> m_flags;
-
-    struct LoadedData
-    {
-        LoadedData(): m_thumbnail(false), m_hash(false) {}
-
-        bool m_thumbnail;
-        bool m_hash;
-    } m_loadedData;
+    ThreadSafeResource<PhotoInfo::Flags> m_flags;
 };
 
 
@@ -121,13 +113,13 @@ bool PhotoInfo::isLoaded() const
 
 bool PhotoInfo::isHashLoaded() const
 {
-    return m_data->m_loadedData.m_hash;
+    return getFlags().hashLoaded;
 }
 
 
 bool PhotoInfo::isThumbnailLoaded() const
 {
-    return m_data->m_loadedData.m_thumbnail;
+    return getFlags().thumbnailLoaded;
 }
 
 
@@ -154,7 +146,7 @@ void PhotoInfo::updated()
 void PhotoInfo::setHash(const Hash& hash)
 {
     m_data->hash.lock().get() = hash;
-    m_data->m_loadedData.m_hash = true;
+    m_data->m_flags.lock().get().hashLoaded = true;
 
     updated();
 }
@@ -163,7 +155,7 @@ void PhotoInfo::setHash(const Hash& hash)
 void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 {
     m_data->m_thumbnail.lock().get() = thumbnail;
-    m_data->m_loadedData.m_thumbnail = true;
+    m_data->m_flags.lock().get().thumbnailLoaded = true;
 
     updated();
 }
@@ -182,13 +174,16 @@ void PhotoInfo::markStagingArea(bool on)
     auto flags = m_data->m_flags.lock();
 
     if (on)
-        flags.get() |= Data::StagingArea;
+        flags.get().stagingArea = true;
     else
-        flags.get() &= ~Data::StagingArea;
+        flags.get().stagingArea = false;
 }
 
 
-bool PhotoInfo::isMarkedStagingArea() const
+PhotoInfo::Flags PhotoInfo::getFlags() const
 {
-    return (m_data->m_flags.lock().get() & Data::StagingArea) > 0;
+    Flags result = m_data->m_flags.lock().get();
+
+    return result;
 }
+

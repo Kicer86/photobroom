@@ -532,7 +532,7 @@ namespace Database
                           "(id, photo_id, staging_area) VALUES(NULL, \"%1\", \"%2\")");
 
         query_str = query_str.arg(photo_id);
-        query_str = query_str.arg(photoInfo->isMarkedStagingArea()? "TRUE": "FALSE");
+        query_str = query_str.arg(photoInfo->getFlags().stagingArea? "TRUE": "FALSE");
 
         QSqlQuery query(m_db);
         bool status = exec(query_str, &query);
