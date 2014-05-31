@@ -555,35 +555,60 @@ namespace Database
         bool status = m_db.transaction();
 
         //store path and hash
-        QString query_str =
-            "INSERT INTO " TAB_PHOTOS
-            "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");";
+        QString query_str;
+        PhotoInfo::Id id = data->getID();
+        const bool updating = id.valid();
+        const bool inserting = !updating;
+
+        if (updating)
+        {
+            query_str =
+                "UPDATE " TAB_PHOTOS " SET "
+                "path = \"%2\", hash = \"%3\" WHERE id = \"%1";
+
+            query_str = query_str.arg(data->getID().value());
+        }
+        else
+            query_str =
+                "INSERT INTO " TAB_PHOTOS
+                "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");";
 
         query_str = query_str.arg(data->getPath().c_str());
         query_str = query_str.arg(data->getHash().c_str());
 
+        //execute update/insert
         if (status)
             status = exec(query_str, &query);
 
-        QVariant photo_id;
-
-        if (status)
+        //update id
+        if (status && inserting)                       //Get Id from database after insert
         {
-            photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
             status = photo_id.isValid();
+
+            if (status)
+                id = PhotoInfo::Id(photo_id.toInt());
         }
+
+        //make sure id is set
+        if (status)
+            status = id.valid();
+
+        //store id in photo
+        if (status && inserting)
+            data->setID(id);
 
         //store used tags
         std::shared_ptr<ITagData> tags = data->getTags();
 
         if (status)
-            status = storeTags(photo_id.toInt(), tags);
+            status = storeTags(id, tags);
 
         if (status)
-            status = storeThumbnail(photo_id.toInt(), data->getThumbnail());
+            status = storeThumbnail(id, data->getThumbnail());
 
         if (status)
-            status = storeFlags(photo_id.toInt(), data);
+            status = storeFlags(id, data);
 
         if (status)
             status = m_db.commit();
