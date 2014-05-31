@@ -119,8 +119,11 @@ namespace Database
             table_flags(TAB_FLAGS,
                         {
                             { "id", ColDefinition::Type::ID },
-                            "photo_id INTEGER NOT NULL",
-                            "staging_area BOOL",
+                              "photo_id INTEGER NOT NULL",
+                              "staging_area BOOL NOT NULL",
+                              "tags_loaded BOOL NOT NULL",
+                              "hash_loaded BOOL NOT NULL",
+                              "thumbnail_loaded BOOL NOT NULL",
                             "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                         },
                         {
@@ -529,10 +532,14 @@ namespace Database
     bool ASqlBackend::Data::storeFlags(int photo_id, const PhotoInfo::Ptr& photoInfo) const
     {
         QString query_str("INSERT INTO " TAB_FLAGS
-                          "(id, photo_id, staging_area) VALUES(NULL, \"%1\", \"%2\")");
+                          "(id, photo_id, staging_area, tags_loaded, hash_loaded, thumbnail_loaded) "
+                          "VALUES(NULL, \"%1\", \"%2\", \"%3\", \"%4\", \"%5\")");
 
         query_str = query_str.arg(photo_id);
         query_str = query_str.arg(photoInfo->getFlags().stagingArea? "TRUE": "FALSE");
+        query_str = query_str.arg(photoInfo->getFlags().tagsLoaded? "TRUE": "FALSE");
+        query_str = query_str.arg(photoInfo->getFlags().hashLoaded? "TRUE": "FALSE");
+        query_str = query_str.arg(photoInfo->getFlags().thumbnailLoaded? "TRUE": "FALSE");
 
         QSqlQuery query(m_db);
         bool status = exec(query_str, &query);
