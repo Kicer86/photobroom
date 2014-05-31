@@ -13,6 +13,51 @@
 #include "task_executor.hpp"
 
 
+PhotoInfo::Id::Id(): m_valid(false), m_value(0)
+{
+
+}
+
+
+PhotoInfo::Id::Id(PhotoInfo::Id::type v): m_valid(true), m_value(v)
+{
+
+}
+
+
+bool PhotoInfo::Id::operator!() const
+{
+    return !m_valid;
+}
+
+
+PhotoInfo::Id::operator PhotoInfo::Id::type() const
+{
+    return m_value;
+}
+
+
+PhotoInfo::Id::operator bool() const
+{
+    return m_valid;
+}
+
+
+bool PhotoInfo::Id::valid() const
+{
+    return m_valid;
+}
+
+
+PhotoInfo::Id::type PhotoInfo::Id::value() const
+{
+    return m_value;
+}
+
+
+/*********************************************************************************************************/
+
+
 PhotoInfo::Flags::Flags(): stagingArea(false), tagsLoaded(false), hashLoaded(false), thumbnailLoaded(false)
 {
 
@@ -33,7 +78,8 @@ struct PhotoInfo::Data
         m_observers(),
         hash(),
         m_thumbnail(),
-        m_flags()
+        m_flags(),
+        m_id()
     {
 
     }
@@ -47,6 +93,7 @@ struct PhotoInfo::Data
     ThreadSafeResource<PhotoInfo::Hash> hash;
     ThreadSafeResource<QPixmap> m_thumbnail;
     ThreadSafeResource<PhotoInfo::Flags> m_flags;
+    ThreadSafeResource<PhotoInfo::Id> m_id;
 };
 
 
@@ -105,6 +152,14 @@ const PhotoInfo::Hash& PhotoInfo::getHash() const
 }
 
 
+PhotoInfo::Id PhotoInfo::getID() const
+{
+    PhotoInfo::Id result = m_data->m_id.lock().get();
+
+    return result;
+}
+
+
 bool PhotoInfo::isLoaded() const
 {
     return isHashLoaded() && isThumbnailLoaded();
@@ -120,6 +175,12 @@ bool PhotoInfo::isHashLoaded() const
 bool PhotoInfo::isThumbnailLoaded() const
 {
     return getFlags().thumbnailLoaded;
+}
+
+
+bool PhotoInfo::areTagsLoaded() const
+{
+    return getFlags().tagsLoaded;
 }
 
 
@@ -166,6 +227,12 @@ void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
     m_data->m_thumbnail.lock().get() = thumbnail;
 
     updated();
+}
+
+
+void PhotoInfo::setID(const PhotoInfo::Id& id)
+{
+    m_data->m_id.lock().get() = id;
 }
 
 

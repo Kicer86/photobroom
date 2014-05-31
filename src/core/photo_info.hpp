@@ -17,9 +17,28 @@ struct HashAssigner;
 class CORE_EXPORT PhotoInfo final
 {
     public:
-        typedef int Id;
         typedef std::shared_ptr<PhotoInfo> Ptr;
         typedef std::string Hash;                // Hash is hash of photo's file
+
+        struct Id
+        {
+            typedef int type;
+
+            Id();
+            explicit Id(type);
+            Id(const Id &) = default;
+
+            Id& operator=(const Id &) = default;
+            operator type() const;
+            operator bool() const;
+            bool operator!() const;
+            bool valid() const;
+            type value() const;
+
+            private:
+                bool m_valid;
+                type m_value;
+        };
 
         struct IObserver
         {
@@ -50,11 +69,13 @@ class CORE_EXPORT PhotoInfo final
         std::shared_ptr<ITagData> getTags() const;
         const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;             // Do not call until isHashLoaded()
+        Id getID() const;
 
         //status checking
         bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one.
         bool isHashLoaded() const;               // returns true if hash is not null
         bool isThumbnailLoaded() const;          // returns true if thumbnail is loaded
+        bool areTagsLoaded() const;              // returns true is tags were loaded
 
         //observers
         void registerObserver(IObserver *);
@@ -64,6 +85,7 @@ class CORE_EXPORT PhotoInfo final
         void setHash(const Hash &);
         void setThumbnail(const QPixmap &);
         void setTemporaryThumbnail(const QPixmap &);  // set temporary thumbnail. isThumbnailLoaded() won't return true
+        void setID(const Id &);
 
         //flags
         void markStagingArea(bool = true);            // mark photo as stage area's photo
