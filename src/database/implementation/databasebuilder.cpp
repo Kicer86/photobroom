@@ -113,7 +113,7 @@ namespace Database
 
         std::map<Type, std::unique_ptr<IBackend>> m_backends;
 
-        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), m_backends(), configInitializer()
+        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
         {}
 
         IPlugin* getPlugin()
