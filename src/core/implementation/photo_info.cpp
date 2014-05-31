@@ -37,12 +37,6 @@ PhotoInfo::Id::operator PhotoInfo::Id::type() const
 }
 
 
-PhotoInfo::Id::operator bool() const
-{
-    return m_valid;
-}
-
-
 bool PhotoInfo::Id::valid() const
 {
     return m_valid;

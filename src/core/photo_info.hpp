@@ -30,7 +30,6 @@ class CORE_EXPORT PhotoInfo final
 
             Id& operator=(const Id &) = default;
             operator type() const;
-            operator bool() const;
             bool operator!() const;
             bool valid() const;
             type value() const;
