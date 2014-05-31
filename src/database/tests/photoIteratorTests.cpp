@@ -48,9 +48,9 @@ TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
     //called three times on each of rows
     EXPECT_CALL(*static_cast<MockQuery *>(*queryContainer), getId())
         .Times(3)
-        .WillOnce(Return(1))
-        .WillOnce(Return(1))
-        .WillOnce(Return(2));
+        .WillOnce(Return(PhotoInfo::Id(1)))
+        .WillOnce(Return(PhotoInfo::Id(1)))
+        .WillOnce(Return(PhotoInfo::Id(2)));
 
     //Database::PhotoIterator photoIt(queryContainer);
 
@@ -69,11 +69,10 @@ TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
     //Database::PhotoIterator photoIt(query);
 }
 
-
+/*
 TEST(PhotoIteratorShould, BeCopyable)
 {
     //TODO: state machine required?
-    /*
     auto query = std::make_shared<MockQuery>();
 
     using ::testing::Return;
@@ -107,5 +106,5 @@ TEST(PhotoIteratorShould, BeCopyable)
     //photoIt should point to first row, photoIt2 to second one
     ASSERT_EQ("1", photoIt->getPath());
     ASSERT_EQ("2", photoIt2->getPath());
-    */
 }
+*/
