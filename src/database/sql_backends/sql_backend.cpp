@@ -627,7 +627,7 @@ namespace Database
                                    "WHERE %1.photo_id = '%3';")
                                    .arg(TAB_TAGS)
                                    .arg(TAB_TAG_NAMES)
-                                   .arg(photoId);
+                                   .arg(photoId.value());
 
         const bool status = exec(queryStr, &query);
         TagData tagData;
@@ -653,7 +653,7 @@ namespace Database
         QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_THUMBS);
-        queryStr = queryStr.arg(id);
+        queryStr = queryStr.arg(id.value());
 
         const bool status = exec(queryStr, &query);
 
@@ -676,7 +676,7 @@ namespace Database
         QString queryStr = QString("SELECT path, hash FROM %1 WHERE %1.id = '%2'");
 
         queryStr = queryStr.arg(TAB_PHOTOS);
-        queryStr = queryStr.arg(id);
+        queryStr = queryStr.arg(id.value());
 
         const bool status = exec(queryStr, &query);
 
