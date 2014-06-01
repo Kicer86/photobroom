@@ -82,6 +82,7 @@ class PhotosViewWidget: public QWidget
 
         void addPhoto(const std::string &);
         std::vector<PhotoInfo::Ptr> getPhotos() const;
+        void storePhotos();
 
     private:
         StagingDataModel* m_photosModel;

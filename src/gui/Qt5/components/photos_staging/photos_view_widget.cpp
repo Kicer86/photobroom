@@ -137,6 +137,12 @@ std::vector<PhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 }
 
 
+void PhotosViewWidget::storePhotos()
+{
+    m_photosModel->storePhotos();
+}
+
+
 void PhotosViewWidget::selectionChanged()
 {
     std::vector<PhotoInfo::Ptr> images;

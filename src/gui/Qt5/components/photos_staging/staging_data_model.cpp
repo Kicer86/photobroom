@@ -52,6 +52,15 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 }
 
 
+void StagingDataModel::storePhotos()
+{
+    const std::vector<PhotoInfo::Ptr> photos = getPhotos();
+
+    for(const PhotoInfo::Ptr& photo: photos)
+        photo->markStagingArea(false);
+}
+
+
 std::vector<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterFlags>();

@@ -34,6 +34,7 @@ class StagingDataModel: public DBDataModel
         StagingDataModel& operator=(const StagingDataModel &) = delete;
 
         bool addPhoto(const PhotoInfo::Ptr &);
+        void storePhotos();
 
         // DBDataModel interface:
         virtual std::vector< Database::IFilter::Ptr > getModelSpecificFilters() const;
