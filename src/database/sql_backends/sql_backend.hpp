@@ -44,6 +44,40 @@ namespace Database
     struct TableDefinition;
     struct ColDefinition;
 
+    struct TableUpdateData
+    {
+        TableUpdateData(const char* name);
+
+        template<typename Column, typename... V>
+        void setColumns(const Column& column, const V&... columns)
+        {
+            addColumn(column);
+            setColumns(columns...);
+        }
+
+        template<typename Value, typename... V>
+        void setValues(const Value& value, const V&... values)
+        {
+            addValue(value);
+            setValues(values...);
+        }
+
+        QString getName() const;
+        QStringList getColumns() const;
+        QStringList getValues() const;
+
+        private:
+            struct Data;
+            std::unique_ptr<Data> m_data;
+
+            void addColumn(const QString &);
+            void addValue(const QString &);
+
+            //finish variadic templates
+            void setColumns();
+            void setValues();
+    };
+
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
         public:
@@ -87,6 +121,9 @@ namespace Database
 
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
+
+            //create query which will insert new or update existing data
+            virtual QString insertOrUpdate(const TableUpdateData &) const = 0;
 
         private:
             std::unique_ptr<Data> m_data;

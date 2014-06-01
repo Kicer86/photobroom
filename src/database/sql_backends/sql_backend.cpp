@@ -248,6 +248,69 @@ namespace Database
 
     struct StorePhoto;
 
+    struct TableUpdateData::Data
+    {
+        QString m_table;
+        QStringList m_columns;
+        QStringList m_values;
+        int m_args;
+
+        Data(): m_table(""), m_columns(), m_values(), m_args(0) {}
+    };
+
+    TableUpdateData::TableUpdateData(const char* name): m_data(new Data)
+    {
+        m_data->m_table = name;
+    }
+
+
+    QString TableUpdateData::getName() const
+    {
+        assert(m_data->m_args == 0);
+
+        return m_data->m_table;
+    }
+
+
+    QStringList TableUpdateData::getColumns() const
+    {
+        assert(m_data->m_args == 0);
+
+        return m_data->m_columns;
+    }
+
+
+    QStringList TableUpdateData::getValues() const
+    {
+        assert(m_data->m_args == 0);
+
+        return m_data->m_values;
+    }
+
+
+    void TableUpdateData::addColumn(const QString& column)
+    {
+        m_data->m_args++;
+        m_data->m_columns.push_back(column);
+    }
+
+
+    void TableUpdateData::addValue(const QString& value)
+    {
+        m_data->m_args--;
+        m_data->m_values.push_back(value);
+    }
+
+
+    void TableUpdateData::setColumns() {}
+
+
+    void TableUpdateData::setValues() {}
+
+
+    /*****************************************************************************/
+
+
     struct ASqlBackend::Data
     {
         QSqlDatabase m_db;
@@ -564,7 +627,7 @@ namespace Database
         {
             query_str =
                 "UPDATE " TAB_PHOTOS " SET "
-                "path = \"%2\", hash = \"%3\" WHERE id = \"%1";
+                "path = \"%2\", hash = \"%3\" WHERE id = \"%1\"";
 
             query_str = query_str.arg(data->getID().value());
         }
@@ -594,10 +657,6 @@ namespace Database
         if (status)
             status = id.valid();
 
-        //store id in photo
-        if (status && inserting)
-            data->setID(id);
-
         //store used tags
         std::shared_ptr<ITagData> tags = data->getTags();
 
@@ -615,14 +674,20 @@ namespace Database
         else
             m_db.rollback();
 
+        //store id in photo
+        if (status && inserting)
+            data->setID(id);
+
         return status;
     }
 
 
     PhotoInfo::Ptr ASqlBackend::Data::getPhoto(const PhotoInfo::Id& id)
     {
+        //basic data
         APhotoInfoInitData data = getPhotoDataFor(id);
         PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+        photoInfo->setID(id);
 
         //load tags
         const TagData tagData = getTagsFor(id);

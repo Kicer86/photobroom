@@ -27,6 +27,7 @@ namespace Database
             virtual bool prepareDB(QSqlDatabase *, const char *) override;
             virtual QString prepareFindTableQuery(const QString &) const override;
             virtual QString prepareColumnDescription(const ColDefinition&) const override;
+            virtual QString insertOrUpdate(const TableUpdateData &) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;
