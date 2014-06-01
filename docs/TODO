@@ -4,7 +4,6 @@ TODO:
 - Model: filter out top level groups without any children
 - Staging Model: automatically move added photos to right posistions
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
-- gui: 'save photos' button must switch 'staging area' flag
 - core: make photos tagger a new task
 - core: PhotoInfo should store information about which data have been loaded and which not. Even empty photo should be storen in database and updated on every change
 - database should work in separate thread. Data model when askend on non fetched photos should return some empty list, and refresh proper node while data are being fetched
@@ -13,6 +12,7 @@ TODO:
 
 IN PROGRESS:
 - database: react properly when photo already in database (updating photo)
+- gui: 'save photos' button must switch 'staging area' flag
 
 DONE:
 - PhotoInfo: review and refactor flags structs
