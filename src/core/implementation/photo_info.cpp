@@ -232,12 +232,9 @@ void PhotoInfo::setID(const PhotoInfo::Id& id)
 
 void PhotoInfo::markStagingArea(bool on)
 {
-    auto flags = m_data->m_flags.lock();
+    m_data->m_flags.lock().get().stagingArea = on;
 
-    if (on)
-        flags.get().stagingArea = true;
-    else
-        flags.get().stagingArea = false;
+    updated();
 }
 
 
