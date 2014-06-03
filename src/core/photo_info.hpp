@@ -20,7 +20,7 @@ class CORE_EXPORT PhotoInfo final
         typedef std::shared_ptr<PhotoInfo> Ptr;
         typedef std::string Hash;                // Hash is hash of photo's file
 
-        struct Id
+		struct CORE_EXPORT Id
         {
             typedef int type;
 
