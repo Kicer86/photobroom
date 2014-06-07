@@ -9,7 +9,6 @@
 #define TAB_THUMBS    "thumbnails"
 #define TAB_FLAGS     "flags"
 
-
 namespace Database
 {
     class TableDefinition;
