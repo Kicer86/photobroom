@@ -37,51 +37,7 @@ namespace Database
     class Entry;
     struct TableDefinition;
     struct ColDefinition;
-
-    struct SQL_BACKEND_BASE_EXPORT TableUpdateData
-    {
-        TableUpdateData(const char* name);
-
-        //define common columns
-        template<typename Column, typename... V>
-        void setColumns(const Column& column, const V&... columns)
-        {
-            addColumn(column);
-            setColumns(columns...);
-        }
-
-        //set values for common columns
-        template<typename Value, typename... V>
-        void setValues(const Value& value, const V&... values)
-        {
-            addValue(value);
-            setValues(values...);
-        }
-
-        //set key column and its value.
-        //If particular id is provided, and update will be made. Use "" for inserts (new values)
-        void setKey(const QString &, const QString & = "");
-
-        //set optional column, value pair for inserts only
-        void addInsertOnly(const QString &, const QString &);
-
-        const QString& getName() const;
-        const QStringList& getColumns() const;
-        const QStringList& getValues() const;
-        const std::pair<QString, QString>& getKey() const;
-        const std::deque<std::pair<QString, QString>>& getInsertOnly() const;
-
-        private:
-            struct Data;
-            std::unique_ptr<Data> m_data;
-
-            void addColumn(const QString &);
-            void addValue(const QString &);
-
-            //finish variadic templates
-            void setColumns();
-            void setValues();
-    };
+    class TableUpdateData;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
