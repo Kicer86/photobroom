@@ -254,8 +254,15 @@ namespace Database
         QStringList m_columns;
         QStringList m_values;
         int m_args;
+        std::pair<QString, QString> m_key;
+        std::deque<std::pair<QString, QString>> m_insertOnly;
 
-        Data(): m_table(""), m_columns(), m_values(), m_args(0) {}
+        Data(): m_table(""), m_columns(), m_values(), m_args(0), m_key(), m_insertOnly() {}
+
+        QString quote(const QString& v) const
+        {
+            return QString("\"%1\"").arg(v);
+        }
     };
 
     TableUpdateData::TableUpdateData(const char* name): m_data(new Data)
@@ -264,7 +271,19 @@ namespace Database
     }
 
 
-    QString TableUpdateData::getName() const
+    void TableUpdateData::setKey(const QString& key, const QString& value)
+    {
+        m_data->m_key = std::make_pair(key, m_data->quote(value));
+    }
+
+
+    void TableUpdateData::addInsertOnly(const QString& name, const QString& value)
+    {
+        m_data->m_insertOnly.push_back(std::make_pair(name, value));
+    }
+
+
+    const QString& TableUpdateData::getName() const
     {
         assert(m_data->m_args == 0);
 
@@ -272,7 +291,7 @@ namespace Database
     }
 
 
-    QStringList TableUpdateData::getColumns() const
+    const QStringList& TableUpdateData::getColumns() const
     {
         assert(m_data->m_args == 0);
 
@@ -280,11 +299,23 @@ namespace Database
     }
 
 
-    QStringList TableUpdateData::getValues() const
+    const QStringList& TableUpdateData::getValues() const
     {
         assert(m_data->m_args == 0);
 
         return m_data->m_values;
+    }
+
+
+    const std::pair<QString, QString>& TableUpdateData::getKey() const
+    {
+        return m_data->m_key;
+    }
+
+
+    const std::deque< std::pair<QString, QString> >& TableUpdateData::getInsertOnly() const
+    {
+        return m_data->m_insertOnly;
     }
 
 
@@ -298,7 +329,7 @@ namespace Database
     void TableUpdateData::addValue(const QString& value)
     {
         m_data->m_args--;
-        m_data->m_values.push_back(value);
+        m_data->m_values.push_back(m_data->quote(value));
     }
 
 
@@ -616,28 +647,23 @@ namespace Database
         QSqlQuery query(m_db);
 
         bool status = m_db.transaction();
+        auto converter = [](const PhotoInfo::Id::type& v) -> QString
+        {
+            return QString::number(v);
+        };
 
         //store path and hash
-        QString query_str;
         PhotoInfo::Id id = data->getID();
         const bool updating = id.valid();
         const bool inserting = !updating;
 
-        if (updating)
-        {
-            query_str =
-                "UPDATE " TAB_PHOTOS " SET "
-                "path = \"%2\", hash = \"%3\" WHERE id = \"%1\"";
+        TableUpdateData updateData(TAB_PHOTOS);
+        updateData.setColumns("path", "hash");
+        updateData.setValues(data->getPath().c_str(), data->getHash().c_str());
+        updateData.setKey("id", id.value<QString>("NULL", converter) );
+        updateData.addInsertOnly("store_date", "CURRENT_TIMESTAMP");
 
-            query_str = query_str.arg(data->getID().value());
-        }
-        else
-            query_str =
-                "INSERT INTO " TAB_PHOTOS
-                "(id, store_date, path, hash) VALUES(NULL, CURRENT_TIMESTAMP, \"%1\", \"%2\");";
-
-        query_str = query_str.arg(data->getPath().c_str());
-        query_str = query_str.arg(data->getHash().c_str());
+        const QString query_str = m_backend->insertOrUpdate(updateData);
 
         //execute update/insert
         if (status)
@@ -883,6 +909,60 @@ namespace Database
     bool ASqlBackend::exec(const QString& query, QSqlQuery* status) const
     {
         return m_data->exec(query, status);
+    }
+
+
+    QString ASqlBackend::insertOrUpdate(const TableUpdateData& data) const
+    {
+        QString result;
+
+        QStringList columns = data.getColumns();
+        QStringList values = data.getValues();
+        const std::pair<QString, QString>& key = data.getKey();
+
+        if (data.getKey().second == "")
+        {
+            result = "INSERT INTO %1(%2) VALUES(%3)";
+
+            //add key to query
+            columns.push_back(key.first);
+            values.push_back(key.second);
+
+            //add insert only values
+            for(auto d: data.getInsertOnly())
+            {
+                columns.push_back(d.first);
+                values.push_back(d.second);
+            }
+
+            result = result.arg(data.getName());
+            result = result.arg(columns.join(", "));
+            result = result.arg(values.join(", "));
+        }
+        else
+        {
+            result = "UPDATE %1 SET %2 WHERE %3";
+
+            result = result.arg(data.getName());
+
+            QString assigments;
+            assert(columns.size() == values.size());
+            const int s = std::min(columns.size(), values.size());
+            for(int i = 0; i < s; i++)
+            {
+                assigments += columns[i] + "=" + values[i];
+
+                if (i + 1 < s)
+                    assigments += ", ";
+            }
+
+            const QString condition(key.first + "=" + key.second);
+
+            result = result.arg(assigments);
+            result = result.arg(condition);
+        }
+
+        return result;
     }
 
 

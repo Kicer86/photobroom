@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <vector>
+#include <deque>
 
 #include "database/idatabase.hpp"
 #include "sql_backend_base_export.h"
@@ -44,10 +45,11 @@ namespace Database
     struct TableDefinition;
     struct ColDefinition;
 
-    struct TableUpdateData
+    struct SQL_BACKEND_BASE_EXPORT TableUpdateData
     {
         TableUpdateData(const char* name);
 
+        //define common columns
         template<typename Column, typename... V>
         void setColumns(const Column& column, const V&... columns)
         {
@@ -55,6 +57,7 @@ namespace Database
             setColumns(columns...);
         }
 
+        //set values for common columns
         template<typename Value, typename... V>
         void setValues(const Value& value, const V&... values)
         {
@@ -62,9 +65,18 @@ namespace Database
             setValues(values...);
         }
 
-        QString getName() const;
-        QStringList getColumns() const;
-        QStringList getValues() const;
+        //set key column and its value.
+        //If particular id is provided, and update will be made. Use "" for inserts (new values)
+        void setKey(const QString &, const QString & = "");
+
+        //set optional column, value pair for inserts only
+        void addInsertOnly(const QString &, const QString &);
+
+        const QString& getName() const;
+        const QStringList& getColumns() const;
+        const QStringList& getValues() const;
+        const std::pair<QString, QString>& getKey() const;
+        const std::deque<std::pair<QString, QString>>& getInsertOnly() const;
 
         private:
             struct Data;
@@ -123,7 +135,7 @@ namespace Database
             virtual bool exec(const QString &, QSqlQuery *) const;
 
             //create query which will insert new or update existing data
-            virtual QString insertOrUpdate(const TableUpdateData &) const = 0;
+            virtual QString insertOrUpdate(const TableUpdateData &) const;
 
         private:
             std::unique_ptr<Data> m_data;

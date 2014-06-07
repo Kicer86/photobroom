@@ -102,12 +102,6 @@ namespace Database
     }
 
 
-    QString MySqlBackend::insertOrUpdate(const TableUpdateData &) const
-    {
-        assert(!"not implemented");
-    }
-
-
     QString MySqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
     {
         //Here we force InnoDB engine which may be default
