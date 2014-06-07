@@ -35,7 +35,9 @@ namespace Database
         }
 
         //set key column and its value.
-        //If particular id is provided, and update will be made. Use "" for inserts (new values)
+        //If value is null, inserts will occur.
+        //If value is not null, update or insert will be made (depends if provided value is unique).
+        //Important: values added by addInsertOnly() will be used only for null values of key.
         void setKey(const QString &, const QString &);
 
         //set optional column, value pair for inserts only
