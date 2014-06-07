@@ -32,13 +32,6 @@
 class QSqlQuery;
 class QSqlDatabase;
 
-#define TAB_TAG_NAMES "tag_names"
-#define TAB_VER_HIST  "version_history"
-#define TAB_PHOTOS    "photos"
-#define TAB_TAGS      "tags"
-#define TAB_THUMBS    "thumbnails"
-#define TAB_FLAGS     "flags"
-
 namespace Database
 {
     class Entry;

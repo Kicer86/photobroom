@@ -17,8 +17,8 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Boost_INCLUDE_DIRS})
 
-set(SOURCES sqldbquery.cpp sql_backend.cpp table_definition.cpp)
-set(HEADERS sqldbquery.hpp sql_backend.hpp table_definition.hpp)
+set(SOURCES sqldbquery.cpp sql_backend.cpp table_definition.cpp tables.cpp)
+set(HEADERS sqldbquery.hpp sql_backend.hpp table_definition.hpp tables.hpp)
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
 target_link_libraries(sql_backend_base database configuration core)
