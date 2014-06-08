@@ -40,6 +40,7 @@
 
 #include "table_definition.hpp"
 #include "sqldbquery.hpp"
+#include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
 
@@ -170,6 +171,7 @@ namespace Database
         Data& operator=(const Data &) = delete;
 
         bool exec(const QString& query, QSqlQuery* result) const;
+        bool exec(const SqlQuery& query, QSqlQuery* result) const;
         bool createDB(const QString& dbName) const;
         boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
         bool store(const PhotoInfo::Ptr& data);
@@ -238,6 +240,18 @@ namespace Database
         if (status == false)
             std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
                       << " while performing query: " << query.toStdString() << std::endl;
+
+        return status;
+    }
+
+
+    bool ASqlBackend::Data::exec(const SqlQuery& query, QSqlQuery* result) const
+    {
+        auto& queries = query.getQueries();
+        bool status = true;
+
+        for(size_t i = 0; i < queries.size() && status; i++)
+            status = exec(queries[i], result);
 
         return status;
     }
@@ -474,17 +488,24 @@ namespace Database
         const bool updating = id.valid();
         const bool inserting = !updating;
 
-        InsertQueryData updateData(TAB_PHOTOS);
-        updateData.setColumns("path", "hash");
-        updateData.setValues(data->getPath().c_str(), data->getHash().c_str());
-        updateData.setKey("id", id.value<QString>("NULL", converter) );
-        updateData.addInsertOnly("store_date", "CURRENT_TIMESTAMP");
+        InsertQueryData insertData(TAB_PHOTOS);
+        insertData.setColumns("path", "hash");
+        insertData.setValues(data->getPath().c_str(), data->getHash().c_str());
+        insertData.setKey("id", id.value<QString>("NULL", converter) );
+        insertData.addInsertOnly("store_date", "CURRENT_TIMESTAMP");
 
-        const QString query_str = m_backend->insertOrUpdate(updateData);
+        SqlQuery queryStrs;
+        if (inserting)
+            queryStrs = m_backend->getQueryConstructor()->insert(insertData);
+        else
+        {
+            UpdateQueryData updateData(insertData);
+            queryStrs = m_backend->getQueryConstructor()->update(updateData);
+        }
 
         //execute update/insert
         if (status)
-            status = exec(query_str, &query);
+            status = exec(queryStrs, &query);
 
         //update id
         if (status && inserting)                       //Get Id from database after insert
@@ -726,60 +747,6 @@ namespace Database
     bool ASqlBackend::exec(const QString& query, QSqlQuery* status) const
     {
         return m_data->exec(query, status);
-    }
-
-
-    QString ASqlBackend::insertOrUpdate(const InsertQueryData& data) const
-    {
-        QString result;
-
-        QStringList columns = data.getColumns();
-        QStringList values = data.getValues();
-        const std::pair<QString, QString>& key = data.getKey();
-
-        if (data.getKey().second == "")
-        {
-            result = "INSERT INTO %1(%2) VALUES(%3)";
-
-            //add key to query
-            columns.push_back(key.first);
-            values.push_back(key.second);
-
-            //add insert only values
-            for(auto d: data.getInsertOnly())
-            {
-                columns.push_back(d.first);
-                values.push_back(d.second);
-            }
-
-            result = result.arg(data.getName());
-            result = result.arg(columns.join(", "));
-            result = result.arg(values.join(", "));
-        }
-        else
-        {
-            result = "UPDATE %1 SET %2 WHERE %3";
-
-            result = result.arg(data.getName());
-
-            QString assigments;
-            assert(columns.size() == values.size());
-            const int s = std::min(columns.size(), values.size());
-            for(int i = 0; i < s; i++)
-            {
-                assigments += columns[i] + "=" + values[i];
-
-                if (i + 1 < s)
-                    assigments += ", ";
-            }
-
-            const QString condition(key.first + "=" + key.second);
-
-            result = result.arg(assigments);
-            result = result.arg(condition);
-        }
-
-        return result;
     }
 
 

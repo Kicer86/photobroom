@@ -14,10 +14,8 @@ namespace Database
         QStringList m_columns;
         QStringList m_values;
         int m_args;
-        std::pair<QString, QString> m_key;
-        std::deque<std::pair<QString, QString>> m_insertOnly;
 
-        Data(): m_table(""), m_columns(), m_values(), m_args(0), m_key(), m_insertOnly() {}
+        Data(): m_table(""), m_columns(), m_values(), m_args(0) {}
 
         QString quote(const QString& v) const
         {
@@ -35,18 +33,6 @@ namespace Database
     InsertQueryData::~InsertQueryData()
     {
 
-    }
-
-
-    void InsertQueryData::setKey(const QString& key, const QString& value)
-    {
-        m_data->m_key = std::make_pair(key, m_data->quote(value));
-    }
-
-
-    void InsertQueryData::addInsertOnly(const QString& name, const QString& value)
-    {
-        m_data->m_insertOnly.push_back(std::make_pair(name, value));
     }
 
 
@@ -74,18 +60,6 @@ namespace Database
     }
 
 
-    const std::pair<QString, QString>& InsertQueryData::getKey() const
-    {
-        return m_data->m_key;
-    }
-
-
-    const std::deque< std::pair<QString, QString> >& InsertQueryData::getInsertOnly() const
-    {
-        return m_data->m_insertOnly;
-    }
-
-
     void InsertQueryData::addColumn(const QString& column)
     {
         m_data->m_args++;
@@ -104,5 +78,32 @@ namespace Database
 
 
     void InsertQueryData::setValues() {}
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    UpdateQueryData::UpdateQueryData(const char* name): InsertQueryData(name)
+    {
+
+    }
+
+
+    UpdateQueryData::UpdateQueryData(const InsertQueryData& data): InsertQueryData(data)
+    {
+
+    }
+
+
+    void UpdateQueryData::setCondition(const QString& column, const QString& value)
+    {
+        m_condition = std::make_pair(column, value);
+    }
+
+
+    const std::pair<QString, QString>& UpdateQueryData::getCondition() const
+    {
+        return m_condition;
+    }
 
 }

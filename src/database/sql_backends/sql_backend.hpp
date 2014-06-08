@@ -85,9 +85,6 @@ namespace Database
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
 
-            //create query which will insert new or update existing data
-            virtual QString insertOrUpdate(const InsertQueryData &) const;
-
             virtual ISqlQueryConstructor* getQueryConstructor() = 0;
 
         private:

@@ -7,8 +7,10 @@
 #include <memory>
 #include <deque>
 
+#include <QString>
 
-class QString;
+#include <utils/data_ptr.hpp>
+
 class QStringList;
 
 namespace Database
@@ -16,6 +18,7 @@ namespace Database
     struct SQL_BACKEND_BASE_EXPORT InsertQueryData
     {
         InsertQueryData(const char* name);
+        InsertQueryData(const InsertQueryData &) = default;
         ~InsertQueryData();
 
         //define common columns
@@ -46,12 +49,10 @@ namespace Database
         const QString& getName() const;
         const QStringList& getColumns() const;
         const QStringList& getValues() const;
-        const std::pair<QString, QString>& getKey() const;
-        const std::deque<std::pair<QString, QString>>& getInsertOnly() const;
 
         private:
             struct Data;
-            std::unique_ptr<Data> m_data;
+            data_ptr<Data> m_data;
 
             void addColumn(const QString &);
             void addValue(const QString &);
@@ -64,7 +65,15 @@ namespace Database
 
     struct SQL_BACKEND_BASE_EXPORT UpdateQueryData: public InsertQueryData
     {
+        UpdateQueryData(const char* name);
+        UpdateQueryData(const InsertQueryData &);
 
+        //update where c == v
+        void setCondition(const QString& c, const QString& v);
+        const std::pair<QString, QString>& getCondition() const;
+
+        private:
+            std::pair<QString, QString> m_condition;
     };
 }
 

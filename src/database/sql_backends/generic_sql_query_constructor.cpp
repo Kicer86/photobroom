@@ -44,22 +44,10 @@ namespace Database
     {
         QString result;
 
-        QStringList columns = data.getColumns();
-        QStringList values = data.getValues();
-        const std::pair<QString, QString>& key = data.getKey();
+        const QStringList& columns = data.getColumns();
+        const QStringList& values = data.getValues();
 
         result = "INSERT INTO %1(%2) VALUES(%3)";
-
-        //add key to query
-        columns.push_back(key.first);
-        values.push_back(key.second);
-
-        //add insert only values
-        for(auto d: data.getInsertOnly())
-        {
-            columns.push_back(d.first);
-            values.push_back(d.second);
-        }
 
         result = result.arg(data.getName());
         result = result.arg(columns.join(", "));
@@ -75,7 +63,7 @@ namespace Database
 
         QStringList columns = data.getColumns();
         QStringList values = data.getValues();
-        const std::pair<QString, QString>& key = data.getKey();
+        const std::pair<QString, QString>& key = data.getCondition();
 
         result = "UPDATE %1 SET %2 WHERE %3";
         result = result.arg(data.getName());
