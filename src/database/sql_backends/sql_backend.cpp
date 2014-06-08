@@ -485,12 +485,16 @@ namespace Database
         const bool inserting = !updating;
 
         InsertQueryData insertData(TAB_PHOTOS);
-        insertData.setColumns("id", "path", "hash", "store_date");
-        insertData.setValues("NULL", data->getPath().c_str(), data->getHash().c_str(), "CURRENT_TIMESTAMP");
+        insertData.setColumns("path", "hash", "store_date");
+        insertData.setValues(data->getPath().c_str(), data->getHash().c_str(), "CURRENT_TIMESTAMP");
 
         SqlQuery queryStrs;
         if (inserting)
+        {
+            insertData.setColumns("id");
+            insertData.setValues("NULL");
             queryStrs = m_backend->getQueryConstructor()->insert(insertData);
+        }
         else
         {
             UpdateQueryData updateData(insertData);
