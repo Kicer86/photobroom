@@ -404,14 +404,15 @@ namespace Database
 
     bool ASqlBackend::Data::storeThumbnail(int photo_id, const QPixmap& pixmap) const
     {
-        QString query_str("INSERT INTO " TAB_THUMBS
-                          "(id, photo_id, data) VALUES(NULL, \"%1\", \"%2\")");
+        InsertQueryData data(TAB_THUMBS);
 
-        query_str = query_str.arg(photo_id);
-        query_str = query_str.arg( QString(toPrintable(pixmap)) );
+        data.setColumns("photo_id", "data");
+        data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
+
+        SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlQuery query(m_db);
-        bool status = exec(query_str, &query);
+        bool status = exec(queryStrs, &query);
 
         return status;
     }
