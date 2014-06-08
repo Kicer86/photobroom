@@ -19,7 +19,7 @@ namespace Database
     {
         InsertQueryData(const char* name);
         InsertQueryData(const InsertQueryData &) = default;
-        ~InsertQueryData();
+        virtual ~InsertQueryData();
 
         //define common columns
         template<typename Column, typename... V>
@@ -36,15 +36,6 @@ namespace Database
             addValue(value);
             setValues(values...);
         }
-
-        //set key column and its value.
-        //If value is null, inserts will occur.
-        //If value is not null, update or insert will be made (depends if provided value is unique).
-        //Important: values added by addInsertOnly() will be used only for null values of key.
-        void setKey(const QString &, const QString &);
-
-        //set optional column, value pair for inserts only
-        void addInsertOnly(const QString &, const QString &);
 
         const QString& getName() const;
         const QStringList& getColumns() const;

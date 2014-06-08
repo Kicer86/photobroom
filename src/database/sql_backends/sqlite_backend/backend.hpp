@@ -32,7 +32,7 @@ namespace Database
             virtual ISqlQueryConstructor* getQueryConstructor() override;
 
             //ISqlQueryConstructor:
-            virtual SqlQuery insertOrUpdate(const InsertQueryData&);
+            virtual SqlQuery insertOrUpdate(const InsertQueryData&) override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

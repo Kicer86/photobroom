@@ -34,20 +34,6 @@ class CORE_EXPORT PhotoInfo final
             bool valid() const;
             type value() const;
 
-            //returns value() converted to 'T' by convert() or 'r' when valid() is false
-            template<typename T, typename C>
-            T value(const T& r, C converter)
-            {
-                T result;
-
-                if (valid())
-                    result = converter(value());
-                else
-                    result = r;
-
-                return result;
-            }
-
             private:
                 bool m_valid;
                 type m_value;

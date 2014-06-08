@@ -22,10 +22,12 @@
 
 #include "sql_query_constructor.hpp"
 
+#include "sql_backend_base_export.h"
+
 namespace Database
 {
 
-    class GenericSqlQueryConstructor : public ISqlQueryConstructor
+    class SQL_BACKEND_BASE_EXPORT GenericSqlQueryConstructor: public ISqlQueryConstructor
     {
         public:
             GenericSqlQueryConstructor();

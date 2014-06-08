@@ -478,10 +478,6 @@ namespace Database
         QSqlQuery query(m_db);
 
         bool status = m_db.transaction();
-        auto converter = [](const PhotoInfo::Id::type& v) -> QString
-        {
-            return QString::number(v);
-        };
 
         //store path and hash
         PhotoInfo::Id id = data->getID();
@@ -489,10 +485,8 @@ namespace Database
         const bool inserting = !updating;
 
         InsertQueryData insertData(TAB_PHOTOS);
-        insertData.setColumns("path", "hash");
-        insertData.setValues(data->getPath().c_str(), data->getHash().c_str());
-        insertData.setKey("id", id.value<QString>("NULL", converter) );
-        insertData.addInsertOnly("store_date", "CURRENT_TIMESTAMP");
+        insertData.setColumns("id", "path", "hash", "store_date");
+        insertData.setValues("NULL", data->getPath().c_str(), data->getHash().c_str(), "CURRENT_TIMESTAMP");
 
         SqlQuery queryStrs;
         if (inserting)
@@ -500,6 +494,7 @@ namespace Database
         else
         {
             UpdateQueryData updateData(insertData);
+            updateData.setCondition( "id", QString::number(id.value()) );
             queryStrs = m_backend->getQueryConstructor()->update(updateData);
         }
 
