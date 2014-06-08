@@ -19,6 +19,12 @@
 
 #include "generic_sql_query_constructor.hpp"
 
+#include <assert.h>
+
+#include <QStringList>
+
+#include "query_structs.hpp"
+
 namespace Database
 {
 
@@ -34,15 +40,63 @@ namespace Database
     }
 
 
-    SqlQuery GenericSqlQueryConstructor::insert(const InsertQueryData &)
+    SqlQuery GenericSqlQueryConstructor::insert(const InsertQueryData& data)
     {
+        QString result;
 
+        QStringList columns = data.getColumns();
+        QStringList values = data.getValues();
+        const std::pair<QString, QString>& key = data.getKey();
+
+        result = "INSERT INTO %1(%2) VALUES(%3)";
+
+        //add key to query
+        columns.push_back(key.first);
+        values.push_back(key.second);
+
+        //add insert only values
+        for(auto d: data.getInsertOnly())
+        {
+            columns.push_back(d.first);
+            values.push_back(d.second);
+        }
+
+        result = result.arg(data.getName());
+        result = result.arg(columns.join(", "));
+        result = result.arg(values.join(", "));
+
+        return result;
     }
 
 
-    SqlQuery GenericSqlQueryConstructor::update(const UpdateQueryData &)
+    SqlQuery GenericSqlQueryConstructor::update(const UpdateQueryData& data)
     {
+        QString result;
 
+        QStringList columns = data.getColumns();
+        QStringList values = data.getValues();
+        const std::pair<QString, QString>& key = data.getKey();
+
+        result = "UPDATE %1 SET %2 WHERE %3";
+        result = result.arg(data.getName());
+
+        QString assigments;
+        assert(columns.size() == values.size());
+        const int s = std::min(columns.size(), values.size());
+        for(int i = 0; i < s; i++)
+        {
+            assigments += columns[i] + "=" + values[i];
+
+            if (i + 1 < s)
+                assigments += ", ";
+        }
+
+        const QString condition(key.first + "=" + key.second);
+
+        result = result.arg(assigments);
+        result = result.arg(condition);
+
+        return result;
     }
 
 }
