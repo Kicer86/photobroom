@@ -60,6 +60,12 @@ namespace Database
             void setColumns();
             void setValues();
     };
+
+
+    struct SQL_BACKEND_BASE_EXPORT UpdateQueryData: public InsertQueryData
+    {
+
+    };
 }
 
 #endif
