@@ -13,6 +13,7 @@
 #include <configuration/entrydata.hpp>
 #include <database/databasebuilder.hpp>
 #include <sql_backends/table_definition.hpp>
+#include <sql_backends/query_structs.hpp>
 
 namespace Database
 {
@@ -115,9 +116,16 @@ namespace Database
     }
 
 
-    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData&)
+    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data)
     {
-        assert(!"not implemented");
+        QString result("INSERT OR REPLACE INTO %1(%2) VALUES %3");
+
+        result = result.arg(data.getName());
+        result = result.arg(data.getColumns().join(", "));
+        result = result.arg(data.getValues().join(", "));
+
+        return result;
+
     }
 
 
