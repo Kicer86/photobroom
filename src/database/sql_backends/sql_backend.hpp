@@ -37,7 +37,7 @@ namespace Database
     class Entry;
     struct TableDefinition;
     struct ColDefinition;
-    class TableUpdateData;
+    class InsertQueryData;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
@@ -84,7 +84,7 @@ namespace Database
             virtual bool exec(const QString &, QSqlQuery *) const;
 
             //create query which will insert new or update existing data
-            virtual QString insertOrUpdate(const TableUpdateData &) const;
+            virtual QString insertOrUpdate(const InsertQueryData &) const;
 
         private:
             std::unique_ptr<Data> m_data;

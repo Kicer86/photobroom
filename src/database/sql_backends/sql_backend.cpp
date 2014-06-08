@@ -474,7 +474,7 @@ namespace Database
         const bool updating = id.valid();
         const bool inserting = !updating;
 
-        TableUpdateData updateData(TAB_PHOTOS);
+        InsertQueryData updateData(TAB_PHOTOS);
         updateData.setColumns("path", "hash");
         updateData.setValues(data->getPath().c_str(), data->getHash().c_str());
         updateData.setKey("id", id.value<QString>("NULL", converter) );
@@ -729,7 +729,7 @@ namespace Database
     }
 
 
-    QString ASqlBackend::insertOrUpdate(const TableUpdateData& data) const
+    QString ASqlBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result;
 

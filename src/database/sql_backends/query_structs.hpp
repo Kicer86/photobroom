@@ -13,10 +13,10 @@ class QStringList;
 
 namespace Database
 {
-    struct SQL_BACKEND_BASE_EXPORT TableUpdateData
+    struct SQL_BACKEND_BASE_EXPORT InsertQueryData
     {
-        TableUpdateData(const char* name);
-        ~TableUpdateData();
+        InsertQueryData(const char* name);
+        ~InsertQueryData();
 
         //define common columns
         template<typename Column, typename... V>

@@ -8,7 +8,7 @@
 
 namespace Database
 {
-    struct TableUpdateData::Data
+    struct InsertQueryData::Data
     {
         QString m_table;
         QStringList m_columns;
@@ -26,31 +26,31 @@ namespace Database
     };
 
 
-    TableUpdateData::TableUpdateData(const char* name): m_data(new Data)
+    InsertQueryData::InsertQueryData(const char* name): m_data(new Data)
     {
         m_data->m_table = name;
     }
 
 
-    TableUpdateData::~TableUpdateData()
+    InsertQueryData::~InsertQueryData()
     {
 
     }
 
 
-    void TableUpdateData::setKey(const QString& key, const QString& value)
+    void InsertQueryData::setKey(const QString& key, const QString& value)
     {
         m_data->m_key = std::make_pair(key, m_data->quote(value));
     }
 
 
-    void TableUpdateData::addInsertOnly(const QString& name, const QString& value)
+    void InsertQueryData::addInsertOnly(const QString& name, const QString& value)
     {
         m_data->m_insertOnly.push_back(std::make_pair(name, value));
     }
 
 
-    const QString& TableUpdateData::getName() const
+    const QString& InsertQueryData::getName() const
     {
         assert(m_data->m_args == 0);
 
@@ -58,7 +58,7 @@ namespace Database
     }
 
 
-    const QStringList& TableUpdateData::getColumns() const
+    const QStringList& InsertQueryData::getColumns() const
     {
         assert(m_data->m_args == 0);
 
@@ -66,7 +66,7 @@ namespace Database
     }
 
 
-    const QStringList& TableUpdateData::getValues() const
+    const QStringList& InsertQueryData::getValues() const
     {
         assert(m_data->m_args == 0);
 
@@ -74,35 +74,35 @@ namespace Database
     }
 
 
-    const std::pair<QString, QString>& TableUpdateData::getKey() const
+    const std::pair<QString, QString>& InsertQueryData::getKey() const
     {
         return m_data->m_key;
     }
 
 
-    const std::deque< std::pair<QString, QString> >& TableUpdateData::getInsertOnly() const
+    const std::deque< std::pair<QString, QString> >& InsertQueryData::getInsertOnly() const
     {
         return m_data->m_insertOnly;
     }
 
 
-    void TableUpdateData::addColumn(const QString& column)
+    void InsertQueryData::addColumn(const QString& column)
     {
         m_data->m_args++;
         m_data->m_columns.push_back(column);
     }
 
 
-    void TableUpdateData::addValue(const QString& value)
+    void InsertQueryData::addValue(const QString& value)
     {
         m_data->m_args--;
         m_data->m_values.push_back(m_data->quote(value));
     }
 
 
-    void TableUpdateData::setColumns() {}
+    void InsertQueryData::setColumns() {}
 
 
-    void TableUpdateData::setValues() {}
+    void InsertQueryData::setValues() {}
 
 }
