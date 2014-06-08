@@ -8,6 +8,7 @@
 #include <database/idatabase.hpp>
 #include <database/idatabase_plugin.hpp>
 #include <database/sql_backends/sql_backend.hpp>
+#include <database/sql_backends/generic_sql_query_constructor.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
 #include "database_mysql_backend_export.h"
@@ -15,17 +16,22 @@
 namespace Database
 {
 
-    class MySqlBackend final: public ASqlBackend
+    class MySqlBackend final: public ASqlBackend, GenericSqlQueryConstructor
     {
         public:
             MySqlBackend();
             virtual ~MySqlBackend();
 
         private:
+            // ASqlBackend:
             virtual bool prepareDB(QSqlDatabase *, const char* name) override;
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareColumnDescription(const ColDefinition &) const override;
             virtual bool onAfterOpen() override;
+            virtual ISqlQueryConstructor* getQueryConstructor();
+
+            // GenericSqlQueryConstructor:
+            virtual SqlQuery insertOrUpdate(const InsertQueryData&);
 
             struct Data;
             std::unique_ptr<Data> m_data;

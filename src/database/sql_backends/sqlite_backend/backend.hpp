@@ -10,6 +10,7 @@
 #include <database/idatabase.hpp>
 #include <database/idatabase_plugin.hpp>
 #include <database/sql_backends/sql_backend.hpp>
+#include <database/sql_backends/generic_sql_query_constructor.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
 #include "database_sqlite_backend_export.h"
@@ -17,16 +18,21 @@
 namespace Database
 {
 
-    class SQLiteBackend final: public ASqlBackend
+    class SQLiteBackend final: public ASqlBackend, GenericSqlQueryConstructor
     {
         public:
             SQLiteBackend();
             virtual ~SQLiteBackend();
 
         private:
+            // ASqlBackend:
             virtual bool prepareDB(QSqlDatabase *, const char *) override;
             virtual QString prepareFindTableQuery(const QString &) const override;
             virtual QString prepareColumnDescription(const ColDefinition&) const override;
+            virtual ISqlQueryConstructor* getQueryConstructor() override;
+
+            //ISqlQueryConstructor:
+            virtual SqlQuery insertOrUpdate(const InsertQueryData&);
 
             struct Data;
             std::unique_ptr<Data> m_data;

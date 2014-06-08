@@ -109,6 +109,18 @@ namespace Database
     }
 
 
+    ISqlQueryConstructor* SQLiteBackend::getQueryConstructor()
+    {
+        return this;
+    }
+
+
+    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData&)
+    {
+        assert(!"not implemented");
+    }
+
+
     SQLitePlugin::SQLitePlugin(): QObject()
     {
 

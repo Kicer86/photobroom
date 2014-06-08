@@ -34,10 +34,12 @@ class QSqlDatabase;
 
 namespace Database
 {
+
     class Entry;
-    struct TableDefinition;
-    struct ColDefinition;
     class InsertQueryData;
+    struct ISqlQueryConstructor;
+    struct ColDefinition;
+    struct TableDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
@@ -85,6 +87,8 @@ namespace Database
 
             //create query which will insert new or update existing data
             virtual QString insertOrUpdate(const InsertQueryData &) const;
+
+            virtual ISqlQueryConstructor* getQueryConstructor() = 0;
 
         private:
             std::unique_ptr<Data> m_data;
