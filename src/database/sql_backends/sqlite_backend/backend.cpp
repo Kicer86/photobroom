@@ -118,7 +118,7 @@ namespace Database
 
     SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data)
     {
-        QString result("INSERT OR REPLACE INTO %1(%2) VALUES %3");
+        QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
 
         result = result.arg(data.getName());
         result = result.arg(data.getColumns().join(", "));
