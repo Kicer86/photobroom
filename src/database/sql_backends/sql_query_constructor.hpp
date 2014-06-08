@@ -31,9 +31,9 @@ namespace Database
     {
         virtual ~ISqlQueryConstructor();
 
-        virtual SqlQuery insert(const InsertQueryData &) = 0;
-        virtual SqlQuery update(const UpdateQueryData &) = 0;
-        virtual SqlQuery insertOrUpdate(const InsertQueryData &) = 0;
+        virtual SqlQuery insert(const InsertQueryData &) = 0;                 // construct an insert sql query.
+        virtual SqlQuery update(const UpdateQueryData &) = 0;                 // construct an update sql query.
+        virtual SqlQuery insertOrUpdate(const InsertQueryData &) = 0;         // construct a query which will try to insert data. If it fails due to UNIQUE column attribute, try to update
     };
 }
 
