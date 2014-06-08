@@ -10,6 +10,12 @@ namespace Database
     }
 
 
+    SqlQuery::SqlQuery(const QString& query)
+    {
+        addQuery(query);
+    }
+
+
     SqlQuery::~SqlQuery()
     {
 
@@ -25,6 +31,12 @@ namespace Database
     const std::vector< QString >& SqlQuery::getQueries() const
     {
         return m_queries;
+    }
+
+
+    ISqlQueryConstructor::~ISqlQueryConstructor()
+    {
+
     }
 
 }

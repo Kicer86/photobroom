@@ -6,15 +6,16 @@
 
 #include <QString>
 
-class InsertQueryData;
-class UpdateQueryData;
-
 namespace Database
 {
+
+    class InsertQueryData;
+    class UpdateQueryData;
 
     struct SqlQuery
     {
         SqlQuery();
+        SqlQuery(const QString &);
         ~SqlQuery();
 
         void addQuery(const QString &);
