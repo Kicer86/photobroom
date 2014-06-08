@@ -6,13 +6,15 @@
 
 #include <QString>
 
+#include "sql_backend_base_export.h"
+
 namespace Database
 {
 
     class InsertQueryData;
     class UpdateQueryData;
 
-    struct SqlQuery
+    struct SQL_BACKEND_BASE_EXPORT SqlQuery
     {
         SqlQuery();
         SqlQuery(const QString &);
