@@ -17,6 +17,11 @@ namespace Database
 {
     struct SQL_BACKEND_BASE_EXPORT InsertQueryData
     {
+        enum class Value
+        {
+            CurrentTime,
+        };
+
         InsertQueryData(const char* name);
         InsertQueryData(const InsertQueryData &) = default;
         virtual ~InsertQueryData();
@@ -47,6 +52,7 @@ namespace Database
 
             void addColumn(const QString &);
             void addValue(const QString &);
+            void addValue(Value);
 
             //finish variadic templates
             void setColumns();

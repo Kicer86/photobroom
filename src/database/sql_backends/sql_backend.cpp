@@ -457,18 +457,19 @@ namespace Database
 
     bool ASqlBackend::Data::storeFlags(int photo_id, const PhotoInfo::Ptr& photoInfo) const
     {
-        QString query_str("INSERT INTO " TAB_FLAGS
-                          "(id, photo_id, staging_area, tags_loaded, hash_loaded, thumbnail_loaded) "
-                          "VALUES(NULL, \"%1\", \"%2\", \"%3\", \"%4\", \"%5\")");
+        InsertQueryData queryData(TAB_FLAGS);
+        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "hash_loaded", "thumbnail_loaded");
+        queryData.setValues( "NULL",
+                             QString::number(photo_id),
+                             photoInfo->getFlags().stagingArea? "TRUE": "FALSE",
+                             photoInfo->getFlags().tagsLoaded? "TRUE": "FALSE",
+                             photoInfo->getFlags().hashLoaded? "TRUE": "FALSE",
+                             photoInfo->getFlags().thumbnailLoaded? "TRUE": "FALSE" );
 
-        query_str = query_str.arg(photo_id);
-        query_str = query_str.arg(photoInfo->getFlags().stagingArea? "TRUE": "FALSE");
-        query_str = query_str.arg(photoInfo->getFlags().tagsLoaded? "TRUE": "FALSE");
-        query_str = query_str.arg(photoInfo->getFlags().hashLoaded? "TRUE": "FALSE");
-        query_str = query_str.arg(photoInfo->getFlags().thumbnailLoaded? "TRUE": "FALSE");
+        auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
 
         QSqlQuery query(m_db);
-        bool status = exec(query_str, &query);
+        bool status = exec(queryStrs, &query);
 
         return status;
     }
@@ -487,7 +488,7 @@ namespace Database
 
         InsertQueryData insertData(TAB_PHOTOS);
         insertData.setColumns("path", "hash", "store_date");
-        insertData.setValues(data->getPath().c_str(), data->getHash().c_str(), "CURRENT_TIMESTAMP");
+        insertData.setValues(data->getPath().c_str(), data->getHash().c_str(), InsertQueryData::Value::CurrentTime);
 
         SqlQuery queryStrs;
         if (inserting)
