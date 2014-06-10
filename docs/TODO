@@ -10,6 +10,8 @@ TODO:
 - database should work in separate thread. Data model when askend on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 - rethink configuration concepts
 - when updating photo, do not update all, update only required data
+- support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
+- support for some extra exif library, propably more windows friendly than exiv2
 
 IN PROGRESS:
 - database: react properly when photo already in database (updating photo)
