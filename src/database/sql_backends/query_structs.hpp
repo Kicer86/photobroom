@@ -19,6 +19,7 @@ namespace Database
     {
         enum class Value
         {
+            Null,
             CurrentTime,
         };
 

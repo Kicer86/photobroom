@@ -80,6 +80,8 @@ namespace Database
         switch(value)
         {
             case Value::CurrentTime: v = "CURRENT_TIMESTAMP"; break;
+            case Value::Null:        v = "NULL";              break;
+
             default: assert(!"???");
         }
 

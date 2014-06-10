@@ -459,7 +459,7 @@ namespace Database
     {
         InsertQueryData queryData(TAB_FLAGS);
         queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "hash_loaded", "thumbnail_loaded");
-        queryData.setValues( "NULL",
+        queryData.setValues( InsertQueryData::Value::Null,
                              QString::number(photo_id),
                              photoInfo->getFlags().stagingArea? "TRUE": "FALSE",
                              photoInfo->getFlags().tagsLoaded? "TRUE": "FALSE",
@@ -494,7 +494,7 @@ namespace Database
         if (inserting)
         {
             insertData.setColumns("id");
-            insertData.setValues("NULL");
+            insertData.setValues(InsertQueryData::Value::Null);
             queryStrs = m_backend->getQueryConstructor()->insert(insertData);
         }
         else
