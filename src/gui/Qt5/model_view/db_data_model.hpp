@@ -66,6 +66,9 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         virtual void setBackend(Database::IBackend *) override;
         virtual void close() override;
 
+        //
+        void idxUpdated(IdxData *);
+
     protected:
         IdxData& getRootIdxData();
         void updatePhotoInDB(const PhotoInfo::Ptr &);
@@ -73,8 +76,6 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         virtual std::vector<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
     private:
-        friend struct IdxData;
-
         //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
@@ -92,9 +93,6 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 
         struct Impl;
         std::unique_ptr<Impl> m_impl;
-
-        //used by friends
-        void idxUpdated(IdxData *);
 
     private slots:
         void dispatchIdxUpdate(IdxData *);

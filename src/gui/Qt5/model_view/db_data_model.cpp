@@ -351,6 +351,13 @@ void DBDataModel::close()
 }
 
 
+void DBDataModel::idxUpdated(IdxData* idxData)
+{
+    //make sure, we will move to main thread
+    emit dispatchUpdate(idxData);
+}
+
+
 IdxData& DBDataModel::getRootIdxData()
 {
     return m_impl->m_root;
@@ -367,13 +374,6 @@ QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 {
     const QModelIndex idx = createIndex(idxData->m_row, idxData->m_column, idxData);
     return idx;
-}
-
-
-void DBDataModel::idxUpdated(IdxData* idxData)
-{
-    //make sure, we will move to main thread
-    emit dispatchUpdate(idxData);
 }
 
 
