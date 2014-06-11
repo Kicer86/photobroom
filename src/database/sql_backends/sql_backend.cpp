@@ -433,7 +433,7 @@ namespace Database
         ITagData::TagsList tagsList = tags->getTags();
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
-            //store tag
+            //store tag name
             const boost::optional<unsigned int> tag_id = store(it->first);
 
             if (tag_id)
