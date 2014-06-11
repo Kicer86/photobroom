@@ -79,45 +79,45 @@ namespace Database
 
         struct SqlFiltersVisitor: IFilterVisitor
         {
-            SqlFiltersVisitor(): m_temporary_result() {}
-            virtual ~SqlFiltersVisitor() {}
+                SqlFiltersVisitor(): m_temporary_result() {}
+                virtual ~SqlFiltersVisitor() {}
 
-            QString parse(const std::vector<IFilter::Ptr>& filters)
-            {
-                QString result;
-                const size_t s = filters.size();
-                bool nest_previous = true;
-                m_temporary_result = "";
-
-                for (size_t i = 0; i < s; i++)
+                QString parse(const std::vector<IFilter::Ptr>& filters)
                 {
-                    if (i > 0) // not first filter? Nest previous one
+                    QString result;
+                    const size_t s = filters.size();
+                    bool nest_previous = true;
+                    m_temporary_result = "";
+
+                    for (size_t i = 0; i < s; i++)
                     {
-                        if (nest_previous) //really nest?
+                        if (i > 0) // not first filter? Nest previous one
                         {
-                            result = "SELECT * FROM "
-                                     "( " + result + ") AS level_%1";
+                            if (nest_previous) //really nest?
+                            {
+                                result = "SELECT * FROM "
+                                         "( " + result + ") AS level_%1";
 
-                            result = result.arg(i);
+                                result = result.arg(i);
+                            }
                         }
-                    }
-                    else
-                    {
-                        result = "SELECT %1.id AS photos_id FROM %1";
-                        result = result.arg(TAB_PHOTOS);
+                        else
+                        {
+                            result = "SELECT %1.id AS photos_id FROM %1";
+                            result = result.arg(TAB_PHOTOS);
+                        }
+
+                        const size_t index = s - i - 1;
+                        m_temporary_result = "";
+                        filters[index]->visitMe(this);
+
+                        nest_previous = m_temporary_result.isEmpty() == false;
+                        result += m_temporary_result;
+                        m_temporary_result = "";
                     }
 
-                    const size_t index = s - i - 1;
-                    m_temporary_result = "";
-                    filters[index]->visitMe(this);
-
-                    nest_previous = m_temporary_result.isEmpty() == false;
-                    result += m_temporary_result;
-                    m_temporary_result = "";
+                    return result;
                 }
-
-                return result;
-            }
 
             private:
                 // IFilterVisitor interface
@@ -163,24 +163,24 @@ namespace Database
 
     struct ASqlBackend::Data
     {
-        QSqlDatabase m_db;
-        ASqlBackend* m_backend;
-        std::thread::id m_database_thread_id;
+            QSqlDatabase m_db;
+            ASqlBackend* m_backend;
+            std::thread::id m_database_thread_id;
 
-        Data(ASqlBackend* backend);
-        ~Data();
-        Data(const Data &) = delete;
-        Data& operator=(const Data &) = delete;
+            Data(ASqlBackend* backend);
+            ~Data();
+            Data(const Data &) = delete;
+            Data& operator=(const Data &) = delete;
 
-        bool exec(const QString& query, QSqlQuery* result) const;
-        bool exec(const SqlQuery& query, QSqlQuery* result) const;
-        bool createDB(const QString& dbName) const;
-        boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-        bool store(const PhotoInfo::Ptr& data);
-        PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &);
-        std::vector<TagNameInfo> listTags() const;
-        std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
-        QueryList getPhotos(const std::vector<IFilter::Ptr>& filter);
+            bool exec(const QString& query, QSqlQuery* result) const;
+            bool exec(const SqlQuery& query, QSqlQuery* result) const;
+            bool createDB(const QString& dbName) const;
+            boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
+            bool store(const PhotoInfo::Ptr& data);
+            PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &);
+            std::vector<TagNameInfo> listTags() const;
+            std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
+            QueryList getPhotos(const std::vector<IFilter::Ptr>& filter);
 
         private:
             friend struct StorePhoto;
@@ -272,6 +272,7 @@ namespace Database
 
         //create database if doesn't exists
         bool empty = query.next() == false;
+
         if (status && empty)
             status = exec(QString("CREATE DATABASE `%1`;").arg(dbName), &query);
 
@@ -295,9 +296,9 @@ namespace Database
         if (! tagId)  //tag not yet in database
         {
             const QString queryStr = QString("INSERT INTO %1 (id, name, type) VALUES (NULL, '%2', '%3');")
-                        .arg(TAB_TAG_NAMES)
-                        .arg(name)
-                        .arg(type);
+                                     .arg(TAB_TAG_NAMES)
+                                     .arg(name)
+                                     .arg(type);
 
             const bool status = exec(queryStr, &query);
 
@@ -353,7 +354,7 @@ namespace Database
         {
             QSqlQuery query(m_db);
             const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
-                                        .arg(*tagId);
+                                      .arg(*tagId);
 
             const bool status = exec(query_str, &query);
 
@@ -393,6 +394,7 @@ namespace Database
         const bool status = exec(find_tag_query, &query);
 
         boost::optional<unsigned int> result;
+
         if (status && query.next())
             result = query.value(0).toInt();
 
@@ -434,6 +436,7 @@ namespace Database
 
 
         ITagData::TagsList tagsList = tags->getTags();
+
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
             //store tag name
@@ -443,16 +446,17 @@ namespace Database
             {
                 //store tag values
                 const ITagData::ValuesSet& values = it->second;
+
                 for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
                 {
                     const TagValueInfo& valueInfo = *it_v;
 
                     const QString query_str =
                         QString("INSERT INTO " TAB_TAGS
-                                "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
-                                ).arg(valueInfo.value())
-                                 .arg(photo_id)
-                                 .arg(*tag_id);
+                                "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");")
+                        .arg(valueInfo.value())
+                        .arg(photo_id)
+                        .arg(*tag_id);
 
                     status = exec(query_str, &query);
                 }
@@ -501,6 +505,7 @@ namespace Database
         insertData.setValues(data->getPath().c_str(), data->getHash().c_str(), InsertQueryData::Value::CurrentTime);
 
         SqlQuery queryStrs;
+
         if (inserting)
         {
             insertData.setColumns("id");
@@ -590,9 +595,9 @@ namespace Database
                                    "%2 "
                                    "ON %2.id = %1.name_id "
                                    "WHERE %1.photo_id = '%3';")
-                                   .arg(TAB_TAGS)
-                                   .arg(TAB_TAG_NAMES)
-                                   .arg(photoId.value());
+                           .arg(TAB_TAGS)
+                           .arg(TAB_TAG_NAMES)
+                           .arg(photoId.value());
 
         const bool status = exec(queryStr, &query);
         TagData tagData;
@@ -722,10 +727,12 @@ namespace Database
 
         //create table 'name' if doesn't exist
         bool empty = query.next() == false;
+
         if (status && empty)
         {
             QString columnsDesc;
             const int size = definition.columns.size();
+
             for(int i = 0; i < size; i++)
             {
                 const bool notlast = i + 1 < size;
@@ -737,6 +744,7 @@ namespace Database
             if (status && definition.keys.empty() == false)
             {
                 const int keys = definition.keys.size();
+
                 for(int i = 0; status && i < keys; i++)
                 {
                     QString indexDesc;
@@ -848,6 +856,7 @@ namespace Database
             for (TableDefinition& table: tables)
             {
                 status = assureTableExists(table);
+
                 if (!status)
                     break;
             }
@@ -867,7 +876,7 @@ namespace Database
         if (status && rows == 0)
             status = m_data->exec(QString("INSERT INTO " TAB_VER_HIST "(version, date)"
                                           " VALUES(%1, CURRENT_TIMESTAMP);")
-                                         .arg(db_version), &query);
+                                  .arg(db_version), &query);
 
         //TODO: check last entry with current version
 
@@ -879,4 +888,4 @@ namespace Database
         return status;
     }
 
- }
+}
