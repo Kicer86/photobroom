@@ -433,7 +433,8 @@ namespace Database
         bool status = true;
 
         //remove all tags already attached to photo. TODO: maybe some inteligence here?
-
+        const QString deleteQuery = QString("DELETE FROM " TAB_TAGS " WHERE photo_id=\"%1\"").arg(photo_id);
+        status = exec(deleteQuery, &query);
 
         ITagData::TagsList tagsList = tags->getTags();
 
