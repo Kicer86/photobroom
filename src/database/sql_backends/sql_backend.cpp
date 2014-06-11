@@ -430,6 +430,9 @@ namespace Database
         QSqlQuery query(m_db);
         bool status = true;
 
+        //remove all tags already attached to photo. TODO: maybe some inteligence here?
+
+
         ITagData::TagsList tagsList = tags->getTags();
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
@@ -447,9 +450,9 @@ namespace Database
                     const QString query_str =
                         QString("INSERT INTO " TAB_TAGS
                                 "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");"
-                            ).arg(valueInfo.value())
-                            .arg(photo_id)
-                            .arg(*tag_id);
+                                ).arg(valueInfo.value())
+                                 .arg(photo_id)
+                                 .arg(*tag_id);
 
                     status = exec(query_str, &query);
                 }
