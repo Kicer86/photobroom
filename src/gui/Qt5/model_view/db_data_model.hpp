@@ -49,6 +49,8 @@ struct Hierarchy
 
 class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 {
+        Q_OBJECT
+
     public:
         DBDataModel(QObject* p);
         ~DBDataModel();
@@ -93,6 +95,12 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 
         //used by friends
         void idxUpdated(IdxData *);
+
+    private slots:
+        void dispatchIdxUpdate(IdxData *);
+
+    signals:
+        void dispatchUpdate(IdxData *);
 };
 
 #endif // DBDATAMODEL_H

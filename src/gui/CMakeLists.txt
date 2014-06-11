@@ -78,25 +78,10 @@ set(GUI_FILES_TO_MOC
     Qt5/components/tag_editor/tag_definition.hpp
     Qt5/components/tag_editor/tag_entry.hpp
     Qt5/components/tag_editor/ivalue_widget.hpp
+    Qt5/model_view/db_data_model.hpp
     )
 
 set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
-
-if(BUILD_TESTS)
-    addTestTarget(gui  SOURCES
-                           Qt5/data/photo_info_updater.cpp
-                           Qt5/model_view/idx_data.cpp
-                           Qt5/model_view/db_data_model.cpp
-                           tests/db_data_model_tests.cpp
-                       TEST_LIBRARY
-                           GMOCK
-       )
-    target_link_libraries(gui_test gui)
-    qt5_use_modules(gui_test Core)
-
-    turnOnCpp11(gui_test)
-endif(BUILD_TESTS)
-
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
@@ -113,3 +98,23 @@ turnOnCpp11(gui)
 hideSymbols(gui)
 
 install(TARGETS gui DESTINATION ${PATH_LIBS})
+
+if(BUILD_TESTS)
+
+    qt5_wrap_cpp(GUI_WRAPPED_CPP_FOR_TEST Qt5/model_view/db_data_model.hpp)
+
+    addTestTarget(gui  SOURCES
+                           Qt5/data/photo_info_updater.cpp
+                           Qt5/model_view/idx_data.cpp
+                           Qt5/model_view/db_data_model.cpp
+                           tests/db_data_model_tests.cpp
+                           ${GUI_WRAPPED_CPP_FOR_TEST}
+                       TEST_LIBRARY
+                           GMOCK
+       )
+    target_link_libraries(gui_test gui)
+    qt5_use_modules(gui_test Core)
+
+    turnOnCpp11(gui_test)
+endif(BUILD_TESTS)
+

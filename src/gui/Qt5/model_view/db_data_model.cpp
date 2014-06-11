@@ -241,13 +241,8 @@ struct DBDataModel::Impl
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl(this))
 {
-    // Register QVector of ints - required by queued signals.
-    // It is necessary, as model emits dataChanged() signal.
-    // And it may happen from various threads as IdxInfo will inform us about photo change,
-    // and photo updaters are run in threads.
-    // View classes will connect to dataChanged and will make sure it always come from main thread
-    // (gui operations are forbiden from non-main thread).
-    qRegisterMetaType<QVector<int>>("QVector<int>");
+    //used for moving notifications to main thread
+    connect(this, SIGNAL(dispatchUpdate(IdxData*)), this, SLOT(dispatchIdxUpdate(IdxData*)));
 }
 
 
@@ -377,9 +372,17 @@ QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 
 void DBDataModel::idxUpdated(IdxData* idxData)
 {
+    //make sure, we will move to main thread
+    emit dispatchUpdate(idxData);
+}
+
+
+void DBDataModel::dispatchIdxUpdate(IdxData* idxData)
+{
     QModelIndex idx = createIndex(idxData);
     emit dataChanged(idx, idx);
 
     PhotoInfo::Ptr photoInfo = idxData->m_photo;
     m_impl->updatePhotoInDB(photoInfo);
 }
+
