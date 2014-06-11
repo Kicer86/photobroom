@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <set>
+#include <thread>
 
 #include <boost/optional.hpp>
 
@@ -164,6 +165,7 @@ namespace Database
     {
         QSqlDatabase m_db;
         ASqlBackend* m_backend;
+        std::thread::id m_database_thread_id;
 
         Data(ASqlBackend* backend);
         ~Data();
@@ -224,7 +226,7 @@ namespace Database
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_db(), m_backend(backend) {}
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_db(), m_backend(backend), m_database_thread_id(std::this_thread::get_id()) {}
 
 
     ASqlBackend::Data::~Data()
@@ -235,6 +237,11 @@ namespace Database
 
     bool ASqlBackend::Data::exec(const QString& query, QSqlQuery* result) const
     {
+        // threads cannot be used with sql connections:
+        // http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
+        // make sure the same thread is used as at construction time.
+        assert(std::this_thread::get_id() == m_database_thread_id);
+
         const bool status = result->exec(query);
 
         if (status == false)
