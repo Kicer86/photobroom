@@ -71,7 +71,7 @@ class CORE_EXPORT PhotoInfo final
         Id getID() const;
 
         //status checking
-        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one.
+        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one (photo fully loaded)
         bool isHashLoaded() const;               // returns true if hash is not null
         bool isThumbnailLoaded() const;          // returns true if thumbnail is loaded
         bool areTagsLoaded() const;              // returns true is tags were loaded
