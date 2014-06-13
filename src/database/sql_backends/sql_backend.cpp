@@ -242,6 +242,8 @@ namespace Database
         // make sure the same thread is used as at construction time.
         assert(std::this_thread::get_id() == m_database_thread_id);
 
+        std::clog << query.toStdString() << std::endl;
+
         const bool status = result->exec(query);
 
         if (status == false)
@@ -574,7 +576,7 @@ namespace Database
         const TagData tagData = getTagsFor(id);
 
         std::shared_ptr<ITagData> tags = photoInfo->getTags();
-        tags->setTags(tags->getTags());
+        tags->setTags(tagData.getTags());
 
         //load thumbnail
         const QPixmap thumbnail= getThumbnailFor(id);
