@@ -2,8 +2,6 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
-- Model: filter out top level groups without any children
-- Staging Model: automatically move added photos to right posistions
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - core: make photos tagger a new task
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
@@ -14,6 +12,8 @@ TODO:
 - use more smart tags updating
 
 IN PROGRESS:
+- Model: filter out top level groups without any children
+- Staging Model: automatically move added photos to right posistions
 
 DONE:
 - PhotoInfo: review and refactor flags structs
