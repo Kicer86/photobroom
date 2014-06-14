@@ -28,9 +28,9 @@ namespace Database
 
         ~Data() { }
 
-        bool m_initialized;
         MySqlServer m_server;
-        const char* m_dbName;
+		const char* m_dbName;
+		bool m_initialized;
     };
 
 
@@ -159,6 +159,8 @@ namespace Database
     SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &)
     {
         assert(!"not implemented");
+
+		return SqlQuery();
     }
 
 }

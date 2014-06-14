@@ -37,8 +37,8 @@ namespace Database
             GenericSqlQueryConstructor& operator=(const GenericSqlQueryConstructor &) = delete;
 
         protected:
-            virtual SqlQuery insert(const InsertQueryData&);
-            virtual SqlQuery update(const UpdateQueryData&);
+            virtual SqlQuery insert(const InsertQueryData &);
+            virtual SqlQuery update(const UpdateQueryData &);
     };
 
 }

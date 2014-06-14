@@ -11,7 +11,7 @@
 
 namespace Database
 {
-    class TableDefinition;
+    struct TableDefinition;
     extern TableDefinition tables[6];
     extern const char db_version[];
 }

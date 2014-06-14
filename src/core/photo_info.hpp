@@ -34,9 +34,9 @@ class CORE_EXPORT PhotoInfo final
             bool valid() const;
             type value() const;
 
-            private:
+			private:
+				type m_value;
                 bool m_valid;
-                type m_value;
         };
 
         struct IObserver
@@ -62,6 +62,8 @@ class CORE_EXPORT PhotoInfo final
         PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
+
+		PhotoInfo& operator=(const PhotoInfo &) = delete;
 
         //data getting
         const std::string& getPath() const;

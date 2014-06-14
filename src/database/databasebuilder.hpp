@@ -51,6 +51,7 @@ namespace Database
             std::unique_ptr<Impl> m_impl;
 
             Builder();
+			Builder& operator=(const Builder &) = delete;
     };
 }
 

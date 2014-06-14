@@ -51,8 +51,8 @@ private:
     QFileSystemWatcher* m_watcher;
     QString m_socketPath;
     QTimer* m_timer;
-    bool m_timeout;
-    QEventLoop* m_eventLoop;
+	QEventLoop* m_eventLoop;
+	bool m_timeout;
 
     void eventOccured();
 };

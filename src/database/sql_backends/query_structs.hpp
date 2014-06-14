@@ -2,14 +2,14 @@
 #ifndef DATABASE_QUERY_STRUCTS_HPP
 #define DATABASE_QUERY_STRUCTS_HPP
 
-#include "sql_backend_base_export.h"
-
 #include <memory>
 #include <deque>
 
 #include <QString>
 
 #include <utils/data_ptr.hpp>
+
+#include "sql_backend_base_export.h"
 
 class QStringList;
 
