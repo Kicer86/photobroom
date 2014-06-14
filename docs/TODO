@@ -14,12 +14,12 @@ TODO:
 - use more smart tags updating
 
 IN PROGRESS:
-- database: react properly when photo already in database (updating photo)
-- divide ASqlBackend into at least two smaller: one - implementation for IBackend, second, for SqlQueries builders
-- core: PhotoInfo should store information about which data have been loaded and which not. Even empty photo should be stored in database and updated on every change
 
 DONE:
 - PhotoInfo: review and refactor flags structs
 - gui: 'save photos' button must switch 'staging area' flag
+- database: react properly when photo already in database (updating photo)
+- divide ASqlBackend into at least two smaller: one - implementation for IBackend, second, for SqlQueries builders
+- core: PhotoInfo should store information about which data have been loaded and which not. Even empty photo should be stored in database and updated on every change
 
 DROPPED:
