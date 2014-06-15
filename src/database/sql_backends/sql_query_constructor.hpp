@@ -11,8 +11,8 @@
 namespace Database
 {
 
-    struct InsertQueryData;
-    struct UpdateQueryData;
+    class InsertQueryData;
+    class UpdateQueryData;
 
     struct SQL_BACKEND_BASE_EXPORT SqlQuery
     {
