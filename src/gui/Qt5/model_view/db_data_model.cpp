@@ -90,7 +90,7 @@ struct DBDataModel::Impl
         }
         else if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
         {
-            std::vector<Database::IFilter::Ptr> filter;
+            std::deque<Database::IFilter::Ptr> filter;
             buildFilterFor(_parent, &filter);
             buildExtraFilters(&filter);
 
@@ -218,7 +218,7 @@ struct DBDataModel::Impl
             return result;
         }
 
-        void buildFilterFor(const QModelIndex& _parent, std::vector<Database::IFilter::Ptr>* filter)
+        void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
         {
             IdxData* idxData = getParentIdxDataFor(_parent);
 
@@ -228,7 +228,7 @@ struct DBDataModel::Impl
                 buildFilterFor(_parent.parent(), filter);
         }
 
-        void buildExtraFilters(std::vector<Database::IFilter::Ptr>* filter) const
+        void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
         {
             const auto modelSpecificFilters = m_root.m_model->getModelSpecificFilters();
             filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());

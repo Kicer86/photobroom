@@ -47,7 +47,7 @@ namespace Database
         virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;            //list all values of provided tag
         virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual QueryList getAllPhotos() = 0;                                             //list all photos
-        virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) = 0;               //list all photos matching filter
+        virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //list all photos matching filter
         virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;                       //get particulat photo
 
         //init backend - connect to database or create new one

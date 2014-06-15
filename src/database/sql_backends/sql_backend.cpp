@@ -82,7 +82,7 @@ namespace Database
                 SqlFiltersVisitor(): m_temporary_result() {}
                 virtual ~SqlFiltersVisitor() {}
 
-                QString parse(const std::vector<IFilter::Ptr>& filters)
+                QString parse(const std::deque<IFilter::Ptr>& filters)
                 {
                     QString result;
                     const size_t s = filters.size();
@@ -180,13 +180,14 @@ namespace Database
             PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &);
             std::vector<TagNameInfo> listTags() const;
             std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
-            QueryList getPhotos(const std::vector<IFilter::Ptr>& filter);
+            std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            QueryList getPhotos(const std::deque<IFilter::Ptr>& filter);
 
         private:
             friend struct StorePhoto;
 
             boost::optional<unsigned int> findTagByName(const QString& name) const;
-            QString generateFilterQuery(const std::vector<IFilter::Ptr>& filter);
+            QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
             bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
@@ -373,7 +374,23 @@ namespace Database
     }
 
 
-    QueryList ASqlBackend::Data::getPhotos(const std::vector<IFilter::Ptr>& filter)
+    std::deque<TagValueInfo> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    {
+        const QString queryStr = generateFilterQuery(filter);
+
+        QSqlQuery query(m_db);
+
+        exec(queryStr, &query);
+        SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
+        InterfaceContainer<IQuery> container(dbQuery);
+
+        std::deque<TagValueInfo>  result;
+
+        return result;
+    }
+
+
+    QueryList ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         const QString queryStr = generateFilterQuery(filter);
 
@@ -404,7 +421,7 @@ namespace Database
     }
 
 
-    QString ASqlBackend::Data::generateFilterQuery(const std::vector<IFilter::Ptr>& filters)
+    QString ASqlBackend::Data::generateFilterQuery(const std::deque<IFilter::Ptr>& filters)
     {
         SqlFiltersVisitor visitor;
         const QString result = visitor.parse(filters);
@@ -831,20 +848,22 @@ namespace Database
     }
 
 
-    std::deque<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &)
+    std::deque<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        return std::deque<TagValueInfo>();
+        std::deque<TagValueInfo> result = m_data->listTagValues(tagName, filter);
+
+        return result;
     }
 
 
     QueryList ASqlBackend::getAllPhotos()
     {
-        std::vector<IFilter::Ptr> emptyList;
-        return m_data->getPhotos(emptyList);  //like getPhotos but without any filters
+        std::deque<IFilter::Ptr> emptyFilter;
+        return m_data->getPhotos(emptyFilter);  //like getPhotos but without any filters
     }
 
 
-    QueryList ASqlBackend::getPhotos(const std::vector<IFilter::Ptr>& filter)
+    QueryList ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotos(filter);
     }
