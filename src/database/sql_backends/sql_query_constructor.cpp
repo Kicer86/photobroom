@@ -4,13 +4,13 @@
 namespace Database
 {
 
-    SqlQuery::SqlQuery()
+    SqlQuery::SqlQuery(): m_queries()
     {
 
     }
 
 
-    SqlQuery::SqlQuery(const QString& query)
+    SqlQuery::SqlQuery(const QString& query): m_queries()
     {
         addQuery(query);
     }

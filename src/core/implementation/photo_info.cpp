@@ -13,13 +13,13 @@
 #include "task_executor.hpp"
 
 
-PhotoInfo::Id::Id(): m_valid(false), m_value(0)
+PhotoInfo::Id::Id(): m_value(0), m_valid(false)
 {
 
 }
 
 
-PhotoInfo::Id::Id(PhotoInfo::Id::type v): m_valid(true), m_value(v)
+PhotoInfo::Id::Id(PhotoInfo::Id::type v): m_value(v), m_valid(true)
 {
 
 }

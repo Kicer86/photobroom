@@ -172,8 +172,8 @@ DiskObserver::DiskObserver(const QString &socketPath):
     m_watcher(new QFileSystemWatcher),
     m_socketPath(socketPath),
     m_timer(new QTimer),
-    m_timeout(false),
-    m_eventLoop(new QEventLoop)
+    m_eventLoop(new QEventLoop),
+    m_timeout(false)
 {
     const QFileInfo socketFile(socketPath);
     const QString socketDir = socketFile.absolutePath();

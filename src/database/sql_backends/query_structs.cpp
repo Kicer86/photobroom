@@ -99,7 +99,7 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    UpdateQueryData::UpdateQueryData(const char* name): InsertQueryData(name)
+    UpdateQueryData::UpdateQueryData(const char* name): InsertQueryData(name), m_condition()
     {
 
     }
