@@ -376,15 +376,29 @@ namespace Database
 
     std::deque<TagValueInfo> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        const QString queryStr = generateFilterQuery(filter);
+        const QString filterQuery = generateFilterQuery(filter);
+
+        //from filtered photos, get info about tags used there
+        QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) JOIN %2, %3 ON photos_id=%2.photo_id AND %3.id=%2.name_id WHERE name='%4'";
+
+        queryStr = queryStr.arg(filterQuery);
+        queryStr = queryStr.arg(TAB_TAGS);
+        queryStr = queryStr.arg(TAB_TAG_NAMES);
+        queryStr = queryStr.arg(tagName.getName());
 
         QSqlQuery query(m_db);
 
-        exec(queryStr, &query);
-        SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
-        InterfaceContainer<IQuery> container(dbQuery);
-
         std::deque<TagValueInfo>  result;
+        const bool status = exec(queryStr, &query);
+
+        if (status)
+            while (status && query.next())
+            {
+                const QString value = query.value(0).toString();
+
+                TagValueInfo valueInfo(value);
+                result.push_back(valueInfo);
+            }
 
         return result;
     }
