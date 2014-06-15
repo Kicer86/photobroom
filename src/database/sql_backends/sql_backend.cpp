@@ -388,7 +388,7 @@ namespace Database
 
         QSqlQuery query(m_db);
 
-        std::deque<TagValueInfo>  result;
+        std::deque<TagValueInfo> result;
         const bool status = exec(queryStr, &query);
 
         if (status)
