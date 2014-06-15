@@ -74,7 +74,7 @@ struct DBDataModel::Impl
 
         if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
         {
-            std::set<TagValueInfo> tags = getLevelInfo(level + 1, _parent);
+            std::deque<TagValueInfo> tags = getLevelInfo(level + 1, _parent);
 
             for(const TagValueInfo& tag: tags)
             {
@@ -202,17 +202,20 @@ struct DBDataModel::Impl
     Database::PhotoIterator m_iterator;
 
     private:
-        //function returns set of tags on particular 'level' for 'parent'
-        std::set<TagValueInfo> getLevelInfo(size_t level, const QModelIndex &)
+        //function returns list of tags on particular 'level' for 'parent'
+        std::deque<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
         {
-            std::set<TagValueInfo> result;
+            std::deque<TagValueInfo> result;
 
             if (level <= m_hierarchy.levels.size())
             {
-                const TagNameInfo& tagNameInfo = m_hierarchy.levels[level - 1].tagName;
+                std::deque<Database::IFilter::Ptr> filter;
 
-                if (level == 1)
-                    result = m_backend->listTagValues(tagNameInfo);
+                const TagNameInfo& tagNameInfo = m_hierarchy.levels[level - 1].tagName;
+                buildFilterFor(_parent, &filter);
+                buildExtraFilters(&filter);
+
+                result = m_backend->listTagValues(tagNameInfo, filter);
             }
 
             return result;
