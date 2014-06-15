@@ -6,7 +6,7 @@
 
 TEST(TagDataShould, beConstructable)
 {
-	TagData data;
+    TagData data;
 }
 
 
@@ -72,8 +72,8 @@ TEST(TagDataCompositeShould, fillItsMinions)
     TagDataComposite data;
 
     std::shared_ptr<TagData> minion1(std::make_shared<TagData>()),
-                             minion2(std::make_shared<TagData>()),
-                             minion3(std::make_shared<TagData>());
+        minion2(std::make_shared<TagData>()),
+        minion3(std::make_shared<TagData>());
 
     data.setTagDatas( {minion1, minion2, minion3} );
     data.setTag( TagNameInfo("name", TagNameInfo::Text), TagValueInfo("value") );
@@ -100,8 +100,8 @@ TEST(TagDataCompositeShould, getTagsFromMinionsWhenAllDataAreTheSame)
     TagDataComposite data;
 
     std::shared_ptr<TagData> minion1(std::make_shared<TagData>()),
-                             minion2(std::make_shared<TagData>()),
-                             minion3(std::make_shared<TagData>());
+        minion2(std::make_shared<TagData>()),
+        minion3(std::make_shared<TagData>());
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
@@ -120,8 +120,8 @@ TEST(TagDataCompositeShould, getOnlyCommonPartOfMinions)
     TagDataComposite data;
 
     std::shared_ptr<TagData> minion1(std::make_shared<TagData>()),
-                             minion2(std::make_shared<TagData>()),
-                             minion3(std::make_shared<TagData>());
+        minion2(std::make_shared<TagData>()),
+        minion3(std::make_shared<TagData>());
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
@@ -157,8 +157,8 @@ TEST(TagDataCompositeShould, ReturnMergedValuesForCommonTagsWithDifferentValues)
     TagDataComposite data;
 
     std::shared_ptr<TagData> minion1(std::make_shared<TagData>()),
-                             minion2(std::make_shared<TagData>()),
-                             minion3(std::make_shared<TagData>());
+        minion2(std::make_shared<TagData>()),
+        minion3(std::make_shared<TagData>());
 
     data.setTagDatas( {minion1, minion2, minion3} );
 
@@ -202,8 +202,8 @@ TEST(TagDataCompositeShould, beClearable)
     TagDataComposite data;
 
     std::shared_ptr<TagData> minion1(std::make_shared<TagData>()),
-                             minion2(std::make_shared<TagData>()),
-                             minion3(std::make_shared<TagData>());
+        minion2(std::make_shared<TagData>()),
+        minion3(std::make_shared<TagData>());
 
     data.setTagDatas( {minion1, minion2, minion3} );
 

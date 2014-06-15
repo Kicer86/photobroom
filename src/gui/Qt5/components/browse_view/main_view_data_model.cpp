@@ -40,7 +40,7 @@ std::vector<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters()
     auto filter = std::make_shared<Database::FilterFlags>();
     filter->stagingArea = false;
 
-    const std::vector<Database::IFilter::Ptr> result({filter});
+    const std::vector<Database::IFilter::Ptr> result( {filter});
 
     return result;
 }

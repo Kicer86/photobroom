@@ -20,7 +20,7 @@ class ImagesTreeView;
 
 struct BrowseLine: public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         BrowseLine(QWidget *);

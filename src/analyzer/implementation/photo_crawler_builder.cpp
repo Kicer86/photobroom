@@ -17,15 +17,15 @@ PhotoCrawlerBuilder::~PhotoCrawlerBuilder()
 std::shared_ptr<IPhotoCrawler> PhotoCrawlerBuilder::build()
 {
     auto analyzer = std::make_shared<FileAnalyzer>();
-    
+
     //add subanalyzers
     analyzer->registerAnalyzer(new Ext_DefaultAnalyzer);
-    
+
     //file system scanner
     auto scanner = std::make_shared<FileSystemScanner>();
-    
-    //build crawler
-	auto crawler = std::make_shared<PhotoCrawler>(scanner, analyzer);
 
-	return crawler;
+    //build crawler
+    auto crawler = std::make_shared<PhotoCrawler>(scanner, analyzer);
+
+    return crawler;
 }

@@ -20,7 +20,7 @@
 #include "task_executor.hpp"
 
 #ifdef USE_OPENMP
-    #include <omp.h>
+#include <omp.h>
 #endif
 
 #include <thread>
@@ -49,10 +49,10 @@ static void trampoline(TaskExecutor *);
 
 struct TaskExecutor: public ITaskExecutor
 {
-    TaskExecutor();
-    virtual ~TaskExecutor();
+        TaskExecutor();
+        virtual ~TaskExecutor();
 
-    virtual void add(const std::shared_ptr<ITask> &);
+        virtual void add(const std::shared_ptr<ITask> &);
 
     private:
         TS_Queue<std::shared_ptr<ITask>> m_tasks;

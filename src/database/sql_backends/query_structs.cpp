@@ -77,12 +77,20 @@ namespace Database
     void InsertQueryData::addValue(InsertQueryData::Value value)
     {
         QString v;
+
         switch(value)
         {
-            case Value::CurrentTime: v = "CURRENT_TIMESTAMP"; break;
-            case Value::Null:        v = "NULL";              break;
+            case Value::CurrentTime:
+                v = "CURRENT_TIMESTAMP";
+                break;
 
-            default: assert(!"???");
+            case Value::Null:
+                v = "NULL";
+                break;
+
+            default
+                    :
+                assert(!"???");
         }
 
         m_data->m_args--;

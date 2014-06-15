@@ -11,9 +11,9 @@ TEST(MapIntersectionShould, returnNullWhenOneMapIsNull)
     m1[0] = 1;
     m1[1] = 2;
     m1[2] = 3;
-    
+
     auto result = Algo::map_intersection<int>(m1, m2);
-    
+
     ASSERT_EQ(0, result.size());
 }
 
@@ -103,17 +103,17 @@ TEST(MapIntersectionShould, returnAllPossibleValuesForMergedKeys)
 
     //make sure there is only one entry
     ASSERT_EQ(1, result.size());
-    
+
     auto firstItem = *result.begin();
     ASSERT_EQ(3, firstItem.second.size());
-    
+
     auto it = firstItem.second.begin();
-    
+
     ASSERT_EQ(101, *it);
-    
+
     ++it;
     ASSERT_EQ(201, *it);
-    
+
     ++it;
     ASSERT_EQ(301, *it);
 }

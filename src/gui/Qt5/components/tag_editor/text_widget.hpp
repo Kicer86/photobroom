@@ -33,16 +33,16 @@ class TextWidget: public IValueWidget
         TextWidget();
         TextWidget(const TextWidget &) = delete;
         virtual ~TextWidget();
-        
+
         TextWidget& operator=(const TextWidget &) = delete;
-        
+
         //IValueWidget:
         virtual QWidget* getWidget() override;
         virtual QString getValue() const override;
         virtual void clear() override;
         virtual void setParent(QWidget* ) override;
         virtual void setValue(const QString& ) override;
-        
+
     private:
         QLineEdit* m_lineEdit;
 };

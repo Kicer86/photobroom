@@ -92,6 +92,7 @@ std::string HashFunctions::md5(std::istream& stream)
 std::string HashFunctions::format(unsigned char* raw, int len)
 {
     std::stringstream ss;
+
     for(int i = 0; i < len; i++)
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(raw[i]);
 

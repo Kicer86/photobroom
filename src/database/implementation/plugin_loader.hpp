@@ -28,7 +28,7 @@ namespace Database
 {
     struct IPlugin;
 
-	class DATABASE_EXPORT PluginLoader
+    class DATABASE_EXPORT PluginLoader
     {
         public:
             PluginLoader();

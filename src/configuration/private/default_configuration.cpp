@@ -91,19 +91,19 @@ bool DefaultConfiguration::load()
 std::string DefaultConfiguration::getXml()
 {
     const std::string baseConfig =
-    "<configuration>"
+        "<configuration>"
 
-    "    <!-- introduce known configuration keys -->"
-    "    <keys>"
-    "        <key name='" + std::string(Configuration::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
-    "    </keys>"
+        "    <!-- introduce known configuration keys -->"
+        "    <keys>"
+        "        <key name='" + std::string(Configuration::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+        "    </keys>"
 
-    "    <!-- default values -->"
-    "    <defaults>"
-    "        <key name='" + std::string(Configuration::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
-    "    </defaults>"
+        "    <!-- default values -->"
+        "    <defaults>"
+        "        <key name='" + std::string(Configuration::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+        "    </defaults>"
 
-    "</configuration>";
+        "</configuration>";
 
     return baseConfig;
 }

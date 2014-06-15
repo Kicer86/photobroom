@@ -30,84 +30,85 @@ namespace Configuration
 
     struct ConfigurationKey::Data
     {
-        Data(): m_key()
-        {
-
-        }
-
-        Data(const std::string& key): m_key(key)
-        {
-        }
-
-        Data(const QString& key): m_key(key.toStdString())
-        {
-        }
-
-        void setKey(const std::string& raw)
-        {
-            m_key = raw;
-        }
-
-        void setKey(const std::vector<std::string>& key)
-        {
-            m_key = convert(key);
-        }
-
-        std::string getKeyRaw() const
-        {
-            return m_key;
-        }
-
-        std::vector<std::string> getKey() const
-        {
-            return convert(m_key);
-        }
-
-        static std::vector<std::string> convert(const std::string& raw)
-        {
-            char *rawData = new char[raw.size() + 1];
-            strcpy(rawData, raw.c_str());
-
-            std::vector<char *> pointers;
-            size_t first_pos = 0, i = 0;
-
-            while (i <= raw.size())
+            Data(): m_key()
             {
-                if (rawData[i] == ':' || rawData[i] == '\0')     // ':' means that '::' goes
+
+            }
+
+            Data(const std::string& key): m_key(key)
+            {
+            }
+
+            Data(const QString& key): m_key(key.toStdString())
+            {
+            }
+
+            void setKey(const std::string& raw)
+            {
+                m_key = raw;
+            }
+
+            void setKey(const std::vector<std::string>& key)
+            {
+                m_key = convert(key);
+            }
+
+            std::string getKeyRaw() const
+            {
+                return m_key;
+            }
+
+            std::vector<std::string> getKey() const
+            {
+                return convert(m_key);
+            }
+
+            static std::vector<std::string> convert(const std::string& raw)
+            {
+                char *rawData = new char[raw.size() + 1];
+                strcpy(rawData, raw.c_str());
+
+                std::vector<char *> pointers;
+                size_t first_pos = 0, i = 0;
+
+                while (i <= raw.size())
                 {
-                    rawData[i++] = '\0';
-                    i++;                     // jump over first and second ':'
+                    if (rawData[i] == ':' || rawData[i] == '\0')     // ':' means that '::' goes
+                    {
+                        rawData[i++] = '\0';
+                        i++;                     // jump over first and second ':'
 
-                    pointers.push_back(&rawData[first_pos]);  //save current string
-                    first_pos = i;                            //mark first char of next one
+                        pointers.push_back(&rawData[first_pos]);  //save current string
+                        first_pos = i;                            //mark first char of next one
+                    }
+                    else
+                        i++;
                 }
-                else
-                    i++;
+
+                std::vector<std::string> result(pointers.size());
+
+                for (size_t j = 0; j < pointers.size(); j++)
+                    result[j] = pointers[j];
+
+                delete [] rawData;
+
+                return result;
             }
 
-            std::vector<std::string> result(pointers.size());
-            for (size_t j = 0; j < pointers.size(); j++)
-                result[j] = pointers[j];
-
-            delete [] rawData;
-
-            return result;
-        }
-
-        static std::string convert(const std::vector<std::string>& key)
-        {
-            std::string result;
-
-            for(size_t i = 0; i < key.size(); i++)
+            static std::string convert(const std::vector<std::string>& key)
             {
-                result += key[i];
+                std::string result;
 
-                if (i + 1 < key.size())
-                    result += "::";
+                for(size_t i = 0; i < key.size(); i++)
+                {
+                    result += key[i];
+
+                    if (i + 1 < key.size())
+                        result += "::";
+                }
+
+                return result;
             }
-
-            return result;
-        }
 
         private:
             std::string m_key;

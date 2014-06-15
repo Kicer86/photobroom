@@ -38,7 +38,7 @@ namespace Database
             std::unique_ptr<Data> m_data;
     };
 
-    
+
     class DATABASE_SQLITE_BACKEND_EXPORT SQLitePlugin final: public QObject, public IPlugin
     {
             Q_OBJECT

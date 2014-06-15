@@ -33,25 +33,25 @@ namespace Database
     struct IFrontend;
 
     //configuration keys for databases
-	extern DATABASE_EXPORT const char* databaseLocation;
+    extern DATABASE_EXPORT const char* databaseLocation;
 
     struct DATABASE_EXPORT Builder
     {
-        virtual ~Builder();
+            virtual ~Builder();
 
-        static Builder* instance();
+            static Builder* instance();
 
-		void initConfig();
-        IBackend* getBackend();  //always the same backend is returned
+            void initConfig();
+            IBackend* getBackend();  //always the same backend is returned
 
-        void closeAll();
+            void closeAll();
 
         private:
             struct Impl;
             std::unique_ptr<Impl> m_impl;
 
             Builder();
-			Builder& operator=(const Builder &) = delete;
+            Builder& operator=(const Builder &) = delete;
     };
 }
 

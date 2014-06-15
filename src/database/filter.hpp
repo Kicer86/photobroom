@@ -58,7 +58,7 @@ namespace Database
     };
 
     struct DATABASE_EXPORT FilterDescription: IFilter
-    {        
+    {
         FILTER_COMMAND
 
         QString tagName;

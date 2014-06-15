@@ -29,9 +29,9 @@ class Ext_DefaultAnalyzer : public IAnalyzer
     public:
         Ext_DefaultAnalyzer();
         virtual ~Ext_DefaultAnalyzer();
-                
+
         virtual bool isImage(const std::string& );
-        
+
     private:
         Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &) = delete;
         virtual Ext_DefaultAnalyzer& operator=(const Ext_DefaultAnalyzer &) = delete;

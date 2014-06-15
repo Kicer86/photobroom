@@ -10,14 +10,14 @@
 struct NullFeeder: public ITagFeeder
 {
     virtual std::unique_ptr<ITagData> getTagsFor(const std::string &) final
-    {        
+    {
         //return empty set
         return std::unique_ptr<ITagData>(new TagData);
     }
-    
+
     virtual void update(ITagData *, const std::string &) final
     {
-        
+
     }
 };
 
@@ -25,13 +25,14 @@ struct NullFeeder: public ITagFeeder
 std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 {
     static std::shared_ptr<ITagFeeder> result;
-    
+
     if (result.get() == nullptr)
 #ifdef USE_EXIV
         result.reset(new ExifTagFeeder);
+
 #else
         result.reset(new NullFeeder);
 #endif
-        
+
     return result;
 }

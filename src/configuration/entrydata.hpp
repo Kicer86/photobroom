@@ -55,7 +55,7 @@ namespace Configuration
             data_ptr<Data> m_data;
     };
 
-	class CONFIGURATION_EXPORT EntryData
+    class CONFIGURATION_EXPORT EntryData
     {
         public:
             EntryData();

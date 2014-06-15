@@ -17,7 +17,7 @@ class CORE_EXPORT ExifTagFeeder: public ITagFeeder
 
         virtual std::unique_ptr<ITagData> getTagsFor(const std::string& path) override;
         virtual void update(ITagData *, const std::string& path) override;
-        
+
     private:
         void feed(const std::string& path, ITagData *);
 };

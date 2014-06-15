@@ -54,7 +54,7 @@ namespace Database
             }
 
             virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
-                                                              std::ios_base::openmode mode) override
+                    std::ios_base::openmode mode) override
             {
                 auto stream = std::make_shared<std::fstream>();
 
@@ -103,7 +103,7 @@ namespace Database
         std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
         PluginLoader backendBuilder;
-		ConfigurationInitializer configInitializer;
+        ConfigurationInitializer configInitializer;
 
         //bavkend type
         enum Type
@@ -145,11 +145,11 @@ namespace Database
     }
 
 
-	void Builder::initConfig()
-	{
-		std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-		config->registerInitializer(&m_impl->configInitializer);
-	}
+    void Builder::initConfig()
+    {
+        std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+        config->registerInitializer(&m_impl->configInitializer);
+    }
 
 
     IBackend* Builder::getBackend()

@@ -16,13 +16,13 @@ namespace Database
 
     struct SQL_BACKEND_BASE_EXPORT SqlQuery
     {
-        SqlQuery();
-        SqlQuery(const QString &);
-        ~SqlQuery();
+            SqlQuery();
+            SqlQuery(const QString &);
+            ~SqlQuery();
 
-        void addQuery(const QString &);
+            void addQuery(const QString &);
 
-        const std::vector<QString>& getQueries() const;
+            const std::vector<QString>& getQueries() const;
 
         private:
             std::vector<QString> m_queries;

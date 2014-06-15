@@ -27,9 +27,9 @@
 
 namespace
 {
-    const boost::regex ext_regex("\\.jpe?g", boost::regex_constants::ECMAScript | 
-                                             boost::regex::icase | 
-                                             boost::regex::optimize);
+    const boost::regex ext_regex("\\.jpe?g", boost::regex_constants::ECMAScript |
+                                 boost::regex::icase |
+                                 boost::regex::optimize);
 }
 
 
@@ -47,10 +47,10 @@ Ext_DefaultAnalyzer::~Ext_DefaultAnalyzer()
 
 bool Ext_DefaultAnalyzer::isImage(const std::string &file_path)
 {
-    boost::filesystem::path path(file_path);    
-    const std::string ext = path.extension().string();    
+    boost::filesystem::path path(file_path);
+    const std::string ext = path.extension().string();
     const bool matches = boost::regex_match(ext, ext_regex);
-    
+
     return matches;
 }
 

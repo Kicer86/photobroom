@@ -47,10 +47,10 @@ TEST(PhotoIteratorShould, beAbleToMoveToNextPhotoBasingOnPhotoId)
 
     //called three times on each of rows
     EXPECT_CALL(*static_cast<MockQuery *>(*queryContainer), getId())
-        .Times(3)
-        .WillOnce(Return(PhotoInfo::Id(1)))
-        .WillOnce(Return(PhotoInfo::Id(1)))
-        .WillOnce(Return(PhotoInfo::Id(2)));
+    .Times(3)
+    .WillOnce(Return(PhotoInfo::Id(1)))
+    .WillOnce(Return(PhotoInfo::Id(1)))
+    .WillOnce(Return(PhotoInfo::Id(2)));
 
     //Database::PhotoIterator photoIt(queryContainer);
 

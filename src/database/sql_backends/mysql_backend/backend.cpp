@@ -29,8 +29,8 @@ namespace Database
         ~Data() { }
 
         MySqlServer m_server;
-		const char* m_dbName;
-		bool m_initialized;
+        const char* m_dbName;
+        bool m_initialized;
     };
 
 
@@ -160,7 +160,7 @@ namespace Database
     {
         assert(!"not implemented");
 
-		return SqlQuery();
+        return SqlQuery();
     }
 
 }

@@ -71,6 +71,7 @@ namespace Database
         QString assigments;
         assert(columns.size() == values.size());
         const int s = std::min(columns.size(), values.size());
+
         for(int i = 0; i < s; i++)
         {
             assigments += columns[i] + "=" + values[i];

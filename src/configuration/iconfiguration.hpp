@@ -36,7 +36,7 @@ namespace Configuration
 
     //Base configuration keys
     extern CONFIGURATION_EXPORT const char* configLocation;       //application dir with configuration,
-                                                                  //databases etc
+    //databases etc
 
     struct IInitializer
     {

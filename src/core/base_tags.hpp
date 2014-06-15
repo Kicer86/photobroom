@@ -38,8 +38,8 @@ enum class BaseTagsList
 
 class CORE_EXPORT BaseTags
 {
-    static std::map<BaseTagsList, TagNameInfo> m_base_tags;
-    static std::vector<TagNameInfo> collectTags();
+        static std::map<BaseTagsList, TagNameInfo> m_base_tags;
+        static std::vector<TagNameInfo> collectTags();
 
     public:
         BaseTags() = delete;

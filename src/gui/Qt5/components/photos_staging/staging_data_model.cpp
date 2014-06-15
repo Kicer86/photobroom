@@ -66,7 +66,7 @@ std::vector<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() 
     auto filter = std::make_shared<Database::FilterFlags>();
     filter->stagingArea = true;
 
-    const std::vector<Database::IFilter::Ptr> result({filter});
+    const std::vector<Database::IFilter::Ptr> result( {filter});
 
     return result;
 }

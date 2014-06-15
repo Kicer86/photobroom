@@ -27,11 +27,11 @@ namespace
 
 std::string System::getApplicationConfigDir()
 {
-   std::string result(getenv("HOME"));
+    std::string result(getenv("HOME"));
 
-   result += "/.config/broom";
+    result += "/.config/broom";
 
-   return result;
+    return result;
 }
 
 
@@ -45,6 +45,7 @@ std::string System::findProgram(const std::string& name)
     const bool matches = boost::regex_match(result.c_str(), results, regex);
 
     std::string path;
+
     if (matches)
         path = results[1].str();
 

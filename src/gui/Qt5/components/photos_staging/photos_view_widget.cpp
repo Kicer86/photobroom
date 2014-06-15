@@ -108,7 +108,7 @@ PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullpt
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this,
             SLOT(selectionChanged())
-            );
+           );
 }
 
 

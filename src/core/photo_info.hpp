@@ -20,22 +20,22 @@ class CORE_EXPORT PhotoInfo final
         typedef std::shared_ptr<PhotoInfo> Ptr;
         typedef std::string Hash;                // Hash is hash of photo's file
 
-		struct CORE_EXPORT Id
+        struct CORE_EXPORT Id
         {
-            typedef int type;
+                typedef int type;
 
-            Id();
-            explicit Id(type);
-            Id(const Id &) = default;
+                Id();
+                explicit Id(type);
+                Id(const Id &) = default;
 
-            Id& operator=(const Id &) = default;
-            operator type() const;
-            bool operator!() const;
-            bool valid() const;
-            type value() const;
+                Id& operator=(const Id &) = default;
+                operator type() const;
+                bool operator!() const;
+                bool valid() const;
+                type value() const;
 
-			private:
-				type m_value;
+            private:
+                type m_value;
                 bool m_valid;
         };
 
@@ -63,7 +63,7 @@ class CORE_EXPORT PhotoInfo final
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
-		PhotoInfo& operator=(const PhotoInfo &) = delete;
+        PhotoInfo& operator=(const PhotoInfo &) = delete;
 
         //data getting
         const std::string& getPath() const;

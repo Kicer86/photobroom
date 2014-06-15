@@ -85,7 +85,7 @@ namespace Database
             {
                 m_data.reset(other->clone());
 
-				return *this;
+                return *this;
             }
 
         private:

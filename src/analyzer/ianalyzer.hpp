@@ -7,7 +7,7 @@
 struct IAnalyzer
 {
     virtual ~IAnalyzer();
-    
+
     virtual bool isImage(const std::string &) = 0;
 };
 

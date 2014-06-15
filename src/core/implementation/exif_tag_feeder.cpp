@@ -40,7 +40,8 @@ void ExifTagFeeder::feed(const std::string& path, ITagData* tagData)
     {
         image = Exiv2::ImageFactory::open(path);
     }
-    catch(Exiv2::AnyError& error)
+    catch
+        (Exiv2::AnyError& error)
     {
         return;
     }
@@ -49,10 +50,12 @@ void ExifTagFeeder::feed(const std::string& path, ITagData* tagData)
     image->readMetadata();
 
     const Exiv2::ExifData &exifData = image->exifData();
+
     if (exifData.empty() == false)
     {
 
         Exiv2::ExifData::const_iterator tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+
         if (tag_date != exifData.end())
         {
             QString v(tag_date->toString().c_str());

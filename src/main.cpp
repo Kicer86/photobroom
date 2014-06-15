@@ -13,8 +13,8 @@
 
 int main(int argc, char **argv)
 {
-	//init modules
-	Database::Builder::instance()->initConfig();
+    //init modules
+    Database::Builder::instance()->initConfig();
 
     //load configuration
     ConfigurationFactory::get()->load();

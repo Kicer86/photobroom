@@ -32,13 +32,13 @@ struct ImageManager
         ImageManager(const ImageManager &) = delete;
         ~ImageManager() ;
 
-        void operator=(const ImageManager &) = delete;    
-        QSize size(int i) const;           //size of 'index' item in model    
-        void draw(int i, QPainter *painter, const QRect &rect) const;    
+        void operator=(const ImageManager &) = delete;
+        QSize size(int i) const;           //size of 'index' item in model
+        void draw(int i, QPainter *painter, const QRect &rect) const;
         QPixmap getPixmap(int i) const;
 
     private:
         QAbstractItemModel *m_model;
-};    
+};
 
 #endif // IMAGE_MANAGER_HPP
