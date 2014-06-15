@@ -10,6 +10,7 @@ TODO:
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - support for some extra exif library, propably more windows friendly than exiv2
 - use more smart tags updating
+- boost doesn't seem to be necessary. Remove it
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right posistions
