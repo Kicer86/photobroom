@@ -105,7 +105,7 @@ namespace Database
     }
 
 
-    UpdateQueryData::UpdateQueryData(const InsertQueryData& data): InsertQueryData(data)
+    UpdateQueryData::UpdateQueryData(const InsertQueryData& data): InsertQueryData(data), m_condition()
     {
 
     }
