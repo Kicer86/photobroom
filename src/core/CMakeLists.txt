@@ -63,7 +63,12 @@ if(BUILD_TESTS)
                 )
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core Gui)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES} ${OpenMP_CXX_FLAGS})
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES})
+	if(MSVC)
+
+	else()
+		target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
+	endif(MSVC)
 
     #TODO: remove it?
     if(EXIV2_FOUND)
@@ -83,7 +88,14 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
-target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
+target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+
+if(MSVC)
+
+else()
+	target_link_libraries(core ${OpenMP_CXX_FLAGS})
+endif(MSVC)
+
 qt5_use_modules(core Core Gui)
 
 if(EXIV2_FOUND)
