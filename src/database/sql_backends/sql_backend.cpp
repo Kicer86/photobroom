@@ -831,6 +831,12 @@ namespace Database
     }
 
 
+    std::deque<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &)
+    {
+        return std::deque<TagValueInfo>();
+    }
+
+
     QueryList ASqlBackend::getAllPhotos()
     {
         std::vector<IFilter::Ptr> emptyList;

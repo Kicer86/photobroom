@@ -21,8 +21,9 @@
 #define IDATABASE_HPP
 
 #include <string>
-#include <map>
+#include <set>
 #include <memory>
+#include <deque>
 
 #include <core/photo_info.hpp>
 #include <core/tag.hpp>
@@ -44,6 +45,7 @@ namespace Database
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;                                  //list all stored tag names
         virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;            //list all values of provided tag
+        virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual QueryList getAllPhotos() = 0;                                             //list all photos
         virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) = 0;               //list all photos matching filter
         virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;                       //get particulat photo
