@@ -1,6 +1,14 @@
 
 project(broom)
 
+#download packages required on windows
+if(WIN32)
+    include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/nettle.cmake)
+    
+    addNettle()
+endif()
+
+
 add_subdirectory(core)
 add_subdirectory(configuration)
 add_subdirectory(analyzer)
