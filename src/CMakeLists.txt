@@ -3,11 +3,9 @@ project(broom)
 
 #download packages required on windows
 if(WIN32)
-    include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/nettle.cmake)
     include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
     
     addEasyExif()
-    addNettle()
 endif()
 
 
