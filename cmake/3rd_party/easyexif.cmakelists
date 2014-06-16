@@ -1,0 +1,10 @@
+
+project(easyexif)
+cmake_minimum_required(VERSION 2.8)
+
+add_library(easyexif STATIC exif.cpp)
+
+install(TARGETS easyexif
+        ARCHIVE DESTINATION lib)
+
+install(FILES exif.h DESTINATION include/easyexif)
