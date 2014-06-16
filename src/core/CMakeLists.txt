@@ -10,6 +10,7 @@ find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED)
 find_package(OpenMP)
 find_package(Exiv2)
+find_package(EasyExif)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -45,10 +46,19 @@ set(CORE_HEADERS
 
 
 if(EXIV2_FOUND)
+
     add_definitions(-DUSE_EXIV)
     include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
     set(CORE_SOURCES ${CORE_SOURCES} implementation/exif_tag_feeder.cpp)
     set(CORE_HEADERS ${CORE_HEADERS} implementation/exif_tag_feeder.hpp)
+
+elseif(EASYEXIF_FOUND)
+
+    add_definitions(-DUSE_EASY_EXIF)
+    include_directories(SYSTEM ${EASYEXIF_INCLUDE_DIRS})
+    set(CORE_SOURCES ${CORE_SOURCES} implementation/easy_exif_tag_feeder.cpp)
+    set(CORE_HEADERS ${CORE_HEADERS} implementation/easy_exif_tag_feeder.hpp)
+
 endif(EXIV2_FOUND)
 
 
@@ -100,6 +110,8 @@ qt5_use_modules(core Core Gui)
 
 if(EXIV2_FOUND)
     target_link_libraries(core ${EXIV2_LIBRARIES})
+else(EASYEXIF_FOUND)
+    target_link_libraries(core ${EASYEXIF_LIBRARIES})
 endif(EXIV2_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
