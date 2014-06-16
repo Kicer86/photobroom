@@ -110,7 +110,7 @@ qt5_use_modules(core Core Gui)
 
 if(EXIV2_FOUND)
     target_link_libraries(core ${EXIV2_LIBRARIES})
-else(EASYEXIF_FOUND)
+elseif(EASYEXIF_FOUND)
     target_link_libraries(core ${EASYEXIF_LIBRARIES})
 endif(EXIV2_FOUND)
 
