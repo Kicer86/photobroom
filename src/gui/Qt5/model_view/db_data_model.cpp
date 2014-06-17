@@ -309,12 +309,17 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
     IdxData* pData = m_impl->getParentIdxDataFor(_parent);
-    IdxData* cData = pData->m_children[row];
-    QModelIndex idx = createIndex(row, column, cData);
+	QModelIndex idx;
 
-    //check data consistency
-    assert(cData->m_row == row);
-    assert(cData->m_column == column);
+	if (row < pData->m_children.size())
+	{
+		IdxData* cData = pData->m_children[row];
+		idx = createIndex(row, column, cData);
+
+		//check data consistency
+		assert(cData->m_row == row);
+		assert(cData->m_column == column);
+	}
 
     return idx;
 }
