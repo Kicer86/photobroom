@@ -3,7 +3,9 @@
 
 #include <assert.h>
 
-#include <QStringList>
+#include <fstream>
+#include <sstream>
+
 #include <easyexif/exif.h>
 
 #include <configuration/constants.hpp>
@@ -34,6 +36,15 @@ void EasyExifTagFeeder::update(ITagData *, const std::string &)
 
 void EasyExifTagFeeder::feed(const std::string& path, ITagData* tagData)
 {
-	
+	std::ifstream file;
+	file.open(path, std::ios_base::in | std::ios_base::binary);
+
+	std::stringstream data;
+	file >> data.rdbuf();
+
+	EXIFInfo result;
+	result.parseFrom(data.str());
+
+	(void)result;
 }
 
