@@ -10,7 +10,10 @@ find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED)
 find_package(OpenMP)
 find_package(Exiv2)
-find_package(EasyExif)
+
+if(NOT EXIV2_FOUND)
+	find_package(EasyExif)
+endif()
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
