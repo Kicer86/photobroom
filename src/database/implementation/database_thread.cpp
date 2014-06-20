@@ -23,21 +23,77 @@
 namespace Database
 {
 
+    DatabaseThread::DatabaseThread(IBackend* backend): m_backend(backend)
+    {
+
+    }
+
+
+    DatabaseThread::~DatabaseThread()
+    {
+
+    }
+
+
     void DatabaseThread::closeConnections()
     {
-
-    }
-
-    
-    bool DatabaseThread::init(const char* )
-    {
-
+        m_backend->closeConnections();
     }
 
 
-    bool DatabaseThread::store(const PhotoInfo::Ptr& )
+    bool DatabaseThread::init(const char* name)
     {
+        const bool status = m_backend->init(name);
+        return status;
+    }
 
+
+    bool DatabaseThread::store(const PhotoInfo::Ptr& photo)
+    {
+        const bool status = m_backend->store(photo);
+        return status;
+    }
+
+
+    void DatabaseThread::getAllPhotos(IDatabaseClient* client)
+    {
+        auto result = m_backend->getAllPhotos();
+        client->got_getAllPhotos(result);
+    }
+
+
+    void DatabaseThread::getPhoto(const PhotoInfo::Id& id, IDatabaseClient* client)
+    {
+        auto result = m_backend->getPhoto(id);
+        client->got_getPhoto(result);
+    }
+
+
+    void DatabaseThread::getPhotos(const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
+    {
+        auto result = m_backend->getPhotos(filter);
+        client->got_getPhotos(result);
+    }
+
+
+    void DatabaseThread::listTags(IDatabaseClient* client)
+    {
+        auto result = m_backend->listTags();
+        client->got_listTags(result);
+    }
+
+
+    void DatabaseThread::listTagValues(const TagNameInfo& info, IDatabaseClient* client)
+    {
+        auto result = m_backend->listTagValues(info);
+        client->got_listTagValues(result);
+    }
+
+
+    void DatabaseThread::listTagValues(const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
+    {
+        auto result = m_backend->listTagValues(info, filter);
+        client->got_listTagValues(result);
     }
 
 }

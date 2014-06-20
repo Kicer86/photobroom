@@ -30,11 +30,27 @@ namespace Database
     class DatabaseThread: public IDatabase
     {
         public:
+            DatabaseThread(IBackend *);
+            DatabaseThread(const DatabaseThread &) = delete;
+            virtual ~DatabaseThread();
+
+            DatabaseThread& operator=(const DatabaseThread &) = delete;
+
             virtual bool store(const PhotoInfo::Ptr&) override;
+
+            virtual void getAllPhotos(IDatabaseClient*);
+            virtual void getPhoto(const PhotoInfo::Id&, IDatabaseClient*);
+            virtual void getPhotos(const std::deque< IFilter::Ptr >&, IDatabaseClient*);
+            virtual void listTags(IDatabaseClient*);
+            virtual void listTagValues(const TagNameInfo&, IDatabaseClient*);
+            virtual void listTagValues(const TagNameInfo&, const std::deque< IFilter::Ptr >&, IDatabaseClient*);
 
             virtual bool init(const char*) override;
 
             virtual void closeConnections() override;
+
+        private:
+            IBackend* m_backend;
     };
 
 }
