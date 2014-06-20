@@ -13,7 +13,7 @@ TODO:
 - finding and reacting on duplicates
 
 IN PROGRESS:
-- Staging Model: automatically move added photos to right posistions
+- Staging Model: automatically move added photos to right positions
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 
 DONE:
