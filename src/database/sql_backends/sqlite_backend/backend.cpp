@@ -110,13 +110,13 @@ namespace Database
     }
 
 
-    ISqlQueryConstructor* SQLiteBackend::getQueryConstructor()
+    const ISqlQueryConstructor* SQLiteBackend::getQueryConstructor() const
     {
         return this;
     }
 
 
-    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data)
+    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
 

@@ -150,13 +150,13 @@ namespace Database
     }
 
 
-    ISqlQueryConstructor* MySqlBackend::getQueryConstructor()
+    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
     {
         return this;
     }
 
 
-    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &)
+    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
     {
         assert(!"not implemented");
 

@@ -38,7 +38,6 @@ namespace Database
     class Entry;
     class InsertQueryData;
     struct ISqlQueryConstructor;
-    struct ColDefinition;
     struct TableDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
@@ -59,20 +58,6 @@ namespace Database
             //will be called from init(). Prepare QSqlDatabase object here
             virtual bool prepareDB(QSqlDatabase *, const char* name) = 0;
 
-            // Create table with given name and columns decription.
-            // It may be necessary for table to meet features:
-            // - FOREIGN KEY
-            //
-            // More features may be added in future.
-            // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
-            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
-
-            //prepare query for finding table with given name
-            virtual QString prepareFindTableQuery(const QString& name) const;
-
-            //prepare column description for CREATE TABLE matching provided info.
-            virtual QString prepareColumnDescription(const ColDefinition &) const = 0;
-
             //Creates sql database. Can be called in onAfterOpen in backends which need it
             virtual bool createDB(const char *);
 
@@ -85,7 +70,7 @@ namespace Database
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
 
-            virtual ISqlQueryConstructor* getQueryConstructor() = 0;
+            virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
 
         private:
             std::unique_ptr<Data> m_data;

@@ -40,7 +40,19 @@ namespace Database
     }
 
 
-    SqlQuery GenericSqlQueryConstructor::insert(const InsertQueryData& data)
+    QString GenericSqlQueryConstructor::prepareCreationQuery(const QString& name, const QString& columns) const
+    {
+        return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
+    }
+
+
+    QString GenericSqlQueryConstructor::prepareFindTableQuery(const QString& name) const
+    {
+        return QString("SHOW TABLES LIKE '%1';").arg(name);
+    }
+
+
+    SqlQuery GenericSqlQueryConstructor::insert(const InsertQueryData& data) const
     {
         QString result;
 
@@ -57,7 +69,7 @@ namespace Database
     }
 
 
-    SqlQuery GenericSqlQueryConstructor::update(const UpdateQueryData& data)
+    SqlQuery GenericSqlQueryConstructor::update(const UpdateQueryData& data) const
     {
         QString result;
 

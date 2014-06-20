@@ -728,18 +728,6 @@ namespace Database
     }
 
 
-    QString ASqlBackend::prepareCreationQuery(const QString& name, const QString& columns) const
-    {
-        return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
-    }
-
-
-    QString ASqlBackend::prepareFindTableQuery(const QString& name) const
-    {
-        return QString("SHOW TABLES LIKE '%1';").arg(name);
-    }
-
-
     bool ASqlBackend::createDB(const char* name)
     {
         return m_data->createDB(name);
@@ -755,7 +743,7 @@ namespace Database
     bool ASqlBackend::assureTableExists(const TableDefinition& definition) const
     {
         QSqlQuery query(m_data->m_db);
-        const QString showQuery = prepareFindTableQuery(definition.name);
+        const QString showQuery = getQueryConstructor()->prepareFindTableQuery(definition.name);
 
         bool status = m_data->exec(showQuery, &query);
 
@@ -770,10 +758,10 @@ namespace Database
             for(int i = 0; i < size; i++)
             {
                 const bool notlast = i + 1 < size;
-                columnsDesc += prepareColumnDescription(definition.columns[i]) + (notlast? ", ": "");
+                columnsDesc += getQueryConstructor()->prepareColumnDescription(definition.columns[i]) + (notlast? ", ": "");
             }
 
-            status = m_data->exec( prepareCreationQuery(definition.name, columnsDesc), &query );
+            status = m_data->exec( getQueryConstructor()->prepareCreationQuery(definition.name, columnsDesc), &query );
 
             if (status && definition.keys.empty() == false)
             {
