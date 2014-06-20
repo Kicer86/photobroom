@@ -4,7 +4,6 @@ Sets of tasks: finished, to be done, dropped
 TODO:
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - core: make photos tagger a new task
-- database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 - rethink configuration concepts
 - when updating photo, do not update all, update only required data
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
@@ -14,6 +13,7 @@ TODO:
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right posistions
+- database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 
 DONE:
 - PhotoInfo: review and refactor flags structs
