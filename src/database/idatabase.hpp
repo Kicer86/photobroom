@@ -59,13 +59,32 @@ namespace Database
     };
 
 
-    //final database clients
+    struct IDatabaseClient
+    {
+        virtual void got_listTags(const std::vector<TagNameInfo> &) = 0;
+        virtual void got_listTagValues(const std::set<TagValueInfo> &) = 0;
+        virtual void got_listTagValues(const std::deque<TagValueInfo> &) = 0;
+        virtual void getAllPhotos(const QueryList &) = 0;
+        virtual void got_getPhotos(const QueryList &) = 0;
+        virtual void got_getPhoto(const PhotoInfo::Ptr &) = 0;
+    };
+
+    //for final database clients
     struct IDatabase
     {
         virtual ~IDatabase() {}
 
+
         //store data
         virtual bool store(const PhotoInfo::Ptr &) = 0;
+
+        //read data
+        virtual std::vector<TagNameInfo> listTags(IDatabaseClient *) = 0;                                  //list all stored tag names
+        virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &, IDatabaseClient *) = 0;          //list all values of provided tag
+        virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &, IDatabaseClient *) = 0; //list all values for provided tag used on photos matching provided filter
+        virtual QueryList getAllPhotos(IDatabaseClient *) = 0;                                             //list all photos
+        virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &, IDatabaseClient *) = 0;              //list all photos matching filter
+        virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &, IDatabaseClient *) = 0;                     //get particulat photo
 
         //init backend - connect to database or create new one
         virtual bool init(const char *) = 0;
