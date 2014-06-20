@@ -28,40 +28,12 @@ namespace Database
 
     }
 
+    
     bool DatabaseThread::init(const char* )
     {
 
     }
 
-    PhotoInfo::Ptr DatabaseThread::getPhoto(const PhotoInfo::Id& )
-    {
-
-    }
-
-    Database::QueryList DatabaseThread::getPhotos(const std::deque<Database::IFilter::Ptr>& )
-    {
-
-    }
-
-    Database::QueryList DatabaseThread::getAllPhotos()
-    {
-
-    }
-
-    std::deque<TagValueInfo> DatabaseThread::listTagValues(const TagNameInfo& , const std::deque<Database::IFilter::Ptr>& )
-    {
-
-    }
-
-    std::set<TagValueInfo> DatabaseThread::listTagValues(const TagNameInfo& )
-    {
-
-    }
-
-    std::vector<TagNameInfo> DatabaseThread::listTags()
-    {
-
-    }
 
     bool DatabaseThread::store(const PhotoInfo::Ptr& )
     {

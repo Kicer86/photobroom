@@ -27,18 +27,14 @@
 namespace Database
 {
 
-    class DatabaseThread: public IBackend
+    class DatabaseThread: public IDatabase
     {
         public:
+            virtual bool store(const PhotoInfo::Ptr&) override;
+
+            virtual bool init(const char*) override;
+
             virtual void closeConnections() override;
-            virtual bool init(const char* ) override;
-            virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id& ) override;
-            virtual Database::QueryList getPhotos(const std::deque<Database::IFilter::Ptr>& ) override;
-            virtual Database::QueryList getAllPhotos() override;
-            virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo& , const std::deque<Database::IFilter::Ptr>& ) override;
-            virtual std::set<TagValueInfo> listTagValues(const TagNameInfo& ) override;
-            virtual std::vector<TagNameInfo> listTags() override;
-            virtual bool store(const PhotoInfo::Ptr& ) override;
     };
 
 }

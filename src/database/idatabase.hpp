@@ -35,6 +35,7 @@
 namespace Database
 {
 
+    //direct database interface
     struct IBackend
     {
         virtual ~IBackend() {}
@@ -56,6 +57,23 @@ namespace Database
         //close database connection
         virtual void closeConnections() = 0;
     };
+
+
+    //final database clients
+    struct IDatabase
+    {
+        virtual ~IDatabase() {}
+
+        //store data
+        virtual bool store(const PhotoInfo::Ptr &) = 0;
+
+        //init backend - connect to database or create new one
+        virtual bool init(const char *) = 0;
+
+        //close database connection
+        virtual void closeConnections() = 0;
+    };
+
 
     struct IFrontend            //TODO: deprecated?
     {
