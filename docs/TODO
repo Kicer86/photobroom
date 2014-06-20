@@ -11,6 +11,8 @@ TODO:
 - use more smart tags updating
 - boost doesn't seem to be necessary. Remove it
 - finding and reacting on duplicates
+- introduce project concept
+- load all database plugins. Choose right backend basing on project settings.
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
