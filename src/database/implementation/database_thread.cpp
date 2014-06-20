@@ -23,7 +23,7 @@
 namespace Database
 {
 
-    DatabaseThread::DatabaseThread(IBackend* backend): m_backend(backend)
+    DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_backend(std::move(backend))
     {
 
     }

@@ -30,7 +30,7 @@ namespace Database
     class DatabaseThread: public IDatabase
     {
         public:
-            DatabaseThread(IBackend *);
+            DatabaseThread(std::unique_ptr<IBackend> &&);
             DatabaseThread(const DatabaseThread &) = delete;
             virtual ~DatabaseThread();
 
@@ -50,7 +50,7 @@ namespace Database
             virtual void closeConnections() override;
 
         private:
-            IBackend* m_backend;
+            std::unique_ptr<IBackend> m_backend;
     };
 
 }
