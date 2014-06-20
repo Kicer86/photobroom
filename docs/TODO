@@ -10,6 +10,7 @@ TODO:
 - support for some extra exif library, propably more windows friendly than exiv2
 - use more smart tags updating
 - boost doesn't seem to be necessary. Remove it
+- finding and reacting on duplicates
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right posistions
