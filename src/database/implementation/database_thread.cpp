@@ -31,13 +31,13 @@ namespace
     struct IThreadTask
     {
         virtual ~IThreadTask() {}
-        virtual void visit(IThreadVisitor *) = 0;
+        virtual void visitMe(IThreadVisitor *) = 0;
     };
 
     struct IThreadVisitor
     {
         virtual ~IThreadVisitor() {}
-        virtual void visitMe(IThreadTask *) = 0;
+        virtual void visit(IThreadTask *) = 0;
     };
 
     struct StoreTask: IThreadTask
@@ -45,7 +45,7 @@ namespace
         StoreTask(const PhotoInfo::Ptr& photo, Database::IDatabaseClient* client): m_photoInfo(photo), m_client(client) {}
         virtual ~StoreTask() {}
 
-        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         PhotoInfo::Ptr m_photoInfo;
         Database::IDatabaseClient* m_client;
@@ -55,49 +55,59 @@ namespace
     struct GetAllPhotosTask: IThreadTask
     {
         virtual ~GetAllPhotosTask() {}
-        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
 
     struct GetPhotoTask: IThreadTask
     {
         virtual ~GetPhotoTask() {}
-        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
     struct GetPhotosTask: IThreadTask
     {
         virtual ~GetPhotosTask() {}
-        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
     struct ListTagsTask: IThreadTask
     {
         virtual ~ListTagsTask() {}
-        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
     struct ListTagValuesTask: IThreadTask
     {
         virtual ~ListTagValuesTask() {}
-        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
 
     struct Executor: IThreadVisitor
     {
-        Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend) {}
+        Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend), m_tasks(1024) {}
 
         virtual ~Executor() {}
-        virtual void visitMe(IThreadTask*)
+        virtual void visit(IThreadTask*)
         {
         }
 
-        void operator()()
+        void begin()
         {
+            for(;;)
+            {
+                boost::optional< std::shared_ptr<IThreadTask> > task = m_tasks.pop_front();
+
+                if (task)
+                    (*task)->visitMe(this);
+                else
+                    break;
+            }
         }
 
         std::shared_ptr<Database::IBackend> m_backend;
+        TS_Queue< std::shared_ptr<IThreadTask> > m_tasks;
     };
 
 }
@@ -108,23 +118,24 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(const std::shared_ptr<IBackend>& backend): m_executor(backend), m_thread(m_executor), m_tasks(1024)
+        Impl(const std::shared_ptr<IBackend>& backend): m_executor(backend), m_thread(beginThread, &m_executor)
         {
 
         }
 
-        void operator()()
-        {
-        }
 
         void addTask(IThreadTask* task)
         {
-            m_tasks.push_back(std::shared_ptr<IThreadTask>(task));
+            m_executor.m_tasks.push_back(std::shared_ptr<IThreadTask>(task));
+        }
+
+        static void beginThread(Executor* executor)
+        {
+            executor->begin();
         }
 
         Executor m_executor;
         std::thread m_thread;
-        TS_Queue< std::shared_ptr<IThreadTask> > m_tasks;
     };
 
     DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))

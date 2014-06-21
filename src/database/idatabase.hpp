@@ -62,7 +62,7 @@ namespace Database
     struct Task
     {
         typedef int Id;
-        
+
         Id id;
         bool status;
     };
@@ -85,7 +85,7 @@ namespace Database
         virtual ~IDatabase() {}
 
         //store data
-        virtual Task store(const PhotoInfo::Ptr &) = 0;
+        virtual Task store(const PhotoInfo::Ptr &, IDatabaseClient *) = 0;
 
         //read data
         virtual Task listTags(IDatabaseClient *) = 0;                                     //list all stored tag names
