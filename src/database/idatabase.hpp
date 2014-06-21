@@ -59,32 +59,41 @@ namespace Database
     };
 
 
+    struct Task
+    {
+        typedef int Id;
+        
+        Id id;
+        bool status;
+    };
+
+
     struct IDatabaseClient
     {
-        virtual void got_listTags(const std::vector<TagNameInfo> &) = 0;
-        virtual void got_listTagValues(const std::set<TagValueInfo> &) = 0;
-        virtual void got_listTagValues(const std::deque<TagValueInfo> &) = 0;
-        virtual void got_getAllPhotos(const QueryList &) = 0;
-        virtual void got_getPhotos(const QueryList &) = 0;
-        virtual void got_getPhoto(const PhotoInfo::Ptr &) = 0;
+        virtual void got_listTags(const Task &, const std::vector<TagNameInfo> &) = 0;
+        virtual void got_listTagValues(const Task &, const std::set<TagValueInfo> &) = 0;
+        virtual void got_listTagValues(const Task &, const std::deque<TagValueInfo> &) = 0;
+        virtual void got_getAllPhotos(const Task &, const QueryList &) = 0;
+        virtual void got_getPhotos(const Task &, const QueryList &) = 0;
+        virtual void got_getPhoto(const Task &, const PhotoInfo::Ptr &) = 0;
     };
+
 
     //for final database clients
     struct IDatabase
     {
         virtual ~IDatabase() {}
 
-
         //store data
-        virtual bool store(const PhotoInfo::Ptr &) = 0;
+        virtual Task store(const PhotoInfo::Ptr &) = 0;
 
         //read data
-        virtual void listTags(IDatabaseClient *) = 0;                                     //list all stored tag names
-        virtual void listTagValues(const TagNameInfo &, IDatabaseClient *) = 0;           //list all values of provided tag
-        virtual void listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &, IDatabaseClient *) = 0; //list all values for provided tag used on photos matching provided filter
-        virtual void getAllPhotos(IDatabaseClient *) = 0;                                 //list all photos
-        virtual void getPhotos(const std::deque<IFilter::Ptr> &, IDatabaseClient *) = 0;  //list all photos matching filter
-        virtual void getPhoto(const PhotoInfo::Id &, IDatabaseClient *) = 0;              //get particulat photo
+        virtual Task listTags(IDatabaseClient *) = 0;                                     //list all stored tag names
+        virtual Task listTagValues(const TagNameInfo &, IDatabaseClient *) = 0;           //list all values of provided tag
+        virtual Task listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &, IDatabaseClient *) = 0; //list all values for provided tag used on photos matching provided filter
+        virtual Task getAllPhotos(IDatabaseClient *) = 0;                                 //list all photos
+        virtual Task getPhotos(const std::deque<IFilter::Ptr> &, IDatabaseClient *) = 0;  //list all photos matching filter
+        virtual Task getPhoto(const PhotoInfo::Id &, IDatabaseClient *) = 0;              //get particulat photo
 
         //init backend - connect to database or create new one
         virtual bool init(const char *) = 0;

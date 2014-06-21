@@ -19,11 +19,110 @@
 
 #include "database_thread.hpp"
 
+#include <thread>
+#include <memory>
+
+#include <palgorithm/ts_queue.hpp>
+
+namespace
+{
+    struct IThreadVisitor;
+
+    struct IThreadTask
+    {
+        virtual ~IThreadTask() {}
+        virtual void visit(IThreadVisitor *) = 0;
+    };
+
+    struct IThreadVisitor
+    {
+        virtual ~IThreadVisitor() {}
+        virtual void visitMe(IThreadTask *) = 0;
+    };
+
+    struct StoreTask: IThreadTask
+    {
+        virtual ~StoreTask() {}
+        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+    };
+
+
+    struct GetAllPhotosTask: IThreadTask
+    {
+        virtual ~GetAllPhotosTask() {}
+        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+    };
+
+
+    struct GetPhotoTask: IThreadTask
+    {
+        virtual ~GetPhotoTask() {}
+        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+    };
+
+    struct GetPhotosTask: IThreadTask
+    {
+        virtual ~GetPhotosTask() {}
+        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+    };
+
+    struct ListTagsTask: IThreadTask
+    {
+        virtual ~ListTagsTask() {}
+        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+    };
+
+    struct ListTagValuesTask: IThreadTask
+    {
+        virtual ~ListTagValuesTask() {}
+        virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+    };
+
+
+    struct Executor: IThreadVisitor
+    {
+        Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend) {}
+
+        virtual ~Executor() {}
+        virtual void visitMe(IThreadTask*)
+        {
+        }
+
+        void operator()()
+        {
+        }
+
+        std::shared_ptr<Database::IBackend> m_backend;
+    };
+
+}
+
 
 namespace Database
 {
 
-    DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_backend(std::move(backend))
+    struct DatabaseThread::Impl
+    {
+        Impl(const std::shared_ptr<IBackend>& backend): m_executor(backend), m_thread(m_executor), m_tasks(1024)
+        {
+
+        }
+
+        void operator()()
+        {
+        }
+
+        void addTask(IThreadTask* task)
+        {
+            m_tasks.push_back(std::shared_ptr<IThreadTask>(task));
+        }
+
+        Executor m_executor;
+        std::thread m_thread;
+        TS_Queue< std::shared_ptr<IThreadTask> > m_tasks;
+    };
+
+    DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))
     {
 
     }
@@ -37,63 +136,87 @@ namespace Database
 
     void DatabaseThread::closeConnections()
     {
-        m_backend->closeConnections();
+        //m_impl->m_backend->closeConnections();
+
+        assert("!not implemented");
     }
 
 
     bool DatabaseThread::init(const char* name)
     {
-        const bool status = m_backend->init(name);
-        return status;
+        //const bool status = m_impl->m_backend->init(name);
+        //return status;
+
+
     }
 
 
-    bool DatabaseThread::store(const PhotoInfo::Ptr& photo)
+    Task DatabaseThread::store(const PhotoInfo::Ptr& photo)
     {
-        const bool status = m_backend->store(photo);
-        return status;
+        //const bool status = m_impl->m_backend->store(photo);
+
+        StoreTask* task = new StoreTask;
+        m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getAllPhotos(IDatabaseClient* client)
+    Task DatabaseThread::getAllPhotos(IDatabaseClient* client)
     {
-        auto result = m_backend->getAllPhotos();
-        client->got_getAllPhotos(result);
+        //auto result = m_impl->m_backend->getAllPhotos();
+        //client->got_getAllPhotos(result);
+
+        GetAllPhotosTask* task = new GetAllPhotosTask;
+        m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getPhoto(const PhotoInfo::Id& id, IDatabaseClient* client)
+    Task DatabaseThread::getPhoto(const PhotoInfo::Id& id, IDatabaseClient* client)
     {
-        auto result = m_backend->getPhoto(id);
-        client->got_getPhoto(result);
+        //auto result = m_impl->m_backend->getPhoto(id);
+        //client->got_getPhoto(result);
+
+        GetPhotoTask* task = new GetPhotoTask;
+        m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getPhotos(const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
+    Task DatabaseThread::getPhotos(const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
     {
-        auto result = m_backend->getPhotos(filter);
-        client->got_getPhotos(result);
+        //auto result = m_impl->m_backend->getPhotos(filter);
+        //client->got_getPhotos(result);
+
+        GetPhotosTask* task = new GetPhotosTask;
+        m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTags(IDatabaseClient* client)
+    Task DatabaseThread::listTags(IDatabaseClient* client)
     {
-        auto result = m_backend->listTags();
-        client->got_listTags(result);
+        //auto result = m_impl->m_backend->listTags();
+        //client->got_listTags(result);
+
+        ListTagsTask* task = new ListTagsTask;
+        m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTagValues(const TagNameInfo& info, IDatabaseClient* client)
+    Task DatabaseThread::listTagValues(const TagNameInfo& info, IDatabaseClient* client)
     {
-        auto result = m_backend->listTagValues(info);
-        client->got_listTagValues(result);
+        //auto result = m_impl->m_backend->listTagValues(info);
+        //client->got_listTagValues(result);
+
+        ListTagValuesTask* task = new ListTagValuesTask;
+        m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTagValues(const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
+    Task DatabaseThread::listTagValues(const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
     {
-        auto result = m_backend->listTagValues(info, filter);
-        client->got_listTagValues(result);
+        //auto result = m_impl->m_backend->listTagValues(info, filter);
+        //client->got_listTagValues(result);
+
+        ListTagValuesTask* task = new ListTagValuesTask;
+        m_impl->addTask(task);
     }
 
 }

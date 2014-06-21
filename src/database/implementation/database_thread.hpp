@@ -36,21 +36,22 @@ namespace Database
 
             DatabaseThread& operator=(const DatabaseThread &) = delete;
 
-            virtual bool store(const PhotoInfo::Ptr&) override;
+            virtual Task store(const PhotoInfo::Ptr&) override;
 
-            virtual void getAllPhotos(IDatabaseClient*);
-            virtual void getPhoto(const PhotoInfo::Id&, IDatabaseClient*);
-            virtual void getPhotos(const std::deque< IFilter::Ptr >&, IDatabaseClient*);
-            virtual void listTags(IDatabaseClient*);
-            virtual void listTagValues(const TagNameInfo&, IDatabaseClient*);
-            virtual void listTagValues(const TagNameInfo&, const std::deque< IFilter::Ptr >&, IDatabaseClient*);
+            virtual Task getAllPhotos(IDatabaseClient*);
+            virtual Task getPhoto(const PhotoInfo::Id&, IDatabaseClient*);
+            virtual Task getPhotos(const std::deque< IFilter::Ptr >&, IDatabaseClient*);
+            virtual Task listTags(IDatabaseClient*);
+            virtual Task listTagValues(const TagNameInfo&, IDatabaseClient*);
+            virtual Task listTagValues(const TagNameInfo&, const std::deque< IFilter::Ptr >&, IDatabaseClient*);
 
             virtual bool init(const char*) override;
 
             virtual void closeConnections() override;
 
         private:
-            std::unique_ptr<IBackend> m_backend;
+            struct Impl;
+            std::unique_ptr<Impl> m_impl;
     };
 
 }
