@@ -36,7 +36,7 @@ namespace Database
 
             DatabaseThread& operator=(const DatabaseThread &) = delete;
 
-            virtual Task store(const PhotoInfo::Ptr&) override;
+            virtual Task store(const PhotoInfo::Ptr &, IDatabaseClient *) override;
 
             virtual Task getAllPhotos(IDatabaseClient*);
             virtual Task getPhoto(const PhotoInfo::Id&, IDatabaseClient*);

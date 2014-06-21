@@ -42,8 +42,13 @@ namespace
 
     struct StoreTask: IThreadTask
     {
+        StoreTask(const PhotoInfo::Ptr& photo, Database::IDatabaseClient* client): m_photoInfo(photo), m_client(client) {}
         virtual ~StoreTask() {}
+
         virtual void visit(IThreadVisitor* visitor) { visitor->visitMe(this); }
+
+        PhotoInfo::Ptr m_photoInfo;
+        Database::IDatabaseClient* m_client;
     };
 
 
@@ -151,11 +156,11 @@ namespace Database
     }
 
 
-    Task DatabaseThread::store(const PhotoInfo::Ptr& photo)
+    Task DatabaseThread::store(const PhotoInfo::Ptr& photo, IDatabaseClient* client)
     {
         //const bool status = m_impl->m_backend->store(photo);
 
-        StoreTask* task = new StoreTask;
+        StoreTask* task = new StoreTask(photo, client);
         m_impl->addTask(task);
     }
 
