@@ -42,13 +42,12 @@ namespace Database
 
             virtual void getAllPhotos(const Task &) override;
             virtual void getPhoto(const Task &, const PhotoInfo::Id &) override;
-            virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr>&) override;
+            virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr> &) override;
             virtual void listTags(const Task &) override;
             virtual void listTagValues(const Task &, const TagNameInfo &) override;
             virtual void listTagValues(const Task &, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
 
             virtual bool init(const char*) override;
-
             virtual void closeConnections() override;
 
         private:

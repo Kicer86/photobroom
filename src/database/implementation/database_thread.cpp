@@ -182,7 +182,7 @@ namespace
         }
 
         std::shared_ptr<Database::IBackend> m_backend;
-        TS_Queue< std::shared_ptr<IThreadTask> > m_tasks;
+        TS_Queue<std::shared_ptr<IThreadTask>> m_tasks;
     };
 
 }
@@ -198,7 +198,7 @@ namespace Database
 
         }
 
-
+        //store task to be executed by thread
         void addTask(ThreadBaseTask* task)
         {
             m_executor.m_tasks.push_back(std::shared_ptr<IThreadTask>(task));
@@ -214,6 +214,7 @@ namespace Database
         std::thread m_thread;
     };
 
+    
     DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))
     {
 
@@ -249,7 +250,6 @@ namespace Database
 
         return task;
     }
-
 
 
     void DatabaseThread::store(const PhotoInfo::Ptr& photo, const Task& db_task)
@@ -296,9 +296,6 @@ namespace Database
 
     void DatabaseThread::listTagValues(const Task& db_task, const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter)
     {
-        //auto result = m_impl->m_backend->listTagValues(info, filter);
-        //client->got_listTagValues(result);
-
         ListTagValuesTask* task = new ListTagValuesTask(db_task, info, filter);
         m_impl->addTask(task);
     }
