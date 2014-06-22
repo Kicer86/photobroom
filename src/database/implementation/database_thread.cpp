@@ -27,6 +27,12 @@
 namespace
 {
     struct IThreadVisitor;
+    struct StoreTask;
+    struct GetAllPhotosTask;
+    struct GetPhotoTask;
+    struct GetPhotosTask;
+    struct ListTagsTask;
+    struct ListTagValuesTask;
 
     struct IThreadTask
     {
@@ -34,53 +40,82 @@ namespace
         virtual void visitMe(IThreadVisitor *) = 0;
     };
 
+    struct ThreadBaseTask: IThreadTask
+    {
+        ThreadBaseTask(const Database::Task& task): m_task(task) {}
+        virtual ~ThreadBaseTask() {}
+
+        Database::Task m_task;
+    };
+
     struct IThreadVisitor
     {
         virtual ~IThreadVisitor() {}
-        virtual void visit(IThreadTask *) = 0;
+
+        virtual void visit(StoreTask *) = 0;
+        virtual void visit(GetAllPhotosTask *) = 0;
+        virtual void visit(GetPhotoTask *) = 0;
+        virtual void visit(GetPhotosTask *) = 0;
+        virtual void visit(ListTagsTask *) = 0;
+        virtual void visit(ListTagValuesTask *) = 0;
     };
 
-    struct StoreTask: IThreadTask
+    struct StoreTask: ThreadBaseTask
     {
-        StoreTask(const PhotoInfo::Ptr& photo, Database::IDatabaseClient* client): m_photoInfo(photo), m_client(client) {}
+        StoreTask(const Database::Task& task, const PhotoInfo::Ptr& photo): ThreadBaseTask(task), m_photoInfo(photo) {}
         virtual ~StoreTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         PhotoInfo::Ptr m_photoInfo;
-        Database::IDatabaseClient* m_client;
     };
 
 
-    struct GetAllPhotosTask: IThreadTask
+    struct GetAllPhotosTask: ThreadBaseTask
     {
+        GetAllPhotosTask(const Database::Task& task): ThreadBaseTask(task) {}
         virtual ~GetAllPhotosTask() {}
+
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
 
-    struct GetPhotoTask: IThreadTask
+    struct GetPhotoTask: ThreadBaseTask
     {
+        GetPhotoTask(const Database::Task& task, const PhotoInfo::Id& id): ThreadBaseTask(task), m_id(id) {}
         virtual ~GetPhotoTask() {}
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        PhotoInfo::Id m_id;
     };
 
-    struct GetPhotosTask: IThreadTask
+    struct GetPhotosTask: ThreadBaseTask
     {
+        GetPhotosTask(const Database::Task& task, const std::deque<Database::IFilter::Ptr>& filter): ThreadBaseTask(task), m_filter(filter) {}
         virtual ~GetPhotosTask() {}
+
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
-    struct ListTagsTask: IThreadTask
+    struct ListTagsTask: ThreadBaseTask
     {
+        ListTagsTask(const Database::Task& task): ThreadBaseTask(task) {}
         virtual ~ListTagsTask() {}
+
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
     };
 
-    struct ListTagValuesTask: IThreadTask
+    struct ListTagValuesTask: ThreadBaseTask
     {
+        ListTagValuesTask(const Database::Task& task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter): ThreadBaseTask(task), m_info(info), m_filter(filter) {}
         virtual ~ListTagValuesTask() {}
+
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        TagNameInfo m_info;
+        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
 
@@ -89,9 +124,49 @@ namespace
         Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend), m_tasks(1024) {}
 
         virtual ~Executor() {}
-        virtual void visit(IThreadTask*)
+
+        virtual void visit(StoreTask* task)
         {
+            const bool status = m_backend->store(task->m_photoInfo);
+            task->m_task.setStatus(status);
+            task->m_task.getClient()->got_storeStatus(task->m_task);
         }
+
+        virtual void visit(GetAllPhotosTask* task)
+        {
+            auto result = m_backend->getAllPhotos();
+            task->m_task.setStatus(true);
+            task->m_task.getClient()->got_getAllPhotos(task->m_task, result);
+        }
+
+        virtual void visit(GetPhotoTask* task)
+        {
+            auto result = m_backend->getPhoto(task->m_id);
+            task->m_task.setStatus(true);
+            task->m_task.getClient()->got_getPhoto(task->m_task, result);
+        }
+
+        virtual void visit(GetPhotosTask* task)
+        {
+            auto result = m_backend->getPhotos(task->m_filter);
+            task->m_task.setStatus(true);
+            task->m_task.getClient()->got_getPhotos(task->m_task, result);
+        }
+
+        virtual void visit(ListTagsTask* task)
+        {
+            auto result = m_backend->listTags();
+            task->m_task.setStatus(true);
+            task->m_task.getClient()->got_listTags(task->m_task, result);
+        }
+
+        virtual void visit(ListTagValuesTask* task)
+        {
+            auto result = m_backend->listTagValues(task->m_info, task->m_filter);
+            task->m_task.setStatus(true);
+            task->m_task.getClient()->got_listTagValues(task->m_task, result);
+        }
+
 
         void begin()
         {
@@ -118,13 +193,13 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(const std::shared_ptr<IBackend>& backend): m_executor(backend), m_thread(beginThread, &m_executor)
+        Impl(const std::shared_ptr<IBackend>& backend): m_lastId(0), m_executor(backend), m_thread(beginThread, &m_executor)
         {
 
         }
 
 
-        void addTask(IThreadTask* task)
+        void addTask(ThreadBaseTask* task)
         {
             m_executor.m_tasks.push_back(std::shared_ptr<IThreadTask>(task));
         }
@@ -134,6 +209,7 @@ namespace Database
             executor->begin();
         }
 
+        int m_lastId;
         Executor m_executor;
         std::thread m_thread;
     };
@@ -167,71 +243,63 @@ namespace Database
     }
 
 
-    Task DatabaseThread::store(const PhotoInfo::Ptr& photo, IDatabaseClient* client)
+    Task DatabaseThread::prepareTask(IDatabaseClient* client)
     {
-        //const bool status = m_impl->m_backend->store(photo);
+        Task task(client, m_impl->m_lastId++);
 
-        StoreTask* task = new StoreTask(photo, client);
+        return task;
+    }
+
+
+
+    void DatabaseThread::store(const PhotoInfo::Ptr& photo, const Task& db_task)
+    {
+        StoreTask* task = new StoreTask(db_task, photo);
         m_impl->addTask(task);
     }
 
 
-    Task DatabaseThread::getAllPhotos(IDatabaseClient* client)
+    void DatabaseThread::getAllPhotos(const Task& db_task)
     {
-        //auto result = m_impl->m_backend->getAllPhotos();
-        //client->got_getAllPhotos(result);
-
-        GetAllPhotosTask* task = new GetAllPhotosTask;
+        GetAllPhotosTask* task = new GetAllPhotosTask(db_task);
         m_impl->addTask(task);
     }
 
 
-    Task DatabaseThread::getPhoto(const PhotoInfo::Id& id, IDatabaseClient* client)
+    void DatabaseThread::getPhoto(const Task& db_task, const PhotoInfo::Id& id)
     {
-        //auto result = m_impl->m_backend->getPhoto(id);
-        //client->got_getPhoto(result);
-
-        GetPhotoTask* task = new GetPhotoTask;
+        GetPhotoTask* task = new GetPhotoTask(db_task, id);
         m_impl->addTask(task);
     }
 
 
-    Task DatabaseThread::getPhotos(const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
+    void DatabaseThread::getPhotos(const Task& db_task, const std::deque<IFilter::Ptr>& filter)
     {
-        //auto result = m_impl->m_backend->getPhotos(filter);
-        //client->got_getPhotos(result);
-
-        GetPhotosTask* task = new GetPhotosTask;
+        GetPhotosTask* task = new GetPhotosTask(db_task, filter);
         m_impl->addTask(task);
     }
 
 
-    Task DatabaseThread::listTags(IDatabaseClient* client)
+    void DatabaseThread::listTags(const Task& db_task)
     {
-        //auto result = m_impl->m_backend->listTags();
-        //client->got_listTags(result);
-
-        ListTagsTask* task = new ListTagsTask;
+        ListTagsTask* task = new ListTagsTask(db_task);
         m_impl->addTask(task);
     }
 
 
-    Task DatabaseThread::listTagValues(const TagNameInfo& info, IDatabaseClient* client)
+    void DatabaseThread::listTagValues(const Task& db_task, const TagNameInfo& info)
     {
-        //auto result = m_impl->m_backend->listTagValues(info);
-        //client->got_listTagValues(result);
-
-        ListTagValuesTask* task = new ListTagValuesTask;
+        ListTagValuesTask* task = new ListTagValuesTask(db_task, info, std::deque<IFilter::Ptr>());
         m_impl->addTask(task);
     }
 
 
-    Task DatabaseThread::listTagValues(const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter, IDatabaseClient* client)
+    void DatabaseThread::listTagValues(const Task& db_task, const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter)
     {
         //auto result = m_impl->m_backend->listTagValues(info, filter);
         //client->got_listTagValues(result);
 
-        ListTagValuesTask* task = new ListTagValuesTask;
+        ListTagValuesTask* task = new ListTagValuesTask(db_task, info, filter);
         m_impl->addTask(task);
     }
 

@@ -36,14 +36,16 @@ namespace Database
 
             DatabaseThread& operator=(const DatabaseThread &) = delete;
 
-            virtual Task store(const PhotoInfo::Ptr &, IDatabaseClient *) override;
+            virtual Task prepareTask(IDatabaseClient *) override;
 
-            virtual Task getAllPhotos(IDatabaseClient*);
-            virtual Task getPhoto(const PhotoInfo::Id&, IDatabaseClient*);
-            virtual Task getPhotos(const std::deque< IFilter::Ptr >&, IDatabaseClient*);
-            virtual Task listTags(IDatabaseClient*);
-            virtual Task listTagValues(const TagNameInfo&, IDatabaseClient*);
-            virtual Task listTagValues(const TagNameInfo&, const std::deque< IFilter::Ptr >&, IDatabaseClient*);
+            virtual void store(const PhotoInfo::Ptr &, const Task &) override;
+
+            virtual void getAllPhotos(const Task &) override;
+            virtual void getPhoto(const Task &, const PhotoInfo::Id &) override;
+            virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr>&) override;
+            virtual void listTags(const Task &) override;
+            virtual void listTagValues(const Task &, const TagNameInfo &) override;
+            virtual void listTagValues(const Task &, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
 
             virtual bool init(const char*) override;
 
