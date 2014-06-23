@@ -33,6 +33,7 @@
 //#include "memorydatabase.hpp"
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
+#include "database_thread.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 
@@ -111,7 +112,7 @@ namespace Database
             Main,
         };
 
-        std::map<Type, std::unique_ptr<IBackend>> m_backends;
+        std::map<Type, std::unique_ptr<IDatabase>> m_backends;
 
         Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
         {}
@@ -152,7 +153,7 @@ namespace Database
     }
 
 
-    IBackend* Builder::getBackend()
+    IDatabase* Builder::get()
     {
         const char* dbType = "broom";
 
@@ -160,12 +161,12 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            std::unique_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
-            const bool status = backend->init(dbType);
+            std::unique_ptr<IDatabase> database(new DatabaseThread(m_impl->getPlugin()->constructBackend()));
+            const bool status = database->init(dbType);
 
             if (status)
             {
-                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(backend)) );
+                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(database)) );
                 backendIt = insertIt.first;
             }
         }

@@ -69,6 +69,7 @@ namespace Database
         void setStatus(bool s) { status = s; }
 
         IDatabaseClient* getClient() const { return client; }
+        Id getId() const { return id; }
 
         private:
             Id id;
@@ -120,7 +121,7 @@ namespace Database
     {
         virtual ~IFrontend() {}
 
-        virtual void setBackend(IBackend *) = 0;
+        virtual void setDatabase(IDatabase *) = 0;
 
         virtual void close() = 0;
     };
