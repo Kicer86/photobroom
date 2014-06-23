@@ -283,7 +283,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         virtual void got_getPhotos(const Database::Task& task, const Database::QueryList& photos)
         {
             auto it = m_db_tasks.lock().get().find(task);
-            IdxData& idxData = IdxData* idxData = getParentIdxDataFor(it->second.m_parent);
+            IdxData* idxData = getParentIdxDataFor(it->second->m_parent);
 
             for(PhotoInfo::Ptr photoInfo: photos)
             {
