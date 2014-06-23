@@ -99,7 +99,7 @@ namespace Database
         virtual Task prepareTask(IDatabaseClient *) = 0;
 
         //store data
-        virtual void store(const PhotoInfo::Ptr &, const Task &) = 0;
+        virtual void store(const Task &, const PhotoInfo::Ptr &) = 0;
 
         //read data
         virtual void listTags(const Task &) = 0;                                     //list all stored tag names

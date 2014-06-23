@@ -38,7 +38,7 @@ namespace Database
 
             virtual Task prepareTask(IDatabaseClient *) override;
 
-            virtual void store(const PhotoInfo::Ptr &, const Task &) override;
+            virtual void store(const Task &, const PhotoInfo::Ptr &) override;
 
             virtual void getAllPhotos(const Task &) override;
             virtual void getPhoto(const Task &, const PhotoInfo::Id &) override;
