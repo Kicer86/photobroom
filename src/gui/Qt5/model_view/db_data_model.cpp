@@ -222,7 +222,10 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
         {
             if (photoInfo->isLoaded())
-                m_database->store(photoInfo);
+            {
+                Database::Task task = m_database->prepareTask(this);
+                m_database->store(task, photoInfo);
+            }
         }
 
         IdxData m_root;
@@ -305,6 +308,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
         virtual void got_storeStatus(const Database::Task& task)
         {
+            //TODO: some validation?
         }
 };
 
