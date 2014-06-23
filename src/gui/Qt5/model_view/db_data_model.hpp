@@ -63,7 +63,7 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         const std::vector<PhotoInfo::Ptr> getPhotos();
 
         //Database::IFrontend:
-        virtual void setBackend(Database::IBackend *) override;
+        virtual void setDatabase(Database::IDatabase *) override;
         virtual void close() override;
 
         //

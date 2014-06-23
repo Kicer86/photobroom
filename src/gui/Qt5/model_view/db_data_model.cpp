@@ -26,11 +26,38 @@
 #include <database/query_list.hpp>
 #include <database/filter.hpp>
 
+#include <palgorithm/ts_resource.hpp>
+
 #include "idx_data.hpp"
 
-struct DBDataModel::Impl
+namespace
 {
-        Impl(DBDataModel* model): m_root(model, nullptr, "root"), m_hierarchy(), m_dirty(true), m_backend(), m_iterator()
+    struct ITaskData
+    {
+        virtual ~ITaskData() {}
+    };
+
+    struct GetPhotosTask: ITaskData
+    {
+        GetPhotosTask(const QModelIndex& parent): m_parent(parent) {}
+        virtual ~GetPhotosTask() {}
+
+        QModelIndex m_parent;
+    };
+
+    struct DatabaseTaskHash
+    {
+        std::size_t operator()(const Database::Task& t) const
+        {
+            return t.getId();
+        }
+    };
+}
+
+
+struct DBDataModel::Impl: Database::IDatabaseClient
+{
+        Impl(DBDataModel* model): m_root(model, nullptr, "root"), m_hierarchy(), m_dirty(true), m_database(), m_iterator(), m_db_tasks()
         {
             m_root.setNodeData(std::make_shared<Database::FilterEmpty>()); //called just to mark root as node, not a leaf
             Hierarchy hierarchy;
@@ -55,17 +82,19 @@ struct DBDataModel::Impl
             return m_dirty;
         }
 
+        /*
         Database::PhotoIterator& getIterator()
         {
             if (m_dirty)
             {
                 m_dirty = false;
-                Database::QueryList list = m_backend->getAllPhotos();
+                Database::QueryList list = m_database->getAllPhotos();
                 m_iterator = list.begin();
             }
 
             return m_iterator;
         }
+        */
 
         void fetchMore(const QModelIndex& _parent)
         {
@@ -95,13 +124,12 @@ struct DBDataModel::Impl
                     buildFilterFor(_parent, &filter);
                     buildExtraFilters(&filter);
 
-                    Database::QueryList photos = m_backend->getPhotos(filter);
+                    //register task
+                    Database::Task task = m_database->prepareTask(this);
+                    m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
 
-                    for(PhotoInfo::Ptr photoInfo: photos)
-                    {
-                        IdxData* newItem = new IdxData(m_root.m_model, idxData, photoInfo);
-                        idxData->addChild(newItem);
-                    }
+                    //send task to execution
+                    m_database->getPhotos(task, filter);
                 }
                 else
                     assert(!"should not happen");
@@ -117,15 +145,15 @@ struct DBDataModel::Impl
             return status;
         }
 
-        void setBackend(Database::IBackend* backend)
+        void setBackend(Database::IDatabase* database)
         {
-            m_backend = backend;
+            m_database = database;
         }
 
         void close()
         {
-            if (m_backend)
-                m_backend->closeConnections();
+            if (m_database)
+                m_database->closeConnections();
         }
 
         IdxData* getIdxDataFor(const QModelIndex& obj) const
@@ -194,14 +222,15 @@ struct DBDataModel::Impl
         void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
         {
             if (photoInfo->isLoaded())
-                m_backend->store(photoInfo);
+                m_database->store(photoInfo);
         }
 
         IdxData m_root;
         Hierarchy m_hierarchy;
         bool m_dirty;
-        Database::IBackend* m_backend;
+        Database::IDatabase* m_database;
         Database::PhotoIterator m_iterator;
+        ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
 
     private:
         //function returns list of tags on particular 'level' for 'parent'
@@ -217,7 +246,7 @@ struct DBDataModel::Impl
                 buildFilterFor(_parent, &filter);
                 buildExtraFilters(&filter);
 
-                result = m_backend->listTagValues(tagNameInfo, filter);
+                result = m_database->listTagValues(tagNameInfo, filter);
             }
 
             return result;
@@ -237,6 +266,45 @@ struct DBDataModel::Impl
         {
             const auto modelSpecificFilters = m_root.m_model->getModelSpecificFilters();
             filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
+        }
+
+
+        virtual void got_getAllPhotos(const Database::Task& task, const Database::QueryList&)
+        {
+        }
+
+        virtual void got_getPhoto(const Database::Task& task, const PhotoInfo::Ptr&)
+        {
+        }
+
+        virtual void got_getPhotos(const Database::Task& task, const Database::QueryList& photos)
+        {
+            auto it = m_db_tasks.lock().get().find(task);
+            IdxData& idxData = IdxData* idxData = getParentIdxDataFor(it->second.m_parent);
+
+            for(PhotoInfo::Ptr photoInfo: photos)
+            {
+                IdxData* newItem = new IdxData(m_root.m_model, idxData, photoInfo);
+                idxData->addChild(newItem);
+            }
+
+            m_db_tasks.lock().get().erase(it);
+        }
+
+        virtual void got_listTags(const Database::Task& task, const std::vector<TagNameInfo>&)
+        {
+        }
+
+        virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>&)
+        {
+        }
+
+        virtual void got_listTagValues(const Database::Task& task, const std::set<TagValueInfo>&)
+        {
+        }
+
+        virtual void got_storeStatus(const Database::Task& task)
+        {
         }
 };
 
@@ -344,9 +412,9 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 }
 
 
-void DBDataModel::setBackend(Database::IBackend* backend)
+void DBDataModel::setDatabase(Database::IDatabase* database)
 {
-    m_impl->setBackend(backend);
+    m_impl->setBackend(database);
 }
 
 

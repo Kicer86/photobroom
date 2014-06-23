@@ -94,9 +94,9 @@ BrowseList::~BrowseList()
 
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
-    Database::IBackend* backend = Database::Builder::instance()->getBackend();
+    Database::IDatabase* db = Database::Builder::instance()->get();
     m_photosModel = new StagingDataModel(this);
-    m_photosModel->setBackend(backend);
+    m_photosModel->setDatabase(db);
 
     m_photosView = new ImagesTreeView(this);
     m_photosView->setModel(m_photosModel);
