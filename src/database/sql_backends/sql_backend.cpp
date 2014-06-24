@@ -227,7 +227,10 @@ namespace Database
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_db(), m_backend(backend), m_database_thread_id(std::this_thread::get_id()) {}
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_db(), m_backend(backend), m_database_thread_id()
+    {
+
+    }
 
 
     ASqlBackend::Data::~Data()
@@ -793,6 +796,9 @@ namespace Database
 
     bool ASqlBackend::init(const char* dbName)
     {
+        //store thread id for further validation
+        m_data->m_database_thread_id = std::this_thread::get_id();
+
         bool status = prepareDB(&m_data->m_db, dbName);
 
         if (status)
