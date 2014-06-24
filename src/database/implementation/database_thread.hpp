@@ -47,7 +47,7 @@ namespace Database
             virtual void listTagValues(const Task &, const TagNameInfo &) override;
             virtual void listTagValues(const Task &, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
 
-            virtual bool init(const char*) override;
+            virtual bool init(const Database::Task &, const std::string &) override;
             virtual void closeConnections() override;
 
         private:

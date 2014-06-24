@@ -111,7 +111,7 @@ namespace Database
         virtual void getPhoto(const Task &, const PhotoInfo::Id &) = 0;              //get particulat photo
 
         //init backend - connect to database or create new one
-        virtual bool init(const char *) = 0;
+        virtual bool init(const Database::Task &, const std::string &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

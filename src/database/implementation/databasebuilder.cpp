@@ -162,7 +162,9 @@ namespace Database
         if (backendIt == m_impl->m_backends.end())
         {
             std::unique_ptr<IDatabase> database(new DatabaseThread(m_impl->getPlugin()->constructBackend()));
-            const bool status = database->init(dbType);
+            Database::Task task = database->prepareTask(nullptr);
+
+            const bool status = database->init(task, dbType);
 
             if (status)
             {

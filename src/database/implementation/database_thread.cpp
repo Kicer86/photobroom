@@ -27,6 +27,7 @@
 namespace
 {
     struct IThreadVisitor;
+    struct InitTask;
     struct StoreTask;
     struct GetAllPhotosTask;
     struct GetPhotoTask;
@@ -52,12 +53,23 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
+        virtual void visit(InitTask *) = 0;
         virtual void visit(StoreTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
+    };
+
+    struct InitTask: ThreadBaseTask
+    {
+        InitTask(const Database::Task& task, const std::string& name): ThreadBaseTask(task), m_name(name) {}
+        virtual ~InitTask() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::string m_name;
     };
 
     struct StoreTask: ThreadBaseTask
@@ -124,6 +136,13 @@ namespace
         Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend), m_tasks(1024) {}
 
         virtual ~Executor() {}
+
+        virtual void visit(InitTask* task)
+        {
+            m_backend->init(task->m_name.c_str());
+
+            //TODO: result
+        }
 
         virtual void visit(StoreTask* task)
         {
@@ -235,12 +254,13 @@ namespace Database
     }
 
 
-    bool DatabaseThread::init(const char* name)
+    bool DatabaseThread::init(const Task& db_task, const std::string& name)
     {
-        //const bool status = m_impl->m_backend->init(name);
-        //return status;
+        InitTask* task = new InitTask(db_task, name);
+        m_impl->addTask(task);
 
-
+        //TODO: fix it
+        return true;
     }
 
 
