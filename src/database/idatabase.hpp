@@ -71,6 +71,8 @@ namespace Database
         IDatabaseClient* getClient() const { return client; }
         Id getId() const { return id; }
 
+        bool operator==(const Task& other) const { return id == other.id; }
+
         private:
             Id id;
             bool status;
@@ -83,7 +85,6 @@ namespace Database
         virtual void got_storeStatus(const Task &) = 0;
 
         virtual void got_listTags(const Task &, const std::vector<TagNameInfo> &) = 0;
-        virtual void got_listTagValues(const Task &, const std::set<TagValueInfo> &) = 0;
         virtual void got_listTagValues(const Task &, const std::deque<TagValueInfo> &) = 0;
         virtual void got_getAllPhotos(const Task &, const QueryList &) = 0;
         virtual void got_getPhotos(const Task &, const QueryList &) = 0;
