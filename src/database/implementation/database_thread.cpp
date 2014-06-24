@@ -228,6 +228,14 @@ namespace Database
             executor->begin();
         }
 
+        void stopExecutor()
+        {
+            m_executor.m_tasks.break_popping();
+
+            assert(m_thread.joinable());
+            m_thread.join();
+        }
+
         int m_lastId;
         Executor m_executor;
         std::thread m_thread;
@@ -242,7 +250,8 @@ namespace Database
 
     DatabaseThread::~DatabaseThread()
     {
-
+        //terminate thread
+        m_impl->stopExecutor();
     }
 
 
