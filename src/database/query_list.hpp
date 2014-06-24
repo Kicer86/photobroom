@@ -37,9 +37,9 @@ namespace Database
             ~QueryList();
             QueryList& operator=(const QueryList &) = default;
 
-            PhotoIterator begin();
-            PhotoIterator end();
-            PhotoIterator find();
+            PhotoIterator begin() const;
+            PhotoIterator end() const;
+            PhotoIterator find() const;
             int size() const;
 
         private:
