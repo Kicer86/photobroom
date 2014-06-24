@@ -75,7 +75,7 @@ namespace Database
         private:
             std::unique_ptr<Data> m_data;
 
-            virtual bool init(const char *) override final;
+            virtual bool init(const std::string &) override final;
             virtual bool store(const PhotoInfo::Ptr &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;
