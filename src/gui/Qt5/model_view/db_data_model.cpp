@@ -91,20 +91,6 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             return m_dirty;
         }
 
-        /*
-        Database::PhotoIterator& getIterator()
-        {
-            if (m_dirty)
-            {
-                m_dirty = false;
-                Database::QueryList list = m_database->getAllPhotos();
-                m_iterator = list.begin();
-            }
-
-            return m_iterator;
-        }
-        */
-
         void fetchMore(const QModelIndex& _parent)
         {
             IdxData* idxData = getParentIdxDataFor(_parent);
