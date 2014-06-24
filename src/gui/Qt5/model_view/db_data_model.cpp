@@ -45,6 +45,15 @@ namespace
         QModelIndex m_parent;
     };
 
+    struct ListTagValuesTask: ITaskData
+    {
+        ListTagValuesTask(const QModelIndex& parent, size_t level): m_parent(parent), m_level(level) {}
+        virtual ~ListTagValuesTask() {}
+
+        QModelIndex m_parent;
+        size_t m_level;
+    };
+
     struct DatabaseTaskHash
     {
         std::size_t operator()(const Database::Task& t) const
@@ -102,21 +111,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             const size_t level = idxData->m_level;
 
             if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
-            {
-                std::deque<TagValueInfo> tags = getLevelInfo(level + 1, _parent);
-
-                for(const TagValueInfo& tag: tags)
-                {
-                    auto fdesc = std::make_shared<Database::FilterDescription>();
-                    fdesc->tagName = m_hierarchy.levels[level].tagName;
-                    fdesc->tagValue = tag;
-
-                    IdxData* newItem = new IdxData(m_root.m_model, idxData, tag);
-                    newItem->setNodeData(fdesc);
-
-                    idxData->addChild(newItem);
-                }
-            }
+                getLevelInfo(level, _parent);
             else
                 if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
                 {
@@ -237,22 +232,20 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
     private:
         //function returns list of tags on particular 'level' for 'parent'
-        std::deque<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
+        void getLevelInfo(size_t level, const QModelIndex& _parent)
         {
-            std::deque<TagValueInfo> result;
-
-            if (level <= m_hierarchy.levels.size())
+            if (level + 1 <= m_hierarchy.levels.size())
             {
                 std::deque<Database::IFilter::Ptr> filter;
 
-                const TagNameInfo& tagNameInfo = m_hierarchy.levels[level - 1].tagName;
+                const TagNameInfo& tagNameInfo = m_hierarchy.levels[level].tagName;
                 buildFilterFor(_parent, &filter);
                 buildExtraFilters(&filter);
 
-                result = m_database->listTagValues(tagNameInfo, filter);
+                Database::Task task = m_database->prepareTask(this);
+                m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new ListTagValuesTask(_parent, level));
+                m_database->listTagValues(task, tagNameInfo, filter);
             }
-
-            return result;
         }
 
         void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
@@ -272,18 +265,19 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         }
 
 
-        virtual void got_getAllPhotos(const Database::Task& task, const Database::QueryList&)
+        virtual void got_getAllPhotos(const Database::Task& task, const Database::QueryList&) override
         {
         }
 
-        virtual void got_getPhoto(const Database::Task& task, const PhotoInfo::Ptr&)
+        virtual void got_getPhoto(const Database::Task& task, const PhotoInfo::Ptr&) override
         {
         }
 
-        virtual void got_getPhotos(const Database::Task& task, const Database::QueryList& photos)
+        virtual void got_getPhotos(const Database::Task& task, const Database::QueryList& photos) override
         {
             auto it = m_db_tasks.lock().get().find(task);
-            IdxData* idxData = getParentIdxDataFor(it->second->m_parent);
+            GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
+            IdxData* idxData = getParentIdxDataFor(l_task->m_parent);
 
             for(PhotoInfo::Ptr photoInfo: photos)
             {
@@ -294,19 +288,34 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             m_db_tasks.lock().get().erase(it);
         }
 
-        virtual void got_listTags(const Database::Task& task, const std::vector<TagNameInfo>&)
+        virtual void got_listTags(const Database::Task& task, const std::vector<TagNameInfo>&) override
         {
         }
 
-        virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>&)
+        virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override
         {
+            auto it = m_db_tasks.lock().get().find(task);
+            ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(it->second.get());
+
+            const size_t level = l_task->m_level;
+            const QModelIndex& _parent = l_task->m_parent;
+            IdxData* idxData = getParentIdxDataFor(_parent);
+
+            for(const TagValueInfo& tag: tags)
+            {
+                auto fdesc = std::make_shared<Database::FilterDescription>();
+                fdesc->tagName = m_hierarchy.levels[level].tagName;
+                fdesc->tagValue = tag;
+
+                IdxData* newItem = new IdxData(m_root.m_model, idxData, tag);
+                newItem->setNodeData(fdesc);
+
+                idxData->addChild(newItem);
+            }
         }
 
-        virtual void got_listTagValues(const Database::Task& task, const std::set<TagValueInfo>&)
-        {
-        }
 
-        virtual void got_storeStatus(const Database::Task& task)
+        virtual void got_storeStatus(const Database::Task& task) override
         {
             //TODO: some validation?
         }
