@@ -267,6 +267,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         {
         }
 
+        //called when leafs for particual node have been loaded
         virtual void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override
         {
             auto it = m_db_tasks.lock().get().find(task);
@@ -280,12 +281,15 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             }
 
             m_db_tasks.lock().get().erase(it);
+
+            pThis->idxUpdated(idxData);
         }
 
         virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override
         {
         }
 
+        //called when nodes for particual node have been loaded
         virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override
         {
             auto it = m_db_tasks.lock().get().find(task);
@@ -306,6 +310,9 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
                 idxData->addChild(newItem);
             }
+
+            //emit signals about update
+            pThis->idxUpdated(idxData);
         }
 
 
