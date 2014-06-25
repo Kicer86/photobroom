@@ -66,7 +66,14 @@ namespace
 
 struct DBDataModel::Impl: Database::IDatabaseClient
 {
-        Impl(DBDataModel* model): m_root(model, nullptr, "root"), m_hierarchy(), m_dirty(true), m_database(), m_iterator(), m_db_tasks()
+        Impl(DBDataModel* model):
+            pThis(model),
+            m_root(model, nullptr, "root"),
+            m_hierarchy(),
+            m_dirty(true),
+            m_database(),
+            m_iterator(),
+            m_db_tasks()
         {
             m_root.setNodeData(std::make_shared<Database::FilterEmpty>()); //called just to mark root as node, not a leaf
             Hierarchy hierarchy;
@@ -209,6 +216,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             }
         }
 
+        DBDataModel* pThis;
         IdxData m_root;
         Hierarchy m_hierarchy;
         bool m_dirty;
