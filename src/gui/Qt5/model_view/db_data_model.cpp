@@ -302,6 +302,8 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             const QModelIndex& _parent = l_task->m_parent;
             IdxData* parentIdxData = getParentIdxDataFor(_parent);
 
+            std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
             for(const TagValueInfo& tag: tags)
             {
                 auto fdesc = std::make_shared<Database::FilterDescription>();
@@ -311,13 +313,13 @@ struct DBDataModel::Impl: Database::IDatabaseClient
                 IdxData* newItem = new IdxData(m_root.m_model, parentIdxData, tag);
                 newItem->setNodeData(fdesc);
 
-                parentIdxData->addChild(newItem);
+                leafs->push_back(newItem);
             }
 
             m_db_tasks.lock().get().erase(it);
 
-            //emit signals about update
-            pThis->idxUpdated(parentIdxData);
+            //attach nodes to parent node in main thread
+            pThis->attachNodes(parentIdxData, leafs);
         }
 
 
