@@ -275,7 +275,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
             for(PhotoInfo::Ptr photoInfo: photos)
             {
-                IdxData* newItem = new IdxData(m_root.m_model, idxData, photoInfo);
+                IdxData* newItem = new IdxData(pThis, idxData, photoInfo);
                 idxData->addChild(newItem);
             }
 
