@@ -16,9 +16,9 @@ TODO:
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
-- database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 
 DONE:
+- database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 - PhotoInfo: review and refactor flags structs
 - gui: 'save photos' button must switch 'staging area' flag
 - database: react properly when photo already in database (updating photo)
