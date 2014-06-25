@@ -300,7 +300,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
             const size_t level = l_task->m_level;
             const QModelIndex& _parent = l_task->m_parent;
-            IdxData* idxData = getParentIdxDataFor(_parent);
+            IdxData* parentIdxData = getParentIdxDataFor(_parent);
 
             for(const TagValueInfo& tag: tags)
             {
@@ -308,16 +308,16 @@ struct DBDataModel::Impl: Database::IDatabaseClient
                 fdesc->tagName = m_hierarchy.levels[level].tagName;
                 fdesc->tagValue = tag;
 
-                IdxData* newItem = new IdxData(m_root.m_model, idxData, tag);
+                IdxData* newItem = new IdxData(m_root.m_model, parentIdxData, tag);
                 newItem->setNodeData(fdesc);
 
-                idxData->addChild(newItem);
+                parentIdxData->addChild(newItem);
             }
 
             m_db_tasks.lock().get().erase(it);
 
             //emit signals about update
-            pThis->idxUpdated(idxData);
+            pThis->idxUpdated(parentIdxData);
         }
 
 
