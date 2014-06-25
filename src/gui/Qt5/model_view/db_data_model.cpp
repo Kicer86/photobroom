@@ -272,20 +272,20 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         {
             auto it = m_db_tasks.lock().get().find(task);
             GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
-            IdxData* idxData = getParentIdxDataFor(l_task->m_parent);
+            IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
 
             std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
             for(PhotoInfo::Ptr photoInfo: photos)
             {
-                IdxData* newItem = new IdxData(pThis, idxData, photoInfo);
+                IdxData* newItem = new IdxData(pThis, parentIdxData, photoInfo);
                 leafs->push_back(newItem);
             }
 
             m_db_tasks.lock().get().erase(it);
 
             //attach photos to parent node in main thread
-            pThis->attachNodes(idxData, leafs);
+            pThis->attachNodes(parentIdxData, leafs);
         }
 
         virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override
