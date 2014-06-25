@@ -251,15 +251,15 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         }
 
 
-        virtual void got_getAllPhotos(const Database::Task& task, const Database::QueryList&) override
+        virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override
         {
         }
 
-        virtual void got_getPhoto(const Database::Task& task, const PhotoInfo::Ptr&) override
+        virtual void got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &) override
         {
         }
 
-        virtual void got_getPhotos(const Database::Task& task, const Database::QueryList& photos) override
+        virtual void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override
         {
             auto it = m_db_tasks.lock().get().find(task);
             GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
@@ -274,7 +274,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             m_db_tasks.lock().get().erase(it);
         }
 
-        virtual void got_listTags(const Database::Task& task, const std::vector<TagNameInfo>&) override
+        virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override
         {
         }
 
@@ -301,7 +301,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         }
 
 
-        virtual void got_storeStatus(const Database::Task& task) override
+        virtual void got_storeStatus(const Database::Task &) override
         {
             //TODO: some validation?
         }
