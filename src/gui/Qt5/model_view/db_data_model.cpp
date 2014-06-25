@@ -311,6 +311,8 @@ struct DBDataModel::Impl: Database::IDatabaseClient
                 idxData->addChild(newItem);
             }
 
+            m_db_tasks.lock().get().erase(it);
+
             //emit signals about update
             pThis->idxUpdated(idxData);
         }
