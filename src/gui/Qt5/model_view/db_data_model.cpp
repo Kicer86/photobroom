@@ -469,7 +469,9 @@ void DBDataModel::dispatchIdxUpdate(IdxData* idxData)
     QModelIndex idx = createIndex(idxData);
     emit dataChanged(idx, idx);
 
+    //if photo changed, store it in database
     PhotoInfo::Ptr photoInfo = idxData->m_photo;
-    m_impl->updatePhotoInDB(photoInfo);
+    if (photoInfo.get() != nullptr)
+        m_impl->updatePhotoInDB(photoInfo);
 }
 
