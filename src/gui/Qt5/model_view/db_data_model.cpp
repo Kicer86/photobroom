@@ -274,15 +274,18 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
             IdxData* idxData = getParentIdxDataFor(l_task->m_parent);
 
+            std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
             for(PhotoInfo::Ptr photoInfo: photos)
             {
                 IdxData* newItem = new IdxData(pThis, idxData, photoInfo);
-                idxData->addChild(newItem);
+                leafs->push_back(newItem);
             }
 
             m_db_tasks.lock().get().erase(it);
 
-            pThis->idxUpdated(idxData);
+            //attach photos to parent node in main thread
+            pThis->attachNodes(idxData, leafs);
         }
 
         virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override
@@ -330,8 +333,12 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl(this))
 {
+    qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
+    
     //used for moving notifications to main thread
     connect(this, SIGNAL(dispatchUpdate(IdxData*)), this, SLOT(dispatchIdxUpdate(IdxData*)));
+    connect(this, SIGNAL(dispatchNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)),
+            this, SLOT(dispatchAttachNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)));
 }
 
 
@@ -446,6 +453,12 @@ void DBDataModel::idxUpdated(IdxData* idxData)
     emit dispatchUpdate(idxData);
 }
 
+void DBDataModel::attachNodes(IdxData* parent, const std::shared_ptr<std::deque<IdxData *>>& leafs)
+{
+    //make sure, we will move to main thread
+    emit dispatchNodes(parent, leafs);
+}
+
 
 IdxData& DBDataModel::getRootIdxData()
 {
@@ -477,3 +490,16 @@ void DBDataModel::dispatchIdxUpdate(IdxData* idxData)
         m_impl->updatePhotoInDB(photoInfo);
 }
 
+
+void DBDataModel::dispatchAttachNodes(IdxData* parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
+{
+    //attach nodes to parent in main thread
+    QModelIndex parentIdx = createIndex(parent);
+    const size_t last = photos->size() - 1;
+    beginInsertRows(parentIdx, 0, last);
+
+    for(IdxData* newItem: *photos)
+        parent->addChild(newItem);
+
+    endInsertRows();
+}

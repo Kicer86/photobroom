@@ -68,6 +68,7 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 
         //
         void idxUpdated(IdxData *);
+        void attachNodes(IdxData* parent, const std::shared_ptr< std::deque<IdxData *> > &);
 
     protected:
         IdxData& getRootIdxData();
@@ -96,9 +97,11 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 
     private slots:
         void dispatchIdxUpdate(IdxData *);
+        void dispatchAttachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 
     signals:
         void dispatchUpdate(IdxData *);
+        void dispatchNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 };
 
 #endif // DBDATAMODEL_H
