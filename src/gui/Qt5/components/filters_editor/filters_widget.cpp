@@ -19,9 +19,15 @@
 
 #include "filters_widget.hpp"
 
-FiltersWidget::FiltersWidget()
-{
+#include <QVBoxLayout>
 
+#include "level_editor.hpp"
+
+FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent)
+{
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+
+    mainLayout->addWidget(new LevelEditor);
 }
 
 

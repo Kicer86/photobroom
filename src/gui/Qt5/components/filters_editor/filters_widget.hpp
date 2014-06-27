@@ -22,10 +22,10 @@
 
 #include <QWidget>
 
-class FiltersWidget : public QWidget
+class FiltersWidget: public QWidget
 {
     public:
-        FiltersWidget();
+        FiltersWidget(QWidget *);
         FiltersWidget(const FiltersWidget &) = delete;
         ~FiltersWidget();
 
