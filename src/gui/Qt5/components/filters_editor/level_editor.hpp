@@ -22,13 +22,20 @@
 
 #include <QWidget>
 
+class QHBoxLayout;
+
 class LevelEditor : public QWidget
 {
     public:
-        LevelEditor();
+        LevelEditor(QWidget * = nullptr);
         LevelEditor(const LevelEditor &) = delete;
         ~LevelEditor();
         LevelEditor& operator=(const LevelEditor &) = delete;
+
+    private:
+        QHBoxLayout* m_layout;
+
+        void updateGui();
 };
 
 #endif // GUI_LEVELEDITOR_H

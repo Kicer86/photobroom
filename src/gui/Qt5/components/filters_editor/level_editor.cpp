@@ -19,9 +19,14 @@
 
 #include "level_editor.hpp"
 
-LevelEditor::LevelEditor()
-{
+#include <QHBoxLayout>
+#include <QComboBox>
 
+LevelEditor::LevelEditor(QWidget* _parent): QWidget(_parent), m_layout(nullptr)
+{
+    m_layout = new QHBoxLayout(this);
+
+    updateGui();
 }
 
 
@@ -30,3 +35,43 @@ LevelEditor::~LevelEditor()
 
 }
 
+
+void LevelEditor::updateGui()
+{
+    int size = m_layout->count();
+
+    //make sure it's not empty
+    if (size == 0)
+    {
+        m_layout->addWidget(new QComboBox);
+        m_layout->addStretch();
+    }
+
+    //remove empty
+    if (size > 2)
+        for (int i = 0; i > size - 2;)    //do not check last combobox, it can be empty, and do not check stretch item (last layout item)
+        {
+            QWidget* rawWidget = m_layout->itemAt(i)->widget();
+            QComboBox* comboBox = static_cast<QComboBox *>(rawWidget);
+
+            const QString text = comboBox->currentText();
+            if (text.isEmpty())
+                m_layout->removeWidget(comboBox);
+            else
+                i++;
+        }
+
+    //add new if last is not empty
+    size = m_layout->count();
+    QWidget* rawWidget = m_layout->itemAt(size - 2)->widget();
+    QLayoutItem* stretch = m_layout->itemAt(size - 1);
+    QComboBox* comboBox = static_cast<QComboBox *>(rawWidget);
+
+    const QString text = comboBox->currentText();
+    if (text.isEmpty() == false)
+    {
+        m_layout->removeItem(stretch);
+        m_layout->addWidget(new QComboBox);
+        m_layout->addStretch();
+    }
+}
