@@ -25,7 +25,7 @@
 class FiltersWidget: public QWidget
 {
     public:
-        FiltersWidget(QWidget *);
+        FiltersWidget(QWidget * = 0);
         FiltersWidget(const FiltersWidget &) = delete;
         ~FiltersWidget();
 

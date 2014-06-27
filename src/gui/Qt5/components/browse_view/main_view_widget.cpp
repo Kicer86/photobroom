@@ -9,6 +9,7 @@
 
 #include "model_view/images_tree_view.hpp"
 #include "main_view_data_model.hpp"
+#include "components/filters_editor/filters_widget.hpp"
 
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
@@ -21,6 +22,7 @@ MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), 
     m_imagesView->setModel(m_imagesModel);
 
     QVBoxLayout* main_layout = new QVBoxLayout(this);
+    main_layout->addWidget(new FiltersWidget);
     main_layout->addWidget(m_imagesView);
 
     QPushButton* button = new QPushButton("Refresh", this);
