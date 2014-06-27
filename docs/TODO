@@ -2,7 +2,6 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
-- gui improvements: filters and hierarchy management
 - gui improvements: move stagging area to menu->add photos
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - core: make photos tagger a new task
@@ -18,6 +17,7 @@ TODO:
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
+- gui improvements: filters and hierarchy management
 
 DONE:
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
