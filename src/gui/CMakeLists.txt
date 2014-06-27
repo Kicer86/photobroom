@@ -30,6 +30,7 @@ set(GUI_SOURCES
     Qt5/model_view/positions_cache.cpp
     Qt5/components/browse_view/main_view_data_model.cpp
     Qt5/components/browse_view/main_view_widget.cpp
+    Qt5/components/filters_editor/filters_widget.cpp
     Qt5/components/photos_staging/photos_view_widget.cpp
     Qt5/components/photos_staging/photos_staging_area.cpp
     Qt5/components/photos_staging/staging_data_model.cpp
@@ -56,6 +57,7 @@ set(GUI_HEADERS
     Qt5/model_view/positions_cache.hpp
     Qt5/components/browse_view/main_view_data_model.hpp
     Qt5/components/browse_view/main_view_widget.hpp
+    Qt5/components/filters_editor/filters_widget.hpp
     Qt5/components/photos_staging/photos_view_widget.hpp
     Qt5/components/photos_staging/photos_staging_area.hpp
     Qt5/components/photos_staging/staging_data_model.hpp
