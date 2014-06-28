@@ -2,6 +2,7 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
+- task executor: turn off threads when not needed
 - model: react on changes in database
 - gui improvements: move stagging area to menu->add photos
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
