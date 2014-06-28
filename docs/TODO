@@ -2,6 +2,7 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
+- model: react on changes in database
 - gui improvements: move stagging area to menu->add photos
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - core: make photos tagger a new task
