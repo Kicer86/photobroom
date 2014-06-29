@@ -20,13 +20,110 @@
 #include "level_editor.hpp"
 
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QComboBox>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QMimeData>
+#include <QDrag>
+#include <QPainter>
+#include <QDebug>
 
-LevelEditor::LevelEditor(QWidget* _parent): QWidget(_parent), m_layout(nullptr)
+
+namespace
 {
-    m_layout = new QHBoxLayout(this);
+    struct ChoosenLevelsWidget: QFrame
+    {
+        ChoosenLevelsWidget();
+        virtual ~ChoosenLevelsWidget();
 
-    updateGui();
+        virtual void dragEnterEvent(QDragEnterEvent *event) override;
+        virtual void dragMoveEvent(QDragMoveEvent *) override;
+        virtual void dropEvent(QDropEvent *) override;
+    };
+
+    template<unsigned int>
+    struct PtrSize {};
+
+    template<>
+    struct PtrSize<4>
+    {
+        typedef quint32 ptr_size;
+    };
+
+    template<>
+    struct PtrSize<8>
+    {
+        typedef quint64 ptr_size;
+    };
+
+    typedef PtrSize<sizeof(void *)>::ptr_size ptr_size;
+
+    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame()
+    {
+        setAcceptDrops(true);
+    }
+
+
+    ChoosenLevelsWidget::~ChoosenLevelsWidget()
+    {
+
+    }
+
+
+    void ChoosenLevelsWidget::dragEnterEvent(QDragEnterEvent *_event)
+    {
+        if (_event->mimeData()->hasFormat("application/x-dnditemdata"))
+            _event->acceptProposedAction();
+        else
+            _event->ignore();
+    }
+
+
+    void ChoosenLevelsWidget::dragMoveEvent(QDragMoveEvent *_event)
+    {
+        qDebug() << _event->pos();
+    }
+
+
+    void ChoosenLevelsWidget::dropEvent(QDropEvent *_event)
+    {
+        QByteArray itemData = _event->mimeData()->data("application/x-dnditemdata");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        ptr_size childAddr;
+        QPoint offset;
+        dataStream >> childAddr >> offset;
+
+        const QPoint pos = _event->pos() - offset;
+
+        QLabel* label = reinterpret_cast<QLabel *>(childAddr);
+        label->setParent(this);
+        label->move(pos);
+        label->show();
+
+        _event->acceptProposedAction();
+    }
+}
+
+
+LevelEditor::LevelEditor(QWidget* _parent): QWidget(_parent), m_notUsedItemsLayout(nullptr), m_levels()
+{
+    QFrame* usedLevelsArea = new ChoosenLevelsWidget;
+    usedLevelsArea->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    usedLevelsArea->setLineWidth(0);
+    usedLevelsArea->setMidLineWidth(0);
+    usedLevelsArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+    QHBoxLayout* levelsDefinitionLayout = new QHBoxLayout;
+    levelsDefinitionLayout->addWidget(new QLabel(tr("Grouping:")));
+    levelsDefinitionLayout->addWidget(usedLevelsArea);
+
+    m_notUsedItemsLayout = new QHBoxLayout;
+
+    QBoxLayout* mainLayout = new QVBoxLayout(this);
+    mainLayout->addLayout(levelsDefinitionLayout);
+    mainLayout->addLayout(m_notUsedItemsLayout);
 }
 
 
@@ -36,42 +133,47 @@ LevelEditor::~LevelEditor()
 }
 
 
-void LevelEditor::updateGui()
+void LevelEditor::setLevelNames(const std::deque<QString>& names)
 {
-    int size = m_layout->count();
+    //TODO: perform diff and remove/add widgets in smart way
 
-    //make sure it's not empty
-    if (size == 0)
+    for (const QString& name: names)
     {
-        m_layout->addWidget(new QComboBox);
-        m_layout->addStretch();
+        QLabel* label = new QLabel(name, this);
+        label->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+        label->setLineWidth(0);
+        label->setMidLineWidth(0);
+
+        m_levels.push_back(label);
+        m_notUsedItemsLayout->addWidget(label);
     }
+}
 
-    //remove empty
-    if (size > 2)
-        for (int i = 0; i > size - 2;)    //do not check last combobox, it can be empty, and do not check stretch item (last layout item)
-        {
-            QWidget* rawWidget = m_layout->itemAt(i)->widget();
-            QComboBox* comboBox = static_cast<QComboBox *>(rawWidget);
 
-            const QString text = comboBox->currentText();
-            if (text.isEmpty())
-                m_layout->removeWidget(comboBox);
-            else
-                i++;
-        }
+void LevelEditor::mousePressEvent(QMouseEvent *_event)
+{
+    QLabel *child = dynamic_cast<QLabel*>(childAt(_event->pos()));
+    if (child == nullptr)
+        return;
 
-    //add new if last is not empty
-    size = m_layout->count();
-    QWidget* rawWidget = m_layout->itemAt(size - 2)->widget();
-    QLayoutItem* stretch = m_layout->itemAt(size - 1);
-    QComboBox* comboBox = static_cast<QComboBox *>(rawWidget);
+    QPixmap pixmap(child->size());
+    child->render(&pixmap);
 
-    const QString text = comboBox->currentText();
-    if (text.isEmpty() == false)
-    {
-        m_layout->removeItem(stretch);
-        m_layout->addWidget(new QComboBox);
-        m_layout->addStretch();
-    }
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    dataStream << reinterpret_cast<ptr_size>(child) << QPoint(_event->pos() - child->pos());
+
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData("application/x-dnditemdata", itemData);
+
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    drag->setPixmap(pixmap);
+    drag->setHotSpot(_event->pos() - child->pos());
+
+    const QString originalColors = child->styleSheet();
+    child->setStyleSheet("QLabel { color : gray; }");
+
+    drag->exec();
+    child->setStyleSheet(originalColors);
 }

@@ -20,9 +20,12 @@
 #ifndef GUI_LEVELEDITOR_H
 #define GUI_LEVELEDITOR_H
 
+#include <deque>
+
 #include <QWidget>
 
 class QHBoxLayout;
+class QLabel;
 
 class LevelEditor : public QWidget
 {
@@ -32,10 +35,13 @@ class LevelEditor : public QWidget
         ~LevelEditor();
         LevelEditor& operator=(const LevelEditor &) = delete;
 
-    private:
-        QHBoxLayout* m_layout;
+        void setLevelNames(const std::deque<QString> &);
 
-        void updateGui();
+    private:
+        QHBoxLayout* m_notUsedItemsLayout;
+        std::deque<QLabel *> m_levels;
+
+        virtual void mousePressEvent(QMouseEvent *) override;
 };
 
 #endif // GUI_LEVELEDITOR_H
