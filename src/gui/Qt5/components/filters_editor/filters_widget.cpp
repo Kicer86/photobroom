@@ -27,7 +27,10 @@ FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
-    mainLayout->addWidget(new LevelEditor);
+    LevelEditor* le = new LevelEditor;
+    le->setLevelNames( {"abcd", "1234", "qwert", "asdf", "zxcvbnm,./"} );
+
+    mainLayout->addWidget(le);
 }
 
 
