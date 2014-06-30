@@ -40,6 +40,8 @@ namespace
         virtual void dragEnterEvent(QDragEnterEvent *event) override;
         virtual void dragMoveEvent(QDragMoveEvent *) override;
         virtual void dropEvent(QDropEvent *) override;
+
+        std::deque<QLabel *> m_levels;
     };
 
     template<unsigned int> struct PtrSize {};
@@ -89,6 +91,8 @@ namespace
         label->setParent(this);
         label->move(pos);
         label->show();
+
+        m_levels.push_back(label);
 
         _event->acceptProposedAction();
     }
