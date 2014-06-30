@@ -42,21 +42,9 @@ namespace
         virtual void dropEvent(QDropEvent *) override;
     };
 
-    template<unsigned int>
-    struct PtrSize {};
-
-    template<>
-    struct PtrSize<4>
-    {
-        typedef quint32 ptr_size;
-    };
-
-    template<>
-    struct PtrSize<8>
-    {
-        typedef quint64 ptr_size;
-    };
-
+    template<unsigned int> struct PtrSize {};
+    template<> struct PtrSize<4> { typedef quint32 ptr_size; };
+    template<> struct PtrSize<8> { typedef quint64 ptr_size; };
     typedef PtrSize<sizeof(void *)>::ptr_size ptr_size;
 
     ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame()
