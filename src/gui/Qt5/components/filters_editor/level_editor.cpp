@@ -41,6 +41,8 @@ namespace
         virtual void dragMoveEvent(QDragMoveEvent *) override;
         virtual void dropEvent(QDropEvent *) override;
 
+        QPoint calcDropPosition(const QPoint &);
+
         std::deque<QLabel *> m_levels;
     };
 
@@ -72,7 +74,15 @@ namespace
 
     void ChoosenLevelsWidget::dragMoveEvent(QDragMoveEvent *_event)
     {
-        qDebug() << _event->pos();
+        QByteArray itemData = _event->mimeData()->data("application/x-dnditemdata");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        ptr_size childAddr;
+        QPoint offset;
+        dataStream >> childAddr >> offset;
+
+        const QPoint pos = _event->pos() - offset;
+        const QPoint dropPosition = calcDropPosition(pos);
     }
 
 
@@ -86,16 +96,45 @@ namespace
         dataStream >> childAddr >> offset;
 
         const QPoint pos = _event->pos() - offset;
+        const QPoint dropPosition = calcDropPosition(pos);
 
         QLabel* label = reinterpret_cast<QLabel *>(childAddr);
         label->setParent(this);
-        label->move(pos);
+        label->move(dropPosition);
         label->show();
 
         m_levels.push_back(label);
 
         _event->acceptProposedAction();
     }
+
+
+    QPoint ChoosenLevelsWidget::calcDropPosition(const QPoint& point)
+    {
+        int result = 0;
+
+        for(QWidget* child: m_levels)
+        {
+            const QSize size = child->size();
+            const QPoint pos = child->pos();
+
+            const int left = pos.x();
+            const int right = pos.x() + size.width();
+            const int m = (left + right) / 2;  //central point
+
+            if (point.x() >= left && point.x() <= m)   //mouse over left part of child? Return left side of child as result
+            {
+                result = left;
+                break;
+            }
+            else if (point.x() > m)                    //mouse on the right side? (Right side of current child or farer)
+                result = right;                        //by default set to right side. This will be the final result when we are over last child from list.
+                                                       //It there are more children, algorithm will continue.
+        }
+
+        return QPoint(result, 0);
+    }
+
 }
 
 
