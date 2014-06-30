@@ -139,6 +139,8 @@ void LevelEditor::setLevelNames(const std::deque<QString>& names)
         m_levels.push_back(label);
         m_notUsedItemsLayout->addWidget(label);
     }
+
+    m_notUsedItemsLayout->addStretch();
 }
 
 
