@@ -44,6 +44,10 @@ namespace
         QPoint calcDropPosition(const QPoint &);
 
         std::deque<QLabel *> m_levels;
+
+        //drag data:
+        QLabel* m_dd_label;
+        QPoint  m_dd_offset;
     };
 
     template<unsigned int> struct PtrSize {};
@@ -51,7 +55,7 @@ namespace
     template<> struct PtrSize<8> { typedef quint64 ptr_size; };
     typedef PtrSize<sizeof(void *)>::ptr_size ptr_size;
 
-    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame()
+    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame(), m_levels(), m_dd_label(nullptr), m_dd_offset()
     {
         setAcceptDrops(true);
     }
@@ -66,7 +70,20 @@ namespace
     void ChoosenLevelsWidget::dragEnterEvent(QDragEnterEvent *_event)
     {
         if (_event->mimeData()->hasFormat("application/x-dnditemdata"))
+        {
             _event->acceptProposedAction();
+
+            //collect drag data
+            QByteArray itemData = _event->mimeData()->data("application/x-dnditemdata");
+            QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+            ptr_size childAddr;
+            QPoint offset;
+            dataStream >> childAddr >> offset;
+
+            m_dd_label = reinterpret_cast<QLabel *>(childAddr);
+            m_dd_offset = offset;
+        }
         else
             _event->ignore();
     }
@@ -74,38 +91,28 @@ namespace
 
     void ChoosenLevelsWidget::dragMoveEvent(QDragMoveEvent *_event)
     {
-        QByteArray itemData = _event->mimeData()->data("application/x-dnditemdata");
-        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-
-        ptr_size childAddr;
-        QPoint offset;
-        dataStream >> childAddr >> offset;
-
-        const QPoint pos = _event->pos() - offset;
+        const QPoint pos = _event->pos() - m_dd_offset;
         const QPoint dropPosition = calcDropPosition(pos);
+
+
     }
 
 
     void ChoosenLevelsWidget::dropEvent(QDropEvent *_event)
     {
-        QByteArray itemData = _event->mimeData()->data("application/x-dnditemdata");
-        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-
-        ptr_size childAddr;
-        QPoint offset;
-        dataStream >> childAddr >> offset;
-
-        const QPoint pos = _event->pos() - offset;
+        const QPoint pos = _event->pos() - m_dd_offset;
         const QPoint dropPosition = calcDropPosition(pos);
 
-        QLabel* label = reinterpret_cast<QLabel *>(childAddr);
-        label->setParent(this);
-        label->move(dropPosition);
-        label->show();
+        m_dd_label->setParent(this);
+        m_dd_label->move(dropPosition);
+        m_dd_label->show();
 
-        m_levels.push_back(label);
+        m_levels.push_back(m_dd_label);
 
         _event->acceptProposedAction();
+
+        m_dd_label = nullptr;
+        m_dd_offset = QPoint();
     }
 
 
