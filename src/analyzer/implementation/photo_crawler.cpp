@@ -54,7 +54,7 @@ struct PhotoCrawler::Impl
         m_thread.reset( new std::thread(trampoline, this, path, notifications) );
     }
 
-    //thread functions
+    //thread function
     void thread(const std::string& path, IMediaNotification* notifications)
     {
         FileNotifier notifier(m_analyzer.get(), notifications);
