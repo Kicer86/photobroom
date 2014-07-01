@@ -15,6 +15,9 @@ namespace
     struct FileNotifier: IFileNotifier
     {
         FileNotifier(IAnalyzer* analyzer, IMediaNotification* notifications): m_analyzer(analyzer), m_notifications(notifications) {}
+        FileNotifier(const FileNotifier &) = delete;
+
+        FileNotifier& operator=(const FileNotifier &) = delete;
 
         virtual void found(const std::string& file)
         {
