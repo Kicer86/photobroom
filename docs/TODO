@@ -8,7 +8,7 @@ TODO:
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - core: make photos tagger a new task
 - rethink configuration concepts
-- when updating photo, do not update all, update only required data
+- performance: when updating photo, do not update all, update only required data
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - support for some extra exif library, propably more windows friendly than exiv2
 - use more smart tags updating
