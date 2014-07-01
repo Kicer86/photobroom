@@ -32,22 +32,50 @@
 
 namespace
 {
+    struct WidgetsOrganizer
+    {
+        WidgetsOrganizer(std::deque<QLabel *>* widgets): m_widgets(widgets) {}
+
+        void organize()
+        {
+            int pos = 0;
+
+            for (QWidget* widget: *m_widgets)
+            {
+                widget->move(pos, 0);
+
+                pos += widget->width();
+            }
+        }
+
+        void addAt(const QPoint& point, QLabel* label)
+        {
+            
+        }
+
+        std::deque<QLabel *>* m_widgets;
+    };
+
+
     struct ChoosenLevelsWidget: QFrame
     {
         ChoosenLevelsWidget();
         virtual ~ChoosenLevelsWidget();
 
-        virtual void dragEnterEvent(QDragEnterEvent *event) override;
+        virtual void dragEnterEvent(QDragEnterEvent *) override;
         virtual void dragMoveEvent(QDragMoveEvent *) override;
         virtual void dropEvent(QDropEvent *) override;
+        virtual void paintEvent(QPaintEvent *) override;
 
         QPoint calcDropPosition(const QPoint &);
 
         std::deque<QLabel *> m_levels;
+        WidgetsOrganizer m_organizer;
 
         //drag data:
         QLabel* m_dd_label;
         QPoint  m_dd_offset;
+        QPoint  m_dd_dropPosition;
     };
 
     template<unsigned int> struct PtrSize {};
@@ -55,7 +83,7 @@ namespace
     template<> struct PtrSize<8> { typedef quint64 ptr_size; };
     typedef PtrSize<sizeof(void *)>::ptr_size ptr_size;
 
-    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame(), m_levels(), m_dd_label(nullptr), m_dd_offset()
+    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame(), m_levels(), m_organizer(&m_levels), m_dd_label(nullptr), m_dd_offset()
     {
         setAcceptDrops(true);
     }
@@ -92,9 +120,11 @@ namespace
     void ChoosenLevelsWidget::dragMoveEvent(QDragMoveEvent *_event)
     {
         const QPoint pos = _event->pos() - m_dd_offset;
-        const QPoint dropPosition = calcDropPosition(pos);
+        m_dd_dropPosition = calcDropPosition(pos);
 
+        qDebug() << m_dd_dropPosition;
 
+        update();
     }
 
 
@@ -113,6 +143,24 @@ namespace
 
         m_dd_label = nullptr;
         m_dd_offset = QPoint();
+    }
+
+
+    void ChoosenLevelsWidget::paintEvent(QPaintEvent* event)
+    {
+        QFrame::paintEvent(event);
+
+        if (m_dd_label != nullptr)
+        {
+            QPainter painter(this);
+
+            QPen pen(Qt::blue, 4);
+            painter.setPen(pen);
+
+            const QSize size = this->size();
+            painter.drawLine(m_dd_dropPosition.x(), 0,
+                            m_dd_dropPosition.x(), size.height() - 1);
+        }
     }
 
 
@@ -181,6 +229,7 @@ void LevelEditor::setLevelNames(const std::deque<QString>& names)
         label->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
         label->setLineWidth(0);
         label->setMidLineWidth(0);
+        label->setAttribute(Qt::WA_ContentsPropagated);
 
         m_levels.push_back(label);
         m_notUsedItemsLayout->addWidget(label);
