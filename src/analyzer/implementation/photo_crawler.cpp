@@ -28,17 +28,14 @@ PhotoCrawler::~PhotoCrawler()
 }
 
 
-std::vector<std::string> PhotoCrawler::crawl(const std::string &path)
+void PhotoCrawler::crawl(const std::string& path, IMediaNotification* notifications)
 {
     std::vector<std::string> files = m_impl->m_scanner->getFilesFor(path);
 
-    std::vector<std::string> mediaFiles;
-
     for(const auto& file: files)
         if (m_impl->m_analyzer->isImage(file))
-            mediaFiles.push_back(file);
+            notifications->found(file);
 
-    return mediaFiles;
 }
 
 

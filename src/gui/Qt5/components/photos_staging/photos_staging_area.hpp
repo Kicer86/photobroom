@@ -11,9 +11,11 @@ namespace Database
     struct IFrontend;
 }
 
+class QItemSelection;
+
 class TagEditorWidget;
 class PhotosViewWidget;
-class QItemSelection;
+struct PhotosReceiver;
 
 class PhotosStagingArea: public QWidget
 {
@@ -30,6 +32,7 @@ class PhotosStagingArea: public QWidget
         PhotosViewWidget *m_editor;
         TagEditorWidget  *m_tagEditor;
         Database::IFrontend* m_frontend;
+        std::unique_ptr<PhotosReceiver> m_photosReceiver;
 
     private slots:
         void pathToAnalyze(QString);

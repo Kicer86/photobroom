@@ -37,6 +37,7 @@ std::vector<std::string> FileSystemScanner::getFilesFor(const std::string &dir_p
     return results;
 }
 
+
 FileSystemScanner::FileSystemScanner()
 {
 
