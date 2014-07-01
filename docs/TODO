@@ -18,6 +18,7 @@ TODO:
 - load all database plugins. Choose right backend basing on project settings.
 
 IN PROGRESS:
+- enhancing analyzer: run in thread, go throu dir hierarchy
 - Staging Model: automatically move added photos to right positions
 - gui improvements: filters and hierarchy management
 
