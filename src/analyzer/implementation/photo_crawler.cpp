@@ -28,6 +28,7 @@ namespace
 
 }
 
+
 struct PhotoCrawler::Impl
 {
     Impl(const std::shared_ptr<IFileSystemScanner>& scanner,
