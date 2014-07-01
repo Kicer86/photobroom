@@ -73,7 +73,7 @@ PhotosStagingArea::~PhotosStagingArea()
 
 void PhotosStagingArea::pathToAnalyze(QString path)
 {
-    std::shared_ptr<IPhotoCrawler> crawler = PhotoCrawlerBuilder().build();
+    IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();
     crawler->crawl(path.toStdString(), m_photosReceiver.get());
 }
 

@@ -45,6 +45,9 @@ struct PhotoCrawler::Impl
         }
     }
 
+    Impl(const Impl &) = delete;
+    Impl& operator=(const Impl &) = delete;
+
     std::shared_ptr<IFileSystemScanner> m_scanner;
     std::shared_ptr<IAnalyzer> m_analyzer;
     std::unique_ptr<std::thread> m_thread;
