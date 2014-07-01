@@ -2,6 +2,7 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
+- do stress and crash tests
 - fix performance issue when photos location is slow. Cache file for sha256 and thumbnail generation (maybe other actions)
 - task executor: turn off threads when not needed
 - model: react on changes in database
