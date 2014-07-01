@@ -12,6 +12,7 @@ struct IAnalyzer;
 class PhotoCrawler: public IPhotoCrawler
 {
     public:
+        struct Impl;
         PhotoCrawler(const std::shared_ptr<IFileSystemScanner> &, const std::shared_ptr<IAnalyzer> &);
         virtual ~PhotoCrawler();
 
@@ -19,7 +20,6 @@ class PhotoCrawler: public IPhotoCrawler
         virtual void setRules(const Rules &) override;
 
     private:
-        struct Impl;
         std::unique_ptr<Impl> m_impl;
 };
 
