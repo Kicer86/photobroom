@@ -9,6 +9,25 @@
 
 void trampoline(PhotoCrawler::Impl*, const std::string &, IMediaNotification *);
 
+namespace
+{
+
+    struct FileNotifier: IFileNotifier
+    {
+        FileNotifier(IAnalyzer* analyzer, IMediaNotification* notifications): m_analyzer(analyzer), m_notifications(notifications) {}
+
+        virtual void found(const std::string& file)
+        {
+            if (m_analyzer->isImage(file))
+                m_notifications->found(file);
+        }
+
+        IAnalyzer* m_analyzer;
+        IMediaNotification* m_notifications;
+    };
+
+}
+
 struct PhotoCrawler::Impl
 {
     Impl(const std::shared_ptr<IFileSystemScanner>& scanner,
@@ -31,13 +50,12 @@ struct PhotoCrawler::Impl
         m_thread.reset( new std::thread(trampoline, this, path, notifications) );
     }
 
+    //thread functions
     void thread(const std::string& path, IMediaNotification* notifications)
     {
-        std::vector<std::string> files = m_scanner->getFilesFor(path);
+        FileNotifier notifier(m_analyzer.get(), notifications);
 
-        for(const auto& file: files)
-            if (m_analyzer->isImage(file))
-                notifications->found(file);
+        m_scanner->getFilesFor(path, &notifier);
     }
 };
 

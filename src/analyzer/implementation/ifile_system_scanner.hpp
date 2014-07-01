@@ -5,11 +5,18 @@
 #include <vector>
 #include <string>
 
+struct IFileNotifier
+{
+    virtual ~IFileNotifier() {}
+
+    virtual void found(const std::string &) = 0;
+};
+
 struct IFileSystemScanner
 {
     virtual ~IFileSystemScanner();
 
-    virtual std::vector<std::string> getFilesFor(const std::string &) = 0;
+    virtual void getFilesFor(const std::string &, IFileNotifier *) = 0;
 };
 
 #endif
