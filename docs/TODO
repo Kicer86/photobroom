@@ -20,7 +20,7 @@ IN PROGRESS:
 - task executor: turn off threads when not needed
 - Staging Model: automatically move added photos to right positions
 - gui improvements: filters and hierarchy management
-- make PhotoInfo::tags thread safe
+- make PhotoInfo::tags thread safe and do not overwrite data
 
 DONE:
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
