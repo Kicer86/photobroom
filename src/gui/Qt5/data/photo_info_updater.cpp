@@ -4,7 +4,6 @@
 #include <assert.h>
 
 #include <memory>
-#include <fstream>
 
 #include <QPixmap>
 #include <QImage>
@@ -12,7 +11,7 @@
 #include <database/ifs.hpp>
 #include <core/task_executor.hpp>
 #include <core/hash_functions.hpp>
-
+#include <core/photos_manager.hpp>
 
 namespace
 {
@@ -36,8 +35,10 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 
     virtual void perform() override
     {
-        QPixmap pixmap(m_photoInfo->getPath());
-        QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap pixmap;
+        PhotosManager::instance()->getPhoto(m_photoInfo, &pixmap);
+
+        const QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         m_photoInfo->initThumbnail(thumbnail);
     }
@@ -62,29 +63,12 @@ struct HashAssigner: public ITaskExecutor::ITask
 
     virtual void perform() override
     {
-        std::fstream photo;
-        photo.open(m_photoInfo->getPath().toStdString());
+        QByteArray data;
+        PhotosManager::instance()->getPhoto(m_photoInfo, &data);
 
-        const std::streampos size = fileSize(photo);
-        char* buffer = new char[size];
-        photo.read(buffer, size);
-        photo.close();
-
-        unsigned char* data = reinterpret_cast<unsigned char *>(buffer);
-
-        const PhotoInfo::Hash hash = HashFunctions::sha256(data, size);
+        const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
+        const PhotoInfo::Hash hash = HashFunctions::sha256(udata, data.size());
         m_photoInfo->initHash(hash);
-
-        delete [] buffer;
-    }
-
-    std::streampos fileSize(std::fstream& stream) const
-    {
-        stream.seekg(0, std::ios::end);
-        const std::streampos size = stream.tellg();
-        stream.seekg(0);
-
-        return size;
     }
 
     PhotoInfo::Ptr m_photoInfo;

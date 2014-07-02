@@ -71,22 +71,22 @@ void PhotosManager::getPhoto(const PhotoInfo::Ptr& photoInfo, QByteArray* array)
 }
 
 
-void PhotosManager::getPhoto(const std::string& path, QByteArray* array)
+void PhotosManager::getPhoto(const QString& path, QByteArray* array)
 {
     std::unique_lock<std::mutex> lock(m_data->m_mutex);
 
-    QByteArray* raw = m_data->m_cache.object(path.c_str());
+    QByteArray* raw = m_data->m_cache.object(path);
 
     if (raw == nullptr)
     {
         raw = new QByteArray;
 
-        QFile photo(path.c_str());
+        QFile photo(path);
         photo.open(QIODevice::ReadOnly);
 
         *raw = photo.readAll();
 
-        m_data->m_cache.insert(path.c_str(), raw);
+        m_data->m_cache.insert(path, raw);
     }
 
     *array = *raw;

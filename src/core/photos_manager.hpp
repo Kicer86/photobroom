@@ -21,13 +21,13 @@
 #define PHOTOSMANAGER_H
 
 #include <memory>
-#include <string>
 
 #include "core_export.h"
 #include "photo_info.hpp"
 
 class QPixmap;
 class QByteArray;
+class QString;
 
 class CORE_EXPORT PhotosManager
 {
@@ -41,7 +41,7 @@ class CORE_EXPORT PhotosManager
 
         void getPhoto(const PhotoInfo::Ptr &, QPixmap *);
         void getPhoto(const PhotoInfo::Ptr &, QByteArray *);
-        void getPhoto(const std::string    &, QByteArray *);
+        void getPhoto(const QString& path, QByteArray *);
 
     private:
         PhotosManager();
