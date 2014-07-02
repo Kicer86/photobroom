@@ -26,6 +26,7 @@ set(CORE_SOURCES
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
     implementation/itagfeeder.cpp
+    implementation/photos_manager.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
@@ -36,6 +37,7 @@ set(CORE_HEADERS
     base_tags.hpp
     hash_functions.hpp
     itagfeeder.hpp
+    photos_manager.hpp
     tag.hpp
     task_executor.hpp
     time_guardian.hpp
