@@ -6,7 +6,6 @@ TODO:
 - model: react on changes in database
 - gui improvements: move stagging area to menu->add photos
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
-- core: make photos tagger a new task
 - rethink configuration concepts
 - performance: when updating photo, do not update all, update only required data
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
@@ -21,6 +20,7 @@ IN PROGRESS:
 - task executor: turn off threads when not needed
 - Staging Model: automatically move added photos to right positions
 - gui improvements: filters and hierarchy management
+- core: make photos tagger a new task
 
 DONE:
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
