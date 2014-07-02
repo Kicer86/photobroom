@@ -12,6 +12,8 @@
 #include <core/task_executor.hpp>
 #include <core/hash_functions.hpp>
 #include <core/photos_manager.hpp>
+#include <core/itagfeeder.hpp>
+#include <core/tag.hpp>
 
 namespace
 {
@@ -75,6 +77,31 @@ struct HashAssigner: public ITaskExecutor::ITask
 };
 
 
+struct TagsCollector: public ITaskExecutor::ITask
+{
+    TagsCollector(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    {
+    }
+
+    TagsCollector(const HashAssigner &) = delete;
+    TagsCollector& operator=(const HashAssigner &) = delete;
+
+    virtual std::string name() const override
+    {
+        return "Photo tags collection";
+    }
+
+    virtual void perform() override
+    {
+        std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(m_photoInfo->getPath());
+
+        m_photoInfo->setTags(std::move(p_tags));
+    }
+
+    PhotoInfo::Ptr m_photoInfo;
+};
+
+
 PhotoInfoUpdater::PhotoInfoUpdater()
 {
 
@@ -99,3 +126,12 @@ void PhotoInfoUpdater::updateThumbnail(const PhotoInfo::Ptr& photoInfo)
     auto task = std::make_shared<ThumbnailGenerator>(photoInfo);
     TaskExecutorConstructor::get()->add(task);
 }
+
+
+void PhotoInfoUpdater::updateTags(const PhotoInfo::Ptr& photoInfo)
+{
+    auto task = std::make_shared<TagsCollector>(photoInfo);
+    TaskExecutorConstructor::get()->add(task);
+}
+
+

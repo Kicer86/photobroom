@@ -16,6 +16,7 @@ class PhotoInfoUpdater final
 
         static void updateHash(const PhotoInfo::Ptr &);
         static void updateThumbnail(const PhotoInfo::Ptr &);
+        static void updateTags(const PhotoInfo::Ptr &);
 };
 
 #endif

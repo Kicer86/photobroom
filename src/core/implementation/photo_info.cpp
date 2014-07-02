@@ -9,7 +9,6 @@
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
 
 #include "tag.hpp"
-#include "itagfeeder.hpp"
 #include "task_executor.hpp"
 
 
@@ -68,8 +67,8 @@ struct PhotoInfo::Data
 {
     Data():
         path(),
-        tags(new TagData),
         m_observers(),
+        tags(new TagData),
         hash(),
         m_thumbnail(),
         m_flags(),
@@ -82,8 +81,9 @@ struct PhotoInfo::Data
     Data& operator=(const Data &) = delete;
 
     QString path;
-    std::shared_ptr<ITagData> tags;
     std::set<IObserver *> m_observers;
+
+    std::shared_ptr<ITagData> tags;
     ThreadSafeResource<PhotoInfo::Hash> hash;
     ThreadSafeResource<QPixmap> m_thumbnail;
     ThreadSafeResource<PhotoInfo::Flags> m_flags;
@@ -93,9 +93,6 @@ struct PhotoInfo::Data
 
 PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 {
-    std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
-
-    m_data->tags = std::move(p_tags);
     m_data->path = p;
 
     QPixmap tmpThumbnail;
@@ -104,14 +101,14 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 }
 
 
-PhotoInfo::PhotoInfo(const APhotoInfoInitData& init): m_data(new Data)
+PhotoInfo::PhotoInfo(APhotoInfoInitData&& init): m_data(new Data)
 {
     //TODO: run hash to verify data consistency?
 
     m_data->path = init.path;
-    m_data->tags = init.tags;
 
     initHash(init.hash);
+    setTags(std::move(init.tags));
 }
 
 
@@ -223,6 +220,15 @@ void PhotoInfo::initThumbnail(const QPixmap& thumbnail)
 void PhotoInfo::initID(const PhotoInfo::Id& id)
 {
     m_data->m_id.lock().get() = id;
+}
+
+
+void PhotoInfo::setTags(std::unique_ptr<ITagData >&& tags)
+{
+    m_data->tags = std::move(tags);
+    m_data->m_flags.lock().get().tagsLoaded = true;
+
+    updated();
 }
 
 

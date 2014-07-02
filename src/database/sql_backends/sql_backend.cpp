@@ -613,8 +613,7 @@ namespace Database
     PhotoInfo::Ptr ASqlBackend::Data::getPhoto(const PhotoInfo::Id& id)
     {
         //basic data
-        APhotoInfoInitData data = getPhotoDataFor(id);
-        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(getPhotoDataFor(id));
         photoInfo->initID(id);
 
         //load tags

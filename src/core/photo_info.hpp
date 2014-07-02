@@ -61,7 +61,7 @@ class CORE_EXPORT PhotoInfo final
         };
 
         PhotoInfo(const QString &path);          //load all data from provided path
-        PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
+        PhotoInfo(APhotoInfoInitData &&);        //load all data from provided struct
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
@@ -88,6 +88,7 @@ class CORE_EXPORT PhotoInfo final
         void initHash(const Hash &);
         void initThumbnail(const QPixmap &);
         void initID(const Id &);
+        void setTags(std::unique_ptr<ITagData> &&);   // initial tags set
 
         //flags
         void markStagingArea(bool = true);            // mark photo as stage area's photo
@@ -106,7 +107,7 @@ struct CORE_EXPORT APhotoInfoInitData
     APhotoInfoInitData();
 
     QString path;
-    std::shared_ptr<ITagData> tags;
+    std::unique_ptr<ITagData> tags;
     PhotoInfo::Hash hash;
 };
 

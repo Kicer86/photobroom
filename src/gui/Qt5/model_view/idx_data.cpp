@@ -48,6 +48,9 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& phot
 
     if (photo->isThumbnailLoaded() == false)
         PhotoInfoUpdater::updateThumbnail(photo);
+
+    if (photo->areTagsLoaded() == false)
+        PhotoInfoUpdater::updateTags(photo);
 }
 
 
