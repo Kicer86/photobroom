@@ -69,9 +69,9 @@ class CORE_EXPORT PhotoInfo final
 
         //data getting
         const QString& getPath() const;
-        std::shared_ptr<ITagData> getTags() const;
-        const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated.
-        const Hash& getHash() const;             // Do not call until isHashLoaded()
+        std::shared_ptr<ITagData> getTags() const;  // a read-write access to tags
+        const QPixmap& getThumbnail() const;        // a temporary thumbnail may be returned when final one is not yet generated.
+        const Hash& getHash() const;                // Do not call until isHashLoaded()
         Id getID() const;
 
         //status checking
