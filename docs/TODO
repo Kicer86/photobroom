@@ -2,6 +2,7 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
+- make PhotoInfo::tags thread safe
 - do stress and crash tests
 - model: react on changes in database
 - gui improvements: move stagging area to menu->add photos
