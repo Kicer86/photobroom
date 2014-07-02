@@ -9,6 +9,7 @@
 #include <configuration/constants.hpp>
 
 #include "base_tags.hpp"
+#include "photos_manager.hpp"
 
 
 ExifTagFeeder::ExifTagFeeder()
@@ -38,7 +39,11 @@ void ExifTagFeeder::feed(const QString& path, ITagData* tagData)
 
     try
     {
-        image = Exiv2::ImageFactory::open(path.toStdString());
+        QByteArray data;
+        PhotosManager::instance()->getPhoto(path, &data);
+
+        const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
+        image = Exiv2::ImageFactory::open(udata, data.size());
     }
     catch
         (Exiv2::AnyError& error)
