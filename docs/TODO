@@ -15,6 +15,7 @@ TODO:
 - introduce project concept
 - load all database plugins. Choose right backend basing on project settings.
 - log files
+- database: priorities for tasks store should be more important than update
 
 IN PROGRESS:
 - task executor: turn off threads when not needed
