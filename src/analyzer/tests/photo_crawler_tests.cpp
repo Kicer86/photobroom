@@ -11,7 +11,7 @@
 
 struct FileSystemMock: public IFileSystemScanner
 {
-    MOCK_METHOD1(getFilesFor, std::vector<std::string>(const std::string &));
+    MOCK_METHOD2(getFilesFor, void(const std::string &, IFileNotifier *));
 };
 
 
@@ -62,7 +62,7 @@ TEST(PhotoCrawlerShould, allowToSetRules)
 
     using ::testing::_;
 
-    EXPECT_CALL(*fileSystem, getFilesFor(_)).Times(0);
+    EXPECT_CALL(*fileSystem, getFilesFor(_, _)).Times(0);
     EXPECT_CALL(*analyzer, isImage(_)).Times(0);
 
     PhotoCrawler photo_crawler(fileSystem, analyzer);
