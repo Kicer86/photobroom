@@ -73,7 +73,7 @@ class CORE_EXPORT PhotoInfo final
         Id getID() const;
 
         //status checking
-        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one (photo fully loaded)
+        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is loaded (photo fully loaded)
         bool isHashLoaded() const;               // returns true if hash is not null
         bool isThumbnailLoaded() const;          // returns true if thumbnail is loaded
         bool areTagsLoaded() const;              // returns true is tags were loaded
@@ -82,11 +82,10 @@ class CORE_EXPORT PhotoInfo final
         void registerObserver(IObserver *);
         void unregisterObserver(IObserver *);
 
-        //data setting
-        void setHash(const Hash &);
-        void setThumbnail(const QPixmap &);
-        void setTemporaryThumbnail(const QPixmap &);  // set temporary thumbnail. isThumbnailLoaded() won't return true
-        void setID(const Id &);
+        //data initializing
+        void initHash(const Hash &);
+        void initThumbnail(const QPixmap &);
+        void initID(const Id &);
 
         //flags
         void markStagingArea(bool = true);            // mark photo as stage area's photo

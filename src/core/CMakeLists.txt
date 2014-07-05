@@ -42,6 +42,10 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     )
+    
+set(CORE_RESOURCE_FILES images/images.qrc)
+
+qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 
 
 if(EXIV2_FOUND)
@@ -56,6 +60,7 @@ if(BUILD_TESTS)
     addTestTarget(core
                         SOURCES
                             ${CORE_SOURCES}
+                            ${CORE_RESOURCES}
                             tests/coreTests.cpp
                             tests/algoTests.cpp
                         TEST_LIBRARY
@@ -87,7 +92,7 @@ endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
+add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
 target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
 
 if(MSVC)

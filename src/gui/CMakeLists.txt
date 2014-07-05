@@ -85,7 +85,7 @@ set(GUI_FILES_TO_MOC
     Qt5/model_view/db_data_model.hpp
     )
 
-set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
+set(GUI_RESOURCE_FILES )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 

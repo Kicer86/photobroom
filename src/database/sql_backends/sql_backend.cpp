@@ -604,7 +604,7 @@ namespace Database
 
         //store id in photo
         if (status && inserting)
-            data->setID(id);
+            data->initID(id);
 
         return status;
     }
@@ -615,7 +615,7 @@ namespace Database
         //basic data
         APhotoInfoInitData data = getPhotoDataFor(id);
         PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
-        photoInfo->setID(id);
+        photoInfo->initID(id);
 
         //load tags
         const TagData tagData = getTagsFor(id);
@@ -625,7 +625,7 @@ namespace Database
 
         //load thumbnail
         const QPixmap thumbnail= getThumbnailFor(id);
-        photoInfo->setThumbnail(thumbnail);
+        photoInfo->initThumbnail(thumbnail);
 
         return photoInfo;
     }

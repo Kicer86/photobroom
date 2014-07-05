@@ -39,7 +39,7 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
         QPixmap pixmap(m_photoInfo->getPath().c_str());
         QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-        m_photoInfo->setThumbnail(thumbnail);
+        m_photoInfo->initThumbnail(thumbnail);
     }
 
     PhotoInfo::Ptr m_photoInfo;
@@ -73,7 +73,7 @@ struct HashAssigner: public ITaskExecutor::ITask
         unsigned char* data = reinterpret_cast<unsigned char *>(buffer);
 
         const PhotoInfo::Hash hash = HashFunctions::sha256(data, size);
-        m_photoInfo->setHash(hash);
+        m_photoInfo->initHash(hash);
 
         delete [] buffer;
     }

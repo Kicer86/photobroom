@@ -97,6 +97,10 @@ PhotoInfo::PhotoInfo(const std::string &p): m_data(new Data)
 
     m_data->tags = std::move(p_tags);
     m_data->path = p;
+    
+    QPixmap tmpThumbnail;
+    tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
+    m_data->m_thumbnail.lock().get() = tmpThumbnail;
 }
 
 
@@ -107,7 +111,7 @@ PhotoInfo::PhotoInfo(const APhotoInfoInitData& init): m_data(new Data)
     m_data->path = init.path;
     m_data->tags = init.tags;
 
-    setHash(init.hash);
+    initHash(init.hash);
 }
 
 
@@ -198,7 +202,7 @@ void PhotoInfo::updated()
 }
 
 
-void PhotoInfo::setHash(const Hash& hash)
+void PhotoInfo::initHash(const Hash& hash)
 {
     m_data->hash.lock().get() = hash;
     m_data->m_flags.lock().get().hashLoaded = true;
@@ -207,7 +211,7 @@ void PhotoInfo::setHash(const Hash& hash)
 }
 
 
-void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
+void PhotoInfo::initThumbnail(const QPixmap& thumbnail)
 {
     m_data->m_thumbnail.lock().get() = thumbnail;
     m_data->m_flags.lock().get().thumbnailLoaded = true;
@@ -216,15 +220,7 @@ void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
 }
 
 
-void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
-{
-    m_data->m_thumbnail.lock().get() = thumbnail;
-
-    updated();
-}
-
-
-void PhotoInfo::setID(const PhotoInfo::Id& id)
+void PhotoInfo::initID(const PhotoInfo::Id& id)
 {
     m_data->m_id.lock().get() = id;
 }
