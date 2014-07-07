@@ -79,7 +79,7 @@ TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this)
 
 TaskExecutor::~TaskExecutor()
 {
-    m_tasks.break_popping();
+    m_tasks.stop();
     assert(m_taskEater.joinable());
     m_taskEater.join();
 }
@@ -93,6 +93,9 @@ void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
+    
+    
+    
     #pragma omp parallel
     {
         const int id = getId();

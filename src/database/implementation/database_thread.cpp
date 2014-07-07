@@ -230,7 +230,7 @@ namespace Database
 
         void stopExecutor()
         {
-            m_executor.m_tasks.break_popping();
+            m_executor.m_tasks.stop();
 
             assert(m_thread.joinable());
             m_thread.join();
