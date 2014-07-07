@@ -31,7 +31,7 @@ class FileSystemScanner : public IFileSystemScanner
         FileSystemScanner();
         virtual ~FileSystemScanner();
 
-        virtual void getFilesFor(const std::string &, IFileNotifier *) override;
+        virtual void getFilesFor(const QString &, IFileNotifier *) override;
 
     private:
         FileSystemScanner(const FileSystemScanner& other) = delete;

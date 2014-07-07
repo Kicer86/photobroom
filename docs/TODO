@@ -12,12 +12,12 @@ TODO:
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - support for some extra exif library, propably more windows friendly than exiv2
 - use more smart tags updating
-- boost doesn't seem to be necessary. Remove it
 - finding and reacting on duplicates
 - introduce project concept
 - load all database plugins. Choose right backend basing on project settings.
 
 IN PROGRESS:
+- boost doesn't seem to be necessary. Remove it
 - task executor: turn off threads when not needed
 - fix performance issue when photos location is slow. Cache file for sha256 and thumbnail generation (maybe other actions)
 - Staging Model: automatically move added photos to right positions

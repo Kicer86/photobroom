@@ -16,7 +16,7 @@ class PhotoCrawler: public IPhotoCrawler
         PhotoCrawler(const std::shared_ptr<IFileSystemScanner> &, const std::shared_ptr<IAnalyzer> &);
         virtual ~PhotoCrawler();
 
-        virtual void crawl(const std::string &, IMediaNotification *) override;
+        virtual void crawl(const QString &, IMediaNotification *) override;
         virtual void setRules(const Rules &) override;
 
     private:

@@ -80,7 +80,7 @@ class PhotosViewWidget: public QWidget
             }
         }
 
-        void addPhoto(const std::string &);
+        void addPhoto(const QString &);
         std::vector<PhotoInfo::Ptr> getPhotos() const;
         void storePhotos();
 

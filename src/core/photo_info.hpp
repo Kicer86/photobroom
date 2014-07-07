@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <string>
 
+#include <QString>
+
 #include "core_export.h"
 
 class QPixmap;
@@ -58,7 +60,7 @@ class CORE_EXPORT PhotoInfo final
             Flags();
         };
 
-        PhotoInfo(const std::string &path);      //load all data from provided path
+        PhotoInfo(const QString &path);          //load all data from provided path
         PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
@@ -66,7 +68,7 @@ class CORE_EXPORT PhotoInfo final
         PhotoInfo& operator=(const PhotoInfo &) = delete;
 
         //data getting
-        const std::string& getPath() const;
+        const QString& getPath() const;
         std::shared_ptr<ITagData> getTags() const;
         const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;             // Do not call until isHashLoaded()
@@ -103,7 +105,7 @@ struct CORE_EXPORT APhotoInfoInitData
 {
     APhotoInfoInitData();
 
-    std::string path;
+    QString path;
     std::shared_ptr<ITagData> tags;
     PhotoInfo::Hash hash;
 };

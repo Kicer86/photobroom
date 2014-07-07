@@ -42,7 +42,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     )
-    
+
 set(CORE_RESOURCE_FILES images/images.qrc)
 
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
@@ -72,7 +72,7 @@ if(BUILD_TESTS)
 	if(MSVC)
 
 	else()
-		target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
+            target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
 	endif(MSVC)
 
     #TODO: remove it?
@@ -98,7 +98,7 @@ target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARI
 if(MSVC)
 
 else()
-	target_link_libraries(core ${OpenMP_CXX_FLAGS})
+    target_link_libraries(core ${OpenMP_CXX_FLAGS})
 endif(MSVC)
 
 qt5_use_modules(core Core Gui)

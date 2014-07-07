@@ -12,7 +12,7 @@ class FileAnalyzer: public IAnalyzer
         FileAnalyzer();
         virtual ~FileAnalyzer();
 
-        virtual bool isImage(const std::string &) override;
+        virtual bool isImage(const QString &) override;
         void registerAnalyzer(IAnalyzer *);
 
     private:

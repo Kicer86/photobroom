@@ -17,7 +17,7 @@ ExifTagFeeder::ExifTagFeeder()
 }
 
 
-std::unique_ptr<ITagData> ExifTagFeeder::getTagsFor(const std::string &path)
+std::unique_ptr<ITagData> ExifTagFeeder::getTagsFor(const QString &path)
 {
     std::unique_ptr<ITagData> tagData(new TagData);
     feed(path, tagData.get());
@@ -26,19 +26,19 @@ std::unique_ptr<ITagData> ExifTagFeeder::getTagsFor(const std::string &path)
 }
 
 
-void ExifTagFeeder::update(ITagData *, const std::string &)
+void ExifTagFeeder::update(ITagData *, const QString &)
 {
 
 }
 
 
-void ExifTagFeeder::feed(const std::string& path, ITagData* tagData)
+void ExifTagFeeder::feed(const QString& path, ITagData* tagData)
 {
     Exiv2::Image::AutoPtr image;
 
     try
     {
-        image = Exiv2::ImageFactory::open(path);
+        image = Exiv2::ImageFactory::open(path.toStdString());
     }
     catch
         (Exiv2::AnyError& error)

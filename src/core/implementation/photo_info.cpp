@@ -81,7 +81,7 @@ struct PhotoInfo::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    std::string path;
+    QString path;
     std::shared_ptr<ITagData> tags;
     std::set<IObserver *> m_observers;
     ThreadSafeResource<PhotoInfo::Hash> hash;
@@ -91,13 +91,13 @@ struct PhotoInfo::Data
 };
 
 
-PhotoInfo::PhotoInfo(const std::string &p): m_data(new Data)
+PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 {
     std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
     m_data->tags = std::move(p_tags);
     m_data->path = p;
-    
+
     QPixmap tmpThumbnail;
     tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
     m_data->m_thumbnail.lock().get() = tmpThumbnail;
@@ -121,7 +121,7 @@ PhotoInfo::~PhotoInfo()
 }
 
 
-const std::string& PhotoInfo::getPath() const
+const QString& PhotoInfo::getPath() const
 {
     return m_data->path;
 }

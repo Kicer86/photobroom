@@ -550,7 +550,7 @@ namespace Database
 
         InsertQueryData insertData(TAB_PHOTOS);
         insertData.setColumns("path", "hash", "store_date");
-        insertData.setValues(data->getPath().c_str(), data->getHash().c_str(), InsertQueryData::Value::CurrentTime);
+        insertData.setValues(data->getPath(), data->getHash().c_str(), InsertQueryData::Value::CurrentTime);
 
         SqlQuery queryStrs;
 
@@ -708,7 +708,7 @@ namespace Database
             const QVariant path = query.value(0);
             const QVariant hash = query.value(1);
 
-            data.path = path.toString().toStdString();
+            data.path = path.toString();
             data.hash = hash.toString().toStdString();
         }
 

@@ -1,16 +1,14 @@
 
 project(analyzer CXX)
 
-add_definitions(-DBOOST_ALL_NO_LIB)                         #prevent boost from autolinking
-find_package(Boost 1.53.0 REQUIRED filesystem system regex)
 find_package(OpenLibrary REQUIRED)
+find_package(Qt5Core REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(ANALYZER_SOURCES
@@ -46,15 +44,17 @@ if(BUILD_TESTS)
                                 tests/photo_crawler_tests.cpp
                                 tests/photo_crawler_builder_tests.cpp
                 )
-    target_link_libraries(analyzer_test ${Boost_LIBRARIES})
+    target_link_libraries(analyzer_test)
     turnOnCpp11(analyzer_test)
+    qt5_use_modules(analyzer_test Core)
 
 endif(BUILD_TESTS)
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
 add_library(analyzer ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(analyzer ${Boost_LIBRARIES})
+target_link_libraries(analyzer)
+qt5_use_modules(analyzer Core)
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)

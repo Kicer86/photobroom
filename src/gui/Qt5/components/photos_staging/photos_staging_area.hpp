@@ -35,7 +35,7 @@ class PhotosStagingArea: public QWidget
         std::unique_ptr<PhotosReceiver> m_photosReceiver;
 
     private slots:
-        void pathToAnalyze(QString);
+        void pathToAnalyze(const QString &);
         void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >&);
         void savePhotos();
 

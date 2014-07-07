@@ -24,7 +24,7 @@ struct PhotosReceiver: IMediaNotification
         m_view = view;
     }
 
-    virtual void found(const std::string& path)
+    virtual void found(const QString& path) override
     {
         m_view->addPhoto(path);
     }
@@ -45,7 +45,7 @@ PhotosStagingArea::PhotosStagingArea(Database::IFrontend* frontend, QWidget *p):
     m_tagEditor = new TagEditorWidget(this);
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
+    connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(const QString &)));
     connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
             this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
 
@@ -71,10 +71,10 @@ PhotosStagingArea::~PhotosStagingArea()
 }
 
 
-void PhotosStagingArea::pathToAnalyze(QString path)
+void PhotosStagingArea::pathToAnalyze(const QString& path)
 {
     IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();
-    crawler->crawl(path.toStdString(), m_photosReceiver.get());
+    crawler->crawl(path, m_photosReceiver.get());
 }
 
 

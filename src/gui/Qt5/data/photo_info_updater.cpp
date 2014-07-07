@@ -36,7 +36,7 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 
     virtual void perform() override
     {
-        QPixmap pixmap(m_photoInfo->getPath().c_str());
+        QPixmap pixmap(m_photoInfo->getPath());
         QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         m_photoInfo->initThumbnail(thumbnail);
@@ -63,7 +63,7 @@ struct HashAssigner: public ITaskExecutor::ITask
     virtual void perform() override
     {
         std::fstream photo;
-        photo.open(m_photoInfo->getPath());
+        photo.open(m_photoInfo->getPath().toStdString());
 
         const std::streampos size = fileSize(photo);
         char* buffer = new char[size];

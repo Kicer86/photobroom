@@ -4,10 +4,12 @@
 #include <cassert>
 #include <thread>
 
+#include <QString>
+
 #include "ifile_system_scanner.hpp"
 #include "ianalyzer.hpp"
 
-void trampoline(PhotoCrawler::Impl*, const std::string &, IMediaNotification *);
+void trampoline(PhotoCrawler::Impl*, const QString &, IMediaNotification *);
 
 namespace
 {
@@ -19,7 +21,7 @@ namespace
 
         FileNotifier& operator=(const FileNotifier &) = delete;
 
-        virtual void found(const std::string& file)
+        virtual void found(const QString& file) override
         {
             if (m_analyzer->isImage(file))
                 m_notifications->found(file);
@@ -52,13 +54,13 @@ struct PhotoCrawler::Impl
     std::shared_ptr<IAnalyzer> m_analyzer;
     std::unique_ptr<std::thread> m_thread;
 
-    void run(const std::string& path, IMediaNotification* notifications)
+    void run(const QString& path, IMediaNotification* notifications)
     {
         m_thread.reset( new std::thread(trampoline, this, path, notifications) );
     }
 
     //thread function
-    void thread(const std::string& path, IMediaNotification* notifications)
+    void thread(const QString& path, IMediaNotification* notifications)
     {
         FileNotifier notifier(m_analyzer.get(), notifications);
 
@@ -67,7 +69,7 @@ struct PhotoCrawler::Impl
 };
 
 
-void trampoline(PhotoCrawler::Impl* impl, const std::string& path, IMediaNotification* notify)
+void trampoline(PhotoCrawler::Impl* impl, const QString& path, IMediaNotification* notify)
 {
     impl->thread(path, notify);
 }
@@ -86,7 +88,7 @@ PhotoCrawler::~PhotoCrawler()
 }
 
 
-void PhotoCrawler::crawl(const std::string& path, IMediaNotification* notifications)
+void PhotoCrawler::crawl(const QString& path, IMediaNotification* notifications)
 {
     m_impl->run(path, notifications);
 }
