@@ -7,7 +7,6 @@ find_package(OpenLibrary 1.1 REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(Boost REQUIRED)
 find_package(OpenMP)
 find_package(Exiv2)
 
@@ -18,8 +17,7 @@ include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${OPENSSL_INCLUDE_DIR}
-                           ${Boost_INCLUDE_DIRS})
+                           ${OPENSSL_INCLUDE_DIR})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
