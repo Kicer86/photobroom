@@ -38,16 +38,19 @@ namespace
         virtual ~IType() {}
         virtual IValueWidget* construct() = 0;
     };
-    
+
     template<typename T>
     struct TypeData: public IType
     {
         virtual ~TypeData() {}
-        T* construct() { return new T; }
+        T* construct()
+        {
+            return new T;
+        }
     };
-    
-    std::map<TagNameInfo::Type, std::shared_ptr<IType>> typesMap = 
-    { 
+
+    std::map<TagNameInfo::Type, std::shared_ptr<IType>> typesMap =
+    {
         {TagNameInfo::Type::Text, std::shared_ptr<IType>(new TypeData<TextWidget>) },
         {TagNameInfo::Type::Time, std::shared_ptr<IType>(new TypeData<TextWidget>) },
         {TagNameInfo::Type::Date, std::shared_ptr<IType>(new TypeData<TextWidget>) }
@@ -64,9 +67,9 @@ TagNameInfo::Type TagInfo::defaultType()
 IValueWidget* TagInfo::construct(const TagNameInfo::Type& type)
 {
     auto& t = typesMap[type];
-    
+
     IValueWidget* result = t->construct();
-    
+
     return result;
 }
 
@@ -81,7 +84,7 @@ TagEntry::TagEntry(const TagNameInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
     m_tagInfo(tagInfo)
 {
     m_tagName = new QLabel(tagInfo.getName(), this);
-    
+
     m_tagValue = TagInfo::construct(tagInfo.getType());
     assert(m_tagValue != nullptr);
     m_tagValue->setParent(this);
@@ -89,7 +92,7 @@ TagEntry::TagEntry(const TagNameInfo& tagInfo, QWidget *p, Qt::WindowFlags f):
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_tagName);
     mainLayout->addWidget(m_tagValue->getWidget());
-    
+
     connect(m_tagValue, SIGNAL(changed()), this, SIGNAL(tagEdited()));
 }
 
@@ -120,8 +123,8 @@ TagNameInfo TagEntry::getTagInfo() const
 
 
 QString TagEntry::getTagValue() const
-{   
+{
     const QString result = m_tagValue->getValue();
-    
+
     return result;
 }

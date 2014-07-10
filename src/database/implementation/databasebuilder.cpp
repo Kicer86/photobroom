@@ -33,6 +33,7 @@
 //#include "memorydatabase.hpp"
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
+#include "database_thread.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 
@@ -54,7 +55,7 @@ namespace Database
             }
 
             virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
-                                                              std::ios_base::openmode mode) override
+                    std::ios_base::openmode mode) override
             {
                 auto stream = std::make_shared<std::fstream>();
 
@@ -64,19 +65,18 @@ namespace Database
             }
         };
 
-        //object which initializes configuration with db entries
+        //class which initializes configuration with db entries
         struct ConfigurationInitializer: public Configuration::IInitializer
         {
             ConfigurationInitializer()
             {
-                std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-                config->registerInitializer(this);
+
             }
 
             virtual std::string getXml()
             {
                 std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-                boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
+                Optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
 
                 assert(entry.is_initialized());
 
@@ -95,7 +95,7 @@ namespace Database
 
                 return configuration_xml;
             }
-        } initializer;
+        };
     }
 
     struct Builder::Impl
@@ -104,6 +104,7 @@ namespace Database
         std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
         PluginLoader backendBuilder;
+        ConfigurationInitializer configInitializer;
 
         //bavkend type
         enum Type
@@ -111,9 +112,9 @@ namespace Database
             Main,
         };
 
-        std::map<Type, std::unique_ptr<IBackend>> m_backends;
+        std::map<Type, std::unique_ptr<IDatabase>> m_backends;
 
-        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), m_backends()
+        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
         {}
 
         IPlugin* getPlugin()
@@ -145,7 +146,14 @@ namespace Database
     }
 
 
-    IBackend* Builder::getBackend()
+    void Builder::initConfig()
+    {
+        std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
+        config->registerInitializer(&m_impl->configInitializer);
+    }
+
+
+    IDatabase* Builder::get()
     {
         const char* dbType = "broom";
 
@@ -153,12 +161,14 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            std::unique_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
-            const bool status = backend->init(dbType);
+            std::unique_ptr<IDatabase> database(new DatabaseThread(m_impl->getPlugin()->constructBackend()));
+            Database::Task task = database->prepareTask(nullptr);
+
+            const bool status = database->init(task, dbType);
 
             if (status)
             {
-                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(backend)) );
+                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(database)) );
                 backendIt = insertIt.first;
             }
         }

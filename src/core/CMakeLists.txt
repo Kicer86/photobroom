@@ -3,23 +3,21 @@ project(core CXX)
 
 # openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
 
-find_package(OpenLibrary REQUIRED palgorithm)
+find_package(OpenLibrary 1.1 REQUIRED palgorithm)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(Boost REQUIRED)
 find_package(OpenMP)
 find_package(Exiv2)
 
-include(${OPENLIBRARY_CMAKE_INCLUDES})
+include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDES}
-                           ${OPENSSL_INCLUDE_DIR}
-                           ${Boost_INCLUDE_DIRS})
+                           ${OPENLIBRARY_INCLUDE_DIRS}
+                           ${OPENSSL_INCLUDE_DIR})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -43,6 +41,10 @@ set(CORE_HEADERS
     time_guardian.hpp
     )
 
+set(CORE_RESOURCE_FILES images/images.qrc)
+
+qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
+
 
 if(EXIV2_FOUND)
     add_definitions(-DUSE_EXIV)
@@ -56,6 +58,7 @@ if(BUILD_TESTS)
     addTestTarget(core
                         SOURCES
                             ${CORE_SOURCES}
+                            ${CORE_RESOURCES}
                             tests/coreTests.cpp
                             tests/algoTests.cpp
                         TEST_LIBRARY
@@ -63,7 +66,12 @@ if(BUILD_TESTS)
                 )
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core Gui)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES})
+	if(MSVC)
+
+	else()
+            target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
+	endif(MSVC)
 
     #TODO: remove it?
     if(EXIV2_FOUND)
@@ -82,8 +90,15 @@ endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_HEADERS})
-target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES} ${OpenMP_CXX_FLAGS})
+add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
+target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+
+if(MSVC)
+
+else()
+    target_link_libraries(core ${OpenMP_CXX_FLAGS})
+endif(MSVC)
+
 qt5_use_modules(core Core Gui)
 
 if(EXIV2_FOUND)

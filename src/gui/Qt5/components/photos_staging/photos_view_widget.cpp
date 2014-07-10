@@ -94,9 +94,9 @@ BrowseList::~BrowseList()
 
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
-    Database::IBackend* backend = Database::Builder::instance()->getBackend();
+    Database::IDatabase* db = Database::Builder::instance()->get();
     m_photosModel = new StagingDataModel(this);
-    m_photosModel->setBackend(backend);
+    m_photosModel->setDatabase(db);
 
     m_photosView = new ImagesTreeView(this);
     m_photosView->setModel(m_photosModel);
@@ -108,7 +108,7 @@ PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullpt
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this,
             SLOT(selectionChanged())
-            );
+           );
 }
 
 
@@ -118,14 +118,10 @@ PhotosViewWidget::~PhotosViewWidget()
 }
 
 
-void PhotosViewWidget::addPhoto(const std::string &path)
+void PhotosViewWidget::addPhoto(const QString &path)
 {
     PhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
     info->markStagingArea();
-
-    QPixmap tmpThumbnail;
-    tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
-    info->setTemporaryThumbnail(tmpThumbnail);
 
     m_photosModel->addPhoto(info);
 }
@@ -134,6 +130,12 @@ void PhotosViewWidget::addPhoto(const std::string &path)
 std::vector<PhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 {
     return m_photosModel->getPhotos();
+}
+
+
+void PhotosViewWidget::storePhotos()
+{
+    m_photosModel->storePhotos();
 }
 
 

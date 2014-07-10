@@ -10,10 +10,10 @@ struct IPhotoCrawler;
 
 struct ANALYZER_EXPORT PhotoCrawlerBuilder
 {
-	PhotoCrawlerBuilder();
-	virtual ~PhotoCrawlerBuilder();
+    PhotoCrawlerBuilder();
+    virtual ~PhotoCrawlerBuilder();
 
-	std::shared_ptr<IPhotoCrawler> build();
+    IPhotoCrawler* build();
 };
 
 #endif

@@ -17,7 +17,7 @@ namespace Gui
         virtual void run (int argc, char **argv) = 0;
     };
 
-    
+
     struct GUI_EXPORT Factory
     {
         static std::unique_ptr<IUi> get();

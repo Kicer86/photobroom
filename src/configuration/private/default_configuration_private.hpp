@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <boost/optional.hpp>
+#include <OpenLibrary/utils/optional.hpp>
 
 #include "entrydata.hpp"
 
@@ -19,17 +19,17 @@ namespace Configuration
 
 struct DefaultConfigurationPrivate
 {
-    DefaultConfigurationPrivate();
-    virtual ~DefaultConfigurationPrivate();
+        DefaultConfigurationPrivate();
+        virtual ~DefaultConfigurationPrivate();
 
-    std::string getConfigDir() const;
-    boost::optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;
-    std::vector<Configuration::EntryData> getAll() const;
-    void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data, bool def = false);
-    void introduceKey(const Configuration::ConfigurationKey& key);
-    bool useXml(const QString &xml);
-    void registerInitializer(Configuration::IInitializer *);
-    bool load();
+        std::string getConfigDir() const;
+        Optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;
+        std::vector<Configuration::EntryData> getAll() const;
+        void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data, bool def = false);
+        void introduceKey(const Configuration::ConfigurationKey& key);
+        bool useXml(const QString &xml);
+        void registerInitializer(Configuration::IInitializer *);
+        bool load();
 
     protected:
         struct hash

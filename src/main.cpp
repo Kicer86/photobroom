@@ -9,9 +9,13 @@
 #include "gui/gui.hpp"
 #include "configuration/configurationfactory.hpp"
 #include "configuration/iconfiguration.hpp"
+#include "database/databasebuilder.hpp"
 
 int main(int argc, char **argv)
 {
+    //init modules
+    Database::Builder::instance()->initConfig();
+
     //load configuration
     ConfigurationFactory::get()->load();
 

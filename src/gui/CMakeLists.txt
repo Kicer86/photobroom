@@ -4,12 +4,14 @@ project(gui CXX)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenLibrary REQUIRED COMPONENTS QtExt)
-find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/Qt5)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
+                           ${Qt5Widgets_INCLUDE_DIRS}
+                           ${Qt5Gui_INCLUDE_DIRS})
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
@@ -26,6 +28,8 @@ set(GUI_SOURCES
     Qt5/model_view/positions_cache.cpp
     Qt5/components/browse_view/main_view_data_model.cpp
     Qt5/components/browse_view/main_view_widget.cpp
+    Qt5/components/filters_editor/filters_widget.cpp
+    Qt5/components/filters_editor/level_editor.cpp
     Qt5/components/photos_staging/photos_view_widget.cpp
     Qt5/components/photos_staging/photos_staging_area.cpp
     Qt5/components/photos_staging/staging_data_model.cpp
@@ -52,6 +56,8 @@ set(GUI_HEADERS
     Qt5/model_view/positions_cache.hpp
     Qt5/components/browse_view/main_view_data_model.hpp
     Qt5/components/browse_view/main_view_widget.hpp
+    Qt5/components/filters_editor/filters_widget.hpp
+    Qt5/components/filters_editor/level_editor.hpp
     Qt5/components/photos_staging/photos_view_widget.hpp
     Qt5/components/photos_staging/photos_staging_area.hpp
     Qt5/components/photos_staging/staging_data_model.hpp
@@ -74,16 +80,37 @@ set(GUI_FILES_TO_MOC
     Qt5/components/tag_editor/tag_definition.hpp
     Qt5/components/tag_editor/tag_entry.hpp
     Qt5/components/tag_editor/ivalue_widget.hpp
+    Qt5/model_view/db_data_model.hpp
     )
 
-set(GUI_RESOURCE_FILES Qt5/images/images.qrc)
+set(GUI_RESOURCE_FILES )
+
+source_group(files REGULAR_EXPRESSION .*gui.* )
+
+qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
+qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
+
+add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_RESOURCES})
+target_link_libraries(gui core ${OPENLIBRARY_LIBRARIES})
+qt5_use_modules(gui Widgets Gui)
+
+generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
+target_link_libraries(gui analyzer database)
+turnOnCpp11(gui)
+hideSymbols(gui)
+
+install(TARGETS gui DESTINATION ${PATH_LIBS})
 
 if(BUILD_TESTS)
+
+    qt5_wrap_cpp(GUI_WRAPPED_CPP_FOR_TEST Qt5/model_view/db_data_model.hpp)
+
     addTestTarget(gui  SOURCES
                            Qt5/data/photo_info_updater.cpp
                            Qt5/model_view/idx_data.cpp
                            Qt5/model_view/db_data_model.cpp
                            tests/db_data_model_tests.cpp
+                           ${GUI_WRAPPED_CPP_FOR_TEST}
                        TEST_LIBRARY
                            GMOCK
        )
@@ -93,19 +120,3 @@ if(BUILD_TESTS)
     turnOnCpp11(gui_test)
 endif(BUILD_TESTS)
 
-
-source_group(files REGULAR_EXPRESSION .*gui.* )
-
-qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
-qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
-
-add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_RESOURCES})
-target_link_libraries(gui core ${OPENLIBRARY_QTEXT_LIBRARIES})
-qt5_use_modules(gui Widgets Gui)
-
-generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
-target_link_libraries(gui analyzer database)
-turnOnCpp11(gui)
-hideSymbols(gui)
-
-install(TARGETS gui DESTINATION ${PATH_LIBS})

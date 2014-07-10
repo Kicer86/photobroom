@@ -20,13 +20,14 @@
 #include "task_executor.hpp"
 
 #ifdef USE_OPENMP
-    #include <omp.h>
+#include <omp.h>
 #endif
 
 #include <thread>
 
 #include <OpenLibrary/palgorithm/ts_queue.hpp>
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/utils/optional.hpp>
 
 
 ITaskExecutor::ITask::~ITask()
@@ -49,10 +50,10 @@ static void trampoline(TaskExecutor *);
 
 struct TaskExecutor: public ITaskExecutor
 {
-    TaskExecutor();
-    virtual ~TaskExecutor();
+        TaskExecutor();
+        virtual ~TaskExecutor();
 
-    virtual void add(const std::shared_ptr<ITask> &);
+        virtual void add(const std::shared_ptr<ITask> &);
 
     private:
         TS_Queue<std::shared_ptr<ITask>> m_tasks;
@@ -79,7 +80,7 @@ TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this)
 
 TaskExecutor::~TaskExecutor()
 {
-    m_tasks.break_popping();
+    m_tasks.stop();
     assert(m_taskEater.joinable());
     m_taskEater.join();
 }
@@ -93,6 +94,9 @@ void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
+
+
+
     #pragma omp parallel
     {
         const int id = getId();
@@ -100,7 +104,7 @@ void TaskExecutor::eat()
 
         while(true)
         {
-            boost::optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
+            Optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
 
             if (opt_task)
             {

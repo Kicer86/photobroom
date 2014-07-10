@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <vector>
+#include <deque>
 
 #include "database/idatabase.hpp"
 #include "sql_backend_base_export.h"
@@ -31,18 +32,13 @@
 class QSqlQuery;
 class QSqlDatabase;
 
-#define TAB_TAG_NAMES "tag_names"
-#define TAB_VER_HIST  "version_history"
-#define TAB_PHOTOS    "photos"
-#define TAB_TAGS      "tags"
-#define TAB_THUMBS    "thumbnails"
-#define TAB_FLAGS     "flags"
-
 namespace Database
 {
+
     class Entry;
+    class InsertQueryData;
+    struct ISqlQueryConstructor;
     struct TableDefinition;
-    struct ColDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
@@ -62,20 +58,6 @@ namespace Database
             //will be called from init(). Prepare QSqlDatabase object here
             virtual bool prepareDB(QSqlDatabase *, const char* name) = 0;
 
-            // Create table with given name and columns decription.
-            // It may be necessary for table to meet features:
-            // - FOREIGN KEY
-            //
-            // More features may be added in future.
-            // Default implementation returns QString("CREATE TABLE %1(%2);").arg(name).arg(columnsDesc)
-            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const;
-
-            //prepare query for finding table with given name
-            virtual QString prepareFindTableQuery(const QString& name) const;
-
-            //prepare column description for CREATE TABLE matching provided info.
-            virtual QString prepareColumnDescription(const ColDefinition &) const = 0;
-
             //Creates sql database. Can be called in onAfterOpen in backends which need it
             virtual bool createDB(const char *);
 
@@ -88,16 +70,19 @@ namespace Database
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
 
+            virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
+
         private:
             std::unique_ptr<Data> m_data;
 
-            virtual bool init(const char *) override final;
+            virtual bool init(const std::string &) override final;
             virtual bool store(const PhotoInfo::Ptr &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;
             virtual std::set<TagValueInfo> listTagValues(const TagNameInfo&) override final;
+            virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
             virtual QueryList getAllPhotos() override final;
-            virtual QueryList getPhotos(const std::vector<IFilter::Ptr> &) override final;
+            virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) override final;
 
             bool checkStructure();

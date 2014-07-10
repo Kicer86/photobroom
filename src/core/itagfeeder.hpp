@@ -7,14 +7,16 @@
 
 #include "core_export.h"
 
+class QString;
+
 struct ITagData;
 
 struct ITagFeeder
 {
     virtual ~ITagFeeder() {}
 
-    virtual std::unique_ptr<ITagData> getTagsFor(const std::string& path) = 0;
-    virtual void update(ITagData *, const std::string& path) = 0;
+    virtual std::unique_ptr<ITagData> getTagsFor(const QString& path) = 0;
+    virtual void update(ITagData *, const QString& path) = 0;
 };
 
 

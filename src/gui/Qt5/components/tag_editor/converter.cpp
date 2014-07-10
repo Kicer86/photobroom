@@ -27,10 +27,10 @@
 
 QStandardItem* Converter::convert(const TagNameInfo& tagInfo)
 {
-    QStandardItem* item = new QStandardItem(tagInfo.getName());    
+    QStandardItem* item = new QStandardItem(tagInfo.getName());
     item->setData( tagInfo.getType(), Qt::UserRole );
     item->setData( tagInfo.getSeparator(), Qt::UserRole + 1 );
-    
+
     return item;
 }
 
@@ -42,14 +42,14 @@ TagNameInfo Converter::convert(QComboBox *combo)
     const QVariant typeInfoVar = combo->itemData(idx, Qt::UserRole);
     const QVariant separatorVar = combo->itemData(idx, Qt::UserRole + 1);
 
-    const TagNameInfo::Type typeInfo = typeInfoVar == QVariant::Invalid? 
-                                       TagInfo::defaultType(): 
+    const TagNameInfo::Type typeInfo = typeInfoVar == QVariant::Invalid?
+                                       TagInfo::defaultType():
                                        static_cast<TagNameInfo::Type>(typeInfoVar.toInt());
 
     //TODO: use default separator as variable
-    const char separator = separatorVar == QVariant::Invalid? 
+    const char separator = separatorVar == QVariant::Invalid?
                            ';': separatorVar.toChar().toLatin1();
-                                       
+
     TagNameInfo info(itemText, typeInfo, separator);
 
     return info;

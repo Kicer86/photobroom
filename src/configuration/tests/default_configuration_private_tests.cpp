@@ -38,7 +38,8 @@ struct PublicWrapper: public DefaultConfigurationPrivate
 
 TEST(DefaultConfigurationPrivateShould, NotThrowAtConstruction)
 {
-    EXPECT_NO_THROW({
+    EXPECT_NO_THROW(
+    {
         DefaultConfigurationPrivate prv;
     });
 }
@@ -81,16 +82,16 @@ TEST(DefaultConfigurationPrivateShould, ParseSimplestXmlWithoutError)
 TEST(DefaultConfigurationPrivateShould, LoadProvidedDefaultsAndKeys)
 {
     const std::string xml =
-         "<configuration>"
-         "    <keys>"
-         "        <key name='4' />"
-         "    </keys>"
-         "    <defaults>"
-         "        <key name='1' value='2'/>"
-         "        <key name='2' value='4'/>"
-         "        <key name='3' value='6'/>"
-         "    </defaults>"
-         "</configuration>";
+        "<configuration>"
+        "    <keys>"
+        "        <key name='4' />"
+        "    </keys>"
+        "    <defaults>"
+        "        <key name='1' value='2'/>"
+        "        <key name='2' value='4'/>"
+        "        <key name='3' value='6'/>"
+        "    </defaults>"
+        "</configuration>";
 
     PublicWrapper prv;
     const bool status = prv.useXml(xml.c_str());

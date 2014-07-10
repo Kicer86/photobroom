@@ -4,14 +4,15 @@
 #include <stdexcept>
 
 #include <QSqlDatabase>
-
-#include <boost/filesystem.hpp>
+#include <QStringList>
+#include <QDir>
 
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/databasebuilder.hpp>
 #include <sql_backends/table_definition.hpp>
+#include <sql_backends/query_structs.hpp>
 
 namespace Database
 {
@@ -36,22 +37,21 @@ namespace Database
                 //create base directory
                 if (entry)
                 {
-                    boost::filesystem::path storage(entry->value());
+                    QString storagePath(entry->value().c_str());
 
-                    storage /= "SQLite";
+                    storagePath += "/SQLite";
 
-                    if (boost::filesystem::exists(storage) == false)
-                        status = boost::filesystem::create_directories(storage);
+                    if (QDir().exists(storagePath) == false)
+                        status = QDir().mkpath(storagePath);
 
                     if (status)
                     {
-                        storage /= std::string(name) + ".db";
+                        storagePath += QString("/%1.db").arg(name);
 
                         QSqlDatabase db_obj;
                         //setup db connection
                         db_obj = QSqlDatabase::addDatabase("QSQLITE", name);
-						const std::string storage_path = storage.string();
-                        db_obj.setDatabaseName(storage_path.c_str());
+                        db_obj.setDatabaseName(storagePath);
 
                         *db = db_obj;
                     }
@@ -108,6 +108,25 @@ namespace Database
     }
 
 
+    const ISqlQueryConstructor* SQLiteBackend::getQueryConstructor() const
+    {
+        return this;
+    }
+
+
+    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
+    {
+        QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
+
+        result = result.arg(data.getName());
+        result = result.arg(data.getColumns().join(", "));
+        result = result.arg(data.getValues().join(", "));
+
+        return result;
+
+    }
+
+
     SQLitePlugin::SQLitePlugin(): QObject()
     {
 
@@ -124,6 +143,5 @@ namespace Database
     {
         return std::unique_ptr<IBackend>(new SQLiteBackend);
     }
-
 
 }

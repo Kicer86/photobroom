@@ -28,17 +28,17 @@ class QWidget;
 class IValueWidget: public QObject
 {
         Q_OBJECT
-    
+
     public:
         virtual ~IValueWidget();
-        
+
         virtual void setValue(const QString &) = 0;
         virtual void setParent(QWidget *) = 0;
         virtual void clear() = 0;
-        
+
         virtual QString getValue() const = 0;
-        virtual QWidget* getWidget() = 0;    
-        
+        virtual QWidget* getWidget() = 0;
+
     signals:
         void changed();
 };

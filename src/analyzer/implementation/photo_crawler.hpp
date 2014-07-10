@@ -12,15 +12,15 @@ struct IAnalyzer;
 class PhotoCrawler: public IPhotoCrawler
 {
     public:
+        struct Impl;
         PhotoCrawler(const std::shared_ptr<IFileSystemScanner> &, const std::shared_ptr<IAnalyzer> &);
         virtual ~PhotoCrawler();
-        
-        std::vector<std::string> crawl( const std::string& path ) override;
-		virtual void setRules(const Rules &) override;
 
-	private: 
-		struct Impl;
-		std::unique_ptr<Impl> m_impl;
+        virtual void crawl(const QString &, IMediaNotification *) override;
+        virtual void setRules(const Rules &) override;
+
+    private:
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif

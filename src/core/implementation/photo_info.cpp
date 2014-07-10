@@ -13,6 +13,51 @@
 #include "task_executor.hpp"
 
 
+PhotoInfo::Id::Id(): m_value(0), m_valid(false)
+{
+
+}
+
+
+PhotoInfo::Id::Id(PhotoInfo::Id::type v): m_value(v), m_valid(true)
+{
+
+}
+
+
+bool PhotoInfo::Id::operator!() const
+{
+    return !m_valid;
+}
+
+
+PhotoInfo::Id::operator PhotoInfo::Id::type() const
+{
+    return m_value;
+}
+
+
+bool PhotoInfo::Id::valid() const
+{
+    return m_valid;
+}
+
+
+PhotoInfo::Id::type PhotoInfo::Id::value() const
+{
+    return m_value;
+}
+
+
+/*********************************************************************************************************/
+
+
+PhotoInfo::Flags::Flags(): stagingArea(false), tagsLoaded(false), hashLoaded(false), thumbnailLoaded(false)
+{
+
+}
+
+
 APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 {
 
@@ -21,19 +66,14 @@ APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
 
 struct PhotoInfo::Data
 {
-    enum Flags
-    {
-        StagingArea = 1,
-    };
-
     Data():
         path(),
         tags(new TagData),
         m_observers(),
         hash(),
         m_thumbnail(),
-        m_flags(0),
-        m_loadedData()
+        m_flags(),
+        m_id()
     {
 
     }
@@ -41,29 +81,26 @@ struct PhotoInfo::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    std::string path;
+    QString path;
     std::shared_ptr<ITagData> tags;
     std::set<IObserver *> m_observers;
     ThreadSafeResource<PhotoInfo::Hash> hash;
     ThreadSafeResource<QPixmap> m_thumbnail;
-    ThreadSafeResource<unsigned int> m_flags;
-
-    struct LoadedData
-    {
-        LoadedData(): m_thumbnail(false), m_hash(false) {}
-
-        bool m_thumbnail;
-        bool m_hash;
-    } m_loadedData;
+    ThreadSafeResource<PhotoInfo::Flags> m_flags;
+    ThreadSafeResource<PhotoInfo::Id> m_id;
 };
 
 
-PhotoInfo::PhotoInfo(const std::string &p): m_data(new Data)
+PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 {
     std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(p);
 
     m_data->tags = std::move(p_tags);
     m_data->path = p;
+
+    QPixmap tmpThumbnail;
+    tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
+    m_data->m_thumbnail.lock().get() = tmpThumbnail;
 }
 
 
@@ -74,7 +111,7 @@ PhotoInfo::PhotoInfo(const APhotoInfoInitData& init): m_data(new Data)
     m_data->path = init.path;
     m_data->tags = init.tags;
 
-    setHash(init.hash);
+    initHash(init.hash);
 }
 
 
@@ -84,7 +121,7 @@ PhotoInfo::~PhotoInfo()
 }
 
 
-const std::string& PhotoInfo::getPath() const
+const QString& PhotoInfo::getPath() const
 {
     return m_data->path;
 }
@@ -113,6 +150,14 @@ const PhotoInfo::Hash& PhotoInfo::getHash() const
 }
 
 
+PhotoInfo::Id PhotoInfo::getID() const
+{
+    PhotoInfo::Id result = m_data->m_id.lock().get();
+
+    return result;
+}
+
+
 bool PhotoInfo::isLoaded() const
 {
     return isHashLoaded() && isThumbnailLoaded();
@@ -121,13 +166,19 @@ bool PhotoInfo::isLoaded() const
 
 bool PhotoInfo::isHashLoaded() const
 {
-    return m_data->m_loadedData.m_hash;
+    return getFlags().hashLoaded;
 }
 
 
 bool PhotoInfo::isThumbnailLoaded() const
 {
-    return m_data->m_loadedData.m_thumbnail;
+    return getFlags().thumbnailLoaded;
+}
+
+
+bool PhotoInfo::areTagsLoaded() const
+{
+    return getFlags().tagsLoaded;
 }
 
 
@@ -151,44 +202,42 @@ void PhotoInfo::updated()
 }
 
 
-void PhotoInfo::setHash(const Hash& hash)
+void PhotoInfo::initHash(const Hash& hash)
 {
     m_data->hash.lock().get() = hash;
-    m_data->m_loadedData.m_hash = true;
+    m_data->m_flags.lock().get().hashLoaded = true;
 
     updated();
 }
 
 
-void PhotoInfo::setThumbnail(const QPixmap& thumbnail)
+void PhotoInfo::initThumbnail(const QPixmap& thumbnail)
 {
     m_data->m_thumbnail.lock().get() = thumbnail;
-    m_data->m_loadedData.m_thumbnail = true;
+    m_data->m_flags.lock().get().thumbnailLoaded = true;
 
     updated();
 }
 
 
-void PhotoInfo::setTemporaryThumbnail(const QPixmap& thumbnail)
+void PhotoInfo::initID(const PhotoInfo::Id& id)
 {
-    m_data->m_thumbnail.lock().get() = thumbnail;
-
-    updated();
+    m_data->m_id.lock().get() = id;
 }
 
 
 void PhotoInfo::markStagingArea(bool on)
 {
-    auto flags = m_data->m_flags.lock();
+    m_data->m_flags.lock().get().stagingArea = on;
 
-    if (on)
-        flags.get() |= Data::StagingArea;
-    else
-        flags.get() &= ~Data::StagingArea;
+    updated();
 }
 
 
-bool PhotoInfo::isMarkedStagingArea() const
+PhotoInfo::Flags PhotoInfo::getFlags() const
 {
-    return (m_data->m_flags.lock().get() & Data::StagingArea) > 0;
+    Flags result = m_data->m_flags.lock().get();
+
+    return result;
 }
+

@@ -40,7 +40,7 @@ namespace
             return true;
         }
 
-        virtual bool init(const char *) override
+        virtual bool init(const std::string &) override
         {
             return true;
         }

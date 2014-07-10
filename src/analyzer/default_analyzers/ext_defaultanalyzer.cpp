@@ -22,14 +22,12 @@
 
 //#include <regex>  doesn't work as expected in gcc 4.7.2
 
-#include <boost/filesystem.hpp>
-#include <boost/regex.hpp>
+#include <QFileInfo>
+#include <QRegExp>
 
 namespace
 {
-    const boost::regex ext_regex("\\.jpe?g", boost::regex_constants::ECMAScript | 
-                                             boost::regex::icase | 
-                                             boost::regex::optimize);
+    const QRegExp ext_regex("jpe?g", Qt::CaseInsensitive);
 }
 
 
@@ -45,12 +43,12 @@ Ext_DefaultAnalyzer::~Ext_DefaultAnalyzer()
 }
 
 
-bool Ext_DefaultAnalyzer::isImage(const std::string &file_path)
+bool Ext_DefaultAnalyzer::isImage(const QString &file_path)
 {
-    boost::filesystem::path path(file_path);    
-    const std::string ext = path.extension().string();    
-    const bool matches = boost::regex_match(ext, ext_regex);
-    
+    QFileInfo path(file_path);
+    const QString ext = path.suffix();
+    const bool matches = ext_regex.exactMatch(ext);
+
     return matches;
 }
 

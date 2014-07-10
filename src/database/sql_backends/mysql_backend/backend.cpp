@@ -5,8 +5,7 @@
 
 #include <QProcess>
 #include <QSqlDatabase>
-
-#include <boost/filesystem.hpp>
+#include <QDir>
 
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
@@ -22,15 +21,15 @@ namespace Database
 
     struct MySqlBackend::Data
     {
-        Data(): m_initialized(false), m_server(), m_dbName(nullptr) {}
+        Data(): m_server(), m_dbName(nullptr), m_initialized(false) {}
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
         ~Data() { }
 
-        bool m_initialized;
         MySqlServer m_server;
         const char* m_dbName;
+        bool m_initialized;
     };
 
 
@@ -58,18 +57,15 @@ namespace Database
             //create base directory
             if (entry)
             {
-                boost::filesystem::path storage(entry->value());
+                QString storagePath(entry->value().c_str());
+                storagePath += "/MySQL";
 
-                storage /= "MySQL";
-
-                if (boost::filesystem::exists(storage) == false)
-                    status = boost::filesystem::create_directories(storage);
+                if (QDir().exists(storagePath) == false)
+                    status = QDir().mkpath(storagePath);
 
                 if (status)
                 {
                     //start mysql process
-                    const std::string storageString = storage.string();
-                    QString storagePath(storageString.c_str());
                     storagePath += "/";
 
                     const QString socketPath = m_data->m_server.run_server(storagePath);
@@ -149,5 +145,18 @@ namespace Database
         return std::unique_ptr<IBackend>(new MySqlBackend);
     }
 
+
+    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
+    {
+        return this;
+    }
+
+
+    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
+    {
+        assert(!"not implemented");
+
+        return SqlQuery();
+    }
 
 }

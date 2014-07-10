@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/gui/images">
+    <qresource prefix="/core/images">
         <file>clock.svg</file>
     </qresource>
 </RCC>

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <string>
 
+#include <QString>
+
 #include "core_export.h"
 
 class QPixmap;
@@ -17,44 +19,79 @@ struct HashAssigner;
 class CORE_EXPORT PhotoInfo final
 {
     public:
-        typedef int Id;
+        typedef std::shared_ptr<PhotoInfo> Ptr;
+        typedef std::string Hash;                // Hash is hash of photo's file
+
+        struct CORE_EXPORT Id
+        {
+                typedef int type;
+
+                Id();
+                explicit Id(type);
+                Id(const Id &) = default;
+
+                Id& operator=(const Id &) = default;
+                operator type() const;
+                bool operator!() const;
+                bool valid() const;
+                type value() const;
+
+            private:
+                type m_value;
+                bool m_valid;
+        };
+
         struct IObserver
         {
             IObserver() {};
             virtual void photoUpdated() = 0;
         };
 
-        typedef std::shared_ptr<PhotoInfo> Ptr;
-        typedef std::string Hash;                // Hash is hash of photo's file
+        struct Flags
+        {
+            //information
+            bool stagingArea;
 
-        PhotoInfo(const std::string &path);      //load all data from provided path
+            //related to data loading
+            bool tagsLoaded;
+            bool hashLoaded;
+            bool thumbnailLoaded;
+
+            Flags();
+        };
+
+        PhotoInfo(const QString &path);          //load all data from provided path
         PhotoInfo(const APhotoInfoInitData &);   //load all data from provided struct
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
+        PhotoInfo& operator=(const PhotoInfo &) = delete;
+
         //data getting
-        const std::string& getPath() const;
+        const QString& getPath() const;
         std::shared_ptr<ITagData> getTags() const;
         const QPixmap& getThumbnail() const;     // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;             // Do not call until isHashLoaded()
+        Id getID() const;
 
         //status checking
-        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is not temporary one.
+        bool isLoaded() const;                   // returns true if hash is not null, and thumbnail is loaded (photo fully loaded)
         bool isHashLoaded() const;               // returns true if hash is not null
         bool isThumbnailLoaded() const;          // returns true if thumbnail is loaded
+        bool areTagsLoaded() const;              // returns true is tags were loaded
 
         //observers
         void registerObserver(IObserver *);
         void unregisterObserver(IObserver *);
 
-        //data setting
-        void setHash(const Hash &);
-        void setThumbnail(const QPixmap &);
-        void setTemporaryThumbnail(const QPixmap &);  // set temporary thumbnail. isThumbnailLoaded() won't return true
+        //data initializing
+        void initHash(const Hash &);
+        void initThumbnail(const QPixmap &);
+        void initID(const Id &);
 
         //flags
         void markStagingArea(bool = true);            // mark photo as stage area's photo
-        bool isMarkedStagingArea() const;
+        Flags getFlags() const;
 
     private:
         struct Data;
@@ -68,7 +105,7 @@ struct CORE_EXPORT APhotoInfoInitData
 {
     APhotoInfoInitData();
 
-    std::string path;
+    QString path;
     std::shared_ptr<ITagData> tags;
     PhotoInfo::Hash hash;
 };

@@ -28,9 +28,9 @@
 class string;
 
 #define TIME_GUARDIAN(t,l,m) TimeGuardian _guardian;  \
-                             _guardian.setLimit(l,m); \
-                             _guardian.setTitle(t);   \
-                             _guardian.begin();
+    _guardian.setLimit(l,m); \
+    _guardian.setTitle(t);   \
+    _guardian.begin();
 
 class CORE_EXPORT TimeGuardian
 {

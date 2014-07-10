@@ -84,6 +84,8 @@ namespace Database
             InterfaceContainer& operator=(const InterfaceContainer& other)
             {
                 m_data.reset(other->clone());
+
+                return *this;
             }
 
         private:

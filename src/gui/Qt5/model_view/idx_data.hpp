@@ -31,31 +31,31 @@ class DBDataModel;
 
 struct IdxData: public PhotoInfo::IObserver
 {
-    std::vector<IdxData *> m_children;
-    QMap<int, QVariant> m_data;
-    Database::IFilter::Ptr m_filter;
-    PhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
-    IdxData* m_parent;
-    DBDataModel* m_model;
-    size_t m_level;
-    int m_row;
-    int m_column;
-    bool m_loaded;                          // true when we have loaded all children of item (if any)
+        std::vector<IdxData *> m_children;
+        QMap<int, QVariant> m_data;
+        Database::IFilter::Ptr m_filter;
+        PhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
+        IdxData* m_parent;
+        DBDataModel* m_model;
+        size_t m_level;
+        int m_row;
+        int m_column;
+        bool m_loaded;                          // true when we have loaded all children of item (if any)
 
-    // node constructor
-    IdxData(DBDataModel *, IdxData* parent, const QString& name);
+        // node constructor
+        IdxData(DBDataModel *, IdxData* parent, const QString& name);
 
-    //leaf constructor
-    IdxData(DBDataModel *, IdxData* parent, const PhotoInfo::Ptr &);
+        //leaf constructor
+        IdxData(DBDataModel *, IdxData* parent, const PhotoInfo::Ptr &);
 
-    virtual ~IdxData();
+        virtual ~IdxData();
 
-    IdxData(const IdxData &) = delete;
-    IdxData& operator=(const IdxData &) = delete;
+        IdxData(const IdxData &) = delete;
+        IdxData& operator=(const IdxData &) = delete;
 
-    void setNodeData(const Database::IFilter::Ptr& filter);
-    void addChild(IdxData* child);
-    void addChild(const PhotoInfo::Ptr& photoInfo);
+        void setNodeData(const Database::IFilter::Ptr& filter);
+        void addChild(IdxData* child);
+        void addChild(const PhotoInfo::Ptr& photoInfo);
 
     private:
         IdxData(DBDataModel *, IdxData* parent);

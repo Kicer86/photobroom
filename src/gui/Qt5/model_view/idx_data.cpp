@@ -104,7 +104,7 @@ void IdxData::setPosition(int row, int col)
 
 void IdxData::updateLeafData()
 {
-    m_data[Qt::DisplayRole] = m_photo->getPath().c_str();
+    m_data[Qt::DisplayRole] = m_photo->getPath();
     m_data[Qt::DecorationRole] = m_photo->getThumbnail();
 }
 

@@ -20,11 +20,13 @@ std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
 
         ITagData::ValuesSet::const_iterator valuesIt = tags.second.cbegin();
         ITagData::ValuesSet::const_iterator valuesEnd = tags.second.cend();
+
         while (valuesIt != valuesEnd)
         {
             stream << valuesIt->value().toStdString();
 
             ++valuesIt;
+
             if (valuesIt != valuesEnd)
                 stream << tags.first.getSeparator() << " ";
         }
@@ -157,7 +159,10 @@ bool TagDataComposite::isValid() const
 
     if (m_tags.empty() == false)
         status = std::all_of(m_tags.begin(), m_tags.end(),
-                             [](const std::shared_ptr<ITagData> &tag) { return tag->isValid(); } );
+                             [](const std::shared_ptr<ITagData> &tag)
+    {
+        return tag->isValid();
+    } );
 
     return status;
 }

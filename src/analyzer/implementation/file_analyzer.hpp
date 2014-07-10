@@ -8,13 +8,13 @@
 
 class FileAnalyzer: public IAnalyzer
 {
-	public:
-		FileAnalyzer();
-		virtual ~FileAnalyzer();
+    public:
+        FileAnalyzer();
+        virtual ~FileAnalyzer();
 
-		virtual bool isImage(const std::string &) override;
+        virtual bool isImage(const QString &) override;
         void registerAnalyzer(IAnalyzer *);
-        
+
     private:
         struct Impl;
         std::unique_ptr<Impl> m_impl;

@@ -64,6 +64,7 @@ namespace Database
                 for(const QFileInfo& info: m_plugins)
                 {
                     const QString path = info.absoluteFilePath();
+
                     if (path.contains("sqlite"))
                     {
                         QObject* rawPlugin = load(path);

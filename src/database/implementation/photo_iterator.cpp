@@ -48,7 +48,7 @@ namespace Database
         {
             if (m_photoInfo.get() == nullptr)
             {
-                const unsigned int photoId = m_query->getId();
+                const PhotoInfo::Id photoId = m_query->getId();
 
                 m_photoInfo = m_query->backend()->getPhoto(photoId);
             }
@@ -102,8 +102,8 @@ namespace Database
         if ( *this )
         {
             //get id of current photo
-            const unsigned int id = m_impl->m_query->getId();
-            unsigned int n_id = 0;
+            const PhotoInfo::Id id = m_impl->m_query->getId();
+            PhotoInfo::Id n_id;
             const bool status = m_impl->m_query->gotoNext();
 
             if (status)

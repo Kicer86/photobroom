@@ -32,8 +32,8 @@ namespace Database
 
     PhotoInfo::Id SqlDBQuery::getId() const
     {
-        static_assert(sizeof(PhotoInfo::Id) <= sizeof(int), "bad type !");   //TODO: watchout for type
-        return m_query.value("photos_id").toInt();
+        static_assert(sizeof(PhotoInfo::Id::type) <= sizeof(int), "bad type !");   //TODO: watchout for type
+        return PhotoInfo::Id(m_query.value("photos_id").toInt());
     }
 
 

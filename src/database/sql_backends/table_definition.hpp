@@ -2,6 +2,7 @@
 #ifndef DATABASE_TABLE_DEFINITION_HPP
 #define DATABASE_TABLE_DEFINITION_HPP
 
+
 #include <vector>
 
 #include <QString>
@@ -41,6 +42,10 @@ namespace Database
                         const std::initializer_list<ColDefinition>& c,
                         const std::initializer_list<KeyDefinition>& k = { }
                        );
+
+        TableDefinition(const TableDefinition &) = default;
+
+        TableDefinition& operator=(const TableDefinition &) = default;
     };
 
 }

@@ -20,7 +20,7 @@ class ImagesTreeView;
 
 struct BrowseLine: public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         BrowseLine(QWidget *);
@@ -80,8 +80,9 @@ class PhotosViewWidget: public QWidget
             }
         }
 
-        void addPhoto(const std::string &);
+        void addPhoto(const QString &);
         std::vector<PhotoInfo::Ptr> getPhotos() const;
+        void storePhotos();
 
     private:
         StagingDataModel* m_photosModel;

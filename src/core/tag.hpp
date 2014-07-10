@@ -15,74 +15,74 @@
 
 struct CORE_EXPORT TagNameInfo
 {
-    enum Type
-    {
-        //indexed, as those values will be stored in db.
-        Invalid = 0,
-        Text    = 1,
-        Date    = 2,
-        Time    = 3,
-    };
+        enum Type
+        {
+            //indexed, as those values will be stored in db.
+            Invalid = 0,
+            Text    = 1,
+            Date    = 2,
+            Time    = 3,
+        };
 
-    TagNameInfo(const QString& n, const Type t, char s = ';'): name(n), separator(s), type(t)
-    {
+        TagNameInfo(const QString& n, const Type t, char s = ';'): name(n), separator(s), type(t)
+        {
 
-    }
+        }
 
-    TagNameInfo(const QString& n, int t, char s = ';'): TagNameInfo(n, Type(t), s)
-    {
+        TagNameInfo(const QString& n, int t, char s = ';'): TagNameInfo(n, Type(t), s)
+        {
 
-    }
+        }
 
-    TagNameInfo(const TagNameInfo& other): name(other.name), separator(other.separator), type(other.type)
-    {
+        TagNameInfo(const TagNameInfo& other): name(other.name), separator(other.separator), type(other.type)
+        {
 
-    }
+        }
 
-    operator QString() const
-    {
-        return name;
-    }
+        operator QString() const
+        {
+            return name;
+        }
 
-    bool operator==(const TagNameInfo& other) const
-    {
-        const bool result = name == other.name;
+        bool operator==(const TagNameInfo& other) const
+        {
+            const bool result = name == other.name;
 
-        assert(result == false || separator == other.separator);  //if result is true, then separators must be equal
+            assert(result == false || separator == other.separator);  //if result is true, then separators must be equal
 
-        return result;
-    }
+            return result;
+        }
 
-    bool operator<(const TagNameInfo& other) const
-    {
-        const bool result = name < other.name;
+        bool operator<(const TagNameInfo& other) const
+        {
+            const bool result = name < other.name;
 
-        return result;
-    }
+            return result;
+        }
 
-    TagNameInfo& operator=(const TagNameInfo& other)
-    {
-        name = other.name;
-        separator = other.separator;
-        type = other.type;
+        TagNameInfo& operator=(const TagNameInfo& other)
+        {
+            name = other.name;
+            separator = other.separator;
+            type = other.type;
 
-        return *this;
-    }
+            return *this;
+        }
 
-    const QString& getName() const
-    {
-        return name;
-    }
+        const QString& getName() const
+        {
+            return name;
+        }
 
-    char getSeparator() const
-    {
-        return separator;
-    }
+        char getSeparator() const
+        {
+            return separator;
+        }
 
-    Type getType() const
-    {
-        return type;
-    }
+        Type getType() const
+        {
+            return type;
+        }
 
     private:
         QString name;
@@ -118,67 +118,67 @@ struct CORE_EXPORT TagValueInfo
 
 struct ITagData
 {
-    typedef std::set<TagValueInfo> ValuesSet;
-    typedef std::map<TagNameInfo, ValuesSet> TagsList;
+        typedef std::set<TagValueInfo> ValuesSet;
+        typedef std::map<TagNameInfo, ValuesSet> TagsList;
 
-    struct TagInfo
-    {
-        TagInfo(const TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-        TagInfo(const std::pair<TagNameInfo, ValuesSet> &data): m_name(data.first), m_values(data.second) {}
-
-        TagInfo& operator=(const std::pair<TagNameInfo, ValuesSet> &data)
+        struct TagInfo
         {
-             m_name = data.first;
-             m_values = data.second;
+                TagInfo(const TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
+                TagInfo(const std::pair<TagNameInfo, ValuesSet> &data): m_name(data.first), m_values(data.second) {}
 
-             return *this;
-        }
+                TagInfo& operator=(const std::pair<TagNameInfo, ValuesSet> &data)
+                {
+                    m_name = data.first;
+                    m_values = data.second;
 
-        QString name() const
-        {
-            return m_name;
-        }
+                    return *this;
+                }
 
-        TagNameInfo getTypeInfo() const
-        {
-            return m_name;
-        }
+                QString name() const
+                {
+                    return m_name;
+                }
 
-        const ValuesSet& values() const
-        {
-            return m_values;
-        }
+                TagNameInfo getTypeInfo() const
+                {
+                    return m_name;
+                }
 
-        QString valuesString() const
-        {
-            QString result;
+                const ValuesSet& values() const
+                {
+                    return m_values;
+                }
 
-            for(const QString &str: m_values)
-            {
-                result += str + " ";                //TODO: temporary
-            }
+                QString valuesString() const
+                {
+                    QString result;
 
-            return result.simplified();
-        }
+                    for(const QString &str: m_values)
+                    {
+                        result += str + " ";                //TODO: temporary
+                    }
 
-        private:
-            TagNameInfo m_name;
-            ValuesSet m_values;
-    };
+                    return result.simplified();
+                }
 
-    virtual ~ITagData();
+            private:
+                TagNameInfo m_name;
+                ValuesSet m_values;
+        };
 
-    //get list of tags
-    virtual TagsList getTags() const = 0;
+        virtual ~ITagData();
 
-    //set tag and its values. Overvrite existing tags
-    virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
-    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
-    virtual void setTags(const TagsList &) = 0;
+        //get list of tags
+        virtual TagsList getTags() const = 0;
 
-    virtual void clear() = 0;
+        //set tag and its values. Overvrite existing tags
+        virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
+        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
+        virtual void setTags(const TagsList &) = 0;
 
-    virtual bool isValid() const = 0;
+        virtual void clear() = 0;
+
+        virtual bool isValid() const = 0;
 };
 
 CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);

@@ -49,6 +49,8 @@ struct Hierarchy
 
 class DBDataModel: public QAbstractItemModel, public Database::IFrontend
 {
+        Q_OBJECT
+
     public:
         DBDataModel(QObject* p);
         ~DBDataModel();
@@ -61,8 +63,12 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         const std::vector<PhotoInfo::Ptr> getPhotos();
 
         //Database::IFrontend:
-        virtual void setBackend(Database::IBackend *) override;
+        virtual void setDatabase(Database::IDatabase *) override;
         virtual void close() override;
+
+        //
+        void idxUpdated(IdxData *);
+        void attachNodes(IdxData* parent, const std::shared_ptr<std::deque<IdxData *>> &);
 
     protected:
         IdxData& getRootIdxData();
@@ -71,8 +77,6 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         virtual std::vector<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
     private:
-        friend struct IdxData;
-
         //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
@@ -91,8 +95,13 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         struct Impl;
         std::unique_ptr<Impl> m_impl;
 
-        //used by friends
-        void idxUpdated(IdxData *);
+    private slots:
+        void dispatchIdxUpdate(IdxData *);
+        void dispatchAttachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
+
+    signals:
+        void dispatchUpdate(IdxData *);
+        void dispatchNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 };
 
 #endif // DBDATAMODEL_H

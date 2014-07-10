@@ -93,6 +93,7 @@ std::set<TagNameInfo> EntriesManager::getDefaultValues()
 std::set<TagNameInfo> EntriesManager::usedValues() const
 {
     std::set<TagNameInfo> used;
+
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
     {
         const TagNameInfo& n = entry->getTagInfo();

@@ -125,6 +125,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             {
                 m_tagData->clear();
                 auto& entries = m_entriesManager->getTagEntries();
+
                 for (const std::unique_ptr<TagEntry>& tagEntry: entries)
                 {
                     const TagNameInfo name = tagEntry->getTagInfo();

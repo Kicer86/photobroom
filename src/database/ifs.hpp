@@ -27,10 +27,10 @@
 struct IStreamFactory
 {
     virtual ~IStreamFactory() {}
-        
+
     //open and return file
     virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
-                                                      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out ) = 0;
+            std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out ) = 0;
 };
 
 #endif

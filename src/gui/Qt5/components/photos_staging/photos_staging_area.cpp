@@ -15,18 +15,37 @@
 #include "components/tag_editor/tag_editor_widget.hpp"
 #include "photos_view_widget.hpp"
 
+struct PhotosReceiver: IMediaNotification
+{
+    PhotosReceiver(): m_view(nullptr) {}
+
+    void setView(PhotosViewWidget* view)
+    {
+        m_view = view;
+    }
+
+    virtual void found(const QString& path) override
+    {
+        m_view->addPhoto(path);
+    }
+
+    PhotosViewWidget* m_view;
+};
+
+
 PhotosStagingArea::PhotosStagingArea(Database::IFrontend* frontend, QWidget *p):
     QWidget(p),
     m_editor(nullptr),
     m_tagEditor(nullptr),
-    m_frontend(frontend)
+    m_frontend(frontend),
+    m_photosReceiver(new PhotosReceiver)
 {
     BrowseLine *browse = new BrowseLine(this);
     m_editor = new PhotosViewWidget(this);
     m_tagEditor = new TagEditorWidget(this);
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(QString)));
+    connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(const QString &)));
     connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
             this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
 
@@ -41,6 +60,8 @@ PhotosStagingArea::PhotosStagingArea(Database::IFrontend* frontend, QWidget *p):
     mainLayout->addWidget(m_editor);
     mainLayout->addWidget(m_tagEditor);
     mainLayout->addLayout(savePhotosLayout);
+
+    m_photosReceiver->setView(m_editor);
 }
 
 
@@ -50,13 +71,10 @@ PhotosStagingArea::~PhotosStagingArea()
 }
 
 
-void PhotosStagingArea::pathToAnalyze(QString path)
+void PhotosStagingArea::pathToAnalyze(const QString& path)
 {
-    std::shared_ptr<IPhotoCrawler> crawler = PhotoCrawlerBuilder().build();
-
-    std::vector<std::string> files = crawler->crawl(path.toStdString());
-
-    m_editor->addPhotos(files);
+    IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();
+    crawler->crawl(path, m_photosReceiver.get());
 }
 
 
@@ -75,11 +93,7 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& 
 }
 
 
-//TODO: rewrite
 void PhotosStagingArea::savePhotos()
 {
-    const std::vector<PhotoInfo::Ptr> photos = m_editor->getPhotos();
-
-    //for(const PhotoInfo::Ptr& photo: photos)
-    //    m_frontend->addPhoto(photo);
+    m_editor->storePhotos();
 }

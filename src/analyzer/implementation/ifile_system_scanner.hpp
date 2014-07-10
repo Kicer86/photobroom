@@ -3,13 +3,21 @@
 #define ANALYZER_FILESYSTEM_SCANNER_HPP
 
 #include <vector>
-#include <string>
+
+class QString;
+
+struct IFileNotifier
+{
+    virtual ~IFileNotifier() {}
+
+    virtual void found(const QString &) = 0;
+};
 
 struct IFileSystemScanner
 {
     virtual ~IFileSystemScanner();
-    
-    virtual std::vector<std::string> getFilesFor(const std::string &) = 0;
+
+    virtual void getFilesFor(const QString &, IFileNotifier *) = 0;
 };
 
 #endif

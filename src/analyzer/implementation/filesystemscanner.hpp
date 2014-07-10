@@ -30,9 +30,9 @@ class FileSystemScanner : public IFileSystemScanner
     public:
         FileSystemScanner();
         virtual ~FileSystemScanner();
-        
-        virtual std::vector<std::string> getFilesFor(const std::string& );
-        
+
+        virtual void getFilesFor(const QString &, IFileNotifier *) override;
+
     private:
         FileSystemScanner(const FileSystemScanner& other) = delete;
         virtual FileSystemScanner& operator=(const FileSystemScanner& other) = delete;

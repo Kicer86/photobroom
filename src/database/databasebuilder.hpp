@@ -29,28 +29,29 @@
 namespace Database
 {
 
-    struct IBackend;
+    struct IDatabase;
     struct IFrontend;
 
     //configuration keys for databases
-    extern const char* databaseLocation DATABASE_EXPORT;
+    extern DATABASE_EXPORT const char* databaseLocation;
 
     struct DATABASE_EXPORT Builder
     {
-        virtual ~Builder();
+            virtual ~Builder();
 
-        static Builder* instance();
+            static Builder* instance();
 
-        //IFrontend* __attribute__((deprecated)) get();
-        IBackend* getBackend();  //always the same backend is returned
+            void initConfig();
+            IDatabase* get();  //always the same database is returned
 
-        void closeAll();
+            void closeAll();
 
         private:
             struct Impl;
             std::unique_ptr<Impl> m_impl;
 
             Builder();
+            Builder& operator=(const Builder &) = delete;
     };
 }
 

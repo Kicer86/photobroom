@@ -21,7 +21,7 @@
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QTreeView(_parent)
 {
-
+    setHeaderHidden(true);
 }
 
 
