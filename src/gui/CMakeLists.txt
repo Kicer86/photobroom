@@ -4,15 +4,13 @@ project(gui CXX)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenLibrary REQUIRED COMPONENTS QtExt)
-find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/Qt5)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
-                           ${Qt5Gui_INCLUDE_DIRS}
-                           ${Boost_INCLUDE_DIRS})
+                           ${Qt5Gui_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

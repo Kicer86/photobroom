@@ -76,7 +76,7 @@ namespace Database
             virtual std::string getXml()
             {
                 std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-                boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
+                Optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
 
                 assert(entry.is_initialized());
 

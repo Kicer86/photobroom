@@ -23,7 +23,7 @@
 #include <vector>
 #include <string>
 
-#include <boost/optional.hpp>
+#include <OpenLibrary/utils/optional.hpp>
 
 #include "configuration_export.h"
 
@@ -71,7 +71,7 @@ struct IConfiguration
     // loads data from initializers and disk storage
     virtual bool load() = 0;
 
-    virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
+    virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;
 };
 

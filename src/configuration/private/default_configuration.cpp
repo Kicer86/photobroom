@@ -45,7 +45,7 @@ DefaultConfiguration::~DefaultConfiguration()
 }
 
 
-boost::optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
+Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
 {
     return m_impl->find(key);
 }

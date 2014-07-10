@@ -25,8 +25,6 @@
 #include <set>
 #include <thread>
 
-#include <boost/optional.hpp>
-
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -34,6 +32,8 @@
 #include <QPixmap>
 #include <QBuffer>
 #include <QString>
+
+#include <OpenLibrary/utils/optional.hpp>
 
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
@@ -175,7 +175,7 @@ namespace Database
             bool exec(const QString& query, QSqlQuery* result) const;
             bool exec(const SqlQuery& query, QSqlQuery* result) const;
             bool createDB(const QString& dbName) const;
-            boost::optional<unsigned int> store(const TagNameInfo& nameInfo) const;
+            Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const PhotoInfo::Ptr& data);
             PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &);
             std::vector<TagNameInfo> listTags() const;
@@ -186,7 +186,7 @@ namespace Database
         private:
             friend struct StorePhoto;
 
-            boost::optional<unsigned int> findTagByName(const QString& name) const;
+            Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
@@ -291,7 +291,7 @@ namespace Database
     }
 
 
-    boost::optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
+    Optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
     {
         const QString& name = nameInfo.getName();
         const int type = nameInfo.getType();
@@ -299,7 +299,7 @@ namespace Database
         QSqlQuery query(db);
 
         //check if tag exists
-        boost::optional<unsigned int> tagId = findTagByName(name);
+        Optional<unsigned int> tagId = findTagByName(name);
 
         if (! tagId)  //tag not yet in database
         {
@@ -355,7 +355,7 @@ namespace Database
 
     std::set<TagValueInfo> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
     {
-        const boost::optional<unsigned int> tagId = findTagByName(tagName);
+        const Optional<unsigned int> tagId = findTagByName(tagName);
 
         std::set<TagValueInfo> result;
 
@@ -429,14 +429,14 @@ namespace Database
     }
 
 
-    boost::optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
+    Optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
         const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
         const bool status = exec(find_tag_query, &query);
 
-        boost::optional<unsigned int> result;
+        Optional<unsigned int> result;
 
         if (status && query.next())
             result = query.value(0).toInt();
@@ -486,7 +486,7 @@ namespace Database
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
             //store tag name
-            const boost::optional<unsigned int> tag_id = store(it->first);
+            const Optional<unsigned int> tag_id = store(it->first);
 
             if (tag_id)
             {

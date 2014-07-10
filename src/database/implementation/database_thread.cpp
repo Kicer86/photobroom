@@ -191,7 +191,7 @@ namespace
         {
             for(;;)
             {
-                boost::optional< std::shared_ptr<IThreadTask> > task = m_tasks.pop_front();
+                Optional< std::shared_ptr<IThreadTask> > task = m_tasks.pop_front();
 
                 if (task)
                     (*task)->visitMe(this);
@@ -241,7 +241,7 @@ namespace Database
         std::thread m_thread;
     };
 
-    
+
     DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))
     {
 

@@ -27,6 +27,7 @@
 
 #include <OpenLibrary/palgorithm/ts_queue.hpp>
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/utils/optional.hpp>
 
 
 ITaskExecutor::ITask::~ITask()
@@ -93,9 +94,9 @@ void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
-    
-    
-    
+
+
+
     #pragma omp parallel
     {
         const int id = getId();
@@ -103,7 +104,7 @@ void TaskExecutor::eat()
 
         while(true)
         {
-            boost::optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
+            Optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
 
             if (opt_task)
             {

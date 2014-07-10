@@ -5,8 +5,7 @@
 
 #include <QProcess>
 #include <QSqlDatabase>
-
-#include <boost/filesystem.hpp>
+#include <QDir>
 
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
@@ -58,18 +57,15 @@ namespace Database
             //create base directory
             if (entry)
             {
-                boost::filesystem::path storage(entry->value());
+                QString storagePath(entry->value().c_str());
+                storagePath += "/MySQL";
 
-                storage /= "MySQL";
-
-                if (boost::filesystem::exists(storage) == false)
-                    status = boost::filesystem::create_directories(storage);
+                if (QDir().exists(storagePath) == false)
+                    status = QDir().mkpath(storagePath);
 
                 if (status)
                 {
                     //start mysql process
-                    const std::string storageString = storage.string();
-                    QString storagePath(storageString.c_str());
                     storagePath += "/";
 
                     const QString socketPath = m_data->m_server.run_server(storagePath);

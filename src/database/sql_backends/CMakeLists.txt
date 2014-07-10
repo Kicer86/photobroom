@@ -8,14 +8,12 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenLibrary REQUIRED)
-find_package(Boost REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Sql_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${Boost_INCLUDE_DIRS})
+                           ${OPENLIBRARY_INCLUDE_DIRS})
 
 set(SOURCES generic_sql_query_constructor.cpp sqldbquery.cpp sql_backend.cpp table_definition.cpp tables.cpp query_structs.cpp sql_query_constructor.cpp)
 set(HEADERS generic_sql_query_constructor.hpp sqldbquery.hpp sql_backend.hpp table_definition.hpp tables.hpp query_structs.hpp sql_query_constructor.hpp)

@@ -5,8 +5,7 @@
 
 #include <QSqlDatabase>
 #include <QStringList>
-
-#include <boost/filesystem.hpp>
+#include <QDir>
 
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
@@ -38,22 +37,21 @@ namespace Database
                 //create base directory
                 if (entry)
                 {
-                    boost::filesystem::path storage(entry->value());
+                    QString storagePath(entry->value().c_str());
 
-                    storage /= "SQLite";
+                    storagePath += "/SQLite";
 
-                    if (boost::filesystem::exists(storage) == false)
-                        status = boost::filesystem::create_directories(storage);
+                    if (QDir().exists(storagePath) == false)
+                        status = QDir().mkpath(storagePath);
 
                     if (status)
                     {
-                        storage /= std::string(name) + ".db";
+                        storagePath += QString("/%1.db").arg(name);
 
                         QSqlDatabase db_obj;
                         //setup db connection
                         db_obj = QSqlDatabase::addDatabase("QSQLITE", name);
-                        const std::string storage_path = storage.string();
-                        db_obj.setDatabaseName(storage_path.c_str());
+                        db_obj.setDatabaseName(storagePath);
 
                         *db = db_obj;
                     }
