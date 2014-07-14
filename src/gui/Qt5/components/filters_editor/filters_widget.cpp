@@ -19,18 +19,16 @@
 
 #include "filters_widget.hpp"
 
-#include <QVBoxLayout>
-
-#include "level_editor.hpp"
+#include <QHBoxLayout>
+#include <QComboBox>
 
 FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    m_sorting = new QComboBox;
 
-    LevelEditor* le = new LevelEditor;
-    le->setLevelNames( {"abcd", "1234", "qwert", "asdf", "zxcvbnm,./"} );
-
-    mainLayout->addWidget(le);
+    QBoxLayout *mainLayout = new QHBoxLayout(this);
+    mainLayout->addWidget(m_sorting);
+    mainLayout->addStretch();
 }
 
 

@@ -22,6 +22,7 @@
 
 #include <QWidget>
 
+class QComboBox;
 class FiltersWidget: public QWidget
 {
     public:
@@ -30,6 +31,9 @@ class FiltersWidget: public QWidget
         ~FiltersWidget();
 
         FiltersWidget& operator=(const FiltersWidget &) = delete;
+
+    private:
+        QComboBox* m_sorting;
 };
 
 #endif // GUI_FILTERSEWIDGET_H
