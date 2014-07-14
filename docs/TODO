@@ -18,7 +18,6 @@ TODO:
 - database: priorities for tasks store should be more important than update
 
 IN PROGRESS:
-- task executor: turn off threads when not needed
 - Staging Model: automatically move added photos to right positions
 - gui improvements: filters and hierarchy management
 - make PhotoInfo::tags thread safe and do not overwrite data
@@ -37,3 +36,4 @@ DONE:
 - core: make photos tagger a new task
 
 DROPPED:
+- task executor: turn off threads when not needed. REASON: hard to achieve
