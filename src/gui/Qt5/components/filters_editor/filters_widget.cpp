@@ -25,6 +25,8 @@
 FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent)
 {
     m_sorting = new QComboBox;
+    m_sorting->addItem("Date and time");
+    m_sorting->addItem("People");
 
     QBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_sorting);
