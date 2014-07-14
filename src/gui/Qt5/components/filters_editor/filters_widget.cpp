@@ -22,7 +22,7 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 
-FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent)
+FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent), m_sorting(nullptr)
 {
     m_sorting = new QComboBox;
     m_sorting->addItem("Date and time");
