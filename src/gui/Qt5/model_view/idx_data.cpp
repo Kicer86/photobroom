@@ -87,11 +87,11 @@ void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
 
 void IdxData::reset()
 {
-    for(IdxData* child: m_children)
+    m_loaded = false;
+    for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
 
     m_children.clear();
-    m_loaded = false;
     m_photo.reset();
 }
 
