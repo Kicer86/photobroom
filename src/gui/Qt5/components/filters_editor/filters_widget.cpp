@@ -25,8 +25,7 @@
 FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent), m_sorting(nullptr)
 {
     m_sorting = new QComboBox;
-    m_sorting->addItem("Date and time");
-    m_sorting->addItem("People");
+    connect(m_sorting, SIGNAL(currentIndexChanged(int)), this, SIGNAL(updateSorting(int)));
 
     QBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_sorting);
@@ -38,4 +37,11 @@ FiltersWidget::~FiltersWidget()
 {
 
 }
+
+void FiltersWidget::setBasicFilters(const std::deque<QString>& items)
+{
+    for(const QString& item: items)
+        m_sorting->addItem(item);
+}
+
 

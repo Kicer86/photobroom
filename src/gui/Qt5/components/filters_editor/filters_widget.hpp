@@ -20,17 +20,26 @@
 #ifndef GUI_FILTERSEWIDGET_H
 #define GUI_FILTERSEWIDGET_H
 
+#include <deque>
+
 #include <QWidget>
 
 class QComboBox;
 class FiltersWidget: public QWidget
 {
+        Q_OBJECT
+        
     public:
         FiltersWidget(QWidget * = 0);
         FiltersWidget(const FiltersWidget &) = delete;
         ~FiltersWidget();
 
         FiltersWidget& operator=(const FiltersWidget &) = delete;
+
+        void setBasicFilters(const std::deque<QString> &);
+
+    signals:
+        void basicFilterChoosen(int);
 
     private:
         QComboBox* m_sorting;

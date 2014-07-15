@@ -74,6 +74,7 @@ set(GUI_HEADERS
 set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
     Qt5/components/browse_view/main_view_widget.hpp
+    Qt5/components/filters_editor/filters_widget.hpp
     Qt5/components/photos_staging/photos_staging_area.hpp
     Qt5/components/photos_staging/photos_view_widget.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
