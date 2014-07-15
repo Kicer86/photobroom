@@ -56,6 +56,7 @@ struct IdxData: public PhotoInfo::IObserver
         void setNodeData(const Database::IFilter::Ptr& filter);
         void addChild(IdxData* child);
         void addChild(const PhotoInfo::Ptr& photoInfo);
+        void reset();
 
     private:
         IdxData(DBDataModel *, IdxData* parent);

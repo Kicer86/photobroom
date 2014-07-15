@@ -58,6 +58,8 @@ IdxData::~IdxData()
 {
     if (m_photo.get() != nullptr)
         m_photo->unregisterObserver(this);
+
+    reset();
 }
 
 
@@ -70,6 +72,7 @@ void IdxData::setNodeData(const Database::IFilter::Ptr& filter)
 void IdxData::addChild(IdxData* child)
 {
     assert(m_photo.get() == nullptr);             //child (leaf) cannot accept any child
+
     child->setPosition(m_children.size(), 0);
     m_children.push_back(child);
 }
@@ -79,6 +82,17 @@ void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
 {
     IdxData* child = new IdxData(m_model, this, photoInfo);
     addChild(child);
+}
+
+
+void IdxData::reset()
+{
+    for(IdxData* child: m_children)
+        delete child;
+
+    m_children.clear();
+    m_loaded = false;
+    m_photo.reset();
 }
 
 
