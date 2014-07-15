@@ -16,6 +16,7 @@ TODO:
 - load all database plugins. Choose right backend basing on project settings.
 - log files
 - database: priorities for tasks store should be more important than update
+- update photo in db when tags change
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
