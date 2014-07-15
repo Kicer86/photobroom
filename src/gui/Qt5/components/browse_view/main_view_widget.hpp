@@ -31,6 +31,7 @@ class MainViewWidget : public QWidget
 
     private slots:
         void refresh();
+        void basicFiltersUpdated(int);
 };
 
 #endif // MAIN_VIEW_WIDGET_HPP
