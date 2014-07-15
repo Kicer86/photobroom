@@ -91,6 +91,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         {
             m_hierarchy = hierarchy;
             m_dirty = true;
+            m_root.reset();
         }
 
         bool isDirty() const
@@ -352,7 +353,9 @@ DBDataModel::~DBDataModel()
 
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
+    beginResetModel();
     m_impl->setHierarchy(hierarchy);
+    endResetModel();
 }
 
 
