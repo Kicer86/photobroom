@@ -25,7 +25,7 @@
 FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent), m_sorting(nullptr)
 {
     m_sorting = new QComboBox;
-    connect(m_sorting, SIGNAL(currentIndexChanged(int)), this, SIGNAL(updateSorting(int)));
+    connect(m_sorting, SIGNAL(currentIndexChanged(int)), this, SIGNAL(basicFilterChoosen(int)));
 
     QBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addWidget(m_sorting);
