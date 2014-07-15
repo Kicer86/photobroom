@@ -20,7 +20,7 @@ TODO:
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
-- gui improvements: filters and hierarchy management
+- gui improvements: filters and hierarchy management (basic)
 - make PhotoInfo::tags thread safe and do not overwrite data
 
 DONE:
