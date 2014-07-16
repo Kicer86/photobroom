@@ -68,14 +68,13 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 {
         Impl(DBDataModel* model):
             pThis(model),
-            m_root(model, nullptr, "root"),
+            m_root(model, nullptr, ""),
             m_hierarchy(),
             m_dirty(true),
             m_database(),
             m_iterator(),
             m_db_tasks()
         {
-            m_root.setNodeData(std::make_shared<Database::FilterEmpty>()); //called just to mark root as node, not a leaf
             Hierarchy hierarchy;
             hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
