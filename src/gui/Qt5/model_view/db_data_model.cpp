@@ -479,7 +479,8 @@ void DBDataModel::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 
 QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 {
-    const QModelIndex idx = createIndex(idxData->m_row, idxData->m_column, idxData);
+    const QModelIndex idx = idxData->m_level == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
+                                                   createIndex(idxData->m_row, idxData->m_column, idxData);
     return idx;
 }
 
