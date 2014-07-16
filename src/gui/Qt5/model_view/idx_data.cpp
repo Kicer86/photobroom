@@ -93,19 +93,20 @@ void IdxData::reset()
 
     m_children.clear();
     m_photo.reset();
+    m_data.clear();
 }
 
 
 IdxData::IdxData(DBDataModel* model, IdxData* parent) :
     m_children(),
     m_data(),
-    m_filter(),
+    m_filter(new Database::FilterEmpty),
     m_photo(nullptr),
     m_parent(parent),
     m_model(model),
     m_level(-1),
-    m_row(0),
-    m_column(0),
+    m_row(-1),
+    m_column(-1),
     m_loaded(false)
 {
     m_level = parent ? parent->m_level + 1 : 0;
