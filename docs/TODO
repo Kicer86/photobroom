@@ -20,7 +20,6 @@ TODO:
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
-- gui improvements: filters and hierarchy management (basic)
 - make PhotoInfo::tags thread safe and do not overwrite data
 
 DONE:
@@ -35,6 +34,7 @@ DONE:
 - enhancing analyzer: run in thread, go throu dir hierarchy
 - fix performance issue when photos location is slow. Cache file for sha256 and thumbnail generation (maybe other actions)
 - core: make photos tagger a new task
+- gui improvements: filters and hierarchy management (basic)
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
