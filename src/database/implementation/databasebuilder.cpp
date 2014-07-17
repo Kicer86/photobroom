@@ -100,7 +100,6 @@ namespace Database
 
     struct Builder::Impl
     {
-        std::unique_ptr<IFrontend> defaultDatabase;
         std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
         PluginLoader backendBuilder;
@@ -114,7 +113,7 @@ namespace Database
 
         std::map<Type, std::unique_ptr<IDatabase>> m_backends;
 
-        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
+        Impl(): plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
         {}
 
         IPlugin* getPlugin()

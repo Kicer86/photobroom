@@ -117,15 +117,6 @@ namespace Database
         virtual void closeConnections() = 0;
     };
 
-
-    struct IFrontend            //TODO: deprecated?
-    {
-        virtual ~IFrontend() {}
-
-        virtual void setDatabase(IDatabase *) = 0;
-
-        virtual void close() = 0;
-    };
 }
 
 #endif

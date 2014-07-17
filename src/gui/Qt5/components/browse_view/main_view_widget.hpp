@@ -7,10 +7,6 @@
 class QAbstractItemView;
 
 class DBDataModel;
-namespace Database
-{
-    struct IFrontend;
-}
 
 class MainViewWidget : public QWidget
 {
@@ -22,8 +18,6 @@ class MainViewWidget : public QWidget
 
         MainViewWidget(const MainViewWidget &) = delete;
         MainViewWidget& operator=(const MainViewWidget &) = delete;
-
-        Database::IFrontend* getFronted();
 
     private:
         DBDataModel* m_imagesModel;

@@ -33,11 +33,10 @@ struct PhotosReceiver: IMediaNotification
 };
 
 
-PhotosStagingArea::PhotosStagingArea(Database::IFrontend* frontend, QWidget *p):
+PhotosStagingArea::PhotosStagingArea(QWidget *p):
     QWidget(p),
     m_editor(nullptr),
     m_tagEditor(nullptr),
-    m_frontend(frontend),
     m_photosReceiver(new PhotosReceiver)
 {
     BrowseLine *browse = new BrowseLine(this);

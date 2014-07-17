@@ -67,9 +67,3 @@ void MainViewWidget::basicFiltersUpdated(int index)
     }
 
 }
-
-
-Database::IFrontend* MainViewWidget::getFronted()
-{
-    return m_imagesModel;
-}
