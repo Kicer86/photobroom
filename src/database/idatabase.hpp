@@ -35,7 +35,8 @@
 namespace Database
 {
 
-    //direct database interface
+    //Low level database interface.
+    //To be used by particular database backend
     struct IBackend
     {
         virtual ~IBackend() {}
@@ -49,7 +50,7 @@ namespace Database
         virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual QueryList getAllPhotos() = 0;                                             //list all photos
         virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //list all photos matching filter
-        virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;                       //get particulat photo
+        virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;                       //get particular photo
 
         //init backend - connect to database or create new one
         virtual bool init(const std::string &) = 0;
@@ -60,6 +61,8 @@ namespace Database
 
     struct IDatabaseClient;
 
+    //Task structure.
+    //Used by database to identify task and associated client.
     struct Task
     {
         typedef int Id;
@@ -80,6 +83,9 @@ namespace Database
     };
 
 
+    //Database client.
+    //Prepared for database clients.
+    //Set of functions called when particalar task is finished
     struct IDatabaseClient
     {
         virtual void got_storeStatus(const Task &) = 0;
@@ -92,7 +98,8 @@ namespace Database
     };
 
 
-    //for final database clients
+    //Database interface.
+    //A bridge between clients and backend.
     struct IDatabase
     {
         virtual ~IDatabase() {}
