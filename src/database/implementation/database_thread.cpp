@@ -131,7 +131,7 @@ namespace
     };
 
 
-    struct Executor: IThreadVisitor
+    struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
         Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend), m_tasks(1024) {}
 
@@ -149,6 +149,8 @@ namespace
             const bool status = m_backend->store(task->m_photoInfo);
             task->m_task.setStatus(status);
             task->m_task.getClient()->got_storeStatus(task->m_task);
+
+            emit photoModified(task->m_photoInfo->getID());
         }
 
         virtual void visit(GetAllPhotosTask* task)
@@ -278,6 +280,12 @@ namespace Database
         Task task(client, m_impl->m_lastId++);
 
         return task;
+    }
+
+
+    ADatabaseSignals* DatabaseThread::notifier()
+    {
+        return &m_impl->m_executor;
     }
 
 

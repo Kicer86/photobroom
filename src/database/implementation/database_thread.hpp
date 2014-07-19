@@ -37,6 +37,7 @@ namespace Database
             DatabaseThread& operator=(const DatabaseThread &) = delete;
 
             virtual Task prepareTask(IDatabaseClient *) override;
+            virtual ADatabaseSignals* notifier() override;
 
             virtual void store(const Task &, const PhotoInfo::Ptr &) override;
 

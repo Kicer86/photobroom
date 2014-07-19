@@ -25,6 +25,8 @@
 #include <memory>
 #include <deque>
 
+#include <QObject>
+
 #include <core/photo_info.hpp>
 #include <core/tag.hpp>
 
@@ -97,6 +99,13 @@ namespace Database
         virtual void got_getPhoto(const Task &, const PhotoInfo::Ptr &) = 0;
     };
 
+    class ADatabaseSignals: public QObject
+    {
+            Q_OBJECT
+
+        signals:
+            void photoModified(const PhotoInfo::Id &);   //emited when new photo added or existing one updated
+    };
 
     //Database interface.
     //A bridge between clients and backend.
@@ -105,6 +114,7 @@ namespace Database
         virtual ~IDatabase() {}
 
         virtual Task prepareTask(IDatabaseClient *) = 0;
+        virtual ADatabaseSignals* notifier() = 0;
 
         //store data
         virtual void store(const Task &, const PhotoInfo::Ptr &) = 0;

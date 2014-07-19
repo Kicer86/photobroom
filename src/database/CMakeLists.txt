@@ -31,6 +31,10 @@ set(DATABASE_HEADERS
     implementation/plugin_loader.hpp
     )
 
+set(DATABASE_MOC idatabase.hpp)
+
+qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
+
 if(BUILD_TESTS)
     addTestTarget(database  SOURCES
                                 tests/databaseTests.cpp
@@ -46,7 +50,7 @@ endif(BUILD_TESTS)
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS})
+add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database configuration core)
 qt5_use_modules(database Core)
 
