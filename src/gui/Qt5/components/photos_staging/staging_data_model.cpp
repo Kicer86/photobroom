@@ -54,10 +54,7 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 
 void StagingDataModel::storePhotos()
 {
-    const std::vector<PhotoInfo::Ptr> photos = getPhotos();
-
-    for(const PhotoInfo::Ptr& photo: photos)
-        photo->markStagingArea(false);
+   
 }
 
 

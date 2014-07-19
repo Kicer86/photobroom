@@ -127,12 +127,6 @@ void PhotosViewWidget::addPhoto(const QString &path)
 }
 
 
-std::vector<PhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
-{
-    return m_photosModel->getPhotos();
-}
-
-
 void PhotosViewWidget::storePhotos()
 {
     m_photosModel->storePhotos();
