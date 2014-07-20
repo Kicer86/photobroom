@@ -95,12 +95,12 @@ class DBDataModel: public QAbstractItemModel
         std::unique_ptr<Impl> m_impl;
 
     private slots:
-        void dispatchIdxUpdate(IdxData *);
-        void dispatchAttachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
+        void mt_idxUpdate(IdxData *);
+        void mt_attachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 
     signals:
-        void dispatchUpdate(IdxData *);
-        void dispatchNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
+        void s_idxUpdated(IdxData *);
+        void s_attachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 };
 
 #endif // DBDATAMODEL_H

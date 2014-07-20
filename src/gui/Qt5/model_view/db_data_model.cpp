@@ -322,9 +322,9 @@ DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl(thi
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
 
     //used for moving notifications to main thread
-    connect(this, SIGNAL(dispatchUpdate(IdxData*)), this, SLOT(dispatchIdxUpdate(IdxData*)));
-    connect(this, SIGNAL(dispatchNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)),
-            this, SLOT(dispatchAttachNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)));
+    connect(this, SIGNAL(s_idxUpdated(IdxData*)), this, SLOT(mt_idxUpdate(IdxData*)));
+    connect(this, SIGNAL(s_attachNodes(IdxData*,std::shared_ptr<std::deque<IdxData*> >)),
+            this, SLOT(mt_attachNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)));
 }
 
 
@@ -429,13 +429,13 @@ void DBDataModel::close()
 void DBDataModel::idxUpdated(IdxData* idxData)
 {
     //make sure, we will move to main thread
-    emit dispatchUpdate(idxData);
+    emit s_idxUpdated(idxData);
 }
 
 void DBDataModel::attachNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& leafs)
 {
     //make sure, we will move to main thread
-    emit dispatchNodes(_parent, leafs);
+    emit s_attachNodes(_parent, leafs);
 }
 
 
@@ -459,7 +459,7 @@ QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 }
 
 
-void DBDataModel::dispatchIdxUpdate(IdxData* idxData)
+void DBDataModel::mt_idxUpdate(IdxData* idxData)
 {
     QModelIndex idx = createIndex(idxData);
     emit dataChanged(idx, idx);
@@ -471,7 +471,7 @@ void DBDataModel::dispatchIdxUpdate(IdxData* idxData)
 }
 
 
-void DBDataModel::dispatchAttachNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
+void DBDataModel::mt_attachNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
 {
     //attach nodes to parent in main thread
     QModelIndex parentIdx = createIndex(_parent);
