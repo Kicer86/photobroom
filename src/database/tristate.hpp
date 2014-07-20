@@ -17,10 +17,12 @@
  *
  */
 
-#ifndef TRIT_H
-#define TRIT_H
+#ifndef TRISTATE_HPP
+#define TRISTATE_HPP
 
-class tristate
+#include "database_export.h"
+
+class DATABASE_EXPORT tristate
 {
     public:
         enum Value
