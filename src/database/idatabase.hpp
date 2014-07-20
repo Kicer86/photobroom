@@ -33,9 +33,18 @@
 #include "photo_iterator.hpp"
 #include "query_list.hpp"
 #include "filter.hpp"
+#include "tristate.hpp"
 
 namespace Database
 {
+
+    struct ModifyFlags
+    {
+        tristate m_stagingArea;
+
+        ModifyFlags(): m_stagingArea() {}
+    };
+
 
     //Low level database interface.
     //To be used by particular database backend
@@ -53,6 +62,10 @@ namespace Database
         virtual QueryList getAllPhotos() = 0;                                             //list all photos
         virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //list all photos matching filter
         virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;                       //get particular photo
+
+        //modify
+        virtual bool modifyFlagsFor(const std::deque<IFilter::Ptr> &,                     //modify flags for photos matching filter
+                                    const ModifyFlags &) = 0;
 
         //init backend - connect to database or create new one
         virtual bool init(const std::string &) = 0;
@@ -97,6 +110,8 @@ namespace Database
         virtual void got_getAllPhotos(const Task &, const QueryList &) = 0;
         virtual void got_getPhotos(const Task &, const QueryList &) = 0;
         virtual void got_getPhoto(const Task &, const PhotoInfo::Ptr &) = 0;
+
+        virtual void got_modifyFlagsForStatus(const Task &) = 0;
     };
 
     class ADatabaseSignals: public QObject
@@ -126,6 +141,11 @@ namespace Database
         virtual void getAllPhotos(const Task &) = 0;                                 //list all photos
         virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr> &) = 0;  //list all photos matching filter
         virtual void getPhoto(const Task &, const PhotoInfo::Id &) = 0;              //get particulat photo
+
+        //modify
+        virtual void modifyFlagsFor(const Task &,
+                                    const std::deque<IFilter::Ptr> &,
+                                    const ModifyFlags &) = 0;                        //modify flags for photos matching filter
 
         //init backend - connect to database or create new one
         virtual bool init(const Database::Task &, const std::string &) = 0;

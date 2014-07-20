@@ -337,4 +337,11 @@ namespace Database
         m_impl->addTask(task);
     }
 
+
+    void DatabaseThread::modifyFlagsFor(const Task&, const std::deque< IFilter::Ptr >&, const ModifyFlags&)
+    {
+
+    }
+
+
 }

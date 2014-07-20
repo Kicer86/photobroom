@@ -311,6 +311,12 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         {
             //TODO: some validation?
         }
+
+
+        virtual void got_modifyFlagsForStatus(const Database::Task &) override
+        {
+            //TODO: some validation?
+        }
 };
 
 
