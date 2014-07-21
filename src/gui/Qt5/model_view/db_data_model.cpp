@@ -112,7 +112,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
                     buildFilterFor(_parent, &filter);
                     buildExtraFilters(&filter);
 
-                    //register task
+                    //prepare task and store it in local list
                     Database::Task task = m_database->prepareTask(this);
                     m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
 
