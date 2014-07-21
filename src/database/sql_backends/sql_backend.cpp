@@ -898,12 +898,6 @@ namespace Database
     }
 
 
-    bool ASqlBackend::modifyFlagsFor(const std::deque<IFilter::Ptr> &, const ModifyFlags &)
-    {
-
-    }
-
-
     bool ASqlBackend::checkStructure()
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());

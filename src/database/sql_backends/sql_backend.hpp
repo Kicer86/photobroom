@@ -85,8 +85,6 @@ namespace Database
             virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) override final;
 
-            virtual bool modifyFlagsFor(const std::deque<IFilter::Ptr> &, const ModifyFlags &) override final;
-
             bool checkStructure();
     };
 
