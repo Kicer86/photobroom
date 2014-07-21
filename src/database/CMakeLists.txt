@@ -18,7 +18,6 @@ set(DATABASE_SOURCES
     implementation/filter.cpp
     implementation/photo_iterator.cpp
     implementation/query_list.cpp
-    implementation/tristate.cpp
     )
 
 set(DATABASE_HEADERS
@@ -28,7 +27,6 @@ set(DATABASE_HEADERS
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
-    tristate.hpp
     implementation/database_thread.hpp
     implementation/plugin_loader.hpp
     )
