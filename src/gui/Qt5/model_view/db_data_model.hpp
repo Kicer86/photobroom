@@ -60,6 +60,7 @@ class DBDataModel: public QAbstractItemModel
 
         void setHierarchy(const Hierarchy &);
         PhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const std::vector<PhotoInfo::Ptr> getPhotos();
 
         //Database::IFrontend:
         virtual void setDatabase(Database::IDatabase *);

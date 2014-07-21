@@ -190,6 +190,22 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             m_root.addChild(photo);
         }
 
+        void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
+        {
+            for(const IdxData* child: idx->m_children)
+            {
+                if (child->m_loaded)
+                {
+                    if (child->m_photo.get() == nullptr)
+                        getPhotosFor(child, result);
+                    else
+                        result->push_back(child->m_photo);
+                }
+                else
+                    assert(!"load not implemented");
+            }
+        }
+
         //store or update photo in DB
         void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
         {
@@ -346,6 +362,15 @@ PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IdxData* idxData = m_impl->getIdxDataFor(idx);
     return idxData->m_photo;
+}
+
+
+const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
+{
+    std::vector<PhotoInfo::Ptr> result;
+    m_impl->getPhotosFor(&m_impl->m_root, &result);
+
+    return result;
 }
 
 
