@@ -23,13 +23,15 @@
 
 #include <database/idatabase.hpp>
 
-class SynchronousDatabase : public Database::IDatabase
+class SynchronousDatabase: public Database::IDatabase
 {
     public:
         SynchronousDatabase();
         SynchronousDatabase(const SynchronousDatabase &) = delete;
         ~SynchronousDatabase();
         SynchronousDatabase& operator=(const SynchronousDatabase &) = delete;
+
+        void setDatabase(Database::IDatabase *);
 
         virtual void closeConnections() override;
         virtual void getAllPhotos(const Database::Task&) override;
@@ -42,6 +44,10 @@ class SynchronousDatabase : public Database::IDatabase
         virtual Database::ADatabaseSignals* notifier() override;
         virtual Database::Task prepareTask(Database::IDatabaseClient*) override;
         virtual void store(const Database::Task&, const PhotoInfo::Ptr&) override;
+
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif // SYNCHRONOUSDATABASE_H
