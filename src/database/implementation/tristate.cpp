@@ -52,8 +52,6 @@ tristate::~tristate()
 tristate& tristate::operator=(const tristate& other)
 {
     m_value = other.m_value;
-
-    return *this;
 }
 
 
