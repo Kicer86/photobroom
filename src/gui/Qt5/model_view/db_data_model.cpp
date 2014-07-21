@@ -122,6 +122,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
                 else
                     assert(!"should not happen");
 
+            //TODO: mark as load in process instead?
             idxData->m_loaded = true;
         }
 
