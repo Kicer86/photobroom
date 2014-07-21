@@ -33,7 +33,7 @@ class MainViewDataModel: public DBDataModel
 
         MainViewDataModel& operator=(const MainViewDataModel &) = delete;
 
-        virtual std::vector<Database::IFilter::Ptr> getModelSpecificFilters() const;
+        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
 
 #endif // STAGINGDATAMODEL_H

@@ -73,7 +73,7 @@ class DBDataModel: public QAbstractItemModel
         IdxData& getRootIdxData();
         void updatePhotoInDB(const PhotoInfo::Ptr &);
 
-        virtual std::vector<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
+        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
     private:
         //QAbstractItemModel:

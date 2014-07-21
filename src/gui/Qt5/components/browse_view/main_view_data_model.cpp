@@ -35,12 +35,12 @@ MainViewDataModel::~MainViewDataModel()
 }
 
 
-std::vector<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters() const
+std::deque<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterFlags>();
     filter->stagingArea = false;
 
-    const std::vector<Database::IFilter::Ptr> result( {filter});
+    const std::deque<Database::IFilter::Ptr> result( {filter});
 
     return result;
 }

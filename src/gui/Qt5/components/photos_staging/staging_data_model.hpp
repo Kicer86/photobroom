@@ -37,7 +37,7 @@ class StagingDataModel: public DBDataModel
         void storePhotos();
 
         // DBDataModel interface:
-        virtual std::vector< Database::IFilter::Ptr > getModelSpecificFilters() const;
+        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
 
 #endif // STAGINGDATAMODEL_H
