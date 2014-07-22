@@ -23,15 +23,27 @@
 
 #include <database/idatabase.hpp>
 
+
 class SynchronousDatabase: public Database::IDatabase
 {
     public:
+
+        struct IWaiter
+        {
+            virtual ~IWaiter() {}
+
+            virtual void wait() = 0;
+            virtual void stop() = 0;
+        };
+
+
         SynchronousDatabase();
         SynchronousDatabase(const SynchronousDatabase &) = delete;
         ~SynchronousDatabase();
         SynchronousDatabase& operator=(const SynchronousDatabase &) = delete;
 
         void setDatabase(Database::IDatabase *);
+        void setWaiter(IWaiter *);
 
         virtual void closeConnections() override;
         virtual void getAllPhotos(const Database::Task&) override;
