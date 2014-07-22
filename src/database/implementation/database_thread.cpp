@@ -212,7 +212,7 @@ namespace
 namespace Database
 {
 
-    struct DatabaseThread::Impl
+    struct AsynchronousDatabase::Impl
     {
         Impl(const std::shared_ptr<IBackend>& backend): m_lastId(0), m_executor(backend), m_thread(beginThread, &m_executor)
         {
@@ -244,20 +244,20 @@ namespace Database
     };
 
 
-    DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))
+    AsynchronousDatabase::AsynchronousDatabase(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))
     {
 
     }
 
 
-    DatabaseThread::~DatabaseThread()
+    AsynchronousDatabase::~AsynchronousDatabase()
     {
         //terminate thread
         m_impl->stopExecutor();
     }
 
 
-    void DatabaseThread::closeConnections()
+    void AsynchronousDatabase::closeConnections()
     {
         //m_impl->m_backend->closeConnections();
 
@@ -265,7 +265,7 @@ namespace Database
     }
 
 
-    bool DatabaseThread::init(const Task& db_task, const std::string& name)
+    bool AsynchronousDatabase::init(const Task& db_task, const std::string& name)
     {
         InitTask* task = new InitTask(db_task, name);
         m_impl->addTask(task);
@@ -275,7 +275,7 @@ namespace Database
     }
 
 
-    Task DatabaseThread::prepareTask(IDatabaseClient* client)
+    Task AsynchronousDatabase::prepareTask(IDatabaseClient* client)
     {
         Task task(client, m_impl->m_lastId++);
 
@@ -283,55 +283,55 @@ namespace Database
     }
 
 
-    ADatabaseSignals* DatabaseThread::notifier()
+    ADatabaseSignals* AsynchronousDatabase::notifier()
     {
         return &m_impl->m_executor;
     }
 
 
-    void DatabaseThread::store(const Task& db_task, const PhotoInfo::Ptr& photo)
+    void AsynchronousDatabase::store(const Task& db_task, const PhotoInfo::Ptr& photo)
     {
         StoreTask* task = new StoreTask(db_task, photo);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getAllPhotos(const Task& db_task)
+    void AsynchronousDatabase::getAllPhotos(const Task& db_task)
     {
         GetAllPhotosTask* task = new GetAllPhotosTask(db_task);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getPhoto(const Task& db_task, const PhotoInfo::Id& id)
+    void AsynchronousDatabase::getPhoto(const Task& db_task, const PhotoInfo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(db_task, id);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getPhotos(const Task& db_task, const std::deque<IFilter::Ptr>& filter)
+    void AsynchronousDatabase::getPhotos(const Task& db_task, const std::deque<IFilter::Ptr>& filter)
     {
         GetPhotosTask* task = new GetPhotosTask(db_task, filter);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTags(const Task& db_task)
+    void AsynchronousDatabase::listTags(const Task& db_task)
     {
         ListTagsTask* task = new ListTagsTask(db_task);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTagValues(const Task& db_task, const TagNameInfo& info)
+    void AsynchronousDatabase::listTagValues(const Task& db_task, const TagNameInfo& info)
     {
         ListTagValuesTask* task = new ListTagValuesTask(db_task, info, std::deque<IFilter::Ptr>());
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTagValues(const Task& db_task, const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter)
+    void AsynchronousDatabase::listTagValues(const Task& db_task, const TagNameInfo& info, const std::deque<IFilter::Ptr>& filter)
     {
         ListTagValuesTask* task = new ListTagValuesTask(db_task, info, filter);
         m_impl->addTask(task);
