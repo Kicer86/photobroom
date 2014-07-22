@@ -100,30 +100,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
         void fetchMore(const QModelIndex& _parent)
         {
-            IdxData* idxData = getParentIdxDataFor(_parent);
-            const size_t level = idxData->m_level;
-
-            if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
-                getLevelInfo(level, _parent);
-            else
-                if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
-                {
-                    std::deque<Database::IFilter::Ptr> filter;
-                    buildFilterFor(_parent, &filter);
-                    buildExtraFilters(&filter);
-
-                    //prepare task and store it in local list
-                    Database::Task task = m_database->prepareTask(this);
-                    m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
-
-                    //send task to execution
-                    m_database->getPhotos(task, filter);
-                }
-                else
-                    assert(!"should not happen");
-
-            //TODO: mark as load in process instead?
-            idxData->m_loaded = true;
+            fetchData(_parent, m_database);
         }
 
         bool canFetchMore(const QModelIndex& _parent)
@@ -257,6 +234,34 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         {
             const auto modelSpecificFilters = m_root.m_model->getModelSpecificFilters();
             filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
+        }
+
+        void fetchData(const QModelIndex& _parent, Database::IDatabase* database)
+        {
+            IdxData* idxData = getParentIdxDataFor(_parent);
+            const size_t level = idxData->m_level;
+
+            if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
+                getLevelInfo(level, _parent);
+            else
+                if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
+                {
+                    std::deque<Database::IFilter::Ptr> filter;
+                    buildFilterFor(_parent, &filter);
+                    buildExtraFilters(&filter);
+
+                    //prepare task and store it in local list
+                    Database::Task task = database->prepareTask(this);
+                    m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
+
+                    //send task to execution
+                    database->getPhotos(task, filter);
+                }
+                else
+                    assert(!"should not happen");
+
+                //TODO: mark as load in process instead?
+                idxData->m_loaded = true;
         }
 
 
