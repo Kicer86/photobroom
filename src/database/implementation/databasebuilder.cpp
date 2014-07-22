@@ -30,7 +30,6 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 
-//#include "memorydatabase.hpp"
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
 #include "asynchronous_database.hpp"
