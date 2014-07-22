@@ -18,6 +18,7 @@ set(DATABASE_SOURCES
     implementation/filter.cpp
     implementation/photo_iterator.cpp
     implementation/query_list.cpp
+    implementation/synchronous_database.cpp
     )
 
 set(DATABASE_HEADERS
@@ -29,6 +30,7 @@ set(DATABASE_HEADERS
     query_list.hpp
     implementation/database_thread.hpp
     implementation/plugin_loader.hpp
+    implementation/synchronous_database.hpp
     )
 
 set(DATABASE_MOC idatabase.hpp)
