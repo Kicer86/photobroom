@@ -33,7 +33,7 @@
 //#include "memorydatabase.hpp"
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
-#include "database_thread.hpp"
+#include "asynchronous_database.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 
