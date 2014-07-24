@@ -32,7 +32,7 @@
 
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
-#include "asynchronous_database.hpp"
+#include "database_thread.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 

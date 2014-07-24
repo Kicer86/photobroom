@@ -17,7 +17,7 @@
  *
  */
 
-#include "asynchronous_database.hpp"
+#include "database_thread.hpp"
 
 #include <thread>
 #include <memory>

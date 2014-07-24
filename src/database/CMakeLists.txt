@@ -14,7 +14,7 @@ include_directories(SYSTEM
 set(DATABASE_SOURCES
     implementation/plugin_loader.cpp
     implementation/databasebuilder.cpp
-    implementation/asynchronous_database.cpp
+    implementation/database_thread.cpp
     implementation/filter.cpp
     implementation/photo_iterator.cpp
     implementation/query_list.cpp
@@ -28,7 +28,7 @@ set(DATABASE_HEADERS
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
-    implementation/asynchronous_database.hpp
+    implementation/database_thread.hpp
     implementation/plugin_loader.hpp
     implementation/synchronous_database.hpp
     )
