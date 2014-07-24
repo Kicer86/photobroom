@@ -193,17 +193,23 @@ namespace
         {
             for(;;)
             {
-                Optional< std::shared_ptr<IThreadTask> > task = m_tasks.pop_front();
+                Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop_front();
 
                 if (task)
-                    (*task)->visitMe(this);
+                {
+                    ThreadBaseTask* baseTask = task->get();
+
+                    emit beforeTaskExecution( baseTask->m_task.getId() );
+                    baseTask->visitMe(this);
+                    emit afterTaskExecution( baseTask->m_task.getId() );
+                }
                 else
                     break;
             }
         }
 
         std::shared_ptr<Database::IBackend> m_backend;
-        TS_Queue<std::shared_ptr<IThreadTask>> m_tasks;
+        TS_Queue<std::shared_ptr<ThreadBaseTask>> m_tasks;
     };
 
 }
@@ -222,7 +228,7 @@ namespace Database
         //store task to be executed by thread
         void addTask(ThreadBaseTask* task)
         {
-            m_executor.m_tasks.push_back(std::shared_ptr<IThreadTask>(task));
+            m_executor.m_tasks.push_back(std::shared_ptr<ThreadBaseTask>(task));
         }
 
         static void beginThread(Executor* executor)

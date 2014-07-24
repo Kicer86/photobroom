@@ -105,6 +105,9 @@ namespace Database
 
         signals:
             void photoModified(const PhotoInfo::Id &);   //emited when new photo added or existing one updated
+
+            void beforeTaskExecution(const Task::Id &);  //emited before task execution
+            void afterTaskExecution(const Task::Id &);   //emited after task execution
     };
 
     //Database interface.
