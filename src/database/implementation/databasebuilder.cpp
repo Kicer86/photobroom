@@ -33,7 +33,6 @@
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
 #include "asynchronous_database.hpp"
-#include "synchronous_database.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 
@@ -173,17 +172,6 @@ namespace Database
         }
 
         return backendIt->second.get();
-    }
-
-
-    std::unique_ptr<IDatabase> Builder::getSynchronous()
-    {
-        SynchronousDatabase* result = new SynchronousDatabase;
-        IDatabase* original = get();
-
-        result->setDatabase(original);
-
-        return std::unique_ptr<IDatabase>(result);
     }
 
 

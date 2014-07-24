@@ -42,8 +42,7 @@ namespace Database
             static Builder* instance();
 
             void initConfig();
-            IDatabase* get();                             //Returns global database.
-            std::unique_ptr<IDatabase> getSynchronous();  //Returns synchronous version of database.
+            IDatabase* get();  //always the same database is returned
 
             void closeAll();
 
