@@ -27,14 +27,14 @@
 namespace Database
 {
 
-    class AsynchronousDatabase: public IDatabase
+    class DatabaseThread: public IDatabase
     {
         public:
-            AsynchronousDatabase(std::unique_ptr<IBackend> &&);
-            AsynchronousDatabase(const AsynchronousDatabase &) = delete;
-            virtual ~AsynchronousDatabase();
+            DatabaseThread(std::unique_ptr<IBackend> &&);
+            DatabaseThread(const DatabaseThread &) = delete;
+            virtual ~DatabaseThread();
 
-            AsynchronousDatabase& operator=(const AsynchronousDatabase &) = delete;
+            DatabaseThread& operator=(const DatabaseThread &) = delete;
 
             virtual Task prepareTask(IDatabaseClient *) override;
             virtual ADatabaseSignals* notifier() override;

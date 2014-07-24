@@ -159,7 +159,7 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            std::unique_ptr<IDatabase> database(new AsynchronousDatabase(m_impl->getPlugin()->constructBackend()));
+            std::unique_ptr<IDatabase> database(new DatabaseThread(m_impl->getPlugin()->constructBackend()));
             Database::Task task = database->prepareTask(nullptr);
 
             const bool status = database->init(task, dbType);
