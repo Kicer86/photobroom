@@ -23,58 +23,31 @@
 struct SynchronousDatabase::Impl: Database::IDatabaseClient
 {
     Database::IDatabase* m_database;
-    IWaiter* m_waiter;
-    Database::IDatabaseClient* m_client;
 
-    Impl(): m_database(nullptr), m_waiter(nullptr), m_client(nullptr) {}
+    Impl(): m_database(nullptr) {}
 
-    void wait()
+    virtual void got_getAllPhotos(const Database::Task& task, const Database::QueryList& query)
     {
-        m_waiter->wait();
     }
 
-    Database::Task generateTask(const Database::Task& task)
+    virtual void got_getPhoto(const Database::Task& task, const PhotoInfo::Ptr& photo)
     {
-        Database::Task result(this, task.getId());
-
-        return result;
     }
 
-    //Database::IDatabaseClient:
-    void got_getAllPhotos(const Database::Task& task, const Database::QueryList& query) override
+    virtual void got_getPhotos(const Database::Task& task, const Database::QueryList& query)
     {
-        m_client->got_getAllPhotos(task, query);
-        m_waiter->stop();
     }
 
-    void got_getPhoto(const Database::Task& task, const PhotoInfo::Ptr& photo) override
+    virtual void got_listTags(const Database::Task& task, const std::vector<TagNameInfo>& tags)
     {
-        m_client->got_getPhoto(task, photo);
-        m_waiter->stop();
     }
 
-    void got_getPhotos(const Database::Task& task, const Database::QueryList& query) override
+    virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags)
     {
-        m_client->got_getPhotos(task, query);
-        m_waiter->stop();
     }
 
-    void got_listTags(const Database::Task& task, const std::vector<TagNameInfo>& tags) override
+    virtual void got_storeStatus(const Database::Task& task)
     {
-        m_client->got_listTags(task, tags);
-        m_waiter->stop();
-    }
-
-    void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override
-    {
-        m_client->got_listTagValues(task, tags);
-        m_waiter->stop();
-    }
-
-    void got_storeStatus(const Database::Task& task) override
-    {
-        m_client->got_storeStatus(task);
-        m_waiter->stop();
     }
 };
 
@@ -97,12 +70,6 @@ void SynchronousDatabase::setDatabase(Database::IDatabase* database)
 }
 
 
-void SynchronousDatabase::setWaiter(SynchronousDatabase::IWaiter* waiter)
-{
-    m_impl->m_waiter = waiter;
-}
-
-
 void SynchronousDatabase::closeConnections()
 {
     m_impl->m_database->closeConnections();
@@ -111,25 +78,19 @@ void SynchronousDatabase::closeConnections()
 
 void SynchronousDatabase::getAllPhotos(const Database::Task& task)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->getAllPhotos(newTask);
-    m_impl->wait();
+    m_impl->m_database->getAllPhotos(task);
 }
 
 
 void SynchronousDatabase::getPhoto(const Database::Task& task, const PhotoInfo::Id& id)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->getPhoto(newTask, id);
-    m_impl->wait();
+    m_impl->m_database->getPhoto(task, id);
 }
 
 
 void SynchronousDatabase::getPhotos(const Database::Task& task, const std::deque<Database::IFilter::Ptr>& filters)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->getPhotos(newTask, filters);
-    m_impl->wait();
+    m_impl->m_database->getPhotos(task, filters);
 }
 
 
@@ -141,25 +102,19 @@ bool SynchronousDatabase::init(const Database::Task& task, const std::string& s)
 
 void SynchronousDatabase::listTags(const Database::Task& task)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->listTags(newTask);
-    m_impl->wait();
+    m_impl->m_database->listTags(task);
 }
 
 
 void SynchronousDatabase::listTagValues(const Database::Task& task, const TagNameInfo& tag)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->listTagValues(newTask, tag);
-    m_impl->wait();
+    m_impl->m_database->listTagValues(task, tag);
 }
 
 
 void SynchronousDatabase::listTagValues(const Database::Task& task, const TagNameInfo& tag, const std::deque<Database::IFilter::Ptr>& filters)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->listTagValues(newTask, tag, filters);
-    m_impl->wait();
+    m_impl->m_database->listTagValues(task, tag, filters);
 }
 
 
@@ -177,7 +132,5 @@ Database::Task SynchronousDatabase::prepareTask(Database::IDatabaseClient* clien
 
 void SynchronousDatabase::store(const Database::Task& task, const PhotoInfo::Ptr& photo)
 {
-    Database::Task newTask = m_impl->generateTask(task);
-    m_impl->m_database->store(newTask, photo);
-    m_impl->wait();
+    m_impl->m_database->store(task, photo);
 }
