@@ -20,6 +20,7 @@ set(GUI_SOURCES
     Qt5/centralwidget.cpp
     Qt5/data/photo_info_updater.cpp
     Qt5/data/thread_multiplexer.cpp
+    Qt5/data/synchronous_database.cpp
     Qt5/model_view/db_data_model.cpp
     Qt5/model_view/idx_data.cpp
     Qt5/model_view/images_tree_view.cpp
@@ -48,6 +49,7 @@ set(GUI_HEADERS
     Qt5/centralwidget.hpp
     Qt5/data/photo_info_updater.hpp
     Qt5/data/thread_multiplexer.hpp
+    Qt5/data/synchronous_database.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/idx_data.hpp
     Qt5/model_view/images_tree_view.hpp

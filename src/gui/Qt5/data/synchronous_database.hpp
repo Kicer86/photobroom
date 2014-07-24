@@ -21,7 +21,7 @@
 #ifndef SYNCHRONOUSDATABASE_H
 #define SYNCHRONOUSDATABASE_H
 
-#include "database/idatabase.hpp"
+#include <database/idatabase.hpp>
 
 
 class SynchronousDatabase: public Database::IDatabase
