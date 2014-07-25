@@ -20,13 +20,17 @@
 #ifndef IDXDATADEEPFETCHER_H
 #define IDXDATADEEPFETCHER_H
 
+class QModelIndex;
+
 class IdxDataDeepFetcher
 {
     public:
         IdxDataDeepFetcher();
-        IdxDataDeepFetcher(const IdxDataDeepFetcher& other);
+        IdxDataDeepFetcher(const IdxDataDeepFetcher& other) = delete;
         ~IdxDataDeepFetcher();
-        IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other);
+        IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other) = delete;
+
+        void fetch(const QModelIndex &);
 };
 
 #endif // IDXDATADEEPFETCHER_H

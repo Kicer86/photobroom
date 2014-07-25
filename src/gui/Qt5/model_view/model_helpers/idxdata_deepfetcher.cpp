@@ -24,17 +24,14 @@ IdxDataDeepFetcher::IdxDataDeepFetcher()
 
 }
 
-IdxDataDeepFetcher::IdxDataDeepFetcher(const IdxDataDeepFetcher& other)
-{
-
-}
 
 IdxDataDeepFetcher::~IdxDataDeepFetcher()
 {
 
 }
 
-IdxDataDeepFetcher& IdxDataDeepFetcher::operator=(const IdxDataDeepFetcher& other)
+
+void IdxDataDeepFetcher::fetch(const QModelIndex&)
 {
 
 }
