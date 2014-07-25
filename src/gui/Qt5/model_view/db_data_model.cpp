@@ -28,7 +28,7 @@
 
 #include <palgorithm/ts_resource.hpp>
 
-#include "idx_data.hpp"
+#include "model_helpers/idx_data.hpp"
 
 namespace
 {
@@ -103,6 +103,21 @@ struct DBDataModel::Impl: Database::IDatabaseClient
             fetchData(_parent, m_database);
         }
 
+        void deepFetch(const IdxData* top)
+        {
+            forIndexChildren(top, [&](const IdxData* child)
+            {
+                if (child->m_loaded)
+                {
+                    if (child->m_photo.get() == nullptr)
+                        deepFetch(child);
+                }
+                else
+                {
+                }
+            });
+        }
+
         bool canFetchMore(const QModelIndex& _parent)
         {
             IdxData* idxData = getParentIdxDataFor(_parent);
@@ -170,7 +185,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
 
         void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
         {
-            for(const IdxData* child: idx->m_children)
+            forIndexChildren(idx, [&] (const IdxData* child)
             {
                 if (child->m_loaded)
                 {
@@ -181,7 +196,7 @@ struct DBDataModel::Impl: Database::IDatabaseClient
                 }
                 else
                     assert(!"load not implemented");
-            }
+            });
         }
 
         //store or update photo in DB
@@ -203,6 +218,13 @@ struct DBDataModel::Impl: Database::IDatabaseClient
         ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
 
     private:
+        template<typename T>
+        void forIndexChildren(const IdxData* index, const T& action)
+        {
+            for(const IdxData* child: index->m_children)
+                action(child);
+        }
+
         //function returns list of tags on particular 'level' for 'parent'
         void getLevelInfo(size_t level, const QModelIndex& _parent)
         {
@@ -361,6 +383,13 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
     beginResetModel();
     m_impl->setHierarchy(hierarchy);
     endResetModel();
+}
+
+
+void DBDataModel::deepFetch(const QModelIndex& top)
+{
+    IdxData* idx = m_impl->getIdxDataFor(top);
+    m_impl->deepFetch(idx);
 }
 
 

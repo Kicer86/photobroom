@@ -21,7 +21,8 @@
 
 #include <memory>
 
-#include "model_view/idx_data.hpp"
+//TODO: remove
+#include "model_view/model_helpers/idx_data.hpp"
 
 StagingDataModel::StagingDataModel(QObject* p): DBDataModel(p)
 {
