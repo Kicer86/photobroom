@@ -21,6 +21,7 @@ set(GUI_SOURCES
     Qt5/data/photo_info_updater.cpp
     Qt5/data/thread_multiplexer.cpp
     Qt5/model_view/db_data_model.cpp
+    Qt5/model_view/model_helpers/db_data_model_impl.cpp
     Qt5/model_view/model_helpers/idx_data.cpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.cpp
     Qt5/model_view/images_tree_view.cpp
@@ -50,6 +51,7 @@ set(GUI_HEADERS
     Qt5/data/photo_info_updater.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/model_view/db_data_model.hpp
+    Qt5/model_view/model_helpers/db_data_model_impl.hpp
     Qt5/model_view/model_helpers/idx_data.hpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
     Qt5/model_view/images_tree_view.hpp
