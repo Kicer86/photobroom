@@ -20,17 +20,12 @@
 #ifndef DBDATAMODELIMPL_H
 #define DBDATAMODELIMPL_H
 
-#include <unordered_map>
-
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
-
 #include <database/idatabase.hpp>
 
 #include "idx_data.hpp"
 #include "../db_data_model.hpp"
 
 class DBDataModel;
-struct ITaskData;
 
 struct DBDataModelImpl: Database::IDatabaseClient
 {
@@ -55,8 +50,9 @@ struct DBDataModelImpl: Database::IDatabaseClient
     void deepFetch(const IdxData* top);
     bool canFetchMore(const QModelIndex& _parent);
     void setBackend(Database::IDatabase* database);
-
     void close();
+
+    IdxData* getRoot();
     IdxData* getIdxDataFor(const QModelIndex& obj) const;
     IdxData* getParentIdxDataFor(const QModelIndex& _parent);
     bool hasChildren(const QModelIndex& _parent);
@@ -67,15 +63,11 @@ struct DBDataModelImpl: Database::IDatabaseClient
     //store or update photo in DB
     void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo);
 
-    DBDataModel* pThis;
-    IdxData m_root;
-    Hierarchy m_hierarchy;
-    bool m_dirty;
-    Database::IDatabase* m_database;
-    Database::PhotoIterator m_iterator;
-    ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
 
 private:
+    struct Data;
+    std::unique_ptr<Data> m_data;
+
     template<typename T>
     void forIndexChildren(const IdxData* index, const T& action)
     {

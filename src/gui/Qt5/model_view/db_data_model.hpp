@@ -75,7 +75,7 @@ class DBDataModel: public QAbstractItemModel
         void attachNodes(IdxData* parent, const std::shared_ptr<std::deque<IdxData *>> &);
 
     protected:
-        IdxData& getRootIdxData();
+        IdxData* getRootIdxData();
         void updatePhotoInDB(const PhotoInfo::Ptr &);
 
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;

@@ -71,7 +71,7 @@ PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
 {
     std::vector<PhotoInfo::Ptr> result;
-    m_impl->getPhotosFor(&m_impl->m_root, &result);
+    m_impl->getPhotosFor(m_impl->getRoot(), &result);
 
     return result;
 }
@@ -167,9 +167,9 @@ void DBDataModel::attachNodes(IdxData* _parent, const std::shared_ptr<std::deque
 }
 
 
-IdxData& DBDataModel::getRootIdxData()
+IdxData* DBDataModel::getRootIdxData()
 {
-    return m_impl->m_root;
+    return m_impl->getRoot();
 }
 
 

@@ -40,11 +40,11 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 {
     photoInfo->markStagingArea();   //mark photo as being in staging area
 
-    IdxData& root = DBDataModel::getRootIdxData();
-    const int row = root.m_children.size();
+    IdxData* root = DBDataModel::getRootIdxData();
+    const int row = root->m_children.size();
 
     beginInsertRows(QModelIndex(), row, row);
-    root.addChild(photoInfo);                   //TODO: smarter algorithm?
+    root->addChild(photoInfo);                   //TODO: smarter algorithm?
     endInsertRows();
 
     DBDataModel::updatePhotoInDB(photoInfo);
