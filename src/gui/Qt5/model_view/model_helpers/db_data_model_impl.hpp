@@ -80,6 +80,8 @@ private:
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex& _parent, Database::IDatabase* database);
+
+    //Database::IDatabaseClient:
     virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override;
     virtual void got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &) override;
     virtual void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override;
