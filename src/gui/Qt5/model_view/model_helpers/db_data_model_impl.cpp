@@ -116,7 +116,7 @@ void DBDataModelImpl::deepFetch(const IdxData* top)
 {
     forIndexChildren(top, [&](const IdxData* child)
     {
-        if (child->m_loaded)
+        if (child->m_loaded == IdxData::LoadStatus::NotLoaded)
         {
             if (child->m_photo.get() == nullptr)
                 deepFetch(child);
@@ -131,7 +131,7 @@ void DBDataModelImpl::deepFetch(const IdxData* top)
 bool DBDataModelImpl::canFetchMore(const QModelIndex& _parent)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
-    const bool status = !idxData->m_loaded;
+    const bool status = idxData->m_loaded == IdxData::LoadStatus::NotLoaded;
 
     return status;
 }
@@ -189,12 +189,12 @@ bool DBDataModelImpl::hasChildren(const QModelIndex& _parent)
     bool status = false;
     IdxData* idxData = getParentIdxDataFor(_parent);
 
-    if (!idxData->m_loaded)
+    if (idxData->m_loaded != IdxData::LoadStatus::Loaded)
         status = true;              //data not loaded assume there is something
-        else
-            status = !idxData->m_photo; //return true for nodes only, not for leafs
+    else
+        status = !idxData->m_photo; //return true for nodes only, not for leafs
 
-            return status;
+    return status;
 }
 
 
@@ -217,7 +217,7 @@ void DBDataModelImpl::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Pt
 {
     forIndexChildren(idx, [&] (const IdxData* child)
     {
-        if (child->m_loaded)
+        if (child->m_loaded == IdxData::LoadStatus::Loaded)
         {
             if (child->m_photo.get() == nullptr)
                 getPhotosFor(child, result);
@@ -301,8 +301,7 @@ void DBDataModelImpl::fetchData(const QModelIndex& _parent)
         else
             assert(!"should not happen");
 
-        //TODO: mark as load in process instead?
-        idxData->m_loaded = true;
+        idxData->m_loaded = IdxData::LoadStatus::Loading;
 }
 
 
@@ -317,7 +316,7 @@ void DBDataModelImpl::got_getPhoto(const Database::Task &, const PhotoInfo::Ptr 
 
 
 //called when leafs for particual node have been loaded
-void DBDataModelImpl::got_getPhotos(const Database::Task & task, const Database::QueryList& photos)
+void DBDataModelImpl::got_getPhotos(const Database::Task& task, const Database::QueryList& photos)
 {
     auto it = m_data->m_db_tasks.lock().get().find(task);
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
@@ -331,6 +330,7 @@ void DBDataModelImpl::got_getPhotos(const Database::Task & task, const Database:
         leafs->push_back(newItem);
     }
 
+    parentIdxData->m_loaded = IdxData::LoadStatus::Loaded;
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach photos to parent node in main thread
@@ -367,6 +367,7 @@ void DBDataModelImpl::got_listTagValues(const Database::Task& task, const std::d
         leafs->push_back(newItem);
     }
 
+    parentIdxData->m_loaded = IdxData::LoadStatus::Loaded;
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach nodes to parent node in main thread

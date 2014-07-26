@@ -31,6 +31,13 @@ class DBDataModel;
 
 struct IdxData: public PhotoInfo::IObserver
 {
+        enum class LoadStatus
+        {
+            NotLoaded,
+            Loading,
+            Loaded,
+        };
+
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;
@@ -40,7 +47,7 @@ struct IdxData: public PhotoInfo::IObserver
         size_t m_level;
         int m_row;
         int m_column;
-        bool m_loaded;                          // true when we have loaded all children of item (if any)
+        LoadStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
         IdxData(DBDataModel *, IdxData* parent, const QString& name);
