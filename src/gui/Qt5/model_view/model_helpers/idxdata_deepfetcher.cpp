@@ -19,7 +19,10 @@
 
 #include "idxdata_deepfetcher.hpp"
 
-IdxDataDeepFetcher::IdxDataDeepFetcher()
+#include "idx_data.hpp"
+#include "db_data_model_impl.hpp"
+
+IdxDataDeepFetcher::IdxDataDeepFetcher(): m_modelImpl(nullptr), m_notLoaded()
 {
 
 }
@@ -31,7 +34,32 @@ IdxDataDeepFetcher::~IdxDataDeepFetcher()
 }
 
 
-void IdxDataDeepFetcher::fetch(const QModelIndex&)
+void IdxDataDeepFetcher::setModelImpl(DBDataModelImpl* modelImpl)
 {
+    m_modelImpl = modelImpl;
+}
 
+
+void IdxDataDeepFetcher::fetch(IdxData* idx)
+{
+    m_notLoaded.push_back(idx);
+
+    process();
+}
+
+
+void IdxDataDeepFetcher::process()
+{
+    while(m_notLoaded.empty() == false)
+    {
+        IdxData* idxData = m_notLoaded.front();
+        m_notLoaded.pop_front();
+
+        if (idxData->m_loaded == false)
+        {
+            QModelIndex idx = m_modelImpl->getIndex(idxData);
+            m_modelImpl->fetchMore(idx);
+        }
+
+    }
 }

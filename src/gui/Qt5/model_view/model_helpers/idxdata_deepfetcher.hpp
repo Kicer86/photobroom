@@ -20,7 +20,12 @@
 #ifndef IDXDATADEEPFETCHER_H
 #define IDXDATADEEPFETCHER_H
 
+#include <deque>
+
 class QModelIndex;
+
+struct DBDataModelImpl;
+struct IdxData;
 
 class IdxDataDeepFetcher
 {
@@ -30,7 +35,14 @@ class IdxDataDeepFetcher
         ~IdxDataDeepFetcher();
         IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other) = delete;
 
-        void fetch(const QModelIndex &);
+        void setModelImpl(DBDataModelImpl *);
+        void fetch(IdxData* idx);                        //make take long. Run in thread
+
+    private:
+        DBDataModelImpl* m_modelImpl;
+        std::deque<IdxData *> m_notLoaded;
+
+        void process();
 };
 
 #endif // IDXDATADEEPFETCHER_H
