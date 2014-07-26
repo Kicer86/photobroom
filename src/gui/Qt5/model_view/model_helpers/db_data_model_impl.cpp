@@ -330,7 +330,7 @@ void DBDataModelImpl::got_getPhotos(const Database::Task& task, const Database::
         leafs->push_back(newItem);
     }
 
-    parentIdxData->m_loaded = IdxData::LoadStatus::Loaded;
+    markIdxDataLoaded(parentIdxData);
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach photos to parent node in main thread
@@ -367,7 +367,7 @@ void DBDataModelImpl::got_listTagValues(const Database::Task& task, const std::d
         leafs->push_back(newItem);
     }
 
-    parentIdxData->m_loaded = IdxData::LoadStatus::Loaded;
+    markIdxDataLoaded(parentIdxData);
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach nodes to parent node in main thread
@@ -379,3 +379,11 @@ void DBDataModelImpl::got_storeStatus(const Database::Task &)
 {
     //TODO: some validation?
 }
+
+
+void DBDataModelImpl::markIdxDataLoaded(IdxData* idxData)
+{
+    idxData->m_loaded = IdxData::LoadStatus::Loaded;
+    emit idxDataLoaded(idxData);
+}
+

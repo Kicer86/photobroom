@@ -27,7 +27,7 @@
 
 class DBDataModel;
 
-struct DBDataModelImpl: Database::IDatabaseClient
+struct DBDataModelImpl: QObject, Database::IDatabaseClient
 {
     struct DatabaseTaskHash
     {
@@ -66,6 +66,8 @@ struct DBDataModelImpl: Database::IDatabaseClient
 
 
 private:
+    Q_OBJECT
+    
     struct Data;
     std::unique_ptr<Data> m_data;
 
@@ -89,6 +91,11 @@ private:
     virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override;
     virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
     virtual void got_storeStatus(const Database::Task &) override;
+
+    void markIdxDataLoaded(IdxData *);
+
+signals:
+    void idxDataLoaded(IdxData *);
 };
 
 
