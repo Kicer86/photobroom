@@ -67,6 +67,9 @@ struct DBDataModelImpl::Data
     {
     }
 
+    Data(const Data &) = delete;
+    Data& operator=(const Data &) = delete;
+
     DBDataModel* pThis;
     IdxData m_root;
     Hierarchy m_hierarchy;
