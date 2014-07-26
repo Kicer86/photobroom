@@ -91,6 +91,7 @@ DBDataModelImpl::DBDataModelImpl(DBDataModel* model): m_data(new Data(model))
 
 DBDataModelImpl::~DBDataModelImpl() {}
 
+
 void DBDataModelImpl::setHierarchy(const Hierarchy& hierarchy)
 {
     m_data->m_hierarchy = hierarchy;
@@ -98,15 +99,18 @@ void DBDataModelImpl::setHierarchy(const Hierarchy& hierarchy)
     m_data->m_root.reset();
 }
 
+
 bool DBDataModelImpl::isDirty() const
 {
     return m_data->m_dirty;
 }
 
+
 void DBDataModelImpl::fetchMore(const QModelIndex& _parent)
 {
-    fetchData(_parent, m_data->m_database);
+    fetchData(_parent);
 }
+
 
 void DBDataModelImpl::deepFetch(const IdxData* top)
 {
@@ -123,6 +127,7 @@ void DBDataModelImpl::deepFetch(const IdxData* top)
     });
 }
 
+
 bool DBDataModelImpl::canFetchMore(const QModelIndex& _parent)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
@@ -131,10 +136,12 @@ bool DBDataModelImpl::canFetchMore(const QModelIndex& _parent)
     return status;
 }
 
+
 void DBDataModelImpl::setBackend(Database::IDatabase* database)
 {
     m_data->m_database = database;
 }
+
 
 void DBDataModelImpl::close()
 {
@@ -156,6 +163,7 @@ IdxData* DBDataModelImpl::getIdxDataFor(const QModelIndex& obj) const
     return idxData;
 }
 
+
 IdxData* DBDataModelImpl::getParentIdxDataFor(const QModelIndex& _parent)
 {
     IdxData* idxData = getIdxDataFor(_parent);
@@ -165,6 +173,13 @@ IdxData* DBDataModelImpl::getParentIdxDataFor(const QModelIndex& _parent)
 
     return idxData;
 }
+
+
+QModelIndex DBDataModelImpl::getIndex(IdxData* idxData) const
+{
+    return m_data->pThis->createIndex(idxData);
+}
+
 
 bool DBDataModelImpl::hasChildren(const QModelIndex& _parent)
 {
@@ -182,6 +197,7 @@ bool DBDataModelImpl::hasChildren(const QModelIndex& _parent)
             return status;
 }
 
+
 IdxData* DBDataModelImpl::parent(const QModelIndex& child)
 {
     IdxData* idxData = getIdxDataFor(child);
@@ -190,10 +206,12 @@ IdxData* DBDataModelImpl::parent(const QModelIndex& child)
     return result;
 }
 
+
 void DBDataModelImpl::addPhoto(const PhotoInfo::Ptr& photo)
 {
     m_data->m_root.addChild(photo);
 }
+
 
 void DBDataModelImpl::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
 {
@@ -211,6 +229,7 @@ void DBDataModelImpl::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Pt
     });
 }
 
+
 //store or update photo in DB
 void DBDataModelImpl::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 {
@@ -220,6 +239,7 @@ void DBDataModelImpl::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
         m_data->m_database->store(task, photoInfo);
     }
 }
+
 
 //function returns list of tags on particular 'level' for 'parent'
 void DBDataModelImpl::getLevelInfo(size_t level, const QModelIndex& _parent)
@@ -238,6 +258,7 @@ void DBDataModelImpl::getLevelInfo(size_t level, const QModelIndex& _parent)
     }
 }
 
+
 void DBDataModelImpl::buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
@@ -248,13 +269,15 @@ void DBDataModelImpl::buildFilterFor(const QModelIndex& _parent, std::deque<Data
         buildFilterFor(_parent.parent(), filter);
 }
 
+
 void DBDataModelImpl::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
 {
     const auto modelSpecificFilters = m_data->m_root.m_model->getModelSpecificFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
 }
 
-void DBDataModelImpl::fetchData(const QModelIndex& _parent, Database::IDatabase* database)
+
+void DBDataModelImpl::fetchData(const QModelIndex& _parent)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
     const size_t level = idxData->m_level;
@@ -269,11 +292,11 @@ void DBDataModelImpl::fetchData(const QModelIndex& _parent, Database::IDatabase*
             buildExtraFilters(&filter);
 
             //prepare task and store it in local list
-            Database::Task task = database->prepareTask(this);
+            Database::Task task = m_data->m_database->prepareTask(this);
             m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
 
             //send task to execution
-            database->getPhotos(task, filter);
+            m_data->m_database->getPhotos(task, filter);
         }
         else
             assert(!"should not happen");
@@ -287,9 +310,11 @@ void DBDataModelImpl::got_getAllPhotos(const Database::Task &, const Database::Q
 {
 }
 
+
 void DBDataModelImpl::got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &)
 {
 }
+
 
 //called when leafs for particual node have been loaded
 void DBDataModelImpl::got_getPhotos(const Database::Task & task, const Database::QueryList& photos)
@@ -312,9 +337,11 @@ void DBDataModelImpl::got_getPhotos(const Database::Task & task, const Database:
     m_data->pThis->attachNodes(parentIdxData, leafs);
 }
 
+
 void DBDataModelImpl::got_listTags(const Database::Task &, const std::vector<TagNameInfo> &)
 {
 }
+
 
 //called when nodes for particual node have been loaded
 void DBDataModelImpl::got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags)

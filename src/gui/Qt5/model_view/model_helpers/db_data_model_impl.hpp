@@ -55,6 +55,7 @@ struct DBDataModelImpl: Database::IDatabaseClient
     IdxData* getRoot();
     IdxData* getIdxDataFor(const QModelIndex& obj) const;
     IdxData* getParentIdxDataFor(const QModelIndex& _parent);
+    QModelIndex getIndex(IdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
     IdxData* parent(const QModelIndex& child);
     void addPhoto(const PhotoInfo::Ptr& photo);
@@ -79,7 +80,7 @@ private:
     void getLevelInfo(size_t level, const QModelIndex& _parent);
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
-    void fetchData(const QModelIndex& _parent, Database::IDatabase* database);
+    void fetchData(const QModelIndex &);
 
     //Database::IDatabaseClient:
     virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override;
