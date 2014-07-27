@@ -55,6 +55,7 @@ bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
 
 void StagingDataModel::storePhotos()
 {
+    deepFetch(QModelIndex());   //fetch root
     const std::vector<PhotoInfo::Ptr> photos = getPhotos();
 
     for(const PhotoInfo::Ptr& photo: photos)
