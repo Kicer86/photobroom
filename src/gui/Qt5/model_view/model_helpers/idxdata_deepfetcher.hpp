@@ -21,14 +21,21 @@
 #define IDXDATADEEPFETCHER_H
 
 #include <deque>
+#include <mutex>
+#include <set>
+#include <condition_variable>
+
+#include <QObject>
 
 class QModelIndex;
 
 struct DBDataModelImpl;
 struct IdxData;
 
-class IdxDataDeepFetcher
+class IdxDataDeepFetcher: QObject
 {
+        Q_OBJECT
+
     public:
         IdxDataDeepFetcher();
         IdxDataDeepFetcher(const IdxDataDeepFetcher& other) = delete;
@@ -40,9 +47,16 @@ class IdxDataDeepFetcher
 
     private:
         DBDataModelImpl* m_modelImpl;
-        std::deque<IdxData *> m_notLoaded;
+        std::deque<IdxData *> m_notLoaded;               //nodes not loaded
+        std::set<IdxData *> m_inProcess;                 //nodes being loaded
+        std::mutex m_idxDataMutex;
+        std::condition_variable m_dataNotifier;
 
         void process();
+        void process(IdxData *);
+
+    private slots:
+        void idxDataLoaded(IdxData *);
 };
 
 #endif // IDXDATADEEPFETCHER_H
