@@ -27,6 +27,7 @@
 
 #include <core/base_tags.hpp>
 
+#include "idxdata_deepfetcher.hpp"
 
 namespace
 {
@@ -112,19 +113,11 @@ void DBDataModelImpl::fetchMore(const QModelIndex& _parent)
 }
 
 
-void DBDataModelImpl::deepFetch(const IdxData* top)
+void DBDataModelImpl::deepFetch(IdxData* top)
 {
-    forIndexChildren(top, [&](const IdxData* child)
-    {
-        if (child->m_loaded == IdxData::LoadStatus::NotLoaded)
-        {
-            if (child->m_photo.get() == nullptr)
-                deepFetch(child);
-        }
-        else
-        {
-        }
-    });
+    IdxDataDeepFetcher fetcher;
+    fetcher.setModelImpl(this);
+    fetcher.fetch(top);
 }
 
 
@@ -301,7 +294,7 @@ void DBDataModelImpl::fetchData(const QModelIndex& _parent)
         else
             assert(!"should not happen");
 
-        idxData->m_loaded = IdxData::LoadStatus::Loading;
+    idxData->m_loaded = IdxData::LoadStatus::Loading;
 }
 
 

@@ -86,6 +86,8 @@ set(GUI_FILES_TO_MOC
     Qt5/components/tag_editor/tag_entry.hpp
     Qt5/components/tag_editor/ivalue_widget.hpp
     Qt5/model_view/db_data_model.hpp
+    Qt5/model_view/model_helpers/db_data_model_impl.hpp
+    Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
     )
 
 set(GUI_RESOURCE_FILES )

@@ -47,7 +47,7 @@ struct DBDataModelImpl: QObject, Database::IDatabaseClient
     bool isDirty() const;
 
     void fetchMore(const QModelIndex& _parent);
-    void deepFetch(const IdxData* top);
+    void deepFetch(IdxData* top);
     bool canFetchMore(const QModelIndex& _parent);
     void setBackend(Database::IDatabase* database);
     void close();
