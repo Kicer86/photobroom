@@ -56,7 +56,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 void DBDataModel::deepFetch(const QModelIndex& top)
 {
-    IdxData* idx = m_impl->getIdxDataFor(top);
+    IdxData* idx = m_impl->getParentIdxDataFor(top);
     m_impl->deepFetch(idx);
 }
 
