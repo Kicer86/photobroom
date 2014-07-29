@@ -26,7 +26,7 @@
 #include <database/filter.hpp>
 
 #include "model_helpers/idx_data.hpp"
-#include "model_helpers/db_data_model_impl.hpp"
+#include "model_helpers/idx_data_manager.hpp"
 
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this))

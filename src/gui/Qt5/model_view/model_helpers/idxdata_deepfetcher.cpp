@@ -21,7 +21,7 @@
 
 
 #include "idx_data.hpp"
-#include "db_data_model_impl.hpp"
+#include "idx_data_manager.hpp"
 
 
 IdxDataDeepFetcher::IdxDataDeepFetcher(): m_modelImpl(nullptr), m_notLoaded(), m_inProcess(), m_idxDataMutex(), m_dataNotifier()

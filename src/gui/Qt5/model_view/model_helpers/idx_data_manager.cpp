@@ -17,7 +17,7 @@
  *
  */
 
-#include "db_data_model_impl.hpp"
+#include "idx_data_manager.hpp"
 
 #include <unordered_map>
 
