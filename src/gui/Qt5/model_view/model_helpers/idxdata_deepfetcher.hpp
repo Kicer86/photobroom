@@ -46,7 +46,7 @@ class IdxDataDeepFetcher: QObject
         void fetch(IdxData* idx);                        //make take long. Run in thread
 
     private:
-        IdxDataManager* m_modelImpl;
+        IdxDataManager* m_idxDataManager;
         std::deque<IdxData *> m_notLoaded;               //nodes not loaded
         std::set<IdxData *> m_inProcess;                 //nodes being loaded
         std::mutex m_idxDataMutex;

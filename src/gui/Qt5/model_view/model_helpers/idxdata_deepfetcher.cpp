@@ -24,7 +24,7 @@
 #include "idx_data_manager.hpp"
 
 
-IdxDataDeepFetcher::IdxDataDeepFetcher(): m_modelImpl(nullptr), m_notLoaded(), m_inProcess(), m_idxDataMutex(), m_dataNotifier()
+IdxDataDeepFetcher::IdxDataDeepFetcher(): m_idxDataManager(nullptr), m_notLoaded(), m_inProcess(), m_idxDataMutex(), m_dataNotifier()
 {
 
 }
@@ -38,10 +38,10 @@ IdxDataDeepFetcher::~IdxDataDeepFetcher()
 
 void IdxDataDeepFetcher::setModelImpl(IdxDataManager* modelImpl)
 {
-    m_modelImpl = modelImpl;
+    m_idxDataManager = modelImpl;
 
     //direct connection is required as signals will come from other threads and we don't have EventLoop here
-    connect(m_modelImpl, SIGNAL(idxDataLoaded(IdxData*)), this, SLOT(idxDataLoaded(IdxData*)), Qt::DirectConnection);
+    connect(m_idxDataManager, SIGNAL(idxDataLoaded(IdxData*)), this, SLOT(idxDataLoaded(IdxData*)), Qt::DirectConnection);
 }
 
 
@@ -93,8 +93,8 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
         case IdxData::FetchStatus::NotFetched:
         {
             m_inProcess.insert(idxData);
-            QModelIndex idx = m_modelImpl->getIndex(idxData);
-            m_modelImpl->fetchMore(idx);
+            QModelIndex idx = m_idxDataManager->getIndex(idxData);
+            m_idxDataManager->fetchMore(idx);
             break;
         }
 

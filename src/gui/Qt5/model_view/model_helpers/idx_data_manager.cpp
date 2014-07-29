@@ -58,7 +58,7 @@ namespace
 struct IdxDataManager::Data
 {
     Data(DBDataModel* model):
-        pThis(model),
+        m_model(model),
         m_root(model, nullptr, ""),
         m_hierarchy(),
         m_dirty(true),
@@ -71,7 +71,7 @@ struct IdxDataManager::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    DBDataModel* pThis;
+    DBDataModel* m_model;
     IdxData m_root;
     Hierarchy m_hierarchy;
     bool m_dirty;
@@ -176,7 +176,7 @@ IdxData* IdxDataManager::getParentIdxDataFor(const QModelIndex& _parent)
 
 QModelIndex IdxDataManager::getIndex(IdxData* idxData) const
 {
-    return m_data->pThis->createIndex(idxData);
+    return m_data->m_model->createIndex(idxData);
 }
 
 
@@ -325,7 +325,7 @@ void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::Q
 
     for(PhotoInfo::Ptr photoInfo: photos)
     {
-        IdxData* newItem = new IdxData(m_data->pThis, parentIdxData, photoInfo);
+        IdxData* newItem = new IdxData(m_data->m_model, parentIdxData, photoInfo);
         leafs->push_back(newItem);
     }
 
@@ -388,14 +388,14 @@ void IdxDataManager::markIdxDataFetched(IdxData* idxData)
 void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
 {
     //attach nodes to parent in main thread
-    QModelIndex parentIdx = m_data->pThis->createIndex(_parent);
+    QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos->size() - 1;
-    m_data->pThis->beginInsertRows(parentIdx, 0, last);
+    m_data->m_model->beginInsertRows(parentIdx, 0, last);
 
     for(IdxData* newItem: *photos)
         _parent->addChild(newItem);
 
-    m_data->pThis->endInsertRows();
+    m_data->m_model->endInsertRows();
 
     markIdxDataFetched(_parent);
 }
