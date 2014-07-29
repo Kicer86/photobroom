@@ -27,7 +27,7 @@
 
 class DBDataModel;
 
-struct DBDataModelImpl: QObject, Database::IDatabaseClient
+struct IdxDataManager: QObject, Database::IDatabaseClient
 {
     struct DatabaseTaskHash
     {
@@ -37,11 +37,11 @@ struct DBDataModelImpl: QObject, Database::IDatabaseClient
         }
     };
 
-    DBDataModelImpl(DBDataModel* model);
-    DBDataModelImpl(const DBDataModelImpl &) = delete;
-    DBDataModelImpl& operator=(const DBDataModelImpl &) = delete;
+    IdxDataManager(DBDataModel* model);
+    IdxDataManager(const IdxDataManager &) = delete;
+    IdxDataManager& operator=(const IdxDataManager &) = delete;
 
-    ~DBDataModelImpl();
+    ~IdxDataManager();
 
     void setHierarchy(const Hierarchy& hierarchy);
     bool isDirty() const;

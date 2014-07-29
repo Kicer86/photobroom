@@ -29,7 +29,7 @@
 #include "model_helpers/db_data_model_impl.hpp"
 
 
-DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new DBDataModelImpl(this))
+DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this))
 {
     //used for moving notifications to main thread
     connect(this, SIGNAL(s_idxUpdated(IdxData*)), this, SLOT(mt_idxUpdate(IdxData*)));
@@ -45,21 +45,21 @@ DBDataModel::~DBDataModel()
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
     beginResetModel();
-    m_impl->setHierarchy(hierarchy);
+    m_idxDataManager->setHierarchy(hierarchy);
     endResetModel();
 }
 
 
 void DBDataModel::deepFetch(const QModelIndex& top)
 {
-    IdxData* idx = m_impl->getParentIdxDataFor(top);
-    m_impl->deepFetch(idx);
+    IdxData* idx = m_idxDataManager->getParentIdxDataFor(top);
+    m_idxDataManager->deepFetch(idx);
 }
 
 
 PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
-    IdxData* idxData = m_impl->getIdxDataFor(idx);
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
     return idxData->m_photo;
 }
 
@@ -67,7 +67,7 @@ PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
 {
     std::vector<PhotoInfo::Ptr> result;
-    m_impl->getPhotosFor(m_impl->getRoot(), &result);
+    m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
 
     return result;
 }
@@ -75,13 +75,13 @@ const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
 
 bool DBDataModel::canFetchMore(const QModelIndex& _parent) const
 {
-    return m_impl->canFetchMore(_parent);
+    return m_idxDataManager->canFetchMore(_parent);
 }
 
 
 void DBDataModel::fetchMore(const QModelIndex& _parent)
 {
-    m_impl->fetchMore(_parent);
+    m_idxDataManager->fetchMore(_parent);
 }
 
 
@@ -93,7 +93,7 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    IdxData* idxData = m_impl->getIdxDataFor(_index);
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
     const QVariant& v = idxData->m_data[role];
 
     return v;
@@ -102,7 +102,7 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
-    IdxData* pData = m_impl->getParentIdxDataFor(_parent);
+    IdxData* pData = m_idxDataManager->getParentIdxDataFor(_parent);
     IdxData* cData = pData->m_children[row];
     QModelIndex idx = createIndex(row, column, cData);
 
@@ -116,7 +116,7 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
-    IdxData* idxData = m_impl->parent(child);
+    IdxData* idxData = m_idxDataManager->parent(child);
     QModelIndex parentIdx = idxData? createIndex(idxData): QModelIndex();
 
     return parentIdx;
@@ -125,7 +125,7 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
-    IdxData* idxData = m_impl->getParentIdxDataFor(_parent);
+    IdxData* idxData = m_idxDataManager->getParentIdxDataFor(_parent);
     const size_t count = idxData->m_children.size();
 
     return count;
@@ -134,19 +134,19 @@ int DBDataModel::rowCount(const QModelIndex& _parent) const
 
 bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 {
-    return m_impl->hasChildren(_parent);
+    return m_idxDataManager->hasChildren(_parent);
 }
 
 
 void DBDataModel::setDatabase(Database::IDatabase* database)
 {
-    m_impl->setBackend(database);
+    m_idxDataManager->setBackend(database);
 }
 
 
 void DBDataModel::close()
 {
-    m_impl->close();
+    m_idxDataManager->close();
 }
 
 
@@ -159,13 +159,13 @@ void DBDataModel::idxUpdated(IdxData* idxData)
 
 IdxData* DBDataModel::getRootIdxData()
 {
-    return m_impl->getRoot();
+    return m_idxDataManager->getRoot();
 }
 
 
 void DBDataModel::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 {
-    m_impl->updatePhotoInDB(photoInfo);
+    m_idxDataManager->updatePhotoInDB(photoInfo);
 }
 
 
@@ -185,5 +185,5 @@ void DBDataModel::mt_idxUpdate(IdxData* idxData)
     //if photo changed, store it in database
     PhotoInfo::Ptr photoInfo = idxData->m_photo;
     if (photoInfo.get() != nullptr)
-        m_impl->updatePhotoInDB(photoInfo);
+        m_idxDataManager->updatePhotoInDB(photoInfo);
 }

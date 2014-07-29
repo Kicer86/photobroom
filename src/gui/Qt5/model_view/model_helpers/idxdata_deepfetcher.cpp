@@ -36,7 +36,7 @@ IdxDataDeepFetcher::~IdxDataDeepFetcher()
 }
 
 
-void IdxDataDeepFetcher::setModelImpl(DBDataModelImpl* modelImpl)
+void IdxDataDeepFetcher::setModelImpl(IdxDataManager* modelImpl)
 {
     m_modelImpl = modelImpl;
 

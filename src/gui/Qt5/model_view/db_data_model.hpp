@@ -26,7 +26,7 @@
 
 #include <database/idatabase.hpp>
 
-class DBDataModelImpl;
+class IdxDataManager;
 struct IdxData;
 
 struct Hierarchy
@@ -52,7 +52,7 @@ class DBDataModel: public QAbstractItemModel
 {
         Q_OBJECT
 
-        friend class DBDataModelImpl;
+        friend class IdxDataManager;
 
     public:
         DBDataModel(QObject* p);
@@ -95,7 +95,7 @@ class DBDataModel: public QAbstractItemModel
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
 
-        std::unique_ptr<DBDataModelImpl> m_impl;
+        std::unique_ptr<IdxDataManager> m_idxDataManager;
 
     private slots:
         void mt_idxUpdate(IdxData *);

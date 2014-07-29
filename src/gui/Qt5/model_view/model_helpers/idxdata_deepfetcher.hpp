@@ -29,7 +29,7 @@
 
 class QModelIndex;
 
-struct DBDataModelImpl;
+struct IdxDataManager;
 struct IdxData;
 
 class IdxDataDeepFetcher: QObject
@@ -42,11 +42,11 @@ class IdxDataDeepFetcher: QObject
         ~IdxDataDeepFetcher();
         IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other) = delete;
 
-        void setModelImpl(DBDataModelImpl *);
+        void setModelImpl(IdxDataManager *);
         void fetch(IdxData* idx);                        //make take long. Run in thread
 
     private:
-        DBDataModelImpl* m_modelImpl;
+        IdxDataManager* m_modelImpl;
         std::deque<IdxData *> m_notLoaded;               //nodes not loaded
         std::set<IdxData *> m_inProcess;                 //nodes being loaded
         std::mutex m_idxDataMutex;
