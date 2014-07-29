@@ -99,7 +99,6 @@ class DBDataModel: public QAbstractItemModel
 
     private slots:
         void mt_idxUpdate(IdxData *);
-        void mt_attachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 
     signals:
         void s_idxUpdated(IdxData *);

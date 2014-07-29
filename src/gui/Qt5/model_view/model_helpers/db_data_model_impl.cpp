@@ -87,6 +87,12 @@ DBDataModelImpl::DBDataModelImpl(DBDataModel* model): m_data(new Data(model))
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
     setHierarchy(hierarchy);
+            
+    qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
+    
+    //used for transferring event from working thread to main one
+    connect(this, SIGNAL(nodesFetched(IdxData*,std::shared_ptr<std::deque<IdxData*> >)),
+            this, SLOT(insertFetchedNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)), Qt::QueuedConnection);
 }
 
 
@@ -380,3 +386,16 @@ void DBDataModelImpl::markIdxDataLoaded(IdxData* idxData)
     emit idxDataLoaded(idxData);
 }
 
+
+void DBDataModelImpl::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
+{
+    //attach nodes to parent in main thread
+    QModelIndex parentIdx = m_data->pThis->createIndex(_parent);
+    const size_t last = photos->size() - 1;
+    m_data->pThis->beginInsertRows(parentIdx, 0, last);
+
+    for(IdxData* newItem: *photos)
+        _parent->addChild(newItem);
+
+    m_data->pThis->endInsertRows();
+}

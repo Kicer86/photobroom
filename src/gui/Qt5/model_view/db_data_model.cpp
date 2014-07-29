@@ -31,12 +31,8 @@
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new DBDataModelImpl(this))
 {
-    qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
-
     //used for moving notifications to main thread
     connect(this, SIGNAL(s_idxUpdated(IdxData*)), this, SLOT(mt_idxUpdate(IdxData*)));
-    connect(m_impl.get(), SIGNAL(nodesFetched(IdxData*,std::shared_ptr<std::deque<IdxData*> >)),
-            this, SLOT(mt_attachNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)));
 }
 
 
@@ -190,18 +186,4 @@ void DBDataModel::mt_idxUpdate(IdxData* idxData)
     PhotoInfo::Ptr photoInfo = idxData->m_photo;
     if (photoInfo.get() != nullptr)
         m_impl->updatePhotoInDB(photoInfo);
-}
-
-
-void DBDataModel::mt_attachNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
-{
-    //attach nodes to parent in main thread
-    QModelIndex parentIdx = createIndex(_parent);
-    const size_t last = photos->size() - 1;
-    beginInsertRows(parentIdx, 0, last);
-
-    for(IdxData* newItem: *photos)
-        _parent->addChild(newItem);
-
-    endInsertRows();
 }
