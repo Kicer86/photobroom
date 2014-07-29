@@ -326,8 +326,8 @@ void DBDataModelImpl::got_getPhotos(const Database::Task& task, const Database::
     markIdxDataLoaded(parentIdxData);
     m_data->m_db_tasks.lock().get().erase(it);
 
-    //attach photos to parent node in main thread
-    m_data->pThis->attachNodes(parentIdxData, leafs);
+    //attach nodes to parent node in main thread
+    emit nodesFetched(parentIdxData, leafs);
 }
 
 
@@ -364,7 +364,7 @@ void DBDataModelImpl::got_listTagValues(const Database::Task& task, const std::d
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach nodes to parent node in main thread
-    m_data->pThis->attachNodes(parentIdxData, leafs);
+    emit nodesFetched(parentIdxData, leafs);
 }
 
 

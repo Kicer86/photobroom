@@ -35,7 +35,7 @@ DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new DBDataMo
 
     //used for moving notifications to main thread
     connect(this, SIGNAL(s_idxUpdated(IdxData*)), this, SLOT(mt_idxUpdate(IdxData*)));
-    connect(this, SIGNAL(s_attachNodes(IdxData*,std::shared_ptr<std::deque<IdxData*> >)),
+    connect(m_impl.get(), SIGNAL(nodesFetched(IdxData*,std::shared_ptr<std::deque<IdxData*> >)),
             this, SLOT(mt_attachNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)));
 }
 
@@ -158,12 +158,6 @@ void DBDataModel::idxUpdated(IdxData* idxData)
 {
     //make sure, we will move to main thread
     emit s_idxUpdated(idxData);
-}
-
-void DBDataModel::attachNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& leafs)
-{
-    //make sure, we will move to main thread
-    emit s_attachNodes(_parent, leafs);
 }
 
 

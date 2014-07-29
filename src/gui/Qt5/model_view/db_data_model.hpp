@@ -72,7 +72,6 @@ class DBDataModel: public QAbstractItemModel
 
         //
         void idxUpdated(IdxData *);
-        void attachNodes(IdxData* parent, const std::shared_ptr<std::deque<IdxData *>> &);
 
     protected:
         IdxData* getRootIdxData();
@@ -104,7 +103,6 @@ class DBDataModel: public QAbstractItemModel
 
     signals:
         void s_idxUpdated(IdxData *);
-        void s_attachNodes(IdxData *, const std::shared_ptr< std::deque<IdxData *> > &);
 };
 
 #endif // DBDATAMODEL_H

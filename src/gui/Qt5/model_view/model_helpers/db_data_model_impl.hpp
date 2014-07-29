@@ -96,6 +96,7 @@ private:
 
 signals:
     void idxDataLoaded(IdxData *);
+    void nodesFetched(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
 };
 
 
