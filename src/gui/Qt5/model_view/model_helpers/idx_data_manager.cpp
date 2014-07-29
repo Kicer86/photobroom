@@ -130,7 +130,7 @@ void IdxDataManager::deepFetch(IdxData* top)
 bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
-    const bool status = idxData->m_loaded == IdxData::LoadStatus::NotLoaded;
+    const bool status = idxData->m_loaded == IdxData::FetchStatus::NotFetched;
 
     return status;
 }
@@ -188,7 +188,7 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
     bool status = false;
     IdxData* idxData = getParentIdxDataFor(_parent);
 
-    if (idxData->m_loaded != IdxData::LoadStatus::Loaded)
+    if (idxData->m_loaded != IdxData::FetchStatus::Fetched)
         status = true;              //data not loaded assume there is something
     else
         status = !idxData->m_photo; //return true for nodes only, not for leafs
@@ -216,7 +216,7 @@ void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr
 {
     forIndexChildren(idx, [&] (const IdxData* child)
     {
-        if (child->m_loaded == IdxData::LoadStatus::Loaded)
+        if (child->m_loaded == IdxData::FetchStatus::Fetched)
         {
             if (child->m_photo.get() == nullptr)
                 getPhotosFor(child, result);
@@ -300,7 +300,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
         else
             assert(!"should not happen");
 
-    idxData->m_loaded = IdxData::LoadStatus::Loading;
+        idxData->m_loaded = IdxData::FetchStatus::Fetching;
 }
 
 
@@ -378,9 +378,9 @@ void IdxDataManager::got_storeStatus(const Database::Task &)
 }
 
 
-void IdxDataManager::markIdxDataLoaded(IdxData* idxData)
+void IdxDataManager::markIdxDataFetched(IdxData* idxData)
 {
-    idxData->m_loaded = IdxData::LoadStatus::Loaded;
+    idxData->m_loaded = IdxData::FetchStatus::Fetched;
     emit idxDataLoaded(idxData);
 }
 
@@ -397,5 +397,5 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 
     m_data->pThis->endInsertRows();
 
-    markIdxDataLoaded(_parent);
+    markIdxDataFetched(_parent);
 }

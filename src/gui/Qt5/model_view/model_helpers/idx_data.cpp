@@ -38,7 +38,7 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : Idx
 IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
-    m_loaded = LoadStatus::Loaded;
+    m_loaded = FetchStatus::Fetched;
 
     updateLeafData();
     photo->registerObserver(this);
@@ -87,7 +87,7 @@ void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
 
 void IdxData::reset()
 {
-    m_loaded = LoadStatus::NotLoaded;
+    m_loaded = FetchStatus::NotFetched;
     for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
 
@@ -107,7 +107,7 @@ IdxData::IdxData(DBDataModel* model, IdxData* parent) :
     m_level(-1),
     m_row(-1),
     m_column(-1),
-    m_loaded(LoadStatus::NotLoaded)
+    m_loaded(FetchStatus::NotFetched)
 {
     m_level = parent ? parent->m_level + 1 : 0;
 }

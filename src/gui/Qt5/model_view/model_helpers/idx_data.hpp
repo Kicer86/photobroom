@@ -31,11 +31,11 @@ class DBDataModel;
 
 struct IdxData: public PhotoInfo::IObserver
 {
-        enum class LoadStatus
+        enum class FetchStatus
         {
-            NotLoaded,
-            Loading,
-            Loaded,
+            NotFetched,
+            Fetching,
+            Fetched,
         };
 
         std::vector<IdxData *> m_children;
@@ -47,7 +47,7 @@ struct IdxData: public PhotoInfo::IObserver
         size_t m_level;
         int m_row;
         int m_column;
-        LoadStatus m_loaded;                    // true when we have loaded all children of item (if any)
+        FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
         IdxData(DBDataModel *, IdxData* parent, const QString& name);

@@ -90,7 +90,7 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
 
     switch(idxData->m_loaded)
     {
-        case IdxData::LoadStatus::NotLoaded:
+        case IdxData::FetchStatus::NotFetched:
         {
             m_inProcess.insert(idxData);
             QModelIndex idx = m_modelImpl->getIndex(idxData);
@@ -98,13 +98,13 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
             break;
         }
 
-        case IdxData::LoadStatus::Loaded:
+        case IdxData::FetchStatus::Fetched:
             lock.unlock();                                //we will go recursive now, and we do not need lock anymore in current context
             for(IdxData* child: idxData->m_children)
                 process(child);
             break;
 
-        case IdxData::LoadStatus::Loading:
+        case IdxData::FetchStatus::Fetching:
             // Push to m_inProcess queue.
             // m_inProcess is locked by us
             m_inProcess.insert(idxData);

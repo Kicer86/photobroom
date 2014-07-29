@@ -92,7 +92,7 @@ private:
     virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
     virtual void got_storeStatus(const Database::Task &) override;
 
-    void markIdxDataLoaded(IdxData *);
+    void markIdxDataFetched(IdxData *);
 
 signals:
     void idxDataLoaded(IdxData *);
