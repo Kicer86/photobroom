@@ -329,7 +329,6 @@ void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::Q
         leafs->push_back(newItem);
     }
 
-    markIdxDataLoaded(parentIdxData);
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach nodes to parent node in main thread
@@ -366,7 +365,6 @@ void IdxDataManager::got_listTagValues(const Database::Task& task, const std::de
         leafs->push_back(newItem);
     }
 
-    markIdxDataLoaded(parentIdxData);
     m_data->m_db_tasks.lock().get().erase(it);
 
     //attach nodes to parent node in main thread
@@ -398,4 +396,6 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
         _parent->addChild(newItem);
 
     m_data->pThis->endInsertRows();
+
+    markIdxDataLoaded(_parent);
 }
