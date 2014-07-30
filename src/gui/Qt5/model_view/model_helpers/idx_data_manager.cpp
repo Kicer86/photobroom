@@ -22,6 +22,7 @@
 #include <unordered_map>
 
 #include <QModelIndex>
+#include <QEventLoop>
 
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
 
@@ -121,9 +122,17 @@ void IdxDataManager::fetchMore(const QModelIndex& _parent)
 
 void IdxDataManager::deepFetch(IdxData* top)
 {
-    IdxDataDeepFetcher fetcher;
-    fetcher.setModelImpl(this);
-    fetcher.fetch(top);
+    IdxDataDeepFetcher* fetcher = new IdxDataDeepFetcher;
+    fetcher->setModelImpl(this);
+    fetcher->fetch(top);
+
+    //wait for this particular task to finish in event loop
+    QEventLoop eventLoop;
+    QEventLoopLocker* eventLoopLocker = new QEventLoopLocker(&eventLoop);
+    fetcher->setEventLoopLocker(eventLoopLocker);
+
+    TaskExecutorConstructor::get()->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
+    eventLoop.exec();
 }
 
 
