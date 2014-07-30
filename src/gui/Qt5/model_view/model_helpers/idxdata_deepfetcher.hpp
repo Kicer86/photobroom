@@ -68,4 +68,4 @@ class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
         void idxDataLoaded(IdxData *);
 };
 
-#endif // IDXDATADEEPFETCHER_H
+#endif // IDXDATADEEPFETCHER_HPP
