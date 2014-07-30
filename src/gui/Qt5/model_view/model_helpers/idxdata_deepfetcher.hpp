@@ -52,8 +52,8 @@ class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
     private:
         IdxDataManager* m_idxDataManager;
         QEventLoopLocker* m_eventLoopLocker;
-        std::deque<IdxData *> m_notLoaded;               //nodes not loaded
-        std::set<IdxData *> m_inProcess;                 //nodes being loaded
+        std::deque<IdxData *> m_notLoaded;               //nodes not fetched yet
+        std::set<IdxData *> m_inProcess;                 //nodes being fetched at this moment
         std::mutex m_idxDataMutex;
         std::condition_variable m_dataNotifier;
 
