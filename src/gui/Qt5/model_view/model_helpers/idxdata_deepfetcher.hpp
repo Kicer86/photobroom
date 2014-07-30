@@ -46,7 +46,7 @@ class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
         IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other) = delete;
 
         void setModelImpl(IdxDataManager *);
-        void fetch(IdxData* idx);
+        void setIdxDataToFetch(IdxData* idx);
         void setEventLoopLocker(QEventLoopLocker *);
 
     private:

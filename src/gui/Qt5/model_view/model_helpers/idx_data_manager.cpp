@@ -124,7 +124,7 @@ void IdxDataManager::deepFetch(IdxData* top)
 {
     IdxDataDeepFetcher* fetcher = new IdxDataDeepFetcher;
     fetcher->setModelImpl(this);
-    fetcher->fetch(top);
+    fetcher->setIdxDataToFetch(top);
 
     //wait for this particular task to finish in event loop
     QEventLoop eventLoop;

@@ -46,7 +46,7 @@ void IdxDataDeepFetcher::setModelImpl(IdxDataManager* modelImpl)
 }
 
 
-void IdxDataDeepFetcher::fetch(IdxData* idx)
+void IdxDataDeepFetcher::setIdxDataToFetch(IdxData* idx)
 {
     m_notLoaded.push_back(idx);
 }
