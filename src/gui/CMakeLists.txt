@@ -114,7 +114,8 @@ if(BUILD_TESTS)
 
     addTestTarget(gui  SOURCES
                            Qt5/data/photo_info_updater.cpp
-                           Qt5/model_view/idx_data.cpp
+                           Qt5/model_view/model_helpers/idx_data_manager.cpp
+                           Qt5/model_view/model_helpers/idxdata_deepfetcher.cpp
                            Qt5/model_view/db_data_model.cpp
                            tests/db_data_model_tests.cpp
                            ${GUI_WRAPPED_CPP_FOR_TEST}
