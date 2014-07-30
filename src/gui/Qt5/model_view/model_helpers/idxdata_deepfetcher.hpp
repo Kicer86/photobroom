@@ -27,12 +27,15 @@
 
 #include <QObject>
 
+#include <core/task_executor.hpp>
+
+class QEventLoopLocker;
 class QModelIndex;
 
 struct IdxDataManager;
 struct IdxData;
 
-class IdxDataDeepFetcher: QObject
+class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
 {
         Q_OBJECT
 
@@ -43,10 +46,12 @@ class IdxDataDeepFetcher: QObject
         IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other) = delete;
 
         void setModelImpl(IdxDataManager *);
-        void fetch(IdxData* idx);                        //make take long. Run in thread
+        void fetch(IdxData* idx);
+        void setEventLoopLocker(QEventLoopLocker *);
 
     private:
         IdxDataManager* m_idxDataManager;
+        QEventLoopLocker* m_eventLoopLocker;
         std::deque<IdxData *> m_notLoaded;               //nodes not loaded
         std::set<IdxData *> m_inProcess;                 //nodes being loaded
         std::mutex m_idxDataMutex;
@@ -54,6 +59,10 @@ class IdxDataDeepFetcher: QObject
 
         void process();
         void process(IdxData *);
+
+        //ITask:
+        virtual std::string name() const override;
+        virtual void perform() override;
 
     private slots:
         void idxDataLoaded(IdxData *);

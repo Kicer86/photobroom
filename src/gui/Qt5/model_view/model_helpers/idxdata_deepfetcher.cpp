@@ -19,12 +19,13 @@
 
 #include "idxdata_deepfetcher.hpp"
 
+#include <QEventLoopLocker>
 
 #include "idx_data.hpp"
 #include "idx_data_manager.hpp"
 
 
-IdxDataDeepFetcher::IdxDataDeepFetcher(): m_idxDataManager(nullptr), m_notLoaded(), m_inProcess(), m_idxDataMutex(), m_dataNotifier()
+IdxDataDeepFetcher::IdxDataDeepFetcher(): m_idxDataManager(nullptr), m_eventLoopLocker(nullptr), m_notLoaded(), m_inProcess(), m_idxDataMutex(), m_dataNotifier()
 {
 
 }
@@ -32,7 +33,7 @@ IdxDataDeepFetcher::IdxDataDeepFetcher(): m_idxDataManager(nullptr), m_notLoaded
 
 IdxDataDeepFetcher::~IdxDataDeepFetcher()
 {
-
+    delete m_eventLoopLocker;  //release event loop locker
 }
 
 
@@ -48,26 +49,12 @@ void IdxDataDeepFetcher::setModelImpl(IdxDataManager* modelImpl)
 void IdxDataDeepFetcher::fetch(IdxData* idx)
 {
     m_notLoaded.push_back(idx);
-    bool work = true;
+}
 
-    do
-    {
-        process();
 
-        std::unique_lock<std::mutex> lock(m_idxDataMutex);
-        m_dataNotifier.wait(lock, [&]()
-        {
-            // Wait as long as there is nothing to process (m_notLoaded empty) and
-            // there is still something to appear (m_inProcess not empty).
-            // Otherwise quit
-            return ! (m_notLoaded.empty() && m_inProcess.empty() == false);
-        }
-        );
-
-        //still something to do?
-        work = m_inProcess.empty() == false || m_notLoaded.empty() == false;
-    }
-    while(work);
+void IdxDataDeepFetcher::setEventLoopLocker(QEventLoopLocker* eventLoopLocker)
+{
+    m_eventLoopLocker = eventLoopLocker;
 }
 
 
@@ -110,6 +97,37 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
             m_inProcess.insert(idxData);
             break;
     }
+}
+
+
+std::string IdxDataDeepFetcher::name() const
+{
+    return "IdxDataDeepFetcher";
+}
+
+
+void IdxDataDeepFetcher::perform()
+{
+    bool work = true;
+
+    do
+    {
+        process();
+
+        std::unique_lock<std::mutex> lock(m_idxDataMutex);
+        m_dataNotifier.wait(lock, [&]()
+        {
+            // Wait as long as there is nothing to process (m_notLoaded empty) and
+            // there is still something to appear (m_inProcess not empty).
+            // Otherwise quit
+            return ! (m_notLoaded.empty() && m_inProcess.empty() == false);
+        }
+        );
+
+        //still something to do?
+        work = m_inProcess.empty() == false || m_notLoaded.empty() == false;
+    }
+    while(work);
 }
 
 
