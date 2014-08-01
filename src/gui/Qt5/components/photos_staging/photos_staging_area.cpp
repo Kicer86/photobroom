@@ -18,6 +18,9 @@
 struct PhotosReceiver: IMediaNotification
 {
     PhotosReceiver(): m_view(nullptr) {}
+    PhotosReceiver(const PhotosReceiver &) = delete;
+
+    PhotosReceiver& operator=(const PhotosReceiver &) = delete;
 
     void setView(PhotosViewWidget* view)
     {
