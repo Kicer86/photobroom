@@ -9,16 +9,19 @@
 
 struct NullFeeder: public ITagFeeder
 {
-    virtual std::unique_ptr<ITagData> getTagsFor(const std::string &) final
-    {
-        //return empty set
-        return std::unique_ptr<ITagData>(new TagData);
-    }
+        virtual ~NullFeeder() {}
 
-    virtual void update(ITagData *, const std::string &) final
-    {
+    private:
+        virtual std::unique_ptr<ITagData> getTagsFor(const QString &) override final
+        {
+            //return empty set
+            return std::unique_ptr<ITagData>(new TagData);
+        }
 
-    }
+        virtual void update(ITagData *, const QString &) override final
+        {
+
+        }
 };
 
 

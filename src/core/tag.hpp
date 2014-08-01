@@ -24,7 +24,7 @@ struct CORE_EXPORT TagNameInfo
             Time    = 3,
         };
 
-        TagNameInfo(const QString& n, const Type t, char s = ';'): name(n), separator(s), type(t)
+        TagNameInfo(const QString& n, const Type t, char s = ';'): name(n), type(t), separator(s)
         {
 
         }
@@ -34,7 +34,7 @@ struct CORE_EXPORT TagNameInfo
 
         }
 
-        TagNameInfo(const TagNameInfo& other): name(other.name), separator(other.separator), type(other.type)
+        TagNameInfo(const TagNameInfo& other): name(other.name), type(other.type), separator(other.separator)
         {
 
         }
@@ -86,8 +86,8 @@ struct CORE_EXPORT TagNameInfo
 
     private:
         QString name;
-        char separator;
         Type type;
+        char separator;
 };
 
 

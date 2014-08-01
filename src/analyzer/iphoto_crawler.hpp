@@ -16,6 +16,7 @@ struct Rules
 
 struct IMediaNotification
 {
+    virtual ~IMediaNotification() {}
     virtual void found(const QString &) = 0;
 };
 
