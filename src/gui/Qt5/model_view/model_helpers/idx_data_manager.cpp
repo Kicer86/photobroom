@@ -58,9 +58,9 @@ namespace
 
 struct IdxDataManager::Data
 {
-    Data(DBDataModel* model):
+    Data(DBDataModel* model, IdxDataManager* manager):
         m_model(model),
-        m_root(model, nullptr, ""),
+        m_root(manager, nullptr, ""),
         m_hierarchy(),
         m_dirty(true),
         m_database(),
@@ -82,7 +82,7 @@ struct IdxDataManager::Data
 };
 
 
-IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
+IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this))
 {
     Hierarchy hierarchy;
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
@@ -249,6 +249,18 @@ void IdxDataManager::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 }
 
 
+void IdxDataManager::idxDataChanged(IdxData* idxData)
+{
+    QModelIndex idx = m_data->m_model->createIndex(idxData);
+    emit m_data->m_model->dataChanged(idx, idx);
+
+    //if photo changed, store it in database
+    PhotoInfo::Ptr photoInfo = idxData->m_photo;
+    if (photoInfo.get() != nullptr)
+        updatePhotoInDB(photoInfo);
+}
+
+
 //function returns list of tags on particular 'level' for 'parent'
 void IdxDataManager::getLevelInfo(size_t level, const QModelIndex& _parent)
 {
@@ -280,7 +292,7 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 
 void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
 {
-    const auto modelSpecificFilters = m_data->m_root.m_model->getModelSpecificFilters();
+    const auto modelSpecificFilters = m_data->m_model->getModelSpecificFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
 }
 
@@ -334,7 +346,7 @@ void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::Q
 
     for(PhotoInfo::Ptr photoInfo: photos)
     {
-        IdxData* newItem = new IdxData(m_data->m_model, parentIdxData, photoInfo);
+        IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
         leafs->push_back(newItem);
     }
 

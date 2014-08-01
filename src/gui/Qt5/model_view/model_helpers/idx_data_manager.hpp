@@ -64,6 +64,8 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     //store or update photo in DB
     void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo);
 
+    void idxDataChanged(IdxData *);
+
 
 private:
     Q_OBJECT

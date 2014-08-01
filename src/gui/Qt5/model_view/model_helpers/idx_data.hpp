@@ -27,7 +27,7 @@
 
 class QVariant;
 
-class DBDataModel;
+class IdxDataManager;
 
 struct IdxData: public PhotoInfo::IObserver
 {
@@ -43,17 +43,17 @@ struct IdxData: public PhotoInfo::IObserver
         Database::IFilter::Ptr m_filter;
         PhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxData* m_parent;
-        DBDataModel* m_model;
+        IdxDataManager* m_model;
         size_t m_level;
         int m_row;
         int m_column;
         FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
-        IdxData(DBDataModel *, IdxData* parent, const QString& name);
+        IdxData(IdxDataManager *, IdxData* parent, const QString& name);
 
         //leaf constructor
-        IdxData(DBDataModel *, IdxData* parent, const PhotoInfo::Ptr &);
+        IdxData(IdxDataManager *, IdxData* parent, const PhotoInfo::Ptr &);
 
         virtual ~IdxData();
 
@@ -66,7 +66,7 @@ struct IdxData: public PhotoInfo::IObserver
         void reset();
 
     private:
-        IdxData(DBDataModel *, IdxData* parent);
+        IdxData(IdxDataManager *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
 

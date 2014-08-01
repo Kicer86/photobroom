@@ -26,16 +26,16 @@
 
 #include <core/photo_info.hpp>
 
-#include "../db_data_model.hpp"
+#include "idx_data_manager.hpp"
 #include "data/photo_info_updater.hpp"
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
     m_data[Qt::DisplayRole] = name;
 }
 
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& photo) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
     m_loaded = FetchStatus::Fetched;
@@ -97,7 +97,7 @@ void IdxData::reset()
 }
 
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent) :
+IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_children(),
     m_data(),
     m_filter(new Database::FilterEmpty),
@@ -130,5 +130,5 @@ void IdxData::updateLeafData()
 void IdxData::photoUpdated()
 {
     updateLeafData();
-    m_model->idxUpdated(this);
+    m_model->idxDataChanged(this);
 }

@@ -150,13 +150,6 @@ void DBDataModel::close()
 }
 
 
-void DBDataModel::idxUpdated(IdxData* idxData)
-{
-    //make sure, we will move to main thread
-    emit s_idxUpdated(idxData);
-}
-
-
 IdxData* DBDataModel::getRootIdxData()
 {
     return m_idxDataManager->getRoot();
@@ -174,16 +167,4 @@ QModelIndex DBDataModel::createIndex(IdxData* idxData) const
     const QModelIndex idx = idxData->m_level == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
                                                    createIndex(idxData->m_row, idxData->m_column, idxData);
     return idx;
-}
-
-
-void DBDataModel::mt_idxUpdate(IdxData* idxData)
-{
-    QModelIndex idx = createIndex(idxData);
-    emit dataChanged(idx, idx);
-
-    //if photo changed, store it in database
-    PhotoInfo::Ptr photoInfo = idxData->m_photo;
-    if (photoInfo.get() != nullptr)
-        m_idxDataManager->updatePhotoInDB(photoInfo);
 }

@@ -50,8 +50,6 @@ struct Hierarchy
 
 class DBDataModel: public QAbstractItemModel
 {
-        Q_OBJECT
-
         friend class IdxDataManager;
 
     public:
@@ -69,9 +67,6 @@ class DBDataModel: public QAbstractItemModel
         //Database::IFrontend:
         virtual void setDatabase(Database::IDatabase *);
         virtual void close();
-
-        //
-        void idxUpdated(IdxData *);
 
     protected:
         IdxData* getRootIdxData();
@@ -96,12 +91,6 @@ class DBDataModel: public QAbstractItemModel
         QModelIndex createIndex(IdxData *) const;
 
         std::unique_ptr<IdxDataManager> m_idxDataManager;
-
-    private slots:
-        void mt_idxUpdate(IdxData *);
-
-    signals:
-        void s_idxUpdated(IdxData *);
 };
 
 #endif // DBDATAMODEL_H
