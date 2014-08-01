@@ -90,6 +90,8 @@ namespace Database
     //Set of functions called when particalar task is finished
     struct IDatabaseClient
     {
+        virtual ~IDatabaseClient() {}
+
         virtual void got_storeStatus(const Task &) = 0;
 
         virtual void got_listTags(const Task &, const std::vector<TagNameInfo> &) = 0;
