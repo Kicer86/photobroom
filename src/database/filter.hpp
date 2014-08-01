@@ -76,13 +76,12 @@ namespace Database
 
     struct DATABASE_EXPORT FilterFlags: IFilter
     {
+        FilterFlags();
         virtual ~FilterFlags() {}
 
         FILTER_COMMAND
 
         bool stagingArea;
-
-        FilterFlags();
     };
 
 }
