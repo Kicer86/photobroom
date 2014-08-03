@@ -264,9 +264,6 @@ void IdxDataManager::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 
 void IdxDataManager::idxDataChanged(IdxData* idxData)
 {
-    QModelIndex idx = m_data->m_model->createIndex(idxData);
-    emit m_data->m_model->dataChanged(idx, idx);
-
     //if photo changed, store it in database
     PhotoInfo::Ptr photoInfo = idxData->m_photo;
     if (photoInfo.get() != nullptr)
@@ -464,4 +461,14 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
     m_data->m_model->endInsertRows();
 
     markIdxDataFetched(_parent);
+}
+
+
+void IdxDataManager::photoChanged(const PhotoInfo::Id& id)
+{
+    //TODO: not very smart. Do analyse what changed and how basing on photo id
+    m_data->m_root.reset();
+
+    //QModelIndex idx = m_data->m_model->createIndex(idxData);
+    //emit m_data->m_model->dataChanged(idx, idx);
 }

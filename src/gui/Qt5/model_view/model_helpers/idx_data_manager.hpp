@@ -64,7 +64,7 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     //store or update photo in DB
     void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo);
 
-    void idxDataChanged(IdxData *);
+    void idxDataChanged(IdxData *);                              //called by IdxData when it changes
 
     //signals from IdxData:
     void idxDataCreated(IdxData *);
@@ -109,6 +109,7 @@ signals:
     
 private slots:
     void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
+    void photoChanged(const PhotoInfo::Id &);
 };
 
 
