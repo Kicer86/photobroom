@@ -104,10 +104,8 @@ PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullpt
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->addWidget(m_photosView);
 
-    connect(m_photosView->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this,
-            SLOT(selectionChanged())
+    connect(m_photosView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            this, SLOT(selectionChanged())
            );
 }
 
