@@ -31,8 +31,6 @@
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this))
 {
-    //used for moving notifications to main thread
-    connect(this, SIGNAL(s_idxUpdated(IdxData*)), this, SLOT(mt_idxUpdate(IdxData*)));
 }
 
 
