@@ -90,10 +90,11 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this)
     setHierarchy(hierarchy);
             
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
+    qRegisterMetaType<PhotoInfo::Id>("PhotoInfo::Id");
     
     //used for transferring event from working thread to main one
-    connect(this, SIGNAL(nodesFetched(IdxData*,std::shared_ptr<std::deque<IdxData*> >)),
-            this, SLOT(insertFetchedNodes(IdxData*,std::shared_ptr<std::deque<IdxData *> >)), Qt::QueuedConnection);
+    connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
+            this, SLOT(insertFetchedNodes(IdxData*, std::shared_ptr<std::deque<IdxData *> >)), Qt::QueuedConnection);
 }
 
 
@@ -147,7 +148,13 @@ bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 
 void IdxDataManager::setBackend(Database::IDatabase* database)
 {
+    if (m_data->m_database != nullptr)
+        disconnect(m_data->m_database->notifier());
+
     m_data->m_database = database;
+
+    connect(m_data->m_database->notifier(), SIGNAL(photoModified(PhotoInfo::Id)),
+            this, SLOT(photoChanged(PhotoInfo::Id)));
 }
 
 
