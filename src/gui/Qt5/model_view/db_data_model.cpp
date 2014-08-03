@@ -101,6 +101,8 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
     IdxData* pData = m_idxDataManager->getParentIdxDataFor(_parent);
+
+    assert(row < pData->m_children.size());
     IdxData* cData = pData->m_children[row];
     QModelIndex idx = createIndex(row, column, cData);
 
