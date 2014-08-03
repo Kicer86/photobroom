@@ -66,6 +66,10 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
 
     void idxDataChanged(IdxData *);
 
+    //signals from IdxData:
+    void idxDataCreated(IdxData *);
+    void idxDataDeleted(IdxData *);
+    void idxDataReset(IdxData *);
 
 private:
     Q_OBJECT
@@ -95,6 +99,9 @@ private:
     virtual void got_storeStatus(const Database::Task &) override;
 
     void markIdxDataFetched(IdxData *);
+
+    void removeIdxDataFromNotFetched(IdxData *);
+    void addIdxDataToNotFetched(IdxData *);
 
 signals:
     void idxDataLoaded(IdxData *);

@@ -56,6 +56,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& p
 
 IdxData::~IdxData()
 {
+    m_model->idxDataDeleted(this);
     if (m_photo.get() != nullptr)
         m_photo->unregisterObserver(this);
 
@@ -87,6 +88,7 @@ void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
 
 void IdxData::reset()
 {
+    m_model->idxDataReset(this);
     m_loaded = FetchStatus::NotFetched;
     for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
@@ -110,6 +112,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_loaded(FetchStatus::NotFetched)
 {
     m_level = parent ? parent->m_level + 1 : 0;
+    m_model->idxDataCreated(this);
 }
 
 

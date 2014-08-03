@@ -20,6 +20,7 @@
 #include "idx_data_manager.hpp"
 
 #include <unordered_map>
+#include <unordered_set>
 
 #include <QModelIndex>
 #include <QEventLoop>
@@ -65,7 +66,8 @@ struct IdxDataManager::Data
         m_dirty(true),
         m_database(),
         m_iterator(),
-        m_db_tasks()
+        m_db_tasks(),
+        m_notFetchedIdxData()
     {
     }
 
@@ -79,6 +81,7 @@ struct IdxDataManager::Data
     Database::IDatabase* m_database;
     Database::PhotoIterator m_iterator;
     ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
+    ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
 };
 
 
@@ -268,6 +271,25 @@ void IdxDataManager::idxDataChanged(IdxData* idxData)
 }
 
 
+void IdxDataManager::idxDataCreated(IdxData* idxData)
+{
+    addIdxDataToNotFetched(idxData);
+}
+
+
+
+void IdxDataManager::idxDataDeleted(IdxData* idxData)
+{
+    removeIdxDataFromNotFetched(idxData);
+}
+
+
+void IdxDataManager::idxDataReset(IdxData* idxData)
+{
+    addIdxDataToNotFetched(idxData);
+}
+
+
 //function returns list of tags on particular 'level' for 'parent'
 void IdxDataManager::getLevelInfo(size_t level, const QModelIndex& _parent)
 {
@@ -409,7 +431,20 @@ void IdxDataManager::got_storeStatus(const Database::Task &)
 void IdxDataManager::markIdxDataFetched(IdxData* idxData)
 {
     idxData->m_loaded = IdxData::FetchStatus::Fetched;
+    removeIdxDataFromNotFetched(idxData);
     emit idxDataLoaded(idxData);
+}
+
+
+void IdxDataManager::removeIdxDataFromNotFetched(IdxData* idxData)
+{
+    m_data->m_notFetchedIdxData.lock().get().erase(idxData);
+}
+
+
+void IdxDataManager::addIdxDataToNotFetched(IdxData* idxData)
+{
+    m_data->m_notFetchedIdxData.lock().get().insert(idxData);
 }
 
 
