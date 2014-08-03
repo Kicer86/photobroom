@@ -75,6 +75,7 @@ namespace Database
 
         IDatabaseClient* getClient() const { return client; }
         Id getId() const { return id; }
+        bool getStatus() const { return status; }
 
         bool operator==(const Task& other) const { return id == other.id; }
 
@@ -101,6 +102,7 @@ namespace Database
         virtual void got_getPhoto(const Task &, const PhotoInfo::Ptr &) = 0;
     };
 
+    //set of signals emitted when database changes or when tasks are being executed
     class ADatabaseSignals: public QObject
     {
             Q_OBJECT
