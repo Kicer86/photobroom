@@ -126,17 +126,20 @@ void IdxDataManager::fetchMore(const QModelIndex& _parent)
 
 void IdxDataManager::deepFetch(IdxData* top)
 {
-    IdxDataDeepFetcher* fetcher = new IdxDataDeepFetcher;
-    fetcher->setModelImpl(this);
-    fetcher->setIdxDataToFetch(top);
+    if (m_data->m_notFetchedIdxData.lock().get().empty() == false)
+    {
+        IdxDataDeepFetcher* fetcher = new IdxDataDeepFetcher;
+        fetcher->setModelImpl(this);
+        fetcher->setIdxDataToFetch(top);
 
-    //wait for this particular task to finish in event loop
-    QEventLoop eventLoop;
-    QEventLoopLocker* eventLoopLocker = new QEventLoopLocker(&eventLoop);
-    fetcher->setEventLoopLocker(eventLoopLocker);
+        //wait for this particular task to finish in event loop
+        QEventLoop eventLoop;
+        QEventLoopLocker* eventLoopLocker = new QEventLoopLocker(&eventLoop);
+        fetcher->setEventLoopLocker(eventLoopLocker);
 
-    TaskExecutorConstructor::get()->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
-    eventLoop.exec();
+        TaskExecutorConstructor::get()->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
+        eventLoop.exec();
+    }
 }
 
 
