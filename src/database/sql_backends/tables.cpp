@@ -25,7 +25,6 @@ namespace Database
         table_photos(TAB_PHOTOS,
                      {
                          { "id", ColDefinition::Type::ID },
-                           "hash VARCHAR(256) NOT NULL",
                            "path VARCHAR(1024) NOT NULL",
                            "store_date TIMESTAMP NOT NULL"
                          },
@@ -74,6 +73,19 @@ namespace Database
         );
 
 
+        TableDefinition
+        table_hashes(TAB_HASHES,
+                         {
+                             { "id", ColDefinition::Type::ID },
+                               "photo_id INTEGER NOT NULL",
+                               "hash VARCHAR(256) NOT NULL",
+                               "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
+                         },
+                         {
+                             { "ha_hash", "INDEX", "(hash)"  },
+                         }
+        );
+
         //set of flags used internally
         TableDefinition
         table_flags(TAB_FLAGS,
@@ -93,10 +105,11 @@ namespace Database
 
 
         //all tables
-        TableDefinition tables[6] = {table_versionHistory,
+        TableDefinition tables[7] = {table_versionHistory,
                                      table_photos,
                                      table_tag_names,
                                      table_tags,
                                      table_thumbnails,
+                                     table_hashes,
                                      table_flags};
 }

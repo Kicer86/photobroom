@@ -7,12 +7,13 @@
 #define TAB_PHOTOS    "photos"
 #define TAB_TAGS      "tags"
 #define TAB_THUMBS    "thumbnails"
+#define TAB_HASHES    "hashes"
 #define TAB_FLAGS     "flags"
 
 namespace Database
 {
     struct TableDefinition;
-    extern TableDefinition tables[6];
+    extern TableDefinition tables[7];
     extern const char db_version[];
 }
 
