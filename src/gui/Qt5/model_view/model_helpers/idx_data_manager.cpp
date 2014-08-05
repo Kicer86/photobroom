@@ -262,11 +262,8 @@ void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr
 //store or update photo in DB
 void IdxDataManager::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 {
-    if (photoInfo->isLoaded())
-    {
-        Database::Task task = m_data->m_database->prepareTask(this);
-        m_data->m_database->store(task, photoInfo);
-    }
+    Database::Task task = m_data->m_database->prepareTask(this);
+    m_data->m_database->store(task, photoInfo);
 }
 
 
