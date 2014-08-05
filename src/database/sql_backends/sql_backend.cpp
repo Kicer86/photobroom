@@ -568,8 +568,8 @@ namespace Database
         const bool inserting = !updating;
 
         InsertQueryData insertData(TAB_PHOTOS);
-        insertData.setColumns("path", "hash", "store_date");
-        insertData.setValues(data->getPath(), data->getHash().c_str(), InsertQueryData::Value::CurrentTime);
+        insertData.setColumns("path", "store_date");
+        insertData.setValues(data->getPath(), InsertQueryData::Value::CurrentTime);
 
         SqlQuery queryStrs;
 

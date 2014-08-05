@@ -29,7 +29,6 @@ namespace Database
                            "store_date TIMESTAMP NOT NULL"
                          },
                      {
-                         { "ph_hash", "INDEX", "(hash)"  },   //256 limit required by MySQL
                          { "ph_path", "INDEX", "(path)" }     //1024 limit required by MySQL
                      }
         );
