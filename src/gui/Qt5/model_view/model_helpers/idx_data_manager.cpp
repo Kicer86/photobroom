@@ -73,15 +73,15 @@ struct IdxDataManager::Data
 
     void init(IdxDataManager* manager)
     {
-        assert(m_root == nullptr);
-        m_root = new IdxData(manager, nullptr, "");
+        assert(m_root.get() == nullptr);
+        m_root.reset( new IdxData(manager, nullptr, "") );
     }
 
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
     DBDataModel* m_model;
-    IdxData* m_root;
+    std::unique_ptr<IdxData> m_root;
     Hierarchy m_hierarchy;
     bool m_dirty;
     Database::IDatabase* m_database;
@@ -181,7 +181,7 @@ void IdxDataManager::close()
 
 IdxData* IdxDataManager::getRoot()
 {
-    return m_data->m_root;
+    return m_data->m_root.get();
 }
 
 
@@ -198,7 +198,7 @@ IdxData* IdxDataManager::getParentIdxDataFor(const QModelIndex& _parent)
     IdxData* idxData = getIdxDataFor(_parent);
 
     if (idxData == nullptr)
-        idxData = m_data->m_root;
+        idxData = m_data->m_root.get();
 
     return idxData;
 }
