@@ -189,10 +189,12 @@ namespace Database
             Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
+            bool storeHash(int photo_id, const PhotoInfo::Hash &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
             bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
             TagData getTagsFor(const PhotoInfo::Id &);
             QPixmap getThumbnailFor(const PhotoInfo::Id &);
+            PhotoInfo::Hash getHashFor(const PhotoInfo::Id &);
             APhotoInfoInitData getPhotoDataFor(const PhotoInfo::Id &);
 
             //for friends:
@@ -469,6 +471,23 @@ namespace Database
 
         return status;
     }
+    
+    
+    bool ASqlBackend::Data::storeHash(int photo_id, const PhotoInfo::Hash& hash) const
+    {
+        InsertQueryData data(TAB_HASHES);
+
+        data.setColumns("photo_id", "hash");
+        data.setValues(QString::number(photo_id), hash.c_str());
+
+        SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+
+        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlQuery query(db);
+        bool status = exec(queryStrs, &query);
+
+        return status;
+    }
 
 
     bool ASqlBackend::Data::storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
@@ -593,6 +612,9 @@ namespace Database
 
         if (status)
             status = storeThumbnail(id, data->getThumbnail());
+        
+        if (status)
+            status = storeHash(id, data->getHash());
 
         if (status)
             status = storeFlags(id, data);
@@ -623,8 +645,12 @@ namespace Database
         tags->setTags(tagData.getTags());
 
         //load thumbnail
-        const QPixmap thumbnail= getThumbnailFor(id);
+        const QPixmap thumbnail = getThumbnailFor(id);
         photoInfo->initThumbnail(thumbnail);
+        
+        //load hash
+        const PhotoInfo::Hash hash = getHashFor(id);
+        photoInfo->initHash(hash);
 
         return photoInfo;
     }
@@ -686,6 +712,28 @@ namespace Database
 
         return pixmap;
     }
+    
+    PhotoInfo::Hash ASqlBackend::Data::getHashFor(const PhotoInfo::Id& id)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlQuery query(db);
+        QString queryStr = QString("SELECT hash FROM %1 WHERE %1.photo_id = '%2'");
+
+        queryStr = queryStr.arg(TAB_HASHES);
+        queryStr = queryStr.arg(id.value());
+
+        const bool status = exec(queryStr, &query);
+
+        PhotoInfo::Hash result;
+        if(status && query.next())
+        {
+            const QVariant variant = query.value(0);
+            
+            result = variant.toString().toStdString();
+        }
+
+        return result;
+    }
 
 
     APhotoInfoInitData ASqlBackend::Data::getPhotoDataFor(const PhotoInfo::Id& id)
@@ -695,7 +743,7 @@ namespace Database
         APhotoInfoInitData data;
         QSqlQuery query(db);
 
-        QString queryStr = QString("SELECT path, hash FROM %1 WHERE %1.id = '%2'");
+        QString queryStr = QString("SELECT path FROM %1 WHERE %1.id = '%2'");
 
         queryStr = queryStr.arg(TAB_PHOTOS);
         queryStr = queryStr.arg(id.value());
@@ -705,10 +753,8 @@ namespace Database
         if(status && query.next())
         {
             const QVariant path = query.value(0);
-            const QVariant hash = query.value(1);
 
             data.path = path.toString();
-            data.hash = hash.toString().toStdString();
         }
 
         return data;
