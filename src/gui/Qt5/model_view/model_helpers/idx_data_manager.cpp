@@ -59,9 +59,9 @@ namespace
 
 struct IdxDataManager::Data
 {
-    Data(DBDataModel* model, IdxDataManager* manager):
+    Data(DBDataModel* model):
         m_model(model),
-        m_root(manager, nullptr, ""),
+        m_root(nullptr),
         m_hierarchy(),
         m_dirty(true),
         m_database(),
@@ -71,11 +71,17 @@ struct IdxDataManager::Data
     {
     }
 
+    void init(IdxDataManager* manager)
+    {
+        assert(m_root == nullptr);
+        m_root = new IdxData(manager, nullptr, "");
+    }
+
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
     DBDataModel* m_model;
-    IdxData m_root;
+    IdxData* m_root;
     Hierarchy m_hierarchy;
     bool m_dirty;
     Database::IDatabase* m_database;
@@ -85,8 +91,10 @@ struct IdxDataManager::Data
 };
 
 
-IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this))
+IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 {
+    m_data->init(this);
+
     Hierarchy hierarchy;
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
@@ -108,7 +116,7 @@ void IdxDataManager::setHierarchy(const Hierarchy& hierarchy)
 {
     m_data->m_hierarchy = hierarchy;
     m_data->m_dirty = true;
-    m_data->m_root.reset();
+    m_data->m_root->reset();
 }
 
 
@@ -173,7 +181,7 @@ void IdxDataManager::close()
 
 IdxData* IdxDataManager::getRoot()
 {
-    return &m_data->m_root;
+    return m_data->m_root;
 }
 
 
@@ -190,7 +198,7 @@ IdxData* IdxDataManager::getParentIdxDataFor(const QModelIndex& _parent)
     IdxData* idxData = getIdxDataFor(_parent);
 
     if (idxData == nullptr)
-        idxData = &m_data->m_root;
+        idxData = m_data->m_root;
 
     return idxData;
 }
@@ -230,7 +238,7 @@ IdxData* IdxDataManager::parent(const QModelIndex& child)
 
 void IdxDataManager::addPhoto(const PhotoInfo::Ptr& photo)
 {
-    m_data->m_root.addChild(photo);
+    m_data->m_root->addChild(photo);
 }
 
 
@@ -409,7 +417,7 @@ void IdxDataManager::got_listTagValues(const Database::Task& task, const std::de
         fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;
         fdesc->tagValue = tag;
 
-        IdxData* newItem = new IdxData(m_data->m_root.m_model, parentIdxData, tag);
+        IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
         newItem->setNodeData(fdesc);
 
         leafs->push_back(newItem);
@@ -467,7 +475,7 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 void IdxDataManager::photoChanged(const PhotoInfo::Id& id)
 {
     //TODO: not very smart. Do analyse what changed and how basing on photo id
-    m_data->m_root.reset();
+    m_data->m_root->reset();
 
     //QModelIndex idx = m_data->m_model->createIndex(idxData);
     //emit m_data->m_model->dataChanged(idx, idx);
