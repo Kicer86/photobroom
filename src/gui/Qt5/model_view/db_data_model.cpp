@@ -42,9 +42,7 @@ DBDataModel::~DBDataModel()
 
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
-    beginResetModel();
     m_idxDataManager->setHierarchy(hierarchy);
-    endResetModel();
 }
 
 
