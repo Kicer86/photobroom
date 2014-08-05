@@ -363,22 +363,27 @@ void IdxDataManager::got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &
 //called when leafs for particual node have been loaded
 void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::QueryList& photos)
 {
-    auto it = m_data->m_db_tasks.lock().get().find(task);
-    GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
-    IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
+    auto tasks = m_data->m_db_tasks.lock();
+    auto it = tasks->find(task);
 
-    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
-
-    for(PhotoInfo::Ptr photoInfo: photos)
+    if (it != tasks->end())
     {
-        IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
-        leafs->push_back(newItem);
+        GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
+        IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
+
+        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
+        for(PhotoInfo::Ptr photoInfo: photos)
+        {
+            IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
+            leafs->push_back(newItem);
+        }
+
+        tasks->erase(it);
+
+        //attach nodes to parent node in main thread
+        emit nodesFetched(parentIdxData, leafs);
     }
-
-    m_data->m_db_tasks.lock().get().erase(it);
-
-    //attach nodes to parent node in main thread
-    emit nodesFetched(parentIdxData, leafs);
 }
 
 
@@ -390,31 +395,37 @@ void IdxDataManager::got_listTags(const Database::Task &, const std::vector<TagN
 //called when nodes for particual node have been loaded
 void IdxDataManager::got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags)
 {
-    auto it = m_data->m_db_tasks.lock().get().find(task);
-    ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(it->second.get());
+    auto tasks = m_data->m_db_tasks.lock();
+    auto it = tasks->find(task);
 
-    const size_t level = l_task->m_level;
-    const QModelIndex& _parent = l_task->m_parent;
-    IdxData* parentIdxData = getParentIdxDataFor(_parent);
-
-    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
-
-    for(const TagValueInfo& tag: tags)
+    //task may be invalid for example when model become invalid while task was executed
+    if (it != tasks->end())
     {
-        auto fdesc = std::make_shared<Database::FilterDescription>();
-        fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;
-        fdesc->tagValue = tag;
+        ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(it->second.get());
 
-        IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
-        newItem->setNodeData(fdesc);
+        const size_t level = l_task->m_level;
+        const QModelIndex& _parent = l_task->m_parent;
+        IdxData* parentIdxData = getParentIdxDataFor(_parent);
 
-        leafs->push_back(newItem);
+        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
+        for(const TagValueInfo& tag: tags)
+        {
+            auto fdesc = std::make_shared<Database::FilterDescription>();
+            fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;
+            fdesc->tagValue = tag;
+
+            IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
+            newItem->setNodeData(fdesc);
+
+            leafs->push_back(newItem);
+        }
+
+        tasks->erase(it);
+
+        //attach nodes to parent node in main thread
+        emit nodesFetched(parentIdxData, leafs);
     }
-
-    m_data->m_db_tasks.lock().get().erase(it);
-
-    //attach nodes to parent node in main thread
-    emit nodesFetched(parentIdxData, leafs);
 }
 
 
