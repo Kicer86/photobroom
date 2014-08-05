@@ -438,13 +438,13 @@ void IdxDataManager::markIdxDataFetched(IdxData* idxData)
 
 void IdxDataManager::removeIdxDataFromNotFetched(IdxData* idxData)
 {
-    m_data->m_notFetchedIdxData.lock().get().erase(idxData);
+    m_data->m_notFetchedIdxData.lock()->erase(idxData);
 }
 
 
 void IdxDataManager::addIdxDataToNotFetched(IdxData* idxData)
 {
-    m_data->m_notFetchedIdxData.lock().get().insert(idxData);
+    m_data->m_notFetchedIdxData.lock()->insert(idxData);
 }
 
 
