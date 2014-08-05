@@ -21,6 +21,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <thread>
 
 #include <QModelIndex>
 #include <QEventLoop>
@@ -67,7 +68,8 @@ struct IdxDataManager::Data
         m_database(),
         m_iterator(),
         m_db_tasks(),
-        m_notFetchedIdxData()
+        m_notFetchedIdxData(),
+        m_mainThreadId(std::this_thread::get_id())
     {
     }
 
@@ -88,6 +90,7 @@ struct IdxDataManager::Data
     Database::PhotoIterator m_iterator;
     ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
     ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
+    std::thread::id m_mainThreadId;
 };
 
 
@@ -336,6 +339,8 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     IdxData* idxData = getParentIdxDataFor(_parent);
     const size_t level = idxData->m_level;
 
+    assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
+
     if (level < m_data->m_hierarchy.levels.size())  //construct nodes basing on tags
         getLevelInfo(level, _parent);
     else
@@ -456,6 +461,8 @@ void IdxDataManager::addIdxDataToNotFetched(IdxData* idxData)
 void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
 {
     //attach nodes to parent in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos->size() - 1;
     m_data->m_model->beginInsertRows(parentIdx, 0, last);
