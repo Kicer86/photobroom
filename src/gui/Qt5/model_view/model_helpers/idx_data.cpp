@@ -43,6 +43,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& p
     updateLeafData();
     photo->registerObserver(this);
 
+    /*
     if (photo->isHashLoaded() == false)
         PhotoInfoUpdater::updateHash(photo);
 
@@ -51,6 +52,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& p
 
     if (photo->areTagsLoaded() == false)
         PhotoInfoUpdater::updateTags(photo);
+    */
 }
 
 
