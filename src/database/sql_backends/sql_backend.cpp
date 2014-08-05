@@ -610,10 +610,10 @@ namespace Database
         if (status)
             status = storeTags(id, tags);
 
-        if (status)
+        if (status && data->isThumbnailLoaded())
             status = storeThumbnail(id, data->getThumbnail());
         
-        if (status)
+        if (status && data->isHashLoaded())
             status = storeHash(id, data->getHash());
 
         if (status)
