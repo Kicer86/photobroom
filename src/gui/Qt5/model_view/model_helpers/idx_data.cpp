@@ -43,16 +43,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& p
     updateLeafData();
     photo->registerObserver(this);
 
-    /*
-    if (photo->isHashLoaded() == false)
-        PhotoInfoUpdater::updateHash(photo);
-
-    if (photo->isThumbnailLoaded() == false)
-        PhotoInfoUpdater::updateThumbnail(photo);
-
-    if (photo->areTagsLoaded() == false)
-        PhotoInfoUpdater::updateTags(photo);
-    */
+    //loadMissingData(m_photo);
 }
 
 
@@ -78,13 +69,6 @@ void IdxData::addChild(IdxData* child)
 
     child->setPosition(m_children.size(), 0);
     m_children.push_back(child);
-}
-
-
-void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
-{
-    IdxData* child = new IdxData(m_model, this, photoInfo);
-    addChild(child);
 }
 
 
@@ -129,6 +113,19 @@ void IdxData::updateLeafData()
 {
     m_data[Qt::DisplayRole] = m_photo->getPath();
     m_data[Qt::DecorationRole] = m_photo->getThumbnail();
+}
+
+
+void IdxData::loadMissingData(const PhotoInfo::Ptr& photo)
+{
+    if (photo->isHashLoaded() == false)
+        PhotoInfoUpdater::updateHash(photo);
+
+    if (photo->isThumbnailLoaded() == false)
+        PhotoInfoUpdater::updateThumbnail(photo);
+
+    if (photo->areTagsLoaded() == false)
+        PhotoInfoUpdater::updateTags(photo);
 }
 
 

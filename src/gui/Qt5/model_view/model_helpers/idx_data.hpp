@@ -62,13 +62,13 @@ struct IdxData: public PhotoInfo::IObserver
 
         void setNodeData(const Database::IFilter::Ptr& filter);
         void addChild(IdxData* child);
-        void addChild(const PhotoInfo::Ptr& photoInfo);
         void reset();
 
     private:
         IdxData(IdxDataManager *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
+        void loadMissingData(const PhotoInfo::Ptr &);
 
         //IObserver:
         void photoUpdated() override;
