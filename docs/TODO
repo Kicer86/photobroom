@@ -22,7 +22,6 @@ TODO:
 - in view add entry for not matching photos
 
 IN PROGRESS:
-- allow to load not fully loaded photos to db
 - load missing PhotoInfo's data when one is found
 - Staging Model: automatically move added photos to right positions
 - make PhotoInfo::tags thread safe and do not overwrite data
@@ -40,6 +39,7 @@ DONE:
 - fix performance issue when photos location is slow. Cache file for sha256 and thumbnail generation (maybe other actions)
 - core: make photos tagger a new task
 - gui improvements: filters and hierarchy management (basic)
+- allow to load not fully loaded photos to db
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
