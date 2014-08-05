@@ -20,6 +20,7 @@ TODO:
 - add 'exif' type of data for PhotoInfo
 - rename hash to sha256
 - in view add entry for not matching photos
+- introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 
 IN PROGRESS:
 - load missing PhotoInfo's data when one is found
