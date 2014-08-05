@@ -118,8 +118,8 @@ IdxDataManager::~IdxDataManager() {}
 void IdxDataManager::setHierarchy(const Hierarchy& hierarchy)
 {
     m_data->m_hierarchy = hierarchy;
-    m_data->m_dirty = true;
-    m_data->m_root->reset();
+
+    resetModel();
 }
 
 
@@ -458,6 +458,23 @@ void IdxDataManager::addIdxDataToNotFetched(IdxData* idxData)
 }
 
 
+void IdxDataManager::resetModel()
+{
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
+    //mark all pending db tasks (if any) invalid as for now they reffer to previous state
+    m_data->m_db_tasks.lock().get().clear();
+
+    m_data->m_model->beginResetModel();
+
+    m_data->m_dirty = true;
+    m_data->m_root->reset();
+
+    m_data->m_model->endResetModel();
+}
+
+
 void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
 {
     //attach nodes to parent in main thread
@@ -476,10 +493,11 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 }
 
 
-void IdxDataManager::photoChanged(const PhotoInfo::Id& id)
+void IdxDataManager::photoChanged(const PhotoInfo::Id &)
 {
     //TODO: not very smart. Do analyse what changed and how basing on photo id
-    m_data->m_root->reset();
+
+    resetModel();
 
     //QModelIndex idx = m_data->m_model->createIndex(idxData);
     //emit m_data->m_model->dataChanged(idx, idx);
