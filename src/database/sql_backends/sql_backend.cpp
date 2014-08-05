@@ -193,8 +193,8 @@ namespace Database
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
             bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
             TagData getTagsFor(const PhotoInfo::Id &);
-            QPixmap getThumbnailFor(const PhotoInfo::Id &);
-            PhotoInfo::Hash getHashFor(const PhotoInfo::Id &);
+            Optional<QPixmap> getThumbnailFor(const PhotoInfo::Id &);
+            Optional<PhotoInfo::Hash> getHashFor(const PhotoInfo::Id &);
             QString getPathFor(const PhotoInfo::Id &);
 
             //for friends:
@@ -645,12 +645,14 @@ namespace Database
         tags->setTags(tagData.getTags());
 
         //load thumbnail
-        const QPixmap thumbnail = getThumbnailFor(id);
-        photoInfo->initThumbnail(thumbnail);
+        const Optional<QPixmap> thumbnail = getThumbnailFor(id);
+        if (thumbnail)
+            photoInfo->initThumbnail(*thumbnail);
         
         //load hash
-        const PhotoInfo::Hash hash = getHashFor(id);
-        photoInfo->initHash(hash);
+        const Optional<PhotoInfo::Hash> hash = getHashFor(id);
+        if (hash)
+            photoInfo->initHash(*hash);
 
         return photoInfo;
     }
@@ -689,11 +691,11 @@ namespace Database
     }
 
 
-    QPixmap ASqlBackend::Data::getThumbnailFor(const PhotoInfo::Id& id)
+    Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const PhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
 
-        QPixmap pixmap;
+        Optional<QPixmap> pixmap;
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
@@ -713,7 +715,7 @@ namespace Database
         return pixmap;
     }
     
-    PhotoInfo::Hash ASqlBackend::Data::getHashFor(const PhotoInfo::Id& id)
+    Optional<PhotoInfo::Hash> ASqlBackend::Data::getHashFor(const PhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
@@ -724,7 +726,7 @@ namespace Database
 
         const bool status = exec(queryStr, &query);
 
-        PhotoInfo::Hash result;
+        Optional<PhotoInfo::Hash> result;
         if(status && query.next())
         {
             const QVariant variant = query.value(0);
