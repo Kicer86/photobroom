@@ -44,7 +44,6 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     ~IdxDataManager();
 
     void setHierarchy(const Hierarchy& hierarchy);
-    bool isDirty() const;
 
     void fetchMore(const QModelIndex& _parent);
     void deepFetch(IdxData* top);
@@ -58,7 +57,6 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     QModelIndex getIndex(IdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
     IdxData* parent(const QModelIndex& child);
-    void addPhoto(const PhotoInfo::Ptr& photo);
     void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result);
 
     //store or update photo in DB

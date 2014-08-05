@@ -64,7 +64,6 @@ struct IdxDataManager::Data
         m_model(model),
         m_root(nullptr),
         m_hierarchy(),
-        m_dirty(true),
         m_database(),
         m_iterator(),
         m_db_tasks(),
@@ -85,7 +84,6 @@ struct IdxDataManager::Data
     DBDataModel* m_model;
     std::unique_ptr<IdxData> m_root;
     Hierarchy m_hierarchy;
-    bool m_dirty;
     Database::IDatabase* m_database;
     Database::PhotoIterator m_iterator;
     ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
@@ -120,12 +118,6 @@ void IdxDataManager::setHierarchy(const Hierarchy& hierarchy)
     m_data->m_hierarchy = hierarchy;
 
     resetModel();
-}
-
-
-bool IdxDataManager::isDirty() const
-{
-    return m_data->m_dirty;
 }
 
 
@@ -236,12 +228,6 @@ IdxData* IdxDataManager::parent(const QModelIndex& child)
     IdxData* result  = idxData->m_parent;
 
     return result;
-}
-
-
-void IdxDataManager::addPhoto(const PhotoInfo::Ptr& photo)
-{
-    m_data->m_root->addChild(photo);
 }
 
 
@@ -467,10 +453,7 @@ void IdxDataManager::resetModel()
     m_data->m_db_tasks.lock().get().clear();
 
     m_data->m_model->beginResetModel();
-
-    m_data->m_dirty = true;
     m_data->m_root->reset();
-
     m_data->m_model->endResetModel();
 }
 
