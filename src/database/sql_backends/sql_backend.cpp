@@ -195,7 +195,7 @@ namespace Database
             TagData getTagsFor(const PhotoInfo::Id &);
             QPixmap getThumbnailFor(const PhotoInfo::Id &);
             PhotoInfo::Hash getHashFor(const PhotoInfo::Id &);
-            APhotoInfoInitData getPhotoDataFor(const PhotoInfo::Id &);
+            QString getPathFor(const PhotoInfo::Id &);
 
             //for friends:
             bool storePhoto(const PhotoInfo::Ptr& data);
@@ -635,7 +635,7 @@ namespace Database
     PhotoInfo::Ptr ASqlBackend::Data::getPhoto(const PhotoInfo::Id& id)
     {
         //basic data
-        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(getPhotoDataFor(id));
+        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(getPathFor(id));
         photoInfo->initID(id);
 
         //load tags
@@ -736,11 +736,9 @@ namespace Database
     }
 
 
-    APhotoInfoInitData ASqlBackend::Data::getPhotoDataFor(const PhotoInfo::Id& id)
+    QString ASqlBackend::Data::getPathFor(const PhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
-
-        APhotoInfoInitData data;
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT path FROM %1 WHERE %1.id = '%2'");
@@ -750,14 +748,15 @@ namespace Database
 
         const bool status = exec(queryStr, &query);
 
+        QString result;
         if(status && query.next())
         {
             const QVariant path = query.value(0);
 
-            data.path = path.toString();
+            result = path.toString();
         }
 
-        return data;
+        return result;
     }
 
 

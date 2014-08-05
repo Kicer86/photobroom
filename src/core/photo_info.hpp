@@ -13,7 +13,6 @@
 class QPixmap;
 
 struct ITagData;
-struct APhotoInfoInitData;
 struct HashAssigner;
 
 class CORE_EXPORT PhotoInfo final
@@ -61,7 +60,6 @@ class CORE_EXPORT PhotoInfo final
         };
 
         PhotoInfo(const QString &path);          //load all data from provided path
-        PhotoInfo(APhotoInfoInitData &&);        //load all data from provided struct
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
@@ -99,16 +97,6 @@ class CORE_EXPORT PhotoInfo final
         std::unique_ptr<Data> m_data;
 
         void updated();
-};
-
-
-struct CORE_EXPORT APhotoInfoInitData
-{
-    APhotoInfoInitData();
-
-    QString path;
-    std::unique_ptr<ITagData> tags;
-    PhotoInfo::Hash hash;
 };
 
 #endif

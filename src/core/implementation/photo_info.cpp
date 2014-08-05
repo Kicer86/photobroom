@@ -57,12 +57,6 @@ PhotoInfo::Flags::Flags(): stagingArea(false), tagsLoaded(false), hashLoaded(fal
 }
 
 
-APhotoInfoInitData::APhotoInfoInitData(): path(), tags(new TagData), hash()
-{
-
-}
-
-
 struct PhotoInfo::Data
 {
     Data():
@@ -98,17 +92,6 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
     QPixmap tmpThumbnail;
     tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
     m_data->m_thumbnail.lock().get() = tmpThumbnail;
-}
-
-
-PhotoInfo::PhotoInfo(APhotoInfoInitData&& init): m_data(new Data)
-{
-    //TODO: run hash to verify data consistency?
-
-    m_data->path = init.path;
-
-    initHash(init.hash);
-    setTags(std::move(init.tags));
 }
 
 
