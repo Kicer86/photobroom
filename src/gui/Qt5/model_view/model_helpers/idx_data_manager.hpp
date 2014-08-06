@@ -103,6 +103,8 @@ private:
 
     void resetModel();
 
+    void appendPhotos(IdxData *, const std::deque<IdxData *> &);
+
 signals:
     void idxDataLoaded(IdxData *);
     void nodesFetched(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);

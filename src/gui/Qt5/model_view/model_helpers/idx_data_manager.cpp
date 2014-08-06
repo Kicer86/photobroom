@@ -475,19 +475,25 @@ void IdxDataManager::resetModel()
 }
 
 
+void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque< IdxData* >& photos)
+{
+    QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
+    const size_t last = photos.size() - 1;
+    m_data->m_model->beginInsertRows(parentIdx, 0, last);
+
+    for(IdxData* newItem: photos)
+        _parent->addChild(newItem);
+
+    m_data->m_model->endInsertRows();
+}
+
+
 void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
 {
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
-    const size_t last = photos->size() - 1;
-    m_data->m_model->beginInsertRows(parentIdx, 0, last);
-
-    for(IdxData* newItem: *photos)
-        _parent->addChild(newItem);
-
-    m_data->m_model->endInsertRows();
+    appendPhotos(_parent, *photos.get());
 
     markIdxDataFetched(_parent);
 }
@@ -509,8 +515,6 @@ void IdxDataManager::photoAdded(const PhotoInfo::Ptr& photoInfo)
     IdxData* root = m_data->m_model->getRootIdxData();
     IdxData* newItem = new IdxData(this, root, photoInfo);
 
-    auto nodes = std::make_shared<std::deque<IdxData *>>();
-    nodes->push_back(newItem);
-
-    insertFetchedNodes(root, nodes);
+    std::deque<IdxData *> nodes = { newItem };
+    appendPhotos(root, nodes);
 }
