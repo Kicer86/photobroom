@@ -512,6 +512,8 @@ void IdxDataManager::photoChanged(const PhotoInfo::Ptr &)
 
 void IdxDataManager::photoAdded(const PhotoInfo::Ptr& photoInfo)
 {
+    //TODO: check if we are interested in this photo (does it match our filters?)
+
     IdxData* root = m_data->m_model->getRootIdxData();
     IdxData* newItem = new IdxData(this, root, photoInfo);
 
