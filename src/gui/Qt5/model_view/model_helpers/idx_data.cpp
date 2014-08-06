@@ -43,7 +43,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& p
     updateLeafData();
     photo->registerObserver(this);
 
-    //loadMissingData(m_photo);
+    loadMissingData();
 }
 
 
@@ -116,21 +116,23 @@ void IdxData::updateLeafData()
 }
 
 
-void IdxData::loadMissingData(const PhotoInfo::Ptr& photo)
+void IdxData::loadMissingData()
 {
-    if (photo->isHashLoaded() == false)
-        PhotoInfoUpdater::updateHash(photo);
+    if (m_photo->isHashLoaded() == false)
+        PhotoInfoUpdater::updateHash(m_photo);
 
-    if (photo->isThumbnailLoaded() == false)
-        PhotoInfoUpdater::updateThumbnail(photo);
+    if (m_photo->isThumbnailLoaded() == false)
+        PhotoInfoUpdater::updateThumbnail(m_photo);
 
-    if (photo->areTagsLoaded() == false)
-        PhotoInfoUpdater::updateTags(photo);
+    if (m_photo->areTagsLoaded() == false)
+        PhotoInfoUpdater::updateTags(m_photo);
 }
 
 
 void IdxData::photoUpdated()
 {
     updateLeafData();
-    m_model->idxDataChanged(this);
+
+    if (m_photo->isLoaded())
+        m_model->idxDataChanged(this);
 }

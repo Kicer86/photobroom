@@ -22,6 +22,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <thread>
+#include <iostream>
 
 #include <QModelIndex>
 #include <QEventLoop>
@@ -257,6 +258,7 @@ void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr
 //store or update photo in DB
 void IdxDataManager::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 {
+    std::cout << "Updating photo " << photoInfo->getID() << std::endl;
     Database::Task task = m_data->m_database->prepareTask(this);
     m_data->m_database->store(task, photoInfo);
 }
@@ -503,7 +505,7 @@ void IdxDataManager::photoChanged(const PhotoInfo::Ptr &)
 {
     //TODO: not very smart. Do analyse what changed and how basing on photo id
 
-    resetModel();
+    //resetModel();
 
     //QModelIndex idx = m_data->m_model->createIndex(idxData);
     //emit m_data->m_model->dataChanged(idx, idx);

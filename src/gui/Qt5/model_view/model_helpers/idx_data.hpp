@@ -68,7 +68,7 @@ struct IdxData: public PhotoInfo::IObserver
         IdxData(IdxDataManager *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
-        void loadMissingData(const PhotoInfo::Ptr &);
+        void loadMissingData();
 
         //IObserver:
         void photoUpdated() override;
