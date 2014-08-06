@@ -72,17 +72,23 @@ struct IdxDataManager::Data
     {
     }
 
+    ~Data()
+    {
+        //delete manualy so `this` is still valid when notifications from deleted IdxData will come
+        delete m_root;
+    }
+
     void init(IdxDataManager* manager)
     {
-        assert(m_root.get() == nullptr);
-        m_root.reset( new IdxData(manager, nullptr, "") );
+        assert(m_root == nullptr);
+        m_root = new IdxData(manager, nullptr, "");
     }
 
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
     DBDataModel* m_model;
-    std::unique_ptr<IdxData> m_root;
+    IdxData* m_root;
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
     Database::PhotoIterator m_iterator;
@@ -102,7 +108,7 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     setHierarchy(hierarchy);
             
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
-    qRegisterMetaType<PhotoInfo::Id>("PhotoInfo::Id");
+    qRegisterMetaType<PhotoInfo::Ptr>("PhotoInfo::Ptr");
     
     //used for transferring event from working thread to main one
     connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
@@ -162,8 +168,8 @@ void IdxDataManager::setBackend(Database::IDatabase* database)
 
     m_data->m_database = database;
 
-    connect(m_data->m_database->notifier(), SIGNAL(photoModified(PhotoInfo::Id)),
-            this, SLOT(photoChanged(PhotoInfo::Id)));
+    connect(m_data->m_database->notifier(), SIGNAL(photoModified(PhotoInfo::Ptr)), this, SLOT(photoChanged(PhotoInfo::Ptr)));
+    connect(m_data->m_database->notifier(), SIGNAL(photoAdded(PhotoInfo::Ptr)),    this, SLOT(photoAdded(PhotoInfo::Ptr)));
 }
 
 
@@ -176,7 +182,7 @@ void IdxDataManager::close()
 
 IdxData* IdxDataManager::getRoot()
 {
-    return m_data->m_root.get();
+    return m_data->m_root;
 }
 
 
@@ -193,7 +199,7 @@ IdxData* IdxDataManager::getParentIdxDataFor(const QModelIndex& _parent)
     IdxData* idxData = getIdxDataFor(_parent);
 
     if (idxData == nullptr)
-        idxData = m_data->m_root.get();
+        idxData = m_data->m_root;
 
     return idxData;
 }
@@ -487,7 +493,7 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 }
 
 
-void IdxDataManager::photoChanged(const PhotoInfo::Id &)
+void IdxDataManager::photoChanged(const PhotoInfo::Ptr &)
 {
     //TODO: not very smart. Do analyse what changed and how basing on photo id
 
@@ -495,4 +501,16 @@ void IdxDataManager::photoChanged(const PhotoInfo::Id &)
 
     //QModelIndex idx = m_data->m_model->createIndex(idxData);
     //emit m_data->m_model->dataChanged(idx, idx);
+}
+
+
+void IdxDataManager::photoAdded(const PhotoInfo::Ptr& photoInfo)
+{
+    IdxData* root = m_data->m_model->getRootIdxData();
+    IdxData* newItem = new IdxData(this, root, photoInfo);
+
+    auto nodes = std::make_shared<std::deque<IdxData *>>();
+    nodes->push_back(newItem);
+
+    insertFetchedNodes(root, nodes);
 }

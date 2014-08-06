@@ -146,11 +146,15 @@ namespace
 
         virtual void visit(StoreTask* task)
         {
+            const bool new_one = task->m_photoInfo->getID().valid() == false;
             const bool status = m_backend->store(task->m_photoInfo);
             task->m_task.setStatus(status);
             task->m_task.getClient()->got_storeStatus(task->m_task);
 
-            emit photoModified(task->m_photoInfo->getID());
+            if (new_one)
+                emit photoAdded(task->m_photoInfo);
+            else
+                emit photoModified(task->m_photoInfo);
         }
 
         virtual void visit(GetAllPhotosTask* task)

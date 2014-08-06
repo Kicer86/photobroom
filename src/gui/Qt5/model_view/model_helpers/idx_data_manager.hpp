@@ -109,7 +109,8 @@ signals:
     
 private slots:
     void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
-    void photoChanged(const PhotoInfo::Id &);
+    void photoChanged(const PhotoInfo::Ptr &);
+    void photoAdded(const PhotoInfo::Ptr &);
 };
 
 

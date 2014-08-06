@@ -108,7 +108,8 @@ namespace Database
             Q_OBJECT
 
         signals:
-            void photoModified(const PhotoInfo::Id &);   //emited when new photo added or existing one updated
+            void photoAdded(const PhotoInfo::Ptr &);      //emited when new photo added
+            void photoModified(const PhotoInfo::Ptr &);   //emited when photo updated
 
             void beforeTaskExecution(const Task::Id &);  //emited before task execution
             void afterTaskExecution(const Task::Id &);   //emited after task execution
