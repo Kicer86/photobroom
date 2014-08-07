@@ -95,7 +95,7 @@ struct TagsCollector: public ITaskExecutor::ITask
     {
         std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(m_photoInfo->getPath());
 
-        m_photoInfo->setTags(std::move(p_tags));
+        m_photoInfo->initExifData(std::move(p_tags));
     }
 
     PhotoInfo::Ptr m_photoInfo;

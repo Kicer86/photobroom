@@ -541,7 +541,7 @@ namespace Database
         queryData.setValues( InsertQueryData::Value::Null,
                              QString::number(photo_id),
                              photoInfo->getFlags().stagingArea? "TRUE": "FALSE",
-                             photoInfo->getFlags().tagsLoaded? "TRUE": "FALSE",
+                             photoInfo->getFlags().exifLoaded? "TRUE": "FALSE",
                              photoInfo->getFlags().hashLoaded? "TRUE": "FALSE",
                              photoInfo->getFlags().thumbnailLoaded? "TRUE": "FALSE" );
 

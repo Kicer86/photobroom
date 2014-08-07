@@ -124,7 +124,7 @@ void IdxData::loadMissingData()
     if (m_photo->isThumbnailLoaded() == false)
         PhotoInfoUpdater::updateThumbnail(m_photo);
 
-    if (m_photo->areTagsLoaded() == false)
+    if (m_photo->isExifDataLoaded() == false)
         PhotoInfoUpdater::updateTags(m_photo);
 }
 
@@ -133,6 +133,6 @@ void IdxData::photoUpdated()
 {
     updateLeafData();
 
-    if (m_photo->isLoaded())
+    if (m_photo->isFullyInitialized())
         m_model->idxDataChanged(this);
 }

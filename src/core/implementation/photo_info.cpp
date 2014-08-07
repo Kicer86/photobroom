@@ -51,7 +51,7 @@ PhotoInfo::Id::type PhotoInfo::Id::value() const
 /*********************************************************************************************************/
 
 
-PhotoInfo::Flags::Flags(): stagingArea(false), tagsLoaded(false), hashLoaded(false), thumbnailLoaded(false)
+PhotoInfo::Flags::Flags(): stagingArea(false), exifLoaded(false), hashLoaded(false), thumbnailLoaded(false)
 {
 
 }
@@ -138,9 +138,9 @@ PhotoInfo::Id PhotoInfo::getID() const
 }
 
 
-bool PhotoInfo::isLoaded() const
+bool PhotoInfo::isFullyInitialized() const
 {
-    return isHashLoaded() && isThumbnailLoaded();
+    return isHashLoaded() && isThumbnailLoaded() && isExifDataLoaded();
 }
 
 
@@ -156,9 +156,9 @@ bool PhotoInfo::isThumbnailLoaded() const
 }
 
 
-bool PhotoInfo::areTagsLoaded() const
+bool PhotoInfo::isExifDataLoaded() const
 {
-    return getFlags().tagsLoaded;
+    return getFlags().exifLoaded;
 }
 
 
@@ -206,10 +206,10 @@ void PhotoInfo::initID(const PhotoInfo::Id& id)
 }
 
 
-void PhotoInfo::setTags(std::unique_ptr<ITagData >&& tags)
+void PhotoInfo::initExifData(std::unique_ptr<ITagData >&& tags)
 {
     m_data->tags = std::move(tags);
-    m_data->m_flags.lock().get().tagsLoaded = true;
+    m_data->m_flags.lock().get().exifLoaded = true;
 
     updated();
 }
