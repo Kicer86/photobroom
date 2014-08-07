@@ -184,6 +184,8 @@ void PhotoInfo::updated()
 
 void PhotoInfo::initHash(const Hash& hash)
 {
+    assert(isHashLoaded() == false);
+
     m_data->hash.lock().get() = hash;
     m_data->m_flags.lock().get().hashLoaded = true;
 
@@ -193,6 +195,8 @@ void PhotoInfo::initHash(const Hash& hash)
 
 void PhotoInfo::initThumbnail(const QPixmap& thumbnail)
 {
+    assert(isThumbnailLoaded() == false);
+
     m_data->m_thumbnail.lock().get() = thumbnail;
     m_data->m_flags.lock().get().thumbnailLoaded = true;
 
@@ -202,14 +206,16 @@ void PhotoInfo::initThumbnail(const QPixmap& thumbnail)
 
 void PhotoInfo::initID(const PhotoInfo::Id& id)
 {
-    m_data->m_id.lock().get() = id;
+    *m_data->m_id.lock() = id;
 }
 
 
 void PhotoInfo::initExifData(std::unique_ptr<ITagData >&& tags)
 {
+    assert(isExifDataLoaded() == false);
+
     m_data->tags = std::move(tags);
-    m_data->m_flags.lock().get().exifLoaded = true;
+    m_data->m_flags.lock()->exifLoaded = true;
 
     updated();
 }
@@ -217,7 +223,7 @@ void PhotoInfo::initExifData(std::unique_ptr<ITagData >&& tags)
 
 void PhotoInfo::markStagingArea(bool on)
 {
-    m_data->m_flags.lock().get().stagingArea = on;
+    m_data->m_flags.lock()->stagingArea = on;
 
     updated();
 }
@@ -225,7 +231,7 @@ void PhotoInfo::markStagingArea(bool on)
 
 PhotoInfo::Flags PhotoInfo::getFlags() const
 {
-    Flags result = m_data->m_flags.lock().get();
+    Flags result = *m_data->m_flags.lock();
 
     return result;
 }
