@@ -17,12 +17,12 @@ TODO:
 - log files
 - database: priorities for tasks store should be more important than update
 - update photo in db when tags change
-- add 'exif' type of data for PhotoInfo
 - rename hash to sha256
 - in view add entry for not matching photos
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 
 IN PROGRESS:
+- add 'exif' type of data for PhotoInfo
 - load missing PhotoInfo's data when one is found
 - Staging Model: automatically move added photos to right positions
 - make PhotoInfo::tags thread safe and do not overwrite data
