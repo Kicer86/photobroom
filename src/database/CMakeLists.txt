@@ -17,6 +17,7 @@ set(DATABASE_SOURCES
     implementation/database_thread.cpp
     implementation/filter.cpp
     implementation/photo_iterator.cpp
+    implementation/photoinfo_manager.cpp
     implementation/query_list.cpp
     )
 
@@ -28,6 +29,7 @@ set(DATABASE_HEADERS
     photo_iterator.hpp
     query_list.hpp
     implementation/database_thread.hpp
+    implementation/photoinfo_manager.hpp
     implementation/plugin_loader.hpp
     )
 
