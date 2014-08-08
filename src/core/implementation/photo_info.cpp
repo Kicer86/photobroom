@@ -12,7 +12,7 @@
 #include "task_executor.hpp"
 
 
-PhotoInfo::Id::Id(): m_value(0), m_valid(false)
+PhotoInfo::Id::Id(): m_value(-1), m_valid(false)
 {
 
 }
