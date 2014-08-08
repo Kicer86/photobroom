@@ -22,12 +22,12 @@ TODO:
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 - PhotoInfo should be owned by database
 - PhotoInfo should be an interface
-- introduce PhotoInfo manager in database
 
 IN PROGRESS:
 - load missing PhotoInfo's data when one is found
 - Staging Model: automatically move added photos to right positions
 - make PhotoInfo::tags thread safe and do not overwrite data
+- introduce PhotoInfo manager in database
 
 DONE:
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
