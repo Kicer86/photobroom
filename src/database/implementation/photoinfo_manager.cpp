@@ -18,10 +18,33 @@
  */
 
 #include "photoinfo_manager.hpp"
+#include <core/photo_info.hpp>
+#include <core/photo_info.hpp>
 
 #include <unordered_map>
 
-PhotoInfoManager::PhotoInfoManager()
+
+
+struct PhotoInfoIdHash
+{
+    std::size_t operator()(const PhotoInfo::Id& key) const
+    {
+        return std::hash<PhotoInfo::Id::type>()(key.value());
+    }
+};
+
+
+struct PhotoInfoManager::Data
+{
+    Data(): m_photo_cache() {}
+    ~Data() {}
+
+    std::unordered_map<PhotoInfo::Id, std::weak_ptr<PhotoInfo>, PhotoInfoIdHash> m_photo_cache;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+PhotoInfoManager::PhotoInfoManager(): m_data(new Data)
 {
 
 }
@@ -30,4 +53,23 @@ PhotoInfoManager::PhotoInfoManager()
 PhotoInfoManager::~PhotoInfoManager()
 {
 
+}
+
+
+PhotoInfo::Ptr PhotoInfoManager::find(const PhotoInfo::Id& id) const
+{
+    PhotoInfo::Ptr result;
+    auto it = m_data->m_photo_cache.find(id);
+
+    if (it != m_data->m_photo_cache.end())
+        result = it->second.lock();
+
+    return result;
+}
+
+
+void PhotoInfoManager::introduce(const PhotoInfo::Ptr& ptr)
+{
+    const auto id = ptr->getID();
+    m_data->m_photo_cache[id] = ptr;
 }

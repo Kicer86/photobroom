@@ -20,6 +20,10 @@
 #ifndef PHOTOINFOMANAGER_H
 #define PHOTOINFOMANAGER_H
 
+#include <memory>
+
+#include <core/photo_info.hpp>
+
 class PhotoInfoManager
 {
     public:
@@ -28,6 +32,13 @@ class PhotoInfoManager
         ~PhotoInfoManager();
 
         PhotoInfoManager& operator=(const PhotoInfoManager& other) = delete;
+
+        PhotoInfo::Ptr find(const PhotoInfo::Id &) const;
+        void introduce(const PhotoInfo::Ptr &);
+
+    private:
+        struct Data;
+        std::unique_ptr<Data> m_data;
 };
 
 #endif // PHOTOINFOMANAGER_H
