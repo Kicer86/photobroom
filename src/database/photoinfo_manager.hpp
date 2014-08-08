@@ -24,7 +24,9 @@
 
 #include <core/photo_info.hpp>
 
-class PhotoInfoManager
+#include "database_export.h"
+
+class DATABASE_EXPORT PhotoInfoManager
 {
     public:
         PhotoInfoManager();

@@ -24,6 +24,7 @@
 
 #include <palgorithm/ts_queue.hpp>
 
+
 namespace
 {
     struct IThreadVisitor;

@@ -38,6 +38,7 @@
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 #include <database/filter.hpp>
+#include <database/photoinfo_manager.hpp>
 
 #include "table_definition.hpp"
 #include "sqldbquery.hpp"
@@ -166,6 +167,7 @@ namespace Database
             ASqlBackend* m_backend;
             std::thread::id m_database_thread_id;
             std::string m_databaseName;
+            PhotoInfoManager m_photoInfoManager;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -229,7 +231,7 @@ namespace Database
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName("")
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName(""), m_photoInfoManager()
     {
 
     }
@@ -941,7 +943,16 @@ namespace Database
 
     PhotoInfo::Ptr ASqlBackend::getPhoto(const PhotoInfo::Id& id)
     {
-        return m_data->getPhoto(id);
+        //try to find cached one
+        PhotoInfo::Ptr result = m_data->m_photoInfoManager.find(id);
+
+        if (result.get() == nullptr)
+        {
+            result = m_data->getPhoto(id);
+            m_data->m_photoInfoManager.introduce(result);
+        }
+
+        return result;
     }
 
 
