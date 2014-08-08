@@ -20,6 +20,9 @@ TODO:
 - rename hash to sha256
 - in view add entry for not matching photos
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
+- PhotoInfo should be owned by database
+- PhotoInfo should be an interface
+- introduce PhotoInfo manager in database
 
 IN PROGRESS:
 - add 'exif' type of data for PhotoInfo
