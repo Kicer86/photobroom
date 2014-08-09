@@ -169,15 +169,11 @@ namespace
 
         virtual void visit(UpdateTask* task) override
         {
-            const bool new_one = task->m_photoInfo->getID().valid() == false;
             const bool status = m_backend->update(task->m_photoInfo);
             task->m_task.setStatus(status);
             task->m_task.getClient()->got_storeStatus(task->m_task);
 
-            if (new_one)
-                emit photoAdded(task->m_photoInfo);
-            else
-                emit photoModified(task->m_photoInfo);
+            emit photoModified(task->m_photoInfo);
         }
 
         virtual void visit(GetAllPhotosTask* task) override
