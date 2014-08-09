@@ -25,6 +25,7 @@ set(DATABASE_HEADERS
     databasebuilder.hpp
     filter.hpp
     idatabase.hpp
+    iphotoinfomanager.hpp
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
