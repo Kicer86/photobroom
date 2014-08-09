@@ -48,7 +48,7 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     void fetchMore(const QModelIndex& _parent);
     void deepFetch(IdxData* top);
     bool canFetchMore(const QModelIndex& _parent);
-    void setBackend(Database::IDatabase* database);
+    void setDatabase(Database::IDatabase* database);
     void close();
 
     IdxData* getRoot();

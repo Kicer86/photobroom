@@ -118,10 +118,7 @@ PhotosViewWidget::~PhotosViewWidget()
 
 void PhotosViewWidget::addPhoto(const QString &path)
 {
-    PhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
-    info->markStagingArea();
-
-    m_photosModel->addPhoto(info);
+    m_photosModel->addPhoto(path);
 }
 
 

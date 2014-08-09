@@ -97,6 +97,8 @@ void PhotoInfoManager::setDatabase(Database::IDatabase* database)
 }
 
 
+//TODO: those conditions there doesn't look nice...
+//is there nicer way for direct access to PhotoInfo::Ptr?
 void PhotoInfoManager::photoUpdated(PhotoInfo* photoInfo)
 {
     //find photo in cache

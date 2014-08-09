@@ -162,7 +162,7 @@ bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 }
 
 
-void IdxDataManager::setBackend(Database::IDatabase* database)
+void IdxDataManager::setDatabase(Database::IDatabase* database)
 {
     if (m_data->m_database != nullptr)
         disconnect(m_data->m_database->notifier());

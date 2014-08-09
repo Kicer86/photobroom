@@ -29,7 +29,7 @@
 #include "model_helpers/idx_data_manager.hpp"
 
 
-DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this))
+DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr)
 {
 }
 
@@ -138,7 +138,8 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 
 void DBDataModel::setDatabase(Database::IDatabase* database)
 {
-    m_idxDataManager->setBackend(database);
+    m_idxDataManager->setDatabase(database);
+    m_database = database;
 }
 
 
@@ -154,9 +155,9 @@ IdxData* DBDataModel::getRootIdxData()
 }
 
 
-void DBDataModel::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
+Database::IDatabase* DBDataModel::getDatabase()
 {
-    m_idxDataManager->updatePhotoInDB(photoInfo);
+    return m_database;
 }
 
 

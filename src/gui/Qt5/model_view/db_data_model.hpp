@@ -70,9 +70,9 @@ class DBDataModel: public QAbstractItemModel
 
     protected:
         IdxData* getRootIdxData();
-        void updatePhotoInDB(const PhotoInfo::Ptr &);
 
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
+        Database::IDatabase* getDatabase(); //TODO: remove
 
     private:
         //QAbstractItemModel:
@@ -91,6 +91,7 @@ class DBDataModel: public QAbstractItemModel
         QModelIndex createIndex(IdxData *) const;
 
         std::unique_ptr<IdxDataManager> m_idxDataManager;
+        Database::IDatabase* m_database;
 };
 
 #endif // DBDATAMODEL_H

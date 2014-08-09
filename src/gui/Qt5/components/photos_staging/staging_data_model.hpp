@@ -33,7 +33,7 @@ class StagingDataModel: public DBDataModel
 
         StagingDataModel& operator=(const StagingDataModel &) = delete;
 
-        void addPhoto(const PhotoInfo::Ptr &);
+        void addPhoto(const QString &);
         void storePhotos();
 
         // DBDataModel interface:
