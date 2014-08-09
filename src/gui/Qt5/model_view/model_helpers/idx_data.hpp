@@ -68,10 +68,9 @@ struct IdxData: public PhotoInfo::IObserver
         IdxData(IdxDataManager *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
-        void loadMissingData();
 
         //IObserver:
-        void photoUpdated() override;
+        void photoUpdated(PhotoInfo *) override;
 };
 
 #endif // IDXDATA_HPP

@@ -5,6 +5,7 @@ add_subdirectory(sql_backends)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM
@@ -19,6 +20,7 @@ set(DATABASE_SOURCES
     implementation/photo_iterator.cpp
     implementation/photoinfo_manager.cpp
     implementation/query_list.cpp
+    implementation/photo_info_updater.cpp
     )
 
 set(DATABASE_HEADERS
@@ -32,6 +34,7 @@ set(DATABASE_HEADERS
     implementation/photoinfo_manager.hpp
     implementation/database_thread.hpp
     implementation/plugin_loader.hpp
+    implementation/photo_info_updater.hpp
     )
 
 set(DATABASE_MOC idatabase.hpp)
@@ -46,7 +49,7 @@ if(BUILD_TESTS)
                                 GMOCK
        )
     target_link_libraries(database_test configuration core database)
-    qt5_use_modules(database_test Core)
+    qt5_use_modules(database_test Core Gui)
 
     turnOnCpp11(database_test)
 endif(BUILD_TESTS)
@@ -55,7 +58,7 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database configuration core)
-qt5_use_modules(database Core)
+qt5_use_modules(database Core Gui)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
 turnOnCpp11(database)

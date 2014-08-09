@@ -18,7 +18,6 @@ set(GUI_SOURCES
     Qt5/gui.cpp
     Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
-    Qt5/data/photo_info_updater.cpp
     Qt5/data/thread_multiplexer.cpp
     Qt5/model_view/db_data_model.cpp
     Qt5/model_view/model_helpers/idx_data_manager.cpp
@@ -48,7 +47,6 @@ set(GUI_HEADERS
     gui.hpp
     Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
-    Qt5/data/photo_info_updater.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp

@@ -43,7 +43,7 @@ class CORE_EXPORT PhotoInfo final
         struct IObserver
         {
             virtual ~IObserver() {}
-            virtual void photoUpdated() = 0;
+            virtual void photoUpdated(PhotoInfo *) = 0;
         };
 
         struct Flags

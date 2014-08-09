@@ -27,7 +27,6 @@
 #include <core/photo_info.hpp>
 
 #include "idx_data_manager.hpp"
-#include "data/photo_info_updater.hpp"
 
 IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
@@ -42,8 +41,6 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& p
 
     updateLeafData();
     photo->registerObserver(this);
-
-    loadMissingData();
 }
 
 
@@ -116,23 +113,7 @@ void IdxData::updateLeafData()
 }
 
 
-void IdxData::loadMissingData()
-{
-    if (m_photo->isHashLoaded() == false)
-        PhotoInfoUpdater::updateHash(m_photo);
-
-    if (m_photo->isThumbnailLoaded() == false)
-        PhotoInfoUpdater::updateThumbnail(m_photo);
-
-    if (m_photo->isExifDataLoaded() == false)
-        PhotoInfoUpdater::updateTags(m_photo);
-}
-
-
-void IdxData::photoUpdated()
+void IdxData::photoUpdated(PhotoInfo *)  //parameter not used as we have only one photo
 {
     updateLeafData();
-
-    if (m_photo->isFullyInitialized())
-        m_model->idxDataChanged(this);
 }

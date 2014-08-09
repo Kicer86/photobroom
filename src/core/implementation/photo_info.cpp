@@ -178,7 +178,7 @@ void PhotoInfo::unregisterObserver(IObserver* observer)
 void PhotoInfo::updated()
 {
     for(IObserver* observer: m_data->m_observers)
-        observer->photoUpdated();
+        observer->photoUpdated(this);
 }
 
 

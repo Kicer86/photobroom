@@ -31,7 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoManager: public IPhotoInfoManager
+class PhotoInfoManager: public IPhotoInfoManager, PhotoInfo::IObserver
 {
     public:
         PhotoInfoManager();
@@ -48,6 +48,8 @@ class PhotoInfoManager: public IPhotoInfoManager
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
+
+        virtual void photoUpdated(PhotoInfo *) override;
 };
 
 #endif // PHOTOINFOMANAGER_H

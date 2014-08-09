@@ -18,12 +18,13 @@
  */
 
 #include "photoinfo_manager.hpp"
-#include <core/photo_info.hpp>
+
 #include <core/photo_info.hpp>
 
 #include <unordered_map>
 
-
+#include "photo_info_updater.hpp"
+#include <idatabase.hpp>
 
 struct PhotoInfoIdHash
 {
@@ -75,6 +76,18 @@ void PhotoInfoManager::introduce(const PhotoInfo::Ptr& ptr)
 {
     const auto id = ptr->getID();
     m_data->m_photo_cache[id] = ptr;
+
+    if (ptr->isFullyInitialized() == false)
+    {
+        if (ptr->isHashLoaded() == false)
+            PhotoInfoUpdater::updateHash(ptr);
+
+        if (ptr->isThumbnailLoaded() == false)
+            PhotoInfoUpdater::updateThumbnail(ptr);
+
+        if (ptr->isExifDataLoaded() == false)
+            PhotoInfoUpdater::updateTags(ptr);
+    }
 }
 
 
@@ -83,3 +96,20 @@ void PhotoInfoManager::setDatabase(Database::IDatabase* database)
     m_data->m_database = database;
 }
 
+
+void PhotoInfoManager::photoUpdated(PhotoInfo* photoInfo)
+{
+    //find photo in cache
+    PhotoInfo::Id id = photoInfo->getID();
+    PhotoInfo::Ptr ptr = find(id);
+
+    //we should be aware of all exisitng photo info
+    assert(ptr.get() != nullptr);
+
+    //when found update changed photo in database
+    if (ptr.get() != nullptr)
+    {
+        auto task = m_data->m_database->prepareTask(nullptr);
+        m_data->m_database->store(task, ptr);
+    }
+}
