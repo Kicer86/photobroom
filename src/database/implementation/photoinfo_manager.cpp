@@ -36,17 +36,20 @@ struct PhotoInfoIdHash
 
 struct PhotoInfoManager::Data
 {
-    Data(): m_photo_cache() {}
+    Data(): m_photo_cache(), m_database(nullptr) {}
+    Data(const Data &) = delete;
+    Data& operator=(const Data &) = delete;
+
     ~Data() {}
 
     std::unordered_map<PhotoInfo::Id, std::weak_ptr<PhotoInfo>, PhotoInfoIdHash> m_photo_cache;
+    Database::IDatabase* m_database;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 PhotoInfoManager::PhotoInfoManager(): m_data(new Data)
 {
-
 }
 
 
@@ -73,3 +76,10 @@ void PhotoInfoManager::introduce(const PhotoInfo::Ptr& ptr)
     const auto id = ptr->getID();
     m_data->m_photo_cache[id] = ptr;
 }
+
+
+void PhotoInfoManager::setDatabase(Database::IDatabase* database)
+{
+    m_data->m_database = database;
+}
+

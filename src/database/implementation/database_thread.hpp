@@ -30,7 +30,7 @@ namespace Database
     class DatabaseThread: public IDatabase
     {
         public:
-            DatabaseThread(std::unique_ptr<IBackend> &&);
+            DatabaseThread(Database::IBackend *);
             DatabaseThread(const DatabaseThread &) = delete;
             virtual ~DatabaseThread();
 

@@ -34,6 +34,8 @@
 #include "query_list.hpp"
 #include "filter.hpp"
 
+struct IPhotoInfoManager;
+
 namespace Database
 {
 
@@ -42,6 +44,8 @@ namespace Database
     struct IBackend
     {
         virtual ~IBackend() {}
+
+        virtual void setPhotoInfoManager(IPhotoInfoManager *) = 0;
 
         //store data
         virtual bool store(const PhotoInfo::Ptr &) = 0;

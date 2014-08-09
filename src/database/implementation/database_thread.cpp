@@ -134,7 +134,9 @@ namespace
 
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
-        Executor(const std::shared_ptr<Database::IBackend>& backend): m_backend(backend), m_tasks(1024) {}
+        Executor(Database::IBackend* backend): m_backend(backend), m_tasks(1024) {}
+        Executor(const Executor &) = delete;
+        Executor& operator=(const Executor &) = delete;
 
         virtual ~Executor() {}
 
@@ -213,7 +215,7 @@ namespace
             }
         }
 
-        std::shared_ptr<Database::IBackend> m_backend;
+        Database::IBackend* m_backend;
         TS_Queue<std::shared_ptr<ThreadBaseTask>> m_tasks;
     };
 
@@ -225,7 +227,7 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(const std::shared_ptr<IBackend>& backend): m_lastId(0), m_executor(backend), m_thread(beginThread, &m_executor)
+        Impl(IBackend* backend): m_lastId(0), m_executor(backend), m_thread(beginThread, &m_executor)
         {
 
         }
@@ -255,7 +257,7 @@ namespace Database
     };
 
 
-    DatabaseThread::DatabaseThread(std::unique_ptr<IBackend>&& backend): m_impl(new Impl(std::move(backend)))
+    DatabaseThread::DatabaseThread(IBackend* backend): m_impl(new Impl(backend))
     {
 
     }

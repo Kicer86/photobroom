@@ -33,6 +33,7 @@
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
 #include "database_thread.hpp"
+#include "photoinfo_manager.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 
@@ -110,7 +111,14 @@ namespace Database
             Main,
         };
 
-        std::map<Type, std::unique_ptr<IDatabase>> m_backends;
+        struct DatabaseObjects
+        {
+            std::unique_ptr<IDatabase> m_database;
+            std::unique_ptr<IBackend> m_backend;
+            std::unique_ptr<IPhotoInfoManager> m_photoManager;
+        };
+
+        std::map<Type, DatabaseObjects> m_backends;
 
         Impl(): plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
         {}
@@ -159,26 +167,36 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            std::unique_ptr<IDatabase> database(new DatabaseThread(m_impl->getPlugin()->constructBackend()));
+            std::unique_ptr<PhotoInfoManager> manager(new PhotoInfoManager);
+            std::unique_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
+            std::unique_ptr<IDatabase> database(new DatabaseThread(backend.get()));
+
+            backend->setPhotoInfoManager(manager.get());
+            manager->setDatabase(database.get());
+
             Database::Task task = database->prepareTask(nullptr);
 
             const bool status = database->init(task, dbType);
 
+
             if (status)
             {
-                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(database)) );
+                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main,
+                                                                           Impl::DatabaseObjects{ std::move(database), std::move(backend), std::move(manager) }
+                                                                          )
+                                                          );
                 backendIt = insertIt.first;
             }
         }
 
-        return backendIt->second.get();
+        return backendIt->second.m_database.get();
     }
 
 
     void Builder::closeAll()
     {
         for(auto& backend: m_impl->m_backends)
-            backend.second->closeConnections();
+            backend.second.m_database->closeConnections();
     }
 
 }

@@ -24,9 +24,14 @@
 
 #include <core/photo_info.hpp>
 
-#include "database_export.h"
+#include "iphotoinfomanager.hpp"
 
-class DATABASE_EXPORT PhotoInfoManager
+namespace Database
+{
+    struct IDatabase;
+}
+
+class PhotoInfoManager: public IPhotoInfoManager
 {
     public:
         PhotoInfoManager();
@@ -35,8 +40,10 @@ class DATABASE_EXPORT PhotoInfoManager
 
         PhotoInfoManager& operator=(const PhotoInfoManager& other) = delete;
 
-        PhotoInfo::Ptr find(const PhotoInfo::Id &) const;
-        void introduce(const PhotoInfo::Ptr &);
+        PhotoInfo::Ptr find(const PhotoInfo::Id &) const override;
+        void introduce(const PhotoInfo::Ptr &) override;
+
+        void setDatabase(Database::IDatabase *);
 
     private:
         struct Data;

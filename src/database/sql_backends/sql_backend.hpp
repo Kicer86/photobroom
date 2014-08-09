@@ -32,6 +32,8 @@
 class QSqlQuery;
 class QSqlDatabase;
 
+struct IPhotoInfoManager;
+
 namespace Database
 {
 
@@ -52,6 +54,7 @@ namespace Database
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
 
+            void setPhotoInfoManager(IPhotoInfoManager *) override;
             void closeConnections();
 
         protected:
