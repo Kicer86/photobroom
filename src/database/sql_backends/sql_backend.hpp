@@ -54,6 +54,7 @@ namespace Database
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
 
+            void setPhotoInfoCreator(IPhotoInfoCreator *) override;
             void setPhotoInfoManager(IPhotoInfoManager *) override;
             void closeConnections();
 

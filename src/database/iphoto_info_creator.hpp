@@ -1,5 +1,5 @@
 /*
- * Interface for PhotoInfoManager
+ * Interface for PhotoInfoCreator
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,19 +17,20 @@
  *
  */
 
-#ifndef IPHOTO_INFO_MANAGER_HPP
-#define IPHOTO_INFO_MANAGER_HPP
+#ifndef IPHOTO_INFO_CREATOR_HPP
+#define IPHOTO_INFO_CREATOR_HPP
 
-#include <database/iphoto_info.hpp>
+#include "iphoto_info.hpp"
+
+class QString;
 
 namespace Database
 {
-    struct IPhotoInfoManager
+    struct IPhotoInfoCreator
     {
-        virtual ~IPhotoInfoManager() {}
+        virtual ~IPhotoInfoCreator() {}
 
-        virtual IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const = 0;
-        virtual void introduce(const IPhotoInfo::Ptr &) = 0;
+        virtual IPhotoInfo::Ptr construct(const QString &) = 0;
     };
 }
 

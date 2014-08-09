@@ -31,11 +31,13 @@
 #include <configuration/entrydata.hpp>
 
 #include "ifs.hpp"
+#include "iphoto_info_creator.hpp"
 #include "plugin_loader.hpp"
 #include "database_thread.hpp"
 #include "photo_info_manager.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
+#include "implementation/photo_info.hpp"
 
 //TODO: cleanup this file!
 
@@ -100,12 +102,8 @@ namespace Database
 
     struct Builder::Impl
     {
-        std::unique_ptr<IPlugin> plugin;
-        std::shared_ptr<IBackend> defaultBackend;
-        PluginLoader backendBuilder;
-        ConfigurationInitializer configInitializer;
 
-        //bavkend type
+        //backend type
         enum Type
         {
             Main,
@@ -118,9 +116,25 @@ namespace Database
             std::unique_ptr<IPhotoInfoManager> m_photoManager;
         };
 
-        std::map<Type, DatabaseObjects> m_backends;
+        struct PhotoInfoCreator: Database::IPhotoInfoCreator
+        {
+            virtual IPhotoInfo::Ptr construct(const QString& path)
+            {
+                auto result = std::make_shared<PhotoInfo>(path);
+                result->markStagingArea(true);                                //by default all new photos go to staging area.
 
-        Impl(): plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
+                return result;
+            }
+        };
+
+        std::map<Type, DatabaseObjects> m_backends;
+        std::unique_ptr<IPlugin> plugin;
+        std::shared_ptr<IBackend> defaultBackend;
+        PluginLoader backendBuilder;
+        ConfigurationInitializer configInitializer;
+        PhotoInfoCreator photoInfoCreator;
+
+        Impl(): m_backends(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), photoInfoCreator()
         {}
 
         IPlugin* getPlugin()
@@ -172,6 +186,7 @@ namespace Database
             std::unique_ptr<IDatabase> database(new DatabaseThread(backend.get()));
 
             backend->setPhotoInfoManager(manager.get());
+            backend->setPhotoInfoCreator(&m_impl->photoInfoCreator);
             manager->setDatabase(database.get());
 
             Database::Task task = database->prepareTask(nullptr);

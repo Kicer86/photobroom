@@ -31,7 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoManager: public IPhotoInfoManager, IPhotoInfo::IObserver
+class PhotoInfoManager: public Database::IPhotoInfoManager, IPhotoInfo::IObserver
 {
     public:
         PhotoInfoManager();

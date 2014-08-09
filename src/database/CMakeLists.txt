@@ -29,6 +29,7 @@ set(DATABASE_HEADERS
     filter.hpp
     idatabase.hpp
     iphoto_info.hpp
+    iphoto_info_creator.hpp
     iphoto_info_manager.hpp
     ifs.hpp
     photo_iterator.hpp

@@ -34,10 +34,12 @@
 #include "query_list.hpp"
 #include "filter.hpp"
 
-struct IPhotoInfoManager;
 
 namespace Database
 {
+
+    struct IPhotoInfoManager;
+    struct IPhotoInfoCreator;
 
     //Low level database interface.
     //To be used by particular database backend
@@ -45,7 +47,8 @@ namespace Database
     {
         virtual ~IBackend() {}
 
-        virtual void setPhotoInfoManager(IPhotoInfoManager *) = 0;
+        virtual void setPhotoInfoManager(Database::IPhotoInfoManager *) = 0;
+        virtual void setPhotoInfoCreator(Database::IPhotoInfoCreator *) = 0;
 
         //add photo to database
         virtual IPhotoInfo::Ptr addPath(const QString &) = 0;

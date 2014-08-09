@@ -39,7 +39,7 @@
 #include <core/task_executor.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
-#include <database/implementation/photo_info.hpp>    //TODO: do not include this way
+#include <database/iphoto_info_creator.hpp>
 
 #include "table_definition.hpp"
 #include "sql_db_query.hpp"
@@ -169,6 +169,7 @@ namespace Database
             std::thread::id m_database_thread_id;
             std::string m_databaseName;
             IPhotoInfoManager* m_photoInfoManager;
+            IPhotoInfoCreator* m_photoInfoCreator;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -232,7 +233,7 @@ namespace Database
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName(""), m_photoInfoManager()
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName(""), m_photoInfoManager(nullptr), m_photoInfoCreator(nullptr)
     {
 
     }
@@ -638,7 +639,7 @@ namespace Database
     IPhotoInfo::Ptr ASqlBackend::Data::getPhoto(const IPhotoInfo::Id& id)
     {
         //basic data
-        IPhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(getPathFor(id));
+        IPhotoInfo::Ptr photoInfo = m_photoInfoCreator->construct(getPathFor(id));
         photoInfo->initID(id);
 
         //load tags
@@ -780,6 +781,12 @@ namespace Database
     }
 
 
+    void ASqlBackend::setPhotoInfoCreator(Database::IPhotoInfoCreator *creator)
+    {
+        m_data->m_photoInfoCreator = creator;
+    }
+
+
     void ASqlBackend::setPhotoInfoManager(IPhotoInfoManager* manager)
     {
         m_data->m_photoInfoManager = manager;
@@ -890,8 +897,7 @@ namespace Database
 
     IPhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
     {
-        auto photoInfo = std::make_shared<PhotoInfo>(path);
-        photoInfo->markStagingArea(true);                                //by default all new photos go to staging area. TODO: is this responsibility of Backend to know it?
+        auto photoInfo = m_data->m_photoInfoCreator->construct(path);
 
         m_data->store(photoInfo);
         m_data->m_photoInfoManager->introduce(photoInfo);
