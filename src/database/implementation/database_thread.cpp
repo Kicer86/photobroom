@@ -30,7 +30,7 @@ namespace
     struct IThreadVisitor;
     struct InitTask;
     struct InsertTask;
-    struct StoreTask;
+    struct UpdateTask;
     struct GetAllPhotosTask;
     struct GetPhotoTask;
     struct GetPhotosTask;
@@ -57,7 +57,7 @@ namespace
 
         virtual void visit(InitTask *) = 0;
         virtual void visit(InsertTask *) = 0;
-        virtual void visit(StoreTask *) = 0;
+        virtual void visit(UpdateTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
@@ -85,10 +85,10 @@ namespace
         QString m_path;
     };
 
-    struct StoreTask: ThreadBaseTask
+    struct UpdateTask: ThreadBaseTask
     {
-        StoreTask(const Database::Task& task, const PhotoInfo::Ptr& photo): ThreadBaseTask(task), m_photoInfo(photo) {}
-        virtual ~StoreTask() {}
+        UpdateTask(const Database::Task& task, const PhotoInfo::Ptr& photo): ThreadBaseTask(task), m_photoInfo(photo) {}
+        virtual ~UpdateTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
@@ -167,7 +167,7 @@ namespace
             emit photoAdded(photoInfo);
         }
 
-        virtual void visit(StoreTask* task) override
+        virtual void visit(UpdateTask* task) override
         {
             const bool new_one = task->m_photoInfo->getID().valid() == false;
             const bool status = m_backend->update(task->m_photoInfo);
@@ -331,7 +331,7 @@ namespace Database
 
     void DatabaseThread::update(const Task& db_task, const PhotoInfo::Ptr& photo)
     {
-        StoreTask* task = new StoreTask(db_task, photo);
+        UpdateTask* task = new UpdateTask(db_task, photo);
         m_impl->addTask(task);
     }
 
