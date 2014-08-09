@@ -20,6 +20,7 @@ TODO:
 - rename hash to sha256
 - in view add entry for not matching photos
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
+- PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 
 IN PROGRESS:
 - load missing PhotoInfo's data when one is found
