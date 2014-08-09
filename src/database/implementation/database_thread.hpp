@@ -39,6 +39,7 @@ namespace Database
             virtual Task prepareTask(IDatabaseClient *) override;
             virtual ADatabaseSignals* notifier() override;
 
+            virtual void addPath(const Task&, const QString&) override;
             virtual void update(const Task &, const PhotoInfo::Ptr &) override;
 
             virtual void getAllPhotos(const Task &) override;

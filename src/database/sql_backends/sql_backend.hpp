@@ -79,7 +79,7 @@ namespace Database
             std::unique_ptr<Data> m_data;
 
             virtual bool init(const std::string &) override final;
-            virtual void addPath(const QString &) override final;
+            virtual PhotoInfo::Ptr addPath(const QString &) override final;
             virtual bool update(const PhotoInfo::Ptr &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;

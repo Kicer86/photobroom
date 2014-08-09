@@ -29,6 +29,7 @@ namespace
 {
     struct IThreadVisitor;
     struct InitTask;
+    struct InsertTask;
     struct StoreTask;
     struct GetAllPhotosTask;
     struct GetPhotoTask;
@@ -55,6 +56,7 @@ namespace
         virtual ~IThreadVisitor() {}
 
         virtual void visit(InitTask *) = 0;
+        virtual void visit(InsertTask *) = 0;
         virtual void visit(StoreTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
@@ -71,6 +73,16 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::string m_name;
+    };
+
+    struct InsertTask: ThreadBaseTask
+    {
+        InsertTask(const Database::Task& task, const QString& path): ThreadBaseTask(task), m_path(path) {}
+        virtual ~InsertTask() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        QString m_path;
     };
 
     struct StoreTask: ThreadBaseTask
@@ -140,14 +152,22 @@ namespace
 
         virtual ~Executor() {}
 
-        virtual void visit(InitTask* task)
+        virtual void visit(InitTask* task) override
         {
             m_backend->init(task->m_name.c_str());
 
             //TODO: result
         }
 
-        virtual void visit(StoreTask* task)
+        virtual void visit(InsertTask* task) override
+        {
+            PhotoInfo::Ptr photoInfo = m_backend->addPath(task->m_path);
+            task->m_task.setStatus(photoInfo.get() != nullptr);
+
+            emit photoAdded(photoInfo);
+        }
+
+        virtual void visit(StoreTask* task) override
         {
             const bool new_one = task->m_photoInfo->getID().valid() == false;
             const bool status = m_backend->update(task->m_photoInfo);
@@ -160,35 +180,35 @@ namespace
                 emit photoModified(task->m_photoInfo);
         }
 
-        virtual void visit(GetAllPhotosTask* task)
+        virtual void visit(GetAllPhotosTask* task) override
         {
             auto result = m_backend->getAllPhotos();
             task->m_task.setStatus(true);
             task->m_task.getClient()->got_getAllPhotos(task->m_task, result);
         }
 
-        virtual void visit(GetPhotoTask* task)
+        virtual void visit(GetPhotoTask* task) override
         {
             auto result = m_backend->getPhoto(task->m_id);
             task->m_task.setStatus(true);
             task->m_task.getClient()->got_getPhoto(task->m_task, result);
         }
 
-        virtual void visit(GetPhotosTask* task)
+        virtual void visit(GetPhotosTask* task) override
         {
             auto result = m_backend->getPhotos(task->m_filter);
             task->m_task.setStatus(true);
             task->m_task.getClient()->got_getPhotos(task->m_task, result);
         }
 
-        virtual void visit(ListTagsTask* task)
+        virtual void visit(ListTagsTask* task) override
         {
             auto result = m_backend->listTags();
             task->m_task.setStatus(true);
             task->m_task.getClient()->got_listTags(task->m_task, result);
         }
 
-        virtual void visit(ListTagValuesTask* task)
+        virtual void visit(ListTagValuesTask* task) override
         {
             auto result = m_backend->listTagValues(task->m_info, task->m_filter);
             task->m_task.setStatus(true);
@@ -299,6 +319,13 @@ namespace Database
     ADatabaseSignals* DatabaseThread::notifier()
     {
         return &m_impl->m_executor;
+    }
+
+
+    void DatabaseThread::addPath(const Task& db_task, const QString& path)
+    {
+        InsertTask* task = new InsertTask(db_task, path);
+        m_impl->addTask(task);
     }
 
 

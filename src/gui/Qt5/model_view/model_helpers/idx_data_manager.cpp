@@ -260,7 +260,7 @@ void IdxDataManager::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
 {
     std::cout << "Updating photo " << photoInfo->getID() << std::endl;
     Database::Task task = m_data->m_database->prepareTask(this);
-    m_data->m_database->store(task, photoInfo);
+    m_data->m_database->update(task, photoInfo);
 }
 
 

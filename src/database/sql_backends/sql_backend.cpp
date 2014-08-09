@@ -887,12 +887,14 @@ namespace Database
     }
 
 
-    void ASqlBackend::addPath(const QString& path)
+    PhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
     {
         auto photoInfo = std::make_shared<PhotoInfo>(path);
 
         m_data->store(photoInfo);
         m_data->m_photoInfoManager->introduce(photoInfo);
+
+        return photoInfo;
     }
 
 

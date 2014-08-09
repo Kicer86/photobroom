@@ -48,7 +48,7 @@ namespace Database
         virtual void setPhotoInfoManager(IPhotoInfoManager *) = 0;
 
         //add photo to database
-        virtual void addPath(const QString &) = 0;
+        virtual PhotoInfo::Ptr addPath(const QString &) = 0;
 
         //update data
         virtual bool update(const PhotoInfo::Ptr &) = 0;
@@ -132,6 +132,7 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         //store data
+        virtual void addPath(const Task &, const QString &) = 0;
         virtual void update(const Task &, const PhotoInfo::Ptr &) = 0;
 
         //read data
