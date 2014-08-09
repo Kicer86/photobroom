@@ -890,6 +890,7 @@ namespace Database
     PhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
     {
         auto photoInfo = std::make_shared<PhotoInfo>(path);
+        photoInfo->markStagingArea(true);                                //by default all new photos go to staging area. TODO: is this responsibility of Backend to know it?
 
         m_data->store(photoInfo);
         m_data->m_photoInfoManager->introduce(photoInfo);

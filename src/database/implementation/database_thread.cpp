@@ -161,7 +161,7 @@ namespace
 
         virtual void visit(InsertTask* task) override
         {
-            PhotoInfo::Ptr photoInfo = m_backend->addPath(task->m_path);
+            PhotoInfo::Ptr photoInfo = m_backend->addPath(task->m_path);      
             task->m_task.setStatus(photoInfo.get() != nullptr);
 
             emit photoAdded(photoInfo);
