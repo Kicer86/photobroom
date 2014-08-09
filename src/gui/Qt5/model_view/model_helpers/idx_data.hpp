@@ -22,14 +22,14 @@
 
 #include <QMap>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 #include <database/filter.hpp>
 
 class QVariant;
 
 class IdxDataManager;
 
-struct IdxData: public PhotoInfo::IObserver
+struct IdxData: public IPhotoInfo::IObserver
 {
         enum class FetchStatus
         {
@@ -41,7 +41,7 @@ struct IdxData: public PhotoInfo::IObserver
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;
-        PhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
+        IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxData* m_parent;
         IdxDataManager* m_model;
         size_t m_level;
@@ -53,7 +53,7 @@ struct IdxData: public PhotoInfo::IObserver
         IdxData(IdxDataManager *, IdxData* parent, const QString& name);
 
         //leaf constructor
-        IdxData(IdxDataManager *, IdxData* parent, const PhotoInfo::Ptr &);
+        IdxData(IdxDataManager *, IdxData* parent, const IPhotoInfo::Ptr &);
 
         virtual ~IdxData();
 
@@ -70,7 +70,7 @@ struct IdxData: public PhotoInfo::IObserver
         void updateLeafData();
 
         //IObserver:
-        void photoUpdated(PhotoInfo *) override;
+        void photoUpdated(IPhotoInfo *) override;
 };
 
 #endif // IDXDATA_HPP

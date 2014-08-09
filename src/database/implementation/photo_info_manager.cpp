@@ -19,7 +19,7 @@
 
 #include "photo_info_manager.hpp"
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 #include <unordered_map>
 
@@ -28,9 +28,9 @@
 
 struct PhotoInfoIdHash
 {
-    std::size_t operator()(const PhotoInfo::Id& key) const
+    std::size_t operator()(const ::IPhotoInfo::Id& key) const
     {
-        return std::hash<PhotoInfo::Id::type>()(key.value());
+        return std::hash<IPhotoInfo::Id::type>()(key.value());
     }
 };
 
@@ -43,11 +43,11 @@ struct PhotoInfoManager::Data: Database::IDatabaseClient
 
     ~Data() {}
 
-    std::unordered_map<PhotoInfo::Id, std::weak_ptr<PhotoInfo>, PhotoInfoIdHash> m_photo_cache;
+    std::unordered_map<IPhotoInfo::Id, std::weak_ptr<IPhotoInfo>, PhotoInfoIdHash> m_photo_cache;
     Database::IDatabase* m_database;
 
     virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override {}
-    virtual void got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &) override {}
+    virtual void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override {}
     virtual void got_getPhotos(const Database::Task &, const Database::QueryList &) override {}
     virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override {}
     virtual void got_listTagValues(const Database::Task &, const std::deque<TagValueInfo> &) override {}
@@ -67,9 +67,9 @@ PhotoInfoManager::~PhotoInfoManager()
 }
 
 
-PhotoInfo::Ptr PhotoInfoManager::find(const PhotoInfo::Id& id) const
+IPhotoInfo::Ptr PhotoInfoManager::find(const IPhotoInfo::Id& id) const
 {
-    PhotoInfo::Ptr result;
+    IPhotoInfo::Ptr result;
     auto it = m_data->m_photo_cache.find(id);
 
     if (it != m_data->m_photo_cache.end())
@@ -79,7 +79,7 @@ PhotoInfo::Ptr PhotoInfoManager::find(const PhotoInfo::Id& id) const
 }
 
 
-void PhotoInfoManager::introduce(const PhotoInfo::Ptr& ptr)
+void PhotoInfoManager::introduce(const IPhotoInfo::Ptr& ptr)
 {
     const auto id = ptr->getID();
     m_data->m_photo_cache[id] = ptr;
@@ -107,12 +107,12 @@ void PhotoInfoManager::setDatabase(Database::IDatabase* database)
 
 
 //TODO: those conditions there doesn't look nice...
-//is there nicer way for direct access to PhotoInfo::Ptr?
-void PhotoInfoManager::photoUpdated(PhotoInfo* photoInfo)
+//is there nicer way for direct access to IPhotoInfo::Ptr?
+void PhotoInfoManager::photoUpdated(IPhotoInfo* photoInfo)
 {
     //find photo in cache
-    PhotoInfo::Id id = photoInfo->getID();
-    PhotoInfo::Ptr ptr = find(id);
+    IPhotoInfo::Id id = photoInfo->getID();
+    IPhotoInfo::Ptr ptr = find(id);
 
     //we should be aware of all exisitng photo info
     assert(ptr.get() != nullptr);

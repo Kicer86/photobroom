@@ -109,7 +109,7 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     setHierarchy(hierarchy);
             
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
-    qRegisterMetaType<PhotoInfo::Ptr>("PhotoInfo::Ptr");
+    qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
     
     //used for transferring event from working thread to main one
     connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
@@ -169,8 +169,8 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
     m_data->m_database = database;
 
-    connect(m_data->m_database->notifier(), SIGNAL(photoModified(PhotoInfo::Ptr)), this, SLOT(photoChanged(PhotoInfo::Ptr)));
-    connect(m_data->m_database->notifier(), SIGNAL(photoAdded(PhotoInfo::Ptr)),    this, SLOT(photoAdded(PhotoInfo::Ptr)));
+    connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
+    connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
 }
 
 
@@ -238,7 +238,7 @@ IdxData* IdxDataManager::parent(const QModelIndex& child)
 }
 
 
-void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
+void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<IPhotoInfo::Ptr>* result)
 {
     forIndexChildren(idx, [&] (const IdxData* child)
     {
@@ -344,7 +344,7 @@ void IdxDataManager::got_getAllPhotos(const Database::Task &, const Database::Qu
 }
 
 
-void IdxDataManager::got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &)
+void IdxDataManager::got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &)
 {
 }
 
@@ -362,7 +362,7 @@ void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::Q
 
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-        for(PhotoInfo::Ptr photoInfo: photos)
+        for(IPhotoInfo::Ptr photoInfo: photos)
         {
             IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
             leafs->push_back(newItem);
@@ -482,7 +482,7 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 }
 
 
-void IdxDataManager::photoChanged(const PhotoInfo::Ptr &)
+void IdxDataManager::photoChanged(const IPhotoInfo::Ptr &)
 {
     //TODO: not very smart. Do analyse what changed and how basing on photo id
 
@@ -493,7 +493,7 @@ void IdxDataManager::photoChanged(const PhotoInfo::Ptr &)
 }
 
 
-void IdxDataManager::photoAdded(const PhotoInfo::Ptr& photoInfo)
+void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 {
     //TODO: check if we are interested in this photo (does it match our filters?)
 

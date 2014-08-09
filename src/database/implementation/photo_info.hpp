@@ -8,57 +8,18 @@
 
 #include <QString>
 
-#include "core_export.h"
+#include "../iphoto_info.hpp"
+
+#include "database_export.h"
 
 class QPixmap;
 
 struct ITagData;
 struct HashAssigner;
 
-class CORE_EXPORT PhotoInfo final
+class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
 {
     public:
-        typedef std::shared_ptr<PhotoInfo> Ptr;
-        typedef std::string Hash;                // Hash is hash of photo's file
-
-        struct CORE_EXPORT Id
-        {
-                typedef int type;
-
-                Id();
-                explicit Id(type);
-                Id(const Id &) = default;
-
-                Id& operator=(const Id &) = default;
-                operator type() const;
-                bool operator!() const;
-                bool valid() const;
-                type value() const;
-
-            private:
-                type m_value;
-                bool m_valid;
-        };
-
-        struct IObserver
-        {
-            virtual ~IObserver() {}
-            virtual void photoUpdated(PhotoInfo *) = 0;
-        };
-
-        struct Flags
-        {
-            //information
-            bool stagingArea;
-
-            //related to data loading
-            bool exifLoaded;
-            bool hashLoaded;
-            bool thumbnailLoaded;
-
-            Flags();
-        };
-
         PhotoInfo(const QString &path);          //load all data from provided path
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();

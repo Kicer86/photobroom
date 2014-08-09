@@ -27,8 +27,8 @@
 
 #include <QObject>
 
-#include <core/photo_info.hpp>
 #include <core/tag.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "photo_iterator.hpp"
 #include "query_list.hpp"
@@ -48,10 +48,10 @@ namespace Database
         virtual void setPhotoInfoManager(IPhotoInfoManager *) = 0;
 
         //add photo to database
-        virtual PhotoInfo::Ptr addPath(const QString &) = 0;
+        virtual IPhotoInfo::Ptr addPath(const QString &) = 0;
 
         //update data
-        virtual bool update(const PhotoInfo::Ptr &) = 0;
+        virtual bool update(const IPhotoInfo::Ptr &) = 0;
 
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;                                  //list all stored tag names
@@ -59,7 +59,7 @@ namespace Database
         virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual QueryList getAllPhotos() = 0;                                             //list all photos
         virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //list all photos matching filter
-        virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) = 0;                       //get particular photo
+        virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
 
         //init backend - connect to database or create new one
         virtual bool init(const std::string &) = 0;
@@ -106,7 +106,7 @@ namespace Database
         virtual void got_listTagValues(const Task &, const std::deque<TagValueInfo> &) = 0;
         virtual void got_getAllPhotos(const Task &, const QueryList &) = 0;
         virtual void got_getPhotos(const Task &, const QueryList &) = 0;
-        virtual void got_getPhoto(const Task &, const PhotoInfo::Ptr &) = 0;
+        virtual void got_getPhoto(const Task &, const IPhotoInfo::Ptr &) = 0;
     };
 
     //set of signals emitted when database changes or when tasks are being executed
@@ -115,8 +115,8 @@ namespace Database
             Q_OBJECT
 
         signals:
-            void photoAdded(const PhotoInfo::Ptr &);      //emited when new photo added
-            void photoModified(const PhotoInfo::Ptr &);   //emited when photo updated
+            void photoAdded(const IPhotoInfo::Ptr &);     //emited when new photo added
+            void photoModified(const IPhotoInfo::Ptr &);  //emited when photo updated
 
             void beforeTaskExecution(const Task::Id &);   //emited before task execution
             void afterTaskExecution(const Task::Id &);    //emited after task execution
@@ -133,7 +133,7 @@ namespace Database
 
         //store data
         virtual void addPath(const Task &, const QString &) = 0;
-        virtual void update(const Task &, const PhotoInfo::Ptr &) = 0;
+        virtual void update(const Task &, const IPhotoInfo::Ptr &) = 0;
 
         //read data
         virtual void listTags(const Task &) = 0;                                     //list all stored tag names
@@ -141,7 +141,7 @@ namespace Database
         virtual void listTagValues(const Task &, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual void getAllPhotos(const Task &) = 0;                                 //list all photos
         virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr> &) = 0;  //list all photos matching filter
-        virtual void getPhoto(const Task &, const PhotoInfo::Id &) = 0;              //get particulat photo
+        virtual void getPhoto(const Task &, const IPhotoInfo::Id &) = 0;             //get particulat photo
 
         //init backend - connect to database or create new one
         virtual bool init(const Database::Task &, const std::string &) = 0;

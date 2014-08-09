@@ -4,8 +4,8 @@
 
 #include <QWidget>
 
-#include <core/photo_info.hpp>
 #include <core/time_guardian.hpp>
+#include <database/iphoto_info.hpp>
 
 class QItemSelectionModel;
 class QItemSelection;
@@ -81,7 +81,7 @@ class PhotosViewWidget: public QWidget
         }
 
         void addPhoto(const QString &);
-        std::vector<PhotoInfo::Ptr> getPhotos() const;
+        std::vector<IPhotoInfo::Ptr> getPhotos() const;
         void storePhotos();
 
     private:
@@ -92,7 +92,7 @@ class PhotosViewWidget: public QWidget
         void selectionChanged();
 
     signals:
-        void selectionChanged(const std::vector<PhotoInfo::Ptr> &);
+        void selectionChanged(const std::vector<IPhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_EDITOR_WIDGET_HPP

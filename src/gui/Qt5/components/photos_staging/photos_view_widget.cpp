@@ -16,8 +16,8 @@
 #include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
 #include <core/tag.hpp>
-#include <core/photo_info.hpp>
 #include <database/database_builder.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "components/photos_staging/staging_data_model.hpp"
 #include "model_view/images_tree_view.hpp"
@@ -122,7 +122,7 @@ void PhotosViewWidget::addPhoto(const QString &path)
 }
 
 
-std::vector<PhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
+std::vector<IPhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 {
     return m_photosModel->getPhotos();
 }
@@ -136,12 +136,12 @@ void PhotosViewWidget::storePhotos()
 
 void PhotosViewWidget::selectionChanged()
 {
-    std::vector<PhotoInfo::Ptr> images;
+    std::vector<IPhotoInfo::Ptr> images;
 
     //collect list of tags
     for (const QModelIndex& index: m_photosView->selectionModel()->selectedIndexes())
     {
-        PhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
+        IPhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
         images.push_back(photoInfo);
     }
 

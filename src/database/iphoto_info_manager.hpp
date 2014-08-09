@@ -20,14 +20,14 @@
 #ifndef IPHOTO_INFO_MANAGER_HPP
 #define IPHOTO_INFO_MANAGER_HPP
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 struct IPhotoInfoManager
 {
     virtual ~IPhotoInfoManager() {}
 
-    virtual PhotoInfo::Ptr find(const PhotoInfo::Id &) const = 0;
-    virtual void introduce(const PhotoInfo::Ptr &) = 0;
+    virtual IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const = 0;
+    virtual void introduce(const IPhotoInfo::Ptr &) = 0;
 };
 
 

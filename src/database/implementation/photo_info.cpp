@@ -8,8 +8,8 @@
 
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
 
-#include "tag.hpp"
-#include "task_executor.hpp"
+#include <core/tag.hpp>
+#include <core/task_executor.hpp>
 
 
 PhotoInfo::Id::Id(): m_value(-1), m_valid(false)

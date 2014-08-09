@@ -61,8 +61,8 @@ class DBDataModel: public QAbstractItemModel
 
         void setHierarchy(const Hierarchy &);
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
-        PhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::vector<PhotoInfo::Ptr> getPhotos();              //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
+        IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const std::vector<IPhotoInfo::Ptr> getPhotos();              //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
 
         //Database::IFrontend:
         virtual void setDatabase(Database::IDatabase *);

@@ -24,7 +24,7 @@ namespace
 
 struct ThumbnailGenerator: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
+    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -45,13 +45,13 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
         m_photoInfo->initThumbnail(thumbnail);
     }
 
-    PhotoInfo::Ptr m_photoInfo;
+    IPhotoInfo::Ptr m_photoInfo;
 };
 
 
 struct HashAssigner: public ITaskExecutor::ITask
 {
-    HashAssigner(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    HashAssigner(const IPhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
     {
     }
 
@@ -69,17 +69,17 @@ struct HashAssigner: public ITaskExecutor::ITask
         PhotosManager::instance()->getPhoto(m_photoInfo, &data);
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        const PhotoInfo::Hash hash = HashFunctions::sha256(udata, data.size());
+        const IPhotoInfo::Hash hash = HashFunctions::sha256(udata, data.size());
         m_photoInfo->initHash(hash);
     }
 
-    PhotoInfo::Ptr m_photoInfo;
+    IPhotoInfo::Ptr m_photoInfo;
 };
 
 
 struct TagsCollector: public ITaskExecutor::ITask
 {
-    TagsCollector(const PhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    TagsCollector(const IPhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
     {
     }
 
@@ -98,7 +98,7 @@ struct TagsCollector: public ITaskExecutor::ITask
         m_photoInfo->initExifData(std::move(p_tags));
     }
 
-    PhotoInfo::Ptr m_photoInfo;
+    IPhotoInfo::Ptr m_photoInfo;
 };
 
 
@@ -114,21 +114,21 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 }
 
 
-void PhotoInfoUpdater::updateHash(const PhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<HashAssigner>(photoInfo);
     TaskExecutorConstructor::get()->add(task);
 }
 
 
-void PhotoInfoUpdater::updateThumbnail(const PhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<ThumbnailGenerator>(photoInfo);
     TaskExecutorConstructor::get()->add(task);
 }
 
 
-void PhotoInfoUpdater::updateTags(const PhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<TagsCollector>(photoInfo);
     TaskExecutorConstructor::get()->add(task);

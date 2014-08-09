@@ -24,7 +24,7 @@
 #include <QPixmap>
 #include <QVariant>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "idx_data_manager.hpp"
 
@@ -34,7 +34,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : 
 }
 
 
-IdxData::IdxData(IdxDataManager* model, IdxData* parent, const PhotoInfo::Ptr& photo) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
     m_loaded = FetchStatus::Fetched;
@@ -113,7 +113,7 @@ void IdxData::updateLeafData()
 }
 
 
-void IdxData::photoUpdated(PhotoInfo *)  //parameter not used as we have only one photo
+void IdxData::photoUpdated(IPhotoInfo *)  //parameter not used as we have only one photo
 {
     updateLeafData();
 }

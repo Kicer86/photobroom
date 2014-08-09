@@ -39,6 +39,7 @@
 #include <core/task_executor.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
+#include <database/implementation/photo_info.hpp>    //TODO: do not include this way
 
 #include "table_definition.hpp"
 #include "sql_db_query.hpp"
@@ -178,8 +179,8 @@ namespace Database
             bool exec(const SqlQuery& query, QSqlQuery* result) const;
             bool createDB(const QString& dbName) const;
             Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-            bool store(const PhotoInfo::Ptr& data);
-            PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &);
+            bool store(const IPhotoInfo::Ptr& data);
+            IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
             std::vector<TagNameInfo> listTags() const;
             std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
             std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
@@ -191,25 +192,25 @@ namespace Database
             Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
-            bool storeHash(int photo_id, const PhotoInfo::Hash &) const;
+            bool storeHash(int photo_id, const IPhotoInfo::Hash &) const;
             bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
-            bool storeFlags(int photo_id, const PhotoInfo::Ptr &) const;
-            TagData getTagsFor(const PhotoInfo::Id &);
-            Optional<QPixmap> getThumbnailFor(const PhotoInfo::Id &);
-            Optional<PhotoInfo::Hash> getHashFor(const PhotoInfo::Id &);
-            QString getPathFor(const PhotoInfo::Id &);
+            bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
+            TagData getTagsFor(const IPhotoInfo::Id &);
+            Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
+            Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
+            QString getPathFor(const IPhotoInfo::Id &);
 
             //for friends:
-            bool storePhoto(const PhotoInfo::Ptr& data);
+            bool storePhoto(const IPhotoInfo::Ptr& data);
     };
 
 
     struct StorePhoto: ITaskExecutor::ITask
     {
         ASqlBackend::Data* m_data;
-        PhotoInfo::Ptr m_photo;
+        IPhotoInfo::Ptr m_photo;
 
-        StorePhoto(ASqlBackend::Data* data, const PhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
+        StorePhoto(ASqlBackend::Data* data, const IPhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
         {
         }
 
@@ -324,7 +325,7 @@ namespace Database
 
     //TODO: threads cannot be used with sql connections:
     //      http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
-    bool ASqlBackend::Data::store(const PhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::store(const IPhotoInfo::Ptr& data)
     {
         //auto task = std::make_shared<StorePhoto>(this, data);
         //TaskExecutorConstructor::get()->add(task);
@@ -475,7 +476,7 @@ namespace Database
     }
     
     
-    bool ASqlBackend::Data::storeHash(int photo_id, const PhotoInfo::Hash& hash) const
+    bool ASqlBackend::Data::storeHash(int photo_id, const IPhotoInfo::Hash& hash) const
     {
         InsertQueryData data(TAB_HASHES);
 
@@ -536,7 +537,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeFlags(int photo_id, const PhotoInfo::Ptr& photoInfo) const
+    bool ASqlBackend::Data::storeFlags(int photo_id, const IPhotoInfo::Ptr& photoInfo) const
     {
         InsertQueryData queryData(TAB_FLAGS);
         queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "hash_loaded", "thumbnail_loaded");
@@ -557,7 +558,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storePhoto(const PhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::storePhoto(const IPhotoInfo::Ptr& data)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
@@ -565,7 +566,7 @@ namespace Database
         bool status = db.transaction();
 
         //store path and hash
-        PhotoInfo::Id id = data->getID();
+        IPhotoInfo::Id id = data->getID();
         const bool updating = id.valid();
         const bool inserting = !updating;
 
@@ -599,7 +600,7 @@ namespace Database
             status = photo_id.isValid();
 
             if (status)
-                id = PhotoInfo::Id(photo_id.toInt());
+                id = IPhotoInfo::Id(photo_id.toInt());
         }
 
         //make sure id is set
@@ -634,10 +635,10 @@ namespace Database
     }
 
 
-    PhotoInfo::Ptr ASqlBackend::Data::getPhoto(const PhotoInfo::Id& id)
+    IPhotoInfo::Ptr ASqlBackend::Data::getPhoto(const IPhotoInfo::Id& id)
     {
         //basic data
-        PhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(getPathFor(id));
+        IPhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(getPathFor(id));
         photoInfo->initID(id);
 
         //load tags
@@ -652,7 +653,7 @@ namespace Database
             photoInfo->initThumbnail(*thumbnail);
         
         //load hash
-        const Optional<PhotoInfo::Hash> hash = getHashFor(id);
+        const Optional<IPhotoInfo::Hash> hash = getHashFor(id);
         if (hash)
             photoInfo->initHash(*hash);
 
@@ -660,7 +661,7 @@ namespace Database
     }
 
 
-    TagData ASqlBackend::Data::getTagsFor(const PhotoInfo::Id& photoId)
+    TagData ASqlBackend::Data::getTagsFor(const IPhotoInfo::Id& photoId)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
@@ -693,7 +694,7 @@ namespace Database
     }
 
 
-    Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const PhotoInfo::Id& id)
+    Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
 
@@ -717,7 +718,7 @@ namespace Database
         return pixmap;
     }
     
-    Optional<PhotoInfo::Hash> ASqlBackend::Data::getHashFor(const PhotoInfo::Id& id)
+    Optional<IPhotoInfo::Hash> ASqlBackend::Data::getHashFor(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
@@ -728,7 +729,7 @@ namespace Database
 
         const bool status = exec(queryStr, &query);
 
-        Optional<PhotoInfo::Hash> result;
+        Optional<IPhotoInfo::Hash> result;
         if(status && query.next())
         {
             const QVariant variant = query.value(0);
@@ -740,7 +741,7 @@ namespace Database
     }
 
 
-    QString ASqlBackend::Data::getPathFor(const PhotoInfo::Id& id)
+    QString ASqlBackend::Data::getPathFor(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
@@ -887,7 +888,7 @@ namespace Database
     }
 
 
-    PhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
+    IPhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
     {
         auto photoInfo = std::make_shared<PhotoInfo>(path);
         photoInfo->markStagingArea(true);                                //by default all new photos go to staging area. TODO: is this responsibility of Backend to know it?
@@ -899,7 +900,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::update(const PhotoInfo::Ptr& entry)
+    bool ASqlBackend::update(const IPhotoInfo::Ptr& entry)
     {
         assert(entry->getID().valid());
 
@@ -961,10 +962,10 @@ namespace Database
     }
 
 
-    PhotoInfo::Ptr ASqlBackend::getPhoto(const PhotoInfo::Id& id)
+    IPhotoInfo::Ptr ASqlBackend::getPhoto(const IPhotoInfo::Id& id)
     {
         //try to find cached one
-        PhotoInfo::Ptr result = m_data->m_photoInfoManager->find(id);
+        IPhotoInfo::Ptr result = m_data->m_photoInfoManager->find(id);
 
         if (result.get() == nullptr)
         {

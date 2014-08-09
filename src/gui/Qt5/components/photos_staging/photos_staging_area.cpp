@@ -80,11 +80,11 @@ void PhotosStagingArea::pathToAnalyze(const QString& path)
 }
 
 
-void PhotosStagingArea::viewSelectionChanged(const std::vector<PhotoInfo::Ptr>& photos)
+void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>& photos)
 {
     std::vector<std::shared_ptr<ITagData>> tags;
 
-    for(const PhotoInfo::Ptr& photo: photos)
+    for(const IPhotoInfo::Ptr& photo: photos)
         tags.push_back(photo->getTags());
 
     TagDataComposite* tagsData = new TagDataComposite;

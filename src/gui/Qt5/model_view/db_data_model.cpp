@@ -53,16 +53,16 @@ void DBDataModel::deepFetch(const QModelIndex& top)
 }
 
 
-PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
+IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
     return idxData->m_photo;
 }
 
 
-const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
+const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos()
 {
-    std::vector<PhotoInfo::Ptr> result;
+    std::vector<IPhotoInfo::Ptr> result;
     m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
 
     return result;

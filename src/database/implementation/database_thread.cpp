@@ -87,12 +87,12 @@ namespace
 
     struct UpdateTask: ThreadBaseTask
     {
-        UpdateTask(const Database::Task& task, const PhotoInfo::Ptr& photo): ThreadBaseTask(task), m_photoInfo(photo) {}
+        UpdateTask(const Database::Task& task, const IPhotoInfo::Ptr& photo): ThreadBaseTask(task), m_photoInfo(photo) {}
         virtual ~UpdateTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        PhotoInfo::Ptr m_photoInfo;
+        IPhotoInfo::Ptr m_photoInfo;
     };
 
 
@@ -107,11 +107,11 @@ namespace
 
     struct GetPhotoTask: ThreadBaseTask
     {
-        GetPhotoTask(const Database::Task& task, const PhotoInfo::Id& id): ThreadBaseTask(task), m_id(id) {}
+        GetPhotoTask(const Database::Task& task, const IPhotoInfo::Id& id): ThreadBaseTask(task), m_id(id) {}
         virtual ~GetPhotoTask() {}
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        PhotoInfo::Id m_id;
+        IPhotoInfo::Id m_id;
     };
 
     struct GetPhotosTask: ThreadBaseTask
@@ -161,7 +161,7 @@ namespace
 
         virtual void visit(InsertTask* task) override
         {
-            PhotoInfo::Ptr photoInfo = m_backend->addPath(task->m_path);      
+            IPhotoInfo::Ptr photoInfo = m_backend->addPath(task->m_path);
             task->m_task.setStatus(photoInfo.get() != nullptr);
 
             emit photoAdded(photoInfo);
@@ -325,7 +325,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::update(const Task& db_task, const PhotoInfo::Ptr& photo)
+    void DatabaseThread::update(const Task& db_task, const IPhotoInfo::Ptr& photo)
     {
         UpdateTask* task = new UpdateTask(db_task, photo);
         m_impl->addTask(task);
@@ -339,7 +339,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::getPhoto(const Task& db_task, const PhotoInfo::Id& id)
+    void DatabaseThread::getPhoto(const Task& db_task, const IPhotoInfo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(db_task, id);
         m_impl->addTask(task);

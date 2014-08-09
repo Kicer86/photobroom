@@ -40,10 +40,10 @@ namespace Database
             virtual ADatabaseSignals* notifier() override;
 
             virtual void addPath(const Task&, const QString&) override;
-            virtual void update(const Task &, const PhotoInfo::Ptr &) override;
+            virtual void update(const Task &, const IPhotoInfo::Ptr &) override;
 
             virtual void getAllPhotos(const Task &) override;
-            virtual void getPhoto(const Task &, const PhotoInfo::Id &) override;
+            virtual void getPhoto(const Task &, const IPhotoInfo::Id &) override;
             virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr> &) override;
             virtual void listTags(const Task &) override;
             virtual void listTagValues(const Task &, const TagNameInfo &) override;

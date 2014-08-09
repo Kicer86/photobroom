@@ -4,7 +4,7 @@
 
 #include <QWidget>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 namespace Database
 {
@@ -35,7 +35,7 @@ class PhotosStagingArea: public QWidget
 
     private slots:
         void pathToAnalyze(const QString &);
-        void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >&);
+        void viewSelectionChanged(const std::vector<IPhotoInfo::Ptr >&);
         void savePhotos();
 
 };

@@ -22,7 +22,7 @@
 
 #include <memory>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "iphoto_info_manager.hpp"
 
@@ -31,7 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoManager: public IPhotoInfoManager, PhotoInfo::IObserver
+class PhotoInfoManager: public IPhotoInfoManager, IPhotoInfo::IObserver
 {
     public:
         PhotoInfoManager();
@@ -40,8 +40,8 @@ class PhotoInfoManager: public IPhotoInfoManager, PhotoInfo::IObserver
 
         PhotoInfoManager& operator=(const PhotoInfoManager& other) = delete;
 
-        PhotoInfo::Ptr find(const PhotoInfo::Id &) const override;
-        void introduce(const PhotoInfo::Ptr &) override;
+        IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const override;
+        void introduce(const IPhotoInfo::Ptr &) override;
 
         void setDatabase(Database::IDatabase *);
 
@@ -49,7 +49,7 @@ class PhotoInfoManager: public IPhotoInfoManager, PhotoInfo::IObserver
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        virtual void photoUpdated(PhotoInfo *) override;
+        virtual void photoUpdated(IPhotoInfo *) override;
 };
 
 #endif // PHOTOINFOMANAGER_H

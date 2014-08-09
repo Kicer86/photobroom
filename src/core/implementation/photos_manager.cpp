@@ -56,7 +56,7 @@ PhotosManager* PhotosManager::instance()
 }
 
 
-void PhotosManager::getPhoto(const PhotoInfo::Ptr& photo, QPixmap* pixmap)
+void PhotosManager::getPhoto(const IPhotoInfo::Ptr& photo, QPixmap* pixmap)
 {
     QByteArray data;
     getPhoto(photo, &data);
@@ -65,7 +65,7 @@ void PhotosManager::getPhoto(const PhotoInfo::Ptr& photo, QPixmap* pixmap)
 }
 
 
-void PhotosManager::getPhoto(const PhotoInfo::Ptr& photoInfo, QByteArray* array)
+void PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo, QByteArray* array)
 {
     getPhoto(photoInfo->getPath(), array);
 }

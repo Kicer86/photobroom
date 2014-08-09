@@ -22,12 +22,11 @@
 
 #include <utils/data_ptr.hpp>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "database_export.h"
 
 class QSqlQuery;
-class PhotoInfo;
 
 namespace Database
 {
@@ -40,7 +39,7 @@ namespace Database
         virtual ~IQuery() {}
 
         virtual bool gotoNext() = 0;                    //move to next data row
-        virtual PhotoInfo::Id getId() const = 0;        //get photo Id
+        virtual IPhotoInfo::Id getId() const = 0;        //get photo Id
         virtual bool valid() const = 0;
         virtual int size() const = 0;                   //number of rows
         virtual IBackend* backend() const = 0;          //source backend
@@ -106,8 +105,8 @@ namespace Database
             PhotoIterator& operator++();
             PhotoIterator operator++(int);
             PhotoIterator& operator=(const PhotoIterator &) = default;
-            PhotoInfo::Ptr operator->();
-            PhotoInfo::Ptr operator*();
+            IPhotoInfo::Ptr operator->();
+            IPhotoInfo::Ptr operator*();
 
             const IQuery* query() const;
 

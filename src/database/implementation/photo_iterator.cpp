@@ -30,7 +30,7 @@ namespace Database
     struct PhotoIterator::Impl
     {
         InterfaceContainer<IQuery> m_query;
-        PhotoInfo::Ptr m_photoInfo;
+        IPhotoInfo::Ptr m_photoInfo;
         PhotoIterator* m_iterator;
 
         Impl(const InterfaceContainer<IQuery>& query, PhotoIterator* iterator): m_query(query), m_photoInfo(), m_iterator(iterator)
@@ -48,7 +48,7 @@ namespace Database
         {
             if (m_photoInfo.get() == nullptr)
             {
-                const PhotoInfo::Id photoId = m_query->getId();
+                const IPhotoInfo::Id photoId = m_query->getId();
 
                 m_photoInfo = m_query->backend()->getPhoto(photoId);
             }
@@ -102,8 +102,8 @@ namespace Database
         if ( *this )
         {
             //get id of current photo
-            const PhotoInfo::Id id = m_impl->m_query->getId();
-            PhotoInfo::Id n_id;
+            const IPhotoInfo::Id id = m_impl->m_query->getId();
+            IPhotoInfo::Id n_id;
             const bool status = m_impl->m_query->gotoNext();
 
             if (status)
@@ -127,14 +127,14 @@ namespace Database
     }
 
 
-    PhotoInfo::Ptr PhotoIterator::operator->()
+    IPhotoInfo::Ptr PhotoIterator::operator->()
     {
         m_impl->calculatePhotoInfo();
         return m_impl->m_photoInfo;
     }
 
 
-    PhotoInfo::Ptr PhotoIterator::operator*()
+    IPhotoInfo::Ptr PhotoIterator::operator*()
     {
         m_impl->calculatePhotoInfo();
         return m_impl->m_photoInfo;

@@ -22,7 +22,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
-    implementation/photo_info.cpp
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
     implementation/itagfeeder.cpp
@@ -33,7 +32,6 @@ set(CORE_SOURCES
     )
 
 set(CORE_HEADERS
-    photo_info.hpp
     base_tags.hpp
     hash_functions.hpp
     itagfeeder.hpp

@@ -18,6 +18,7 @@ set(DATABASE_SOURCES
     implementation/database_thread.cpp
     implementation/filter.cpp
     implementation/photo_iterator.cpp
+    implementation/photo_info.cpp
     implementation/photo_info_manager.cpp
     implementation/photo_info_updater.cpp
     implementation/query_list.cpp
@@ -27,14 +28,16 @@ set(DATABASE_HEADERS
     database_builder.hpp
     filter.hpp
     idatabase.hpp
+    iphoto_info.hpp
     iphoto_info_manager.hpp
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
-    implementation/photo_info_manager.hpp
     implementation/database_thread.hpp
-    implementation/plugin_loader.hpp
+    implementation/photo_info.hpp
+    implementation/photo_info_manager.hpp
     implementation/photo_info_updater.hpp
+    implementation/plugin_loader.hpp
     )
 
 set(DATABASE_MOC idatabase.hpp)

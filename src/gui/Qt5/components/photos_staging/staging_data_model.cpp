@@ -46,9 +46,9 @@ void StagingDataModel::addPhoto(const QString& path)
 void StagingDataModel::storePhotos()
 {
     deepFetch(QModelIndex());   //fetch root
-    const std::vector<PhotoInfo::Ptr> photos = getPhotos();
+    const std::vector<IPhotoInfo::Ptr> photos = getPhotos();
 
-    for(const PhotoInfo::Ptr& photo: photos)
+    for(const IPhotoInfo::Ptr& photo: photos)
         photo->markStagingArea(false);
 }
 

@@ -57,7 +57,7 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     QModelIndex getIndex(IdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
     IdxData* parent(const QModelIndex& child);
-    void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result);
+    void getPhotosFor(const IdxData* idx, std::vector<IPhotoInfo::Ptr>* result);
 
     //signals from IdxData:
     void idxDataCreated(IdxData *);
@@ -85,7 +85,7 @@ private:
 
     //Database::IDatabaseClient:
     virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override;
-    virtual void got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &) override;
+    virtual void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
     virtual void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override;
     virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override;
     virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
@@ -106,8 +106,8 @@ signals:
     
 private slots:
     void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
-    void photoChanged(const PhotoInfo::Ptr &);
-    void photoAdded(const PhotoInfo::Ptr &);
+    void photoChanged(const IPhotoInfo::Ptr &);
+    void photoAdded(const IPhotoInfo::Ptr &);
 };
 
 

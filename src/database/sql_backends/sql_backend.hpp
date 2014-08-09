@@ -79,15 +79,15 @@ namespace Database
             std::unique_ptr<Data> m_data;
 
             virtual bool init(const std::string &) override final;
-            virtual PhotoInfo::Ptr addPath(const QString &) override final;
-            virtual bool update(const PhotoInfo::Ptr &) override final;
+            virtual IPhotoInfo::Ptr addPath(const QString &) override final;
+            virtual bool update(const IPhotoInfo::Ptr &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;
             virtual std::set<TagValueInfo> listTagValues(const TagNameInfo&) override final;
             virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
             virtual QueryList getAllPhotos() override final;
             virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) override final;
-            virtual PhotoInfo::Ptr getPhoto(const PhotoInfo::Id &) override final;
+            virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
 
             bool checkStructure();
     };
