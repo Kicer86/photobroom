@@ -111,9 +111,16 @@ namespace Database
 
         struct DatabaseObjects
         {
-            std::unique_ptr<IDatabase> m_database;
-            std::unique_ptr<IBackend> m_backend;
-            std::unique_ptr<IPhotoInfoManager> m_photoManager;
+			DatabaseObjects(const std::shared_ptr<IDatabase> &database, 
+							const std::shared_ptr<IBackend> &backend,
+							const std::shared_ptr<IPhotoInfoManager> &manager) : m_database(database), m_backend(backend), m_photoManager(manager) {}
+			~DatabaseObjects() {}
+			//DatabaseObjects(const DatabaseObjects &) = delete;
+			//DatabaseObjects& operator=(const DatabaseObjects &) = delete;
+
+			std::shared_ptr<IDatabase> m_database;
+			std::shared_ptr<IBackend> m_backend;
+			std::shared_ptr<IPhotoInfoManager> m_photoManager;
         };
 
         struct PhotoInfoCreator: Database::IPhotoInfoCreator
@@ -197,7 +204,7 @@ namespace Database
             if (status)
             {
                 auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main,
-                                                                           Impl::DatabaseObjects{ std::move(database), std::move(backend), std::move(manager) }
+                                                                           Impl::DatabaseObjects(std::move(database), std::move(backend), std::move(manager))
                                                                           )
                                                           );
                 backendIt = insertIt.first;

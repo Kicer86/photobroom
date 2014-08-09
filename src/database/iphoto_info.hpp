@@ -21,6 +21,7 @@
 #define IPHOTO_INFO_HPP
 
 #include <memory>
+#include <string>
 
 #include "database_export.h"
 
