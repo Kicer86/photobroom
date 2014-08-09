@@ -77,6 +77,8 @@ void PhotoInfoManager::introduce(const PhotoInfo::Ptr& ptr)
     const auto id = ptr->getID();
     m_data->m_photo_cache[id] = ptr;
 
+    ptr->registerObserver(this);
+
     if (ptr->isFullyInitialized() == false)
     {
         if (ptr->isHashLoaded() == false)
