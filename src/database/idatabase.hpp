@@ -118,8 +118,8 @@ namespace Database
             void photoAdded(const PhotoInfo::Ptr &);      //emited when new photo added
             void photoModified(const PhotoInfo::Ptr &);   //emited when photo updated
 
-            void beforeTaskExecution(const Task::Id &);  //emited before task execution
-            void afterTaskExecution(const Task::Id &);   //emited after task execution
+            void beforeTaskExecution(const Task::Id &);   //emited before task execution
+            void afterTaskExecution(const Task::Id &);    //emited after task execution
     };
 
     //Database interface.
