@@ -28,7 +28,7 @@ set(DATABASE_HEADERS
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
-    photoinfo_manager.hpp
+    implementation/photoinfo_manager.hpp
     implementation/database_thread.hpp
     implementation/plugin_loader.hpp
     )
