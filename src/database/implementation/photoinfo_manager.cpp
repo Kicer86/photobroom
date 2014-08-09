@@ -118,7 +118,7 @@ void PhotoInfoManager::photoUpdated(PhotoInfo* photoInfo)
     assert(ptr.get() != nullptr);
 
     //when found update changed photo in database
-    if (ptr.get() != nullptr)
+    if (ptr.get() != nullptr && ptr->isFullyInitialized())
     {
         auto task = m_data->m_database->prepareTask(m_data.get());
         m_data->m_database->update(task, ptr);
