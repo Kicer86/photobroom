@@ -33,7 +33,7 @@ namespace
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool store(const PhotoInfo::Ptr& entry) override
+        virtual bool update(const PhotoInfo::Ptr& entry) override
         {
             m_entries.push_back(entry);
 

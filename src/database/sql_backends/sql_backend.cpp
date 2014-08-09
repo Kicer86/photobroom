@@ -887,8 +887,10 @@ namespace Database
     }
 
 
-    bool ASqlBackend::store(const PhotoInfo::Ptr& entry)
+    bool ASqlBackend::update(const PhotoInfo::Ptr& entry)
     {
+        assert(entry->getID().valid());
+        
         bool status = false;
 
         if (m_data)

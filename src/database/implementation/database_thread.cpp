@@ -150,7 +150,7 @@ namespace
         virtual void visit(StoreTask* task)
         {
             const bool new_one = task->m_photoInfo->getID().valid() == false;
-            const bool status = m_backend->store(task->m_photoInfo);
+            const bool status = m_backend->update(task->m_photoInfo);
             task->m_task.setStatus(status);
             task->m_task.getClient()->got_storeStatus(task->m_task);
 

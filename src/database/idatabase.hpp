@@ -47,8 +47,8 @@ namespace Database
 
         virtual void setPhotoInfoManager(IPhotoInfoManager *) = 0;
 
-        //store data
-        virtual bool store(const PhotoInfo::Ptr &) = 0;
+        //update data
+        virtual bool update(const PhotoInfo::Ptr &) = 0;
 
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;                                  //list all stored tag names
