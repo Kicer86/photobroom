@@ -17,7 +17,7 @@
 
 #include <core/tag.hpp>
 #include <core/photo_info.hpp>
-#include <database/databasebuilder.hpp>
+#include <database/database_builder.hpp>
 
 #include "components/photos_staging/staging_data_model.hpp"
 #include "model_view/images_tree_view.hpp"

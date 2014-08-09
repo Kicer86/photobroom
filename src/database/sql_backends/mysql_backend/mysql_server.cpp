@@ -31,7 +31,7 @@
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
-#include <database/databasebuilder.hpp>
+#include <database/database_builder.hpp>
 #include <system/system.hpp>
 
 

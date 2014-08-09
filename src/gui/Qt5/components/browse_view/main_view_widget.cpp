@@ -6,7 +6,7 @@
 #include <QPushButton>
 
 #include <core/base_tags.hpp>
-#include <database/databasebuilder.hpp>
+#include <database/database_builder.hpp>
 
 #include "model_view/images_tree_view.hpp"
 #include "main_view_data_model.hpp"

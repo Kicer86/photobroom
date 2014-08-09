@@ -18,7 +18,7 @@
 */
 
 
-#include "databasebuilder.hpp"
+#include "database_builder.hpp"
 
 #include <assert.h>
 
@@ -33,7 +33,7 @@
 #include "ifs.hpp"
 #include "plugin_loader.hpp"
 #include "database_thread.hpp"
-#include "photoinfo_manager.hpp"
+#include "photo_info_manager.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 

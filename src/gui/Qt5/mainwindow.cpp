@@ -3,7 +3,7 @@
 
 #include <QCloseEvent>
 
-#include "database/databasebuilder.hpp"
+#include "database/database_builder.hpp"
 #include "database/idatabase.hpp"
 
 #include "centralwidget.hpp"

@@ -38,10 +38,10 @@
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 #include <database/filter.hpp>
-#include <database/iphotoinfomanager.hpp>
+#include <database/iphoto_info_manager.hpp>
 
 #include "table_definition.hpp"
-#include "sqldbquery.hpp"
+#include "sql_db_query.hpp"
 #include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"

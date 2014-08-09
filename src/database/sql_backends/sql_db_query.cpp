@@ -19,7 +19,7 @@
 
 #include <QVariant>
 
-#include "sqldbquery.hpp"
+#include "sql_db_query.hpp"
 namespace Database
 {
 

@@ -17,7 +17,7 @@
  *
  */
 
-#include "photoinfo_manager.hpp"
+#include "photo_info_manager.hpp"
 
 #include <core/photo_info.hpp>
 

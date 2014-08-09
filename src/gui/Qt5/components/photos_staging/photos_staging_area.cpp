@@ -9,7 +9,7 @@
 #include <analyzer/photo_crawler_builder.hpp>
 #include <analyzer/iphoto_crawler.hpp>
 #include <core/tag.hpp>
-#include <database/databasebuilder.hpp>
+#include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 
 #include "components/tag_editor/tag_editor_widget.hpp"

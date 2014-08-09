@@ -9,7 +9,7 @@
 #include "gui/gui.hpp"
 #include "configuration/configurationfactory.hpp"
 #include "configuration/iconfiguration.hpp"
-#include "database/databasebuilder.hpp"
+#include "database/database_builder.hpp"
 
 int main(int argc, char **argv)
 {

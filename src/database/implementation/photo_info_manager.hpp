@@ -24,7 +24,7 @@
 
 #include <core/photo_info.hpp>
 
-#include "iphotoinfomanager.hpp"
+#include "iphoto_info_manager.hpp"
 
 namespace Database
 {

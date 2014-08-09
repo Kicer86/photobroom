@@ -14,24 +14,24 @@ include_directories(SYSTEM
 
 set(DATABASE_SOURCES
     implementation/plugin_loader.cpp
-    implementation/databasebuilder.cpp
+    implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
     implementation/photo_iterator.cpp
-    implementation/photoinfo_manager.cpp
-    implementation/query_list.cpp
+    implementation/photo_info_manager.cpp
     implementation/photo_info_updater.cpp
+    implementation/query_list.cpp
     )
 
 set(DATABASE_HEADERS
-    databasebuilder.hpp
+    database_builder.hpp
     filter.hpp
     idatabase.hpp
-    iphotoinfomanager.hpp
+    iphoto_info_manager.hpp
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
-    implementation/photoinfo_manager.hpp
+    implementation/photo_info_manager.hpp
     implementation/database_thread.hpp
     implementation/plugin_loader.hpp
     implementation/photo_info_updater.hpp
