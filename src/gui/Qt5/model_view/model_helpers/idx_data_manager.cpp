@@ -255,29 +255,10 @@ void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr
 }
 
 
-//store or update photo in DB
-void IdxDataManager::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
-{
-    std::cout << "Updating photo " << photoInfo->getID() << std::endl;
-    Database::Task task = m_data->m_database->prepareTask(this);
-    m_data->m_database->update(task, photoInfo);
-}
-
-
-void IdxDataManager::idxDataChanged(IdxData* idxData)
-{
-    //if photo changed, store it in database
-    PhotoInfo::Ptr photoInfo = idxData->m_photo;
-    if (photoInfo.get() != nullptr)
-        updatePhotoInDB(photoInfo);
-}
-
-
 void IdxDataManager::idxDataCreated(IdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);
 }
-
 
 
 void IdxDataManager::idxDataDeleted(IdxData* idxData)

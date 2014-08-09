@@ -59,11 +59,6 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     IdxData* parent(const QModelIndex& child);
     void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result);
 
-    //store or update photo in DB
-    void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo);
-
-    void idxDataChanged(IdxData *);                              //called by IdxData when it changes
-
     //signals from IdxData:
     void idxDataCreated(IdxData *);
     void idxDataDeleted(IdxData *);
