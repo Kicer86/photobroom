@@ -23,7 +23,6 @@ TODO:
 - PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 
 IN PROGRESS:
-- load missing PhotoInfo's data when one is found
 - Staging Model: automatically move added photos to right positions
 - make PhotoInfo::tags thread safe and do not overwrite data
 
@@ -45,6 +44,7 @@ DONE:
 - introduce PhotoInfo manager in database
 - PhotoInfo should be owned by database
 - PhotoInfo should be an interface
+- load missing PhotoInfo's data when one is found
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
