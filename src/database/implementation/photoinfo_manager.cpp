@@ -110,6 +110,6 @@ void PhotoInfoManager::photoUpdated(PhotoInfo* photoInfo)
     if (ptr.get() != nullptr)
     {
         auto task = m_data->m_database->prepareTask(nullptr);
-        m_data->m_database->store(task, ptr);
+        m_data->m_database->update(task, ptr);
     }
 }

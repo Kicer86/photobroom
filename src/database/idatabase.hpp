@@ -132,7 +132,7 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         //store data
-        virtual void store(const Task &, const PhotoInfo::Ptr &) = 0;
+        virtual void update(const Task &, const PhotoInfo::Ptr &) = 0;
 
         //read data
         virtual void listTags(const Task &) = 0;                                     //list all stored tag names

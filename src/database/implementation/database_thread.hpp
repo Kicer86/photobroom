@@ -39,7 +39,7 @@ namespace Database
             virtual Task prepareTask(IDatabaseClient *) override;
             virtual ADatabaseSignals* notifier() override;
 
-            virtual void store(const Task &, const PhotoInfo::Ptr &) override;
+            virtual void update(const Task &, const PhotoInfo::Ptr &) override;
 
             virtual void getAllPhotos(const Task &) override;
             virtual void getPhoto(const Task &, const PhotoInfo::Id &) override;

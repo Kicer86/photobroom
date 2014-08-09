@@ -302,7 +302,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::store(const Task& db_task, const PhotoInfo::Ptr& photo)
+    void DatabaseThread::update(const Task& db_task, const PhotoInfo::Ptr& photo)
     {
         StoreTask* task = new StoreTask(db_task, photo);
         m_impl->addTask(task);
