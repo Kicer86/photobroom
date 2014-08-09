@@ -35,7 +35,7 @@ struct PhotoInfoIdHash
 };
 
 
-struct PhotoInfoManager::Data
+struct PhotoInfoManager::Data: Database::IDatabaseClient
 {
     Data(): m_photo_cache(), m_database(nullptr) {}
     Data(const Data &) = delete;
@@ -45,6 +45,13 @@ struct PhotoInfoManager::Data
 
     std::unordered_map<PhotoInfo::Id, std::weak_ptr<PhotoInfo>, PhotoInfoIdHash> m_photo_cache;
     Database::IDatabase* m_database;
+
+    virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override {}
+    virtual void got_getPhoto(const Database::Task &, const PhotoInfo::Ptr &) override {}
+    virtual void got_getPhotos(const Database::Task &, const Database::QueryList &) override {}
+    virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override {}
+    virtual void got_listTagValues(const Database::Task &, const std::deque<TagValueInfo> &) override {}
+    virtual void got_storeStatus(const Database::Task &) override {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +120,7 @@ void PhotoInfoManager::photoUpdated(PhotoInfo* photoInfo)
     //when found update changed photo in database
     if (ptr.get() != nullptr)
     {
-        auto task = m_data->m_database->prepareTask(nullptr);
+        auto task = m_data->m_database->prepareTask(m_data.get());
         m_data->m_database->update(task, ptr);
     }
 }
