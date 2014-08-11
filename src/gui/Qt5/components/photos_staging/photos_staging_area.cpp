@@ -48,8 +48,8 @@ PhotosStagingArea::PhotosStagingArea(QWidget *p):
 
     browse->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(browse, SIGNAL(addPath(QString)), this, SLOT(pathToAnalyze(const QString &)));
-    connect(m_editor, SIGNAL(selectionChanged(const std::vector<PhotoInfo::Ptr> &)),
-            this, SLOT(viewSelectionChanged(const std::vector<PhotoInfo::Ptr> &)));
+    connect(m_editor, SIGNAL(selectionChanged(const std::vector<IPhotoInfo::Ptr> &)),
+            this, SLOT(viewSelectionChanged(const std::vector<IPhotoInfo::Ptr> &)));
 
     QHBoxLayout* savePhotosLayout = new QHBoxLayout(nullptr);
     QPushButton* saveButton = new QPushButton(tr("save photos"));
