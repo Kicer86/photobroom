@@ -31,6 +31,8 @@
 IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
     m_data[Qt::DisplayRole] = name;
+    
+    init();
 }
 
 
@@ -41,6 +43,8 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& 
 
     updateLeafData();
     photo->registerObserver(this);
+
+    init();
 }
 
 
@@ -95,7 +99,6 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_loaded(FetchStatus::NotFetched)
 {
     m_level = parent ? parent->m_level + 1 : 0;
-    m_model->idxDataCreated(this);
 }
 
 
@@ -110,6 +113,12 @@ void IdxData::updateLeafData()
 {
     m_data[Qt::DisplayRole] = m_photo->getPath();
     m_data[Qt::DecorationRole] = m_photo->getThumbnail();
+}
+
+
+void IdxData::init()
+{
+    m_model->idxDataCreated(this);
 }
 
 

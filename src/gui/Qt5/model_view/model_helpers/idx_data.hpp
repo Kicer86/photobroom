@@ -68,6 +68,7 @@ struct IdxData: public IPhotoInfo::IObserver
         IdxData(IdxDataManager *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
+        void init();
 
         //IObserver:
         void photoUpdated(IPhotoInfo *) override;
