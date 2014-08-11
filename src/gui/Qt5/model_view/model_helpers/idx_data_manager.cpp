@@ -30,6 +30,7 @@
 #include <OpenLibrary/palgorithm/ts_resource.hpp>
 
 #include <core/base_tags.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "idxdata_deepfetcher.hpp"
 
@@ -68,6 +69,7 @@ struct IdxDataManager::Data
         m_database(),
         m_iterator(),
         m_db_tasks(),
+        m_photoId2IdxData(),
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id())
     {
@@ -94,6 +96,7 @@ struct IdxDataManager::Data
     Database::IDatabase* m_database;
     Database::PhotoIterator m_iterator;
     ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
+    ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
     ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
 };
@@ -258,12 +261,18 @@ void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<IPhotoInfo::Pt
 void IdxDataManager::idxDataCreated(IdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);
+
+    if (idxData->m_photo)
+        m_data->m_photoId2IdxData.lock()->insert( std::make_pair(idxData->m_photo->getID(), idxData) );
 }
 
 
 void IdxDataManager::idxDataDeleted(IdxData* idxData)
 {
     removeIdxDataFromNotFetched(idxData);
+
+    if (idxData->m_photo)
+        m_data->m_photoId2IdxData.lock()->erase(idxData->m_photo->getID());
 }
 
 
@@ -482,14 +491,24 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 }
 
 
-void IdxDataManager::photoChanged(const IPhotoInfo::Ptr &)
+void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& ptr)
 {
     //TODO: not very smart. Do analyse what changed and how basing on photo id
+    //we should use filters before looking in map (link in case of photoAdded())
+    //then we need to find proper place for photo (or even create new one if this photo
+    //wasn't used here
 
-    //resetModel();
+    const IPhotoInfo::Id id = ptr->getID();
+    auto photosMap = m_data->m_photoId2IdxData.lock();
+    auto it = photosMap->find(id);
 
-    //QModelIndex idx = m_data->m_model->createIndex(idxData);
-    //emit m_data->m_model->dataChanged(idx, idx);
+    if (it != photosMap->end())
+    {
+        IdxData* idxData = it->second;
+
+        QModelIndex idx = m_data->m_model->createIndex(idxData);
+        emit m_data->m_model->dataChanged(idx, idx);
+    }
 }
 
 
