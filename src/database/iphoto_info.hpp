@@ -103,4 +103,14 @@ struct IPhotoInfo
     virtual Flags getFlags() const = 0;
 };
 
+
+struct PhotoInfoIdHash
+{
+    std::size_t operator()(const ::IPhotoInfo::Id& key) const
+    {
+        return std::hash<IPhotoInfo::Id::type>()(key.value());
+    }
+};
+
+
 #endif // IPHOTO_INFO_HPP

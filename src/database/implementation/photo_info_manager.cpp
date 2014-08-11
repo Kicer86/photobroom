@@ -26,14 +26,6 @@
 #include "photo_info_updater.hpp"
 #include <idatabase.hpp>
 
-struct PhotoInfoIdHash
-{
-    std::size_t operator()(const ::IPhotoInfo::Id& key) const
-    {
-        return std::hash<IPhotoInfo::Id::type>()(key.value());
-    }
-};
-
 
 struct PhotoInfoManager::Data: Database::IDatabaseClient
 {
