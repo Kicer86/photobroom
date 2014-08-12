@@ -1,5 +1,5 @@
 
-Sets of tasks: finished, to be done, dropped
+Sets of tasks: finished, to be done and dropped
 
 TODO:
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
@@ -27,6 +27,7 @@ ver 1.0 requirements:
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
 - make PhotoInfo::tags thread safe and do not overwrite data
+
 
 DONE:
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
