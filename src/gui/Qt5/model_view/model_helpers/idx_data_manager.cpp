@@ -467,7 +467,7 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque< IdxData* >& photos)
+void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>& photos)
 {
     QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
