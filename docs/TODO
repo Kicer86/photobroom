@@ -20,7 +20,6 @@ TODO:
 - rename hash to sha256
 - in view add entry for not matching photos
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
-- PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
@@ -45,6 +44,7 @@ DONE:
 - PhotoInfo should be owned by database
 - PhotoInfo should be an interface
 - load missing PhotoInfo's data when one is found
+- PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
