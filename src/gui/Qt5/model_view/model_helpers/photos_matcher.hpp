@@ -19,6 +19,10 @@
 
 #ifndef PHOTOSMATCHER_HPP
 #define PHOTOSMATCHER_HPP
+#include <database/iphoto_info.hpp>
+
+class IdxDataManager;
+class IdxData;
 
 class PhotosMatcher
 {
@@ -26,8 +30,16 @@ class PhotosMatcher
         PhotosMatcher();
         PhotosMatcher(const PhotosMatcher &) = delete;
         ~PhotosMatcher();
+
+        void set(IdxDataManager *);
         
         PhotosMatcher& operator=(const PhotosMatcher &) = delete;
+
+        bool doesMatchModelFilters(const IPhotoInfo::Ptr &) const;
+        IdxData* findParentFor(const IPhotoInfo::Ptr &) const;
+
+    private:
+        IdxDataManager* m_idxDataManager;
 };
 
 #endif // PHOTOSMATCHER_HPP

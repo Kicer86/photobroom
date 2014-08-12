@@ -19,13 +19,31 @@
 
 #include "photos_matcher.hpp"
 
-PhotosMatcher::PhotosMatcher()
+PhotosMatcher::PhotosMatcher(): m_idxDataManager(nullptr)
 {
 
 }
 
 
 PhotosMatcher::~PhotosMatcher()
+{
+
+}
+
+
+void PhotosMatcher::set(IdxDataManager* manager)
+{
+    m_idxDataManager = manager;
+}
+
+
+bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr&) const
+{
+
+}
+
+
+IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr&) const
 {
 
 }
