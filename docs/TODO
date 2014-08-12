@@ -2,7 +2,6 @@
 Sets of tasks: finished, to be done, dropped
 
 TODO:
-- model: react on changes in database
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - performance: when updating photo, do not update all, update only required data
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
@@ -11,7 +10,6 @@ TODO:
 - database: priorities for tasks store should be more important than update
 - update photo in db when tags change
 - rename hash to sha256
-- in view add entry for not matching photos
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 
 ver 1.0 requirements:
@@ -23,6 +21,7 @@ ver 1.0 requirements:
 - rethink configuration concepts
 - log files
 - new view for photos
+- in view add entry for not matching photos
 
 
 IN PROGRESS:
@@ -49,6 +48,8 @@ DONE:
 - PhotoInfo should be an interface
 - load missing PhotoInfo's data when one is found
 - PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
+- model: react on changes in database
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
+
