@@ -325,10 +325,10 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
 
-    if (level < m_data->m_hierarchy.levels.size())  //construct nodes basing on tags
+    if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
         getLevelInfo(level, _parent);
     else
-        if (level == m_data->m_hierarchy.levels.size())  //construct leafs basing on photos
+        if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
         {
             std::deque<Database::IFilter::Ptr> filter;
             buildFilterFor(_parent, &filter);
@@ -344,7 +344,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
         else
             assert(!"should not happen");
 
-        idxData->m_loaded = IdxData::FetchStatus::Fetching;
+    idxData->m_loaded = IdxData::FetchStatus::Fetching;
 }
 
 
@@ -467,7 +467,7 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque< IdxData* >& photos)
+void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>& photos)
 {
     QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
