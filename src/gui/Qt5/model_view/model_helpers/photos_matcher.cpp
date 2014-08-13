@@ -19,7 +19,94 @@
 
 #include "photos_matcher.hpp"
 
-PhotosMatcher::PhotosMatcher(): m_idxDataManager(nullptr)
+#include "idx_data_manager.hpp"
+
+
+struct FiltersMatcher: Database::IFilterVisitor
+{
+    FiltersMatcher();
+    FiltersMatcher(const FiltersMatcher &) = delete;
+    virtual ~FiltersMatcher();
+
+    FiltersMatcher& operator=(const FiltersMatcher &) = delete;
+
+    bool doesMatch(const IPhotoInfo::Ptr &, const std::deque<Database::IFilter::Ptr> &);
+
+    private:
+        bool m_doesMatch;
+        IPhotoInfo* m_photo;
+
+        virtual void visit(Database::FilterEmpty *) override;
+        virtual void visit(Database::FilterDescription *) override;
+        virtual void visit(Database::FilterFlags *) override;
+};
+
+
+FiltersMatcher::FiltersMatcher(): m_doesMatch(false), m_photo(nullptr)
+{
+
+}
+
+
+FiltersMatcher::~FiltersMatcher()
+{
+
+}
+
+
+bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::deque<Database::IFilter::Ptr>& filters)
+{
+    m_doesMatch = false;
+    m_photo = photoInfo.get();
+
+    for(const Database::IFilter::Ptr& filter: filters)
+    {
+        filter->visitMe(this);
+
+        if (m_doesMatch == false)
+            break;
+    }
+
+    m_photo = nullptr;
+    return m_doesMatch;
+}
+
+
+void FiltersMatcher::visit(Database::FilterEmpty *)
+{
+
+}
+
+
+void FiltersMatcher::visit(Database::FilterDescription* filter)
+{
+    bool result = false;
+
+    const std::shared_ptr<ITagData> tags = m_photo->getTags();
+    const ITagData::TagsList tagsList = tags->getTags();
+
+    auto it = tagsList.find(filter->tagName);
+
+    if (it != tagsList.end())
+    {
+        const std::set<TagValueInfo>& vals = it->second;
+
+        result = vals.find(filter->tagValue) != vals.end();
+    }
+
+    m_doesMatch = result;
+}
+
+
+void FiltersMatcher::visit(Database::FilterFlags*)
+{
+
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+PhotosMatcher::PhotosMatcher(): m_idxDataManager(nullptr), m_dbDataModel(nullptr)
 {
 
 }
@@ -37,9 +124,20 @@ void PhotosMatcher::set(IdxDataManager* manager)
 }
 
 
-bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr&) const
+void PhotosMatcher::set(DBDataModel* model)
 {
+    m_dbDataModel = model;
+}
 
+
+bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) const
+{
+    std::deque<Database::IFilter::Ptr> filters = m_dbDataModel->getModelSpecificFilters();
+
+    FiltersMatcher matcher;
+    const bool result = matcher.doesMatch(photoInfo, filters);
+
+    return result;
 }
 
 

@@ -23,6 +23,7 @@
 
 class IdxDataManager;
 class IdxData;
+class DBDataModel;
 
 class PhotosMatcher
 {
@@ -32,6 +33,7 @@ class PhotosMatcher
         ~PhotosMatcher();
 
         void set(IdxDataManager *);
+        void set(DBDataModel *);
         
         PhotosMatcher& operator=(const PhotosMatcher &) = delete;
 
@@ -40,6 +42,7 @@ class PhotosMatcher
 
     private:
         IdxDataManager* m_idxDataManager;
+        DBDataModel* m_dbDataModel;
 };
 
 #endif // PHOTOSMATCHER_HPP
