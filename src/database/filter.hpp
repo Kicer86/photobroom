@@ -25,6 +25,8 @@
 
 #include <QString>
 
+#include <core/tag.hpp>
+
 #include "database_export.h"
 
 #define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); }
@@ -68,7 +70,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        QString tagName;
+        TagNameInfo tagName;
         QString tagValue;
 
         FilterDescription();
