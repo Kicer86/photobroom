@@ -33,6 +33,7 @@
 #include <database/iphoto_info.hpp>
 
 #include "idxdata_deepfetcher.hpp"
+#include "photos_matcher.hpp"
 
 namespace
 {
@@ -515,10 +516,17 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& ptr)
 void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 {
     //TODO: check if we are interested in this photo (does it match our filters?)
+    PhotosMatcher matcher;
+    matcher.set(this);
+    matcher.set(m_data->m_model);
+    const bool match = matcher.doesMatchModelFilters(photoInfo);
 
-    IdxData* root = m_data->m_model->getRootIdxData();
-    IdxData* newItem = new IdxData(this, root, photoInfo);
+    if (match)
+    {
+        IdxData* root = m_data->m_model->getRootIdxData();
+        IdxData* newItem = new IdxData(this, root, photoInfo);
 
-    std::deque<IdxData *> nodes = { newItem };
-    appendPhotos(root, nodes);
+        std::deque<IdxData *> nodes = { newItem };
+        appendPhotos(root, nodes);
+    }
 }
