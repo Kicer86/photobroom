@@ -98,9 +98,11 @@ void FiltersMatcher::visit(Database::FilterDescription* filter)
 }
 
 
-void FiltersMatcher::visit(Database::FilterFlags*)
+void FiltersMatcher::visit(Database::FilterFlags* filter)
 {
+    const bool status = m_photo->getFlags().stagingArea == filter->stagingArea;
 
+    m_doesMatch = status;
 }
 
 
@@ -143,5 +145,5 @@ bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) cons
 
 IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr&) const
 {
-
+    return nullptr;
 }
