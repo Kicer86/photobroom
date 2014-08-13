@@ -64,14 +64,13 @@ class DBDataModel: public QAbstractItemModel
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
         const std::vector<IPhotoInfo::Ptr> getPhotos();              //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
 
-        //Database::IFrontend:
-        virtual void setDatabase(Database::IDatabase *);
-        virtual void close();
+        void setDatabase(Database::IDatabase *);
+        void close();
+        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
     protected:
         IdxData* getRootIdxData();
 
-        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
         Database::IDatabase* getDatabase(); //TODO: remove
 
     private:
