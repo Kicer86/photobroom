@@ -593,6 +593,9 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
+    if (photoIdxData == nullptr)
+        photoIdxData = new IdxData(this, to, photoInfo);
+
     to->addChild(photoIdxData);
 
     m_data->m_model->endInsertRows();
