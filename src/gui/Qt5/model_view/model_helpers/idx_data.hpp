@@ -62,6 +62,7 @@ struct IdxData: public IPhotoInfo::IObserver
 
         void setNodeData(const Database::IFilter::Ptr& filter);
         void addChild(IdxData* child);
+        void removeChild(IdxData* child);
         void reset();
 
     private:

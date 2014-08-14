@@ -70,6 +70,22 @@ void IdxData::addChild(IdxData* child)
 
     child->setPosition(m_children.size(), 0);
     m_children.push_back(child);
+    child->m_parent = this;
+}
+
+
+void IdxData::removeChild(IdxData* child)
+{
+    assert(child->m_parent == this);
+    assert(child->m_row < m_children.size());
+
+    for(size_t i = child->m_row; i < m_children.size() - 1; i++)
+    {
+        m_children[i] = m_children[ i + 1 ];  //move child down
+        m_children[i]->m_row = i;              //update `row`
+    }
+
+    child->m_parent = nullptr;
 }
 
 
