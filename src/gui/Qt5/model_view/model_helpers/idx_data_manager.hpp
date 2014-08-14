@@ -44,6 +44,7 @@ struct IdxDataManager: QObject, Database::IDatabaseClient
     ~IdxDataManager();
 
     void setHierarchy(const Hierarchy& hierarchy);
+    const Hierarchy& getHierarchy() const;
 
     void fetchMore(const QModelIndex& _parent);
     void deepFetch(IdxData* top);
@@ -84,12 +85,13 @@ private:
     void fetchData(const QModelIndex &);
 
     //Database::IDatabaseClient:
-    virtual void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override;
-    virtual void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
-    virtual void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override;
-    virtual void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override;
-    virtual void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
-    virtual void got_storeStatus(const Database::Task &) override;
+    void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override;
+    void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
+    void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override;
+    void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override;
+    void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
+    void got_storeStatus(const Database::Task &) override;
+    //
 
     void markIdxDataFetched(IdxData *);
 
@@ -98,7 +100,15 @@ private:
 
     void resetModel();
 
+    //model manipulations
     void appendPhotos(IdxData *, const std::deque<IdxData *> &);
+    bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
+    IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
+    IdxData* getRightParent(const IPhotoInfo::Ptr &);
+    IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
+    void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
+    void performRemove(const IPhotoInfo::Ptr &, IdxData *);
+    void performAdd(const IPhotoInfo::Ptr &, IdxData *);
 
 signals:
     void idxDataLoaded(IdxData *);

@@ -132,6 +132,12 @@ void IdxDataManager::setHierarchy(const Hierarchy& hierarchy)
 }
 
 
+const Hierarchy& IdxDataManager::getHierarchy() const
+{
+    return m_data->m_hierarchy;
+}
+
+
 void IdxDataManager::fetchMore(const QModelIndex& _parent)
 {
     fetchData(_parent);
@@ -481,6 +487,118 @@ void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>&
 }
 
 
+bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
+{
+    IdxData* currentParent = getCurrentParent(photoInfo);
+    IdxData* newParent = getRightParent(photoInfo);
+    bool parent_changed = currentParent != newParent;
+
+    if (parent_changed)
+    {
+        if (currentParent == nullptr)
+            performAdd(photoInfo, newParent);
+        else if (newParent == nullptr)
+            performRemove(photoInfo, currentParent);
+        else
+            performMove(photoInfo, currentParent, newParent);
+    }
+
+    return parent_changed;
+}
+
+
+IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
+{
+    const IPhotoInfo::Id id = photoInfo->getID();
+    auto photosMap = m_data->m_photoId2IdxData.lock();
+    auto it = photosMap->find(id);
+    IdxData* result = nullptr;
+
+    if (it != photosMap->end())
+    {
+        IdxData* idxData = it->second;
+        result = idxData->m_parent;
+    }
+
+    return result;
+}
+
+
+IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
+{
+    PhotosMatcher matcher;
+    matcher.set(this);
+    matcher.set(m_data->m_model);
+    IdxData* _parent = nullptr;
+
+    const bool match = matcher.doesMatchModelFilters(photoInfo);
+
+    if (match)
+        _parent = matcher.findParentFor(photoInfo);
+
+    return _parent;
+}
+
+
+IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
+{
+    const IPhotoInfo::Id id = photoInfo->getID();
+    auto photosMap = m_data->m_photoId2IdxData.lock();
+    auto it = photosMap->find(id);
+    IdxData* result = nullptr;
+
+    if (it != photosMap->end())
+        result = it->second;
+
+    return result;
+}
+
+
+void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from, IdxData* to)
+{
+    IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    QModelIndex fromIdx = getIndex(from);
+    QModelIndex toIdx = getIndex(to);
+    const int fromPos = photoIdxData->m_row;
+    const int toPos = to->m_children.size();
+
+    m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
+
+    from->removeChild(photoIdxData);
+    to->addChild(photoIdxData);
+
+    m_data->m_model->endMoveRows();
+}
+
+
+void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo, IdxData* from)
+{
+    IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    QModelIndex fromIdx = getIndex(from);
+    const int fromPos = photoIdxData->m_row;
+
+    m_data->m_model->beginRemoveRows(fromIdx, fromPos, fromPos);
+
+    from->removeChild(photoIdxData);
+
+    m_data->m_model->endRemoveRows();
+}
+
+
+void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
+{
+    IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    QModelIndex toIdx = getIndex(to);
+    const int toPos = to->m_children.size();
+
+    m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
+
+    to->addChild(photoIdxData);
+
+    m_data->m_model->endInsertRows();
+}
+
+
 void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
 {
     //attach nodes to parent in main thread
@@ -492,41 +610,25 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 }
 
 
-void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& ptr)
+void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 {
-    //TODO: not very smart. Do analyse what changed and how basing on photo id
-    //we should use filters before looking in map (link in case of photoAdded())
-    //then we need to find proper place for photo (or even create new one if this photo
-    //wasn't used here
+    const bool moved = movePhotoToRightParent(photoInfo);
 
-    const IPhotoInfo::Id id = ptr->getID();
-    auto photosMap = m_data->m_photoId2IdxData.lock();
-    auto it = photosMap->find(id);
-
-    if (it != photosMap->end())
-    {
-        IdxData* idxData = it->second;
-
-        QModelIndex idx = m_data->m_model->createIndex(idxData);
+    /*
+    if (!moved)
         emit m_data->m_model->dataChanged(idx, idx);
-    }
+    */
 }
 
 
 void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 {
-    //TODO: check if we are interested in this photo (does it match our filters?)
     PhotosMatcher matcher;
     matcher.set(this);
     matcher.set(m_data->m_model);
+
     const bool match = matcher.doesMatchModelFilters(photoInfo);
 
     if (match)
-    {
-        IdxData* root = m_data->m_model->getRootIdxData();
-        IdxData* newItem = new IdxData(this, root, photoInfo);
-
-        std::deque<IdxData *> nodes = { newItem };
-        appendPhotos(root, nodes);
-    }
+        movePhotoToRightParent(photoInfo);
 }
