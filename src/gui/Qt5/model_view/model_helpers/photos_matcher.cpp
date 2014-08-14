@@ -171,7 +171,7 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
     std::deque<IdxData *> toCheck = { current };
     FiltersMatcher matcher;
 
-    while (result == nullptr && toCheck.empty() == false)
+    while (toCheck.empty() == false)
     {
         IdxData* check = toCheck.front();
         toCheck.pop_front();
@@ -181,9 +181,9 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
 
         if (matches)                         //does match - yeah
         {
-            if (check->m_level == depth)     //there is nothing down there? return it as result
-                result = check;
-            else                             //go thru children
+            result = check;                  //save current match
+
+            if (check->m_level != depth)     //go thru children
                 toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
         }
     }
