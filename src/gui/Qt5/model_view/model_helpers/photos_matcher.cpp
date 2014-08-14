@@ -31,6 +31,7 @@ struct FiltersMatcher: Database::IFilterVisitor
     FiltersMatcher& operator=(const FiltersMatcher &) = delete;
 
     bool doesMatch(const IPhotoInfo::Ptr &, const std::deque<Database::IFilter::Ptr> &);
+    bool doesMatch(const IPhotoInfo::Ptr &, const Database::IFilter::Ptr &);
 
     private:
         bool m_doesMatch;
@@ -72,9 +73,21 @@ bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::dequ
 }
 
 
+bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const Database::IFilter::Ptr& filter)
+{
+    m_doesMatch = false;
+    m_photo = photoInfo.get();
+
+    filter->visitMe(this);
+
+    m_photo = nullptr;
+    return m_doesMatch;
+}
+
+
 void FiltersMatcher::visit(Database::FilterEmpty *)
 {
-
+    m_doesMatch = true;
 }
 
 
@@ -143,7 +156,37 @@ bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) cons
 }
 
 
-IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr&) const
+IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
-    return nullptr;
+    IdxData* root = m_idxDataManager->getRoot();
+
+    return findParentFor(photoInfo, root);
+}
+
+
+IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData* current) const
+{
+    const size_t depth = m_idxDataManager->getHierarchy().levels.size();
+    IdxData* result = nullptr;
+    std::deque<IdxData *> toCheck = { current };
+    FiltersMatcher matcher;
+
+    while (result == nullptr && toCheck.empty() == false)
+    {
+        IdxData* check = toCheck.front();
+        toCheck.pop_front();
+
+        const Database::IFilter::Ptr& filter = check->m_filter;
+        const bool matches = matcher.doesMatch(photoInfo, filter);
+
+        if (matches)                         //does match - yeah
+        {
+            if (check->m_level == depth)     //there is nothing down there? return it as result
+                result = check;
+            else                             //go thru children
+                toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
+        }
+    }
+
+    return result;
 }

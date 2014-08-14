@@ -43,6 +43,8 @@ class PhotosMatcher
     private:
         IdxDataManager* m_idxDataManager;
         DBDataModel* m_dbDataModel;
+
+        IdxData* findParentFor(const IPhotoInfo::Ptr &, IdxData *) const;
 };
 
 #endif // PHOTOSMATCHER_HPP
