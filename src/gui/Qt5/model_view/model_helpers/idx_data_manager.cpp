@@ -476,6 +476,8 @@ void IdxDataManager::resetModel()
 
 void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>& photos)
 {
+	assert(photos.empty() == false);
+
     QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
     m_data->m_model->beginInsertRows(parentIdx, 0, last);
@@ -607,9 +609,12 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    appendPhotos(_parent, *photos.get());
+	if (photos->empty() == false)
+	{
+		appendPhotos(_parent, *photos.get());
 
-    markIdxDataFetched(_parent);
+		markIdxDataFetched(_parent);
+	}
 }
 
 
