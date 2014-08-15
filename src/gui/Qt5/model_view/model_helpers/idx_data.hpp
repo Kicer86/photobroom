@@ -64,6 +64,8 @@ struct IdxData: public IPhotoInfo::IObserver
         void addChild(IdxData* child);
         void removeChild(IdxData* child);
         void reset();
+        bool isPhoto() const;
+        bool isNode() const;
 
     private:
         IdxData(IdxDataManager *, IdxData* parent);

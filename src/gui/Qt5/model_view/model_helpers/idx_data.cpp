@@ -102,6 +102,18 @@ void IdxData::reset()
 }
 
 
+bool IdxData::isPhoto() const
+{
+    return m_photo.get() != nullptr;
+}
+
+
+bool IdxData::isNode() const
+{
+    return m_photo.get() == nullptr;
+}
+
+
 IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_children(),
     m_data(),
