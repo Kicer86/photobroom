@@ -27,8 +27,9 @@
 
 class DBDataModel;
 
-struct IdxDataManager: QObject, Database::IDatabaseClient
+class IdxDataManager: public QObject, Database::IDatabaseClient
 {
+public:
     struct DatabaseTaskHash
     {
         std::size_t operator()(const Database::Task& t) const

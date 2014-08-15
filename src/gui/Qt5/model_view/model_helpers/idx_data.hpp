@@ -29,8 +29,9 @@ class QVariant;
 
 class IdxDataManager;
 
-struct IdxData: public IPhotoInfo::IObserver
+class IdxData: public IPhotoInfo::IObserver
 {
+	public:
         enum class FetchStatus
         {
             NotFetched,

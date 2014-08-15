@@ -32,8 +32,8 @@
 class QEventLoopLocker;
 class QModelIndex;
 
-struct IdxDataManager;
-struct IdxData;
+class IdxDataManager;
+class IdxData;
 
 class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
 {

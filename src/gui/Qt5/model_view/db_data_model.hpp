@@ -27,7 +27,7 @@
 #include <database/idatabase.hpp>
 
 class IdxDataManager;
-struct IdxData;
+class IdxData;
 
 struct Hierarchy
 {
