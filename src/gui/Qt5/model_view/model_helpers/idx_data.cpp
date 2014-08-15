@@ -82,8 +82,10 @@ void IdxData::removeChild(IdxData* child)
     for(size_t i = child->m_row; i < m_children.size() - 1; i++)
     {
         m_children[i] = m_children[ i + 1 ];  //move child down
-        m_children[i]->m_row = i;              //update `row`
+        m_children[i]->m_row = i;             //update `row`
     }
+
+    m_children.pop_back();                    //remove last children
 
     child->m_parent = nullptr;
 }
