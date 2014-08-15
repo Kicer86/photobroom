@@ -176,6 +176,9 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
         IdxData* check = toCheck.front();
         toCheck.pop_front();
 
+        if (check->isPhoto())
+            continue;
+
         const Database::IFilter::Ptr& filter = check->m_filter;
         const bool matches = matcher.doesMatch(photoInfo, filter);
 
@@ -183,7 +186,7 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
         {
             result = check;                  //save current match
 
-            if (check->m_level != depth)     //go thru children
+            if (check->m_level != depth)     //go thru children. Better match may happen
                 toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
         }
     }
