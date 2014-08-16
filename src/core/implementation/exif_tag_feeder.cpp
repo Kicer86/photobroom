@@ -6,13 +6,13 @@
 #include "base_tags.hpp"
 
 
-ExifTagFeeder::ExifTagFeeder(): m_exif_data()
+Exiv2TagFeeder::Exiv2TagFeeder(): m_exif_data()
 {
 
 }
 
 
-void ExifTagFeeder::collect(const QByteArray& data)
+void Exiv2TagFeeder::collect(const QByteArray& data)
 {
     try
     {
@@ -29,7 +29,7 @@ void ExifTagFeeder::collect(const QByteArray& data)
 }
 
 
-std::string ExifTagFeeder::get(ATagFeeder::TagTypes)
+std::string Exiv2TagFeeder::get(ATagFeeder::TagTypes)
 {
     std::string result;
     const Exiv2::ExifData &exifData = m_exif_data->exifData();

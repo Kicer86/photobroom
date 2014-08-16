@@ -1,7 +1,7 @@
 
 #include "itagfeeder.hpp"
 
-#if defined USE_EXIV
+#if defined USE_EXIV2
 #include "exif_tag_feeder.hpp"
 #elif defined USE_EASY_EXIF
 #include "easy_exif_tag_feeder.hpp"
@@ -32,8 +32,8 @@ std::shared_ptr<ITagFeeder> TagFeederFactory::get()
     static std::shared_ptr<ITagFeeder> result;
 
     if (result.get() == nullptr)
-#if defined USE_EXIV
-        result.reset(new ExifTagFeeder);
+#if defined USE_EXIV2
+        result.reset(new Exiv2TagFeeder);
 #elif defined USE_EASY_EXIF
 	result.reset(new EasyExifTagFeeder);
 #else

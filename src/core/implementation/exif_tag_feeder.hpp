@@ -9,10 +9,10 @@
 
 #include "atagfeeder.hpp"
 
-class ExifTagFeeder: public ATagFeeder
+class Exiv2TagFeeder: public ATagFeeder
 {
     public:
-        ExifTagFeeder();
+        Exiv2TagFeeder();
 
     private:
         virtual void collect(const QByteArray&);

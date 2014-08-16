@@ -54,7 +54,7 @@ qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 
 if(EXIV2_FOUND)
 
-    add_definitions(-DUSE_EXIV)
+    add_definitions(-DUSE_EXIV2)
     include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
     set(CORE_SOURCES ${CORE_SOURCES} implementation/exif_tag_feeder.cpp)
     set(CORE_HEADERS ${CORE_HEADERS} implementation/exif_tag_feeder.hpp)
