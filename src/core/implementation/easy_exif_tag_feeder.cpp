@@ -3,8 +3,7 @@
 
 #include <assert.h>
 
-#include <fstream>
-#include <sstream>
+#include <QFile>
 
 #include <easyexif/exif.h>
 
@@ -19,7 +18,7 @@ EasyExifTagFeeder::EasyExifTagFeeder()
 }
 
 
-std::unique_ptr<ITagData> EasyExifTagFeeder::getTagsFor(const std::string &path)
+std::unique_ptr<ITagData> EasyExifTagFeeder::getTagsFor(const QString &path)
 {
 	std::unique_ptr<ITagData> tagData(new TagData);
 	feed(path, tagData.get());
@@ -28,23 +27,20 @@ std::unique_ptr<ITagData> EasyExifTagFeeder::getTagsFor(const std::string &path)
 }
 
 
-void EasyExifTagFeeder::update(ITagData *, const std::string &)
+void EasyExifTagFeeder::update(ITagData *, const QString &)
 {
 
 }
 
 
-void EasyExifTagFeeder::feed(const std::string& path, ITagData* tagData)
+void EasyExifTagFeeder::feed(const QString& path, ITagData* tagData)
 {
-	std::ifstream file;
-	file.open(path, std::ios_base::in | std::ios_base::binary);
+	QFile file(path);
+	file.open(QIODevice::ReadOnly);
 
-	std::stringstream data;
-	file >> data.rdbuf();
+	const QByteArray data = file.readAll();
 
 	EXIFInfo result;
-	result.parseFrom(data.str());
-
-	(void)result;
+	result.parseFrom(data.data());
 }
 
