@@ -3,13 +3,14 @@
 
 #include <assert.h>
 
-#include <QFile>
+#include <QByteArray>
 
 #include <easyexif/exif.h>
 
 #include <configuration/constants.hpp>
 
 #include "base_tags.hpp"
+#include "photos_manager.hpp"
 
 
 EasyExifTagFeeder::EasyExifTagFeeder()
@@ -35,12 +36,17 @@ void EasyExifTagFeeder::update(ITagData *, const QString &)
 
 void EasyExifTagFeeder::feed(const QString& path, ITagData* tagData)
 {
-	QFile file(path);
-	file.open(QIODevice::ReadOnly);
+	QByteArray data;
 
-	const QByteArray data = file.readAll();
-
+	PhotosManager::instance()->getPhoto(path, &data);
+	
 	EXIFInfo result;
-	result.parseFrom(data.data());
+
+	const unsigned char* rawData = reinterpret_cast<const unsigned char *>(data.data());
+	const std::size_t rawDataSize = data.size();
+
+	result.parseFrom(rawData, rawDataSize);
+
+	(void)result;
 }
 

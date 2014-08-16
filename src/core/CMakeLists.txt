@@ -43,6 +43,7 @@ set(CORE_HEADERS
     tag.hpp
     task_executor.hpp
     time_guardian.hpp
+	implementation/atagfeeder.hpp
     )
 
 set(CORE_RESOURCE_FILES images/images.qrc)
