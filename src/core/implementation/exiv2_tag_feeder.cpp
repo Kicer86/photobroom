@@ -36,7 +36,6 @@ std::string Exiv2TagFeeder::get(ATagFeeder::TagTypes)
 
     if (exifData.empty() == false)
     {
-
         Exiv2::ExifData::const_iterator tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
 
         if (tag_date != exifData.end())
