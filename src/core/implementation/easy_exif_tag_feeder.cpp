@@ -19,3 +19,16 @@ void EasyExifTagFeeder::collect(const QByteArray& data)
 
 	m_exif_data.parseFrom(rawData, rawDataSize);
 }
+
+
+std::string EasyExifTagFeeder::get(TagTypes type)
+{
+	std::string result;
+	switch (type)
+	{
+		case DateTimeOriginal:
+			result = m_exif_data.DateTimeOriginal;
+	}
+
+	return result;
+}

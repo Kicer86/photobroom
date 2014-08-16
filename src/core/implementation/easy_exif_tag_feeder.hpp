@@ -21,6 +21,7 @@ private:
 	EXIFInfo m_exif_data;
 	
 	void collect(const QByteArray &) override;
+	std::string get(TagTypes) override;
 };
 
 #endif

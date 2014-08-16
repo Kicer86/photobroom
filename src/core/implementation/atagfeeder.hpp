@@ -32,7 +32,13 @@ public:
 	virtual ~ATagFeeder();
 
 protected:
-	virtual void collect(const QByteArray &) = 0;	
+	enum TagTypes
+	{
+		DateTimeOriginal,
+	};
+
+	virtual void collect(const QByteArray &) = 0;
+	virtual std::string get(TagTypes) = 0;
 
 private:
 	std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
