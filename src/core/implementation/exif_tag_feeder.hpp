@@ -5,21 +5,20 @@
 #include <memory>
 #include <string>
 
-#include "core_export.h"
-#include "itagfeeder.hpp"
+#include <exiv2/exiv2.hpp>
 
-struct ITagData;
+#include "atagfeeder.hpp"
 
-class CORE_EXPORT ExifTagFeeder: public ITagFeeder
+class ExifTagFeeder: public ATagFeeder
 {
     public:
         ExifTagFeeder();
 
-        virtual std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
-        virtual void update(ITagData *, const QString& path) override;
-
     private:
-        void feed(const QString& path, ITagData *);
+        virtual void collect(const QByteArray&);
+        virtual std::string get(TagTypes);
+
+        Exiv2::Image::AutoPtr m_exif_data;
 };
 
 #endif

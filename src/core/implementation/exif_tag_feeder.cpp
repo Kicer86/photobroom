@@ -3,58 +3,36 @@
 
 #include <assert.h>
 
-#include <QStringList>
-#include <exiv2/exiv2.hpp>
-
-#include <configuration/constants.hpp>
-
 #include "base_tags.hpp"
-#include "photos_manager.hpp"
 
 
-ExifTagFeeder::ExifTagFeeder()
+ExifTagFeeder::ExifTagFeeder(): m_exif_data()
 {
 
 }
 
 
-std::unique_ptr<ITagData> ExifTagFeeder::getTagsFor(const QString &path)
+void ExifTagFeeder::collect(const QByteArray& data)
 {
-    std::unique_ptr<ITagData> tagData(new TagData);
-    feed(path, tagData.get());
-
-    return tagData;
-}
-
-
-void ExifTagFeeder::update(ITagData *, const QString &)
-{
-
-}
-
-
-void ExifTagFeeder::feed(const QString& path, ITagData* tagData)
-{
-    Exiv2::Image::AutoPtr image;
-
     try
     {
-        QByteArray data;
-        PhotosManager::instance()->getPhoto(path, &data);
-
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        image = Exiv2::ImageFactory::open(udata, data.size());
+        m_exif_data = Exiv2::ImageFactory::open(udata, data.size());
     }
-    catch
-        (Exiv2::AnyError& error)
+    catch (Exiv2::AnyError& error)
     {
         return;
     }
 
-    assert(image.get() != 0);
-    image->readMetadata();
+    assert(m_exif_data.get() != 0);
+    m_exif_data->readMetadata();
+}
 
-    const Exiv2::ExifData &exifData = image->exifData();
+
+std::string ExifTagFeeder::get(ATagFeeder::TagTypes)
+{
+    std::string result;
+    const Exiv2::ExifData &exifData = m_exif_data->exifData();
 
     if (exifData.empty() == false)
     {
@@ -62,39 +40,26 @@ void ExifTagFeeder::feed(const QString& path, ITagData* tagData)
         Exiv2::ExifData::const_iterator tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
 
         if (tag_date != exifData.end())
-        {
-            QString v(tag_date->toString().c_str());
-            QStringList time_splitted = v.split(" ");
-
-            if (time_splitted.size() == 2)
-            {
-                QString date = time_splitted[0];
-                const QString time = time_splitted[1];
-
-                date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
-
-                tagData->setTag(BaseTags::get(BaseTagsList::Date), date);
-                tagData->setTag(BaseTags::get(BaseTagsList::Time), time);
-            }
-        }
+            result = tag_date->toString();
 
         /*
-        Exiv2::ExifData::const_iterator end = exifData.end();
-        for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i)
-        {
-            const char* tn = i->typeName();
-            std::cout << std::setw(44) << std::setfill(' ') << std::left
-                        << i->key() << " "
-                        << "0x" << std::setw(4) << std::setfill('0') << std::right
-                        << std::hex << i->tag() << " "
-                        << std::setw(9) << std::setfill(' ') << std::left
-                        << (tn ? tn : "Unknown") << " "
-                        << std::dec << std::setw(3)
-                        << std::setfill(' ') << std::right
-                        << i->count() << "  "
-                        << std::dec << i->value()
-                        << "\n";
-        }
-        */
+         *   Exiv2::ExifData::const_iterator end = exifData.end();
+         *   for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i)
+         *   {
+         *       const char* tn = i->typeName();
+         *       std::cout << std::setw(44) << std::setfill(' ') << std::left
+         *                   << i->key() << " "
+         *                   << "0x" << std::setw(4) << std::setfill('0') << std::right
+         *                   << std::hex << i->tag() << " "
+         *                   << std::setw(9) << std::setfill(' ') << std::left
+         *                   << (tn ? tn : "Unknown") << " "
+         *                   << std::dec << std::setw(3)
+         *                   << std::setfill(' ') << std::right
+         *                   << i->count() << "  "
+         *                   << std::dec << i->value()
+         *                   << "\n";
+         */
     }
+
+    return result;
 }
