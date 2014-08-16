@@ -66,7 +66,7 @@ namespace Configuration
             static std::vector<std::string> convert(const std::string& raw)
             {
                 char *rawData = new char[raw.size() + 1];
-                strcpy(rawData, raw.c_str());
+                strncpy(rawData, raw.c_str(), raw.size() + 1);
 
                 std::vector<char *> pointers;
                 size_t first_pos = 0, i = 0;

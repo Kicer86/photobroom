@@ -57,9 +57,9 @@ std::string HashFunctions::sha256(std::istream& stream)
         unsigned char buffer[65536];
         stream.read(reinterpret_cast<char *>(buffer), 65536);
 
-        const int got = stream.gcount();
+        const std::streamsize got = stream.gcount();
 
-        SHA256_Update(&sha256, buffer, got);
+        SHA256_Update(&sha256, buffer, static_cast<size_t>(got));
     }
 
     SHA256_Final(hash, &sha256);
@@ -88,9 +88,9 @@ std::string HashFunctions::md5(std::istream& stream)
         unsigned char buffer[65536];
         stream.read(reinterpret_cast<char *>(buffer), 65536);
 
-        const int got = stream.gcount();
+        const std::streamsize got = stream.gcount();
 
-        MD5_Update(&md5, buffer, got);
+        MD5_Update(&md5, buffer, static_cast<size_t>(got));
     }
 
     MD5_Final(hash, &md5);
