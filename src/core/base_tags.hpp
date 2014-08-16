@@ -33,7 +33,7 @@ enum class BaseTagsList
     Place,
     Date,
     Time,
-    People
+    People,
 };
 
 class CORE_EXPORT BaseTags

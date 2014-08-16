@@ -20,22 +20,21 @@
 
 #include "filesystemscanner.hpp"
 
-#include <boost/filesystem.hpp>
+#include <QDir>
+#include <QDirIterator>
 
-std::vector<std::string> FileSystemScanner::getFilesFor(const std::string &dir_path)
+void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* notifier)
 {
-    std::vector<std::string> results;
-    boost::filesystem::path p(dir_path);
-    boost::filesystem::recursive_directory_iterator dirIt(p), dirItEnd;
+    QDir p(dir_path);
+    QDirIterator dirIt(p, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
 
-    for(; dirIt != dirItEnd; ++dirIt)
+    while(dirIt.hasNext())
     {
-        const boost::filesystem::path &entry = *dirIt;
-        results.push_back( entry.string() );
+        const QString entry = dirIt.next();
+        notifier->found(entry);
     }
-
-    return results;
 }
+
 
 FileSystemScanner::FileSystemScanner()
 {

@@ -31,7 +31,7 @@ FileAnalyzer::~FileAnalyzer()
 }
 
 
-bool FileAnalyzer::isImage(const std::string &path)
+bool FileAnalyzer::isImage(const QString &path)
 {
     bool status = false;
 

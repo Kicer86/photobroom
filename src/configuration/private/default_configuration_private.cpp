@@ -32,11 +32,11 @@ std::string DefaultConfigurationPrivate::getConfigDir() const
 }
 
 
-boost::optional<Configuration::EntryData> DefaultConfigurationPrivate::find(const Configuration::ConfigurationKey& key) const
+Optional<Configuration::EntryData> DefaultConfigurationPrivate::find(const Configuration::ConfigurationKey& key) const
 {
     verifyKey(key);
 
-    boost::optional<Configuration::EntryData> result;
+    Optional<Configuration::EntryData> result;
     auto it = m_data.find(key);
 
     if (it != m_data.end())

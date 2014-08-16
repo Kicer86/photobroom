@@ -22,31 +22,39 @@
 
 #include <QMap>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 #include <database/filter.hpp>
 
 class QVariant;
 
-class DBDataModel;
+class IdxDataManager;
 
-struct IdxData: public PhotoInfo::IObserver
+class IdxData: public IPhotoInfo::IObserver
 {
+	public:
+        enum class FetchStatus
+        {
+            NotFetched,
+            Fetching,
+            Fetched,
+        };
+
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;
-        PhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
+        IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxData* m_parent;
-        DBDataModel* m_model;
+        IdxDataManager* m_model;
         size_t m_level;
         int m_row;
         int m_column;
-        bool m_loaded;                          // true when we have loaded all children of item (if any)
+        FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
-        IdxData(DBDataModel *, IdxData* parent, const QString& name);
+        IdxData(IdxDataManager *, IdxData* parent, const QString& name);
 
         //leaf constructor
-        IdxData(DBDataModel *, IdxData* parent, const PhotoInfo::Ptr &);
+        IdxData(IdxDataManager *, IdxData* parent, const IPhotoInfo::Ptr &);
 
         virtual ~IdxData();
 
@@ -55,15 +63,19 @@ struct IdxData: public PhotoInfo::IObserver
 
         void setNodeData(const Database::IFilter::Ptr& filter);
         void addChild(IdxData* child);
-        void addChild(const PhotoInfo::Ptr& photoInfo);
+        void removeChild(IdxData* child);
+        void reset();
+        bool isPhoto() const;
+        bool isNode() const;
 
     private:
-        IdxData(DBDataModel *, IdxData* parent);
+        IdxData(IdxDataManager *, IdxData* parent);
         void setPosition(int row, int col);
         void updateLeafData();
+        void init();
 
         //IObserver:
-        void photoUpdated() override;
+        void photoUpdated(IPhotoInfo *) override;
 };
 
 #endif // IDXDATA_HPP

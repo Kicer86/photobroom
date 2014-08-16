@@ -29,7 +29,7 @@
 namespace Database
 {
 
-    struct IBackend;
+    struct IDatabase;
     struct IFrontend;
 
     //configuration keys for databases
@@ -42,7 +42,7 @@ namespace Database
             static Builder* instance();
 
             void initConfig();
-            IBackend* getBackend();  //always the same backend is returned
+            IDatabase* get();  //always the same database is returned
 
             void closeAll();
 

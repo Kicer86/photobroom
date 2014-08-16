@@ -5,22 +5,29 @@
 #include <QTreeView>
 #include <QPushButton>
 
-#include <database/databasebuilder.hpp>
+#include <core/base_tags.hpp>
+#include <database/database_builder.hpp>
 
 #include "model_view/images_tree_view.hpp"
 #include "main_view_data_model.hpp"
+#include "components/filters_editor/filters_widget.hpp"
 
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
     DBDataModel* dbModel = new MainViewDataModel(this);
-    dbModel->setBackend(Database::Builder::instance()->getBackend());
+    dbModel->setDatabase(Database::Builder::instance()->get());
 
     m_imagesModel = dbModel;
-    m_imagesView = new ImagesTreeView(this);
 
+    m_imagesView = new ImagesTreeView(this);
     m_imagesView->setModel(m_imagesModel);
 
+    FiltersWidget* filters = new FiltersWidget;
+    filters->setBasicFilters( {"Date and time", "People"} );
+    connect( filters, SIGNAL(basicFilterChoosen(int)), this, SLOT(basicFiltersUpdated(int)) );
+
     QVBoxLayout* main_layout = new QVBoxLayout(this);
+    main_layout->addWidget(filters);
     main_layout->addWidget(m_imagesView);
 
     QPushButton* button = new QPushButton("Refresh", this);
@@ -42,7 +49,21 @@ void MainViewWidget::refresh()
 }
 
 
-Database::IFrontend* MainViewWidget::getFronted()
+void MainViewWidget::basicFiltersUpdated(int index)
 {
-    return m_imagesModel;
+    if (index == 0)
+    {
+        Hierarchy hierarchy;
+        hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
+
+        m_imagesModel->setHierarchy(hierarchy);
+    }
+    else
+    {
+        Hierarchy hierarchy;
+        hierarchy.levels = { { BaseTags::get(BaseTagsList::People), Hierarchy::Level::Order::ascending }  };
+
+        m_imagesModel->setHierarchy(hierarchy);
+    }
+
 }

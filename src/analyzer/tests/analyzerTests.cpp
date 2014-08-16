@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QString>
 
 TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
 {
@@ -37,7 +38,7 @@ struct FakeAnalyzer: public IAnalyzer
     FakeAnalyzer(const FakeAnalyzer &) = delete;
     virtual ~FakeAnalyzer() {}
 
-    virtual bool isImage(const std::string &)
+    virtual bool isImage(const QString &) override
     {
         if (m_counter != nullptr)
             (*m_counter)++;

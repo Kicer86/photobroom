@@ -11,16 +11,19 @@
 
 struct NullFeeder: public ITagFeeder
 {
-    virtual std::unique_ptr<ITagData> getTagsFor(const std::string &) final
-    {
-        //return empty set
-        return std::unique_ptr<ITagData>(new TagData);
-    }
+        virtual ~NullFeeder() {}
 
-    virtual void update(ITagData *, const std::string &) final
-    {
+    private:
+        virtual std::unique_ptr<ITagData> getTagsFor(const QString &) override final
+        {
+            //return empty set
+            return std::unique_ptr<ITagData>(new TagData);
+        }
 
-    }
+        virtual void update(ITagData *, const QString &) override final
+        {
+
+        }
 };
 
 
@@ -32,7 +35,7 @@ std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 #if defined USE_EXIV
         result.reset(new ExifTagFeeder);
 #elif defined USE_EASY_EXIF
-		result.reset(new EasyExifTagFeeder);
+	result.reset(new EasyExifTagFeeder);
 #else
         result.reset(new NullFeeder);
 #endif

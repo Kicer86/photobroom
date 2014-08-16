@@ -1,5 +1,5 @@
 /*
- * Implementation of IQuery for SQL databases.
+ * Interface for PhotoInfoCreator
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,21 @@
  *
  */
 
-#ifndef SQLDBQUERY_H
-#define SQLDBQUERY_H
+#ifndef IPHOTO_INFO_CREATOR_HPP
+#define IPHOTO_INFO_CREATOR_HPP
 
-#include <QSqlQuery>
+#include "iphoto_info.hpp"
 
-#include <database/photo_iterator.hpp>
+class QString;
 
 namespace Database
 {
-
-    struct SqlDBQuery: IQuery
+    struct IPhotoInfoCreator
     {
-        SqlDBQuery(const QSqlQuery& query, IBackend* ibackend): m_query(query), m_backend(ibackend) {}
-        SqlDBQuery(const SqlDBQuery &) = delete;
-        SqlDBQuery& operator=(const SqlDBQuery &) = delete;
+        virtual ~IPhotoInfoCreator() {}
 
-        virtual IQuery* clone() const;
-        virtual PhotoInfo::Id getId() const;
-        virtual bool gotoNext();
-        virtual bool valid() const;
-        virtual int size() const;
-        virtual IBackend* backend() const;
-
-        QSqlQuery m_query;
-        IBackend* m_backend;
+        virtual IPhotoInfo::Ptr construct(const QString &) = 0;
     };
-
 }
 
-#endif // SQLDBQUERY_H
+#endif

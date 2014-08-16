@@ -4,23 +4,25 @@
 
 #include <QWidget>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
 namespace Database
 {
     struct IFrontend;
 }
 
+class QItemSelection;
+
 class TagEditorWidget;
 class PhotosViewWidget;
-class QItemSelection;
+struct PhotosReceiver;
 
 class PhotosStagingArea: public QWidget
 {
         Q_OBJECT
 
     public:
-        explicit PhotosStagingArea(Database::IFrontend *, QWidget * = 0);
+        explicit PhotosStagingArea(QWidget * = 0);
         virtual ~PhotosStagingArea();
 
         PhotosStagingArea(const PhotosStagingArea &) = delete;
@@ -29,11 +31,11 @@ class PhotosStagingArea: public QWidget
     private:
         PhotosViewWidget *m_editor;
         TagEditorWidget  *m_tagEditor;
-        Database::IFrontend* m_frontend;
+        std::unique_ptr<PhotosReceiver> m_photosReceiver;
 
     private slots:
-        void pathToAnalyze(QString);
-        void viewSelectionChanged(const std::vector< PhotoInfo::Ptr >&);
+        void pathToAnalyze(const QString &);
+        void viewSelectionChanged(const std::vector<IPhotoInfo::Ptr >&);
         void savePhotos();
 
 };

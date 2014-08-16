@@ -4,7 +4,6 @@ project(system CXX)
 include(GenerateExportHeader)
 
 find_package(Qt5Core REQUIRED)
-find_package(Boost REQUIRED COMPONENTS regex)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR})
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
@@ -23,7 +22,7 @@ configure_file(paths.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
 
-target_link_libraries(system ${Boost_LIBRARIES})
+target_link_libraries(system)
 qt5_use_modules(system Core)
 turnOnCpp11(system)
 hideSymbols(system)

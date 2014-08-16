@@ -28,10 +28,10 @@ namespace Database
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareColumnDescription(const ColDefinition &) const override;
             virtual bool onAfterOpen() override;
-            virtual ISqlQueryConstructor* getQueryConstructor() override;
+            virtual const ISqlQueryConstructor* getQueryConstructor() const override;
 
             // GenericSqlQueryConstructor:
-            virtual SqlQuery insertOrUpdate(const InsertQueryData&) override;
+            virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

@@ -3,8 +3,7 @@
 
 #include <stdlib.h>
 
-#include <boost/regex.hpp>
-
+#include <QRegExp>
 #include <QProcess>
 
 namespace
@@ -38,16 +37,14 @@ std::string System::getApplicationConfigDir()
 std::string System::findProgram(const std::string& name)
 {
     const std::string result = run("whereis " + name);
-
-    boost::cmatch results;
-    const boost::regex regex(name + ": ([^ ]+).*");
-
-    const bool matches = boost::regex_match(result.c_str(), results, regex);
+    const QString pattern = QString("%1: ([^ ]+).*").arg(name.c_str());
+    const QRegExp regex(pattern);
+    const bool matches = regex.exactMatch(result.c_str());
 
     std::string path;
 
     if (matches)
-        path = results[1].str();
+        path = regex.capturedTexts()[1].toStdString();
 
     return path;
 }

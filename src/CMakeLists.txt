@@ -17,10 +17,9 @@ add_subdirectory(gui)
 add_subdirectory(system)
 
 find_package(OpenLibrary REQUIRED utils)
-find_package(Boost REQUIRED)
 
-include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Boost_INCLUDE_DIRS})
+include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES})
 
 set(BROOM_SOURCES main.cpp)
 

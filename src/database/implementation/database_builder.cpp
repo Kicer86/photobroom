@@ -18,7 +18,7 @@
 */
 
 
-#include "databasebuilder.hpp"
+#include "database_builder.hpp"
 
 #include <assert.h>
 
@@ -30,11 +30,14 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 
-//#include "memorydatabase.hpp"
 #include "ifs.hpp"
+#include "iphoto_info_creator.hpp"
 #include "plugin_loader.hpp"
+#include "database_thread.hpp"
+#include "photo_info_manager.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
+#include "implementation/photo_info.hpp"
 
 //TODO: cleanup this file!
 
@@ -75,7 +78,7 @@ namespace Database
             virtual std::string getXml()
             {
                 std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-                boost::optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
+                Optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
 
                 assert(entry.is_initialized());
 
@@ -99,21 +102,46 @@ namespace Database
 
     struct Builder::Impl
     {
-        std::unique_ptr<IFrontend> defaultDatabase;
-        std::unique_ptr<IPlugin> plugin;
-        std::shared_ptr<IBackend> defaultBackend;
-        PluginLoader backendBuilder;
-        ConfigurationInitializer configInitializer;
 
-        //bavkend type
+        //backend type
         enum Type
         {
             Main,
         };
 
-        std::map<Type, std::unique_ptr<IBackend>> m_backends;
+        struct DatabaseObjects
+        {
+			DatabaseObjects(const std::shared_ptr<IDatabase> &database, 
+							const std::shared_ptr<IBackend> &backend,
+							const std::shared_ptr<IPhotoInfoManager> &manager) : m_database(database), m_backend(backend), m_photoManager(manager) {}
+			~DatabaseObjects() {}
+			//DatabaseObjects(const DatabaseObjects &) = delete;
+			//DatabaseObjects& operator=(const DatabaseObjects &) = delete;
 
-        Impl(): defaultDatabase(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), m_backends()
+			std::shared_ptr<IDatabase> m_database;
+			std::shared_ptr<IBackend> m_backend;
+			std::shared_ptr<IPhotoInfoManager> m_photoManager;
+        };
+
+        struct PhotoInfoCreator: Database::IPhotoInfoCreator
+        {
+            virtual IPhotoInfo::Ptr construct(const QString& path)
+            {
+                auto result = std::make_shared<PhotoInfo>(path);
+                result->markStagingArea(true);                                //by default all new photos go to staging area.
+
+                return result;
+            }
+        };
+
+        std::map<Type, DatabaseObjects> m_backends;
+        std::unique_ptr<IPlugin> plugin;
+        std::shared_ptr<IBackend> defaultBackend;
+        PluginLoader backendBuilder;
+        ConfigurationInitializer configInitializer;
+        PhotoInfoCreator photoInfoCreator;
+
+        Impl(): m_backends(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), photoInfoCreator()
         {}
 
         IPlugin* getPlugin()
@@ -152,7 +180,7 @@ namespace Database
     }
 
 
-    IBackend* Builder::getBackend()
+    IDatabase* Builder::get()
     {
         const char* dbType = "broom";
 
@@ -160,24 +188,37 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
+            std::unique_ptr<PhotoInfoManager> manager(new PhotoInfoManager);
             std::unique_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
-            const bool status = backend->init(dbType);
+            std::unique_ptr<IDatabase> database(new DatabaseThread(backend.get()));
+
+            backend->setPhotoInfoManager(manager.get());
+            backend->setPhotoInfoCreator(&m_impl->photoInfoCreator);
+            manager->setDatabase(database.get());
+
+            Database::Task task = database->prepareTask(nullptr);
+
+            const bool status = database->init(task, dbType);
+
 
             if (status)
             {
-                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main, std::move(backend)) );
+                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main,
+                                                                           Impl::DatabaseObjects(std::move(database), std::move(backend), std::move(manager))
+                                                                          )
+                                                          );
                 backendIt = insertIt.first;
             }
         }
 
-        return backendIt->second.get();
+        return backendIt->second.m_database.get();
     }
 
 
     void Builder::closeAll()
     {
         for(auto& backend: m_impl->m_backends)
-            backend.second->closeConnections();
+            backend.second.m_database->closeConnections();
     }
 
 }

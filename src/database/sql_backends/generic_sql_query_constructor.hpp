@@ -37,8 +37,11 @@ namespace Database
             GenericSqlQueryConstructor& operator=(const GenericSqlQueryConstructor &) = delete;
 
         protected:
-            virtual SqlQuery insert(const InsertQueryData &);
-            virtual SqlQuery update(const UpdateQueryData &);
+            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
+            virtual QString prepareFindTableQuery(const QString& name) const override;
+
+            virtual SqlQuery insert(const InsertQueryData &) const override;
+            virtual SqlQuery update(const UpdateQueryData &) const override;
     };
 
 }

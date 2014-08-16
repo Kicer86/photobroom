@@ -28,12 +28,10 @@
 #include <QFileSystemWatcher>
 #include <QEventLoop>
 
-#include <boost/optional.hpp>
-
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
-#include <database/databasebuilder.hpp>
+#include <database/database_builder.hpp>
 #include <system/system.hpp>
 
 
@@ -272,7 +270,7 @@ std::string MySqlServer::getDaemonPath() const
     //get path to server
     std::shared_ptr<IConfiguration> config = ConfigurationFactory::get();
 
-    boost::optional<Configuration::EntryData> daemonPath = config->findEntry(MySQL_daemon);
+    Optional<Configuration::EntryData> daemonPath = config->findEntry(MySQL_daemon);
 
     std::string path;
 

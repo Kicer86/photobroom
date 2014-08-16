@@ -3,21 +3,29 @@
 #define ANALYZER_IPHOTO_CRAWLER_HPP
 
 #include <vector>
-#include <string>
 
 #include "analyzer_export.h"
+
+class QString;
 
 struct Rules
 {
 
 };
 
+
+struct IMediaNotification
+{
+    virtual ~IMediaNotification() {}
+    virtual void found(const QString &) = 0;
+};
+
 struct ANALYZER_EXPORT IPhotoCrawler
 {
     virtual ~IPhotoCrawler();
 
-    virtual std::vector<std::string> crawl(const std::string &) = 0;   //return list of media files for given path
-    virtual void setRules(const Rules &) = 0;                          //provide crawl rules
+    virtual void crawl(const QString &, IMediaNotification *) = 0;   //find media files for given path. Notify about each result
+    virtual void setRules(const Rules &) = 0;                        //provide crawl rules
 };
 
 #endif

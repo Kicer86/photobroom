@@ -21,7 +21,8 @@
 
 #include <memory>
 
-#include "model_view/idx_data.hpp"
+//TODO: remove
+#include "model_view/model_helpers/idx_data.hpp"
 
 StagingDataModel::StagingDataModel(QObject* p): DBDataModel(p)
 {
@@ -35,38 +36,29 @@ StagingDataModel::~StagingDataModel()
 }
 
 
-bool StagingDataModel::addPhoto(const PhotoInfo::Ptr& photoInfo)
+void StagingDataModel::addPhoto(const QString& path)
 {
-    photoInfo->markStagingArea();   //mark photo as being in staging area
-
-    IdxData& root = DBDataModel::getRootIdxData();
-    const int row = root.m_children.size();
-
-    beginInsertRows(QModelIndex(), row, row);
-    root.addChild(photoInfo);                   //TODO: smarter algorithm?
-    endInsertRows();
-
-    DBDataModel::updatePhotoInDB(photoInfo);
-
-    return true;
+    auto task = getDatabase()->prepareTask(nullptr);
+    getDatabase()->addPath(task, path);
 }
 
 
 void StagingDataModel::storePhotos()
 {
-    const std::vector<PhotoInfo::Ptr> photos = getPhotos();
+    deepFetch(QModelIndex());   //fetch root
+    const std::vector<IPhotoInfo::Ptr> photos = getPhotos();
 
-    for(const PhotoInfo::Ptr& photo: photos)
+    for(const IPhotoInfo::Ptr& photo: photos)
         photo->markStagingArea(false);
 }
 
 
-std::vector<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() const
+std::deque<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterFlags>();
     filter->stagingArea = true;
 
-    const std::vector<Database::IFilter::Ptr> result( {filter});
+    const std::deque<Database::IFilter::Ptr> result( {filter});
 
     return result;
 }

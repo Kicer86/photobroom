@@ -16,8 +16,8 @@
 #include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
 #include <core/tag.hpp>
-#include <core/photo_info.hpp>
-#include <database/databasebuilder.hpp>
+#include <database/database_builder.hpp>
+#include <database/iphoto_info.hpp>
 
 #include "components/photos_staging/staging_data_model.hpp"
 #include "model_view/images_tree_view.hpp"
@@ -94,9 +94,9 @@ BrowseList::~BrowseList()
 
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
-    Database::IBackend* backend = Database::Builder::instance()->getBackend();
+    Database::IDatabase* db = Database::Builder::instance()->get();
     m_photosModel = new StagingDataModel(this);
-    m_photosModel->setBackend(backend);
+    m_photosModel->setDatabase(db);
 
     m_photosView = new ImagesTreeView(this);
     m_photosView->setModel(m_photosModel);
@@ -104,10 +104,8 @@ PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullpt
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->addWidget(m_photosView);
 
-    connect(m_photosView->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this,
-            SLOT(selectionChanged())
+    connect(m_photosView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            this, SLOT(selectionChanged())
            );
 }
 
@@ -118,20 +116,13 @@ PhotosViewWidget::~PhotosViewWidget()
 }
 
 
-void PhotosViewWidget::addPhoto(const std::string &path)
+void PhotosViewWidget::addPhoto(const QString &path)
 {
-    PhotoInfo::Ptr info = std::make_shared<PhotoInfo>(path);
-    info->markStagingArea();
-
-    QPixmap tmpThumbnail;
-    tmpThumbnail.load(":/gui/images/clock.svg");             //use temporary thumbnail until final one is ready
-    info->setTemporaryThumbnail(tmpThumbnail);
-
-    m_photosModel->addPhoto(info);
+    m_photosModel->addPhoto(path);
 }
 
 
-std::vector<PhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
+std::vector<IPhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 {
     return m_photosModel->getPhotos();
 }
@@ -145,12 +136,12 @@ void PhotosViewWidget::storePhotos()
 
 void PhotosViewWidget::selectionChanged()
 {
-    std::vector<PhotoInfo::Ptr> images;
+    std::vector<IPhotoInfo::Ptr> images;
 
     //collect list of tags
     for (const QModelIndex& index: m_photosView->selectionModel()->selectedIndexes())
     {
-        PhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
+        IPhotoInfo::Ptr photoInfo = m_photosModel->getPhoto(index);
         images.push_back(photoInfo);
     }
 

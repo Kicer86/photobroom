@@ -25,6 +25,8 @@
 
 #include <QString>
 
+#include <core/tag.hpp>
+
 #include "database_export.h"
 
 #define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); }
@@ -40,11 +42,14 @@ namespace Database
     {
         typedef std::shared_ptr<IFilter> Ptr;
 
+        virtual ~IFilter() {}
         virtual void visitMe(IFilterVisitor *) = 0;
     };
 
     struct DATABASE_EXPORT IFilterVisitor
     {
+        virtual ~IFilterVisitor() {}
+
         virtual void visit(FilterEmpty *) = 0;
         virtual void visit(FilterDescription *) = 0;
         virtual void visit(FilterFlags *) = 0;
@@ -54,14 +59,18 @@ namespace Database
 
     struct DATABASE_EXPORT FilterEmpty: IFilter
     {
+        virtual ~FilterEmpty() {}
+
         FILTER_COMMAND
     };
 
     struct DATABASE_EXPORT FilterDescription: IFilter
     {
+        virtual ~FilterDescription() {}
+
         FILTER_COMMAND
 
-        QString tagName;
+        TagNameInfo tagName;
         QString tagValue;
 
         FilterDescription();
@@ -69,11 +78,12 @@ namespace Database
 
     struct DATABASE_EXPORT FilterFlags: IFilter
     {
+        FilterFlags();
+        virtual ~FilterFlags() {}
+
         FILTER_COMMAND
 
         bool stagingArea;
-
-        FilterFlags();
     };
 
 }

@@ -40,19 +40,19 @@ namespace Database
     }
 
 
-    PhotoIterator QueryList::begin()
+    PhotoIterator QueryList::begin() const
     {
         return PhotoIterator(m_query);     //return iterator feeded with query
     }
 
 
-    PhotoIterator QueryList::end()
+    PhotoIterator QueryList::end() const
     {
         return PhotoIterator();            //return invalid iterator
     }
 
 
-    PhotoIterator QueryList::find()
+    PhotoIterator QueryList::find() const
     {
         return PhotoIterator();
     }

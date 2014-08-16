@@ -33,7 +33,7 @@ class DefaultConfiguration: public IConfiguration, public Configuration::IInitia
         DefaultConfiguration();
         virtual ~DefaultConfiguration();
 
-        virtual boost::optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey& ) const override;
+        virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;
         const std::vector<Configuration::EntryData> getEntries() override;
 
         virtual void addEntry(const Configuration::EntryData &) override;

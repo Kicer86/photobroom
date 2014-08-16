@@ -33,14 +33,14 @@ namespace
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool store(const PhotoInfo::Ptr& entry) override
+        virtual bool update(const PhotoInfo::Ptr& entry) override
         {
             m_entries.push_back(entry);
 
             return true;
         }
 
-        virtual bool init(const char *) override
+        virtual bool init(const std::string &) override
         {
             return true;
         }

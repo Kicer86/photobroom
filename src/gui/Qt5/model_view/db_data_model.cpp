@@ -22,232 +22,15 @@
 #include <unordered_map>
 #include <memory>
 
-#include <core/base_tags.hpp>
 #include <database/query_list.hpp>
 #include <database/filter.hpp>
 
-#include "idx_data.hpp"
+#include "model_helpers/idx_data.hpp"
+#include "model_helpers/idx_data_manager.hpp"
 
-struct DBDataModel::Impl
+
+DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr)
 {
-        Impl(DBDataModel* model): m_root(model, nullptr, "root"), m_hierarchy(), m_dirty(true), m_backend(), m_iterator()
-        {
-            m_root.setNodeData(std::make_shared<Database::FilterEmpty>()); //called just to mark root as node, not a leaf
-            Hierarchy hierarchy;
-            hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
-
-            setHierarchy(hierarchy);
-        }
-
-        Impl(const Impl &) = delete;
-        Impl& operator=(const Impl &) = delete;
-
-        ~Impl() {}
-
-        void setHierarchy(const Hierarchy& hierarchy)
-        {
-            m_hierarchy = hierarchy;
-            m_dirty = true;
-        }
-
-        bool isDirty() const
-        {
-            return m_dirty;
-        }
-
-        Database::PhotoIterator& getIterator()
-        {
-            if (m_dirty)
-            {
-                m_dirty = false;
-                Database::QueryList list = m_backend->getAllPhotos();
-                m_iterator = list.begin();
-            }
-
-            return m_iterator;
-        }
-
-        void fetchMore(const QModelIndex& _parent)
-        {
-            IdxData* idxData = getParentIdxDataFor(_parent);
-            const size_t level = idxData->m_level;
-
-            if (level < m_hierarchy.levels.size())  //construct nodes basing on tags
-            {
-                std::deque<TagValueInfo> tags = getLevelInfo(level + 1, _parent);
-
-                for(const TagValueInfo& tag: tags)
-                {
-                    auto fdesc = std::make_shared<Database::FilterDescription>();
-                    fdesc->tagName = m_hierarchy.levels[level].tagName;
-                    fdesc->tagValue = tag;
-
-                    IdxData* newItem = new IdxData(m_root.m_model, idxData, tag);
-                    newItem->setNodeData(fdesc);
-
-                    idxData->addChild(newItem);
-                }
-            }
-            else
-                if (level == m_hierarchy.levels.size())  //construct leafs basing on photos
-                {
-                    std::deque<Database::IFilter::Ptr> filter;
-                    buildFilterFor(_parent, &filter);
-                    buildExtraFilters(&filter);
-
-                    Database::QueryList photos = m_backend->getPhotos(filter);
-
-                    for(PhotoInfo::Ptr photoInfo: photos)
-                    {
-                        IdxData* newItem = new IdxData(m_root.m_model, idxData, photoInfo);
-                        idxData->addChild(newItem);
-                    }
-                }
-                else
-                    assert(!"should not happen");
-
-            idxData->m_loaded = true;
-        }
-
-        bool canFetchMore(const QModelIndex& _parent)
-        {
-            IdxData* idxData = getParentIdxDataFor(_parent);
-            const bool status = !idxData->m_loaded;
-
-            return status;
-        }
-
-        void setBackend(Database::IBackend* backend)
-        {
-            m_backend = backend;
-        }
-
-        void close()
-        {
-            if (m_backend)
-                m_backend->closeConnections();
-        }
-
-        IdxData* getIdxDataFor(const QModelIndex& obj) const
-        {
-            IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
-
-            return idxData;
-        }
-
-        IdxData* getParentIdxDataFor(const QModelIndex& _parent)
-        {
-            IdxData* idxData = getIdxDataFor(_parent);
-
-            if (idxData == nullptr)
-                idxData = &m_root;
-
-            return idxData;
-        }
-
-        bool hasChildren(const QModelIndex& _parent)
-        {
-            // Always return true for unloaded nodes.
-            // This prevents view from calling rowCount() before canFetchMore()
-
-            bool status = false;
-            IdxData* idxData = getParentIdxDataFor(_parent);
-
-            if (!idxData->m_loaded)
-                status = true;              //data not loaded assume there is something
-            else
-                status = !idxData->m_photo; //return true for nodes only, not for leafs
-
-            return status;
-        }
-
-        IdxData* parent(const QModelIndex& child)
-        {
-            IdxData* idxData = getIdxDataFor(child);
-            IdxData* result  = idxData->m_parent;
-
-            return result;
-        }
-
-        void addPhoto(const PhotoInfo::Ptr& photo)
-        {
-            m_root.addChild(photo);
-        }
-
-        void getPhotosFor(const IdxData* idx, std::vector<PhotoInfo::Ptr>* result)
-        {
-            for(const IdxData* child: idx->m_children)
-            {
-                if (child->m_loaded)
-                {
-                    if (child->m_photo.get() == nullptr)
-                        getPhotosFor(child, result);
-                    else
-                        result->push_back(child->m_photo);
-                }
-                else
-                    assert(!"load not implemented");
-            }
-        }
-
-        //store or update photo in DB
-        void updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
-        {
-            if (photoInfo->isLoaded())
-                m_backend->store(photoInfo);
-        }
-
-        IdxData m_root;
-        Hierarchy m_hierarchy;
-        bool m_dirty;
-        Database::IBackend* m_backend;
-        Database::PhotoIterator m_iterator;
-
-    private:
-        //function returns list of tags on particular 'level' for 'parent'
-        std::deque<TagValueInfo> getLevelInfo(size_t level, const QModelIndex& _parent)
-        {
-            std::deque<TagValueInfo> result;
-
-            if (level <= m_hierarchy.levels.size())
-            {
-                std::deque<Database::IFilter::Ptr> filter;
-
-                const TagNameInfo& tagNameInfo = m_hierarchy.levels[level - 1].tagName;
-                buildFilterFor(_parent, &filter);
-                buildExtraFilters(&filter);
-
-                result = m_backend->listTagValues(tagNameInfo, filter);
-            }
-
-            return result;
-        }
-
-        void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
-        {
-            IdxData* idxData = getParentIdxDataFor(_parent);
-
-            filter->push_back(idxData->m_filter);
-
-            if (idxData->m_level > 0)
-                buildFilterFor(_parent.parent(), filter);
-        }
-
-        void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
-        {
-            const auto modelSpecificFilters = m_root.m_model->getModelSpecificFilters();
-            filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
-        }
-};
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_impl(new Impl(this))
-{
-    //used for moving notifications to main thread
-    connect(this, SIGNAL(dispatchUpdate(IdxData*)), this, SLOT(dispatchIdxUpdate(IdxData*)));
 }
 
 
@@ -259,21 +42,28 @@ DBDataModel::~DBDataModel()
 
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
-    m_impl->setHierarchy(hierarchy);
+    m_idxDataManager->setHierarchy(hierarchy);
 }
 
 
-PhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
+void DBDataModel::deepFetch(const QModelIndex& top)
 {
-    IdxData* idxData = m_impl->getIdxDataFor(idx);
+    IdxData* idx = m_idxDataManager->getParentIdxDataFor(top);
+    m_idxDataManager->deepFetch(idx);
+}
+
+
+IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
+{
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
     return idxData->m_photo;
 }
 
 
-const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
+const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos()
 {
-    std::vector<PhotoInfo::Ptr> result;
-    m_impl->getPhotosFor(&m_impl->m_root, &result);
+    std::vector<IPhotoInfo::Ptr> result;
+    m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
 
     return result;
 }
@@ -281,13 +71,13 @@ const std::vector<PhotoInfo::Ptr> DBDataModel::getPhotos()
 
 bool DBDataModel::canFetchMore(const QModelIndex& _parent) const
 {
-    return m_impl->canFetchMore(_parent);
+    return m_idxDataManager->canFetchMore(_parent);
 }
 
 
 void DBDataModel::fetchMore(const QModelIndex& _parent)
 {
-    m_impl->fetchMore(_parent);
+    m_idxDataManager->fetchMore(_parent);
 }
 
 
@@ -299,7 +89,7 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    IdxData* idxData = m_impl->getIdxDataFor(_index);
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
     const QVariant& v = idxData->m_data[role];
 
     return v;
@@ -308,10 +98,10 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
-    IdxData* pData = m_impl->getParentIdxDataFor(_parent);
 	QModelIndex idx;
+    IdxData* pData = m_idxDataManager->getParentIdxDataFor(_parent);
 
-	if (row < pData->m_children.size())
+	if (row < pData->m_children.size())   //row out boundary?
 	{
 		IdxData* cData = pData->m_children[row];
 		idx = createIndex(row, column, cData);
@@ -327,7 +117,7 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
-    IdxData* idxData = m_impl->parent(child);
+    IdxData* idxData = m_idxDataManager->parent(child);
     QModelIndex parentIdx = idxData? createIndex(idxData): QModelIndex();
 
     return parentIdx;
@@ -336,7 +126,7 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
-    IdxData* idxData = m_impl->getParentIdxDataFor(_parent);
+    IdxData* idxData = m_idxDataManager->getParentIdxDataFor(_parent);
     const size_t count = idxData->m_children.size();
 
     return count;
@@ -345,54 +135,38 @@ int DBDataModel::rowCount(const QModelIndex& _parent) const
 
 bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 {
-    return m_impl->hasChildren(_parent);
+    return m_idxDataManager->hasChildren(_parent);
 }
 
 
-void DBDataModel::setBackend(Database::IBackend* backend)
+void DBDataModel::setDatabase(Database::IDatabase* database)
 {
-    m_impl->setBackend(backend);
+    m_idxDataManager->setDatabase(database);
+    m_database = database;
 }
 
 
 void DBDataModel::close()
 {
-    m_impl->close();
+    m_idxDataManager->close();
 }
 
 
-void DBDataModel::idxUpdated(IdxData* idxData)
+IdxData* DBDataModel::getRootIdxData()
 {
-    //make sure, we will move to main thread
-    emit dispatchUpdate(idxData);
+    return m_idxDataManager->getRoot();
 }
 
 
-IdxData& DBDataModel::getRootIdxData()
+Database::IDatabase* DBDataModel::getDatabase()
 {
-    return m_impl->m_root;
-}
-
-
-void DBDataModel::updatePhotoInDB(const PhotoInfo::Ptr& photoInfo)
-{
-    m_impl->updatePhotoInDB(photoInfo);
+    return m_database;
 }
 
 
 QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 {
-    const QModelIndex idx = createIndex(idxData->m_row, idxData->m_column, idxData);
+    const QModelIndex idx = idxData->m_level == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
+                                                   createIndex(idxData->m_row, idxData->m_column, idxData);
     return idx;
 }
-
-
-void DBDataModel::dispatchIdxUpdate(IdxData* idxData)
-{
-    QModelIndex idx = createIndex(idxData);
-    emit dataChanged(idx, idx);
-
-    PhotoInfo::Ptr photoInfo = idxData->m_photo;
-    m_impl->updatePhotoInDB(photoInfo);
-}
-

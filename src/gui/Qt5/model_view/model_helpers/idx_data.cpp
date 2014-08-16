@@ -24,37 +24,37 @@
 #include <QPixmap>
 #include <QVariant>
 
-#include <core/photo_info.hpp>
+#include <database/iphoto_info.hpp>
 
-#include "db_data_model.hpp"
-#include "data/photo_info_updater.hpp"
+#include "idx_data_manager.hpp"
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent, const QString& name) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : IdxData(model, parent)
 {
     m_data[Qt::DisplayRole] = name;
+    
+    init();
 }
 
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent, const PhotoInfo::Ptr& photo) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(model, parent)
 {
     m_photo = photo;
-    m_loaded = true;
+    m_loaded = FetchStatus::Fetched;
 
     updateLeafData();
     photo->registerObserver(this);
 
-    if (photo->isHashLoaded() == false)
-        PhotoInfoUpdater::updateHash(photo);
-
-    if (photo->isThumbnailLoaded() == false)
-        PhotoInfoUpdater::updateThumbnail(photo);
+    init();
 }
 
 
 IdxData::~IdxData()
 {
+    m_model->idxDataDeleted(this);
     if (m_photo.get() != nullptr)
         m_photo->unregisterObserver(this);
+
+    reset();
 }
 
 
@@ -67,29 +67,66 @@ void IdxData::setNodeData(const Database::IFilter::Ptr& filter)
 void IdxData::addChild(IdxData* child)
 {
     assert(m_photo.get() == nullptr);             //child (leaf) cannot accept any child
+
     child->setPosition(m_children.size(), 0);
     m_children.push_back(child);
+    child->m_parent = this;
 }
 
 
-void IdxData::addChild(const PhotoInfo::Ptr& photoInfo)
+void IdxData::removeChild(IdxData* child)
 {
-    IdxData* child = new IdxData(m_model, this, photoInfo);
-    addChild(child);
+    assert(child->m_parent == this);
+    assert(child->m_row < m_children.size());
+
+    for(size_t i = child->m_row; i < m_children.size() - 1; i++)
+    {
+        m_children[i] = m_children[ i + 1 ];  //move child down
+        m_children[i]->m_row = i;             //update `row`
+    }
+
+    m_children.pop_back();                    //remove last children
+
+    child->m_parent = nullptr;
 }
 
 
-IdxData::IdxData(DBDataModel* model, IdxData* parent) :
+void IdxData::reset()
+{
+    m_model->idxDataReset(this);
+    m_loaded = FetchStatus::NotFetched;
+    for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
+        delete child;
+
+    m_children.clear();
+    m_photo.reset();
+    m_data.clear();
+}
+
+
+bool IdxData::isPhoto() const
+{
+    return m_photo.get() != nullptr;
+}
+
+
+bool IdxData::isNode() const
+{
+    return m_photo.get() == nullptr;
+}
+
+
+IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_children(),
     m_data(),
-    m_filter(),
+    m_filter(new Database::FilterEmpty),
     m_photo(nullptr),
     m_parent(parent),
     m_model(model),
     m_level(-1),
-    m_row(0),
-    m_column(0),
-    m_loaded(false)
+    m_row(-1),
+    m_column(-1),
+    m_loaded(FetchStatus::NotFetched)
 {
     m_level = parent ? parent->m_level + 1 : 0;
 }
@@ -104,13 +141,18 @@ void IdxData::setPosition(int row, int col)
 
 void IdxData::updateLeafData()
 {
-    m_data[Qt::DisplayRole] = m_photo->getPath().c_str();
+    m_data[Qt::DisplayRole] = m_photo->getPath();
     m_data[Qt::DecorationRole] = m_photo->getThumbnail();
 }
 
 
-void IdxData::photoUpdated()
+void IdxData::init()
+{
+    m_model->idxDataCreated(this);
+}
+
+
+void IdxData::photoUpdated(IPhotoInfo *)  //parameter not used as we have only one photo
 {
     updateLeafData();
-    m_model->idxUpdated(this);
 }

@@ -26,7 +26,8 @@
 
 #include <database/idatabase.hpp>
 
-struct IdxData;
+class IdxDataManager;
+class IdxData;
 
 struct Hierarchy
 {
@@ -47,9 +48,9 @@ struct Hierarchy
 };
 
 
-class DBDataModel: public QAbstractItemModel, public Database::IFrontend
+class DBDataModel: public QAbstractItemModel
 {
-        Q_OBJECT
+        friend class IdxDataManager;
 
     public:
         DBDataModel(QObject* p);
@@ -59,21 +60,18 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         bool operator==(const DBDataModel& other) = delete;
 
         void setHierarchy(const Hierarchy &);
-        PhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::vector<PhotoInfo::Ptr> getPhotos();
+        void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
+        IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const std::vector<IPhotoInfo::Ptr> getPhotos();              //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
 
-        //Database::IFrontend:
-        virtual void setBackend(Database::IBackend *) override;
-        virtual void close() override;
-
-        //
-        void idxUpdated(IdxData *);
+        void setDatabase(Database::IDatabase *);
+        void close();
+        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
     protected:
-        IdxData& getRootIdxData();
-        void updatePhotoInDB(const PhotoInfo::Ptr &);
+        IdxData* getRootIdxData();
 
-        virtual std::vector<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
+        Database::IDatabase* getDatabase(); //TODO: remove
 
     private:
         //QAbstractItemModel:
@@ -91,14 +89,8 @@ class DBDataModel: public QAbstractItemModel, public Database::IFrontend
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
 
-        struct Impl;
-        std::unique_ptr<Impl> m_impl;
-
-    private slots:
-        void dispatchIdxUpdate(IdxData *);
-
-    signals:
-        void dispatchUpdate(IdxData *);
+        std::unique_ptr<IdxDataManager> m_idxDataManager;
+        Database::IDatabase* m_database;
 };
 
 #endif // DBDATAMODEL_H
