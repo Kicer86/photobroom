@@ -29,6 +29,7 @@ std::string EasyExifTagFeeder::get(TagTypes type)
     {
         case DateTimeOriginal:
             result = m_exif_data.DateTimeOriginal;
+            break;
     }
 
     return result;
