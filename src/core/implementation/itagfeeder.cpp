@@ -2,7 +2,7 @@
 #include "itagfeeder.hpp"
 
 #if defined USE_EXIV2
-#include "exif_tag_feeder.hpp"
+#include "exiv2_tag_feeder.hpp"
 #elif defined USE_EASY_EXIF
 #include "easy_exif_tag_feeder.hpp"
 #endif

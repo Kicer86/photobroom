@@ -56,8 +56,8 @@ if(EXIV2_FOUND)
 
     add_definitions(-DUSE_EXIV2)
     include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
-    set(CORE_SOURCES ${CORE_SOURCES} implementation/exif_tag_feeder.cpp)
-    set(CORE_HEADERS ${CORE_HEADERS} implementation/exif_tag_feeder.hpp)
+    set(CORE_SOURCES ${CORE_SOURCES} implementation/exiv2_tag_feeder.cpp)
+    set(CORE_HEADERS ${CORE_HEADERS} implementation/exiv2_tag_feeder.hpp)
 
 elseif(EASYEXIF_FOUND)
 
