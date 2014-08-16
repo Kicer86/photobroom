@@ -41,8 +41,12 @@ protected:
 	virtual std::string get(TagTypes) = 0;
 
 private:
+	// ITagFeeder:
 	std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
 	void update(ITagData *, const QString& path) override;
+	//
+
+	void feedDateAndTime(ITagData *);
 };
 
 #endif // A_TAG_FEEDER_HPP
