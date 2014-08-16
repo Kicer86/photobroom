@@ -18,25 +18,39 @@
 *
 */
 
-#ifndef A_TAG_FEEDER_HPP
-#define A_TAG_FEEDER_HPP
+#include "atagfeeder.hpp"
 
-#include "itagfeeder.hpp"
+#include <QByteArray>
 
-class QByteArray;
+#include "photos_manager.hpp"
+#include "tag.hpp"
 
-class ATagFeeder: public ITagFeeder
+ATagFeeder::ATagFeeder()
 {
-public:
-	ATagFeeder();
-	virtual ~ATagFeeder();
 
-protected:
-	virtual void collect(const QByteArray &) = 0;	
+}
 
-private:
-	std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
-	void update(ITagData *, const QString& path) override;
-};
 
-#endif // A_TAG_FEEDER_HPP
+ATagFeeder::~ATagFeeder()
+{
+
+}
+
+
+std::unique_ptr<ITagData> ATagFeeder::getTagsFor(const QString& path)
+{
+	QByteArray data;
+	PhotosManager::instance()->getPhoto(path, &data);
+
+	collect(data);
+
+	std::unique_ptr<ITagData> tagData(new TagData);
+	
+	return tagData;
+}
+
+
+void ATagFeeder::update(ITagData *, const QString& path)
+{
+
+}
