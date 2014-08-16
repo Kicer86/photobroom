@@ -5,21 +5,22 @@
 #include <memory>
 #include <string>
 
+#include <easyexif/exif.h>
+
 #include "core_export.h"
-#include "itagfeeder.hpp"
+#include "atagfeeder.hpp"
 
 struct ITagData;
 
-class EasyExifTagFeeder : public ITagFeeder
+class EasyExifTagFeeder : public ATagFeeder
 {
 public:
 	EasyExifTagFeeder();
-
-	virtual std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
-	virtual void update(ITagData *, const QString& path) override;
-
+	
 private:
-	void feed(const QString& path, ITagData *);
+	EXIFInfo m_exif_data;
+	
+	void collect(const QByteArray &) override;
 };
 
 #endif
