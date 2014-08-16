@@ -4,7 +4,6 @@ Sets of tasks: finished, to be done and dropped
 TODO:
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - performance: when updating photo, do not update all, update only required data
-- support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - finding and reacting on duplicates
 - load all database plugins. Choose right backend basing on project settings.
 - database: priorities for tasks store should be more important than update
@@ -15,7 +14,6 @@ TODO:
 ver 1.0 requirements:
 - do stress and crash tests
 - gui improvements: move stagging area to menu->add photos
-- support for some extra exif library, propably more windows friendly than exiv2
 - use more smart tags updating
 - introduce project concept
 - rethink configuration concepts
@@ -26,6 +24,7 @@ ver 1.0 requirements:
 
 IN PROGRESS:
 - Staging Model: automatically move added photos to right positions
+- support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - make PhotoInfo::tags thread safe and do not overwrite data
 
 
@@ -50,6 +49,7 @@ DONE:
 - load missing PhotoInfo's data when one is found
 - PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 - model: react on changes in database
+- support for some extra exif library, probably more windows friendly than exiv2
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
