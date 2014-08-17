@@ -29,14 +29,21 @@ void Exiv2TagFeeder::collect(const QByteArray& data)
 }
 
 
-std::string Exiv2TagFeeder::get(ATagFeeder::TagTypes)
+std::string Exiv2TagFeeder::get(ATagFeeder::TagTypes type)
 {
     std::string result;
     const Exiv2::ExifData &exifData = m_exif_data->exifData();
 
     if (exifData.empty() == false)
     {
-        Exiv2::ExifData::const_iterator tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+        Exiv2::ExifData::const_iterator tag_date = exifData.end();
+
+        switch (type)
+        {
+            case DateTimeOriginal:
+                tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+                break;
+        }
 
         if (tag_date != exifData.end())
             result = tag_date->toString();
