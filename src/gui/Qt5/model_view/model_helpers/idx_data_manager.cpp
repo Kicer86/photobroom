@@ -610,11 +610,9 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
 	if (photos->empty() == false)
-	{
 		appendPhotos(_parent, *photos.get());
 
-		markIdxDataFetched(_parent);
-	}
+    markIdxDataFetched(_parent);
 }
 
 
