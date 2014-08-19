@@ -24,6 +24,7 @@
 #include <iostream>
 #include <set>
 #include <thread>
+#include <chrono>
 
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -252,9 +253,16 @@ namespace Database
         // make sure the same thread is used as at construction time.
         assert(std::this_thread::get_id() == m_database_thread_id);
 
-        std::clog << query.toStdString() << std::endl;
+        std::clog << query.toStdString();
+        std::flush(std::clog);
 
+        const auto start = std::chrono::steady_clock::now();
         const bool status = result->exec(query);
+        const auto end = std::chrono::steady_clock::now();
+        const auto diff = end - start;
+        const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+        std::clog << " Exec time: " << diff_ms << "ms" << std::endl;
+
 
         if (status == false)
             std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
@@ -623,11 +631,18 @@ namespace Database
         if (status)
             status = storeFlags(id, data);
 
+        const auto start = std::chrono::steady_clock::now();
+
         if (status)
             status = db.commit();
         else
             db.rollback();
 
+        const auto end = std::chrono::steady_clock::now();
+        const auto diff = end - start;
+        const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+        std::clog << "Transaction commit: " << diff_ms << "ms" << std::endl;
+        
         //store id in photo
         if (status && inserting)
             data->initID(id);
