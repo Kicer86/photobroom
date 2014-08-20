@@ -934,6 +934,18 @@ namespace Database
     }
 
 
+    void ASqlBackend::beginTransaction()
+    {
+        m_data->m_transaction.begin();
+    }
+
+
+    void ASqlBackend::endTransaction()
+    {
+        m_data->m_transaction.end();
+    }
+
+
     bool ASqlBackend::init(const std::string& dbName)
     {
         //store thread id for further validation
