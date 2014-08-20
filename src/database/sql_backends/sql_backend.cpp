@@ -169,13 +169,14 @@ namespace Database
 
             bool begin()
             {
+                assert(m_name != "");
                 bool status = true;
 
                 if (m_level++ == 0)
                 {
                     QSqlDatabase db = QSqlDatabase::database(m_name, false);
 
-                    if (db.open())
+                    if (db.isOpen())
                         status = db.transaction();
                 }
 
@@ -185,19 +186,27 @@ namespace Database
 
             bool end()
             {
+                assert(m_name != "" && m_level > 0);
                 bool status = true;
 
                 if (--m_level == 0)
                 {
+                    const auto start = std::chrono::steady_clock::now();
+
                     QSqlDatabase db = QSqlDatabase::database(m_name, false);
 
-                    if (db.open())
+                    if (db.isOpen())
                     {
                         status = db.commit();
 
                         if (status == false)
                             db.rollback();
                     }
+
+                    const auto end_t = std::chrono::steady_clock::now();
+                    const auto diff = end_t - start;
+                    const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+                    std::clog << "Transaction commit: " << diff_ms << "ms" << std::endl;
                 }
 
                 return status;
@@ -682,15 +691,8 @@ namespace Database
         if (status)
             status = storeFlags(id, data);
 
-        const auto start = std::chrono::steady_clock::now();
-
         if (status)
             status = m_transaction.end();
-
-        const auto end = std::chrono::steady_clock::now();
-        const auto diff = end - start;
-        const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-        std::clog << "Transaction commit: " << diff_ms << "ms" << std::endl;
         
         //store id in photo
         if (status && inserting)
@@ -934,15 +936,21 @@ namespace Database
     }
 
 
-    void ASqlBackend::beginTransaction()
+    bool ASqlBackend::transactionsReady()
     {
-        m_data->m_transaction.begin();
+        return m_data->m_databaseName != "";
     }
 
 
-    void ASqlBackend::endTransaction()
+    bool ASqlBackend::beginTransaction()
     {
-        m_data->m_transaction.end();
+        return m_data->m_transaction.begin();
+    }
+
+
+    bool ASqlBackend::endTransaction()
+    {
+        return m_data->m_transaction.end();
     }
 
 
