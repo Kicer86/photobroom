@@ -23,7 +23,6 @@
 
 #include <unordered_map>
 
-#include "photo_info_updater.hpp"
 #include <idatabase.hpp>
 
 
@@ -77,18 +76,6 @@ void PhotoInfoManager::introduce(const IPhotoInfo::Ptr& ptr)
     m_data->m_photo_cache[id] = ptr;
 
     ptr->registerObserver(this);
-
-    if (ptr->isFullyInitialized() == false)
-    {
-        if (ptr->isHashLoaded() == false)
-            PhotoInfoUpdater::updateHash(ptr);
-
-        if (ptr->isThumbnailLoaded() == false)
-            PhotoInfoUpdater::updateThumbnail(ptr);
-
-        if (ptr->isExifDataLoaded() == false)
-            PhotoInfoUpdater::updateTags(ptr);
-    }
 }
 
 
