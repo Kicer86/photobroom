@@ -246,7 +246,7 @@ namespace
                     auto transaction_duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_diff).count();
 
                     //no more tasks or transaction takes too long? end transaction
-                    if ( transation_opened && (transaction_duration > 10000 || m_tasks.empty()) )
+                    if ( transation_opened && (transaction_duration > 2000 || m_tasks.empty()) )
                     {
                         m_backend->endTransaction();
                         transation_opened = false;
