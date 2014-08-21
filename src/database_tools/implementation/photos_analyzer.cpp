@@ -44,7 +44,7 @@ namespace
 
             while (m_work)
             {
-                m_data_available.wait(lock, [&]{ return m_photosToUpdate.lock()->empty() == false; });
+                m_data_available.wait(lock, [&]{ return m_photosToUpdate.lock()->empty() == false || m_work == false; });
 
                 IPhotoInfo::Ptr photoInfo(nullptr);
                 {
@@ -105,6 +105,15 @@ struct PhotosAnalyzer::Impl
 
     Impl(const Impl &) = delete;
     Impl& operator=(const Impl &) = delete;
+
+    ~Impl()
+    {
+        m_thread.m_work = false;
+        m_thread.m_data_available.notify_one();
+
+        assert(m_analyzerThread.joinable());
+        m_analyzerThread.join();
+    }
 
     void setDatabase(Database::IDatabase* database)
     {
