@@ -67,15 +67,15 @@ namespace
         void process(const IPhotoInfo::Ptr& photoInfo)
         {
             if (photoInfo->isFullyInitialized() == false)
-             {
-                 if (photoInfo->isHashLoaded() == false)
-                     PhotoInfoUpdater::updateHash(photoInfo);
+            {
+                if (photoInfo->isHashLoaded() == false)
+                    PhotoInfoUpdater::updateHash(photoInfo);
 
-                 if (photoInfo->isThumbnailLoaded() == false)
-                     PhotoInfoUpdater::updateThumbnail(photoInfo);
+                if (photoInfo->isThumbnailLoaded() == false)
+                    PhotoInfoUpdater::updateThumbnail(photoInfo);
 
-                 if (photoInfo->isExifDataLoaded() == false)
-                     PhotoInfoUpdater::updateTags(photoInfo);
+                if (photoInfo->isExifDataLoaded() == false)
+                    PhotoInfoUpdater::updateTags(photoInfo);
             }
         }
 
