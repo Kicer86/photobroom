@@ -20,7 +20,7 @@
 #ifndef PHOTOITERATOR_H
 #define PHOTOITERATOR_H
 
-#include <utils/data_ptr.hpp>
+#include <OpenLibrary/utils/data_ptr.hpp>
 
 #include <database/iphoto_info.hpp>
 
