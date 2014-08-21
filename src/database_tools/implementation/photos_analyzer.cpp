@@ -19,7 +19,119 @@
 
 #include "photos_analyzer.hpp"
 
-PhotosAnalyzer::PhotosAnalyzer()
+#include <thread>
+#include <condition_variable>
+#include <mutex>
+
+#include <OpenLibrary/palgorithm/ts_resource.hpp>
+
+#include <database/idatabase.hpp>
+
+#include "photo_info_updater.hpp"
+
+
+namespace
+{
+    struct PhotosAnalyzerThread
+    {
+        PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToUpdate(), m_work(true)
+        {
+        }
+
+        void execute()
+        {
+            std::unique_lock<std::mutex> lock(m_data_mutex);
+
+            while (m_work)
+            {
+                m_data_available.wait(lock, [&]{ return m_photosToUpdate.lock()->empty() == false; });
+
+                IPhotoInfo::Ptr photoInfo(nullptr);
+                {
+                    auto photosToUpdate = m_photosToUpdate.lock();
+
+                    if (photosToUpdate->empty() == false)
+                    {
+                        photoInfo = photosToUpdate->front();
+                        photosToUpdate->pop_front();
+                    }
+                }
+
+                if (photoInfo.get() != nullptr)
+                    process(photoInfo);
+            }
+
+        }
+
+
+        void process(const IPhotoInfo::Ptr& photoInfo)
+        {
+            if (photoInfo->isFullyInitialized() == false)
+             {
+                 if (photoInfo->isHashLoaded() == false)
+                     PhotoInfoUpdater::updateHash(photoInfo);
+
+                 if (photoInfo->isThumbnailLoaded() == false)
+                     PhotoInfoUpdater::updateThumbnail(photoInfo);
+
+                 if (photoInfo->isExifDataLoaded() == false)
+                     PhotoInfoUpdater::updateTags(photoInfo);
+            }
+        }
+
+
+        std::condition_variable m_data_available;
+        std::mutex m_data_mutex;
+        ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
+        bool m_work;
+    };
+
+    void trampoline(PhotosAnalyzerThread* thread)
+    {
+        thread->execute();
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+struct PhotosAnalyzer::Impl
+{
+    Impl(): m_database(nullptr), m_thread(), m_analyzerThread(trampoline, &m_thread)
+    {
+
+    }
+
+    Impl(const Impl &) = delete;
+    Impl& operator=(const Impl &) = delete;
+
+    void setDatabase(Database::IDatabase* database)
+    {
+        m_database = database;
+    }
+
+    Database::ADatabaseSignals* getNotifier()
+    {
+        return m_database->notifier();
+    }
+
+    void addPhoto(const IPhotoInfo::Ptr& photo)
+    {
+        m_thread.m_photosToUpdate.lock()->push_back(photo);
+        m_thread.m_data_available.notify_one();
+    }
+
+    private:
+        Database::IDatabase* m_database;
+        PhotosAnalyzerThread m_thread;
+        std::thread m_analyzerThread;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+PhotosAnalyzer::PhotosAnalyzer(): m_data(new Impl)
 {
 
 }
@@ -27,5 +139,20 @@ PhotosAnalyzer::PhotosAnalyzer()
 
 PhotosAnalyzer::~PhotosAnalyzer()
 {
+    delete m_data, m_data = nullptr;
+}
 
+
+void PhotosAnalyzer::setDatabase(Database::IDatabase* database)
+{
+    m_data->setDatabase(database);
+    auto notifier = m_data->getNotifier();
+
+    connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(photoAdded(IPhotoInfo::Ptr)), Qt::DirectConnection);
+}
+
+
+void PhotosAnalyzer::photoAdded(const IPhotoInfo::Ptr& photo)
+{
+    m_data->addPhoto(photo);
 }

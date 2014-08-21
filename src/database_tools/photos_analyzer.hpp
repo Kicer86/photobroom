@@ -20,14 +20,39 @@
 #ifndef PHOTOS_ANALYZER_HPP
 #define PHOTOS_ANALYZER_HPP
 
-class PhotosAnalyzer
+#include <QObject>
+
+#include <database/iphoto_info.hpp>
+
+#include "database_tools_export.h"
+
+
+namespace Database
 {
+    class IDatabase;
+}
+
+class DATABASE_TOOLS_EXPORT PhotosAnalyzer: QObject
+{
+        Q_OBJECT
+
     public:
+        struct Impl;
+        
         PhotosAnalyzer();
         PhotosAnalyzer(const PhotosAnalyzer &) = delete;
         ~PhotosAnalyzer();
 
         PhotosAnalyzer& operator=(const PhotosAnalyzer &) = delete;
+
+        void setDatabase(Database::IDatabase *);
+
+    private:
+        Impl* m_data;
+
+    private slots:
+        void photoAdded(const IPhotoInfo::Ptr &);
+
 };
 
 #endif // PHOTOS_ANALYZER_HPP
