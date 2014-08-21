@@ -1,5 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
+ * Photo analyzer and updater.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,15 @@
  *
  */
 
-#ifndef PHOTOSUPDATER_H
-#define PHOTOSUPDATER_H
+#include "photos_analyzer.hpp"
 
-class PhotosUpdater
+PhotosAnalyzer::PhotosAnalyzer()
 {
-    public:
-        PhotosUpdater();
-        PhotosUpdater(const PhotosUpdater &) = delete;
-        ~PhotosUpdater();
 
-        PhotosUpdater& operator=(const PhotosUpdater &) = delete;
-};
+}
 
-#endif // PHOTOSUPDATER_H
+
+PhotosAnalyzer::~PhotosAnalyzer()
+{
+
+}

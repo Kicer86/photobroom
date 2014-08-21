@@ -2,10 +2,10 @@
 project(database_tools CXX)
 
 set(DATABASE_TOOLS_SOURCES
-        implementation/photos_updater.cpp)
+        implementation/photos_analyzer.cpp)
 
 set(DATABASE_TOOLS_HEADERS
-        photos_updater.hpp)
+        photos_analyzer.hpp)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
