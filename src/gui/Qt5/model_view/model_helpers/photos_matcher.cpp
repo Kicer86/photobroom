@@ -184,7 +184,7 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
 
         if (matches)                         //does match - yeah
         {
-            result = check;                  //save current match. Final result can be different as we go down in hierarchy
+            result = check;                  //save current match. Final result can be different as we go deeper in hierarchy
 
             if (check->m_level != depth)     //go thru children. Better match may happen
                 toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
