@@ -156,6 +156,15 @@ bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) cons
 }
 
 
+bool PhotosMatcher::doesMatchFilter(const IPhotoInfo::Ptr& photoInfo, const Database::IFilter::Ptr& filter)
+{
+    FiltersMatcher matcher;
+    const bool result = matcher.doesMatch(photoInfo, filter);
+
+    return result;
+}
+
+
 IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     IdxData* root = m_idxDataManager->getRoot();
@@ -171,23 +180,22 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
     std::deque<IdxData *> toCheck = { current };
     FiltersMatcher matcher;
 
-    while (toCheck.empty() == false)
+    while (result == false && toCheck.empty() == false)
     {
         IdxData* check = toCheck.front();
         toCheck.pop_front();
 
-        if (check->isPhoto())
-            continue;
+        assert(check->isNode());
 
         const Database::IFilter::Ptr& filter = check->m_filter;
         const bool matches = matcher.doesMatch(photoInfo, filter);
 
         if (matches)                         //does match - yeah
         {
-            result = check;                  //save current match. Final result can be different as we go deeper in hierarchy
-
-            if (check->m_level != depth)     //go thru children. Better match may happen
+            if (check->m_level < depth)      //go thru children. Better match may happen
                 toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
+            else
+                result = check;              //save result
         }
     }
 
