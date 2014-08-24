@@ -564,7 +564,21 @@ IdxData *IdxDataManager::createRightParent(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* result = nullptr;
 
-    m_data->m_hierarchy;
+    const std::shared_ptr<ITagData> photoTags = photoInfo->getTags();
+    const size_t levels = m_data->m_hierarchy.levels.size();
+
+    for(size_t i = 0; i < levels; i++)
+    {
+        const TagNameInfo& tagName = m_data->m_hierarchy.levels[i].tagName;
+        auto photoTagIt = photoTags->getTags().find(tagName);
+
+        if (photoTagIt != photoTags->getTags().end())
+        {
+        }
+        else
+        {
+        }
+    }
 }
 
 
