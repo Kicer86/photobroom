@@ -111,10 +111,10 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
     setHierarchy(hierarchy);
-            
+
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
-    
+
     //used for transferring event from working thread to main one
     connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
             this, SLOT(insertFetchedNodes(IdxData*, std::shared_ptr<std::deque<IdxData *> >)), Qt::QueuedConnection);
@@ -538,6 +538,10 @@ IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
     if (match)
         _parent = matcher.findParentFor(photoInfo);
 
+    //could not match right parent? Create it
+    if (_parent == nullptr)
+        createRightParent(photoInfo);
+
     return _parent;
 }
 
@@ -553,6 +557,14 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
         result = it->second;
 
     return result;
+}
+
+
+IdxData *IdxDataManager::createRightParent(const IPhotoInfo::Ptr& photoInfo)
+{
+    IdxData* result = nullptr;
+
+    m_data->m_hierarchy;
 }
 
 

@@ -68,7 +68,7 @@ public:
 
 private:
     Q_OBJECT
-    
+
     struct Data;
     std::unique_ptr<Data> m_data;
 
@@ -107,6 +107,7 @@ private:
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
     IdxData* getRightParent(const IPhotoInfo::Ptr &);
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
+    IdxData* createRightParent(const IPhotoInfo::Ptr &);
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performRemove(const IPhotoInfo::Ptr &, IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
@@ -114,7 +115,7 @@ private:
 signals:
     void idxDataLoaded(IdxData *);
     void nodesFetched(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
-    
+
 private slots:
     void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
     void photoChanged(const IPhotoInfo::Ptr &);
