@@ -107,7 +107,7 @@ private:
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
     IdxData* getRightParent(const IPhotoInfo::Ptr &);
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
-    IdxData* createRightParent(const IPhotoInfo::Ptr &);
+    IdxData* createRightParent(IdxData *, const IPhotoInfo::Ptr &);
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performRemove(const IPhotoInfo::Ptr &, IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);

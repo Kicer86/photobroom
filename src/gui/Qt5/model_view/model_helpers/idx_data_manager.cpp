@@ -538,9 +538,24 @@ IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
     if (match)
         _parent = matcher.findParentFor(photoInfo);
 
-    //could not match right parent? Create it
+    //could not match right parent?
     if (_parent == nullptr)
-        createRightParent(photoInfo);
+    {
+        //try to find any ancestor
+        _parent = matcher.findCloserAncestorFor(photoInfo);
+
+        assert(_parent != nullptr); //root item must match
+    }
+
+    //parent fetched? Attach photoInfo
+    if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
+    {
+        _parent = createRightParent(_parent, photoInfo);
+    }
+    else
+    {
+        //nothing to do. Ancestor of photo isn't yet fetched. Don't do it. We will do it on user's demand
+    }
 
     return _parent;
 }
@@ -560,25 +575,43 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData *IdxDataManager::createRightParent(const IPhotoInfo::Ptr& photoInfo)
+IdxData *IdxDataManager::createRightParent(IdxData* _parent, const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* result = nullptr;
 
     const std::shared_ptr<ITagData> photoTags = photoInfo->getTags();
-    const size_t levels = m_data->m_hierarchy.levels.size();
+    const size_t level = _parent->m_level;
 
-    for(size_t i = 0; i < levels; i++)
+    if (level == m_data->m_hierarchy.levels.size())  //this parent is at the bottom of hierarchy? Just use it as result
+        result = _parent;
+    else
     {
-        const TagNameInfo& tagName = m_data->m_hierarchy.levels[i].tagName;
-        auto photoTagIt = photoTags->getTags().find(tagName);
+        const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+        auto photoDirectTags = photoTags->getTags();
+        auto photoTagIt = photoDirectTags.find(tagName);
 
-        if (photoTagIt != photoTags->getTags().end())
+        //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
+        if (photoTagIt != photoDirectTags.end())
         {
+            const auto tagValue = *photoTagIt->second.begin();
+            IdxData* node = new IdxData(this, _parent, tagValue);
+
+            auto fdesc = std::make_shared<Database::FilterDescription>();
+            fdesc->tagName = tagName;
+            fdesc->tagValue = tagValue;
+
+            node->setNodeData(fdesc);
+            _parent->addChild(node);
+
+            result = node;
         }
         else
         {
+            //photo doesn't match. It may be not loaded yet or has incomplete tags list
         }
     }
+
+    return result;
 }
 
 
