@@ -492,7 +492,7 @@ void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>&
 bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* currentParent = getCurrentParent(photoInfo);
-    IdxData* newParent = getRightParent(photoInfo);
+    IdxData* newParent = getCloserAncestor(photoInfo);
     bool parent_changed = currentParent != newParent;
 
     if (parent_changed)
@@ -526,7 +526,7 @@ IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
+IdxData* IdxDataManager::getCloserAncestor(const IPhotoInfo::Ptr& photoInfo)
 {
     PhotosMatcher matcher;
     matcher.set(this);
@@ -538,23 +538,22 @@ IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
     if (match)
         _parent = matcher.findParentFor(photoInfo);
 
-    //could not match right parent?
+    //could not match exact parent?
     if (_parent == nullptr)
-    {
-        //try to find any ancestor
-        _parent = matcher.findCloserAncestorFor(photoInfo);
-
-        assert(_parent != nullptr); //root item must match
-    }
+        _parent = createPhotosCloserAncestor(&matcher, photoInfo);
 
     //parent fetched? Attach photoInfo
-    if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
+    if (_parent != nullptr)
     {
-        _parent = createRightParent(_parent, photoInfo);
-    }
-    else
-    {
-        //nothing to do. Ancestor of photo isn't yet fetched. Don't do it. We will do it on user's demand
+        if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
+        {
+            IdxData* child = new IdxData(this, _parent, photoInfo);
+            _parent->addChild(child);
+        }
+        else
+        {
+            //nothing to do. Ancestor of photo isn't yet fetched. Don't do it. We will do it on user's demand
+        }
     }
 
     return _parent;
@@ -575,8 +574,9 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData *IdxDataManager::createRightParent(IdxData* _parent, const IPhotoInfo::Ptr& photoInfo)
+IdxData *IdxDataManager::createPhotosCloserAncestor( PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
+    IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
     IdxData* result = nullptr;
 
     const std::shared_ptr<ITagData> photoTags = photoInfo->getTags();

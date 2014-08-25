@@ -26,6 +26,7 @@
 #include "../db_data_model.hpp"
 
 class DBDataModel;
+class PhotosMatcher;
 
 class IdxDataManager: public QObject, Database::IDatabaseClient
 {
@@ -105,9 +106,9 @@ private:
     void appendPhotos(IdxData *, const std::deque<IdxData *> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
-    IdxData* getRightParent(const IPhotoInfo::Ptr &);
+    IdxData* getCloserAncestor(const IPhotoInfo::Ptr &);
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
-    IdxData* createRightParent(IdxData *, const IPhotoInfo::Ptr &);
+    IdxData* createPhotosCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performRemove(const IPhotoInfo::Ptr &, IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
