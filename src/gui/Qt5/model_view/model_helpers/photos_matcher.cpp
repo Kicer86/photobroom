@@ -169,18 +169,26 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     IdxData* root = m_idxDataManager->getRoot();
 
-    return findParentFor(photoInfo, root);
+    return findParentFor(photoInfo, root, true);
 }
 
 
-IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData* current) const
+IdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
+{
+    IdxData* root = m_idxDataManager->getRoot();
+
+    return findParentFor(photoInfo, root, false);
+}
+
+
+IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData* current, bool exact) const
 {
     const size_t depth = m_idxDataManager->getHierarchy().levels.size();
     IdxData* result = nullptr;
     std::deque<IdxData *> toCheck = { current };
     FiltersMatcher matcher;
 
-    while (result == false && toCheck.empty() == false)
+    while (toCheck.empty() == false)
     {
         IdxData* check = toCheck.front();
         toCheck.pop_front();
@@ -192,10 +200,16 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
 
         if (matches)                         //does match - yeah
         {
-            if (check->m_level < depth)      //go thru children. Better match may happen
+            if (exact == false)              //for non exact match
+                result = check;
+
+            if (check->m_level < depth)      //go thru children
                 toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
             else
+            {
                 result = check;              //save result
+                break;                       //and quit. We've got best result
+            }
         }
     }
 
