@@ -10,6 +10,7 @@ TODO:
 - update photo in db when tags change
 - rename hash to sha256
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
+- when new node (IdxData) is dynamically added, move it to right position (sorted)
 
 ver 1.0 requirements:
 - do stress and crash tests
