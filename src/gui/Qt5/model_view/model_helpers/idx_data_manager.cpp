@@ -492,7 +492,7 @@ void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>&
 bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* currentParent = getCurrentParent(photoInfo);
-    IdxData* newParent = getCloserAncestor(photoInfo);
+    IdxData* newParent = createAncestry(photoInfo);
     bool parent_changed = currentParent != newParent;
 
     if (parent_changed)
@@ -526,7 +526,7 @@ IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData* IdxDataManager::getCloserAncestor(const IPhotoInfo::Ptr& photoInfo)
+IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
 {
     PhotosMatcher matcher;
     matcher.set(this);
@@ -541,7 +541,7 @@ IdxData* IdxDataManager::getCloserAncestor(const IPhotoInfo::Ptr& photoInfo)
 
         //could not match exact parent?
         if (_parent == nullptr)
-            _parent = createPhotosCloserAncestor(&matcher, photoInfo);
+            _parent = createCloserAncestor(&matcher, photoInfo);
 
         //parent fetched? Attach photoInfo
         if (_parent != nullptr)
@@ -553,7 +553,9 @@ IdxData* IdxDataManager::getCloserAncestor(const IPhotoInfo::Ptr& photoInfo)
             }
             else
             {
-                //nothing to do. Ancestor of photo isn't yet fetched. Don't do it. We will do it on user's demand
+                //Ancestor of photo isn't yet fetched. Don't fetch it. We will do it on user's demand
+                //Just make sure we will return _parent == nullptr as we didn't achieve direct parent
+                _parent = nullptr;
             }
         }
     }
@@ -576,7 +578,7 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData *IdxDataManager::createPhotosCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
+IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
     IdxData* result = nullptr;
