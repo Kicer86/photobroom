@@ -574,7 +574,7 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData *IdxDataManager::createPhotosCloserAncestor( PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
+IdxData *IdxDataManager::createPhotosCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
     IdxData* result = nullptr;
