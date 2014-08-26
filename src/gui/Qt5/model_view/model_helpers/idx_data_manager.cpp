@@ -605,7 +605,8 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             fdesc->tagValue = tagValue;
 
             node->setNodeData(fdesc);
-            _parent->addChild(node);
+
+            appendIdxData(_parent, {node} );
 
             result = node;
         }
