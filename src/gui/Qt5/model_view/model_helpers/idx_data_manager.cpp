@@ -546,12 +546,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
         //parent fetched? Attach photoInfo
         if (_parent != nullptr)
         {
-            if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
-            {
-                IdxData* child = new IdxData(this, _parent, photoInfo);
-                _parent->addChild(child);
-            }
-            else
+            if (_parent->m_loaded != IdxData::FetchStatus::Fetched)
             {
                 //Ancestor of photo isn't yet fetched. Don't fetch it. We will do it on user's demand
                 //Just make sure we will return _parent == nullptr as we didn't achieve direct parent
