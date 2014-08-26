@@ -20,6 +20,7 @@ ver 1.0 requirements:
 - log files
 - new view for photos
 - in view add entry for not matching photos
+- store 'exif loaded' flag in database
 
 
 IN PROGRESS:
