@@ -29,7 +29,7 @@ struct NullFeeder: public ITagFeeder
 
 std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 {
-    static std::shared_ptr<ITagFeeder> result;
+    static std::shared_ptr<ITagFeeder> thread_local result;
 
     if (result.get() == nullptr)
 #if defined USE_EXIV2
