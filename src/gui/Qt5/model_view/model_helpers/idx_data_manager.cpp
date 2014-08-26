@@ -536,23 +536,25 @@ IdxData* IdxDataManager::getCloserAncestor(const IPhotoInfo::Ptr& photoInfo)
     const bool match = matcher.doesMatchModelFilters(photoInfo);
 
     if (match)
+    {
         _parent = matcher.findParentFor(photoInfo);
 
-    //could not match exact parent?
-    if (_parent == nullptr)
-        _parent = createPhotosCloserAncestor(&matcher, photoInfo);
+        //could not match exact parent?
+        if (_parent == nullptr)
+            _parent = createPhotosCloserAncestor(&matcher, photoInfo);
 
-    //parent fetched? Attach photoInfo
-    if (_parent != nullptr)
-    {
-        if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
+        //parent fetched? Attach photoInfo
+        if (_parent != nullptr)
         {
-            IdxData* child = new IdxData(this, _parent, photoInfo);
-            _parent->addChild(child);
-        }
-        else
-        {
-            //nothing to do. Ancestor of photo isn't yet fetched. Don't do it. We will do it on user's demand
+            if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
+            {
+                IdxData* child = new IdxData(this, _parent, photoInfo);
+                _parent->addChild(child);
+            }
+            else
+            {
+                //nothing to do. Ancestor of photo isn't yet fetched. Don't do it. We will do it on user's demand
+            }
         }
     }
 
