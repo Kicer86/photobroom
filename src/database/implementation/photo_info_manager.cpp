@@ -85,7 +85,7 @@ void PhotoInfoManager::setDatabase(Database::IDatabase* database)
 }
 
 
-//TODO: those conditions there doesn't look nice...
+//TODO: those conditions there don't look nice...
 //is there nicer way for direct access to IPhotoInfo::Ptr?
 void PhotoInfoManager::photoUpdated(IPhotoInfo* photoInfo)
 {
