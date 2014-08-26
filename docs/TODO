@@ -24,7 +24,6 @@ ver 1.0 requirements:
 
 
 IN PROGRESS:
-- Staging Model: automatically move added photos to right positions
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - make PhotoInfo::tags thread safe and do not overwrite data
 
@@ -51,6 +50,7 @@ DONE:
 - PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 - model: react on changes in database
 - support for some extra exif library, probably more windows friendly than exiv2
+- Staging Model: automatically move added photos to right positions
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
