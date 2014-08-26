@@ -692,9 +692,12 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
         const bool moved = movePhotoToRightParent(photoInfo);
 
         IdxData* idx = findIdxDataFor(photoInfo);
-        QModelIndex index = getIndex(idx);
+        if (idx != nullptr)
+        {
+            QModelIndex index = getIndex(idx);
 
-        emit m_data->m_model->dataChanged(index, index);
+            emit m_data->m_model->dataChanged(index, index);
+        }
     }
 }
 
