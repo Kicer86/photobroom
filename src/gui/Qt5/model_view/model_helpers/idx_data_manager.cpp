@@ -682,12 +682,20 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
 
 void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 {
-    const bool moved = movePhotoToRightParent(photoInfo);
+    PhotosMatcher matcher;
+    matcher.set(this);
+    matcher.set(m_data->m_model);
+    const bool match = matcher.doesMatchModelFilters(photoInfo);
 
-    /*
-    if (!moved)
-        emit m_data->m_model->dataChanged(idx, idx);
-    */
+    if (match)
+    {
+        const bool moved = movePhotoToRightParent(photoInfo);
+
+        IdxData* idx = findIdxDataFor(photoInfo);
+        QModelIndex index = getIndex(idx);
+
+        emit m_data->m_model->dataChanged(index, index);
+    }
 }
 
 
