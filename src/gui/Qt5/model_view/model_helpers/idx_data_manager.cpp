@@ -474,7 +474,7 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>& photos)
+void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>& photos)
 {
 	assert(photos.empty() == false);
 
@@ -667,13 +667,13 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 }
 
 
-void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
+void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& nodes)
 {
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-	if (photos->empty() == false)
-		appendPhotos(_parent, *photos.get());
+	if (nodes->empty() == false)
+		appendIdxData(_parent, *nodes.get());
 
     markIdxDataFetched(_parent);
 }

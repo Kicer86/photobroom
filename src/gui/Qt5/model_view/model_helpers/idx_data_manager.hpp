@@ -103,7 +103,7 @@ private:
     void resetModel();
 
     //model manipulations
-    void appendPhotos(IdxData *, const std::deque<IdxData *> &);
+    void appendIdxData(IdxData *, const std::deque<IdxData *> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
     IdxData* createAncestry(const IPhotoInfo::Ptr &);                          //returns direct parent or nullptr if direct parent isn't fetched yet
