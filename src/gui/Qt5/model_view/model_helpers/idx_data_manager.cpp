@@ -672,8 +672,8 @@ void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-	if (nodes->empty() == false)
-		appendIdxData(_parent, *nodes.get());
+    if (nodes->empty() == false)
+        appendIdxData(_parent, *nodes.get());
 
     markIdxDataFetched(_parent);
 }
