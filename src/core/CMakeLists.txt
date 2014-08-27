@@ -135,7 +135,7 @@ endif(EXIV2_FOUND)
 if(OPENSSL_FOUND)
     target_link_libraries(core ${OPENSSL_LIBRARIES})
 elseif(NETTLE_FOUND)
-    include_directories(SYSTEM ${NETTLE_LIBRARIES})
+    target_link_libraries(core ${NETTLE_LIBRARIES})
 endif(OPENSSL_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
