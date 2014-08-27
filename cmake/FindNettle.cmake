@@ -9,7 +9,7 @@ if(TARGET Nettle)
 
 else()
 
-    find_path(NETTLE_INCLUDE_DIR nettle/nettle.h
+    find_path(NETTLE_INCLUDE_DIR nettle/aes.h
                                  PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/include)
 
     find_library(NETTLE_LIBRARY NAMES nettle
