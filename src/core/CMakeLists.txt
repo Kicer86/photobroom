@@ -16,8 +16,7 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${OPENSSL_INCLUDE_DIR})
+                           ${OPENLIBRARY_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -65,6 +64,19 @@ elseif(EASYEXIF_FOUND)
 endif(EXIV2_FOUND)
 
 
+if(OPENSSL_FOUND)
+
+    add_definitions(-DUSE_OPENSSL)
+    include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
+
+elseif(NETTLE_FOUND)
+
+    add_definitions(-DUSE_NETTLE)
+    include_directories(SYSTEM ${NETTLE_INCLUDE_DIRS})
+
+endif(OPENSSL_FOUND)
+
+
 if(BUILD_TESTS)
     addTestTarget(core
                         SOURCES
@@ -102,7 +114,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+target_link_libraries(core ${OPENLIBRARY_PALGORITHM_LIBRARIES})
 
 if(OPENMP_FOUND)
     if(MSVC)
@@ -119,6 +131,12 @@ if(EXIV2_FOUND)
 elseif(EASYEXIF_FOUND)
     target_link_libraries(core ${EASYEXIF_LIBRARIES})
 endif(EXIV2_FOUND)
+
+if(OPENSSL_FOUND)
+    target_link_libraries(core ${OPENSSL_LIBRARIES})
+elseif(NETTLE_FOUND)
+    include_directories(SYSTEM ${NETTLE_LIBRARIES})
+endif(OPENSSL_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)
