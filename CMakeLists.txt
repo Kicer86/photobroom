@@ -8,6 +8,9 @@ include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 
+#create dir for 3rd party libraries
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/3rd_party/src)
+
 #options:
 option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
 option(BUILD_TESTS "Build tests. Set to ON to build tests")

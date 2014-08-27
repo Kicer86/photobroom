@@ -44,3 +44,25 @@ function(addTestTarget target)
     add_test(${target} ${test_bin})
 
 endfunction(addTestTarget)
+
+
+macro(find_exif_package)
+
+    find_package(Exiv2)
+
+    if(NOT EXIV2_FOUND)
+        find_package(EasyExif)
+    endif()
+
+endmacro(find_exif_package)
+
+
+macro(find_cryptographic_package)
+
+    find_package(OpenSSL)
+    
+    if(NOT OPENSSL_FOUND)
+        find_package(Nettle REQUIRED)
+    endif()
+
+endmacro(find_cryptographic_package)

@@ -24,12 +24,22 @@
 #include <sstream>
 #include <string>
 
-#include <openssl/sha.h>
-#include <openssl/md5.h>
+#if defined USE_OPENSSL
+    #include <openssl/sha.h>
+    #include <openssl/md5.h>
+#elif defined USE_NETTLE
+    #include <nettle/sha.h>
+    #include <nettle/md5.h>
+
+    #include "nettle_adapter.cpp"
+#else
+    #error No cryptography library found
+#endif
 
 std::string HashFunctions::sha256(const unsigned char* str, unsigned int len)
 {
     unsigned char hash[SHA256_DIGEST_LENGTH];
+    
     SHA256(str, len, hash);
 
     return format(hash, SHA256_DIGEST_LENGTH);
