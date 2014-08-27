@@ -94,9 +94,6 @@ void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
-
-
-
     #pragma omp parallel
     {
         const int id = getId();

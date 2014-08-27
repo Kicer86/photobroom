@@ -27,26 +27,26 @@ class QByteArray;
 
 class ATagFeeder: public ITagFeeder
 {
-public:
-	ATagFeeder();
-	virtual ~ATagFeeder();
+    public:
+        ATagFeeder();
+        virtual ~ATagFeeder();
 
-protected:
-	enum TagTypes
-	{
-		DateTimeOriginal,
-	};
+    protected:
+        enum TagTypes
+        {
+            DateTimeOriginal,
+        };
 
-	virtual void collect(const QByteArray &) = 0;
-	virtual std::string get(TagTypes) = 0;
+        virtual void collect(const QByteArray &) = 0;
+        virtual std::string get(TagTypes) = 0;
 
-private:
-	// ITagFeeder:
-	std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
-	void update(ITagData *, const QString& path) override;
-	//
+    private:
+        // ITagFeeder:
+        std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
+        void update(ITagData *, const QString& path) override;
+        //
 
-	void feedDateAndTime(ITagData *);
+        void feedDateAndTime(ITagData *);
 };
 
 #endif // A_TAG_FEEDER_HPP

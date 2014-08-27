@@ -50,6 +50,10 @@ namespace Database
         virtual void setPhotoInfoManager(Database::IPhotoInfoManager *) = 0;
         virtual void setPhotoInfoCreator(Database::IPhotoInfoCreator *) = 0;
 
+        virtual bool transactionsReady() = 0;       //transacions are ready after init()
+        virtual bool beginTransaction() = 0;
+        virtual bool endTransaction() = 0;
+
         //add photo to database
         virtual IPhotoInfo::Ptr addPath(const QString &) = 0;
 

@@ -156,15 +156,32 @@ bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) cons
 }
 
 
+bool PhotosMatcher::doesMatchFilter(const IPhotoInfo::Ptr& photoInfo, const Database::IFilter::Ptr& filter)
+{
+    FiltersMatcher matcher;
+    const bool result = matcher.doesMatch(photoInfo, filter);
+
+    return result;
+}
+
+
 IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     IdxData* root = m_idxDataManager->getRoot();
 
-    return findParentFor(photoInfo, root);
+    return findParentFor(photoInfo, root, true);
 }
 
 
-IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData* current) const
+IdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
+{
+    IdxData* root = m_idxDataManager->getRoot();
+
+    return findParentFor(photoInfo, root, false);
+}
+
+
+IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData* current, bool exact) const
 {
     const size_t depth = m_idxDataManager->getHierarchy().levels.size();
     IdxData* result = nullptr;
@@ -176,18 +193,23 @@ IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData*
         IdxData* check = toCheck.front();
         toCheck.pop_front();
 
-        if (check->isPhoto())
-            continue;
+        assert(check->isNode());
 
         const Database::IFilter::Ptr& filter = check->m_filter;
         const bool matches = matcher.doesMatch(photoInfo, filter);
 
         if (matches)                         //does match - yeah
         {
-            result = check;                  //save current match
+            if (exact == false)              //for non exact match
+                result = check;
 
-            if (check->m_level != depth)     //go thru children. Better match may happen
+            if (check->m_level < depth)      //go thru children
                 toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
+            else
+            {
+                result = check;              //save result
+                break;                       //and quit. We've got best result
+            }
         }
     }
 

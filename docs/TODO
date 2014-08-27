@@ -10,6 +10,7 @@ TODO:
 - update photo in db when tags change
 - rename hash to sha256
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
+- when new node (IdxData) is dynamically added, move it to right position (sorted)
 
 ver 1.0 requirements:
 - do stress and crash tests
@@ -20,10 +21,10 @@ ver 1.0 requirements:
 - log files
 - new view for photos
 - in view add entry for not matching photos
+- store 'exif loaded' flag in database
 
 
 IN PROGRESS:
-- Staging Model: automatically move added photos to right positions
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
 - make PhotoInfo::tags thread safe and do not overwrite data
 
@@ -50,6 +51,7 @@ DONE:
 - PhotoInfo should not be directly being built by ASqlBackend. Introduce PhotoInfo builder
 - model: react on changes in database
 - support for some extra exif library, probably more windows friendly than exiv2
+- Staging Model: automatically move added photos to right positions
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve

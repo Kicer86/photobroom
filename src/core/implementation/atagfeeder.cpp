@@ -41,16 +41,16 @@ ATagFeeder::~ATagFeeder()
 
 std::unique_ptr<ITagData> ATagFeeder::getTagsFor(const QString& path)
 {
-	QByteArray data;
-	PhotosManager::instance()->getPhoto(path, &data);
+    QByteArray data;
+    PhotosManager::instance()->getPhoto(path, &data);
 
-	collect(data);
+    collect(data);
 
-	std::unique_ptr<ITagData> tagData(new TagData);
+    std::unique_ptr<ITagData> tagData(new TagData);
 
-	feedDateAndTime(tagData.get());
-	
-	return tagData;
+    feedDateAndTime(tagData.get());
+
+    return tagData;
 }
 
 
@@ -62,19 +62,19 @@ void ATagFeeder::update(ITagData *, const QString& path)
 
 void ATagFeeder::feedDateAndTime(ITagData* tagData)
 {
-	const std::string dateTimeOrirignal = get(DateTimeOriginal);
+    const std::string dateTimeOrirignal = get(DateTimeOriginal);
 
-	const QString v(dateTimeOrirignal.c_str());
-	const QStringList time_splitted = v.split(" ");
+    const QString v(dateTimeOrirignal.c_str());
+    const QStringList time_splitted = v.split(" ");
 
-	if (time_splitted.size() == 2)
-	{
-		QString date = time_splitted[0];
-		const QString time = time_splitted[1];
+    if (time_splitted.size() == 2)
+    {
+        QString date = time_splitted[0];
+        const QString time = time_splitted[1];
 
-		date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
+        date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
 
-		tagData->setTag(BaseTags::get(BaseTagsList::Date), date);
-		tagData->setTag(BaseTags::get(BaseTagsList::Time), time);
-	}
+        tagData->setTag(BaseTags::get(BaseTagsList::Date), date);
+        tagData->setTag(BaseTags::get(BaseTagsList::Time), time);
+    }
 }

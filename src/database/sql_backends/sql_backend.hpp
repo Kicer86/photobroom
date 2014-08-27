@@ -79,6 +79,10 @@ namespace Database
         private:
             std::unique_ptr<Data> m_data;
 
+            virtual bool transactionsReady() override;
+            virtual bool beginTransaction() override;
+            virtual bool endTransaction() override;
+
             virtual bool init(const std::string &) override final;
             virtual IPhotoInfo::Ptr addPath(const QString &) override final;
             virtual bool update(const IPhotoInfo::Ptr &) override final;

@@ -29,6 +29,7 @@
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
+#include <database_tools/photos_analyzer.hpp>
 
 #include "ifs.hpp"
 #include "iphoto_info_creator.hpp"
@@ -113,7 +114,13 @@ namespace Database
         {
 			DatabaseObjects(const std::shared_ptr<IDatabase> &database, 
 							const std::shared_ptr<IBackend> &backend,
-							const std::shared_ptr<IPhotoInfoManager> &manager) : m_database(database), m_backend(backend), m_photoManager(manager) {}
+							const std::shared_ptr<IPhotoInfoManager> &manager,
+                            const std::shared_ptr<PhotosAnalyzer> &analyzer
+                           ) : m_database(database), m_backend(backend), m_photoManager(manager), m_photosAnalyzer(analyzer)
+            {
+
+            }
+            
 			~DatabaseObjects() {}
 			//DatabaseObjects(const DatabaseObjects &) = delete;
 			//DatabaseObjects& operator=(const DatabaseObjects &) = delete;
@@ -121,6 +128,7 @@ namespace Database
 			std::shared_ptr<IDatabase> m_database;
 			std::shared_ptr<IBackend> m_backend;
 			std::shared_ptr<IPhotoInfoManager> m_photoManager;
+            std::shared_ptr<PhotosAnalyzer> m_photosAnalyzer;
         };
 
         struct PhotoInfoCreator: Database::IPhotoInfoCreator
@@ -188,13 +196,15 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            std::unique_ptr<PhotoInfoManager> manager(new PhotoInfoManager);
-            std::unique_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
-            std::unique_ptr<IDatabase> database(new DatabaseThread(backend.get()));
+            std::shared_ptr<PhotoInfoManager> manager(new PhotoInfoManager);
+            std::shared_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
+            std::shared_ptr<IDatabase> database(new DatabaseThread(backend.get()));
+            std::shared_ptr<PhotosAnalyzer> analyzer(new PhotosAnalyzer);
 
             backend->setPhotoInfoManager(manager.get());
             backend->setPhotoInfoCreator(&m_impl->photoInfoCreator);
             manager->setDatabase(database.get());
+            analyzer->setDatabase(database.get());
 
             Database::Task task = database->prepareTask(nullptr);
 
@@ -204,7 +214,7 @@ namespace Database
             if (status)
             {
                 auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main,
-                                                                           Impl::DatabaseObjects(std::move(database), std::move(backend), std::move(manager))
+                                                                           Impl::DatabaseObjects(database, backend, manager, analyzer)
                                                                           )
                                                           );
                 backendIt = insertIt.first;

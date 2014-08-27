@@ -13,6 +13,7 @@ add_subdirectory(core)
 add_subdirectory(configuration)
 add_subdirectory(analyzer)
 add_subdirectory(database)
+add_subdirectory(database_tools)
 add_subdirectory(gui)
 add_subdirectory(system)
 

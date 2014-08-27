@@ -24,6 +24,7 @@
 #include <iostream>
 #include <set>
 #include <thread>
+#include <chrono>
 
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -156,6 +157,65 @@ namespace Database
                 QString m_temporary_result;
         };
 
+
+        struct Transaction
+        {
+            Transaction(): m_level(0), m_name() {}
+
+            void setDBName(const QString& name)
+            {
+                m_name = name;
+            }
+
+            bool begin()
+            {
+                assert(m_name != "");
+                bool status = true;
+
+                if (m_level++ == 0)
+                {
+                    QSqlDatabase db = QSqlDatabase::database(m_name, false);
+
+                    if (db.isOpen())
+                        status = db.transaction();
+                }
+
+                return status;
+            }
+
+
+            bool end()
+            {
+                assert(m_name != "" && m_level > 0);
+                bool status = true;
+
+                if (--m_level == 0)
+                {
+                    const auto start = std::chrono::steady_clock::now();
+
+                    QSqlDatabase db = QSqlDatabase::database(m_name, false);
+
+                    if (db.isOpen())
+                    {
+                        status = db.commit();
+
+                        if (status == false)
+                            db.rollback();
+                    }
+
+                    const auto end_t = std::chrono::steady_clock::now();
+                    const auto diff = end_t - start;
+                    const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+                    std::clog << "Transaction commit: " << diff_ms << "ms" << std::endl;
+                }
+
+                return status;
+            }
+
+            int m_level;
+            QString m_name;
+        };
+
     }
 
     struct StorePhoto;
@@ -170,6 +230,7 @@ namespace Database
             std::string m_databaseName;
             IPhotoInfoManager* m_photoInfoManager;
             IPhotoInfoCreator* m_photoInfoCreator;
+            Transaction m_transaction;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -233,7 +294,7 @@ namespace Database
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName(""), m_photoInfoManager(nullptr), m_photoInfoCreator(nullptr)
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName(""), m_photoInfoManager(nullptr), m_photoInfoCreator(nullptr), m_transaction()
     {
 
     }
@@ -252,9 +313,16 @@ namespace Database
         // make sure the same thread is used as at construction time.
         assert(std::this_thread::get_id() == m_database_thread_id);
 
-        std::clog << query.toStdString() << std::endl;
+        std::clog << query.toStdString();
+        std::flush(std::clog);
 
+        const auto start = std::chrono::steady_clock::now();
         const bool status = result->exec(query);
+        const auto end = std::chrono::steady_clock::now();
+        const auto diff = end - start;
+        const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+        std::clog << " Exec time: " << diff_ms << "ms" << std::endl;
+
 
         if (status == false)
             std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
@@ -564,7 +632,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
 
-        bool status = db.transaction();
+        bool status = m_transaction.begin();
 
         //store path and hash
         IPhotoInfo::Id id = data->getID();
@@ -624,10 +692,8 @@ namespace Database
             status = storeFlags(id, data);
 
         if (status)
-            status = db.commit();
-        else
-            db.rollback();
-
+            status = m_transaction.end();
+        
         //store id in photo
         if (status && inserting)
             data->initID(id);
@@ -870,11 +936,30 @@ namespace Database
     }
 
 
+    bool ASqlBackend::transactionsReady()
+    {
+        return m_data->m_databaseName != "";
+    }
+
+
+    bool ASqlBackend::beginTransaction()
+    {
+        return m_data->m_transaction.begin();
+    }
+
+
+    bool ASqlBackend::endTransaction()
+    {
+        return m_data->m_transaction.end();
+    }
+
+
     bool ASqlBackend::init(const std::string& dbName)
     {
         //store thread id for further validation
         m_data->m_database_thread_id = std::this_thread::get_id();
         m_data->m_databaseName = dbName;
+        m_data->m_transaction.setDBName(dbName.c_str());
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());
         bool status = prepareDB(&db, dbName.c_str());
@@ -986,7 +1071,7 @@ namespace Database
     bool ASqlBackend::checkStructure()
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());
-        bool status = db.transaction();
+        bool status = m_data->m_transaction.begin();
 
         //check tables existance
         if (status)
@@ -1018,9 +1103,7 @@ namespace Database
         //TODO: check last entry with current version
 
         if (status)
-            status = db.commit();
-        else
-            db.rollback();
+            status = m_data->m_transaction.end();
 
         return status;
     }

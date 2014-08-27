@@ -111,10 +111,10 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
     setHierarchy(hierarchy);
-            
+
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
-    
+
     //used for transferring event from working thread to main one
     connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
             this, SLOT(insertFetchedNodes(IdxData*, std::shared_ptr<std::deque<IdxData *> >)), Qt::QueuedConnection);
@@ -474,9 +474,9 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>& photos)
+void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>& photos)
 {
-	assert(photos.empty() == false);
+    assert(photos.empty() == false);
 
     QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
@@ -492,7 +492,7 @@ void IdxDataManager::appendPhotos(IdxData* _parent, const std::deque<IdxData *>&
 bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* currentParent = getCurrentParent(photoInfo);
-    IdxData* newParent = getRightParent(photoInfo);
+    IdxData* newParent = createAncestry(photoInfo);
     bool parent_changed = currentParent != newParent;
 
     if (parent_changed)
@@ -526,7 +526,7 @@ IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
+IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
 {
     PhotosMatcher matcher;
     matcher.set(this);
@@ -536,7 +536,24 @@ IdxData* IdxDataManager::getRightParent(const IPhotoInfo::Ptr& photoInfo)
     const bool match = matcher.doesMatchModelFilters(photoInfo);
 
     if (match)
+    {
         _parent = matcher.findParentFor(photoInfo);
+
+        //could not match exact parent?
+        if (_parent == nullptr)
+            _parent = createCloserAncestor(&matcher, photoInfo);
+
+        //parent fetched? Attach photoInfo
+        if (_parent != nullptr)
+        {
+            if (_parent->m_loaded != IdxData::FetchStatus::Fetched)
+            {
+                //Ancestor of photo isn't yet fetched. Don't fetch it. We will do it on user's demand
+                //Just make sure we will return _parent == nullptr as we didn't achieve direct parent
+                _parent = nullptr;
+            }
+        }
+    }
 
     return _parent;
 }
@@ -551,6 +568,48 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 
     if (it != photosMap->end())
         result = it->second;
+
+    return result;
+}
+
+
+IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
+{
+    IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
+    IdxData* result = nullptr;
+
+    const std::shared_ptr<ITagData> photoTags = photoInfo->getTags();
+    const size_t level = _parent->m_level;
+
+    if (level == m_data->m_hierarchy.levels.size())  //this parent is at the bottom of hierarchy? Just use it as result
+        result = _parent;
+    else
+    {
+        const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+        auto photoDirectTags = photoTags->getTags();
+        auto photoTagIt = photoDirectTags.find(tagName);
+
+        //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
+        if (photoTagIt != photoDirectTags.end())
+        {
+            const auto tagValue = *photoTagIt->second.begin();
+            IdxData* node = new IdxData(this, _parent, tagValue);
+
+            auto fdesc = std::make_shared<Database::FilterDescription>();
+            fdesc->tagName = tagName;
+            fdesc->tagValue = tagValue;
+
+            node->setNodeData(fdesc);
+
+            appendIdxData(_parent, {node} );
+
+            result = node;
+        }
+        else
+        {
+            //photo doesn't match. It may be not loaded yet or has incomplete tags list
+        }
+    }
 
     return result;
 }
@@ -604,28 +663,37 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 }
 
 
-void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& photos)
+void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& nodes)
 {
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-	if (photos->empty() == false)
-	{
-		appendPhotos(_parent, *photos.get());
+    if (nodes->empty() == false)
+        appendIdxData(_parent, *nodes.get());
 
-		markIdxDataFetched(_parent);
-	}
+    markIdxDataFetched(_parent);
 }
 
 
 void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 {
-    const bool moved = movePhotoToRightParent(photoInfo);
+    PhotosMatcher matcher;
+    matcher.set(this);
+    matcher.set(m_data->m_model);
+    const bool match = matcher.doesMatchModelFilters(photoInfo);
 
-    /*
-    if (!moved)
-        emit m_data->m_model->dataChanged(idx, idx);
-    */
+    if (match)
+    {
+        const bool moved = movePhotoToRightParent(photoInfo);
+
+        IdxData* idx = findIdxDataFor(photoInfo);
+        if (idx != nullptr)
+        {
+            QModelIndex index = getIndex(idx);
+
+            emit m_data->m_model->dataChanged(index, index);
+        }
+    }
 }
 
 
