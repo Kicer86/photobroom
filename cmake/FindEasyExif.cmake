@@ -9,11 +9,9 @@ if(TARGET easyexif)
 
 else()
 
-    find_path(EASYEXIF_INCLUDE_DIR easyexif/exif.h
-                                   PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/include)
+    find_path(EASYEXIF_INCLUDE_DIR easyexif/exif.h)
 
-    find_library(EASYEXIF_LIBRARY NAMES easyexif
-                                  PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/lib)
+    find_library(EASYEXIF_LIBRARY NAMES easyexif)
 
 endif()
 

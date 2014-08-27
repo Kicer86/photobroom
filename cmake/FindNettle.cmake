@@ -2,18 +2,16 @@
 
 #rules for finding Nettle
 
-if(TARGET Nettle)
+if(TARGET nettle)
 
-    set(NETTLE_INCLUDE_DIR ${CMAKE_BINARY_DIR}/3rd_party/src/)
+    set(NETTLE_INCLUDE_DIR ${CMAKE_BINARY_DIR}/3rd_party/root/include/)
     set(NETTLE_LIBRARY nettle)
 
 else()
 
-    find_path(NETTLE_INCLUDE_DIR nettle/aes.h
-                                 PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/include)
+    find_path(NETTLE_INCLUDE_DIR nettle/aes.h)
 
-    find_library(NETTLE_LIBRARY NAMES nettle
-                                PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/lib)
+    find_library(NETTLE_LIBRARY NAMES nettle)
 
 endif()
 
