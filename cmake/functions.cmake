@@ -59,7 +59,7 @@ endmacro(find_exif_package)
 
 macro(find_cryptographic_package)
 
-    #find_package(OpenSSL)
+    find_package(OpenSSL)
     
     if(NOT OPENSSL_FOUND)
         find_package(Nettle REQUIRED)
