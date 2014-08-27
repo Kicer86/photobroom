@@ -65,3 +65,24 @@ function(find_exif_package)
     endif()
 
 endfunction(find_exif_package)
+
+
+macro(find_cryptographic_package)
+
+    find_package(OpenSSL)
+    
+    if(NOT OPENSSL_FOUND)
+        find_package(Nettle QUIET)
+    
+        if(NOT NETTLE_FOUND)
+        
+            #include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
+            
+            addNettle()
+            find_package(Nettle REQUIRED)
+
+        endif(NOT NETTLE_FOUND)
+    
+    endif()
+
+endmacro(find_cryptographic_package)
