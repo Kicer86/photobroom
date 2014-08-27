@@ -1,14 +1,12 @@
  
 #script for Nettle download & build
 
-include(ExternalProject)
-
 function(addNettle)
   
     find_program(WGET_EXECUTABLE wget DOC "Path to wget executable")
 
-    if (WGET_EXECUTABLE)                           
-                            
+    if (WGET_EXECUTABLE)    
+                                 
         #download Nettle rule
         add_custom_command(OUTPUT  ${CMAKE_BINARY_DIR}/3rd_party/src/nettle-3.0.tar.gz
                            COMMAND ${WGET_EXECUTABLE} https://ftp.gnu.org/gnu/nettle/nettle-3.0.tar.gz
@@ -28,9 +26,9 @@ function(addNettle)
                            DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/src/nettle-3.0/configure
                            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/src/nettle-3.0)
 
-        add_custom_target(Nettle
+        add_custom_target(nettle
                           DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/root/share/info/nettle.info)
-        
+                                  
     endif()
 
 endfunction(addNettle)
