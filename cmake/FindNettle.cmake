@@ -2,7 +2,7 @@
 
 #rules for finding Nettle
 
-if(TARGET nettle)
+if(TARGET Nettle)
 
     set(NETTLE_INCLUDE_DIR ${CMAKE_BINARY_DIR}/3rd_party/src/)
     set(NETTLE_LIBRARY nettle)
