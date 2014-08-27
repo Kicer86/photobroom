@@ -11,6 +11,8 @@ TODO:
 - rename hash to sha256
 - introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 - when new node (IdxData) is dynamically added, move it to right position (sorted)
+- cleanups in cmake: move 'test' stuff to 'test' directories
+- cleanups in cmake: nicer dealing with alternative libraries
 
 ver 1.0 requirements:
 - do stress and crash tests
