@@ -108,11 +108,13 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
 target_link_libraries(core ${OPENSSL_LIBRARIES} ${OPENLIBRARY_PALGORITHM_LIBRARIES})
 
-if(MSVC)
+if(OPENMP_FOUND)
+    if(MSVC)
 
-else()
-    target_link_libraries(core ${OpenMP_CXX_FLAGS})
-endif(MSVC)
+    else()
+        target_link_libraries(core ${OpenMP_CXX_FLAGS})
+    endif(MSVC)
+endif(OPENMP_FOUND)
 
 qt5_use_modules(core Core Gui)
 
