@@ -11,7 +11,7 @@ find_package(OpenMP)
 find_package(Exiv2)
 
 if(NOT EXIV2_FOUND)
-	find_package(EasyExif)
+    find_package(EasyExif)
 endif()
 
 include(${OPENLIBRARY_USE_FILE})
@@ -26,7 +26,7 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
-	implementation/atagfeeder.cpp
+    implementation/atagfeeder.cpp
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
     implementation/itagfeeder.cpp
@@ -44,7 +44,7 @@ set(CORE_HEADERS
     tag.hpp
     task_executor.hpp
     time_guardian.hpp
-	implementation/atagfeeder.hpp
+    implementation/atagfeeder.hpp
     )
 
 set(CORE_RESOURCE_FILES images/images.qrc)
@@ -82,11 +82,11 @@ if(BUILD_TESTS)
     turnOnCpp11(core_test)
     qt5_use_modules(core_test Core Gui)
     target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES})
-	if(MSVC)
+    if(MSVC)
 
-	else()
-            target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
-	endif(MSVC)
+    else()
+        target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
+    endif(MSVC)
 
     #TODO: remove it?
     if(EXIV2_FOUND)
