@@ -44,3 +44,24 @@ function(addTestTarget target)
     add_test(${target} ${test_bin})
 
 endfunction(addTestTarget)
+
+
+function(find_exif_package)
+
+    find_package(Exiv2)
+
+    if(NOT EXIV2_FOUND)
+        find_package(EasyExif QUIET)
+    
+        if(NOT EASYEXIF_FOUND)
+        
+            include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
+            
+            addEasyExif()
+            find_package(EasyExif)
+
+        endif(NOT EASYEXIF_FOUND)
+    
+    endif()
+
+endfunction(find_exif_package)

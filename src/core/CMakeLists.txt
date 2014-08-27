@@ -8,11 +8,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(OpenMP)
-find_package(Exiv2)
-
-if(NOT EXIV2_FOUND)
-    find_package(EasyExif)
-endif()
+find_exif_package()
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
