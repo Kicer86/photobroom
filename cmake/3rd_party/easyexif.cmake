@@ -24,7 +24,7 @@ function(addEasyExif)
 
         add_library(easyexif STATIC ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp)
 
-        set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp  PROPERTIES GENERATED TRUE)
+        set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp PROPERTIES GENERATED TRUE)
     endif()
 
 endfunction(addEasyExif)
