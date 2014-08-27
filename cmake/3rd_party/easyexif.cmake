@@ -21,7 +21,7 @@ function(addEasyExif)
         if(MSVC)
         
         else()
-            set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp PROPERTIES COMPILE_FLAGS -fPIC)    #use fPIC as easyexif will be linked against dynamic objects
+            set_target_properties(easyexif PROPERTIES COMPILE_FLAGS -fPIC)    #use fPIC as easyexif will be linked against dynamic objects
         endif()
 
         set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp PROPERTIES GENERATED TRUE)
