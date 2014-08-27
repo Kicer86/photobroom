@@ -4,16 +4,16 @@
 
 if(TARGET easyexif)
 
-	set(EASYEXIF_INCLUDE_DIR ${CMAKE_BINARY_DIR}/3rd_party/src/)
-	set(EASYEXIF_LIBRARY easyexif)
+    set(EASYEXIF_INCLUDE_DIR ${CMAKE_BINARY_DIR}/3rd_party/src/)
+    set(EASYEXIF_LIBRARY easyexif)
 
 else()
 
-	find_path(EASYEXIF_INCLUDE_DIR easyexif/exif.h
-			  PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/include)
+    find_path(EASYEXIF_INCLUDE_DIR easyexif/exif.h
+                                   PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/include)
 
-	find_library(EASYEXIF_LIBRARY NAMES easyexif
-				 PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/lib)
+    find_library(EASYEXIF_LIBRARY NAMES easyexif
+                                  PATHS ${CMAKE_BINARY_DIR}/3rd_party/root/lib)
 
 endif()
 
