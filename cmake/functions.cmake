@@ -46,7 +46,7 @@ function(addTestTarget target)
 endfunction(addTestTarget)
 
 
-function(find_exif_package)
+macro(find_exif_package)
 
     find_package(Exiv2)
 
@@ -64,7 +64,7 @@ function(find_exif_package)
     
     endif()
 
-endfunction(find_exif_package)
+endmacro(find_exif_package)
 
 
 macro(find_cryptographic_package)
