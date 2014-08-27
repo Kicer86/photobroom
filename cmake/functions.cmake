@@ -51,17 +51,7 @@ macro(find_exif_package)
     find_package(Exiv2)
 
     if(NOT EXIV2_FOUND)
-        find_package(EasyExif QUIET)
-    
-        if(NOT EASYEXIF_FOUND)
-        
-            include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
-            
-            addEasyExif()
-            find_package(EasyExif)
-
-        endif(NOT EASYEXIF_FOUND)
-    
+        find_package(EasyExif)
     endif()
 
 endmacro(find_exif_package)
@@ -72,17 +62,7 @@ macro(find_cryptographic_package)
     #find_package(OpenSSL)
     
     if(NOT OPENSSL_FOUND)
-        find_package(Nettle QUIET)
-    
-        if(NOT NETTLE_FOUND)
-        
-            include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/nettle.cmake)
-            
-            addNettle()
-            find_package(Nettle REQUIRED)
-
-        endif(NOT NETTLE_FOUND)
-    
+        find_package(Nettle REQUIRED)
     endif()
 
 endmacro(find_cryptographic_package)
