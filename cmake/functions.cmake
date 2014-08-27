@@ -69,14 +69,14 @@ endmacro(find_exif_package)
 
 macro(find_cryptographic_package)
 
-    find_package(OpenSSL)
+    #find_package(OpenSSL)
     
     if(NOT OPENSSL_FOUND)
         find_package(Nettle QUIET)
     
         if(NOT NETTLE_FOUND)
         
-            #include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
+            include(${CMAKE_SOURCE_DIR}/cmake/3rd_party/nettle.cmake)
             
             addNettle()
             find_package(Nettle REQUIRED)
