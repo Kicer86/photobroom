@@ -30,6 +30,8 @@
 #elif defined USE_NETTLE
     #include <nettle/sha.h>
     #include <nettle/md5.h>
+
+    #include "nettle_adapter.cpp"
 #else
     #error No cryptography library found
 #endif
