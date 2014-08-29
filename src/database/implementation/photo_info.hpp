@@ -14,7 +14,7 @@
 
 class QPixmap;
 
-struct ITagData;
+struct TagData;
 struct HashAssigner;
 
 class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
@@ -28,7 +28,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
 
         //data getting
         const QString& getPath() const;
-        std::shared_ptr<ITagData> getTags() const;  // a read-write access to tags
+        const TagData& getTags() const;         // a access to tags
         const QPixmap& getThumbnail() const;        // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;                // Do not call until isHashLoaded()
         Id getID() const;
@@ -47,10 +47,13 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         void initHash(const Hash &);
         void initThumbnail(const QPixmap &);
         void initID(const Id &);
-        void initExifData(std::unique_ptr<ITagData> &&);   // initial tags set
+        void initExifData(const TagDataBase &);     // initial tags set
+
+        //set data
+        virtual void setTags(const TagDataBase &);
 
         //flags
-        void markStagingArea(bool = true);            // mark photo as stage area's photo
+        void markStagingArea(bool = true);          // mark photo as stage area's photo
         Flags getFlags() const;
 
     private:

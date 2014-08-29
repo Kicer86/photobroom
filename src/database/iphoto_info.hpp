@@ -28,7 +28,8 @@
 class QString;
 class QPixmap;
 
-struct ITagData;
+struct TagDataBase;
+struct TagData;
 
 struct IPhotoInfo
 {
@@ -77,15 +78,15 @@ struct IPhotoInfo
 
     //data getting
     virtual const QString& getPath() const = 0;
-    virtual std::shared_ptr<ITagData> getTags() const = 0;  // a read-write access to tags
+    virtual const TagData& getTags() const = 0;             // access to tags
     virtual const QPixmap& getThumbnail() const = 0;        // a temporary thumbnail may be returned when final one is not yet generated.
     virtual const Hash& getHash() const = 0;                // Do not call until isHashLoaded()
     virtual Id getID() const = 0;
 
     //status checking
-    virtual bool isFullyInitialized() const = 0;                   // returns true if hash is not null, and thumbnail is loaded (photo fully loaded)
-    virtual bool isHashLoaded() const = 0;               // returns true if hash is not null
-    virtual bool isThumbnailLoaded() const = 0;          // returns true if thumbnail is loaded
+    virtual bool isFullyInitialized() const = 0;            // returns true if hash is not null, and thumbnail is loaded (photo fully loaded)
+    virtual bool isHashLoaded() const = 0;                  // returns true if hash is not null
+    virtual bool isThumbnailLoaded() const = 0;             // returns true if thumbnail is loaded
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
     //observers
@@ -96,10 +97,13 @@ struct IPhotoInfo
     virtual void initHash(const Hash &) = 0;
     virtual void initThumbnail(const QPixmap &) = 0;
     virtual void initID(const Id &) = 0;
-    virtual void initExifData(std::unique_ptr<ITagData> &&) = 0;   // initial tags set
+    virtual void initExifData(const TagDataBase &) = 0;     // initial tags set
+
+    //setting data
+    virtual void setTags(const TagDataBase &) = 0;          //set tags
 
     //flags
-    virtual void markStagingArea(bool = true) = 0;            // mark photo as stage area's photo
+    virtual void markStagingArea(bool = true) = 0;          // mark photo as stage area's photo
     virtual Flags getFlags() const = 0;
 };
 

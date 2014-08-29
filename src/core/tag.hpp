@@ -206,6 +206,7 @@ class CORE_EXPORT TagData: public TagDataBase
         virtual TagsList getTags() const override;
 
         using TagDataBase::setTag;
+        using TagDataBase::operator=;
         virtual void setTag(const TagNameInfo &, const ValuesSet &) override;
         virtual void clear() override;
 

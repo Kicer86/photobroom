@@ -24,6 +24,7 @@
 #include "itagfeeder.hpp"
 
 class QByteArray;
+struct ITagData;
 
 class ATagFeeder: public ITagFeeder
 {
@@ -42,8 +43,8 @@ class ATagFeeder: public ITagFeeder
 
     private:
         // ITagFeeder:
-        std::unique_ptr<ITagData> getTagsFor(const QString& path) override;
-        void update(ITagData *, const QString& path) override;
+        std::unique_ptr<TagDataBase> getTagsFor(const QString& path) override;
+        void update(TagDataBase *, const QString& path) override;
         //
 
         void feedDateAndTime(ITagData *);

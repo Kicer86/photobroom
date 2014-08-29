@@ -39,14 +39,14 @@ ATagFeeder::~ATagFeeder()
 }
 
 
-std::unique_ptr<ITagData> ATagFeeder::getTagsFor(const QString& path)
+std::unique_ptr<TagDataBase> ATagFeeder::getTagsFor(const QString& path)
 {
     QByteArray data;
     PhotosManager::instance()->getPhoto(path, &data);
 
     collect(data);
 
-    std::unique_ptr<ITagData> tagData(new TagData);
+    std::unique_ptr<TagDataBase> tagData(new TagData);
 
     feedDateAndTime(tagData.get());
 
@@ -54,7 +54,7 @@ std::unique_ptr<ITagData> ATagFeeder::getTagsFor(const QString& path)
 }
 
 
-void ATagFeeder::update(ITagData *, const QString& path)
+void ATagFeeder::update(TagDataBase *, const QString& path)
 {
 
 }

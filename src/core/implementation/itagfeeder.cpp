@@ -14,13 +14,13 @@ struct NullFeeder: public ITagFeeder
         virtual ~NullFeeder() {}
 
     private:
-        virtual std::unique_ptr<ITagData> getTagsFor(const QString &) override final
+        virtual std::unique_ptr<TagDataBase> getTagsFor(const QString &) override final
         {
             //return empty set
-            return std::unique_ptr<ITagData>(new TagData);
+            return std::unique_ptr<TagDataBase>(new TagData);
         }
 
-        virtual void update(ITagData *, const QString &) override final
+        virtual void update(TagDataBase *, const QString &) override final
         {
 
         }

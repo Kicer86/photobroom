@@ -93,9 +93,9 @@ struct TagsCollector: public ITaskExecutor::ITask
 
     virtual void perform() override
     {
-        std::unique_ptr<ITagData> p_tags = TagFeederFactory::get()->getTagsFor(m_photoInfo->getPath());
+        std::unique_ptr<TagDataBase> p_tags = TagFeederFactory::get()->getTagsFor(m_photoInfo->getPath());
 
-        m_photoInfo->initExifData(std::move(p_tags));
+        m_photoInfo->initExifData(*p_tags);
     }
 
     IPhotoInfo::Ptr m_photoInfo;

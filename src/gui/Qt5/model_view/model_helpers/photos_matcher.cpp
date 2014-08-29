@@ -95,8 +95,8 @@ void FiltersMatcher::visit(Database::FilterDescription* filter)
 {
     bool result = false;
 
-    const std::shared_ptr<ITagData> tags = m_photo->getTags();
-    const ITagData::TagsList tagsList = tags->getTags();
+    const TagDataBase& tags = m_photo->getTags();
+    const ITagData::TagsList tagsList = tags.getTags();
 
     auto it = tagsList.find(filter->tagName);
 
