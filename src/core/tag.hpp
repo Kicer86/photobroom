@@ -183,7 +183,7 @@ struct ITagData
 
 CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);
 
-class CORE_EXPORT TagDataBase : public ITagData
+class CORE_EXPORT TagDataBase: public ITagData
 {
     public:
         TagDataBase();
