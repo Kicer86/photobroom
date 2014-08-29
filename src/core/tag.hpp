@@ -187,14 +187,17 @@ class CORE_EXPORT TagDataBase: public ITagData
 {
     public:
         TagDataBase();
+        TagDataBase(const TagDataBase &);
         virtual ~TagDataBase();
 
         using ITagData::setTag;
         virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
         virtual void setTags(const TagsList &) override;
+
+        TagDataBase& operator=(const TagDataBase &);
 };
 
-class CORE_EXPORT TagData : public TagDataBase
+class CORE_EXPORT TagData: public TagDataBase
 {
     public:
         TagData();
@@ -213,7 +216,7 @@ class CORE_EXPORT TagData : public TagDataBase
 };
 
 
-class CORE_EXPORT TagDataComposite : public TagDataBase
+class CORE_EXPORT TagDataComposite: public TagDataBase
 {
     public:
         TagDataComposite();
