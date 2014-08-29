@@ -9,7 +9,6 @@ TODO:
 - database: priorities for tasks store should be more important than update
 - update photo in db when tags change
 - rename hash to sha256
-- introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 - when new node (IdxData) is dynamically added, move it to right position (sorted)
 - cleanups in cmake: move 'test' stuff to 'test' directories
 - cleanups in cmake: nicer dealing with alternative libraries
@@ -28,6 +27,7 @@ ver 1.0 requirements:
 
 IN PROGRESS:
 - make PhotoInfo::tags thread safe and do not overwrite data
+- introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 
 
 DONE:
