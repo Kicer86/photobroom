@@ -16,8 +16,6 @@ ver 1.0 requirements:
 - do stress and crash tests
 - gui improvements: move stagging area to menu->add photos
 - use more smart tags updating
-- introduce project concept
-- rethink configuration concepts
 - log files
 - new view for photos
 - in view add entry for not matching photos
@@ -25,6 +23,8 @@ ver 1.0 requirements:
 
 
 IN PROGRESS:
+- introduce project concept
+- rethink configuration concepts
 
 
 DONE:
