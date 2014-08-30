@@ -19,7 +19,9 @@
 
 #include "project.hpp"
 
-Project::Project()
+#include <QString>
+
+Project::Project(): m_backend(), m_location(), m_prjPath()
 {
 
 }
@@ -30,3 +32,38 @@ Project::~Project()
 
 }
 
+
+void Project::setPrjPath(const QString& prjPath)
+{
+    m_prjPath = prjPath;
+}
+
+
+void Project::setDBBackend(const QString& backend)
+{
+    m_backend = backend;
+}
+
+
+void Project::setDBLocation(const QString& location)
+{
+    m_location = location;
+}
+
+
+QString Project::getDBBackend() const
+{
+    return m_backend;
+}
+
+
+QString Project::getDBLocation() const
+{
+    return m_location;
+}
+
+
+QString Project::getPrjPath() const
+{
+    return m_prjPath;
+}

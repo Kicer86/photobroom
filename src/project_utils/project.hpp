@@ -30,6 +30,23 @@ class Project: public IProject
         virtual ~Project();
 
         Project& operator=(const Project &) = delete;
+
+        //extra fields
+        void setPrjPath(const QString &);
+
+        //init fields
+        void setDBBackend(const QString &);
+        void setDBLocation(const QString &);
+
+        // overrides
+        QString getDBBackend() const override;
+        QString getDBLocation() const override;
+        QString getPrjPath() const override;
+
+    private:
+        QString m_backend;
+        QString m_location;
+        QString m_prjPath;
 };
 
 #endif // PROJECT_HPP

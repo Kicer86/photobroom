@@ -36,6 +36,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         ProjectManager& operator=(const ProjectManager &) = delete;
 
         std::shared_ptr<IProject> open(const QString &) override;
+        bool save(const IProject *) override;
 };
 
 #endif // PROJECTMANAGER_HPP

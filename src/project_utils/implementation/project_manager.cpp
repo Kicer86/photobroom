@@ -19,6 +19,8 @@
 
 #include "project_manager.hpp"
 
+#include <QSettings>
+
 #include "project.hpp"
 
 ProjectManager::ProjectManager()
@@ -35,7 +37,31 @@ ProjectManager::~ProjectManager()
 
 std::shared_ptr<IProject> ProjectManager::open(const QString& path)
 {
+    QSettings prjFile(path, QSettings::IniFormat);
+
+    prjFile.beginGroup("Database");
+    const QString backend  = prjFile.value("backend").toString();
+    const QString location = prjFile.value("location").toString();
+    prjFile.endGroup();
+
     auto result = std::make_shared<Project>();
+    result->setPrjPath(path);
+    result->setDBBackend(backend);
+    result->setDBLocation(location);
 
     return result;
 }
+
+
+bool ProjectManager::save(const IProject* project)
+{
+    QSettings prjFile(project->getPrjPath(), QSettings::IniFormat);
+
+    prjFile.beginGroup("Database");
+    prjFile.setValue("backend",  project->getDBBackend());
+    prjFile.setValue("location", project->getDBLocation());
+    prjFile.endGroup();
+
+    return true;
+}
+

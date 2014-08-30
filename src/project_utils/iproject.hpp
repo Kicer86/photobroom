@@ -20,11 +20,15 @@
 #ifndef IPROJECT_HPP
 #define IPROJECT_HPP
 
+#include <QString>
+
 struct IProject
 {
     virtual ~IProject() {}
 
-    
+    virtual QString getDBBackend() const = 0;
+    virtual QString getDBLocation() const = 0;
+    virtual QString getPrjPath() const = 0;
 };
 
 #endif // PROJECTMANAGER_H

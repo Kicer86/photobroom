@@ -31,6 +31,7 @@ struct IProjectManager
     virtual ~IProjectManager() {}
 
     virtual std::shared_ptr<IProject> open(const QString &) = 0;
+    virtual bool save(const IProject *) = 0;
 };
 
 #endif // PROJECTMANAGER_H
