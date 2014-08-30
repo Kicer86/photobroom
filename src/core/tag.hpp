@@ -183,18 +183,21 @@ struct ITagData
 
 CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);
 
-class CORE_EXPORT TagDataBase : public ITagData
+class CORE_EXPORT TagDataBase: public ITagData
 {
     public:
         TagDataBase();
+        TagDataBase(const TagDataBase &);
         virtual ~TagDataBase();
 
         using ITagData::setTag;
         virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
         virtual void setTags(const TagsList &) override;
+
+        TagDataBase& operator=(const TagDataBase &);
 };
 
-class CORE_EXPORT TagData : public TagDataBase
+class CORE_EXPORT TagData: public TagDataBase
 {
     public:
         TagData();
@@ -203,6 +206,7 @@ class CORE_EXPORT TagData : public TagDataBase
         virtual TagsList getTags() const override;
 
         using TagDataBase::setTag;
+        using TagDataBase::operator=;
         virtual void setTag(const TagNameInfo &, const ValuesSet &) override;
         virtual void clear() override;
 
@@ -213,7 +217,7 @@ class CORE_EXPORT TagData : public TagDataBase
 };
 
 
-class CORE_EXPORT TagDataComposite : public TagDataBase
+class CORE_EXPORT TagDataComposite: public TagDataBase
 {
     public:
         TagDataComposite();

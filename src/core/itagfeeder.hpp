@@ -9,14 +9,14 @@
 
 class QString;
 
-struct ITagData;
+struct TagDataBase;
 
 struct ITagFeeder
 {
     virtual ~ITagFeeder() {}
 
-    virtual std::unique_ptr<ITagData> getTagsFor(const QString& path) = 0;
-    virtual void update(ITagData *, const QString& path) = 0;
+    virtual std::unique_ptr<TagDataBase> getTagsFor(const QString& path) = 0;
+    virtual void update(TagDataBase *, const QString& path) = 0;
 };
 
 

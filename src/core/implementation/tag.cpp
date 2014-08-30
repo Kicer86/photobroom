@@ -45,6 +45,12 @@ TagDataBase::TagDataBase(): ITagData()
 }
 
 
+TagDataBase::TagDataBase(const TagDataBase& other): ITagData()
+{
+    *this = other;
+}
+
+
 TagDataBase::~TagDataBase()
 {
 }
@@ -63,6 +69,14 @@ void TagDataBase::setTags(const TagsList& tags)
 {
     for(auto tag: tags)
         setTag(tag.first, tag.second);
+}
+
+
+TagDataBase& TagDataBase::operator=(const TagDataBase& other)
+{
+    clear();
+
+    setTags(other.getTags());
 }
 
 

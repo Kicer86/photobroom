@@ -255,7 +255,7 @@ namespace Database
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeHash(int photo_id, const IPhotoInfo::Hash &) const;
-            bool storeTags(int photo_id, const std::shared_ptr<ITagData> &) const;
+            bool storeTags(int photo_id, const ITagData &) const;
             bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
             TagData getTagsFor(const IPhotoInfo::Id &);
             Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
@@ -562,7 +562,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeTags(int photo_id, const std::shared_ptr<ITagData>& tags) const
+    bool ASqlBackend::Data::storeTags(int photo_id, const ITagData& tags) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
         QSqlQuery query(db);
@@ -572,7 +572,7 @@ namespace Database
         const QString deleteQuery = QString("DELETE FROM " TAB_TAGS " WHERE photo_id=\"%1\"").arg(photo_id);
         status = exec(deleteQuery, &query);
 
-        ITagData::TagsList tagsList = tags->getTags();
+        ITagData::TagsList tagsList = tags.getTags();
 
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
@@ -677,7 +677,7 @@ namespace Database
             status = id.valid();
 
         //store used tags
-        std::shared_ptr<ITagData> tags = data->getTags();
+        TagData tags = data->getTags();
 
         if (status)
             status = storeTags(id, tags);
@@ -711,8 +711,7 @@ namespace Database
         //load tags
         const TagData tagData = getTagsFor(id);
 
-        std::shared_ptr<ITagData> tags = photoInfo->getTags();
-        tags->setTags(tagData.getTags());
+        photoInfo->setTags(tagData);
 
         //load thumbnail
         const Optional<QPixmap> thumbnail = getThumbnailFor(id);

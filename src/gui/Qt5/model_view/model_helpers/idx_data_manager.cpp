@@ -578,7 +578,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
     IdxData* result = nullptr;
 
-    const std::shared_ptr<ITagData> photoTags = photoInfo->getTags();
+    const TagData& photoTags = photoInfo->getTags();
     const size_t level = _parent->m_level;
 
     if (level == m_data->m_hierarchy.levels.size())  //this parent is at the bottom of hierarchy? Just use it as result
@@ -586,7 +586,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
     else
     {
         const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
-        auto photoDirectTags = photoTags->getTags();
+        auto photoDirectTags = photoTags.getTags();
         auto photoTagIt = photoDirectTags.find(tagName);
 
         //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'

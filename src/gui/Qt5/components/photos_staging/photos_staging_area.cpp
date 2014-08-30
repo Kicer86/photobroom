@@ -85,7 +85,10 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>&
     std::vector<std::shared_ptr<ITagData>> tags;
 
     for(const IPhotoInfo::Ptr& photo: photos)
-        tags.push_back(photo->getTags());
+    {
+        auto photoTags = std::make_shared<TagData>(photo->getTags());
+        tags.push_back(photoTags);
+    }
 
     TagDataComposite* tagsData = new TagDataComposite;
     tagsData->setTagDatas(tags);
