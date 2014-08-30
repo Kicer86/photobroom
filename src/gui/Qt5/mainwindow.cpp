@@ -9,18 +9,9 @@
 #include "centralwidget.hpp"
 
 
-struct MainWindow::GuiData
+MainWindow::MainWindow(QWidget *p): QMainWindow(p)
 {
-    GuiData(QMainWindow *mainWindow)
-    {
-        mainWindow->setCentralWidget(new CentralWidget(mainWindow));
-    }
-};
-
-
-MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_gui(new GuiData(this))
-{
-
+    setCentralWidget(new CentralWidget(this));
 }
 
 
