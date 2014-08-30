@@ -26,8 +26,6 @@ ver 1.0 requirements:
 
 
 IN PROGRESS:
-- make PhotoInfo::tags thread safe and do not overwrite data
-- introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo
 
 
 DONE:
@@ -54,7 +52,10 @@ DONE:
 - support for some extra exif library, probably more windows friendly than exiv2
 - Staging Model: automatically move added photos to right positions
 - support for http://www.lysator.liu.se/~nisse/nettle/ as an alternative to OpenSSL
+- make PhotoInfo::tags thread safe and do not overwrite data
+
 
 DROPPED:
 - task executor: turn off threads when not needed. REASON: hard to achieve
+- introduce PhotoInfo's snapshots. Idea is to send to database well known state of PhotoInfo REASON: doesn't seem to be so necessary, while was causing some problems with passing something different than IPhotoInfo to database (emitting right signals etc)
 
