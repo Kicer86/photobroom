@@ -28,7 +28,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
 
         //data getting
         const QString& getPath() const;
-        const TagData& getTags() const;         // a access to tags
+        const TagData& getTags() const;             // a access to tags
         const QPixmap& getThumbnail() const;        // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;                // Do not call until isHashLoaded()
         Id getID() const;
