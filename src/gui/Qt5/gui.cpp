@@ -5,30 +5,18 @@
 
 #include "mainwindow.hpp"
 
-namespace Gui
+
+Gui::Gui()
 {
-    namespace
-    {
-        struct Gui: IUi
-        {
-            Gui() {}
-            Gui(const Gui &) = delete;
-            Gui& operator=(const Gui &) = delete;
 
-            void run(int argc, char **argv)
-            {
-                QApplication app(argc, argv);
-                MainWindow mainWindow;
-
-                mainWindow.show();
-                app.exec();
-            }
-        };
-    }
+}
 
 
-    std::unique_ptr<IUi> Factory::get()
-    {
-        return std::unique_ptr<IUi>(new Gui);
-    }
+void Gui::run(int argc, char **argv)
+{
+    QApplication app(argc, argv);
+    MainWindow mainWindow;
+
+    mainWindow.show();
+    app.exec();
 }

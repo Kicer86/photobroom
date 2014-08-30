@@ -4,24 +4,15 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-#include <memory>
-
 #include "gui_export.h"
 
-namespace Gui
+struct GUI_EXPORT Gui
 {
+    Gui();
+    Gui(const Gui &) = delete;
+    Gui& operator=(const Gui &) = delete;
 
-    struct IUi
-    {
-        virtual ~IUi() {}
-        virtual void run (int argc, char **argv) = 0;
-    };
-
-
-    struct GUI_EXPORT Factory
-    {
-        static std::unique_ptr<IUi> get();
-    };
-}
+    void run(int argc, char **argv);
+};
 
 #endif

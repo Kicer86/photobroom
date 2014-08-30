@@ -20,8 +20,8 @@ int main(int argc, char **argv)
     ConfigurationFactory::get()->load();
 
     //start gui
-    std::shared_ptr<Gui::IUi> gui = Gui::Factory::get();
-    gui->run(argc, argv);
+    Gui gui;
+    gui.run(argc, argv);
 
     return 0;
 }
