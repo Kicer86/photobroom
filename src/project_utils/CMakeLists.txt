@@ -7,6 +7,8 @@ set(PROJECT_UTILS_SOURCES
     )
 
 set(PROJECT_UTILS_HEADERS
+    iproject.hpp
+    iproject_manager.hpp
     project.hpp
     project_manager.hpp
    )
