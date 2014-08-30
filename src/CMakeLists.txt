@@ -7,6 +7,7 @@ add_subdirectory(analyzer)
 add_subdirectory(database)
 add_subdirectory(database_tools)
 add_subdirectory(gui)
+add_subdirectory(project_utils)
 add_subdirectory(system)
 
 find_package(OpenLibrary REQUIRED utils)
