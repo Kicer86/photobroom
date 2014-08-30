@@ -23,6 +23,7 @@ ver 1.0 requirements:
 - new view for photos
 - in view add entry for not matching photos
 - store 'exif loaded' flag in database
+- check if tags are being updated correctly in all known cases
 
 
 IN PROGRESS:
