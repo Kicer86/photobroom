@@ -26,6 +26,8 @@
 
 class QString;
 
+struct IPluginLoader;
+
 class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 {
     public:
@@ -33,10 +35,15 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         ProjectManager(const ProjectManager &) = delete;
         virtual ~ProjectManager();
 
+        void set(IPluginLoader *);
+
         ProjectManager& operator=(const ProjectManager &) = delete;
 
         std::shared_ptr<IProject> open(const QString &) override;
         bool save(const IProject *) override;
+
+    private:
+        IPluginLoader* m_pluginLoader;
 };
 
 #endif // PROJECTMANAGER_HPP

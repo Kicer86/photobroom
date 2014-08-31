@@ -21,9 +21,12 @@
 
 #include <QSettings>
 
+#include <core/iplugin_loader.hpp>
+
 #include "project.hpp"
 
-ProjectManager::ProjectManager()
+
+ProjectManager::ProjectManager(): m_pluginLoader(nullptr)
 {
 
 }
@@ -32,6 +35,12 @@ ProjectManager::ProjectManager()
 ProjectManager::~ProjectManager()
 {
 
+}
+
+
+void ProjectManager::set(IPluginLoader* pluginLoader)
+{
+    m_pluginLoader = pluginLoader;
 }
 
 
