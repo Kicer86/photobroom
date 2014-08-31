@@ -22,28 +22,30 @@
 
 #include <memory>
 
-#include "database_export.h"
+#include "core_export.h"
+
+#include "iplugin_loader.hpp"
 
 namespace Database
 {
     struct IPlugin;
-
-    class DATABASE_EXPORT PluginLoader
-    {
-        public:
-            PluginLoader();
-            PluginLoader(const PluginLoader& other) = delete;
-            ~PluginLoader();
-
-            PluginLoader& operator=(const PluginLoader& other) = delete;
-
-            std::unique_ptr<Database::IPlugin> get();
-
-        private:
-            struct Impl;
-            std::unique_ptr<Impl> m_impl;
-    };
-
 }
+
+class CORE_EXPORT PluginLoader: public IPluginLoader
+{
+    public:
+        PluginLoader();
+        PluginLoader(const PluginLoader& other) = delete;
+        ~PluginLoader();
+
+        PluginLoader& operator=(const PluginLoader& other) = delete;
+
+        std::unique_ptr<Database::IPlugin> get();
+
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
+};
+
 
 #endif // PLUGIN_LOADER_HPP

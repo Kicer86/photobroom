@@ -25,6 +25,7 @@ set(CORE_SOURCES
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
     implementation/itagfeeder.cpp
+    implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
@@ -35,6 +36,7 @@ set(CORE_HEADERS
     base_tags.hpp
     hash_functions.hpp
     itagfeeder.hpp
+    plugin_loader.hpp
     photos_manager.hpp
     tag.hpp
     task_executor.hpp
@@ -114,7 +116,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+target_link_libraries(core system ${OPENLIBRARY_PALGORITHM_LIBRARIES})
 
 if(OPENMP_FOUND)
     if(MSVC)

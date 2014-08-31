@@ -33,7 +33,6 @@
 
 #include "ifs.hpp"
 #include "iphoto_info_creator.hpp"
-#include "plugin_loader.hpp"
 #include "database_thread.hpp"
 #include "photo_info_manager.hpp"
 #include "idatabase_plugin.hpp"
@@ -145,17 +144,16 @@ namespace Database
         std::map<Type, DatabaseObjects> m_backends;
         std::unique_ptr<IPlugin> plugin;
         std::shared_ptr<IBackend> defaultBackend;
-        PluginLoader backendBuilder;
         ConfigurationInitializer configInitializer;
         PhotoInfoCreator photoInfoCreator;
 
-        Impl(): m_backends(), plugin(), defaultBackend(), backendBuilder(), configInitializer(), photoInfoCreator()
+        Impl(): m_backends(), plugin(), defaultBackend(), configInitializer(), photoInfoCreator()
         {}
 
         IPlugin* getPlugin()
         {
             if (plugin.get() == nullptr)
-                plugin = backendBuilder.get();
+                plugin = nullptr;
 
             return plugin.get();
         }
