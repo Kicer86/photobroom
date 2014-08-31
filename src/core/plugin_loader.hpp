@@ -27,9 +27,6 @@
 #include "iplugin_loader.hpp"
 
 
-class QObject;
-class QString;
-
 class CORE_EXPORT PluginLoader: public IPluginLoader
 {
     public:
@@ -39,7 +36,7 @@ class CORE_EXPORT PluginLoader: public IPluginLoader
 
         PluginLoader& operator=(const PluginLoader& other) = delete;
 
-        QObject* getDBPlugin(const QString&);
+        QObject* getDBPlugin(const QString &) override;
 
     private:
         struct Impl;
