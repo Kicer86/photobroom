@@ -26,10 +26,9 @@
 
 #include "iplugin_loader.hpp"
 
-namespace Database
-{
-    struct IPlugin;
-}
+
+class QObject;
+class QString;
 
 class CORE_EXPORT PluginLoader: public IPluginLoader
 {
@@ -40,7 +39,7 @@ class CORE_EXPORT PluginLoader: public IPluginLoader
 
         PluginLoader& operator=(const PluginLoader& other) = delete;
 
-        std::unique_ptr<Database::IPlugin> get();
+        QObject* getDBPlugin(const QString&);
 
     private:
         struct Impl;

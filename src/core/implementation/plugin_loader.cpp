@@ -20,6 +20,7 @@
 #include "plugin_loader.hpp"
 
 #include <iostream>
+#include <deque>
 
 #include <QDir>
 #include <QPluginLoader>
@@ -32,8 +33,16 @@ namespace
 {
     struct PluginFinder final
     {
-        PluginFinder(): m_plugins(), m_found(false) {}
-        ~PluginFinder() {}
+        PluginFinder(): m_db_plugins(), m_loaded_plugins(), m_found(false)
+        {
+
+        }
+
+        ~PluginFinder()
+        {
+            for(auto plugin: m_loaded_plugins)
+                delete plugin;
+        }
 
         void find()
         {
@@ -42,30 +51,30 @@ namespace
                 QDir pluginsDir = FileSystem::getPluginsPath();
 
                 pluginsDir.cd("database");
-                m_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
+                m_db_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
 
                 m_found = true;
 
-                for(const QFileInfo& info: m_plugins)
+                for(const QFileInfo& info: m_db_plugins)
                     std::cout << "Found database plugin: " << info.absoluteFilePath().toStdString() << std::endl;
             }
         }
 
-        Database::IPlugin* load()
+        QObject* loadDBPlugin(const QString& name)
         {
             find();
 
-            Database::IPlugin* result = nullptr;
+            QObject* result = nullptr;
 
             //TODO: load plugins basing on config etc
-            for(const QFileInfo& info: m_plugins)
+            for(const QFileInfo& info: m_db_plugins)
             {
                 const QString path = info.absoluteFilePath();
+                const QString pluginName = info.fileName();
 
-                if (path.contains("sqlite"))
+                if (pluginName.contains(name))
                 {
-                    QObject* rawPlugin = load(path);
-                    result = dynamic_cast<Database::IPlugin *>(rawPlugin);
+                    result = load(path);
 
                     break;
                 }
@@ -80,13 +89,16 @@ namespace
             QPluginLoader loader(path);
             QObject* plugin = loader.instance();
 
-            if (plugin == nullptr)
+            if (plugin)
+                m_loaded_plugins.push_back(plugin);
+            else
                 std::cerr << "\tError: " << loader.errorString().toStdString() << std::endl;
 
             return plugin;
         }
 
-        QFileInfoList m_plugins;
+        QFileInfoList m_db_plugins;
+        std::deque<QObject *> m_loaded_plugins;
         bool m_found;
     };
 
@@ -113,9 +125,9 @@ PluginLoader::~PluginLoader()
 }
 
 
-std::unique_ptr<Database::IPlugin> PluginLoader::get()
+QObject* PluginLoader::getDBPlugin(const QString& name)
 {
-    std::unique_ptr<Database::IPlugin> result(m_impl->m_finder.load());
+    QObject* result = m_impl->m_finder.load(name);
 
     return result;
 }
