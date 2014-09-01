@@ -24,10 +24,31 @@
 #include <string>
 #include <memory>
 
+#include <QString>
+
 #include "database_export.h"
 
+struct IPluginLoader;
 namespace Database
 {
+
+    struct ProjectInfo
+    {
+        QString projectPath;
+        QString backendName;
+
+        bool operator<(const ProjectInfo& other) const
+        {
+            bool status = false;
+
+            if (projectPath < other.projectPath)
+                status = true;
+            else if (projectPath == other.projectPath && backendName < other.backendName)
+                status = true;
+
+            return status;
+        }
+    };
 
     struct IDatabase;
     struct IFrontend;
@@ -42,7 +63,9 @@ namespace Database
             static Builder* instance();
 
             void initConfig();
-            IDatabase* get();  //always the same database is returned
+            void set(IPluginLoader *);
+
+            IDatabase* get(const ProjectInfo &);
 
             void closeAll();
 

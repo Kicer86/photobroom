@@ -29,6 +29,7 @@
 #include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
+#include <core/plugin_loader.hpp>
 #include <database_tools/photos_analyzer.hpp>
 
 #include "ifs.hpp"
@@ -141,22 +142,15 @@ namespace Database
             }
         };
 
-        std::map<Type, DatabaseObjects> m_backends;
-        std::unique_ptr<IPlugin> plugin;
+        std::map<ProjectInfo, DatabaseObjects> m_backends;
+        IPluginLoader* pluginLoader;
         std::shared_ptr<IBackend> defaultBackend;
         ConfigurationInitializer configInitializer;
         PhotoInfoCreator photoInfoCreator;
 
-        Impl(): m_backends(), plugin(), defaultBackend(), configInitializer(), photoInfoCreator()
+        Impl(): m_backends(), pluginLoader(nullptr), defaultBackend(), configInitializer(), photoInfoCreator()
         {}
 
-        IPlugin* getPlugin()
-        {
-            if (plugin.get() == nullptr)
-                plugin = nullptr;
-
-            return plugin.get();
-        }
     };
 
 
@@ -186,16 +180,24 @@ namespace Database
     }
 
 
-    IDatabase* Builder::get()
+    void Builder::set(IPluginLoader* pluginLoader)
     {
-        const char* dbType = "broom";
+        m_impl->pluginLoader = pluginLoader;
+    }
 
-        auto backendIt = m_impl->m_backends.find(Impl::Main);
+
+    IDatabase* Builder::get(const ProjectInfo& info)
+    {
+        auto backendIt = m_impl->m_backends.find(info);
 
         if (backendIt == m_impl->m_backends.end())
         {
+            QObject* rawPlugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
+            Database::IPlugin* plugin = dynamic_cast<Database::IPlugin *>(rawPlugin);
+            assert(plugin);
+
             std::shared_ptr<PhotoInfoManager> manager(new PhotoInfoManager);
-            std::shared_ptr<IBackend> backend = m_impl->getPlugin()->constructBackend();
+            std::shared_ptr<IBackend> backend = plugin->constructBackend();
             std::shared_ptr<IDatabase> database(new DatabaseThread(backend.get()));
             std::shared_ptr<PhotosAnalyzer> analyzer(new PhotosAnalyzer);
 
@@ -206,15 +208,12 @@ namespace Database
 
             Database::Task task = database->prepareTask(nullptr);
 
-            const bool status = database->init(task, dbType);
-
+            const bool status = database->init(task, "broom");
 
             if (status)
             {
-                auto insertIt = m_impl->m_backends.emplace( std::make_pair(Impl::Main,
-                                                                           Impl::DatabaseObjects(database, backend, manager, analyzer)
-                                                                          )
-                                                          );
+                Impl::DatabaseObjects dbObjs(database, backend, manager, analyzer);
+                auto insertIt = m_impl->m_backends.emplace(std::make_pair(info, dbObjs));
                 backendIt = insertIt.first;
             }
         }
