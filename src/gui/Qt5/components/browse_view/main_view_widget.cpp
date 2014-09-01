@@ -15,7 +15,7 @@
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
     DBDataModel* dbModel = new MainViewDataModel(this);
-    dbModel->setDatabase(Database::Builder::instance()->get());
+    //dbModel->setDatabase(Database::Builder::instance()->get());
 
     m_imagesModel = dbModel;
 
