@@ -71,7 +71,9 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos()
 
 bool DBDataModel::canFetchMore(const QModelIndex& _parent) const
 {
-    return m_idxDataManager->canFetchMore(_parent);
+    const bool status = m_database == nullptr? false: m_idxDataManager->canFetchMore(_parent);
+
+    return status;
 }
 
 
