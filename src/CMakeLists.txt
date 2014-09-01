@@ -11,9 +11,10 @@ add_subdirectory(project_utils)
 add_subdirectory(system)
 
 find_package(OpenLibrary REQUIRED utils)
+find_package(Qt5Core REQUIRED)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS})
 
 set(BROOM_SOURCES main.cpp)
 
