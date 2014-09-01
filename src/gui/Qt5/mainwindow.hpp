@@ -7,6 +7,8 @@
 
 class MainWindow final: public QMainWindow
 {
+        Q_OBJECT
+
     public:
         explicit MainWindow(QWidget *parent = 0);
         virtual ~MainWindow();
@@ -15,6 +17,10 @@ class MainWindow final: public QMainWindow
 
     private:
         void closeEvent(QCloseEvent *);
+
+    private slots:
+        void newProject();
+        void openProject();
 };
 
 #endif // MAINWINDOW_HPP

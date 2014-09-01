@@ -88,6 +88,7 @@ set(GUI_FILES_TO_MOC
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
+    Qt5/mainwindow.hpp
     )
 
 set(GUI_RESOURCE_FILES )
