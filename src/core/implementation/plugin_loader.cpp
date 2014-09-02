@@ -83,6 +83,7 @@ namespace
             return result;
         }
 
+    private:
         QObject* load(const QString& path)
         {
             std::cout << "Loading database plugin: " << path.toStdString() << std::endl;
@@ -127,7 +128,7 @@ PluginLoader::~PluginLoader()
 
 QObject* PluginLoader::getDBPlugin(const QString& name)
 {
-    QObject* result = m_impl->m_finder.load(name);
+    QObject* result = m_impl->m_finder.loadDBPlugin(name);
 
     return result;
 }
