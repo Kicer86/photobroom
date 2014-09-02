@@ -24,9 +24,13 @@
 
 #include "iproject_manager.hpp"
 
+
 class QString;
 
-struct IPluginLoader;
+namespace Database
+{
+    struct IBuilder;
+}
 
 class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 {
@@ -35,7 +39,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         ProjectManager(const ProjectManager &) = delete;
         virtual ~ProjectManager();
 
-        void set(IPluginLoader *);
+        void set(Database::IBuilder *);
 
         ProjectManager& operator=(const ProjectManager &) = delete;
 
@@ -43,7 +47,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         bool save(const IProject *) override;
 
     private:
-        IPluginLoader* m_pluginLoader;
+        Database::IBuilder* m_dbBuilder;
 };
 
 #endif // PROJECTMANAGER_HPP

@@ -24,9 +24,10 @@
 #include <core/iplugin_loader.hpp>
 
 #include "project.hpp"
+#include <database/idatabase_builder.hpp>
 
 
-ProjectManager::ProjectManager(): m_pluginLoader(nullptr)
+ProjectManager::ProjectManager(): m_dbBuilder(nullptr)
 {
 
 }
@@ -38,9 +39,9 @@ ProjectManager::~ProjectManager()
 }
 
 
-void ProjectManager::set(IPluginLoader* pluginLoader)
+void ProjectManager::set(Database::IBuilder* builder)
 {
-    m_pluginLoader = pluginLoader;
+    m_dbBuilder = builder;
 }
 
 
@@ -57,6 +58,11 @@ std::shared_ptr<IProject> ProjectManager::open(const QString& path)
     result->setPrjPath(path);
     result->setDBBackend(backend);
     result->setDBLocation(location);
+
+    Database::ProjectInfo prjInfo = {location, backend};
+    Database::IDatabase* db = m_dbBuilder->get(prjInfo);
+
+    result->setDatabase(db);
 
     return result;
 }
