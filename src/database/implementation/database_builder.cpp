@@ -166,13 +166,6 @@ namespace Database
     }
 
 
-    Builder* Builder::instance()
-    {
-        static Builder builder;
-        return &builder;
-    }
-
-
     void Builder::initConfig()
     {
         std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();

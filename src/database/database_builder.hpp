@@ -24,43 +24,23 @@
 #include <string>
 #include <memory>
 
-#include <QString>
-
 #include "database_export.h"
+
+#include "idatabase_builder.hpp"
 
 struct IPluginLoader;
 namespace Database
 {
-
-    struct ProjectInfo
-    {
-        QString projectPath;
-        QString backendName;
-
-        bool operator<(const ProjectInfo& other) const
-        {
-            bool status = false;
-
-            if (projectPath < other.projectPath)
-                status = true;
-            else if (projectPath == other.projectPath && backendName < other.backendName)
-                status = true;
-
-            return status;
-        }
-    };
-
     struct IDatabase;
     struct IFrontend;
 
     //configuration keys for databases
     extern DATABASE_EXPORT const char* databaseLocation;
 
-    struct DATABASE_EXPORT Builder
+    struct DATABASE_EXPORT Builder: public IBuilder
     {
+            Builder();
             virtual ~Builder();
-
-            static Builder* instance();
 
             void initConfig();
             void set(IPluginLoader *);
@@ -73,7 +53,6 @@ namespace Database
             struct Impl;
             std::unique_ptr<Impl> m_impl;
 
-            Builder();
             Builder& operator=(const Builder &) = delete;
     };
 }
