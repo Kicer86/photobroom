@@ -20,6 +20,7 @@
 #include "project_manager.hpp"
 
 #include <QSettings>
+#include <QFileInfo>
 
 #include <core/iplugin_loader.hpp>
 
@@ -50,9 +51,23 @@ std::shared_ptr<IProject> ProjectManager::open(const QString& path)
     QSettings prjFile(path, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
-    const QString backend  = prjFile.value("backend").toString();
-    const QString location = prjFile.value("location").toString();
+    QString backend  = prjFile.value("backend").toString();
+    QString location = prjFile.value("location").toString();
     prjFile.endGroup();
+
+    QFileInfo fileInfo(location);
+    if (fileInfo.isRelative())
+    {
+        const QFileInfo prjFileInfo(path);
+        const QString prjDir = prjFileInfo.absolutePath();
+
+        location = prjDir + "/" + location;
+
+        const QFileInfo locationInfo(location);
+        location = locationInfo.absoluteFilePath();
+    }
+    else
+        location = fileInfo.absoluteFilePath();  //cleanups
 
     auto result = std::make_shared<Project>();
     result->setPrjPath(path);

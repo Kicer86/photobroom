@@ -103,6 +103,9 @@ namespace Database
 
     struct Builder::Impl
     {
+        Impl(const Impl &) = delete;
+
+        Impl& operator=(const Impl &) = delete;
 
         //backend type
         enum Type
@@ -201,7 +204,7 @@ namespace Database
 
             Database::Task task = database->prepareTask(nullptr);
 
-            const bool status = database->init(task, "broom");
+            const bool status = database->init(task, info.databaseLocation);
 
             if (status)
             {

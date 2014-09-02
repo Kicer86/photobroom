@@ -32,16 +32,16 @@ namespace Database
 {
     struct ProjectInfo
     {
-        QString projectPath;
+        QString databaseLocation;
         QString backendName;
 
         bool operator<(const ProjectInfo& other) const
         {
             bool status = false;
 
-            if (projectPath < other.projectPath)
+            if (databaseLocation < other.databaseLocation)
                 status = true;
-            else if (projectPath == other.projectPath && backendName < other.backendName)
+            else if (databaseLocation == other.databaseLocation && backendName < other.backendName)
                 status = true;
 
             return status;

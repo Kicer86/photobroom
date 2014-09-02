@@ -34,9 +34,6 @@ namespace Database
     struct IDatabase;
     struct IFrontend;
 
-    //configuration keys for databases
-    extern DATABASE_EXPORT const char* databaseLocation;
-
     struct DATABASE_EXPORT Builder: public IBuilder
     {
             Builder();

@@ -21,14 +21,14 @@ namespace Database
 
     struct MySqlBackend::Data
     {
-        Data(): m_server(), m_dbName(nullptr), m_initialized(false) {}
+        Data(): m_server(), m_dbLocation(), m_initialized(false) {}
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
         ~Data() { }
 
         MySqlServer m_server;
-        const char* m_dbName;
+        QString m_dbLocation;
         bool m_initialized;
     };
 
@@ -45,47 +45,31 @@ namespace Database
     }
 
 
-    bool MySqlBackend::prepareDB(QSqlDatabase* db, const char* name)
+    bool MySqlBackend::prepareDB(QSqlDatabase* db, const QString& location)
     {
         bool status = true;
 
         if (m_data->m_initialized == false)
         {
-            m_data->m_dbName = name;
-            auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
+            m_data->m_dbLocation = location;
 
-            //create base directory
-            if (entry)
+            //start mysql process
+            const QString socketPath = m_data->m_server.run_server(location);
+
+            if (socketPath.isEmpty() == false)
             {
-                QString storagePath(entry->value().c_str());
-                storagePath += "/MySQL";
+                QSqlDatabase db_obj;
+                //setup db connection
+                db_obj = QSqlDatabase::addDatabase("QMYSQL", location);
+                db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+                //db_obj.setDatabaseName("broom");
+                db_obj.setHostName("localhost");
+                db_obj.setUserName("root");
 
-                if (QDir().exists(storagePath) == false)
-                    status = QDir().mkpath(storagePath);
-
-                if (status)
-                {
-                    //start mysql process
-                    storagePath += "/";
-
-                    const QString socketPath = m_data->m_server.run_server(storagePath);
-
-                    if (socketPath.isEmpty() == false)
-                    {
-                        QSqlDatabase db_obj;
-                        //setup db connection
-                        db_obj = QSqlDatabase::addDatabase("QMYSQL", name);
-                        db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
-                        //db_obj.setDatabaseName("broom");
-                        db_obj.setHostName("localhost");
-                        db_obj.setUserName("root");
-
-                        *db = db_obj;
-                    }
-
-                    m_data->m_initialized = socketPath.isEmpty() == false;;
-                }
+                *db = db_obj;
             }
+
+            m_data->m_initialized = socketPath.isEmpty() == false;;
         }
 
         return status;
@@ -94,7 +78,7 @@ namespace Database
 
     bool MySqlBackend::onAfterOpen()
     {
-        return ASqlBackend::createDB(m_data->m_dbName);
+        return ASqlBackend::createDB(m_data->m_dbLocation);
     }
 
 
