@@ -37,16 +37,19 @@ class Project: public IProject
         //init fields
         void setDBBackend(const QString &);
         void setDBLocation(const QString &);
+        void setDatabase(Database::IDatabase *);
 
         // overrides
         QString getDBBackend() const override;
         QString getDBLocation() const override;
         QString getPrjPath() const override;
+        virtual Database::IDatabase* getDatabase() const override;
 
     private:
         QString m_backend;
         QString m_location;
         QString m_prjPath;
+        Database::IDatabase* m_database;
 };
 
 #endif // PROJECT_HPP

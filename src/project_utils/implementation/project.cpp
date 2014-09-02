@@ -21,7 +21,7 @@
 
 #include <QString>
 
-Project::Project(): m_backend(), m_location(), m_prjPath()
+Project::Project(): m_backend(), m_location(), m_prjPath(), m_database(nullptr)
 {
 
 }
@@ -51,6 +51,12 @@ void Project::setDBLocation(const QString& location)
 }
 
 
+void Project::setDatabase(Database::IDatabase* database)
+{
+    m_database = database;
+}
+
+
 QString Project::getDBBackend() const
 {
     return m_backend;
@@ -67,3 +73,10 @@ QString Project::getPrjPath() const
 {
     return m_prjPath;
 }
+
+
+Database::IDatabase* Project::getDatabase() const
+{
+    return m_database;
+}
+
