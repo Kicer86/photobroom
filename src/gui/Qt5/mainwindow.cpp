@@ -3,16 +3,20 @@
 
 #include <QCloseEvent>
 #include <QMenuBar>
+#include <QFileDialog>
 
-#include "database/database_builder.hpp"
-#include "database/idatabase.hpp"
+#include <database/database_builder.hpp>
+#include <database/idatabase.hpp>
+#include <project_utils/iproject_manager.hpp>
+#include <project_utils/iproject.hpp>
 
 #include "centralwidget.hpp"
 
 
-MainWindow::MainWindow(QWidget *p): QMainWindow(p)
+MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
 {
-    setCentralWidget(new CentralWidget(this));
+    m_centralWidget = new CentralWidget(this);
+    setCentralWidget(m_centralWidget);
 
     QMenu* projectMenu = new QMenu( tr("Project"), this);
     QAction* newPrjAction  = projectMenu->addAction( tr("New project") );
@@ -33,9 +37,15 @@ MainWindow::~MainWindow()
 }
 
 
+void MainWindow::set(IProjectManager* prjManager)
+{
+    m_prjManager = prjManager;
+}
+
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    Database::Builder::instance()->closeAll();
+    //m_currentPrj->close();
 
     e->accept();
 }
@@ -49,6 +59,14 @@ void MainWindow::newProject()
 
 void MainWindow::openProject()
 {
+    const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                         "",
+                                                         tr("broom projects (*.bpj)"));
 
+    std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
+    m_currentPrj = prj;
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
+    m_centralWidget->setDatabase(db);
 }
 

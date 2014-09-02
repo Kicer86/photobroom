@@ -19,7 +19,7 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS})
 set(BROOM_SOURCES main.cpp)
 
 add_executable(broom ${BROOM_SOURCES})
-target_link_libraries(broom gui configuration)
+target_link_libraries(broom gui configuration project_utils)
 turnOnCpp11(broom)
 
 install(TARGETS broom RUNTIME DESTINATION bin)

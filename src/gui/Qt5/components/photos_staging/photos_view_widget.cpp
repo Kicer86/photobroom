@@ -94,10 +94,7 @@ BrowseList::~BrowseList()
 
 PhotosViewWidget::PhotosViewWidget(QWidget *p): QWidget(p), m_photosModel(nullptr), m_photosView(nullptr)
 {
-    //Database::IDatabase* db = Database::Builder::instance()->get();
     m_photosModel = new StagingDataModel(this);
-    //m_photosModel->setDatabase(db);
-
     m_photosView = new ImagesTreeView(this);
     m_photosView->setModel(m_photosModel);
 
@@ -131,6 +128,12 @@ std::vector<IPhotoInfo::Ptr> PhotosViewWidget::getPhotos() const
 void PhotosViewWidget::storePhotos()
 {
     m_photosModel->storePhotos();
+}
+
+
+void PhotosViewWidget::setDatabase(Database::IDatabase* db)
+{
+    m_photosModel->setDatabase(db);
 }
 
 

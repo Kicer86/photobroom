@@ -8,7 +8,7 @@
 
 namespace Database
 {
-    struct IFrontend;
+    class IDatabase;
 }
 
 class QItemSelection;
@@ -27,6 +27,7 @@ class PhotosStagingArea: public QWidget
 
         PhotosStagingArea(const PhotosStagingArea &) = delete;
         void operator=(const PhotosStagingArea &) = delete;
+        void setDatabase(Database::IDatabase *);
 
     private:
         PhotosViewWidget *m_editor;

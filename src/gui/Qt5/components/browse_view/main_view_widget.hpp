@@ -4,7 +4,13 @@
 
 #include <QWidget>
 
+
 class QAbstractItemView;
+
+namespace Database
+{
+    class IDatabase;
+}
 
 class DBDataModel;
 
@@ -18,6 +24,8 @@ class MainViewWidget : public QWidget
 
         MainViewWidget(const MainViewWidget &) = delete;
         MainViewWidget& operator=(const MainViewWidget &) = delete;
+
+        void setDatabase(Database::IDatabase *);
 
     private:
         DBDataModel* m_imagesModel;

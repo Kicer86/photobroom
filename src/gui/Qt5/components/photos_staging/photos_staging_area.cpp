@@ -73,6 +73,13 @@ PhotosStagingArea::~PhotosStagingArea()
 }
 
 
+void PhotosStagingArea::setDatabase(Database::IDatabase* db)
+{
+    m_editor->setDatabase(db);
+}
+
+
+
 void PhotosStagingArea::pathToAnalyze(const QString& path)
 {
     IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();
