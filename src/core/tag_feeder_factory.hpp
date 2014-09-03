@@ -10,9 +10,10 @@
 
 class CORE_EXPORT TagFeederFactory: public ITagFeederFactory
 {
-	TagFeederFactory() = delete;
+	public:
+		TagFeederFactory();
 
-	static std::shared_ptr<ITagFeeder> get();
+		std::shared_ptr<ITagFeeder> get() override;
 };
 
 #endif

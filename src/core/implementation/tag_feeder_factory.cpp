@@ -28,9 +28,15 @@ private:
 };
 
 
+TagFeederFactory::TagFeederFactory()
+{
+
+}
+
+
 std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 {
-	static std::shared_ptr<ITagFeeder> thread_local result;
+	static std::shared_ptr<ITagFeeder> result;
 
 	if (result.get() == nullptr)
 #if defined USE_EXIV2
