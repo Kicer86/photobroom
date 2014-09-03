@@ -20,10 +20,10 @@ ver 1.0 requirements:
 - new view for photos
 - in view add entry for not matching photos
 - store 'exif loaded' flag in database
+- rethink configuration concepts
 
 
 IN PROGRESS:
-- rethink configuration concepts
 
 
 DONE:
