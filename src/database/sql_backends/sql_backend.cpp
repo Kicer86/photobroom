@@ -227,7 +227,7 @@ namespace Database
     {
             ASqlBackend* m_backend;
             std::thread::id m_database_thread_id;
-            std::string m_databaseName;
+            QString m_databaseLocation;
             IPhotoInfoManager* m_photoInfoManager;
             IPhotoInfoCreator* m_photoInfoCreator;
             Transaction m_transaction;
@@ -294,7 +294,7 @@ namespace Database
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseName(""), m_photoInfoManager(nullptr), m_photoInfoCreator(nullptr), m_transaction()
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseLocation(""), m_photoInfoManager(nullptr), m_photoInfoCreator(nullptr), m_transaction()
     {
 
     }
@@ -347,7 +347,7 @@ namespace Database
     bool ASqlBackend::Data::createDB(const QString& dbName) const
     {
         //check if database exists
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         bool status = exec(QString("SHOW DATABASES LIKE '%1';").arg(dbName), &query);
 
@@ -369,7 +369,7 @@ namespace Database
     {
         const QString& name = nameInfo.getName();
         const int type = nameInfo.getType();
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
 
         //check if tag exists
@@ -407,7 +407,7 @@ namespace Database
 
     std::vector<TagNameInfo> ASqlBackend::Data::listTags() const
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
 
@@ -435,7 +435,7 @@ namespace Database
 
         if (tagId)
         {
-            QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+            QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
             QSqlQuery query(db);
             const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
                                       .arg(*tagId);
@@ -467,7 +467,7 @@ namespace Database
         queryStr = queryStr.arg(TAB_TAG_NAMES);
         queryStr = queryStr.arg(tagName.getName());
 
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
 
         std::deque<TagValueInfo> result;
@@ -490,7 +490,7 @@ namespace Database
     {
         const QString queryStr = generateFilterQuery(filter);
 
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
 
         exec(queryStr, &query);
@@ -505,7 +505,7 @@ namespace Database
 
     Optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
         const bool status = exec(find_tag_query, &query);
@@ -537,7 +537,7 @@ namespace Database
 
         SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         bool status = exec(queryStrs, &query);
 
@@ -554,7 +554,7 @@ namespace Database
 
         SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         bool status = exec(queryStrs, &query);
 
@@ -564,7 +564,7 @@ namespace Database
 
     bool ASqlBackend::Data::storeTags(int photo_id, const ITagData& tags) const
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         bool status = true;
 
@@ -619,7 +619,7 @@ namespace Database
 
         auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
 
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         bool status = exec(queryStrs, &query);
 
@@ -629,7 +629,7 @@ namespace Database
 
     bool ASqlBackend::Data::storePhoto(const IPhotoInfo::Ptr& data)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
 
         bool status = m_transaction.begin();
@@ -729,7 +729,7 @@ namespace Database
 
     TagData ASqlBackend::Data::getTagsFor(const IPhotoInfo::Id& photoId)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT "
@@ -762,7 +762,7 @@ namespace Database
 
     Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
 
         Optional<QPixmap> pixmap;
         QSqlQuery query(db);
@@ -786,7 +786,7 @@ namespace Database
     
     Optional<IPhotoInfo::Hash> ASqlBackend::Data::getHashFor(const IPhotoInfo::Id& id)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         QString queryStr = QString("SELECT hash FROM %1 WHERE %1.photo_id = '%2'");
 
@@ -809,7 +809,7 @@ namespace Database
 
     QString ASqlBackend::Data::getPathFor(const IPhotoInfo::Id& id)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT path FROM %1 WHERE %1.id = '%2'");
@@ -860,7 +860,7 @@ namespace Database
 
     void ASqlBackend::closeConnections()
     {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseLocation);
 
         if (db.isValid() && db.isOpen())
         {
@@ -870,9 +870,9 @@ namespace Database
     }
 
 
-    bool ASqlBackend::createDB(const char* name)
+    bool ASqlBackend::createDB(const QString& location)
     {
-        return m_data->createDB(name);
+        return m_data->createDB(location);
     }
 
 
@@ -884,7 +884,7 @@ namespace Database
 
     bool ASqlBackend::assureTableExists(const TableDefinition& definition) const
     {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseLocation);
 
         QSqlQuery query(db);
         const QString showQuery = getQueryConstructor()->prepareFindTableQuery(definition.name);
@@ -937,7 +937,7 @@ namespace Database
 
     bool ASqlBackend::transactionsReady()
     {
-        return m_data->m_databaseName != "";
+        return m_data->m_databaseLocation != "";
     }
 
 
@@ -953,15 +953,15 @@ namespace Database
     }
 
 
-    bool ASqlBackend::init(const std::string& dbName)
+    bool ASqlBackend::init(const QString& location)
     {
         //store thread id for further validation
         m_data->m_database_thread_id = std::this_thread::get_id();
-        m_data->m_databaseName = dbName;
-        m_data->m_transaction.setDBName(dbName.c_str());
+        m_data->m_databaseLocation = location;
+        m_data->m_transaction.setDBName(location);
 
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());
-        bool status = prepareDB(&db, dbName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseLocation);
+        bool status = prepareDB(&db, location);
 
         if (status)
             status = db.open();
@@ -1069,7 +1069,7 @@ namespace Database
 
     bool ASqlBackend::checkStructure()
     {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseName.c_str());
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseLocation);
         bool status = m_data->m_transaction.begin();
 
         //check tables existance

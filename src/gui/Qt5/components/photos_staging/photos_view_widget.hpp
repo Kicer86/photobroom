@@ -15,6 +15,11 @@ class QLineEdit;
 class QPushButton;
 class QtExtChooseFile;
 
+namespace Database
+{
+    class IDatabase;
+}
+
 class StagingDataModel;
 class ImagesTreeView;
 
@@ -83,6 +88,7 @@ class PhotosViewWidget: public QWidget
         void addPhoto(const QString &);
         std::vector<IPhotoInfo::Ptr> getPhotos() const;
         void storePhotos();
+        void setDatabase(Database::IDatabase *);
 
     private:
         StagingDataModel* m_photosModel;

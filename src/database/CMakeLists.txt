@@ -12,7 +12,6 @@ include_directories(SYSTEM
                     ${Qt5Core_INCLUDE_DIRS})
 
 set(DATABASE_SOURCES
-    implementation/plugin_loader.cpp
     implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
@@ -35,7 +34,6 @@ set(DATABASE_HEADERS
     implementation/database_thread.hpp
     implementation/photo_info.hpp
     implementation/photo_info_manager.hpp
-    implementation/plugin_loader.hpp
     )
 
 set(DATABASE_MOC idatabase.hpp)

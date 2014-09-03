@@ -181,6 +181,8 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
     connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
     connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
+
+    resetModel();
 }
 
 
@@ -684,8 +686,6 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 
     if (match)
     {
-        const bool moved = movePhotoToRightParent(photoInfo);
-
         IdxData* idx = findIdxDataFor(photoInfo);
         if (idx != nullptr)
         {

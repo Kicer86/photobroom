@@ -69,7 +69,7 @@ namespace Database
         virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
 
         //init backend - connect to database or create new one
-        virtual bool init(const std::string &) = 0;
+        virtual bool init(const QString &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
@@ -151,7 +151,7 @@ namespace Database
         virtual void getPhoto(const Task &, const IPhotoInfo::Id &) = 0;             //get particulat photo
 
         //init backend - connect to database or create new one
-        virtual bool init(const Database::Task &, const std::string &) = 0;
+        virtual bool init(const Database::Task &, const QString &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

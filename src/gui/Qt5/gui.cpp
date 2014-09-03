@@ -5,30 +5,25 @@
 
 #include "mainwindow.hpp"
 
-namespace Gui
+
+Gui::Gui(): m_prjManager(nullptr)
 {
-    namespace
-    {
-        struct Gui: IUi
-        {
-            Gui() {}
-            Gui(const Gui &) = delete;
-            Gui& operator=(const Gui &) = delete;
 
-            void run(int argc, char **argv)
-            {
-                QApplication app(argc, argv);
-                MainWindow mainWindow;
+}
 
-                mainWindow.show();
-                app.exec();
-            }
-        };
-    }
+void Gui::set(IProjectManager* prjManager)
+{
+    m_prjManager = prjManager;
+}
 
 
-    std::unique_ptr<IUi> Factory::get()
-    {
-        return std::unique_ptr<IUi>(new Gui);
-    }
+void Gui::run(int argc, char **argv)
+{
+    QApplication app(argc, argv);
+    MainWindow mainWindow;
+
+    mainWindow.set(m_prjManager);
+
+    mainWindow.show();
+    app.exec();
 }

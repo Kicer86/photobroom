@@ -26,23 +26,23 @@
 
 #include "database_export.h"
 
+#include "idatabase_builder.hpp"
+
+struct IPluginLoader;
 namespace Database
 {
-
     struct IDatabase;
     struct IFrontend;
 
-    //configuration keys for databases
-    extern DATABASE_EXPORT const char* databaseLocation;
-
-    struct DATABASE_EXPORT Builder
+    struct DATABASE_EXPORT Builder: public IBuilder
     {
+            Builder();
             virtual ~Builder();
 
-            static Builder* instance();
-
             void initConfig();
-            IDatabase* get();  //always the same database is returned
+            void set(IPluginLoader *);
+
+            IDatabase* get(const ProjectInfo &);
 
             void closeAll();
 
@@ -50,7 +50,6 @@ namespace Database
             struct Impl;
             std::unique_ptr<Impl> m_impl;
 
-            Builder();
             Builder& operator=(const Builder &) = delete;
     };
 }

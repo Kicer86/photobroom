@@ -14,11 +14,7 @@
 
 MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), m_imagesView(nullptr)
 {
-    DBDataModel* dbModel = new MainViewDataModel(this);
-    dbModel->setDatabase(Database::Builder::instance()->get());
-
-    m_imagesModel = dbModel;
-
+    m_imagesModel = new MainViewDataModel(this);
     m_imagesView = new ImagesTreeView(this);
     m_imagesView->setModel(m_imagesModel);
 
@@ -39,6 +35,12 @@ MainViewWidget::MainViewWidget(QWidget *p): QWidget(p), m_imagesModel(nullptr), 
 MainViewWidget::~MainViewWidget()
 {
 
+}
+
+
+void MainViewWidget::setDatabase(Database::IDatabase* db)
+{
+    m_imagesModel->setDatabase(db);
 }
 
 

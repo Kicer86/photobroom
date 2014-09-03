@@ -1,5 +1,5 @@
 /*
- * Plugins loader class
+ * Interface for project manager
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,21 @@
  *
  */
 
-#ifndef PLUGIN_LOADER_HPP
-#define PLUGIN_LOADER_HPP
+#ifndef IPROJECTMANAGER_HPP
+#define IPROJECTMANAGER_HPP
 
 #include <memory>
 
-#include "database_export.h"
+class QString;
 
-namespace Database
+struct IProject;
+
+struct IProjectManager
 {
-    struct IPlugin;
+    virtual ~IProjectManager() {}
 
-    class DATABASE_EXPORT PluginLoader
-    {
-        public:
-            PluginLoader();
-            PluginLoader(const PluginLoader& other) = delete;
-            ~PluginLoader();
+    virtual std::shared_ptr<IProject> open(const QString &) = 0;
+    virtual bool save(const IProject *) = 0;
+};
 
-            PluginLoader& operator=(const PluginLoader& other) = delete;
-
-            std::unique_ptr<Database::IPlugin> get();
-
-        private:
-            struct Impl;
-            std::unique_ptr<Impl> m_impl;
-    };
-
-}
-
-#endif // PLUGIN_LOADER_HPP
+#endif // PROJECTMANAGER_H

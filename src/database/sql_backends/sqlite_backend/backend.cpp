@@ -26,36 +26,18 @@ namespace Database
 
         }
 
-        bool prepareDB(QSqlDatabase* db, const char* name)
+        bool prepareDB(QSqlDatabase* db, const QString& location)
         {
             bool status = true;
 
             if (m_initialized == false)
             {
-                auto entry = ConfigurationFactory::get()->findEntry(Database::databaseLocation);
+                QSqlDatabase db_obj;
+                //setup db connection
+                db_obj = QSqlDatabase::addDatabase("QSQLITE", location);
+                db_obj.setDatabaseName(location);
 
-                //create base directory
-                if (entry)
-                {
-                    QString storagePath(entry->value().c_str());
-
-                    storagePath += "/SQLite";
-
-                    if (QDir().exists(storagePath) == false)
-                        status = QDir().mkpath(storagePath);
-
-                    if (status)
-                    {
-                        storagePath += QString("/%1.db").arg(name);
-
-                        QSqlDatabase db_obj;
-                        //setup db connection
-                        db_obj = QSqlDatabase::addDatabase("QSQLITE", name);
-                        db_obj.setDatabaseName(storagePath);
-
-                        *db = db_obj;
-                    }
-                }
+                *db = db_obj;
             }
 
             return status;
@@ -77,9 +59,9 @@ namespace Database
     }
 
 
-    bool SQLiteBackend::prepareDB(QSqlDatabase* db, const char* name)
+    bool SQLiteBackend::prepareDB(QSqlDatabase* db, const QString& location)
     {
-        return m_data->prepareDB(db, name);
+        return m_data->prepareDB(db, location);
     }
 
 

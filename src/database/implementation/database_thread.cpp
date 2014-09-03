@@ -67,12 +67,12 @@ namespace
 
     struct InitTask: ThreadBaseTask
     {
-        InitTask(const Database::Task& task, const std::string& name): ThreadBaseTask(task), m_name(name) {}
+        InitTask(const Database::Task& task, const QString& location): ThreadBaseTask(task), m_location(location) {}
         virtual ~InitTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::string m_name;
+        QString m_location;
     };
 
     struct InsertTask: ThreadBaseTask
@@ -154,7 +154,7 @@ namespace
 
         virtual void visit(InitTask* task) override
         {
-            m_backend->init(task->m_name.c_str());
+            m_backend->init(task->m_location);
 
             //TODO: result
         }
@@ -320,9 +320,9 @@ namespace Database
     }
 
 
-    bool DatabaseThread::init(const Task& db_task, const std::string& name)
+    bool DatabaseThread::init(const Task& db_task, const QString& location)
     {
-        InitTask* task = new InitTask(db_task, name);
+        InitTask* task = new InitTask(db_task, location);
         m_impl->addTask(task);
 
         //TODO: fix it
