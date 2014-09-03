@@ -5,11 +5,9 @@
 #include <memory>
 #include <string>
 
-#include "core_export.h"
-
 class QString;
 
-struct TagDataBase;
+class TagDataBase;
 
 struct ITagFeeder
 {
@@ -19,12 +17,11 @@ struct ITagFeeder
     virtual void update(TagDataBase *, const QString& path) = 0;
 };
 
-
-struct CORE_EXPORT TagFeederFactory
+struct ITagFeederFactory
 {
-    TagFeederFactory() = delete;
+	virtual ~ITagFeederFactory() {}
 
-    static std::shared_ptr<ITagFeeder> get();
+	virtual std::shared_ptr<ITagFeeder> get() = 0;
 };
 
 #endif

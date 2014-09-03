@@ -16,11 +16,16 @@ ver 1.0 requirements:
 - do stress and crash tests
 - gui improvements: move stagging area to menu->add photos
 - use more smart tags updating
+- rethink configuration concepts
 - log files
 - new view for photos
 - in view add entry for not matching photos
 - store 'exif loaded' flag in database
-- rethink configuration concepts
+- check if tags are being updated correctly in all known cases
+- gui improvements: projects management
+- gui improvements: general enhancements
+- project creation
+- database plugin interface enhacements (backend name)
 
 
 IN PROGRESS:

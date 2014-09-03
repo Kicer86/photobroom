@@ -24,10 +24,10 @@ set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
-    implementation/itagfeeder.cpp
     implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
     implementation/tag.cpp
+    implementation/tag_feeder_factory.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
     )
@@ -39,6 +39,7 @@ set(CORE_HEADERS
     plugin_loader.hpp
     photos_manager.hpp
     tag.hpp
+    tag_feeder_factory.hpp
     task_executor.hpp
     time_guardian.hpp
     implementation/atagfeeder.hpp
