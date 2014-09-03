@@ -68,14 +68,16 @@ namespace
         {
             if (photoInfo->isFullyInitialized() == false)
             {
+				PhotoInfoUpdater updater;
+
                 if (photoInfo->isHashLoaded() == false)
-                    PhotoInfoUpdater::updateHash(photoInfo);
+                    updater.updateHash(photoInfo);
 
                 if (photoInfo->isThumbnailLoaded() == false)
-                    PhotoInfoUpdater::updateThumbnail(photoInfo);
+					updater.updateThumbnail(photoInfo);
 
                 if (photoInfo->isExifDataLoaded() == false)
-                    PhotoInfoUpdater::updateTags(photoInfo);
+					updater.updateTags(photoInfo);
             }
         }
 
