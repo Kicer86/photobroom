@@ -49,7 +49,8 @@ namespace Database
             SQLitePlugin();
             virtual ~SQLitePlugin();
 
-            virtual std::unique_ptr<IBackend> constructBackend();
+            virtual std::unique_ptr<IBackend> constructBackend() override;
+            virtual std::string backendName() const override;
     };
 
 }

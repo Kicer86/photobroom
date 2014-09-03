@@ -23,6 +23,7 @@
 #define DATABASE_PLUGIN_HPP
 
 #include <memory>
+#include <string>
 
 #define DatabasePluginInterface_iid "org.broom.plugins.database.iplugin"
 
@@ -33,7 +34,9 @@ namespace Database
     struct IPlugin
     {
         virtual ~IPlugin() {}
+        
         virtual std::unique_ptr<IBackend> constructBackend() = 0;
+        virtual std::string backendName() const = 0;
     };
 }
 
