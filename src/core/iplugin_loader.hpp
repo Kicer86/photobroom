@@ -22,6 +22,11 @@
 
 #include <memory>
 
+namespace Database 
+{
+    struct IPlugin;
+}
+
 class QObject;
 class QString;
 
@@ -29,7 +34,7 @@ struct IPluginLoader
 {
     virtual ~IPluginLoader() {}
 
-    virtual QObject* getDBPlugin(const QString &) = 0;
+    virtual Database::IPlugin* getDBPlugin(const QString &) = 0;
 
 };
 

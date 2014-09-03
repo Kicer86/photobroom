@@ -128,6 +128,12 @@ namespace Database
     {
         return std::unique_ptr<IBackend>(new MySqlBackend);
     }
+    
+    
+    std::string MySqlPlugin::backendName() const
+    {
+        return "MySql";
+    }
 
 
     const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const

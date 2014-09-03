@@ -25,7 +25,6 @@ ver 1.0 requirements:
 - gui improvements: projects management
 - gui improvements: general enhancements
 - project creation
-- database plugin interface enhacements (backend name)
 
 
 IN PROGRESS:
@@ -58,6 +57,7 @@ DONE:
 - make PhotoInfo::tags thread safe and do not overwrite data
 - load all database plugins. Choose right backend basing on project settings.
 - introduce project concept
+- database plugin interface enhacements (backend name)
 
 
 DROPPED:

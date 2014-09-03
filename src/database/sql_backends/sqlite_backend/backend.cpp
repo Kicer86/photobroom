@@ -125,5 +125,11 @@ namespace Database
     {
         return std::unique_ptr<IBackend>(new SQLiteBackend);
     }
-
+    
+    
+    std::string SQLitePlugin::backendName() const
+    {
+        return "SQLite";
+    }
+    
 }
