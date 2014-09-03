@@ -7,7 +7,7 @@
 
 class QString;
 
-struct TagDataBase;
+class TagDataBase;
 
 struct ITagFeeder
 {
