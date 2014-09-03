@@ -29,7 +29,7 @@
 
 namespace Database
 {
-    class IDatabase;
+    struct IDatabase;
 }
 
 class DATABASE_TOOLS_EXPORT PhotosAnalyzer: QObject

@@ -77,6 +77,8 @@ TagDataBase& TagDataBase::operator=(const TagDataBase& other)
     clear();
 
     setTags(other.getTags());
+
+	return *this;
 }
 
 

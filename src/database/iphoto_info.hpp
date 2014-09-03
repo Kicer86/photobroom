@@ -28,8 +28,8 @@
 class QString;
 class QPixmap;
 
-struct TagDataBase;
-struct TagData;
+class TagDataBase;
+class TagData;
 
 struct IPhotoInfo
 {
