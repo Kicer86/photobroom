@@ -17,4 +17,11 @@ struct ITagFeeder
     virtual void update(TagDataBase *, const QString& path) = 0;
 };
 
+struct ITagFeederFactory
+{
+	virtual ~ITagFeederFactory() {}
+
+	virtual std::shared_ptr<ITagFeeder> get() = 0;
+};
+
 #endif

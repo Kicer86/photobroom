@@ -4,11 +4,11 @@
 
 #include <memory>
 
+#include "itagfeeder.hpp"
+
 #include "core_export.h"
 
-struct ITagFeeder;
-
-struct CORE_EXPORT TagFeederFactory
+class CORE_EXPORT TagFeederFactory: public ITagFeederFactory
 {
 	TagFeederFactory() = delete;
 
