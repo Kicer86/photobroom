@@ -25,10 +25,10 @@ ver 1.0 requirements:
 - gui improvements: projects management
 - gui improvements: general enhancements
 - project creation
-- database plugin interface enhacements (backend name)
 
 
 IN PROGRESS:
+- database plugin interface enhacements (backend name)
 
 
 DONE:
