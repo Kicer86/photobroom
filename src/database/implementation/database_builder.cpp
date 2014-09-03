@@ -188,8 +188,7 @@ namespace Database
 
         if (backendIt == m_impl->m_backends.end())
         {
-            QObject* rawPlugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
-            Database::IPlugin* plugin = dynamic_cast<Database::IPlugin *>(rawPlugin);
+            Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
             assert(plugin);
 
             std::shared_ptr<PhotoInfoManager> manager(new PhotoInfoManager);

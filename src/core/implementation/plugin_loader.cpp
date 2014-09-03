@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <deque>
+#include <cassert>
 
 #include <QDir>
 #include <QPluginLoader>
@@ -126,9 +127,12 @@ PluginLoader::~PluginLoader()
 }
 
 
-QObject* PluginLoader::getDBPlugin(const QString& name)
+Database::IPlugin* PluginLoader::getDBPlugin(const QString& name)
 {
-    QObject* result = m_impl->m_finder.loadDBPlugin(name);
+    QObject* raw_result = m_impl->m_finder.loadDBPlugin(name);
+    Database::IPlugin* result = dynamic_cast<Database::IPlugin *>(raw_result);
+    
+    assert(result != nullptr);
 
     return result;
 }
