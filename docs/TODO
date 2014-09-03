@@ -28,7 +28,6 @@ ver 1.0 requirements:
 
 
 IN PROGRESS:
-- database plugin interface enhacements (backend name)
 
 
 DONE:
@@ -58,6 +57,7 @@ DONE:
 - make PhotoInfo::tags thread safe and do not overwrite data
 - load all database plugins. Choose right backend basing on project settings.
 - introduce project concept
+- database plugin interface enhacements (backend name)
 
 
 DROPPED:
