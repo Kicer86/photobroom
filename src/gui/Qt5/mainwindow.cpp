@@ -11,6 +11,7 @@
 #include <project_utils/iproject.hpp>
 
 #include "centralwidget.hpp"
+#include "components/project_creator/project_creator.hpp"
 
 
 MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
@@ -53,7 +54,8 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::newProject()
 {
-
+    ProjectCreator prjCreator;
+    prjCreator.exec();
 }
 
 
