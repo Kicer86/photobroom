@@ -35,6 +35,7 @@ set(GUI_SOURCES
     Qt5/components/photos_staging/photos_view_widget.cpp
     Qt5/components/photos_staging/photos_staging_area.cpp
     Qt5/components/photos_staging/staging_data_model.cpp
+    Qt5/components/project_creator/project_creator.cpp
     Qt5/components/tag_editor/tag_editor_widget.cpp
     Qt5/components/tag_editor/tag_definition.cpp
     Qt5/components/tag_editor/tag_entry.cpp
@@ -65,6 +66,7 @@ set(GUI_HEADERS
     Qt5/components/photos_staging/photos_view_widget.hpp
     Qt5/components/photos_staging/photos_staging_area.hpp
     Qt5/components/photos_staging/staging_data_model.hpp
+    Qt5/components/project_creator/project_creator.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
     Qt5/components/tag_editor/tag_definition.hpp
     Qt5/components/tag_editor/tag_entry.hpp
