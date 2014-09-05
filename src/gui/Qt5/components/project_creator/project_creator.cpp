@@ -120,6 +120,18 @@ void ProjectCreator::set(IPluginLoader* pluginLoader)
 }
 
 
+QString ProjectCreator::getPrjPath() const
+{
+
+}
+
+
+Database::IPlugin::PrjData ProjectCreator::getPrjData() const
+{
+
+}
+
+
 void ProjectCreator::initEngines()
 {
     const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();

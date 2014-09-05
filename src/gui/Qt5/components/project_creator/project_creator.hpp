@@ -22,10 +22,7 @@
 
 #include <QDialog>
 
-namespace Database
-{
-    struct IPlugin;
-}
+#include <database/idatabase_plugin.hpp>
 
 class QComboBox;
 class QtExtChooseFile;
@@ -44,6 +41,10 @@ class ProjectCreator: public QDialog
         ProjectCreator& operator=(const ProjectCreator& other) = delete;
 
         void set(IPluginLoader *);
+
+        // getters:
+        QString getPrjPath() const;
+        Database::IPlugin::PrjData getPrjData() const;
 
     private:
         QtExtChooseFile* m_chooseDialog;

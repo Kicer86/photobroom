@@ -63,7 +63,12 @@ void MainWindow::newProject()
 {
     ProjectCreator prjCreator;
     prjCreator.set(m_pluginLoader);
-    prjCreator.exec();
+    const int status = prjCreator.exec();
+
+    if (status == QDialog::Accepted)
+    {
+        
+    }
 }
 
 
