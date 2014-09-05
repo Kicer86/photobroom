@@ -28,6 +28,7 @@
 
 #define DatabasePluginInterface_iid "org.broom.plugins.database.iplugin"
 
+class QLayout;
 namespace Database
 {
     struct IBackend;
@@ -48,6 +49,7 @@ namespace Database
         virtual std::unique_ptr<IBackend> constructBackend() = 0;         //return backend object
         virtual QString backendName() const = 0;                          //return backend name
         virtual PrjData initPrjDir(const QString &) const = 0;            //prepares database in provided directory
+        virtual QLayout* buildDBOptions() = 0;                            //return QLayout for ProjectCreator dialog with options for specific backend
     };
 }
 

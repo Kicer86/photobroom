@@ -149,6 +149,12 @@ namespace Database
     }
 
 
+    QLayout* MySqlPlugin::buildDBOptions()
+    {
+        return nullptr;
+    }
+
+
     const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
     {
         return this;

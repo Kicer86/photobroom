@@ -141,4 +141,11 @@ namespace Database
 
         return prjData;
     }
+
+
+    QLayout* SQLitePlugin::buildDBOptions()
+    {
+        return nullptr;
+    }
+
 }

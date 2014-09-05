@@ -52,6 +52,7 @@ namespace Database
             virtual std::unique_ptr<IBackend> constructBackend() override;
             virtual QString backendName() const override;
             virtual PrjData initPrjDir(const QString&) const override;
+            virtual QLayout* buildDBOptions() override;
     };
 
 }
