@@ -56,11 +56,13 @@ ProjectCreator::ProjectCreator(): QDialog(), m_chooseDialog(nullptr), m_prjLocat
 {
     setWindowTitle(tr("Project creator"));
 
+    //project location line
     QLabel* prjLocationLabel = new QLabel(tr("Project location:"), this);
     QPushButton* prjLocationBrowseButton = new QPushButton(tr("Browse"), this);
     m_prjLocation = new QLineEdit(this);
     m_chooseDialog = new QtExtChooseFile(prjLocationBrowseButton, m_prjLocation, new PrjLocationDialog);
 
+    //project location line layout
     QHBoxLayout* prjLocationLayout = new QHBoxLayout;
     prjLocationLayout->addWidget(prjLocationLabel);
     prjLocationLayout->addWidget(m_prjLocation);
@@ -71,6 +73,7 @@ ProjectCreator::ProjectCreator(): QDialog(), m_chooseDialog(nullptr), m_prjLocat
     connect(defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
     connect(defaultButtons, SIGNAL(rejected()), this, SLOT(reject()));
 
+    //main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(prjLocationLayout);
     mainLayout->addWidget(defaultButtons);
