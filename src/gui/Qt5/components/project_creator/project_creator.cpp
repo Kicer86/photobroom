@@ -26,9 +26,12 @@
 #include <QFileDialog>
 #include <QDialogButtonBox>
 #include <QLabel>
+#include <QComboBox>
 
 #include <QtExt/qtext_choosefile.hpp>
 
+#include <core/iplugin_loader.hpp>
+#include <database/idatabase_plugin.hpp>
 
 struct PrjLocationDialog: QtExtChooseFileDialog
 {
@@ -52,9 +55,14 @@ struct PrjLocationDialog: QtExtChooseFileDialog
 };
 
 
-ProjectCreator::ProjectCreator(): QDialog(), m_chooseDialog(nullptr), m_prjLocation(nullptr)
+ProjectCreator::ProjectCreator(): QDialog(),
+                                  m_chooseDialog(nullptr),
+                                  m_prjLocation(nullptr),
+                                  m_engines(nullptr),
+                                  m_pluginLoader(nullptr)
 {
     setWindowTitle(tr("Project creator"));
+    resize(500, 250);
 
     //project location line
     QLabel* prjLocationLabel = new QLabel(tr("Project location:"), this);
@@ -68,6 +76,15 @@ ProjectCreator::ProjectCreator(): QDialog(), m_chooseDialog(nullptr), m_prjLocat
     prjLocationLayout->addWidget(m_prjLocation);
     prjLocationLayout->addWidget(prjLocationBrowseButton);
 
+    //storage engine
+    QLabel* dbEngine = new QLabel(tr("Database engine:"), this);
+    m_engines = new QComboBox(this);
+
+    //storage engine layout
+    QHBoxLayout* dbEngineLayout = new QHBoxLayout;
+    dbEngineLayout->addWidget(dbEngine);
+    dbEngineLayout->addWidget(m_engines);
+
     //default buttons
     QDialogButtonBox* defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
@@ -76,6 +93,8 @@ ProjectCreator::ProjectCreator(): QDialog(), m_chooseDialog(nullptr), m_prjLocat
     //main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(prjLocationLayout);
+    mainLayout->addLayout(dbEngineLayout);
+    mainLayout->addStretch();
     mainLayout->addWidget(defaultButtons);
 }
 
@@ -83,4 +102,22 @@ ProjectCreator::ProjectCreator(): QDialog(), m_chooseDialog(nullptr), m_prjLocat
 ProjectCreator::~ProjectCreator()
 {
 
+}
+
+
+void ProjectCreator::set(IPluginLoader* pluginLoader)
+{
+    m_pluginLoader = pluginLoader;
+    initEngines();
+}
+
+
+void ProjectCreator::initEngines()
+{
+    const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
+
+    for(Database::IPlugin* plugin: plugins)
+    {
+        m_engines->addItem(plugin->backendName());
+    }
 }

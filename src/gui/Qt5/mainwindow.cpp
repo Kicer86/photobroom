@@ -14,7 +14,7 @@
 #include "components/project_creator/project_creator.hpp"
 
 
-MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
+MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_pluginLoader(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
 {
     m_centralWidget = new CentralWidget(this);
     setCentralWidget(m_centralWidget);
@@ -44,8 +44,15 @@ void MainWindow::set(IProjectManager* prjManager)
 }
 
 
+void MainWindow::set(IPluginLoader* pluginLoader)
+{
+    m_pluginLoader = pluginLoader;
+}
+
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    // TODO: close project!
     //m_currentPrj->close();
 
     e->accept();
@@ -55,6 +62,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 void MainWindow::newProject()
 {
     ProjectCreator prjCreator;
+    prjCreator.set(m_pluginLoader);
     prjCreator.exec();
 }
 

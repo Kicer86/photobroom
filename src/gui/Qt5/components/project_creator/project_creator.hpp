@@ -22,8 +22,11 @@
 
 #include <QDialog>
 
+class QComboBox;
 class QtExtChooseFile;
 class QLineEdit;
+
+class IPluginLoader;
 
 class ProjectCreator: public QDialog
 {
@@ -34,9 +37,15 @@ class ProjectCreator: public QDialog
 
         ProjectCreator& operator=(const ProjectCreator& other) = delete;
 
+        void set(IPluginLoader *);
+
     private:
         QtExtChooseFile* m_chooseDialog;
         QLineEdit* m_prjLocation;
+        QComboBox* m_engines;
+        IPluginLoader* m_pluginLoader;
+
+        void initEngines();
 };
 
 #endif // PROJECTCREATOR_H
