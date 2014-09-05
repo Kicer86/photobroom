@@ -131,5 +131,10 @@ namespace Database
     {
         return "SQLite";
     }
+
     
+    IPlugin::PrjData SQLitePlugin::initPrjDir(const QString&) const
+    {
+
+    }
 }

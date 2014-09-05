@@ -136,6 +136,12 @@ namespace Database
     }
 
 
+    IPlugin::PrjData MySqlPlugin::initPrjDir(const QString&) const
+    {
+
+    }
+
+
     const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
     {
         return this;

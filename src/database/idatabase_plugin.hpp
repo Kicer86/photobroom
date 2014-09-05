@@ -34,10 +34,18 @@ namespace Database
 
     struct IPlugin
     {
+        //data for prj file
+        struct PrjData
+        {
+            QString backendName;
+            QString location;
+        };
+
         virtual ~IPlugin() {}
         
         virtual std::unique_ptr<IBackend> constructBackend() = 0;
-        virtual QString backendName() const = 0;
+        virtual QString backendName() const = 0;                          
+        virtual PrjData initPrjDir(const QString &) const = 0;            //prepares database in provided directory
     };
 }
 
