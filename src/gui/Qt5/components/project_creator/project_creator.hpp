@@ -49,7 +49,7 @@ class ProjectCreator: public QDialog
         QtExtChooseFile* m_chooseDialog;
         QLineEdit* m_prjLocation;
         QComboBox* m_engines;
-        QGroupBox* m_dbOptions;
+        QGroupBox* m_engineOptions;
         IPluginLoader* m_pluginLoader;
         std::map<QString, Database::IPlugin *> m_plugins;
 
