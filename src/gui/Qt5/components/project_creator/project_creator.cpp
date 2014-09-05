@@ -27,6 +27,8 @@
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QComboBox>
+#include <QGroupBox>
+#include <QStackedLayout>
 
 #include <QtExt/qtext_choosefile.hpp>
 
@@ -59,6 +61,7 @@ ProjectCreator::ProjectCreator(): QDialog(),
                                   m_chooseDialog(nullptr),
                                   m_prjLocation(nullptr),
                                   m_engines(nullptr),
+                                  m_dbOptions(nullptr),
                                   m_pluginLoader(nullptr),
                                   m_plugins()
 {
@@ -86,6 +89,9 @@ ProjectCreator::ProjectCreator(): QDialog(),
     dbEngineLayout->addWidget(dbEngine);
     dbEngineLayout->addWidget(m_engines);
 
+    //storage options
+    m_dbOptions = new QGroupBox(tr("Engine options"));
+
     //default buttons
     QDialogButtonBox* defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
@@ -95,6 +101,7 @@ ProjectCreator::ProjectCreator(): QDialog(),
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(prjLocationLayout);
     mainLayout->addLayout(dbEngineLayout);
+    mainLayout->addWidget(m_dbOptions);
     mainLayout->addStretch();
     mainLayout->addWidget(defaultButtons);
 }
@@ -120,6 +127,20 @@ void ProjectCreator::initEngines()
     for(Database::IPlugin* plugin: plugins)
         m_plugins[plugin->backendName()] = plugin;
 
+    QStackedLayout* engineOptionsLayout = new QStackedLayout(m_dbOptions);
+
     for(auto plugin: m_plugins)
+    {
         m_engines->addItem(plugin.first);
+
+        QWidget* optionsWidget = new QWidget(this);
+        QLayout* optionsWidgetLayout = plugin.second->buildDBOptions();
+
+        if (optionsWidgetLayout != nullptr)
+            optionsWidget->setLayout(optionsWidgetLayout);
+
+        engineOptionsLayout->addWidget(optionsWidget);
+    }
+
+    connect(m_engines, SIGNAL(activated(int)), engineOptionsLayout, SLOT(setCurrentIndex(int)));
 }

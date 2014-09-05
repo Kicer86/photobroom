@@ -30,6 +30,7 @@ namespace Database
 class QComboBox;
 class QtExtChooseFile;
 class QLineEdit;
+class QGroupBox;
 
 class IPluginLoader;
 
@@ -48,6 +49,7 @@ class ProjectCreator: public QDialog
         QtExtChooseFile* m_chooseDialog;
         QLineEdit* m_prjLocation;
         QComboBox* m_engines;
+        QGroupBox* m_dbOptions;
         IPluginLoader* m_pluginLoader;
         std::map<QString, Database::IPlugin *> m_plugins;
 
