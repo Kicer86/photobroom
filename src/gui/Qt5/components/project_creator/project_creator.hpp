@@ -22,6 +22,11 @@
 
 #include <QDialog>
 
+namespace Database
+{
+    struct IPlugin;
+}
+
 class QComboBox;
 class QtExtChooseFile;
 class QLineEdit;
@@ -44,6 +49,7 @@ class ProjectCreator: public QDialog
         QLineEdit* m_prjLocation;
         QComboBox* m_engines;
         IPluginLoader* m_pluginLoader;
+        std::map<QString, Database::IPlugin *> m_plugins;
 
         void initEngines();
 };

@@ -59,7 +59,8 @@ ProjectCreator::ProjectCreator(): QDialog(),
                                   m_chooseDialog(nullptr),
                                   m_prjLocation(nullptr),
                                   m_engines(nullptr),
-                                  m_pluginLoader(nullptr)
+                                  m_pluginLoader(nullptr),
+                                  m_plugins()
 {
     setWindowTitle(tr("Project creator"));
     resize(500, 250);
@@ -117,7 +118,8 @@ void ProjectCreator::initEngines()
     const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
 
     for(Database::IPlugin* plugin: plugins)
-    {
-        m_engines->addItem(plugin->backendName());
-    }
+        m_plugins[plugin->backendName()] = plugin;
+
+    for(auto plugin: m_plugins)
+        m_engines->addItem(plugin.first);
 }
