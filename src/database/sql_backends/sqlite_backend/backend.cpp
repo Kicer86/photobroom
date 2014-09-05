@@ -127,7 +127,7 @@ namespace Database
     }
     
     
-    std::string SQLitePlugin::backendName() const
+    QString SQLitePlugin::backendName() const
     {
         return "SQLite";
     }

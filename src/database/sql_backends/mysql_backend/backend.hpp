@@ -49,7 +49,7 @@ namespace Database
             virtual ~MySqlPlugin();
 
             virtual std::unique_ptr<IBackend> constructBackend() override;
-            virtual std::string backendName() const override;
+            virtual QString backendName() const override;
     };
 
 

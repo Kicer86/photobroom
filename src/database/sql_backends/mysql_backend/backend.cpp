@@ -130,7 +130,7 @@ namespace Database
     }
     
     
-    std::string MySqlPlugin::backendName() const
+    QString MySqlPlugin::backendName() const
     {
         return "MySql";
     }
