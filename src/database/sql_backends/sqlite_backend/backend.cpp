@@ -132,9 +132,13 @@ namespace Database
         return "SQLite";
     }
 
-    
+
     IPlugin::PrjData SQLitePlugin::initPrjDir(const QString&) const
     {
+        IPlugin::PrjData prjData;
+        prjData.backendName = backendName();
+        prjData.location = "./broom.db";
 
+        return prjData;
     }
 }

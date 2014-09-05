@@ -136,9 +136,16 @@ namespace Database
     }
 
 
-    IPlugin::PrjData MySqlPlugin::initPrjDir(const QString&) const
+    IPlugin::PrjData MySqlPlugin::initPrjDir(const QString& prjPath) const
     {
+        QDir prjPathDir(prjPath);
+        prjPathDir.mkdir("database");
 
+        IPlugin::PrjData prjData;
+        prjData.backendName = backendName();
+        prjData.location = "./database/";
+
+        return prjData;
     }
 
 
