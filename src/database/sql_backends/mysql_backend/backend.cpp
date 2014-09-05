@@ -112,6 +112,20 @@ namespace Database
     }
 
 
+    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
+    {
+        return this;
+    }
+
+
+    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
+    {
+        assert(!"not implemented");
+
+        return SqlQuery();
+    }
+
+
     MySqlPlugin::MySqlPlugin(): QObject()
     {
 
@@ -152,20 +166,6 @@ namespace Database
     QLayout* MySqlPlugin::buildDBOptions()
     {
         return nullptr;
-    }
-
-
-    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
-    {
-        return this;
-    }
-
-
-    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
-    {
-        assert(!"not implemented");
-
-        return SqlQuery();
     }
 
 }
