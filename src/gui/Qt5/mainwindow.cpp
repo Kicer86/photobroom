@@ -63,7 +63,7 @@ void MainWindow::openProject()
 {
     const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                          "",
-                                                         tr("broom projects (*.bpj)"));
+                                                         tr("Broom projects (*.bpj)"));
 
     std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
     m_currentPrj = prj;
