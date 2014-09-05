@@ -39,6 +39,8 @@ namespace Database
         {
             QString backendName;
             QString location;
+
+            PrjData(): backendName(), location() {}
         };
 
         virtual ~IPlugin() {}
