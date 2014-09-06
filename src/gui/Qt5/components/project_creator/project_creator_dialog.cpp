@@ -17,7 +17,7 @@
  *
  */
 
-#include "project_creator.hpp"
+#include "project_creator_dialog.hpp"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -57,13 +57,13 @@ struct PrjLocationDialog: QtExtChooseFileDialog
 };
 
 
-ProjectCreator::ProjectCreator(): QDialog(),
-                                  m_chooseDialog(nullptr),
-                                  m_prjLocation(nullptr),
-                                  m_engines(nullptr),
-                                  m_engineOptions(nullptr),
-                                  m_pluginLoader(nullptr),
-                                  m_plugins()
+ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
+                                              m_chooseDialog(nullptr),
+                                              m_prjLocation(nullptr),
+                                              m_engines(nullptr),
+                                              m_engineOptions(nullptr),
+                                              m_pluginLoader(nullptr),
+                                              m_plugins()
 {
     setWindowTitle(tr("Project creator"));
     resize(500, 250);
@@ -107,32 +107,32 @@ ProjectCreator::ProjectCreator(): QDialog(),
 }
 
 
-ProjectCreator::~ProjectCreator()
+ProjectCreatorDialog::~ProjectCreatorDialog()
 {
 
 }
 
 
-void ProjectCreator::set(IPluginLoader* pluginLoader)
+void ProjectCreatorDialog::set(IPluginLoader* pluginLoader)
 {
     m_pluginLoader = pluginLoader;
     initEngines();
 }
 
 
-QString ProjectCreator::getPrjPath() const
+QString ProjectCreatorDialog::getPrjPath() const
 {
 
 }
 
 
-Database::IPlugin::PrjData ProjectCreator::getPrjData() const
+Database::IPlugin::PrjData ProjectCreatorDialog::getPrjData() const
 {
 
 }
 
 
-void ProjectCreator::initEngines()
+void ProjectCreatorDialog::initEngines()
 {
     const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
 

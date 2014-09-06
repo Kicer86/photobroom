@@ -31,14 +31,14 @@ class QGroupBox;
 
 class IPluginLoader;
 
-class ProjectCreator: public QDialog
+class ProjectCreatorDialog: public QDialog
 {
     public:
-        ProjectCreator();
-        ProjectCreator(const ProjectCreator& other) = delete;
-        ~ProjectCreator();
+        ProjectCreatorDialog();
+        ProjectCreatorDialog(const ProjectCreatorDialog& other) = delete;
+        ~ProjectCreatorDialog();
 
-        ProjectCreator& operator=(const ProjectCreator& other) = delete;
+        ProjectCreatorDialog& operator=(const ProjectCreatorDialog& other) = delete;
 
         void set(IPluginLoader *);
 

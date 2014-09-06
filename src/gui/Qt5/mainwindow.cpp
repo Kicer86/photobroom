@@ -11,7 +11,7 @@
 #include <project_utils/iproject.hpp>
 
 #include "centralwidget.hpp"
-#include "components/project_creator/project_creator.hpp"
+#include "components/project_creator/project_creator_dialog.hpp"
 
 
 MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_pluginLoader(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
@@ -61,9 +61,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::newProject()
 {
-    ProjectCreator prjCreator;
-    prjCreator.set(m_pluginLoader);
-    const int status = prjCreator.exec();
+    ProjectCreatorDialog prjCreatorDialog;
+    prjCreatorDialog.set(m_pluginLoader);
+    const int status = prjCreatorDialog.exec();
 
     if (status == QDialog::Accepted)
     {
