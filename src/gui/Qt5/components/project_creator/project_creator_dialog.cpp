@@ -29,11 +29,16 @@
 #include <QComboBox>
 #include <QGroupBox>
 #include <QStackedLayout>
+#include <QString>
 
 #include <QtExt/qtext_choosefile.hpp>
 
 #include <core/iplugin_loader.hpp>
 #include <database/idatabase_plugin.hpp>
+
+
+Q_DECLARE_METATYPE(Database::IPlugin *)
+
 
 struct PrjLocationDialog: QtExtChooseFileDialog
 {
@@ -122,13 +127,26 @@ void ProjectCreatorDialog::set(IPluginLoader* pluginLoader)
 
 QString ProjectCreatorDialog::getPrjPath() const
 {
+    QString prjPath = m_prjLocation->text();
+    const QFileInfo resultInfo(prjPath);
 
+    if (resultInfo.suffix() != "bpj")
+        prjPath += ".bpj";
+
+    return prjPath;
 }
 
 
 Database::IPlugin::PrjData ProjectCreatorDialog::getPrjData() const
 {
+    const QString prjPath = getPrjPath();
+    const QFileInfo prjPathInfo(prjPath);
+    const QString prjDir = prjPathInfo.absolutePath();
 
+    Database::IPlugin* plugin = getSelectedPlugin();
+    Database::IPlugin::PrjData prjData = plugin->initPrjDir(prjDir);
+
+    return prjData;
 }
 
 
@@ -143,7 +161,8 @@ void ProjectCreatorDialog::initEngines()
 
     for(auto plugin: m_plugins)
     {
-        m_engines->addItem(plugin.first);
+        const QVariant itemData = QVariant::fromValue<Database::IPlugin *>(plugin.second);
+        m_engines->addItem(plugin.first, itemData);
 
         QWidget* optionsWidget = new QWidget(this);
         QLayout* optionsWidgetLayout = plugin.second->buildDBOptions();
@@ -155,4 +174,13 @@ void ProjectCreatorDialog::initEngines()
     }
 
     connect(m_engines, SIGNAL(activated(int)), engineOptionsLayout, SLOT(setCurrentIndex(int)));
+}
+
+
+Database::IPlugin* ProjectCreatorDialog::getSelectedPlugin() const
+{
+    const QVariant pluginRaw = m_engines->currentData();
+    Database::IPlugin* plugin = pluginRaw.value<Database::IPlugin *>();
+
+    return plugin;
 }

@@ -55,6 +55,7 @@ class ProjectCreatorDialog: public QDialog
         std::map<QString, Database::IPlugin *> m_plugins;
 
         void initEngines();
+        Database::IPlugin* getSelectedPlugin() const;
 };
 
 #endif // PROJECTCREATOR_H
