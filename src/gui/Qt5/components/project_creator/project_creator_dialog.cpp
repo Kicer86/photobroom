@@ -137,16 +137,11 @@ QString ProjectCreatorDialog::getPrjPath() const
 }
 
 
-Database::IPlugin::PrjData ProjectCreatorDialog::getPrjData() const
+Database::IPlugin* ProjectCreatorDialog::getEnginePlugin() const
 {
-    const QString prjPath = getPrjPath();
-    const QFileInfo prjPathInfo(prjPath);
-    const QString prjDir = prjPathInfo.absolutePath();
-
     Database::IPlugin* plugin = getSelectedPlugin();
-    Database::IPlugin::PrjData prjData = plugin->initPrjDir(prjDir);
 
-    return prjData;
+    return plugin;
 }
 
 

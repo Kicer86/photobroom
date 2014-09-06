@@ -22,14 +22,17 @@
 
 #include <QDialog>
 
-#include <database/idatabase_plugin.hpp>
-
 class QComboBox;
 class QtExtChooseFile;
 class QLineEdit;
 class QGroupBox;
 
 class IPluginLoader;
+
+namespace Database
+{
+    struct IPlugin;
+}
 
 class ProjectCreatorDialog: public QDialog
 {
@@ -44,7 +47,7 @@ class ProjectCreatorDialog: public QDialog
 
         // getters:
         QString getPrjPath() const;
-        Database::IPlugin::PrjData getPrjData() const;
+        Database::IPlugin* getEnginePlugin() const;
 
     private:
         QtExtChooseFile* m_chooseDialog;
