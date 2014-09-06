@@ -27,7 +27,6 @@ ver 1.0 requirements:
 
 
 IN PROGRESS:
-- project creation
 
 
 DONE:
@@ -58,6 +57,7 @@ DONE:
 - load all database plugins. Choose right backend basing on project settings.
 - introduce project concept
 - database plugin interface enhacements (backend name)
+- project creation
 
 
 DROPPED:
