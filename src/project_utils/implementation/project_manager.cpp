@@ -46,6 +46,28 @@ void ProjectManager::set(Database::IBuilder* builder)
 }
 
 
+bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* prjPlugin)
+{
+    const QFileInfo prjPathInfo(prjPath);
+    const QString prjDir = prjPathInfo.absolutePath();
+
+    //prepare database
+    Database::IPlugin::PrjData prjData = prjPlugin->initPrjDir(prjDir);
+
+    //prepare project file
+    QSettings prjFile(prjPath, QSettings::IniFormat);
+
+    prjFile.beginGroup("Database");
+    prjFile.setValue("backend", prjData.backendName);
+    prjFile.setValue("location", prjData.location);
+    prjFile.endGroup();
+
+    const QSettings::Status status = prjFile.status();
+
+    return status == QSettings::NoError;
+}
+
+
 std::shared_ptr<IProject> ProjectManager::open(const QString& path)
 {
     QSettings prjFile(path, QSettings::IniFormat);

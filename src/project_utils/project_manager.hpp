@@ -43,6 +43,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
         ProjectManager& operator=(const ProjectManager &) = delete;
 
+        virtual bool new_prj(const QString& path, const Database::IPlugin *) override;
         std::shared_ptr<IProject> open(const QString &) override;
         bool save(const IProject *) override;
 
