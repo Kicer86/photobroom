@@ -34,7 +34,7 @@ namespace
 {
     struct PhotosAnalyzerThread
     {
-        PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToUpdate(), m_work(true)
+        PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToUpdate(), m_work(true), m_updater()
         {
         }
 
@@ -68,24 +68,22 @@ namespace
         {
             if (photoInfo->isFullyInitialized() == false)
             {
-				PhotoInfoUpdater updater;
-
                 if (photoInfo->isHashLoaded() == false)
-                    updater.updateHash(photoInfo);
+                    m_updater.updateHash(photoInfo);
 
                 if (photoInfo->isThumbnailLoaded() == false)
-					updater.updateThumbnail(photoInfo);
+					m_updater.updateThumbnail(photoInfo);
 
                 if (photoInfo->isExifDataLoaded() == false)
-					updater.updateTags(photoInfo);
+					m_updater.updateTags(photoInfo);
             }
         }
-
 
         std::condition_variable m_data_available;
         std::mutex m_data_mutex;
         ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
         bool m_work;
+        PhotoInfoUpdater m_updater;
     };
 
     void trampoline(PhotosAnalyzerThread* thread)
