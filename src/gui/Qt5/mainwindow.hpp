@@ -33,6 +33,7 @@ class MainWindow final: public QMainWindow
         CentralWidget*            m_centralWidget;
 
         void closeEvent(QCloseEvent *);
+        void openProject(const QString &);
 
     private slots:
         void newProject();

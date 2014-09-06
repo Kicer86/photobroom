@@ -59,6 +59,16 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
+void MainWindow::openProject(const QString& prjFile)
+{
+    std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
+    m_currentPrj = prj;
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
+    m_centralWidget->setDatabase(db);
+}
+
+
 void MainWindow::newProject()
 {
     ProjectCreatorDialog prjCreatorDialog;
@@ -67,7 +77,13 @@ void MainWindow::newProject()
 
     if (status == QDialog::Accepted)
     {
-        
+        const QString prjPath   = prjCreatorDialog.getPrjPath();
+        const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
+
+        const bool status = m_prjManager->new_prj(prjPath, prjPlugin);
+
+        if (status)
+            openProject(prjPath);
     }
 }
 
@@ -78,10 +94,6 @@ void MainWindow::openProject()
                                                          "",
                                                          tr("Broom projects (*.bpj)"));
 
-    std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
-    m_currentPrj = prj;
-    Database::IDatabase* db = m_currentPrj->getDatabase();
-
-    m_centralWidget->setDatabase(db);
+    openProject(prjFile);
 }
 
