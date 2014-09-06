@@ -187,7 +187,7 @@ class CORE_EXPORT TagDataBase: public ITagData
 {
     public:
         TagDataBase();
-        TagDataBase(const TagDataBase &);
+        TagDataBase(const TagDataBase &) = delete;   //possible pure virtual calls when final object is not ready
         virtual ~TagDataBase();
 
         using ITagData::setTag;
@@ -201,6 +201,7 @@ class CORE_EXPORT TagData: public TagDataBase
 {
     public:
         TagData();
+        TagData(const TagData &);
         virtual ~TagData();
 
         virtual TagsList getTags() const override;
