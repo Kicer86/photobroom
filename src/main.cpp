@@ -33,6 +33,7 @@ int main(int argc, char **argv)
     //start gui
     Gui gui;
     gui.set(&prjManager);
+    gui.set(&pluginLoader);
     gui.run(argc, argv);
 
     return 0;

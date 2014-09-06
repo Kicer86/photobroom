@@ -6,6 +6,7 @@
 
 #include <QMainWindow>
 
+class IPluginLoader;
 class IProject;
 class IProjectManager;
 
@@ -23,13 +24,16 @@ class MainWindow final: public QMainWindow
         MainWindow operator=(const MainWindow &) = delete;
 
         void set(IProjectManager *);
+        void set(IPluginLoader *);
 
     private:
         IProjectManager*          m_prjManager;
+        IPluginLoader*            m_pluginLoader;
         std::shared_ptr<IProject> m_currentPrj;
         CentralWidget*            m_centralWidget;
 
         void closeEvent(QCloseEvent *);
+        void openProject(const QString &);
 
     private slots:
         void newProject();

@@ -11,9 +11,10 @@
 #include <project_utils/iproject.hpp>
 
 #include "centralwidget.hpp"
+#include "components/project_creator/project_creator_dialog.hpp"
 
 
-MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
+MainWindow::MainWindow(QWidget *p): QMainWindow(p), m_prjManager(nullptr), m_pluginLoader(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
 {
     m_centralWidget = new CentralWidget(this);
     setCentralWidget(m_centralWidget);
@@ -43,17 +44,47 @@ void MainWindow::set(IProjectManager* prjManager)
 }
 
 
+void MainWindow::set(IPluginLoader* pluginLoader)
+{
+    m_pluginLoader = pluginLoader;
+}
+
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    // TODO: close project!
     //m_currentPrj->close();
 
     e->accept();
 }
 
 
+void MainWindow::openProject(const QString& prjFile)
+{
+    std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
+    m_currentPrj = prj;
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
+    m_centralWidget->setDatabase(db);
+}
+
+
 void MainWindow::newProject()
 {
+    ProjectCreatorDialog prjCreatorDialog;
+    prjCreatorDialog.set(m_pluginLoader);
+    const int status = prjCreatorDialog.exec();
 
+    if (status == QDialog::Accepted)
+    {
+        const QString prjPath   = prjCreatorDialog.getPrjPath();
+        const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
+
+        const bool status = m_prjManager->new_prj(prjPath, prjPlugin);
+
+        if (status)
+            openProject(prjPath);
+    }
 }
 
 
@@ -61,12 +92,8 @@ void MainWindow::openProject()
 {
     const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                          "",
-                                                         tr("broom projects (*.bpj)"));
+                                                         tr("Broom projects (*.bpj)"));
 
-    std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
-    m_currentPrj = prj;
-    Database::IDatabase* db = m_currentPrj->getDatabase();
-
-    m_centralWidget->setDatabase(db);
+    openProject(prjFile);
 }
 

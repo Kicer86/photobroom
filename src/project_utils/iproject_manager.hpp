@@ -21,6 +21,7 @@
 #define IPROJECTMANAGER_HPP
 
 #include <memory>
+#include <database/idatabase_plugin.hpp>
 
 class QString;
 
@@ -30,6 +31,7 @@ struct IProjectManager
 {
     virtual ~IProjectManager() {}
 
+    virtual bool new_prj(const QString& path, const Database::IPlugin *) = 0;
     virtual std::shared_ptr<IProject> open(const QString &) = 0;
     virtual bool save(const IProject *) = 0;
 };

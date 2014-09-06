@@ -693,6 +693,8 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 
             emit m_data->m_model->dataChanged(index, index);
         }
+        else  // photo is not managed yet, but maybe we should manage it now, after change?
+            movePhotoToRightParent(photoInfo);
     }
 }
 

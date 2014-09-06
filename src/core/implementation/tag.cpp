@@ -45,12 +45,6 @@ TagDataBase::TagDataBase(): ITagData()
 }
 
 
-TagDataBase::TagDataBase(const TagDataBase& other): ITagData()
-{
-    *this = other;
-}
-
-
 TagDataBase::~TagDataBase()
 {
 }
@@ -86,6 +80,11 @@ TagDataBase& TagDataBase::operator=(const TagDataBase& other)
 
 
 TagData::TagData(): TagDataBase(), m_tags()
+{
+}
+
+
+TagData::TagData(const TagData& other): TagDataBase(), m_tags(other.getTags())
 {
 }
 

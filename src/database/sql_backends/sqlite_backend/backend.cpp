@@ -127,9 +127,25 @@ namespace Database
     }
     
     
-    std::string SQLitePlugin::backendName() const
+    QString SQLitePlugin::backendName() const
     {
         return "SQLite";
     }
-    
+
+
+    IPlugin::PrjData SQLitePlugin::initPrjDir(const QString&) const
+    {
+        IPlugin::PrjData prjData;
+        prjData.backendName = backendName();
+        prjData.location = "./broom.db";
+
+        return prjData;
+    }
+
+
+    QLayout* SQLitePlugin::buildDBOptions()
+    {
+        return nullptr;
+    }
+
 }

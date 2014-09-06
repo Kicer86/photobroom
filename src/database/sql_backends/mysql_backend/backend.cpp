@@ -112,6 +112,20 @@ namespace Database
     }
 
 
+    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
+    {
+        return this;
+    }
+
+
+    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
+    {
+        assert(!"not implemented");
+
+        return SqlQuery();
+    }
+
+
     MySqlPlugin::MySqlPlugin(): QObject()
     {
 
@@ -130,23 +144,28 @@ namespace Database
     }
     
     
-    std::string MySqlPlugin::backendName() const
+    QString MySqlPlugin::backendName() const
     {
         return "MySql";
     }
 
 
-    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
+    IPlugin::PrjData MySqlPlugin::initPrjDir(const QString& prjPath) const
     {
-        return this;
+        QDir prjPathDir(prjPath);
+        prjPathDir.mkdir("database");
+
+        IPlugin::PrjData prjData;
+        prjData.backendName = backendName();
+        prjData.location = "./database/";
+
+        return prjData;
     }
 
 
-    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
+    QLayout* MySqlPlugin::buildDBOptions()
     {
-        assert(!"not implemented");
-
-        return SqlQuery();
+        return nullptr;
     }
 
 }

@@ -37,6 +37,7 @@ class CORE_EXPORT PluginLoader: public IPluginLoader
         PluginLoader& operator=(const PluginLoader& other) = delete;
 
         Database::IPlugin* getDBPlugin(const QString &) override;
+        const std::deque<Database::IPlugin *>& getDBPlugins() const override;
 
     private:
         struct Impl;

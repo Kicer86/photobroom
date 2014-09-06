@@ -79,7 +79,7 @@ namespace
             //TODO: load plugins basing on config etc
             for(Database::IPlugin* plugin: m_db_plugins)
             {
-                if (plugin->backendName() == name.toStdString())
+                if (plugin->backendName() == name)
                 {
                     result = plugin;
                     break;
@@ -87,6 +87,13 @@ namespace
             }
 
             return result;
+        }
+
+        const std::deque<Database::IPlugin *>& getDBPlugins()
+        {
+            find_all_db_plugins();
+
+            return m_db_plugins;
         }
 
     private:
@@ -135,3 +142,10 @@ Database::IPlugin* PluginLoader::getDBPlugin(const QString& name)
     
     return result;
 }
+
+
+const std::deque<Database::IPlugin *>& PluginLoader::getDBPlugins() const
+{
+    return m_impl->m_finder.getDBPlugins();
+}
+

@@ -24,7 +24,6 @@ ver 1.0 requirements:
 - check if tags are being updated correctly in all known cases
 - gui improvements: projects management
 - gui improvements: general enhancements
-- project creation
 
 
 IN PROGRESS:
@@ -58,6 +57,7 @@ DONE:
 - load all database plugins. Choose right backend basing on project settings.
 - introduce project concept
 - database plugin interface enhacements (backend name)
+- project creation
 
 
 DROPPED:

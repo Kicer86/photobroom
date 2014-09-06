@@ -6,6 +6,7 @@
 
 #include "gui_export.h"
 
+class IPluginLoader;
 class IProjectManager;
 
 struct GUI_EXPORT Gui
@@ -15,10 +16,12 @@ struct GUI_EXPORT Gui
     Gui& operator=(const Gui &) = delete;
 
     void set(IProjectManager *);
+    void set(IPluginLoader *);
     void run(int argc, char **argv);
 
     private:
         IProjectManager* m_prjManager;
+        IPluginLoader* m_pluginLoader;
 };
 
 #endif
