@@ -9,6 +9,7 @@
 #include <analyzer/photo_crawler_builder.hpp>
 #include <analyzer/iphoto_crawler.hpp>
 #include <core/tag.hpp>
+#include <core/tag_updater.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 
@@ -97,11 +98,13 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>&
         tags.push_back(photoTags);
     }
 
-    TagDataComposite* tagsData = new TagDataComposite;
+    /*
+    TagUpdater* tagsData = new TagUpdater;
     tagsData->setTagDatas(tags);
 
     std::shared_ptr<ITagData> tagsPtr(tagsData);
     m_tagEditor->setTags(tagsPtr);
+    */
 }
 
 
