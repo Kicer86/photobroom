@@ -46,6 +46,9 @@ namespace Database
 
             return status;
         }
+
+        ProjectInfo(): databaseLocation(), backendName() {}
+        ProjectInfo(const QString& location, const QString& backend): databaseLocation(location), backendName(backend) {}
     };
 
     struct IDatabase;

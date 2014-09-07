@@ -80,9 +80,9 @@ void MainWindow::newProject()
         const QString prjPath   = prjCreatorDialog.getPrjPath();
         const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
 
-        const bool status = m_prjManager->new_prj(prjPath, prjPlugin);
+        const bool creation_status = m_prjManager->new_prj(prjPath, prjPlugin);
 
-        if (status)
+        if (creation_status)
             openProject(prjPath);
     }
 }

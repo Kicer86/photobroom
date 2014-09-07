@@ -8,7 +8,6 @@
 #include <QtPlugin>
 
 #include <database/idatabase.hpp>
-#include <database/idatabase_plugin.hpp>
 #include <database/sql_backends/sql_backend.hpp>
 #include <database/sql_backends/generic_sql_query_constructor.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
@@ -51,7 +50,7 @@ namespace Database
 
             virtual std::unique_ptr<IBackend> constructBackend() override;
             virtual QString backendName() const override;
-            virtual PrjData initPrjDir(const QString&) const override;
+            virtual ProjectInfo initPrjDir(const QString&) const override;
             virtual QLayout* buildDBOptions() override;
     };
 
