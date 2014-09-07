@@ -171,9 +171,11 @@ struct ITagData
         //get list of tags
         virtual TagsList getTags() const = 0;
 
-        //set tag and its values. Overvrite existing tags
+        //set tag and its values.
         virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
         virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
+
+        //set all tags and its values. Clear all existing tags
         virtual void setTags(const TagsList &) = 0;
 
         virtual void clear() = 0;

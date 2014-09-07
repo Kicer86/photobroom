@@ -61,6 +61,7 @@ void TagDataBase::setTag(const TagNameInfo& name, const TagValueInfo& value)
 
 void TagDataBase::setTags(const TagsList& tags)
 {
+    clear();
     for(auto tag: tags)
         setTag(tag.first, tag.second);
 }
@@ -68,8 +69,6 @@ void TagDataBase::setTags(const TagsList& tags)
 
 TagDataBase& TagDataBase::operator=(const TagDataBase& other)
 {
-    clear();
-
     setTags(other.getTags());
 
 	return *this;
