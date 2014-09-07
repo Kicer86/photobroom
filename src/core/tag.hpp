@@ -121,12 +121,12 @@ namespace Tag
     typedef std::map<TagNameInfo, ValuesSet> TagsList;
 
 
-    struct TagInfo
+    struct Info
     {
-            TagInfo(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-            TagInfo(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+            Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
+            Info(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
 
-            TagInfo& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
+            Info& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
             {
                 m_name = data.first;
                 m_values = data.second;
@@ -165,7 +165,7 @@ namespace Tag
             TagNameInfo m_name;
             Tag::ValuesSet m_values;
     };
-    
+
 }
 
 struct ITagData
