@@ -119,71 +119,72 @@ namespace Tag
 {
     typedef std::set<TagValueInfo> ValuesSet;
     typedef std::map<TagNameInfo, ValuesSet> TagsList;
+
+
+    struct TagInfo
+    {
+            TagInfo(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
+            TagInfo(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+
+            TagInfo& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
+            {
+                m_name = data.first;
+                m_values = data.second;
+
+                return *this;
+            }
+
+            QString name() const
+            {
+                return m_name;
+            }
+
+            TagNameInfo getTypeInfo() const
+            {
+                return m_name;
+            }
+
+            const Tag::ValuesSet& values() const
+            {
+                return m_values;
+            }
+
+            QString valuesString() const
+            {
+                QString result;
+
+                for(const QString &str: m_values)
+                {
+                    result += str + " ";                //TODO: temporary
+                }
+
+                return result.simplified();
+            }
+
+        private:
+            TagNameInfo m_name;
+            Tag::ValuesSet m_values;
+    };
+    
 }
 
 struct ITagData
 {
+    virtual ~ITagData();
 
-        struct TagInfo
-        {
-                TagInfo(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-                TagInfo(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+    //get list of tags
+    virtual Tag::TagsList getTags() const = 0;
 
-                TagInfo& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
-                {
-                    m_name = data.first;
-                    m_values = data.second;
+    //set tag and its values.
+    virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) = 0;
+    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
 
-                    return *this;
-                }
+    //set all tags and its values. Clear all existing tags
+    virtual void setTags(const Tag::TagsList &) = 0;
 
-                QString name() const
-                {
-                    return m_name;
-                }
+    virtual void clear() = 0;
 
-                TagNameInfo getTypeInfo() const
-                {
-                    return m_name;
-                }
-
-                const Tag::ValuesSet& values() const
-                {
-                    return m_values;
-                }
-
-                QString valuesString() const
-                {
-                    QString result;
-
-                    for(const QString &str: m_values)
-                    {
-                        result += str + " ";                //TODO: temporary
-                    }
-
-                    return result.simplified();
-                }
-
-            private:
-                TagNameInfo m_name;
-                Tag::ValuesSet m_values;
-        };
-
-        virtual ~ITagData();
-
-        //get list of tags
-        virtual Tag::TagsList getTags() const = 0;
-
-        //set tag and its values.
-        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) = 0;
-        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
-
-        //set all tags and its values. Clear all existing tags
-        virtual void setTags(const Tag::TagsList &) = 0;
-
-        virtual void clear() = 0;
-
-        virtual bool isValid() const = 0;
+    virtual bool isValid() const = 0;
 };
 
 CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);

@@ -83,7 +83,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
             for (auto tagIt: tags)
             {
-                ITagData::TagInfo tag(tagIt);
+                Tag::TagInfo tag(tagIt);
                 TagNameInfo tagInfo(tag.getTypeInfo());
                 addLine(tagInfo, tag.valuesString());
             }
