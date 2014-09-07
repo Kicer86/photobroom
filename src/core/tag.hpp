@@ -217,25 +217,4 @@ class CORE_EXPORT TagData: public TagDataBase
         TagsList m_tags;
 };
 
-
-class CORE_EXPORT TagDataComposite: public TagDataBase
-{
-    public:
-        TagDataComposite();
-        virtual ~TagDataComposite();
-
-        void setTagDatas(const std::vector<std::shared_ptr<ITagData>> &);
-
-        TagsList getTags() const override;
-
-        using TagDataBase::setTag;
-        virtual void setTag(const TagNameInfo& name, const ValuesSet& values) override;
-        virtual void clear() override;
-
-        virtual bool isValid() const override;
-
-    private:
-        std::vector<std::shared_ptr<ITagData>> m_tags;
-};
-
 #endif
