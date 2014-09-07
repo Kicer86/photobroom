@@ -14,12 +14,12 @@ ITagData::~ITagData()
 
 std::ostream& operator<<(std::ostream& stream, const ITagData &tagData)
 {
-    for (std::pair<TagNameInfo, ITagData::ValuesSet> tags: tagData.getTags())
+    for (std::pair<TagNameInfo, Tag::ValuesSet> tags: tagData.getTags())
     {
         stream << tags.first.getName().toStdString() << ": ";
 
-        ITagData::ValuesSet::const_iterator valuesIt = tags.second.cbegin();
-        ITagData::ValuesSet::const_iterator valuesEnd = tags.second.cend();
+        Tag::ValuesSet::const_iterator valuesIt = tags.second.cbegin();
+        Tag::ValuesSet::const_iterator valuesEnd = tags.second.cend();
 
         while (valuesIt != valuesEnd)
         {
@@ -52,14 +52,14 @@ TagDataBase::~TagDataBase()
 
 void TagDataBase::setTag(const TagNameInfo& name, const TagValueInfo& value)
 {
-    ValuesSet values;
+    Tag::ValuesSet values;
     values.insert(value);
 
     this->setTag(name, values);
 }
 
 
-void TagDataBase::setTags(const TagsList& tags)
+void TagDataBase::setTags(const Tag::TagsList& tags)
 {
     clear();
     for(auto tag: tags)
@@ -94,13 +94,13 @@ TagData::~TagData()
 }
 
 
-TagData::TagsList TagData::getTags() const
+Tag::TagsList TagData::getTags() const
 {
     return m_tags;
 }
 
 
-void TagData::setTag(const TagNameInfo& name, const ITagData::ValuesSet& values)
+void TagData::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
 {
     m_tags[name] = values;
 }

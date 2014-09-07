@@ -79,7 +79,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
             m_tagData.reset();
 
             m_entriesManager->removeAllEntries();
-            const ITagData::TagsList& tags = tagData->getTags();
+            const Tag::TagsList& tags = tagData->getTags();
 
             for (auto tagIt: tags)
             {
@@ -131,7 +131,7 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                     const TagNameInfo name = tagEntry->getTagInfo();
                     const QString value = tagEntry->getTagValue();
                     const QStringList values = value.split(name.getSeparator());
-                    const ITagData::ValuesSet vSet(values.begin(), values.end());
+                    const Tag::ValuesSet vSet(values.begin(), values.end());
 
                     m_tagData->setTag(name, vSet);
                 }

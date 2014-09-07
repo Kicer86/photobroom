@@ -33,46 +33,43 @@ TagUpdater::~TagUpdater()
 
 bool TagUpdater::isValid() const
 {
-    return m_photoInfo->getTags().isValid();
+    return true;
 }
 
 
 void TagUpdater::clear()
 {
-    TagData tags;
+    Tag::TagsList tags;
     m_photoInfo->setTags(tags);
 }
 
 
-void TagUpdater::setTags(const ITagData::TagsList& tagInfo)
+void TagUpdater::setTags(const Tag::TagsList& tags)
 {
-    TagData tags;
-    tags.setTags(tagInfo);
-
     m_photoInfo->setTags(tags);
 }
 
 
 void TagUpdater::setTag(const TagNameInfo& name, const TagValueInfo& value)
 {
-    TagData tags = m_photoInfo->getTags();
-    tags.setTag(name, value);
+    Tag::TagsList tags = m_photoInfo->getTags();
+    tags[name] = { value };
 
     m_photoInfo->setTags(tags);
 }
 
 
-void TagUpdater::setTag(const TagNameInfo& name, const ITagData::ValuesSet& values)
+void TagUpdater::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
 {
-    TagData tags = m_photoInfo->getTags();
-    tags.setTag(name, values);
+    Tag::TagsList tags = m_photoInfo->getTags();
+    tags[name] = values;
 
     m_photoInfo->setTags(tags);
 }
 
 
-ITagData::TagsList TagUpdater::getTags() const
+Tag::TagsList TagUpdater::getTags() const
 {
     auto tags = m_photoInfo->getTags();
-    return tags.getTags();
+    return tags;
 }

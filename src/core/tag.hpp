@@ -115,18 +115,20 @@ struct CORE_EXPORT TagValueInfo
     }
 };
 
+namespace Tag
+{
+    typedef std::set<TagValueInfo> ValuesSet;
+    typedef std::map<TagNameInfo, ValuesSet> TagsList;
+}
 
 struct ITagData
 {
-        typedef std::set<TagValueInfo> ValuesSet;
-        typedef std::map<TagNameInfo, ValuesSet> TagsList;
-
         struct TagInfo
         {
-                TagInfo(const TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-                TagInfo(const std::pair<TagNameInfo, ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+                TagInfo(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
+                TagInfo(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
 
-                TagInfo& operator=(const std::pair<TagNameInfo, ValuesSet> &data)
+                TagInfo& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
                 {
                     m_name = data.first;
                     m_values = data.second;
@@ -144,7 +146,7 @@ struct ITagData
                     return m_name;
                 }
 
-                const ValuesSet& values() const
+                const Tag::ValuesSet& values() const
                 {
                     return m_values;
                 }
@@ -163,20 +165,20 @@ struct ITagData
 
             private:
                 TagNameInfo m_name;
-                ValuesSet m_values;
+                Tag::ValuesSet m_values;
         };
 
         virtual ~ITagData();
 
         //get list of tags
-        virtual TagsList getTags() const = 0;
+        virtual Tag::TagsList getTags() const = 0;
 
         //set tag and its values.
-        virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
+        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) = 0;
         virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
 
         //set all tags and its values. Clear all existing tags
-        virtual void setTags(const TagsList &) = 0;
+        virtual void setTags(const Tag::TagsList &) = 0;
 
         virtual void clear() = 0;
 
@@ -194,7 +196,7 @@ class CORE_EXPORT TagDataBase: public ITagData
 
         using ITagData::setTag;
         virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
-        virtual void setTags(const TagsList &) override;
+        virtual void setTags(const Tag::TagsList &) override;
 
         TagDataBase& operator=(const TagDataBase &);
 };
@@ -206,17 +208,17 @@ class CORE_EXPORT TagData: public TagDataBase
         TagData(const TagData &);
         virtual ~TagData();
 
-        virtual TagsList getTags() const override;
+        virtual Tag::TagsList getTags() const override;
 
         using TagDataBase::setTag;
         using TagDataBase::operator=;
-        virtual void setTag(const TagNameInfo &, const ValuesSet &) override;
+        virtual void setTag(const TagNameInfo &, const Tag::ValuesSet &) override;
         virtual void clear() override;
 
         virtual bool isValid() const override;
 
     private:
-        TagsList m_tags;
+        Tag::TagsList m_tags;
 };
 
 #endif

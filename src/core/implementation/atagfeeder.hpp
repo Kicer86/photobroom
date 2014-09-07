@@ -43,11 +43,11 @@ class ATagFeeder: public ITagFeeder
 
     private:
         // ITagFeeder:
-        std::unique_ptr<TagDataBase> getTagsFor(const QString& path) override;
-        void update(TagDataBase *, const QString& path) override;
+        Tag::TagsList getTagsFor(const QString& path) override;
+        //void update(Tag::TagsList *, const QString& path) override;
         //
 
-        void feedDateAndTime(ITagData *);
+        void feedDateAndTime(Tag::TagsList &);
 };
 
 #endif // A_TAG_FEEDER_HPP

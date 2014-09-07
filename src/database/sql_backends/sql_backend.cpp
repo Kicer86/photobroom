@@ -255,9 +255,9 @@ namespace Database
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeHash(int photo_id, const IPhotoInfo::Hash &) const;
-            bool storeTags(int photo_id, const ITagData &) const;
+            bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
-            TagData getTagsFor(const IPhotoInfo::Id &);
+            Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
             Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
             Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
@@ -562,7 +562,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeTags(int photo_id, const ITagData& tags) const
+    bool ASqlBackend::Data::storeTags(int photo_id, const Tag::TagsList& tagsList) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
@@ -572,8 +572,6 @@ namespace Database
         const QString deleteQuery = QString("DELETE FROM " TAB_TAGS " WHERE photo_id=\"%1\"").arg(photo_id);
         status = exec(deleteQuery, &query);
 
-        ITagData::TagsList tagsList = tags.getTags();
-
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
             //store tag name
@@ -582,7 +580,7 @@ namespace Database
             if (tag_id)
             {
                 //store tag values
-                const ITagData::ValuesSet& values = it->second;
+                const Tag::ValuesSet& values = it->second;
 
                 for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
                 {
@@ -677,7 +675,7 @@ namespace Database
             status = id.valid();
 
         //store used tags
-        TagData tags = data->getTags();
+        Tag::TagsList tags = data->getTags();
 
         if (status)
             status = storeTags(id, tags);
@@ -709,7 +707,7 @@ namespace Database
         photoInfo->initID(id);
 
         //load tags
-        const TagData tagData = getTagsFor(id);
+        Tag::TagsList tagData = getTagsFor(id);
 
         photoInfo->setTags(tagData);
 
@@ -727,7 +725,7 @@ namespace Database
     }
 
 
-    TagData ASqlBackend::Data::getTagsFor(const IPhotoInfo::Id& photoId)
+    Tag::TagsList ASqlBackend::Data::getTagsFor(const IPhotoInfo::Id& photoId)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
@@ -745,7 +743,7 @@ namespace Database
                            .arg(photoId.value());
 
         const bool status = exec(queryStr, &query);
-        TagData tagData;
+        Tag::TagsList tagData;
 
         while(status && query.next())
         {
@@ -753,7 +751,7 @@ namespace Database
             const QString value = query.value(2).toString();
             const unsigned int tagType = query.value(3).toInt();
 
-            tagData.setTag(TagNameInfo(name, tagType), value);
+            tagData[TagNameInfo(name, tagType)] = { value };
         }
 
         return tagData;

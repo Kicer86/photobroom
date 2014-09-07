@@ -39,28 +39,22 @@ ATagFeeder::~ATagFeeder()
 }
 
 
-std::unique_ptr<TagDataBase> ATagFeeder::getTagsFor(const QString& path)
+Tag::TagsList ATagFeeder::getTagsFor(const QString& path)
 {
     QByteArray data;
     PhotosManager::instance()->getPhoto(path, &data);
 
     collect(data);
 
-    std::unique_ptr<TagDataBase> tagData(new TagData);
+    Tag::TagsList tagData;
 
-    feedDateAndTime(tagData.get());
+    feedDateAndTime(tagData);
 
     return tagData;
 }
 
 
-void ATagFeeder::update(TagDataBase *, const QString& path)
-{
-
-}
-
-
-void ATagFeeder::feedDateAndTime(ITagData* tagData)
+void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
 {
     const std::string dateTimeOrirignal = get(DateTimeOriginal);
 
@@ -74,7 +68,7 @@ void ATagFeeder::feedDateAndTime(ITagData* tagData)
 
         date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
 
-        tagData->setTag(BaseTags::get(BaseTagsList::Date), date);
-        tagData->setTag(BaseTags::get(BaseTagsList::Time), time);
+        tagData[BaseTags::get(BaseTagsList::Date)] = { date };
+        tagData[BaseTags::get(BaseTagsList::Time)] = { time };
     }
 }

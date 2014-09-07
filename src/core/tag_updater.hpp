@@ -34,10 +34,10 @@ class TagUpdater : public ITagData
 
         virtual bool isValid() const override;
         virtual void clear() override;
-        virtual void setTags(const ITagData::TagsList& ) override;
+        virtual void setTags(const Tag::TagsList& ) override;
         virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) override;
-        virtual void setTag(const TagNameInfo& name, const ITagData::ValuesSet& values) override;
-        virtual ITagData::TagsList getTags() const override;
+        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) override;
+        virtual Tag::TagsList getTags() const override;
 
     private:
         IPhotoInfo::Ptr m_photoInfo;

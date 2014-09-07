@@ -90,6 +90,7 @@ void PhotosStagingArea::pathToAnalyze(const QString& path)
 
 void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>& photos)
 {
+    /*
     std::vector<std::shared_ptr<ITagData>> tags;
 
     for(const IPhotoInfo::Ptr& photo: photos)
@@ -98,7 +99,6 @@ void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>&
         tags.push_back(photoTags);
     }
 
-    /*
     TagUpdater* tagsData = new TagUpdater;
     tagsData->setTagDatas(tags);
 
