@@ -21,22 +21,26 @@
 #define TAGUPDATER_H
 
 #include <core/tag.hpp>
+#include <database/iphoto_info.hpp>
 
 class TagUpdater : public ITagData
 {
     public:
-        TagUpdater();
+        TagUpdater(const IPhotoInfo::Ptr &);
         TagUpdater(const TagUpdater &) = delete;
         virtual ~TagUpdater();
 
         TagUpdater& operator=(const TagUpdater &) = delete;
 
-        virtual bool isValid();
-        virtual void clear();
-        virtual void setTags(const ITagData::TagsList& );
-        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value);
-        virtual void setTag(const TagNameInfo& name, const ITagData::ValuesSet& values);
-        virtual ITagData::TagsList getTags();
+        virtual bool isValid() const override;
+        virtual void clear() override;
+        virtual void setTags(const ITagData::TagsList& ) override;
+        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) override;
+        virtual void setTag(const TagNameInfo& name, const ITagData::ValuesSet& values) override;
+        virtual ITagData::TagsList getTags() const override;
+
+    private:
+        IPhotoInfo::Ptr m_photoInfo;
 };
 
 #endif // TAGUPDATER_H

@@ -19,7 +19,7 @@
 
 #include "tag_updater.hpp"
 
-TagUpdater::TagUpdater()
+TagUpdater::TagUpdater(const IPhotoInfo::Ptr& photo): m_photoInfo(photo)
 {
 
 }
@@ -31,32 +31,48 @@ TagUpdater::~TagUpdater()
 }
 
 
-bool TagUpdater::isValid()
+bool TagUpdater::isValid() const
 {
-
+    return m_photoInfo->getTags().isValid();
 }
+
 
 void TagUpdater::clear()
 {
-
+    TagData tags;
+    m_photoInfo->setTags(tags);
 }
 
-void TagUpdater::setTags(const ITagData::TagsList& )
+
+void TagUpdater::setTags(const ITagData::TagsList& tagInfo)
 {
+    TagData tags;
+    tags.setTags(tagInfo);
 
+    m_photoInfo->setTags(tags);
 }
+
 
 void TagUpdater::setTag(const TagNameInfo& name, const TagValueInfo& value)
 {
+    TagData tags = m_photoInfo->getTags();
+    tags.setTag(name, value);
 
+    m_photoInfo->setTags(tags);
 }
+
 
 void TagUpdater::setTag(const TagNameInfo& name, const ITagData::ValuesSet& values)
 {
+    TagData tags = m_photoInfo->getTags();
+    tags.setTag(name, values);
 
+    m_photoInfo->setTags(tags);
 }
 
-ITagData::TagsList TagUpdater::getTags()
-{
 
+ITagData::TagsList TagUpdater::getTags() const
+{
+    auto tags = m_photoInfo->getTags();
+    return tags.getTags();
 }
