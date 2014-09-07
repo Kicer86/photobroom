@@ -28,6 +28,7 @@ set(CORE_SOURCES
     implementation/photos_manager.cpp
     implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
+    implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
     )
@@ -40,6 +41,7 @@ set(CORE_HEADERS
     photos_manager.hpp
     tag.hpp
     tag_feeder_factory.hpp
+    tag_updater.hpp
     task_executor.hpp
     time_guardian.hpp
     implementation/atagfeeder.hpp
