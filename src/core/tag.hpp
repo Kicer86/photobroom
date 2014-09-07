@@ -123,6 +123,7 @@ namespace Tag
 
 struct ITagData
 {
+
         struct TagInfo
         {
                 TagInfo(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
@@ -186,39 +187,5 @@ struct ITagData
 };
 
 CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);
-
-class CORE_EXPORT TagDataBase: public ITagData
-{
-    public:
-        TagDataBase();
-        TagDataBase(const TagDataBase &) = delete;   //possible pure virtual calls when final object is not ready
-        virtual ~TagDataBase();
-
-        using ITagData::setTag;
-        virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
-        virtual void setTags(const Tag::TagsList &) override;
-
-        TagDataBase& operator=(const TagDataBase &);
-};
-
-class CORE_EXPORT TagData: public TagDataBase
-{
-    public:
-        TagData();
-        TagData(const TagData &);
-        virtual ~TagData();
-
-        virtual Tag::TagsList getTags() const override;
-
-        using TagDataBase::setTag;
-        using TagDataBase::operator=;
-        virtual void setTag(const TagNameInfo &, const Tag::ValuesSet &) override;
-        virtual void clear() override;
-
-        virtual bool isValid() const override;
-
-    private:
-        Tag::TagsList m_tags;
-};
 
 #endif
