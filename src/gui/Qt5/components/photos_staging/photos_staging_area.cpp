@@ -16,6 +16,57 @@
 #include "components/tag_editor/tag_editor_widget.hpp"
 #include "photos_view_widget.hpp"
 
+struct TagGroupUpdater: ITagData
+{
+    TagGroupUpdater(const std::vector<IPhotoInfo::Ptr>& photos): m_tagUpdaters()
+    {
+        for(const IPhotoInfo::Ptr& photo: photos)
+            m_tagUpdaters.emplace_back(photo);
+    }
+
+    virtual void clear()
+    {
+        perform(&TagUpdater::clear);
+    }
+
+    virtual Tag::TagsList getTags() const
+    {
+
+    }
+
+    virtual bool isValid() const
+    {
+    }
+
+    virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+    {
+        auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const Tag::ValuesSet &)>(&TagUpdater::setTag);
+        perform<const TagNameInfo &, const Tag::ValuesSet &>(f, name, values);
+    }
+
+    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value)
+    {
+        auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const TagValueInfo &)>(&TagUpdater::setTag);
+        perform<const TagNameInfo &, const TagValueInfo &>(f, name, value);
+    }
+
+    virtual void setTags(const Tag::TagsList& tags)
+    {
+        perform<const Tag::TagsList &>(&TagUpdater::setTags, tags);
+    }
+
+    private:
+        std::deque<TagUpdater> m_tagUpdaters;
+
+        template<typename... Args>
+        void perform(void (TagUpdater::*f)(Args...), Args... args)
+        {
+            for(TagUpdater& tagUpdater: m_tagUpdaters)
+                (tagUpdater.*f)(args...);
+        }
+};
+
+
 struct PhotosReceiver: IMediaNotification
 {
     PhotosReceiver(): m_view(nullptr) {}
