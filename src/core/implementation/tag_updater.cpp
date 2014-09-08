@@ -52,24 +52,20 @@ void TagUpdater::setTags(const Tag::TagsList& tags)
 
 void TagUpdater::setTag(const TagNameInfo& name, const TagValueInfo& value)
 {
-    Tag::TagsList tags = m_photoInfo->getTags();
-    tags[name] = { value };
-
-    m_photoInfo->setTags(tags);
+    auto tags = m_photoInfo->accessTags();
+    tags.get()[name] = { value };
 }
 
 
 void TagUpdater::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
 {
-    Tag::TagsList tags = m_photoInfo->getTags();
-    tags[name] = values;
-
-    m_photoInfo->setTags(tags);
+    auto tags = m_photoInfo->accessTags();
+    tags.get()[name] = values;
 }
 
 
 Tag::TagsList TagUpdater::getTags() const
 {
-    auto tags = m_photoInfo->getTags();
+    Tag::TagsList tags = m_photoInfo->getTags();
     return tags;
 }
