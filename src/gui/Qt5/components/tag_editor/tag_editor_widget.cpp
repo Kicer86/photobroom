@@ -130,8 +130,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
                     m_tagData->setTag(name, vSet);
                 }
-
-                std::cout << *m_tagData << std::endl;
             }
         }
 
