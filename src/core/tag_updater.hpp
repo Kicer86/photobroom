@@ -23,7 +23,7 @@
 #include <core/tag.hpp>
 #include <database/iphoto_info.hpp>
 
-class TagUpdater : public ITagData
+class CORE_EXPORT TagUpdater: public ITagData
 {
     public:
         TagUpdater(const IPhotoInfo::Ptr &);

@@ -168,7 +168,7 @@ namespace Tag
 
 }
 
-struct ITagData
+struct CORE_EXPORT ITagData
 {
     virtual ~ITagData();
 
