@@ -73,9 +73,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         void setTags(const std::shared_ptr<ITagData>& tagData)
         {
-            if (m_tagData.get() != nullptr)
-                std::cout << "saving tags: " << (*m_tagData) << std::endl;
-
             m_tagData.reset();
 
             m_entriesManager->removeAllEntries();
@@ -90,8 +87,6 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
             m_tagData = tagData;
             m_tag->enable(m_tagData->isValid());
-
-            std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
 
     private:
