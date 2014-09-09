@@ -31,11 +31,32 @@ struct TagGroupUpdater: ITagData
 
     virtual Tag::TagsList getTags() const
     {
+        Tag::TagsList tags;
 
+        for(const TagUpdater& tagUpdater: m_tagUpdaters)
+        {
+            const Tag::TagsList l_tags = tagUpdater.getTags();
+
+            for(auto it = l_tags.begin(); it != l_tags.end(); ++it)
+            {
+                auto f_it = tags.find(it->first);      //check if this tag already exists in main set of tags
+
+                if (f_it != tags.end())  //it does
+                {
+                    Tag::ValuesSet new_value( { TagValueInfo("<multiple values>") } );
+                    f_it->second = new_value;
+                }
+                else
+                    tags.insert(*it);
+            }
+        }
+
+        return tags;
     }
 
     virtual bool isValid() const
     {
+        return true;
     }
 
     virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
@@ -141,21 +162,10 @@ void PhotosStagingArea::pathToAnalyze(const QString& path)
 
 void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>& photos)
 {
-    /*
-    std::vector<std::shared_ptr<ITagData>> tags;
+    TagGroupUpdater* tagsUpdater = new TagGroupUpdater(photos);
 
-    for(const IPhotoInfo::Ptr& photo: photos)
-    {
-        auto photoTags = std::make_shared<TagData>(photo->getTags());
-        tags.push_back(photoTags);
-    }
-
-    TagUpdater* tagsData = new TagUpdater;
-    tagsData->setTagDatas(tags);
-
-    std::shared_ptr<ITagData> tagsPtr(tagsData);
+    std::shared_ptr<ITagData> tagsPtr(tagsUpdater);
     m_tagEditor->setTags(tagsPtr);
-    */
 }
 
 
