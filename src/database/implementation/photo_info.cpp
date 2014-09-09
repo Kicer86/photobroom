@@ -223,7 +223,7 @@ void PhotoInfo::initExifData(const Tag::TagsList& tags)
 }
 
 
-ThreadSafeResource< Tag::TagsList >::Accessor&& PhotoInfo::accessTags()
+ThreadSafeResource< Tag::TagsList >::Accessor PhotoInfo::accessTags()
 {
     auto result = m_data->tags.lock();
 

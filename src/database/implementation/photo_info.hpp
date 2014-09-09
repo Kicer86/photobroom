@@ -50,7 +50,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         void initExifData(const Tag::TagsList &);   // initial tags set
 
         //set data
-        virtual ThreadSafeResource< Tag::TagsList >::Accessor&& accessTags();
+        virtual ThreadSafeResource< Tag::TagsList >::Accessor accessTags();
         virtual void setTags(const Tag::TagsList &);
 
         //flags
