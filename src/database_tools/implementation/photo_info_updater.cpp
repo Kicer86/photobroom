@@ -102,7 +102,8 @@ struct TagsCollector: public ITaskExecutor::ITask
         std::shared_ptr<ITagFeeder> feeder = m_tagFeederFactory->get();
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
-        m_photoInfo->initExifData(p_tags);
+        m_photoInfo->setTags(p_tags);
+        m_photoInfo->markExifDataLoaded(true);
     }
 
     IPhotoInfo::Ptr m_photoInfo;
