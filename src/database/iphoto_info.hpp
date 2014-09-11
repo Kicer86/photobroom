@@ -23,7 +23,10 @@
 #include <memory>
 #include <string>
 
+#include <core/tag.hpp>
+
 #include "database_export.h"
+#include <palgorithm/ts_resource.hpp>
 
 class QString;
 class QPixmap;
@@ -78,7 +81,7 @@ struct IPhotoInfo
 
     //data getting
     virtual const QString& getPath() const = 0;
-    virtual const TagData& getTags() const = 0;             // access to tags
+    virtual const Tag::TagsList& getTags() const = 0;       // access to tags
     virtual const QPixmap& getThumbnail() const = 0;        // a temporary thumbnail may be returned when final one is not yet generated.
     virtual const Hash& getHash() const = 0;                // Do not call until isHashLoaded()
     virtual Id getID() const = 0;
@@ -97,13 +100,14 @@ struct IPhotoInfo
     virtual void initHash(const Hash &) = 0;
     virtual void initThumbnail(const QPixmap &) = 0;
     virtual void initID(const Id &) = 0;
-    virtual void initExifData(const TagDataBase &) = 0;     // initial tags set
 
     //setting data
-    virtual void setTags(const TagDataBase &) = 0;          //set tags
+    virtual ThreadSafeResource<Tag::TagsList>::Accessor accessTags() = 0;   // gives exclusive access to tags so they can be modified in conveniant fashion
+    virtual void setTags(const Tag::TagsList &) = 0;        //set tags
 
     //flags
     virtual void markStagingArea(bool = true) = 0;          // mark photo as stage area's photo
+    virtual void markExifDataLoaded(bool = true) = 0;       // mark photo with ExifDataLoaded flag
     virtual Flags getFlags() const = 0;
 };
 

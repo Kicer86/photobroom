@@ -95,8 +95,7 @@ void FiltersMatcher::visit(Database::FilterDescription* filter)
 {
     bool result = false;
 
-    const TagDataBase& tags = m_photo->getTags();
-    const ITagData::TagsList tagsList = tags.getTags();
+    const Tag::TagsList& tagsList = m_photo->getTags();
 
     auto it = tagsList.find(filter->tagName);
 

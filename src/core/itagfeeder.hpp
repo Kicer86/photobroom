@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "tag.hpp"
+
 class QString;
 
 class TagDataBase;
@@ -13,8 +15,8 @@ struct ITagFeeder
 {
     virtual ~ITagFeeder() {}
 
-    virtual std::unique_ptr<TagDataBase> getTagsFor(const QString& path) = 0;
-    virtual void update(TagDataBase *, const QString& path) = 0;
+    virtual Tag::TagsList getTagsFor(const QString& path) = 0;
+    //virtual void update(TagDataBase *, const QString& path) = 0;
 };
 
 struct ITagFeederFactory

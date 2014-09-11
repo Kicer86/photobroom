@@ -11,13 +11,14 @@
 #include "../iphoto_info.hpp"
 
 #include "database_export.h"
+#include <OpenLibrary/palgorithm/ts_resource.hpp>
 
 class QPixmap;
 
 struct TagData;
 struct HashAssigner;
 
-class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
+class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ThreadSafeResource<Tag::TagsList>::INotify
 {
     public:
         PhotoInfo(const QString &path);          //load all data from provided path
@@ -28,7 +29,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
 
         //data getting
         const QString& getPath() const;
-        const TagData& getTags() const;             // a access to tags
+        const Tag::TagsList& getTags() const;       // a access to tags
         const QPixmap& getThumbnail() const;        // a temporary thumbnail may be returned when final one is not yet generated.
         const Hash& getHash() const;                // Do not call until isHashLoaded()
         Id getID() const;
@@ -47,13 +48,14 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         void initHash(const Hash &);
         void initThumbnail(const QPixmap &);
         void initID(const Id &);
-        void initExifData(const TagDataBase &);     // initial tags set
 
         //set data
-        virtual void setTags(const TagDataBase &);
+        virtual ThreadSafeResource< Tag::TagsList >::Accessor accessTags();
+        virtual void setTags(const Tag::TagsList &);
 
         //flags
         void markStagingArea(bool = true);          // mark photo as stage area's photo
+        void markExifDataLoaded(bool = true);
         Flags getFlags() const;
 
     private:
@@ -61,6 +63,9 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         std::unique_ptr<Data> m_data;
 
         void updated();
+
+        //INotify:
+        void unlocked() override;
 };
 
 #endif

@@ -77,7 +77,7 @@ struct PhotoInfo::Data
     QString path;
     std::set<IObserver *> m_observers;
 
-    ThreadSafeResource<TagData> tags;
+    ThreadSafeResource<Tag::TagsList> tags;
     ThreadSafeResource<PhotoInfo::Hash> hash;
     ThreadSafeResource<QPixmap> m_thumbnail;
     ThreadSafeResource<PhotoInfo::Flags> m_flags;
@@ -107,7 +107,7 @@ const QString& PhotoInfo::getPath() const
 }
 
 
-const TagData& PhotoInfo::getTags() const
+const Tag::TagsList& PhotoInfo::getTags() const
 {
     auto result = m_data->tags.lock();
 
@@ -176,14 +176,6 @@ void PhotoInfo::unregisterObserver(IObserver* observer)
 }
 
 
-
-void PhotoInfo::updated()
-{
-    for(IObserver* observer: m_data->m_observers)
-        observer->photoUpdated(this);
-}
-
-
 void PhotoInfo::initHash(const Hash& hash)
 {
     assert(isHashLoaded() == false);
@@ -212,18 +204,15 @@ void PhotoInfo::initID(const PhotoInfo::Id& id)
 }
 
 
-void PhotoInfo::initExifData(const TagDataBase& tags)
+ThreadSafeResource< Tag::TagsList >::Accessor PhotoInfo::accessTags()
 {
-    assert(isExifDataLoaded() == false);
+    auto result = m_data->tags.lock(this);
 
-    m_data->tags.lock().get() = tags;
-    m_data->m_flags.lock()->exifLoaded = true;
-
-    updated();
+    return std::move(result);
 }
 
 
-void PhotoInfo::setTags(const TagDataBase& tags)
+void PhotoInfo::setTags(const Tag::TagsList& tags)
 {
     m_data->tags.lock().get() = tags;
 
@@ -246,3 +235,23 @@ PhotoInfo::Flags PhotoInfo::getFlags() const
     return result;
 }
 
+
+void PhotoInfo::markExifDataLoaded(bool on)
+{
+    m_data->m_flags.lock()->exifLoaded = on;
+
+    updated();
+}
+
+
+void PhotoInfo::updated()
+{
+    for(IObserver* observer: m_data->m_observers)
+        observer->photoUpdated(this);
+}
+
+
+void PhotoInfo::unlocked()
+{
+    updated();
+}

@@ -9,11 +9,84 @@
 #include <analyzer/photo_crawler_builder.hpp>
 #include <analyzer/iphoto_crawler.hpp>
 #include <core/tag.hpp>
+#include <core/tag_updater.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 
 #include "components/tag_editor/tag_editor_widget.hpp"
 #include "photos_view_widget.hpp"
+
+struct TagGroupUpdater: ITagData
+{
+    TagGroupUpdater(const std::vector<IPhotoInfo::Ptr>& photos): m_tagUpdaters()
+    {
+        for(const IPhotoInfo::Ptr& photo: photos)
+            m_tagUpdaters.emplace_back(photo);
+    }
+
+    virtual void clear()
+    {
+        perform(&TagUpdater::clear);
+    }
+
+    virtual Tag::TagsList getTags() const
+    {
+        Tag::TagsList tags;
+
+        for(const TagUpdater& tagUpdater: m_tagUpdaters)
+        {
+            const Tag::TagsList l_tags = tagUpdater.getTags();
+
+            for(auto it = l_tags.begin(); it != l_tags.end(); ++it)
+            {
+                auto f_it = tags.find(it->first);      //check if this tag already exists in main set of tags
+
+                if (f_it != tags.end())  //it does
+                {
+                    Tag::ValuesSet new_value( { TagValueInfo("<multiple values>") } );
+                    f_it->second = new_value;
+                }
+                else
+                    tags.insert(*it);
+            }
+        }
+
+        return tags;
+    }
+
+    virtual bool isValid() const
+    {
+        return true;
+    }
+
+    virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+    {
+        auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const Tag::ValuesSet &)>(&TagUpdater::setTag);
+        perform<const TagNameInfo &, const Tag::ValuesSet &>(f, name, values);
+    }
+
+    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value)
+    {
+        auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const TagValueInfo &)>(&TagUpdater::setTag);
+        perform<const TagNameInfo &, const TagValueInfo &>(f, name, value);
+    }
+
+    virtual void setTags(const Tag::TagsList& tags)
+    {
+        perform<const Tag::TagsList &>(&TagUpdater::setTags, tags);
+    }
+
+    private:
+        std::deque<TagUpdater> m_tagUpdaters;
+
+        template<typename... Args>
+        void perform(void (TagUpdater::*f)(Args...), Args... args)
+        {
+            for(TagUpdater& tagUpdater: m_tagUpdaters)
+                (tagUpdater.*f)(args...);
+        }
+};
+
 
 struct PhotosReceiver: IMediaNotification
 {
@@ -89,18 +162,9 @@ void PhotosStagingArea::pathToAnalyze(const QString& path)
 
 void PhotosStagingArea::viewSelectionChanged(const std::vector<IPhotoInfo::Ptr>& photos)
 {
-    std::vector<std::shared_ptr<ITagData>> tags;
+    TagGroupUpdater* tagsUpdater = new TagGroupUpdater(photos);
 
-    for(const IPhotoInfo::Ptr& photo: photos)
-    {
-        auto photoTags = std::make_shared<TagData>(photo->getTags());
-        tags.push_back(photoTags);
-    }
-
-    TagDataComposite* tagsData = new TagDataComposite;
-    tagsData->setTagDatas(tags);
-
-    std::shared_ptr<ITagData> tagsPtr(tagsData);
+    std::shared_ptr<ITagData> tagsPtr(tagsUpdater);
     m_tagEditor->setTags(tagsPtr);
 }
 

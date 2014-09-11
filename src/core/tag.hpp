@@ -115,127 +115,78 @@ struct CORE_EXPORT TagValueInfo
     }
 };
 
-
-struct ITagData
+namespace Tag
 {
-        typedef std::set<TagValueInfo> ValuesSet;
-        typedef std::map<TagNameInfo, ValuesSet> TagsList;
+    typedef std::set<TagValueInfo> ValuesSet;
+    typedef std::map<TagNameInfo, ValuesSet> TagsList;
 
-        struct TagInfo
-        {
-                TagInfo(const TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-                TagInfo(const std::pair<TagNameInfo, ValuesSet> &data): m_name(data.first), m_values(data.second) {}
 
-                TagInfo& operator=(const std::pair<TagNameInfo, ValuesSet> &data)
+    struct Info
+    {
+            Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
+            Info(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+
+            Info& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
+            {
+                m_name = data.first;
+                m_values = data.second;
+
+                return *this;
+            }
+
+            QString name() const
+            {
+                return m_name;
+            }
+
+            TagNameInfo getTypeInfo() const
+            {
+                return m_name;
+            }
+
+            const Tag::ValuesSet& values() const
+            {
+                return m_values;
+            }
+
+            QString valuesString() const
+            {
+                QString result;
+
+                for(const QString &str: m_values)
                 {
-                    m_name = data.first;
-                    m_values = data.second;
-
-                    return *this;
+                    result += str + " ";                //TODO: temporary
                 }
 
-                QString name() const
-                {
-                    return m_name;
-                }
+                return result.simplified();
+            }
 
-                TagNameInfo getTypeInfo() const
-                {
-                    return m_name;
-                }
+        private:
+            TagNameInfo m_name;
+            Tag::ValuesSet m_values;
+    };
 
-                const ValuesSet& values() const
-                {
-                    return m_values;
-                }
+}
 
-                QString valuesString() const
-                {
-                    QString result;
+struct CORE_EXPORT ITagData
+{
+    virtual ~ITagData();
 
-                    for(const QString &str: m_values)
-                    {
-                        result += str + " ";                //TODO: temporary
-                    }
+    //get list of tags
+    virtual Tag::TagsList getTags() const = 0;
 
-                    return result.simplified();
-                }
+    //set tag and its values.
+    virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) = 0;
+    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
 
-            private:
-                TagNameInfo m_name;
-                ValuesSet m_values;
-        };
+    //set all tags and its values. Clear all existing tags
+    virtual void setTags(const Tag::TagsList &) = 0;
 
-        virtual ~ITagData();
+    virtual void clear() = 0;
 
-        //get list of tags
-        virtual TagsList getTags() const = 0;
-
-        //set tag and its values. Overvrite existing tags
-        virtual void setTag(const TagNameInfo& name, const ValuesSet& values) = 0;
-        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
-        virtual void setTags(const TagsList &) = 0;
-
-        virtual void clear() = 0;
-
-        virtual bool isValid() const = 0;
+    virtual bool isValid() const = 0;
 };
 
 CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);
-
-class CORE_EXPORT TagDataBase: public ITagData
-{
-    public:
-        TagDataBase();
-        TagDataBase(const TagDataBase &) = delete;   //possible pure virtual calls when final object is not ready
-        virtual ~TagDataBase();
-
-        using ITagData::setTag;
-        virtual void setTag(const TagNameInfo &, const TagValueInfo &) override;
-        virtual void setTags(const TagsList &) override;
-
-        TagDataBase& operator=(const TagDataBase &);
-};
-
-class CORE_EXPORT TagData: public TagDataBase
-{
-    public:
-        TagData();
-        TagData(const TagData &);
-        virtual ~TagData();
-
-        virtual TagsList getTags() const override;
-
-        using TagDataBase::setTag;
-        using TagDataBase::operator=;
-        virtual void setTag(const TagNameInfo &, const ValuesSet &) override;
-        virtual void clear() override;
-
-        virtual bool isValid() const override;
-
-    private:
-        TagsList m_tags;
-};
-
-
-class CORE_EXPORT TagDataComposite: public TagDataBase
-{
-    public:
-        TagDataComposite();
-        virtual ~TagDataComposite();
-
-        void setTagDatas(const std::vector<std::shared_ptr<ITagData>> &);
-
-        TagsList getTags() const override;
-
-        using TagDataBase::setTag;
-        virtual void setTag(const TagNameInfo& name, const ValuesSet& values) override;
-        virtual void clear() override;
-
-        virtual bool isValid() const override;
-
-    private:
-        std::vector<std::shared_ptr<ITagData>> m_tags;
-};
 
 #endif

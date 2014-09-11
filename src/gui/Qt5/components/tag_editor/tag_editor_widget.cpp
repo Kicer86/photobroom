@@ -73,25 +73,20 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
 
         void setTags(const std::shared_ptr<ITagData>& tagData)
         {
-            if (m_tagData.get() != nullptr)
-                std::cout << "saving tags: " << (*m_tagData) << std::endl;
-
             m_tagData.reset();
 
             m_entriesManager->removeAllEntries();
-            const ITagData::TagsList& tags = tagData->getTags();
+            const Tag::TagsList& tags = tagData->getTags();
 
             for (auto tagIt: tags)
             {
-                ITagData::TagInfo tag(tagIt);
+                Tag::Info tag(tagIt);
                 TagNameInfo tagInfo(tag.getTypeInfo());
                 addLine(tagInfo, tag.valuesString());
             }
 
             m_tagData = tagData;
             m_tag->enable(m_tagData->isValid());
-
-            std::cout << "got tags: " << (*m_tagData) << std::endl;
         }
 
     private:
@@ -131,12 +126,10 @@ struct TagEditorWidget::TagsManager: public TagsManagerSlots
                     const TagNameInfo name = tagEntry->getTagInfo();
                     const QString value = tagEntry->getTagValue();
                     const QStringList values = value.split(name.getSeparator());
-                    const ITagData::ValuesSet vSet(values.begin(), values.end());
+                    const Tag::ValuesSet vSet(values.begin(), values.end());
 
                     m_tagData->setTag(name, vSet);
                 }
-
-                std::cout << *m_tagData << std::endl;
             }
         }
 
