@@ -20,13 +20,13 @@ ver 1.0 requirements:
 - log files
 - new view for photos
 - in view add entry for not matching photos
-- store 'exif loaded' flag in database
 - gui improvements: projects management
 - gui improvements: general enhancements
 
 
 IN PROGRESS:
 - check if tags are being updated correctly in all known cases
+- store 'exif loaded' flag in database
 
 
 DONE:
