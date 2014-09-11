@@ -681,11 +681,12 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
     PhotosMatcher matcher;
     matcher.set(this);
     matcher.set(m_data->m_model);
+
     const bool match = matcher.doesMatchModelFilters(photoInfo);
+    IdxData* idx = findIdxDataFor(photoInfo);
 
     if (match)
     {
-        IdxData* idx = findIdxDataFor(photoInfo);
         if (idx != nullptr)
         {
             QModelIndex index = getIndex(idx);
@@ -695,6 +696,9 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
         else  // photo is not managed yet, but maybe we should manage it now, after change?
             movePhotoToRightParent(photoInfo);
     }
+    else // photo doesn't match filters, but maybe it did?
+        if (idx != nullptr)
+            movePhotoToRightParent(photoInfo);
 }
 
 
