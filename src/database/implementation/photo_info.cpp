@@ -176,13 +176,6 @@ void PhotoInfo::unregisterObserver(IObserver* observer)
 }
 
 
-void PhotoInfo::updated()
-{
-    for(IObserver* observer: m_data->m_observers)
-        observer->photoUpdated(this);
-}
-
-
 void PhotoInfo::initHash(const Hash& hash)
 {
     assert(isHashLoaded() == false);
@@ -211,20 +204,9 @@ void PhotoInfo::initID(const PhotoInfo::Id& id)
 }
 
 
-void PhotoInfo::initExifData(const Tag::TagsList& tags)
-{
-    assert(isExifDataLoaded() == false);
-
-    m_data->tags.lock().get() = tags;
-    m_data->m_flags.lock()->exifLoaded = true;
-
-    updated();
-}
-
-
 ThreadSafeResource< Tag::TagsList >::Accessor PhotoInfo::accessTags()
 {
-    auto result = m_data->tags.lock();
+    auto result = m_data->tags.lock(this);
 
     return std::move(result);
 }
@@ -253,3 +235,23 @@ PhotoInfo::Flags PhotoInfo::getFlags() const
     return result;
 }
 
+
+void PhotoInfo::markExifDataLoaded(bool on)
+{
+    m_data->m_flags.lock()->exifLoaded = on;
+
+    updated();
+}
+
+
+void PhotoInfo::updated()
+{
+    for(IObserver* observer: m_data->m_observers)
+        observer->photoUpdated(this);
+}
+
+
+void PhotoInfo::unlocked()
+{
+    updated();
+}
