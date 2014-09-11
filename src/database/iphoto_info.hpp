@@ -100,7 +100,6 @@ struct IPhotoInfo
     virtual void initHash(const Hash &) = 0;
     virtual void initThumbnail(const QPixmap &) = 0;
     virtual void initID(const Id &) = 0;
-    virtual void initExifData(const Tag::TagsList &) = 0;   // initial tags set
 
     //setting data
     virtual ThreadSafeResource<Tag::TagsList>::Accessor accessTags() = 0;   // gives exclusive access to tags so they can be modified in conveniant fashion
@@ -108,6 +107,7 @@ struct IPhotoInfo
 
     //flags
     virtual void markStagingArea(bool = true) = 0;          // mark photo as stage area's photo
+    virtual void markExifDataLoaded(bool = true) = 0;       // mark photo with ExifDataLoaded flag
     virtual Flags getFlags() const = 0;
 };
 
