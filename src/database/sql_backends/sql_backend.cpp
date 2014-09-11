@@ -260,6 +260,7 @@ namespace Database
             Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
             Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
             Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
+            void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
 
             //for friends:
@@ -721,6 +722,9 @@ namespace Database
         if (hash)
             photoInfo->initHash(*hash);
 
+        //load flags
+        updateFlagsOn(photoInfo.get(), id);
+
         return photoInfo;
     }
 
@@ -802,6 +806,28 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    void ASqlBackend::Data::updateFlagsOn(IPhotoInfo* photoInfo, const IPhotoInfo::Id& id)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
+        QSqlQuery query(db);
+        QString queryStr = QString("SELECT staging_area, tags_loaded FROM %1 WHERE %1.photo_id = '%2'");
+
+        queryStr = queryStr.arg(TAB_FLAGS);
+        queryStr = queryStr.arg(id.value());
+
+        const bool status = exec(queryStr, &query);
+
+        if(status && query.next())
+        {
+            QVariant variant = query.value(0);
+            photoInfo->markStagingArea(variant.toString() == "TRUE");
+
+            variant = query.value(1);
+            photoInfo->markExifDataLoaded(variant.toString() == "TRUE");
+        }
     }
 
 
