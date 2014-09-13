@@ -6,7 +6,7 @@
 
 #include "configuration_export.h"
 
-namespace Consts
+namespace Configuration
 {
 
     struct CONFIGURATION_EXPORT Constraints
@@ -15,7 +15,15 @@ namespace Consts
         static const unsigned int database_tag_value_len;
     };
 
+    struct CONFIGURATION_EXPORT BasicKeys
+    {
 
+    };
+
+    struct CONFIGURATION_EXPORT Constants
+    {
+        static const char* const configLocation;
+    };
 
 }
 #endif

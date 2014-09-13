@@ -30,6 +30,8 @@ class QFileSystemWatcher;
 class QTimer;
 class QEventLoop;
 
+struct IConfiguration;
+
 struct DiskObserver: public QObject
 {
         Q_OBJECT
@@ -42,6 +44,7 @@ struct DiskObserver: public QObject
         DiskObserver& operator=(const DiskObserver &) = delete;
 
         bool waitForChange();
+        void set(IConfiguration *);
 
     private slots:
         void dirChanged(const QString &);
@@ -69,11 +72,13 @@ class MySqlServer
         bool operator==(const MySqlServer &) = delete;
 
         QString run_server(const QString &);  //returns socket or null if failed
+        void set(IConfiguration *);
 
     private:
         std::unique_ptr<QProcess> m_serverProcess;
+        IConfiguration* m_configuration;
 
-        std::string getDaemonPath() const;
+        QString getDaemonPath() const;
         bool initDB(const std::string &, const std::string &) const;
         bool createConfig(const QString &) const;
         bool waitForServerToStart(const QString &) const;

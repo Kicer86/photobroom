@@ -29,6 +29,7 @@ namespace Database
             virtual QString prepareFindTableQuery(const QString &) const override;
             virtual QString prepareColumnDescription(const ColDefinition&) const override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
+            virtual void set(IConfiguration *);
 
             //ISqlQueryConstructor:
             virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;

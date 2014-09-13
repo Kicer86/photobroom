@@ -7,10 +7,6 @@
 #include <QStringList>
 #include <QDir>
 
-#include <configuration/configurationfactory.hpp>
-#include <configuration/iconfiguration.hpp>
-#include <configuration/entrydata.hpp>
-#include <database/database_builder.hpp>
 #include <sql_backends/table_definition.hpp>
 #include <sql_backends/query_structs.hpp>
 
@@ -93,6 +89,12 @@ namespace Database
     const ISqlQueryConstructor* SQLiteBackend::getQueryConstructor() const
     {
         return this;
+    }
+
+
+    void SQLiteBackend::set(IConfiguration*)
+    {
+
     }
 
 

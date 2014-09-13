@@ -12,7 +12,7 @@
 #include "iconfiguration.hpp"
 
 
-DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data(), m_initializers()
+DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data()
 {
 
 }
@@ -24,9 +24,9 @@ DefaultConfigurationPrivate::~DefaultConfigurationPrivate()
 }
 
 
-std::string DefaultConfigurationPrivate::getConfigDir() const
+QString DefaultConfigurationPrivate::getConfigDir() const
 {
-    const std::string result = System::getApplicationConfigDir();
+    const QString result = System::getApplicationConfigDir().c_str();
 
     return result;
 }
@@ -94,22 +94,20 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
             {
                 //just do nothing
             }
+            else if (level == 2 && name == "keys")
+                status = parseXml_Keys(&reader);
+            else if (level == 2 && name == "defaults")
+                status = parseXml_DefaultKeys(&reader);
             else
-                if (level == 2 && name == "keys")
-                    status = parseXml_Keys(&reader);
-                else
-                    if (level == 2 && name == "defaults")
-                        status = parseXml_DefaultKeys(&reader);
-                    else
-                    {
-                        std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
-                                  << name.toString().toStdString()
-                                  << ")"
-                                  << std::endl;
+            {
+                std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
+                            << name.toString().toStdString()
+                            << ")"
+                            << std::endl;
 
-                        status = false;
-                        break;
-                    }
+                status = false;
+                break;
+            }
         }
 
         if (reader.isEndElement())
@@ -122,26 +120,9 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
 }
 
 
-void DefaultConfigurationPrivate::registerInitializer(Configuration::IInitializer* i)
-{
-    m_initializers.push_back(i);
-}
-
-
 bool DefaultConfigurationPrivate::load()
 {
-    bool status = true;
-
-    for(Configuration::IInitializer* i: m_initializers)
-    {
-        const std::string xml = i->getXml();
-        status = useXml(xml.c_str());
-
-        if (!status)
-            break;
-    }
-
-    return status;
+    return true;
 }
 
 
@@ -225,7 +206,7 @@ bool DefaultConfigurationPrivate::parseXml_DefaultKeys(QXmlStreamReader* reader)
                 introduceKey(key);
 
                 //set default value
-                Configuration::EntryData entry(key, value.toString().toStdString());
+                Configuration::EntryData entry(key, value.toString());
                 addEntry(key, entry);
             }
             else

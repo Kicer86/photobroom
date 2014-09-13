@@ -28,7 +28,6 @@
 #include <QFileSystemWatcher>
 #include <QEventLoop>
 
-#include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/database_builder.hpp>
@@ -137,6 +136,7 @@ namespace
         "[client]\n"
         "default-character-set=utf8\n";
 
+        /*
     struct MySqlServerInit: public Configuration::IInitializer
     {
 
@@ -160,6 +160,7 @@ namespace
         }
 
     } init;
+    */
 }
 
 
@@ -189,6 +190,7 @@ DiskObserver::~DiskObserver()
     delete m_eventLoop;
 }
 
+
 bool DiskObserver::waitForChange()
 {
     const bool exists = QFile::exists(this->m_socketPath);
@@ -204,6 +206,19 @@ bool DiskObserver::waitForChange()
     }
 
     return result == 0;
+}
+
+
+void DiskObserver::set(IConfiguration* configuration)
+{
+    const QString configuration_xml =
+    "<configuration>                                        "
+    "    <keys>                                             "
+    "        <key name='" + QString(MySQL_daemon) + "' />   "
+    "    </keys>                                            "
+    "</configuration>                                       ";
+
+    configuration->registerXml(configuration_xml);
 }
 
 
@@ -236,7 +251,7 @@ void DiskObserver::eventOccured()
 
 /*******************************************************************************************/
 
-MySqlServer::MySqlServer(): m_serverProcess(new QProcess)
+MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullptr)
 {
 
 }
@@ -256,32 +271,38 @@ MySqlServer::~MySqlServer()
 QString MySqlServer::run_server(const QString& basePath)
 {
     QString result = "";
-    const std::string path = getDaemonPath();
+    const QString path = getDaemonPath();
 
-    if (path.empty() == false)
-        result = startProcess(path.c_str(), basePath);
+    if (path.isEmpty() == false)
+        result = startProcess(path, basePath);
 
     return result;
 }
 
 
-std::string MySqlServer::getDaemonPath() const
+void MySqlServer::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
+
+
+}
+
+
+QString MySqlServer::getDaemonPath() const
 {
     //get path to server
-    std::shared_ptr<IConfiguration> config = ConfigurationFactory::get();
+    Optional<Configuration::EntryData> daemonPath = m_configuration->findEntry(MySQL_daemon);
 
-    Optional<Configuration::EntryData> daemonPath = config->findEntry(MySQL_daemon);
-
-    std::string path;
+    QString path;
 
     if (daemonPath)
         path = daemonPath->value();
     else
     {
-        path = System::findProgram("mysqld");
+        path = System::findProgram("mysqld").c_str();
 
         Configuration::EntryData mysqldPath(MySQL_daemon, path);
-        config->addEntry(mysqldPath);
+        m_configuration->addEntry(mysqldPath);
     }
 
     return path;

@@ -7,7 +7,6 @@
 #include <QSqlDatabase>
 #include <QDir>
 
-#include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/database_builder.hpp>
@@ -24,6 +23,11 @@ namespace Database
         Data(): m_server(), m_dbLocation(), m_initialized(false) {}
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
+
+        void set(IConfiguration* configuration)
+        {
+            m_server.set(configuration);
+        }
 
         ~Data() { }
 
@@ -115,6 +119,12 @@ namespace Database
     const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
     {
         return this;
+    }
+
+
+    void MySqlBackend::set(IConfiguration* configuration)
+    {
+        m_data->set(configuration);
     }
 
 

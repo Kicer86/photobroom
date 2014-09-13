@@ -24,10 +24,12 @@
 #include <memory>
 
 #include "iconfiguration.hpp"
+#include "configuration_export.h"
+
 
 struct DefaultConfigurationPrivate;
 
-class DefaultConfiguration: public IConfiguration, public Configuration::IInitializer
+class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
 {
     public:
         DefaultConfiguration();
@@ -39,15 +41,13 @@ class DefaultConfiguration: public IConfiguration, public Configuration::IInitia
         virtual void addEntry(const Configuration::EntryData &) override;
         virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) override;
         virtual void registerKey(const Configuration::ConfigurationKey &) override;
-        virtual void registerInitializer(Configuration::IInitializer*) override;
+        virtual void registerXml(const QString &) override;
         virtual bool load() override;
-
-        virtual std::string getXml() override;
 
     private:
         std::unique_ptr<DefaultConfigurationPrivate> m_impl;
 
-        virtual bool useXml(const std::string &);
+        virtual bool useXml(const QString &);
 };
 
 #endif // DEFAULT_CONFIGURATION_HPP

@@ -38,7 +38,7 @@ namespace Database
         table_tag_names(TAB_TAG_NAMES,
                         {
                             { "id", ColDefinition::Type::ID },
-                              QString("name VARCHAR(%1) NOT NULL").arg(Consts::Constraints::database_tag_name_len),
+                              QString("name VARCHAR(%1) NOT NULL").arg(Configuration::Constraints::database_tag_name_len),
                               "type INT NOT NULL"
                         },
                         {
@@ -50,7 +50,7 @@ namespace Database
         table_tags(TAB_TAGS,
                    {
                        { "id", ColDefinition::Type::ID },
-                         QString("value VARCHAR(%1)").arg(Consts::Constraints::database_tag_value_len),
+                         QString("value VARCHAR(%1)").arg(Configuration::Constraints::database_tag_value_len),
                          "name_id INTEGER NOT NULL",
                          "photo_id INTEGER NOT NULL",
                          "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)",

@@ -5,7 +5,6 @@ TODO:
 - use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
 - performance: when updating photo, do not update all, update only required data
 - finding and reacting on duplicates
-- update photo in db when tags change
 - rename hash to sha256
 - when new node (IdxData) is dynamically added, move it to right position (sorted)
 - cleanups in cmake: move 'test' stuff to 'test' directories
@@ -16,7 +15,6 @@ ver 1.0 requirements:
 - do stress and crash tests
 - gui improvements: move stagging area to menu->add photos
 - use more smart tags updating
-- rethink configuration concepts
 - log files
 - new view for photos
 - in view add entry for not matching photos
@@ -58,6 +56,8 @@ DONE:
 - project creation
 - check if tags are being updated correctly in all known cases
 - store 'exif loaded' flag in database
+- update photo in db when tags change
+- rethink configuration concepts
 
 
 DROPPED:
