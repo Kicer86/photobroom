@@ -11,7 +11,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
 set(CONFIG_SOURCES
-    private/configurationfactory.cpp
     private/constants.cpp
     private/entrydata.cpp
     private/default_configuration.cpp
@@ -19,7 +18,6 @@ set(CONFIG_SOURCES
    )
 
 set(CONFIG_HEADERS
-    configurationfactory.hpp
     constants.hpp
     entrydata.hpp
     iconfiguration.hpp
