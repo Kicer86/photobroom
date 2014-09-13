@@ -24,7 +24,7 @@
 
 namespace Database
 {
-    class IDatabase;
+    struct IDatabase;
 }
 
 struct IProject

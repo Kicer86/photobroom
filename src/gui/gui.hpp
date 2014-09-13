@@ -6,8 +6,8 @@
 
 #include "gui_export.h"
 
-class IPluginLoader;
-class IProjectManager;
+struct IPluginLoader;
+struct IProjectManager;
 
 struct GUI_EXPORT Gui
 {

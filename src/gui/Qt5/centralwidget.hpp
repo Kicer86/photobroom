@@ -7,7 +7,7 @@
 
 namespace Database
 {
-    class IDatabase;
+    struct IDatabase;
 }
 
 class MainViewWidget;

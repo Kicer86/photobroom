@@ -6,9 +6,9 @@
 
 #include <QMainWindow>
 
-class IPluginLoader;
-class IProject;
-class IProjectManager;
+struct IPluginLoader;
+struct IProject;
+struct IProjectManager;
 
 class CentralWidget;
 

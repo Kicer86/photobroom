@@ -27,7 +27,7 @@ class QtExtChooseFile;
 class QLineEdit;
 class QGroupBox;
 
-class IPluginLoader;
+struct IPluginLoader;
 
 namespace Database
 {

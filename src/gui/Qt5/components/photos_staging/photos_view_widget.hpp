@@ -17,7 +17,7 @@ class QtExtChooseFile;
 
 namespace Database
 {
-    class IDatabase;
+    struct IDatabase;
 }
 
 class StagingDataModel;
