@@ -23,7 +23,6 @@ ver 1.0 requirements:
 
 
 IN PROGRESS:
-- rethink configuration concepts
 
 
 DONE:
@@ -58,6 +57,7 @@ DONE:
 - check if tags are being updated correctly in all known cases
 - store 'exif loaded' flag in database
 - update photo in db when tags change
+- rethink configuration concepts
 
 
 DROPPED:
