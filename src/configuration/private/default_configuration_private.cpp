@@ -94,22 +94,20 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
             {
                 //just do nothing
             }
+            else if (level == 2 && name == "keys")
+                status = parseXml_Keys(&reader);
+            else if (level == 2 && name == "defaults")
+                status = parseXml_DefaultKeys(&reader);
             else
-                if (level == 2 && name == "keys")
-                    status = parseXml_Keys(&reader);
-                else
-                    if (level == 2 && name == "defaults")
-                        status = parseXml_DefaultKeys(&reader);
-                    else
-                    {
-                        std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
-                                  << name.toString().toStdString()
-                                  << ")"
-                                  << std::endl;
+            {
+                std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
+                            << name.toString().toStdString()
+                            << ")"
+                            << std::endl;
 
-                        status = false;
-                        break;
-                    }
+                status = false;
+                break;
+            }
         }
 
         if (reader.isEndElement())

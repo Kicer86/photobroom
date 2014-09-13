@@ -123,6 +123,7 @@ namespace Database
 
     void Builder::set(IConfiguration* configuration)
     {
+        /*
         m_impl->m_configuration = configuration;
 
         Optional<Configuration::EntryData> entry = m_impl->m_configuration->findEntry(Configuration::Constants::configLocation);
@@ -143,6 +144,7 @@ namespace Database
         "</configuration>                                       ";
 
         configuration->registerXml(configuration_xml);
+        */
     }
 
 
