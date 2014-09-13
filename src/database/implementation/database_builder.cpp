@@ -26,9 +26,9 @@
 #include <fstream>
 #include <map>
 
-#include <configuration/configurationfactory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
+#include <configuration/constants.hpp>
 #include <core/plugin_loader.hpp>
 #include <database_tools/photos_analyzer.hpp>
 
@@ -46,60 +46,6 @@ namespace Database
 {
 
     const char* databaseLocation = "Database::Backend::DataLocation";
-
-    namespace
-    {
-
-        struct StreamFactory: public IStreamFactory
-        {
-            virtual ~StreamFactory()
-            {
-
-            }
-
-            virtual std::shared_ptr<std::iostream> openStream(const std::string &filename,
-                    std::ios_base::openmode mode) override
-            {
-                auto stream = std::make_shared<std::fstream>();
-
-                stream->open(filename.c_str(), mode);
-
-                return stream;
-            }
-        };
-
-        //class which initializes configuration with db entries
-        struct ConfigurationInitializer: public Configuration::IInitializer
-        {
-            ConfigurationInitializer()
-            {
-
-            }
-
-            virtual std::string getXml()
-            {
-                std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-                Optional<Configuration::EntryData> entry = config->findEntry(Configuration::configLocation);
-
-                assert(entry.is_initialized());
-
-                const std::string configPath = entry->value();
-                const std::string dbPath = configPath + "/database";
-
-                const std::string configuration_xml =
-                    "<configuration>                                        "
-                    "   <keys>                                              "
-                    "   </keys>                                             "
-                    "                                                       "
-                    "   <defaults>                                          "
-                    "       <key name='Database::Backend::DataLocation' value='" + dbPath + "' />"
-                    "   </defaults>                                         "
-                    "</configuration>                                       ";
-
-                return configuration_xml;
-            }
-        };
-    }
 
     struct Builder::Impl
     {
@@ -147,11 +93,11 @@ namespace Database
 
         std::map<ProjectInfo, DatabaseObjects> m_backends;
         IPluginLoader* pluginLoader;
+        IConfiguration* m_configuration;
         std::shared_ptr<IBackend> defaultBackend;
-        ConfigurationInitializer configInitializer;
         PhotoInfoCreator photoInfoCreator;
 
-        Impl(): m_backends(), pluginLoader(nullptr), defaultBackend(), configInitializer(), photoInfoCreator()
+        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator()
         {}
 
     };
@@ -169,16 +115,34 @@ namespace Database
     }
 
 
-    void Builder::initConfig()
-    {
-        std::shared_ptr< ::IConfiguration > config = ConfigurationFactory::get();
-        config->registerInitializer(&m_impl->configInitializer);
-    }
-
-
     void Builder::set(IPluginLoader* pluginLoader)
     {
         m_impl->pluginLoader = pluginLoader;
+    }
+
+
+    void Builder::set(IConfiguration* configuration)
+    {
+        m_impl->m_configuration = configuration;
+
+        Optional<Configuration::EntryData> entry = m_impl->m_configuration->findEntry(Configuration::Constants::configLocation);
+
+        assert(entry.is_initialized());
+
+        const QString configPath = entry->value();
+        const QString dbPath = configPath + "/database";
+
+        const QString configuration_xml =
+        "<configuration>                                        "
+        "   <keys>                                              "
+        "   </keys>                                             "
+        "                                                       "
+        "   <defaults>                                          "
+        "       <key name='Database::Backend::DataLocation' value='" + dbPath + "' />"
+        "   </defaults>                                         "
+        "</configuration>                                       ";
+
+        configuration->registerXml(configuration_xml);
     }
 
 

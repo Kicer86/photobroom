@@ -18,7 +18,7 @@
 */
 
 
-#include "default_configuration.hpp"
+#include "configuration.hpp"
 
 #include <iostream>
 
@@ -28,13 +28,29 @@
 
 #include "entrydata.hpp"
 #include "default_configuration_private.hpp"
+#include "constants.hpp"
 
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPrivate)
 {
-    registerInitializer(this);
+    const QString baseConfig =
+    "<configuration>"
 
-    std::cout << "DefaultConfiguration: using " << m_impl->getConfigDir() << " "
+    "    <!-- introduce known configuration keys -->"
+    "    <keys>"
+    "        <key name='" + QString(Configuration::Constants::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+    "    </keys>"
+
+    "    <!-- default values -->"
+    "    <defaults>"
+    "        <key name='" + QString(Configuration::Constants::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+    "    </defaults>"
+
+    "</configuration>";
+
+    registerXml(baseConfig);
+
+    std::cout << "DefaultConfiguration: using " << m_impl->getConfigDir().toStdString() << " "
               << "for broom's base dir" << std::endl;
 }
 
@@ -76,9 +92,9 @@ void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey& ke
 }
 
 
-void DefaultConfiguration::registerInitializer(Configuration::IInitializer* i)
+void DefaultConfiguration::registerXml(const QString& xml)
 {
-    m_impl->registerInitializer(i);
+    useXml(xml);
 }
 
 
@@ -88,29 +104,8 @@ bool DefaultConfiguration::load()
 }
 
 
-std::string DefaultConfiguration::getXml()
+bool DefaultConfiguration::useXml(const QString& xml)
 {
-    const std::string baseConfig =
-        "<configuration>"
-
-        "    <!-- introduce known configuration keys -->"
-        "    <keys>"
-        "        <key name='" + std::string(Configuration::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
-        "    </keys>"
-
-        "    <!-- default values -->"
-        "    <defaults>"
-        "        <key name='" + std::string(Configuration::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
-        "    </defaults>"
-
-        "</configuration>";
-
-    return baseConfig;
-}
-
-
-bool DefaultConfiguration::useXml(const std::string& xml)
-{
-    return m_impl->useXml(xml.c_str());
+    return m_impl->useXml(xml);
 }
 

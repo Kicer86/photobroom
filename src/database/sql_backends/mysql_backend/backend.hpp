@@ -28,6 +28,7 @@ namespace Database
             virtual QString prepareColumnDescription(const ColDefinition &) const override;
             virtual bool onAfterOpen() override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
+            virtual void set(IConfiguration *) override;
 
             // GenericSqlQueryConstructor:
             virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;

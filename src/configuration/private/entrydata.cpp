@@ -180,7 +180,7 @@ namespace Configuration
     {
         Data(): m_key(), m_value() {}
 
-        Data(const ConfigurationKey& key, const std::string& value): m_key(key), m_value(value)
+        Data(const ConfigurationKey& key, const QString& value): m_key(key), m_value(value)
         {
 
         }
@@ -188,7 +188,7 @@ namespace Configuration
         virtual ~Data() {}
 
         ConfigurationKey m_key;
-        std::string m_value;
+        QString m_value;
     };
 
 
@@ -198,7 +198,7 @@ namespace Configuration
     }
 
 
-    EntryData::EntryData(const ConfigurationKey& k, const std::string& v): m_data(new Data(k, v))
+    EntryData::EntryData(const ConfigurationKey& k, const QString& v): m_data(new Data(k, v))
     {
 
     }
@@ -219,7 +219,7 @@ namespace Configuration
     }
 
 
-    std::string EntryData::value() const
+    QString EntryData::value() const
     {
         return m_data->m_value;
     }

@@ -37,13 +37,6 @@ namespace Configuration
     //Base configuration keys
     extern CONFIGURATION_EXPORT const char* configLocation;       //application dir with configuration,
     //databases etc
-
-    struct IInitializer
-    {
-        virtual ~IInitializer() {}
-
-        virtual std::string getXml() = 0;
-    };
 }
 
 struct IConfiguration
@@ -62,8 +55,8 @@ struct IConfiguration
     // and dev-warning will be printed in output.
     virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
 
-    //function registers configuration initializer which will be used to load key names and defaults
-    virtual void registerInitializer(Configuration::IInitializer *) = 0;
+    //function registers configuration key names and defaults from XML string
+    virtual void registerXml(const QString &) = 0;
 
     // Add entry to config
     virtual void addEntry(const Configuration::EntryData &) = 0;

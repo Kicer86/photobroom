@@ -59,12 +59,12 @@ namespace Configuration
     {
         public:
             EntryData();
-            EntryData(const ConfigurationKey &, const std::string &);
+            EntryData(const ConfigurationKey &, const QString &);
             virtual ~EntryData();
             virtual bool operator==(const EntryData& other) const;
             EntryData& operator=(const EntryData &) = default;
 
-            std::string value() const;
+            QString value() const;
             ConfigurationKey key() const;
 
         private:
