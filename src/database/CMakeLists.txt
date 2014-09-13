@@ -47,7 +47,7 @@ if(BUILD_TESTS)
                             TEST_LIBRARY
                                 GMOCK
        )
-    target_link_libraries(database_test configuration core database)
+    target_link_libraries(database_test core database)
     qt5_use_modules(database_test Core Gui)
 
     turnOnCpp11(database_test)
@@ -56,7 +56,7 @@ endif(BUILD_TESTS)
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
-target_link_libraries(database configuration core database_tools)
+target_link_libraries(database core database_tools)
 qt5_use_modules(database Core Gui)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
