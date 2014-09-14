@@ -7,6 +7,7 @@
 #include <memory>
 
 #include <core/plugin_loader.hpp>
+#include <core/logger.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -15,6 +16,7 @@
 int main(int argc, char **argv)
 {
     // build objects
+    Logger logger;
     DefaultConfiguration configuration;
 
     PluginLoader pluginLoader;
