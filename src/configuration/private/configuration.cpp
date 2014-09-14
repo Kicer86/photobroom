@@ -38,12 +38,12 @@ DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPri
 
     "    <!-- introduce known configuration keys -->"
     "    <keys>"
-    "        <key name='" + QString(Configuration::Constants::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+    "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
     "    </keys>"
 
     "    <!-- default values -->"
     "    <defaults>"
-    "        <key name='" + QString(Configuration::Constants::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+    "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
     "    </defaults>"
 
     "</configuration>";

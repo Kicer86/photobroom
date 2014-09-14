@@ -15,15 +15,10 @@ namespace Configuration
         static const unsigned int database_tag_value_len;
     };
 
-    struct CONFIGURATION_EXPORT BasicKeys
+    namespace BasicKeys
     {
-
-    };
-
-    struct CONFIGURATION_EXPORT Constants
-    {
-        static const char* const configLocation;
-    };
+        const char* const configLocation = "Application::ConfigDir";
+    }
 
 }
 #endif
