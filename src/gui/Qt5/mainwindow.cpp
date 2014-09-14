@@ -61,11 +61,14 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::openProject(const QString& prjFile)
 {
-    std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
-    m_currentPrj = prj;
-    Database::IDatabase* db = m_currentPrj->getDatabase();
+    if (prjFile.isEmpty() == false)
+    {
+        std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
+        m_currentPrj = prj;
+        Database::IDatabase* db = m_currentPrj->getDatabase();
 
-    m_centralWidget->setDatabase(db);
+        m_centralWidget->setDatabase(db);
+    }
 }
 
 
