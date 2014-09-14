@@ -9,6 +9,7 @@ TODO:
 - when new node (IdxData) is dynamically added, move it to right position (sorted)
 - cleanups in cmake: move 'test' stuff to 'test' directories
 - cleanups in cmake: nicer dealing with alternative libraries
+- built in sha algorithms
 
 
 ver 1.0 requirements:
