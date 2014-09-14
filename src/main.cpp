@@ -16,8 +16,10 @@
 int main(int argc, char **argv)
 {
     // build objects
-    Logger logger;
     DefaultConfiguration configuration;
+
+    Logger logger;
+    logger.set(&configuration);
 
     PluginLoader pluginLoader;
     Database::Builder database_builder;
