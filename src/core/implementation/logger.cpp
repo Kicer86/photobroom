@@ -29,3 +29,16 @@ Logger::~Logger()
 {
 
 }
+
+
+void Logger::log(const char* utility, ILogger::Severity severity, const std::string& message)
+{
+    log( {utility}, severity, message);
+}
+
+
+void Logger::log(std::vector<const char *> utility, ILogger::Severity severity, const std::string& message)
+{
+    
+}
+

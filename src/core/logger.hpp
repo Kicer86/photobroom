@@ -22,7 +22,9 @@
 
 #include "ilogger.hpp"
 
-class Logger: public ILogger
+#include "core_export.h"
+
+class CORE_EXPORT Logger: public ILogger
 {
     public:
         Logger();
@@ -30,6 +32,9 @@ class Logger: public ILogger
         ~Logger();
 
         Logger& operator=(const Logger& other) = delete;
+
+        virtual void log(const char* utility, Severity, const std::string& message) override;
+        virtual void log(std::vector< const char* > utility, Severity, const std::string& message) override;
 };
 
 #endif // LOGGER_HPP
