@@ -18,7 +18,7 @@ struct ILogger
     };
 
     virtual void log(const char* utility, Severity, const std::string& message) = 0;
-    virtual void log(std::vector<const char *> utility, Severity, const std::string& message) = 0;
+    virtual void log(const std::vector<const char *>& utility, Severity, const std::string& message) = 0;
 };
 
 #endif

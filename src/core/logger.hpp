@@ -20,10 +20,14 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
+#include <string>
+#include <map>
+
 #include "ilogger.hpp"
 
 #include "core_export.h"
 
+struct IConfiguration;
 class CORE_EXPORT Logger: public ILogger
 {
     public:
@@ -33,8 +37,17 @@ class CORE_EXPORT Logger: public ILogger
 
         Logger& operator=(const Logger& other) = delete;
 
+        void set(IConfiguration *);
+
         virtual void log(const char* utility, Severity, const std::string& message) override;
-        virtual void log(std::vector< const char* > utility, Severity, const std::string& message) override;
+        virtual void log(const std::vector<const char *>& utility, Severity, const std::string& message) override;
+
+    private:
+        IConfiguration* m_configuration;
+        std::map<std::string, std::ostream *> m_files;
+
+        std::string getPath(const std::vector<const char *> &);
+        std::ostream* getFile(const std::string &);
 };
 
 #endif // LOGGER_HPP

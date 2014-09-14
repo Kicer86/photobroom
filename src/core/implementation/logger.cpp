@@ -19,7 +19,11 @@
 
 #include "logger.hpp"
 
-Logger::Logger()
+#include <cassert>
+#include <iostream>
+#include <fstream>
+
+Logger::Logger(): m_configuration(nullptr)
 {
 
 }
@@ -27,7 +31,14 @@ Logger::Logger()
 
 Logger::~Logger()
 {
+    for(auto entry: m_files)
+        delete entry.second;
+}
 
+
+void Logger::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
 }
 
 
@@ -37,8 +48,46 @@ void Logger::log(const char* utility, ILogger::Severity severity, const std::str
 }
 
 
-void Logger::log(std::vector<const char *> utility, ILogger::Severity severity, const std::string& message)
+void Logger::log(const std::vector<const char *>& utility, ILogger::Severity severity, const std::string& message)
 {
-    
+    assert(m_configuration != nullptr);
+
+
 }
 
+
+std::string Logger::getPath(const std::vector<const char *>& utility)
+{
+    std::string result;
+
+    if (utility.empty() == false)
+    {
+        size_t i = 0;
+        for(; i < utility.size() - 1; i++)
+            result = result + utility[i] + "/";
+
+        result = result + utility[i] + ".log";
+    }
+
+    return result;
+}
+
+
+std::ostream* Logger::getFile(const std::string& path)
+{
+    auto it = m_files.find(path);
+
+    if (it == m_files.end())
+    {
+        std::fstream* file = new std::fstream;
+
+        file->open(path, std::ios_base::app | std::ios_base::out);
+
+        auto data = std::pair<std::string, std::ostream *>(path, file);
+        auto iit = m_files.insert(data);
+
+        it= iit.first;
+    }
+
+    return it->second;
+}
