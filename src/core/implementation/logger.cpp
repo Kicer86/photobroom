@@ -22,6 +22,37 @@
 #include <cassert>
 #include <iostream>
 #include <fstream>
+#include <chrono>
+#include <iomanip>
+
+#include <sstream>
+
+template<typename R, typename T>
+R lexical_cast(const T& value)
+{
+    std::stringstream str;
+    R result;
+
+    str << value;
+    str >> result;
+
+    return result;
+}
+
+
+namespace
+{
+    std::string put_time(const std::tm* t)
+    {
+        std::string result;
+
+        result = result + lexical_cast<std::string>(t->tm_hour) + ":";
+        result = result + lexical_cast<std::string>(t->tm_min) + ":";
+        result = result + lexical_cast<std::string>(t->tm_sec);
+
+        return result;
+    }
+}
 
 Logger::Logger(): m_configuration(nullptr)
 {
@@ -52,11 +83,15 @@ void Logger::log(const std::vector<const char *>& utility, ILogger::Severity sev
 {
     assert(m_configuration != nullptr);
 
+    const std::string path = getPath(utility);
+    std::ostream* file = getFile(path);
 
+    *file << currentTime() + ": ";
+    *file << message << std::endl;
 }
 
 
-std::string Logger::getPath(const std::vector<const char *>& utility)
+std::string Logger::getPath(const std::vector<const char *>& utility) const
 {
     std::string result;
 
@@ -91,3 +126,12 @@ std::ostream* Logger::getFile(const std::string& path)
 
     return it->second;
 }
+
+
+std::string Logger::currentTime() const
+{
+    auto now = std::chrono::system_clock::now();
+    auto now_c = std::chrono::system_clock::to_time_t(now);
+    return put_time(std::localtime(&now_c));
+}
+
