@@ -94,6 +94,8 @@ namespace Database
             virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
 
+            virtual void set(ILogger *) override final;
+
             bool checkStructure();
     };
 

@@ -25,6 +25,7 @@ int main(int argc, char **argv)
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
     database_builder.set(&configuration);
+    database_builder.set(&logger);
 
     ProjectManager prjManager;
     prjManager.set(&database_builder);
@@ -32,7 +33,7 @@ int main(int argc, char **argv)
     // init configuration
     configuration.load();
 
-    const std::string basePath = System::getApplicationConfigDir() + "logs";
+    const std::string basePath = System::getApplicationConfigDir() + "/logs";
     auto severity = Logger::Severity::Debug;
     logger.setPath(basePath);
     logger.setLevel(severity);
