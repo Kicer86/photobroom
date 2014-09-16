@@ -27,7 +27,7 @@
 
 #include "core_export.h"
 
-struct IConfiguration;
+
 class CORE_EXPORT Logger: public ILogger
 {
     public:
@@ -37,13 +37,15 @@ class CORE_EXPORT Logger: public ILogger
 
         Logger& operator=(const Logger& other) = delete;
 
-        void set(IConfiguration *);
+        void setPath(const std::string &);
+        void setLevel(Severity);
 
         virtual void log(const char* utility, Severity, const std::string& message) override;
         virtual void log(const std::vector<const char *>& utility, Severity, const std::string& message) override;
 
     private:
-        IConfiguration* m_configuration;
+        std::string m_basePath;
+        Severity m_severity;
         std::map<std::string, std::ostream *> m_files;
 
         std::string getPath(const std::vector<const char *> &) const;

@@ -27,6 +27,12 @@
 
 #include <sstream>
 
+#include <QString>
+
+#include <configuration/iconfiguration.hpp>
+#include <configuration/entrydata.hpp>
+#include <configuration/constants.hpp>
+
 template<typename R, typename T>
 R lexical_cast(const T& value)
 {
@@ -54,7 +60,7 @@ namespace
     }
 }
 
-Logger::Logger(): m_configuration(nullptr)
+Logger::Logger(): m_basePath(""), m_severity(Severity::Warning), m_files()
 {
 
 }
@@ -67,9 +73,15 @@ Logger::~Logger()
 }
 
 
-void Logger::set(IConfiguration* configuration)
+void Logger::setPath(const std::string& path)
 {
-    m_configuration = configuration;
+    m_basePath = path;
+}
+
+
+void Logger::setLevel(ILogger::Severity severity)
+{
+    m_severity = severity;
 }
 
 
@@ -81,7 +93,7 @@ void Logger::log(const char* utility, ILogger::Severity severity, const std::str
 
 void Logger::log(const std::vector<const char *>& utility, ILogger::Severity severity, const std::string& message)
 {
-    assert(m_configuration != nullptr);
+    assert(m_basePath.empty() == false);
 
     const std::string path = getPath(utility);
     std::ostream* file = getFile(path);
@@ -93,15 +105,15 @@ void Logger::log(const std::vector<const char *>& utility, ILogger::Severity sev
 
 std::string Logger::getPath(const std::vector<const char *>& utility) const
 {
-    std::string result;
+    std::string result(m_basePath);
 
     if (utility.empty() == false)
     {
         size_t i = 0;
-        for(; i < utility.size() - 1; i++)
-            result = result + utility[i] + "/";
+        for(; i < utility.size(); i++)
+            result = result + "/" + utility[i];
 
-        result = result + utility[i] + ".log";
+        result = result + ".log";
     }
 
     return result;
