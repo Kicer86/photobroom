@@ -12,6 +12,7 @@
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
 #include <project_utils/project_manager.hpp>
+#include <system/system.hpp>
 
 int main(int argc, char **argv)
 {
@@ -19,7 +20,6 @@ int main(int argc, char **argv)
     DefaultConfiguration configuration;
 
     Logger logger;
-    logger.set(&configuration);
 
     PluginLoader pluginLoader;
     Database::Builder database_builder;
@@ -31,6 +31,11 @@ int main(int argc, char **argv)
 
     // init configuration
     configuration.load();
+
+    const std::string basePath = System::getApplicationConfigDir() + "logs";
+    auto severity = Logger::Severity::Debug;
+    logger.setPath(basePath);
+    logger.setLevel(severity);
 
     // start gui
     Gui gui;
