@@ -147,3 +147,8 @@ std::string Logger::currentTime() const
     return put_time(std::localtime(&now_c));
 }
 
+
+void Logger::createPath(const std::string& path) const
+{
+
+}

@@ -52,6 +52,7 @@ class CORE_EXPORT Logger: public ILogger
         std::ostream* getFile(const std::string &);
 
         std::string currentTime() const;
+        void createPath(const std::string &) const;
 };
 
 #endif // LOGGER_HPP
