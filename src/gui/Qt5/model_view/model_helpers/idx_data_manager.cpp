@@ -27,7 +27,7 @@
 #include <QModelIndex>
 #include <QEventLoop>
 
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/base_tags.hpp>
 #include <database/iphoto_info.hpp>

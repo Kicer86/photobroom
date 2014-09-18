@@ -26,7 +26,7 @@
 #include <core/tag.hpp>
 
 #include "database_export.h"
-#include <palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 class QString;
 class QPixmap;

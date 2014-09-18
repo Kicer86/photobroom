@@ -6,7 +6,7 @@
 
 #include <QPixmap>
 
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>

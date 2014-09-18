@@ -3,7 +3,7 @@ project(core CXX)
 
 # openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
 
-find_package(OpenLibrary 1.1 REQUIRED palgorithm)
+find_package(OpenLibrary 1.1 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenMP)
@@ -121,7 +121,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core system ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+target_link_libraries(core system ${OPENLIBRARY_LIBRARIES})
 
 if(OPENMP_FOUND)
     if(MSVC)

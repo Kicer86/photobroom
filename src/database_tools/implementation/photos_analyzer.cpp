@@ -23,7 +23,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <database/idatabase.hpp>
 

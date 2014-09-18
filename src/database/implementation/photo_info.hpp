@@ -11,7 +11,7 @@
 #include "../iphoto_info.hpp"
 
 #include "database_export.h"
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 class QPixmap;
 

@@ -25,8 +25,8 @@
 
 #include <thread>
 
-#include <OpenLibrary/palgorithm/ts_queue.hpp>
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_queue.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 #include <OpenLibrary/utils/optional.hpp>
 
 
