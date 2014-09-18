@@ -22,11 +22,14 @@
 
 #include <string>
 #include <map>
+#include <QString>
 
 #include "ilogger.hpp"
 
 #include "core_export.h"
 
+class QIODevice;
+class QString;
 
 class CORE_EXPORT Logger: public ILogger
 {
@@ -37,22 +40,22 @@ class CORE_EXPORT Logger: public ILogger
 
         Logger& operator=(const Logger& other) = delete;
 
-        void setPath(const std::string &);
+        void setPath(const QString &);
         void setLevel(Severity);
 
         virtual void log(const char* utility, Severity, const std::string& message) override;
         virtual void log(const std::vector<const char *>& utility, Severity, const std::string& message) override;
 
     private:
-        std::string m_basePath;
+        QString m_basePath;
         Severity m_severity;
-        std::map<std::string, std::ostream *> m_files;
+        std::map<QString, QIODevice *> m_files;
 
-        std::string getPath(const std::vector<const char *> &) const;
-        std::ostream* getFile(const std::string &);
+        QString getPath(const std::vector<const char *> &) const;
+        QIODevice* getFile(const QString &);
 
-        std::string currentTime() const;
-        void createPath(const std::string &) const;
+        QString currentTime() const;
+        void createPath(const QString &) const;
 };
 
 #endif // LOGGER_HPP

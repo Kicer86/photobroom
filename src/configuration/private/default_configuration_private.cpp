@@ -26,7 +26,7 @@ DefaultConfigurationPrivate::~DefaultConfigurationPrivate()
 
 QString DefaultConfigurationPrivate::getConfigDir() const
 {
-    const QString result = System::getApplicationConfigDir().c_str();
+    const QString result = System::getApplicationConfigDir();
 
     return result;
 }

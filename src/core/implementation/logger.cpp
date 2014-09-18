@@ -21,44 +21,18 @@
 
 #include <cassert>
 #include <iostream>
-#include <fstream>
-#include <chrono>
-#include <iomanip>
 
 #include <sstream>
 
 #include <QString>
+#include <QFile>
+#include <QTime>
+#include <QTextStream>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <configuration/constants.hpp>
 
-template<typename R, typename T>
-R lexical_cast(const T& value)
-{
-    std::stringstream str;
-    R result;
-
-    str << value;
-    str >> result;
-
-    return result;
-}
-
-
-namespace
-{
-    std::string put_time(const std::tm* t)
-    {
-        std::string result;
-
-        result = result + lexical_cast<std::string>(t->tm_hour) + ":";
-        result = result + lexical_cast<std::string>(t->tm_min) + ":";
-        result = result + lexical_cast<std::string>(t->tm_sec);
-
-        return result;
-    }
-}
 
 Logger::Logger(): m_basePath(""), m_severity(Severity::Warning), m_files()
 {
@@ -73,7 +47,7 @@ Logger::~Logger()
 }
 
 
-void Logger::setPath(const std::string& path)
+void Logger::setPath(const QString& path)
 {
     m_basePath = path;
 }
@@ -93,19 +67,21 @@ void Logger::log(const char* utility, ILogger::Severity severity, const std::str
 
 void Logger::log(const std::vector<const char *>& utility, ILogger::Severity severity, const std::string& message)
 {
-    assert(m_basePath.empty() == false);
+    assert(m_basePath.isEmpty() == false);
 
-    const std::string path = getPath(utility);
-    std::ostream* file = getFile(path);
+    const QString path = getPath(utility);
+    QIODevice* file = getFile(path);
+    
+    QTextStream fileStream(file);
 
-    *file << currentTime() + ": ";
-    *file << message << std::endl;
+    fileStream << currentTime() << ": ";
+    fileStream << message.c_str() << "\n";
 }
 
 
-std::string Logger::getPath(const std::vector<const char *>& utility) const
+QString Logger::getPath(const std::vector<const char *>& utility) const
 {
-    std::string result(m_basePath);
+    QString result(m_basePath);
 
     if (utility.empty() == false)
     {
@@ -120,17 +96,17 @@ std::string Logger::getPath(const std::vector<const char *>& utility) const
 }
 
 
-std::ostream* Logger::getFile(const std::string& path)
+QIODevice* Logger::getFile(const QString& path)
 {
     auto it = m_files.find(path);
 
     if (it == m_files.end())
     {
-        std::fstream* file = new std::fstream;
+        QFile* file = new QFile(path);
 
-        file->open(path, std::ios_base::app | std::ios_base::out);
+        file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
 
-        auto data = std::pair<std::string, std::ostream *>(path, file);
+        auto data = std::pair<QString, QIODevice *>(path, file);
         auto iit = m_files.insert(data);
 
         it= iit.first;
@@ -140,15 +116,16 @@ std::ostream* Logger::getFile(const std::string& path)
 }
 
 
-std::string Logger::currentTime() const
+QString Logger::currentTime() const
 {
-    auto now = std::chrono::system_clock::now();
-    auto now_c = std::chrono::system_clock::to_time_t(now);
-    return put_time(std::localtime(&now_c));
+    QTime now = QTime::currentTime();
+    const QString timeStr = now.toString("HH:mm:ss:zzz");
+    
+    return timeStr;
 }
 
 
-void Logger::createPath(const std::string& path) const
+void Logger::createPath(const QString& path) const
 {
 
 }

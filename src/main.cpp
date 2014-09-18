@@ -33,7 +33,7 @@ int main(int argc, char **argv)
     // init configuration
     configuration.load();
 
-    const std::string basePath = System::getApplicationConfigDir() + "/logs";
+    const QString basePath = System::getApplicationConfigDir() + "/logs";
     auto severity = Logger::Severity::Debug;
     logger.setPath(basePath);
     logger.setLevel(severity);
