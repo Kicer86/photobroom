@@ -25,6 +25,7 @@
 #include <set>
 #include <thread>
 #include <chrono>
+#include <sstream>
 
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -161,11 +162,16 @@ namespace Database
 
         struct Transaction
         {
-            Transaction(): m_level(0), m_name() {}
+            Transaction(): m_level(0), m_name(), m_logger(nullptr) {}
 
             void setDBName(const QString& name)
             {
                 m_name = name;
+            }
+            
+            void set(ILogger* logger)
+            {
+                m_logger = logger;
             }
 
             bool begin()
@@ -207,7 +213,10 @@ namespace Database
                     const auto end_t = std::chrono::steady_clock::now();
                     const auto diff = end_t - start;
                     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-                    std::clog << "Transaction commit: " << diff_ms << "ms" << std::endl;
+                    
+                    std::stringstream logInfo;
+                    logInfo << "Transaction commit: " << diff_ms << "ms";
+                    m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logInfo.str());
                 }
 
                 return status;
@@ -215,6 +224,7 @@ namespace Database
 
             int m_level;
             QString m_name;
+            ILogger* m_logger;
         };
 
     }
@@ -1103,6 +1113,7 @@ namespace Database
     void ASqlBackend::set(ILogger* logger)
     {
         m_data->m_logger = logger;
+        m_data->m_transaction.set(logger);
     }
 
 
