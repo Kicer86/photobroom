@@ -24,9 +24,9 @@ namespace
 }
 
 
-std::string System::getApplicationConfigDir()
+QString System::getApplicationConfigDir()
 {
-    std::string result(getenv("HOME"));
+    QString result(getenv("HOME"));
 
     result += "/.config/broom";
 

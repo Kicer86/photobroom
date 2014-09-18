@@ -96,8 +96,9 @@ namespace Database
         IConfiguration* m_configuration;
         std::shared_ptr<IBackend> defaultBackend;
         PhotoInfoCreator photoInfoCreator;
+        ILogger* m_logger;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator()
+        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator(), m_logger(nullptr)
         {}
 
     };
@@ -148,6 +149,12 @@ namespace Database
     }
 
 
+    void Builder::set(ILogger* logger)
+    {
+        m_impl->m_logger = logger;
+    }
+
+
     IDatabase* Builder::get(const ProjectInfo& info)
     {
         auto backendIt = m_impl->m_backends.find(info);
@@ -164,6 +171,7 @@ namespace Database
 
             backend->setPhotoInfoManager(manager.get());
             backend->setPhotoInfoCreator(&m_impl->photoInfoCreator);
+            backend->set(m_impl->m_logger);
             manager->setDatabase(database.get());
             analyzer->setDatabase(database.get());
 

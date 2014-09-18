@@ -18,8 +18,8 @@
  */
 
 #include "plugin_loader.hpp"
+#include <ilogger.hpp>
 
-#include <iostream>
 #include <deque>
 #include <cassert>
 
@@ -34,7 +34,7 @@ namespace
 {
     struct PluginFinder final
     {
-        PluginFinder(): m_db_plugins(), m_found(false)
+        PluginFinder(): m_logger(nullptr), m_db_plugins(), m_found(false)
         {
 
         }
@@ -43,6 +43,11 @@ namespace
         {
             for(auto plugin: m_db_plugins)
                 delete plugin;
+        }
+        
+        void set(ILogger* logger)
+        {
+            m_logger = logger;
         }
 
         void find_all_db_plugins()
@@ -60,7 +65,7 @@ namespace
                 {
                     const QString path = info.absoluteFilePath();
                                     
-                    std::cout << "Found database plugin: " << path.toStdString() << std::endl;
+                    m_logger->log("PluginLoader", ILogger::Severity::Info, "Found database plugin: " + path.toStdString());
                     
                     QObject* raw_plugin = load(path);
                     Database::IPlugin* plugin = dynamic_cast<Database::IPlugin *>(raw_plugin);
@@ -99,16 +104,17 @@ namespace
     private:
         QObject* load(const QString& path)
         {
-            std::cout << "Loading database plugin: " << path.toStdString() << std::endl;
+            m_logger->log("PluginLoader", ILogger::Severity::Info, "Loading database plugin: " + path.toStdString());
             QPluginLoader loader(path);
             QObject* plugin = loader.instance();
 
             if (plugin == nullptr)
-                std::cerr << "\tError: " << loader.errorString().toStdString() << std::endl;
+                m_logger->log("PluginLoader", ILogger::Severity::Error, "\tError: " + loader.errorString().toStdString());
 
             return plugin;
         }
 
+        ILogger* m_logger;
         std::deque<Database::IPlugin *> m_db_plugins;
         bool m_found;
     };
@@ -133,6 +139,12 @@ PluginLoader::PluginLoader(): m_impl(new Impl)
 PluginLoader::~PluginLoader()
 {
 
+}
+
+
+void PluginLoader::set(ILogger* logger)
+{
+    m_impl->m_finder.set(logger);
 }
 
 

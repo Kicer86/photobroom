@@ -28,8 +28,10 @@
 
 #include "idatabase_builder.hpp"
 
+struct ILogger;
 struct IConfiguration;
 struct IPluginLoader;
+
 namespace Database
 {
     struct IDatabase;
@@ -42,6 +44,7 @@ namespace Database
 
             void set(IPluginLoader *);
             void set(IConfiguration *);
+            void set(ILogger *);
 
             IDatabase* get(const ProjectInfo &);
 

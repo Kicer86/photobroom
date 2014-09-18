@@ -25,6 +25,7 @@
 #include <set>
 #include <thread>
 #include <chrono>
+#include <sstream>
 
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -38,6 +39,7 @@
 
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
+#include <core/ilogger.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/iphoto_info_creator.hpp>
@@ -160,11 +162,16 @@ namespace Database
 
         struct Transaction
         {
-            Transaction(): m_level(0), m_name() {}
+            Transaction(): m_level(0), m_name(), m_logger(nullptr) {}
 
             void setDBName(const QString& name)
             {
                 m_name = name;
+            }
+            
+            void set(ILogger* logger)
+            {
+                m_logger = logger;
             }
 
             bool begin()
@@ -206,7 +213,10 @@ namespace Database
                     const auto end_t = std::chrono::steady_clock::now();
                     const auto diff = end_t - start;
                     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-                    std::clog << "Transaction commit: " << diff_ms << "ms" << std::endl;
+                    
+                    std::stringstream logInfo;
+                    logInfo << "Transaction commit: " << diff_ms << "ms";
+                    m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logInfo.str());
                 }
 
                 return status;
@@ -214,6 +224,7 @@ namespace Database
 
             int m_level;
             QString m_name;
+            ILogger* m_logger;
         };
 
     }
@@ -231,6 +242,7 @@ namespace Database
             IPhotoInfoManager* m_photoInfoManager;
             IPhotoInfoCreator* m_photoInfoCreator;
             Transaction m_transaction;
+            ILogger* m_logger;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -290,12 +302,18 @@ namespace Database
             const bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data
 
             if (status == false)
-                std::cerr << "error while storing photo in database" << std::endl;
+                m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Error, "Error while storing photo in database.");
         }
     };
 
 
-    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend), m_database_thread_id(), m_databaseLocation(""), m_photoInfoManager(nullptr), m_photoInfoCreator(nullptr), m_transaction()
+    ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend),
+                                                   m_database_thread_id(),
+                                                   m_databaseLocation(""),
+                                                   m_photoInfoManager(nullptr),
+                                                   m_photoInfoCreator(nullptr),
+                                                   m_transaction(),
+                                                   m_logger(nullptr)
     {
 
     }
@@ -314,20 +332,21 @@ namespace Database
         // make sure the same thread is used as at construction time.
         assert(std::this_thread::get_id() == m_database_thread_id);
 
-        std::clog << query.toStdString();
-        std::flush(std::clog);
+        std::string logMessage = query.toStdString();
 
         const auto start = std::chrono::steady_clock::now();
         const bool status = result->exec(query);
         const auto end = std::chrono::steady_clock::now();
         const auto diff = end - start;
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-        std::clog << " Exec time: " << diff_ms << "ms" << std::endl;
+        logMessage = logMessage + " Exec time: " + std::to_string(diff_ms) + "ms";
 
+        m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logMessage);
 
         if (status == false)
-            std::cerr << "SQLBackend: error: " << result->lastError().text().toStdString()
-                      << " while performing query: " << query.toStdString() << std::endl;
+            m_logger->log({"Database" ,"ASqlBackend"},
+                          ILogger::Severity::Error,
+                          "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
 
         return status;
     }
@@ -888,7 +907,7 @@ namespace Database
 
         if (db.isValid() && db.isOpen())
         {
-            std::cout << "ASqlBackend: closing database connections." << std::endl;
+            m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
             db.close();
         }
     }
@@ -996,7 +1015,7 @@ namespace Database
         if (status)
             status = checkStructure();
         else
-            std::cerr << "SQLBackend: error opening database: " << db.lastError().text().toStdString() << std::endl;
+            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
 
         //TODO: crash when status == false;
         return status;
@@ -1023,7 +1042,7 @@ namespace Database
         if (m_data)
             status = m_data->store(entry);
         else
-            std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
 
         return status;
     }
@@ -1036,7 +1055,7 @@ namespace Database
         if (m_data)
             result = m_data->listTags();
         else
-            std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
 
         return result;
     }
@@ -1049,7 +1068,7 @@ namespace Database
         if (m_data)
             result = m_data->listTagValues(tagName);
         else
-            std::cerr << "ASqlBackend: database object does not exist." << std::endl;
+            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
 
         return result;
     }
@@ -1088,6 +1107,13 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    void ASqlBackend::set(ILogger* logger)
+    {
+        m_data->m_logger = logger;
+        m_data->m_transaction.set(logger);
     }
 
 

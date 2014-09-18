@@ -9,6 +9,7 @@
 
 #include "entrydata.hpp"
 
+class ILogger;
 
 class QXmlStreamReader;
 
@@ -21,6 +22,11 @@ struct DefaultConfigurationPrivate
 {
         DefaultConfigurationPrivate();
         virtual ~DefaultConfigurationPrivate();
+
+        DefaultConfigurationPrivate(const DefaultConfigurationPrivate &) = delete;
+        DefaultConfigurationPrivate& operator=(const DefaultConfigurationPrivate &) = delete;
+
+        void set(ILogger *);
 
         QString getConfigDir() const;
         Optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;
@@ -41,6 +47,7 @@ struct DefaultConfigurationPrivate
 
         std::unordered_set<Configuration::ConfigurationKey, hash> m_known_keys;
         std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash> m_data;
+        ILogger* m_logger;
 
         bool parseXml_Keys(QXmlStreamReader* reader);
         bool parseXml_DefaultKeys(QXmlStreamReader* reader);
@@ -49,3 +56,4 @@ struct DefaultConfigurationPrivate
 };
 
 #endif
+

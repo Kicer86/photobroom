@@ -24,6 +24,7 @@ set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
     implementation/hash_functions.cpp
+    implementation/logger.cpp
     implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
     implementation/tag.cpp
@@ -37,6 +38,7 @@ set(CORE_HEADERS
     base_tags.hpp
     hash_functions.hpp
     itagfeeder.hpp
+    logger.hpp
     plugin_loader.hpp
     photos_manager.hpp
     tag.hpp

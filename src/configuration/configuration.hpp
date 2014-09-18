@@ -26,7 +26,7 @@
 #include "iconfiguration.hpp"
 #include "configuration_export.h"
 
-
+struct ILogger;
 struct DefaultConfigurationPrivate;
 
 class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
@@ -34,6 +34,8 @@ class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
     public:
         DefaultConfiguration();
         virtual ~DefaultConfiguration();
+
+        void init(ILogger *);
 
         virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;
         const std::vector<Configuration::EntryData> getEntries() override;

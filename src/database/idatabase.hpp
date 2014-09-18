@@ -34,6 +34,7 @@
 #include "query_list.hpp"
 #include "filter.hpp"
 
+struct ILogger;
 struct IConfiguration;
 
 namespace Database
@@ -72,6 +73,7 @@ namespace Database
         //init backend - connect to database or create new one
         virtual bool init(const QString &) = 0;
         virtual void set(IConfiguration *) = 0;
+        virtual void set(ILogger *) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

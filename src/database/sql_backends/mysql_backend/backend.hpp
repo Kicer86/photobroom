@@ -29,6 +29,7 @@ namespace Database
             virtual bool onAfterOpen() override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
             virtual void set(IConfiguration *) override;
+            virtual void set(ILogger *) override;
 
             // GenericSqlQueryConstructor:
             virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;

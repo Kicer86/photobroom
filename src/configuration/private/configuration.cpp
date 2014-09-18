@@ -24,7 +24,8 @@
 
 #include <QString>
 
-#include "system/system.hpp"
+#include <core/ilogger.hpp>
+#include <system/system.hpp>
 
 #include "entrydata.hpp"
 #include "default_configuration_private.hpp"
@@ -33,25 +34,7 @@
 
 DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPrivate)
 {
-    const QString baseConfig =
-    "<configuration>"
 
-    "    <!-- introduce known configuration keys -->"
-    "    <keys>"
-    "        <key name='" + QString(Configuration::Constants::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
-    "    </keys>"
-
-    "    <!-- default values -->"
-    "    <defaults>"
-    "        <key name='" + QString(Configuration::Constants::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
-    "    </defaults>"
-
-    "</configuration>";
-
-    registerXml(baseConfig);
-
-    std::cout << "DefaultConfiguration: using " << m_impl->getConfigDir().toStdString() << " "
-              << "for broom's base dir" << std::endl;
 }
 
 
@@ -59,6 +42,32 @@ DefaultConfiguration::~DefaultConfiguration()
 {
 
 }
+
+
+void DefaultConfiguration::init(ILogger* logger)
+{
+    const QString baseConfig =
+    "<configuration>"
+
+    "    <!-- introduce known configuration keys -->"
+    "    <keys>"
+    "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+    "    </keys>"
+
+    "    <!-- default values -->"
+    "    <defaults>"
+    "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+    "    </defaults>"
+
+    "</configuration>";
+
+    registerXml(baseConfig);
+
+    //logger->log("Configuration", ILogger::Severity::Info, "using " + m_impl->getConfigDir().toStdString() + " for broom's base dir");
+
+    m_impl->set(logger);
+}
+
 
 
 Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const

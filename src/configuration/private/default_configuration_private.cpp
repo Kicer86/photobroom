@@ -7,12 +7,13 @@
 #include <QXmlStreamReader>
 #include <QFile>
 
-#include "system/system.hpp"
+#include <core/logger.hpp>
+#include <system/system.hpp>
 
 #include "iconfiguration.hpp"
 
 
-DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data()
+DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data(), m_logger(nullptr)
 {
 
 }
@@ -24,9 +25,15 @@ DefaultConfigurationPrivate::~DefaultConfigurationPrivate()
 }
 
 
+void DefaultConfigurationPrivate::set(ILogger* logger)
+{
+    m_logger = logger;
+}
+
+
 QString DefaultConfigurationPrivate::getConfigDir() const
 {
-    const QString result = System::getApplicationConfigDir().c_str();
+    const QString result = System::getApplicationConfigDir();
 
     return result;
 }
@@ -100,10 +107,9 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
                 status = parseXml_DefaultKeys(&reader);
             else
             {
-                std::cerr << "DefaultConfiguration: invalid format of xml file (unknown tag: "
-                            << name.toString().toStdString()
-                            << ")"
-                            << std::endl;
+                m_logger->log("Configuration",
+                              ILogger::Severity::Error,
+                              "DefaultConfiguration: invalid format of xml file (unknown tag: " + name.toString().toStdString() + ")");
 
                 status = false;
                 break;
@@ -147,7 +153,7 @@ bool DefaultConfigurationPrivate::parseXml_Keys(QXmlStreamReader* reader)
                 introduceKey(key);
             }
             else
-                std::cerr << "DefaultConfiguration: in <keys> section there is a key with null name" << std::endl;
+                m_logger->log("Configuration", ILogger::Severity::Error, "There is a key, in <keys> section, with null name.");
         }
         else
         {
@@ -210,7 +216,7 @@ bool DefaultConfigurationPrivate::parseXml_DefaultKeys(QXmlStreamReader* reader)
                 addEntry(key, entry);
             }
             else
-                std::cerr << "DefaultConfiguration: in <defaults> section there is a key with null name" << std::endl;
+                m_logger->log("Configuration", ILogger::Severity::Error, "There is a key, in <defaults> section, with null name.");
         }
         else
         {
@@ -266,5 +272,5 @@ bool DefaultConfigurationPrivate::gotoNextUseful(QXmlStreamReader* reader)
 void DefaultConfigurationPrivate::verifyKey(const Configuration::ConfigurationKey& key) const
 {
     if (m_known_keys.find(key) == m_known_keys.end())
-        std::cerr << "DefaultConfiguration: unknown key: " << key.getKeyRaw() << std::endl;
+        m_logger->log("Configuration", ILogger::Severity::Error, "DefaultConfiguration: unknown key: " + key.getKeyRaw());
 }

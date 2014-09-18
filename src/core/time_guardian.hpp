@@ -27,10 +27,14 @@
 
 class string;
 
-#define TIME_GUARDIAN(t,l,m) TimeGuardian _guardian;  \
-    _guardian.setLimit(l,m); \
-    _guardian.setTitle(t);   \
-    _guardian.begin();
+#ifndef NDEBUG
+    #define TIME_GUARDIAN(t,l,m) TimeGuardian _guardian;  \
+        _guardian.setLimit(l,m); \
+        _guardian.setTitle(t);   \
+        _guardian.begin();
+#else
+    #define TIME_GUARDIAN(t,l,m) ;
+#endif
 
 class CORE_EXPORT TimeGuardian
 {
