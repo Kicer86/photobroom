@@ -26,6 +26,7 @@
 
 #include "iplugin_loader.hpp"
 
+struct ILogger;
 
 class CORE_EXPORT PluginLoader: public IPluginLoader
 {
@@ -35,6 +36,8 @@ class CORE_EXPORT PluginLoader: public IPluginLoader
         ~PluginLoader();
 
         PluginLoader& operator=(const PluginLoader& other) = delete;
+        
+        void set(ILogger *);
 
         Database::IPlugin* getDBPlugin(const QString &) override;
         const std::deque<Database::IPlugin *>& getDBPlugins() const override;

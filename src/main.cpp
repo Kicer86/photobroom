@@ -22,6 +22,8 @@ int main(int argc, char **argv)
     Logger logger;
 
     PluginLoader pluginLoader;
+    pluginLoader.set(&logger);
+    
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
     database_builder.set(&configuration);
