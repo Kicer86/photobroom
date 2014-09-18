@@ -28,6 +28,7 @@
 #include <QFile>
 #include <QTime>
 #include <QTextStream>
+#include <QDir>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
@@ -102,6 +103,7 @@ QIODevice* Logger::getFile(const QString& path)
 
     if (it == m_files.end())
     {
+        createPath(path);
         QFile* file = new QFile(path);
 
         file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
@@ -127,5 +129,7 @@ QString Logger::currentTime() const
 
 void Logger::createPath(const QString& path) const
 {
-
+    const QFileInfo fileInfo(path);
+    const QString absPath = fileInfo.absolutePath();
+    QDir().mkpath(absPath);
 }
