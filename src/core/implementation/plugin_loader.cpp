@@ -110,7 +110,7 @@ namespace
             QObject* plugin = loader.instance();
 
             if (plugin == nullptr)
-                m_logger->log("PluginLoader", ILogger::Severity::Info, "\tError: " + loader.errorString().toStdString());
+                m_logger->log("PluginLoader", ILogger::Severity::Error, "\tError: " + loader.errorString().toStdString());
 
             return plugin;
         }
