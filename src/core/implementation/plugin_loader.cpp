@@ -20,7 +20,6 @@
 #include "plugin_loader.hpp"
 #include <ilogger.hpp>
 
-#include <iostream>
 #include <deque>
 #include <cassert>
 

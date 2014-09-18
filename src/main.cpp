@@ -1,10 +1,8 @@
 
 #include <assert.h>
 
-#include <iostream>
 #include <vector>
 #include <string>
-#include <memory>
 
 #include <core/plugin_loader.hpp>
 #include <core/logger.hpp>

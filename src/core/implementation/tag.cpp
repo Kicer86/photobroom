@@ -1,8 +1,8 @@
 
 #include "tag.hpp"
 
-#include <iostream>
 #include <algorithm>
+#include <ostream>
 
 #include "algo.hpp"
 
