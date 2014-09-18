@@ -32,7 +32,7 @@
 #include "constants.hpp"
 
 
-DefaultConfiguration::DefaultConfiguration(ILogger* logger): m_impl(new DefaultConfigurationPrivate)
+DefaultConfiguration::DefaultConfiguration(ILogger* logger): m_impl(new DefaultConfigurationPrivate(logger))
 {
     const QString baseConfig =
     "<configuration>"
