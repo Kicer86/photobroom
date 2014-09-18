@@ -19,8 +19,6 @@
 
 #include "mysql_server.hpp"
 
-#include <iostream>
-
 #include <QProcess>
 #include <QFile>
 #include <QDir>
@@ -30,6 +28,7 @@
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
+#include <core/ilogger.hpp>
 #include <database/database_builder.hpp>
 #include <system/system.hpp>
 
@@ -251,7 +250,7 @@ void DiskObserver::eventOccured()
 
 /*******************************************************************************************/
 
-MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullptr)
+MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullptr), m_logger(nullptr)
 {
 
 }
@@ -259,12 +258,12 @@ MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullp
 
 MySqlServer::~MySqlServer()
 {
-    std::cout << "MySQL Database Backend: closing down MySQL server" << std::endl;
+    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
 
     m_serverProcess->terminate();
     m_serverProcess->waitForFinished();  //TODO: zwiecha?
 
-    std::cout << "MySQL Database Backend: MySQL server down" << std::endl;
+    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
 }
 
 
@@ -283,8 +282,12 @@ QString MySqlServer::run_server(const QString& basePath)
 void MySqlServer::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+}
 
 
+void MySqlServer::set(ILogger* logger)
+{
+    m_logger = logger;
 }
 
 
@@ -330,8 +333,9 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
 
         if (!status)
         {
-            std::cerr << "MySQL Database Backend: database initialization failed:" << std::endl;
-            std::cerr << QString(init.readAll()).toStdString() << std::endl << std::endl;
+            m_logger->log({"Database", "MySQL"},
+                          ILogger::Severity::Error,
+                          "MySQL Database Backend: database initialization failed:" + QString(init.readAll()).toStdString() );
 
             status = QDir(dbDir.c_str()).rmdir(dbDir.c_str());
         }
@@ -362,16 +366,17 @@ bool MySqlServer::createConfig(const QString& configFile) const
 bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 {
     //wait for socket to appear
-
-    std::cout << "MySqlServer: waiting for MySQL server to get up: " << std::flush;
+    std::string logMsg = "Waiting for MySQL server to get up: ";
 
     DiskObserver observer(socketPath);
     const bool status = observer.waitForChange();
 
     if (status)
-        std::cout << "done." << std::endl;
+        logMsg += "done.";
     else
-        std::cout << "timeout error." << std::endl;
+        logMsg += "timeout error.";
+
+    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, logMsg);
 
     return status;
 }
@@ -411,7 +416,9 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
                 m_serverProcess->setArguments(args);
                 m_serverProcess->closeWriteChannel();
 
-                std::cout << "MySQL Database Backend: " << daemonPath.toStdString() << " " << args.join(" ").toStdString() << std::endl;
+                m_logger->log({"Database", "MySQL"},
+                              ILogger::Severity::Debug,
+                              "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
 
                 m_serverProcess->start();
                 status = m_serverProcess->waitForStarted();

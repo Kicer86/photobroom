@@ -128,6 +128,15 @@ namespace Database
     }
 
 
+    void MySqlBackend::set(ILogger* logger)
+    {
+        Database::ASqlBackend::set(logger);
+
+        m_data->m_server.set(logger);
+    }
+
+
+
     SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
     {
         assert(!"not implemented");

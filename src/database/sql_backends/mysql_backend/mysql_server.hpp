@@ -30,6 +30,7 @@ class QFileSystemWatcher;
 class QTimer;
 class QEventLoop;
 
+class ILogger;
 struct IConfiguration;
 
 struct DiskObserver: public QObject
@@ -73,10 +74,12 @@ class MySqlServer
 
         QString run_server(const QString &);  //returns socket or null if failed
         void set(IConfiguration *);
+        void set(ILogger *);
 
     private:
         std::unique_ptr<QProcess> m_serverProcess;
         IConfiguration* m_configuration;
+        ILogger* m_logger;
 
         QString getDaemonPath() const;
         bool initDB(const std::string &, const std::string &) const;
