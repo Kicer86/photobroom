@@ -907,7 +907,7 @@ namespace Database
 
         if (db.isValid() && db.isOpen())
         {
-            std::cout << "ASqlBackend: closing database connections." << std::endl;
+            m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
             db.close();
         }
     }
