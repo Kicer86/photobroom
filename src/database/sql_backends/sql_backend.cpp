@@ -302,7 +302,7 @@ namespace Database
             const bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data
 
             if (status == false)
-                std::cerr << "error while storing photo in database" << std::endl;
+                m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Error, "Error while storing photo in database.");
         }
     };
 
