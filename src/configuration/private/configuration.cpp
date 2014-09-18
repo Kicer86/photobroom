@@ -24,14 +24,15 @@
 
 #include <QString>
 
-#include "system/system.hpp"
+#include <core/ilogger.hpp>
+#include <system/system.hpp>
 
 #include "entrydata.hpp"
 #include "default_configuration_private.hpp"
 #include "constants.hpp"
 
 
-DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPrivate)
+DefaultConfiguration::DefaultConfiguration(ILogger* logger): m_impl(new DefaultConfigurationPrivate)
 {
     const QString baseConfig =
     "<configuration>"
@@ -50,8 +51,7 @@ DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPri
 
     registerXml(baseConfig);
 
-    std::cout << "DefaultConfiguration: using " << m_impl->getConfigDir().toStdString() << " "
-              << "for broom's base dir" << std::endl;
+    logger->log("Configuration", ILogger::Severity::Info, "using " + m_impl->getConfigDir().toStdString() + " for broom's base dir");
 }
 
 

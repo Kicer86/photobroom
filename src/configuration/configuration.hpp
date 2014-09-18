@@ -26,13 +26,13 @@
 #include "iconfiguration.hpp"
 #include "configuration_export.h"
 
-
+struct ILogger;
 struct DefaultConfigurationPrivate;
 
 class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
 {
     public:
-        DefaultConfiguration();
+        DefaultConfiguration(ILogger *);
         virtual ~DefaultConfiguration();
 
         virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;

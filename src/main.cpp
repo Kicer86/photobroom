@@ -15,9 +15,9 @@
 int main(int argc, char **argv)
 {
     // build objects
-    DefaultConfiguration configuration;
-
     Logger logger;
+
+    DefaultConfiguration configuration(&logger);
 
     PluginLoader pluginLoader;
     pluginLoader.set(&logger);
