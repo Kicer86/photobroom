@@ -107,6 +107,7 @@ QIODevice* Logger::getFile(const QString& path)
         QFile* file = new QFile(path);
 
         file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
+        file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
 
         auto data = std::pair<QString, QIODevice *>(path, file);
         auto iit = m_files.insert(data);
