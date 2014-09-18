@@ -32,7 +32,19 @@
 #include "constants.hpp"
 
 
-DefaultConfiguration::DefaultConfiguration(ILogger* logger): m_impl(new DefaultConfigurationPrivate(logger))
+DefaultConfiguration::DefaultConfiguration(): m_impl(new DefaultConfigurationPrivate)
+{
+
+}
+
+
+DefaultConfiguration::~DefaultConfiguration()
+{
+
+}
+
+
+void DefaultConfiguration::init(ILogger* logger)
 {
     const QString baseConfig =
     "<configuration>"
@@ -51,14 +63,11 @@ DefaultConfiguration::DefaultConfiguration(ILogger* logger): m_impl(new DefaultC
 
     registerXml(baseConfig);
 
-    logger->log("Configuration", ILogger::Severity::Info, "using " + m_impl->getConfigDir().toStdString() + " for broom's base dir");
+    //logger->log("Configuration", ILogger::Severity::Info, "using " + m_impl->getConfigDir().toStdString() + " for broom's base dir");
+
+    m_impl->set(logger);
 }
 
-
-DefaultConfiguration::~DefaultConfiguration()
-{
-
-}
 
 
 Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const

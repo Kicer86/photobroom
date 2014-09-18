@@ -20,11 +20,13 @@ namespace Configuration
 
 struct DefaultConfigurationPrivate
 {
-        DefaultConfigurationPrivate(ILogger *);
+        DefaultConfigurationPrivate();
         virtual ~DefaultConfigurationPrivate();
 
         DefaultConfigurationPrivate(const DefaultConfigurationPrivate &) = delete;
         DefaultConfigurationPrivate& operator=(const DefaultConfigurationPrivate &) = delete;
+
+        void set(ILogger *);
 
         QString getConfigDir() const;
         Optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;

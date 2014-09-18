@@ -13,7 +13,7 @@
 #include "iconfiguration.hpp"
 
 
-DefaultConfigurationPrivate::DefaultConfigurationPrivate(ILogger* logger) : m_known_keys(), m_data(), m_logger(logger)
+DefaultConfigurationPrivate::DefaultConfigurationPrivate() : m_known_keys(), m_data(), m_logger(nullptr)
 {
 
 }
@@ -22,6 +22,12 @@ DefaultConfigurationPrivate::DefaultConfigurationPrivate(ILogger* logger) : m_kn
 DefaultConfigurationPrivate::~DefaultConfigurationPrivate()
 {
 
+}
+
+
+void DefaultConfigurationPrivate::set(ILogger* logger)
+{
+    m_logger = logger;
 }
 
 

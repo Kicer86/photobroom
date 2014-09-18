@@ -32,8 +32,10 @@ struct DefaultConfigurationPrivate;
 class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
 {
     public:
-        DefaultConfiguration(ILogger *);
+        DefaultConfiguration();
         virtual ~DefaultConfiguration();
+
+        void init(ILogger *);
 
         virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;
         const std::vector<Configuration::EntryData> getEntries() override;
