@@ -62,7 +62,7 @@ void Logger::setLevel(ILogger::Severity severity)
 
 void Logger::log(const char* utility, ILogger::Severity severity, const std::string& message)
 {
-    log( {utility}, severity, message);
+    log( std::vector<const char *>({utility}), severity, message);
 }
 
 
