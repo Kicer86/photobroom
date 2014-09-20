@@ -27,7 +27,7 @@
 #include "itask_executor.hpp"
 #include "core_export.h"
 
-struct TaskExecutor: public ITaskExecutor
+struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 {
     TaskExecutor();
     virtual ~TaskExecutor();
