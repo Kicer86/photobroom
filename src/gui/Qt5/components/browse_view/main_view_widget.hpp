@@ -11,6 +11,7 @@ namespace Database
 {
     class IDatabase;
 }
+class ITaskExecutor;
 
 class DBDataModel;
 
@@ -26,6 +27,7 @@ class MainViewWidget : public QWidget
         MainViewWidget& operator=(const MainViewWidget &) = delete;
 
         void setDatabase(Database::IDatabase *);
+        void set(ITaskExecutor *);
 
     private:
         DBDataModel* m_imagesModel;

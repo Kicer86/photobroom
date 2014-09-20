@@ -4,6 +4,7 @@
 
 #include <QTabWidget>
 
+class ITaskExecutor;
 
 namespace Database
 {
@@ -22,6 +23,7 @@ class CentralWidget: public QTabWidget
         CentralWidget& operator=(const CentralWidget &) = delete;
 
         void setDatabase(Database::IDatabase *);
+        void set(ITaskExecutor *);
 
     private:
         MainViewWidget* m_viewWidget;

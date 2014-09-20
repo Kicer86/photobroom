@@ -50,6 +50,12 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 }
 
 
+void MainWindow::set(ITaskExecutor* taskExecutor)
+{
+    m_centralWidget->set(taskExecutor);
+}
+
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     // TODO: close project!

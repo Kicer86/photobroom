@@ -6,6 +6,7 @@
 
 #include "gui_export.h"
 
+class ITaskExecutor;
 struct IPluginLoader;
 struct IProjectManager;
 
@@ -17,11 +18,13 @@ struct GUI_EXPORT Gui
 
     void set(IProjectManager *);
     void set(IPluginLoader *);
+    void set(ITaskExecutor *);
     void run(int argc, char **argv);
 
     private:
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
+        ITaskExecutor* m_taskExecutor;
 };
 
 #endif

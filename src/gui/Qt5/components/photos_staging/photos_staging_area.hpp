@@ -13,6 +13,7 @@ namespace Database
 
 class QItemSelection;
 
+class ITaskExecutor;
 class TagEditorWidget;
 class PhotosViewWidget;
 struct PhotosReceiver;
@@ -28,6 +29,7 @@ class PhotosStagingArea: public QWidget
         PhotosStagingArea(const PhotosStagingArea &) = delete;
         void operator=(const PhotosStagingArea &) = delete;
         void setDatabase(Database::IDatabase *);
+        void set(ITaskExecutor *);
 
     private:
         PhotosViewWidget *m_editor;

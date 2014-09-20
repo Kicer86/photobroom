@@ -26,6 +26,7 @@
 
 #include <database/idatabase.hpp>
 
+class ITaskExecutor;
 class IdxDataManager;
 class IdxData;
 
@@ -65,6 +66,7 @@ class DBDataModel: public QAbstractItemModel
         const std::vector<IPhotoInfo::Ptr> getPhotos();              //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
 
         void setDatabase(Database::IDatabase *);
+        void set(ITaskExecutor *);
         void close();
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 

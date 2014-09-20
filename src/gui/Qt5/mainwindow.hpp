@@ -6,6 +6,7 @@
 
 #include <QMainWindow>
 
+class ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
 struct IProjectManager;
@@ -25,6 +26,7 @@ class MainWindow final: public QMainWindow
 
         void set(IProjectManager *);
         void set(IPluginLoader *);
+        void set(ITaskExecutor *);
 
     private:
         IProjectManager*          m_prjManager;

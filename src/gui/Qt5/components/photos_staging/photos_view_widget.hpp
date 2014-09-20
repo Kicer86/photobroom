@@ -7,6 +7,7 @@
 #include <core/time_guardian.hpp>
 #include <database/iphoto_info.hpp>
 
+class ITaskExecutor;
 class QItemSelectionModel;
 class QItemSelection;
 class QFileDialog;
@@ -73,6 +74,8 @@ class PhotosViewWidget: public QWidget
         virtual ~PhotosViewWidget();
 
         void operator=(const PhotosViewWidget &) = delete;
+
+        void set(ITaskExecutor *);
 
         template<class T>
         void addPhotos(const T &collection)

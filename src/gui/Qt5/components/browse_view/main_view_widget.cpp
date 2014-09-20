@@ -44,6 +44,12 @@ void MainViewWidget::setDatabase(Database::IDatabase* db)
 }
 
 
+void MainViewWidget::set(ITaskExecutor* taskExecutor)
+{
+    m_imagesModel->set(taskExecutor);
+}
+
+
 void MainViewWidget::refresh()
 {
     m_imagesView->setModel(nullptr);

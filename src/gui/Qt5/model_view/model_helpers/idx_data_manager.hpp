@@ -48,6 +48,8 @@ public:
     void setHierarchy(const Hierarchy& hierarchy);
     const Hierarchy& getHierarchy() const;
 
+    void set(ITaskExecutor *);
+
     void fetchMore(const QModelIndex& _parent);
     void deepFetch(IdxData* top);
     bool canFetchMore(const QModelIndex& _parent);

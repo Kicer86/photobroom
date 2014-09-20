@@ -152,6 +152,11 @@ void PhotosStagingArea::setDatabase(Database::IDatabase* db)
 }
 
 
+void PhotosStagingArea::set(ITaskExecutor* taskExecutor)
+{
+    m_editor->set(taskExecutor);
+}
+
 
 void PhotosStagingArea::pathToAnalyze(const QString& path)
 {

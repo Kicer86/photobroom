@@ -20,3 +20,9 @@ void CentralWidget::setDatabase(Database::IDatabase* db)
     m_stagingArea->setDatabase(db);
 }
 
+
+void CentralWidget::set(ITaskExecutor* taskExecutor)
+{
+    m_viewWidget->set(taskExecutor);
+    m_stagingArea->set(taskExecutor);
+}
