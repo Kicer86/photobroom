@@ -44,27 +44,7 @@ ITaskExecutor::~ITaskExecutor()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-
-struct TaskExecutor;
 static void trampoline(TaskExecutor *);
-
-struct TaskExecutor: public ITaskExecutor
-{
-        TaskExecutor();
-        virtual ~TaskExecutor();
-
-        virtual void add(const std::shared_ptr<ITask> &);
-
-    private:
-        TS_Queue<std::shared_ptr<ITask>> m_tasks;
-        std::thread m_taskEater;
-        friend void trampoline(TaskExecutor* executor);
-
-        void eat();
-        void execute(const std::shared_ptr<ITask>& task) const;
-        int getId() const;
-};
-
 
 static void trampoline(TaskExecutor* executor)
 {
@@ -146,15 +126,3 @@ int TaskExecutor::getId() const
 
     return id;
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-ITaskExecutor* TaskExecutorConstructor::get()
-{
-    static TaskExecutor task_executor;
-
-    return &task_executor;
-}
-

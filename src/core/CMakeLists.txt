@@ -37,7 +37,10 @@ set(CORE_SOURCES
 set(CORE_HEADERS
     base_tags.hpp
     hash_functions.hpp
+    ilogger.hpp
     itagfeeder.hpp
+    itask_executor.hpp
+    iplugin_loader.hpp
     logger.hpp
     plugin_loader.hpp
     photos_manager.hpp

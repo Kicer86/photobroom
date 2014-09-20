@@ -17,31 +17,27 @@
  *
  */
 
-#ifndef TASKEXECUTOR_H
-#define TASKEXECUTOR_H
+#ifndef ITASKEXECUTOR_H
+#define ITASKEXECUTOR_H
 
-#include <thread>
+#include <memory>
+#include <string>
 
-#include <OpenLibrary/putils/ts_queue.hpp>
-
-#include "itask_executor.hpp"
 #include "core_export.h"
 
-struct TaskExecutor: public ITaskExecutor
+struct CORE_EXPORT ITaskExecutor
 {
-    TaskExecutor();
-    virtual ~TaskExecutor();
+    struct CORE_EXPORT ITask
+    {
+        virtual ~ITask();
 
-    virtual void add(const std::shared_ptr<ITask> &);
+        virtual std::string name() const = 0;       //task's name
+        virtual void perform() = 0;
+    };
 
-    void eat();
+    virtual ~ITaskExecutor();
 
-private:
-    TS_Queue<std::shared_ptr<ITask>> m_tasks;
-    std::thread m_taskEater;
-
-    void execute(const std::shared_ptr<ITask>& task) const;
-    int getId() const;
+    virtual void add(const std::shared_ptr<ITask> &) = 0;
 };
 
 
