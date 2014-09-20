@@ -97,8 +97,9 @@ namespace Database
         std::shared_ptr<IBackend> defaultBackend;
         PhotoInfoCreator photoInfoCreator;
         ILogger* m_logger;
+        ITaskExecutor* m_task_executor;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator(), m_logger(nullptr)
+        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator(), m_logger(nullptr), m_task_executor(nullptr)
         {}
 
     };
@@ -155,6 +156,12 @@ namespace Database
     }
 
 
+    void Builder::set(ITaskExecutor* taskExecutor)
+    {
+        m_impl->m_task_executor = taskExecutor;
+    }
+
+
     IDatabase* Builder::get(const ProjectInfo& info)
     {
         auto backendIt = m_impl->m_backends.find(info);
@@ -174,6 +181,7 @@ namespace Database
             backend->set(m_impl->m_logger);
             manager->setDatabase(database.get());
             analyzer->setDatabase(database.get());
+            analyzer->set(m_impl->m_task_executor);
 
             Database::Task task = database->prepareTask(nullptr);
 

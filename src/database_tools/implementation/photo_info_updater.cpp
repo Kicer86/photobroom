@@ -111,7 +111,7 @@ struct TagsCollector: public ITaskExecutor::ITask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory()
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr)
 {
 
 }
@@ -126,14 +126,14 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<HashAssigner>(photoInfo);
-    TaskExecutorConstructor::get()->add(task);
+    m_task_executor->add(task);
 }
 
 
 void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<ThumbnailGenerator>(photoInfo);
-    TaskExecutorConstructor::get()->add(task);
+    m_task_executor->add(task);
 }
 
 
@@ -142,7 +142,12 @@ void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
     auto task = std::make_shared<TagsCollector>(photoInfo);
 	task->set(&m_tagFeederFactory);
 
-    TaskExecutorConstructor::get()->add(task);
+    m_task_executor->add(task);
 }
 
+
+void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
+{
+    m_task_executor = taskExecutor;
+}
 

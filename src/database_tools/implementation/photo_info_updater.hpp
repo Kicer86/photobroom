@@ -5,6 +5,8 @@
 #include <core/tag_feeder_factory.hpp>
 #include <database/iphoto_info.hpp>
 
+class ITaskExecutor;
+
 //TODO: construct photo manualy. Add fillers manualy on demand
 class PhotoInfoUpdater final
 {
@@ -19,8 +21,11 @@ class PhotoInfoUpdater final
         void updateThumbnail(const IPhotoInfo::Ptr &);
         void updateTags(const IPhotoInfo::Ptr &);
 
+        void set(ITaskExecutor *);
+
 	private:
 		TagFeederFactory m_tagFeederFactory;
+        ITaskExecutor* m_task_executor;
 };
 
 #endif
