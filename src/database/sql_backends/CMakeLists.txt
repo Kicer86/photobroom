@@ -19,8 +19,7 @@ set(SOURCES generic_sql_query_constructor.cpp sql_db_query.cpp sql_backend.cpp t
 set(HEADERS generic_sql_query_constructor.hpp sql_db_query.hpp sql_backend.hpp table_definition.hpp tables.hpp query_structs.hpp sql_query_constructor.hpp)
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
-target_link_libraries(sql_backend_base database configuration core)
-qt5_use_modules(sql_backend_base Core Sql Gui)
+target_link_libraries(sql_backend_base database configuration core Qt5::Core Qt5::Sql Qt5::Gui)
 turnOnCpp11(sql_backend_base)
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/sql_backend_base_export.h)

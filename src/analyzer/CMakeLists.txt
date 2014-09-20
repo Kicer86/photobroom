@@ -44,17 +44,15 @@ if(BUILD_TESTS)
                                 tests/photo_crawler_tests.cpp
                                 tests/photo_crawler_builder_tests.cpp
                 )
-    target_link_libraries(analyzer_test)
+    target_link_libraries(analyzer_test Qt5::Core)
     turnOnCpp11(analyzer_test)
-    qt5_use_modules(analyzer_test Core)
 
 endif(BUILD_TESTS)
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
 add_library(analyzer ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(analyzer)
-qt5_use_modules(analyzer Core)
+target_link_libraries(analyzer Qt5::Core)
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)

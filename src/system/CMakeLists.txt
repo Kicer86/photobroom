@@ -22,8 +22,7 @@ configure_file(paths.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
 
-target_link_libraries(system)
-qt5_use_modules(system Core)
+target_link_libraries(system Qt5::Core)
 turnOnCpp11(system)
 hideSymbols(system)
 

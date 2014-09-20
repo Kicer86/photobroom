@@ -36,9 +36,8 @@ if(BUILD_TESTS)
                                 TEST_LIBRARY
                                     GTEST
        )
-    target_link_libraries(configuration_test system)
+    target_link_libraries(configuration_test system Qt5::Core)
     turnOnCpp11(configuration_test)
-    qt5_use_modules(configuration_test Core)
 
 endif(BUILD_TESTS)
 
@@ -47,8 +46,7 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
 add_library(configuration ${CONFIG_SOURCES} ${CONFIG_HEADERS})
-target_link_libraries(configuration system)
-qt5_use_modules(configuration Core)
+target_link_libraries(configuration system Qt5::Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
