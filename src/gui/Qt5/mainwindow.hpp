@@ -6,7 +6,7 @@
 
 #include <QMainWindow>
 
-class ITaskExecutor;
+struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
 struct IProjectManager;

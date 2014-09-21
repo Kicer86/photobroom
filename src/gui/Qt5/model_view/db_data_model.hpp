@@ -26,7 +26,7 @@
 
 #include <database/idatabase.hpp>
 
-class ITaskExecutor;
+struct ITaskExecutor;
 class IdxDataManager;
 class IdxData;
 

@@ -9,10 +9,9 @@ class QAbstractItemView;
 
 namespace Database
 {
-    class IDatabase;
+    struct IDatabase;
 }
-class ITaskExecutor;
-
+struct ITaskExecutor;
 class DBDataModel;
 
 class MainViewWidget : public QWidget

@@ -4,7 +4,7 @@
 
 #include <QTabWidget>
 
-class ITaskExecutor;
+struct ITaskExecutor;
 
 namespace Database
 {

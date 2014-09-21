@@ -6,7 +6,7 @@
 
 #include "gui_export.h"
 
-class ITaskExecutor;
+struct ITaskExecutor;
 struct IPluginLoader;
 struct IProjectManager;
 

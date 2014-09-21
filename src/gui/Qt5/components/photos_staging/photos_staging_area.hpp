@@ -13,10 +13,10 @@ namespace Database
 
 class QItemSelection;
 
-class ITaskExecutor;
 class TagEditorWidget;
 class PhotosViewWidget;
 struct PhotosReceiver;
+struct ITaskExecutor;
 
 class PhotosStagingArea: public QWidget
 {

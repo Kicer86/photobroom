@@ -28,7 +28,7 @@
 
 #include "idatabase_builder.hpp"
 
-class ITaskExecutor;
+struct ITaskExecutor;
 struct ILogger;
 struct IConfiguration;
 struct IPluginLoader;

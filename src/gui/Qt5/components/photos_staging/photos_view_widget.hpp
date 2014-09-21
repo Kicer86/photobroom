@@ -7,7 +7,6 @@
 #include <core/time_guardian.hpp>
 #include <database/iphoto_info.hpp>
 
-class ITaskExecutor;
 class QItemSelectionModel;
 class QItemSelection;
 class QFileDialog;
@@ -23,6 +22,7 @@ namespace Database
 
 class StagingDataModel;
 class ImagesTreeView;
+struct ITaskExecutor;
 
 struct BrowseLine: public QWidget
 {

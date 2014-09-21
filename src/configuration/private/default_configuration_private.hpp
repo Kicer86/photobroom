@@ -9,7 +9,6 @@
 
 #include "entrydata.hpp"
 
-class ILogger;
 
 class QXmlStreamReader;
 
@@ -17,6 +16,7 @@ namespace Configuration
 {
     struct IInitializer;
 }
+struct ILogger;
 
 struct DefaultConfigurationPrivate
 {
