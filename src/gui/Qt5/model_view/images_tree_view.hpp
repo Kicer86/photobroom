@@ -24,6 +24,7 @@
 
 #include <memory>
 
+struct IConfiguration;
 class ImagesTreeView: public QAbstractItemView
 {
     public:
@@ -33,6 +34,9 @@ class ImagesTreeView: public QAbstractItemView
 
         ImagesTreeView& operator=(const ImagesTreeView &) = delete;
 
+        void set(IConfiguration *);
+
+        // QAbstractItemView overrides:
         virtual QModelIndex indexAt(const QPoint& point) const override;
         virtual bool isIndexHidden(const QModelIndex& index) const override;
         virtual QRect visualRect(const QModelIndex& index) const override;

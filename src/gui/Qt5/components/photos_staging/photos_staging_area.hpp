@@ -17,6 +17,7 @@ class TagEditorWidget;
 class PhotosViewWidget;
 struct PhotosReceiver;
 struct ITaskExecutor;
+struct IConfiguration;
 
 class PhotosStagingArea: public QWidget
 {
@@ -30,6 +31,7 @@ class PhotosStagingArea: public QWidget
         void operator=(const PhotosStagingArea &) = delete;
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
     private:
         PhotosViewWidget *m_editor;

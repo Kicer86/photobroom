@@ -26,3 +26,11 @@ void CentralWidget::set(ITaskExecutor* taskExecutor)
     m_viewWidget->set(taskExecutor);
     m_stagingArea->set(taskExecutor);
 }
+
+
+void CentralWidget::set(IConfiguration* configuration)
+{
+    m_viewWidget->set(configuration);
+    m_stagingArea->set(configuration);
+}
+

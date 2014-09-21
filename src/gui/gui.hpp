@@ -9,6 +9,7 @@
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProjectManager;
+struct IConfiguration;
 
 struct GUI_EXPORT Gui
 {
@@ -19,12 +20,15 @@ struct GUI_EXPORT Gui
     void set(IProjectManager *);
     void set(IPluginLoader *);
     void set(ITaskExecutor *);
+    void set(IConfiguration *);
     void run(int argc, char **argv);
 
     private:
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
         ITaskExecutor* m_taskExecutor;
+        IConfiguration* m_configuration;
 };
 
 #endif
+

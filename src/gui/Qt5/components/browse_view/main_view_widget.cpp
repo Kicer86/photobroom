@@ -50,6 +50,12 @@ void MainViewWidget::set(ITaskExecutor* taskExecutor)
 }
 
 
+void MainViewWidget::set(IConfiguration* configuration)
+{
+    m_imagesView->set(configuration);
+}
+
+
 void MainViewWidget::refresh()
 {
     m_imagesView->setModel(nullptr);

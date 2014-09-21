@@ -119,6 +119,12 @@ void PhotosViewWidget::set(ITaskExecutor* taskExecutor)
 }
 
 
+void PhotosViewWidget::set(IConfiguration* configuration)
+{
+    m_photosView->set(configuration);
+}
+
+
 void PhotosViewWidget::addPhoto(const QString &path)
 {
     m_photosModel->addPhoto(path);

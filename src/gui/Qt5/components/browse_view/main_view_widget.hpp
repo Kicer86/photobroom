@@ -5,14 +5,15 @@
 #include <QWidget>
 
 
-class QAbstractItemView;
-
 namespace Database
 {
     struct IDatabase;
 }
+
 struct ITaskExecutor;
+struct IConfiguration;
 class DBDataModel;
+class ImagesTreeView;
 
 class MainViewWidget : public QWidget
 {
@@ -27,10 +28,11 @@ class MainViewWidget : public QWidget
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
     private:
         DBDataModel* m_imagesModel;
-        QAbstractItemView*  m_imagesView;
+        ImagesTreeView*  m_imagesView;
 
     private slots:
         void refresh();

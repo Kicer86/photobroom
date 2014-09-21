@@ -56,6 +56,12 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 }
 
 
+void MainWindow::set(IConfiguration* configuration)
+{
+    m_centralWidget->set(configuration);
+}
+
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     // TODO: close project!

@@ -10,6 +10,7 @@ struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
 struct IProjectManager;
+struct IConfiguration;
 
 class CentralWidget;
 
@@ -27,6 +28,7 @@ class MainWindow final: public QMainWindow
         void set(IProjectManager *);
         void set(IPluginLoader *);
         void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
     private:
         IProjectManager*          m_prjManager;

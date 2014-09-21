@@ -158,6 +158,12 @@ void PhotosStagingArea::set(ITaskExecutor* taskExecutor)
 }
 
 
+void PhotosStagingArea::set(IConfiguration* configuration)
+{
+    m_editor->set(configuration);
+}
+
+
 void PhotosStagingArea::pathToAnalyze(const QString& path)
 {
     IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();

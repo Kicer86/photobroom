@@ -35,8 +35,9 @@ struct IndexHasher
 struct ImagesTreeView::Data
 {
     std::unordered_map<QModelIndex, QRect, IndexHasher> m_positions;
+    IConfiguration* m_configuration;
 
-    Data(): m_positions() {}
+    Data(): m_positions(), m_configuration(nullptr) {}
 };
 
 
@@ -49,6 +50,12 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
 ImagesTreeView::~ImagesTreeView()
 {
 
+}
+
+
+void ImagesTreeView::set(IConfiguration* configuration)
+{
+    m_data->m_configuration = configuration;
 }
 
 
