@@ -20,9 +20,9 @@
 #ifndef IMAGESTREEVIEW_H
 #define IMAGESTREEVIEW_H
 
-#include <QTreeView>
+#include <QAbstractItemView>
 
-class ImagesTreeView: public QTreeView
+class ImagesTreeView: public QAbstractItemView
 {
     public:
         ImagesTreeView(QWidget *);
@@ -30,6 +30,17 @@ class ImagesTreeView: public QTreeView
         ~ImagesTreeView();
 
         ImagesTreeView& operator=(const ImagesTreeView &) = delete;
+
+        virtual QModelIndex indexAt(const QPoint& point) const override;
+        virtual bool isIndexHidden(const QModelIndex& index) const override;
+        virtual QRect visualRect(const QModelIndex& index) const override;
+        virtual QRegion visualRegionForSelection(const QItemSelection& selection) const override;
+        virtual int horizontalOffset() const override;
+        virtual int verticalOffset() const override;
+
+        virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers) override;
+        virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible) override;
+        virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command) override;
 };
 
 #endif // IMAGESTREEVIEW_H

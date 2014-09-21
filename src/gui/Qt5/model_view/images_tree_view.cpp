@@ -19,13 +19,58 @@
 
 #include "images_tree_view.hpp"
 
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QTreeView(_parent)
+ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent)
 {
-    setHeaderHidden(true);
+    //setHeaderHidden(true);
 }
 
 
 ImagesTreeView::~ImagesTreeView()
 {
 
+}
+
+
+QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
+{
+}
+
+
+bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
+{
+}
+
+
+QRect ImagesTreeView::visualRect(const QModelIndex& index) const
+{
+}
+
+
+QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection) const
+{
+}
+
+
+int ImagesTreeView::horizontalOffset() const
+{
+}
+
+
+int ImagesTreeView::verticalOffset() const
+{
+}
+
+
+QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
+{
+}
+
+
+void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint hint)
+{
+}
+
+
+void ImagesTreeView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
+{
 }
