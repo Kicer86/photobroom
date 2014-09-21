@@ -52,11 +52,13 @@ void DefaultConfiguration::init(ILogger* logger)
     "    <!-- introduce known configuration keys -->"
     "    <keys>"
     "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+    "        <key name='" + QString(Configuration::BasicKeys::thumbnailWidth) + "' />"
     "    </keys>"
 
     "    <!-- default values -->"
     "    <defaults>"
     "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+    "        <key name='" + QString(Configuration::BasicKeys::thumbnailWidth) + "' value='120'/>"
     "    </defaults>"
 
     "</configuration>";
@@ -73,6 +75,13 @@ void DefaultConfiguration::init(ILogger* logger)
 Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
 {
     return m_impl->find(key);
+}
+
+
+Optional<QString> DefaultConfiguration::findEntry(const char* key) const
+{
+    const auto entry = findEntry(Configuration::ConfigurationKey(key));
+    return entry->value();
 }
 
 

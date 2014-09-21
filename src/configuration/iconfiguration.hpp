@@ -65,6 +65,8 @@ struct IConfiguration
     virtual bool load() = 0;
 
     virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
+    virtual Optional<QString> findEntry(const char *) const = 0;
+
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;
 };
 
