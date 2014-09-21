@@ -48,13 +48,25 @@ class ImagesTreeView: public QAbstractItemView
         virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible) override;
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command) override;
 
+        // QWidget overrides:
+        virtual void paintEvent(QPaintEvent*) override;
+
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
 
         QRect rectFor(const QModelIndex &) const;
-        QPoint positionOfNext(const QModelIndex &) const;                   // calculate position of next item
-        QPoint matrixPositionOf(const QModelIndex &) const;                 // get position (in matrix) of item
+        QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
+        QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
+        QPoint matrixPositionOf(const QModelIndex &) const;                           // get position (in matrix) of item
+        QModelIndex itemAtMatrixPosition(const QPoint &, QModelIndex& parent) const;  // convert position (in matrix) to item
+        int itemsPerRow() const;
+        int itemsWidth() const;
+        bool isImage(const QModelIndex &) const;
+        QPixmap getImage(const QModelIndex &) const;
+        int getHeigth(const QModelIndex &) const;
+        int getHeigth(const QModelIndex &, const QModelIndex &) const;                // max height for set of items
+        QSize itemSize(const QModelIndex &) const;
 };
 
 #endif // IMAGESTREEVIEW_H
