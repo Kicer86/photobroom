@@ -26,7 +26,8 @@
 
 #include "database_tools_export.h"
 
-class ITaskExecutor;
+struct ITaskExecutor;
+struct IConfiguration;
 
 namespace Database
 {
@@ -48,6 +49,7 @@ class DATABASE_TOOLS_EXPORT PhotosAnalyzer: QObject
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
     private:
         Impl* m_data;

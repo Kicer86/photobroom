@@ -84,6 +84,11 @@ namespace
             m_updater.set(taskExecutor);
         }
 
+        void set(IConfiguration* configuration)
+        {
+            m_updater.set(configuration);
+        }
+
         std::condition_variable m_data_available;
         std::mutex m_data_mutex;
         ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
@@ -130,6 +135,11 @@ struct PhotosAnalyzer::Impl
         m_thread.set(taskExecutor);
     }
 
+    void set(IConfiguration* configuration)
+    {
+        m_thread.set(configuration);
+    }
+
     Database::ADatabaseSignals* getNotifier()
     {
         return m_database->notifier();
@@ -174,6 +184,12 @@ void PhotosAnalyzer::setDatabase(Database::IDatabase* database)
 void PhotosAnalyzer::set(ITaskExecutor* taskExecutor)
 {
     m_data->set(taskExecutor);
+}
+
+
+void PhotosAnalyzer::set(IConfiguration* configuration)
+{
+    m_data->set(configuration);
 }
 
 

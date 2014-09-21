@@ -125,9 +125,9 @@ namespace Database
 
     void Builder::set(IConfiguration* configuration)
     {
-        /*
         m_impl->m_configuration = configuration;
 
+        /*
         Optional<Configuration::EntryData> entry = m_impl->m_configuration->findEntry(Configuration::Constants::configLocation);
 
         assert(entry.is_initialized());
@@ -182,6 +182,7 @@ namespace Database
             manager->setDatabase(database.get());
             analyzer->setDatabase(database.get());
             analyzer->set(m_impl->m_task_executor);
+            analyzer->set(m_impl->m_configuration);
 
             Database::Task task = database->prepareTask(nullptr);
 
