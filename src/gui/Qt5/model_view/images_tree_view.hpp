@@ -22,6 +22,8 @@
 
 #include <QAbstractItemView>
 
+#include <memory>
+
 class ImagesTreeView: public QAbstractItemView
 {
     public:
@@ -41,6 +43,14 @@ class ImagesTreeView: public QAbstractItemView
         virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers) override;
         virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible) override;
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command) override;
+
+    private:
+        struct Data;
+        std::unique_ptr<Data> m_data;
+
+        QRect rectFor(const QModelIndex &) const;
+        QPoint positionOfNext(const QModelIndex &) const;                   // calculate position of next item
+        QPoint matrixPositionOf(const QModelIndex &) const;                 // get position (in matrix) of item
 };
 
 #endif // IMAGESTREEVIEW_H
