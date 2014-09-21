@@ -85,6 +85,15 @@ Optional<QString> DefaultConfiguration::findEntry(const char* key) const
 }
 
 
+QString DefaultConfiguration::findEntry(const char* key, const QString& defaultValue) const
+{
+    const auto entry = findEntry(key);
+    const QString result = entry? *entry : defaultValue;
+
+    return result;
+}
+
+
 const std::vector<Configuration::EntryData> DefaultConfiguration::getEntries()
 {
     return m_impl->getAll();
