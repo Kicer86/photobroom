@@ -55,18 +55,18 @@ class ImagesTreeView: public QAbstractItemView
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        QRect rectFor(const QModelIndex &) const;
+        QRect getItemRect(const QModelIndex &) const;
         QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
         QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
         QPoint matrixPositionOf(const QModelIndex &) const;                           // get position (in matrix) of item
         QModelIndex itemAtMatrixPosition(const QPoint &, QModelIndex& parent) const;  // convert position (in matrix) to item
         int itemsPerRow() const;
-        int itemsWidth() const;
         bool isImage(const QModelIndex &) const;
         QPixmap getImage(const QModelIndex &) const;
-        int getHeigth(const QModelIndex &) const;
-        int getHeigth(const QModelIndex &, const QModelIndex &) const;                // max height for set of items
-        QSize itemSize(const QModelIndex &) const;
+        int getitemWidth(const QModelIndex &) const;
+        int getItemHeigth(const QModelIndex &) const;
+        int getItemHeigth(const QModelIndex &, const QModelIndex &) const;                // max height for set of items
+        QSize getItemSize(const QModelIndex &) const;
 };
 
 #endif // IMAGESTREEVIEW_H
