@@ -23,6 +23,7 @@
 #include <unordered_map>
 
 #include <QScrollBar>
+#include <QPainter>
 
 #include <configuration/constants.hpp>
 #include <configuration/configuration.hpp>
@@ -44,6 +45,14 @@ namespace
 
 struct ImagesTreeView::Data
 {
+    struct ModelIndexInfo
+    {
+        QRect rect;
+        bool expanded;
+
+        ModelIndexInfo(): rect(), expanded(false) {}
+    };
+
     std::unordered_map<QModelIndex, QRect, IndexHasher> m_positions;
     IConfiguration* m_configuration;
 
@@ -125,7 +134,37 @@ void ImagesTreeView::setSelection(const QRect& rect, QItemSelectionModel::Select
 
 void ImagesTreeView::paintEvent(QPaintEvent* event)
 {
-    QAbstractScrollArea::paintEvent(event);
+    QPainter painter(viewport());
+
+    QRect visible_area= QWidget::rect();
+    visible_area.moveTo(horizontalOffset(), verticalOffset());
+
+
+
+    /*
+    const int items = m_cache->items();
+    QAbstractItemModel* dataModel = model();
+    ImageManager imageManager(dataModel);
+
+    for (int i = 0; i < items; i++)
+    {
+        QModelIndex index = model()->index(i, 0);
+        const QRect position = m_cache->pos(i);
+
+        //paint selection
+        const bool selected = selectionModel()->isSelected(index);
+
+        if (selected)
+        {
+            painter.setPen(QColor(0, 0, 0, 0));
+            painter.setBrush(QBrush(QColor(0, 0, 255)));
+            painter.drawRect(position);
+        }
+
+        //paint image
+        imageManager.draw(i, &painter, position);
+    }
+    */
 }
 
 
@@ -335,3 +374,35 @@ QSize ImagesTreeView::getItemSize(const QModelIndex& index) const
     return size;
 }
 
+
+std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& rect) const
+{
+    //TODO: optimise?
+    const std::deque<QModelIndex> result = getChildrenFor(QModelIndex());
+
+
+}
+
+
+std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& parent) const
+{
+    std::deque<QModelIndex> result;
+
+    QAbstractItemModel* m = QAbstractItemView::model();
+    const bool children = m->hasChildren();
+
+    if (children)
+    {
+        const int r = m->rowCount(parent);
+        for(int i = 0; i < r; i++)
+        {
+            QModelIndex c = m->index(r, 0, parent);
+            result.push_back(c);
+
+            std::deque<QModelIndex> c_result = getChildrenFor(c);
+            result.insert(result.end(), c_result.begin(), c_result.end());
+        }
+    }
+
+    return result;
+}

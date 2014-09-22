@@ -23,6 +23,7 @@
 #include <QAbstractItemView>
 
 #include <memory>
+#include <deque>
 
 struct IConfiguration;
 class ImagesTreeView: public QAbstractItemView
@@ -55,6 +56,7 @@ class ImagesTreeView: public QAbstractItemView
         struct Data;
         std::unique_ptr<Data> m_data;
 
+        // positions calculations
         QRect getItemRect(const QModelIndex &) const;
         QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
         QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
@@ -67,6 +69,10 @@ class ImagesTreeView: public QAbstractItemView
         int getItemHeigth(const QModelIndex &) const;
         int getItemHeigth(const QModelIndex &, const QModelIndex &) const;                // max height for set of items
         QSize getItemSize(const QModelIndex &) const;
+
+        // view stuff
+        std::deque<QModelIndex> findItemsIn(const QRect &) const;
+        std::deque<QModelIndex> getChildrenFor(const QModelIndex &) const;
 };
 
 #endif // IMAGESTREEVIEW_H
