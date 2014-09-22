@@ -53,10 +53,10 @@ struct ImagesTreeView::Data
         ModelIndexInfo(): rect(), expanded(false) {}
     };
 
-    std::unordered_map<QModelIndex, QRect, IndexHasher> m_positions;
+    std::unordered_map<QModelIndex, QRect, IndexHasher> m_itemData;
     IConfiguration* m_configuration;
 
-    Data(): m_positions(), m_configuration(nullptr) {}
+    Data(): m_itemData(), m_configuration(nullptr) {}
 };
 
 
@@ -172,9 +172,9 @@ void ImagesTreeView::paintEvent(QPaintEvent* event)
 
 QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    auto it = m_data->m_positions.find(index);
+    auto it = m_data->m_itemData.find(index);
 
-    if (it == m_data->m_positions.end())
+    if (it == m_data->m_itemData.end())
     {
         assert(index.column() == 0);
 
@@ -198,7 +198,7 @@ QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
         }
 
         auto data = std::make_pair(index, rect);
-        auto insert_it = m_data->m_positions.insert(data);
+        auto insert_it = m_data->m_itemData.insert(data);
 
         it = insert_it.first;
     }
