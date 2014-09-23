@@ -150,15 +150,22 @@ void ImagesTreeView::paintEvent(QPaintEvent* event)
 
         QAbstractItemModel* m = QAbstractItemView::model();
 
+        const QRect r = getItemRect(item);
         const bool image = isImage(item);
 
         if (image)
         {
             const QVariant v = m->data(item, Qt::DecorationRole);
             const QPixmap p = v.value<QPixmap>();
-            const QRect r = getItemRect(item);
 
             painter.drawPixmap(indexMargin, indexMargin, p);
+        }
+        else
+        {
+            const QVariant v = m->data(item, Qt::DisplayRole);
+            const QString t = v.toString();
+
+            painter.drawText(r, Qt::AlignCenter, t);
         }
     }
 
