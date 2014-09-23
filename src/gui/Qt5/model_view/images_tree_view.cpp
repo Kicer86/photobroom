@@ -57,6 +57,9 @@ struct ImagesTreeView::Data
     IConfiguration* m_configuration;
 
     Data(): m_itemData(), m_configuration(nullptr) {}
+    Data(const Data &) = delete;
+
+    Data& operator=(const Data &) = delete;
 
     ModelIndexInfo& get(const QModelIndex &);
 };
@@ -104,12 +107,16 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
+    (void) point;
+
     return QModelIndex();
 }
 
 
 bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
 {
+    (void) index;
+
     return false;
 }
 
@@ -122,6 +129,8 @@ QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 
 QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection) const
 {
+    (void) selection;
+
     return QRegion();
 }
 
@@ -140,23 +149,28 @@ int ImagesTreeView::verticalOffset() const
 
 QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
 {
+    (void) cursorAction;
+    (void) modifiers;
+
     return QModelIndex();
 }
 
 
 void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint hint)
 {
-
+    (void) index;
+    (void) hint;
 }
 
 
-void ImagesTreeView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
+void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags command)
 {
-
+    (void) _rect;
+    (void) command;
 }
 
 
-void ImagesTreeView::paintEvent(QPaintEvent* event)
+void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     QPainter painter(viewport());
 
@@ -206,22 +220,21 @@ QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
     {
         assert(index.column() == 0);
 
-        QModelIndex parent = QAbstractItemView::model()->parent(index);
+        QModelIndex item_parent = QAbstractItemView::model()->parent(index);
+        const QSize item_size = getItemSize(index);
 
         if (index.row() == 0)  //first
         {
-            const QPoint point = positionOfFirstChild(parent);
-            const QSize size = getItemSize(index);
+            const QPoint point = positionOfFirstChild(item_parent);
 
-            info.rect = QRect(point, size);
+            info.rect = QRect(point, item_size);
         }
         else
         {
-            const QModelIndex sibling = QAbstractItemView::model()->index(index.row() - 1, 0, parent);
+            const QModelIndex sibling = QAbstractItemView::model()->index(index.row() - 1, 0, item_parent);
             const QPoint point = positionOfNext(sibling);
-            const QSize size = getItemSize(index);
 
-            info.rect = QRect(point, size);
+            info.rect = QRect(point, item_size);
         }
     }
 
@@ -234,6 +247,8 @@ QPoint ImagesTreeView::positionOfNext(const QModelIndex& index) const
     const bool image = isImage(index);
     const QPoint result = image? positionOfNextImage(index):
                                  positionOfNextNode(index);
+
+    return result;
 }
 
 
@@ -252,13 +267,13 @@ QPoint ImagesTreeView::positionOfNextImage(const QModelIndex& index) const
         result = QPoint(items_pos.x() + getitemWidth(index), items_pos.y());
     else                                               //last in a row
     {
-        QModelIndex parent = QAbstractItemView::model()->parent(index);
-        QModelIndex from = itemAtMatrixPosition(QPoint(0, items_matrix_pos.y()), parent);
-        QModelIndex to = itemAtMatrixPosition(QPoint(items_per_row - 1, items_matrix_pos.y()), parent);
+        QModelIndex item_parent = QAbstractItemView::model()->parent(index);
+        QModelIndex from = itemAtMatrixPosition(QPoint(0, items_matrix_pos.y()), item_parent);
+        QModelIndex to = itemAtMatrixPosition(QPoint(items_per_row - 1, items_matrix_pos.y()), item_parent);
 
-        const int height = getItemHeigth(from, to);
+        const int item_height = getItemHeigth(from, to);
 
-        result = QPoint(0, items_pos.y() + height);
+        result = QPoint(0, items_pos.y() + item_height);
     }
 
     return result;
@@ -270,8 +285,8 @@ QPoint ImagesTreeView::positionOfNextNode(const QModelIndex& index) const
     assert(index.isValid());
 
     const QRect items_pos = getItemRect(index);
-    const int height = getItemHeigth(index);
-    const QPoint result = QPoint(0, items_pos.y() + height);
+    const int item_height = getItemHeigth(index);
+    const QPoint result = QPoint(0, items_pos.y() + item_height);
 
     return result;
 }
@@ -283,8 +298,8 @@ QPoint ImagesTreeView::positionOfFirstChild(const QModelIndex& index) const
 
     if (index.isValid())           // regular item
     {
-        const QRect rect = getItemRect(index);
-        result = QPoint(0, rect.y() + rect.height());
+        const QRect r = getItemRect(index);
+        result = QPoint(0, r.y() + r.height());
     }
     else                           // master root
         result = QPoint(0, 0);
@@ -306,12 +321,12 @@ QPoint ImagesTreeView::matrixPositionOf(const QModelIndex& index) const
 }
 
 
-QModelIndex ImagesTreeView::itemAtMatrixPosition(const QPoint& point, QModelIndex& parent) const
+QModelIndex ImagesTreeView::itemAtMatrixPosition(const QPoint& point, QModelIndex& _parent) const
 {
     const int indicesPerRow = itemsPerRow();
     const int liner_pos = indicesPerRow * point.y() + point.x();
 
-    QModelIndex item = QAbstractItemView::model()->index(liner_pos, 0, parent);
+    QModelIndex item = QAbstractItemView::model()->index(liner_pos, 0, _parent);
 
     return item;
 }
@@ -330,26 +345,26 @@ int ImagesTreeView::itemsPerRow() const
 
 int ImagesTreeView::getitemWidth(const QModelIndex& index) const
 {
-    int width = 0;
+    int w = 0;
     if (isImage(index))   //image
     {
         QPixmap pixmap = getImage(index);
-        width = pixmap.width() + indexMargin;
+        w = pixmap.width() + indexMargin;
     }
     else                  //node's title
-        width = QWidget::width();
+        w = QWidget::width();
 
-    return width;
+    return w;
 }
 
 
 bool ImagesTreeView::isImage(const QModelIndex& index) const
 {
-    QAbstractItemModel* model = QAbstractItemView::model();
-    const bool children = model->hasChildren(index);
+    QAbstractItemModel* m = QAbstractItemView::model();
+    const bool has_children = m->hasChildren(index);
     bool result = false;
 
-    if (!children)     //has no children? Leaf (image) or empty node, so still not sure
+    if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
     {
         QPixmap pixmap = getImage(index);
 
@@ -376,28 +391,28 @@ QPixmap ImagesTreeView::getImage(const QModelIndex& index) const
 
 int ImagesTreeView::getItemHeigth(const QModelIndex& index) const
 {
-    int height = 0;
+    int item_height = 0;
     if (isImage(index))   //image
     {
         QPixmap pixmap = getImage(index);
-        height = pixmap.height() + indexMargin;
+        item_height = pixmap.height() + indexMargin;
     }
     else                  //node's title
-        height = 40;      //TODO: temporary
+        item_height = 40;      //TODO: temporary
 
-    return height;
+    return item_height;
 }
 
 
 int ImagesTreeView::getItemHeigth(const QModelIndex& from, const QModelIndex& to) const
 {
     int result = 0;
-    QModelIndex parent = QAbstractItemView::model()->parent(from);
-    assert(parent == QAbstractItemView::model()->parent(to));
+    QModelIndex item_parent = QAbstractItemView::model()->parent(from);
+    assert(item_parent == QAbstractItemView::model()->parent(to));
 
     for (int i = from.row(); i < to.row(); i++)
     {
-        QModelIndex index = QAbstractItemView::model()->index(i, 0, parent);
+        QModelIndex index = QAbstractItemView::model()->index(i, 0, item_parent);
 
         const int h = getItemHeigth(index);
         if (result < h)
@@ -410,13 +425,13 @@ int ImagesTreeView::getItemHeigth(const QModelIndex& from, const QModelIndex& to
 
 QSize ImagesTreeView::getItemSize(const QModelIndex& index) const
 {
-    const QSize size(getitemWidth(index), getItemHeigth(index));
+    const QSize item_size(getitemWidth(index), getItemHeigth(index));
 
-    return size;
+    return item_size;
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& rect) const
+std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 {
     //TODO: optimise?
     std::deque<QModelIndex> result;
@@ -425,7 +440,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& rect) const
     for(const QModelIndex& index: items)
     {
         QRect item_rect = getItemRect(index);
-        const bool overlap = rect.intersects(item_rect);
+        const bool overlap = _rect.intersects(item_rect);
 
         if (overlap)
             result.push_back(index);
@@ -435,19 +450,19 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& rect) const
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& parent) const
+std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& _parent) const
 {
     std::deque<QModelIndex> result;
 
     QAbstractItemModel* m = QAbstractItemView::model();
-    const bool children = m->hasChildren();
+    const bool has_children = m->hasChildren();
 
-    if (children)
+    if (has_children)
     {
-        const int r = m->rowCount(parent);
+        const int r = m->rowCount(_parent);
         for(int i = 0; i < r; i++)
         {
-            QModelIndex c = m->index(i, 0, parent);
+            QModelIndex c = m->index(i, 0, _parent);
             result.push_back(c);
 
             const bool expanded = isExpanded(c);
