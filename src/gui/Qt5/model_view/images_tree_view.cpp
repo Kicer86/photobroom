@@ -207,7 +207,6 @@ QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
         assert(index.column() == 0);
 
         QModelIndex parent = QAbstractItemView::model()->parent(index);
-        Data::ModelIndexInfo info;
 
         if (index.row() == 0)  //first
         {
