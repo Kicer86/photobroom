@@ -435,7 +435,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 {
     //TODO: optimise?
     std::deque<QModelIndex> result;
-    std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
+    const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
 
     for(const QModelIndex& index: items)
     {
