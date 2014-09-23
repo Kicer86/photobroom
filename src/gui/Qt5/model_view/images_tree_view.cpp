@@ -47,10 +47,10 @@ struct ImagesTreeView::Data
 {
     struct ModelIndexInfo
     {
-        QRect rect;
-        bool expanded;
+        Optional<QRect> rect;
+        Optional<bool> expanded;
 
-        ModelIndexInfo(): rect(), expanded(false) {}
+        ModelIndexInfo(): rect(), expanded() {}
     };
 
     std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
@@ -200,9 +200,9 @@ void ImagesTreeView::paintEvent(QPaintEvent* event)
 
 QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    auto it = m_data->m_itemData.find(index);
+    Data::ModelIndexInfo& info = m_data->get(index);
 
-    if (it == m_data->m_itemData.end())
+    if (info.rect.is_initialized() == false)   //rect not initialized yet?
     {
         assert(index.column() == 0);
 
@@ -224,16 +224,9 @@ QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 
             info.rect = QRect(point, size);
         }
-
-        auto data = std::make_pair(index, info);
-        auto insert_it = m_data->m_itemData.insert(data);
-
-        it = insert_it.first;
     }
 
-    const Data::ModelIndexInfo& info = it->second;
-
-    return info.rect;
+    return *info.rect;
 }
 
 
