@@ -59,6 +59,8 @@ class ImagesTreeView: public QAbstractItemView
         // positions calculations
         QRect getItemRect(const QModelIndex &) const;
         QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
+        QPoint positionOfNextImage(const QModelIndex &) const;                        // calculate position of next item (image item)
+        QPoint positionOfNextNode(const QModelIndex &) const;                         // calculate position of next item (node item)
         QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
         QPoint matrixPositionOf(const QModelIndex &) const;                           // get position (in matrix) of item
         QModelIndex itemAtMatrixPosition(const QPoint &, QModelIndex& parent) const;  // convert position (in matrix) to item

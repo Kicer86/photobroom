@@ -143,8 +143,23 @@ void ImagesTreeView::paintEvent(QPaintEvent* event)
 
     for(const QModelIndex& item: items)
     {
+        /*
         QStyleOptionViewItem styleOption;
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
+        */
+
+        QAbstractItemModel* m = QAbstractItemView::model();
+
+        const bool image = isImage(item);
+
+        if (image)
+        {
+            const QVariant v = m->data(item, Qt::DecorationRole);
+            const QPixmap p = v.value<QPixmap>();
+            const QRect r = getItemRect(item);
+
+            painter.drawPixmap(indexMargin, indexMargin, p);
+        }
     }
 
     /*
@@ -217,8 +232,15 @@ QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 
 QPoint ImagesTreeView::positionOfNext(const QModelIndex& index) const
 {
+    const bool image = isImage(index);
+    const QPoint result = image? positionOfNextImage(index):
+                                 positionOfNextNode(index);
+}
+
+
+QPoint ImagesTreeView::positionOfNextImage(const QModelIndex& index) const
+{
     assert(index.isValid());
-    QRect rect = getItemRect(index);
 
     const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
@@ -237,8 +259,20 @@ QPoint ImagesTreeView::positionOfNext(const QModelIndex& index) const
 
         const int height = getItemHeigth(from, to);
 
-        result = result = QPoint(0, items_pos.y() + height);
+        result = QPoint(0, items_pos.y() + height);
     }
+
+    return result;
+}
+
+
+QPoint ImagesTreeView::positionOfNextNode(const QModelIndex& index) const
+{
+    assert(index.isValid());
+
+    const QRect items_pos = getItemRect(index);
+    const int height = getItemHeigth(index);
+    const QPoint result = QPoint(0, items_pos.y() + height);
 
     return result;
 }
