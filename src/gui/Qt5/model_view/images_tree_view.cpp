@@ -57,7 +57,31 @@ struct ImagesTreeView::Data
     IConfiguration* m_configuration;
 
     Data(): m_itemData(), m_configuration(nullptr) {}
+
+    ModelIndexInfo& get(const QModelIndex &);
 };
+
+
+ImagesTreeView::Data::ModelIndexInfo& ImagesTreeView::Data::get(const QModelIndex& index)
+{
+    auto it = m_itemData.find(index);
+
+    if (it == m_itemData.end())
+    {
+        Data::ModelIndexInfo info;
+        auto data = std::make_pair(index, info);
+        auto insert_it = m_itemData.insert(data);
+
+        it = insert_it.first;
+    }
+
+    Data::ModelIndexInfo& info = it->second;
+
+    return info;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
