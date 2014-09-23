@@ -465,12 +465,11 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& parent
 
 bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 {
-    bool result = false;
-    auto it = m_data->m_itemData.find(index);
+    Data::ModelIndexInfo& info = m_data->get(index);
 
-    if (it != m_data->m_itemData.end())
-        result = it->second.expanded;
+    if (info.expanded.is_initialized() == false)
+        info.expanded = false;
 
-    return result;
+    return *info.expanded;
 }
 
