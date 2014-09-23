@@ -53,15 +53,20 @@ struct ImagesTreeView::Data
         ModelIndexInfo(): rect(), expanded() {}
     };
 
-    std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
     IConfiguration* m_configuration;
 
-    Data(): m_itemData(), m_configuration(nullptr) {}
+    Data(): m_configuration(nullptr), m_visibleItemsMap(), m_itemData() {}
     Data(const Data &) = delete;
-
     Data& operator=(const Data &) = delete;
 
     ModelIndexInfo& get(const QModelIndex &);
+    QModelIndex get(const QPoint &);
+    void add(const QRect &, const QModelIndex &);
+    void resetVisibleItemsMap();
+
+    private:
+        std::deque<std::pair<QRect, QModelIndex>> m_visibleItemsMap;      //list of visible items
+        std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
 };
 
 
@@ -81,6 +86,35 @@ ImagesTreeView::Data::ModelIndexInfo& ImagesTreeView::Data::get(const QModelInde
     Data::ModelIndexInfo& info = it->second;
 
     return info;
+}
+
+
+QModelIndex ImagesTreeView::Data::get(const QPoint& point)
+{
+    QModelIndex result;
+
+    for(const auto& data: m_visibleItemsMap)
+    {
+        if (data.first.contains(point))
+        {
+            result = data.second;
+            break;
+        }
+    }
+
+    return result;
+}
+
+
+void ImagesTreeView::Data::add(const QRect& rect, const QModelIndex& item)
+{
+    m_visibleItemsMap.push_back(std::make_pair(rect, item));
+}
+
+
+void ImagesTreeView::Data::resetVisibleItemsMap()
+{
+    m_visibleItemsMap.clear();
 }
 
 
@@ -107,9 +141,9 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    (void) point;
+    const QModelIndex& result = m_data->get(point);
 
-    return QModelIndex();
+    return result;
 }
 
 
@@ -178,6 +212,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     visible_area.moveTo(horizontalOffset(), verticalOffset());
 
     std::deque<QModelIndex> items = findItemsIn(visible_area);
+    m_data->resetVisibleItemsMap();
 
     for(const QModelIndex& item: items)
     {
@@ -190,6 +225,8 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
         const QRect r = getItemRect(item);
         const bool image = isImage(item);
+
+        m_data->add(r, item);
 
         if (image)
         {
