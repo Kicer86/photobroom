@@ -37,7 +37,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     void eat();
 
 private:
-    TS_Queue<std::shared_ptr<ITask>> m_tasks;
+    ol::TS_Queue<std::shared_ptr<ITask>> m_tasks;
     std::thread m_taskEater;
 
     void execute(const std::shared_ptr<ITask>& task) const;

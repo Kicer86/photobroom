@@ -3,7 +3,7 @@ project(database CXX)
 
 add_subdirectory(sql_backends)
 
-find_package(OpenLibrary REQUIRED)
+find_package(OpenLibrary 2.0 REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 

@@ -24,6 +24,7 @@
 
 #include <QScrollBar>
 #include <QPainter>
+#include <QMouseEvent>
 
 #include <configuration/constants.hpp>
 #include <configuration/configuration.hpp>
@@ -244,6 +245,23 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         }
     }
 
+}
+
+
+void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
+{
+    QAbstractScrollArea::mouseReleaseEvent(e);
+
+    const QModelIndex item = m_data->get(e->pos());
+
+    if (item.isValid())
+    {
+        const bool expanded = isExpanded(item);
+
+        if (expanded)
+        {
+        }
+    }
 }
 
 

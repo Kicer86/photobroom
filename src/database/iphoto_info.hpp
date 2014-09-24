@@ -102,7 +102,7 @@ struct IPhotoInfo
     virtual void initID(const Id &) = 0;
 
     //setting data
-    virtual ThreadSafeResource<Tag::TagsList>::Accessor accessTags() = 0;   // gives exclusive access to tags so they can be modified in conveniant fashion
+    virtual ol::ThreadSafeResource<Tag::TagsList>::Accessor accessTags() = 0;   // gives exclusive access to tags so they can be modified in conveniant fashion
     virtual void setTags(const Tag::TagsList &) = 0;        //set tags
 
     //flags

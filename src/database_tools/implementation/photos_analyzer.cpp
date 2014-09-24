@@ -91,7 +91,7 @@ namespace
 
         std::condition_variable m_data_available;
         std::mutex m_data_mutex;
-        ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
+        ol::ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
         bool m_work;
         PhotoInfoUpdater m_updater;
     };

@@ -2,7 +2,7 @@
 project(database_tools CXX)
 
 find_package(Qt5Core REQUIRED)
-find_package(OpenLibrary REQUIRED utils)
+find_package(OpenLibrary 2.0 REQUIRED putils utils)
 find_package(Qt5Gui REQUIRED)
 
 set(DATABASE_TOOLS_SOURCES

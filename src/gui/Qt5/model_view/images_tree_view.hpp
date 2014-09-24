@@ -51,6 +51,7 @@ class ImagesTreeView: public QAbstractItemView
 
         // QWidget overrides:
         virtual void paintEvent(QPaintEvent*) override;
+        virtual void mouseReleaseEvent(QMouseEvent*) override;
 
     private:
         struct Data;
@@ -78,7 +79,7 @@ class ImagesTreeView: public QAbstractItemView
         bool isExpanded(const QModelIndex &) const;
 
         // other
-        
+
 };
 
 #endif // IMAGESTREEVIEW_H

@@ -97,9 +97,9 @@ struct IdxDataManager::Data
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
     Database::PhotoIterator m_iterator;
-    ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
-    ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
-    ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
+    ol::ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
+    ol::ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
+    ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
 };
