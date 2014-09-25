@@ -78,7 +78,6 @@ struct ImagesTreeView::Data
 
     ModelIndexInfo& get(const QModelIndex &);
     QModelIndex get(const QPoint &);
-    void resetVisibleItemsMap();
 
     private:
         std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
@@ -118,12 +117,6 @@ QModelIndex ImagesTreeView::Data::get(const QPoint& point)
     }
 
     return result;
-}
-
-
-void ImagesTreeView::Data::resetVisibleItemsMap()
-{
-    m_visibleItemsMap.clear();
 }
 
 
@@ -239,7 +232,6 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     visible_area.moveTo(horizontalOffset(), verticalOffset());
 
     std::deque<QModelIndex> items = findItemsIn(visible_area);
-    m_data->resetVisibleItemsMap();
 
     for(const QModelIndex& item: items)
     {
