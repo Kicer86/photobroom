@@ -40,6 +40,21 @@ namespace
         }
     };
 
+    struct QRectCompare
+    {
+        bool operator()(const QRect& r1, const QRect& r2) const
+        {
+            bool result = false;
+
+            if (r1.y() < r2.y())
+                result = true;
+            else if (r1.y() == r2.y())
+                result = r1.x() < r2.x();
+
+            return result;
+        }
+    };
+
     const int indexMargin = 10;           // TODO: move to configuration
 }
 
@@ -55,6 +70,7 @@ struct ImagesTreeView::Data
     };
 
     IConfiguration* m_configuration;
+    std::deque<std::pair<QRect, QModelIndex>> m_visibleItemsMap;                //list of visible items
 
     Data(): m_configuration(nullptr), m_visibleItemsMap(), m_itemData() {}
     Data(const Data &) = delete;
@@ -62,11 +78,9 @@ struct ImagesTreeView::Data
 
     ModelIndexInfo& get(const QModelIndex &);
     QModelIndex get(const QPoint &);
-    void add(const QRect &, const QModelIndex &);
     void resetVisibleItemsMap();
 
     private:
-        std::deque<std::pair<QRect, QModelIndex>> m_visibleItemsMap;      //list of visible items
         std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
 };
 
@@ -104,12 +118,6 @@ QModelIndex ImagesTreeView::Data::get(const QPoint& point)
     }
 
     return result;
-}
-
-
-void ImagesTreeView::Data::add(const QRect& rect, const QModelIndex& item)
-{
-    m_visibleItemsMap.push_back(std::make_pair(rect, item));
 }
 
 
@@ -205,6 +213,14 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 }
 
 
+void ImagesTreeView::setModel(QAbstractItemModel* m)
+{
+    QAbstractItemView::setModel(m);
+
+    rereadModel();
+}
+
+
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     QPainter painter(viewport());
@@ -226,8 +242,6 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
         const QRect r = getItemRect(item);
         const bool image = isImage(item);
-
-        m_data->add(r, item);
 
         if (image)
         {
@@ -490,11 +504,11 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 {
     //TODO: optimise?
     std::deque<QModelIndex> result;
-    const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
 
-    for(const QModelIndex& index: items)
+    for(const auto& item: m_data->m_visibleItemsMap)
     {
-        QRect item_rect = getItemRect(index);
+        const QRect& item_rect = item.first;
+        const QModelIndex& index = item.second;
         const bool overlap = _rect.intersects(item_rect);
 
         if (overlap)
@@ -543,3 +557,29 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
     return *info.expanded;
 }
 
+
+void ImagesTreeView::rereadModel()
+{
+    QAbstractItemModel* m = QAbstractItemView::model();
+
+    m_data->m_visibleItemsMap.clear();
+
+    std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
+
+    for(const QModelIndex& index: items)
+    {
+        QRect itemRect = getItemRect(index);
+
+        //check if we are ok with order
+        if (m_data->m_visibleItemsMap.empty() == false)
+        {
+            const QRectCompare comparer;
+            const auto& item = m_data->m_visibleItemsMap.back();
+            const bool comp = comparer(item.first, itemRect);    //current item should be greater than last one
+
+            assert(comp);
+        }
+
+        m_data->m_visibleItemsMap.push_back(std::make_pair(itemRect, index));
+    }
+}

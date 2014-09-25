@@ -49,6 +49,8 @@ class ImagesTreeView: public QAbstractItemView
         virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible) override;
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command) override;
 
+        virtual void setModel(QAbstractItemModel *) override;
+
         // QWidget overrides:
         virtual void paintEvent(QPaintEvent*) override;
         virtual void mouseReleaseEvent(QMouseEvent*) override;
@@ -78,8 +80,8 @@ class ImagesTreeView: public QAbstractItemView
         std::deque<QModelIndex> getChildrenFor(const QModelIndex &) const;
         bool isExpanded(const QModelIndex &) const;
 
-        // other
-
+        // model updates
+        void rereadModel();
 };
 
 #endif // IMAGESTREEVIEW_H
