@@ -215,9 +215,19 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 
 void ImagesTreeView::setModel(QAbstractItemModel* m)
 {
+    //disconnect current model
+    QAbstractItemModel* current_model = QAbstractItemView::model();
+    disconnect(current_model);
+
+    //
     QAbstractItemView::setModel(m);
 
+    //read model
     rereadModel();
+
+    //connect to model's signals
+    connect(m, SIGNAL(modelReset()),                        this, SLOT(modelReset()));
+    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
 }
 
 
@@ -560,8 +570,6 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 
 void ImagesTreeView::rereadModel()
 {
-    QAbstractItemModel* m = QAbstractItemView::model();
-
     m_data->m_visibleItemsMap.clear();
 
     std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
@@ -582,4 +590,20 @@ void ImagesTreeView::rereadModel()
 
         m_data->m_visibleItemsMap.push_back(std::make_pair(itemRect, index));
     }
+
+    //refresh widget
+    update();
+}
+
+
+void ImagesTreeView::modelReset()
+{
+    rereadModel();
+}
+
+
+void ImagesTreeView::rowsInserted(const QModelIndex&, int, int)
+{
+    //TODO: optimise
+    rereadModel();
 }

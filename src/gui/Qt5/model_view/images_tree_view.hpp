@@ -28,6 +28,8 @@
 struct IConfiguration;
 class ImagesTreeView: public QAbstractItemView
 {
+        Q_OBJECT
+
     public:
         ImagesTreeView(QWidget *);
         ImagesTreeView(const ImagesTreeView &) = delete;
@@ -82,6 +84,10 @@ class ImagesTreeView: public QAbstractItemView
 
         // model updates
         void rereadModel();
+
+    private slots:
+        void modelReset();
+        void rowsInserted(const QModelIndex &, int, int);
 };
 
 #endif // IMAGESTREEVIEW_H
