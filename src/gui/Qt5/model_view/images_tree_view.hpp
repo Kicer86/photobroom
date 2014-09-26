@@ -26,6 +26,8 @@
 #include <deque>
 
 struct IConfiguration;
+struct Data;
+
 class ImagesTreeView: public QAbstractItemView
 {
         Q_OBJECT
@@ -58,24 +60,7 @@ class ImagesTreeView: public QAbstractItemView
         virtual void mouseReleaseEvent(QMouseEvent*) override;
 
     private:
-        struct Data;
         std::unique_ptr<Data> m_data;
-
-        // positions calculations
-        QRect calcItemRect(const QModelIndex &) const;
-        QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
-        QPoint positionOfNextImage(const QModelIndex &) const;                        // calculate position of next item (image item)
-        QPoint positionOfNextNode(const QModelIndex &) const;                         // calculate position of next item (node item)
-        QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
-        QPoint matrixPositionOf(const QModelIndex &) const;                           // get position (in matrix) of item
-        QModelIndex itemAtMatrixPosition(const QPoint &, QModelIndex& parent) const;  // convert position (in matrix) to item
-        int itemsPerRow() const;
-        bool isImage(const QModelIndex &) const;
-        QPixmap getImage(const QModelIndex &) const;
-        int getitemWidth(const QModelIndex &) const;
-        int getItemHeigth(const QModelIndex &) const;
-        int getItemHeigth(const QModelIndex &, const QModelIndex &) const;                // max height for set of items
-        QSize getItemSize(const QModelIndex &) const;
 
         // view stuff
         const QRect& getItemRect(const QModelIndex &) const;

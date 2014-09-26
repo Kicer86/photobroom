@@ -25,6 +25,8 @@ set(GUI_SOURCES
     Qt5/model_view/model_helpers/idx_data.cpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.cpp
     Qt5/model_view/model_helpers/photos_matcher.cpp
+    Qt5/model_view/view_helpers/data.cpp
+    Qt5/model_view/view_helpers/positions_calculator.cpp
     Qt5/model_view/images_tree_view.cpp
     Qt5/model_view/images_view.cpp
     Qt5/model_view/image_manager.cpp
@@ -56,6 +58,8 @@ set(GUI_HEADERS
     Qt5/model_view/model_helpers/idx_data.hpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
     Qt5/model_view/model_helpers/photos_matcher.hpp
+    Qt5/model_view/view_helpers/data.hpp
+    Qt5/model_view/view_helpers/positions_calculator.hpp
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/images_view.hpp
     Qt5/model_view/image_manager.hpp
