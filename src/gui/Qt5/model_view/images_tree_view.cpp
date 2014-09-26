@@ -26,6 +26,11 @@
 #include <QPainter>
 #include <QMouseEvent>
 
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/hashed_index.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/member.hpp>
+
 #include <configuration/constants.hpp>
 #include <configuration/configuration.hpp>
 
@@ -63,10 +68,11 @@ struct ImagesTreeView::Data
 {
     struct ModelIndexInfo
     {
-        Optional<QRect> rect;
-        Optional<bool> expanded;
+        QModelIndex index;
+        QRect rect;
+        bool expanded;
 
-        ModelIndexInfo(): rect(), expanded() {}
+        ModelIndexInfo(): index(), rect(), expanded(false) {}
     };
 
     IConfiguration* m_configuration;
@@ -80,6 +86,19 @@ struct ImagesTreeView::Data
     QModelIndex get(const QPoint &);
 
     private:
+        typedef boost::multi_index_container
+        <
+            ModelIndexInfo,
+            boost::multi_index::indexed_by
+            <
+                boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QModelIndex, &ModelIndexInfo::index>, IndexHasher>
+            >,
+            boost::multi_index::indexed_by
+            <
+                boost::multi_index::ordered_non_unique<boost::multi_index::member<ModelIndexInfo, QRect, &ModelIndexInfo::rect>, QRectCompare>
+            >
+        > ModelIndexInfoSet;
+
         std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
 };
 
@@ -285,31 +304,28 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
 QRect ImagesTreeView::calcItemRect(const QModelIndex& index) const
 {
-    Data::ModelIndexInfo& info = m_data->get(index);
+    assert(index.column() == 0);
 
-    if (info.rect.is_initialized() == false)   //rect not initialized yet?
+    QRect result;
+
+    QModelIndex item_parent = QAbstractItemView::model()->parent(index);
+    const QSize item_size = getItemSize(index);
+
+    if (index.row() == 0)  //first
     {
-        assert(index.column() == 0);
+        const QPoint point = positionOfFirstChild(item_parent);
 
-        QModelIndex item_parent = QAbstractItemView::model()->parent(index);
-        const QSize item_size = getItemSize(index);
+        result = QRect(point, item_size);
+    }
+    else
+    {
+        const QModelIndex sibling = QAbstractItemView::model()->index(index.row() - 1, 0, item_parent);
+        const QPoint point = positionOfNext(sibling);
 
-        if (index.row() == 0)  //first
-        {
-            const QPoint point = positionOfFirstChild(item_parent);
-
-            info.rect = QRect(point, item_size);
-        }
-        else
-        {
-            const QModelIndex sibling = QAbstractItemView::model()->index(index.row() - 1, 0, item_parent);
-            const QPoint point = positionOfNext(sibling);
-
-            info.rect = QRect(point, item_size);
-        }
+        result = QRect(point, item_size);
     }
 
-    return *info.rect;
+    return result;
 }
 
 
@@ -329,7 +345,7 @@ QPoint ImagesTreeView::positionOfNextImage(const QModelIndex& index) const
 
     const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
-    const QRect items_pos = calcItemRect(index);
+    const QRect items_pos = getItemRect(index);
 
     assert(items_matrix_pos.x() < items_per_row);
 
@@ -502,11 +518,11 @@ QSize ImagesTreeView::getItemSize(const QModelIndex& index) const
 }
 
 
-QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
+const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    Data::ModelIndexInfo info = m_data->get(index);
+    const Data::ModelIndexInfo& info = m_data->get(index);
 
-    return *(info.rect);
+    return info.rect;
 }
 
 
@@ -561,10 +577,7 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 {
     Data::ModelIndexInfo& info = m_data->get(index);
 
-    if (info.expanded.is_initialized() == false)
-        info.expanded = false;
-
-    return *info.expanded;
+    return info.expanded;
 }
 
 
