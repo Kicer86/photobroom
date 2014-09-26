@@ -159,7 +159,7 @@ bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
 
 QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 {
-    return getItemRect(index);
+    return calcItemRect(index);
 }
 
 
@@ -242,7 +242,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
         QAbstractItemModel* m = QAbstractItemView::model();
 
-        const QRect r = getItemRect(item);
+        const QRect r = calcItemRect(item);
         const bool image = isImage(item);
 
         if (image)
@@ -283,7 +283,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
 /// private:
 
-QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
+QRect ImagesTreeView::calcItemRect(const QModelIndex& index) const
 {
     Data::ModelIndexInfo& info = m_data->get(index);
 
@@ -329,7 +329,7 @@ QPoint ImagesTreeView::positionOfNextImage(const QModelIndex& index) const
 
     const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
-    const QRect items_pos = getItemRect(index);
+    const QRect items_pos = calcItemRect(index);
 
     assert(items_matrix_pos.x() < items_per_row);
 
@@ -355,7 +355,7 @@ QPoint ImagesTreeView::positionOfNextNode(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    const QRect items_pos = getItemRect(index);
+    const QRect items_pos = calcItemRect(index);
     const int item_height = getItemHeigth(index);
     const QPoint result = QPoint(0, items_pos.y() + item_height);
 
@@ -369,7 +369,7 @@ QPoint ImagesTreeView::positionOfFirstChild(const QModelIndex& index) const
 
     if (index.isValid())           // regular item
     {
-        const QRect r = getItemRect(index);
+        const QRect r = calcItemRect(index);
         result = QPoint(0, r.y() + r.height());
     }
     else                           // master root
@@ -568,7 +568,7 @@ void ImagesTreeView::rereadModel()
 
     for(const QModelIndex& index: items)
     {
-        QRect itemRect = getItemRect(index);
+        QRect itemRect = calcItemRect(index);
 
         //check if we are ok with order
         if (m_data->m_visibleItemsMap.empty() == false)

@@ -62,7 +62,7 @@ class ImagesTreeView: public QAbstractItemView
         std::unique_ptr<Data> m_data;
 
         // positions calculations
-        QRect getItemRect(const QModelIndex &) const;
+        QRect calcItemRect(const QModelIndex &) const;
         QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
         QPoint positionOfNextImage(const QModelIndex &) const;                        // calculate position of next item (image item)
         QPoint positionOfNextNode(const QModelIndex &) const;                         // calculate position of next item (node item)
