@@ -40,20 +40,20 @@ class Data
             QModelIndex index;
             QRect rect;
             bool expanded;
+            bool visible;
 
-            ModelIndexInfo(): index(), rect(), expanded(false) {}
+            ModelIndexInfo(const QModelIndex& idx): index(idx), rect(), expanded(false), visible(false) {}
         };
 
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
-        std::deque<std::pair<QRect, QModelIndex>> m_visibleItemsMap;                //list of visible items
 
-        Data(): m_configuration(nullptr), m_visibleItemsMap(), m_itemData() {}
+        Data(): m_configuration(nullptr), m_itemData() {}
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
-        ModelIndexInfo& get(const QModelIndex &);
-        QModelIndex get(const QPoint &);
+        ModelIndexInfo get(const QModelIndex &);
+        ModelIndexInfo get(const QPoint &);
         bool isImage(QAbstractItemModel *, const QModelIndex &);
         QPixmap getImage(QAbstractItemModel *, const QModelIndex &) const;
 
@@ -86,15 +86,12 @@ class Data
             ModelIndexInfo,
             boost::multi_index::indexed_by
             <
-                boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QModelIndex, &ModelIndexInfo::index>, IndexHasher>
-            >,
-            boost::multi_index::indexed_by
-            <
+                boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QModelIndex, &ModelIndexInfo::index>, IndexHasher>,
                 boost::multi_index::ordered_non_unique<boost::multi_index::member<ModelIndexInfo, QRect, &ModelIndexInfo::rect>, QRectCompare>
             >
         > ModelIndexInfoSet;
 
-        std::unordered_map<QModelIndex, ModelIndexInfo, IndexHasher> m_itemData;
+        ModelIndexInfoSet m_itemData;
 };
 
 #endif // DATA_HPP

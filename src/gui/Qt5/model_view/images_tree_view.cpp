@@ -52,7 +52,8 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    const QModelIndex& result = m_data->get(point);
+    Data::ModelIndexInfo info = m_data->get(point);
+    const QModelIndex& result = info.index;
 
     return result;
 }
@@ -177,7 +178,8 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
     QAbstractScrollArea::mouseReleaseEvent(e);
 
-    const QModelIndex item = m_data->get(e->pos());
+    Data::ModelIndexInfo info = m_data->get(e->pos());
+    const QModelIndex& item = info.index;
 
     if (item.isValid())
     {
@@ -258,8 +260,6 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 
 void ImagesTreeView::rereadModel()
 {
-    m_data->m_visibleItemsMap.clear();
-
     std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
 
     for(const QModelIndex& index: items)

@@ -21,34 +21,32 @@
 
 #include <QPixmap>
 
-Data::ModelIndexInfo& Data::get(const QModelIndex& index)
+Data::ModelIndexInfo Data::get(const QModelIndex& index)
 {
     auto it = m_itemData.find(index);
 
-    if (it == m_itemData.end())
-    {
-        Data::ModelIndexInfo info;
-        auto data = std::make_pair(index, info);
-        auto insert_it = m_itemData.insert(data);
+    assert(it != m_itemData.end());
 
-        it = insert_it.first;
-    }
-
-    Data::ModelIndexInfo& info = it->second;
+    Data::ModelIndexInfo info = *it;
 
     return info;
 }
 
 
-QModelIndex Data::get(const QPoint& point)
+Data::ModelIndexInfo Data::get(const QPoint& point)
 {
-    QModelIndex result;
+    auto it = m_itemData.get<1>().begin();
+    auto it_end = m_itemData.get<1>().end();
 
-    for(const auto& data: m_visibleItemsMap)
+    ModelIndexInfo result( (QModelIndex()) );
+
+    for(; it != it_end; ++it)
     {
-        if (data.first.contains(point))
+        const Data::ModelIndexInfo& info = *it;
+
+        if (info.rect.contains(point))
         {
-            result = data.second;
+            result = info;
             break;
         }
     }
