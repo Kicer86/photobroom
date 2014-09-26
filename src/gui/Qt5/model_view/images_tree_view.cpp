@@ -159,7 +159,7 @@ bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
 
 QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 {
-    return calcItemRect(index);
+    return getItemRect(index);
 }
 
 
@@ -499,6 +499,14 @@ QSize ImagesTreeView::getItemSize(const QModelIndex& index) const
     const QSize item_size(getitemWidth(index), getItemHeigth(index));
 
     return item_size;
+}
+
+
+QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
+{
+    Data::ModelIndexInfo info = m_data->get(index);
+
+    return *(info.rect);
 }
 
 

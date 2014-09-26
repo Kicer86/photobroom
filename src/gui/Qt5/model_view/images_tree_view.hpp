@@ -78,6 +78,7 @@ class ImagesTreeView: public QAbstractItemView
         QSize getItemSize(const QModelIndex &) const;
 
         // view stuff
+        QRect getItemRect(const QModelIndex &) const;
         std::deque<QModelIndex> findItemsIn(const QRect &) const;
         std::deque<QModelIndex> getChildrenFor(const QModelIndex &) const;
         bool isExpanded(const QModelIndex &) const;
