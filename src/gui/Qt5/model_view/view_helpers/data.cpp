@@ -125,9 +125,12 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 }
 
 
-void Data::add(const Data::ModelIndexInfo& info)
+void Data::update(const Data::ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
+
+    //this function should only update items, do not insert them
+    assert(it != m_itemData.end());
 
     if (it == m_itemData.end())
         m_itemData.insert(info);

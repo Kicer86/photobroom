@@ -81,7 +81,7 @@ class Data
         QPixmap getImage(QAbstractItemModel *, const QModelIndex &) const;
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
 
-        void add(const ModelIndexInfo &);
+        void update(const ModelIndexInfo &);
         void clear();
 
     private:

@@ -184,7 +184,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     if (item.isValid())
     {
         info.expanded = !info.expanded;
-        m_data->add(info);
+        m_data->update(info);
 
         updateModel();
     }
@@ -279,7 +279,7 @@ void ImagesTreeView::updateModel()
         Data::ModelIndexInfo info = m_data->get(index);
         info.setPosition(itemRect);
 
-        m_data->add(info);
+        m_data->update(info);
     }
 
     //refresh widget
