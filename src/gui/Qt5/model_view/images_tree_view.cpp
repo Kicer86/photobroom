@@ -263,25 +263,14 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 void ImagesTreeView::rereadModel()
 {
     m_data->clear();
-    std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
+    const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
+    QAbstractItemModel* m = QAbstractItemView::model();
+    PositionsCalculator calculator(m, m_data.get(), QWidget::width());
 
     for(const QModelIndex& index: items)
     {
-        QAbstractItemModel* m = QAbstractItemView::model();
-        PositionsCalculator calculator(m, m_data.get(), QWidget::width());
-        QRect itemRect = calculator.calcItemRect(index);
+        const QRect itemRect = calculator.calcItemRect(index);
 
-        //check if we are ok with order
-        /*
-        if (m_data->m_visibleItemsMap.empty() == false)
-        {
-            const QRectCompare comparer;
-            const auto& item = m_data->m_visibleItemsMap.back();
-            const bool comp = comparer(item.first, itemRect);    //current item should be greater than last one
-
-            assert(comp);
-        }
-        */
         Data::ModelIndexInfo info(index);
         info.rect = itemRect;
 
