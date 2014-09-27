@@ -42,7 +42,7 @@ class Data
             bool expanded;
             bool visible;
 
-            ModelIndexInfo(const QModelIndex& idx): index(idx), rect(), expanded(false), visible(false) {}
+            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), rect(), expanded(false), visible(false) {}
         };
 
         const int indexMargin = 10;           // TODO: move to configuration
@@ -53,9 +53,14 @@ class Data
         Data& operator=(const Data &) = delete;
 
         ModelIndexInfo get(const QModelIndex &);
-        ModelIndexInfo get(const QPoint &);
-        bool isImage(QAbstractItemModel *, const QModelIndex &);
+
+        ModelIndexInfo get(const QPoint &) const;
+        bool isImage(QAbstractItemModel *, const QModelIndex &) const;
         QPixmap getImage(QAbstractItemModel *, const QModelIndex &) const;
+        void for_each(std::function<bool(const ModelIndexInfo &)>) const;
+
+        void add(const ModelIndexInfo &);
+        void clear();
 
     private:
         struct IndexHasher

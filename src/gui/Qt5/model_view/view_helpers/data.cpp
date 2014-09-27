@@ -25,7 +25,14 @@ Data::ModelIndexInfo Data::get(const QModelIndex& index)
 {
     auto it = m_itemData.find(index);
 
-    assert(it != m_itemData.end());
+    //create if doesn't exist
+    if (it == m_itemData.end())
+    {
+        ModelIndexInfo item(index);
+        auto iit = m_itemData.insert(item);
+
+        it = iit.first;
+    }
 
     Data::ModelIndexInfo info = *it;
 
@@ -33,29 +40,27 @@ Data::ModelIndexInfo Data::get(const QModelIndex& index)
 }
 
 
-Data::ModelIndexInfo Data::get(const QPoint& point)
+Data::ModelIndexInfo Data::get(const QPoint& point) const
 {
-    auto it = m_itemData.get<1>().begin();
-    auto it_end = m_itemData.get<1>().end();
+    Data::ModelIndexInfo result;
 
-    ModelIndexInfo result( (QModelIndex()) );
-
-    for(; it != it_end; ++it)
+    for_each([&] (const ModelIndexInfo& info)
     {
-        const Data::ModelIndexInfo& info = *it;
-
+        bool cont = true;
         if (info.rect.contains(point))
         {
             result = info;
-            break;
+            cont = false;
         }
-    }
+
+        return cont;
+    });
 
     return result;
 }
 
 
-bool Data::isImage(QAbstractItemModel* model, const QModelIndex& index)
+bool Data::isImage(QAbstractItemModel* model, const QModelIndex& index) const
 {
     const bool has_children = model->hasChildren(index);
     bool result = false;
@@ -84,3 +89,36 @@ QPixmap Data::getImage(QAbstractItemModel* model, const QModelIndex& index) cons
     return pixmap;
 }
 
+
+void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
+{
+    auto it = m_itemData.get<1>().begin();
+    auto it_end = m_itemData.get<1>().end();
+
+    ModelIndexInfo result( (QModelIndex()) );
+
+    for(; it != it_end; ++it)
+    {
+        const Data::ModelIndexInfo& info = *it;
+        const bool cont = f(info);
+
+        if (!cont)
+            break;
+    }
+}
+
+
+void Data::add(const Data::ModelIndexInfo& info)
+{
+    auto it = m_itemData.find(info.index);
+    if (it != m_itemData.end())
+        m_itemData.erase(it);
+
+    m_itemData.insert(info);
+}
+
+
+void Data::clear()
+{
+    m_itemData.clear();
+}

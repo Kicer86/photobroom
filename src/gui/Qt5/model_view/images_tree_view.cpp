@@ -208,15 +208,17 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
     //TODO: optimise?
     std::deque<QModelIndex> result;
 
-    for(const auto& item: m_data->m_visibleItemsMap)
+    m_data->for_each( [&] (const Data::ModelIndexInfo& info)
     {
-        const QRect& item_rect = item.first;
-        const QModelIndex& index = item.second;
+        const QRect& item_rect = info.rect;
+        const QModelIndex& index = info.index;
         const bool overlap = _rect.intersects(item_rect);
 
         if (overlap)
             result.push_back(index);
-    }
+
+        return true;
+    });
 
     return result;
 }
@@ -252,7 +254,7 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& _paren
 
 bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 {
-    Data::ModelIndexInfo& info = m_data->get(index);
+    const Data::ModelIndexInfo& info = m_data->get(index);
 
     return info.expanded;
 }
@@ -260,6 +262,7 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 
 void ImagesTreeView::rereadModel()
 {
+    m_data->clear();
     std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
 
     for(const QModelIndex& index: items)
@@ -279,8 +282,10 @@ void ImagesTreeView::rereadModel()
             assert(comp);
         }
         */
+        Data::ModelIndexInfo info(index);
+        info.rect = itemRect;
 
-        m_data->m_visibleItemsMap.push_back(std::make_pair(itemRect, index));
+        m_data->add(info);
     }
 
     //refresh widget
