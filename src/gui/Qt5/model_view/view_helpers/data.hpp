@@ -70,13 +70,13 @@ class Data
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
 
-        Data(): m_configuration(nullptr), m_itemData() {}
+        Data(): m_configuration(nullptr), m_itemData(), m_invalid() {}
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
         ModelIndexInfo get(const QModelIndex &);
 
-        ModelIndexInfo get(const QPoint &) const;
+        const ModelIndexInfo& get(const QPoint &) const;
         bool isImage(QAbstractItemModel *, const QModelIndex &) const;
         QPixmap getImage(QAbstractItemModel *, const QModelIndex &) const;
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
@@ -119,6 +119,9 @@ class Data
         > ModelIndexInfoSet;
 
         ModelIndexInfoSet m_itemData;
+        ModelIndexInfo m_invalid;
+
+        void dump();
 };
 
 #endif // DATA_HPP

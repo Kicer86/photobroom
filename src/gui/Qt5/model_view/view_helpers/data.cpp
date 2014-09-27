@@ -20,6 +20,23 @@
 #include "data.hpp"
 
 #include <QPixmap>
+#include <QDebug>
+
+std::ostream &operator<<(std::ostream &o, const QRect &r)
+{
+    return o << "QRect: [left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
+}
+
+std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
+{
+    QString str;
+    QDebug(&str) << idx;
+
+    os << str.toStdString();
+
+    return os;
+}
+
 
 Data::ModelIndexInfo Data::get(const QModelIndex& index)
 {
@@ -40,23 +57,23 @@ Data::ModelIndexInfo Data::get(const QModelIndex& index)
 }
 
 
-Data::ModelIndexInfo Data::get(const QPoint& point) const
+const Data::ModelIndexInfo& Data::get(const QPoint& point) const
 {
-    Data::ModelIndexInfo result;
+    const Data::ModelIndexInfo* result = &m_invalid;
 
     for_each([&] (const ModelIndexInfo& info)
     {
         bool cont = true;
         if (info.getPosition().contains(point))
         {
-            result = info;
+            result = &info;
             cont = false;
         }
 
         return cont;
     });
 
-    return result;
+    return *result;
 }
 
 
@@ -111,11 +128,13 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 void Data::add(const Data::ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
-    
+
     if (it == m_itemData.end())
         m_itemData.insert(info);
     else
         m_itemData.replace(it, info);
+
+    dump();
 }
 
 
@@ -123,3 +142,18 @@ void Data::clear()
 {
     m_itemData.clear();
 }
+
+
+void Data::dump()
+{
+    int i = 0;
+    for_each([&](const ModelIndexInfo& item)
+    {
+        std::cout << i++ << ": " << item.index << ", " << item.getPosition() << ", expanded: " << item.expanded << std::endl;
+
+        return true;
+    });
+
+    std::cout << std::endl;
+}
+
