@@ -85,7 +85,7 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
     const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
     const Data::ModelIndexInfo& info = m_data->get(index);
-    const QRect items_pos = info.rect;
+    const QRect& items_pos = info.getPosition();
 
     assert(items_matrix_pos.x() < items_per_row);
 

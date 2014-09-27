@@ -29,6 +29,7 @@
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/member.hpp>
+#include <boost/multi_index/mem_fun.hpp>
 
 struct IConfiguration;
 
@@ -38,11 +39,32 @@ class Data
         struct ModelIndexInfo
         {
             QModelIndex index;
-            QRect rect;
             bool expanded;
-            bool visible;
 
-            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), rect(), expanded(false), visible(false) {}
+            void setPosition(const QRect& r)
+            {
+                rect = r;
+            }
+
+            const QRect& getPosition() const
+            {
+                return rect;
+            }
+
+            void markInvisible()
+            {
+                rect = QRect();
+            }
+
+            bool isVisible() const
+            {
+                return rect.isNull() == false;
+            }
+
+            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect() {}
+
+            private:
+                QRect rect;
         };
 
         const int indexMargin = 10;           // TODO: move to configuration
@@ -92,7 +114,7 @@ class Data
             boost::multi_index::indexed_by
             <
                 boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QModelIndex, &ModelIndexInfo::index>, IndexHasher>,
-                boost::multi_index::ordered_non_unique<boost::multi_index::member<ModelIndexInfo, QRect, &ModelIndexInfo::rect>, QRectCompare>
+                boost::multi_index::ordered_non_unique<boost::multi_index::const_mem_fun<ModelIndexInfo, const QRect &, &ModelIndexInfo::getPosition>, QRectCompare>
             >
         > ModelIndexInfoSet;
 

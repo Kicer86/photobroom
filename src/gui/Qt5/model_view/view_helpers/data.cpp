@@ -47,7 +47,7 @@ Data::ModelIndexInfo Data::get(const QPoint& point) const
     for_each([&] (const ModelIndexInfo& info)
     {
         bool cont = true;
-        if (info.rect.contains(point))
+        if (info.getPosition().contains(point))
         {
             result = info;
             cont = false;

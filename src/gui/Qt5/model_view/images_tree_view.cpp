@@ -152,7 +152,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
         QAbstractItemModel* m = QAbstractItemView::model();
         const Data::ModelIndexInfo& info = m_data->get(item);
-        const QRect& r = info.rect;
+        const QRect& r = info.getPosition();
         const bool image = m_data->isImage(m, item);
 
         if (image)
@@ -199,7 +199,7 @@ const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
     const Data::ModelIndexInfo& info = m_data->get(index);
 
-    return info.rect;
+    return info.getPosition();
 }
 
 
@@ -210,7 +210,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 
     m_data->for_each( [&] (const Data::ModelIndexInfo& info)
     {
-        const QRect& item_rect = info.rect;
+        const QRect& item_rect = info.getPosition();
         const QModelIndex& index = info.index;
         const bool overlap = _rect.intersects(item_rect);
 
@@ -272,7 +272,7 @@ void ImagesTreeView::rereadModel()
         const QRect itemRect = calculator.calcItemRect(index);
 
         Data::ModelIndexInfo info(index);
-        info.rect = itemRect;
+        info.setPosition(itemRect);
 
         m_data->add(info);
     }
