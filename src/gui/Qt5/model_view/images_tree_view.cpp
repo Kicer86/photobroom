@@ -228,19 +228,24 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& _paren
     std::deque<QModelIndex> result;
 
     QAbstractItemModel* m = QAbstractItemView::model();
-    const bool has_children = m->hasChildren();
+    const bool expanded = isExpanded(_parent);
 
-    if (has_children)
+    if (expanded)
     {
-        const int r = m->rowCount(_parent);
-        for(int i = 0; i < r; i++)
-        {
-            QModelIndex c = m->index(i, 0, _parent);
-            result.push_back(c);
+        const bool fetchMore = m->canFetchMore(_parent);
+        if (fetchMore)
+            m->fetchMore(_parent);
 
-            const bool expanded = isExpanded(c);
-            if (expanded)
+        const bool has_children = m->hasChildren(_parent);
+
+        if (has_children)
+        {
+            const int r = m->rowCount(_parent);
+            for(int i = 0; i < r; i++)
             {
+                QModelIndex c = m->index(i, 0, _parent);
+                result.push_back(c);
+
                 std::deque<QModelIndex> c_result = getChildrenFor(c);
                 result.insert(result.end(), c_result.begin(), c_result.end());
             }
@@ -253,9 +258,15 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex& _paren
 
 bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 {
-    const Data::ModelIndexInfo& info = m_data->get(index);
+    bool status = true;               //for top root return true
+    if (index.isValid())
+    {
+        const Data::ModelIndexInfo& info = m_data->get(index);
 
-    return info.expanded;
+        status = info.expanded;
+    }
+
+    return status;
 }
 
 
