@@ -160,7 +160,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
             const QVariant v = m->data(item, Qt::DecorationRole);
             const QPixmap p = v.value<QPixmap>();
 
-            painter.drawPixmap(m_data->indexMargin, m_data->indexMargin, p);
+            painter.drawPixmap(r.x() + m_data->indexMargin, r.y() + m_data->indexMargin, p);
         }
         else
         {
