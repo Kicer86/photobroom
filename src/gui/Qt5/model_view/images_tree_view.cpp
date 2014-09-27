@@ -276,8 +276,7 @@ void ImagesTreeView::updateModel()
     for(const QModelIndex& index: items)
     {
         const QRect itemRect = calculator.calcItemRect(index);
-
-        Data::ModelIndexInfo info(index);
+        Data::ModelIndexInfo info = m_data->get(index);
         info.setPosition(itemRect);
 
         m_data->add(info);
