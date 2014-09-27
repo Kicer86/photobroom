@@ -111,10 +111,11 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 void Data::add(const Data::ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
-    if (it != m_itemData.end())
-        m_itemData.erase(it);
-
-    m_itemData.insert(info);
+    
+    if (it == m_itemData.end())
+        m_itemData.insert(info);
+    else
+        m_itemData.replace(it, info);
 }
 
 
