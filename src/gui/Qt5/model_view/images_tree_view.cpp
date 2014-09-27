@@ -183,11 +183,10 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
     if (item.isValid())
     {
-        const bool expanded = isExpanded(item);
+        info.expanded = !info.expanded;
+        m_data->add(info);
 
-        if (expanded)
-        {
-        }
+        updateModel();
     }
 }
 
