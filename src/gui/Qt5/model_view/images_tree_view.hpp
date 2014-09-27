@@ -70,6 +70,7 @@ class ImagesTreeView: public QAbstractItemView
 
         // model updates
         void rereadModel();
+        void updateModel();
 
     private slots:
         void modelReset();

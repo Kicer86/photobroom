@@ -263,6 +263,13 @@ bool ImagesTreeView::isExpanded(const QModelIndex& index) const
 void ImagesTreeView::rereadModel()
 {
     m_data->clear();
+    updateModel();
+}
+
+
+void ImagesTreeView::updateModel()
+{
+    //go thru all children and recalculate positions
     const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
     QAbstractItemModel* m = QAbstractItemView::model();
     PositionsCalculator calculator(m, m_data.get(), QWidget::width());
@@ -291,5 +298,5 @@ void ImagesTreeView::modelReset()
 void ImagesTreeView::rowsInserted(const QModelIndex&, int, int)
 {
     //TODO: optimise
-    rereadModel();
+    updateModel();
 }
