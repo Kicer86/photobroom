@@ -72,7 +72,7 @@ QPoint PositionsCalculator::positionOfNext(const QModelIndex& index) const
 {
     const bool image = m_data->isImage(m_model, index);
     const QPoint result = image? positionOfNextImage(index):
-    positionOfNextNode(index);
+                                 positionOfNextNode(index);
 
     return result;
 }
