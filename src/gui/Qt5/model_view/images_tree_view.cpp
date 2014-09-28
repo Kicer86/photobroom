@@ -268,6 +268,13 @@ void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
     //all siblings of parent need to be marked as dirty (only thos below parent)
     QAbstractItemModel* m = QAbstractItemView::model();
 
+    auto dirtMaker = [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
+    {
+        ModelIndexInfo info = m_data->get(idx);
+        info.markDirty();
+        m_data->update(info);
+    };
+
     if (parent.isValid())
     {
         const QModelIndex parentsParent = m->parent(parent);
@@ -275,16 +282,8 @@ void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
 
         for (int r = parent.row(); r < children; r++)
         {
-            QModelIndex sibling = m->index(r, 0, parentsParent);
-
-            m_data->for_each_recursively(m, [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
-            {
-                ModelIndexInfo info = m_data->get(idx);
-                info.markDirty();
-                m_data->update(info);
-            },
-            sibling
-            );
+            const QModelIndex sibling = m->index(r, 0, parentsParent);
+            m_data->for_each_recursively(m, dirtMaker, sibling);
         }
     }
 
@@ -293,16 +292,8 @@ void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
 
     for (int r = to; r < children; r++)
     {
-        QModelIndex sibling = m->index(r, 0, parent);
-
-        m_data->for_each_recursively(m, [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
-        {
-            ModelIndexInfo info = m_data->get(idx);
-            info.markDirty();
-            m_data->update(info);
-        },
-        sibling
-        );
+        const QModelIndex sibling = m->index(r, 0, parent);
+        m_data->for_each_recursively(m, dirtMaker, sibling);
     }
 
     updateModel();
