@@ -44,24 +44,28 @@ void PositionsCalculator::updateItems() const
 {
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
-        if (idx.isValid())                                       //we don't care about updating top root
+        if (idx.isValid())                                           // we don't care about updating top root
         {
             ModelIndexInfo info = m_data->get(idx);
-            QRect rect = calcItemRect(idx);
-            info.setRect(rect);
-            m_data->update(info);                                //size muse be stored at this point, as children calculations may require it
 
-            for(const QModelIndex& child: children)
+            if (info.isDirty())                                      // calculations only for dirty ones
             {
-                ModelIndexInfo c_info = m_data->get(child);
-                QRect c_rect = c_info.getRect();
-                assert(c_rect.isValid());
+                QRect rect = calcItemRect(idx);
+                info.setRect(rect);
+                m_data->update(info);                                // size muse be stored at this point, as children calculations may require it
 
-                rect = rect.united(c_rect);
+                for(const QModelIndex& child: children)
+                {
+                    ModelIndexInfo c_info = m_data->get(child);
+                    QRect c_rect = c_info.getRect();
+                    assert(c_rect.isValid());
+
+                    rect = rect.united(c_rect);
+                }
+
+                info.setOverallRect(rect);
+                m_data->update(info);
             }
-
-            info.setOverallRect(rect);
-            m_data->update(info);
         }
     });
 }
