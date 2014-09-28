@@ -24,7 +24,7 @@
 
 std::ostream &operator<<(std::ostream &o, const QRect &r)
 {
-    return o << "QRect: [left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
+    return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
 }
 
 std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
@@ -206,7 +206,7 @@ void Data::dump()
     int i = 0;
     for_each([&](const ModelIndexInfo& item)
     {
-        std::cout << i++ << ": " << item.index << ", " << item.getPosition() << ", expanded: " << item.expanded << std::endl;
+        std::cout << i++ << ": " << item.index << ", " << item.getPosition() << ", " << item.getOverallRect() << ", expanded: " << item.expanded << std::endl;
 
         return true;
     });

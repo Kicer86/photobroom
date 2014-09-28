@@ -44,11 +44,22 @@ class Data
             void setPosition(const QRect& r)
             {
                 rect = r;
+                overallRect = QRect();          // not valid anymore
+            }
+
+            void setOverallRect(const QRect& r)
+            {
+                overallRect = r;
             }
 
             const QRect& getPosition() const
             {
                 return rect;
+            }
+
+            const QRect& getOverallRect() const
+            {
+                return overallRect;
             }
 
             void markInvisible()
@@ -61,10 +72,11 @@ class Data
                 return rect.isNull() == false;
             }
 
-            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect() {}
+            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect(), overallRect() {}
 
             private:
                 QRect rect;
+                QRect overallRect;
         };
 
         const int indexMargin = 10;           // TODO: move to configuration
