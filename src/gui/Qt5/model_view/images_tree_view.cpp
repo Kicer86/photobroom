@@ -263,7 +263,7 @@ void ImagesTreeView::modelReset()
 }
 
 
-void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
+void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int, int to)
 {
     //all siblings of parent need to be marked as dirty (only thos below parent)
     QAbstractItemModel* m = QAbstractItemView::model();
@@ -275,12 +275,12 @@ void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
         m_data->update(info);
     };
 
-    if (parent.isValid())
+    if (_parent.isValid())
     {
-        const QModelIndex parentsParent = m->parent(parent);
-        const int children = m->rowCount(parentsParent);
+        const QModelIndex parentsParent = m->parent(_parent);
+        const int siblingsSize = m->rowCount(parentsParent);
 
-        for (int r = parent.row(); r < children; r++)
+        for (int r = _parent.row(); r < siblingsSize; r++)
         {
             const QModelIndex sibling = m->index(r, 0, parentsParent);
             m_data->for_each_recursively(m, dirtMaker, sibling);
@@ -288,11 +288,11 @@ void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
     }
 
     //also all siblings of placed rows must be marked as dirty
-    const int children = m->rowCount(parent);
+    const int siblingsSize = m->rowCount(_parent);
 
-    for (int r = to; r < children; r++)
+    for (int r = to; r < siblingsSize; r++)
     {
-        const QModelIndex sibling = m->index(r, 0, parent);
+        const QModelIndex sibling = m->index(r, 0, _parent);
         m_data->for_each_recursively(m, dirtMaker, sibling);
     }
 
