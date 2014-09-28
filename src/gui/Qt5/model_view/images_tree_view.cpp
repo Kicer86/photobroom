@@ -248,16 +248,9 @@ void ImagesTreeView::updateModel()
     //go thru all children and recalculate positions
     const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
     QAbstractItemModel* m = QAbstractItemView::model();
+    
     PositionsCalculator calculator(m, m_data.get(), QWidget::width());
-
-    for(const QModelIndex& index: items)
-    {
-        const QRect itemRect = calculator.calcItemRect(index);
-        Data::ModelIndexInfo info = m_data->get(index);
-        info.setPosition(itemRect);
-
-        m_data->update(info);
-    }
+    calculator.updateItems();
 
     //refresh widget
     viewport()->update();

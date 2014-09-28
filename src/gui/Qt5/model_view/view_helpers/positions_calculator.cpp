@@ -30,7 +30,7 @@
 
 PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width)
 {
-
+    //calcItemsOverallRect();
 }
 
 
@@ -39,6 +39,32 @@ PositionsCalculator::~PositionsCalculator()
 
 }
 
+
+void PositionsCalculator::updateItems() const
+{
+    m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
+    {
+        if (idx.isValid())    //we don't care about updating top root
+        {
+            Data::ModelIndexInfo info = m_data->get(idx);
+            QRect rect = calcItemRect(idx);
+            info.setPosition(rect);
+            m_data->update(info);                                //size muse be stored at this point, as children calculations may require it
+
+            for(const QModelIndex& child: children)
+            {
+                Data::ModelIndexInfo c_info = m_data->get(child);
+                QRect c_rect = c_info.getPosition();
+                assert(c_rect.isValid());
+
+                rect = rect.united(c_rect);
+            }
+
+            info.setOverallRect(rect);
+            m_data->update(info);
+        }
+    });
+}
 
 
 QRect PositionsCalculator::calcItemRect(const QModelIndex& index) const
@@ -111,9 +137,10 @@ QPoint PositionsCalculator::positionOfNextNode(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    const QRect items_pos = calcItemRect(index);
-    const int item_height = getItemHeigth(index);
-    const QPoint result = QPoint(0, items_pos.y() + item_height);
+    Data::ModelIndexInfo info = m_data->get(index);
+    const QRect items_pos = info.getOverallRect();
+    assert(items_pos.isValid());
+    const QPoint result = QPoint(0, items_pos.bottom());
 
     return result;
 }
@@ -216,6 +243,28 @@ int PositionsCalculator::getItemHeigth(const QModelIndex& from, const QModelInde
     }
 
     return result;
+}
+
+
+void PositionsCalculator::calcItemsOverallRect() const
+{
+    m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
+    {
+        Data::ModelIndexInfo info = m_data->get(idx);
+        QRect rect = info.getPosition();
+
+        for(const QModelIndex& child: children)
+        {
+            Data::ModelIndexInfo c_info = m_data->get(child);
+            QRect c_rect = c_info.getOverallRect();
+            assert(c_rect.isValid());                            // not valid?  Should never happen
+
+            rect = rect.united(c_rect);
+        }
+
+        info.setOverallRect(rect);
+        m_data->update(info);
+    });
 }
 
 

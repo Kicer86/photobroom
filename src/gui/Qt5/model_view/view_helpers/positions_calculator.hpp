@@ -36,9 +36,10 @@ class PositionsCalculator
         ~PositionsCalculator();
         PositionsCalculator& operator=(const PositionsCalculator& other) = delete;
 
-        QRect calcItemRect(const QModelIndex &) const;
+        void updateItems() const;
 
     private:
+        QRect calcItemRect(const QModelIndex &) const;
         QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
         QPoint positionOfNextImage(const QModelIndex &) const;                        // calculate position of next item (image item)
         QPoint positionOfNextNode(const QModelIndex &) const;                         // calculate position of next item (node item)
@@ -48,8 +49,10 @@ class PositionsCalculator
         int itemsPerRow() const;
         int getitemWidth(const QModelIndex &) const;
         int getItemHeigth(const QModelIndex &) const;
-        int getItemHeigth(const QModelIndex &, const QModelIndex &) const;                // max height for set of items
+        int getItemHeigth(const QModelIndex &, const QModelIndex &) const;            // max height for set of items
         QSize getItemSize(const QModelIndex &) const;
+
+        void calcItemsOverallRect() const;                                           // size (rect) including all subitems
 
         QAbstractItemModel* m_model;
         Data* m_data;
