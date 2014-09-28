@@ -43,6 +43,7 @@ struct ModelIndexInfo
     const QRect& getRect() const;
     const QRect& getOverallRect() const;
     bool isVisible() const;
+    bool isDirty() const;
 
     void markInvisible();
     void cleanRects();
@@ -53,6 +54,9 @@ private:
     QRect rect;
     QRect overallRect;
     bool visible;
+    bool dirty;
+
+    void rectUpdated();
 };
 
 

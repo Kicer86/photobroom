@@ -44,7 +44,8 @@ void ModelIndexInfo::setRect(const QRect& r)
 {
     rect = r;
     overallRect = QRect();          // not valid anymore
-    visible = true;
+
+    rectUpdated();
 }
 
 
@@ -52,6 +53,8 @@ void ModelIndexInfo::setOverallRect(const QRect& r)
 {
     overallRect = r;
     visible = true;
+    
+    rectUpdated();
 }
 
 
@@ -73,6 +76,12 @@ bool ModelIndexInfo::isVisible() const
 }
 
 
+bool ModelIndexInfo::isDirty() const
+{
+    return dirty;
+}
+
+
 void ModelIndexInfo::markInvisible()
 {
     cleanRects();
@@ -84,10 +93,19 @@ void ModelIndexInfo::cleanRects()
 {
     rect = QRect();
     overallRect = QRect();
+
+    rectUpdated();
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false)
+void ModelIndexInfo::rectUpdated()
+{
+    dirty = !(rect.isValid() && overallRect.isValid());
+}
+
+
+
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false), dirty(true)
 {
 }
 
