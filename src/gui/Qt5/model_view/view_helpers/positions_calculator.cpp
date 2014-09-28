@@ -44,7 +44,7 @@ void PositionsCalculator::updateItems() const
 {
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
-        if (idx.isValid())    //we don't care about updating top root
+        if (idx.isValid())                                       //we don't care about updating top root
         {
             ModelIndexInfo info = m_data->get(idx);
             QRect rect = calcItemRect(idx);
