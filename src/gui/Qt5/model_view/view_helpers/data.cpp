@@ -67,16 +67,16 @@ const QRect& ModelIndexInfo::getOverallRect() const
 }
 
 
+bool ModelIndexInfo::isVisible() const
+{
+    return visible;
+}
+
+
 void ModelIndexInfo::markInvisible()
 {
     cleanRects();
     visible = false;
-}
-
-
-bool ModelIndexInfo::isVisible() const
-{
-    return visible;
 }
 
 

@@ -42,8 +42,9 @@ struct ModelIndexInfo
     void setOverallRect(const QRect& r);
     const QRect& getRect() const;
     const QRect& getOverallRect() const;
-    void markInvisible();
     bool isVisible() const;
+
+    void markInvisible();
     void cleanRects();
 
     ModelIndexInfo(const QModelIndex& idx = QModelIndex());
