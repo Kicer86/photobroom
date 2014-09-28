@@ -125,6 +125,60 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 }
 
 
+bool Data::isExpanded(const QModelIndex& index)
+{
+    bool status = true;               //for top root return true
+    if (index.isValid())
+    {
+        const Data::ModelIndexInfo& info = get(index);
+
+        status = info.expanded;
+    }
+
+    return status;
+}
+
+
+void Data::for_each_recursively(QAbstractItemModel* m, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)> f)
+{
+    QModelIndex top;
+    std::deque<QModelIndex> c_result = for_each_recursively(m, top, f);
+    f(top, c_result);
+}
+
+
+std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const QModelIndex& idx, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)> f)
+{
+    std::deque<QModelIndex> result;
+    const bool expanded = isExpanded(idx);
+
+    if (expanded)
+    {
+        const bool fetchMore = m->canFetchMore(idx);
+        if (fetchMore)
+            m->fetchMore(idx);
+
+        const bool has_children = m->hasChildren(idx);
+
+        if (has_children)
+        {
+            const int r = m->rowCount(idx);
+            for(int i = 0; i < r; i++)
+            {
+                QModelIndex c = m->index(i, 0, idx);
+                result.push_back(c);
+
+                std::deque<QModelIndex> c_result = for_each_recursively(m, c, f);
+
+                f(c, c_result);
+            }
+        }
+    }
+
+    return result;
+}
+
+
 void Data::update(const Data::ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);

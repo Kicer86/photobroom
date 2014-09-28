@@ -81,6 +81,8 @@ class Data
         QPixmap getImage(QAbstractItemModel *, const QModelIndex &) const;
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
 
+        bool isExpanded(const QModelIndex &);
+        void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
         void update(const ModelIndexInfo &);
         void clear();
 
@@ -121,6 +123,7 @@ class Data
         ModelIndexInfoSet m_itemData;
         ModelIndexInfo m_invalid;
 
+        std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
         void dump();
 };
 
