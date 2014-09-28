@@ -98,6 +98,12 @@ void ModelIndexInfo::cleanRects()
 }
 
 
+void ModelIndexInfo::markDirty()
+{
+    cleanRects();
+}
+
+
 void ModelIndexInfo::rectUpdated()
 {
     dirty = rect.isNull() && overallRect.isNull();

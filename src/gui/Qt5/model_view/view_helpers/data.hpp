@@ -47,6 +47,7 @@ struct ModelIndexInfo
 
     void markInvisible();
     void cleanRects();
+    void markDirty();
 
     ModelIndexInfo(const QModelIndex& idx = QModelIndex());
 
