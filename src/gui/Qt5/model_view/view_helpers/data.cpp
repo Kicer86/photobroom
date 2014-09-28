@@ -214,11 +214,10 @@ bool Data::isExpanded(const QModelIndex& index)
 }
 
 
-void Data::for_each_recursively(QAbstractItemModel* m, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)> f)
+void Data::for_each_recursively(QAbstractItemModel* m, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)> f, const QModelIndex& first)
 {
-    QModelIndex top;
-    std::deque<QModelIndex> c_result = for_each_recursively(m, top, f);
-    f(top, c_result);
+    std::deque<QModelIndex> c_result = for_each_recursively(m, first, f);
+    f(first, c_result);
 }
 
 

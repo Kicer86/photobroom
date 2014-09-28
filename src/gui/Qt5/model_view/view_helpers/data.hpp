@@ -78,7 +78,7 @@ class Data
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
 
         bool isExpanded(const QModelIndex &);
-        void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
+        void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
         void update(const ModelIndexInfo &);
         void clear();
 
