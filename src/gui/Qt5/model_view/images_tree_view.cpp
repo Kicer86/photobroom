@@ -227,7 +227,7 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex &) cons
 {
     std::deque<QModelIndex> result;
 
-    m_data->for_each_recursively(QAbstractItemView::model(), [&] (const QModelIndex& idx, const std::deque<QModelIndex>& children)
+    m_data->for_each_recursively(QAbstractItemView::model(), [&] (const QModelIndex &, const std::deque<QModelIndex>& children)
     {
         result.insert(result.end(), children.begin(), children.end());
     });
