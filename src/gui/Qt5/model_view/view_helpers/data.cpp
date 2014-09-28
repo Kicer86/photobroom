@@ -53,7 +53,7 @@ void ModelIndexInfo::setOverallRect(const QRect& r)
 {
     overallRect = r;
     visible = true;
-    
+
     rectUpdated();
 }
 
@@ -100,7 +100,7 @@ void ModelIndexInfo::cleanRects()
 
 void ModelIndexInfo::rectUpdated()
 {
-    dirty = !(rect.isValid() && overallRect.isValid());
+    dirty = rect.isNull() && overallRect.isNull();
 }
 
 
