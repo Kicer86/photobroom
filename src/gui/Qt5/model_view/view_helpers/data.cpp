@@ -22,10 +22,12 @@
 #include <QPixmap>
 #include <QDebug>
 
+
 std::ostream &operator<<(std::ostream &o, const QRect &r)
 {
     return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
 }
+
 
 std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
 {
@@ -36,6 +38,61 @@ std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
 
     return os;
 }
+
+
+void ModelIndexInfo::setRect(const QRect& r)
+{
+    rect = r;
+    overallRect = QRect();          // not valid anymore
+    visible = true;
+}
+
+
+void ModelIndexInfo::setOverallRect(const QRect& r)
+{
+    overallRect = r;
+    visible = true;
+}
+
+
+const QRect& ModelIndexInfo::getRect() const
+{
+    return rect;
+}
+
+
+const QRect& ModelIndexInfo::getOverallRect() const
+{
+    return overallRect;
+}
+
+
+void ModelIndexInfo::markInvisible()
+{
+    cleanRects();
+    visible = false;
+}
+
+
+bool ModelIndexInfo::isVisible() const
+{
+    return visible;
+}
+
+
+void ModelIndexInfo::cleanRects()
+{
+    rect = QRect();
+    overallRect = QRect();
+}
+
+
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false)
+{
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 
 ModelIndexInfo Data::get(const QModelIndex& index)
@@ -213,4 +270,3 @@ void Data::dump()
 
     std::cout << std::endl;
 }
-
