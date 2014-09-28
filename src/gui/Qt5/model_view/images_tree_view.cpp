@@ -260,7 +260,7 @@ void ImagesTreeView::updateModel()
     }
 
     //refresh widget
-    update();
+    viewport()->update();
 }
 
 
