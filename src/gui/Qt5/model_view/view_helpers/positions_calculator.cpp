@@ -48,13 +48,13 @@ void PositionsCalculator::updateItems() const
         {
             Data::ModelIndexInfo info = m_data->get(idx);
             QRect rect = calcItemRect(idx);
-            info.setPosition(rect);
+            info.setRect(rect);
             m_data->update(info);                                //size muse be stored at this point, as children calculations may require it
 
             for(const QModelIndex& child: children)
             {
                 Data::ModelIndexInfo c_info = m_data->get(child);
-                QRect c_rect = c_info.getPosition();
+                QRect c_rect = c_info.getRect();
                 assert(c_rect.isValid());
 
                 rect = rect.united(c_rect);
@@ -111,7 +111,7 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
     const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
     const Data::ModelIndexInfo& info = m_data->get(index);
-    const QRect& items_pos = info.getPosition();
+    const QRect& items_pos = info.getRect();
 
     assert(items_matrix_pos.x() < items_per_row);
 
@@ -251,7 +251,7 @@ void PositionsCalculator::calcItemsOverallRect() const
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
         Data::ModelIndexInfo info = m_data->get(idx);
-        QRect rect = info.getPosition();
+        QRect rect = info.getRect();
 
         for(const QModelIndex& child: children)
         {

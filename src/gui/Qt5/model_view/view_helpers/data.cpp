@@ -64,7 +64,7 @@ const Data::ModelIndexInfo& Data::get(const QPoint& point) const
     for_each([&] (const ModelIndexInfo& info)
     {
         bool cont = true;
-        if (info.getPosition().contains(point))
+        if (info.getRect().contains(point))
         {
             result = &info;
             cont = false;
@@ -206,7 +206,7 @@ void Data::dump()
     int i = 0;
     for_each([&](const ModelIndexInfo& item)
     {
-        std::cout << i++ << ": " << item.index << ", " << item.getPosition() << ", " << item.getOverallRect() << ", expanded: " << item.expanded << std::endl;
+        std::cout << i++ << ": " << item.index << ", " << item.getRect() << ", " << item.getOverallRect() << ", expanded: " << item.expanded << std::endl;
 
         return true;
     });

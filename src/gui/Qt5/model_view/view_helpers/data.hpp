@@ -41,18 +41,20 @@ class Data
             QModelIndex index;
             bool expanded;
 
-            void setPosition(const QRect& r)
+            void setRect(const QRect& r)
             {
                 rect = r;
                 overallRect = QRect();          // not valid anymore
+                visible = true;
             }
 
             void setOverallRect(const QRect& r)
             {
                 overallRect = r;
+                visible = true;
             }
 
-            const QRect& getPosition() const
+            const QRect& getRect() const
             {
                 return rect;
             }
@@ -64,19 +66,27 @@ class Data
 
             void markInvisible()
             {
-                rect = QRect();
+                cleanRects();
+                visible = false;
             }
 
             bool isVisible() const
             {
-                return rect.isNull() == false;
+                return visible;
             }
 
-            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect(), overallRect() {}
+            void cleanRects()
+            {
+                rect = QRect();
+                overallRect = QRect();
+            }
+
+            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect(), overallRect(), visible(false) {}
 
             private:
                 QRect rect;
                 QRect overallRect;
+                bool visible;
         };
 
         const int indexMargin = 10;           // TODO: move to configuration
@@ -128,7 +138,7 @@ class Data
             boost::multi_index::indexed_by
             <
                 boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QModelIndex, &ModelIndexInfo::index>, IndexHasher>,
-                boost::multi_index::ordered_non_unique<boost::multi_index::const_mem_fun<ModelIndexInfo, const QRect &, &ModelIndexInfo::getPosition>, QRectCompare>
+                boost::multi_index::ordered_non_unique<boost::multi_index::const_mem_fun<ModelIndexInfo, const QRect &, &ModelIndexInfo::getRect>, QRectCompare>
             >
         > ModelIndexInfoSet;
 
