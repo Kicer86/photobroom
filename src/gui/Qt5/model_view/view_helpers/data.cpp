@@ -38,7 +38,7 @@ std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
 }
 
 
-Data::ModelIndexInfo Data::get(const QModelIndex& index)
+ModelIndexInfo Data::get(const QModelIndex& index)
 {
     auto it = m_itemData.find(index);
 
@@ -51,15 +51,15 @@ Data::ModelIndexInfo Data::get(const QModelIndex& index)
         it = iit.first;
     }
 
-    Data::ModelIndexInfo info = *it;
+    ModelIndexInfo info = *it;
 
     return info;
 }
 
 
-const Data::ModelIndexInfo& Data::get(const QPoint& point) const
+const ModelIndexInfo& Data::get(const QPoint& point) const
 {
-    const Data::ModelIndexInfo* result = &m_invalid;
+    const ModelIndexInfo* result = &m_invalid;
 
     for_each([&] (const ModelIndexInfo& info)
     {
@@ -116,7 +116,7 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 
     for(; it != it_end; ++it)
     {
-        const Data::ModelIndexInfo& info = *it;
+        const ModelIndexInfo& info = *it;
         const bool cont = f(info);
 
         if (!cont)
@@ -130,7 +130,7 @@ bool Data::isExpanded(const QModelIndex& index)
     bool status = true;               //for top root return true
     if (index.isValid())
     {
-        const Data::ModelIndexInfo& info = get(index);
+        const ModelIndexInfo& info = get(index);
 
         status = info.expanded;
     }
@@ -179,7 +179,7 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 }
 
 
-void Data::update(const Data::ModelIndexInfo& info)
+void Data::update(const ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
 

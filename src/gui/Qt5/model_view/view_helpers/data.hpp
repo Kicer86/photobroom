@@ -33,62 +33,63 @@
 
 struct IConfiguration;
 
+struct ModelIndexInfo
+{
+    QModelIndex index;
+    bool expanded;
+
+    void setRect(const QRect& r)
+    {
+        rect = r;
+        overallRect = QRect();          // not valid anymore
+        visible = true;
+    }
+
+    void setOverallRect(const QRect& r)
+    {
+        overallRect = r;
+        visible = true;
+    }
+
+    const QRect& getRect() const
+    {
+        return rect;
+    }
+
+    const QRect& getOverallRect() const
+    {
+        return overallRect;
+    }
+
+    void markInvisible()
+    {
+        cleanRects();
+        visible = false;
+    }
+
+    bool isVisible() const
+    {
+        return visible;
+    }
+
+    void cleanRects()
+    {
+        rect = QRect();
+        overallRect = QRect();
+    }
+
+    ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect(), overallRect(), visible(false) {}
+
+private:
+    QRect rect;
+    QRect overallRect;
+    bool visible;
+};
+
+
 class Data
 {
     public:
-        struct ModelIndexInfo
-        {
-            QModelIndex index;
-            bool expanded;
-
-            void setRect(const QRect& r)
-            {
-                rect = r;
-                overallRect = QRect();          // not valid anymore
-                visible = true;
-            }
-
-            void setOverallRect(const QRect& r)
-            {
-                overallRect = r;
-                visible = true;
-            }
-
-            const QRect& getRect() const
-            {
-                return rect;
-            }
-
-            const QRect& getOverallRect() const
-            {
-                return overallRect;
-            }
-
-            void markInvisible()
-            {
-                cleanRects();
-                visible = false;
-            }
-
-            bool isVisible() const
-            {
-                return visible;
-            }
-
-            void cleanRects()
-            {
-                rect = QRect();
-                overallRect = QRect();
-            }
-
-            ModelIndexInfo(const QModelIndex& idx = QModelIndex()): index(idx), expanded(false), rect(), overallRect(), visible(false) {}
-
-            private:
-                QRect rect;
-                QRect overallRect;
-                bool visible;
-        };
-
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
 

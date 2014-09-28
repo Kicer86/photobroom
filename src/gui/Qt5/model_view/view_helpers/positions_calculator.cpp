@@ -46,14 +46,14 @@ void PositionsCalculator::updateItems() const
     {
         if (idx.isValid())    //we don't care about updating top root
         {
-            Data::ModelIndexInfo info = m_data->get(idx);
+            ModelIndexInfo info = m_data->get(idx);
             QRect rect = calcItemRect(idx);
             info.setRect(rect);
             m_data->update(info);                                //size muse be stored at this point, as children calculations may require it
 
             for(const QModelIndex& child: children)
             {
-                Data::ModelIndexInfo c_info = m_data->get(child);
+                ModelIndexInfo c_info = m_data->get(child);
                 QRect c_rect = c_info.getRect();
                 assert(c_rect.isValid());
 
@@ -110,7 +110,7 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
 
     const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
-    const Data::ModelIndexInfo& info = m_data->get(index);
+    const ModelIndexInfo& info = m_data->get(index);
     const QRect& items_pos = info.getRect();
 
     assert(items_matrix_pos.x() < items_per_row);
@@ -137,7 +137,7 @@ QPoint PositionsCalculator::positionOfNextNode(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    Data::ModelIndexInfo info = m_data->get(index);
+    ModelIndexInfo info = m_data->get(index);
     const QRect items_pos = info.getOverallRect();
     assert(items_pos.isValid());
     const QPoint result = QPoint(0, items_pos.bottom());
@@ -250,12 +250,12 @@ void PositionsCalculator::calcItemsOverallRect() const
 {
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
-        Data::ModelIndexInfo info = m_data->get(idx);
+        ModelIndexInfo info = m_data->get(idx);
         QRect rect = info.getRect();
 
         for(const QModelIndex& child: children)
         {
-            Data::ModelIndexInfo c_info = m_data->get(child);
+            ModelIndexInfo c_info = m_data->get(child);
             QRect c_rect = c_info.getOverallRect();
             assert(c_rect.isValid());                            // not valid?  Should never happen
 

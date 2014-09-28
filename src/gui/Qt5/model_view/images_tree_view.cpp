@@ -52,7 +52,7 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    Data::ModelIndexInfo info = m_data->get(point);
+    ModelIndexInfo info = m_data->get(point);
     const QModelIndex& result = info.index;
 
     return result;
@@ -151,7 +151,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         */
 
         QAbstractItemModel* m = QAbstractItemView::model();
-        const Data::ModelIndexInfo& info = m_data->get(item);
+        const ModelIndexInfo& info = m_data->get(item);
         const QRect& r = info.getRect();
         const bool image = m_data->isImage(m, item);
 
@@ -178,7 +178,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
     QAbstractScrollArea::mouseReleaseEvent(e);
 
-    Data::ModelIndexInfo info = m_data->get(e->pos());
+    ModelIndexInfo info = m_data->get(e->pos());
     const QModelIndex& item = info.index;
 
     if (item.isValid())
@@ -196,7 +196,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
 const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    const Data::ModelIndexInfo& info = m_data->get(index);
+    const ModelIndexInfo& info = m_data->get(index);
 
     return info.getRect();
 }
@@ -207,7 +207,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
     //TODO: optimise?
     std::deque<QModelIndex> result;
 
-    m_data->for_each( [&] (const Data::ModelIndexInfo& info)
+    m_data->for_each( [&] (const ModelIndexInfo& info)
     {
         const QRect& item_rect = info.getRect();
         const QModelIndex& index = info.index;
@@ -248,7 +248,7 @@ void ImagesTreeView::updateModel()
     //go thru all children and recalculate positions
     const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
     QAbstractItemModel* m = QAbstractItemView::model();
-    
+
     PositionsCalculator calculator(m, m_data.get(), QWidget::width());
     calculator.updateItems();
 
