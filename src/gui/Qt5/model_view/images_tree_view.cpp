@@ -263,8 +263,47 @@ void ImagesTreeView::modelReset()
 }
 
 
-void ImagesTreeView::rowsInserted(const QModelIndex&, int, int)
+void ImagesTreeView::rowsInserted(const QModelIndex& parent, int, int to)
 {
-    //TODO: optimise
+    //all siblings of parent need to be marked as dirty (only thos below parent)
+    QAbstractItemModel* m = QAbstractItemView::model();
+
+    if (parent.isValid())
+    {
+        const QModelIndex parentsParent = m->parent(parent);
+        const int children = m->rowCount(parentsParent);
+
+        for (int r = parent.row(); r < children; r++)
+        {
+            QModelIndex sibling = m->index(r, 0, parentsParent);
+
+            m_data->for_each_recursively(m, [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
+            {
+                ModelIndexInfo info = m_data->get(idx);
+                info.markDirty();
+                m_data->update(info);
+            },
+            sibling
+            );
+        }
+    }
+
+    //also all siblings of placed rows must be marked as dirty
+    const int children = m->rowCount(parent);
+
+    for (int r = to; r < children; r++)
+    {
+        QModelIndex sibling = m->index(r, 0, parent);
+
+        m_data->for_each_recursively(m, [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
+        {
+            ModelIndexInfo info = m_data->get(idx);
+            info.markDirty();
+            m_data->update(info);
+        },
+        sibling
+        );
+    }
+
     updateModel();
 }
