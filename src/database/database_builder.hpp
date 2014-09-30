@@ -28,6 +28,7 @@
 
 #include "idatabase_builder.hpp"
 
+struct ITaskExecutor;
 struct ILogger;
 struct IConfiguration;
 struct IPluginLoader;
@@ -45,6 +46,7 @@ namespace Database
             void set(IPluginLoader *);
             void set(IConfiguration *);
             void set(ILogger *);
+            void set(ITaskExecutor *);
 
             IDatabase* get(const ProjectInfo &);
 

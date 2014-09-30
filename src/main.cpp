@@ -6,6 +6,7 @@
 
 #include <core/plugin_loader.hpp>
 #include <core/logger.hpp>
+#include <core/task_executor.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -22,11 +23,14 @@ int main(int argc, char **argv)
 
     PluginLoader pluginLoader;
     pluginLoader.set(&logger);
+
+    TaskExecutor taskExecutor;
     
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
     database_builder.set(&configuration);
     database_builder.set(&logger);
+    database_builder.set(&taskExecutor);
 
     ProjectManager prjManager;
     prjManager.set(&database_builder);
@@ -43,6 +47,7 @@ int main(int argc, char **argv)
     Gui gui;
     gui.set(&prjManager);
     gui.set(&pluginLoader);
+    gui.set(&configuration);
     gui.run(argc, argv);
 
     return 0;

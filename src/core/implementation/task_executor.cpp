@@ -25,8 +25,8 @@
 
 #include <thread>
 
-#include <OpenLibrary/palgorithm/ts_queue.hpp>
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_queue.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 #include <OpenLibrary/utils/optional.hpp>
 
 
@@ -44,27 +44,7 @@ ITaskExecutor::~ITaskExecutor()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-
-struct TaskExecutor;
 static void trampoline(TaskExecutor *);
-
-struct TaskExecutor: public ITaskExecutor
-{
-        TaskExecutor();
-        virtual ~TaskExecutor();
-
-        virtual void add(const std::shared_ptr<ITask> &);
-
-    private:
-        TS_Queue<std::shared_ptr<ITask>> m_tasks;
-        std::thread m_taskEater;
-        friend void trampoline(TaskExecutor* executor);
-
-        void eat();
-        void execute(const std::shared_ptr<ITask>& task) const;
-        int getId() const;
-};
-
 
 static void trampoline(TaskExecutor* executor)
 {
@@ -97,7 +77,7 @@ void TaskExecutor::eat()
     #pragma omp parallel
     {
         const int id = getId();
-        *ThreadSafeOutput.lock().get() << "Starting TaskExecutor thread #" << id << std::endl;
+        *ol::ThreadSafeOutput.lock().get() << "Starting TaskExecutor thread #" << id << std::endl;
 
         while(true)
         {
@@ -113,7 +93,7 @@ void TaskExecutor::eat()
                 break;
         }
 
-        *ThreadSafeOutput.lock().get() << "Quitting TaskExecutor thread #" << id << std::endl;
+        *ol::ThreadSafeOutput.lock().get() << "Quitting TaskExecutor thread #" << id << std::endl;
     }
 }
 
@@ -132,7 +112,7 @@ void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
     const auto end = std::chrono::steady_clock::now();
     const auto diff = end - start;
     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-    *ThreadSafeOutput.lock().get() << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
+    *ol::ThreadSafeOutput.lock().get() << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
 }
 
 
@@ -146,15 +126,3 @@ int TaskExecutor::getId() const
 
     return id;
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-ITaskExecutor* TaskExecutorConstructor::get()
-{
-    static TaskExecutor task_executor;
-
-    return &task_executor;
-}
-

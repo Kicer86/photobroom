@@ -22,6 +22,8 @@ namespace Database
 
 class StagingDataModel;
 class ImagesTreeView;
+struct ITaskExecutor;
+struct IConfiguration;
 
 struct BrowseLine: public QWidget
 {
@@ -73,6 +75,9 @@ class PhotosViewWidget: public QWidget
         virtual ~PhotosViewWidget();
 
         void operator=(const PhotosViewWidget &) = delete;
+
+        void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
         template<class T>
         void addPhotos(const T &collection)

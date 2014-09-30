@@ -27,7 +27,7 @@
 #include <QModelIndex>
 #include <QEventLoop>
 
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/base_tags.hpp>
 #include <database/iphoto_info.hpp>
@@ -72,7 +72,8 @@ struct IdxDataManager::Data
         m_db_tasks(),
         m_photoId2IdxData(),
         m_notFetchedIdxData(),
-        m_mainThreadId(std::this_thread::get_id())
+        m_mainThreadId(std::this_thread::get_id()),
+        m_taskExecutor(nullptr)
     {
     }
 
@@ -96,10 +97,11 @@ struct IdxDataManager::Data
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
     Database::PhotoIterator m_iterator;
-    ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
-    ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
-    ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
+    ol::ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
+    ol::ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
+    ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
+    ITaskExecutor* m_taskExecutor;
 };
 
 
@@ -138,6 +140,12 @@ const Hierarchy& IdxDataManager::getHierarchy() const
 }
 
 
+void IdxDataManager::set(ITaskExecutor* taskExecutor)
+{
+    m_data->m_taskExecutor = taskExecutor;
+}
+
+
 void IdxDataManager::fetchMore(const QModelIndex& _parent)
 {
     fetchData(_parent);
@@ -157,7 +165,7 @@ void IdxDataManager::deepFetch(IdxData* top)
         QEventLoopLocker* eventLoopLocker = new QEventLoopLocker(&eventLoop);
         fetcher->setEventLoopLocker(eventLoopLocker);
 
-        TaskExecutorConstructor::get()->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
+        m_data->m_taskExecutor->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
         eventLoop.exec();
     }
 }

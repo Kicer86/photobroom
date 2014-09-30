@@ -23,7 +23,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <database/idatabase.hpp>
 
@@ -79,9 +79,19 @@ namespace
             }
         }
 
+        void set(ITaskExecutor* taskExecutor)
+        {
+            m_updater.set(taskExecutor);
+        }
+
+        void set(IConfiguration* configuration)
+        {
+            m_updater.set(configuration);
+        }
+
         std::condition_variable m_data_available;
         std::mutex m_data_mutex;
-        ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
+        ol::ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
         bool m_work;
         PhotoInfoUpdater m_updater;
     };
@@ -118,6 +128,16 @@ struct PhotosAnalyzer::Impl
     void setDatabase(Database::IDatabase* database)
     {
         m_database = database;
+    }
+
+    void set(ITaskExecutor* taskExecutor)
+    {
+        m_thread.set(taskExecutor);
+    }
+
+    void set(IConfiguration* configuration)
+    {
+        m_thread.set(configuration);
     }
 
     Database::ADatabaseSignals* getNotifier()
@@ -158,6 +178,18 @@ void PhotosAnalyzer::setDatabase(Database::IDatabase* database)
     auto notifier = m_data->getNotifier();
 
     connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(photoAdded(IPhotoInfo::Ptr)), Qt::DirectConnection);
+}
+
+
+void PhotosAnalyzer::set(ITaskExecutor* taskExecutor)
+{
+    m_data->set(taskExecutor);
+}
+
+
+void PhotosAnalyzer::set(IConfiguration* configuration)
+{
+    m_data->set(configuration);
 }
 
 

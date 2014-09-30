@@ -22,7 +22,7 @@
 #include <thread>
 #include <memory>
 
-#include <palgorithm/ts_queue.hpp>
+#include <OpenLibrary/putils/ts_queue.hpp>
 
 
 namespace
@@ -258,7 +258,7 @@ namespace
         }
 
         Database::IBackend* m_backend;
-        TS_Queue<std::shared_ptr<ThreadBaseTask>> m_tasks;
+        ol::TS_Queue<std::shared_ptr<ThreadBaseTask>> m_tasks;
     };
 
 }

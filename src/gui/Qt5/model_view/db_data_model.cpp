@@ -148,6 +148,12 @@ void DBDataModel::setDatabase(Database::IDatabase* database)
 }
 
 
+void DBDataModel::set(ITaskExecutor* taskExecutor)
+{
+    m_idxDataManager->set(taskExecutor);
+}
+
+
 void DBDataModel::close()
 {
     m_idxDataManager->close();

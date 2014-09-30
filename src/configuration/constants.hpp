@@ -18,6 +18,7 @@ namespace Configuration
     namespace BasicKeys
     {
         const char* const configLocation = "Application::ConfigDir";
+        const char* const thumbnailWidth = "Database::ThumbnailWidth";
     }
 
 }

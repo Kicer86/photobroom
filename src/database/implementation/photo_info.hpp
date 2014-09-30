@@ -11,14 +11,14 @@
 #include "../iphoto_info.hpp"
 
 #include "database_export.h"
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 class QPixmap;
 
 struct TagData;
 struct HashAssigner;
 
-class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ThreadSafeResource<Tag::TagsList>::INotify
+class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource<Tag::TagsList>::INotify
 {
     public:
         PhotoInfo(const QString &path);          //load all data from provided path
@@ -50,7 +50,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ThreadSafeResource<Tag
         void initID(const Id &);
 
         //set data
-        virtual ThreadSafeResource< Tag::TagsList >::Accessor accessTags();
+        virtual ol::ThreadSafeResource< Tag::TagsList >::Accessor accessTags();
         virtual void setTags(const Tag::TagsList &);
 
         //flags

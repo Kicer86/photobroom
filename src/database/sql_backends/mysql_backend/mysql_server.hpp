@@ -30,7 +30,7 @@ class QFileSystemWatcher;
 class QTimer;
 class QEventLoop;
 
-class ILogger;
+struct ILogger;
 struct IConfiguration;
 
 struct DiskObserver: public QObject

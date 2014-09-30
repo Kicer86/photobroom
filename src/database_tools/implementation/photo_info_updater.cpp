@@ -8,23 +8,19 @@
 #include <QPixmap>
 #include <QImage>
 
-#include <database/ifs.hpp>
 #include <core/task_executor.hpp>
 #include <core/hash_functions.hpp>
 #include <core/photos_manager.hpp>
 #include <core/itagfeeder.hpp>
 #include <core/tag.hpp>
-
-namespace
-{
-    //TODO: remove, use config
-    const int photoWidth = 120;
-}
+#include <configuration/iconfiguration.hpp>
+#include <configuration/constants.hpp>
+#include <database/ifs.hpp>
 
 
 struct ThumbnailGenerator: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo) {}
+    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo, int photoWidth): ITask(), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -40,12 +36,13 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
         QPixmap pixmap;
         PhotosManager::instance()->getPhoto(m_photoInfo, &pixmap);
 
-        const QPixmap thumbnail = pixmap.scaled(photoWidth, photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        const QPixmap thumbnail = pixmap.scaled(m_photoWidth, m_photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         m_photoInfo->initThumbnail(thumbnail);
     }
 
     IPhotoInfo::Ptr m_photoInfo;
+    int m_photoWidth;
 };
 
 
@@ -111,7 +108,7 @@ struct TagsCollector: public ITaskExecutor::ITask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory()
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr)
 {
 
 }
@@ -126,14 +123,20 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<HashAssigner>(photoInfo);
-    TaskExecutorConstructor::get()->add(task);
+    m_task_executor->add(task);
 }
 
 
 void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_shared<ThumbnailGenerator>(photoInfo);
-    TaskExecutorConstructor::get()->add(task);
+    auto widthEntry = m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+    int width = 120;
+
+    if (widthEntry)
+        width = widthEntry->toInt();
+
+    auto task = std::make_shared<ThumbnailGenerator>(photoInfo, width);
+    m_task_executor->add(task);
 }
 
 
@@ -142,7 +145,17 @@ void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
     auto task = std::make_shared<TagsCollector>(photoInfo);
 	task->set(&m_tagFeederFactory);
 
-    TaskExecutorConstructor::get()->add(task);
+    m_task_executor->add(task);
 }
 
 
+void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
+{
+    m_task_executor = taskExecutor;
+}
+
+
+void PhotoInfoUpdater::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
+}

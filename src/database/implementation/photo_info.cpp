@@ -6,7 +6,7 @@
 
 #include <QPixmap>
 
-#include <OpenLibrary/palgorithm/ts_resource.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
@@ -77,11 +77,11 @@ struct PhotoInfo::Data
     QString path;
     std::set<IObserver *> m_observers;
 
-    ThreadSafeResource<Tag::TagsList> tags;
-    ThreadSafeResource<PhotoInfo::Hash> hash;
-    ThreadSafeResource<QPixmap> m_thumbnail;
-    ThreadSafeResource<PhotoInfo::Flags> m_flags;
-    ThreadSafeResource<PhotoInfo::Id> m_id;
+    ol::ThreadSafeResource<Tag::TagsList> tags;
+    ol::ThreadSafeResource<PhotoInfo::Hash> hash;
+    ol::ThreadSafeResource<QPixmap> m_thumbnail;
+    ol::ThreadSafeResource<PhotoInfo::Flags> m_flags;
+    ol::ThreadSafeResource<PhotoInfo::Id> m_id;
 };
 
 
@@ -204,7 +204,7 @@ void PhotoInfo::initID(const PhotoInfo::Id& id)
 }
 
 
-ThreadSafeResource< Tag::TagsList >::Accessor PhotoInfo::accessTags()
+ol::ThreadSafeResource<Tag::TagsList>::Accessor PhotoInfo::accessTags()
 {
     auto result = m_data->tags.lock(this);
 

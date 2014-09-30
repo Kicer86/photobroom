@@ -1,5 +1,5 @@
 /*
- * An aplication wide universal task executor. Runs on all available cpu cores
+ * Class for reseting items sizes and positions.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,32 +17,31 @@
  *
  */
 
-#ifndef TASKEXECUTOR_H
-#define TASKEXECUTOR_H
+#ifndef POSITIONSRESETER_H
+#define POSITIONSRESETER_H
 
-#include <thread>
+class QModelIndex;
+class Data;
 
-#include <OpenLibrary/putils/ts_queue.hpp>
-
-#include "itask_executor.hpp"
-#include "core_export.h"
-
-struct CORE_EXPORT TaskExecutor: public ITaskExecutor
+class PositionsReseter
 {
-    TaskExecutor();
-    virtual ~TaskExecutor();
+public:
+    PositionsReseter(Data *);
+    PositionsReseter(const PositionsReseter &) = delete;
+    ~PositionsReseter();
+    PositionsReseter& operator=(const PositionsReseter &) = delete;
 
-    virtual void add(const std::shared_ptr<ITask> &);
-
-    void eat();
+    void itemsAdded(const QModelIndex &, int last) const;
+    void invalidateAll() const;
 
 private:
-    ol::TS_Queue<std::shared_ptr<ITask>> m_tasks;
-    std::thread m_taskEater;
+    Data* m_data;
 
-    void execute(const std::shared_ptr<ITask>& task) const;
-    int getId() const;
+    void invalidateItemOverallRect(const QModelIndex &) const;
+    void invalidateSiblingsRect(const QModelIndex &) const;
+
+    void resetRect(const QModelIndex &) const;
+    void resetOverallRect(const QModelIndex &) const;
 };
 
-
-#endif // TASKEXECUTOR_H
+#endif // POSITIONSRESETER_H

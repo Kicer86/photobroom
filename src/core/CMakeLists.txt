@@ -3,7 +3,7 @@ project(core CXX)
 
 # openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
 
-find_package(OpenLibrary 1.1 REQUIRED palgorithm)
+find_package(OpenLibrary 2.0 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenMP)
@@ -37,7 +37,10 @@ set(CORE_SOURCES
 set(CORE_HEADERS
     base_tags.hpp
     hash_functions.hpp
+    ilogger.hpp
     itagfeeder.hpp
+    itask_executor.hpp
+    iplugin_loader.hpp
     logger.hpp
     plugin_loader.hpp
     photos_manager.hpp
@@ -95,8 +98,7 @@ if(BUILD_TESTS)
                             GTEST
                 )
     turnOnCpp11(core_test)
-    qt5_use_modules(core_test Core Gui)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES})
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
     if(MSVC)
 
     else()
@@ -121,7 +123,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core system ${OPENLIBRARY_PALGORITHM_LIBRARIES})
+target_link_libraries(core system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
 
 if(OPENMP_FOUND)
     if(MSVC)
@@ -130,8 +132,6 @@ if(OPENMP_FOUND)
         target_link_libraries(core ${OpenMP_CXX_FLAGS})
     endif(MSVC)
 endif(OPENMP_FOUND)
-
-qt5_use_modules(core Core Gui)
 
 if(EXIV2_FOUND)
     target_link_libraries(core ${EXIV2_LIBRARIES})

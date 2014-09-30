@@ -6,7 +6,7 @@
 #include "mainwindow.hpp"
 
 
-Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr)
+Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr)
 {
 
 }
@@ -23,6 +23,18 @@ void Gui::set(IPluginLoader* pluginLoader)
 }
 
 
+void Gui::set(ITaskExecutor* taskExecutor)
+{
+    m_taskExecutor = taskExecutor;
+}
+
+
+void Gui::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
+}
+
+
 void Gui::run(int argc, char **argv)
 {
     QApplication app(argc, argv);
@@ -30,6 +42,8 @@ void Gui::run(int argc, char **argv)
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);
+    mainWindow.set(m_taskExecutor);
+    mainWindow.set(m_configuration);
 
     mainWindow.show();
     app.exec();

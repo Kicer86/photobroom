@@ -4,6 +4,8 @@
 
 #include <QTabWidget>
 
+struct ITaskExecutor;
+struct IConfiguration;
 
 namespace Database
 {
@@ -22,6 +24,8 @@ class CentralWidget: public QTabWidget
         CentralWidget& operator=(const CentralWidget &) = delete;
 
         void setDatabase(Database::IDatabase *);
+        void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
     private:
         MainViewWidget* m_viewWidget;

@@ -294,12 +294,12 @@ void MySqlServer::set(ILogger* logger)
 QString MySqlServer::getDaemonPath() const
 {
     //get path to server
-    Optional<Configuration::EntryData> daemonPath = m_configuration->findEntry(MySQL_daemon);
+    Optional<QString> daemonPath = m_configuration->findEntry(MySQL_daemon);
 
     QString path;
 
     if (daemonPath)
-        path = daemonPath->value();
+        path = *daemonPath;
     else
     {
         path = System::findProgram("mysqld").c_str();
