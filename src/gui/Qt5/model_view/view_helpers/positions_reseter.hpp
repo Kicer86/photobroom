@@ -32,6 +32,7 @@ public:
     PositionsReseter& operator=(const PositionsReseter &) = delete;
 
     void itemsAdded(const QModelIndex &, int last) const;
+    void invalidateAll() const;
 
 private:
     Data* m_data;

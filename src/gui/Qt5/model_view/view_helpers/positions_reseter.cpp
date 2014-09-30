@@ -44,6 +44,19 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int last) const
 }
 
 
+void PositionsReseter::invalidateAll() const
+{
+    m_data->for_each( [&](const ModelIndexInfo& c_info)
+    {
+        ModelIndexInfo info = c_info;
+        info.cleanRects();
+        m_data->update(info);
+
+        return true;
+    });
+}
+
+
 void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
 {
     if (idx.isValid())
