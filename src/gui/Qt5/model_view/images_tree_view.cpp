@@ -30,6 +30,7 @@
 
 #include "view_helpers/data.hpp"
 #include "view_helpers/positions_calculator.hpp"
+#include "view_helpers/positions_reseter.hpp"
 
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
@@ -265,36 +266,8 @@ void ImagesTreeView::modelReset()
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int, int to)
 {
-    //all siblings of parent need to be marked as dirty (only thos below parent)
-    QAbstractItemModel* m = QAbstractItemView::model();
-
-    auto dirtMaker = [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
-    {
-        ModelIndexInfo info = m_data->get(idx);
-        info.cleanRects();
-        m_data->update(info);
-    };
-
-    if (_parent.isValid())
-    {
-        const QModelIndex parentsParent = m->parent(_parent);
-        const int siblingsSize = m->rowCount(parentsParent);
-
-        for (int r = _parent.row(); r < siblingsSize; r++)
-        {
-            const QModelIndex sibling = m->index(r, 0, parentsParent);
-            m_data->for_each_recursively(m, dirtMaker, sibling);
-        }
-    }
-
-    //also all siblings of placed rows must be marked as dirty
-    const int siblingsSize = m->rowCount(_parent);
-
-    for (int r = to; r < siblingsSize; r++)
-    {
-        const QModelIndex sibling = m->index(r, 0, _parent);
-        m_data->for_each_recursively(m, dirtMaker, sibling);
-    }
+    PositionsReseter reseter(m_data.get());
+    reseter.itemsAdded(_parent, to);
 
     updateModel();
 }
