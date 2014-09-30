@@ -56,8 +56,9 @@ class ImagesTreeView: public QAbstractItemView
         virtual void setModel(QAbstractItemModel *) override;
 
         // QWidget overrides:
-        virtual void paintEvent(QPaintEvent*) override;
-        virtual void mouseReleaseEvent(QMouseEvent*) override;
+        virtual void paintEvent(QPaintEvent *) override;
+        virtual void mouseReleaseEvent(QMouseEvent *) override;
+        virtual void resizeEvent(QResizeEvent *) override;
 
     private:
         std::unique_ptr<Data> m_data;

@@ -192,6 +192,18 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 }
 
 
+void ImagesTreeView::resizeEvent(QResizeEvent* e)
+{
+    QAbstractScrollArea::resizeEvent(e);
+
+    //reset all positions
+    PositionsReseter reseter(m_data.get());
+    reseter.invalidateAll();
+
+    updateModel();
+}
+
+
 /// private:
 
 
@@ -246,8 +258,6 @@ void ImagesTreeView::rereadModel()
 
 void ImagesTreeView::updateModel()
 {
-    //go thru all children and recalculate positions
-    const std::deque<QModelIndex> items = getChildrenFor(QModelIndex());
     QAbstractItemModel* m = QAbstractItemView::model();
 
     PositionsCalculator calculator(m, m_data.get(), QWidget::width());
