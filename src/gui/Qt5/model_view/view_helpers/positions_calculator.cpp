@@ -30,7 +30,7 @@
 
 PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width)
 {
-    //calcItemsOverallRect();
+
 }
 
 
@@ -125,9 +125,9 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
     assert(items_matrix_pos.x() < items_per_row);
 
     QPoint result;
-    if (items_pos.x() + 1 < items_per_row)             //not last in its row?
+    if (items_matrix_pos.x() + 1 < items_per_row)             //not last in its row?
         result = QPoint(items_pos.x() + getitemWidth(index), items_pos.y());
-    else                                               //last in a row
+    else                                                      //last in a row
     {
         QModelIndex item_parent = m_model->parent(index);
         QModelIndex from = itemAtMatrixPosition(QPoint(0, items_matrix_pos.y()), item_parent);
