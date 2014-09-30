@@ -48,12 +48,17 @@ void PositionsCalculator::updateItems() const
         {
             ModelIndexInfo info = m_data->get(idx);
 
-            if (info.isDirty())                                      // calculations only for dirty ones
+            // calculations only for dirty ones
+            if (info.getRect().isNull())
             {
                 QRect rect = calcItemRect(idx);
                 info.setRect(rect);
-                m_data->update(info);                                // size muse be stored at this point, as children calculations may require it
+                m_data->update(info);                                        // size muse be stored at this point, as children calculations may require it
+            }
 
+            if (info.getOverallRect().isNull())
+            {
+                QRect rect = info.getRect();
                 for(const QModelIndex& child: children)
                 {
                     ModelIndexInfo c_info = m_data->get(child);

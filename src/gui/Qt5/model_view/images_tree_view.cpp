@@ -271,7 +271,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int, int to)
     auto dirtMaker = [&](const QModelIndex& idx, const std::deque<QModelIndex> &)
     {
         ModelIndexInfo info = m_data->get(idx);
-        info.markDirty();
+        info.cleanRects();
         m_data->update(info);
     };
 

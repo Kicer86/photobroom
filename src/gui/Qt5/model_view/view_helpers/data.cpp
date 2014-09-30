@@ -19,6 +19,8 @@
 
 #include "data.hpp"
 
+#include <iostream>
+
 #include <QPixmap>
 #include <QDebug>
 
@@ -44,8 +46,6 @@ void ModelIndexInfo::setRect(const QRect& r)
 {
     rect = r;
     overallRect = QRect();          // not valid anymore
-
-    rectUpdated();
 }
 
 
@@ -53,8 +53,6 @@ void ModelIndexInfo::setOverallRect(const QRect& r)
 {
     overallRect = r;
     visible = true;
-
-    rectUpdated();
 }
 
 
@@ -76,12 +74,6 @@ bool ModelIndexInfo::isVisible() const
 }
 
 
-bool ModelIndexInfo::isDirty() const
-{
-    return dirty;
-}
-
-
 void ModelIndexInfo::markInvisible()
 {
     cleanRects();
@@ -93,25 +85,10 @@ void ModelIndexInfo::cleanRects()
 {
     rect = QRect();
     overallRect = QRect();
-
-    rectUpdated();
 }
 
 
-void ModelIndexInfo::markDirty()
-{
-    cleanRects();
-}
-
-
-void ModelIndexInfo::rectUpdated()
-{
-    dirty = rect.isNull() && overallRect.isNull();
-}
-
-
-
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false), dirty(true)
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false)
 {
 }
 
