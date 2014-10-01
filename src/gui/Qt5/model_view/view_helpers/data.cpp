@@ -260,6 +260,7 @@ void Data::clear()
 
 void Data::dump()
 {
+    /*
     int i = 0;
     for_each([&](const ModelIndexInfo& item)
     {
@@ -269,4 +270,5 @@ void Data::dump()
     });
 
     std::cout << std::endl;
+    */
 }
