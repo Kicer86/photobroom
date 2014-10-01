@@ -28,7 +28,7 @@
 
 #include "data.hpp"
 
-PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width)
+PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width), m_itemsPerRow(itemsPerRow())
 {
 
 }
@@ -117,21 +117,20 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    const int items_per_row = itemsPerRow();
     const QPoint items_matrix_pos = matrixPositionOf(index);
     const ModelIndexInfo& info = m_data->get(index);
     const QRect& items_pos = info.getRect();
 
-    assert(items_matrix_pos.x() < items_per_row);
+    assert(items_matrix_pos.x() < m_itemsPerRow);
 
     QPoint result;
-    if (items_matrix_pos.x() + 1 < items_per_row)             //not last in its row?
+    if (items_matrix_pos.x() + 1 < m_itemsPerRow)             //not last in its row?
         result = QPoint(items_pos.x() + getitemWidth(index), items_pos.y());
     else                                                      //last in a row
     {
         QModelIndex item_parent = m_model->parent(index);
         QModelIndex from = itemAtMatrixPosition(QPoint(0, items_matrix_pos.y()), item_parent);
-        QModelIndex to = itemAtMatrixPosition(QPoint(items_per_row - 1, items_matrix_pos.y()), item_parent);
+        QModelIndex to = itemAtMatrixPosition(QPoint(m_itemsPerRow - 1, items_matrix_pos.y()), item_parent);
 
         const int item_height = getItemHeigth(from, to);
 
@@ -176,9 +175,8 @@ QPoint PositionsCalculator::matrixPositionOf(const QModelIndex& index) const
     assert(index.column() == 0);    // ImagesTreeView supports only typical hierarchical models. So column of item will be always equal to 0
 
     const int linear_pos = index.row();
-    const int indicesPerRow = itemsPerRow();
-    const int row = linear_pos / indicesPerRow;
-    const int col = linear_pos % indicesPerRow;
+    const int row = linear_pos / m_itemsPerRow;
+    const int col = linear_pos % m_itemsPerRow;
 
     return QPoint(col, row);
 }
@@ -186,8 +184,7 @@ QPoint PositionsCalculator::matrixPositionOf(const QModelIndex& index) const
 
 QModelIndex PositionsCalculator::itemAtMatrixPosition(const QPoint& point, QModelIndex& _parent) const
 {
-    const int indicesPerRow = itemsPerRow();
-    const int liner_pos = indicesPerRow * point.y() + point.x();
+    const int liner_pos = m_itemsPerRow * point.y() + point.x();
 
     QModelIndex item = m_model->index(liner_pos, 0, _parent);
 
