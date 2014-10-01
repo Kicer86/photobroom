@@ -260,8 +260,12 @@ void ImagesTreeView::updateModel()
 {
     QAbstractItemModel* m = QAbstractItemView::model();
 
-    PositionsCalculator calculator(m, m_data.get(), QWidget::width());
-    calculator.updateItems();
+    // is there anything to calculate?
+    if (m->rowCount() > 0)
+    {
+        PositionsCalculator calculator(m, m_data.get(), QWidget::width());
+        calculator.updateItems();
+    }
 
     //refresh widget
     viewport()->update();
