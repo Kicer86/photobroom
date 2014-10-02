@@ -194,9 +194,8 @@ QModelIndex PositionsCalculator::itemAtMatrixPosition(const QPoint& point, QMode
 
 int PositionsCalculator::itemsPerRow() const
 {
-    const int indexWidth = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth, "120").toInt();
-    const int widgetWidth = m_width;
-    const int indicesPerRowInitial = widgetWidth / indexWidth;
+    const int indexWidth = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth, "120").toInt() + m_data->indexMargin * 2;
+    const int indicesPerRowInitial = m_width / indexWidth;
     const int indicesPerRow = indicesPerRowInitial > 1? indicesPerRowInitial : 2;    // at least 2 items per row
 
     return indicesPerRow;
