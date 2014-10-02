@@ -44,33 +44,30 @@ void PositionsCalculator::updateItems() const
 {
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
-        if (idx.isValid())                                           // we don't care about updating top root
+        ModelIndexInfo info = m_data->get(idx);
+
+        // calculations only for dirty ones
+        if (info.getRect().isNull())
         {
-            ModelIndexInfo info = m_data->get(idx);
+            QRect rect = calcItemRect(idx);
+            info.setRect(rect);
+            m_data->update(info);                                        // size muse be stored at this point, as children calculations may require it
+        }
 
-            // calculations only for dirty ones
-            if (info.getRect().isNull())
+        if (info.getOverallRect().isNull())
+        {
+            QRect rect = info.getRect();
+            for(const QModelIndex& child: children)
             {
-                QRect rect = calcItemRect(idx);
-                info.setRect(rect);
-                m_data->update(info);                                        // size muse be stored at this point, as children calculations may require it
+                ModelIndexInfo c_info = m_data->get(child);
+                QRect c_rect = c_info.getRect();
+                assert(c_rect.isValid());
+
+                rect = rect.united(c_rect);
             }
 
-            if (info.getOverallRect().isNull())
-            {
-                QRect rect = info.getRect();
-                for(const QModelIndex& child: children)
-                {
-                    ModelIndexInfo c_info = m_data->get(child);
-                    QRect c_rect = c_info.getRect();
-                    assert(c_rect.isValid());
-
-                    rect = rect.united(c_rect);
-                }
-
-                info.setOverallRect(rect);
-                m_data->update(info);
-            }
+            info.setOverallRect(rect);
+            m_data->update(info);
         }
     });
 }
@@ -78,25 +75,26 @@ void PositionsCalculator::updateItems() const
 
 QRect PositionsCalculator::calcItemRect(const QModelIndex& index) const
 {
-    assert(index.column() == 0);
-
     QRect result;
 
-    QModelIndex item_parent = m_model->parent(index);
-    const QSize item_size = getItemSize(index);
-
-    if (index.row() == 0)  //first
+    if (index != QModelIndex())
     {
-        const QPoint point = positionOfFirstChild(item_parent);
+        QModelIndex item_parent = m_model->parent(index);
+        const QSize item_size = getItemSize(index);
 
-        result = QRect(point, item_size);
-    }
-    else
-    {
-        const QModelIndex sibling = m_model->index(index.row() - 1, 0, item_parent);
-        const QPoint point = positionOfNext(sibling);
+        if (index.row() == 0)  //first
+        {
+            const QPoint point = positionOfFirstChild(item_parent);
 
-        result = QRect(point, item_size);
+            result = QRect(point, item_size);
+        }
+        else
+        {
+            const QModelIndex sibling = m_model->index(index.row() - 1, 0, item_parent);
+            const QPoint point = positionOfNext(sibling);
+
+            result = QRect(point, item_size);
+        }
     }
 
     return result;
