@@ -263,9 +263,24 @@ void ImagesTreeView::updateModel()
     // is there anything to calculate?
     if (m->rowCount() > 0)
     {
-        PositionsCalculator calculator(m, m_data.get(), QWidget::width());
+        PositionsCalculator calculator(m, m_data.get(), viewport()->width());
         calculator.updateItems();
     }
+
+    updateGui();
+}
+
+
+void ImagesTreeView::updateGui()
+{
+    const ModelIndexInfo info = m_data->get(QModelIndex());
+    const QSize areaSize = viewport()->size();
+    const QSize treeAreaSize = info.getOverallRect().size();
+
+    verticalScrollBar()->setPageStep(areaSize.height());
+    horizontalScrollBar()->setPageStep(areaSize.width());
+    verticalScrollBar()->setRange(0, treeAreaSize.height() - areaSize.height());
+    horizontalScrollBar()->setRange(0, treeAreaSize.width() - areaSize.width());
 
     //refresh widget
     viewport()->update();

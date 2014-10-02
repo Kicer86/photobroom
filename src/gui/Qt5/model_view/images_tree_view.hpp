@@ -72,6 +72,9 @@ class ImagesTreeView: public QAbstractItemView
         void rereadModel();
         void updateModel();
 
+        // widget updates
+        void updateGui();
+
     private slots:
         void modelReset();
         void rowsInserted(const QModelIndex &, int, int);
