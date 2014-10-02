@@ -21,6 +21,7 @@
 #define DATA_HPP
 
 #include <unordered_map>
+#include <deque>
 
 #include <QRect>
 #include <QModelIndex>

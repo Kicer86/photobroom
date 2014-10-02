@@ -1,27 +1,28 @@
 
 #include "../system.hpp"
 
-#include <assert.h>
-#include <string>
+#include <cassert>
 #include <cstdlib>
+
+#include <QString>
 
 namespace
 {
-    std::string readVar(const char* name)
+    QString readVar(const char* name)
     {
         char* result = nullptr;
         size_t size = 0;
 
         _dupenv_s(&result, &size, name);
 
-        return std::string(result);
+        return QString(result);
     }
 }
 
 
-std::string System::getApplicationConfigDir()
+QString System::getApplicationConfigDir()
 {
-    std::string result(readVar("APPDATA"));
+    QString result(readVar("APPDATA"));
 
     result += "/broom";
 
@@ -40,7 +41,7 @@ std::string System::findProgram(const std::string &)
 
 std::string System::userName()
 {
-    const std::string result(readVar("USERNAME"));
+    const std::string result = readVar("USERNAME").toStdString();
 
     return result;
 }
