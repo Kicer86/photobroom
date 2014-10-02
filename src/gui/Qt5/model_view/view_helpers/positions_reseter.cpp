@@ -59,10 +59,10 @@ void PositionsReseter::invalidateAll() const
 
 void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
 {
-    if (idx.isValid())
-    {
-        resetOverallRect(idx);
+    resetOverallRect(idx);
 
+    if (idx != QModelIndex())                           //do not invalidate root's parent - it doesn't exist
+    {
         //if 'this' becomes invalid, invalidate also its parent
         const QModelIndex parent = idx.parent();
         invalidateItemOverallRect(parent);
