@@ -53,7 +53,9 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    ModelIndexInfo info = m_data->get(point);
+    const QPoint offset = getOffset();
+    const QPoint treePoint = point + offset;
+    const ModelIndexInfo info = m_data->get(treePoint);
     const QModelIndex& result = info.index;
 
     return result;
@@ -138,9 +140,11 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     QPainter painter(viewport());
+    const QPoint offset = getOffset();
+    QRect visible_area = viewport()->rect();
 
-    QRect visible_area = QWidget::rect();
-    visible_area.moveTo(horizontalOffset(), verticalOffset());
+    visible_area.moveTo(offset);
+    painter.translate(-offset);
 
     std::deque<QModelIndex> items = findItemsIn(visible_area);
 
@@ -179,8 +183,8 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
     QAbstractScrollArea::mouseReleaseEvent(e);
 
-    ModelIndexInfo info = m_data->get(e->pos());
-    const QModelIndex& item = info.index;
+    QModelIndex item = indexAt(e->pos());
+    ModelIndexInfo info = m_data->get(item);
 
     if (item.isValid())
     {
@@ -284,6 +288,14 @@ void ImagesTreeView::updateGui()
 
     //refresh widget
     viewport()->update();
+}
+
+
+QPoint ImagesTreeView::getOffset() const
+{
+    const QPoint offset(horizontalOffset(), verticalOffset());
+
+    return offset;
 }
 
 
