@@ -69,8 +69,8 @@ class Data
         ModelIndexInfo get(const QModelIndex &);
 
         const ModelIndexInfo& get(const QPoint &) const;
-        bool isImage(QAbstractItemModel *, const QModelIndex &) const;
-        QPixmap getImage(QAbstractItemModel *, const QModelIndex &) const;
+        bool isImage(const QModelIndex &) const;
+        QPixmap getImage(const QModelIndex &) const;
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
 
         bool isExpanded(const QModelIndex &);

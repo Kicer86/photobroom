@@ -103,7 +103,7 @@ QRect PositionsCalculator::calcItemRect(const QModelIndex& index) const
 
 QPoint PositionsCalculator::positionOfNext(const QModelIndex& index) const
 {
-    const bool image = m_data->isImage(m_model, index);
+    const bool image = m_data->isImage(index);
     const QPoint result = image? positionOfNextImage(index):
                                  positionOfNextNode(index);
 
@@ -201,9 +201,9 @@ int PositionsCalculator::itemsPerRow() const
 int PositionsCalculator::getitemWidth(const QModelIndex& index) const
 {
     int w = 0;
-    if (m_data->isImage(m_model, index))   //image
+    if (m_data->isImage(index))   //image
     {
-        QPixmap pixmap = m_data->getImage(m_model, index);
+        QPixmap pixmap = m_data->getImage(index);
         w = pixmap.width() + m_data->indexMargin;
     }
     else                  //node's title
@@ -216,9 +216,9 @@ int PositionsCalculator::getitemWidth(const QModelIndex& index) const
 int PositionsCalculator::getItemHeigth(const QModelIndex& index) const
 {
     int item_height = 0;
-    if (m_data->isImage(m_model, index))   //image
+    if (m_data->isImage(index))   //image
     {
-        QPixmap pixmap = m_data->getImage(m_model, index);
+        QPixmap pixmap = m_data->getImage(index);
         item_height = pixmap.height() + m_data->indexMargin;
     }
     else                  //node's title

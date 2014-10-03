@@ -158,7 +158,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         QAbstractItemModel* m = QAbstractItemView::model();
         const ModelIndexInfo& info = m_data->get(item);
         const QRect& r = info.getRect();
-        const bool image = m_data->isImage(m, item);
+        const bool image = m_data->isImage(item);
 
         if (image)
         {
