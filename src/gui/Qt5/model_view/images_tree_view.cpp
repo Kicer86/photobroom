@@ -172,6 +172,10 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         info.expanded = !info.expanded;
         m_data->update(info);
 
+        //reset some positions
+        PositionsReseter reseter(m_data.get());
+        reseter.itemChanged(item);
+
         updateModel();
     }
 }
