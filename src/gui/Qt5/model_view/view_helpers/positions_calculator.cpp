@@ -60,7 +60,7 @@ void PositionsCalculator::updateItems() const
             for(const QModelIndex& child: children)
             {
                 ModelIndexInfo c_info = m_data->get(child);
-                QRect c_rect = c_info.getRect();
+                QRect c_rect = c_info.getOverallRect();
                 assert(c_rect.isValid());
 
                 rect = rect.united(c_rect);
