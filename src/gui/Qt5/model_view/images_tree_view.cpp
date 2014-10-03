@@ -31,11 +31,15 @@
 #include "view_helpers/data.hpp"
 #include "view_helpers/positions_calculator.hpp"
 #include "view_helpers/positions_reseter.hpp"
+#include "tree_item_delegate.hpp"
 
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
-    //setHeaderHidden(true);
+    TreeItemDelegate* delegate = new TreeItemDelegate;
+    delegate->set(m_data.get());
+
+    setItemDelegate(delegate);
 }
 
 
@@ -150,32 +154,9 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for(const QModelIndex& item: items)
     {
-        /*
         QStyleOptionViewItem styleOption;
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
-        */
-
-        QAbstractItemModel* m = QAbstractItemView::model();
-        const ModelIndexInfo& info = m_data->get(item);
-        const QRect& r = info.getRect();
-        const bool image = m_data->isImage(item);
-
-        if (image)
-        {
-            const QVariant v = m->data(item, Qt::DecorationRole);
-            const QPixmap p = v.value<QPixmap>();
-
-            painter.drawPixmap(r.x() + m_data->indexMargin, r.y() + m_data->indexMargin, p);
-        }
-        else
-        {
-            const QVariant v = m->data(item, Qt::DisplayRole);
-            const QString t = v.toString();
-
-            painter.drawText(r, Qt::AlignCenter, t);
-        }
     }
-
 }
 
 

@@ -19,7 +19,11 @@
 
 #include "tree_item_delegate.hpp"
 
-TreeItemDelegate::TreeItemDelegate()
+#include <QPainter>
+
+#include "view_helpers/data.hpp"
+
+TreeItemDelegate::TreeItemDelegate(): m_data(nullptr)
 {
 
 }
@@ -31,6 +35,12 @@ TreeItemDelegate::~TreeItemDelegate()
 }
 
 
+void TreeItemDelegate::set(Data* data)
+{
+    m_data = data;
+}
+
+
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 
@@ -39,5 +49,23 @@ QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
 
 void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    const QAbstractItemModel* m = index.model();
+    const ModelIndexInfo& info = m_data->get(index);
+    const QRect& r = info.getRect();
+    const bool image = m_data->isImage(index);
 
+    if (image)
+    {
+        const QVariant v = m->data(index, Qt::DecorationRole);
+        const QPixmap p = v.value<QPixmap>();
+
+        painter->drawPixmap(r.x() + m_data->indexMargin, r.y() + m_data->indexMargin, p);
+    }
+    else
+    {
+        const QVariant v = m->data(index, Qt::DisplayRole);
+        const QString t = v.toString();
+
+        painter->drawText(r, Qt::AlignCenter, t);
+    }
 }

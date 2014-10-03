@@ -22,6 +22,8 @@
 
 #include <qt/QtWidgets/qabstractitemdelegate.h>
 
+class Data;
+
 class TreeItemDelegate: public QAbstractItemDelegate
 {
     public:
@@ -30,8 +32,13 @@ class TreeItemDelegate: public QAbstractItemDelegate
         ~TreeItemDelegate();
         TreeItemDelegate& operator=(const TreeItemDelegate &) = delete;
 
+        void set(Data *);
+
         virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
         virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
+    private:
+        Data* m_data;
 };
 
 #endif // TREEITEMDELEGATE_HPP
