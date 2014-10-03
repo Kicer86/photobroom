@@ -37,7 +37,6 @@
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate;
-    delegate->set(m_data.get());
 
     setItemDelegate(delegate);
 }
@@ -154,7 +153,12 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for(const QModelIndex& item: items)
     {
+        ModelIndexInfo info = m_data->get(item);
+
         QStyleOptionViewItem styleOption;
+        styleOption.rect = info.getRect();
+        styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
     }
 }
