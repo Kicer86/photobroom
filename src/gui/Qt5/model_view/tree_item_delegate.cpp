@@ -57,7 +57,11 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
     const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DecorationRole);
-    const QPixmap p = v.value<QPixmap>();
+
+    const int rot = rand() % 11;
+
+    QPixmap p = v.value<QPixmap>();
+    p = p.transformed(QMatrix().rotate(rot - 5), Qt::SmoothTransformation);
 
     const int h_margin = (r.width()  - p.rect().width()) / 2;
     const int v_margin = (r.height() - p.rect().height()) / 2;
