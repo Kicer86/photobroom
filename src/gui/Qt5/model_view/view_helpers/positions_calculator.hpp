@@ -57,6 +57,7 @@ class PositionsCalculator
         QAbstractItemModel* m_model;
         Data* m_data;
         const int m_width;
+        int m_itemsPerRow;
 };
 
 #endif // POSITIONSCALCULATOR_HPP

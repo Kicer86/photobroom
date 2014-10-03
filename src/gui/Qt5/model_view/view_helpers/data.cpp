@@ -135,14 +135,15 @@ const ModelIndexInfo& Data::get(const QPoint& point) const
 }
 
 
-bool Data::isImage(QAbstractItemModel* model, const QModelIndex& index) const
+bool Data::isImage(const QModelIndex& index) const
 {
+    const QAbstractItemModel* model = index.model();
     const bool has_children = model->hasChildren(index);
     bool result = false;
 
     if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
     {
-        QPixmap pixmap = getImage(model, index);
+        QPixmap pixmap = getImage(index);
 
         result = pixmap.isNull() == false;
     }
@@ -152,8 +153,9 @@ bool Data::isImage(QAbstractItemModel* model, const QModelIndex& index) const
 }
 
 
-QPixmap Data::getImage(QAbstractItemModel* model, const QModelIndex& index) const
+QPixmap Data::getImage(const QModelIndex& index) const
 {
+    const QAbstractItemModel* model = index.model();
     const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
     const bool convertable = decorationRole.canConvert<QPixmap>();
     QPixmap pixmap;
@@ -260,6 +262,7 @@ void Data::clear()
 
 void Data::dump()
 {
+    /*
     int i = 0;
     for_each([&](const ModelIndexInfo& item)
     {
@@ -269,4 +272,5 @@ void Data::dump()
     });
 
     std::cout << std::endl;
+    */
 }

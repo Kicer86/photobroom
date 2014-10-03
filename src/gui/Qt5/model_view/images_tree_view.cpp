@@ -31,11 +31,14 @@
 #include "view_helpers/data.hpp"
 #include "view_helpers/positions_calculator.hpp"
 #include "view_helpers/positions_reseter.hpp"
+#include "tree_item_delegate.hpp"
 
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
-    //setHeaderHidden(true);
+    TreeItemDelegate* delegate = new TreeItemDelegate;
+
+    setItemDelegate(delegate);
 }
 
 
@@ -53,7 +56,9 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    ModelIndexInfo info = m_data->get(point);
+    const QPoint offset = getOffset();
+    const QPoint treePoint = point + offset;
+    const ModelIndexInfo info = m_data->get(treePoint);
     const QModelIndex& result = info.index;
 
     return result;
@@ -138,40 +143,24 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     QPainter painter(viewport());
+    const QPoint offset = getOffset();
+    QRect visible_area = viewport()->rect();
 
-    QRect visible_area = QWidget::rect();
-    visible_area.moveTo(horizontalOffset(), verticalOffset());
+    visible_area.moveTo(offset);
+    painter.translate(-offset);
 
     std::deque<QModelIndex> items = findItemsIn(visible_area);
 
     for(const QModelIndex& item: items)
     {
-        /*
+        ModelIndexInfo info = m_data->get(item);
+
         QStyleOptionViewItem styleOption;
+        styleOption.rect = info.getRect();
+        styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
-        */
-
-        QAbstractItemModel* m = QAbstractItemView::model();
-        const ModelIndexInfo& info = m_data->get(item);
-        const QRect& r = info.getRect();
-        const bool image = m_data->isImage(m, item);
-
-        if (image)
-        {
-            const QVariant v = m->data(item, Qt::DecorationRole);
-            const QPixmap p = v.value<QPixmap>();
-
-            painter.drawPixmap(r.x() + m_data->indexMargin, r.y() + m_data->indexMargin, p);
-        }
-        else
-        {
-            const QVariant v = m->data(item, Qt::DisplayRole);
-            const QString t = v.toString();
-
-            painter.drawText(r, Qt::AlignCenter, t);
-        }
     }
-
 }
 
 
@@ -179,13 +168,17 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
     QAbstractScrollArea::mouseReleaseEvent(e);
 
-    ModelIndexInfo info = m_data->get(e->pos());
-    const QModelIndex& item = info.index;
+    QModelIndex item = indexAt(e->pos());
+    ModelIndexInfo info = m_data->get(item);
 
     if (item.isValid())
     {
         info.expanded = !info.expanded;
         m_data->update(info);
+
+        //reset some positions
+        PositionsReseter reseter(m_data.get());
+        reseter.itemChanged(item);
 
         updateModel();
     }
@@ -240,9 +233,9 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex &) cons
 {
     std::deque<QModelIndex> result;
 
-    m_data->for_each_recursively(QAbstractItemView::model(), [&] (const QModelIndex &, const std::deque<QModelIndex>& children)
+    m_data->for_each_recursively(QAbstractItemView::model(), [&] (const QModelIndex &, const std::deque<QModelIndex>& _children)
     {
-        result.insert(result.end(), children.begin(), children.end());
+        result.insert(result.end(), _children.begin(), _children.end());
     });
 
     return result;
@@ -260,11 +253,38 @@ void ImagesTreeView::updateModel()
 {
     QAbstractItemModel* m = QAbstractItemView::model();
 
-    PositionsCalculator calculator(m, m_data.get(), QWidget::width());
-    calculator.updateItems();
+    // is there anything to calculate?
+    if (m->rowCount() > 0)
+    {
+        PositionsCalculator calculator(m, m_data.get(), viewport()->width());
+        calculator.updateItems();
+    }
+
+    updateGui();
+}
+
+
+void ImagesTreeView::updateGui()
+{
+    const ModelIndexInfo info = m_data->get(QModelIndex());
+    const QSize areaSize = viewport()->size();
+    const QSize treeAreaSize = info.getOverallRect().size();
+
+    verticalScrollBar()->setPageStep(areaSize.height());
+    horizontalScrollBar()->setPageStep(areaSize.width());
+    verticalScrollBar()->setRange(0, treeAreaSize.height() - areaSize.height());
+    horizontalScrollBar()->setRange(0, treeAreaSize.width() - areaSize.width());
 
     //refresh widget
     viewport()->update();
+}
+
+
+QPoint ImagesTreeView::getOffset() const
+{
+    const QPoint offset(horizontalOffset(), verticalOffset());
+
+    return offset;
 }
 
 
