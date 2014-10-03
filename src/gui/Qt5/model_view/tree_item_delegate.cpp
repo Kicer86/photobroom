@@ -23,7 +23,7 @@
 
 #include "view_helpers/data.hpp"
 
-TreeItemDelegate::TreeItemDelegate(): m_data(nullptr)
+TreeItemDelegate::TreeItemDelegate(): QAbstractItemDelegate()
 {
 
 }
@@ -35,12 +35,6 @@ TreeItemDelegate::~TreeItemDelegate()
 }
 
 
-void TreeItemDelegate::set(Data* data)
-{
-    m_data = data;
-}
-
-
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 
@@ -49,23 +43,35 @@ QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
 
 void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QAbstractItemModel* m = index.model();
-    const ModelIndexInfo& info = m_data->get(index);
-    const QRect& r = info.getRect();
-    const bool image = m_data->isImage(index);
+    const bool image = (option.features & QStyleOptionViewItem::HasDecoration) != 0;
 
     if (image)
-    {
-        const QVariant v = m->data(index, Qt::DecorationRole);
-        const QPixmap p = v.value<QPixmap>();
-
-        painter->drawPixmap(r.x() + m_data->indexMargin, r.y() + m_data->indexMargin, p);
-    }
+        paintImage(painter, option, index);
     else
-    {
-        const QVariant v = m->data(index, Qt::DisplayRole);
-        const QString t = v.toString();
+        paintNode(painter, option, index);
+}
 
-        painter->drawText(r, Qt::AlignCenter, t);
-    }
+
+void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    const QAbstractItemModel* m = index.model();
+    const QRect& r = option.rect;
+    const QVariant v = m->data(index, Qt::DecorationRole);
+    const QPixmap p = v.value<QPixmap>();
+
+    const int h_margin = (r.width()  - p.rect().width()) / 2;
+    const int v_margin = (r.height() - p.rect().height()) / 2;
+
+    painter->drawPixmap(r.x() + h_margin, r.y() + v_margin, p);
+}
+
+
+void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    const QAbstractItemModel* m = index.model();
+    const QRect& r = option.rect;
+    const QVariant v = m->data(index, Qt::DisplayRole);
+    const QString t = v.toString();
+
+    painter->drawText(r, Qt::AlignCenter, t);
 }
