@@ -57,11 +57,17 @@ void PositionsReseter::invalidateAll() const
 }
 
 
+void PositionsReseter::itemChanged(const QModelIndex& idx)
+{
+    invalidateItemOverallRect(idx);
+}
+
+
 void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
 {
     resetOverallRect(idx);
 
-    if (idx != QModelIndex())                           //do not invalidate root's parent - it doesn't exist
+    if (idx != QModelIndex())                           //do not invalidate root's parent if it doesn't exist
     {
         //if 'this' becomes invalid, invalidate also its parent
         const QModelIndex parent = idx.parent();
@@ -83,11 +89,22 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
 }
 
 
+void PositionsReseter::invalidateChildrenRect(const QModelIndex& idx) const
+{
+    int r = 0;
+    for(QModelIndex child = idx.child(0, 0); child.isValid(); child = idx.child(++r, 0))
+        resetRect(child);
+}
+
+
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
     ModelIndexInfo info = m_data->get(idx);
     info.setRect(QRect());
     m_data->update(info);
+
+    //reset rect for children
+    invalidateChildrenRect(idx);
 }
 
 

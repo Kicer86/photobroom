@@ -33,12 +33,14 @@ public:
 
     void itemsAdded(const QModelIndex &, int last) const;
     void invalidateAll() const;
+    void itemChanged(const QModelIndex &);
 
 private:
     Data* m_data;
 
     void invalidateItemOverallRect(const QModelIndex &) const;
     void invalidateSiblingsRect(const QModelIndex &) const;
+    void invalidateChildrenRect(const QModelIndex &) const;
 
     void resetRect(const QModelIndex &) const;
     void resetOverallRect(const QModelIndex &) const;
