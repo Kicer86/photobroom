@@ -154,15 +154,13 @@ QPoint PositionsCalculator::positionOfNextNode(const QModelIndex& index) const
 
 QPoint PositionsCalculator::positionOfFirstChild(const QModelIndex& index) const
 {
-    QPoint result;
+    QPoint result(0, 0);
 
-    if (index.isValid())           // regular item
+    if (index != QModelIndex())           // regular item
     {
         const QRect r = calcItemRect(index);
         result = QPoint(0, r.y() + r.height());
     }
-    else                           // master root
-        result = QPoint(0, 0);
 
     return result;
 }
