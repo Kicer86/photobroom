@@ -204,7 +204,7 @@ int PositionsCalculator::getitemWidth(const QModelIndex& index) const
     if (m_data->isImage(index))   //image
     {
         QPixmap pixmap = m_data->getImage(index);
-        w = pixmap.width() + m_data->indexMargin;
+        w = pixmap.width() + m_data->indexMargin * 2;
     }
     else                  //node's title
         w = m_width;
@@ -219,7 +219,7 @@ int PositionsCalculator::getItemHeigth(const QModelIndex& index) const
     if (m_data->isImage(index))   //image
     {
         QPixmap pixmap = m_data->getImage(index);
-        item_height = pixmap.height() + m_data->indexMargin;
+        item_height = pixmap.height() + m_data->indexMargin * 2;
     }
     else                  //node's title
         item_height = 40;      //TODO: temporary
