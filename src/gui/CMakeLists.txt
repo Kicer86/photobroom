@@ -30,7 +30,6 @@ set(GUI_SOURCES
     Qt5/model_view/view_helpers/positions_calculator.cpp
     Qt5/model_view/view_helpers/positions_reseter.cpp
     Qt5/model_view/images_tree_view.cpp
-    Qt5/model_view/image_manager.cpp
     Qt5/model_view/tree_item_delegate.cpp
     Qt5/components/browse_view/main_view_data_model.cpp
     Qt5/components/browse_view/main_view_widget.cpp
@@ -63,7 +62,6 @@ set(GUI_HEADERS
     Qt5/model_view/view_helpers/positions_calculator.hpp
     Qt5/model_view/view_helpers/positions_reseter.hpp
     Qt5/model_view/images_tree_view.hpp
-    Qt5/model_view/image_manager.hpp
     Qt5/model_view/tree_item_delegate.hpp
     Qt5/components/browse_view/main_view_data_model.hpp
     Qt5/components/browse_view/main_view_widget.hpp

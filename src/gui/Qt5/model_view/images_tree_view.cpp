@@ -115,10 +115,18 @@ void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::Scrol
 }
 
 
-void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags command)
+void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags flags)
 {
-    (void) _rect;
-    (void) command;
+    QRect treeRect = _rect;
+    treeRect.translate(getOffset());
+
+    const std::deque<QModelIndex> items = findItemsIn(treeRect);
+    QItemSelection selection;
+
+    for(const QModelIndex& item: items)
+        selection.select(item, item);
+
+    selectionModel()->select(selection, flags);
 }
 
 
@@ -158,6 +166,8 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         QStyleOptionViewItem styleOption;
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+        styleOption.palette = palette();
+        styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
     }
