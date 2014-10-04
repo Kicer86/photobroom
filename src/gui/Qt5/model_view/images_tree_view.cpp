@@ -115,10 +115,15 @@ void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::Scrol
 }
 
 
-void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags command)
+void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags flags)
 {
-    (void) _rect;
-    (void) command;
+    const std::deque<QModelIndex> items = findItemsIn(_rect);
+    QItemSelection selection;
+
+    for(const QModelIndex& item: items)
+        selection.select(item, item);
+
+    selectionModel()->select(selection, flags);
 }
 
 
