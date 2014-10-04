@@ -43,6 +43,15 @@ QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
 
 void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    const QRect& r = option.rect;
+
+    if ( (option.state & QStyle::State_Selected) != 0)
+    {
+        painter->setPen(option.palette.color(QPalette::Highlight));
+        painter->setBrush(option.palette.brush(QPalette::Highlight));
+        painter->drawRect(r);
+    }
+    
     const bool image = (option.features & QStyleOptionViewItem::HasDecoration) != 0;
 
     if (image)
