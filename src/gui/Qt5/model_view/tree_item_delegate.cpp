@@ -19,11 +19,12 @@
 
 #include "tree_item_delegate.hpp"
 
+#include <QCache>
 #include <QPainter>
 
 #include "view_helpers/data.hpp"
 
-TreeItemDelegate::TreeItemDelegate(): QAbstractItemDelegate()
+TreeItemDelegate::TreeItemDelegate(): QAbstractItemDelegate(), m_rotationData(new QCache<QModelIndex, RotationData>(1000))
 {
 
 }
@@ -73,8 +74,8 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DecorationRole);
     const QPixmap p = v.value<QPixmap>();
-    const int rot = rand() % 11;
-    const QPixmap rotatedPixmap = p.transformed(QMatrix().rotate(rot - 5), Qt::SmoothTransformation);
+    const int rot = getRotationFor(index);
+    const QPixmap rotatedPixmap = p.transformed(QMatrix().rotate(rot), Qt::SmoothTransformation);
     const int h_margin = (r.width()  - p.rect().width()) / 2;
     const int v_margin = (r.height() - p.rect().height()) / 2;
 
@@ -90,4 +91,19 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QString t = v.toString();
 
     painter->drawText(r, Qt::AlignCenter, t);
+}
+
+
+int TreeItemDelegate::getRotationFor(const QModelIndex& idx) const
+{
+    RotationData* data = m_rotationData->object(idx);
+
+    if (data == nullptr)
+    {
+        data = new RotationData;
+        data->rotation = rand() % 11 - 5;
+        m_rotationData->insert(idx, data);
+    }
+
+    return data->rotation;
 }
