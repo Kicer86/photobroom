@@ -47,11 +47,17 @@ void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
 
     if ( (option.state & QStyle::State_Selected) != 0)
     {
+        auto oldPen = painter->pen();
+        auto oldBrush = painter->brush();
+
         painter->setPen(option.palette.color(QPalette::Highlight));
         painter->setBrush(option.palette.brush(QPalette::Highlight));
         painter->drawRect(r);
+
+        painter->setPen(oldPen);
+        painter->setBrush(oldBrush);
     }
-    
+
     const bool image = (option.features & QStyleOptionViewItem::HasDecoration) != 0;
 
     if (image)
