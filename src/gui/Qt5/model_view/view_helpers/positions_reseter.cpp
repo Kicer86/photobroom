@@ -84,7 +84,12 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
         int row = idx.row() + 1;
 
         for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(row++, 0) )
+        {
             resetRect(sibling);
+
+            //reset rect for children
+            invalidateChildrenRect(sibling);
+        }
     }
 }
 
@@ -93,7 +98,12 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& idx) const
 {
     int r = 0;
     for(QModelIndex child = idx.child(0, 0); child.isValid(); child = idx.child(++r, 0))
+    {
         resetRect(child);
+
+        //reset rect for children
+        invalidateChildrenRect(child);
+    }
 }
 
 
@@ -103,8 +113,6 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
     info.setRect(QRect());
     m_data->update(info);
 
-    //reset rect for children
-    invalidateChildrenRect(idx);
 }
 
 
