@@ -18,7 +18,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
     Qt5/gui.cpp
-    Qt5/centralwidget.cpp
     Qt5/data/thread_multiplexer.cpp
     Qt5/model_view/db_data_model.cpp
     Qt5/model_view/model_helpers/idx_data_manager.cpp
@@ -31,8 +30,6 @@ set(GUI_SOURCES
     Qt5/model_view/images_tree_view.cpp
     Qt5/model_view/tree_item_delegate.cpp
     Qt5/components/browse_view/main_view_data_model.cpp
-    Qt5/components/browse_view/main_view_widget.cpp
-    Qt5/components/filters_editor/filters_widget.cpp
     Qt5/components/filters_editor/level_editor.cpp
     Qt5/components/photos_staging/photos_view_widget.cpp
     Qt5/components/photos_staging/photos_staging_area.cpp
@@ -50,7 +47,6 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    Qt5/centralwidget.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp
@@ -63,8 +59,6 @@ set(GUI_HEADERS
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/tree_item_delegate.hpp
     Qt5/components/browse_view/main_view_data_model.hpp
-    Qt5/components/browse_view/main_view_widget.hpp
-    Qt5/components/filters_editor/filters_widget.hpp
     Qt5/components/filters_editor/level_editor.hpp
     Qt5/components/photos_staging/photos_view_widget.hpp
     Qt5/components/photos_staging/photos_staging_area.hpp
@@ -83,8 +77,6 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
-    Qt5/components/browse_view/main_view_widget.hpp
-    Qt5/components/filters_editor/filters_widget.hpp
     Qt5/components/photos_staging/photos_staging_area.hpp
     Qt5/components/photos_staging/photos_view_widget.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
