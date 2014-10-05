@@ -18,7 +18,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
     Qt5/gui.cpp
-    Qt5/mainwindow.cpp
     Qt5/centralwidget.cpp
     Qt5/data/thread_multiplexer.cpp
     Qt5/model_view/db_data_model.cpp
@@ -46,11 +45,11 @@ set(GUI_SOURCES
     Qt5/components/tag_editor/ivalue_widget.cpp
     Qt5/components/tag_editor/converter.cpp
     Qt5/components/tag_editor/text_widget.cpp
+    Qt5/ui/mainwindow.cpp
     )
 
 set(GUI_HEADERS
     gui.hpp
-    Qt5/mainwindow.hpp
     Qt5/centralwidget.hpp
     Qt5/data/thread_multiplexer.hpp
     Qt5/model_view/db_data_model.hpp
@@ -78,6 +77,7 @@ set(GUI_HEADERS
     Qt5/components/tag_editor/ivalue_widget.hpp
     Qt5/components/tag_editor/converter.hpp
     Qt5/components/tag_editor/text_widget.hpp
+    Qt5/ui/mainwindow.hpp
     )
 
 #set of file to be moced
@@ -95,17 +95,20 @@ set(GUI_FILES_TO_MOC
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
-    Qt5/mainwindow.hpp
+    Qt5/ui/mainwindow.hpp
     )
 
 set(GUI_RESOURCE_FILES )
 
+set(GUI_UI_FILES Qt5/ui/mainwindow.ui)
+
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
 qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
+qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
-add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_RESOURCES})
+add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
 target_link_libraries(gui core ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
