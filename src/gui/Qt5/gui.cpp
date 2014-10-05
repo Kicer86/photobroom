@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-#include "mainwindow.hpp"
+#include "ui/mainwindow.hpp"
 
 
 Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr)
