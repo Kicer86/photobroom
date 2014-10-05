@@ -1,22 +1,53 @@
-#ifndef MAINWINDOW2_HPP
-#define MAINWINDOW2_HPP
+
+#ifndef MAINWINDOW_HPP
+#define MAINWINDOW_HPP
+
+#include <memory>
 
 #include <QMainWindow>
 
-namespace Ui {
-class MainWindow2;
+struct ITaskExecutor;
+struct IPluginLoader;
+struct IProject;
+struct IProjectManager;
+struct IConfiguration;
+
+class CentralWidget;
+
+namespace Ui
+{
+    class MainWindow;
 }
 
-class MainWindow2 : public QMainWindow
+class MainWindow final: public QMainWindow
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit MainWindow2(QWidget *parent = 0);
-    ~MainWindow2();
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+        MainWindow(const MainWindow &) = delete;
+        virtual ~MainWindow();
 
-private:
-    Ui::MainWindow2 *ui;
+        MainWindow operator=(const MainWindow &) = delete;
+
+        void set(IProjectManager *);
+        void set(IPluginLoader *);
+        void set(ITaskExecutor *);
+        void set(IConfiguration *);
+
+    private:
+        Ui::MainWindow *ui;
+        IProjectManager*          m_prjManager;
+        IPluginLoader*            m_pluginLoader;
+        std::shared_ptr<IProject> m_currentPrj;
+        CentralWidget*            m_centralWidget;
+
+        void closeEvent(QCloseEvent *);
+        void openProject(const QString &);
+
+    private slots:
+        void newProject();
+        void openProject();
 };
 
-#endif // MAINWINDOW2_HPP
+#endif // MAINWINDOW_HPP
