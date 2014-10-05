@@ -12,7 +12,6 @@ struct IProject;
 struct IProjectManager;
 struct IConfiguration;
 
-class CentralWidget;
 class DBDataModel;
 
 namespace Ui
@@ -41,7 +40,6 @@ class MainWindow final: public QMainWindow
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::shared_ptr<IProject> m_currentPrj;
-        CentralWidget*            m_centralWidget;
         DBDataModel*              m_imagesModel;
 
         void closeEvent(QCloseEvent *);
@@ -49,8 +47,8 @@ class MainWindow final: public QMainWindow
         void setupView();
 
     private slots:
-        void newProject();
-        void openProject();
+        void on_actionNew_project_triggered();
+        void on_actionOpen_project_triggered();
 };
 
 #endif // MAINWINDOW_HPP

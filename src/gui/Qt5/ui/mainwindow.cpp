@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
-    m_centralWidget(nullptr),
     m_imagesModel(nullptr)
 {
     ui->setupUi(this);
@@ -91,7 +90,7 @@ void MainWindow::openProject(const QString& prjFile)
         m_currentPrj = prj;
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
-        m_centralWidget->setDatabase(db);
+        m_imagesModel->setDatabase(db);
     }
 }
 
@@ -106,7 +105,7 @@ void MainWindow::setupView()
 }
 
 
-void MainWindow::newProject()
+void MainWindow::on_actionNew_project_triggered()
 {
     ProjectCreatorDialog prjCreatorDialog;
     prjCreatorDialog.set(m_pluginLoader);
@@ -124,8 +123,7 @@ void MainWindow::newProject()
     }
 }
 
-
-void MainWindow::openProject()
+void MainWindow::on_actionOpen_project_triggered()
 {
     const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                          "",
@@ -133,4 +131,3 @@ void MainWindow::openProject()
 
     openProject(prjFile);
 }
-
