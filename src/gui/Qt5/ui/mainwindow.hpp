@@ -13,6 +13,7 @@ struct IProjectManager;
 struct IConfiguration;
 
 class CentralWidget;
+class DBDataModel;
 
 namespace Ui
 {
@@ -36,14 +37,16 @@ class MainWindow final: public QMainWindow
         void set(IConfiguration *);
 
     private:
-        Ui::MainWindow *ui;
+        Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::shared_ptr<IProject> m_currentPrj;
         CentralWidget*            m_centralWidget;
+        DBDataModel*              m_imagesModel;
 
         void closeEvent(QCloseEvent *);
         void openProject(const QString &);
+        void setupView();
 
     private slots:
         void newProject();

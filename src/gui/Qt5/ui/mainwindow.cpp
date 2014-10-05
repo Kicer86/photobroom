@@ -12,12 +12,20 @@
 
 #include "centralwidget.hpp"
 #include "components/project_creator/project_creator_dialog.hpp"
+#include "components/browse_view/main_view_data_model.hpp"
 #include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(QWidget *p): QMainWindow(p), ui(new Ui::MainWindow), m_prjManager(nullptr), m_pluginLoader(nullptr), m_currentPrj(nullptr), m_centralWidget(nullptr)
+MainWindow::MainWindow(QWidget *p): QMainWindow(p),
+    ui(new Ui::MainWindow),
+    m_prjManager(nullptr),
+    m_pluginLoader(nullptr),
+    m_currentPrj(nullptr),
+    m_centralWidget(nullptr),
+    m_imagesModel(nullptr)
 {
     ui->setupUi(this);
+    setupView();
     /*
     m_centralWidget = new CentralWidget(this);
     setCentralWidget(m_centralWidget);
@@ -56,13 +64,13 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::set(ITaskExecutor* taskExecutor)
 {
-    m_centralWidget->set(taskExecutor);
+    m_imagesModel->set(taskExecutor);
 }
 
 
 void MainWindow::set(IConfiguration* configuration)
 {
-    m_centralWidget->set(configuration);
+    ui->photoView->set(configuration);
 }
 
 
@@ -85,6 +93,16 @@ void MainWindow::openProject(const QString& prjFile)
 
         m_centralWidget->setDatabase(db);
     }
+}
+
+
+void MainWindow::setupView()
+{
+    m_imagesModel = new MainViewDataModel(this);
+    ui->photoView->setModel(m_imagesModel);
+
+    ui->sortingCombo->addItem("Date and time");
+    ui->sortingCombo->addItem("People");
 }
 
 
