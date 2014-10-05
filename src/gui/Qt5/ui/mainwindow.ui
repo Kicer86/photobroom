@@ -29,6 +29,9 @@
     </property>
    </widget>
    <widget class="QMenu" name="menuPhotos">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>Photos</string>
     </property>
