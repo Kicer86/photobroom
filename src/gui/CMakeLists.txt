@@ -43,6 +43,7 @@ set(GUI_SOURCES
     Qt5/components/tag_editor/converter.cpp
     Qt5/components/tag_editor/text_widget.cpp
     Qt5/ui/mainwindow.cpp
+    Qt5/ui/photos_adding_wizard.cpp
     )
 
 set(GUI_HEADERS
@@ -72,6 +73,7 @@ set(GUI_HEADERS
     Qt5/components/tag_editor/converter.hpp
     Qt5/components/tag_editor/text_widget.hpp
     Qt5/ui/mainwindow.hpp
+    Qt5/ui/photos_adding_wizard.hpp
     )
 
 #set of file to be moced
@@ -88,11 +90,13 @@ set(GUI_FILES_TO_MOC
     Qt5/model_view/model_helpers/idx_data_manager.hpp
     Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
     Qt5/ui/mainwindow.hpp
+    Qt5/ui/photos_adding_wizard.hpp
     )
 
 set(GUI_RESOURCE_FILES Qt5/images.qrc)
 
-set(GUI_UI_FILES Qt5/ui/mainwindow.ui)
+set(GUI_UI_FILES Qt5/ui/mainwindow.ui
+                 Qt5/ui/photos_adding_wizard.ui)
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 

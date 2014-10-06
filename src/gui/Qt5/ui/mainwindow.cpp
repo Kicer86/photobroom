@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
 MainWindow::~MainWindow()
 {
+    delete ui;
 }
 
 

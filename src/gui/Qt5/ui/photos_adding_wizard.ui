@@ -40,6 +40,10 @@
          <property name="text">
           <string>...</string>
          </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/gui/imgs/add.svg</normaloff>:/gui/imgs/add.svg</iconset>
+         </property>
         </widget>
        </item>
       </layout>
@@ -49,6 +53,8 @@
   </widget>
   <widget class="QWizardPage" name="wizardPage2"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../images.qrc"/>
+ </resources>
  <connections/>
 </ui>
