@@ -67,16 +67,20 @@
    </widget>
    <widget class="QMenu" name="menuPhotos">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="title">
      <string>Photos</string>
     </property>
+    <addaction name="actionAdd_photos"/>
+    <addaction name="separator"/>
+    <addaction name="actionBrowse_staged_photos"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuProject"/>
    <addaction name="menuPhotos"/>
@@ -91,6 +95,24 @@
   <action name="actionOpen_project">
    <property name="text">
     <string>Open project</string>
+   </property>
+  </action>
+  <action name="actionAdd_photos">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Add photos</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionBrowse_staged_photos">
+   <property name="text">
+    <string>Browse staged photos</string>
    </property>
   </action>
  </widget>

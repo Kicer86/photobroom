@@ -134,3 +134,9 @@ void MainWindow::on_sortingCombo_currentIndexChanged(int index)
         m_imagesModel->setHierarchy(hierarchy);
     }
 }
+
+
+void MainWindow::on_actionAdd_photos_triggered()
+{
+
+}
