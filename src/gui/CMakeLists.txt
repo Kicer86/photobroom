@@ -90,7 +90,7 @@ set(GUI_FILES_TO_MOC
     Qt5/ui/mainwindow.hpp
     )
 
-set(GUI_RESOURCE_FILES )
+set(GUI_RESOURCE_FILES Qt5/images.qrc)
 
 set(GUI_UI_FILES Qt5/ui/mainwindow.ui)
 
