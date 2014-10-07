@@ -41,6 +41,9 @@ PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
     ui->setupUi(this);
 
     m_chooseFile = new QtExtChooseFile(ui->photosLocationBrowse, ui->photosLocation, new OpenDir);
+
+    //first, software notification
+    on_photosLocation_textChanged("");
 }
 
 
@@ -50,13 +53,17 @@ PhotosAddingWizard::~PhotosAddingWizard()
 }
 
 
-void PhotosAddingWizard::on_addLocation_clicked()
+void PhotosAddingWizard::on_photosLocation_textChanged(const QString &text)
 {
-
+    QAbstractButton* nextButton = button(QWizard::NextButton);
+    const bool disabled = text.isEmpty();
+    nextButton->setDisabled(disabled);
 }
 
 
-void PhotosAddingWizard::on_photosLocation_textChanged(const QString &text)
+void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
 {
-    ui->addLocation->setDisabled(text.isEmpty());
+    //on first page, block next buton until any path is provided
+    if (id == 0)
+        on_photosLocation_textChanged("");
 }

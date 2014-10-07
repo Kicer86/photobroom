@@ -23,9 +23,9 @@ class PhotosAddingWizard : public QWizard
         PhotosAddingWizard& operator=(const PhotosAddingWizard &) = delete;
 
     private slots:
-        void on_addLocation_clicked();
-
         void on_photosLocation_textChanged(const QString &arg1);
+
+        void on_PhotosAddingWizard_currentIdChanged(int id);
 
 private:
         Ui::PhotosAddingWizard* ui;
