@@ -31,7 +31,8 @@ void PhotosView::setModel(DBDataModel* model)
     if (m_imagesModel == nullptr)
     {
         m_imagesModel = model;
-        
+        ui->photoView->setModel(model);
+
         ui->sortingCombo->addItem("Date and time");
         ui->sortingCombo->addItem("People");
     }
