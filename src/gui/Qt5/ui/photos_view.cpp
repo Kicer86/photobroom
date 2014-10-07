@@ -12,9 +12,6 @@ PhotosView::PhotosView(QWidget *parent) :
     m_imagesModel(nullptr)
 {
     ui->setupUi(this);
-
-    ui->sortingCombo->addItem("Date and time");
-    ui->sortingCombo->addItem("People");
 }
 
 PhotosView::~PhotosView()
@@ -31,7 +28,13 @@ void PhotosView::set(IConfiguration* configuration)
 
 void PhotosView::setModel(DBDataModel* model)
 {
-    m_imagesModel = model;
+    if (m_imagesModel == nullptr)
+    {
+        m_imagesModel = model;
+        
+        ui->sortingCombo->addItem("Date and time");
+        ui->sortingCombo->addItem("People");
+    }
 }
 
 
