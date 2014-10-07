@@ -49,7 +49,6 @@ class MainWindow final: public QMainWindow
     private slots:
         void on_actionNew_project_triggered();
         void on_actionOpen_project_triggered();
-        void on_sortingCombo_currentIndexChanged(int index);
         void on_actionAdd_photos_triggered();
 };
 
