@@ -45,6 +45,7 @@ class MainWindow final: public QMainWindow
         void closeEvent(QCloseEvent *);
         void openProject(const QString &);
         void setupView();
+        void updateMenus();
 
     private slots:
         void on_actionNew_project_triggered();

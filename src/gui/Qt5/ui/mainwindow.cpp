@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 {
     ui->setupUi(this);
     setupView();
+    updateMenus();
 }
 
 
@@ -77,6 +78,8 @@ void MainWindow::openProject(const QString& prjFile)
 
         m_imagesModel->setDatabase(db);
     }
+
+    updateMenus();
 }
 
 
@@ -84,6 +87,15 @@ void MainWindow::setupView()
 {
     m_imagesModel = new MainViewDataModel(this);
     ui->photoView->setModel(m_imagesModel);
+}
+
+
+void MainWindow::updateMenus()
+{
+    const bool prj = m_currentPrj.get() != nullptr;
+
+    ui->actionAdd_photos->setEnabled(prj);
+    ui->actionBrowse_staged_photos->setEnabled(prj);
 }
 
 
