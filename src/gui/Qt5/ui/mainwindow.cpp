@@ -117,7 +117,7 @@ void MainWindow::on_actionOpen_project_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    PhotosAddingWizard wizard;
+    PhotosAddingWizard wizard(m_currentPrj->getDatabase());
 
     wizard.exec();
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>135</height>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,8 +40,29 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWizardPage" name="wizardPage2"/>
+  <widget class="QWizardPage" name="wizardPage2">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="PhotosView" name="photosView" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PhotosView</class>
+   <extends>QWidget</extends>
+   <header>ui/photos_view.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

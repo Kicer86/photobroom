@@ -1,11 +1,16 @@
 
 #include "photos_adding_wizard.hpp"
 
-#include "ui_photos_adding_wizard.h"
 
 #include <QFileDialog>
 
 #include <OpenLibrary/QtExt/qtext_choosefile.hpp>
+
+#include <analyzer/photo_crawler_builder.hpp>
+#include <analyzer/iphoto_crawler.hpp>
+
+#include "components/photos_staging/staging_data_model.hpp"
+#include "ui_photos_adding_wizard.h"
 
 namespace
 {
@@ -30,20 +35,49 @@ namespace
 
         QString m_result;
     };
+
+
+    struct PhotosReceiver: IMediaNotification
+    {
+        PhotosReceiver(): m_model(nullptr) {}
+        PhotosReceiver(const PhotosReceiver &) = delete;
+
+        PhotosReceiver& operator=(const PhotosReceiver &) = delete;
+
+        void setModel(StagingDataModel* model)
+        {
+            m_model = model;
+        }
+
+        virtual void found(const QString& path) override
+        {
+            m_model->addPhoto(path);
+        }
+
+        StagingDataModel* m_model;
+    };
 }
 
 
-PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
+PhotosAddingWizard::PhotosAddingWizard(Database::IDatabase* database, QWidget *_parent) :
     QWizard(_parent),
     ui(new Ui::PhotosAddingWizard),
-    m_chooseFile(nullptr)
+    m_chooseFile(nullptr),
+    m_dbModel(nullptr),
+    m_mediaNotification(nullptr)
 {
     ui->setupUi(this);
 
-    m_chooseFile = new QtExtChooseFile(ui->photosLocationBrowse, ui->photosLocation, new OpenDir);
+    m_chooseFile.reset(new QtExtChooseFile(ui->photosLocationBrowse, ui->photosLocation, new OpenDir));
 
-    //first, software notification
-    on_photosLocation_textChanged("");
+    StagingDataModel* stagingDataModel = new StagingDataModel(this);
+    stagingDataModel->setDatabase(database);
+    ui->photosView->setModel(stagingDataModel);
+    m_dbModel.reset(stagingDataModel);
+
+    PhotosReceiver* photosReceiver = new PhotosReceiver;
+    photosReceiver->setModel(stagingDataModel);
+    m_mediaNotification.reset(photosReceiver);
 }
 
 
@@ -66,4 +100,12 @@ void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
     //on first page, block next buton until any path is provided
     if (id == 0)
         on_photosLocation_textChanged("");
+    else if (id == 1)
+    {
+        //run crawler
+        const QString path = ui->photosLocation->text();
+
+        IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();
+        crawler->crawl(path, m_mediaNotification.get());
+    }
 }
