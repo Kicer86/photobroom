@@ -13,6 +13,7 @@
 
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/browse_view/main_view_data_model.hpp"
+#include "photos_adding_wizard.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -139,5 +140,7 @@ void MainWindow::on_sortingCombo_currentIndexChanged(int index)
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
+    PhotosAddingWizard wizard;
 
+    wizard.exec();
 }
