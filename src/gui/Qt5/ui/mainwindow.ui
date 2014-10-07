@@ -16,36 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QWidget" name="widget" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QComboBox" name="sortingCombo"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="ImagesTreeView" name="photoView" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>1</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
+     <widget class="PhotosView" name="photoView" native="true"/>
     </item>
    </layout>
   </widget>
@@ -118,9 +89,10 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ImagesTreeView</class>
+   <class>PhotosView</class>
    <extends>QWidget</extends>
-   <header>model_view/images_tree_view.hpp</header>
+   <header>ui/photos_view.hpp</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

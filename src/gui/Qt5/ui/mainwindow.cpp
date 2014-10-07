@@ -5,7 +5,6 @@
 #include <QMenuBar>
 #include <QFileDialog>
 
-#include <core/base_tags.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <project_utils/iproject_manager.hpp>
@@ -85,9 +84,6 @@ void MainWindow::setupView()
 {
     m_imagesModel = new MainViewDataModel(this);
     ui->photoView->setModel(m_imagesModel);
-
-    ui->sortingCombo->addItem("Date and time");
-    ui->sortingCombo->addItem("People");
 }
 
 
@@ -116,25 +112,6 @@ void MainWindow::on_actionOpen_project_triggered()
                                                          tr("Broom projects (*.bpj)"));
 
     openProject(prjFile);
-}
-
-
-void MainWindow::on_sortingCombo_currentIndexChanged(int index)
-{
-    if (index == 0)
-    {
-        Hierarchy hierarchy;
-        hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
-
-        m_imagesModel->setHierarchy(hierarchy);
-    }
-    else
-    {
-        Hierarchy hierarchy;
-        hierarchy.levels = { { BaseTags::get(BaseTagsList::People), Hierarchy::Level::Order::ascending }  };
-
-        m_imagesModel->setHierarchy(hierarchy);
-    }
 }
 
 
