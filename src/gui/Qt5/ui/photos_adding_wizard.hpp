@@ -10,6 +10,7 @@ class QtExtChooseFile;
 
 class DBDataModel;
 struct IMediaNotification;
+struct IConfiguration;
 
 namespace Ui
 {
@@ -21,14 +22,18 @@ namespace Database
     struct IDatabase;
 }
 
+
 class PhotosAddingWizard : public QWizard
 {
     Q_OBJECT
 
     public:
-        explicit PhotosAddingWizard(Database::IDatabase *, QWidget *parent = 0);
+        explicit PhotosAddingWizard(QWidget *parent = 0);
         PhotosAddingWizard(const PhotosAddingWizard &) = delete;
         ~PhotosAddingWizard();
+
+        void set(Database::IDatabase *);
+        void set(IConfiguration *);
 
         PhotosAddingWizard& operator=(const PhotosAddingWizard &) = delete;
 

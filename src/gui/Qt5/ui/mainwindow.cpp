@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
-    m_imagesModel(nullptr)
+    m_imagesModel(nullptr),
+    m_configuration(nullptr)
 {
     ui->setupUi(this);
     setupView();
@@ -55,6 +56,7 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 
 void MainWindow::set(IConfiguration* configuration)
 {
+    m_configuration = configuration;
     ui->photoView->set(configuration);
 }
 
@@ -129,7 +131,9 @@ void MainWindow::on_actionOpen_project_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    PhotosAddingWizard wizard(m_currentPrj->getDatabase());
+    PhotosAddingWizard wizard;
+    wizard.set(m_currentPrj->getDatabase());
+    wizard.set(m_configuration);
 
     wizard.exec();
 }

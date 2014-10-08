@@ -41,6 +41,7 @@ class MainWindow final: public QMainWindow
         IPluginLoader*            m_pluginLoader;
         std::shared_ptr<IProject> m_currentPrj;
         DBDataModel*              m_imagesModel;
+        IConfiguration*           m_configuration;
 
         void closeEvent(QCloseEvent *);
         void openProject(const QString &);

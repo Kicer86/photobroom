@@ -59,7 +59,7 @@ namespace
 }
 
 
-PhotosAddingWizard::PhotosAddingWizard(Database::IDatabase* database, QWidget *_parent) :
+PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
     QWizard(_parent),
     ui(new Ui::PhotosAddingWizard),
     m_chooseFile(nullptr),
@@ -71,7 +71,6 @@ PhotosAddingWizard::PhotosAddingWizard(Database::IDatabase* database, QWidget *_
     m_chooseFile.reset(new QtExtChooseFile(ui->photosLocationBrowse, ui->photosLocation, new OpenDir));
 
     StagingDataModel* stagingDataModel = new StagingDataModel(this);
-    stagingDataModel->setDatabase(database);
     ui->photosView->setModel(stagingDataModel);
     m_dbModel.reset(stagingDataModel);
 
@@ -84,6 +83,18 @@ PhotosAddingWizard::PhotosAddingWizard(Database::IDatabase* database, QWidget *_
 PhotosAddingWizard::~PhotosAddingWizard()
 {
     delete ui;
+}
+
+
+void PhotosAddingWizard::set(Database::IDatabase* db)
+{
+    m_dbModel->setDatabase(db);
+}
+
+
+void PhotosAddingWizard::set(IConfiguration* configuration)
+{
+    ui->photosView->set(configuration);
 }
 
 
