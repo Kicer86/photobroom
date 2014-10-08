@@ -87,7 +87,7 @@ void MainWindow::openProject(const QString& prjFile)
 
 void MainWindow::setupView()
 {
-    m_imagesModel = new MainViewDataModel(this);
+    m_imagesModel = new PhotosDataModel(this);
     ui->photoView->setModel(m_imagesModel);
 }
 

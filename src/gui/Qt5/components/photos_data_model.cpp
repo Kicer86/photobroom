@@ -23,19 +23,19 @@
 
 #include <database/filter.hpp>
 
-MainViewDataModel::MainViewDataModel(QObject* p): DBDataModel(p)
+PhotosDataModel::PhotosDataModel(QObject* p): DBDataModel(p)
 {
 
 }
 
 
-MainViewDataModel::~MainViewDataModel()
+PhotosDataModel::~PhotosDataModel()
 {
 
 }
 
 
-std::deque<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters() const
+std::deque<Database::IFilter::Ptr> PhotosDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterFlags>();
     filter->stagingArea = false;

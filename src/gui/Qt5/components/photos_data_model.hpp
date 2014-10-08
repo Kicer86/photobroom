@@ -24,14 +24,14 @@
 
 class QObject;
 
-class MainViewDataModel: public DBDataModel
+class PhotosDataModel: public DBDataModel
 {
     public:
-        MainViewDataModel(QObject *);
-        MainViewDataModel(const MainViewDataModel &) = delete;
-        ~MainViewDataModel();
+        PhotosDataModel(QObject *);
+        PhotosDataModel(const PhotosDataModel &) = delete;
+        ~PhotosDataModel();
 
-        MainViewDataModel& operator=(const MainViewDataModel &) = delete;
+        PhotosDataModel& operator=(const PhotosDataModel &) = delete;
 
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
