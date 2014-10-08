@@ -17,7 +17,7 @@
  *
  */
 
-#include "main_view_data_model.hpp"
+#include "photos_data_model.hpp"
 
 #include <memory>
 

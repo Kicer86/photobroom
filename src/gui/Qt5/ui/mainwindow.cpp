@@ -11,7 +11,7 @@
 #include <project_utils/iproject.hpp>
 
 #include "components/project_creator/project_creator_dialog.hpp"
-#include "components/browse_view/main_view_data_model.hpp"
+#include "components/photos_data_model.hpp"
 #include "photos_adding_wizard.hpp"
 #include "ui_mainwindow.h"
 
