@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/gui">
-        <file>../imgs/add.svg</file>
+        <file>../images/add.svg</file>
     </qresource>
 </RCC>
