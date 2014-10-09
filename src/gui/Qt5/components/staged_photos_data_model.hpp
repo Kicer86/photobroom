@@ -24,14 +24,14 @@
 
 class QObject;
 
-class StagingDataModel: public DBDataModel
+class StagedPhotosDataModel: public DBDataModel
 {
     public:
-        StagingDataModel(QObject *);
-        StagingDataModel(const StagingDataModel &) = delete;
-        ~StagingDataModel();
+        StagedPhotosDataModel(QObject *);
+        StagedPhotosDataModel(const StagedPhotosDataModel &) = delete;
+        ~StagedPhotosDataModel();
 
-        StagingDataModel& operator=(const StagingDataModel &) = delete;
+        StagedPhotosDataModel& operator=(const StagedPhotosDataModel &) = delete;
 
         void addPhoto(const QString &);
         void storePhotos();

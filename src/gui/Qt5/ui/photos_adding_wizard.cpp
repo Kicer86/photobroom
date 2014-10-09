@@ -44,7 +44,7 @@ namespace
 
         PhotosReceiver& operator=(const PhotosReceiver &) = delete;
 
-        void setModel(StagingDataModel* model)
+        void setModel(StagedPhotosDataModel* model)
         {
             m_model = model;
         }
@@ -54,7 +54,7 @@ namespace
             m_model->addPhoto(path);
         }
 
-        StagingDataModel* m_model;
+        StagedPhotosDataModel* m_model;
     };
 }
 
@@ -70,7 +70,7 @@ PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
 
     m_chooseFile.reset(new QtExtChooseFile(ui->photosLocationBrowse, ui->photosLocation, new OpenDir));
 
-    StagingDataModel* stagingDataModel = new StagingDataModel(this);
+    StagedPhotosDataModel* stagingDataModel = new StagedPhotosDataModel(this);
     ui->photosView->setModel(stagingDataModel);
     m_dbModel.reset(stagingDataModel);
 

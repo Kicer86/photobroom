@@ -20,7 +20,7 @@ namespace Database
     struct IDatabase;
 }
 
-class StagingDataModel;
+class StagedPhotosDataModel;
 class ImagesTreeView;
 struct ITaskExecutor;
 struct IConfiguration;
@@ -96,7 +96,7 @@ class PhotosViewWidget: public QWidget
         void setDatabase(Database::IDatabase *);
 
     private:
-        StagingDataModel* m_photosModel;
+        StagedPhotosDataModel* m_photosModel;
         ImagesTreeView*   m_photosView;
 
     private slots:
