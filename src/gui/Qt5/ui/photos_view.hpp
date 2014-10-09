@@ -1,3 +1,4 @@
+
 #ifndef PHOTOSVIEW_HPP
 #define PHOTOSVIEW_HPP
 

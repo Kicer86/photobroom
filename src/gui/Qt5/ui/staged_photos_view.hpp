@@ -1,3 +1,4 @@
+
 #ifndef STAGED_PHOTOS_VIEW_HPP
 #define STAGED_PHOTOS_VIEW_HPP
 
