@@ -19,7 +19,7 @@
 #include <database/database_builder.hpp>
 #include <database/iphoto_info.hpp>
 
-#include "components/photos_staging/staging_data_model.hpp"
+#include "components/staged_photos_data_model.hpp"
 #include "model_view/images_tree_view.hpp"
 
 //useful links:

@@ -9,7 +9,7 @@
 #include <analyzer/photo_crawler_builder.hpp>
 #include <analyzer/iphoto_crawler.hpp>
 
-#include "components/photos_staging/staging_data_model.hpp"
+#include "components/staged_photos_data_model.hpp"
 #include "ui_photos_adding_wizard.h"
 
 namespace

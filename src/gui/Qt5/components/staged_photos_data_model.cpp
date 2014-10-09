@@ -17,7 +17,7 @@
  *
  */
 
-#include "staging_data_model.hpp"
+#include "staged_photos_data_model.hpp"
 
 #include <memory>
 
