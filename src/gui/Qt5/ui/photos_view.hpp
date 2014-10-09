@@ -17,7 +17,10 @@ class PhotosView : public QWidget
 
     public:
         explicit PhotosView(QWidget *parent = 0);
+        PhotosView(const PhotosView &) = delete;
         ~PhotosView();
+
+        PhotosView& operator=(const PhotosView &) = delete;
 
         void set(IConfiguration *);
         void setModel(DBDataModel *);

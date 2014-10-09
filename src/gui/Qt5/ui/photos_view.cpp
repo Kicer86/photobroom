@@ -6,8 +6,8 @@
 #include "model_view/db_data_model.hpp"
 #include "ui_photos_view.h"
 
-PhotosView::PhotosView(QWidget *parent) :
-    QWidget(parent),
+PhotosView::PhotosView(QWidget *_parent) :
+    QWidget(_parent),
     ui(new Ui::PhotosView),
     m_imagesModel(nullptr)
 {
