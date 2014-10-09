@@ -14,7 +14,7 @@ namespace Database
 class QItemSelection;
 
 class TagEditorWidget;
-class PhotosViewWidget;
+class PhotosView;
 struct PhotosReceiver;
 struct ITaskExecutor;
 struct IConfiguration;
@@ -34,7 +34,7 @@ class PhotosStagingArea: public QWidget
         void set(IConfiguration *);
 
     private:
-        PhotosViewWidget *m_editor;
+        PhotosView *m_editor;
         TagEditorWidget  *m_tagEditor;
         std::unique_ptr<PhotosReceiver> m_photosReceiver;
 
