@@ -43,7 +43,7 @@
   <widget class="QWizardPage" name="wizardPage2">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="PhotosView" name="photosView" native="true">
+     <widget class="StagedPhotosWidget" name="photosView" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -57,9 +57,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PhotosView</class>
+   <class>StagedPhotosWidget</class>
    <extends>QWidget</extends>
-   <header>ui/photos_view.hpp</header>
+   <header>components/staged_photos_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

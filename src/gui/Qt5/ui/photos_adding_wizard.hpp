@@ -8,7 +8,6 @@
 
 class QtExtChooseFile;
 
-class DBDataModel;
 struct IMediaNotification;
 struct IConfiguration;
 
@@ -44,7 +43,6 @@ class PhotosAddingWizard : public QWizard
     private:
         Ui::PhotosAddingWizard* ui;
         std::unique_ptr<QtExtChooseFile> m_chooseFile;
-        std::unique_ptr<DBDataModel> m_dbModel;
         std::unique_ptr<IMediaNotification> m_mediaNotification;
 };
 

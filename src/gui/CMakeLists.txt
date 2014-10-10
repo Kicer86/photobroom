@@ -31,6 +31,7 @@ set(GUI_SOURCES
     Qt5/model_view/tree_item_delegate.cpp
     Qt5/components/photos_data_model.cpp
     Qt5/components/staged_photos_data_model.cpp
+    Qt5/components/staged_photos_widget.cpp
     Qt5/components/filters_editor/level_editor.cpp
     Qt5/components/project_creator/project_creator_dialog.cpp
     Qt5/components/tag_editor/tag_editor_widget.cpp
@@ -43,7 +44,6 @@ set(GUI_SOURCES
     Qt5/ui/mainwindow.cpp
     Qt5/ui/photos_adding_wizard.cpp
     Qt5/ui/photos_view.cpp
-    Qt5/ui/staged_photos_view.cpp
     )
 
 set(GUI_HEADERS
@@ -61,6 +61,7 @@ set(GUI_HEADERS
     Qt5/model_view/tree_item_delegate.hpp
     Qt5/components/photos_data_model.hpp
     Qt5/components/staged_photos_data_model.hpp
+    Qt5/components/staged_photos_widget.hpp
     Qt5/components/filters_editor/level_editor.hpp
     Qt5/components/project_creator/project_creator_dialog.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
@@ -73,7 +74,6 @@ set(GUI_HEADERS
     Qt5/ui/mainwindow.hpp
     Qt5/ui/photos_adding_wizard.hpp
     Qt5/ui/photos_view.hpp
-    Qt5/ui/staged_photos_view.hpp
     )
 
 #set of file to be moced
@@ -90,15 +90,13 @@ set(GUI_FILES_TO_MOC
     Qt5/ui/mainwindow.hpp
     Qt5/ui/photos_adding_wizard.hpp
     Qt5/ui/photos_view.hpp
-    Qt5/ui/staged_photos_view.hpp
     )
 
 set(GUI_RESOURCE_FILES Qt5/images.qrc)
 
 set(GUI_UI_FILES Qt5/ui/mainwindow.ui
                  Qt5/ui/photos_adding_wizard.ui
-                 Qt5/ui/photos_view.ui
-                 Qt5/ui/staged_photos_view.ui)
+                 Qt5/ui/photos_view.ui)
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 

@@ -63,19 +63,14 @@ PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
     QWizard(_parent),
     ui(new Ui::PhotosAddingWizard),
     m_chooseFile(nullptr),
-    m_dbModel(nullptr),
     m_mediaNotification(nullptr)
 {
     ui->setupUi(this);
 
     m_chooseFile.reset(new QtExtChooseFile(ui->photosLocationBrowse, ui->photosLocation, new OpenDir));
 
-    StagedPhotosDataModel* stagingDataModel = new StagedPhotosDataModel(this);
-    ui->photosView->setModel(stagingDataModel);
-    m_dbModel.reset(stagingDataModel);
-
     PhotosReceiver* photosReceiver = new PhotosReceiver;
-    photosReceiver->setModel(stagingDataModel);
+    photosReceiver->setModel(ui->photosView->model());
     m_mediaNotification.reset(photosReceiver);
 }
 
@@ -88,7 +83,7 @@ PhotosAddingWizard::~PhotosAddingWizard()
 
 void PhotosAddingWizard::set(Database::IDatabase* db)
 {
-    m_dbModel->setDatabase(db);
+    ui->photosView->model()->setDatabase(db);
 }
 
 
