@@ -7,7 +7,6 @@
 #include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
 #include <analyzer/photo_crawler_builder.hpp>
-#include <analyzer/iphoto_crawler.hpp>
 
 #include "components/staged_photos_data_model.hpp"
 #include "ui_photos_adding_wizard.h"
@@ -35,28 +34,26 @@ namespace
 
         QString m_result;
     };
-
-
-    struct PhotosReceiver: IMediaNotification
-    {
-        PhotosReceiver(): m_model(nullptr) {}
-        PhotosReceiver(const PhotosReceiver &) = delete;
-
-        PhotosReceiver& operator=(const PhotosReceiver &) = delete;
-
-        void setModel(StagedPhotosDataModel* model)
-        {
-            m_model = model;
-        }
-
-        virtual void found(const QString& path) override
-        {
-            m_model->addPhoto(path);
-        }
-
-        StagedPhotosDataModel* m_model;
-    };
 }
+
+
+PhotosReceiver::PhotosReceiver(): m_model(nullptr)
+{
+
+}
+
+
+void PhotosReceiver::setModel(StagedPhotosDataModel *model)
+{
+    m_model = model;
+}
+
+
+void PhotosReceiver::found(const QString &path)
+{
+    m_model->addPhoto(path);
+}
+
 
 
 PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
