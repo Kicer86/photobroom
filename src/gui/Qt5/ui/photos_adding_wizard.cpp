@@ -104,7 +104,7 @@ void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
 {
     //on first page, block next buton until any path is provided
     if (id == 0)
-        on_photosLocation_textChanged("");
+        on_photosLocation_textChanged(ui->photosLocation->text());
     else if (id == 1)
     {
         //run crawler
