@@ -61,6 +61,7 @@ class PhotosAddingWizard : public QWizard
     private slots:
         void on_photosLocation_textChanged(const QString &);
         void on_PhotosAddingWizard_currentIdChanged(int id);
+        void crawlingDone();
 
     private:
         Ui::PhotosAddingWizard* ui;

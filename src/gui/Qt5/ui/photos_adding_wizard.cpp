@@ -69,6 +69,8 @@ PhotosAddingWizard::PhotosAddingWizard(QWidget *_parent) :
     PhotosReceiver* photosReceiver = new PhotosReceiver;
     photosReceiver->setModel(ui->photosView->model());
     m_mediaNotification.reset(photosReceiver);
+
+    connect(photosReceiver, SIGNAL(finished()), this, SLOT(crawlingDone()));
 }
 
 
@@ -110,5 +112,15 @@ void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
 
         IPhotoCrawler* crawler = PhotoCrawlerBuilder().build();
         crawler->crawl(path, m_mediaNotification.get());
+
+        //lock finish button
+        QAbstractButton* finishButton = button(QWizard::QWizard::FinishButton);
+        finishButton->setDisabled(true);
     }
+}
+
+
+void PhotosAddingWizard::crawlingDone()
+{
+
 }
