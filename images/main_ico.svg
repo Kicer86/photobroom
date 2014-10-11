@@ -58,9 +58,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="15.839192"
-     inkscape:cx="29.068003"
-     inkscape:cy="23.773929"
+     inkscape:zoom="12.006084"
+     inkscape:cx="14.327224"
+     inkscape:cy="22.548474"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -107,14 +107,16 @@
      id="layer2"
      inkscape:label="broom">
     <path
-       style="fill:#e9420f;stroke:#000000;stroke-width:0.10000000000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#filter3854)"
+       style="fill:#e9420f;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3854)"
        d="m 41,3 0,29 8,0 0,1 -17,0 0,-1 8,0 0,-29 z"
        id="path3806"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(1.2216004,0.44462618,-0.44462618,1.2216004,-4.6359782,-22.87626)" />
     <path
-       style="fill:#e9e10f;stroke:#000000;stroke-width:0.10000000000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#filter3854)"
+       style="fill:#e9e10f;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3854)"
        d="m 32,33 0,7 17,0 0,-7 z"
        id="path3808"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(1.2216004,0.44462618,-0.44462618,1.2216004,-4.6359782,-22.87626)" />
   </g>
 </svg>
