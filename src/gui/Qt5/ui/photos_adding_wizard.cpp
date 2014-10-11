@@ -122,5 +122,7 @@ void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
 
 void PhotosAddingWizard::crawlingDone()
 {
-
+    //unlock finish button
+    QAbstractButton* finishButton = button(QWizard::QWizard::FinishButton);
+    finishButton->setEnabled(true);
 }
