@@ -16,7 +16,41 @@
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="main_ico.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <filter
+       id="filter3854"
+       inkscape:label="Diffuse light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic diffuse bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3856"
+         stdDeviation="6"
+         in="SourceGraphic"
+         result="result0" />
+      <feDiffuseLighting
+         id="feDiffuseLighting3858"
+         diffuseConstant="1"
+         surfaceScale="10"
+         result="result5"
+         kernelUnitLength="0.01">
+        <feDistantLight
+           id="feDistantLight3872"
+           elevation="15"
+           azimuth="45" />
+      </feDiffuseLighting>
+      <feComposite
+         id="feComposite3862"
+         in2="SourceGraphic"
+         k1="1"
+         in="result5"
+         result="result4"
+         operator="arithmetic"
+         k2="0"
+         k3="0.59999999999999998"
+         k4="0" />
+    </filter>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,7 +59,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="15.018773"
+     inkscape:cx="29.068003"
      inkscape:cy="23.773929"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
@@ -73,12 +107,12 @@
      id="layer2"
      inkscape:label="broom">
     <path
-       style="fill:#e9420f;stroke:#000000;stroke-width:0.10000000000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       style="fill:#e9420f;stroke:#000000;stroke-width:0.10000000000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#filter3854)"
        d="m 41,3 0,29 8,0 0,1 -17,0 0,-1 8,0 0,-29 z"
        id="path3806"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#e9e10f;stroke:#000000;stroke-width:0.10000000000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#filter3810)"
+       style="fill:#e9e10f;stroke:#000000;stroke-width:0.10000000000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#filter3854)"
        d="m 32,33 0,7 17,0 0,-7 z"
        id="path3808"
        inkscape:connector-curvature="0" />
