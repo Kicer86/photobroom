@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Add photos</string>
   </property>
+  <property name="options">
+   <set>QWizard::DisabledBackButtonOnLastPage</set>
+  </property>
   <widget class="QWizardPage" name="wizardPage1">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
