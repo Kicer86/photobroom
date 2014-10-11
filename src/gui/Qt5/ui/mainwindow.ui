@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Photo broom</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../images.qrc">
+    <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -95,6 +99,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../images.qrc"/>
+ </resources>
  <connections/>
 </ui>
