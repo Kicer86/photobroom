@@ -52,6 +52,7 @@ class MainWindow final: public QMainWindow
         void on_actionNew_project_triggered();
         void on_actionOpen_project_triggered();
         void on_actionAdd_photos_triggered();
+        void activateWindow(QAction *);
 };
 
 #endif // MAINWINDOW_HPP

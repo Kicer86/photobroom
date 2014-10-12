@@ -4,6 +4,7 @@
 #include <QCloseEvent>
 #include <QMenuBar>
 #include <QFileDialog>
+#include <QLayout>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -98,6 +99,21 @@ void MainWindow::updateMenus()
 
     ui->actionAdd_photos->setEnabled(prj);
     ui->actionBrowse_staged_photos->setEnabled(prj);
+
+    const int c = ui->centralWidget->layout()->count();
+    ui->menuWindows->clear();
+
+    for(int i = 0; i < c; i++)
+    {
+        QWidget* child = ui->centralWidget->widget(i);
+        assert(child != nullptr);
+
+        const QString title = child->windowTitle();
+        QAction* action = ui->menuWindows->addAction(title);
+
+        action->setData(i);
+        connect(ui->menuWindows, SIGNAL(triggered(QAction *)), this, SLOT(activateWindow(QAction*)));
+    }
 }
 
 
@@ -136,4 +152,12 @@ void MainWindow::on_actionAdd_photos_triggered()
     wizard.set(m_configuration);
 
     wizard.exec();
+}
+
+
+void MainWindow::activateWindow(QAction* action)
+{
+    const int w = action->data().toInt();
+
+    ui->centralWidget->setCurrentIndex(w);
 }
