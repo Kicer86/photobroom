@@ -31,7 +31,7 @@ class StagedPhotosDataModel;
 class StagedPhotosWidget : public QWidget
 {
     public:
-        StagedPhotosWidget(QWidget *);
+        StagedPhotosWidget(QWidget * = nullptr);
         StagedPhotosWidget(const StagedPhotosWidget &) = delete;
         ~StagedPhotosWidget();
         StagedPhotosWidget& operator=(const StagedPhotosWidget &) = delete;
