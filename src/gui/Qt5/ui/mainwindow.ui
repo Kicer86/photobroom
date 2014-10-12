@@ -59,8 +59,14 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuWindows">
+    <property name="title">
+     <string>Windows</string>
+    </property>
+   </widget>
    <addaction name="menuProject"/>
    <addaction name="menuPhotos"/>
+   <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
