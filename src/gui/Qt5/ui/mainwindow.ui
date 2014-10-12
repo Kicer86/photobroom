@@ -51,7 +51,6 @@
     </property>
     <addaction name="actionAdd_photos"/>
     <addaction name="separator"/>
-    <addaction name="actionBrowse_staged_photos"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
