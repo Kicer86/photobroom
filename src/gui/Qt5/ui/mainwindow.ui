@@ -18,11 +18,9 @@
     <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="PhotosView" name="photoView" native="true"/>
-    </item>
-   </layout>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -30,7 +28,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProject">
@@ -41,9 +39,6 @@
     <addaction name="actionOpen_project"/>
    </widget>
    <widget class="QMenu" name="menuPhotos">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
     <property name="title">
      <string>Photos</string>
     </property>
@@ -62,6 +57,12 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget">
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="PhotosView" name="photoView"/>
+  </widget>
   <action name="actionNew_project">
    <property name="text">
     <string>New project</string>
