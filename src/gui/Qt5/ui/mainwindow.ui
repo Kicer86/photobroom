@@ -20,12 +20,12 @@
   <widget class="QMdiArea" name="centralWidget">
    <widget class="PhotosView" name="photoView">
     <property name="windowTitle">
-     <string>Podokno</string>
+     <string>Photos</string>
     </property>
    </widget>
    <widget class="StagedPhotosWidget" name="stagedPhotosArea">
     <property name="windowTitle">
-     <string>Podokno</string>
+     <string>Staged photos</string>
     </property>
    </widget>
   </widget>
@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProject">
