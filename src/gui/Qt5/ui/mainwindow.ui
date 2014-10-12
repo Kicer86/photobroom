@@ -17,7 +17,7 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
   </property>
-  <widget class="QMdiArea" name="centralWidget">
+  <widget class="QStackedWidget" name="centralWidget">
    <widget class="PhotosView" name="photoView">
     <property name="windowTitle">
      <string>Photos</string>
