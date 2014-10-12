@@ -17,12 +17,17 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="PhotosView" name="photoView" native="true"/>
-    </item>
-   </layout>
+  <widget class="QMdiArea" name="centralWidget">
+   <widget class="PhotosView" name="photoView">
+    <property name="windowTitle">
+     <string>Podokno</string>
+    </property>
+   </widget>
+   <widget class="StagedPhotosWidget" name="stagedPhotosArea">
+    <property name="windowTitle">
+     <string>Podokno</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -59,15 +64,6 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="stagingAreaDock">
-   <property name="windowTitle">
-    <string>Staged photos</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="StagedPhotosWidget" name="dockWidgetContents"/>
-  </widget>
   <action name="actionNew_project">
    <property name="text">
     <string>New project</string>
