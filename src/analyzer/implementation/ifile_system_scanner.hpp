@@ -11,6 +11,7 @@ struct IFileNotifier
     virtual ~IFileNotifier() {}
 
     virtual void found(const QString &) = 0;
+    virtual void finished() = 0;
 };
 
 struct IFileSystemScanner

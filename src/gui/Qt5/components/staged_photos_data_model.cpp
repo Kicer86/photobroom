@@ -17,33 +17,33 @@
  *
  */
 
-#include "staging_data_model.hpp"
+#include "staged_photos_data_model.hpp"
 
 #include <memory>
 
 //TODO: remove
 #include "model_view/model_helpers/idx_data.hpp"
 
-StagingDataModel::StagingDataModel(QObject* p): DBDataModel(p)
+StagedPhotosDataModel::StagedPhotosDataModel(QObject* p): DBDataModel(p)
 {
 
 }
 
 
-StagingDataModel::~StagingDataModel()
+StagedPhotosDataModel::~StagedPhotosDataModel()
 {
 
 }
 
 
-void StagingDataModel::addPhoto(const QString& path)
+void StagedPhotosDataModel::addPhoto(const QString& path)
 {
     auto task = getDatabase()->prepareTask(nullptr);
     getDatabase()->addPath(task, path);
 }
 
 
-void StagingDataModel::storePhotos()
+void StagedPhotosDataModel::storePhotos()
 {
     deepFetch(QModelIndex());   //fetch root
     const std::vector<IPhotoInfo::Ptr> photos = getPhotos();
@@ -53,7 +53,7 @@ void StagingDataModel::storePhotos()
 }
 
 
-std::deque<Database::IFilter::Ptr> StagingDataModel::getModelSpecificFilters() const
+std::deque<Database::IFilter::Ptr> StagedPhotosDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterFlags>();
     filter->stagingArea = true;

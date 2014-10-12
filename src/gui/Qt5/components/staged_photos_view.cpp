@@ -1,5 +1,5 @@
 
-#include "photos_staging_area.hpp"
+#include "staged_photos_view.hpp"
 
 #include <memory>
 
@@ -14,7 +14,7 @@
 #include <database/idatabase.hpp>
 
 #include "components/tag_editor/tag_editor_widget.hpp"
-#include "photos_view_widget.hpp"
+#include "ui/photos_view.hpp"
 
 struct TagGroupUpdater: ITagData
 {
@@ -95,7 +95,7 @@ struct PhotosReceiver: IMediaNotification
 
     PhotosReceiver& operator=(const PhotosReceiver &) = delete;
 
-    void setView(PhotosViewWidget* view)
+    void setView(PhotosView* view)
     {
         m_view = view;
     }
@@ -105,7 +105,7 @@ struct PhotosReceiver: IMediaNotification
         m_view->addPhoto(path);
     }
 
-    PhotosViewWidget* m_view;
+    PhotosView* m_view;
 };
 
 

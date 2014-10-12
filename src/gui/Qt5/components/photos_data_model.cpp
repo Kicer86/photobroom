@@ -1,5 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
+ * Small modification od DBDataModel for main view purposes.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,32 +17,30 @@
  *
  */
 
-#ifndef GUI_FILTERSEWIDGET_H
-#define GUI_FILTERSEWIDGET_H
+#include "photos_data_model.hpp"
 
-#include <deque>
+#include <memory>
 
-#include <QWidget>
+#include <database/filter.hpp>
 
-class QComboBox;
-class FiltersWidget: public QWidget
+PhotosDataModel::PhotosDataModel(QObject* p): DBDataModel(p)
 {
-        Q_OBJECT
-        
-    public:
-        FiltersWidget(QWidget * = 0);
-        FiltersWidget(const FiltersWidget &) = delete;
-        ~FiltersWidget();
 
-        FiltersWidget& operator=(const FiltersWidget &) = delete;
+}
 
-        void setBasicFilters(const std::deque<QString> &);
 
-    signals:
-        void basicFilterChoosen(int);
+PhotosDataModel::~PhotosDataModel()
+{
 
-    private:
-        QComboBox* m_sorting;
-};
+}
 
-#endif // GUI_FILTERSEWIDGET_H
+
+std::deque<Database::IFilter::Ptr> PhotosDataModel::getModelSpecificFilters() const
+{
+    auto filter = std::make_shared<Database::FilterFlags>();
+    filter->stagingArea = false;
+
+    const std::deque<Database::IFilter::Ptr> result( {filter});
+
+    return result;
+}

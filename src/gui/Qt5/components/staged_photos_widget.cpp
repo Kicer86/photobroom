@@ -1,5 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
+ * Widget for Staging area.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,38 @@
  *
  */
 
-#include "filters_widget.hpp"
+#include "staged_photos_widget.hpp"
 
-#include <QHBoxLayout>
-#include <QComboBox>
+#include <QVBoxLayout>
 
-FiltersWidget::FiltersWidget(QWidget* _parent): QWidget(_parent), m_sorting(nullptr)
+#include "staged_photos_data_model.hpp"
+#include "ui/photos_view.hpp"
+
+
+StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
+                                                    m_view(new PhotosView(this)),
+                                                    m_dataModel(new StagedPhotosDataModel(this))
 {
-    m_sorting = new QComboBox;
-    connect(m_sorting, SIGNAL(currentIndexChanged(int)), this, SIGNAL(basicFilterChoosen(int)));
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(m_view);
 
-    QBoxLayout *mainLayout = new QHBoxLayout(this);
-    mainLayout->addWidget(m_sorting);
-    mainLayout->addStretch();
+    m_view->setModel(m_dataModel.get());
 }
 
 
-FiltersWidget::~FiltersWidget()
+StagedPhotosWidget::~StagedPhotosWidget()
 {
 
 }
 
-void FiltersWidget::setBasicFilters(const std::deque<QString>& items)
+
+StagedPhotosDataModel* StagedPhotosWidget::model() const
 {
-    for(const QString& item: items)
-        m_sorting->addItem(item);
+    return m_dataModel.get();
 }
 
 
+void StagedPhotosWidget::set(IConfiguration* configuration)
+{
+    m_view->set(configuration);
+}

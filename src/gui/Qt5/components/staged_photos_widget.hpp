@@ -1,5 +1,5 @@
 /*
- * Small modification od DBDataModel for staging purposes.
+ * Widget for Staging area.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,31 @@
  *
  */
 
-#ifndef STAGINGDATAMODEL_H
-#define STAGINGDATAMODEL_H
+#ifndef STAGEDPHOTOSWIDGET_HPP
+#define STAGEDPHOTOSWIDGET_HPP
 
-#include "model_view/db_data_model.hpp"
+#include <memory>
 
-class QObject;
+#include <QWidget>
 
-class StagingDataModel: public DBDataModel
+class IConfiguration;
+class PhotosView;
+class StagedPhotosDataModel;
+
+class StagedPhotosWidget : public QWidget
 {
     public:
-        StagingDataModel(QObject *);
-        StagingDataModel(const StagingDataModel &) = delete;
-        ~StagingDataModel();
+        StagedPhotosWidget(QWidget * = nullptr);
+        StagedPhotosWidget(const StagedPhotosWidget &) = delete;
+        ~StagedPhotosWidget();
+        StagedPhotosWidget& operator=(const StagedPhotosWidget &) = delete;
 
-        StagingDataModel& operator=(const StagingDataModel &) = delete;
+        StagedPhotosDataModel* model() const;
+        void set(IConfiguration *);
 
-        void addPhoto(const QString &);
-        void storePhotos();
-
-        // DBDataModel interface:
-        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
+    private:
+        PhotosView* m_view;
+        std::unique_ptr<StagedPhotosDataModel> m_dataModel;
 };
 
-#endif // STAGINGDATAMODEL_H
+#endif // STAGEDPHOTOSWIDGET_HPP

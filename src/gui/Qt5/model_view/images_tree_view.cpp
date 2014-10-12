@@ -264,7 +264,7 @@ void ImagesTreeView::updateModel()
     QAbstractItemModel* m = QAbstractItemView::model();
 
     // is there anything to calculate?
-    if (m->rowCount() > 0)
+    if (m != nullptr && m->rowCount() > 0)
     {
         PositionsCalculator calculator(m, m_data.get(), viewport()->width());
         calculator.updateItems();

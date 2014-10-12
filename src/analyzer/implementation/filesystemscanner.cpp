@@ -33,6 +33,8 @@ void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* noti
         const QString entry = dirIt.next();
         notifier->found(entry);
     }
+    
+    notifier->finished();
 }
 
 

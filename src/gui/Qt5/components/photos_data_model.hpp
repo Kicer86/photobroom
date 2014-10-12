@@ -17,30 +17,23 @@
  *
  */
 
-#include "main_view_data_model.hpp"
+#ifndef STAGINGDATAMODEL_H
+#define STAGINGDATAMODEL_H
 
-#include <memory>
+#include "model_view/db_data_model.hpp"
 
-#include <database/filter.hpp>
+class QObject;
 
-MainViewDataModel::MainViewDataModel(QObject* p): DBDataModel(p)
+class PhotosDataModel: public DBDataModel
 {
+    public:
+        PhotosDataModel(QObject *);
+        PhotosDataModel(const PhotosDataModel &) = delete;
+        ~PhotosDataModel();
 
-}
+        PhotosDataModel& operator=(const PhotosDataModel &) = delete;
 
+        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
+};
 
-MainViewDataModel::~MainViewDataModel()
-{
-
-}
-
-
-std::deque<Database::IFilter::Ptr> MainViewDataModel::getModelSpecificFilters() const
-{
-    auto filter = std::make_shared<Database::FilterFlags>();
-    filter->stagingArea = false;
-
-    const std::deque<Database::IFilter::Ptr> result( {filter});
-
-    return result;
-}
+#endif // STAGINGDATAMODEL_H

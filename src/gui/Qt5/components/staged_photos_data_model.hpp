@@ -1,5 +1,5 @@
 /*
- * Small modification od DBDataModel for main view purposes.
+ * Small modification od DBDataModel for staging purposes.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,19 @@
 
 class QObject;
 
-class MainViewDataModel: public DBDataModel
+class StagedPhotosDataModel: public DBDataModel
 {
     public:
-        MainViewDataModel(QObject *);
-        MainViewDataModel(const MainViewDataModel &) = delete;
-        ~MainViewDataModel();
+        StagedPhotosDataModel(QObject *);
+        StagedPhotosDataModel(const StagedPhotosDataModel &) = delete;
+        ~StagedPhotosDataModel();
 
-        MainViewDataModel& operator=(const MainViewDataModel &) = delete;
+        StagedPhotosDataModel& operator=(const StagedPhotosDataModel &) = delete;
 
+        void addPhoto(const QString &);
+        void storePhotos();
+
+        // DBDataModel interface:
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
 

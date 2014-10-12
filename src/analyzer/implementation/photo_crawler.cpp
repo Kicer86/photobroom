@@ -27,6 +27,11 @@ namespace
                 m_notifications->found(file);
         }
 
+        virtual void finished() override
+        {
+            m_notifications->finished();
+        }
+
         IAnalyzer* m_analyzer;
         IMediaNotification* m_notifications;
     };
