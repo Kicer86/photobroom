@@ -46,7 +46,7 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
 add_library(configuration ${CONFIG_SOURCES} ${CONFIG_HEADERS})
-target_link_libraries(configuration system Qt5::Core)
+target_link_libraries(configuration PRIVATE system Qt5::Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
