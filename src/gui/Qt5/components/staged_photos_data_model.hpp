@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef STAGINGDATAMODEL_H
-#define STAGINGDATAMODEL_H
+#ifndef STAGEDPHOTOSDATAMODEL_HPP
+#define STAGEDPHOTOSDATAMODEL_HPP
 
 #include "model_view/db_data_model.hpp"
 
@@ -40,4 +40,4 @@ class StagedPhotosDataModel: public DBDataModel
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
 
-#endif // STAGINGDATAMODEL_H
+#endif // STAGEDPHOTOSDATAMODEL_HPP
