@@ -21,9 +21,51 @@
 
 #include <cassert>
 
-PhotosCollector::PhotosCollector(): m_model(nullptr)
+#include <analyzer/photo_crawler_builder.hpp>
+
+#include "components/staged_photos_data_model.hpp"
+
+
+PhotosReceiver::PhotosReceiver(): m_model(nullptr)
 {
 
+}
+
+
+void PhotosReceiver::setModel(StagedPhotosDataModel *model)
+{
+    m_model = model;
+}
+
+
+void PhotosReceiver::found(const QString &path)
+{
+    m_model->addPhoto(path);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+struct PhotosCollector::Data
+{
+    StagedPhotosDataModel* m_model;
+    IPhotoCrawler* m_crawler;
+    PhotosReceiver m_receiver;
+
+    Data(): m_model(nullptr), m_crawler(nullptr), m_receiver()
+    {
+        m_crawler = PhotoCrawlerBuilder().build();
+    }
+
+    Data(const Data &) = delete;
+    Data& operator=(const Data &) = delete;
+};
+
+
+PhotosCollector::PhotosCollector(): m_data(new Data)
+{
+    connect(&m_data->m_receiver, SIGNAL(finished()), this, SIGNAL(finished()));
 }
 
 
@@ -35,11 +77,14 @@ PhotosCollector::~PhotosCollector()
 
 void PhotosCollector::set(StagedPhotosDataModel* model)
 {
-    m_model = model;
+    m_data->m_model = model;
+    m_data->m_receiver.setModel(model);
 }
 
 
 void PhotosCollector::addDir(const QString& path)
 {
-    assert(m_model != nullptr);
+    assert(m_data->m_model != nullptr);
+
+    m_data->m_crawler->crawl(path, &m_data->m_receiver);
 }

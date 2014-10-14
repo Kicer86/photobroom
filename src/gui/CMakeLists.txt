@@ -81,6 +81,7 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
+    Qt5/data/photos_collector.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
     Qt5/components/tag_editor/tag_definition.hpp
     Qt5/components/tag_editor/tag_entry.hpp

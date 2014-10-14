@@ -20,11 +20,39 @@
 #ifndef PHOTOSCOLLECTOR_HPP
 #define PHOTOSCOLLECTOR_HPP
 
+#include <memory>
+
+#include <QObject>
+
+#include <analyzer/iphoto_crawler.hpp>
+
 class QString;
 class StagedPhotosDataModel;
 
-class PhotosCollector
+
+class PhotosReceiver: public QObject, public IMediaNotification
 {
+        Q_OBJECT
+
+        StagedPhotosDataModel* m_model;
+
+    public:
+        PhotosReceiver();
+        PhotosReceiver(const PhotosReceiver &) = delete;
+        PhotosReceiver& operator=(const PhotosReceiver &) = delete;
+
+        void setModel(StagedPhotosDataModel* model);
+        virtual void found(const QString& path) override;
+
+    signals:
+        void finished() override;
+};
+
+
+class PhotosCollector: public QObject
+{
+        Q_OBJECT
+
     public:
         PhotosCollector();
         PhotosCollector(const PhotosCollector& other) = delete;
@@ -33,10 +61,14 @@ class PhotosCollector
 
         void set(StagedPhotosDataModel *);
 
-        void addDir(const QString &);
+        void addDir(const QString &);          // adds dir to model. Emits finished() when ready
+
+    signals:
+        void finished();
 
     private:
-        StagedPhotosDataModel* m_model;
+        struct Data;
+        std::unique_ptr<Data> m_data;
 };
 
 #endif // PHOTOSCOLLECTOR_HPP
