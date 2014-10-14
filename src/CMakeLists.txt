@@ -1,6 +1,8 @@
 
 project(broom)
 
+cmake_policy(SET CMP0020 NEW)
+
 add_subdirectory(core)
 add_subdirectory(configuration)
 add_subdirectory(analyzer)
