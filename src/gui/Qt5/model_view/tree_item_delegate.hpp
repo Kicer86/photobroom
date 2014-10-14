@@ -27,7 +27,7 @@
 class TreeItemDelegate: public QAbstractItemDelegate
 {
     public:
-        TreeItemDelegate();
+        TreeItemDelegate(QObject * = nullptr);
         TreeItemDelegate(const TreeItemDelegate &) = delete;
         ~TreeItemDelegate();
         TreeItemDelegate& operator=(const TreeItemDelegate &) = delete;
