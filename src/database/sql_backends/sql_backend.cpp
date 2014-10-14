@@ -164,6 +164,9 @@ namespace Database
         {
             Transaction(): m_level(0), m_name(), m_logger(nullptr) {}
 
+            Transaction(const Transaction &) = delete;
+            Transaction& operator=(const Transaction &) = delete;
+
             void setDBName(const QString& name)
             {
                 m_name = name;
