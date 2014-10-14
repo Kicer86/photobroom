@@ -13,6 +13,8 @@
 
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/photos_data_model.hpp"
+#include "components/staged_photos_data_model.hpp"
+#include "data/photos_collector.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -22,11 +24,15 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
-    m_configuration(nullptr)
+    m_configuration(nullptr),
+    m_photosCollector(new PhotosCollector(this))
 {
     ui->setupUi(this);
     setupView();
     updateMenus();
+
+    //photos collector will write to stagedPhotosArea
+    m_photosCollector->set(ui->stagedPhotosArea->model());
 }
 
 
@@ -152,9 +158,7 @@ void MainWindow::on_actionAdd_photos_triggered()
     const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
 
     if (path.isEmpty() == false)
-    {
-        
-    }
+        m_photosCollector->addDir(path);
 }
 
 
