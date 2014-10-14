@@ -19,6 +19,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(GUI_SOURCES
     Qt5/gui.cpp
     Qt5/data/thread_multiplexer.cpp
+    Qt5/data/photos_collector.cpp
     Qt5/model_view/db_data_model.cpp
     Qt5/model_view/model_helpers/idx_data_manager.cpp
     Qt5/model_view/model_helpers/idx_data.cpp
@@ -49,6 +50,7 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     gui.hpp
     Qt5/data/thread_multiplexer.hpp
+    Qt5/data/photos_collector.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp
     Qt5/model_view/model_helpers/idx_data.hpp
