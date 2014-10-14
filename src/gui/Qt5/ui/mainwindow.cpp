@@ -58,6 +58,7 @@ void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
     ui->photoView->set(configuration);
+    ui->stagedPhotosArea->set(configuration);
 }
 
 
@@ -78,7 +79,9 @@ void MainWindow::openProject(const QString& prjFile)
         m_currentPrj = prj;
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
+        // TODO: looks like there is some inconsequence/unclear code
         m_imagesModel->setDatabase(db);
+        ui->stagedPhotosArea->model()->setDatabase(db);
     }
 
     updateMenus();
