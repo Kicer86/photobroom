@@ -26,7 +26,7 @@
 #include <deque>
 
 struct IConfiguration;
-struct Data;
+class Data;
 
 class ImagesTreeView: public QAbstractItemView
 {

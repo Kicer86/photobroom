@@ -114,7 +114,7 @@ void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
         crawler->crawl(path, m_mediaNotification.get());
 
         //lock finish button
-        QAbstractButton* finishButton = button(QWizard::QWizard::FinishButton);
+        QAbstractButton* finishButton = button(QWizard::FinishButton);
         finishButton->setDisabled(true);
     }
 }
@@ -123,6 +123,6 @@ void PhotosAddingWizard::on_PhotosAddingWizard_currentIdChanged(int id)
 void PhotosAddingWizard::crawlingDone()
 {
     //unlock finish button
-    QAbstractButton* finishButton = button(QWizard::QWizard::FinishButton);
+    QAbstractButton* finishButton = button(QWizard::FinishButton);
     finishButton->setEnabled(true);
 }
