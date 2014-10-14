@@ -6,6 +6,7 @@
 
 #include <QMainWindow>
 
+class PhotosCollector;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -42,6 +43,7 @@ class MainWindow final: public QMainWindow
         std::shared_ptr<IProject> m_currentPrj;
         DBDataModel*              m_imagesModel;
         IConfiguration*           m_configuration;
+        PhotosCollector*          m_photosCollector;
 
         void closeEvent(QCloseEvent *);
         void openProject(const QString &);

@@ -24,7 +24,7 @@
 
 #include <QWidget>
 
-class IConfiguration;
+struct IConfiguration;
 class PhotosView;
 class StagedPhotosDataModel;
 

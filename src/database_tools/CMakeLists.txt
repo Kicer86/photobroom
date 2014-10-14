@@ -24,7 +24,7 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${OPEN
 qt5_wrap_cpp(DATABASE_TOOLS_MOCED ${DATABASE_TOOLS_MOC})
 
 add_library(database_tools ${DATABASE_TOOLS_SOURCES} ${DATABASE_TOOLS_HEADERS} ${DATABASE_TOOLS_MOCED})
-target_link_libraries(database_tools core Qt5::Core Qt5::Gui)
+target_link_libraries(database_tools PRIVATE core Qt5::Core Qt5::Gui)
 
 generate_export_header(database_tools EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_tools_export.h)
 turnOnCpp11(database_tools)

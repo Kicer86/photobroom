@@ -13,7 +13,8 @@
 
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/photos_data_model.hpp"
-#include "photos_adding_wizard.hpp"
+#include "components/staged_photos_data_model.hpp"
+#include "data/photos_collector.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -23,11 +24,15 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
-    m_configuration(nullptr)
+    m_configuration(nullptr),
+    m_photosCollector(new PhotosCollector(this))
 {
     ui->setupUi(this);
     setupView();
     updateMenus();
+
+    //photos collector will write to stagedPhotosArea
+    m_photosCollector->set(ui->stagedPhotosArea->model());
 }
 
 
@@ -59,6 +64,7 @@ void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
     ui->photoView->set(configuration);
+    ui->stagedPhotosArea->set(configuration);
 }
 
 
@@ -79,7 +85,9 @@ void MainWindow::openProject(const QString& prjFile)
         m_currentPrj = prj;
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
+        // TODO: looks like there is some inconsequence/unclear code
         m_imagesModel->setDatabase(db);
+        ui->stagedPhotosArea->model()->setDatabase(db);
     }
 
     updateMenus();
@@ -147,11 +155,10 @@ void MainWindow::on_actionOpen_project_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    PhotosAddingWizard wizard;
-    wizard.set(m_currentPrj->getDatabase());
-    wizard.set(m_configuration);
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
 
-    wizard.exec();
+    if (path.isEmpty() == false)
+        m_photosCollector->addDir(path);
 }
 
 

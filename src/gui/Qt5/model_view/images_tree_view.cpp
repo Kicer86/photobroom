@@ -36,7 +36,7 @@
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
-    TreeItemDelegate* delegate = new TreeItemDelegate;
+    TreeItemDelegate* delegate = new TreeItemDelegate(this);
 
     setItemDelegate(delegate);
 }

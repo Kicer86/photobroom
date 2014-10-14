@@ -24,7 +24,7 @@
 
 #include "view_helpers/data.hpp"
 
-TreeItemDelegate::TreeItemDelegate(): QAbstractItemDelegate(), m_rotationData(new QCache<QModelIndex, RotationData>(1000))
+TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_rotationData(new QCache<QModelIndex, RotationData>(1000))
 {
 
 }
@@ -38,7 +38,7 @@ TreeItemDelegate::~TreeItemDelegate()
 
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-
+	return QSize();
 }
 
 

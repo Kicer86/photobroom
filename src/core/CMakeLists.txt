@@ -123,26 +123,26 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
 
 if(OPENMP_FOUND)
     if(MSVC)
 
     else()
-        target_link_libraries(core ${OpenMP_CXX_FLAGS})
+        target_link_libraries(core PRIVATE ${OpenMP_CXX_FLAGS})
     endif(MSVC)
 endif(OPENMP_FOUND)
 
 if(EXIV2_FOUND)
-    target_link_libraries(core ${EXIV2_LIBRARIES})
+    target_link_libraries(core PRIVATE ${EXIV2_LIBRARIES})
 elseif(EASYEXIF_FOUND)
-    target_link_libraries(core ${EASYEXIF_LIBRARIES})
+    target_link_libraries(core PRIVATE ${EASYEXIF_LIBRARIES})
 endif(EXIV2_FOUND)
 
 if(OPENSSL_FOUND)
-    target_link_libraries(core ${OPENSSL_LIBRARIES})
+    target_link_libraries(core PRIVATE ${OPENSSL_LIBRARIES})
 elseif(NETTLE_FOUND)
-    target_link_libraries(core ${NETTLE_LIBRARIES})
+    target_link_libraries(core PRIVATE ${NETTLE_LIBRARIES})
 endif(OPENSSL_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
