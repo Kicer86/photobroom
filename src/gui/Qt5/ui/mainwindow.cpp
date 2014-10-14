@@ -13,7 +13,6 @@
 
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/photos_data_model.hpp"
-#include "photos_adding_wizard.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -147,11 +146,12 @@ void MainWindow::on_actionOpen_project_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    PhotosAddingWizard wizard;
-    wizard.set(m_currentPrj->getDatabase());
-    wizard.set(m_configuration);
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
 
-    wizard.exec();
+    if (path.isEmpty() == false)
+    {
+        
+    }
 }
 
 
