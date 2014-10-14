@@ -63,7 +63,7 @@ struct PhotosCollector::Data
 };
 
 
-PhotosCollector::PhotosCollector(): m_data(new Data)
+PhotosCollector::PhotosCollector(QObject* p): QObject(p), m_data(new Data)
 {
     connect(&m_data->m_receiver, SIGNAL(finished()), this, SIGNAL(finished()));
 }

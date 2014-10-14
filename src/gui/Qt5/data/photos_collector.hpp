@@ -54,7 +54,7 @@ class PhotosCollector: public QObject
         Q_OBJECT
 
     public:
-        PhotosCollector();
+        PhotosCollector(QObject * = nullptr);
         PhotosCollector(const PhotosCollector& other) = delete;
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
