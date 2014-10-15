@@ -3,10 +3,12 @@ project(broom CXX)
 
 cmake_minimum_required(VERSION 2.8.12)   # due to target_link_libraries signature with PRIVATE and PUBLIC
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CPACK_GENERATOR ZIP)
 
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
+include(CPack)
 
 #options:
 option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
