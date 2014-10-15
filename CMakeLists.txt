@@ -1,7 +1,7 @@
 
 project(broom CXX)
 
-cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
+cmake_minimum_required(VERSION 2.8.12)   # due to target_link_libraries signature with PRIVATE and PUBLIC
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include(FeatureSummary)
