@@ -5,7 +5,7 @@ project(broom VERSION 0.90 LANGUAGES CXX)
 
 cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-set(CPACK_GENERATOR ZIP)
+#set(CPACK_GENERATOR ZIP)
 
 include(FeatureSummary)
 include(GenerateExportHeader)
