@@ -1,7 +1,9 @@
 
-project(broom CXX)
+cmake_policy(SET CMP0048 NEW)
 
-cmake_minimum_required(VERSION 2.8.12)   # due to target_link_libraries signature with PRIVATE and PUBLIC
+project(broom VERSION 0.90 LANGUAGES CXX)
+
+cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set(CPACK_GENERATOR ZIP)
 
