@@ -1,29 +1,6 @@
 
 Sets of tasks: finished, to be done and dropped
 
-TODO:
-- use faster thumbnailer (https://code.google.com/p/ffmpegthumbnailer/)
-- performance: when updating photo, do not update all, update only required data
-- finding and reacting on duplicates
-- rename hash to sha256
-- when new node (IdxData) is dynamically added, move it to right position (sorted)
-- cleanups in cmake: move 'test' stuff to 'test' directories
-- cleanups in cmake: nicer dealing with alternative libraries
-- built in sha algorithms
-
-
-ver 1.0 requirements:
-- do stress and crash tests
-- use more smart tags updating
-- in view add entry for not matching photos
-
-
-IN PROGRESS:
-- gui improvements: projects management
-- gui improvements: general enhancements
-- gui improvements: move stagging area to menu->add photos
-
-
 DONE:
 - database should work in separate thread. Data model when asked on non fetched photos should return some empty list, and refresh proper node while data are being fetched
 - PhotoInfo: review and refactor flags structs
