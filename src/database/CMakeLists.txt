@@ -1,6 +1,4 @@
 
-project(database CXX)
-
 add_subdirectory(sql_backends)
 
 find_package(OpenLibrary 2.0 REQUIRED)

@@ -1,6 +1,4 @@
 
-project(system CXX)
-
 include(GenerateExportHeader)
 
 find_package(Qt5Core REQUIRED)

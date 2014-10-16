@@ -1,6 +1,4 @@
 
-project(analyzer CXX)
-
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
 
