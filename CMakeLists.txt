@@ -11,11 +11,11 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 
-#
+#include modules
+include(CPack)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
-include(CPack)
 
 #options:
 option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
@@ -72,6 +72,7 @@ if(DOXYGEN)
     message("documentation          - generates html in build dir")
 endif()
 message("generate_code_coverage - generates code coverage in build dir")
+message("package                - generates broom installer")
 message("")
 
 feature_summary(WHAT ALL)
