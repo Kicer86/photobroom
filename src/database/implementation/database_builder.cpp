@@ -38,6 +38,7 @@
 #include "photo_info_manager.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
+#include "ibackend.hpp"
 #include "implementation/photo_info.hpp"
 
 //TODO: cleanup this file!

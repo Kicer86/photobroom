@@ -24,6 +24,7 @@
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
+#include "ibackend.hpp"
 
 namespace
 {

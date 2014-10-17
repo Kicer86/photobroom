@@ -26,7 +26,7 @@
 #include <vector>
 #include <deque>
 
-#include "database/idatabase.hpp"
+#include "database/ibackend.hpp"
 #include "sql_backend_base_export.h"
 
 class QSqlQuery;

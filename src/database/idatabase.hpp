@@ -42,43 +42,6 @@ namespace Database
 
     struct IPhotoInfoManager;
     struct IPhotoInfoCreator;
-
-    //Low level database interface.
-    //To be used by particular database backend
-    struct IBackend
-    {
-        virtual ~IBackend() {}
-
-        virtual void setPhotoInfoManager(Database::IPhotoInfoManager *) = 0;
-        virtual void setPhotoInfoCreator(Database::IPhotoInfoCreator *) = 0;
-
-        virtual bool transactionsReady() = 0;       //transacions are ready after init()
-        virtual bool beginTransaction() = 0;
-        virtual bool endTransaction() = 0;
-
-        //add photo to database
-        virtual IPhotoInfo::Ptr addPath(const QString &) = 0;
-
-        //update data
-        virtual bool update(const IPhotoInfo::Ptr &) = 0;
-
-        //read data
-        virtual std::vector<TagNameInfo> listTags() = 0;                                  //list all stored tag names
-        virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;            //list all values of provided tag
-        virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
-        virtual QueryList getAllPhotos() = 0;                                             //list all photos
-        virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //list all photos matching filter
-        virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
-
-        //init backend - connect to database or create new one
-        virtual bool init(const QString &) = 0;
-        virtual void set(IConfiguration *) = 0;
-        virtual void set(ILogger *) = 0;
-
-        //close database connection
-        virtual void closeConnections() = 0;
-    };
-
     struct IDatabaseClient;
 
     //Task structure.
