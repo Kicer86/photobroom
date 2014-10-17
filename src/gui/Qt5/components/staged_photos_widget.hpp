@@ -36,12 +36,12 @@ class StagedPhotosWidget : public QWidget
         ~StagedPhotosWidget();
         StagedPhotosWidget& operator=(const StagedPhotosWidget &) = delete;
 
-        StagedPhotosDataModel* model() const;
+        void setModel(StagedPhotosDataModel *) const;
         void set(IConfiguration *);
 
     private:
         PhotosView* m_view;
-        std::unique_ptr<StagedPhotosDataModel> m_dataModel;
+        StagedPhotosDataModel* m_dataModel;
 };
 
 #endif // STAGEDPHOTOSWIDGET_HPP
