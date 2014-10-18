@@ -33,8 +33,8 @@ void PhotosView::setModel(DBDataModel* model)
         m_imagesModel = model;
         ui->photoView->setModel(model);
 
-        ui->sortingCombo->addItem("Date and time");
-        ui->sortingCombo->addItem("People");
+        ui->sortingCombo->addItem(tr("Date and time"));
+        ui->sortingCombo->addItem(tr("People"));
     }
 }
 
