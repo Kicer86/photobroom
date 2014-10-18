@@ -72,13 +72,21 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="74"/>
-        <source>New project</source>
+        <source>New</source>
         <translation>Nowy</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="79"/>
-        <source>Open project</source>
+        <source>Open</source>
         <translation>Otwórz</translation>
+    </message>
+    <message>
+        <source>New project</source>
+        <translation type="vanished">Nowy</translation>
+    </message>
+    <message>
+        <source>Open project</source>
+        <translation type="vanished">Otwórz</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="87"/>
@@ -123,8 +131,18 @@
     <name>PhotosView</name>
     <message>
         <location filename="../src/gui/Qt5/ui/photos_view.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
+        <source>Photos view</source>
+        <translation>Podgląd zdjęć</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/photos_view.cpp" line="36"/>
+        <source>Date and time</source>
+        <translation>Data i godzina</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/photos_view.cpp" line="37"/>
+        <source>People</source>
+        <translation>Osoby</translation>
     </message>
 </context>
 <context>
