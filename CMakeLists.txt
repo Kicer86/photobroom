@@ -41,6 +41,7 @@ endif(UNIX OR CYGWIN)
 #base paths
 set(PATH_LIBS     "lib/broom")
 set(PATH_PLUGINS  "lib/broom/plugins")
+set(PATH_TR       "share/broom/tr")
 
 # RPATH
 # http://www.cmake.org/Wiki/CMake_RPATH_handling
@@ -51,6 +52,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
 add_subdirectory(src)
+add_subdirectory(tr)
 
 #documentation
 find_program(DOXYGEN doxygen)
