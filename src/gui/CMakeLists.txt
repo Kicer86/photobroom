@@ -102,7 +102,7 @@ qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
-target_link_libraries(gui PRIVATE analyzer core database ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
+target_link_libraries(gui PRIVATE analyzer core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
 turnOnCpp11(gui)
@@ -125,7 +125,7 @@ if(BUILD_TESTS)
                            GMOCK
        )
        
-    target_link_libraries(gui_test gui Qt5::Core)
+    target_link_libraries(gui_test gui system Qt5::Core)
 
     turnOnCpp11(gui_test)
 endif(BUILD_TESTS)

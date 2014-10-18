@@ -2,6 +2,9 @@
 #include "gui.hpp"
 
 #include <QApplication>
+#include <QTranslator>
+
+#include <system/filesystem.hpp>
 
 #include "ui/mainwindow.hpp"
 
@@ -38,6 +41,11 @@ void Gui::set(IConfiguration* configuration)
 void Gui::run(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+    QTranslator translator;
+    translator.load("photo_broom_pl", FileSystem::getTranslationsPath());
+    app.installTranslator(&translator);
+
     MainWindow mainWindow;
 
     mainWindow.set(m_prjManager);
