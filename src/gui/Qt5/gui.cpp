@@ -44,7 +44,11 @@ void Gui::run(int argc, char **argv)
 
     QTranslator translator;
     translator.load("photo_broom_pl", FileSystem::getTranslationsPath());
-    app.installTranslator(&translator);
+    const bool status = app.installTranslator(&translator);
+
+    if (status)
+    {
+    }
 
     MainWindow mainWindow;
 
