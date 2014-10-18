@@ -27,6 +27,7 @@
 struct SYSTEM_EXPORT FileSystem
 {
     static QString getPluginsPath();
+    static QString getTranslationsPath();
 };
 
 #endif // FILESYSTEM_H

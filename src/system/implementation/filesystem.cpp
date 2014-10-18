@@ -26,3 +26,8 @@ QString FileSystem::getPluginsPath()
     return Paths::plugins;
 }
 
+
+QString FileSystem::getTranslationsPath()
+{
+    return Paths::translations;
+}
