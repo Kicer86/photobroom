@@ -94,10 +94,7 @@ namespace Database
             virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
             virtual QueryList getAllPhotos() override final;
             virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
-
             virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) override final;
-            virtual QueryList getPhotosWithHash(const IPhotoInfo::Hash&) override final;
-            virtual QueryList getPhotoswithPath(const std::string&) override final;
 
             bool checkStructure();
     };

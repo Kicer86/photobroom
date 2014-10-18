@@ -65,11 +65,7 @@ namespace Database
         virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual QueryList getAllPhotos() = 0;                                             //list all photos
         virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
-
-        //find data
         virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //find all photos matching filter
-        virtual QueryList getPhotosWithHash(const IPhotoInfo::Hash &) = 0;                //find all photos matching provided sha256 (in most cases 1)
-        virtual QueryList getPhotoswithPath(const std::string &) = 0;                     //find all photos matching provided path   (in most cases 1)
 
         //init backend - connect to database or create new one
         virtual bool init(const QString &) = 0;

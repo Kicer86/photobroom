@@ -1070,18 +1070,6 @@ namespace Database
     }
 
 
-    QueryList ASqlBackend::getPhotosWithHash(const IPhotoInfo::Hash& sha256)
-    {
-
-    }
-
-
-    QueryList ASqlBackend::getPhotoswithPath(const std::string& path)
-    {
-
-    }
-
-
     void ASqlBackend::set(ILogger* logger)
     {
         m_data->m_logger = logger;
