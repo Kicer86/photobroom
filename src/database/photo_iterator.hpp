@@ -102,9 +102,9 @@ namespace Database
             operator bool() const;
             bool operator !() const;
 
-            PhotoIterator& operator++();
-            PhotoIterator operator++(int);
-            PhotoIterator& operator=(const PhotoIterator &) = default;
+            PhotoIterator&  operator++();
+            PhotoIterator   operator++(int);
+            PhotoIterator&  operator=(const PhotoIterator &) = default;
             IPhotoInfo::Ptr operator->();
             IPhotoInfo::Ptr operator*();
 

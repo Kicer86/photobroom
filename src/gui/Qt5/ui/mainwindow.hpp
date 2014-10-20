@@ -6,6 +6,7 @@
 
 #include <QMainWindow>
 
+class StagedPhotosDataModel;
 class PhotosCollector;
 struct ITaskExecutor;
 struct IPluginLoader;
@@ -42,6 +43,7 @@ class MainWindow final: public QMainWindow
         IPluginLoader*            m_pluginLoader;
         std::shared_ptr<IProject> m_currentPrj;
         DBDataModel*              m_imagesModel;
+        StagedPhotosDataModel*    m_stagedImagesModel;
         IConfiguration*           m_configuration;
         PhotosCollector*          m_photosCollector;
 

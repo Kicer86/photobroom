@@ -1,6 +1,4 @@
 
-project(database_tools CXX)
-
 find_package(Qt5Core REQUIRED)
 find_package(OpenLibrary 2.0 REQUIRED putils utils)
 find_package(Qt5Gui REQUIRED)
@@ -8,11 +6,13 @@ find_package(Qt5Gui REQUIRED)
 set(DATABASE_TOOLS_SOURCES
         implementation/photos_analyzer.cpp
         implementation/photo_info_updater.cpp
+        implementation/photo_duplicates_finder.cpp
     )
 
 set(DATABASE_TOOLS_HEADERS
         photos_analyzer.hpp
         implementation/photo_info_updater.hpp
+        implementation/photo_duplicates_finder.hpp
    )
 
 set(DATABASE_TOOLS_MOC photos_analyzer.hpp)

@@ -1,6 +1,4 @@
 
-project(core CXX)
-
 # openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
 
 find_package(OpenLibrary 2.0 REQUIRED putils)

@@ -27,12 +27,10 @@
 
 StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
                                                     m_view(new PhotosView(this)),
-                                                    m_dataModel(new StagedPhotosDataModel(this))
+                                                    m_dataModel(nullptr)
 {
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_view);
-
-    m_view->setModel(m_dataModel.get());
 }
 
 
@@ -42,9 +40,9 @@ StagedPhotosWidget::~StagedPhotosWidget()
 }
 
 
-StagedPhotosDataModel* StagedPhotosWidget::model() const
+void StagedPhotosWidget::setModel(StagedPhotosDataModel* model) const
 {
-    return m_dataModel.get();
+    m_view->setModel(model);
 }
 
 

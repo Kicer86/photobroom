@@ -164,6 +164,9 @@ namespace Database
         {
             Transaction(): m_level(0), m_name(), m_logger(nullptr) {}
 
+            Transaction(const Transaction &) = delete;
+            Transaction& operator=(const Transaction &) = delete;
+
             void setDBName(const QString& name)
             {
                 m_name = name;
@@ -261,49 +264,19 @@ namespace Database
             QueryList getPhotos(const std::deque<IFilter::Ptr>& filter);
 
         private:
-            friend struct StorePhoto;
-
             Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
+
             bool storeThumbnail(int photo_id, const QPixmap &) const;
             bool storeHash(int photo_id, const IPhotoInfo::Hash &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
+
             Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
             Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
             Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
             void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
-
-            //for friends:
-            bool storePhoto(const IPhotoInfo::Ptr& data);
-    };
-
-
-    struct StorePhoto: ITaskExecutor::ITask
-    {
-        ASqlBackend::Data* m_data;
-        IPhotoInfo::Ptr m_photo;
-
-        StorePhoto(ASqlBackend::Data* data, const IPhotoInfo::Ptr& photo): m_data(data), m_photo(photo)
-        {
-        }
-
-        StorePhoto(const StorePhoto &) = delete;
-        StorePhoto& operator=(const StorePhoto &) = delete;
-
-        virtual std::string name() const override
-        {
-            return "Photo storing";
-        }
-
-        virtual void perform() override
-        {
-            const bool status = m_data->storePhoto(m_photo); //call store from ASqlBackend::Data
-
-            if (status == false)
-                m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Error, "Error while storing photo in database.");
-        }
     };
 
 
@@ -409,19 +382,6 @@ namespace Database
         }
 
         return tagId;
-    }
-
-
-    //TODO: threads cannot be used with sql connections:
-    //      http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
-    bool ASqlBackend::Data::store(const IPhotoInfo::Ptr& data)
-    {
-        //auto task = std::make_shared<StorePhoto>(this, data);
-        //TaskExecutorConstructor::get()->add(task);
-
-        storePhoto(data);
-
-        return true;
     }
 
 
@@ -645,7 +605,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storePhoto(const IPhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::store(const IPhotoInfo::Ptr& data)
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
@@ -1089,12 +1049,6 @@ namespace Database
     }
 
 
-    QueryList ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
-    {
-        return m_data->getPhotos(filter);
-    }
-
-
     IPhotoInfo::Ptr ASqlBackend::getPhoto(const IPhotoInfo::Id& id)
     {
         //try to find cached one
@@ -1107,6 +1061,12 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    QueryList ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    {
+        return m_data->getPhotos(filter);
     }
 
 

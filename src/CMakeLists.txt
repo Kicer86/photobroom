@@ -1,6 +1,4 @@
 
-project(broom)
-
 cmake_policy(SET CMP0020 NEW)
 
 add_subdirectory(core)

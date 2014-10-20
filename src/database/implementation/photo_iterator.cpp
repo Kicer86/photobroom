@@ -22,7 +22,8 @@
 #include <QVariant>
 
 #include <core/tag.hpp>
-#include <database/idatabase.hpp>
+
+#include "ibackend.hpp"
 
 namespace Database
 {

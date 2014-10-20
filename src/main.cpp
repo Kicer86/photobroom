@@ -48,6 +48,7 @@ int main(int argc, char **argv)
     gui.set(&prjManager);
     gui.set(&pluginLoader);
     gui.set(&configuration);
+    gui.set(&logger);
     gui.run(argc, argv);
 
     return 0;

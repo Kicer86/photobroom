@@ -1,6 +1,4 @@
 
-project(SQLite_Backend)
-
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(OpenLibrary REQUIRED)

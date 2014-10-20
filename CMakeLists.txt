@@ -1,9 +1,18 @@
 
-project(broom CXX)
+cmake_policy(SET CMP0048 NEW)
 
-cmake_minimum_required(VERSION 2.8.10)   #.10 required for visual studio 2012
+project(broom VERSION 0.90 LANGUAGES CXX)
+
+cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+#options for CPack
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+
+#include modules
+include(CPack)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
@@ -32,6 +41,7 @@ endif(UNIX OR CYGWIN)
 #base paths
 set(PATH_LIBS     "lib/broom")
 set(PATH_PLUGINS  "lib/broom/plugins")
+set(PATH_TR       "share/broom/tr")
 
 # RPATH
 # http://www.cmake.org/Wiki/CMake_RPATH_handling
@@ -42,6 +52,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
 add_subdirectory(src)
+add_subdirectory(tr)
 
 #documentation
 find_program(DOXYGEN doxygen)
@@ -63,6 +74,7 @@ if(DOXYGEN)
     message("documentation          - generates html in build dir")
 endif()
 message("generate_code_coverage - generates code coverage in build dir")
+message("package                - generates broom installer")
 message("")
 
 feature_summary(WHAT ALL)

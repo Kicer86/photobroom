@@ -39,11 +39,15 @@ namespace
 
         }
 
+        PluginFinder(const PluginFinder &) = delete;
+
         ~PluginFinder()
         {
             for(auto plugin: m_db_plugins)
                 delete plugin;
         }
+
+        PluginFinder& operator=(const PluginFinder &) = delete;
         
         void set(ILogger* logger)
         {

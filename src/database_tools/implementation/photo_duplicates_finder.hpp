@@ -1,5 +1,5 @@
 /*
- * Filesystem utils.
+ * Utility for finding duplicates of photo.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,16 @@
  *
  */
 
-#include "filesystem.hpp"
+#ifndef PHOTODUPLICATESFINDER_HPP
+#define PHOTODUPLICATESFINDER_HPP
 
-#include "paths.hpp"
-
-QString FileSystem::getPluginsPath()
+class PhotoDuplicatesFinder
 {
-    return Paths::plugins;
-}
+    public:
+        PhotoDuplicatesFinder();
+        PhotoDuplicatesFinder(const PhotoDuplicatesFinder &) = delete;
+        ~PhotoDuplicatesFinder();
+        PhotoDuplicatesFinder& operator=(const PhotoDuplicatesFinder &) = delete;
+};
 
-
-QString FileSystem::getTranslationsPath()
-{
-    return Paths::translations;
-}
+#endif // PHOTODUPLICATESFINDER_HPP

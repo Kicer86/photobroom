@@ -1,6 +1,4 @@
 
-project(SQL_Backends)
-
 add_subdirectory(mysql_backend)
 add_subdirectory(sqlite_backend)
 

@@ -35,12 +35,12 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProject">
     <property name="title">
-     <string>Project</string>
+     <string>Album</string>
     </property>
     <addaction name="actionNew_project"/>
     <addaction name="actionOpen_project"/>
@@ -71,12 +71,12 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew_project">
    <property name="text">
-    <string>New project</string>
+    <string>New</string>
    </property>
   </action>
   <action name="actionOpen_project">
    <property name="text">
-    <string>Open project</string>
+    <string>Open</string>
    </property>
   </action>
   <action name="actionAdd_photos">

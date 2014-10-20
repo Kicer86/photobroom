@@ -24,15 +24,13 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
+    m_stagedImagesModel(nullptr),
     m_configuration(nullptr),
     m_photosCollector(new PhotosCollector(this))
 {
     ui->setupUi(this);
     setupView();
     updateMenus();
-
-    //photos collector will write to stagedPhotosArea
-    m_photosCollector->set(ui->stagedPhotosArea->model());
 }
 
 
@@ -85,9 +83,8 @@ void MainWindow::openProject(const QString& prjFile)
         m_currentPrj = prj;
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
-        // TODO: looks like there is some inconsequence/unclear code
         m_imagesModel->setDatabase(db);
-        ui->stagedPhotosArea->model()->setDatabase(db);
+        m_stagedImagesModel->setDatabase(db);
     }
 
     updateMenus();
@@ -98,6 +95,12 @@ void MainWindow::setupView()
 {
     m_imagesModel = new PhotosDataModel(this);
     ui->photoView->setModel(m_imagesModel);
+
+    m_stagedImagesModel = new StagedPhotosDataModel(this);
+    ui->stagedPhotosArea->setModel(m_stagedImagesModel);
+
+    //photos collector will write to stagedPhotosArea
+    m_photosCollector->set(m_stagedImagesModel);
 }
 
 
@@ -147,7 +150,7 @@ void MainWindow::on_actionOpen_project_triggered()
 {
     const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                          "",
-                                                         tr("Broom projects (*.bpj)"));
+                                                         tr("Photo Broom albums (*.bpj)"));
 
     openProject(prjFile);
 }

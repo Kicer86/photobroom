@@ -2,11 +2,15 @@
 #include "gui.hpp"
 
 #include <QApplication>
+#include <QTranslator>
+
+#include <core/ilogger.hpp>
+#include <system/filesystem.hpp>
 
 #include "ui/mainwindow.hpp"
 
 
-Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr)
+Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr), m_logger(nullptr)
 {
 
 }
@@ -35,9 +39,25 @@ void Gui::set(IConfiguration* configuration)
 }
 
 
+void Gui::set(ILogger* logger)
+{
+    m_logger = logger;
+}
+
+
 void Gui::run(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+    QTranslator translator;
+    translator.load("photo_broom_pl", FileSystem::getTranslationsPath());
+    const bool status = app.installTranslator(&translator);
+
+    if (status)
+        m_logger->log("gui", ILogger::Severity::Info, "Polish translations loaded successfully.");
+    else
+        m_logger->log("gui", ILogger::Severity::Error, "Could not load Polish translations.");
+
     MainWindow mainWindow;
 
     mainWindow.set(m_prjManager);

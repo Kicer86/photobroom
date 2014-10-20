@@ -44,7 +44,7 @@ namespace
 
             while (m_work)
             {
-                m_data_available.wait(lock, [&]{ return m_photosToUpdate.lock()->empty() == false || m_work == false; });
+                m_data_available.wait(lock, [&] { return m_photosToUpdate.lock()->empty() == false || m_work == false; });
 
                 IPhotoInfo::Ptr photoInfo(nullptr);
                 {
@@ -72,10 +72,10 @@ namespace
                     m_updater.updateHash(photoInfo);
 
                 if (photoInfo->isThumbnailLoaded() == false)
-					m_updater.updateThumbnail(photoInfo);
+                    m_updater.updateThumbnail(photoInfo);
 
                 if (photoInfo->isExifDataLoaded() == false)
-					m_updater.updateTags(photoInfo);
+                    m_updater.updateTags(photoInfo);
             }
         }
 
@@ -108,48 +108,48 @@ namespace
 
 struct PhotosAnalyzer::Impl
 {
-    Impl(): m_database(nullptr), m_thread(), m_analyzerThread(trampoline, &m_thread)
-    {
+        Impl(): m_database(nullptr), m_thread(), m_analyzerThread(trampoline, &m_thread)
+        {
 
-    }
+        }
 
-    Impl(const Impl &) = delete;
-    Impl& operator=(const Impl &) = delete;
+        Impl(const Impl &) = delete;
+        Impl& operator=(const Impl &) = delete;
 
-    ~Impl()
-    {
-        m_thread.m_work = false;
-        m_thread.m_data_available.notify_one();
+        ~Impl()
+        {
+            m_thread.m_work = false;
+            m_thread.m_data_available.notify_one();
 
-        assert(m_analyzerThread.joinable());
-        m_analyzerThread.join();
-    }
+            assert(m_analyzerThread.joinable());
+            m_analyzerThread.join();
+        }
 
-    void setDatabase(Database::IDatabase* database)
-    {
-        m_database = database;
-    }
+        void setDatabase(Database::IDatabase* database)
+        {
+            m_database = database;
+        }
 
-    void set(ITaskExecutor* taskExecutor)
-    {
-        m_thread.set(taskExecutor);
-    }
+        void set(ITaskExecutor* taskExecutor)
+        {
+            m_thread.set(taskExecutor);
+        }
 
-    void set(IConfiguration* configuration)
-    {
-        m_thread.set(configuration);
-    }
+        void set(IConfiguration* configuration)
+        {
+            m_thread.set(configuration);
+        }
 
-    Database::ADatabaseSignals* getNotifier()
-    {
-        return m_database->notifier();
-    }
+        Database::ADatabaseSignals* getNotifier()
+        {
+            return m_database->notifier();
+        }
 
-    void addPhoto(const IPhotoInfo::Ptr& photo)
-    {
-        m_thread.m_photosToUpdate.lock()->push_back(photo);
-        m_thread.m_data_available.notify_one();
-    }
+        void addPhoto(const IPhotoInfo::Ptr& photo)
+        {
+            m_thread.m_photosToUpdate.lock()->push_back(photo);
+            m_thread.m_data_available.notify_one();
+        }
 
     private:
         Database::IDatabase* m_database;
@@ -197,3 +197,4 @@ void PhotosAnalyzer::photoAdded(const IPhotoInfo::Ptr& photo)
 {
     m_data->addPhoto(photo);
 }
+

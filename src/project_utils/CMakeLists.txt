@@ -1,6 +1,4 @@
 
-project(project_utils CXX)
-
 find_package(Qt5Core REQUIRED)
 
 set(PROJECT_UTILS_SOURCES
