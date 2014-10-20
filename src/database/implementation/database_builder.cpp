@@ -62,22 +62,22 @@ namespace Database
 
         struct DatabaseObjects
         {
-			DatabaseObjects(const std::shared_ptr<IDatabase> &database, 
-							const std::shared_ptr<IBackend> &backend,
-							const std::shared_ptr<IPhotoInfoManager> &manager,
+            DatabaseObjects(const std::shared_ptr<IDatabase> &database,
+                            const std::shared_ptr<IBackend> &backend,
+                            const std::shared_ptr<IPhotoInfoManager> &manager,
                             const std::shared_ptr<PhotosAnalyzer> &analyzer
                            ) : m_database(database), m_backend(backend), m_photoManager(manager), m_photosAnalyzer(analyzer)
             {
 
             }
-            
-			~DatabaseObjects() {}
-			//DatabaseObjects(const DatabaseObjects &) = delete;
-			//DatabaseObjects& operator=(const DatabaseObjects &) = delete;
 
-			std::shared_ptr<IDatabase> m_database;
-			std::shared_ptr<IBackend> m_backend;
-			std::shared_ptr<IPhotoInfoManager> m_photoManager;
+            ~DatabaseObjects() {}
+            //DatabaseObjects(const DatabaseObjects &) = delete;
+            //DatabaseObjects& operator=(const DatabaseObjects &) = delete;
+
+            std::shared_ptr<IDatabase> m_database;
+            std::shared_ptr<IBackend> m_backend;
+            std::shared_ptr<IPhotoInfoManager> m_photoManager;
             std::shared_ptr<PhotosAnalyzer> m_photosAnalyzer;
         };
 
@@ -203,7 +203,7 @@ namespace Database
 
     void Builder::closeAll()
     {
-        for(auto& backend: m_impl->m_backends)
+        for (auto& backend: m_impl->m_backends)
             backend.second.m_database->closeConnections();
     }
 
