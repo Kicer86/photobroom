@@ -56,10 +56,6 @@
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <source>Project</source>
-        <translation type="vanished">Projekt</translation>
-    </message>
-    <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
         <source>Album</source>
         <translation>Album</translation>
@@ -85,14 +81,6 @@
         <translation>Otwórz</translation>
     </message>
     <message>
-        <source>New project</source>
-        <translation type="vanished">Nowy</translation>
-    </message>
-    <message>
-        <source>Open project</source>
-        <translation type="vanished">Otwórz</translation>
-    </message>
-    <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="87"/>
         <source>Add photos</source>
         <translation>Dodaj zdjęcia</translation>
@@ -116,10 +104,6 @@
         <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="153"/>
         <source>Photo Broom albums (*.bpj)</source>
         <translation>Projekty programu Broom (*.bpj)</translation>
-    </message>
-    <message>
-        <source>Broom projects (*.bpj)</source>
-        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="161"/>
@@ -156,14 +140,6 @@
 <context>
     <name>PrjLocationDialog</name>
     <message>
-        <source>Project File Name</source>
-        <translation type="vanished">Nazwa projektu</translation>
-    </message>
-    <message>
-        <source>Broom project (*.bpj)</source>
-        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
-    </message>
-    <message>
         <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="49"/>
         <source>File name</source>
         <translation>Nazwa pliku</translation>
@@ -176,14 +152,6 @@
 </context>
 <context>
     <name>ProjectCreatorDialog</name>
-    <message>
-        <source>Project creator</source>
-        <translation type="vanished">Kreator projektu</translation>
-    </message>
-    <message>
-        <source>Project location:</source>
-        <translation type="vanished">Lokacja projektu:</translation>
-    </message>
     <message>
         <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="73"/>
         <source>Album creator</source>
