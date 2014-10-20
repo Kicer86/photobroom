@@ -150,7 +150,7 @@ void MainWindow::on_actionOpen_project_triggered()
 {
     const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                          "",
-                                                         tr("Broom projects (*.bpj)"));
+                                                         tr("Photo Broom albums (*.bpj)"));
 
     openProject(prjFile);
 }

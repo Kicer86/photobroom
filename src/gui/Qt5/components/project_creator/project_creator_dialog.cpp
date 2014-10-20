@@ -46,8 +46,8 @@ struct PrjLocationDialog: QtExtChooseFileDialog
 
     virtual int exec()
     {
-        m_result = QFileDialog::getSaveFileName(nullptr, tr("Project File Name"),
-                                                "", tr("Broom project (*.bpj)")
+        m_result = QFileDialog::getSaveFileName(nullptr, tr("File name"),
+                                                "", tr("Photo Broom albums (*.bpj)")
         );
 
         return m_result.isEmpty()? QDialog::Rejected: QDialog::Accepted;
@@ -70,11 +70,11 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
                                               m_pluginLoader(nullptr),
                                               m_plugins()
 {
-    setWindowTitle(tr("Project creator"));
+    setWindowTitle(tr("Album creator"));
     resize(500, 250);
 
     //project location line
-    QLabel* prjLocationLabel = new QLabel(tr("Project location:"), this);
+    QLabel* prjLocationLabel = new QLabel(tr("Album location:"), this);
     QPushButton* prjLocationBrowseButton = new QPushButton(tr("Browse"), this);
     m_prjLocation = new QLineEdit(this);
     m_chooseDialog = new QtExtChooseFile(prjLocationBrowseButton, m_prjLocation, new PrjLocationDialog);

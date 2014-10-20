@@ -40,7 +40,7 @@
    </property>
    <widget class="QMenu" name="menuProject">
     <property name="title">
-     <string>Project</string>
+     <string>Album</string>
     </property>
     <addaction name="actionNew_project"/>
     <addaction name="actionOpen_project"/>
