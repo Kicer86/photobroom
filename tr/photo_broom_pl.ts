@@ -56,9 +56,13 @@
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
         <source>Project</source>
-        <translation>Projekt</translation>
+        <translation type="vanished">Projekt</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
+        <source>Album</source>
+        <translation>Album</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="57"/>
@@ -110,8 +114,12 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="153"/>
-        <source>Broom projects (*.bpj)</source>
+        <source>Photo Broom albums (*.bpj)</source>
         <translation>Projekty programu Broom (*.bpj)</translation>
+    </message>
+    <message>
+        <source>Broom projects (*.bpj)</source>
+        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="161"/>
@@ -148,27 +156,43 @@
 <context>
     <name>PrjLocationDialog</name>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="49"/>
         <source>Project File Name</source>
-        <translation>Nazwa projektu</translation>
+        <translation type="vanished">Nazwa projektu</translation>
+    </message>
+    <message>
+        <source>Broom project (*.bpj)</source>
+        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="49"/>
+        <source>File name</source>
+        <translation>Nazwa pliku</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="50"/>
-        <source>Broom project (*.bpj)</source>
+        <source>Photo Broom albums (*.bpj)</source>
         <translation>Projekty programu Broom (*.bpj)</translation>
     </message>
 </context>
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="73"/>
         <source>Project creator</source>
-        <translation>Kreator projektu</translation>
+        <translation type="vanished">Kreator projektu</translation>
+    </message>
+    <message>
+        <source>Project location:</source>
+        <translation type="vanished">Lokacja projektu:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="73"/>
+        <source>Album creator</source>
+        <translation>Kreator albumu</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="77"/>
-        <source>Project location:</source>
-        <translation>Lokacja projektu:</translation>
+        <source>Album location:</source>
+        <translation>Lokacja albumu:</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="78"/>
