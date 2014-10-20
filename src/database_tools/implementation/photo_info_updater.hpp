@@ -25,8 +25,8 @@ class PhotoInfoUpdater final
         void set(ITaskExecutor *);
         void set(IConfiguration *);
 
-	private:
-		TagFeederFactory m_tagFeederFactory;
+    private:
+        TagFeederFactory m_tagFeederFactory;
         ITaskExecutor* m_task_executor;
         IConfiguration* m_configuration;
 };
