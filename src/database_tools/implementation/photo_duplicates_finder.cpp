@@ -18,8 +18,9 @@
  */
 
 #include "photo_duplicates_finder.hpp"
+#include <database/idatabase.hpp>
 
-PhotoDuplicatesFinder::PhotoDuplicatesFinder()
+PhotoDuplicatesFinder::PhotoDuplicatesFinder(): m_database(nullptr)
 {
 
 }
@@ -28,4 +29,18 @@ PhotoDuplicatesFinder::PhotoDuplicatesFinder()
 PhotoDuplicatesFinder::~PhotoDuplicatesFinder()
 {
 
+}
+
+
+void PhotoDuplicatesFinder::setDatabase(Database::IDatabase* database)
+{
+    m_database = database;
+}
+
+
+bool PhotoDuplicatesFinder::hasDuplicate(const IPhotoInfo::Ptr& photo) const
+{
+    const QString& path = photo->getPath();
+
+    //m_database->
 }

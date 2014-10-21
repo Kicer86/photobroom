@@ -20,6 +20,13 @@
 #ifndef PHOTODUPLICATESFINDER_HPP
 #define PHOTODUPLICATESFINDER_HPP
 
+#include <database/iphoto_info.hpp>
+
+namespace Database
+{
+    struct IDatabase;
+}
+
 class PhotoDuplicatesFinder
 {
     public:
@@ -27,6 +34,13 @@ class PhotoDuplicatesFinder
         PhotoDuplicatesFinder(const PhotoDuplicatesFinder &) = delete;
         ~PhotoDuplicatesFinder();
         PhotoDuplicatesFinder& operator=(const PhotoDuplicatesFinder &) = delete;
+
+        void setDatabase(Database::IDatabase *);
+
+        bool hasDuplicate(const IPhotoInfo::Ptr &) const;
+
+    private:
+        Database::IDatabase* m_database;
 };
 
 #endif // PHOTODUPLICATESFINDER_HPP
