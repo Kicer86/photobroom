@@ -35,7 +35,7 @@
 #include "ifs.hpp"
 #include "iphoto_info_creator.hpp"
 #include "database_thread.hpp"
-#include "photo_info_manager.hpp"
+#include "photo_info_cache.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 #include "ibackend.hpp"

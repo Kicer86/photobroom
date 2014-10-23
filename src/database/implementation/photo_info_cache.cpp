@@ -17,7 +17,7 @@
  *
  */
 
-#include "photo_info_manager.hpp"
+#include "photo_info_cache.hpp"
 
 #include <database/iphoto_info.hpp>
 

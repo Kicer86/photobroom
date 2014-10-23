@@ -16,7 +16,7 @@ set(DATABASE_SOURCES
     implementation/filter.cpp
     implementation/photo_iterator.cpp
     implementation/photo_info.cpp
-    implementation/photo_info_manager.cpp
+    implementation/photo_info_cache.cpp
     implementation/query_list.cpp
     )
 
@@ -32,7 +32,7 @@ set(DATABASE_HEADERS
     query_list.hpp
     implementation/database_thread.hpp
     implementation/photo_info.hpp
-    implementation/photo_info_manager.hpp
+    implementation/photo_info_cache.hpp
     )
 
 set(DATABASE_MOC idatabase.hpp)
