@@ -1,5 +1,5 @@
 /*
- * Interface for PhotoInfoManager
+ * Interface for PhotoInfoCache which purpose is to cache IPhotoInfos
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,9 @@
 
 namespace Database
 {
-    struct IPhotoInfoManager
+    struct IPhotoInfoCache
     {
-        virtual ~IPhotoInfoManager() {}
+        virtual ~IPhotoInfoCache() {}
 
         virtual IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const = 0;
         virtual void introduce(const IPhotoInfo::Ptr &) = 0;

@@ -242,7 +242,7 @@ namespace Database
             ASqlBackend* m_backend;
             std::thread::id m_database_thread_id;
             QString m_databaseLocation;
-            IPhotoInfoManager* m_photoInfoManager;
+            IPhotoInfoCache* m_photoInfoCache;
             IPhotoInfoCreator* m_photoInfoCreator;
             Transaction m_transaction;
             ILogger* m_logger;
@@ -283,7 +283,7 @@ namespace Database
     ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend),
                                                    m_database_thread_id(),
                                                    m_databaseLocation(""),
-                                                   m_photoInfoManager(nullptr),
+                                                   m_photoInfoCache(nullptr),
                                                    m_photoInfoCreator(nullptr),
                                                    m_transaction(),
                                                    m_logger(nullptr)
@@ -855,9 +855,9 @@ namespace Database
     }
 
 
-    void ASqlBackend::setPhotoInfoManager(IPhotoInfoManager* manager)
+    void ASqlBackend::setPhotoInfoManager(IPhotoInfoCache* cache)
     {
-        m_data->m_photoInfoManager = manager;
+        m_data->m_photoInfoCache = cache;
     }
 
 
@@ -987,7 +987,7 @@ namespace Database
         auto photoInfo = m_data->m_photoInfoCreator->construct(path);
 
         m_data->store(photoInfo);
-        m_data->m_photoInfoManager->introduce(photoInfo);
+        m_data->m_photoInfoCache->introduce(photoInfo);
 
         return photoInfo;
     }
@@ -1052,12 +1052,12 @@ namespace Database
     IPhotoInfo::Ptr ASqlBackend::getPhoto(const IPhotoInfo::Id& id)
     {
         //try to find cached one
-        IPhotoInfo::Ptr result = m_data->m_photoInfoManager->find(id);
+        IPhotoInfo::Ptr result = m_data->m_photoInfoCache->find(id);
 
         if (result.get() == nullptr)
         {
             result = m_data->getPhoto(id);
-            m_data->m_photoInfoManager->introduce(result);
+            m_data->m_photoInfoCache->introduce(result);
         }
 
         return result;

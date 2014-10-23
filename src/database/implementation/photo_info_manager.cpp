@@ -1,5 +1,5 @@
 /*
- * PhotoInfo Manager
+ * PhotoInfoCache which purpose is to cache IPhotoInfos
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 #include <idatabase.hpp>
 
 
-struct PhotoInfoManager::Data: Database::IDatabaseClient
+struct PhotoInfoCache::Data: Database::IDatabaseClient
 {
     Data(): m_photo_cache(), m_database(nullptr) {}
     Data(const Data &) = delete;
@@ -47,18 +47,18 @@ struct PhotoInfoManager::Data: Database::IDatabaseClient
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-PhotoInfoManager::PhotoInfoManager(): m_data(new Data)
+PhotoInfoCache::PhotoInfoCache(): m_data(new Data)
 {
 }
 
 
-PhotoInfoManager::~PhotoInfoManager()
+PhotoInfoCache::~PhotoInfoCache()
 {
 
 }
 
 
-IPhotoInfo::Ptr PhotoInfoManager::find(const IPhotoInfo::Id& id) const
+IPhotoInfo::Ptr PhotoInfoCache::find(const IPhotoInfo::Id& id) const
 {
     IPhotoInfo::Ptr result;
     auto it = m_data->m_photo_cache.find(id);
@@ -70,7 +70,7 @@ IPhotoInfo::Ptr PhotoInfoManager::find(const IPhotoInfo::Id& id) const
 }
 
 
-void PhotoInfoManager::introduce(const IPhotoInfo::Ptr& ptr)
+void PhotoInfoCache::introduce(const IPhotoInfo::Ptr& ptr)
 {
     const auto id = ptr->getID();
     m_data->m_photo_cache[id] = ptr;
@@ -79,7 +79,7 @@ void PhotoInfoManager::introduce(const IPhotoInfo::Ptr& ptr)
 }
 
 
-void PhotoInfoManager::setDatabase(Database::IDatabase* database)
+void PhotoInfoCache::setDatabase(Database::IDatabase* database)
 {
     m_data->m_database = database;
 }
@@ -87,7 +87,7 @@ void PhotoInfoManager::setDatabase(Database::IDatabase* database)
 
 //TODO: those conditions there don't look nice...
 //is there nicer way for direct access to IPhotoInfo::Ptr?
-void PhotoInfoManager::photoUpdated(IPhotoInfo* photoInfo)
+void PhotoInfoCache::photoUpdated(IPhotoInfo* photoInfo)
 {
     //find photo in cache
     IPhotoInfo::Id id = photoInfo->getID();

@@ -40,7 +40,7 @@ struct IConfiguration;
 namespace Database
 {
 
-    struct IPhotoInfoManager;
+    struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
     struct IDatabaseClient;
 

@@ -1,5 +1,5 @@
 /*
- * PhotoInfo Manager
+ * PhotoInfoCache which purpose is to cache IPhotoInfos
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,14 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoManager: public Database::IPhotoInfoManager, IPhotoInfo::IObserver
+class PhotoInfoCache: public Database::IPhotoInfoCache, IPhotoInfo::IObserver
 {
     public:
-        PhotoInfoManager();
-        PhotoInfoManager(const PhotoInfoManager& other) = delete;
-        ~PhotoInfoManager();
+        PhotoInfoCache();
+        PhotoInfoCache(const PhotoInfoCache& other) = delete;
+        ~PhotoInfoCache();
 
-        PhotoInfoManager& operator=(const PhotoInfoManager& other) = delete;
+        PhotoInfoCache& operator=(const PhotoInfoCache& other) = delete;
 
         IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const override;
         void introduce(const IPhotoInfo::Ptr &) override;
