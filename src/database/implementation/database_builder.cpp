@@ -20,11 +20,10 @@
 
 #include "database_builder.hpp"
 
-#include <assert.h>
-
-#include <memory>
+#include <cassert>
 #include <fstream>
 #include <map>
+#include <memory>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
