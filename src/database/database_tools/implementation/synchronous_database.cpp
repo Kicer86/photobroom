@@ -37,38 +37,38 @@ void SynchronousDatabase::set(Database::IDatabase* database)
 }
 
 
-const Database::QueryList& SynchronousDatabase::getPhotos(const std::deque< Database::IFilter::Ptr >& filters)
+const IPhotoInfo::List& SynchronousDatabase::getPhotos(const std::deque< Database::IFilter::Ptr >& filters)
 {
 	static  Database::QueryList s;
 	return s;
 }
 
 
-void SynchronousDatabase::got_getAllPhotos(const Database::Task&, const Database::QueryList&)
+void SynchronousDatabase::got_getAllPhotos(const Database::Task&, const IPhotoInfo::List &)
 {
 
 }
 
 
-void SynchronousDatabase::got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr&)
+void SynchronousDatabase::got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr &)
 {
 
 }
 
 
-void SynchronousDatabase::got_getPhotos(const Database::Task&, const Database::QueryList&)
+void SynchronousDatabase::got_getPhotos(const Database::Task&, const IPhotoInfo::List &)
 {
 
 }
 
 
-void SynchronousDatabase::got_listTags(const Database::Task&, const std::vector< TagNameInfo >&)
+void SynchronousDatabase::got_listTags(const Database::Task&, const std::deque<TagNameInfo> &)
 {
 
 }
 
 
-void SynchronousDatabase::got_listTagValues(const Database::Task&, const std::deque< TagValueInfo >&)
+void SynchronousDatabase::got_listTagValues(const Database::Task&, const std::deque<TagValueInfo> &)
 {
 
 }

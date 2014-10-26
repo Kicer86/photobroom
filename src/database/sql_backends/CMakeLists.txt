@@ -13,8 +13,25 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS})
 
-set(SOURCES generic_sql_query_constructor.cpp sql_db_query.cpp sql_backend.cpp table_definition.cpp tables.cpp query_structs.cpp sql_query_constructor.cpp)
-set(HEADERS generic_sql_query_constructor.hpp sql_db_query.hpp sql_backend.hpp table_definition.hpp tables.hpp query_structs.hpp sql_query_constructor.hpp)
+set(SOURCES
+        generic_sql_query_constructor.cpp
+        #sql_db_query.cpp                         deprecated
+        sql_backend.cpp
+        table_definition.cpp
+        tables.cpp
+        query_structs.cpp
+        sql_query_constructor.cpp
+    )
+
+set(HEADERS
+        generic_sql_query_constructor.hpp
+        sql_db_query.hpp
+        sql_backend.hpp
+        table_definition.hpp
+        tables.hpp
+        query_structs.hpp
+        sql_query_constructor.hpp
+    )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
 target_link_libraries(sql_backend_base PRIVATE database configuration core Qt5::Core Qt5::Sql Qt5::Gui)

@@ -35,15 +35,15 @@ class SynchronousDatabase: Database::IDatabaseClient
         void set(Database::IDatabase *);
 
         // functionality of IDatabase:
-        const Database::QueryList& getPhotos(const std::deque<Database::IFilter::Ptr> &);  //list all photos matching filter
+        const IPhotoInfo::List& getPhotos(const std::deque<Database::IFilter::Ptr> &);  //list all photos matching filter
 
     private:
         Database::IDatabase* m_database;
 
-        virtual void got_getAllPhotos(const Database::Task&, const Database::QueryList&) override;
-        virtual void got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr&) override;
-        virtual void got_getPhotos(const Database::Task&, const Database::QueryList&) override;
-        virtual void got_listTags(const Database::Task&, const std::vector< TagNameInfo >&) override;
+        virtual void got_getAllPhotos(const Database::Task&, const IPhotoInfo::List &) override;
+        virtual void got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr &) override;
+        virtual void got_getPhotos(const Database::Task&, const IPhotoInfo::List &) override;
+        virtual void got_listTags(const Database::Task&, const std::deque< TagNameInfo >&) override;
         virtual void got_listTagValues(const Database::Task&, const std::deque< TagValueInfo >&) override;
         virtual void got_storeStatus(const Database::Task&) override;
 };

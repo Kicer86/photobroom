@@ -27,8 +27,8 @@
 #include <core/tag.hpp>
 #include <database/iphoto_info.hpp>
 
-#include "photo_iterator.hpp"
-#include "query_list.hpp"
+//#include "photo_iterator.hpp"
+//#include "query_list.hpp"
 #include "filter.hpp"
 
 struct ILogger;
@@ -60,12 +60,12 @@ namespace Database
         virtual bool update(const IPhotoInfo::Ptr &) = 0;
 
         //read data
-        virtual std::vector<TagNameInfo> listTags() = 0;                                  //list all stored tag names
+        virtual std::deque<TagNameInfo> listTags() = 0;                                   //list all stored tag names
         virtual std::set<TagValueInfo> listTagValues(const TagNameInfo &) = 0;            //list all values of provided tag
         virtual std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
-        virtual QueryList getAllPhotos() = 0;                                             //list all photos
+        virtual IPhotoInfo::List getAllPhotos() = 0;                                      //list all photos
         virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
-        virtual QueryList getPhotos(const std::deque<IFilter::Ptr> &) = 0;                //find all photos matching filter
+        virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) = 0;         //find all photos matching filter
 
         //init backend - connect to database or create new one
         virtual bool init(const QString &) = 0;

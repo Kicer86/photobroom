@@ -34,7 +34,7 @@ namespace Database
 
     //IQuery represents a result of database query.
     //It can access one row of data at once.
-    struct IQuery
+    struct DATABASE_DEPRECATED IQuery
     {
         virtual ~IQuery() {}
 
@@ -48,7 +48,7 @@ namespace Database
     };
 
     template<typename T>
-    class InterfaceContainer final
+    class DATABASE_DEPRECATED InterfaceContainer final
     {
         public:
             InterfaceContainer(): m_data()
@@ -91,7 +91,7 @@ namespace Database
             std::unique_ptr<T> m_data;
     };
 
-    class DATABASE_EXPORT PhotoIterator
+    class DATABASE_DEPRECATED_EXPORT PhotoIterator
     {
         public:
             PhotoIterator(const InterfaceContainer<IQuery> &);

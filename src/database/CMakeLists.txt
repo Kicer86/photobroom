@@ -14,15 +14,15 @@ set(DATABASE_SOURCES
     implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
-    implementation/photo_iterator.cpp
+    #implementation/photo_iterator.cpp     deprecated
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
-    implementation/query_list.cpp
+    #implementation/query_list.cpp         deprecated
 
-        database_tools/implementation/photos_analyzer.cpp
-        database_tools/implementation/photo_info_updater.cpp
-        database_tools/implementation/photo_duplicates_finder.cpp
-        database_tools/implementation/synchronous_database.cpp
+    database_tools/implementation/photos_analyzer.cpp
+    database_tools/implementation/photo_info_updater.cpp
+    database_tools/implementation/photo_duplicates_finder.cpp
+    database_tools/implementation/synchronous_database.cpp
     )
 
 set(DATABASE_HEADERS
@@ -39,10 +39,10 @@ set(DATABASE_HEADERS
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
 
-                database_tools/photos_analyzer.hpp
-                database_tools/implementation/photo_info_updater.hpp
-                database_tools/implementation/photo_duplicates_finder.hpp
-                database_tools/implementation/synchronous_database.hpp
+    database_tools/photos_analyzer.hpp
+    database_tools/implementation/photo_info_updater.hpp
+    database_tools/implementation/photo_duplicates_finder.hpp
+    database_tools/implementation/synchronous_database.hpp
     )
 
 set(DATABASE_MOC 

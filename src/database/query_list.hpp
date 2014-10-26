@@ -28,7 +28,7 @@ namespace Database
 {
     struct IQuery;
 
-    class DATABASE_EXPORT QueryList final
+    class DATABASE_DEPRECATED_EXPORT QueryList final
     {
         public:
             QueryList();
