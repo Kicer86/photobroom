@@ -20,10 +20,15 @@
 #ifndef SYNCHRONOUSDATABASE_HPP
 #define SYNCHRONOUSDATABASE_HPP
 
-#include <database/idatabase.hpp>
+#include <database/iphoto_info.hpp>
+#include <database/filter.hpp>
 
+namespace Database
+{
+    struct IDatabase;
+}
 
-class SynchronousDatabase: Database::IDatabaseClient
+class SynchronousDatabase
 {
     public:
         SynchronousDatabase();
@@ -35,17 +40,10 @@ class SynchronousDatabase: Database::IDatabaseClient
         void set(Database::IDatabase *);
 
         // functionality of IDatabase:
-        const IPhotoInfo::List& getPhotos(const std::deque<Database::IFilter::Ptr> &);  //list all photos matching filter
+        const IPhotoInfo::List getPhotos(const std::deque<Database::IFilter::Ptr> &);  //list all photos matching filter
 
     private:
         Database::IDatabase* m_database;
-
-        virtual void got_getAllPhotos(const Database::Task&, const IPhotoInfo::List &) override;
-        virtual void got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr &) override;
-        virtual void got_getPhotos(const Database::Task&, const IPhotoInfo::List &) override;
-        virtual void got_listTags(const Database::Task&, const std::deque< TagNameInfo >&) override;
-        virtual void got_listTagValues(const Database::Task&, const std::deque< TagValueInfo >&) override;
-        virtual void got_storeStatus(const Database::Task&) override;
 };
 
 #endif // SYNCHRONOUSDATABASE_H

@@ -19,6 +19,64 @@
 
 #include "synchronous_database.hpp"
 
+#include <condition_variable>
+#include <mutex>
+
+#include <database/idatabase.hpp>
+
+
+struct DataReceiver: Database::IDatabaseClient
+{
+    DataReceiver(): m_photo_list(), m_cv(), m_data_mutex(), m_got_data(false)
+    {}
+
+    void got_getAllPhotos(const Database::Task&, const IPhotoInfo::List &) override
+    {
+
+    }
+
+
+    void got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr &) override
+    {
+
+    }
+
+    
+    void got_getPhotos(const Database::Task&, const IPhotoInfo::List& photos) override
+    {
+        m_photo_list = photos;
+
+        m_got_data = true;
+        m_cv.notify_one();
+    }
+
+
+    void got_listTags(const Database::Task&, const std::deque<TagNameInfo> &) override
+    {
+
+    }
+
+
+    void got_listTagValues(const Database::Task&, const std::deque<TagValueInfo> &) override
+    {
+
+    }
+
+
+    void got_storeStatus(const Database::Task&) override
+    {
+
+    }
+
+    IPhotoInfo::List m_photo_list;
+
+    std::condition_variable m_cv;
+    std::mutex m_data_mutex;
+    bool m_got_data;
+};
+
+
+
 SynchronousDatabase::SynchronousDatabase(): m_database(nullptr)
 {
 
@@ -37,44 +95,19 @@ void SynchronousDatabase::set(Database::IDatabase* database)
 }
 
 
-const IPhotoInfo::List& SynchronousDatabase::getPhotos(const std::deque< Database::IFilter::Ptr >& filters)
+const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque< Database::IFilter::Ptr >& filters)
 {
-	static  Database::QueryList s;
-	return s;
-}
+    DataReceiver receiver;
 
+    auto task = m_database->prepareTask(&receiver);
+    m_database->getPhotos(task, filters);
 
-void SynchronousDatabase::got_getAllPhotos(const Database::Task&, const IPhotoInfo::List &)
-{
+    std::unique_lock<std::mutex> lock(receiver.m_data_mutex);
 
-}
+    receiver.m_cv.wait(lock, [&]()
+    {
+        return receiver.m_got_data == false;
+    });
 
-
-void SynchronousDatabase::got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr &)
-{
-
-}
-
-
-void SynchronousDatabase::got_getPhotos(const Database::Task&, const IPhotoInfo::List &)
-{
-
-}
-
-
-void SynchronousDatabase::got_listTags(const Database::Task&, const std::deque<TagNameInfo> &)
-{
-
-}
-
-
-void SynchronousDatabase::got_listTagValues(const Database::Task&, const std::deque<TagValueInfo> &)
-{
-
-}
-
-
-void SynchronousDatabase::got_storeStatus(const Database::Task&)
-{
-
+    return receiver.m_photo_list;
 }
