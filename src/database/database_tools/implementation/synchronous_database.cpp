@@ -39,7 +39,8 @@ void SynchronousDatabase::set(Database::IDatabase* database)
 
 const Database::QueryList& SynchronousDatabase::getPhotos(const std::deque< Database::IFilter::Ptr >& filters)
 {
-
+	static  Database::QueryList s;
+	return s;
 }
 
 

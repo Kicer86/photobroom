@@ -43,4 +43,5 @@ bool PhotoDuplicatesFinder::hasDuplicate(const IPhotoInfo::Ptr& photo) const
     const QString& path = photo->getPath();
 
     //m_database->
+	return true;
 }

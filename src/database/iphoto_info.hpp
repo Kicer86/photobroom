@@ -32,7 +32,6 @@ class QString;
 class QPixmap;
 
 class TagDataBase;
-class TagData;
 
 struct IPhotoInfo
 {

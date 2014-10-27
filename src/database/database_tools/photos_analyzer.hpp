@@ -24,7 +24,7 @@
 
 #include <database/iphoto_info.hpp>
 
-#include "database_tools_export.h"
+#include "database_export.h"
 
 struct ITaskExecutor;
 struct IConfiguration;
@@ -34,7 +34,7 @@ namespace Database
     struct IDatabase;
 }
 
-class DATABASE_TOOLS_EXPORT PhotosAnalyzer: QObject
+class DATABASE_EXPORT PhotosAnalyzer: QObject
 {
         Q_OBJECT
 

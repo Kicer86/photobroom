@@ -15,7 +15,6 @@
 
 class QPixmap;
 
-struct TagData;
 struct HashAssigner;
 
 class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource<Tag::TagsList>::INotify

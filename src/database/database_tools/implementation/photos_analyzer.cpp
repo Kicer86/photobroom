@@ -17,7 +17,7 @@
  *
  */
 
-#include "photos_analyzer.hpp"
+#include "../photos_analyzer.hpp"
 
 #include <thread>
 #include <condition_variable>
