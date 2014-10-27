@@ -41,7 +41,7 @@ struct DataReceiver: Database::IDatabaseClient
 
     }
 
-    
+
     void got_getPhotos(const Database::Task&, const IPhotoInfo::List& photos) override
     {
         m_photo_list = photos;
@@ -106,7 +106,7 @@ const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque< Database
 
     receiver.m_cv.wait(lock, [&]()
     {
-        return receiver.m_got_data == false;
+        return receiver.m_got_data == true;
     });
 
     return receiver.m_photo_list;
