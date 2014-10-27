@@ -156,6 +156,16 @@ namespace Database
                     m_temporary_result = result;
                 }
 
+                void visit(FilterSha256* sha256) override
+                {
+                    QString result;
+
+                    result =  " JOIN " TAB_HASHES " ON " TAB_FLAGS ".photo_id = photos_id";
+                    result += " WHERE " TAB_HASHES ".hash = '%1'";
+
+                    result = result.arg(sha256->sha256.c_str());
+                }
+
                 QString m_temporary_result;
         };
 

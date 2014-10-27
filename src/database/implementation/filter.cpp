@@ -33,4 +33,10 @@ namespace Database
 
     }
 
+
+    FilterSha256::FilterSha256(): sha256("")
+    {
+
+    }
+
 }

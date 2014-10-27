@@ -28,6 +28,7 @@
 #include <core/tag.hpp>
 
 #include "database_export.h"
+#include "iphoto_info.hpp"
 
 #define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); }
 
@@ -37,6 +38,7 @@ namespace Database
     struct FilterEmpty;
     struct FilterDescription;
     struct FilterFlags;
+    struct FilterSha256;
 
     struct IFilter
     {
@@ -53,6 +55,7 @@ namespace Database
         virtual void visit(FilterEmpty *) = 0;
         virtual void visit(FilterDescription *) = 0;
         virtual void visit(FilterFlags *) = 0;
+        virtual void visit(FilterSha256 *) = 0;
     };
 
     //filters
@@ -86,5 +89,14 @@ namespace Database
         bool stagingArea;
     };
 
+    struct DATABASE_EXPORT FilterSha256: IFilter
+    {
+        FilterSha256();
+        virtual ~FilterSha256() {}
+
+        FILTER_COMMAND
+
+        IPhotoInfo::Hash sha256;
+    };
 }
 #endif // FILTER_H
