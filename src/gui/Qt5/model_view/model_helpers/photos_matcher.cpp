@@ -121,6 +121,7 @@ void FiltersMatcher::visit(Database::FilterFlags* filter)
 
 void FiltersMatcher::visit(Database::FilterSha256* filter)
 {
+    assert(filter->sha256.empty() == false);
     const bool status = m_photo->getHash() == filter->sha256;
 
     m_doesMatch = status;

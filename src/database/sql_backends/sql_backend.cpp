@@ -158,12 +158,15 @@ namespace Database
 
                 void visit(FilterSha256* sha256) override
                 {
+                    assert(sha256->sha256.empty() == false);
                     QString result;
 
-                    result =  " JOIN " TAB_HASHES " ON " TAB_FLAGS ".photo_id = photos_id";
+                    result =  " JOIN " TAB_HASHES " ON " TAB_HASHES ".photo_id = photos_id";
                     result += " WHERE " TAB_HASHES ".hash = '%1'";
 
                     result = result.arg(sha256->sha256.c_str());
+
+                    m_temporary_result = result;
                 }
 
                 QString m_temporary_result;
