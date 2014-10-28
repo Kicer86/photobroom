@@ -89,10 +89,10 @@ private:
     void fetchData(const QModelIndex &);
 
     //Database::IDatabaseClient:
-    void got_getAllPhotos(const Database::Task &, const Database::QueryList &) override;
+    void got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &) override;
     void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
-    void got_getPhotos(const Database::Task & task, const Database::QueryList& photos) override;
-    void got_listTags(const Database::Task &, const std::vector<TagNameInfo> &) override;
+    void got_getPhotos(const Database::Task & task, const IPhotoInfo::List& photos) override;
+    void got_listTags(const Database::Task &, const std::deque<TagNameInfo> &) override;
     void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
     void got_storeStatus(const Database::Task &) override;
     //

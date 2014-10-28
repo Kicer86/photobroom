@@ -1,5 +1,5 @@
 /*
- * PhotoInfo Manager
+ * Photo analyzer and updater.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,39 +17,46 @@
  *
  */
 
-#ifndef PHOTOINFOMANAGER_H
-#define PHOTOINFOMANAGER_H
+#ifndef PHOTOS_ANALYZER_HPP
+#define PHOTOS_ANALYZER_HPP
 
-#include <memory>
+#include <QObject>
 
 #include <database/iphoto_info.hpp>
 
-#include "iphoto_info_manager.hpp"
+#include "database_export.h"
+
+struct ITaskExecutor;
+struct IConfiguration;
 
 namespace Database
 {
     struct IDatabase;
 }
 
-class PhotoInfoManager: public Database::IPhotoInfoManager, IPhotoInfo::IObserver
+class DATABASE_EXPORT PhotosAnalyzer: QObject
 {
+        Q_OBJECT
+
     public:
-        PhotoInfoManager();
-        PhotoInfoManager(const PhotoInfoManager& other) = delete;
-        ~PhotoInfoManager();
+        struct Impl;
+        
+        PhotosAnalyzer();
+        PhotosAnalyzer(const PhotosAnalyzer &) = delete;
+        ~PhotosAnalyzer();
 
-        PhotoInfoManager& operator=(const PhotoInfoManager& other) = delete;
-
-        IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const override;
-        void introduce(const IPhotoInfo::Ptr &) override;
+        PhotosAnalyzer& operator=(const PhotosAnalyzer &) = delete;
 
         void setDatabase(Database::IDatabase *);
+        void set(ITaskExecutor *);
+        void set(IConfiguration *);
 
     private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
+        Impl* m_data;
 
-        virtual void photoUpdated(IPhotoInfo *) override;
+    private slots:
+        void photoAdded(const IPhotoInfo::Ptr &);
+
 };
 
-#endif // PHOTOINFOMANAGER_H
+#endif // PHOTOS_ANALYZER_HPP

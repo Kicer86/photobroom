@@ -22,6 +22,7 @@
 
 #include <memory>
 #include <string>
+#include <deque>
 
 #include <core/tag.hpp>
 
@@ -32,11 +33,11 @@ class QString;
 class QPixmap;
 
 class TagDataBase;
-class TagData;
 
 struct IPhotoInfo
 {
     typedef std::shared_ptr<IPhotoInfo> Ptr;
+    typedef std::deque<IPhotoInfo::Ptr> List;
     typedef std::string Hash;                // Hash is hash of photo's file
 
     struct DATABASE_EXPORT Id

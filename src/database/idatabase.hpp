@@ -30,8 +30,8 @@
 #include <core/tag.hpp>
 #include <database/iphoto_info.hpp>
 
-#include "photo_iterator.hpp"
-#include "query_list.hpp"
+//#include "photo_iterator.hpp"
+//#include "query_list.hpp"
 #include "filter.hpp"
 
 struct ILogger;
@@ -40,7 +40,7 @@ struct IConfiguration;
 namespace Database
 {
 
-    struct IPhotoInfoManager;
+    struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
     struct IDatabaseClient;
 
@@ -76,10 +76,10 @@ namespace Database
 
         virtual void got_storeStatus(const Task &) = 0;
 
-        virtual void got_listTags(const Task &, const std::vector<TagNameInfo> &) = 0;
+        virtual void got_listTags(const Task &, const std::deque<TagNameInfo> &) = 0;
         virtual void got_listTagValues(const Task &, const std::deque<TagValueInfo> &) = 0;
-        virtual void got_getAllPhotos(const Task &, const QueryList &) = 0;
-        virtual void got_getPhotos(const Task &, const QueryList &) = 0;
+        virtual void got_getAllPhotos(const Task &, const IPhotoInfo::List &) = 0;
+        virtual void got_getPhotos(const Task &, const IPhotoInfo::List &) = 0;
         virtual void got_getPhoto(const Task &, const IPhotoInfo::Ptr &) = 0;
     };
 

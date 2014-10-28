@@ -1,5 +1,5 @@
 /*
- * Photo analyzer and updater.
+ * Decorator for IDatabase which makes it synchronous
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,46 +17,33 @@
  *
  */
 
-#ifndef PHOTOS_ANALYZER_HPP
-#define PHOTOS_ANALYZER_HPP
-
-#include <QObject>
+#ifndef SYNCHRONOUSDATABASE_HPP
+#define SYNCHRONOUSDATABASE_HPP
 
 #include <database/iphoto_info.hpp>
-
-#include "database_tools_export.h"
-
-struct ITaskExecutor;
-struct IConfiguration;
+#include <database/filter.hpp>
 
 namespace Database
 {
     struct IDatabase;
 }
 
-class DATABASE_TOOLS_EXPORT PhotosAnalyzer: QObject
+class SynchronousDatabase
 {
-        Q_OBJECT
-
     public:
-        struct Impl;
-        
-        PhotosAnalyzer();
-        PhotosAnalyzer(const PhotosAnalyzer &) = delete;
-        ~PhotosAnalyzer();
+        SynchronousDatabase();
+        SynchronousDatabase(const SynchronousDatabase &) = delete;
+        ~SynchronousDatabase();
 
-        PhotosAnalyzer& operator=(const PhotosAnalyzer &) = delete;
+        SynchronousDatabase& operator=(const SynchronousDatabase &) = delete;
 
-        void setDatabase(Database::IDatabase *);
-        void set(ITaskExecutor *);
-        void set(IConfiguration *);
+        void set(Database::IDatabase *);
+
+        // functionality of IDatabase:
+        const IPhotoInfo::List getPhotos(const std::deque<Database::IFilter::Ptr> &);  //list all photos matching filter
 
     private:
-        Impl* m_data;
-
-    private slots:
-        void photoAdded(const IPhotoInfo::Ptr &);
-
+        Database::IDatabase* m_database;
 };
 
-#endif // PHOTOS_ANALYZER_HPP
+#endif // SYNCHRONOUSDATABASE_H

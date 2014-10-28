@@ -45,7 +45,7 @@
 #include <database/iphoto_info_creator.hpp>
 
 #include "table_definition.hpp"
-#include "sql_db_query.hpp"
+//#include "sql_db_query.hpp"
 #include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
@@ -156,6 +156,19 @@ namespace Database
                     m_temporary_result = result;
                 }
 
+                void visit(FilterSha256* sha256) override
+                {
+                    assert(sha256->sha256.empty() == false);
+                    QString result;
+
+                    result =  " JOIN " TAB_HASHES " ON " TAB_HASHES ".photo_id = photos_id";
+                    result += " WHERE " TAB_HASHES ".hash = '%1'";
+
+                    result = result.arg(sha256->sha256.c_str());
+
+                    m_temporary_result = result;
+                }
+
                 QString m_temporary_result;
         };
 
@@ -242,7 +255,7 @@ namespace Database
             ASqlBackend* m_backend;
             std::thread::id m_database_thread_id;
             QString m_databaseLocation;
-            IPhotoInfoManager* m_photoInfoManager;
+            IPhotoInfoCache* m_photoInfoCache;
             IPhotoInfoCreator* m_photoInfoCreator;
             Transaction m_transaction;
             ILogger* m_logger;
@@ -258,10 +271,10 @@ namespace Database
             Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
-            std::vector<TagNameInfo> listTags() const;
+            std::deque<TagNameInfo> listTags() const;
             std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
             std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
-            QueryList getPhotos(const std::deque<IFilter::Ptr>& filter);
+            IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr>& filter);
 
         private:
             Optional<unsigned int> findTagByName(const QString& name) const;
@@ -277,13 +290,14 @@ namespace Database
             Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
             void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
+            IPhotoInfo::List fetch(QSqlQuery &);
     };
 
 
     ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend),
                                                    m_database_thread_id(),
                                                    m_databaseLocation(""),
-                                                   m_photoInfoManager(nullptr),
+                                                   m_photoInfoCache(nullptr),
                                                    m_photoInfoCreator(nullptr),
                                                    m_transaction(),
                                                    m_logger(nullptr)
@@ -385,14 +399,14 @@ namespace Database
     }
 
 
-    std::vector<TagNameInfo> ASqlBackend::Data::listTags() const
+    std::deque<TagNameInfo> ASqlBackend::Data::listTags() const
     {
         QSqlDatabase db = QSqlDatabase::database(m_databaseLocation);
         QSqlQuery query(db);
         const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
 
         const bool status = exec(query_str, &query);
-        std::vector<TagNameInfo> result;
+        std::deque<TagNameInfo> result;
 
         while (status && query.next())
         {
@@ -466,7 +480,7 @@ namespace Database
     }
 
 
-    QueryList ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    IPhotoInfo::List ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         const QString queryStr = generateFilterQuery(filter);
 
@@ -474,10 +488,7 @@ namespace Database
         QSqlQuery query(db);
 
         exec(queryStr, &query);
-        SqlDBQuery* dbQuery = new SqlDBQuery(query, m_backend);
-        InterfaceContainer<IQuery> container(dbQuery);
-
-        QueryList result(container);
+        auto result = fetch(query);
 
         return result;
     }
@@ -834,6 +845,22 @@ namespace Database
     }
 
 
+    IPhotoInfo::List ASqlBackend::Data::fetch(QSqlQuery& query)
+    {
+        IPhotoInfo::List collection;
+
+        while (query.next())
+        {
+            const IPhotoInfo::Id id(query.value("photos_id").toInt());
+            IPhotoInfo::Ptr photo = getPhoto(id);
+
+            collection.push_back(photo);
+        }
+
+        return collection;
+    }
+
+
     ///////////////////////////////////////////////////////////////////////
 
 
@@ -855,9 +882,9 @@ namespace Database
     }
 
 
-    void ASqlBackend::setPhotoInfoManager(IPhotoInfoManager* manager)
+    void ASqlBackend::setPhotoInfoManager(IPhotoInfoCache* cache)
     {
-        m_data->m_photoInfoManager = manager;
+        m_data->m_photoInfoCache = cache;
     }
 
 
@@ -987,7 +1014,7 @@ namespace Database
         auto photoInfo = m_data->m_photoInfoCreator->construct(path);
 
         m_data->store(photoInfo);
-        m_data->m_photoInfoManager->introduce(photoInfo);
+        m_data->m_photoInfoCache->introduce(photoInfo);
 
         return photoInfo;
     }
@@ -1008,9 +1035,9 @@ namespace Database
     }
 
 
-    std::vector<TagNameInfo> ASqlBackend::listTags()
+    std::deque<TagNameInfo> ASqlBackend::listTags()
     {
-        std::vector<TagNameInfo> result;
+        std::deque<TagNameInfo> result;
 
         if (m_data)
             result = m_data->listTags();
@@ -1042,7 +1069,7 @@ namespace Database
     }
 
 
-    QueryList ASqlBackend::getAllPhotos()
+    IPhotoInfo::List ASqlBackend::getAllPhotos()
     {
         std::deque<IFilter::Ptr> emptyFilter;
         return m_data->getPhotos(emptyFilter);  //like getPhotos but without any filters
@@ -1052,19 +1079,19 @@ namespace Database
     IPhotoInfo::Ptr ASqlBackend::getPhoto(const IPhotoInfo::Id& id)
     {
         //try to find cached one
-        IPhotoInfo::Ptr result = m_data->m_photoInfoManager->find(id);
+        IPhotoInfo::Ptr result = m_data->m_photoInfoCache->find(id);
 
         if (result.get() == nullptr)
         {
             result = m_data->getPhoto(id);
-            m_data->m_photoInfoManager->introduce(result);
+            m_data->m_photoInfoCache->introduce(result);
         }
 
         return result;
     }
 
 
-    QueryList ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    IPhotoInfo::List ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotos(filter);
     }

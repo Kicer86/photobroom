@@ -68,7 +68,6 @@ struct IdxDataManager::Data
         m_root(nullptr),
         m_hierarchy(),
         m_database(),
-        m_iterator(),
         m_db_tasks(),
         m_photoId2IdxData(),
         m_notFetchedIdxData(),
@@ -96,7 +95,6 @@ struct IdxDataManager::Data
     IdxData* m_root;
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
-    Database::PhotoIterator m_iterator;
     ol::ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
     ol::ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
     ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
@@ -365,7 +363,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 }
 
 
-void IdxDataManager::got_getAllPhotos(const Database::Task &, const Database::QueryList &)
+void IdxDataManager::got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &)
 {
 }
 
@@ -376,7 +374,7 @@ void IdxDataManager::got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr 
 
 
 //called when leafs for particual node have been loaded
-void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::QueryList& photos)
+void IdxDataManager::got_getPhotos(const Database::Task& task, const IPhotoInfo::List& photos)
 {
     auto tasks = m_data->m_db_tasks.lock();
     auto it = tasks->find(task);
@@ -402,7 +400,7 @@ void IdxDataManager::got_getPhotos(const Database::Task& task, const Database::Q
 }
 
 
-void IdxDataManager::got_listTags(const Database::Task &, const std::vector<TagNameInfo> &)
+void IdxDataManager::got_listTags(const Database::Task &, const std::deque<TagNameInfo> &)
 {
 }
 

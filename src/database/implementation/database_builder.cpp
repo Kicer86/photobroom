@@ -20,11 +20,10 @@
 
 #include "database_builder.hpp"
 
-#include <assert.h>
-
-#include <memory>
+#include <cassert>
 #include <fstream>
 #include <map>
+#include <memory>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
@@ -35,7 +34,7 @@
 #include "ifs.hpp"
 #include "iphoto_info_creator.hpp"
 #include "database_thread.hpp"
-#include "photo_info_manager.hpp"
+#include "photo_info_cache.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 #include "ibackend.hpp"
@@ -64,7 +63,7 @@ namespace Database
         {
             DatabaseObjects(const std::shared_ptr<IDatabase> &database,
                             const std::shared_ptr<IBackend> &backend,
-                            const std::shared_ptr<IPhotoInfoManager> &manager,
+                            const std::shared_ptr<IPhotoInfoCache> &manager,
                             const std::shared_ptr<PhotosAnalyzer> &analyzer
                            ) : m_database(database), m_backend(backend), m_photoManager(manager), m_photosAnalyzer(analyzer)
             {
@@ -77,7 +76,7 @@ namespace Database
 
             std::shared_ptr<IDatabase> m_database;
             std::shared_ptr<IBackend> m_backend;
-            std::shared_ptr<IPhotoInfoManager> m_photoManager;
+            std::shared_ptr<IPhotoInfoCache> m_photoManager;
             std::shared_ptr<PhotosAnalyzer> m_photosAnalyzer;
         };
 
@@ -172,7 +171,7 @@ namespace Database
             Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
             assert(plugin);
 
-            std::shared_ptr<PhotoInfoManager> manager(new PhotoInfoManager);
+            std::shared_ptr<PhotoInfoCache> manager(new PhotoInfoCache);
             std::shared_ptr<IBackend> backend = plugin->constructBackend();
             std::shared_ptr<IDatabase> database(new DatabaseThread(backend.get()));
             std::shared_ptr<PhotosAnalyzer> analyzer(new PhotosAnalyzer);

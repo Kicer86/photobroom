@@ -23,6 +23,7 @@
 #include <deque>
 
 #include "idatabase.hpp"
+#include "ibackend.hpp"
 
 namespace Database
 {

@@ -17,15 +17,30 @@
  *
  */
 
-#include "photo_duplicates_finder.hpp"
+#ifndef PHOTODUPLICATESFINDER_HPP
+#define PHOTODUPLICATESFINDER_HPP
 
-PhotoDuplicatesFinder::PhotoDuplicatesFinder()
+#include <database/iphoto_info.hpp>
+
+namespace Database
 {
-
+    struct IDatabase;
 }
 
-
-PhotoDuplicatesFinder::~PhotoDuplicatesFinder()
+class PhotoDuplicatesFinder
 {
+    public:
+        PhotoDuplicatesFinder();
+        PhotoDuplicatesFinder(const PhotoDuplicatesFinder &) = delete;
+        ~PhotoDuplicatesFinder();
+        PhotoDuplicatesFinder& operator=(const PhotoDuplicatesFinder &) = delete;
 
-}
+        void setDatabase(Database::IDatabase *);
+
+        bool hasDuplicate(const IPhotoInfo::Ptr &) const;
+
+    private:
+        Database::IDatabase* m_database;
+};
+
+#endif // PHOTODUPLICATESFINDER_HPP
