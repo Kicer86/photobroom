@@ -18,7 +18,11 @@
  */
 
 #include "photo_duplicates_finder.hpp"
+
 #include <database/idatabase.hpp>
+
+#include "synchronous_database.hpp"
+
 
 PhotoDuplicatesFinder::PhotoDuplicatesFinder(): m_database(nullptr)
 {
@@ -42,6 +46,28 @@ bool PhotoDuplicatesFinder::hasDuplicate(const IPhotoInfo::Ptr& photo) const
 {
     const QString& path = photo->getPath();
 
-    //m_database->
-	return true;
+    SynchronousDatabase database;
+
+    auto shaFilter = std::make_shared<Database::FilterSha256>();
+    shaFilter->sha256 = photo->getHash();
+    
+    std::deque<Database::IFilter::Ptr> filters( {shaFilter} );
+
+    database.set(m_database);
+    auto photos = database.getPhotos(filters);
+
+    bool result = false;
+
+    /*
+    if (photos.size() == 1)
+    {
+        result = true;
+        assert(photos[0]->getID() == photo->getID());    // the photo we received should be the one we got in `photo`
+    }
+    else if (photos.empty())
+        assert(!"Should not happend");
+
+    */
+
+    return result;
 }
