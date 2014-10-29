@@ -125,8 +125,7 @@ void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::Scrol
 
 void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags flags)
 {
-    QRect treeRect = _rect;
-    treeRect.translate(getOffset());
+    const QRect treeRect = _rect.translated(getOffset());
 
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
     QItemSelection selection;
@@ -184,7 +183,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
 void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
-    QAbstractScrollArea::mouseReleaseEvent(e);
+    QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
     ModelIndexInfo info = m_data->get(item);
@@ -205,7 +204,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
 void ImagesTreeView::resizeEvent(QResizeEvent* e)
 {
-    QAbstractScrollArea::resizeEvent(e);
+    QAbstractItemView::resizeEvent(e);
 
     //reset all positions
     PositionsReseter reseter(m_data.get());
