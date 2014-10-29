@@ -81,9 +81,17 @@ QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 
 QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection) const
 {
-    (void) selection;
+	QModelIndexList indexes = selection.indexes();
+	QRegion result;
 
-    return QRegion();
+	for (const QModelIndex& idx: indexes)
+	{
+		ModelIndexInfo info = m_data->get(idx);
+
+		result += info.getRect();
+	}
+
+    return result;
 }
 
 
