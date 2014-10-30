@@ -55,6 +55,7 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 void MainWindow::set(ITaskExecutor* taskExecutor)
 {
     m_imagesModel->set(taskExecutor);
+    m_stagedImagesModel->set(taskExecutor);
 }
 
 
@@ -108,15 +109,21 @@ void MainWindow::updateMenus()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    ui->actionAdd_photos->setEnabled(prj);
+    ui->menuPhotos->menuAction()->setVisible(prj);
     ui->actionBrowse_staged_photos->setEnabled(prj);
 
-    const int c = ui->centralWidget->layout()->count();
-    ui->menuWindows->clear();
+    QStackedWidget* centerWidget = ui->centralWidget;
 
+    //remove any windows from "Windows" menu
+    ui->menuWindows->clear();
+    ui->menuWindows->disconnect(ui->menuWindows);
+    ui->menuWindows->menuAction()->setVisible(prj);
+
+    //reattach items to "Windows" menu
+    const int c = centerWidget->layout()->count();
     for(int i = 0; i < c; i++)
     {
-        QWidget* child = ui->centralWidget->widget(i);
+        QWidget* child = centerWidget->widget(i);
         assert(child != nullptr);
 
         const QString title = child->windowTitle();
