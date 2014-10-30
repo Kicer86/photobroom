@@ -82,6 +82,7 @@ set(GUI_FILES_TO_MOC
     Qt5/components/tag_editor/tag_definition.hpp
     Qt5/components/tag_editor/tag_entry.hpp
     Qt5/components/tag_editor/ivalue_widget.hpp
+    Qt5/components/staged_photos_widget.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp
