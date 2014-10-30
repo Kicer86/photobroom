@@ -30,15 +30,14 @@ StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
                                                     m_view(new PhotosView(this)),
                                                     m_dataModel(nullptr)
 {
-    QVBoxLayout* l = new QVBoxLayout(this);
-    l->addWidget(m_view);
-
     QPushButton* commitButton = new QPushButton(tr("Apply"));
 
     QHBoxLayout* h = new QHBoxLayout(this);
     h->addStretch();
     h->addWidget(commitButton);
-
+    
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(m_view);
     l->addLayout(h);
 }
 
