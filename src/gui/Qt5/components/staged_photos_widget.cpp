@@ -32,13 +32,15 @@ StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
 {
     QPushButton* commitButton = new QPushButton(tr("Apply"));
 
-    QHBoxLayout* h = new QHBoxLayout(this);
+    QHBoxLayout* h = new QHBoxLayout;
     h->addStretch();
     h->addWidget(commitButton);
-    
+
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_view);
     l->addLayout(h);
+
+    connect(commitButton, SIGNAL(clicked(bool)), this, SLOT(applyChanges()));
 }
 
 
@@ -48,13 +50,20 @@ StagedPhotosWidget::~StagedPhotosWidget()
 }
 
 
-void StagedPhotosWidget::setModel(StagedPhotosDataModel* model) const
+void StagedPhotosWidget::setModel(StagedPhotosDataModel* model)
 {
     m_view->setModel(model);
+    m_dataModel = model;
 }
 
 
 void StagedPhotosWidget::set(IConfiguration* configuration)
 {
     m_view->set(configuration);
+}
+
+
+void StagedPhotosWidget::applyChanges()
+{
+    m_dataModel->storePhotos();
 }

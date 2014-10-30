@@ -25,23 +25,29 @@
 #include <QWidget>
 
 struct IConfiguration;
+struct ITaskExecutor;
 class PhotosView;
 class StagedPhotosDataModel;
 
 class StagedPhotosWidget : public QWidget
 {
+        Q_OBJECT
+
     public:
         StagedPhotosWidget(QWidget * = nullptr);
         StagedPhotosWidget(const StagedPhotosWidget &) = delete;
         ~StagedPhotosWidget();
         StagedPhotosWidget& operator=(const StagedPhotosWidget &) = delete;
 
-        void setModel(StagedPhotosDataModel *) const;
+        void setModel(StagedPhotosDataModel *);
         void set(IConfiguration *);
 
     private:
         PhotosView* m_view;
         StagedPhotosDataModel* m_dataModel;
+
+    private slots:
+        void applyChanges();
 };
 
 #endif // STAGEDPHOTOSWIDGET_HPP
