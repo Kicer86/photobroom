@@ -715,6 +715,9 @@ namespace Database
         //load flags
         updateFlagsOn(photoInfo.get(), id);
 
+        //introduce to cache
+        m_photoInfoCache->introduce(photoInfo);
+
         return photoInfo;
     }
 
