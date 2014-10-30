@@ -20,6 +20,7 @@
 #include "staged_photos_widget.hpp"
 
 #include <QVBoxLayout>
+#include <QPushButton>
 
 #include "staged_photos_data_model.hpp"
 #include "ui/photos_view.hpp"
@@ -31,6 +32,14 @@ StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
 {
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_view);
+
+    QPushButton* commitButton = new QPushButton(tr("Apply"));
+
+    QHBoxLayout* h = new QHBoxLayout(this);
+    h->addStretch();
+    h->addWidget(commitButton);
+
+    l->addLayout(h);
 }
 
 
