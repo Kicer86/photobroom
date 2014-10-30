@@ -1085,10 +1085,7 @@ namespace Database
         IPhotoInfo::Ptr result = m_data->m_photoInfoCache->find(id);
 
         if (result.get() == nullptr)
-        {
             result = m_data->getPhoto(id);
-            m_data->m_photoInfoCache->introduce(result);
-        }
 
         return result;
     }
