@@ -92,11 +92,6 @@
     <string>About</string>
    </property>
   </action>
-  <action name="actionBrowse_staged_photos">
-   <property name="text">
-    <string>Browse staged photos</string>
-   </property>
-  </action>
  </widget>
  <customwidgets>
   <customwidget>

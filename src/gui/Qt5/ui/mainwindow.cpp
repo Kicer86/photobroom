@@ -108,11 +108,9 @@ void MainWindow::setupView()
 void MainWindow::updateMenus()
 {
     const bool prj = m_currentPrj.get() != nullptr;
+    QStackedWidget* centerWidget = ui->centralWidget;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
-    ui->actionBrowse_staged_photos->setEnabled(prj);
-
-    QStackedWidget* centerWidget = ui->centralWidget;
 
     //remove any windows from "Windows" menu
     ui->menuWindows->clear();
