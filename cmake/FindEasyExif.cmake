@@ -1,5 +1,4 @@
 
-
 #rules for finding EasyExif
 
 find_path(EASYEXIF_INCLUDE_DIR easyexif/exif.h)
