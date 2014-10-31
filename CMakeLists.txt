@@ -36,6 +36,9 @@ if(UNIX OR CYGWIN)
 elseif(WIN32)
     add_definitions(-DOS_WIN)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+    include(${PROJECT_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
+    addEasyExif()
 endif(UNIX OR CYGWIN)
 
 #base paths
