@@ -6,7 +6,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenMP)
 find_exif_package()
-find_cryptographic_package()
+find_cryptographic_package()       # OpenSSL or Nettle
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -14,7 +14,8 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDE_DIRS})
+                           ${OPENLIBRARY_INCLUDE_DIRS}
+                           ${CRYPTOGRAPHIC_INCLUDE_DIR})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -73,15 +74,9 @@ endif(EXIV2_FOUND)
 
 
 if(OPENSSL_FOUND)
-
     add_definitions(-DUSE_OPENSSL)
-    include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
-
 elseif(NETTLE_FOUND)
-
     add_definitions(-DUSE_NETTLE)
-    include_directories(SYSTEM ${NETTLE_INCLUDE_DIRS})
-
 endif(OPENSSL_FOUND)
 
 
@@ -121,7 +116,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES})
 
 if(OPENMP_FOUND)
     if(MSVC)
@@ -137,11 +132,6 @@ elseif(EASYEXIF_FOUND)
     target_link_libraries(core PRIVATE ${EASYEXIF_LIBRARIES})
 endif(EXIV2_FOUND)
 
-if(OPENSSL_FOUND)
-    target_link_libraries(core PRIVATE ${OPENSSL_LIBRARIES})
-elseif(NETTLE_FOUND)
-    target_link_libraries(core PRIVATE ${NETTLE_LIBRARIES})
-endif(OPENSSL_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)

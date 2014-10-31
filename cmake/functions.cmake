@@ -61,8 +61,15 @@ macro(find_cryptographic_package)
 
     find_package(OpenSSL)
     
-    if(NOT OPENSSL_FOUND)
+    if(OPENSSL_FOUND)
+        set(CRYPTOGRAPHIC_INCLUDE_DIR ${OPENSSL_INCLUDE_DIR})
+        set(CRYPTOGRAPHIC_LIBRARIES ${OPENSSL_LIBRARIES})
+    else()
         find_package(Nettle REQUIRED)
+
+        set(CRYPTOGRAPHIC_INCLUDE_DIR ${NETTLE_INCLUDE_DIRS})
+        set(CRYPTOGRAPHIC_LIBRARIES ${NETTLE_LIBRARIES})
+
     endif()
 
 endmacro(find_cryptographic_package)
