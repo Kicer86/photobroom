@@ -50,8 +50,14 @@ macro(find_exif_package)
 
     find_package(Exiv2)
 
-    if(NOT EXIV2_FOUND)
-        find_package(EasyExif)
+    if(EXIV2_FOUND)
+        set(EXIF_INCLUDE_DIR ${EXIV2_INCLUDE_DIRS})
+        set(EXIF_LIBRARIES ${EXIV2_LIBRARIES})
+    else()
+        find_package(EasyExif REQUIRED)
+
+        set(EXIF_INCLUDE_DIR ${EASYEXIF_INCLUDE_DIRS})
+        set(EXIF_LIBRARIES ${EASYEXIF_LIBRARIES})
     endif()
 
 endmacro(find_exif_package)
@@ -69,7 +75,6 @@ macro(find_cryptographic_package)
 
         set(CRYPTOGRAPHIC_INCLUDE_DIR ${NETTLE_INCLUDE_DIRS})
         set(CRYPTOGRAPHIC_LIBRARIES ${NETTLE_LIBRARIES})
-
     endif()
 
 endmacro(find_cryptographic_package)
