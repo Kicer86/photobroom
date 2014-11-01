@@ -20,10 +20,12 @@ include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 #options:
 option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
 option(BUILD_TESTS "Build tests. Set to ON to build tests")
+option(AUTODOWNLOAD_EASYEXIF "Automatically download EasyExif package if not found")
 
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
 add_feature_info("Build shared libraries" BUILD_SHARED_LIBS "Builds all libraries as shared. Feature controlled by BUILD_SHARED_LIBS variable.")
+add_feature_info("Automatically download EasyExif" AUTODOWNLOAD_EASYEXIF "When set to ON, EasyExif library will be automatically downloaded when not found.")
 
 #tests
 if(BUILD_TESTS)
@@ -36,10 +38,13 @@ if(UNIX OR CYGWIN)
 elseif(WIN32)
     add_definitions(-DOS_WIN)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif(UNIX OR CYGWIN)
 
+#3rd party packages auto download
+if(AUTODOWNLOAD_EASYEXIF)
     include(${PROJECT_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
     addEasyExif()
-endif(UNIX OR CYGWIN)
+endif(AUTODOWNLOAD_EASYEXIF)
 
 #base paths
 set(PATH_LIBS     "lib/broom")
