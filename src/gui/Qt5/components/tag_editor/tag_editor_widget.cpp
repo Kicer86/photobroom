@@ -36,10 +36,10 @@
 
 #include "core/tag.hpp"
 
-#include "tag_definition.hpp"
-#include "tag_entry.hpp"
-#include "entries_manager.hpp"
-#include "converter.hpp"
+#include "helpers/tag_definition.hpp"
+#include "helpers/tag_entry.hpp"
+#include "helpers/entries_manager.hpp"
+#include "helpers/converter.hpp"
 
 
 struct TagEditorWidget::TagsManager: public TagsManagerSlots
