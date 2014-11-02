@@ -58,7 +58,7 @@
           </sizepolicy>
          </property>
         </widget>
-        <widget class="QWidget" name="tagEditor" native="true">
+        <widget class="TagEditorWidget" name="tagEditor" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -78,6 +78,12 @@
    <class>ImagesTreeView</class>
    <extends>QWidget</extends>
    <header>model_view/images_tree_view.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>TagEditorWidget</class>
+   <extends>QWidget</extends>
+   <header>components/tag_editor/tag_editor_widget.hpp</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
