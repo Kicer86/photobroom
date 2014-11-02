@@ -77,6 +77,8 @@ endif(DOXYGEN)
 #info
 message("")
 message("*************************************************************")
+message("Configuration summary:")
+message("")
 message("Extra targets:")
 if(DOXYGEN)
     message("documentation          - generates html in build dir")
