@@ -91,22 +91,21 @@
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="97"/>
         <source>Browse staged photos</source>
-        <translation>Przeglądaj zdjęcia do zatwierdzenia</translation>
+        <translation type="vanished">Przeglądaj zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="151"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="156"/>
         <source>Open File</source>
         <translation>Otwórz plik</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="153"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="158"/>
         <source>Photo Broom albums (*.bpj)</source>
         <translation>Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="161"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="166"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
@@ -176,6 +175,14 @@
         <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="98"/>
         <source>Engine options</source>
         <translation>Opcje silnika</translation>
+    </message>
+</context>
+<context>
+    <name>StagedPhotosWidget</name>
+    <message>
+        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="33"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
