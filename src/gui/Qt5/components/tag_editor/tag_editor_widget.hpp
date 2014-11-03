@@ -24,6 +24,7 @@
 #include <QWidget>
 
 class TagsView;
+class TagsModel;
 
 class TagEditorWidget: public QWidget
 {
@@ -36,6 +37,7 @@ class TagEditorWidget: public QWidget
 
     private:
         TagsView* m_view;
+        TagsModel* m_model;
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP
