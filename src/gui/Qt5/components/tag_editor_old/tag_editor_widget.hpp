@@ -21,18 +21,50 @@
 #ifndef TAG_EDITOR_WIDGET_HPP
 #define TAG_EDITOR_WIDGET_HPP
 
+#include <memory>
+#include <vector>
+#include <string>
+
 #include <QWidget>
+
+struct ITagData;
+struct TagNameInfo;
+
+class QString;
+class QLineEdit;
+class QComboBox;
+
+
+class TagsManagerSlots: public QObject
+{
+        Q_OBJECT
+
+    protected:
+        TagsManagerSlots(QObject *p): QObject(p) {}
+
+    protected slots:
+        virtual void tagEdited() = 0;
+        virtual void addLine(const TagNameInfo& name) = 0;
+};
+
 
 class TagEditorWidget: public QWidget
 {
     public:
-        explicit TagEditorWidget(QWidget * = 0, Qt::WindowFlags = 0);
+        explicit TagEditorWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
         virtual ~TagEditorWidget();
 
-        TagEditorWidget(const TagEditorWidget &) = delete;
-        virtual TagEditorWidget& operator=(const TagEditorWidget &) = delete;
+        TagEditorWidget(const TagEditorWidget& other) = delete;
+        virtual TagEditorWidget& operator=(const TagEditorWidget& other) = delete;
+
+        //widget will work directly on provided set of data
+        void setTags(const std::shared_ptr<ITagData> &);
 
     private:
+        struct TagsManager;
+        std::unique_ptr<TagsManager> m_manager;
+
+
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP
