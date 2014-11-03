@@ -44,3 +44,9 @@ TagEditorWidget::~TagEditorWidget()
 {
 
 }
+
+
+void TagEditorWidget::set(QItemSelectionModel* selectionModel)
+{
+    m_model->set(selectionModel);
+}

@@ -22,6 +22,8 @@
 
 #include <QStandardItemModel>
 
+class QItemSelectionModel;
+
 class TagsModel: public QStandardItemModel
 {
     public:
@@ -29,7 +31,12 @@ class TagsModel: public QStandardItemModel
         TagsModel(const TagsModel &) = delete;
         ~TagsModel();
 
+        void set(QItemSelectionModel *);
+
         TagsModel& operator=(const TagsModel &) = delete;
+
+    private:
+        QItemSelectionModel* m_selectionModel;
 };
 
 #endif // TAGSMODEL_H

@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+class QItemSelectionModel;
+
 class TagsView;
 class TagsModel;
 
@@ -34,6 +36,8 @@ class TagEditorWidget: public QWidget
 
         TagEditorWidget(const TagEditorWidget &) = delete;
         virtual TagEditorWidget& operator=(const TagEditorWidget &) = delete;
+
+        void set(QItemSelectionModel *);
 
     private:
         TagsView* m_view;

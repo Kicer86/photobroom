@@ -19,7 +19,9 @@
 
 #include "tags_model.hpp"
 
-TagsModel::TagsModel(QObject* p): QStandardItemModel(p)
+TagsModel::TagsModel(QObject* p):
+    QStandardItemModel(p),
+    m_selectionModel(nullptr)
 {
 
 }
@@ -30,3 +32,8 @@ TagsModel::~TagsModel()
 
 }
 
+
+void TagsModel::set(QItemSelectionModel* selectionModel)
+{
+    m_selectionModel = selectionModel;
+}
