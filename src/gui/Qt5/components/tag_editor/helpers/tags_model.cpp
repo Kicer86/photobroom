@@ -41,7 +41,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
         m_selectionModel->disconnect(this);
 
     m_selectionModel = selectionModel;
-    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(refreshModel(const QItemSelection &, const QItemSelection &)));
+    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(refreshModel(QItemSelection, const QItemSelection &)));
 
     refreshModel();
 }
