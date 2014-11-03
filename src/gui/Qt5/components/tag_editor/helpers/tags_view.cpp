@@ -19,7 +19,7 @@
 
 #include "tags_view.hpp"
 
-TagsView::TagsView()
+TagsView::TagsView(QWidget* p): QTableView(p)
 {
 
 }

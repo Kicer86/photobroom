@@ -25,7 +25,7 @@
 class TagsView: public QTableView
 {
     public:
-        TagsView();
+        TagsView(QWidget * = 0);
         TagsView(const TagsView &) = delete;
         ~TagsView();
 
