@@ -126,12 +126,12 @@
         <translation>Podgląd zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/photos_view.cpp" line="36"/>
+        <location filename="../src/gui/Qt5/ui/photos_view.cpp" line="37"/>
         <source>Date and time</source>
         <translation>Data i godzina</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/photos_view.cpp" line="37"/>
+        <location filename="../src/gui/Qt5/ui/photos_view.cpp" line="38"/>
         <source>People</source>
         <translation>Osoby</translation>
     </message>
