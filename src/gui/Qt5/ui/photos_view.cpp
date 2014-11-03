@@ -12,7 +12,12 @@ PhotosView::PhotosView(QWidget *_parent) :
     m_imagesModel(nullptr)
 {
     ui->setupUi(this);
+
+    //pass selection model to tags editor
+    QItemSelectionModel* selectionModel = ui->photoView->selectionModel();
+    ui->tagEditor->set(selectionModel);
 }
+
 
 PhotosView::~PhotosView()
 {
