@@ -182,7 +182,7 @@
     <message>
         <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="33"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj</translation>
     </message>
 </context>
 </TS>
