@@ -27,6 +27,8 @@ class QItemSelection;
 
 class TagsModel: public QStandardItemModel
 {
+        Q_OBJECT
+
     public:
         TagsModel(QObject * = 0);
         TagsModel(const TagsModel &) = delete;
