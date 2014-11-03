@@ -23,6 +23,7 @@
 #include <QStandardItemModel>
 
 class QItemSelectionModel;
+class QItemSelection;
 
 class TagsModel: public QStandardItemModel
 {
@@ -37,6 +38,11 @@ class TagsModel: public QStandardItemModel
 
     private:
         QItemSelectionModel* m_selectionModel;
+
+        void refreshModel();
+
+    private slots:
+        void refreshModel(const QItemSelection &, const QItemSelection &);
 };
 
 #endif // TAGSMODEL_H

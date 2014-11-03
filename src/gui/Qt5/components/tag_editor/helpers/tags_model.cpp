@@ -19,6 +19,8 @@
 
 #include "tags_model.hpp"
 
+#include <QItemSelectionModel>
+
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
     m_selectionModel(nullptr)
@@ -35,5 +37,23 @@ TagsModel::~TagsModel()
 
 void TagsModel::set(QItemSelectionModel* selectionModel)
 {
+    if (m_selectionModel != nullptr)
+        m_selectionModel->disconnect(this);
+
     m_selectionModel = selectionModel;
+    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(refreshModel(const QItemSelection &, const QItemSelection &)));
+
+    refreshModel();
+}
+
+
+void TagsModel::refreshModel()
+{
+
+}
+
+
+void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
+{
+    refreshModel();
 }
