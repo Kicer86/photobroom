@@ -49,7 +49,16 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
 
 void TagsModel::refreshModel()
 {
+    QItemSelection selection = m_selectionModel->selection();
 
+    for(const QItemSelectionRange& range: selection)
+    {
+        QModelIndexList idxList = range.indexes();
+
+        for(const QModelIndex& idx: idxList)
+        {
+        }
+    }
 }
 
 
