@@ -12,10 +12,6 @@ PhotosView::PhotosView(QWidget *_parent) :
     m_imagesModel(nullptr)
 {
     ui->setupUi(this);
-
-    //pass selection model to tags editor
-    QItemSelectionModel* selectionModel = ui->photoView->selectionModel();
-    ui->tagEditor->set(selectionModel);
 }
 
 
@@ -40,6 +36,10 @@ void PhotosView::setModel(DBDataModel* model)
 
         ui->sortingCombo->addItem(tr("Date and time"));
         ui->sortingCombo->addItem(tr("People"));
+        
+        //pass selection model to tags editor
+        QItemSelectionModel* selectionModel = ui->photoView->selectionModel();
+        ui->tagEditor->set(selectionModel);
     }
 }
 
