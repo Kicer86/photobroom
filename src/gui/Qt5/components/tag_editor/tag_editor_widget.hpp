@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+class TagsView;
+
 class TagEditorWidget: public QWidget
 {
     public:
@@ -33,6 +35,7 @@ class TagEditorWidget: public QWidget
         virtual TagEditorWidget& operator=(const TagEditorWidget &) = delete;
 
     private:
+        TagsView* m_view;
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP

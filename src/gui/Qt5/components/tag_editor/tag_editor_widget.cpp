@@ -20,10 +20,20 @@
 
 #include "tag_editor_widget.hpp"
 
+#include <QVBoxLayout>
 
-TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f): QWidget(p, f)
+#include "helpers/tags_view.hpp"
+
+
+TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
+    QWidget(p, f),
+    m_view(nullptr)
 {
+    m_view = new TagsView(this);
 
+    QVBoxLayout* l = new QVBoxLayout(this);
+
+    l->addWidget(m_view);
 }
 
 
