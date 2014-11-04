@@ -18,12 +18,12 @@
  */
 
 /// TODO: remove
-#if defined _MSC_VER 
-	#if _MSC_VER >= 1800
-		#define Q_COMPILER_INITIALIZER_LISTS
-	#else
-		#error unsupported compiler
-	#endif
+#if defined _MSC_VER
+    #if _MSC_VER >= 1800
+        #define Q_COMPILER_INITIALIZER_LISTS
+    #else
+        #error unsupported compiler
+    #endif
 #endif
 
 
@@ -36,7 +36,7 @@
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
     m_selectionModel(nullptr),
-	m_dbDataModel(nullptr)
+    m_dbDataModel(nullptr)
 {
 
 }
@@ -68,43 +68,43 @@ void TagsModel::set(DBDataModel* dbDataModel)
 
 void TagsModel::refreshModel()
 {
-	if (m_dbDataModel != nullptr && m_selectionModel != nullptr)
-	{
-		clearModel();
+    if (m_dbDataModel != nullptr && m_selectionModel != nullptr)
+    {
+        clearModel();
 
-		QItemSelection selection = m_selectionModel->selection();
+        QItemSelection selection = m_selectionModel->selection();
 
-		for (const QItemSelectionRange& range : selection)
-		{
-			QModelIndexList idxList = range.indexes();
+        for (const QItemSelectionRange& range : selection)
+        {
+            QModelIndexList idxList = range.indexes();
 
-			for (const QModelIndex& idx : idxList)
-				addItem(idx);
-		}
-	}
+            for (const QModelIndex& idx : idxList)
+                addItem(idx);
+        }
+    }
 }
 
 
 void TagsModel::clearModel()
 {
-	clear();
+    clear();
 }
 
 
 void TagsModel::addItem(const QModelIndex& idx)
 {
-	IPhotoInfo::Ptr photo = m_dbDataModel->getPhoto(idx);
-	const Tag::TagsList& tags = photo->getTags();
+    IPhotoInfo::Ptr photo = m_dbDataModel->getPhoto(idx);
+    const Tag::TagsList& tags = photo->getTags();
 
-	for (const auto& tag: tags)
-	{
-		Tag::Info info(tag);
-		QStandardItem* name = new QStandardItem(info.name());
-		QStandardItem* value = new QStandardItem(info.valuesString());
+    for (const auto& tag: tags)
+    {
+        Tag::Info info(tag);
+        QStandardItem* name = new QStandardItem(info.name());
+        QStandardItem* value = new QStandardItem(info.valuesString());
 
-		const QList<QStandardItem *> items({ name, value });
-		appendRow(items);
-	}
+        const QList<QStandardItem *> items( { name, value });
+        appendRow(items);
+    }
 }
 
 

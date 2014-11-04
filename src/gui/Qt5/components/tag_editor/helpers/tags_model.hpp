@@ -37,17 +37,17 @@ class TagsModel: public QStandardItemModel
         ~TagsModel();
 
         void set(QItemSelectionModel *);    // selection model
-		void set(DBDataModel *);            // photos model
+        void set(DBDataModel *);            // photos model
 
         TagsModel& operator=(const TagsModel &) = delete;
 
     private:
         QItemSelectionModel* m_selectionModel;
-		DBDataModel* m_dbDataModel;
+        DBDataModel* m_dbDataModel;
 
         void refreshModel();
-		void clearModel();
-		void addItem(const QModelIndex &);
+        void clearModel();
+        void addItem(const QModelIndex &);
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);

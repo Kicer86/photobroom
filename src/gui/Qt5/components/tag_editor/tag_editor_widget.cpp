@@ -54,5 +54,5 @@ void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 
 void TagEditorWidget::set(DBDataModel* dbDataModel)
 {
-	m_model->set(dbDataModel);
+    m_model->set(dbDataModel);
 }

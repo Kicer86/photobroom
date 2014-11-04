@@ -39,7 +39,7 @@ class TagEditorWidget: public QWidget
         virtual TagEditorWidget& operator=(const TagEditorWidget &) = delete;
 
         void set(QItemSelectionModel *);
-		void set(DBDataModel *);
+        void set(DBDataModel *);
 
     private:
         TagsView* m_view;
