@@ -113,9 +113,8 @@
 <context>
     <name>PhotosStagingArea</name>
     <message>
-        <location filename="../src/gui/Qt5/components/staged_photos_view.cpp" line="128"/>
         <source>save photos</source>
-        <translation>Zapisz zdjęcia</translation>
+        <translation type="vanished">Zapisz zdjęcia</translation>
     </message>
 </context>
 <context>
