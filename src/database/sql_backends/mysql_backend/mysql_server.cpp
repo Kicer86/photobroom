@@ -17,7 +17,7 @@
  *
  */
 
-
+/// TODO: remove
 #if defined _MSC_VER 
 	#if _MSC_VER >= 1800
 		#define Q_COMPILER_INITIALIZER_LISTS
