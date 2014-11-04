@@ -62,7 +62,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
 
 void TagsModel::set(DBDataModel* dbDataModel)
 {
-
+    m_dbDataModel = dbDataModel;
 }
 
 
