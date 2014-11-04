@@ -24,7 +24,6 @@
 #include "itagfeeder.hpp"
 
 class QByteArray;
-struct ITagData;
 
 class ATagFeeder: public ITagFeeder
 {
