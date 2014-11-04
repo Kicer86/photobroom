@@ -94,16 +94,20 @@ void TagsModel::clearModel()
 void TagsModel::addItem(const QModelIndex& idx)
 {
     IPhotoInfo::Ptr photo = m_dbDataModel->getPhoto(idx);
-    const Tag::TagsList& tags = photo->getTags();
 
-    for (const auto& tag: tags)
+    if (photo.get() != nullptr)
     {
-        Tag::Info info(tag);
-        QStandardItem* name = new QStandardItem(info.name());
-        QStandardItem* value = new QStandardItem(info.valuesString());
+        const Tag::TagsList& tags = photo->getTags();
 
-        const QList<QStandardItem *> items( { name, value });
-        appendRow(items);
+        for (const auto& tag: tags)
+        {
+            Tag::Info info(tag);
+            QStandardItem* name = new QStandardItem(info.name());
+            QStandardItem* value = new QStandardItem(info.valuesString());
+
+            const QList<QStandardItem *> items( { name, value });
+            appendRow(items);
+        }
     }
 }
 
