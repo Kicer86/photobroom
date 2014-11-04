@@ -25,6 +25,8 @@
 class QItemSelectionModel;
 class QItemSelection;
 
+class DBDataModel;
+
 class TagsModel: public QStandardItemModel
 {
         Q_OBJECT
@@ -34,14 +36,18 @@ class TagsModel: public QStandardItemModel
         TagsModel(const TagsModel &) = delete;
         ~TagsModel();
 
-        void set(QItemSelectionModel *);
+        void set(QItemSelectionModel *);    // selection model
+		void set(DBDataModel *);            // photos model
 
         TagsModel& operator=(const TagsModel &) = delete;
 
     private:
         QItemSelectionModel* m_selectionModel;
+		DBDataModel* m_dbDataModel;
 
         void refreshModel();
+		void clearModel();
+		void addItem(const QModelIndex &);
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
