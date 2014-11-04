@@ -50,3 +50,9 @@ void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 {
     m_model->set(selectionModel);
 }
+
+
+void TagEditorWidget::set(DBDataModel* dbDataModel)
+{
+	m_model->set(dbDataModel);
+}
