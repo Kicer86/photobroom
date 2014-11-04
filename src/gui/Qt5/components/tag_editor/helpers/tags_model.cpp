@@ -31,7 +31,88 @@
 
 #include <QItemSelectionModel>
 
+#include <core/tag_updater.hpp>
 #include "model_view/db_data_model.hpp"
+
+
+struct TagGroupUpdater: ITagData
+{
+        TagGroupUpdater(const std::vector<IPhotoInfo::Ptr>& photos): m_tagUpdaters()
+        {
+            for(const IPhotoInfo::Ptr& photo: photos)
+                m_tagUpdaters.emplace_back(photo);
+        }
+
+        virtual void clear()
+        {
+            perform(&TagUpdater::clear);
+        }
+
+        virtual Tag::TagsList getTags() const
+        {
+            Tag::TagsList tags;
+
+            for(const TagUpdater& tagUpdater: m_tagUpdaters)
+            {
+                const Tag::TagsList l_tags = tagUpdater.getTags();
+
+                for(auto it = l_tags.begin(); it != l_tags.end(); ++it)
+                {
+                    auto f_it = tags.find(it->first);      //check if this tag already exists in main set of tags
+
+                    if (f_it != tags.end())  //it does
+                    {
+                        //check if values are the same
+                        Tag::Info info_it(it);
+                        Tag::Info info_f_it(f_it);
+                        if (info_it.valuesString() != info_f_it.valuesString())
+                        {
+                            Tag::ValuesSet new_value( { TagValueInfo("<multiple values>") } );
+                            f_it->second = new_value;
+                        }
+                    }
+                    else
+                        tags.insert(*it);
+                }
+            }
+
+            return tags;
+        }
+
+        virtual bool isValid() const
+        {
+            return true;
+        }
+
+        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+        {
+            auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const Tag::ValuesSet &)>(&TagUpdater::setTag);
+            perform<const TagNameInfo &, const Tag::ValuesSet &>(f, name, values);
+        }
+
+        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value)
+        {
+            auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const TagValueInfo &)>(&TagUpdater::setTag);
+            perform<const TagNameInfo &, const TagValueInfo &>(f, name, value);
+        }
+
+        virtual void setTags(const Tag::TagsList& tags)
+        {
+            perform<const Tag::TagsList &>(&TagUpdater::setTags, tags);
+        }
+
+    private:
+        std::deque<TagUpdater> m_tagUpdaters;
+
+        template<typename... Args>
+        void perform(void (TagUpdater::*f)(Args...), Args... args)
+        {
+            for(TagUpdater& tagUpdater: m_tagUpdaters)
+                (tagUpdater.*f)(args...);
+        }
+};
+
+
 
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
@@ -72,32 +153,10 @@ void TagsModel::refreshModel()
     {
         clearModel();
 
-        QItemSelection selection = m_selectionModel->selection();
+        std::vector<IPhotoInfo::Ptr> photos = getPhotosForSelection();
+        TagGroupUpdater updater(photos);
 
-        for (const QItemSelectionRange& range : selection)
-        {
-            QModelIndexList idxList = range.indexes();
-
-            for (const QModelIndex& idx : idxList)
-                addItem(idx);
-        }
-    }
-}
-
-
-void TagsModel::clearModel()
-{
-    clear();
-}
-
-
-void TagsModel::addItem(const QModelIndex& idx)
-{
-    IPhotoInfo::Ptr photo = m_dbDataModel->getPhoto(idx);
-
-    if (photo.get() != nullptr)
-    {
-        const Tag::TagsList& tags = photo->getTags();
+        Tag::TagsList tags = updater.getTags();
 
         for (const auto& tag: tags)
         {
@@ -109,6 +168,35 @@ void TagsModel::addItem(const QModelIndex& idx)
             appendRow(items);
         }
     }
+}
+
+
+void TagsModel::clearModel()
+{
+    clear();
+}
+
+
+std::vector<IPhotoInfo::Ptr> TagsModel::getPhotosForSelection()
+{
+    std::vector<IPhotoInfo::Ptr> result;
+
+    QItemSelection selection = m_selectionModel->selection();
+
+    for (const QItemSelectionRange& range : selection)
+    {
+        QModelIndexList idxList = range.indexes();
+
+        for (const QModelIndex& idx : idxList)
+        {
+            IPhotoInfo::Ptr photo = m_dbDataModel->getPhoto(idx);
+
+            if (photo.get() != nullptr)
+                result.push_back(photo);
+        }
+    }
+
+    return result;
 }
 
 

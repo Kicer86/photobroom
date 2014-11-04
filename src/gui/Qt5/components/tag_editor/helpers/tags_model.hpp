@@ -22,6 +22,8 @@
 
 #include <QStandardItemModel>
 
+#include <database/iphoto_info.hpp>
+
 class QItemSelectionModel;
 class QItemSelection;
 
@@ -47,7 +49,7 @@ class TagsModel: public QStandardItemModel
 
         void refreshModel();
         void clearModel();
-        void addItem(const QModelIndex &);
+        std::vector<IPhotoInfo::Ptr> getPhotosForSelection();
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
