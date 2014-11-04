@@ -80,8 +80,8 @@ struct TagsCollector: public ITaskExecutor::ITask
     {
     }
 
-    TagsCollector(const HashAssigner &) = delete;
-    TagsCollector& operator=(const HashAssigner &) = delete;
+    TagsCollector(const TagsCollector &) = delete;
+    TagsCollector& operator=(const TagsCollector &) = delete;
 
 	void set(ITagFeederFactory* tagFeederFactory)
 	{

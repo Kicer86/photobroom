@@ -77,7 +77,7 @@ void IdxData::addChild(IdxData* child)
 void IdxData::removeChild(IdxData* child)
 {
     assert(child->m_parent == this);
-    assert(child->m_row < m_children.size());
+    assert(static_cast<unsigned int>(child->m_row) < m_children.size());
 
     for(size_t i = child->m_row; i < m_children.size() - 1; i++)
     {

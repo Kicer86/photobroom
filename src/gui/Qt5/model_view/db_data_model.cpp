@@ -103,7 +103,7 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
 	QModelIndex idx;
     IdxData* pData = m_idxDataManager->getParentIdxDataFor(_parent);
 
-	if (row < pData->m_children.size())   //row out boundary?
+    if (static_cast<unsigned int>(row) < pData->m_children.size())   //row out boundary?
 	{
 		IdxData* cData = pData->m_children[row];
 		idx = createIndex(row, column, cData);
