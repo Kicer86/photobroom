@@ -59,7 +59,7 @@ std::vector<TagNameInfo> BaseTags::collectTags()
 {
     std::vector<TagNameInfo> result;
 
-    for(const auto it: m_base_tags)
+	for (const auto& it: m_base_tags)
         result.push_back(it.second);
 
     return result;

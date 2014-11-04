@@ -76,7 +76,7 @@ QString EntriesManager::getDefaultValue()
 
 std::set<TagNameInfo> EntriesManager::getDefaultValues()
 {
-    auto tags = BaseTags::getAll();
+    auto& tags = BaseTags::getAll();
     std::set<TagNameInfo> avail(tags.begin(), tags.end());
 
     for (const std::unique_ptr<TagEntry>& entry: m_entries)
