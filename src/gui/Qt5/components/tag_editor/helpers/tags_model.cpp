@@ -43,11 +43,6 @@ struct TagGroupUpdater
                 m_tagUpdaters.emplace_back(photo);
         }
 
-        void clear()
-        {
-            perform(&TagUpdater::clear);
-        }
-
         Tag::TagsList getTags() const
         {
             Tag::TagsList tags;
@@ -79,37 +74,26 @@ struct TagGroupUpdater
             return tags;
         }
 
-        bool isValid() const
-        {
-            return true;
-        }
-
         void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
         {
-            auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const Tag::ValuesSet &)>(&TagUpdater::setTag);
-            perform<const TagNameInfo &, const Tag::ValuesSet &>(f, name, values);
+            for (TagUpdater& updater: m_tagUpdaters)
+                updater.setTag(name, values);
         }
 
         void setTag(const TagNameInfo& name, const TagValueInfo& value)
         {
-            auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const TagValueInfo &)>(&TagUpdater::setTag);
-            perform<const TagNameInfo &, const TagValueInfo &>(f, name, value);
+            for (TagUpdater& updater: m_tagUpdaters)
+                updater.setTag(name, value);
         }
 
         void setTags(const Tag::TagsList& tags)
         {
-            perform<const Tag::TagsList &>(&TagUpdater::setTags, tags);
+            for (TagUpdater& updater: m_tagUpdaters)
+                updater.setTags(tags);
         }
 
     private:
         std::deque<TagUpdater> m_tagUpdaters;
-
-        template<typename... Args>
-        void perform(void (TagUpdater::*f)(Args...), Args... args)
-        {
-            for(TagUpdater& tagUpdater: m_tagUpdaters)
-                (tagUpdater.*f)(args...);
-        }
 };
 
 
