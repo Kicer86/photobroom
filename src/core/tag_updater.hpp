@@ -20,10 +20,9 @@
 #ifndef TAGUPDATER_H
 #define TAGUPDATER_H
 
-#include <core/tag.hpp>
 #include <database/iphoto_info.hpp>
 
-class CORE_EXPORT TagUpdater: public ITagData
+class CORE_EXPORT TagUpdater
 {
     public:
         TagUpdater(const IPhotoInfo::Ptr &);
@@ -32,12 +31,12 @@ class CORE_EXPORT TagUpdater: public ITagData
 
         TagUpdater& operator=(const TagUpdater &) = delete;
 
-        virtual bool isValid() const override;
-        virtual void clear() override;
-        virtual void setTags(const Tag::TagsList& ) override;
-        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) override;
-        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) override;
-        virtual Tag::TagsList getTags() const override;
+        virtual bool isValid() const;
+        virtual void clear();
+        virtual void setTags(const Tag::TagsList &);
+        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value);
+        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
+        virtual Tag::TagsList getTags() const;
 
     private:
         IPhotoInfo::Ptr m_photoInfo;

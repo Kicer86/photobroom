@@ -154,7 +154,7 @@ namespace Tag
                 QString result;
 
                 for(const QString &str: m_values)
-					result += str + m_name.getSeparator() + " ";
+                    result += str + m_name.getSeparator() + " ";
 
                 return result.simplified();
             }
@@ -165,26 +165,5 @@ namespace Tag
     };
 
 }
-
-struct CORE_EXPORT ITagData
-{
-    virtual ~ITagData();
-
-    //get list of tags
-    virtual Tag::TagsList getTags() const = 0;
-
-    //set tag and its values.
-    virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values) = 0;
-    virtual void setTag(const TagNameInfo& name, const TagValueInfo& value) = 0;
-
-    //set all tags and its values. Clear all existing tags
-    virtual void setTags(const Tag::TagsList &) = 0;
-
-    virtual void clear() = 0;
-
-    virtual bool isValid() const = 0;
-};
-
-CORE_EXPORT std::ostream& operator<<(std::ostream &, const ITagData &);
 
 #endif

@@ -27,7 +27,6 @@ set(CORE_SOURCES
     implementation/logger.cpp
     implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
-    implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
     implementation/tag_updater.cpp
     implementation/task_executor.cpp

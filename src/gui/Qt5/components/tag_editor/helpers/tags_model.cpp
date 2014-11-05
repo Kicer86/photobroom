@@ -35,7 +35,7 @@
 #include "model_view/db_data_model.hpp"
 
 
-struct TagGroupUpdater: ITagData
+struct TagGroupUpdater
 {
         TagGroupUpdater(const std::vector<IPhotoInfo::Ptr>& photos): m_tagUpdaters()
         {
@@ -43,12 +43,12 @@ struct TagGroupUpdater: ITagData
                 m_tagUpdaters.emplace_back(photo);
         }
 
-        virtual void clear()
+        void clear()
         {
             perform(&TagUpdater::clear);
         }
 
-        virtual Tag::TagsList getTags() const
+        Tag::TagsList getTags() const
         {
             Tag::TagsList tags;
 
@@ -79,24 +79,24 @@ struct TagGroupUpdater: ITagData
             return tags;
         }
 
-        virtual bool isValid() const
+        bool isValid() const
         {
             return true;
         }
 
-        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
         {
             auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const Tag::ValuesSet &)>(&TagUpdater::setTag);
             perform<const TagNameInfo &, const Tag::ValuesSet &>(f, name, values);
         }
 
-        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value)
+        void setTag(const TagNameInfo& name, const TagValueInfo& value)
         {
             auto f = static_cast<void(TagUpdater::*)(const TagNameInfo &, const TagValueInfo &)>(&TagUpdater::setTag);
             perform<const TagNameInfo &, const TagValueInfo &>(f, name, value);
         }
 
-        virtual void setTags(const Tag::TagsList& tags)
+        void setTags(const Tag::TagsList& tags)
         {
             perform<const Tag::TagsList &>(&TagUpdater::setTags, tags);
         }
