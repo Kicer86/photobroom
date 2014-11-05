@@ -25,18 +25,6 @@ TagUpdater::TagUpdater(const IPhotoInfo::Ptr& photo): m_photoInfo(photo)
 }
 
 
-TagUpdater::~TagUpdater()
-{
-
-}
-
-
-bool TagUpdater::isValid() const
-{
-    return true;
-}
-
-
 void TagUpdater::clear()
 {
     Tag::TagsList tags;

@@ -27,16 +27,14 @@ class CORE_EXPORT TagUpdater
     public:
         TagUpdater(const IPhotoInfo::Ptr &);
         TagUpdater(const TagUpdater &) = delete;
-        virtual ~TagUpdater();
 
         TagUpdater& operator=(const TagUpdater &) = delete;
 
-        virtual bool isValid() const;
-        virtual void clear();
-        virtual void setTags(const Tag::TagsList &);
-        virtual void setTag(const TagNameInfo& name, const TagValueInfo& value);
-        virtual void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
-        virtual Tag::TagsList getTags() const;
+        void clear();
+        void setTags(const Tag::TagsList &);
+        void setTag(const TagNameInfo& name, const TagValueInfo& value);
+        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
+        Tag::TagsList getTags() const;
 
     private:
         IPhotoInfo::Ptr m_photoInfo;
