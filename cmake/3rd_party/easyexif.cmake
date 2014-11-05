@@ -14,6 +14,7 @@ function(addEasyExif)
         #download easyexif rule
         add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp
                            COMMAND ${SVN_EXECUTABLE} checkout http://easyexif.googlecode.com/svn/trunk/ easyexif
+                           DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/src/dir
                            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/src)
 
         add_library(easyexif STATIC ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp)

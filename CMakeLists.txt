@@ -43,6 +43,12 @@ endif(UNIX OR CYGWIN)
 #3rd party packages auto download
 if(AUTODOWNLOAD_EASYEXIF)
     include(${PROJECT_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
+       
+    #command for 3rd_party dir creation
+    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/3rd_party/src/dir
+                       COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/3rd_party/src/
+                       COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/3rd_party/src/dir)
+    
     addEasyExif()
 endif(AUTODOWNLOAD_EASYEXIF)
 
