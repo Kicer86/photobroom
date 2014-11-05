@@ -25,6 +25,8 @@ function(addEasyExif)
         endif()
 
         set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp PROPERTIES GENERATED TRUE)
+    else()
+        message(FATAL_ERROR "EasyEXIF cannot be downloaded. No svn command found.")
     endif()
 
 endfunction(addEasyExif)
