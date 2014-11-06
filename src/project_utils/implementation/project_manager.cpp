@@ -19,13 +19,17 @@
 
 #include "project_manager.hpp"
 
+#include <cassert>
+
 #include <QSettings>
 #include <QFileInfo>
 
 #include <core/iplugin_loader.hpp>
+#include <configuration/iconfiguration.hpp>
+#include <configuration/constants.hpp>
+#include <database/idatabase_builder.hpp>
 
 #include "project.hpp"
-#include <database/idatabase_builder.hpp>
 
 
 ProjectManager::ProjectManager(): m_dbBuilder(nullptr), m_configuration(nullptr)
@@ -77,6 +81,14 @@ bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* pr
 std::deque<QString> ProjectManager::listProjects()
 {
     std::deque<QString> result;
+    
+    auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
+    
+    if (path)
+    {
+    }
+    else
+        assert(!"Could not get configuration path");
     
     return result;
 }
