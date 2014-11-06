@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ProjectPicker</class>
- <widget class="QWidget" name="ProjectPicker">
+ <widget class="QDialog" name="ProjectPicker">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QListWidget" name="projectsList"/>
+    <widget class="QListView" name="projectsList"/>
    </item>
    <item>
     <widget class="QWidget" name="buttonsContainer" native="true">

@@ -3,7 +3,7 @@
 #include "ui_project_picker.h"
 
 ProjectPicker::ProjectPicker(QWidget *_parent) :
-    QWidget(_parent),
+    QDialog(_parent),
     ui(new Ui::ProjectPicker)
 {
     ui->setupUi(this);

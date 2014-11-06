@@ -2,14 +2,14 @@
 #ifndef PROJECT_PICKER_HPP
 #define PROJECT_PICKER_HPP
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui
 {
     class ProjectPicker;
 }
 
-class ProjectPicker: public QWidget
+class ProjectPicker: public QDialog
 {
         Q_OBJECT
 
