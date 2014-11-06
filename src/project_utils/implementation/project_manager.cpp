@@ -92,7 +92,7 @@ QStringList ProjectManager::listProjects()
     {
         const QDir basePath(path);
         
-        result = basePath.entryList();
+        result = basePath.entryList(QDir::AllDirs);
     }
     
     return result;
