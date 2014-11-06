@@ -50,7 +50,7 @@ namespace Database
     }
 
 
-    bool MySqlBackend::prepareDB(QSqlDatabase* db, const ProjectInfo& prjInfo)
+    bool MySqlBackend::prepareDB(const ProjectInfo& prjInfo)
     {
         bool status = true;
 
@@ -65,13 +65,11 @@ namespace Database
             {
                 QSqlDatabase db_obj;
                 //setup db connection
-                db_obj = QSqlDatabase::addDatabase("QMYSQL", m_data->m_dbLocation);
+                db_obj = QSqlDatabase::addDatabase("QMYSQL", getConnectionName());
                 db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
                 //db_obj.setDatabaseName("broom");
                 db_obj.setHostName("localhost");
                 db_obj.setUserName("root");
-
-                *db = db_obj;
             }
 
             m_data->m_initialized = socketPath.isEmpty() == false;;

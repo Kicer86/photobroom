@@ -58,9 +58,11 @@ namespace Database
             void setPhotoInfoManager(IPhotoInfoCache *) override;
             void closeConnections();
 
+            const QString& getConnectionName() const;
+
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
-            virtual bool prepareDB(QSqlDatabase *, const ProjectInfo& location) = 0;
+            virtual bool prepareDB(const ProjectInfo& location) = 0;
 
             //Creates sql database. Can be called in onAfterOpen in backends which need it
             virtual bool createDB(const QString &);
