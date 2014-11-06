@@ -60,7 +60,7 @@ namespace Database
 
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
-            virtual bool prepareDB(QSqlDatabase *, const QString& location) = 0;
+            virtual bool prepareDB(QSqlDatabase *, const ProjectInfo& location) = 0;
 
             //Creates sql database. Can be called in onAfterOpen in backends which need it
             virtual bool createDB(const QString &);
@@ -85,7 +85,7 @@ namespace Database
             virtual bool beginTransaction() override;
             virtual bool endTransaction() override;
 
-            virtual bool init(const QString &) override final;
+            virtual bool init(const ProjectInfo &) override final;
             virtual IPhotoInfo::Ptr addPath(const QString &) override final;
             virtual bool update(const IPhotoInfo::Ptr &) override final;
 

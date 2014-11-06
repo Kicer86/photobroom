@@ -43,6 +43,7 @@
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/iphoto_info_creator.hpp>
+#include <database/project_info.hpp>
 
 #include "table_definition.hpp"
 //#include "sql_db_query.hpp"
@@ -983,15 +984,17 @@ namespace Database
     }
 
 
-    bool ASqlBackend::init(const QString& location)
+    bool ASqlBackend::init(const ProjectInfo& prjInfo)
     {
         //store thread id for further validation
         m_data->m_database_thread_id = std::this_thread::get_id();
-        m_data->m_databaseLocation = location;
-        m_data->m_transaction.setDBName(location);
+
+        /// TODO: fix these variables used for names. They are not very descriptive
+        m_data->m_databaseLocation = prjInfo.projectDir;
+        m_data->m_transaction.setDBName(prjInfo.projectDir);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_databaseLocation);
-        bool status = prepareDB(&db, location);
+        bool status = prepareDB(&db, prjInfo);
 
         if (status)
             status = db.open();

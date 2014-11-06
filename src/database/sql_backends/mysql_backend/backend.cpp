@@ -50,22 +50,22 @@ namespace Database
     }
 
 
-    bool MySqlBackend::prepareDB(QSqlDatabase* db, const QString& location)
+    bool MySqlBackend::prepareDB(QSqlDatabase* db, const ProjectInfo& prjInfo)
     {
         bool status = true;
 
         if (m_data->m_initialized == false)
         {
-            m_data->m_dbLocation = location;
+            m_data->m_dbLocation = prjInfo.projectDir +"/" + prjInfo.databaseLocation;
 
             //start mysql process
-            const QString socketPath = m_data->m_server.run_server(location);
+            const QString socketPath = m_data->m_server.run_server(m_data->m_dbLocation);
 
             if (socketPath.isEmpty() == false)
             {
                 QSqlDatabase db_obj;
                 //setup db connection
-                db_obj = QSqlDatabase::addDatabase("QMYSQL", location);
+                db_obj = QSqlDatabase::addDatabase("QMYSQL", m_data->m_dbLocation);
                 db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
                 //db_obj.setDatabaseName("broom");
                 db_obj.setHostName("localhost");

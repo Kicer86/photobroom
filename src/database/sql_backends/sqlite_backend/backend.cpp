@@ -23,7 +23,7 @@ namespace Database
 
         }
 
-        bool prepareDB(QSqlDatabase* db, const QString& location)
+        bool prepareDB(QSqlDatabase* db, const ProjectInfo& prjInfo)
         {
             bool status = true;
 
@@ -31,8 +31,10 @@ namespace Database
             {
                 QSqlDatabase db_obj;
                 //setup db connection
-                db_obj = QSqlDatabase::addDatabase("QSQLITE", location);
-                db_obj.setDatabaseName(location);
+                db_obj = QSqlDatabase::addDatabase("QSQLITE", prjInfo.projectDir);
+
+                /// TODO: use some nice way for setting database name here
+                db_obj.setDatabaseName(prjInfo.projectDir + QDir::separator() + prjInfo.databaseLocation );
 
                 *db = db_obj;
             }
@@ -56,9 +58,9 @@ namespace Database
     }
 
 
-    bool SQLiteBackend::prepareDB(QSqlDatabase* db, const QString& location)
+    bool SQLiteBackend::prepareDB(QSqlDatabase* db, const ProjectInfo& prjInfo)
     {
-        return m_data->prepareDB(db, location);
+        return m_data->prepareDB(db, prjInfo);
     }
 
 
