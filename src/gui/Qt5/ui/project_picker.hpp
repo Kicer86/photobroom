@@ -19,13 +19,17 @@ class ProjectPicker: public QDialog
         ~ProjectPicker();
 
         ProjectPicker& operator=(const ProjectPicker &) = delete;
+        
+        QString choosenProjectName() const;
 
     private slots:
         void on_openButton_clicked();
         void on_newButton_clicked();
+        void on_deleteButton_clicked();
 
-    private:
+private:
         Ui::ProjectPicker *ui;
+        QString m_choosenProjectName;
 };
 
 #endif // PROJECT_PICKER_HPP
