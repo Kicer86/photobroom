@@ -1,5 +1,6 @@
 
 #include "mainwindow.hpp"
+#include "project_picker.hpp"
 
 #include <QCloseEvent>
 #include <QMenuBar>
@@ -148,6 +149,9 @@ void MainWindow::on_actionNew_project_triggered()
 
 void MainWindow::on_actionOpen_project_triggered()
 {
+    ProjectPicker picker;
+    picker.exec();
+    
     const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                          "",
                                                          tr("Photo Broom albums (*.bpj)"));
