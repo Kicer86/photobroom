@@ -1,5 +1,6 @@
 
 #include "mainwindow.hpp"
+#include "project_picker.hpp"
 
 #include <QCloseEvent>
 #include <QMenuBar>
@@ -75,11 +76,11 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
-void MainWindow::openProject(const QString& prjFile)
+void MainWindow::openProject(const QString& prjName)
 {
-    if (prjFile.isEmpty() == false)
+    if (prjName.isEmpty() == false)
     {
-        std::shared_ptr<IProject> prj = m_prjManager->open(prjFile);
+        std::shared_ptr<IProject> prj = m_prjManager->open(prjName);
         m_currentPrj = prj;
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
@@ -130,29 +131,27 @@ void MainWindow::updateMenus()
 
 void MainWindow::on_actionNew_project_triggered()
 {
-    ProjectCreatorDialog prjCreatorDialog;
-    prjCreatorDialog.set(m_pluginLoader);
-    const int status = prjCreatorDialog.exec();
+    ProjectCreator prjCreator;
+    const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
 
-    if (status == QDialog::Accepted)
-    {
-        const QString prjPath   = prjCreatorDialog.getPrjPath();
-        const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
-
-        const bool creation_status = m_prjManager->new_prj(prjPath, prjPlugin);
-
-        if (creation_status)
-            openProject(prjPath);
-    }
+    if (creation_status)
+        openProject(prjCreator.prjName());
 }
 
 void MainWindow::on_actionOpen_project_triggered()
 {
-    const QString prjFile = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                         "",
-                                                         tr("Photo Broom albums (*.bpj)"));
+    ProjectPicker picker;
 
-    openProject(prjFile);
+    picker.set(m_pluginLoader);
+    picker.set(m_prjManager);
+    const int s = picker.exec();
+    
+    if (s == QDialog::Accepted)
+    {
+        const QString prjName = picker.choosenProjectName();
+
+        openProject(prjName);
+    }
 }
 
 

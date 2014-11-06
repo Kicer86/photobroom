@@ -19,16 +19,22 @@
 
 #include "project_manager.hpp"
 
+#include <cassert>
+
 #include <QSettings>
 #include <QFileInfo>
+#include <QDir>
 
 #include <core/iplugin_loader.hpp>
+#include <configuration/iconfiguration.hpp>
+#include <configuration/constants.hpp>
+#include <database/idatabase_builder.hpp>
+#include <database/project_info.hpp>
 
 #include "project.hpp"
-#include <database/idatabase_builder.hpp>
 
 
-ProjectManager::ProjectManager(): m_dbBuilder(nullptr)
+ProjectManager::ProjectManager(): m_dbBuilder(nullptr), m_configuration(nullptr)
 {
 
 }
@@ -46,10 +52,20 @@ void ProjectManager::set(Database::IBuilder* builder)
 }
 
 
-bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* prjPlugin)
+void ProjectManager::set(IConfiguration* configuration)
 {
-    const QFileInfo prjPathInfo(prjPath);
-    const QString prjDir = prjPathInfo.absolutePath();
+    m_configuration = configuration;
+}
+
+
+bool ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin)
+{
+    QDir storagePath(getPrjStorage());
+    storagePath.mkdir(prjName);
+    storagePath.cd(prjName);
+    
+    const QString prjDir = storagePath.absolutePath();
+    const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
 
     //prepare database
     Database::ProjectInfo prjInfo = prjPlugin->initPrjDir(prjDir);
@@ -68,35 +84,45 @@ bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* pr
 }
 
 
-std::shared_ptr<IProject> ProjectManager::open(const QString& path)
+QStringList ProjectManager::listProjects()
 {
-    QSettings prjFile(path, QSettings::IniFormat);
+    QStringList result;
+    
+    QString path = getPrjStorage();
+    
+    if (path.isEmpty() == false)
+    {
+        const QDir basePath(path);
+        
+        result = basePath.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    }
+    
+    return result;
+}
+
+
+std::shared_ptr<IProject> ProjectManager::open(const QString& prjName)
+{
+    QDir storagePath(getPrjStorage());
+    storagePath.mkdir(prjName);
+    storagePath.cd(prjName);
+
+    const QString prjDir = storagePath.absolutePath();
+    const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
+
+    QSettings prjFile(prjPath, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
     QString backend  = prjFile.value("backend").toString();
     QString location = prjFile.value("location").toString();
     prjFile.endGroup();
 
-    QFileInfo fileInfo(location);
-    if (fileInfo.isRelative())
-    {
-        const QFileInfo prjFileInfo(path);
-        const QString prjDir = prjFileInfo.absolutePath();
-
-        location = prjDir + "/" + location;
-
-        const QFileInfo locationInfo(location);
-        location = locationInfo.absoluteFilePath();
-    }
-    else
-        location = fileInfo.absoluteFilePath();  //cleanups
-
     auto result = std::make_shared<Project>();
-    result->setPrjPath(path);
+    result->setPrjPath(prjPath);
     result->setDBBackend(backend);
     result->setDBLocation(location);
 
-    Database::ProjectInfo prjInfo(location, backend);
+    Database::ProjectInfo prjInfo(location, backend, prjDir);
     Database::IDatabase* db = m_dbBuilder->get(prjInfo);
 
     result->setDatabase(db);
@@ -115,5 +141,27 @@ bool ProjectManager::save(const IProject* project)
     prjFile.endGroup();
 
     return true;
+}
+
+
+QString ProjectManager::getPrjStorage()
+{
+    QString result;
+    auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
+        
+    if (path)
+    {
+        QDir basePath(*path);
+        
+        if (basePath.exists("projects") == false)
+            basePath.mkdir("projects");
+        
+        if (basePath.cd("projects"))
+            result = basePath.absolutePath();
+    }
+    else
+        assert(!"Could not get configuration path");
+   
+    return result;
 }
 

@@ -35,10 +35,10 @@ set(DATABASE_HEADERS
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
+    project_info.hpp
     implementation/database_thread.hpp
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
-
     database_tools/photos_analyzer.hpp
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photo_duplicates_finder.hpp

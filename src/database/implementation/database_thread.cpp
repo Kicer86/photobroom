@@ -25,6 +25,7 @@
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include "ibackend.hpp"
+#include "project_info.hpp"
 
 namespace
 {
@@ -68,12 +69,12 @@ namespace
 
     struct InitTask: ThreadBaseTask
     {
-        InitTask(const Database::Task& task, const QString& location): ThreadBaseTask(task), m_location(location) {}
+        InitTask(const Database::Task& task, const Database::ProjectInfo& prjInfo): ThreadBaseTask(task), m_prjInfo(prjInfo) {}
         virtual ~InitTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        QString m_location;
+        Database::ProjectInfo m_prjInfo;
     };
 
     struct InsertTask: ThreadBaseTask
@@ -155,7 +156,7 @@ namespace
 
         virtual void visit(InitTask* task) override
         {
-            m_backend->init(task->m_location);
+            m_backend->init(task->m_prjInfo);
 
             //TODO: result
         }
@@ -321,9 +322,9 @@ namespace Database
     }
 
 
-    bool DatabaseThread::init(const Task& db_task, const QString& location)
+    bool DatabaseThread::init(const Task& db_task, const ProjectInfo& prjInfo)
     {
-        InitTask* task = new InitTask(db_task, location);
+        InitTask* task = new InitTask(db_task, prjInfo);
         m_impl->addTask(task);
 
         //TODO: fix it
