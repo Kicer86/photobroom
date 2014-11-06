@@ -24,7 +24,7 @@ class ProjectPicker: public QDialog
         void on_openButton_clicked();
         void on_newButton_clicked();
 
-private:
+    private:
         Ui::ProjectPicker *ui;
 };
 
