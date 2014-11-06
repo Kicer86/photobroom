@@ -4,10 +4,14 @@
 
 #include <QDialog>
 
+class QStringListModel;
+
 namespace Ui
 {
     class ProjectPicker;
 }
+struct IPluginLoader;
+struct IProjectManager;
 
 class ProjectPicker: public QDialog
 {
@@ -20,6 +24,9 @@ class ProjectPicker: public QDialog
 
         ProjectPicker& operator=(const ProjectPicker &) = delete;
         
+        void set(IProjectManager *);
+        void set(IPluginLoader *);
+
         QString choosenProjectName() const;
 
     private slots:
@@ -30,6 +37,9 @@ class ProjectPicker: public QDialog
 private:
         Ui::ProjectPicker *ui;
         QString m_choosenProjectName;
+        QStringListModel* m_model;
+        IProjectManager* m_prjManager;
+        IPluginLoader* m_pluginLoader;
 };
 
 #endif // PROJECT_PICKER_HPP
