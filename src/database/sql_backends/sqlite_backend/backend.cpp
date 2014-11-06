@@ -140,7 +140,7 @@ namespace Database
     {
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = "./broom.db";
+        prjInfo.databaseLocation = "broom.db";
 
         return prjInfo;
     }
