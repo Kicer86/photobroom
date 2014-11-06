@@ -47,12 +47,12 @@ class ProjectCreatorDialog: public QDialog
         void set(IPluginLoader *);
 
         // getters:
-        QString getPrjPath() const;
+        QString getPrjName() const;
         Database::IPlugin* getEnginePlugin() const;
 
     private:
         QtExtChooseFile* m_chooseDialog;
-        QLineEdit* m_prjLocation;
+        QLineEdit* m_prjName;
         QComboBox* m_engines;
         QGroupBox* m_engineOptions;
         IPluginLoader* m_pluginLoader;
