@@ -1,5 +1,6 @@
 
 find_package(Qt5Core REQUIRED)
+find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES
     implementation/project.cpp
@@ -17,12 +18,19 @@ set(PROJECT_UTILS_MOC )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+include_directories(SYSTEM 
+                    ${Qt5Core_INCLUDE_DIRS}
+                    ${OPENLIBRARY_INCLUDE_DIRS}
+                   )
 
 qt5_wrap_cpp(PROJECT_UTILS_MOCED ${PROJECT_UTILS_MOC})
 
 add_library(project_utils ${PROJECT_UTILS_SOURCES} ${PROJECT_UTILS_HEADERS} ${PROJECT_UTILS_MOCED})
-target_link_libraries(project_utils PRIVATE Qt5::Core)
+target_link_libraries(project_utils PRIVATE 
+                                    configuration
+                                    Qt5::Core
+                                    ${OPENLIBRARY_LIBRARIES}
+                     )
 
 generate_export_header(project_utils EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/project_utils_export.h)
 turnOnCpp11(project_utils)

@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QDir>
 
+#include <database/project_info.hpp>
 #include <sql_backends/table_definition.hpp>
 #include <sql_backends/query_structs.hpp>
 
@@ -22,7 +23,7 @@ namespace Database
 
         }
 
-        bool prepareDB(QSqlDatabase* db, const QString& location)
+        bool prepareDB(ASqlBackend* backend, const ProjectInfo& prjInfo)
         {
             bool status = true;
 
@@ -30,10 +31,10 @@ namespace Database
             {
                 QSqlDatabase db_obj;
                 //setup db connection
-                db_obj = QSqlDatabase::addDatabase("QSQLITE", location);
-                db_obj.setDatabaseName(location);
+                db_obj = QSqlDatabase::addDatabase("QSQLITE", backend->getConnectionName());
 
-                *db = db_obj;
+                /// TODO: use some nice way for setting database name here
+                db_obj.setDatabaseName(prjInfo.projectDir + QDir::separator() + prjInfo.databaseLocation );
             }
 
             return status;
@@ -55,9 +56,9 @@ namespace Database
     }
 
 
-    bool SQLiteBackend::prepareDB(QSqlDatabase* db, const QString& location)
+    bool SQLiteBackend::prepareDB(const ProjectInfo& prjInfo)
     {
-        return m_data->prepareDB(db, location);
+        return m_data->prepareDB(this, prjInfo);
     }
 
 
@@ -139,7 +140,7 @@ namespace Database
     {
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = "./broom.db";
+        prjInfo.databaseLocation = "broom.db";
 
         return prjInfo;
     }

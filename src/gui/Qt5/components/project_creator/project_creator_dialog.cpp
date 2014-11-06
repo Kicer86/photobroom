@@ -31,40 +31,18 @@
 #include <QStackedLayout>
 #include <QString>
 
-#include <QtExt/qtext_choosefile.hpp>
 
 #include <core/iplugin_loader.hpp>
 #include <database/idatabase_plugin.hpp>
 
+#include <project_utils/iproject_manager.hpp>
 
 Q_DECLARE_METATYPE(Database::IPlugin *)
 
 
-struct PrjLocationDialog: QtExtChooseFileDialog
-{
-    PrjLocationDialog(): m_result() {}
-
-    virtual int exec()
-    {
-        m_result = QFileDialog::getSaveFileName(nullptr, tr("File name"),
-                                                "", tr("Photo Broom albums (*.bpj)")
-        );
-
-        return m_result.isEmpty()? QDialog::Rejected: QDialog::Accepted;
-    }
-
-    virtual QString result() const
-    {
-        return m_result;
-    }
-
-    QString m_result;
-};
-
-
 ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
                                               m_chooseDialog(nullptr),
-                                              m_prjLocation(nullptr),
+                                              m_prjName(nullptr),
                                               m_engines(nullptr),
                                               m_engineOptions(nullptr),
                                               m_pluginLoader(nullptr),
@@ -74,16 +52,13 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     resize(500, 250);
 
     //project location line
-    QLabel* prjLocationLabel = new QLabel(tr("Album location:"), this);
-    QPushButton* prjLocationBrowseButton = new QPushButton(tr("Browse"), this);
-    m_prjLocation = new QLineEdit(this);
-    m_chooseDialog = new QtExtChooseFile(prjLocationBrowseButton, m_prjLocation, new PrjLocationDialog);
+    QLabel* prjNameLabel = new QLabel(tr("Album name:"), this);
+    m_prjName = new QLineEdit(this);
 
     //project location line layout
-    QHBoxLayout* prjLocationLayout = new QHBoxLayout;
-    prjLocationLayout->addWidget(prjLocationLabel);
-    prjLocationLayout->addWidget(m_prjLocation);
-    prjLocationLayout->addWidget(prjLocationBrowseButton);
+    QHBoxLayout* prjNameLayout = new QHBoxLayout;
+    prjNameLayout->addWidget(prjNameLabel);
+    prjNameLayout->addWidget(m_prjName);
 
     //storage engine
     QLabel* dbEngine = new QLabel(tr("Database engine:"), this);
@@ -104,7 +79,7 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
 
     //main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->addLayout(prjLocationLayout);
+    mainLayout->addLayout(prjNameLayout);
     mainLayout->addLayout(dbEngineLayout);
     mainLayout->addWidget(m_engineOptions);
     mainLayout->addStretch();
@@ -125,15 +100,11 @@ void ProjectCreatorDialog::set(IPluginLoader* pluginLoader)
 }
 
 
-QString ProjectCreatorDialog::getPrjPath() const
+QString ProjectCreatorDialog::getPrjName() const
 {
-    QString prjPath = m_prjLocation->text();
-    const QFileInfo resultInfo(prjPath);
+    const QString prjName = m_prjName->text();
 
-    if (resultInfo.suffix() != "bpj")
-        prjPath += ".bpj";
-
-    return prjPath;
+    return prjName;
 }
 
 
@@ -178,4 +149,40 @@ Database::IPlugin* ProjectCreatorDialog::getSelectedPlugin() const
     Database::IPlugin* plugin = pluginRaw.value<Database::IPlugin *>();
 
     return plugin;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+ProjectCreator::ProjectCreator(): m_prjName()
+{
+
+}
+
+
+bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLoader)
+{
+    ProjectCreatorDialog prjCreatorDialog;
+    prjCreatorDialog.set(pluginLoader);
+    const int status = prjCreatorDialog.exec();
+
+    bool result = false;
+    if (status == QDialog::Accepted)
+    {
+        const QString prjName   = prjCreatorDialog.getPrjName();
+        const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
+
+        result = prjManager->new_prj(prjName, prjPlugin);
+
+        m_prjName = prjName;
+    }
+
+    return result;
+}
+
+
+QString ProjectCreator::prjName() const
+{
+    return m_prjName;
 }

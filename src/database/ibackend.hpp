@@ -39,6 +39,7 @@ namespace Database
 
     struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
+    struct ProjectInfo;
 
     //Low level database interface.
     //To be used by particular database backend
@@ -68,7 +69,7 @@ namespace Database
         virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) = 0;         //find all photos matching filter
 
         //init backend - connect to database or create new one
-        virtual bool init(const QString &) = 0;
+        virtual bool init(const ProjectInfo &) = 0;
         virtual void set(IConfiguration *) = 0;
         virtual void set(ILogger *) = 0;
 

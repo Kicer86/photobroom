@@ -10,6 +10,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/database_builder.hpp>
+#include <database/project_info.hpp>
 #include <sql_backends/table_definition.hpp>
 
 #include "mysql_server.hpp"
@@ -49,28 +50,26 @@ namespace Database
     }
 
 
-    bool MySqlBackend::prepareDB(QSqlDatabase* db, const QString& location)
+    bool MySqlBackend::prepareDB(const ProjectInfo& prjInfo)
     {
         bool status = true;
 
         if (m_data->m_initialized == false)
         {
-            m_data->m_dbLocation = location;
+            m_data->m_dbLocation = prjInfo.projectDir +"/" + prjInfo.databaseLocation;
 
             //start mysql process
-            const QString socketPath = m_data->m_server.run_server(location);
+            const QString socketPath = m_data->m_server.run_server(m_data->m_dbLocation);
 
             if (socketPath.isEmpty() == false)
             {
                 QSqlDatabase db_obj;
                 //setup db connection
-                db_obj = QSqlDatabase::addDatabase("QMYSQL", location);
+                db_obj = QSqlDatabase::addDatabase("QMYSQL", getConnectionName());
                 db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
                 //db_obj.setDatabaseName("broom");
                 db_obj.setHostName("localhost");
                 db_obj.setUserName("root");
-
-                *db = db_obj;
             }
 
             m_data->m_initialized = socketPath.isEmpty() == false;;
