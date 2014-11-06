@@ -23,6 +23,7 @@
 
 #include <QSettings>
 #include <QFileInfo>
+#include <QDir>
 
 #include <core/iplugin_loader.hpp>
 #include <configuration/iconfiguration.hpp>
@@ -56,16 +57,19 @@ void ProjectManager::set(IConfiguration* configuration)
 }
 
 
-bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* prjPlugin)
+bool ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin)
 {
-    const QFileInfo prjPathInfo(prjPath);
-    const QString prjDir = prjPathInfo.absolutePath();
+    QDir storagePath(getPrjStorage());
+    storagePath.mkdir(prjName);
+    storagePath.cd(prjName);
+    
+    const QString prjDir = storagePath.absolutePath();
 
     //prepare database
     Database::ProjectInfo prjInfo = prjPlugin->initPrjDir(prjDir);
 
     //prepare project file
-    QSettings prjFile(prjPath, QSettings::IniFormat);
+    QSettings prjFile(prjName, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
     prjFile.setValue("backend", prjInfo.backendName);
@@ -78,17 +82,18 @@ bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* pr
 }
 
 
-std::deque<QString> ProjectManager::listProjects()
+QStringList ProjectManager::listProjects()
 {
-    std::deque<QString> result;
+    QStringList result;
     
-    auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
+    QString path = getPrjStorage();
     
-    if (path)
+    if (path.isEmpty() == false)
     {
+        const QDir basePath(path);
+        
+        result = basePath.entryList();
     }
-    else
-        assert(!"Could not get configuration path");
     
     return result;
 }
@@ -141,5 +146,27 @@ bool ProjectManager::save(const IProject* project)
     prjFile.endGroup();
 
     return true;
+}
+
+
+QString ProjectManager::getPrjStorage()
+{
+    QString result;
+    auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
+        
+    if (path)
+    {
+        QDir basePath(*path);
+        
+        if (basePath.exists("projects") == false)
+            basePath.mkdir("projects");
+        
+        if (basePath.cd("projects"))
+            result = basePath.absolutePath();
+    }
+    else
+        assert(!"Could not get configuration path");
+   
+    return result;
 }
 

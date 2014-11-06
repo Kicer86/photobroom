@@ -46,14 +46,16 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
         ProjectManager& operator=(const ProjectManager &) = delete;
 
-        virtual bool new_prj(const QString& path, const Database::IPlugin *) override;
-        std::deque<QString> listProjects() override;
+        virtual bool new_prj(const QString& name, const Database::IPlugin *) override;
+        QStringList listProjects() override;
         std::shared_ptr<IProject> open(const QString &) override;
         bool save(const IProject *) override;
 
     private:
         Database::IBuilder* m_dbBuilder;
         IConfiguration* m_configuration;
+        
+        QString getPrjStorage();
 };
 
 #endif // PROJECTMANAGER_HPP
