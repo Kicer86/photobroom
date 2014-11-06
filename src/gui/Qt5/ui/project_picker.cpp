@@ -2,9 +2,12 @@
 #include "project_picker.hpp"
 #include "ui_project_picker.h"
 
+#include <cassert>
+
 #include <QStringListModel>
 
 #include "components/project_creator/project_creator_dialog.hpp"
+#include <project_utils/iproject_manager.hpp>
 
 ProjectPicker::ProjectPicker(QWidget *_parent) :
     QDialog(_parent),
@@ -36,6 +39,8 @@ void ProjectPicker::set(IPluginLoader* pluginLoader)
 void ProjectPicker::set(IProjectManager* prjManager)
 {
     m_prjManager = prjManager;
+
+    reload();
 }
 
 
@@ -47,6 +52,22 @@ QString ProjectPicker::choosenProjectName() const
 
 void ProjectPicker::on_openButton_clicked()
 {
+    QItemSelectionModel* selection = ui->projectsList->selectionModel();
+    const QModelIndexList indexes = selection->selectedIndexes();
+
+    if (indexes.empty() == false)
+    {
+        //get selected index
+        const QModelIndex& selected = indexes.first();
+
+        //find project name in model
+        QStringList projects = m_model->stringList();
+
+        assert(projects.size() > selected.row());
+
+        m_choosenProjectName = projects[selected.row()];
+    }
+
     done(QDialog::Accepted);
 }
 
@@ -58,11 +79,19 @@ void ProjectPicker::on_newButton_clicked()
     const int r = prjCreator.create(m_prjManager, m_pluginLoader);
 
     if (r == QDialog::Accepted)
-    {}
+        reload();
 }
 
 
 void ProjectPicker::on_deleteButton_clicked()
 {
 
+}
+
+
+void ProjectPicker::reload()
+{
+    const auto prjs = m_prjManager->listProjects();
+
+    m_model->setStringList(prjs);
 }

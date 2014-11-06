@@ -40,6 +40,8 @@ private:
         QStringListModel* m_model;
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
+
+        void reload();
 };
 
 #endif // PROJECT_PICKER_HPP
