@@ -33,10 +33,6 @@ namespace Configuration
 {
     class EntryData;
     class ConfigurationKey;
-
-    //Base configuration keys
-    extern CONFIGURATION_EXPORT const char* configLocation;       //application dir with configuration,
-    //databases etc
 }
 
 struct IConfiguration
