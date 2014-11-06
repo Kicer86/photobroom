@@ -28,6 +28,7 @@ class QLineEdit;
 class QGroupBox;
 
 struct IPluginLoader;
+struct IProjectManager;
 
 namespace Database
 {
@@ -59,6 +60,20 @@ class ProjectCreatorDialog: public QDialog
 
         void initEngines();
         Database::IPlugin* getSelectedPlugin() const;
+};
+
+
+//runs ProjectCreator and adds project to IProjectManager
+class ProjectCreator
+{
+    public:
+        ProjectCreator();
+
+        bool create(IProjectManager *, IPluginLoader *);
+        QString prjName() const;
+
+    private:
+        QString m_prjName;
 };
 
 #endif // PROJECTCREATOR_H

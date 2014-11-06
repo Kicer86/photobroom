@@ -36,6 +36,7 @@
 #include <core/iplugin_loader.hpp>
 #include <database/idatabase_plugin.hpp>
 
+#include <project_utils/iproject_manager.hpp>
 
 Q_DECLARE_METATYPE(Database::IPlugin *)
 
@@ -178,4 +179,40 @@ Database::IPlugin* ProjectCreatorDialog::getSelectedPlugin() const
     Database::IPlugin* plugin = pluginRaw.value<Database::IPlugin *>();
 
     return plugin;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+ProjectCreator::ProjectCreator(): m_prjName()
+{
+
+}
+
+
+bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLoader)
+{
+    ProjectCreatorDialog prjCreatorDialog;
+    prjCreatorDialog.set(pluginLoader);
+    const int status = prjCreatorDialog.exec();
+
+    bool result = false;
+    if (status == QDialog::Accepted)
+    {
+        const QString prjPath   = prjCreatorDialog.getPrjPath();
+        const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
+
+        result = prjManager->new_prj(prjPath, prjPlugin);
+
+        m_prjName = prjPath;
+    }
+
+    return result;
+}
+
+
+QString ProjectCreator::prjName() const
+{
+    return m_prjName;
 }
