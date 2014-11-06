@@ -39,6 +39,7 @@
 #include "idatabase.hpp"
 #include "ibackend.hpp"
 #include "implementation/photo_info.hpp"
+#include "project_info.hpp"
 
 //TODO: cleanup this file!
 
@@ -186,7 +187,7 @@ namespace Database
 
             Database::Task task = database->prepareTask(nullptr);
 
-            const bool status = database->init(task, info.databaseLocation);
+            const bool status = database->init(task, info);
 
             if (status)
             {

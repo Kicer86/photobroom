@@ -29,6 +29,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/constants.hpp>
 #include <database/idatabase_builder.hpp>
+#include <database/project_info.hpp>
 
 #include "project.hpp"
 
@@ -117,11 +118,11 @@ std::shared_ptr<IProject> ProjectManager::open(const QString& prjName)
     prjFile.endGroup();
 
     auto result = std::make_shared<Project>();
-    result->setPrjPath(path);
+    result->setPrjPath(prjPath);
     result->setDBBackend(backend);
     result->setDBLocation(location);
 
-    Database::ProjectInfo prjInfo(location, backend);
+    Database::ProjectInfo prjInfo(location, backend, prjDir);
     Database::IDatabase* db = m_dbBuilder->get(prjInfo);
 
     result->setDatabase(db);

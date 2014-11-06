@@ -10,6 +10,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/database_builder.hpp>
+#include <database/project_info.hpp>
 #include <sql_backends/table_definition.hpp>
 
 #include "mysql_server.hpp"

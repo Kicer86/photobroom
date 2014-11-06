@@ -25,6 +25,7 @@
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include "ibackend.hpp"
+#include "project_info.hpp"
 
 namespace
 {
@@ -321,9 +322,9 @@ namespace Database
     }
 
 
-    bool DatabaseThread::init(const Task& db_task, const QString& location)
+    bool DatabaseThread::init(const Task& db_task, const ProjectInfo& location)
     {
-        InitTask* task = new InitTask(db_task, location);
+        InitTask* task = new InitTask(db_task, location.databaseLocation);
         m_impl->addTask(task);
 
         //TODO: fix it
