@@ -64,12 +64,13 @@ bool ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* pr
     storagePath.cd(prjName);
     
     const QString prjDir = storagePath.absolutePath();
+    const QString prjPath = storagePath.absoluteFilePath(prjName);
 
     //prepare database
     Database::ProjectInfo prjInfo = prjPlugin->initPrjDir(prjDir);
 
     //prepare project file
-    QSettings prjFile(prjName, QSettings::IniFormat);
+    QSettings prjFile(prjPath, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
     prjFile.setValue("backend", prjInfo.backendName);
@@ -92,35 +93,28 @@ QStringList ProjectManager::listProjects()
     {
         const QDir basePath(path);
         
-        result = basePath.entryList(QDir::AllDirs);
+        result = basePath.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     }
     
     return result;
 }
 
 
-std::shared_ptr<IProject> ProjectManager::open(const QString& path)
+std::shared_ptr<IProject> ProjectManager::open(const QString& prjName)
 {
-    QSettings prjFile(path, QSettings::IniFormat);
+    QDir storagePath(getPrjStorage());
+    storagePath.mkdir(prjName);
+    storagePath.cd(prjName);
+
+    const QString prjDir = storagePath.absolutePath();
+    const QString prjPath = storagePath.absoluteFilePath(prjName);
+
+    QSettings prjFile(prjPath, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
     QString backend  = prjFile.value("backend").toString();
     QString location = prjFile.value("location").toString();
     prjFile.endGroup();
-
-    QFileInfo fileInfo(location);
-    if (fileInfo.isRelative())
-    {
-        const QFileInfo prjFileInfo(path);
-        const QString prjDir = prjFileInfo.absolutePath();
-
-        location = prjDir + "/" + location;
-
-        const QFileInfo locationInfo(location);
-        location = locationInfo.absoluteFilePath();
-    }
-    else
-        location = fileInfo.absoluteFilePath();  //cleanups
 
     auto result = std::make_shared<Project>();
     result->setPrjPath(path);
