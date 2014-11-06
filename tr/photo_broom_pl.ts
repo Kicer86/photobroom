@@ -95,17 +95,15 @@
         <translation type="vanished">Przeglądaj zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="156"/>
         <source>Open File</source>
-        <translation>Otwórz plik</translation>
+        <translation type="vanished">Otwórz plik</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="158"/>
         <source>Photo Broom albums (*.bpj)</source>
-        <translation>Projekty programu Broom (*.bpj)</translation>
+        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="166"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="165"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
@@ -138,42 +136,66 @@
 <context>
     <name>PrjLocationDialog</name>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="49"/>
         <source>File name</source>
-        <translation>Nazwa pliku</translation>
+        <translation type="vanished">Nazwa pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="50"/>
         <source>Photo Broom albums (*.bpj)</source>
-        <translation>Projekty programu Broom (*.bpj)</translation>
+        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
 </context>
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="73"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="51"/>
         <source>Album creator</source>
         <translation>Kreator albumu</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="77"/>
         <source>Album location:</source>
-        <translation>Lokacja albumu:</translation>
+        <translation type="vanished">Lokacja albumu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="78"/>
         <source>Browse</source>
-        <translation>Przeglądaj</translation>
+        <translation type="vanished">Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="89"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="55"/>
+        <source>Album name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="64"/>
         <source>Database engine:</source>
         <translation>Silnik bazy danych:</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="98"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="73"/>
         <source>Engine options</source>
         <translation>Opcje silnika</translation>
+    </message>
+</context>
+<context>
+    <name>ProjectPicker</name>
+    <message>
+        <location filename="../src/gui/Qt5/ui/project_picker.ui" line="14"/>
+        <source>Album browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/project_picker.ui" line="26"/>
+        <source>New</source>
+        <translation type="unfinished">Nowy</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/project_picker.ui" line="33"/>
+        <source>Open</source>
+        <translation type="unfinished">Otwórz</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/project_picker.ui" line="53"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
