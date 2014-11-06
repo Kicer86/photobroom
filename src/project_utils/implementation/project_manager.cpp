@@ -28,7 +28,7 @@
 #include <database/idatabase_builder.hpp>
 
 
-ProjectManager::ProjectManager(): m_dbBuilder(nullptr)
+ProjectManager::ProjectManager(): m_dbBuilder(nullptr), m_configuration(nullptr)
 {
 
 }
@@ -43,6 +43,12 @@ ProjectManager::~ProjectManager()
 void ProjectManager::set(Database::IBuilder* builder)
 {
     m_dbBuilder = builder;
+}
+
+
+void ProjectManager::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
 }
 
 
@@ -65,6 +71,14 @@ bool ProjectManager::new_prj(const QString& prjPath, const Database::IPlugin* pr
     const QSettings::Status status = prjFile.status();
 
     return status == QSettings::NoError;
+}
+
+
+std::deque<QString> ProjectManager::listProjects()
+{
+    std::deque<QString> result;
+    
+    return result;
 }
 
 
