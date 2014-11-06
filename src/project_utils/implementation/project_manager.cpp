@@ -65,7 +65,7 @@ bool ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* pr
     storagePath.cd(prjName);
     
     const QString prjDir = storagePath.absolutePath();
-    const QString prjPath = storagePath.absoluteFilePath(prjName);
+    const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
 
     //prepare database
     Database::ProjectInfo prjInfo = prjPlugin->initPrjDir(prjDir);
@@ -108,7 +108,7 @@ std::shared_ptr<IProject> ProjectManager::open(const QString& prjName)
     storagePath.cd(prjName);
 
     const QString prjDir = storagePath.absolutePath();
-    const QString prjPath = storagePath.absoluteFilePath(prjName);
+    const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
 
     QSettings prjFile(prjPath, QSettings::IniFormat);
 
