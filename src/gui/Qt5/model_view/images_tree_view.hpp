@@ -33,7 +33,7 @@ class ImagesTreeView: public QAbstractItemView
         Q_OBJECT
 
     public:
-        ImagesTreeView(QWidget *);
+        ImagesTreeView(QWidget * = nullptr);
         ImagesTreeView(const ImagesTreeView &) = delete;
         ~ImagesTreeView();
 
