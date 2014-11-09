@@ -24,12 +24,14 @@
 
 #include <QWidget>
 
+#include "iview.hpp"
+
 struct IConfiguration;
 struct ITaskExecutor;
-class PhotosView;
 class StagedPhotosDataModel;
+class ImagesTreeView;
 
-class StagedPhotosWidget : public QWidget
+class StagedPhotosWidget: public QWidget, public IView
 {
         Q_OBJECT
 
@@ -42,9 +44,14 @@ class StagedPhotosWidget : public QWidget
         void setModel(StagedPhotosDataModel *);
         void set(IConfiguration *);
 
+        // IView:
+        QString getName() override;
+        QAbstractItemView* getView() override;
+
     private:
-        PhotosView* m_view;
+        ImagesTreeView* m_view;
         StagedPhotosDataModel* m_dataModel;
+
 
     private slots:
         void applyChanges();

@@ -24,10 +24,11 @@
 
 #include "staged_photos_data_model.hpp"
 #include "ui/photos_view.hpp"
+#include "model_view/images_tree_view.hpp"
 
 
 StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
-                                                    m_view(new PhotosView(this)),
+                                                    m_view(new ImagesTreeView(this)),
                                                     m_dataModel(nullptr)
 {
     QPushButton* commitButton = new QPushButton(tr("Apply"));
@@ -60,6 +61,18 @@ void StagedPhotosWidget::setModel(StagedPhotosDataModel* model)
 void StagedPhotosWidget::set(IConfiguration* configuration)
 {
     m_view->set(configuration);
+}
+
+
+QString StagedPhotosWidget::getName()
+{
+    return m_view->windowTitle();
+}
+
+
+QAbstractItemView* StagedPhotosWidget::getView()
+{
+    return m_view;
 }
 
 
