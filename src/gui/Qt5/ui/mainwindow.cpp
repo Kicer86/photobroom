@@ -116,6 +116,8 @@ void MainWindow::setupView()
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
+
+    viewChanged();
 }
 
 
@@ -141,6 +143,16 @@ void MainWindow::updateMenus()
 
     ui->menuPhotos->menuAction()->setVisible(prj);
     ui->menuWindows->menuAction()->setVisible(prj);
+}
+
+
+void MainWindow::viewChanged()
+{
+    const int w = ui->centralWidget->currentIndex();
+
+    IView* view = m_views[w];
+    ui->tagEditor->set( view->getSelectionModel() );
+    ui->tagEditor->set( view->getModel() );
 }
 
 
@@ -184,5 +196,6 @@ void MainWindow::activateWindow(QAction* action)
     const int w = action->data().toInt();
 
     ui->centralWidget->setCurrentIndex(w);
-    //ui->photosWidget->widget(w);
+
+    viewChanged();
 }
