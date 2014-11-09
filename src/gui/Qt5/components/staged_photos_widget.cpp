@@ -64,15 +64,21 @@ void StagedPhotosWidget::set(IConfiguration* configuration)
 }
 
 
-QString StagedPhotosWidget::getName()
+QItemSelectionModel* StagedPhotosWidget::getSelectionModel()
 {
-    return windowTitle();
+    return m_view->selectionModel();
 }
 
 
-QAbstractItemView* StagedPhotosWidget::getView()
+DBDataModel* StagedPhotosWidget::getModel()
 {
-    return m_view;
+    return m_dataModel;
+}
+
+
+QString StagedPhotosWidget::getName()
+{
+    return windowTitle();
 }
 
 

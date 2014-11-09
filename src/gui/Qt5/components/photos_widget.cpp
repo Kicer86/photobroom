@@ -21,7 +21,7 @@
 
 #include "model_view/db_data_model.hpp"
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p)
+PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr)
 {
 
 }
@@ -33,15 +33,28 @@ PhotosWidget::~PhotosWidget()
 }
 
 
-QString PhotosWidget::getName()
+void PhotosWidget::setModel(DBDataModel* dataModel)
 {
-    return ImagesTreeView::windowTitle();
+    m_dataModel = dataModel;
+    ImagesTreeView::setModel(dataModel);
 }
 
 
-QAbstractItemView* PhotosWidget::getView()
+QItemSelectionModel* PhotosWidget::getSelectionModel()
 {
-    return this;
+    return selectionModel();
+}
+
+
+DBDataModel* PhotosWidget::getModel()
+{
+    return m_dataModel;
+}
+
+
+QString PhotosWidget::getName()
+{
+    return ImagesTreeView::windowTitle();
 }
 
 

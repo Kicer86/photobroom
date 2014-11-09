@@ -45,8 +45,9 @@ class StagedPhotosWidget: public QWidget, public IView
         void set(IConfiguration *);
 
         // IView:
+        QItemSelectionModel* getSelectionModel() override;
+        DBDataModel* getModel() override;
         QString getName() override;
-        QAbstractItemView* getView() override;
 
     private:
         ImagesTreeView* m_view;

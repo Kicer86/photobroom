@@ -31,10 +31,17 @@ class PhotosWidget: public ImagesTreeView, public IView
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
+        void setModel(DBDataModel *);
+
         // IView:
+        QItemSelectionModel* getSelectionModel() override;
+        DBDataModel* getModel() override;
         QString getName() override;
-        QAbstractItemView* getView() override;
+
         void set(IConfiguration *) override;
+
+    private:
+        DBDataModel* m_dataModel;
 };
 
 #endif // PHOTOSWIDGET_H
