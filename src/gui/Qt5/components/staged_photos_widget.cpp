@@ -66,7 +66,7 @@ void StagedPhotosWidget::set(IConfiguration* configuration)
 
 QString StagedPhotosWidget::getName()
 {
-    return m_view->windowTitle();
+    return windowTitle();
 }
 
 
