@@ -67,16 +67,7 @@
     <number>8</number>
    </attribute>
    <widget class="QStackedWidget" name="photosWidget">
-    <widget class="ImagesTreeView" name="photoView">
-     <property name="windowTitle">
-      <string>Photos</string>
-     </property>
-    </widget>
-    <widget class="StagedPhotosWidget" name="stagedPhotosArea">
-     <property name="windowTitle">
-      <string>Staged photos</string>
-     </property>
-    </widget>
+
    </widget>
   </widget>
   <widget class="QDockWidget" name="rightDockWidget">

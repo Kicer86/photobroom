@@ -13,6 +13,7 @@ struct IPluginLoader;
 struct IProject;
 struct IProjectManager;
 struct IConfiguration;
+struct IView;
 
 class DBDataModel;
 
@@ -46,6 +47,7 @@ class MainWindow final: public QMainWindow
         StagedPhotosDataModel*    m_stagedImagesModel;
         IConfiguration*           m_configuration;
         PhotosCollector*          m_photosCollector;
+        std::vector<IView *>      m_views;
 
         void closeEvent(QCloseEvent *);
         void openProject(const QString &);
