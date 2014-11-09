@@ -50,6 +50,7 @@ class MainWindow final: public QMainWindow
         void closeEvent(QCloseEvent *);
         void openProject(const QString &);
         void setupView();
+        void createMenus();
         void updateMenus();
 
     private slots:

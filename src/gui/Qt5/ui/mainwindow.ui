@@ -17,17 +17,10 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
   </property>
-  <widget class="QStackedWidget" name="centralWidget">
-   <widget class="PhotosView" name="photoView">
-    <property name="windowTitle">
-     <string>Photos</string>
-    </property>
-   </widget>
-   <widget class="StagedPhotosWidget" name="stagedPhotosArea">
-    <property name="windowTitle">
-     <string>Staged photos</string>
-    </property>
-   </widget>
+  <widget class="QWidget" name="centralWidget">
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -69,6 +62,29 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="bottomDockWidget">
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QStackedWidget" name="photosWidget">
+    <widget class="ImagesTreeView" name="photoView">
+     <property name="windowTitle">
+      <string>Photos</string>
+     </property>
+    </widget>
+    <widget class="StagedPhotosWidget" name="stagedPhotosArea">
+     <property name="windowTitle">
+      <string>Staged photos</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="rightDockWidget">
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="TagEditorWidget" name="tagEditor"/>
+  </widget>
   <action name="actionNew_project">
    <property name="text">
     <string>New</string>
@@ -95,16 +111,21 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PhotosView</class>
-   <extends>QWidget</extends>
-   <header>ui/photos_view.hpp</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>StagedPhotosWidget</class>
    <extends>QWidget</extends>
    <header>components/staged_photos_widget.hpp</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TagEditorWidget</class>
+   <extends>QWidget</extends>
+   <header>components/tag_editor/tag_editor_widget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImagesTreeView</class>
+   <extends>QWidget</extends>
+   <header>model_view/images_tree_view.hpp</header>
   </customwidget>
  </customwidgets>
  <resources>

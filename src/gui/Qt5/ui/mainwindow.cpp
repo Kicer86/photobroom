@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 {
     ui->setupUi(this);
     setupView();
+    createMenus();
     updateMenus();
 }
 
@@ -106,17 +107,9 @@ void MainWindow::setupView()
 }
 
 
-void MainWindow::updateMenus()
+void MainWindow::createMenus()
 {
-    const bool prj = m_currentPrj.get() != nullptr;
-    QStackedWidget* centerWidget = ui->centralWidget;
-
-    ui->menuPhotos->menuAction()->setVisible(prj);
-
-    //remove any windows from "Windows" menu
-    ui->menuWindows->clear();
-    ui->menuWindows->disconnect(ui->menuWindows);
-    ui->menuWindows->menuAction()->setVisible(prj);
+    QStackedWidget* centerWidget = ui->photosWidget;
 
     //reattach items to "Windows" menu
     const int c = centerWidget->layout()->count();
@@ -131,6 +124,15 @@ void MainWindow::updateMenus()
         action->setData(i);
         connect(ui->menuWindows, SIGNAL(triggered(QAction *)), this, SLOT(activateWindow(QAction*)));
     }
+}
+
+
+void MainWindow::updateMenus()
+{
+    const bool prj = m_currentPrj.get() != nullptr;
+
+    ui->menuPhotos->menuAction()->setVisible(prj);
+    ui->menuWindows->menuAction()->setVisible(prj);
 }
 
 
@@ -173,5 +175,6 @@ void MainWindow::activateWindow(QAction* action)
 {
     const int w = action->data().toInt();
 
-    ui->centralWidget->setCurrentIndex(w);
+    ui->photosWidget->setCurrentIndex(w);
+    ui->photosWidget->widget(w);
 }
