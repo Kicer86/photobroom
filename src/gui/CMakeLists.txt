@@ -29,6 +29,7 @@ set(GUI_SOURCES
     Qt5/model_view/images_tree_view.cpp
     Qt5/model_view/tree_item_delegate.cpp
     Qt5/components/photos_data_model.cpp
+    Qt5/components/photos_widget.cpp
     Qt5/components/staged_photos_data_model.cpp
     Qt5/components/staged_photos_widget.cpp
     Qt5/components/filters_editor/level_editor.cpp
@@ -57,6 +58,7 @@ set(GUI_HEADERS
     Qt5/model_view/tree_item_delegate.hpp
     Qt5/components/iview.hpp
     Qt5/components/photos_data_model.hpp
+    Qt5/components/photos_widget.hpp
     Qt5/components/staged_photos_data_model.hpp
     Qt5/components/staged_photos_widget.hpp
     Qt5/components/filters_editor/level_editor.hpp
