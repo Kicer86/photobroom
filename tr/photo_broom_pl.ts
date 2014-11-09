@@ -46,12 +46,12 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="72"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="105"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="77"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="112"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
@@ -71,22 +71,22 @@
         <translation>Okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="90"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="85"/>
         <source>New</source>
         <translation>Nowy</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="95"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="90"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="103"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="98"/>
         <source>Add photos</source>
         <translation>Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="108"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="103"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -103,7 +103,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="167"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="175"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
@@ -201,7 +201,7 @@
 <context>
     <name>StagedPhotosWidget</name>
     <message>
-        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="33"/>
+        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="34"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
