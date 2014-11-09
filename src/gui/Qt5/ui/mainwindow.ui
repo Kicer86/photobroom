@@ -17,11 +17,7 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <property name="visible">
-    <bool>false</bool>
-   </property>
-  </widget>
+  <widget class="QStackedWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -62,17 +58,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="bottomDockWidget">
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QStackedWidget" name="photosWidget">
-
-   </widget>
-  </widget>
   <widget class="QDockWidget" name="rightDockWidget">
    <attribute name="dockWidgetArea">
-    <number>8</number>
+    <number>2</number>
    </attribute>
    <widget class="TagEditorWidget" name="tagEditor"/>
   </widget>
@@ -102,21 +90,10 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>StagedPhotosWidget</class>
-   <extends>QWidget</extends>
-   <header>components/staged_photos_widget.hpp</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
    <header>components/tag_editor/tag_editor_widget.hpp</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ImagesTreeView</class>
-   <extends>QWidget</extends>
-   <header>model_view/images_tree_view.hpp</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -105,14 +105,14 @@ void MainWindow::setupView()
     photosWidget->setWindowTitle(tr("Photos"));
     photosWidget->setModel(m_imagesModel);
     m_views.push_back(photosWidget);
-    ui->photosWidget->addWidget(photosWidget);
+    ui->centralWidget->addWidget(photosWidget);
 
     m_stagedImagesModel = new StagedPhotosDataModel(this);
     StagedPhotosWidget* stagetPhotosWidget = new StagedPhotosWidget(this);
     stagetPhotosWidget->setWindowTitle(tr("Staged photos"));
     stagetPhotosWidget->setModel(m_stagedImagesModel);
     m_views.push_back(stagetPhotosWidget);
-    ui->photosWidget->addWidget(stagetPhotosWidget);
+    ui->centralWidget->addWidget(stagetPhotosWidget);
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
@@ -183,6 +183,6 @@ void MainWindow::activateWindow(QAction* action)
 {
     const int w = action->data().toInt();
 
-    ui->photosWidget->setCurrentIndex(w);
+    ui->centralWidget->setCurrentIndex(w);
     //ui->photosWidget->widget(w);
 }
