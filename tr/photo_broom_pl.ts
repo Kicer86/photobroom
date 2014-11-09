@@ -45,48 +45,48 @@
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="23"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="50"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="72"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="28"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="77"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="36"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="57"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="50"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="63"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="56"/>
         <source>Windows</source>
         <translation>Okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="74"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="90"/>
         <source>New</source>
         <translation>Nowy</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="79"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="95"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="87"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="103"/>
         <source>Add photos</source>
         <translation>Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="92"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="108"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -103,7 +103,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="165"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="167"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
