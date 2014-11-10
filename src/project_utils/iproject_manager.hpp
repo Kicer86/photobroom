@@ -34,6 +34,7 @@ struct ProjectInfo
     QString name;
     QString id;
 
+    ProjectInfo(const QString& _name, const QString& _id): name(_name), id(_id) {}
     ProjectInfo(): name(), id() {}
 };
 

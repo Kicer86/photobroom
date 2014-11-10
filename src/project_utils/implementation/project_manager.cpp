@@ -83,10 +83,7 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     prjFile.setValue("name", prjName);
     prjFile.endGroup();
 
-    ProjectInfo prjInfo;
-
-    prjInfo.id = prjId;
-    prjInfo.name = prjName;
+    const ProjectInfo prjInfo(prjName, prjId);
 
     return prjInfo;
 }
