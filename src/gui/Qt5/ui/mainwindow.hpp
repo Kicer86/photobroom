@@ -15,6 +15,7 @@ struct IProjectManager;
 struct IConfiguration;
 
 class DBDataModel;
+struct ProjectInfo;
 
 namespace Ui
 {
@@ -48,7 +49,7 @@ class MainWindow final: public QMainWindow
         PhotosCollector*          m_photosCollector;
 
         void closeEvent(QCloseEvent *);
-        void openProject(const QString &);
+        void openProject(const ProjectInfo &);
         void setupView();
         void updateMenus();
 

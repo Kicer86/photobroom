@@ -38,17 +38,20 @@ class Project: public IProject
         void setDBBackend(const QString &);
         void setDBLocation(const QString &);
         void setDatabase(Database::IDatabase *);
+        void setName(const QString &);
 
         // overrides
         QString getDBBackend() const override;
         QString getDBLocation() const override;
         QString getPrjPath() const override;
-        virtual Database::IDatabase* getDatabase() const override;
+        Database::IDatabase* getDatabase() const override;
+        QString getName() const override;
 
     private:
         QString m_backend;
         QString m_location;
         QString m_prjPath;
+        QString m_name;
         Database::IDatabase* m_database;
 };
 
