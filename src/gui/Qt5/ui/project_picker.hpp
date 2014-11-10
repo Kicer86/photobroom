@@ -4,7 +4,9 @@
 
 #include <QDialog>
 
-class QStringListModel;
+#include <project_utils/iproject_manager.hpp>
+
+class QStandardItemModel;
 
 namespace Ui
 {
@@ -27,7 +29,7 @@ class ProjectPicker: public QDialog
         void set(IProjectManager *);
         void set(IPluginLoader *);
 
-        QString choosenProjectName() const;
+        ProjectInfo choosenProject() const;
 
     private slots:
         void on_openButton_clicked();
@@ -36,12 +38,14 @@ class ProjectPicker: public QDialog
 
 private:
         Ui::ProjectPicker *ui;
-        QString m_choosenProjectName;
-        QStringListModel* m_model;
+        ProjectInfo m_choosenProject;
+        QStandardItemModel* m_model;
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
+        std::map<QString, ProjectInfo> m_projs;
 
         void reload();
+        ProjectInfo selectedPrj() const;
 };
 
 #endif // PROJECT_PICKER_HPP

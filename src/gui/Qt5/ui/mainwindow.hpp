@@ -16,6 +16,7 @@ struct IConfiguration;
 struct IView;
 
 class DBDataModel;
+struct ProjectInfo;
 
 namespace Ui
 {
@@ -50,7 +51,7 @@ class MainWindow final: public QMainWindow
         std::vector<IView *>      m_views;
 
         void closeEvent(QCloseEvent *);
-        void openProject(const QString &);
+        void openProject(const ProjectInfo &);
         void setupView();
         void createMenus();
         void updateMenus();

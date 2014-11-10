@@ -58,54 +58,64 @@ void ProjectManager::set(IConfiguration* configuration)
 }
 
 
-bool ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin)
+ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin)
 {
     QDir storagePath(getPrjStorage());
-    storagePath.mkdir(prjName);
-    storagePath.cd(prjName);
+    const QString prjId = getUniqueId();
+    storagePath.mkdir(prjId);
+    storagePath.cd(prjId);
     
     const QString prjDir = storagePath.absolutePath();
     const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
 
     //prepare database
-    Database::ProjectInfo prjInfo = prjPlugin->initPrjDir(prjDir);
+    Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(prjDir);
 
     //prepare project file
     QSettings prjFile(prjPath, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
-    prjFile.setValue("backend", prjInfo.backendName);
-    prjFile.setValue("location", prjInfo.databaseLocation);
+    prjFile.setValue("backend", dbPrjInfo.backendName);
+    prjFile.setValue("location", dbPrjInfo.databaseLocation);
     prjFile.endGroup();
 
-    const QSettings::Status status = prjFile.status();
+    prjFile.beginGroup("Project");
+    prjFile.setValue("name", prjName);
+    prjFile.endGroup();
 
-    return status == QSettings::NoError;
+    const ProjectInfo prjInfo(prjName, prjId);
+
+    return prjInfo;
 }
 
 
-QStringList ProjectManager::listProjects()
+std::deque<ProjectInfo> ProjectManager::listProjects()
 {
-    QStringList result;
+    std::deque<ProjectInfo> result;
     
     QString path = getPrjStorage();
     
     if (path.isEmpty() == false)
     {
         const QDir basePath(path);
-        
-        result = basePath.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+        const QStringList ids = basePath.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+
+        for (const QString& id: ids)
+        {
+            ProjectInfo info = get(id);
+
+            result.push_back(info);
+        }
     }
     
     return result;
 }
 
 
-std::shared_ptr<IProject> ProjectManager::open(const QString& prjName)
+std::shared_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
 {
     QDir storagePath(getPrjStorage());
-    storagePath.mkdir(prjName);
-    storagePath.cd(prjName);
+    storagePath.cd(prjInfo.id);
 
     const QString prjDir = storagePath.absolutePath();
     const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
@@ -121,9 +131,10 @@ std::shared_ptr<IProject> ProjectManager::open(const QString& prjName)
     result->setPrjPath(prjPath);
     result->setDBBackend(backend);
     result->setDBLocation(location);
+    result->setName(prjInfo.name);
 
-    Database::ProjectInfo prjInfo(location, backend, prjDir);
-    Database::IDatabase* db = m_dbBuilder->get(prjInfo);
+    Database::ProjectInfo dbPrjInfo(location, backend, prjDir);
+    Database::IDatabase* db = m_dbBuilder->get(dbPrjInfo);
 
     result->setDatabase(db);
 
@@ -140,7 +151,27 @@ bool ProjectManager::save(const IProject* project)
     prjFile.setValue("location", project->getDBLocation());
     prjFile.endGroup();
 
+    prjFile.beginGroup("Project");
+    prjFile.setValue("name",  project->getName());
+    prjFile.endGroup();
+
     return true;
+}
+
+
+bool ProjectManager::remove(const ProjectInfo& name)
+{
+    QDir storagePath(getPrjStorage());
+
+    bool status = storagePath.exists(name.id);
+
+    if (status)
+    {
+        storagePath.cd(name.id);
+        status = storagePath.removeRecursively();
+    }
+
+    return status;
 }
 
 
@@ -165,3 +196,46 @@ QString ProjectManager::getPrjStorage()
     return result;
 }
 
+
+ProjectInfo ProjectManager::get(const QString& id)
+{
+    const QString prjs = getPrjStorage();
+    QDir storageDir(prjs);
+
+    ProjectInfo info;
+
+    if (storageDir.exists(id))
+    {
+        QDir prjDir(storageDir);
+        prjDir.cd(id);
+        const QString prjPath = prjDir.absoluteFilePath("broom.bpj");
+
+        QSettings prjFile(prjPath, QSettings::IniFormat);
+
+        prjFile.beginGroup("Project");
+        info.name = prjFile.value("name").toString();
+        info.id = id;
+        prjFile.endGroup();
+    }
+
+    return info;
+}
+
+
+QString ProjectManager::getUniqueId()
+{
+    const QString prjs = getPrjStorage();
+    QDir storageDir(prjs);
+
+    QString result;
+
+    do
+    {
+        result.clear();
+
+        for (int i = 0; i < 8; i++)
+            result.append(rand() % 8 + '0');
+    } while (storageDir.exists(result) == true);
+
+    return result;
+}
