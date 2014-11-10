@@ -144,6 +144,19 @@ bool ProjectManager::save(const IProject* project)
 }
 
 
+bool ProjectManager::remove(const QString& name)
+{
+    QDir storagePath(getPrjStorage());
+
+    bool status = storagePath.exists(name);
+
+    if (status)
+        status = storagePath.remove(name);
+
+    return status;
+}
+
+
 QString ProjectManager::getPrjStorage()
 {
     QString result;

@@ -50,6 +50,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         QStringList listProjects() override;
         std::shared_ptr<IProject> open(const QString &) override;
         bool save(const IProject *) override;
+        bool remove(const QString& name) override;
 
     private:
         Database::IBuilder* m_dbBuilder;
