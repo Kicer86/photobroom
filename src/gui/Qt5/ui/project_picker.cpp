@@ -52,21 +52,7 @@ QString ProjectPicker::choosenProjectName() const
 
 void ProjectPicker::on_openButton_clicked()
 {
-    QItemSelectionModel* selection = ui->projectsList->selectionModel();
-    const QModelIndexList indexes = selection->selectedIndexes();
-
-    if (indexes.empty() == false)
-    {
-        //get selected index
-        const QModelIndex& selected = indexes.first();
-
-        //find project name in model
-        QStringList projects = m_model->stringList();
-
-        assert(projects.size() > selected.row());
-
-        m_choosenProjectName = projects[selected.row()];
-    }
+    m_choosenProjectName = selectedPrj();
 
     done(QDialog::Accepted);
 }
@@ -95,3 +81,28 @@ void ProjectPicker::reload()
 
     m_model->setStringList(prjs);
 }
+
+
+QString ProjectPicker::selectedPrj() const
+{
+    QString name;
+
+    QItemSelectionModel* selection = ui->projectsList->selectionModel();
+    const QModelIndexList indexes = selection->selectedIndexes();
+
+    if (indexes.empty() == false)
+    {
+        //get selected index
+        const QModelIndex& selected = indexes.first();
+
+        //find project name in model
+        QStringList projects = m_model->stringList();
+
+        assert(projects.size() > selected.row());
+
+        name = projects[selected.row()];
+    }
+
+    return name;
+}
+

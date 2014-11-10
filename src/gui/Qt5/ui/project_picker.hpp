@@ -42,6 +42,7 @@ private:
         IPluginLoader* m_pluginLoader;
 
         void reload();
+        QString selectedPrj() const;
 };
 
 #endif // PROJECT_PICKER_HPP
