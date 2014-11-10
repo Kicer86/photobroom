@@ -76,11 +76,11 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
-void MainWindow::openProject(const QString& prjName)
+void MainWindow::openProject(const ProjectInfo& prjInfo)
 {
-    if (prjName.isEmpty() == false)
+    if (prjInfo.id.isEmpty() == false)
     {
-        std::shared_ptr<IProject> prj = m_prjManager->open(prjName);
+        std::shared_ptr<IProject> prj = m_prjManager->open(prjInfo);
         m_currentPrj = prj;
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
@@ -135,7 +135,7 @@ void MainWindow::on_actionNew_project_triggered()
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
 
     if (creation_status)
-        openProject(prjCreator.prjName());
+        openProject(prjCreator.project());
 }
 
 void MainWindow::on_actionOpen_project_triggered()
@@ -148,7 +148,7 @@ void MainWindow::on_actionOpen_project_triggered()
     
     if (s == QDialog::Accepted)
     {
-        const QString prjName = picker.choosenProjectName();
+        const ProjectInfo prjName = picker.choosenProject();
 
         openProject(prjName);
     }

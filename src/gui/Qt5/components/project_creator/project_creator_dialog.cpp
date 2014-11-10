@@ -155,7 +155,7 @@ Database::IPlugin* ProjectCreatorDialog::getSelectedPlugin() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ProjectCreator::ProjectCreator(): m_prjName()
+ProjectCreator::ProjectCreator(): m_prj()
 {
 
 }
@@ -167,22 +167,21 @@ bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLo
     prjCreatorDialog.set(pluginLoader);
     const int status = prjCreatorDialog.exec();
 
-    bool result = false;
     if (status == QDialog::Accepted)
     {
         const QString prjName   = prjCreatorDialog.getPrjName();
         const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
 
-        result = prjManager->new_prj(prjName, prjPlugin);
-
-        m_prjName = prjName;
+        m_prj = prjManager->new_prj(prjName, prjPlugin);
     }
+
+    const bool result = m_prj.id.isEmpty() == false;
 
     return result;
 }
 
 
-QString ProjectCreator::prjName() const
+ProjectInfo ProjectCreator::project() const
 {
-    return m_prjName;
+    return m_prj;
 }
