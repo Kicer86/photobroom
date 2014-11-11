@@ -87,10 +87,10 @@ void ProjectPicker::reload()
 
     for(const ProjectInfo& prjInfo: prjs)
     {
-        m_projs[prjInfo.id] = prjInfo;
+        m_projs[prjInfo.getId()] = prjInfo;
 
-        QStandardItem* item = new QStandardItem(prjInfo.name);
-        item->setData(prjInfo.id);
+        QStandardItem* item = new QStandardItem(prjInfo.getName());
+        item->setData(prjInfo.getId());
 
         m_model->appendRow(item);
     }

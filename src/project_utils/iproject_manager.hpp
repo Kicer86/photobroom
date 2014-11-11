@@ -31,11 +31,27 @@ struct IProject;
 
 struct ProjectInfo
 {
-    QString name;
-    QString id;
-
     ProjectInfo(const QString& _name, const QString& _id): name(_name), id(_id) {}
     ProjectInfo(): name(), id() {}
+
+    bool isValid() const
+    {
+        return name.isEmpty() == false && id.isEmpty() == false;
+    }
+
+    const QString& getName() const
+    {
+        return name;
+    }
+
+    const QString& getId() const
+    {
+        return id;
+    }
+
+    private:
+        QString name;
+        QString id;
 };
 
 struct IProjectManager

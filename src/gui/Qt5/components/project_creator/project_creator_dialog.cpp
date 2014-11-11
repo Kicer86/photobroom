@@ -175,7 +175,7 @@ bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLo
         m_prj = prjManager->new_prj(prjName, prjPlugin);
     }
 
-    const bool result = m_prj.id.isEmpty() == false;
+    const bool result = m_prj.isValid();
 
     return result;
 }
