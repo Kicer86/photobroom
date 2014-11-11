@@ -102,13 +102,10 @@ ProjectInfo ProjectPicker::selectedPrj() const
     ProjectInfo prjInfo;
 
     QItemSelectionModel* selection = ui->projectsList->selectionModel();
-    const QModelIndexList indexes = selection->selectedIndexes();
+    QModelIndex selected = selection->currentIndex();
 
-    if (indexes.empty() == false)
+    if (selected.isValid() )
     {
-        //get selected index
-        const QModelIndex& selected = indexes.first();
-
         //find project name in model
         const QVariant id_raw = selected.data(Qt::UserRole + 1);
         const QString id = id_raw.toString();
