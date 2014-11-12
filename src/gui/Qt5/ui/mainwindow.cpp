@@ -78,7 +78,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::openProject(const ProjectInfo& prjInfo)
 {
-    if (prjInfo.id.isEmpty() == false)
+    if (prjInfo.isValid())
     {
         std::shared_ptr<IProject> prj = m_prjManager->open(prjInfo);
         m_currentPrj = prj;

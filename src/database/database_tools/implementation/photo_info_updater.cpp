@@ -76,17 +76,17 @@ struct HashAssigner: public ITaskExecutor::ITask
 
 struct TagsCollector: public ITaskExecutor::ITask
 {
-	TagsCollector(const IPhotoInfo::Ptr& photoInfo) : ITask(), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(const IPhotoInfo::Ptr& photoInfo) : ITask(), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
     {
     }
 
-    TagsCollector(const HashAssigner &) = delete;
-    TagsCollector& operator=(const HashAssigner &) = delete;
+    TagsCollector(const TagsCollector &) = delete;
+    TagsCollector& operator=(const TagsCollector &) = delete;
 
-	void set(ITagFeederFactory* tagFeederFactory)
-	{
-		m_tagFeederFactory = tagFeederFactory;
-	}
+    void set(ITagFeederFactory* tagFeederFactory)
+    {
+        m_tagFeederFactory = tagFeederFactory;
+    }
 
     virtual std::string name() const override
     {
@@ -104,7 +104,7 @@ struct TagsCollector: public ITaskExecutor::ITask
     }
 
     IPhotoInfo::Ptr m_photoInfo;
-	ITagFeederFactory* m_tagFeederFactory;
+    ITagFeederFactory* m_tagFeederFactory;
 };
 
 
@@ -143,7 +143,7 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_shared<TagsCollector>(photoInfo);
-	task->set(&m_tagFeederFactory);
+    task->set(&m_tagFeederFactory);
 
     m_task_executor->add(task);
 }
