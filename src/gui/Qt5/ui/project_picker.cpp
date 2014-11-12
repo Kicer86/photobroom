@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include <QStandardItemModel>
+#include <QMessageBox>
 
 #include "components/project_creator/project_creator_dialog.hpp"
 #include <project_utils/iproject_manager.hpp>
@@ -77,9 +78,21 @@ void ProjectPicker::on_newButton_clicked()
 void ProjectPicker::on_deleteButton_clicked()
 {
     const ProjectInfo prj = selectedPrj();
-    m_prjManager->remove(prj);
 
-    reload();
+    QMessageBox msgBox;
+    msgBox.setWindowTitle( tr("Project deletion") );
+    msgBox.setText( tr("Are you sure to remove project %1?").arg(prj.getName()) );
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+
+    const int res = msgBox.exec();
+
+    if (res == QMessageBox::Yes)
+    {
+        m_prjManager->remove(prj);
+        reload();
+    }
 }
 
 
