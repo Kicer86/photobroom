@@ -1,5 +1,5 @@
 /*
- * Tool for updating Photo's tags
+ * View for tags
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,15 @@
  *
  */
 
-#include "tag_updater.hpp"
+#include "tags_view.hpp"
 
-TagUpdater::TagUpdater(const IPhotoInfo::Ptr& photo): m_photoInfo(photo)
+TagsView::TagsView(QWidget* p): QTableView(p)
 {
 
 }
 
 
-void TagUpdater::clear()
+TagsView::~TagsView()
 {
-    Tag::TagsList tags;
-    m_photoInfo->setTags(tags);
-}
 
-
-void TagUpdater::setTags(const Tag::TagsList& tags)
-{
-    m_photoInfo->setTags(tags);
-}
-
-
-void TagUpdater::setTag(const TagNameInfo& name, const TagValueInfo& value)
-{
-    auto tags = m_photoInfo->accessTags();
-    tags.get()[name] = { value };
-}
-
-
-void TagUpdater::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
-{
-    auto tags = m_photoInfo->accessTags();
-    tags.get()[name] = values;
-}
-
-
-Tag::TagsList TagUpdater::getTags() const
-{
-    Tag::TagsList tags = m_photoInfo->getTags();
-    return tags;
 }

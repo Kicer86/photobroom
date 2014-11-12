@@ -20,17 +20,28 @@
 #include "staged_photos_widget.hpp"
 
 #include <QVBoxLayout>
+#include <QPushButton>
 
 #include "staged_photos_data_model.hpp"
 #include "ui/photos_view.hpp"
+#include "model_view/images_tree_view.hpp"
 
 
 StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
-                                                    m_view(new PhotosView(this)),
+                                                    m_view(new ImagesTreeView(this)),
                                                     m_dataModel(nullptr)
 {
+    QPushButton* commitButton = new QPushButton(tr("Apply"));
+
+    QHBoxLayout* h = new QHBoxLayout;
+    h->addStretch();
+    h->addWidget(commitButton);
+
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_view);
+    l->addLayout(h);
+
+    connect(commitButton, SIGNAL(clicked(bool)), this, SLOT(applyChanges()));
 }
 
 
@@ -40,13 +51,38 @@ StagedPhotosWidget::~StagedPhotosWidget()
 }
 
 
-void StagedPhotosWidget::setModel(StagedPhotosDataModel* model) const
+void StagedPhotosWidget::setModel(StagedPhotosDataModel* model)
 {
     m_view->setModel(model);
+    m_dataModel = model;
 }
 
 
 void StagedPhotosWidget::set(IConfiguration* configuration)
 {
     m_view->set(configuration);
+}
+
+
+QItemSelectionModel* StagedPhotosWidget::getSelectionModel()
+{
+    return m_view->selectionModel();
+}
+
+
+DBDataModel* StagedPhotosWidget::getModel()
+{
+    return m_dataModel;
+}
+
+
+QString StagedPhotosWidget::getName()
+{
+    return windowTitle();
+}
+
+
+void StagedPhotosWidget::applyChanges()
+{
+    m_dataModel->storePhotos();
 }

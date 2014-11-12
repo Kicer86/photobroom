@@ -6,7 +6,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenMP)
 find_exif_package()
-find_cryptographic_package()
+find_cryptographic_package()       # OpenSSL or Nettle
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -14,7 +14,9 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDE_DIRS})
+                           ${OPENLIBRARY_INCLUDE_DIRS}
+                           ${CRYPTOGRAPHIC_INCLUDE_DIR}
+                           ${EXIF_INCLUDE_DIR})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -25,7 +27,6 @@ set(CORE_SOURCES
     implementation/logger.cpp
     implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
-    implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
     implementation/tag_updater.cpp
     implementation/task_executor.cpp
@@ -58,14 +59,12 @@ qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 if(EXIV2_FOUND)
 
     add_definitions(-DUSE_EXIV2)
-    include_directories(SYSTEM ${EXIV2_INCLUDE_DIRS})
     set(CORE_SOURCES ${CORE_SOURCES} implementation/exiv2_tag_feeder.cpp)
     set(CORE_HEADERS ${CORE_HEADERS} implementation/exiv2_tag_feeder.hpp)
 
 elseif(EASYEXIF_FOUND)
 
     add_definitions(-DUSE_EASY_EXIF)
-    include_directories(SYSTEM ${EASYEXIF_INCLUDE_DIRS})
     set(CORE_SOURCES ${CORE_SOURCES} implementation/easy_exif_tag_feeder.cpp)
     set(CORE_HEADERS ${CORE_HEADERS} implementation/easy_exif_tag_feeder.hpp)
 
@@ -73,15 +72,9 @@ endif(EXIV2_FOUND)
 
 
 if(OPENSSL_FOUND)
-
     add_definitions(-DUSE_OPENSSL)
-    include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
-
 elseif(NETTLE_FOUND)
-
     add_definitions(-DUSE_NETTLE)
-    include_directories(SYSTEM ${NETTLE_INCLUDE_DIRS})
-
 endif(OPENSSL_FOUND)
 
 
@@ -96,17 +89,12 @@ if(BUILD_TESTS)
                             GTEST
                 )
     turnOnCpp11(core_test)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
+    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES} ${EXIF_LIBRARIES} Qt5::Core Qt5::Gui)
     if(MSVC)
 
     else()
         target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
     endif(MSVC)
-
-    #TODO: remove it?
-    if(EXIV2_FOUND)
-        target_link_libraries(core_test ${EXIV2_LIBRARIES})
-    endif(EXIV2_FOUND)
 
 endif(BUILD_TESTS)
 
@@ -121,7 +109,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
-target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui)
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
 
 if(OPENMP_FOUND)
     if(MSVC)
@@ -131,17 +119,6 @@ if(OPENMP_FOUND)
     endif(MSVC)
 endif(OPENMP_FOUND)
 
-if(EXIV2_FOUND)
-    target_link_libraries(core PRIVATE ${EXIV2_LIBRARIES})
-elseif(EASYEXIF_FOUND)
-    target_link_libraries(core PRIVATE ${EASYEXIF_LIBRARIES})
-endif(EXIV2_FOUND)
-
-if(OPENSSL_FOUND)
-    target_link_libraries(core PRIVATE ${OPENSSL_LIBRARIES})
-elseif(NETTLE_FOUND)
-    target_link_libraries(core PRIVATE ${NETTLE_LIBRARIES})
-endif(OPENSSL_FOUND)
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
 turnOnCpp11(core)

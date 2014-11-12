@@ -29,17 +29,14 @@ set(GUI_SOURCES
     Qt5/model_view/images_tree_view.cpp
     Qt5/model_view/tree_item_delegate.cpp
     Qt5/components/photos_data_model.cpp
+    Qt5/components/photos_widget.cpp
     Qt5/components/staged_photos_data_model.cpp
     Qt5/components/staged_photos_widget.cpp
     Qt5/components/filters_editor/level_editor.cpp
     Qt5/components/project_creator/project_creator_dialog.cpp
     Qt5/components/tag_editor/tag_editor_widget.cpp
-    Qt5/components/tag_editor/tag_definition.cpp
-    Qt5/components/tag_editor/tag_entry.cpp
-    Qt5/components/tag_editor/entries_manager.cpp
-    Qt5/components/tag_editor/ivalue_widget.cpp
-    Qt5/components/tag_editor/converter.cpp
-    Qt5/components/tag_editor/text_widget.cpp
+    Qt5/components/tag_editor/helpers/tags_view.cpp
+    Qt5/components/tag_editor/helpers/tags_model.cpp
     Qt5/ui/mainwindow.cpp
     Qt5/ui/photos_view.cpp
     Qt5/ui/project_picker.cpp
@@ -59,18 +56,16 @@ set(GUI_HEADERS
     Qt5/model_view/view_helpers/positions_reseter.hpp
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/tree_item_delegate.hpp
+    Qt5/components/iview.hpp
     Qt5/components/photos_data_model.hpp
+    Qt5/components/photos_widget.hpp
     Qt5/components/staged_photos_data_model.hpp
     Qt5/components/staged_photos_widget.hpp
     Qt5/components/filters_editor/level_editor.hpp
     Qt5/components/project_creator/project_creator_dialog.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
-    Qt5/components/tag_editor/tag_definition.hpp
-    Qt5/components/tag_editor/tag_entry.hpp
-    Qt5/components/tag_editor/entries_manager.hpp
-    Qt5/components/tag_editor/ivalue_widget.hpp
-    Qt5/components/tag_editor/converter.hpp
-    Qt5/components/tag_editor/text_widget.hpp
+    Qt5/components/tag_editor/helpers/tags_view.hpp
+    Qt5/components/tag_editor/helpers/tags_model.hpp
     Qt5/ui/mainwindow.hpp
     Qt5/ui/photos_view.hpp
     Qt5/ui/project_picker.hpp
@@ -81,9 +76,8 @@ set(GUI_FILES_TO_MOC
     Qt5/data/thread_multiplexer.hpp
     Qt5/data/photos_collector.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
-    Qt5/components/tag_editor/tag_definition.hpp
-    Qt5/components/tag_editor/tag_entry.hpp
-    Qt5/components/tag_editor/ivalue_widget.hpp
+    Qt5/components/tag_editor/helpers/tags_model.hpp
+    Qt5/components/staged_photos_widget.hpp
     Qt5/model_view/db_data_model.hpp
     Qt5/model_view/images_tree_view.hpp
     Qt5/model_view/model_helpers/idx_data_manager.hpp

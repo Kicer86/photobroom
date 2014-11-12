@@ -24,24 +24,38 @@
 
 #include <QWidget>
 
-struct IConfiguration;
-class PhotosView;
-class StagedPhotosDataModel;
+#include "iview.hpp"
 
-class StagedPhotosWidget : public QWidget
+struct IConfiguration;
+struct ITaskExecutor;
+class StagedPhotosDataModel;
+class ImagesTreeView;
+
+class StagedPhotosWidget: public QWidget, public IView
 {
+        Q_OBJECT
+
     public:
         StagedPhotosWidget(QWidget * = nullptr);
         StagedPhotosWidget(const StagedPhotosWidget &) = delete;
         ~StagedPhotosWidget();
         StagedPhotosWidget& operator=(const StagedPhotosWidget &) = delete;
 
-        void setModel(StagedPhotosDataModel *) const;
+        void setModel(StagedPhotosDataModel *);
         void set(IConfiguration *);
 
+        // IView:
+        QItemSelectionModel* getSelectionModel() override;
+        DBDataModel* getModel() override;
+        QString getName() override;
+
     private:
-        PhotosView* m_view;
+        ImagesTreeView* m_view;
         StagedPhotosDataModel* m_dataModel;
+
+
+    private slots:
+        void applyChanges();
 };
 
 #endif // STAGEDPHOTOSWIDGET_HPP

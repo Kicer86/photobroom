@@ -1,5 +1,5 @@
 /*
- * Tool for updating Photo's tags
+ * Widget for Photos
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,31 @@
  *
  */
 
-#ifndef TAGUPDATER_H
-#define TAGUPDATER_H
+#ifndef PHOTOSWIDGET_HPP
+#define PHOTOSWIDGET_HPP
 
-#include <database/iphoto_info.hpp>
+#include "model_view/images_tree_view.hpp"
+#include "components/iview.hpp"
 
-class CORE_EXPORT TagUpdater
+class PhotosWidget: public ImagesTreeView, public IView
 {
     public:
-        TagUpdater(const IPhotoInfo::Ptr &);
-        TagUpdater(const TagUpdater &) = delete;
+        PhotosWidget(QWidget * = nullptr);
+        PhotosWidget(const PhotosWidget &) = delete;
+        ~PhotosWidget();
+        PhotosWidget& operator=(const PhotosWidget &) = delete;
 
-        TagUpdater& operator=(const TagUpdater &) = delete;
+        void setModel(DBDataModel *);
 
-        void clear();
-        void setTags(const Tag::TagsList &);
-        void setTag(const TagNameInfo& name, const TagValueInfo& value);
-        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
-        Tag::TagsList getTags() const;
+        // IView:
+        QItemSelectionModel* getSelectionModel() override;
+        DBDataModel* getModel() override;
+        QString getName() override;
+
+        void set(IConfiguration *) override;
 
     private:
-        IPhotoInfo::Ptr m_photoInfo;
+        DBDataModel* m_dataModel;
 };
 
-#endif // TAGUPDATER_H
+#endif // PHOTOSWIDGET_H

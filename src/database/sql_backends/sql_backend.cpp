@@ -694,27 +694,36 @@ namespace Database
 
     IPhotoInfo::Ptr ASqlBackend::Data::getPhoto(const IPhotoInfo::Id& id)
     {
-        //basic data
-        IPhotoInfo::Ptr photoInfo = m_photoInfoCreator->construct(getPathFor(id));
-        photoInfo->initID(id);
+        //try to find cached one
+        IPhotoInfo::Ptr photoInfo = m_photoInfoCache->find(id);
 
-        //load tags
-        Tag::TagsList tagData = getTagsFor(id);
+        if (photoInfo.get() == nullptr)  // cache miss - construct new
+        {
+            //basic data
+            photoInfo = m_photoInfoCreator->construct(getPathFor(id));
+            photoInfo->initID(id);
 
-        photoInfo->setTags(tagData);
+            //load tags
+            Tag::TagsList tagData = getTagsFor(id);
 
-        //load thumbnail
-        const Optional<QPixmap> thumbnail = getThumbnailFor(id);
-        if (thumbnail)
-            photoInfo->initThumbnail(*thumbnail);
-        
-        //load hash
-        const Optional<IPhotoInfo::Hash> hash = getHashFor(id);
-        if (hash)
-            photoInfo->initHash(*hash);
+            photoInfo->setTags(tagData);
 
-        //load flags
-        updateFlagsOn(photoInfo.get(), id);
+            //load thumbnail
+            const Optional<QPixmap> thumbnail = getThumbnailFor(id);
+            if (thumbnail)
+                photoInfo->initThumbnail(*thumbnail);
+
+            //load hash
+            const Optional<IPhotoInfo::Hash> hash = getHashFor(id);
+            if (hash)
+                photoInfo->initHash(*hash);
+
+            //load flags
+            updateFlagsOn(photoInfo.get(), id);
+
+            //introduce to cache
+            m_photoInfoCache->introduce(photoInfo);
+        }
 
         return photoInfo;
     }
@@ -1085,14 +1094,7 @@ namespace Database
 
     IPhotoInfo::Ptr ASqlBackend::getPhoto(const IPhotoInfo::Id& id)
     {
-        //try to find cached one
-        IPhotoInfo::Ptr result = m_data->m_photoInfoCache->find(id);
-
-        if (result.get() == nullptr)
-        {
-            result = m_data->getPhoto(id);
-            m_data->m_photoInfoCache->introduce(result);
-        }
+        auto result = m_data->getPhoto(id);
 
         return result;
     }

@@ -81,9 +81,17 @@ QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 
 QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection) const
 {
-    (void) selection;
+	QModelIndexList indexes = selection.indexes();
+	QRegion result;
 
-    return QRegion();
+	for (const QModelIndex& idx: indexes)
+	{
+		ModelIndexInfo info = m_data->get(idx);
+
+		result += info.getRect();
+	}
+
+    return result;
 }
 
 
@@ -117,8 +125,7 @@ void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::Scrol
 
 void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::SelectionFlags flags)
 {
-    QRect treeRect = _rect;
-    treeRect.translate(getOffset());
+    const QRect treeRect = _rect.translated(getOffset());
 
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
     QItemSelection selection;
@@ -176,7 +183,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
 void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
-    QAbstractScrollArea::mouseReleaseEvent(e);
+    QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
     ModelIndexInfo info = m_data->get(item);
@@ -197,7 +204,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
 void ImagesTreeView::resizeEvent(QResizeEvent* e)
 {
-    QAbstractScrollArea::resizeEvent(e);
+    QAbstractItemView::resizeEvent(e);
 
     //reset all positions
     PositionsReseter reseter(m_data.get());

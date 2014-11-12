@@ -50,6 +50,7 @@ int main(int argc, char **argv)
     gui.set(&pluginLoader);
     gui.set(&configuration);
     gui.set(&logger);
+    gui.set(&taskExecutor);
     gui.run(argc, argv);
 
     return 0;

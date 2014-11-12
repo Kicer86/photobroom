@@ -1,5 +1,5 @@
 /*
- * Tool for updating Photo's tags
+ * Widget for Photos
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,49 @@
  *
  */
 
-#include "tag_updater.hpp"
+#include "photos_widget.hpp"
 
-TagUpdater::TagUpdater(const IPhotoInfo::Ptr& photo): m_photoInfo(photo)
+#include "model_view/db_data_model.hpp"
+
+PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr)
 {
 
 }
 
 
-void TagUpdater::clear()
+PhotosWidget::~PhotosWidget()
 {
-    Tag::TagsList tags;
-    m_photoInfo->setTags(tags);
+
 }
 
 
-void TagUpdater::setTags(const Tag::TagsList& tags)
+void PhotosWidget::setModel(DBDataModel* dataModel)
 {
-    m_photoInfo->setTags(tags);
+    m_dataModel = dataModel;
+    ImagesTreeView::setModel(dataModel);
 }
 
 
-void TagUpdater::setTag(const TagNameInfo& name, const TagValueInfo& value)
+QItemSelectionModel* PhotosWidget::getSelectionModel()
 {
-    auto tags = m_photoInfo->accessTags();
-    tags.get()[name] = { value };
+    return selectionModel();
 }
 
 
-void TagUpdater::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+DBDataModel* PhotosWidget::getModel()
 {
-    auto tags = m_photoInfo->accessTags();
-    tags.get()[name] = values;
+    return m_dataModel;
 }
 
 
-Tag::TagsList TagUpdater::getTags() const
+QString PhotosWidget::getName()
 {
-    Tag::TagsList tags = m_photoInfo->getTags();
-    return tags;
+    return ImagesTreeView::windowTitle();
 }
+
+
+void PhotosWidget::set(IConfiguration* configuration)
+{
+    ImagesTreeView::set(configuration);
+}
+

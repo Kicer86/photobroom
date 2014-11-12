@@ -30,7 +30,7 @@ private:
 };
 
 
-TagFeederFactory::TagFeederFactory()
+TagFeederFactory::TagFeederFactory(): m_feeders()
 {
 	
 }

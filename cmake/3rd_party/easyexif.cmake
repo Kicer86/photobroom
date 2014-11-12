@@ -14,6 +14,7 @@ function(addEasyExif)
         #download easyexif rule
         add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp
                            COMMAND ${SVN_EXECUTABLE} checkout http://easyexif.googlecode.com/svn/trunk/ easyexif
+                           DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/src/dir
                            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/src)
 
         add_library(easyexif STATIC ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp)
@@ -25,6 +26,8 @@ function(addEasyExif)
         endif()
 
         set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp PROPERTIES GENERATED TRUE)
+    else()
+        message(FATAL_ERROR "EasyEXIF cannot be downloaded. No svn command found.")
     endif()
 
 endfunction(addEasyExif)

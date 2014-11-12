@@ -10,8 +10,6 @@
 #include "core_export.h"
 #include "atagfeeder.hpp"
 
-struct ITagData;
-
 class EasyExifTagFeeder : public ATagFeeder
 {
     public:

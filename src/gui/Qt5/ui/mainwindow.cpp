@@ -15,6 +15,8 @@
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/photos_data_model.hpp"
 #include "components/staged_photos_data_model.hpp"
+#include "components/photos_widget.hpp"
+#include "components/staged_photos_widget.hpp"
 #include "data/photos_collector.hpp"
 #include "ui_mainwindow.h"
 
@@ -27,10 +29,12 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_imagesModel(nullptr),
     m_stagedImagesModel(nullptr),
     m_configuration(nullptr),
-    m_photosCollector(new PhotosCollector(this))
+    m_photosCollector(new PhotosCollector(this)),
+    m_views()
 {
     ui->setupUi(this);
     setupView();
+    createMenus();
     updateMenus();
 }
 
@@ -56,14 +60,16 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 void MainWindow::set(ITaskExecutor* taskExecutor)
 {
     m_imagesModel->set(taskExecutor);
+    m_stagedImagesModel->set(taskExecutor);
 }
 
 
 void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
-    ui->photoView->set(configuration);
-    ui->stagedPhotosArea->set(configuration);
+
+    for(IView* view: m_views)
+        view->set(configuration);
 }
 
 
@@ -95,13 +101,39 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 void MainWindow::setupView()
 {
     m_imagesModel = new PhotosDataModel(this);
-    ui->photoView->setModel(m_imagesModel);
+    PhotosWidget* photosWidget = new PhotosWidget(this);
+    photosWidget->setWindowTitle(tr("Photos"));
+    photosWidget->setModel(m_imagesModel);
+    m_views.push_back(photosWidget);
+    ui->centralWidget->addWidget(photosWidget);
 
     m_stagedImagesModel = new StagedPhotosDataModel(this);
-    ui->stagedPhotosArea->setModel(m_stagedImagesModel);
+    StagedPhotosWidget* stagetPhotosWidget = new StagedPhotosWidget(this);
+    stagetPhotosWidget->setWindowTitle(tr("Staged photos"));
+    stagetPhotosWidget->setModel(m_stagedImagesModel);
+    m_views.push_back(stagetPhotosWidget);
+    ui->centralWidget->addWidget(stagetPhotosWidget);
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
+
+    viewChanged();
+}
+
+
+void MainWindow::createMenus()
+{
+    //reattach items to "Windows" menu
+
+    for(int i = 0; i < m_views.size(); i++)
+    {
+        IView* view = m_views[i];
+        const QString title = view->getName();
+        QAction* action = ui->menuWindows->addAction(title);
+
+        action->setData(i);
+        connect(ui->menuWindows, SIGNAL(triggered(QAction *)), this, SLOT(activateWindow(QAction*)));
+    }
 }
 
 
@@ -109,23 +141,18 @@ void MainWindow::updateMenus()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    ui->actionAdd_photos->setEnabled(prj);
-    ui->actionBrowse_staged_photos->setEnabled(prj);
+    ui->menuPhotos->menuAction()->setVisible(prj);
+    ui->menuWindows->menuAction()->setVisible(prj);
+}
 
-    const int c = ui->centralWidget->layout()->count();
-    ui->menuWindows->clear();
 
-    for(int i = 0; i < c; i++)
-    {
-        QWidget* child = ui->centralWidget->widget(i);
-        assert(child != nullptr);
+void MainWindow::viewChanged()
+{
+    const int w = ui->centralWidget->currentIndex();
 
-        const QString title = child->windowTitle();
-        QAction* action = ui->menuWindows->addAction(title);
-
-        action->setData(i);
-        connect(ui->menuWindows, SIGNAL(triggered(QAction *)), this, SLOT(activateWindow(QAction*)));
-    }
+    IView* view = m_views[w];
+    ui->tagEditor->set( view->getSelectionModel() );
+    ui->tagEditor->set( view->getModel() );
 }
 
 
@@ -169,4 +196,6 @@ void MainWindow::activateWindow(QAction* action)
     const int w = action->data().toInt();
 
     ui->centralWidget->setCurrentIndex(w);
+
+    viewChanged();
 }
