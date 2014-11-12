@@ -7,6 +7,7 @@
 #include <project_utils/iproject_manager.hpp>
 
 class QStandardItemModel;
+class QItemSelection;
 
 namespace Ui
 {
@@ -35,8 +36,9 @@ class ProjectPicker: public QDialog
         void on_openButton_clicked();
         void on_newButton_clicked();
         void on_deleteButton_clicked();
+        void currentChanged(const QModelIndex &, const QModelIndex &);
 
-private:
+    private:
         Ui::ProjectPicker *ui;
         ProjectInfo m_choosenProject;
         QStandardItemModel* m_model;
@@ -46,6 +48,7 @@ private:
 
         void reload();
         ProjectInfo selectedPrj() const;
+        void refreshGui();
 };
 
 #endif // PROJECT_PICKER_HPP

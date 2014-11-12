@@ -22,6 +22,10 @@ ProjectPicker::ProjectPicker(QWidget *_parent) :
 
     m_model = new QStandardItemModel(this);
     ui->projectsList->setModel(m_model);
+    ui->projectsList->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    connect(ui->projectsList->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(currentChanged(QModelIndex,QModelIndex)));
 }
 
 
@@ -79,6 +83,12 @@ void ProjectPicker::on_deleteButton_clicked()
 }
 
 
+void ProjectPicker::currentChanged(const QModelIndex &,  const QModelIndex &)
+{
+    refreshGui();
+}
+
+
 void ProjectPicker::reload()
 {
     m_projs.clear();
@@ -94,6 +104,8 @@ void ProjectPicker::reload()
 
         m_model->appendRow(item);
     }
+
+    refreshGui();
 }
 
 
@@ -101,8 +113,8 @@ ProjectInfo ProjectPicker::selectedPrj() const
 {
     ProjectInfo prjInfo;
 
-    QItemSelectionModel* selection = ui->projectsList->selectionModel();
-    QModelIndex selected = selection->currentIndex();
+    const QItemSelectionModel* selection = ui->projectsList->selectionModel();
+    const QModelIndex selected = selection->currentIndex();
 
     if (selected.isValid() )
     {
@@ -120,3 +132,13 @@ ProjectInfo ProjectPicker::selectedPrj() const
     return prjInfo;
 }
 
+
+void ProjectPicker::refreshGui()
+{
+    const QItemSelectionModel* selection = ui->projectsList->selectionModel();
+    const QModelIndex selected = selection->currentIndex();
+    const bool any = selected.isValid();
+
+    ui->openButton->setEnabled(any);
+    ui->deleteButton->setEnabled(any);
+}
