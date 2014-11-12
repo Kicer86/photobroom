@@ -115,7 +115,7 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 std::shared_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
 {
     QDir storagePath(getPrjStorage());
-    storagePath.cd(prjInfo.id);
+    storagePath.cd(prjInfo.getId());
 
     const QString prjDir = storagePath.absolutePath();
     const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
@@ -131,7 +131,7 @@ std::shared_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
     result->setPrjPath(prjPath);
     result->setDBBackend(backend);
     result->setDBLocation(location);
-    result->setName(prjInfo.name);
+    result->setName(prjInfo.getName());
 
     Database::ProjectInfo dbPrjInfo(location, backend, prjDir);
     Database::IDatabase* db = m_dbBuilder->get(dbPrjInfo);
@@ -163,11 +163,11 @@ bool ProjectManager::remove(const ProjectInfo& name)
 {
     QDir storagePath(getPrjStorage());
 
-    bool status = storagePath.exists(name.id);
+    bool status = storagePath.exists(name.getId());
 
     if (status)
     {
-        storagePath.cd(name.id);
+        storagePath.cd(name.getId());
         status = storagePath.removeRecursively();
     }
 
@@ -202,7 +202,7 @@ ProjectInfo ProjectManager::get(const QString& id)
     const QString prjs = getPrjStorage();
     QDir storageDir(prjs);
 
-    ProjectInfo info;
+    QString name;
 
     if (storageDir.exists(id))
     {
@@ -213,12 +213,11 @@ ProjectInfo ProjectManager::get(const QString& id)
         QSettings prjFile(prjPath, QSettings::IniFormat);
 
         prjFile.beginGroup("Project");
-        info.name = prjFile.value("name").toString();
-        info.id = id;
+        name = prjFile.value("name").toString();
         prjFile.endGroup();
     }
 
-    return info;
+    return ProjectInfo(name, id);
 }
 
 
