@@ -202,6 +202,16 @@
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/project_picker.cpp" line="83"/>
+        <source>Project deletion</source>
+        <translation>Usunięcie projektu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/project_picker.cpp" line="84"/>
+        <source>Are you sure to remove project %1?</source>
+        <translation>Czy na pewno usunąć projekt %1?</translation>
+    </message>
 </context>
 <context>
     <name>StagedPhotosWidget</name>
