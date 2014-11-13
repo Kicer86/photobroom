@@ -123,8 +123,6 @@ void MainWindow::setupView()
 
 void MainWindow::createMenus()
 {
-    //reattach items to "Windows" menu
-
     for(size_t i = 0; i < m_views.size(); i++)
     {
         IView* view = m_views[i];
