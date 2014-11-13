@@ -1,6 +1,6 @@
 
-#ifndef TYPES_HPP
-#define TYPES_HPP
+#ifndef TAG_HPP
+#define TAG_HPP
 
 #include <assert.h>
 
@@ -24,65 +24,18 @@ struct CORE_EXPORT TagNameInfo
             Time    = 3,
         };
 
-        TagNameInfo(const QString& n, const Type t, char s = ';'): name(n), type(t), separator(s)
-        {
+        TagNameInfo(const QString& name, const Type , char searator = ';');
+        TagNameInfo(const QString& name, int type, char separator = ';');
+        TagNameInfo(const TagNameInfo& other);
 
-        }
+        operator QString() const;
+        bool operator==(const TagNameInfo& other) const;
+        bool operator<(const TagNameInfo& other) const;
+        TagNameInfo& operator=(const TagNameInfo& other);
 
-        TagNameInfo(const QString& n, int t, char s = ';'): TagNameInfo(n, Type(t), s)
-        {
-
-        }
-
-        TagNameInfo(const TagNameInfo& other): name(other.name), type(other.type), separator(other.separator)
-        {
-
-        }
-
-        operator QString() const
-        {
-            return name;
-        }
-
-        bool operator==(const TagNameInfo& other) const
-        {
-            const bool result = name == other.name;
-
-            assert(result == false || separator == other.separator);  //if result is true, then separators must be equal
-
-            return result;
-        }
-
-        bool operator<(const TagNameInfo& other) const
-        {
-            const bool result = name < other.name;
-
-            return result;
-        }
-
-        TagNameInfo& operator=(const TagNameInfo& other)
-        {
-            name = other.name;
-            separator = other.separator;
-            type = other.type;
-
-            return *this;
-        }
-
-        const QString& getName() const
-        {
-            return name;
-        }
-
-        char getSeparator() const
-        {
-            return separator;
-        }
-
-        Type getType() const
-        {
-            return type;
-        }
+        const QString& getName() const;
+        char getSeparator() const;
+        Type getType() const;
 
     private:
         QString name;
@@ -95,24 +48,11 @@ struct CORE_EXPORT TagValueInfo
 {
     QString m_value;
 
-    TagValueInfo(const QString& v): m_value(v) {}
+    TagValueInfo(const QString& v);
 
-    operator QString() const
-    {
-        return m_value;
-    }
-
-    bool operator<(const TagValueInfo& other) const
-    {
-        const bool result = m_value < other.m_value;
-
-        return result;
-    }
-
-    const QString& value() const
-    {
-        return m_value;
-    }
+    operator QString() const;
+    bool operator<(const TagValueInfo& other) const;
+    const QString& value() const;
 };
 
 namespace Tag
@@ -120,44 +60,17 @@ namespace Tag
     typedef std::set<TagValueInfo> ValuesSet;
     typedef std::map<TagNameInfo, ValuesSet> TagsList;
 
-
-    struct Info
+    struct CORE_EXPORT Info
     {
-            Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-            Info(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+            Info(const Tag::TagsList::const_iterator &);
+            Info(const std::pair<TagNameInfo, Tag::ValuesSet> &data);
 
-            Info& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
-            {
-                m_name = data.first;
-                m_values = data.second;
+            Info& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data);
 
-                return *this;
-            }
-
-            QString name() const
-            {
-                return m_name;
-            }
-
-            TagNameInfo getTypeInfo() const
-            {
-                return m_name;
-            }
-
-            const Tag::ValuesSet& values() const
-            {
-                return m_values;
-            }
-
-            QString valuesString() const
-            {
-                QString result;
-
-                for(const QString &str: m_values)
-                    result += str + m_name.getSeparator() + " ";
-
-                return result.simplified();
-            }
+            QString name() const;
+            TagNameInfo getTypeInfo() const;
+            const Tag::ValuesSet& values() const;
+            QString valuesString() const;
 
         private:
             TagNameInfo m_name;
