@@ -163,6 +163,7 @@ void MainWindow::on_actionNew_project_triggered()
         openProject(prjCreator.project());
 }
 
+
 void MainWindow::on_actionOpen_project_triggered()
 {
     ProjectPicker picker;
