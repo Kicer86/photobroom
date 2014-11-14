@@ -55,4 +55,4 @@ class TagsModel: public QStandardItemModel
         void refreshModel(const QItemSelection &, const QItemSelection &);
 };
 
-#endif // TAGSMODEL_H
+#endif // TAGSMODEL_HPP
