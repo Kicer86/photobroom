@@ -35,6 +35,7 @@ set(GUI_SOURCES
     Qt5/components/filters_editor/level_editor.cpp
     Qt5/components/project_creator/project_creator_dialog.cpp
     Qt5/components/tag_editor/tag_editor_widget.cpp
+    Qt5/components/tag_editor/helpers/tags_operator.cpp
     Qt5/components/tag_editor/helpers/tags_view.cpp
     Qt5/components/tag_editor/helpers/tags_model.cpp
     Qt5/ui/mainwindow.cpp
@@ -64,6 +65,7 @@ set(GUI_HEADERS
     Qt5/components/filters_editor/level_editor.hpp
     Qt5/components/project_creator/project_creator_dialog.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
+    Qt5/components/tag_editor/helpers/tags_operator.hpp
     Qt5/components/tag_editor/helpers/tags_view.hpp
     Qt5/components/tag_editor/helpers/tags_model.hpp
     Qt5/ui/mainwindow.hpp
