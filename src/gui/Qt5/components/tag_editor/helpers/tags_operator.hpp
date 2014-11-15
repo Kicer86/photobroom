@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TAGGROUPUPDATER_H
-#define TAGGROUPUPDATER_H
+#ifndef TAGGROUPUPDATER_HPP
+#define TAGGROUPUPDATER_HPP
 
 #include <vector>
 
@@ -28,64 +28,16 @@
 class TagsOperator
 {
     public:
-        TagsOperator(const std::vector<IPhotoInfo::Ptr>& photos): m_tagUpdaters()
-        {
-            for (const IPhotoInfo::Ptr& photo: photos)
-                m_tagUpdaters.emplace_back(photo);
-        }
+        TagsOperator(const std::vector<IPhotoInfo::Ptr> &);
 
-        Tag::TagsList getTags() const
-        {
-            Tag::TagsList tags;
+        Tag::TagsList getTags() const;
 
-            for (const TagUpdater& tagUpdater: m_tagUpdaters)
-            {
-                const Tag::TagsList l_tags = tagUpdater.getTags();
-
-                for (auto it = l_tags.begin(); it != l_tags.end(); ++it)
-                {
-                    auto f_it = tags.find(it->first);      //check if this tag already exists in main set of tags
-
-                    if (f_it != tags.end())  //it does
-                    {
-                        //check if values are the same
-                        Tag::Info info_it(it);
-                        Tag::Info info_f_it(f_it);
-
-                        if (info_it.valuesString() != info_f_it.valuesString())
-                        {
-                            Tag::ValuesSet new_value( { TagValueInfo("<multiple values>") } );
-                            f_it->second = new_value;
-                        }
-                    }
-                    else
-                        tags.insert(*it);
-                }
-            }
-
-            return tags;
-        }
-
-        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
-        {
-            for (TagUpdater& updater: m_tagUpdaters)
-                updater.setTag(name, values);
-        }
-
-        void setTag(const TagNameInfo& name, const TagValueInfo& value)
-        {
-            for (TagUpdater& updater: m_tagUpdaters)
-                updater.setTag(name, value);
-        }
-
-        void setTags(const Tag::TagsList& tags)
-        {
-            for (TagUpdater& updater: m_tagUpdaters)
-                updater.setTags(tags);
-        }
+        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
+        void setTag(const TagNameInfo& name, const TagValueInfo& value);
+        void setTags(const Tag::TagsList& tags);
 
     private:
         std::deque<TagUpdater> m_tagUpdaters;
 };
 
-#endif // TAGGROUPUPDATER_H
+#endif // TAGGROUPUPDATER_HPP
