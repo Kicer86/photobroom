@@ -87,3 +87,24 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
     for (TagUpdater& updater: m_tagUpdaters)
         updater.setTags(tags);
 }
+
+
+void TagsOperator::updateTag(const QString& name, const TagValueInfo& value)
+{
+    //find tag for given name
+    Tag::TagsList tags = getTags();
+    bool updated = false;
+
+    for(const Tag::Info info: tags)
+    {
+        if (info.name() == name)
+        {
+            setTag(info.getTypeInfo(), value);
+
+            updated = true;
+            break;
+        }
+    }
+
+    assert(updated);
+}

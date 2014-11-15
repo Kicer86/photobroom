@@ -17,6 +17,7 @@ struct ITagsOperator
     virtual void setTag(const TagNameInfo &, const Tag::ValuesSet &) = 0;
     virtual void setTag(const TagNameInfo &, const TagValueInfo &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;
+    virtual void updateTag(const QString& name, const TagValueInfo &) = 0;
 };
 
 
