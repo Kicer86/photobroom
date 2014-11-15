@@ -98,6 +98,46 @@ const QString& TagValueInfo::value() const
 //////////////////////////////////////////////////////////////
 
 
+TagValue::TagValue(): m_values()
+{
+
+}
+
+
+TagValue::~TagValue()
+{
+
+}
+
+
+void TagValue::setValue(const QString& value)
+{
+    m_values.clear();
+    addValue(value);
+}
+
+
+void TagValue::setValues(std::deque<QString>& values)
+{
+    m_values = values;
+}
+
+
+void TagValue::addValue(const QString& value)
+{
+    m_values.push_back(value);
+}
+
+
+const std::deque< QString >& TagValue::getValues() const
+{
+    return m_values;
+}
+
+
+//////////////////////////////////////////////////////////////
+
+
 namespace Tag
 {
 

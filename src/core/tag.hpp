@@ -4,6 +4,7 @@
 
 #include <assert.h>
 
+#include <deque>
 #include <vector>
 #include <map>
 #include <set>
@@ -54,6 +55,24 @@ struct CORE_EXPORT TagValueInfo
     bool operator<(const TagValueInfo& other) const;
     const QString& value() const;
 };
+
+
+class CORE_EXPORT TagValue
+{
+    public:
+        TagValue();
+        ~TagValue();
+
+        void setValue(const QString &);
+        void setValues(std::deque<QString> &);
+        void addValue(const QString &);
+
+        const std::deque<QString>& getValues() const;
+
+    private:
+        std::deque<QString> m_values;
+};
+
 
 namespace Tag
 {
