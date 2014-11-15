@@ -39,7 +39,8 @@
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
     m_selectionModel(nullptr),
-    m_dbDataModel(nullptr)
+    m_dbDataModel(nullptr),
+    m_tagsOperator()
 {
 
 }
@@ -58,6 +59,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
 
     m_selectionModel = selectionModel;
     connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(refreshModel(QItemSelection, const QItemSelection &)));
+    connect(this, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(updateData(QModelIndex,QModelIndex)));
 
     refreshModel();
 }
@@ -131,4 +133,25 @@ std::vector<IPhotoInfo::Ptr> TagsModel::getPhotosForSelection()
 void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
 {
     refreshModel();
+}
+
+
+void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottomRight)
+{
+    const QItemSelection items(topLeft, bottomRight);
+    const QModelIndexList itemsList(items.indexes());
+
+    for (const QModelIndex& index: itemsList)
+    {
+        assert(index.column() == 1);
+
+        if (index.column() == 1)
+        {
+            const QModelIndex tagNameIndex = index.sibling(index.row(), 0);
+            const QString tagName = tagNameIndex.data().toString();
+            const QString tagValue = index.data().toString();
+
+            //m_tagsOperator->setTag();
+        }
+    }
 }

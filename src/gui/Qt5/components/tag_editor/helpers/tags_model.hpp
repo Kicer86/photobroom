@@ -56,6 +56,7 @@ class TagsModel: public QStandardItemModel
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
+        void updateData(const QModelIndex &, const QModelIndex &);
 };
 
 #endif // TAGSMODEL_HPP
