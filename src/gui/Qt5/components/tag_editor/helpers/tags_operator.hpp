@@ -32,9 +32,9 @@ class TagsOperator
 
         Tag::TagsList getTags() const;
 
-        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
-        void setTag(const TagNameInfo& name, const TagValueInfo& value);
-        void setTags(const Tag::TagsList& tags);
+        void setTag(const TagNameInfo &, const Tag::ValuesSet &);
+        void setTag(const TagNameInfo &, const TagValueInfo &);
+        void setTags(const Tag::TagsList &);
 
     private:
         std::deque<TagUpdater> m_tagUpdaters;
