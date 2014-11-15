@@ -20,8 +20,16 @@
 #include "tags_operator.hpp"
 
 
-TagsOperator::TagsOperator(const std::vector<IPhotoInfo::Ptr>& photos): m_tagUpdaters()
+TagsOperator::TagsOperator(): m_tagUpdaters()
 {
+
+}
+
+
+void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
+{
+    m_tagUpdaters.clear();
+
     for (const IPhotoInfo::Ptr& photo: photos)
         m_tagUpdaters.emplace_back(photo);
 }

@@ -30,7 +30,9 @@
 class TagsOperator: public ITagsOperator
 {
     public:
-        TagsOperator(const std::vector<IPhotoInfo::Ptr> &);
+        TagsOperator();
+
+        void operateOn(const std::vector< IPhotoInfo::Ptr >&) override;
 
         Tag::TagsList getTags() const override;
 
