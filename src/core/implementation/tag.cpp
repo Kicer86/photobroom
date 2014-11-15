@@ -102,7 +102,7 @@ namespace Tag
 {
 
     Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-    Info::Info(const std::pair<TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+    Info::Info(const std::pair<const TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
 
     Info& Info::operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
     {

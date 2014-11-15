@@ -63,7 +63,7 @@ namespace Tag
     struct CORE_EXPORT Info
     {
             Info(const Tag::TagsList::const_iterator &);
-            Info(const std::pair<TagNameInfo, Tag::ValuesSet> &data);
+            Info(const std::pair<const TagNameInfo, Tag::ValuesSet> &data);
 
             Info& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data);
 
