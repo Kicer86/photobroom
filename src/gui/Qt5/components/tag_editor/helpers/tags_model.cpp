@@ -141,17 +141,17 @@ void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottom
     const QItemSelection items(topLeft, bottomRight);
     const QModelIndexList itemsList(items.indexes());
 
-    for (const QModelIndex& index: itemsList)
+    for (const QModelIndex& itemIndex: itemsList)
     {
-        assert(index.column() == 1);
+        assert(itemIndex.column() == 1);
 
-        if (index.column() == 1)
+        if (itemIndex.column() == 1)
         {
-            const QModelIndex tagNameIndex = index.sibling(index.row(), 0);
+            const QModelIndex tagNameIndex = itemIndex.sibling(itemIndex.row(), 0);
             const QString tagName = tagNameIndex.data().toString();
-            const QString tagValue = index.data().toString();
+            const QString tagValue = itemIndex.data().toString();
 
-            //m_tagsOperator->setTag();
+            m_tagsOperator->updateTag(tagName, tagValue);
         }
     }
 }
