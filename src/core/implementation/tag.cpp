@@ -1,6 +1,9 @@
 
 #include "tag.hpp"
 
+#include <QString>
+#include <QStringList>
+
 
 TagNameInfo::TagNameInfo(const QString& n, const Type t, char s): name(n), type(t), separator(s)
 {
@@ -75,32 +78,15 @@ TagNameInfo::Type TagNameInfo::getType() const
 //////////////////////////////////////////////////////////////
 
 
-TagValueInfo::TagValueInfo(const QString& v): m_value(v) {}
-
-TagValueInfo::operator QString() const
-{
-    return m_value;
-}
-
-bool TagValueInfo::operator<(const TagValueInfo& other) const
-{
-    const bool result = m_value < other.m_value;
-
-    return result;
-}
-
-const QString& TagValueInfo::value() const
-{
-    return m_value;
-}
-
-
-//////////////////////////////////////////////////////////////
-
-
 TagValue::TagValue(): m_values()
 {
 
+}
+
+
+TagValue::TagValue(const std::initializer_list<QString>& values): m_values()
+{
+    m_values = values;
 }
 
 
@@ -117,7 +103,7 @@ void TagValue::setValue(const QString& value)
 }
 
 
-void TagValue::setValues(std::deque<QString>& values)
+void TagValue::setValues(const std::set<QString>& values)
 {
     m_values = values;
 }
@@ -125,13 +111,25 @@ void TagValue::setValues(std::deque<QString>& values)
 
 void TagValue::addValue(const QString& value)
 {
-    m_values.push_back(value);
+    m_values.insert(value);
 }
 
 
-const std::deque< QString >& TagValue::getValues() const
+const std::set<QString>& TagValue::getValues() const
 {
     return m_values;
+}
+
+
+std::set<QString>::const_iterator TagValue::begin() const
+{
+    return m_values.begin();
+}
+
+
+std::set<QString>::const_iterator TagValue::end() const
+{
+    return m_values.end();
 }
 
 
@@ -142,9 +140,9 @@ namespace Tag
 {
 
     Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-    Info::Info(const std::pair<const TagNameInfo, Tag::ValuesSet> &data): m_name(data.first), m_values(data.second) {}
+    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_values(data.second) {}
 
-    Info& Info::operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data)
+    Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
     {
         m_name = data.first;
         m_values = data.second;
@@ -162,7 +160,7 @@ namespace Tag
         return m_name;
     }
 
-    const Tag::ValuesSet& Info::values() const
+    const TagValue& Info::values() const
     {
         return m_values;
     }
@@ -175,6 +173,18 @@ namespace Tag
             result += str + m_name.getSeparator() + " ";
 
         return result.simplified();
+    }
+
+
+    void Info::setRawValues(const QString& rawValues)
+    {
+        const QStringList splitted = rawValues.split(m_name.getSeparator());
+
+        std::set<QString> valuesSet;
+        for(const QString& value: splitted)
+            valuesSet.insert(value);
+
+        m_values.setValues(valuesSet);
     }
 
 }

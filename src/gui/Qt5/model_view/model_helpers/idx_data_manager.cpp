@@ -406,7 +406,7 @@ void IdxDataManager::got_listTags(const Database::Task &, const std::deque<TagNa
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags)
+void IdxDataManager::got_listTagValues(const Database::Task& task, const TagValue& tags)
 {
     auto tasks = m_data->m_db_tasks.lock();
     auto it = tasks->find(task);
@@ -422,7 +422,7 @@ void IdxDataManager::got_listTagValues(const Database::Task& task, const std::de
 
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-        for(const TagValueInfo& tag: tags)
+        for(const QString& tag: tags)
         {
             auto fdesc = std::make_shared<Database::FilterDescription>();
             fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;

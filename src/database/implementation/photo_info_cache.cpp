@@ -41,7 +41,7 @@ struct PhotoInfoCache::Data: Database::IDatabaseClient
     virtual void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override {}
     virtual void got_getPhotos(const Database::Task &, const IPhotoInfo::List &) override {}
     virtual void got_listTags(const Database::Task &, const std::deque<TagNameInfo> &) override {}
-    virtual void got_listTagValues(const Database::Task &, const std::deque<TagValueInfo> &) override {}
+    virtual void got_listTagValues(const Database::Task &, const TagValue &) override {}
     virtual void got_storeStatus(const Database::Task &) override {}
 };
 

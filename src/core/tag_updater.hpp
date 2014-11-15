@@ -32,8 +32,7 @@ class CORE_EXPORT TagUpdater
 
         void clear();
         void setTags(const Tag::TagsList &);
-        void setTag(const TagNameInfo& name, const TagValueInfo& value);
-        void setTag(const TagNameInfo& name, const Tag::ValuesSet& values);
+        void setTag(const TagNameInfo& name, const TagValue& values);
         Tag::TagsList getTags() const;
 
     private:

@@ -273,8 +273,8 @@ namespace Database
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
             std::deque<TagNameInfo> listTags() const;
-            std::set<TagValueInfo> listTagValues(const TagNameInfo& tagName);
-            std::deque<TagValueInfo> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            TagValue listTagValues(const TagNameInfo& tagName);
+            TagValue listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr>& filter);
 
         private:
@@ -422,11 +422,11 @@ namespace Database
     }
 
 
-    std::set<TagValueInfo> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
+    TagValue ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
     {
         const Optional<unsigned int> tagId = findTagByName(tagName);
 
-        std::set<TagValueInfo> result;
+        TagValue result;
 
         if (tagId)
         {
@@ -441,8 +441,7 @@ namespace Database
             {
                 const QString value = query.value(0).toString();
 
-                TagValueInfo valueInfo(value);
-                result.insert(valueInfo);
+                result.addValue(value);
             }
         }
 
@@ -450,7 +449,7 @@ namespace Database
     }
 
 
-    std::deque<TagValueInfo> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    TagValue ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
         const QString filterQuery = generateFilterQuery(filter);
 
@@ -465,7 +464,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        std::deque<TagValueInfo> result;
+        TagValue result;
         const bool status = exec(queryStr, &query);
 
         if (status)
@@ -473,8 +472,7 @@ namespace Database
             {
                 const QString value = query.value(0).toString();
 
-                TagValueInfo valueInfo(value);
-                result.push_back(valueInfo);
+                result.addValue(value);
             }
 
         return result;
@@ -572,16 +570,14 @@ namespace Database
             if (tag_id)
             {
                 //store tag values
-                const Tag::ValuesSet& values = it->second;
+                const TagValue& values = it->second;
 
-                for (auto it_v = values.cbegin(); it_v != values.cend(); ++it_v)
+                for (const QString& valueInfo: values)
                 {
-                    const TagValueInfo& valueInfo = *it_v;
-
                     const QString query_str =
                         QString("INSERT INTO " TAB_TAGS
                                 "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");")
-                        .arg(valueInfo.value())
+                        .arg(valueInfo)
                         .arg(photo_id)
                         .arg(*tag_id);
 
@@ -755,7 +751,7 @@ namespace Database
             const QString value = query.value(2).toString();
             const unsigned int tagType = query.value(3).toInt();
 
-            tagData[TagNameInfo(name, tagType)] = Tag::ValuesSet({ value });
+            tagData[TagNameInfo(name, tagType)] = TagValue({ value });
         }
 
         return tagData;
@@ -1064,9 +1060,9 @@ namespace Database
     }
 
 
-    std::set<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName)
+    TagValue ASqlBackend::listTagValues(const TagNameInfo& tagName)
     {
-        std::set<TagValueInfo> result;
+        TagValue result;
 
         if (m_data)
             result = m_data->listTagValues(tagName);
@@ -1077,9 +1073,9 @@ namespace Database
     }
 
 
-    std::deque<TagValueInfo> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    TagValue ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        std::deque<TagValueInfo> result = m_data->listTagValues(tagName, filter);
+        const TagValue result = m_data->listTagValues(tagName, filter);
 
         return result;
     }

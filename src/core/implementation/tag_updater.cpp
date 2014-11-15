@@ -38,14 +38,7 @@ void TagUpdater::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagUpdater::setTag(const TagNameInfo& name, const TagValueInfo& value)
-{
-    auto tags = m_photoInfo->accessTags();
-    tags.get()[name] = { value };
-}
-
-
-void TagUpdater::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+void TagUpdater::setTag(const TagNameInfo& name, const TagValue& values)
 {
     auto tags = m_photoInfo->accessTags();
     tags.get()[name] = values;

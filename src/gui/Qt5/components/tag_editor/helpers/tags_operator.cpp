@@ -55,7 +55,7 @@ Tag::TagsList TagsOperator::getTags() const
 
                 if (info_it.valuesString() != info_f_it.valuesString())
                 {
-                    Tag::ValuesSet new_value( { TagValueInfo("<multiple values>") } );
+                    TagValue new_value( { "<multiple values>" } );
                     f_it->second = new_value;
                 }
             }
@@ -68,17 +68,10 @@ Tag::TagsList TagsOperator::getTags() const
 }
 
 
-void TagsOperator::setTag(const TagNameInfo& name, const Tag::ValuesSet& values)
+void TagsOperator::setTag(const TagNameInfo& name, const TagValue& values)
 {
     for (TagUpdater& updater: m_tagUpdaters)
         updater.setTag(name, values);
-}
-
-
-void TagsOperator::setTag(const TagNameInfo& name, const TagValueInfo& value)
-{
-    for (TagUpdater& updater: m_tagUpdaters)
-        updater.setTag(name, value);
 }
 
 
@@ -89,17 +82,18 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagsOperator::updateTag(const QString& name, const TagValueInfo& value)
+void TagsOperator::updateTag(const QString& name, const QString& rawList)
 {
     //find tag for given name
     Tag::TagsList tags = getTags();
     bool updated = false;
 
-    for(const Tag::Info info: tags)
+    for(Tag::Info info: tags)
     {
         if (info.name() == name)
         {
-            setTag(info.getTypeInfo(), value);
+            info.setRawValues(rawList);
+            setTag(info.getTypeInfo(), info.values());
 
             updated = true;
             break;

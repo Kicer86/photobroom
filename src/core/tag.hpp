@@ -4,7 +4,6 @@
 
 #include <assert.h>
 
-#include <deque>
 #include <vector>
 #include <map>
 #include <set>
@@ -45,55 +44,48 @@ struct CORE_EXPORT TagNameInfo
 };
 
 
-struct CORE_EXPORT TagValueInfo
-{
-    QString m_value;
-
-    TagValueInfo(const QString& v);
-
-    operator QString() const;
-    bool operator<(const TagValueInfo& other) const;
-    const QString& value() const;
-};
-
-
 class CORE_EXPORT TagValue
 {
     public:
         TagValue();
+        TagValue(const std::initializer_list<QString> &);
         ~TagValue();
 
         void setValue(const QString &);
-        void setValues(std::deque<QString> &);
+        void setValues(const std::set<QString> &);
         void addValue(const QString &);
 
-        const std::deque<QString>& getValues() const;
+        const std::set<QString>& getValues() const;
+
+        std::set<QString>::const_iterator begin() const;
+        std::set<QString>::const_iterator end() const;
 
     private:
-        std::deque<QString> m_values;
+        std::set<QString> m_values;
 };
 
 
 namespace Tag
 {
-    typedef std::set<TagValueInfo> ValuesSet;
-    typedef std::map<TagNameInfo, ValuesSet> TagsList;
+    typedef std::map<TagNameInfo, TagValue> TagsList;
 
     struct CORE_EXPORT Info
     {
-            Info(const Tag::TagsList::const_iterator &);
-            Info(const std::pair<const TagNameInfo, Tag::ValuesSet> &data);
+            Info(const TagsList::const_iterator &);
+            Info(const std::pair<const TagNameInfo, TagValue> &data);
 
-            Info& operator=(const std::pair<TagNameInfo, Tag::ValuesSet> &data);
+            Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
             QString name() const;
             TagNameInfo getTypeInfo() const;
-            const Tag::ValuesSet& values() const;
+            const TagValue& values() const;
             QString valuesString() const;
+
+            void setRawValues(const QString &);
 
         private:
             TagNameInfo m_name;
-            Tag::ValuesSet m_values;
+            TagValue m_values;
     };
 
 }

@@ -57,7 +57,7 @@ struct DataReceiver: Database::IDatabaseClient
     }
 
 
-    void got_listTagValues(const Database::Task&, const std::deque<TagValueInfo> &) override
+    void got_listTagValues(const Database::Task&, const TagValue &) override
     {
 
     }
