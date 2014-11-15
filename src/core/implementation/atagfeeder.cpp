@@ -68,7 +68,7 @@ void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
 
         date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
 
-		tagData[BaseTags::get(BaseTagsList::Date)] = Tag::ValuesSet({ date });
-		tagData[BaseTags::get(BaseTagsList::Time)] = Tag::ValuesSet({ time });
+        tagData[BaseTags::get(BaseTagsList::Date)] = Tag::ValuesSet( { date });
+        tagData[BaseTags::get(BaseTagsList::Time)] = Tag::ValuesSet( { time });
     }
 }
