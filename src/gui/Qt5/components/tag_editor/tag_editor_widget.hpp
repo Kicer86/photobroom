@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+#include "helpers/tags_operator.hpp"
+
 class QItemSelectionModel;
 
 class TagsView;
@@ -44,6 +46,7 @@ class TagEditorWidget: public QWidget
     private:
         TagsView* m_view;
         TagsModel* m_model;
+        TagsOperator m_tagsOperator;
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP

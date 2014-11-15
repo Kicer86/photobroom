@@ -29,7 +29,8 @@
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QWidget(p, f),
     m_view(nullptr),
-    m_model(nullptr)
+    m_model(nullptr),
+    m_tagsOperator()
 {
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
@@ -37,6 +38,8 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
 
     l->addWidget(m_view);
     m_view->setModel(m_model);
+
+    m_model->set(&m_tagsOperator);
 }
 
 
