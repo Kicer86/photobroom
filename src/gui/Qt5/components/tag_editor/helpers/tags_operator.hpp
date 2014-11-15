@@ -17,27 +17,29 @@
  *
  */
 
-#ifndef TAGGROUPUPDATER_HPP
-#define TAGGROUPUPDATER_HPP
+#ifndef TAGS_OPERATOR_HPP
+#define TAGS_OPERATOR_HPP
 
 #include <vector>
 
 #include <core/tag_updater.hpp>
 #include <database/iphoto_info.hpp>
 
-class TagsOperator
+#include "itags_operator.hpp"
+
+class TagsOperator: public ITagsOperator
 {
     public:
         TagsOperator(const std::vector<IPhotoInfo::Ptr> &);
 
-        Tag::TagsList getTags() const;
+        Tag::TagsList getTags() const override;
 
-        void setTag(const TagNameInfo &, const Tag::ValuesSet &);
-        void setTag(const TagNameInfo &, const TagValueInfo &);
-        void setTags(const Tag::TagsList &);
+        void setTag(const TagNameInfo &, const Tag::ValuesSet &) override;
+        void setTag(const TagNameInfo &, const TagValueInfo &) override;
+        void setTags(const Tag::TagsList &) override;
 
     private:
         std::deque<TagUpdater> m_tagUpdaters;
 };
 
-#endif // TAGGROUPUPDATER_HPP
+#endif // TAGS_OPERATOR_HPP
