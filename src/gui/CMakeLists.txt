@@ -65,6 +65,7 @@ set(GUI_HEADERS
     Qt5/components/filters_editor/level_editor.hpp
     Qt5/components/project_creator/project_creator_dialog.hpp
     Qt5/components/tag_editor/tag_editor_widget.hpp
+    Qt5/components/tag_editor/helpers/itags_operator.hpp
     Qt5/components/tag_editor/helpers/tags_operator.hpp
     Qt5/components/tag_editor/helpers/tags_view.hpp
     Qt5/components/tag_editor/helpers/tags_model.hpp
