@@ -69,6 +69,12 @@ void TagsModel::set(DBDataModel* dbDataModel)
 }
 
 
+void TagsModel::set(ITagsOperator* tagsOperator)
+{
+    m_tagsOperator = tagsOperator;
+}
+
+
 void TagsModel::refreshModel()
 {
     if (m_dbDataModel != nullptr && m_selectionModel != nullptr)
@@ -76,9 +82,9 @@ void TagsModel::refreshModel()
         clearModel();
 
         std::vector<IPhotoInfo::Ptr> photos = getPhotosForSelection();
-        TagsOperator tags_operator(photos);
+        m_tagsOperator->operateOn(photos);
 
-        Tag::TagsList tags = tags_operator.getTags();
+        Tag::TagsList tags = m_tagsOperator->getTags();
 
         for (const auto& tag: tags)
         {
