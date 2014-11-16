@@ -54,9 +54,15 @@ if(AUTODOWNLOAD_EASYEXIF)
 endif(AUTODOWNLOAD_EASYEXIF)
 
 #base paths
-set(PATH_LIBS     "lib/broom")
-set(PATH_PLUGINS  "lib/broom/plugins")
-set(PATH_TR       "share/broom/tr")
+if(UNIX OR CYGWIN)
+	set(PATH_LIBS     "lib/broom")
+	set(PATH_PLUGINS  "lib/broom/plugins")
+	set(PATH_TR       "share/broom/tr")
+elseif(WIN32)
+	set(PATH_LIBS     "")
+	set(PATH_PLUGINS  "plugins")
+	set(PATH_TR       "tr")
+endif(UNIX OR CYGWIN)
 
 # RPATH
 # http://www.cmake.org/Wiki/CMake_RPATH_handling
