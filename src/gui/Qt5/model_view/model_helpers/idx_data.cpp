@@ -85,7 +85,7 @@ void IdxData::removeChild(IdxData* child)
         m_children[i]->m_row = i;             //update `row`
     }
 
-    m_children.pop_back();                    //remove last children
+    m_children.pop_back();                    //remove last child
 
     child->m_parent = nullptr;
 }
