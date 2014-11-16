@@ -693,14 +693,14 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 
     if (match)
     {
+        //make sure photo is assigned to right parent
+        movePhotoToRightParent(photoInfo);
         if (idx != nullptr)
         {
             QModelIndex index = getIndex(idx);
 
             emit m_data->m_model->dataChanged(index, index);
         }
-        else  // photo is not managed yet, but maybe we should manage it now, after change?
-            movePhotoToRightParent(photoInfo);
     }
     else // photo doesn't match filters, but maybe it did?
         if (idx != nullptr)
