@@ -77,6 +77,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 add_subdirectory(src)
 add_subdirectory(tr)
 
+#package dependencies
+addExtraCPackTargets()
+
 #documentation
 find_program(DOXYGEN doxygen)
 add_feature_info("Documentation generation" DOXYGEN "When doxygen program is found, extra build target is enabled.")
