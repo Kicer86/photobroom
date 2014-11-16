@@ -406,7 +406,7 @@ void IdxDataManager::got_listTags(const Database::Task &, const std::deque<TagNa
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags)
+void IdxDataManager::got_listTagValues(const Database::Task& task, const TagValue& tags)
 {
     auto tasks = m_data->m_db_tasks.lock();
     auto it = tasks->find(task);
@@ -422,7 +422,7 @@ void IdxDataManager::got_listTagValues(const Database::Task& task, const std::de
 
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-        for(const TagValueInfo& tag: tags)
+        for(const QString& tag: tags)
         {
             auto fdesc = std::make_shared<Database::FilterDescription>();
             fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;
@@ -693,14 +693,14 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 
     if (match)
     {
+        //make sure photo is assigned to right parent
+        movePhotoToRightParent(photoInfo);
         if (idx != nullptr)
         {
             QModelIndex index = getIndex(idx);
 
             emit m_data->m_model->dataChanged(index, index);
         }
-        else  // photo is not managed yet, but maybe we should manage it now, after change?
-            movePhotoToRightParent(photoInfo);
     }
     else // photo doesn't match filters, but maybe it did?
         if (idx != nullptr)

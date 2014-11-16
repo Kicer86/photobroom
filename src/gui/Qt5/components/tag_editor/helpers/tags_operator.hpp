@@ -1,5 +1,5 @@
 /*
- * Tool for updating Photo's tags
+ * Tags operator
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,26 +17,31 @@
  *
  */
 
-#ifndef TAGUPDATER_H
-#define TAGUPDATER_H
+#ifndef TAGS_OPERATOR_HPP
+#define TAGS_OPERATOR_HPP
 
+#include <vector>
+
+#include <core/tag_updater.hpp>
 #include <database/iphoto_info.hpp>
 
-class CORE_EXPORT TagUpdater
+#include "itags_operator.hpp"
+
+class TagsOperator: public ITagsOperator
 {
     public:
-        TagUpdater(const IPhotoInfo::Ptr &);
-        TagUpdater(const TagUpdater &) = delete;
+        TagsOperator();
 
-        TagUpdater& operator=(const TagUpdater &) = delete;
+        void operateOn(const std::vector< IPhotoInfo::Ptr >&) override;
 
-        void clear();
-        void setTags(const Tag::TagsList &);
-        void setTag(const TagNameInfo& name, const TagValue& values);
-        Tag::TagsList getTags() const;
+        Tag::TagsList getTags() const override;
+
+        void setTag(const TagNameInfo &, const TagValue &) override;
+        void setTags(const Tag::TagsList &) override;
+        void updateTag(const QString &, const QString& rawList) override;
 
     private:
-        IPhotoInfo::Ptr m_photoInfo;
+        std::deque<TagUpdater> m_tagUpdaters;
 };
 
-#endif // TAGUPDATER_H
+#endif // TAGS_OPERATOR_HPP

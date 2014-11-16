@@ -24,6 +24,7 @@
 
 #include <database/iphoto_info.hpp>
 
+struct ITagsOperator;
 class QItemSelectionModel;
 class QItemSelection;
 
@@ -40,12 +41,14 @@ class TagsModel: public QStandardItemModel
 
         void set(QItemSelectionModel *);    // selection model
         void set(DBDataModel *);            // photos model
+        void set(ITagsOperator *);
 
         TagsModel& operator=(const TagsModel &) = delete;
 
     private:
         QItemSelectionModel* m_selectionModel;
         DBDataModel* m_dbDataModel;
+        ITagsOperator* m_tagsOperator;
 
         void refreshModel();
         void clearModel();
@@ -53,6 +56,7 @@ class TagsModel: public QStandardItemModel
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
+        void updateData(const QModelIndex &, const QModelIndex &);
 };
 
-#endif // TAGSMODEL_H
+#endif // TAGSMODEL_HPP

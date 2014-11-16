@@ -108,7 +108,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="187"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="186"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>

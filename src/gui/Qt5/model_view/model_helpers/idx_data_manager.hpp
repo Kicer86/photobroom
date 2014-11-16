@@ -93,7 +93,7 @@ private:
     void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
     void got_getPhotos(const Database::Task & task, const IPhotoInfo::List& photos) override;
     void got_listTags(const Database::Task &, const std::deque<TagNameInfo> &) override;
-    void got_listTagValues(const Database::Task& task, const std::deque<TagValueInfo>& tags) override;
+    void got_listTagValues(const Database::Task& task, const TagValue& tags) override;
     void got_storeStatus(const Database::Task &) override;
     //
 

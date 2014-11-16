@@ -123,15 +123,13 @@ void MainWindow::setupView()
 
 void MainWindow::createMenus()
 {
-    //reattach items to "Windows" menu
-
-    for(int i = 0; i < m_views.size(); i++)
+    for(size_t i = 0; i < m_views.size(); i++)
     {
         IView* view = m_views[i];
         const QString title = view->getName();
         QAction* action = ui->menuWindows->addAction(title);
 
-        action->setData(i);
+        action->setData(static_cast<int>(i));
         connect(ui->menuWindows, SIGNAL(triggered(QAction *)), this, SLOT(activateWindow(QAction*)));
     }
 }
@@ -164,6 +162,7 @@ void MainWindow::on_actionNew_project_triggered()
     if (creation_status)
         openProject(prjCreator.project());
 }
+
 
 void MainWindow::on_actionOpen_project_triggered()
 {

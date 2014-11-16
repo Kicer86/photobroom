@@ -102,7 +102,7 @@ void FiltersMatcher::visit(Database::FilterDescription* filter)
 
     if (it != tagsList.end())
     {
-        const std::set<TagValueInfo>& vals = it->second;
+        const std::set<QString>& vals = it->second.getValues();
 
         result = vals.find(filter->tagValue) != vals.end();
     }
