@@ -81,36 +81,36 @@ endmacro(find_cryptographic_package)
 
 function(addExtraCPackTargets)
 
-	if(WIN32)
+    if(WIN32)
 
-		#dir preparations
-		add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/deploy_main
-						   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy
-						   COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_main
-						  )
+        #dir preparations
+        add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/deploy_main
+                           COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy
+                           COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_main
+                          )
 
-		#Qt5
-		find_program(WINDEPLOY windeployqt)
-		
-		if(WINDEPLOY)
+        #Qt5
+        find_program(WINDEPLOY windeployqt)
+        
+        if(WINDEPLOY)
 
-			get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
-			add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/deploy_qt5
-							   COMMAND set PATH=${WINDEPLOY_DIR}\;%PATH%                      #without it windeployqt cannot find ICU lib (http://qt-project.org/forums/viewthread/41185)
-							   COMMAND ${WINDEPLOY} --dir ${CMAKE_BINARY_DIR}/deploy/ $<TARGET_FILE:broom>
-							   COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_qt5
-							   DEPENDS ${CMAKE_BINARY_DIR}/deploy_main
-							   DEPENDS broom
-							   WORKING_DIRECTORY ${WINDEPLOY_DIR}
-							  )	
-		else()
-			message(FATAL_ERROR "Could not find windeployqt")
-		endif(WINDEPLOY)
+            get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
+            add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/deploy_qt5
+                               COMMAND set PATH=${WINDEPLOY_DIR}\;%PATH%                      #without it windeployqt cannot find ICU lib (http://qt-project.org/forums/viewthread/41185)
+                               COMMAND ${WINDEPLOY} --dir ${CMAKE_BINARY_DIR}/deploy/ $<TARGET_FILE:broom>
+                               COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_qt5
+                               DEPENDS ${CMAKE_BINARY_DIR}/deploy_main
+                               DEPENDS broom
+                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
+                              ) 
+        else()
+            message(FATAL_ERROR "Could not find windeployqt")
+        endif(WINDEPLOY)
 
-		#target
-		add_custom_target(deploy ALL
-					      DEPENDS ${CMAKE_BINARY_DIR}/deploy_qt5
-						 )
-	endif(WIN32)
+        #target
+        add_custom_target(deploy ALL
+                          DEPENDS ${CMAKE_BINARY_DIR}/deploy_qt5
+                         )
+    endif(WIN32)
 
 endfunction(addExtraCPackTargets)
