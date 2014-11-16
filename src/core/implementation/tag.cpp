@@ -169,8 +169,14 @@ namespace Tag
     {
         QString result;
 
-        for(const QString &str: m_values)
-            result += str + m_name.getSeparator() + " ";
+        const auto& v = m_values.getValues();
+        int i = v.size();
+        for(const QString &str: v)
+        {
+            result += str;
+            if (--i > 0)
+                result += m_name.getSeparator() + " ";
+        }
 
         return result.simplified();
     }
