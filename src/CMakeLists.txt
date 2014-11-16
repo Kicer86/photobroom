@@ -21,4 +21,4 @@ add_executable(broom ${BROOM_SOURCES})
 target_link_libraries(broom core database configuration gui project_utils system Qt5::Core)
 turnOnCpp11(broom)
 
-install(TARGETS broom RUNTIME DESTINATION bin)
+install(TARGETS broom RUNTIME DESTINATION ${PATH_BIN})

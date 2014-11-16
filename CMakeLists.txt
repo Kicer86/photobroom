@@ -55,13 +55,15 @@ endif(AUTODOWNLOAD_EASYEXIF)
 
 #base paths
 if(UNIX OR CYGWIN)
+	set(PATH_BIN      "bin")
 	set(PATH_LIBS     "lib/broom")
 	set(PATH_PLUGINS  "lib/broom/plugins")
 	set(PATH_TR       "share/broom/tr")
 elseif(WIN32)
-	set(PATH_LIBS     "")
-	set(PATH_PLUGINS  "plugins")
-	set(PATH_TR       "tr")
+	set(PATH_BIN      "./")
+	set(PATH_LIBS     "./")
+	set(PATH_PLUGINS  "./plugins")
+	set(PATH_TR       "./tr")
 endif(UNIX OR CYGWIN)
 
 # RPATH
