@@ -109,7 +109,7 @@ endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
+add_library(core SHARED ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
 target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
 
 if(OPENMP_FOUND)
