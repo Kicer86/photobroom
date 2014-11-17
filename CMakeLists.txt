@@ -1,7 +1,7 @@
 
 cmake_policy(SET CMP0048 NEW)
 
-project(broom VERSION 0.90 LANGUAGES CXX)
+project(broom VERSION 0.90.0 LANGUAGES CXX)
 
 cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -10,6 +10,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 
 #include modules
 include(CPack)
@@ -53,9 +54,17 @@ if(AUTODOWNLOAD_EASYEXIF)
 endif(AUTODOWNLOAD_EASYEXIF)
 
 #base paths
-set(PATH_LIBS     "lib/broom")
-set(PATH_PLUGINS  "lib/broom/plugins")
-set(PATH_TR       "share/broom/tr")
+if(UNIX OR CYGWIN)
+	set(PATH_BIN      "bin")
+	set(PATH_LIBS     "lib/broom")
+	set(PATH_PLUGINS  "lib/broom/plugins")
+	set(PATH_TR       "share/broom/tr")
+elseif(WIN32)
+	set(PATH_BIN      "./")
+	set(PATH_LIBS     "./")
+	set(PATH_PLUGINS  "./plugins")
+	set(PATH_TR       "./tr")
+endif(UNIX OR CYGWIN)
 
 # RPATH
 # http://www.cmake.org/Wiki/CMake_RPATH_handling
@@ -67,6 +76,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 #subdirs
 add_subdirectory(src)
 add_subdirectory(tr)
+
+#package dependencies
+addExtraCPackTargets()
 
 #documentation
 find_program(DOXYGEN doxygen)
@@ -91,6 +103,9 @@ if(DOXYGEN)
 endif()
 message("generate_code_coverage - generates code coverage in build dir")
 message("package                - generates broom installer")
+if(TARGET deploy)
+    message("deploy                 - generates list of external libraries used by project and adds them to instalation (and package)")
+endif()
 message("")
 
 feature_summary(WHAT ALL)
