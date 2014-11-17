@@ -36,4 +36,5 @@ generate_export_header(project_utils EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/export
 turnOnCpp11(project_utils)
 hideSymbols(project_utils)
 
-install(TARGETS project_utils DESTINATION ${PATH_LIBS})
+install(TARGETS project_utils RUNTIME DESTINATION ${PATH_LIBS}
+		              LIBRARY DESTINATION ${PATH_LIBS})

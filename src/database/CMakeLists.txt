@@ -73,4 +73,5 @@ generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/dat
 turnOnCpp11(database)
 hideSymbols(database)
 
-install(TARGETS database DESTINATION ${PATH_LIBS})
+install(TARGETS database RUNTIME DESTINATION ${PATH_LIBS}
+		         LIBRARY DESTINATION ${PATH_LIBS})

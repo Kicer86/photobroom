@@ -110,7 +110,8 @@ generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_expo
 turnOnCpp11(gui)
 hideSymbols(gui)
 
-install(TARGETS gui DESTINATION ${PATH_LIBS})
+install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
+		    LIBRARY DESTINATION ${PATH_LIBS})
 
 if(BUILD_TESTS)
 

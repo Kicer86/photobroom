@@ -29,4 +29,5 @@ target_link_libraries(system PRIVATE Qt5::Core)
 turnOnCpp11(system)
 hideSymbols(system)
 
-install(TARGETS system DESTINATION ${PATH_LIBS})
+install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
+		       LIBRARY DESTINATION ${PATH_LIBS})
