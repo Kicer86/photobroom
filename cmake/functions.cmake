@@ -88,6 +88,11 @@ function(addExtraCPackTargets)
                            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy
                            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_main
                           )
+                          
+        #OpenLibrary
+        find_package(OpenLibrary COMPONENTS putils)
+        get_target_property(loc OpenLibrary::putils LOCATION)
+        install(FILES ${loc} DESTINATION ${PATH_LIBS})
 
         #Qt5
         find_program(WINDEPLOY windeployqt)
@@ -103,6 +108,12 @@ function(addExtraCPackTargets)
                                        --libdir ${CMAKE_BINARY_DIR}/deploy/lib
                                        --no-compiler-runtime 
                                        $<TARGET_FILE:broom>
+                                       
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${CMAKE_BINARY_DIR}/deploy/tr 
+                                       --libdir ${CMAKE_BINARY_DIR}/deploy/lib
+                                       --no-compiler-runtime 
+                                       $<TARGET_FILE:gui>
                                COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_qt5
                                DEPENDS ${CMAKE_BINARY_DIR}/deploy_main
                                DEPENDS broom
