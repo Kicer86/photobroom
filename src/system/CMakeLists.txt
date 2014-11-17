@@ -15,7 +15,12 @@ endif(WIN32)
 
 set(SYSTEM_SOURCES ${SYSTEM_SOURCES} implementation/filesystem.cpp)
 set(SYSTEM_HEADERS system.hpp filesystem.hpp)
-configure_file(paths.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
+
+if(WIN32)
+    configure_file(paths_win.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
+else()
+    configure_file(paths_unix.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
+endif()
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
