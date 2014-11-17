@@ -114,6 +114,13 @@ function(addExtraCPackTargets)
                                        --libdir ${CMAKE_BINARY_DIR}/deploy/lib
                                        --no-compiler-runtime 
                                        $<TARGET_FILE:gui>
+                                       
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${CMAKE_BINARY_DIR}/deploy/tr 
+                                       --libdir ${CMAKE_BINARY_DIR}/deploy/lib
+                                       --no-compiler-runtime 
+                                       $<TARGET_FILE:sql_backend_base>
+                                       
                                COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_qt5
                                DEPENDS ${CMAKE_BINARY_DIR}/deploy_main
                                DEPENDS broom
