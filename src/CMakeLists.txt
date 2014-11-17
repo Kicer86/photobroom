@@ -23,8 +23,8 @@ else()
 	set(EXE_FLAGS)
 endif()
 
-add_executable(broom ${EXE_FLAGS} ${BROOM_SOURCES})
-target_link_libraries(broom core database configuration gui project_utils system Qt5::Core)
-turnOnCpp11(broom)
+add_executable(photo_broom ${EXE_FLAGS} ${BROOM_SOURCES})
+target_link_libraries(photo_broom core database configuration gui project_utils system Qt5::Core)
+turnOnCpp11(photo_broom)
 
-install(TARGETS broom RUNTIME DESTINATION ${PATH_BIN})
+install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})

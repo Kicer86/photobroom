@@ -107,7 +107,7 @@ function(addExtraCPackTargets)
                                   ARGS --dir ${CMAKE_BINARY_DIR}/deploy/tr 
                                        --libdir ${CMAKE_BINARY_DIR}/deploy/lib
                                        --no-compiler-runtime 
-                                       $<TARGET_FILE:broom>
+                                       $<TARGET_FILE:photo_broom>
                                        
                                COMMAND ${WINDEPLOY} 
                                   ARGS --dir ${CMAKE_BINARY_DIR}/deploy/tr 

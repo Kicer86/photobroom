@@ -1,7 +1,7 @@
 
 cmake_policy(SET CMP0048 NEW)
 
-project(broom VERSION 0.90.0 LANGUAGES CXX)
+project(PhotoBroom VERSION 0.90.0 LANGUAGES CXX)
 
 cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -19,13 +19,11 @@ include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 
 #options:
-option(BUILD_SHARED_LIBS "Build all libraries as shared" TRUE)
 option(BUILD_TESTS "Build tests. Set to ON to build tests")
 option(AUTODOWNLOAD_EASYEXIF "Automatically download EasyExif package if not found")
 
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
-add_feature_info("Build shared libraries" BUILD_SHARED_LIBS "Builds all libraries as shared. Feature controlled by BUILD_SHARED_LIBS variable.")
 add_feature_info("Automatically download EasyExif" AUTODOWNLOAD_EASYEXIF "When set to ON, EasyExif library will be automatically downloaded when not found.")
 
 #tests
@@ -56,8 +54,8 @@ endif(AUTODOWNLOAD_EASYEXIF)
 #base paths
 if(UNIX OR CYGWIN)
 	set(PATH_BIN      "bin")
-	set(PATH_LIBS     "lib/broom")
-	set(PATH_PLUGINS  "lib/broom/plugins")
+	set(PATH_LIBS     "lib/photo_broom")
+	set(PATH_PLUGINS  "lib/photo_broom/plugins")
 	set(PATH_TR       "share/broom/tr")
 elseif(WIN32)
 	set(PATH_BIN      "./")

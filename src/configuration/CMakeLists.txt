@@ -43,11 +43,12 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
-add_library(configuration ${CONFIG_SOURCES} ${CONFIG_HEADERS})
+add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
 target_link_libraries(configuration PRIVATE system Qt5::Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
 turnOnCpp11(configuration)
 hideSymbols(configuration)
 
-install(TARGETS configuration DESTINATION ${PATH_LIBS})
+install(TARGETS configuration RUNTIME DESTINATION ${PATH_LIBS}
+		              LIBRARY DESTINATION ${PATH_LIBS})

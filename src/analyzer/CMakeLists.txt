@@ -49,11 +49,12 @@ endif(BUILD_TESTS)
 
 source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
 
-add_library(analyzer ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
+add_library(analyzer SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(analyzer PRIVATE Qt5::Core)
 
 generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
 turnOnCpp11(analyzer)
 hideSymbols(analyzer)
 
-install(TARGETS analyzer DESTINATION ${PATH_LIBS})
+install(TARGETS analyzer RUNTIME DESTINATION ${PATH_LIBS}
+		         LIBRARY DESTINATION ${PATH_LIBS})
