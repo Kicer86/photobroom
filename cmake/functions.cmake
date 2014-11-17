@@ -96,21 +96,35 @@ function(addExtraCPackTargets)
 
             get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
             add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/deploy_qt5
+                               #COMMAND set VCINSTALLDIR=$(VCInstallDir)
                                COMMAND set PATH=${WINDEPLOY_DIR}\;%PATH%                      #without it windeployqt cannot find ICU lib (http://qt-project.org/forums/viewthread/41185)
-                               COMMAND ${WINDEPLOY} --dir ${CMAKE_BINARY_DIR}/deploy/ $<TARGET_FILE:broom>
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${CMAKE_BINARY_DIR}/deploy/tr 
+                                       --libdir ${CMAKE_BINARY_DIR}/deploy/lib
+                                       --no-compiler-runtime 
+                                       $<TARGET_FILE:broom>
                                COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/deploy_qt5
                                DEPENDS ${CMAKE_BINARY_DIR}/deploy_main
                                DEPENDS broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              ) 
+                              )
         else()
             message(FATAL_ERROR "Could not find windeployqt")
         endif(WINDEPLOY)
+        
+        #system
+        set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
+        include(InstallRequiredSystemLibraries)
+        install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${PATH_LIBS})
 
         #target
         add_custom_target(deploy ALL
                           DEPENDS ${CMAKE_BINARY_DIR}/deploy_qt5
                          )
+
+        install(DIRECTORY ${CMAKE_BINARY_DIR}/deploy/tr/ DESTINATION ${PATH_TR})
+        install(DIRECTORY ${CMAKE_BINARY_DIR}/deploy/lib/ DESTINATION ${PATH_LIBS})
+
     endif(WIN32)
 
 endfunction(addExtraCPackTargets)
