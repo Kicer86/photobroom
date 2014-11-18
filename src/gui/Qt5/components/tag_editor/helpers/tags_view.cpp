@@ -19,9 +19,12 @@
 
 #include "tags_view.hpp"
 
+#include <QStringListModel>
+#include <QHeaderView>
+
 TagsView::TagsView(QWidget* p): QTableView(p)
 {
-
+    verticalHeader()->hide();
 }
 
 
@@ -29,3 +32,14 @@ TagsView::~TagsView()
 {
 
 }
+
+
+bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger trigger, QEvent* e)
+{
+    const bool status = index.column() == 0?
+            false:
+            QAbstractItemView::edit(index, trigger, e);
+
+    return status;
+}
+

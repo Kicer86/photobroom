@@ -42,7 +42,6 @@ TagsModel::TagsModel(QObject* p):
     m_dbDataModel(nullptr),
     m_tagsOperator()
 {
-
 }
 
 
@@ -104,6 +103,7 @@ void TagsModel::refreshModel()
 void TagsModel::clearModel()
 {
     clear();
+    setHorizontalHeaderLabels( {tr("Name"), tr("Value")} );
 }
 
 
