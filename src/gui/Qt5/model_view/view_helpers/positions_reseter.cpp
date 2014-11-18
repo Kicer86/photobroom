@@ -73,6 +73,7 @@ void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
         const QModelIndex parent = idx.parent();
         invalidateItemOverallRect(parent);
         invalidateSiblingsRect(idx);
+        invalidateChildrenRect(idx);
     }
 }
 
