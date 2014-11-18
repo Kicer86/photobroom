@@ -30,6 +30,9 @@ class TagsView: public QTableView
         ~TagsView();
 
         TagsView& operator=(const TagsView &) = delete;
+
+    private:
+        bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
 };
 
 #endif // TAGSVIEW_HPP

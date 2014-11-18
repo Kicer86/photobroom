@@ -32,3 +32,14 @@ TagsView::~TagsView()
 {
 
 }
+
+
+bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger trigger, QEvent* e)
+{
+    const bool status = index.column() == 0?
+            false:
+            QAbstractItemView::edit(index, trigger, e);
+
+    return status;
+}
+
