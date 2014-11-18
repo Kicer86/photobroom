@@ -226,12 +226,12 @@
     <message>
         <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_model.cpp" line="106"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_model.cpp" line="106"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
 </context>
 </TS>
