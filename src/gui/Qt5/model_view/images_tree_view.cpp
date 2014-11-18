@@ -81,15 +81,15 @@ QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 
 QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection) const
 {
-	QModelIndexList indexes = selection.indexes();
-	QRegion result;
+    QModelIndexList indexes = selection.indexes();
+    QRegion result;
 
-	for (const QModelIndex& idx: indexes)
-	{
-		ModelIndexInfo info = m_data->get(idx);
+    for (const QModelIndex& idx: indexes)
+    {
+        ModelIndexInfo info = m_data->get(idx);
 
-		result += info.getRect();
-	}
+        result += info.getRect();
+    }
 
     return result;
 }
@@ -130,7 +130,7 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
     QItemSelection selection;
 
-    for(const QModelIndex& item: items)
+    for (const QModelIndex& item: items)
         selection.select(item, item);
 
     selectionModel()->select(selection, flags);
@@ -166,7 +166,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     std::deque<QModelIndex> items = findItemsIn(visible_area);
 
-    for(const QModelIndex& item: items)
+    for (const QModelIndex& item: items)
     {
         ModelIndexInfo info = m_data->get(item);
 
