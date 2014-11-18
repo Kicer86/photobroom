@@ -44,7 +44,8 @@ QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
 
 void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QRect& r = option.rect;
+    QRect r = option.rect;
+    r.adjust(0, 0, -1, -1);
 
     if ( (option.state & QStyle::State_Selected) != 0)
     {
