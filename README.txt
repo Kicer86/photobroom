@@ -17,3 +17,4 @@ Licenses of external tools and libraries are available under links below, and in
 http://www.boost.org/users/license.html
 https://www.openssl.org/source/license.html
 http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
+http://www.exiv2.org/download.html#license
