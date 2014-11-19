@@ -151,7 +151,17 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
     //connect to model's signals
     connect(m, SIGNAL(modelReset()),                        this, SLOT(modelReset()));
-    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
+}
+
+
+void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
+{
+    QAbstractItemView::rowsInserted(_parent, from, to);
+
+    PositionsReseter reseter(m_data.get());
+    reseter.itemsAdded(_parent, to);
+
+    updateModel();
 }
 
 
@@ -310,11 +320,3 @@ void ImagesTreeView::modelReset()
     rereadModel();
 }
 
-
-void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int, int to)
-{
-    PositionsReseter reseter(m_data.get());
-    reseter.itemsAdded(_parent, to);
-
-    updateModel();
-}
