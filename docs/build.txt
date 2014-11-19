@@ -1,13 +1,36 @@
-Linux:
-        1. gcc.
-                At least 4.8.0 version is required (due to c++11).
-                Qt 5.0 is minimum.
-                Gcc has support for OpenMP which will be used for various tasks.
-                
-        2. clang.
-                
 
-Microsoft Windows build:
-	1. Visual studio.
-		Visual Studio 2013 at least is required with Visual C++ Compiler Nov 2013 CTP (CTP_Nov2013) (due to c++11). Service Pack 2 is required (www.microsoft.com/pl-pl/download/details.aspx?id=42666)
-		Qt 5.3 (first one with support for Visual Studio 2013).
+Required tools and libraries:
+ - cmake - version 3.0 or later
+ - Qt5
+ - OpenSSL or Nettle
+ - Exiv2 of easyexif*
+ - Boost
+ - OpenMP (optional)
+ - OpenLibrary
+
+* EasyExif can be automatically downloaded in configuration process if AUTODOWNLOAD_EASYEXIF flag is ON.
+To enable this flag use cmake with -DAUTODOWNLOAD_EASYEXIF=ON like this:
+cmake -DAUTODOWNLOAD_EASYEXIF=ON /path/to/sources
+
+or select proper checkbox in cmake-gui tool.
+
+Tested compilers:
+1. gcc  (Linux)
+        At least 4.8.0 version is required (due to c++11).
+        Qt 5.0 is minimum.
+        gcc has support for OpenMP which will be used for various tasks.
+
+2. clang (Linux)
+
+3. Visual studio (Windows)
+    Visual Studio 2013 at least is required with Visual C++ Compiler Nov 2013 CTP (CTP_Nov2013) (due to c++11). Service Pack 2 is required (www.microsoft.com/pl-pl/download/details.aspx?id=42666)
+    Qt 5.3 (first one with support for Visual Studio 2013).
+
+
+Build steps:
+1. Create dir for output files. It is usually 'build' directory in top of the sources.
+2. Run 'cmake /path/to/sources'. If build directory was used as suggested, then this form can be used: 'cmake ..'
+3. When it is ready Makefiles or sln files should be created and you can use make or Visual Studio to finish compilation.
+
+PhotoBroom cannot be run from compilation dir without installing. It will search for plugins in destination (installation) dir.
+Build 'install' target to install PhotoBroom. When you can launch it.
