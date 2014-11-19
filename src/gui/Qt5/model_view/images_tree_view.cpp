@@ -165,6 +165,14 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 }
 
 
+void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
+{
+    QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
+
+    
+}
+
+
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     QPainter painter(viewport());
