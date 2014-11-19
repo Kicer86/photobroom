@@ -13,4 +13,7 @@ External libraries and tools used  by Photo Broom:
  * Boost.
  * GMock and GTest
 
-Licenses of external tools and libraries are available in "docs" directory.
+Licenses of external tools and libraries are available under links below, and in "docs" directory
+http://www.boost.org/users/license.html
+https://www.openssl.org/source/license.html
+http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
