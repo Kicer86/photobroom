@@ -75,8 +75,12 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 add_subdirectory(src)
 add_subdirectory(tr)
 
-#package dependencies
-addExtraCPackTargets()
+#system dependent stuff
+if(UNIX OR CYGWIN)
+    include(${PROJECT_SOURCE_DIR}/cmake/sys_linux.cmake)
+elseif(WIN32)
+    include(${PROJECT_SOURCE_DIR}/cmake/sys_win32.cmake)
+endif(UNIX OR CYGWIN)
 
 #documentation
 find_program(DOXYGEN doxygen)
