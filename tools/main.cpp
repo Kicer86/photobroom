@@ -16,7 +16,6 @@ int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	GetCurrentDirectory(MAX_PATH, path);
 
 	const std::string base(path);
-	const std::string bin(base + "/bin");
 	const std::string lib(base + "/lib");
 	
 	//add lib dir to PATH
@@ -25,7 +24,6 @@ int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	//some extra setup
 	SetDllDirectory(lib.c_str());
-	SetCurrentDirectory(bin.c_str());
 
 	//launch process
 	CreateProcess(NULL, "photo_broom.exe", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
