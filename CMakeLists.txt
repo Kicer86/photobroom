@@ -74,6 +74,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 #subdirs
 add_subdirectory(src)
 add_subdirectory(tr)
+add_subdirectory(tools)
 
 #system dependent stuff
 if(UNIX OR CYGWIN)
