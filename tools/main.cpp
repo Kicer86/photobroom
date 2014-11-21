@@ -1,9 +1,8 @@
 
 #include <windows.h>
-#include <stdio.h>
 #include <tchar.h>
 
-void _tmain(int argc, TCHAR *argv[])
+int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
@@ -13,11 +12,5 @@ void _tmain(int argc, TCHAR *argv[])
 	si.cb = sizeof(si);
 
 	SetDllDirectory("./lib");
-
-	// Start the child process. 
-	if (!CreateProcess(NULL, "./bin/photo_broom.exe", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
-	{
-		printf("CreateProcess failed (%d).\n", GetLastError());
-		return;
-	}
+	CreateProcess(NULL, "./bin/photo_broom.exe", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 }
