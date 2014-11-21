@@ -128,33 +128,57 @@ endfunction(install_external_lib)
 
 
 function(addExtraCPackTargets3)
-    
-    #set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR})
-    
-    #dir preparations
-    #add_custom_command(OUTPUT ${OUTPUT_DIR}/deploy_main
-    #                   COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}/deploy
-    #                   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_DIR}/deploy_main
-    #                  )
                       
     # install compiler's dlls
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
     include(InstallRequiredSystemLibraries)
     install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${PATH_LIBS})
     
-    # install additional one
+    # install additional ones
     set(libs_OL  putils)
-    set(libs_Qt  qt5core qt5gui qt5widgets qt5sql icuin52 icuuc52 icudt52 libGLESv2)
+    set(libs_Qt  qt5sql)
     set(libs_SSL libeay32)
             
     install_external_lib(NAME "Open Library" DLLFILES ${libs_OL})
     install_external_lib(NAME Qt5            DLLFILES ${libs_Qt})
     install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
     
+    #Qt5
+    set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
+    find_program(WINDEPLOY windeployqt)
+    
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_main
+                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
+                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_main
+                      )
+                      
+    if(WINDEPLOY)
+
+        get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
+        add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+                           COMMAND set PATH=${WINDEPLOY_DIR}\;%PATH%                      #without it windeployqt cannot find ICU lib (http://qt-project.org/forums/viewthread/41185)                           
+                           COMMAND ${WINDEPLOY} 
+                              ARGS --dir ${OUTPUT_PATH}/deploy/tr 
+                                   --libdir ${OUTPUT_PATH}/deploy/lib
+                                   --no-compiler-runtime 
+                                   $<TARGET_FILE:gui>
+                                   
+                           COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                           DEPENDS ${OUTPUT_PATH}/deploy_main
+                           DEPENDS broom
+                           WORKING_DIRECTORY ${WINDEPLOY_DIR}
+                          )
+    else()
+        message(FATAL_ERROR "Could not find windeployqt")
+    endif(WINDEPLOY)
+    
     #target
-    #add_custom_target(deploy ALL
-    #                  DEPENDS ${OUTPUT_DIR}/deploy_main
-    #                 )
+    add_custom_target(deploy ALL
+                      DEPENDS ${OUTPUT_PATH}/deploy_qt5
+                     )
+                     
+    install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_BIN})
+    install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
     
 endfunction(addExtraCPackTargets3)
 
