@@ -98,5 +98,58 @@ function(addExtraCPackTargets2)
     
 endfunction(addExtraCPackTargets2)
 
+
+function(install_external_lib)
+
+  set(options)
+  set(oneValueArgs NAME)
+  set(multiValueArgs DLLFILES)
+  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+  
+  foreach(lib ${EXTERNAL_LIB_DLLFILES})
+    set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
+  
+    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll DOC "DLL file location for package build")
+    if(${LIB_PATH_VAR})
+        install(FILES ${${LIB_PATH_VAR}} DESTINATION ${PATH_LIBS})
+    else()
+        message(FATAL_ERROR "Could not find location for ${lib}.dll file. Set path manuly in CMake's cache file in ${LIB_PATH_VAR} variable.")
+    endif()
+  endforeach()
+
+endfunction(install_external_lib)
+
+
+function(addExtraCPackTargets3)
+    
+    #set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR})
+    
+    #dir preparations
+    #add_custom_command(OUTPUT ${OUTPUT_DIR}/deploy_main
+    #                   COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}/deploy
+    #                   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_DIR}/deploy_main
+    #                  )
+                      
+    # install compiler's dlls
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
+    include(InstallRequiredSystemLibraries)
+    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${PATH_LIBS})
+    
+    # install additional one
+    set(libs_OL  putils)
+    set(libs_Qt  qt5core qt5gui qt5widgets qt5sql icuin52 icuuc52 icudt52 libGLESv2)
+    set(libs_SSL libeay32)
+            
+    install_external_lib(NAME "Open Library" DLLFILES ${libs_OL})
+    install_external_lib(NAME Qt5            DLLFILES ${libs_Qt})
+    install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
+    
+    #target
+    #add_custom_target(deploy ALL
+    #                  DEPENDS ${OUTPUT_DIR}/deploy_main
+    #                 )
+    
+endfunction(addExtraCPackTargets3)
+
 #execute functions
-addExtraCPackTargets2()
+addExtraCPackTargets3()
