@@ -77,9 +77,9 @@ add_subdirectory(tr)
 
 #system dependent stuff
 if(UNIX OR CYGWIN)
-    include(${PROJECT_SOURCE_DIR}/cmake/sys_linux.cmake)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/linux)
 elseif(WIN32)
-    include(${PROJECT_SOURCE_DIR}/cmake/sys_win32.cmake)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/win32)
 endif(UNIX OR CYGWIN)
 
 #documentation
