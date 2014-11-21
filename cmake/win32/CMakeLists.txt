@@ -38,12 +38,12 @@ function(addExtraCPackTargets)
     install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${PATH_LIBS})
     
     # install additional ones
-    set(libs_OL  putils)
-    set(libs_Qt  qt5sql)
+    set(libs_OL  putils)    
+    #set(libs_Qt  qt5sql)
     set(libs_SSL libeay32)
             
     install_external_lib(NAME "Open Library" DLLFILES ${libs_OL})
-    install_external_lib(NAME Qt5            DLLFILES ${libs_Qt})
+    #install_external_lib(NAME Qt5            DLLFILES ${libs_Qt})
     install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
     
     #Qt5
@@ -66,6 +66,12 @@ function(addExtraCPackTargets)
                                    --no-compiler-runtime 
                                    $<TARGET_FILE:gui>
                                    
+                           COMMAND ${WINDEPLOY} 
+                              ARGS --dir ${OUTPUT_PATH}/deploy/tr 
+                                   --libdir ${OUTPUT_PATH}/deploy/lib
+                                   --no-compiler-runtime 
+                                   $<TARGET_FILE:sql_backend_base>
+                                   
                            COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
                            DEPENDS ${OUTPUT_PATH}/deploy_main
                            DEPENDS broom
@@ -80,7 +86,7 @@ function(addExtraCPackTargets)
                       DEPENDS ${OUTPUT_PATH}/deploy_qt5
                      )
                      
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_BIN})
+    install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
     
 endfunction(addExtraCPackTargets)
