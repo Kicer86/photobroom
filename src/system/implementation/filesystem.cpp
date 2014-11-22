@@ -31,3 +31,9 @@ QString FileSystem::getTranslationsPath()
 {
     return Paths::translations;
 }
+
+
+QString FileSystem::getLibrariesPath()
+{
+	return Paths::libraries;
+}
