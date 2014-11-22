@@ -19,12 +19,12 @@ int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	const std::string lib(base + "/lib");
 	
 	//add lib dir to PATH
-	const std::string path_var = std::string("PATH=") + getenv("PATH") + ";" + lib;
+	const std::string path_var = std::string("PATH=") + getenv("PATH") + ";" + lib + ";" + base;
 	_putenv(path_var.c_str());
-	
+
 	//some extra setup
 	SetDllDirectory(lib.c_str());
 
 	//launch process
-	CreateProcess(NULL, "photo_broom.exe", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+	CreateProcess(NULL, "bin/photo_broom.exe", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 }
