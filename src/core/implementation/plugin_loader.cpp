@@ -58,7 +58,7 @@ namespace
         {
             if (!m_found)
             {
-                QDir pluginsDir = FileSystem::getPluginsPath();
+                QDir pluginsDir = FileSystem().getPluginsPath();
 
                 pluginsDir.cd("database");
                 QFileInfoList db_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
