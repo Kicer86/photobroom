@@ -19,21 +19,32 @@
 
 #include "filesystem.hpp"
 
+#include <QDir>
+
 #include "paths.hpp"
 
 QString FileSystem::getPluginsPath()
 {
-    return Paths::plugins;
+    return read(Paths::plugins);
 }
 
 
 QString FileSystem::getTranslationsPath()
 {
-    return Paths::translations;
+    return read(Paths::translations);
 }
 
 
 QString FileSystem::getLibrariesPath()
 {
-	return Paths::libraries;
+	return read(Paths::libraries);
+}
+
+
+QString FileSystem::read(const char* d) const
+{
+	QDir dir(d);
+	dir.makeAbsolute();
+
+	return dir.path();
 }

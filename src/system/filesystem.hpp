@@ -29,6 +29,9 @@ struct SYSTEM_EXPORT FileSystem
     QString getPluginsPath();
     QString getTranslationsPath();
 	QString getLibrariesPath();
+
+	private:
+		QString read(const char *) const;
 };
 
 #endif // FILESYSTEM_H
