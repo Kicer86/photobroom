@@ -1,6 +1,6 @@
 
 if(WIN32)
-    add_executable(PhotoBroomLaunch WIN32 main.cpp)
+    add_executable(PhotoBroom WIN32 main.cpp)
 
-    install(TARGETS PhotoBroomLaunch RUNTIME DESTINATION ".")
+    install(TARGETS PhotoBroom RUNTIME DESTINATION ".")
 endif()
