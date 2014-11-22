@@ -47,6 +47,11 @@ void Gui::set(ILogger* logger)
 
 void Gui::run(int argc, char **argv)
 {
+	// On Windows, add extra location for Qt plugins
+#ifdef OS_WIN
+	QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
+#endif
+
     QApplication app(argc, argv);
 
     QTranslator translator;
