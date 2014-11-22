@@ -35,16 +35,18 @@ function(addExtraCPackTargets)
     # install compiler's dlls
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
     include(InstallRequiredSystemLibraries)
-    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${PATH_LIBS})
+    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ".")
     
     # install additional ones
     set(libs_OL  putils)    
     #set(libs_Qt  qt5sql)
     set(libs_SSL libeay32)
+    set(libs_VS  vcomp120 msvcp120d msvcr120d)             #for some reason InstallRequiredSystemLibraries doesn't add those three ones
             
     install_external_lib(NAME "Open Library" DLLFILES ${libs_OL})
     #install_external_lib(NAME Qt5            DLLFILES ${libs_Qt})
     install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
+    install_external_lib(NAME "VS files"     DLLFILES ${libs_VS})
     
     #Qt5
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
