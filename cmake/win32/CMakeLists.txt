@@ -5,18 +5,22 @@
 function(install_external_lib)
 
   set(options)
-  set(oneValueArgs NAME)
+  set(oneValueArgs NAME LOCATION)
   set(multiValueArgs DLLFILES)
   cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
   
   set(hint)
+
+  if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
+    set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
+  endif()
   
   foreach(lib ${EXTERNAL_LIB_DLLFILES})
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
   
     find_file(${LIB_PATH_VAR} NAMES ${lib}.dll HINTS ${hint} DOC "DLL file location for package build")
     if(${LIB_PATH_VAR})
-        install(FILES ${${LIB_PATH_VAR}} DESTINATION ${PATH_LIBS})
+        install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
         
         #add path of current dll file to hints
         get_filename_component(lib_path ${${LIB_PATH_VAR}} DIRECTORY)
@@ -31,22 +35,20 @@ endfunction(install_external_lib)
 
 
 function(addExtraCPackTargets)
-                      
-    # install compiler's dlls
-    set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
-    include(InstallRequiredSystemLibraries)
-    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ".")
-    
-    # install additional ones
-    set(libs_OL  putils)    
-    #set(libs_Qt  qt5sql)
+
+    # install required dll files
+    set(libs_OL  putils)
     set(libs_SSL libeay32)
-    set(libs_VS  vcomp120 msvcp120d msvcr120d)             #for some reason InstallRequiredSystemLibraries doesn't add those three ones
+
+    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+        set(libs_Compiler libgcc_s_dw2-1 libstdc++-6 libwinpthread-1)
+    else()
+        set(libs_Compiler )
+    endif()
             
     install_external_lib(NAME "Open Library" DLLFILES ${libs_OL})
-    #install_external_lib(NAME Qt5            DLLFILES ${libs_Qt})
     install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
-    install_external_lib(NAME "VS files"     DLLFILES ${libs_VS})
+    install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
     
     #Qt5
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
@@ -61,22 +63,23 @@ function(addExtraCPackTargets)
 
         get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
         add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
-                           COMMAND set PATH=${WINDEPLOY_DIR}\;%PATH%                      #without it windeployqt cannot find ICU lib (http://qt-project.org/forums/viewthread/41185)                           
                            COMMAND ${WINDEPLOY} 
                               ARGS --dir ${OUTPUT_PATH}/deploy/tr 
                                    --libdir ${OUTPUT_PATH}/deploy/lib
-                                   --no-compiler-runtime 
+                                   --no-compiler-runtime
+                                   --release
                                    $<TARGET_FILE:gui>
                                    
                            COMMAND ${WINDEPLOY} 
                               ARGS --dir ${OUTPUT_PATH}/deploy/tr 
                                    --libdir ${OUTPUT_PATH}/deploy/lib
                                    --no-compiler-runtime 
+                                   --release
                                    $<TARGET_FILE:sql_backend_base>
                                    
                            COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
                            DEPENDS ${OUTPUT_PATH}/deploy_main
-                           DEPENDS broom
+                           DEPENDS photo_broom
                            WORKING_DIRECTORY ${WINDEPLOY_DIR}
                           )
     else()
