@@ -37,11 +37,11 @@ endfunction(install_external_lib)
 function(addExtraCPackTargets)
 
     # install required dll files
-    set(libs_OL  putils)
+    set(libs_OL  libputils)
     set(libs_SSL libeay32)
 
     if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-        set(libs_Compiler libgcc_s_dw2-1 libstdc++-6 libwinpthread-1)
+        set(libs_Compiler libgcc_s_dw2-1 libstdc++-6 libwinpthread-1 libgomp-1)
     else()
         set(libs_Compiler )
     endif()
