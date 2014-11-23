@@ -56,12 +56,14 @@ if(UNIX OR CYGWIN)
 	set(PATH_BIN      "bin")
 	set(PATH_LIBS     "lib/photo_broom")
 	set(PATH_PLUGINS  "lib/photo_broom/plugins")
-	set(PATH_TR       "share/broom/tr")
+	set(PATH_TR       "share/photo_broom/tr")
+        set(PATH_DOCS     "share/photo_broom/docs")
 elseif(WIN32)
-	set(PATH_BIN      "./")
-	set(PATH_LIBS     "./")
-	set(PATH_PLUGINS  "./plugins")
-	set(PATH_TR       "./tr")
+	set(PATH_BIN      "bin")
+	set(PATH_LIBS     "lib")
+	set(PATH_PLUGINS  "plugins")
+	set(PATH_TR       "tr")
+        set(PATH_DOCS     "docs")
 endif(UNIX OR CYGWIN)
 
 # RPATH
@@ -74,9 +76,14 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 #subdirs
 add_subdirectory(src)
 add_subdirectory(tr)
+add_subdirectory(tools)
 
-#package dependencies
-addExtraCPackTargets()
+#system dependent stuff
+if(UNIX OR CYGWIN)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/linux)
+elseif(WIN32)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/win32)
+endif(UNIX OR CYGWIN)
 
 #documentation
 find_program(DOXYGEN doxygen)

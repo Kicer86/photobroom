@@ -1,8 +1,0 @@
-porzadek z photo parserem (wątki)
-system - find program - uzyc jeszcze which
-rename configuration key
-reakcje na błędy
-sanitizer dla testów
-obsługa sytuacji gdy nie da się skonstruować bazy danych
-uzyc tak executora dla generowania thumbnaili
-wywalic cykliczna dependencję miedzy mysql pluginem a database
