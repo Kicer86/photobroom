@@ -70,6 +70,7 @@ macro(find_cryptographic_package)
     if(OPENSSL_FOUND)
         set(CRYPTOGRAPHIC_INCLUDE_DIR ${OPENSSL_INCLUDE_DIR})
         set(CRYPTOGRAPHIC_LIBRARIES ${OPENSSL_LIBRARIES})
+        install(FILES ${CMAKE_SOURCE_DIR}/docs/install/OpenSSL.txt DESTINATION ${PATH_DOCS})
     else()
         find_package(Nettle REQUIRED)
 

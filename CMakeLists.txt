@@ -57,11 +57,13 @@ if(UNIX OR CYGWIN)
 	set(PATH_LIBS     "lib/photo_broom")
 	set(PATH_PLUGINS  "lib/photo_broom/plugins")
 	set(PATH_TR       "share/photo_broom/tr")
+        set(PATH_DOCS     "share/photo_broom/docs")
 elseif(WIN32)
 	set(PATH_BIN      "bin")
 	set(PATH_LIBS     "lib")
 	set(PATH_PLUGINS  "plugins")
 	set(PATH_TR       "tr")
+        set(PATH_DOCS     "docs")
 endif(UNIX OR CYGWIN)
 
 # RPATH
