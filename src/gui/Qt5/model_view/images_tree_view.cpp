@@ -24,6 +24,7 @@
 #include <QScrollBar>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QTimer>
 
 #include <configuration/constants.hpp>
 #include <configuration/configuration.hpp>
@@ -168,8 +169,18 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
 {
     QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
+    PositionsReseter reseter(m_data.get());
 
-    
+    for(int i = start; i <= end; i++)
+    {
+        QModelIndex child = _parent.child(i, 0);
+
+        m_data->forget(child);
+    }
+    reseter.childrenRemoved(_parent);
+
+    //update model when rows are finally removed
+    QTimer::singleShot(0, Qt::CoarseTimer, this, SLOT(updateModelShot()));
 }
 
 
@@ -328,3 +339,8 @@ void ImagesTreeView::modelReset()
     rereadModel();
 }
 
+
+void ImagesTreeView::updateModelShot()
+{
+    updateModel();
+}

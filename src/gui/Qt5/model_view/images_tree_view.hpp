@@ -81,6 +81,7 @@ class ImagesTreeView: public QAbstractItemView
 
     private slots:
         void modelReset();
+        void updateModelShot();
 };
 
 #endif // IMAGESTREEVIEW_H
