@@ -34,6 +34,7 @@ public:
     void itemsAdded(const QModelIndex &, int last) const;
     void invalidateAll() const;
     void itemChanged(const QModelIndex &);
+    void childrenRemoved(const QModelIndex &);
 
 private:
     Data* m_data;
