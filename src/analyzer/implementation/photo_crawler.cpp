@@ -45,11 +45,7 @@ struct PhotoCrawler::Impl
          const std::shared_ptr<IAnalyzer>& analyzer): m_scanner(scanner), m_analyzer(analyzer), m_thread(nullptr) {}
     ~Impl()
     {
-        if (m_thread.get() != nullptr)
-        {
-            assert(m_thread->joinable());
-            m_thread->join();
-        }
+        releaseThread();
     }
 
     Impl(const Impl &) = delete;
@@ -61,7 +57,17 @@ struct PhotoCrawler::Impl
 
     void run(const QString& path, IMediaNotification* notifications)
     {
+        releaseThread();
         m_thread.reset( new std::thread(trampoline, this, path, notifications) );
+    }
+
+    void releaseThread()
+    {
+        if (m_thread.get() != nullptr)
+        {
+            assert(m_thread->joinable());
+            m_thread->join();
+        }
     }
 
     //thread function
