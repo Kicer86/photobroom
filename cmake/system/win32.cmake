@@ -98,3 +98,11 @@ endfunction(addExtraCPackTargets)
 
 #execute functions
 addExtraCPackTargets()
+
+#http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
+set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+
+#define Start menu
+set(CPACK_PACKAGE_EXECUTABLES
+    PhotoBroom "Photo Broom"
+   )

@@ -15,7 +15,6 @@ set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 
 #include modules
-include(CPack)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
@@ -82,9 +81,9 @@ add_subdirectory(tools)
 
 #system dependent stuff
 if(UNIX OR CYGWIN)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/linux)
+    include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
 elseif(WIN32)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/win32)
+    include(${PROJECT_SOURCE_DIR}/cmake/system/win32.cmake)
 endif(UNIX OR CYGWIN)
 
 #documentation
@@ -98,6 +97,9 @@ if(DOXYGEN)
                       WORKING_DIRECTORY ${CMAKE_BINARY_DIR} )
 
 endif(DOXYGEN)
+
+#package
+include(CPack)
 
 #info
 message("")
