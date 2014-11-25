@@ -1,10 +1,12 @@
 
 #include <QString>
 #include <QImage>
+#include <QDebug>
+#include <QImageWriter>
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-    if (argc < 2)
+    if (argc < 3)
         return 1;
 
     const QString src = argv[1];
@@ -12,7 +14,13 @@ int main(int argc, char* argv[])
 
     QImage srcImg(src);
 
-    const bool status = srcImg.save(dst);
+    qCritical() << "dupa" << src << dst;
+
+    QImageWriter dstImg(dst);
+    const bool status = dstImg.write(srcImg);
+
+    if(!status)
+        qCritical() << dstImg.errorString();
 
     return status? 0: 2;
 }
