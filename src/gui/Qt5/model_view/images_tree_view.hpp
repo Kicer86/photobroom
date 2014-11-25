@@ -55,6 +55,7 @@ class ImagesTreeView: public QAbstractItemView
 
         virtual void setModel(QAbstractItemModel *) override;
 
+    protected:
         virtual void rowsInserted(const QModelIndex &, int, int) override;
         virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) override;
 
