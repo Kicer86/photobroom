@@ -75,6 +75,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
+add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
 add_subdirectory(tools)
