@@ -83,6 +83,7 @@ class ImagesTreeView: public QAbstractItemView
     private slots:
         void modelReset();
         void updateModelShot();
+        void rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int);
 };
 
 #endif // IMAGESTREEVIEW_H

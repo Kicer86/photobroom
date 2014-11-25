@@ -151,7 +151,9 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     rereadModel();
 
     //connect to model's signals
-    connect(m, SIGNAL(modelReset()),                        this, SLOT(modelReset()));
+    connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()));
+    connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
+            this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)));
 }
 
 
@@ -343,4 +345,12 @@ void ImagesTreeView::modelReset()
 void ImagesTreeView::updateModelShot()
 {
     updateModel();
+}
+
+
+void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& destinationParent, int destinationRow)
+{
+    const int items = sourceEnd - sourceStart + 1;
+    rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
+    rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
 }
