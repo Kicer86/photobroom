@@ -67,7 +67,8 @@ class Data
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
-        ModelIndexInfo get(const QModelIndex &);
+        ModelIndexInfo get(const QModelIndex &);             //new item will be constructed if there are no matches
+        void forget(const QModelIndex &);                    //clear data about given index
 
         const ModelIndexInfo& get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;

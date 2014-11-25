@@ -24,6 +24,7 @@
 #include <QScrollBar>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QTimer>
 
 #include <configuration/constants.hpp>
 #include <configuration/configuration.hpp>
@@ -150,8 +151,38 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     rereadModel();
 
     //connect to model's signals
-    connect(m, SIGNAL(modelReset()),                        this, SLOT(modelReset()));
-    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
+    connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()));
+    connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
+            this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)));
+}
+
+
+void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
+{
+    QAbstractItemView::rowsInserted(_parent, from, to);
+
+    PositionsReseter reseter(m_data.get());
+    reseter.itemsAdded(_parent, to);
+
+    updateModel();
+}
+
+
+void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
+{
+    QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
+    PositionsReseter reseter(m_data.get());
+
+    for(int i = start; i <= end; i++)
+    {
+        QModelIndex child = _parent.child(i, 0);
+
+        m_data->forget(child);
+    }
+    reseter.childrenRemoved(_parent);
+
+    //update model when rows are finally removed
+    QTimer::singleShot(0, Qt::CoarseTimer, this, SLOT(updateModelShot()));
 }
 
 
@@ -311,10 +342,15 @@ void ImagesTreeView::modelReset()
 }
 
 
-void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int, int to)
+void ImagesTreeView::updateModelShot()
 {
-    PositionsReseter reseter(m_data.get());
-    reseter.itemsAdded(_parent, to);
-
     updateModel();
+}
+
+
+void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& destinationParent, int destinationRow)
+{
+    const int items = sourceEnd - sourceStart + 1;
+    rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
+    rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
 }

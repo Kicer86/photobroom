@@ -1,0 +1,36 @@
+
+Required tools and libraries:
+ - cmake - version 3.0 or later
+ - Qt5
+ - OpenSSL or Nettle
+ - Exiv2 of easyexif*
+ - Boost
+ - OpenMP (optional)
+ - OpenLibrary
+
+* EasyExif can be automatically downloaded in configuration process if AUTODOWNLOAD_EASYEXIF flag is ON.
+To enable this flag use cmake with -DAUTODOWNLOAD_EASYEXIF=ON like this:
+cmake -DAUTODOWNLOAD_EASYEXIF=ON /path/to/sources
+
+or select proper checkbox in cmake-gui tool.
+
+Tested compilers:
+1. gcc  (Linux and Windows)
+        At least 4.8.0 version is required (due to c++11).
+        Qt 5.0 is minimum.
+        gcc has support for OpenMP which will be used for various tasks.
+
+2. clang (Linux)
+
+3. Visual studio (Windows)
+    Visual Studio 2013 at least is required with Visual C++ Compiler Nov 2013 CTP (CTP_Nov2013) (due to c++11). Service Pack 2 is required (www.microsoft.com/pl-pl/download/details.aspx?id=42666)
+    Qt 5.3 (first one with support for Visual Studio 2013).
+
+PhotoBroom cannot be run from compilation dir without installing.
+It will search for plugins in destination (installation) dir.
+Build 'install' target to install PhotoBroom. When you can launch it.
+
+Extra targets available for Windows:
+'deploy' - prepares extra dir with Qt's libraries and plugins required by PhotoBroom.
+'install' target will install not only PhotoBroom's files but also Qt's libraries and translations. Other libraries will be also included.
+'package' target will create a package (Intallator) with all files required for runing PhotoBroom on other Windows machines

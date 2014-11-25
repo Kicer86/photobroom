@@ -115,6 +115,15 @@ ModelIndexInfo Data::get(const QModelIndex& index)
 }
 
 
+void Data::forget(const QModelIndex& index)
+{
+    auto it = m_itemData.find(index);
+
+    if (it != m_itemData.end())
+        m_itemData.erase(it);
+}
+
+
 const ModelIndexInfo& Data::get(const QPoint& point) const
 {
     const ModelIndexInfo* result = &m_invalid;

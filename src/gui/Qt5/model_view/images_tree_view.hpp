@@ -55,6 +55,10 @@ class ImagesTreeView: public QAbstractItemView
 
         virtual void setModel(QAbstractItemModel *) override;
 
+    protected:
+        virtual void rowsInserted(const QModelIndex &, int, int) override;
+        virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) override;
+
         // QWidget overrides:
         virtual void paintEvent(QPaintEvent *) override;
         virtual void mouseReleaseEvent(QMouseEvent *) override;
@@ -78,7 +82,8 @@ class ImagesTreeView: public QAbstractItemView
 
     private slots:
         void modelReset();
-        void rowsInserted(const QModelIndex &, int, int);
+        void updateModelShot();
+        void rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int);
 };
 
 #endif // IMAGESTREEVIEW_H

@@ -51,4 +51,4 @@ turnOnCpp11(configuration)
 hideSymbols(configuration)
 
 install(TARGETS configuration RUNTIME DESTINATION ${PATH_LIBS}
-		              LIBRARY DESTINATION ${PATH_LIBS})
+                              LIBRARY DESTINATION ${PATH_LIBS})
