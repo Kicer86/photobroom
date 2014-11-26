@@ -3,7 +3,7 @@ if(WIN32)
     configure_file(PhotoBroom.hpp.cmake PhotoBroom.hpp @ONLY)
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-    add_executable(PhotoBroom WIN32 main.cpp PhotoBroom.rc)
+    add_executable(PhotoBroom WIN32 PhotoBroom.cpp PhotoBroom.rc)
 
     install(TARGETS PhotoBroom RUNTIME DESTINATION ".")
 endif()
