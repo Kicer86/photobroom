@@ -7,13 +7,14 @@ cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 #options for CPack
+set(CPACK_PACKAGE_VENDOR "Michał Walenciak")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Photo Broom - tool for managing your photos")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 
 #include modules
-include(CPack)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
@@ -74,15 +75,16 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
+add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
 add_subdirectory(tools)
 
 #system dependent stuff
 if(UNIX OR CYGWIN)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/linux)
+    include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
 elseif(WIN32)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/win32)
+    include(${PROJECT_SOURCE_DIR}/cmake/system/win32.cmake)
 endif(UNIX OR CYGWIN)
 
 #documentation
@@ -96,6 +98,9 @@ if(DOXYGEN)
                       WORKING_DIRECTORY ${CMAKE_BINARY_DIR} )
 
 endif(DOXYGEN)
+
+#package
+include(CPack)
 
 #info
 message("")
