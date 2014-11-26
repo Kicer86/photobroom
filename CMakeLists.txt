@@ -1,7 +1,7 @@
 
 cmake_policy(SET CMP0048 NEW)
 
-project(PhotoBroom VERSION 0.90.0 LANGUAGES CXX)
+project(PhotoBroom VERSION 0.93.0 LANGUAGES CXX)
 
 cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
