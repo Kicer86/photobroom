@@ -1,4 +1,39 @@
 
+#include <winver.h>
+
 #include "PhotoBroom.hpp"
 
 PHOTOBROOM_ICON ICON DISCARDABLE MAIN_ICO_PATH
+
+VS_VERSION_INFO VERSIONINFO
+                FILEVERSION    VER_MAJOR,VER_MINOR,VER_PATCH,0
+                PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_PATCH,0
+                FILEFLAGSMASK  0x3fL
+#ifdef _DEBUG
+                FILEFLAGS      VS_FF_DEBUG
+#else
+                FILEFLAGS      0x0L
+#endif
+                FILEOS         VOS__WINDOWS32
+                FILETYPE       VFT_APP
+                FILESUBTYPE    VFT2_UNKNOWN
+                BEGIN
+                    BLOCK "StringFileInfo"
+                    BEGIN
+                        BLOCK "040904B0"
+                        BEGIN
+                            VALUE "CompanyName",      "Michał Walenciak\0"
+                            VALUE "FileVersion",      "VER_MAJOR.VER_MINOR.VER_PATCH\0"
+                            VALUE "LegalCopyright",   "Michał Walenciak\0"
+                            VALUE "OriginalFilename", "PhotoBroom.exe\0"
+                            VALUE "ProductName",      "PhotoBroom\0"
+                            VALUE "ProductVersion",   "VER_MAJOR,VER_MINOR,VER_PATCH\0"
+                        END
+                    END
+
+                    BLOCK "VarFileInfo"
+                    BEGIN
+                        VALUE "Translation", 0x0409, 1200
+                                           , 0x0415, 1200
+                    END
+                END
