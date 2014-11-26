@@ -1,0 +1,4 @@
+
+#include "PhotoBroom.hpp"
+
+PHOTOBROOM_ICON ICON DISCARDABLE MAIN_ICO_PATH
