@@ -23,11 +23,11 @@ VS_VERSION_INFO VERSIONINFO
                         BLOCK "040904B0"
                         BEGIN
                             VALUE "CompanyName",      "Michał Walenciak\0"
-                            VALUE "FileVersion",      "VER_MAJOR.VER_MINOR.VER_PATCH\0"
+                            VALUE "FileVersion",      VER_FULL
                             VALUE "LegalCopyright",   "Michał Walenciak\0"
                             VALUE "OriginalFilename", "PhotoBroom.exe\0"
                             VALUE "ProductName",      "PhotoBroom\0"
-                            VALUE "ProductVersion",   "VER_MAJOR,VER_MINOR,VER_PATCH\0"
+                            VALUE "ProductVersion",   VER_FULL
                         END
                     END
 
