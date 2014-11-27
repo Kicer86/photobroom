@@ -100,12 +100,12 @@ endfunction(addDeploymentActions)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     #execute functions
     addDeploymentActions()
-
-    #http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
-    set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
-
-    #define Start menu
-    set(CPACK_PACKAGE_EXECUTABLES
-        PhotoBroom "Photo Broom"
-       )
 endif()
+
+#http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
+set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+
+#define Start menu
+set(CPACK_PACKAGE_EXECUTABLES
+    PhotoBroom "Photo Broom"
+   )
