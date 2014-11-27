@@ -6,7 +6,5 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/images/main_ico.ico
                   )
 
 add_custom_target(Images
-                  DEPENDS ${CMAKE_BINARY_DIR}/images/main_ico.png
+                  DEPENDS ${CMAKE_BINARY_DIR}/images/main_ico.ico
                  )
-
-set_source_files_properties(${CMAKE_BINARY_DIR}/images/main_ico.ico PROPERTIES GENERATED TRUE)
