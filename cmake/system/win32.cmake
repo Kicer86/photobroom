@@ -34,7 +34,7 @@ function(install_external_lib)
 endfunction(install_external_lib)
 
 
-function(addExtraCPackTargets)
+function(addDeploymentActions)
 
     # install required dll files
     set(libs_OL  libputils)
@@ -94,15 +94,18 @@ function(addExtraCPackTargets)
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
     
-endfunction(addExtraCPackTargets)
+endfunction(addDeploymentActions)
 
-#execute functions
-addExtraCPackTargets()
+#enable deployment only for gcc
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    #execute functions
+    addDeploymentActions()
 
-#http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
-set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+    #http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
+    set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 
-#define Start menu
-set(CPACK_PACKAGE_EXECUTABLES
-    PhotoBroom "Photo Broom"
-   )
+    #define Start menu
+    set(CPACK_PACKAGE_EXECUTABLES
+        PhotoBroom "Photo Broom"
+       )
+endif()
