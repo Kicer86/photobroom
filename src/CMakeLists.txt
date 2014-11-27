@@ -29,3 +29,9 @@ target_link_libraries(photo_broom core database configuration gui project_utils 
 turnOnCpp11(photo_broom)
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
+
+
+if(WIN32)
+    #photo_broom on Windows requires Images (for exe file ico)
+    add_dependencies(photo_broom Images)
+endif()
