@@ -5,7 +5,7 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/images/main_ico.ico
                    DEPENDS img_manip
                   )
 
-add_custom_target(Images ALL
+add_custom_target(Images
                   DEPENDS ${CMAKE_BINARY_DIR}/images/main_ico.png
                  )
 
