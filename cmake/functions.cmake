@@ -8,22 +8,25 @@ function(addTestTarget target)
     find_package(Threads)
 
     #get sources
-    parseArguments(SOURCES TEST_LIBRARY ARGUMENTS ${ARGN})
+    set(options OPTIONAL)
+    set(oneValueArgs TEST_LIBRARY)
+    set(multiValueArgs SOURCES)
+    cmake_parse_arguments(T "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
     #test_bin_name
     set(test_bin ${target}_test)
 
     #add test executable
-    add_executable(${test_bin} ${SOURCES})
+    add_executable(${test_bin} ${T_SOURCES})
 
     #find which library should be used
-    if("${TEST_LIBRARY}" STREQUAL "GTEST")
+    if("${T_TEST_LIBRARY}" STREQUAL "GTEST")
 
         find_package(GTest)
         include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
         set(link_library ${GTEST_MAIN_LIBRARY} ${GTEST_LIBRARY})
 
-    elseif("${TEST_LIBRARY}" STREQUAL "GMOCK")
+    elseif("${T_TEST_LIBRARY}" STREQUAL "GMOCK")
 
         find_package(GTest REQUIRED)
         find_package(GMock REQUIRED)
