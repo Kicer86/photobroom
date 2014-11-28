@@ -111,14 +111,13 @@ turnOnCpp11(gui)
 hideSymbols(gui)
 
 install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
-		    LIBRARY DESTINATION ${PATH_LIBS})
+                    LIBRARY DESTINATION ${PATH_LIBS})
 
 if(BUILD_TESTS)
 
     qt5_wrap_cpp(GUI_WRAPPED_CPP_FOR_TEST Qt5/model_view/db_data_model.hpp)
 
     addTestTarget(gui  SOURCES
-                           Qt5/data/photo_info_updater.cpp
                            Qt5/model_view/model_helpers/idx_data_manager.cpp
                            Qt5/model_view/model_helpers/idxdata_deepfetcher.cpp
                            Qt5/model_view/db_data_model.cpp
