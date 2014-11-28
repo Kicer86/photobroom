@@ -519,16 +519,8 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 
 IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 {
-    const IPhotoInfo::Id id = photoInfo->getID();
-    auto photosMap = m_data->m_photoId2IdxData.lock();
-    auto it = photosMap->find(id);
-    IdxData* result = nullptr;
-
-    if (it != photosMap->end())
-    {
-        IdxData* idxData = it->second;
-        result = idxData->m_parent;
-    }
+    IdxData* item = findIdxDataFor(photoInfo);
+    IdxData* result = item != nullptr? item->m_parent: nullptr;
 
     return result;
 }
