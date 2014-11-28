@@ -112,7 +112,7 @@ private:
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
     IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);   //returns direct parent or nullptr if direct parent isn't fetched yet
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
-    void performRemove(const IPhotoInfo::Ptr &, IdxData *);
+    void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
 

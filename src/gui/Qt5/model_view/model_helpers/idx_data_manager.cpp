@@ -508,7 +508,7 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
         if (currentParent == nullptr)
             performAdd(photoInfo, newParent);
         else if (newParent == nullptr)
-            performRemove(photoInfo, currentParent);
+            performRemove(photoInfo);
         else
             performMove(photoInfo, currentParent, newParent);
     }
@@ -631,7 +631,7 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
 }
 
 
-void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo, IdxData* from)
+void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
 
