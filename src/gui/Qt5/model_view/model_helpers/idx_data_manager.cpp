@@ -641,15 +641,15 @@ void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
 
 void IdxDataManager::performRemove(IdxData* item)
 {
-    IdxData* parent = item->m_parent;
-    assert(parent != nullptr);
+    IdxData* _parent = item->m_parent;
+    assert(_parent != nullptr);
 
-    QModelIndex parentIdx = getIndex(parent);
+    QModelIndex parentIdx = getIndex(_parent);
     const int itemPos = item->m_row;
 
     m_data->m_model->beginRemoveRows(parentIdx, itemPos, itemPos);
 
-    parent->removeChild(item);
+    _parent->removeChild(item);
 
     m_data->m_model->endRemoveRows();
 }
