@@ -59,7 +59,7 @@ if(BUILD_TESTS)
                             TEST_LIBRARY
                                 GMOCK
        )
-    target_link_libraries(database_test core database Qt5::Core Qt5::Gui)
+    target_link_libraries(database_test PRIVATE core database Qt5::Core Qt5::Gui)
 
     turnOnCpp11(database_test)
 endif(BUILD_TESTS)

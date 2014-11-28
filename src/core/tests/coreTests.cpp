@@ -3,7 +3,7 @@
 
 #include "tag.hpp"
 
-
+/*
 TEST(TagDataShould, beConstructable)
 {
     TagData data;
@@ -62,11 +62,11 @@ TEST(TagDataShould, beClearable)
 
     ASSERT_EQ(0, static_cast<int>(dataSet.size()));
 }
-
+*/
 
 /*************************************************************************/
 
-
+/*
 TEST(TagDataCompositeShould, fillItsMinions)
 {
     TagDataComposite data;
@@ -224,3 +224,4 @@ TEST(TagDataCompositeShould, beClearable)
     ASSERT_EQ(0, minion1->getTags().size());
     ASSERT_EQ(0, minion1->getTags().size());
 }
+*/

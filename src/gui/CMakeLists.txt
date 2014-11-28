@@ -115,11 +115,17 @@ install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
 
 if(BUILD_TESTS)
 
-    qt5_wrap_cpp(GUI_WRAPPED_CPP_FOR_TEST Qt5/model_view/db_data_model.hpp)
+    qt5_wrap_cpp(GUI_WRAPPED_CPP_FOR_TEST
+                    Qt5/model_view/db_data_model.hpp
+                    Qt5/model_view/model_helpers/idx_data_manager.hpp
+                    Qt5/model_view/model_helpers/idxdata_deepfetcher.hpp
+                )
 
     addTestTarget(gui  SOURCES
                            Qt5/model_view/model_helpers/idx_data_manager.cpp
+                           Qt5/model_view/model_helpers/idx_data.cpp
                            Qt5/model_view/model_helpers/idxdata_deepfetcher.cpp
+                           Qt5/model_view/model_helpers/photos_matcher.cpp
                            Qt5/model_view/db_data_model.cpp
                            tests/db_data_model_tests.cpp
                            ${GUI_WRAPPED_CPP_FOR_TEST}
@@ -127,7 +133,7 @@ if(BUILD_TESTS)
                            GMOCK
        )
        
-    target_link_libraries(gui_test gui system Qt5::Core)
+    target_link_libraries(gui_test PRIVATE analyzer core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
 
     turnOnCpp11(gui_test)
 endif(BUILD_TESTS)

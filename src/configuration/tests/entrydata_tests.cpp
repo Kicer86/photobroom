@@ -104,9 +104,3 @@ TEST(EntryDataShould, returnTrueForComparisonOfTwoEmptyEntries)
 
     ASSERT_EQ(entry1, entry2);
 }
-
-
-TEST(EntryDataShould, acceptKeyAndValueWileBeingConstructed)
-{
-    Configuration::EntryData entry("a::b::c", "value");
-}

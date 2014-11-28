@@ -5,7 +5,7 @@
 
 function(addTestTarget target)
 
-    find_package(Threads)
+    find_package(Threads REQUIRED)
 
     #get sources
     set(options OPTIONAL)
@@ -38,7 +38,7 @@ function(addTestTarget target)
     endif()
 
     #link agains test library
-    target_link_libraries(${test_bin} ${link_library} ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${test_bin} PRIVATE ${link_library} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 
     #enable code coverage
     enableCodeCoverage(${test_bin})

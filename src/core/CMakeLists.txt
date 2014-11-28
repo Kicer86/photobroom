@@ -90,11 +90,11 @@ if(BUILD_TESTS)
                             GTEST
                 )
     turnOnCpp11(core_test)
-    target_link_libraries(core_test ${OPENSSL_LIBRARIES} ${OPENLIBRARY_LIBRARIES} ${EXIF_LIBRARIES} Qt5::Core Qt5::Gui)
+    target_link_libraries(core_test PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
     if(MSVC)
 
     else()
-        target_link_libraries(core_test ${OpenMP_CXX_FLAGS})
+        target_link_libraries(core_test PRIVATE ${OpenMP_CXX_FLAGS})
     endif(MSVC)
 
 endif(BUILD_TESTS)
