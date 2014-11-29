@@ -28,4 +28,4 @@ TEST(PositionsCalculatorShould, BeConstructable)
         PositionsCalculator calculator(&model, &data, 100);
     });
 }
- 
+
