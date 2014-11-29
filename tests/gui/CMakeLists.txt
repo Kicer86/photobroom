@@ -20,6 +20,8 @@ set(SRC
         ${BASE_DIR}/Qt5/model_view/view_helpers/positions_reseter.cpp
         positions_calculator_tests.cpp
         positions_reseter_tests.cpp
+        
+        mock_configuration.hpp
     )
 
 add_executable(gui_tests ${SRC} ${GUI_WRAPPED_CPP})
