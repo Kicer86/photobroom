@@ -15,11 +15,11 @@ namespace Configuration
         static const unsigned int database_tag_value_len;
     };
 
-    namespace BasicKeys
+    struct CONFIGURATION_EXPORT BasicKeys
     {
-        const char* const configLocation = "Application::ConfigDir";
-        const char* const thumbnailWidth = "Database::ThumbnailWidth";
-    }
+        static const char* const configLocation;
+        static const char* const thumbnailWidth;
+    };
 
 }
 #endif
