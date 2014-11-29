@@ -12,7 +12,6 @@
 struct MockConfiguration: IConfiguration
 {
     MOCK_METHOD1(addEntry, void(const Configuration::EntryData&));
-
     MOCK_CONST_METHOD2(findEntry, QString(const char*, const QString& defaultValue));
     MOCK_CONST_METHOD1(findEntry, Optional<Configuration::EntryData>(const Configuration::ConfigurationKey&));
     MOCK_CONST_METHOD1(findEntry, Optional<QString>(const char*));
@@ -22,6 +21,5 @@ struct MockConfiguration: IConfiguration
     MOCK_METHOD1(registerKey, void(const Configuration::ConfigurationKey &));
     MOCK_METHOD1(registerXml, void(const QString &));
 };
-
 
 #endif
