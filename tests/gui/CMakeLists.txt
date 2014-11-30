@@ -29,7 +29,7 @@ set(SRC
         ${gui_srcs}
         positions_calculator_tests.cpp
         positions_reseter_tests.cpp
-        
+
         mock_configuration.hpp
         mock_qabstractitemmodel.hpp
     )
@@ -38,5 +38,6 @@ add_executable(gui_tests ${SRC} ${GUI_WRAPPED_CPP})
 
 target_link_libraries(gui_tests PRIVATE configuration Qt5::Core Qt5::Gui ${GMOCK_MAIN_LIBRARY} ${GMOCK_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
 turnOnCpp11(gui_tests)
+enableCodeCoverage(gui_tests)
 
 add_test(gui gui_tests)
