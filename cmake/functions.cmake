@@ -41,7 +41,7 @@ function(addTestTarget target)
     target_link_libraries(${test_bin} PRIVATE ${link_library} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 
     #enable code coverage
-    enableCodeCoverage(${test_bin})
+    #enableCodeCoverage(${test_bin})
 
     #add test
     add_test(${target} ${test_bin})
