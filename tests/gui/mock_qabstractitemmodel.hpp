@@ -6,12 +6,6 @@
 
 #include <QAbstractItemModel>
 
-
-struct Item
-{
-    std::vector<Item> children;
-};
-
 struct MockQAbstractItemModel: QAbstractItemModel
 {
     MOCK_CONST_METHOD3(index, QModelIndex(int, int, const QModelIndex &));
@@ -20,17 +14,11 @@ struct MockQAbstractItemModel: QAbstractItemModel
     MOCK_CONST_METHOD1(columnCount, int(const QModelIndex &));
     MOCK_CONST_METHOD2(data, QVariant(const QModelIndex &, int));
 
+    //helpers:
     QModelIndex createIndex(int row, int column, void * ptr = 0) const
     {
         return QAbstractItemModel::createIndex(row, column, ptr);
     }
-
-    void define_hierarchy(const Item& topItem)
-    {
-        m_item = topItem;
-    }
-
-    Item m_item;
 };
 
 #endif
