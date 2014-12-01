@@ -13,6 +13,6 @@ namespace
 
 TEST(PositionsReseterShould, Work)
 {
-
+    
 }
  
