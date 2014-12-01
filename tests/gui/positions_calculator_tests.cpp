@@ -204,10 +204,14 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
 
     auto parent = [&](const QModelIndex& idx)
     {
+        EXPECT_EQ(true, idx == top_child1_idx || idx == top_child1_child1_idx || idx == top_child1_child2_idx);
+
         QModelIndex result;
 
         if (idx == top_child1_idx)
-            result = top_idx;;
+            result = top_idx;
+        else if (idx == top_child1_child1_idx || idx == top_child1_child2_idx)
+            result = top_child1_idx;
 
         return result;
     };
