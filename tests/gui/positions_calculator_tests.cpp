@@ -63,21 +63,20 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     using ::testing::Return;
     using ::testing::Invoke;
 
-    QModelIndex top;
-
     struct Item
     {
 
     };
 
-    // 1 main node + 2 children
+    MockConfiguration config;
+    MockQAbstractItemModel model;
+
+    // top + 1 main node + 2 children
     Item top_child1;                     //0, 0
     Item top_child1_child1;              //    0, 0
     Item top_child1_child2;              //    1, 0
 
-    MockConfiguration config;
-    MockQAbstractItemModel model;
-
+    QModelIndex top_idx;
     QModelIndex top_child1_idx = model.createIndex(0, 0, &top_child1);
     QModelIndex top_child1_child1_idx = model.createIndex(0, 0, &top_child1_child1);
     QModelIndex top_child1_child2_idx = model.createIndex(1, 0, &top_child1_child2);
@@ -85,9 +84,9 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     auto createIndex = [&](int r, int c, const QModelIndex& p)
     {
         QModelIndex result;
-        EXPECT_EQ(true, p == top || p == top_child1_idx);
+        EXPECT_EQ(true, p == top_idx || p == top_child1_idx);
 
-        if (p == top)
+        if (p == top_idx)
         {
             EXPECT_EQ(r, 0);
             EXPECT_EQ(c, 0);
@@ -96,7 +95,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
         else if (p == top_child1_idx)
         {
             EXPECT_EQ(c, 0);
-            EXPECT_EQ(true, r == 0 | r == 1);
+            EXPECT_EQ(true, r == 0 || r == 1);
 
             if (r == 0)
                 result = top_child1_child1_idx;
@@ -109,26 +108,26 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 
     auto parent = [&](const QModelIndex& idx)
     {
+        EXPECT_EQ(idx, top_child1_idx);
+
         QModelIndex result;
 
         if (idx == top_child1_idx)
-            result = top;
+            result = top_idx;
 
         return result;
     };
 
     EXPECT_CALL(config, findEntry(Configuration::BasicKeys::thumbnailWidth, _)).Times(1).WillOnce(Return("20"));
 
-    EXPECT_CALL(model, rowCount(top)).WillRepeatedly(Return(1));
+    EXPECT_CALL(model, rowCount(top_idx)).WillRepeatedly(Return(1));
     EXPECT_CALL(model, rowCount(top_child1_idx)).WillRepeatedly(Return(2));
     EXPECT_CALL(model, rowCount(top_child1_child1_idx)).WillRepeatedly(Return(0));
     EXPECT_CALL(model, rowCount(top_child1_child2_idx)).WillRepeatedly(Return(0));
 
     EXPECT_CALL(model, columnCount(_)).WillRepeatedly(Return(1));              // one column
-    EXPECT_CALL(model, index(0, 0, top)).WillRepeatedly(Invoke(createIndex));
+    EXPECT_CALL(model, index(0, 0, top_idx)).WillRepeatedly(Invoke(createIndex));
     EXPECT_CALL(model, parent(_)).WillRepeatedly(Invoke(parent));
-
-    QModelIndex child = model.index(0, 0, top);
 
     Data data;
     data.m_configuration = &config;
@@ -137,7 +136,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     calculator.updateItems();
 
     {
-        const ModelIndexInfo info = data.get(top);
+        const ModelIndexInfo info = data.get(top_idx);
 
         EXPECT_EQ(info.getRect(), QRect());                        //invisible
         EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 100, 40));    //but has overall size of all items
@@ -150,3 +149,4 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
         EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 100, 40));    // no children expanded - overall == size
     }
 }
+
