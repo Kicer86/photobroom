@@ -1,6 +1,5 @@
 
 find_package(Threads REQUIRED)
-find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(OpenLibrary 2.0 REQUIRED utils QtExt)
