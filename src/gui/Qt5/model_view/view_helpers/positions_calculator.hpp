@@ -22,6 +22,7 @@
 
 #include <QRect>
 #include <QPixmap>
+#include <QItemSelection>
 
 class QModelIndex;
 class QAbstractItemModel;
@@ -44,20 +45,18 @@ class PositionsCalculator
         QPoint positionOfNextImage(const QModelIndex &) const;                        // calculate position of next item (image item)
         QPoint positionOfNextNode(const QModelIndex &) const;                         // calculate position of next item (node item)
         QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
-        QPoint matrixPositionOf(const QModelIndex &) const;                           // get position (in matrix) of item
-        QModelIndex itemAtMatrixPosition(const QPoint &, QModelIndex& parent) const;  // convert position (in matrix) to item
-        int itemsPerRow() const;
+
         int getitemWidth(const QModelIndex &) const;
         int getItemHeigth(const QModelIndex &) const;
         int getItemHeigth(const QModelIndex &, const QModelIndex &) const;            // max height for set of items
         QSize getItemSize(const QModelIndex &) const;
+        QItemSelection selectRowFor(const QModelIndex &) const;
 
-        void calcItemsOverallRect() const;                                           // size (rect) including all subitems
+        void calcItemsOverallRect() const;                                            // size (rect) including all subitems
 
         QAbstractItemModel* m_model;
         Data* m_data;
         const int m_width;
-        int m_itemsPerRow;
 };
 
 #endif // POSITIONSCALCULATOR_HPP

@@ -28,7 +28,7 @@
 
 #include "data.hpp"
 
-PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width), m_itemsPerRow(itemsPerRow())
+PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width)
 {
 
 }
@@ -115,24 +115,29 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    const QPoint items_matrix_pos = matrixPositionOf(index);
     const ModelIndexInfo& info = m_data->get(index);
-    const QRect& items_pos = info.getRect();
-
-    assert(items_matrix_pos.x() < m_itemsPerRow);
+    const QRect& item_pos = info.getRect();
+    const QModelIndex nextIndex = index.sibling(index.row() + 1, 0);
+    const int nextIndexWidth = getitemWidth(nextIndex);
 
     QPoint result;
-    if (items_matrix_pos.x() + 1 < m_itemsPerRow)             //not last in its row?
-        result = QPoint(items_pos.x() + getitemWidth(index), items_pos.y());
-    else                                                      //last in a row
+    if (item_pos.right() + nextIndexWidth < m_width)             //is there place for item?
+        result = QPoint(item_pos.x() + getitemWidth(index), item_pos.y());
+    else                                                         //no space, add new row
     {
-        QModelIndex item_parent = m_model->parent(index);
-        QModelIndex from = itemAtMatrixPosition(QPoint(0, items_matrix_pos.y()), item_parent);
-        QModelIndex to = itemAtMatrixPosition(QPoint(m_itemsPerRow - 1, items_matrix_pos.y()), item_parent);
+        int row_height = 0;
+        const QItemSelection selection = selectRowFor(index);
+        for(const QModelIndex& idx: selection.indexes())
+        {
+            ModelIndexInfo idxInfo = m_data->get(idx);
+            const QRect& idxRect = idxInfo.getRect();
+            const int idxHeight = idxRect.height();
 
-        const int item_height = getItemHeigth(from, to);
+            if (row_height < idxHeight)
+                row_height = idxHeight;
+        }
 
-        result = QPoint(0, items_pos.y() + item_height);
+        result = QPoint(0, item_pos.y() + row_height);
     }
 
     return result;
@@ -163,38 +168,6 @@ QPoint PositionsCalculator::positionOfFirstChild(const QModelIndex& index) const
     }
 
     return result;
-}
-
-
-QPoint PositionsCalculator::matrixPositionOf(const QModelIndex& index) const
-{
-    assert(index.column() == 0);    // ImagesTreeView supports only typical hierarchical models. So column of item will be always equal to 0
-
-    const int linear_pos = index.row();
-    const int row = linear_pos / m_itemsPerRow;
-    const int col = linear_pos % m_itemsPerRow;
-
-    return QPoint(col, row);
-}
-
-
-QModelIndex PositionsCalculator::itemAtMatrixPosition(const QPoint& point, QModelIndex& _parent) const
-{
-    const int liner_pos = m_itemsPerRow * point.y() + point.x();
-
-    QModelIndex item = m_model->index(liner_pos, 0, _parent);
-
-    return item;
-}
-
-
-int PositionsCalculator::itemsPerRow() const
-{
-    const int indexWidth = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth, "120").toInt() + m_data->indexMargin * 2;
-    const int indicesPerRowInitial = m_width / indexWidth;
-    const int indicesPerRow = indicesPerRowInitial > 1? indicesPerRowInitial : 2;    // at least 2 items per row
-
-    return indicesPerRow;
 }
 
 
@@ -275,3 +248,35 @@ QSize PositionsCalculator::getItemSize(const QModelIndex& index) const
 
     return item_size;
 }
+
+
+QItemSelection PositionsCalculator::selectRowFor(const QModelIndex& index) const
+{
+    QItemSelection result;
+    QModelIndex itemToCheck = index;
+
+    while(itemToCheck.isValid())
+    {
+        const QModelIndex current = itemToCheck;
+        const ModelIndexInfo indexInfo = m_data->get(itemToCheck);
+        const QRect& indexRect = indexInfo.getRect();
+
+        //go to previous item
+        itemToCheck = itemToCheck.sibling(itemToCheck.row() - 1, 0);
+
+        if (itemToCheck.isValid())
+        {
+            const ModelIndexInfo prevInfo = m_data->get(itemToCheck);
+            const QRect& prevRect = prevInfo.getRect();
+
+            if (prevRect.top() != indexRect.top())   //items are at the same y-position? If no - we are no longer in the same row
+                itemToCheck = QModelIndex();         //mark item invalid
+        }
+
+        if (itemToCheck.isValid() == false)
+            result.select(current, index);
+    }
+
+    return result;
+}
+
