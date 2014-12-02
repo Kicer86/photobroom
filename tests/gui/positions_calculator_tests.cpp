@@ -255,14 +255,14 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     {
         const ModelIndexInfo info = view_data.get(top_idx);
 
-        EXPECT_EQ(info.getRect(), QRect());                        //invisible
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 100, 40));    //but has overall size of all items
+        EXPECT_EQ(info.getRect(), QRect());                         //invisible
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 240, 110));    //but has overall size of all items
     }
 
     {
         const ModelIndexInfo info = view_data.get(top_child1_idx);
 
-        EXPECT_EQ(info.getRect(), QRect(0, 0, 100, 40));           // its position
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 100, 40));    // no children expanded - overall == size
+        EXPECT_EQ(info.getRect(), QRect(0, 0, 100, 40));            // its position
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 240, 110));    // no children expanded - overall == size
     }
 }
