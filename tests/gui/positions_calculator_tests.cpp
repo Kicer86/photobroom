@@ -20,8 +20,6 @@ TEST(PositionsCalculatorShould, BeConstructable)
         MockConfiguration config;
         MockQAbstractItemModel model;
 
-        EXPECT_CALL(config, findEntry(Configuration::BasicKeys::thumbnailWidth, _)).Times(1).WillOnce(Return("20"));
-
         Data data;
         data.m_configuration = &config;
 
@@ -41,7 +39,6 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     MockConfiguration config;
     MockQAbstractItemModel model;
 
-    EXPECT_CALL(config, findEntry(Configuration::BasicKeys::thumbnailWidth, _)).Times(1).WillOnce(Return("20"));
     EXPECT_CALL(model, rowCount(top)).Times(1).WillOnce(Return(0));
 
     Data data;
@@ -59,9 +56,18 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 
 TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 {
+    // Situation:
+    // One node with two children. Node is not expanded and is only one visible item.
+
     using ::testing::_;
     using ::testing::Return;
     using ::testing::Invoke;
+
+    const int img_w = 100;
+    const int img_h = 50;
+    const int margin = 20;
+    const int canvas_w = 500;
+    const int header_h = 40;
 
     struct Item
     {
@@ -118,8 +124,6 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
         return result;
     };
 
-    EXPECT_CALL(config, findEntry(Configuration::BasicKeys::thumbnailWidth, _)).Times(1).WillOnce(Return("20"));
-
     EXPECT_CALL(model, rowCount(top_idx)).WillRepeatedly(Return(1));
     EXPECT_CALL(model, rowCount(top_child1_idx)).WillRepeatedly(Return(2));
     EXPECT_CALL(model, rowCount(top_child1_child1_idx)).WillRepeatedly(Return(0));
@@ -132,21 +136,21 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     Data data;
     data.m_configuration = &config;
 
-    PositionsCalculator calculator(&model, &data, 100);
+    PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
 
     {
         const ModelIndexInfo info = data.get(top_idx);
 
-        EXPECT_EQ(info.getRect(), QRect());                        //invisible
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 100, 40));    //but has overall size of all items
+        EXPECT_EQ(info.getRect(), QRect());                                   //invisible
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h));    //but has overall size of all items
     }
 
     {
         const ModelIndexInfo info = data.get(top_child1_idx);
 
-        EXPECT_EQ(info.getRect(), QRect(0, 0, 100, 40));           // its position
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 100, 40));    // no children expanded - overall == size
+        EXPECT_EQ(info.getRect(), QRect(0, 0, canvas_w, header_h));           // its position
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h));    // no children expanded - overall == size
     }
 }
 
@@ -155,9 +159,19 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 
 TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
 {
+
+    // Situation:
+    // One node with two children. Node is expanded and its children are visible in one row.
+
     using ::testing::_;
     using ::testing::Return;
     using ::testing::Invoke;
+
+    const int img_w = 100;
+    const int img_h = 50;
+    const int margin = 20;
+    const int canvas_w = 500;
+    const int header_h = 40;
 
     struct Item
     {
@@ -222,14 +236,12 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
         EXPECT_EQ(true, idx == top_child1_child1_idx || idx == top_child1_child2_idx);
 
         if (d == Qt::DecorationRole)
-            result = QPixmap(100, 50);
+            result = QPixmap(img_w, img_h);
         else if (d == Qt::DisplayRole)
             result = "Empty";
 
         return result;
     };
-
-    EXPECT_CALL(config, findEntry(Configuration::BasicKeys::thumbnailWidth, _)).Times(1).WillOnce(Return("20"));
 
     EXPECT_CALL(model, rowCount(top_idx)).WillRepeatedly(Return(1));
     EXPECT_CALL(model, rowCount(top_child1_idx)).WillRepeatedly(Return(2));
@@ -249,20 +261,20 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     info.expanded = true;
     view_data.update(info);
 
-    PositionsCalculator calculator(&model, &view_data, 100);
+    PositionsCalculator calculator(&model, &view_data, canvas_w);
     calculator.updateItems();
 
     {
         const ModelIndexInfo info = view_data.get(top_idx);
 
-        EXPECT_EQ(info.getRect(), QRect());                         //invisible
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 240, 110));    //but has overall size of all items
+        EXPECT_EQ(info.getRect(), QRect());                                                      //invisible
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));    //but has overall size of all items
     }
 
     {
         const ModelIndexInfo info = view_data.get(top_child1_idx);
 
-        EXPECT_EQ(info.getRect(), QRect(0, 0, 100, 40));            // its position
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, 240, 110));    // no children expanded - overall == size
+        EXPECT_EQ(info.getRect(), QRect(0, 0, canvas_w, header_h));                              // its position
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));    // no children expanded - overall == size
     }
 }
