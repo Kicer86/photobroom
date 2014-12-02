@@ -224,7 +224,7 @@ int PositionsCalculator::getItemHeigth(const QModelIndex& index) const
     else                  //node's title
         item_height = 40;      //TODO: temporary
 
-        return item_height;
+    return item_height;
 }
 
 
