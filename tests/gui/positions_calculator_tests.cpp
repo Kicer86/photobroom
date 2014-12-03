@@ -268,13 +268,13 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
         const ModelIndexInfo info = view_data.get(top_idx);
 
         EXPECT_EQ(info.getRect(), QRect());                                                      //invisible
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));    //but has overall size of all items
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));      //but has overall size of all items
     }
 
     {
         const ModelIndexInfo info = view_data.get(top_child1_idx);
 
         EXPECT_EQ(info.getRect(), QRect(0, 0, canvas_w, header_h));                              // its position
-        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));    // no children expanded - overall == size
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));      // no children expanded - overall == size
     }
 }
