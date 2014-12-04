@@ -278,3 +278,67 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
         EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h + margin));      // no children expanded - overall == size
     }
 }
+
+
+TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
+{
+
+    // Situation:
+    // One node with two children. Node is expanded and its children are visible in one row.
+
+    using ::testing::_;
+    using ::testing::Return;
+    using ::testing::Invoke;
+
+    const int img_w = 100;
+    const int img_h = 50;
+    const int margin = 20;
+    const int canvas_w = 500;
+    const int header_h = 40;
+
+    QStandardItemModel model;
+    MockConfiguration config;
+    const QPixmap pixmap(img_w, img_h);
+    const QIcon icon(pixmap);
+
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
+    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
+    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
+
+    top->appendRow(child1);
+    top->appendRow(child2);
+    top->appendRow(child3);
+    top->appendRow(child4);
+    top->appendRow(child5);
+
+    model.appendRow(top);
+
+    Data view_data;
+    view_data.m_configuration = &config;
+
+    //expand main node to show children
+    ModelIndexInfo info = view_data.get(top->index());
+    info.expanded = true;
+    view_data.update(info);
+
+    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    calculator.updateItems();
+
+    {
+        const ModelIndexInfo info = view_data.get(top->index());
+
+        EXPECT_EQ(info.getRect(), QRect(0, 0, canvas_w, header_h));                                  // its position
+        EXPECT_EQ(info.getOverallRect(), QRect(0, 0, canvas_w, header_h + img_h*2 + margin*2));      // we expect two rows
+    }
+
+    {
+        const ModelIndexInfo info = view_data.get(child5->index());
+        const QRect childSize(0, header_h + img_h + margin, img_w + margin, img_h + margin);  // should start in second row (parent's header + first row height + margin)
+
+        EXPECT_EQ(info.getRect(), childSize);
+        EXPECT_EQ(info.getOverallRect(), childSize);
+    }
+}
