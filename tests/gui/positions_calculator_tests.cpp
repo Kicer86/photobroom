@@ -202,7 +202,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
         else if (p == top_child1_idx)
         {
             EXPECT_EQ(c, 0);
-            EXPECT_EQ(true, r == 0 | r == 1);
+            EXPECT_EQ(true, r == 0 || r == 1);
 
             if (r == 0)
                 result = top_child1_child1_idx;
