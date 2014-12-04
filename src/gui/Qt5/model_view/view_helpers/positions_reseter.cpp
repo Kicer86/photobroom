@@ -35,12 +35,14 @@ PositionsReseter::~PositionsReseter()
 }
 
 
-void PositionsReseter::itemsAdded(const QModelIndex& parent, int last) const
+void PositionsReseter::itemsAdded(const QModelIndex& parent, int pos) const
 {
+    //invalidate parent
     invalidateItemOverallRect(parent);
 
-    const QModelIndex lastItem = parent.child(last, 0);
-    invalidateSiblingsRect(lastItem);
+    //invalidate all items which are after 'pos'
+    const QModelIndex sibling = parent.child(pos + 1, 0);
+    invalidateSiblingsRect(sibling);
 }
 
 
@@ -72,14 +74,13 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent)
 void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
 {
     resetOverallRect(idx);
+    invalidateSiblingsRect(idx);
 
     if (idx != QModelIndex())                           //do not invalidate root's parent if it doesn't exist
     {
         //if 'this' becomes invalid, invalidate also its parent
         const QModelIndex parent = idx.parent();
         invalidateItemOverallRect(parent);
-        invalidateSiblingsRect(idx);
-        invalidateChildrenRect(idx);
     }
 }
 

@@ -31,7 +31,7 @@ public:
     ~PositionsReseter();
     PositionsReseter& operator=(const PositionsReseter &) = delete;
 
-    void itemsAdded(const QModelIndex &, int last) const;
+    void itemsAdded(const QModelIndex& parent, int pos) const;
     void invalidateAll() const;
     void itemChanged(const QModelIndex &);
     void childrenRemoved(const QModelIndex &);
