@@ -282,14 +282,6 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
 
 TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 {
-
-    // Situation:
-    // One node with two children. Node is expanded and its children are visible in one row.
-
-    using ::testing::_;
-    using ::testing::Return;
-    using ::testing::Invoke;
-
     const int img_w = 100;
     const int img_h = 50;
     const int margin = 20;
@@ -320,9 +312,9 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     view_data.m_configuration = &config;
 
     //expand main node to show children
-    ModelIndexInfo info = view_data.get(top->index());
-    info.expanded = true;
-    view_data.update(info);
+    ModelIndexInfo top_info = view_data.get(top->index());
+    top_info.expanded = true;
+    view_data.update(top_info);
 
     PositionsCalculator calculator(&model, &view_data, canvas_w);
     calculator.updateItems();
