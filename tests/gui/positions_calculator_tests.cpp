@@ -63,9 +63,6 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     using ::testing::Return;
     using ::testing::Invoke;
 
-    const int img_w = 100;
-    const int img_h = 50;
-    const int margin = 20;
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -257,9 +254,9 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     view_data.m_configuration = &config;
 
     //expand main node to show children
-    ModelIndexInfo info = view_data.get(top_child1_idx);
-    info.expanded = true;
-    view_data.update(info);
+    ModelIndexInfo top_info = view_data.get(top_child1_idx);
+    top_info.expanded = true;
+    view_data.update(top_info);
 
     PositionsCalculator calculator(&model, &view_data, canvas_w);
     calculator.updateItems();
