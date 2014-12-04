@@ -201,47 +201,6 @@ int PositionsCalculator::getItemHeigth(const QModelIndex& index) const
 }
 
 
-int PositionsCalculator::getItemHeigth(const QModelIndex& from, const QModelIndex& to) const
-{
-    int result = 0;
-    QModelIndex item_parent = m_model->parent(from);
-    assert(item_parent == m_model->parent(to));
-
-    for (int i = from.row(); i < to.row(); i++)
-    {
-        QModelIndex index = m_model->index(i, 0, item_parent);
-
-        const int h = getItemHeigth(index);
-        if (result < h)
-            result = h;
-    }
-
-    return result;
-}
-
-
-void PositionsCalculator::calcItemsOverallRect() const
-{
-    m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
-    {
-        ModelIndexInfo info = m_data->get(idx);
-        QRect rect = info.getRect();
-
-        for(const QModelIndex& child: children)
-        {
-            ModelIndexInfo c_info = m_data->get(child);
-            QRect c_rect = c_info.getOverallRect();
-            assert(c_rect.isValid());                            // not valid?  Should never happen
-
-            rect = rect.united(c_rect);
-        }
-
-        info.setOverallRect(rect);
-        m_data->update(info);
-    });
-}
-
-
 QSize PositionsCalculator::getItemSize(const QModelIndex& index) const
 {
     const QSize item_size(getitemWidth(index), getItemHeigth(index));

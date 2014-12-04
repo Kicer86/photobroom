@@ -48,11 +48,8 @@ class PositionsCalculator
 
         int getitemWidth(const QModelIndex &) const;
         int getItemHeigth(const QModelIndex &) const;
-        int getItemHeigth(const QModelIndex &, const QModelIndex &) const;            // max height for set of items
         QSize getItemSize(const QModelIndex &) const;
         QItemSelection selectRowFor(const QModelIndex &) const;
-
-        void calcItemsOverallRect() const;                                            // size (rect) including all subitems
 
         QAbstractItemModel* m_model;
         Data* m_data;
