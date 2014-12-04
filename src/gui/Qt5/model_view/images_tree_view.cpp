@@ -179,7 +179,7 @@ void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start,
 
         m_data->forget(child);
     }
-    reseter.childrenRemoved(_parent);
+    reseter.childrenRemoved(_parent, start);
 
     //update model when rows are finally removed
     QTimer::singleShot(0, Qt::CoarseTimer, this, SLOT(updateModelShot()));

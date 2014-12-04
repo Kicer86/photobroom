@@ -61,13 +61,23 @@ void PositionsReseter::invalidateAll() const
 
 void PositionsReseter::itemChanged(const QModelIndex& idx)
 {
-    invalidateItemOverallRect(idx);
+    const QModelIndex parent = idx.parent();
+    invalidateItemOverallRect(parent);
+
+    //invalidate all items which are after 'pos'
+    const QModelIndex sibling = parent.child(idx.row() + 1, 0);
+    invalidateSiblingsRect(sibling);
 }
 
 
-void PositionsReseter::childrenRemoved(const QModelIndex& parent)
+void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {
+    //invalidate parent
     invalidateItemOverallRect(parent);
+
+    //invalidate all items which are after 'pos'
+    const QModelIndex sibling = parent.child(pos, 0);
+    invalidateSiblingsRect(sibling);
 }
 
 
