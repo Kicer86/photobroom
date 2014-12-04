@@ -22,6 +22,7 @@
 #include <iostream>
 
 #include <QPixmap>
+#include <QIcon>
 #include <QDebug>
 
 
@@ -166,11 +167,24 @@ QPixmap Data::getImage(const QModelIndex& index) const
 {
     const QAbstractItemModel* model = index.model();
     const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
-    const bool convertable = decorationRole.canConvert<QPixmap>();
+    const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
     QPixmap pixmap;
 
-    if (convertable)
+    if (directlyConvertable)
         pixmap = decorationRole.value<QPixmap>();
+    else
+    {
+        const bool isIcon = decorationRole.canConvert<QIcon>();
+
+        if (isIcon)
+        {
+            const QIcon icon = decorationRole.value<QIcon>();
+            auto sizes = icon.availableSizes();
+
+            if (sizes.isEmpty() == false)
+                pixmap = icon.pixmap(sizes[0]);
+        }
+    }
 
     return pixmap;
 }
