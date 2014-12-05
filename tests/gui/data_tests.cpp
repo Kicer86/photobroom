@@ -5,6 +5,7 @@
 #include <QStandardItemModel>
 
 #include <Qt5/model_view/view_helpers/data.hpp>
+#include <Qt5/model_view/view_helpers/positions_calculator.hpp>
 
 #include "mock_configuration.hpp"
 #include "mock_qabstractitemmodel.hpp"
@@ -158,7 +159,6 @@ TEST(DataShould, ReturnEmptySizesWhenInvisible)
 }
 
 
-
 TEST(DataShould, NotForgetItemSizeWhenItsMarkedInvisible)
 {
     MockQAbstractItemModel model;
@@ -184,4 +184,53 @@ TEST(DataShould, NotForgetItemSizeWhenItsMarkedInvisible)
     EXPECT_EQ(true, info2.isVisible());
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
     EXPECT_EQ(QRect(0, 0, 200, 150), info2.getOverallRect());
+}
+
+
+TEST(DataShould, HideChildrenOfCollapsedNode)
+{
+    QStandardItemModel model;
+    MockConfiguration config;
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
+
+    Data data;
+    data.m_configuration = &config;
+
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+
+    top->appendRow(child1);
+    top->appendRow(child2);
+
+    model.appendRow(top);
+
+    //expand top and update items positions
+    ModelIndexInfo info = data.get(top->index());
+    info.expanded = true;
+    data.update(info);
+
+    PositionsCalculator positions_calculator(&model, &data, 100);
+    positions_calculator.updateItems();
+
+    //collapse top
+    info.expanded = false;
+    data.update(info);
+
+    //children should be marked invisible
+    {
+        ModelIndexInfo info1 = data.get(child1->index());
+        ModelIndexInfo info2 = data.get(child2->index());
+        EXPECT_EQ(false, info1.isVisible());
+        EXPECT_EQ(false, info2.isVisible());
+    }
+
+    //size of children should be null
+    {
+        ModelIndexInfo info1 = data.get(child1->index());
+        ModelIndexInfo info2 = data.get(child2->index());
+        EXPECT_EQ(QRect(), info1.getRect());
+        EXPECT_EQ(QRect(), info2.getRect());
+    }
 }
