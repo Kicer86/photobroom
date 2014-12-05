@@ -61,8 +61,12 @@ void PositionsReseter::invalidateAll() const
 
 void PositionsReseter::itemChanged(const QModelIndex& idx)
 {
+    //invalidate parent
     const QModelIndex parent = idx.parent();
     invalidateItemOverallRect(parent);
+
+    //invalidate itself
+    resetRect(idx);
 
     //invalidate all items which are after 'pos'
     const QModelIndex sibling = parent.child(idx.row(), 0);
