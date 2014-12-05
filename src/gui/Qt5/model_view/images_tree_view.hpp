@@ -84,6 +84,8 @@ class ImagesTreeView: public QAbstractItemView
         void modelReset();
         void updateModelShot();
         void rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int);
+        void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);
+        void rowsRemoved(const QModelIndex &, int, int);
 };
 
 #endif // IMAGESTREEVIEW_H

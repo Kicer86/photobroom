@@ -154,6 +154,9 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()));
     connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
             this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)));
+    connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+            this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)));
+    connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
 }
 
 
@@ -171,18 +174,14 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
 {
     QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
-    PositionsReseter reseter(m_data.get());
 
+    //remove data from internal data model
     for(int i = start; i <= end; i++)
     {
         QModelIndex child = _parent.child(i, 0);
 
         m_data->forget(child);
     }
-    reseter.childrenRemoved(_parent, start);
-
-    //update model when rows are finally removed
-    QTimer::singleShot(0, Qt::CoarseTimer, this, SLOT(updateModelShot()));
 }
 
 
@@ -352,5 +351,23 @@ void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sou
 {
     const int items = sourceEnd - sourceStart + 1;
     rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
+}
+
+
+void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
+{
+    const int items = sourceEnd - sourceStart + 1;
+    rowsRemoved(sourceParent, sourceStart, sourceEnd);
     rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
+}
+
+
+void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
+{
+    //reset sizes and positions of existing items
+    PositionsReseter reseter(m_data.get());
+    reseter.childrenRemoved(_parent, first);
+
+    //update model
+    updateModel();
 }
