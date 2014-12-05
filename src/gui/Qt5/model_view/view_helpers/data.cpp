@@ -47,7 +47,6 @@ void ModelIndexInfo::setRect(const QRect& r)
 {
     rect = r;
     overallRect = QRect();          // not valid anymore
-    visible = true;
 }
 
 
@@ -59,31 +58,13 @@ void ModelIndexInfo::setOverallRect(const QRect& r)
 
 const QRect& ModelIndexInfo::getRect() const
 {
-    return visible? rect: empty;
+    return rect;
 }
 
 
 const QRect& ModelIndexInfo::getOverallRect() const
 {
-    return visible? overallRect: empty;
-}
-
-
-bool ModelIndexInfo::isVisible() const
-{
-    return visible;
-}
-
-
-void ModelIndexInfo::markInvisible()
-{
-    visible = false;
-}
-
-
-void ModelIndexInfo::markVisible()
-{
-    visible = true;
+    return overallRect;
 }
 
 
@@ -94,7 +75,7 @@ void ModelIndexInfo::cleanRects()
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), empty(), visible(false)
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect()
 {
 }
 
@@ -137,7 +118,7 @@ const ModelIndexInfo& Data::get(const QPoint& point) const
     for_each([&] (const ModelIndexInfo& info)
     {
         bool cont = true;
-        if (info.getRect().contains(point))
+        if (info.getRect().contains(point) && isVisible(info.index))
         {
             result = &info;
             cont = false;
@@ -224,6 +205,20 @@ bool Data::isExpanded(const QModelIndex& index)
     }
 
     return status;
+}
+
+
+bool Data::isVisible(const QModelIndex& index)
+{
+    QModelIndex parent = index.parent();
+    bool result = false;
+
+    if (parent == QModelIndex())    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
 }
 
 
