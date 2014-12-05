@@ -29,9 +29,7 @@ TEST(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
     //preparations
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
     const int canvas_w = 500;
-    const int header_h = 40;
 
     static MockConfiguration config;
     static QStandardItemModel model;
@@ -126,9 +124,7 @@ TEST(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     //preparations
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
     const int canvas_w = 500;
-    const int header_h = 40;
 
     static MockConfiguration config;
     static QStandardItemModel model;
@@ -225,9 +221,7 @@ TEST(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     //preparations
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
     const int canvas_w = 500;
-    const int header_h = 40;
 
     static MockConfiguration config;
     static QStandardItemModel model;
@@ -322,9 +316,7 @@ TEST(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
     //preparations
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
     const int canvas_w = 500;
-    const int header_h = 40;
 
     static MockConfiguration config;
     static QStandardItemModel model;
@@ -417,9 +409,7 @@ TEST(PositionsReseterShould, ResetProperItemsWhenParentChanged)
     //preparations
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
     const int canvas_w = 500;
-    const int header_h = 40;
 
     static MockConfiguration config;
     static QStandardItemModel model;
