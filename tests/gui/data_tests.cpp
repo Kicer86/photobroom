@@ -91,7 +91,6 @@ TEST(DataShould, SetInitialDataForItems)
     EXPECT_EQ(false, info.expanded);
     EXPECT_EQ(QRect(), info.getRect());
     EXPECT_EQ(QRect(), info.getOverallRect());
-    EXPECT_EQ(false, info.isVisible());
 }
 
 
@@ -115,7 +114,7 @@ TEST(DataShould, StoreInfoAboutItem)
 }
 
 
-TEST(DataShould, MarkItemsVisibleWhenTheyGetSize)
+TEST(DataShould, MarkTopItemsAsVisible)
 {
     MockQAbstractItemModel model;
     MockConfiguration config;
@@ -124,66 +123,116 @@ TEST(DataShould, MarkItemsVisibleWhenTheyGetSize)
     data.m_configuration = &config;
 
     QModelIndex top = model.createIndex(0, 0, &data);
-
-    ModelIndexInfo info = data.get(top);
-    info.setRect(QRect(0, 0, 100, 50));
-    data.update(info);
-
-    const ModelIndexInfo info2 = data.get(top);
-    EXPECT_EQ(true, info2.isVisible());
+    data.get(top);                                          //create object
+    EXPECT_EQ(true, data.isVisible(QModelIndex()));
 }
 
 
-TEST(DataShould, ReturnEmptySizesWhenInvisible)
+TEST(DataShould, NotReturnInvisibleItems)
 {
-    MockQAbstractItemModel model;
+    QStandardItemModel model;
     MockConfiguration config;
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
 
     Data data;
     data.m_configuration = &config;
 
-    QModelIndex top = model.createIndex(0, 0, &data);
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
 
-    ModelIndexInfo info = data.get(top);
-    info.setRect(QRect(0, 0, 100, 50));
-    info.setOverallRect(QRect(0, 0, 200, 150));
+    top->appendRow(child1);
+    top->appendRow(child2);
+
+    model.appendRow(top);
+
+    //expand top and update items positions
+    ModelIndexInfo info = data.get(top->index());
+    info.expanded = true;
     data.update(info);
 
-    info.markInvisible();
+    PositionsCalculator positions_calculator(&model, &data, 100);
+    positions_calculator.updateItems();
+
+    auto info1 = data.get(child1->index());
+    auto info2 = data.get(child2->index());
+    const QRect rect1 = info1.getRect();
+    const QRect rect2 = info2.getRect();
+
+    //collapse top
+    info.expanded = false;
     data.update(info);
 
-    const ModelIndexInfo info2 = data.get(top);
-    EXPECT_EQ(false, info2.isVisible());
-    EXPECT_EQ(QRect(), info2.getRect());
-    EXPECT_EQ(QRect(), info2.getOverallRect());
+    //even if we ask for point within child area, we should get empty result, as children are invisible
+    {
+        const QPoint c = rect1.center();
+        const ModelIndexInfo& info = data.get(c);
+
+        EXPECT_EQ(QModelIndex(), info.index);
+    }
 }
 
 
-TEST(DataShould, NotForgetItemSizeWhenItsMarkedInvisible)
+TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 {
-    MockQAbstractItemModel model;
+    QStandardItemModel model;
     MockConfiguration config;
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
 
     Data data;
     data.m_configuration = &config;
 
-    QModelIndex top = model.createIndex(0, 0, &data);
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
 
-    ModelIndexInfo info = data.get(top);
-    info.setRect(QRect(0, 0, 100, 50));
-    info.setOverallRect(QRect(0, 0, 200, 150));
+    top->appendRow(child1);
+    top->appendRow(child2);
+
+    model.appendRow(top);
+
+    //expand top and update items positions
+    ModelIndexInfo info = data.get(top->index());
+    info.expanded = true;
     data.update(info);
 
-    info.markInvisible();
+    PositionsCalculator positions_calculator(&model, &data, 100);
+    positions_calculator.updateItems();
+
+    auto info1 = data.get(child1->index());
+    auto info2 = data.get(child2->index());
+    const QRect rect1 = info1.getRect();
+    const QRect rect2 = info2.getRect();
+
+    //children size should be calculated
+    EXPECT_NE(QRect(), rect1);
+    EXPECT_NE(QRect(), rect2);
+
+    //collapse top
+    info.expanded = false;
     data.update(info);
 
-    info.markVisible();
+    //children size should be preserved
+    {
+        auto info1 = data.get(child1->index());
+        auto info2 = data.get(child2->index());
+        EXPECT_EQ(rect1, info1.getRect());
+        EXPECT_EQ(rect2, info2.getRect());
+    }
+
+    //expand top
+    info.expanded = false;
     data.update(info);
 
-    const ModelIndexInfo info2 = data.get(top);
-    EXPECT_EQ(true, info2.isVisible());
-    EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
-    EXPECT_EQ(QRect(0, 0, 200, 150), info2.getOverallRect());
+    //children size should be preserved
+    {
+        auto info1 = data.get(child1->index());
+        auto info2 = data.get(child2->index());
+        EXPECT_EQ(rect1, info1.getRect());
+        EXPECT_EQ(rect2, info2.getRect());
+    }
 }
 
 
@@ -220,17 +269,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 
     //children should be marked invisible
     {
-        ModelIndexInfo info1 = data.get(child1->index());
-        ModelIndexInfo info2 = data.get(child2->index());
-        EXPECT_EQ(false, info1.isVisible());
-        EXPECT_EQ(false, info2.isVisible());
-    }
-
-    //size of children should be null
-    {
-        ModelIndexInfo info1 = data.get(child1->index());
-        ModelIndexInfo info2 = data.get(child2->index());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info2.getRect());
+        EXPECT_EQ(false, data.isVisible(child1->index()));
+        EXPECT_EQ(false, data.isVisible(child2->index()));
     }
 }
