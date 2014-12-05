@@ -13,9 +13,6 @@
 
 TEST(PositionsReseterShould, BeConstructable)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     EXPECT_NO_THROW({
         MockConfiguration config;
 
@@ -29,9 +26,6 @@ TEST(PositionsReseterShould, BeConstructable)
 
 TEST(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     //preparations
     const int img_w = 100;
     const int img_h = 50;
@@ -129,9 +123,6 @@ TEST(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 
 TEST(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     //preparations
     const int img_w = 100;
     const int img_h = 50;
@@ -231,9 +222,6 @@ TEST(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 
 TEST(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     //preparations
     const int img_w = 100;
     const int img_h = 50;
@@ -331,9 +319,6 @@ TEST(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
 TEST(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     //preparations
     const int img_w = 100;
     const int img_h = 50;
@@ -429,9 +414,6 @@ TEST(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 
 TEST(PositionsReseterShould, ResetProperItemsWhenParentChanged)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     //preparations
     const int img_w = 100;
     const int img_h = 50;

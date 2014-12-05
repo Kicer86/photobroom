@@ -13,9 +13,6 @@
 
 TEST(PositionsCalculatorShould, BeConstructable)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     EXPECT_NO_THROW({
         MockConfiguration config;
         MockQAbstractItemModel model;
@@ -31,7 +28,6 @@ TEST(PositionsCalculatorShould, BeConstructable)
 
 TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 {
-    using ::testing::_;
     using ::testing::Return;
 
     QModelIndex top;
