@@ -69,26 +69,63 @@ TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 
     Data data;
     data.m_configuration = &config;
-    data.get(QModelIndex());            //first access - new item
-    data.forget(QModelIndex());
+    data.get(QModelIndex());            // first access - new item
+    data.forget(QModelIndex());         // forget about it
 
     const auto& items = data.getAll();
     EXPECT_EQ(true, items.empty());
 }
 
 
-TEST(DataShould, ForgetAboutItemWhenAskedForIt7)
+TEST(DataShould, SetInitialDataForItems)
 {
-    using ::testing::_;
-    using ::testing::Return;
-
     MockConfiguration config;
 
     Data data;
     data.m_configuration = &config;
-    data.get(QModelIndex());            //first access - new item
-    data.forget(QModelIndex());
 
-    const auto& items = data.getAll();
-    EXPECT_EQ(true, items.empty());
+    ModelIndexInfo info = data.get(QModelIndex());
+    EXPECT_EQ(QModelIndex(), info.index);
+    EXPECT_EQ(false, info.expanded);
+    EXPECT_EQ(QRect(), info.getRect());
+    EXPECT_EQ(QRect(), info.getOverallRect());
+    EXPECT_EQ(false, info.isVisible());
+}
+
+
+TEST(DataShould, StoreInfoAboutItem)
+{
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+
+    ModelIndexInfo info = data.get(QModelIndex());
+    info.expanded = true;
+    info.setRect(QRect(0, 0, 100, 50));
+    info.setOverallRect(QRect(0, 0, 100, 50));
+    data.update(info);
+
+    const ModelIndexInfo info2 = data.get(QModelIndex());
+    EXPECT_EQ(true, info2.expanded);
+    EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
+    EXPECT_EQ(QRect(0, 0, 100, 50), info2.getOverallRect());
+}
+
+
+TEST(DataShould, AllowToHideItems)
+{
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+
+    ModelIndexInfo info = data.get(QModelIndex());
+    info.markInvisible();
+    EXPECT_EQ(false, info.expanded);
+    info.expanded = true;
+    data.update(info);
+
+    const ModelIndexInfo info2 = data.get(QModelIndex());
+    EXPECT_EQ(true, info2.expanded);
 }
