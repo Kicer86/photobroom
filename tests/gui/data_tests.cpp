@@ -7,6 +7,7 @@
 #include <Qt5/model_view/view_helpers/data.hpp>
 
 #include "mock_configuration.hpp"
+#include "mock_qabstractitemmodel.hpp"
 
 
 TEST(DataShould, BeConstructable)
@@ -113,19 +114,74 @@ TEST(DataShould, StoreInfoAboutItem)
 }
 
 
-TEST(DataShould, AllowToHideItems)
+TEST(DataShould, MarkItemsVisibleWhenTheyGetSize)
 {
+    MockQAbstractItemModel model;
     MockConfiguration config;
 
     Data data;
     data.m_configuration = &config;
 
-    ModelIndexInfo info = data.get(QModelIndex());
-    info.markInvisible();
-    EXPECT_EQ(false, info.expanded);
-    info.expanded = true;
+    QModelIndex top = model.createIndex(0, 0, &data);
+
+    ModelIndexInfo info = data.get(top);
+    info.setRect(QRect(0, 0, 100, 50));
     data.update(info);
 
-    const ModelIndexInfo info2 = data.get(QModelIndex());
-    EXPECT_EQ(true, info2.expanded);
+    const ModelIndexInfo info2 = data.get(top);
+    EXPECT_EQ(true, info2.isVisible());
+}
+
+
+TEST(DataShould, ReturnEmptySizesWhenInvisible)
+{
+    MockQAbstractItemModel model;
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+
+    QModelIndex top = model.createIndex(0, 0, &data);
+
+    ModelIndexInfo info = data.get(top);
+    info.setRect(QRect(0, 0, 100, 50));
+    info.setOverallRect(QRect(0, 0, 200, 150));
+    data.update(info);
+
+    info.markInvisible();
+    data.update(info);
+
+    const ModelIndexInfo info2 = data.get(top);
+    EXPECT_EQ(false, info2.isVisible());
+    EXPECT_EQ(QRect(), info2.getRect());
+    EXPECT_EQ(QRect(), info2.getOverallRect());
+}
+
+
+
+TEST(DataShould, NotForgetItemSizeWhenItsMarkedInvisible)
+{
+    MockQAbstractItemModel model;
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+
+    QModelIndex top = model.createIndex(0, 0, &data);
+
+    ModelIndexInfo info = data.get(top);
+    info.setRect(QRect(0, 0, 100, 50));
+    info.setOverallRect(QRect(0, 0, 200, 150));
+    data.update(info);
+
+    info.markInvisible();
+    data.update(info);
+
+    info.markVisible();
+    data.update(info);
+
+    const ModelIndexInfo info2 = data.get(top);
+    EXPECT_EQ(true, info2.isVisible());
+    EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
+    EXPECT_EQ(QRect(0, 0, 200, 150), info2.getOverallRect());
 }
