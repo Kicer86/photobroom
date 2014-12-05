@@ -47,25 +47,25 @@ void ModelIndexInfo::setRect(const QRect& r)
 {
     rect = r;
     overallRect = QRect();          // not valid anymore
+    visible = true;
 }
 
 
 void ModelIndexInfo::setOverallRect(const QRect& r)
 {
     overallRect = r;
-    visible = true;
 }
 
 
 const QRect& ModelIndexInfo::getRect() const
 {
-    return rect;
+    return visible? rect: empty;
 }
 
 
 const QRect& ModelIndexInfo::getOverallRect() const
 {
-    return overallRect;
+    return visible? overallRect: empty;
 }
 
 
@@ -77,8 +77,13 @@ bool ModelIndexInfo::isVisible() const
 
 void ModelIndexInfo::markInvisible()
 {
-    cleanRects();
     visible = false;
+}
+
+
+void ModelIndexInfo::markVisible()
+{
+    visible = true;
 }
 
 
@@ -89,7 +94,7 @@ void ModelIndexInfo::cleanRects()
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false)
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), empty(), visible(false)
 {
 }
 

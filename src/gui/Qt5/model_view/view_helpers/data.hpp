@@ -46,6 +46,7 @@ struct ModelIndexInfo
     bool isVisible() const;
 
     void markInvisible();
+    void markVisible();
     void cleanRects();
 
     ModelIndexInfo(const QModelIndex& idx = QModelIndex());
@@ -53,6 +54,7 @@ struct ModelIndexInfo
 private:
     QRect rect;
     QRect overallRect;
+    QRect empty;
     bool visible;
 };
 
@@ -82,7 +84,7 @@ class Data
                 return result;
             }
         };
-        
+
         typedef boost::multi_index_container
         <
             ModelIndexInfo,
