@@ -11,8 +11,6 @@
 
 TEST(DataShould, BeConstructable)
 {
-    using ::testing::_;
-    using ::testing::Return;
 
     EXPECT_NO_THROW({
         MockConfiguration config;
@@ -25,8 +23,6 @@ TEST(DataShould, BeConstructable)
 
 TEST(DataShould, BeEmptyWhenConstructed)
 {
-    using ::testing::_;
-    using ::testing::Return;
 
     MockConfiguration config;
 
@@ -34,14 +30,12 @@ TEST(DataShould, BeEmptyWhenConstructed)
     data.m_configuration = &config;
 
     const auto& items = data.getAll();
-    EXPECT_EQ(0, items.size());
+    EXPECT_EQ(true, items.empty());
 }
 
 
 TEST(DataShould, AddNewItemWhenAskedAboutNotExistingOne)
 {
-    using ::testing::_;
-    using ::testing::Return;
 
     MockConfiguration config;
 
@@ -56,8 +50,6 @@ TEST(DataShould, AddNewItemWhenAskedAboutNotExistingOne)
 
 TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
 {
-    using ::testing::_;
-    using ::testing::Return;
 
     MockConfiguration config;
 
@@ -68,4 +60,35 @@ TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
 
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
+}
+
+
+TEST(DataShould, ForgetAboutItemWhenAskedForIt)
+{
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+    data.get(QModelIndex());            //first access - new item
+    data.forget(QModelIndex());
+
+    const auto& items = data.getAll();
+    EXPECT_EQ(true, items.empty());
+}
+
+
+TEST(DataShould, ForgetAboutItemWhenAskedForIt7)
+{
+    using ::testing::_;
+    using ::testing::Return;
+
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+    data.get(QModelIndex());            //first access - new item
+    data.forget(QModelIndex());
+
+    const auto& items = data.getAll();
+    EXPECT_EQ(true, items.empty());
 }
