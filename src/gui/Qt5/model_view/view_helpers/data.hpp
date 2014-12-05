@@ -60,27 +60,6 @@ private:
 class Data
 {
     public:
-        const int indexMargin = 10;           // TODO: move to configuration
-        IConfiguration* m_configuration;
-
-        Data(): m_configuration(nullptr), m_itemData(), m_invalid() {}
-        Data(const Data &) = delete;
-        Data& operator=(const Data &) = delete;
-
-        ModelIndexInfo get(const QModelIndex &);             //new item will be constructed if there are no matches
-        void forget(const QModelIndex &);                    //clear data about given index
-
-        const ModelIndexInfo& get(const QPoint &) const;
-        bool isImage(const QModelIndex &) const;
-        QPixmap getImage(const QModelIndex &) const;
-        void for_each(std::function<bool(const ModelIndexInfo &)>) const;
-
-        bool isExpanded(const QModelIndex &);
-        void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
-        void update(const ModelIndexInfo &);
-        void clear();
-
-    private:
         struct IndexHasher
         {
             std::size_t operator()(const QModelIndex& index) const
@@ -103,7 +82,7 @@ class Data
                 return result;
             }
         };
-
+        
         typedef boost::multi_index_container
         <
             ModelIndexInfo,
@@ -114,6 +93,29 @@ class Data
             >
         > ModelIndexInfoSet;
 
+        const int indexMargin = 10;           // TODO: move to configuration
+        IConfiguration* m_configuration;
+
+        Data(): m_configuration(nullptr), m_itemData(), m_invalid() {}
+        Data(const Data &) = delete;
+        Data& operator=(const Data &) = delete;
+
+        ModelIndexInfo get(const QModelIndex &);             //new item will be constructed if there are no matches
+        void forget(const QModelIndex &);                    //clear data about given index
+
+        const ModelIndexInfo& get(const QPoint &) const;
+        bool isImage(const QModelIndex &) const;
+        QPixmap getImage(const QModelIndex &) const;
+        void for_each(std::function<bool(const ModelIndexInfo &)>) const;
+
+        bool isExpanded(const QModelIndex &);
+        void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
+        void update(const ModelIndexInfo &);
+        void clear();
+
+        const ModelIndexInfoSet& getAll() const noexcept;
+
+    private:
         ModelIndexInfoSet m_itemData;
         ModelIndexInfo m_invalid;
 

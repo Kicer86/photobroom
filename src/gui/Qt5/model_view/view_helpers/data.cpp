@@ -283,6 +283,12 @@ void Data::clear()
 }
 
 
+const Data::ModelIndexInfoSet& Data::getAll() const noexcept
+{
+    return m_itemData;
+}
+
+
 void Data::dump()
 {
     /*
