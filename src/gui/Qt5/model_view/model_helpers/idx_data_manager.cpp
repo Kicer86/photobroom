@@ -652,8 +652,11 @@ void IdxDataManager::performRemove(IdxData* item)
     _parent->removeChild(item);
 
     m_data->m_model->endRemoveRows();
-}
 
+    //remove empty parents
+    if (_parent->m_children.empty())
+        performRemove(_parent);
+}
 
 
 void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
