@@ -65,7 +65,7 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
     invalidateItemOverallRect(parent);
 
     //invalidate all items which are after 'pos'
-    const QModelIndex sibling = parent.child(idx.row() + 1, 0);
+    const QModelIndex sibling = parent.child(idx.row(), 0);
     invalidateSiblingsRect(sibling);
 }
 
@@ -76,7 +76,7 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
     invalidateItemOverallRect(parent);
 
     //invalidate all items which are after 'pos'
-    const QModelIndex sibling = parent.child(pos, 0);
+    const QModelIndex sibling = parent.child(pos - 1 , 0);   //-1: we need to start invalidation starting from 'pos', however 'invalidateSiblingsRect' starts from pos + 1
     invalidateSiblingsRect(sibling);
 }
 
