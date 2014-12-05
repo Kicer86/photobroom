@@ -30,6 +30,7 @@ endforeach()
 
 set(SRC
         ${gui_srcs}
+        data_tests.cpp
         positions_calculator_tests.cpp
         positions_reseter_tests.cpp
         main.cpp
