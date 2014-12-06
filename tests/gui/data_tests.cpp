@@ -36,14 +36,29 @@ TEST(DataShould, BeEmptyWhenConstructed)
 }
 
 
-TEST(DataShould, AddNewItemWhenAskedAboutNotExistingOne)
+TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
-
     MockConfiguration config;
 
     Data data;
     data.m_configuration = &config;
-    data.get(QModelIndex());
+    auto info = data.get(QModelIndex());
+
+    EXPECT_EQ(info.index, QModelIndex());
+
+    const auto& items = data.getAll();
+    EXPECT_EQ(true, items.empty());
+}
+
+
+TEST(DataShould, StoreDataItemOnUpdate)
+{
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+    auto info = data.get(QModelIndex());
+    data.update(info);
 
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
@@ -57,8 +72,11 @@ TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
 
     Data data;
     data.m_configuration = &config;
-    data.get(QModelIndex());            //first access - new item
-    data.get(QModelIndex());            //second access - the same item
+    auto info = data.get(QModelIndex());            //first access - new item
+    data.update(info);
+
+    info = data.get(QModelIndex());                 //second access - the same item
+    data.update(info);
 
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
