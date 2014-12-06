@@ -69,8 +69,7 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
     resetRect(idx);
 
     //invalidate all items which are after 'pos'
-    const QModelIndex sibling = parent.child(idx.row(), 0);
-    invalidateSiblingsRect(sibling);
+    invalidateSiblingsRect(idx);
 }
 
 
@@ -134,7 +133,6 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
     ModelIndexInfo info = m_data->get(idx);
     info.setRect(QRect());
     m_data->update(info);
-
 }
 
 
