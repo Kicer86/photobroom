@@ -260,7 +260,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
     //TODO: optimise?
     std::deque<QModelIndex> result;
 
-    m_data->for_each( [&] (const ModelIndexInfo& info)
+    m_data->for_each_visible( [&] (const ModelIndexInfo& info)
     {
         const QRect& item_rect = info.getRect();
         const QModelIndex& index = info.index;
