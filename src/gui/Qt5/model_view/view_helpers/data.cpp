@@ -184,7 +184,20 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 }
 
 
-bool Data::isExpanded(const QModelIndex& index)
+void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
+{
+    for_each([&](const ModelIndexInfo& info)
+    {
+        bool cont = true;
+        if (isVisible(info.index))
+            cont = f(info);
+
+        return cont;
+    });
+}
+
+
+bool Data::isExpanded(const QModelIndex& index) const noexcept
 {
     bool status = true;               //for top root return true
     if (index.isValid())

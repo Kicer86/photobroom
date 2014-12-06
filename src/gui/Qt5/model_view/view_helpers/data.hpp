@@ -103,6 +103,7 @@ class Data
         bool isImage(const QModelIndex &) const;
         QPixmap getImage(const QModelIndex &) const;
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
+        void for_each_visible(std::function<bool(const ModelIndexInfo &)>) const;
 
         bool isExpanded(const QModelIndex &) const noexcept;
         bool isVisible(const QModelIndex &) const noexcept;
