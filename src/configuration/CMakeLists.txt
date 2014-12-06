@@ -28,13 +28,12 @@ if(BUILD_TESTS)
     addTestTarget(configuration SOURCES
                                     ${CONFIG_SOURCES}
                                     tests/entrydata_tests.cpp
-                                    tests/configurationfactory_tests.cpp
                                     tests/default_configuration_tests.cpp
                                     tests/default_configuration_private_tests.cpp
                                 TEST_LIBRARY
                                     GTEST
        )
-    target_link_libraries(configuration_test system Qt5::Core)
+    target_link_libraries(configuration_test PRIVATE system Qt5::Core)
     turnOnCpp11(configuration_test)
 
 endif(BUILD_TESTS)

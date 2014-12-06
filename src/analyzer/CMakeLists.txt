@@ -42,7 +42,7 @@ if(BUILD_TESTS)
                                 tests/photo_crawler_tests.cpp
                                 tests/photo_crawler_builder_tests.cpp
                 )
-    target_link_libraries(analyzer_test Qt5::Core)
+    target_link_libraries(analyzer_test PRIVATE Qt5::Core)
     turnOnCpp11(analyzer_test)
 
 endif(BUILD_TESTS)

@@ -8,6 +8,7 @@
 
 #include "photo_iterator.hpp"
 
+/*
 namespace
 {
     struct MockQuery: Database::IQuery

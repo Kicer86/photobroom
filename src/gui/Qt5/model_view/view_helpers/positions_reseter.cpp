@@ -35,12 +35,14 @@ PositionsReseter::~PositionsReseter()
 }
 
 
-void PositionsReseter::itemsAdded(const QModelIndex& parent, int last) const
+void PositionsReseter::itemsAdded(const QModelIndex& parent, int pos) const
 {
+    //invalidate parent
     invalidateItemOverallRect(parent);
 
-    const QModelIndex lastItem = parent.child(last, 0);
-    invalidateSiblingsRect(lastItem);
+    //invalidate all items which are after 'pos'
+    const QModelIndex sibling = parent.child(pos + 1, 0);
+    invalidateSiblingsRect(sibling);
 }
 
 
@@ -59,27 +61,39 @@ void PositionsReseter::invalidateAll() const
 
 void PositionsReseter::itemChanged(const QModelIndex& idx)
 {
-    invalidateItemOverallRect(idx);
+    //invalidate parent
+    const QModelIndex parent = idx.parent();
+    invalidateItemOverallRect(parent);
+
+    //invalidate itself
+    resetRect(idx);
+
+    //invalidate all items which are after 'pos'
+    invalidateSiblingsRect(idx);
 }
 
 
-void PositionsReseter::childrenRemoved(const QModelIndex& parent)
+void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {
+    //invalidate parent
     invalidateItemOverallRect(parent);
+
+    //invalidate all items which are after 'pos'
+    const QModelIndex sibling = parent.child(pos - 1 , 0);   //-1: we need to start invalidation starting from 'pos', however 'invalidateSiblingsRect' starts from pos + 1
+    invalidateSiblingsRect(sibling);
 }
 
 
 void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
 {
     resetOverallRect(idx);
+    invalidateSiblingsRect(idx);
 
     if (idx != QModelIndex())                           //do not invalidate root's parent if it doesn't exist
     {
         //if 'this' becomes invalid, invalidate also its parent
         const QModelIndex parent = idx.parent();
         invalidateItemOverallRect(parent);
-        invalidateSiblingsRect(idx);
-        invalidateChildrenRect(idx);
     }
 }
 
@@ -119,7 +133,6 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
     ModelIndexInfo info = m_data->get(idx);
     info.setRect(QRect());
     m_data->update(info);
-
 }
 
 

@@ -49,9 +49,9 @@ TEST(DefaultConfigurationPrivateShould, ReturnNonEmptyConfigPath)
 {
     DefaultConfigurationPrivate prv;
 
-    const std::string path = prv.getConfigDir();
+    const QString path = prv.getConfigDir();
 
-    ASSERT_EQ(false, path.empty());
+    ASSERT_EQ(false, path.isEmpty());
 }
 
 

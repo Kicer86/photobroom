@@ -5,7 +5,7 @@
 
 #include "photo_crawler_builder.hpp"
 
-
+/*
 TEST(PhotoCrawlerBuilderShould, returnPhotoCrawler)
 {
     PhotoCrawlerBuilder builder;
@@ -14,3 +14,4 @@ TEST(PhotoCrawlerBuilderShould, returnPhotoCrawler)
 
     ASSERT_NE(crawler.get(), nullptr);
 }
+*/

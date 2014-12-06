@@ -508,7 +508,7 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
         if (currentParent == nullptr)
             performAdd(photoInfo, newParent);
         else if (newParent == nullptr)
-            performRemove(photoInfo, currentParent);
+            performRemove(photoInfo);
         else
             performMove(photoInfo, currentParent, newParent);
     }
@@ -519,16 +519,8 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 
 IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 {
-    const IPhotoInfo::Id id = photoInfo->getID();
-    auto photosMap = m_data->m_photoId2IdxData.lock();
-    auto it = photosMap->find(id);
-    IdxData* result = nullptr;
-
-    if (it != photosMap->end())
-    {
-        IdxData* idxData = it->second;
-        result = idxData->m_parent;
-    }
+    IdxData* item = findIdxDataFor(photoInfo);
+    IdxData* result = item != nullptr? item->m_parent: nullptr;
 
     return result;
 }
@@ -636,20 +628,38 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
     to->addChild(photoIdxData);
 
     m_data->m_model->endMoveRows();
+
+    //remove empty parents
+    if (from->m_children.empty())
+        performRemove(from);
 }
 
 
-void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo, IdxData* from)
+void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
-    QModelIndex fromIdx = getIndex(from);
-    const int fromPos = photoIdxData->m_row;
 
-    m_data->m_model->beginRemoveRows(fromIdx, fromPos, fromPos);
+    performRemove(photoIdxData);
+}
 
-    from->removeChild(photoIdxData);
+
+void IdxDataManager::performRemove(IdxData* item)
+{
+    IdxData* _parent = item->m_parent;
+    assert(_parent != nullptr);
+
+    QModelIndex parentIdx = getIndex(_parent);
+    const int itemPos = item->m_row;
+
+    m_data->m_model->beginRemoveRows(parentIdx, itemPos, itemPos);
+
+    _parent->removeChild(item);
 
     m_data->m_model->endRemoveRows();
+
+    //remove empty parents
+    if (_parent->m_children.empty())
+        performRemove(_parent);
 }
 
 

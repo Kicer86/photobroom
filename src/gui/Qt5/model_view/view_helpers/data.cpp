@@ -22,6 +22,7 @@
 #include <iostream>
 
 #include <QPixmap>
+#include <QIcon>
 #include <QDebug>
 
 
@@ -52,7 +53,6 @@ void ModelIndexInfo::setRect(const QRect& r)
 void ModelIndexInfo::setOverallRect(const QRect& r)
 {
     overallRect = r;
-    visible = true;
 }
 
 
@@ -68,19 +68,6 @@ const QRect& ModelIndexInfo::getOverallRect() const
 }
 
 
-bool ModelIndexInfo::isVisible() const
-{
-    return visible;
-}
-
-
-void ModelIndexInfo::markInvisible()
-{
-    cleanRects();
-    visible = false;
-}
-
-
 void ModelIndexInfo::cleanRects()
 {
     rect = QRect();
@@ -88,7 +75,7 @@ void ModelIndexInfo::cleanRects()
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect(), visible(false)
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect()
 {
 }
 
@@ -96,20 +83,10 @@ ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(fa
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-ModelIndexInfo Data::get(const QModelIndex& index)
+ModelIndexInfo Data::get(const QModelIndex& index) const noexcept
 {
-    auto it = m_itemData.find(index);
-
-    //create if doesn't exist
-    if (it == m_itemData.end())
-    {
-        ModelIndexInfo item(index);
-        auto iit = m_itemData.insert(item);
-
-        it = iit.first;
-    }
-
-    ModelIndexInfo info = *it;
+    const auto it = m_itemData.find(index);
+    const ModelIndexInfo info = it != m_itemData.end()? *it: ModelIndexInfo(index);
 
     return info;
 }
@@ -131,7 +108,7 @@ const ModelIndexInfo& Data::get(const QPoint& point) const
     for_each([&] (const ModelIndexInfo& info)
     {
         bool cont = true;
-        if (info.getRect().contains(point))
+        if (info.getRect().contains(point) && isVisible(info.index))
         {
             result = &info;
             cont = false;
@@ -166,11 +143,24 @@ QPixmap Data::getImage(const QModelIndex& index) const
 {
     const QAbstractItemModel* model = index.model();
     const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
-    const bool convertable = decorationRole.canConvert<QPixmap>();
+    const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
     QPixmap pixmap;
 
-    if (convertable)
+    if (directlyConvertable)
         pixmap = decorationRole.value<QPixmap>();
+    else
+    {
+        const bool isIcon = decorationRole.canConvert<QIcon>();
+
+        if (isIcon)
+        {
+            const QIcon icon = decorationRole.value<QIcon>();
+            auto sizes = icon.availableSizes();
+
+            if (sizes.isEmpty() == false)
+                pixmap = icon.pixmap(sizes[0]);
+        }
+    }
 
     return pixmap;
 }
@@ -194,7 +184,20 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 }
 
 
-bool Data::isExpanded(const QModelIndex& index)
+void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
+{
+    for_each([&](const ModelIndexInfo& info)
+    {
+        bool cont = true;
+        if (isVisible(info.index))
+            cont = f(info);
+
+        return cont;
+    });
+}
+
+
+bool Data::isExpanded(const QModelIndex& index) const noexcept
 {
     bool status = true;               //for top root return true
     if (index.isValid())
@@ -205,6 +208,20 @@ bool Data::isExpanded(const QModelIndex& index)
     }
 
     return status;
+}
+
+
+bool Data::isVisible(const QModelIndex& index) const noexcept
+{
+    QModelIndex parent = index.parent();
+    bool result = false;
+
+    if (parent == QModelIndex())    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
 }
 
 
@@ -251,9 +268,6 @@ void Data::update(const ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
 
-    //this function should only update items, do not insert them
-    assert(it != m_itemData.end());
-
     if (it == m_itemData.end())
         m_itemData.insert(info);
     else
@@ -266,6 +280,12 @@ void Data::update(const ModelIndexInfo& info)
 void Data::clear()
 {
     m_itemData.clear();
+}
+
+
+const Data::ModelIndexInfoSet& Data::getAll() const noexcept
+{
+    return m_itemData;
 }
 
 

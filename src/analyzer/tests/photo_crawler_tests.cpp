@@ -36,7 +36,7 @@ TEST(PhotoCrawlerShould, beConstructable)
     PhotoCrawler photo_crawler(fileSystem, analyzer);
 }
 
-
+/*
 TEST(PhotoCrawlerShould, returnMediaFilesForPath)
 {
     auto fileSystem = std::make_shared<FileSystemMock>();
@@ -55,7 +55,7 @@ TEST(PhotoCrawlerShould, returnMediaFilesForPath)
 
     photo_crawler.crawl("/path/");
 }
-
+*/
 
 TEST(PhotoCrawlerShould, allowToSetRules)
 {

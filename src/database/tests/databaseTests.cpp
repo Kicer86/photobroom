@@ -10,9 +10,11 @@
 
 #include "ifs.hpp"
 #include "idatabase.hpp"
+#include "ibackend.hpp"
 #include "photo_iterator.hpp"
 
 
+/*
 namespace
 {
     struct FSImpl: public IStreamFactory
@@ -33,7 +35,7 @@ namespace
         Backend(): m_entries() {}
         virtual ~Backend() {}
 
-        virtual bool update(const PhotoInfo::Ptr& entry) override
+        virtual bool update(const IPhotoInfo::Ptr& entry) override
         {
             m_entries.push_back(entry);
 
@@ -70,14 +72,14 @@ namespace
         std::vector<PhotoInfo::Ptr> m_entries;
     };
 
-    /*
+
     struct MockPhotoInfo: IPhotoInfo
     {
         MOCK_CONST_METHOD0(getPath, const std::string & ());
         MOCK_CONST_METHOD0(getTags, std::shared_ptr<ITagData>());
         MOCK_CONST_METHOD0(getHash, const Hash & ());
     };
-    */
+
 
     struct MockQuery: Database::IQuery
     {
@@ -91,7 +93,6 @@ namespace
 //TODO: rewrite
 TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 {
-    /*
     std::shared_ptr<FSImpl> fs = std::make_shared<FSImpl>();
     auto photoInfo = std::make_shared<MockPhotoInfo>();
 
@@ -113,5 +114,6 @@ TEST(MemoryDatabaseShould, AcceptAFileAndSendItToBackendAsSoonAsBackendIsSet)
 
     const int s = backend->m_entries.size();
     ASSERT_EQ(1, s);
-    */
 }
+
+*/

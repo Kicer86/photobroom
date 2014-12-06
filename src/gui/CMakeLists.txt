@@ -6,13 +6,16 @@ find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/Qt5)
+include_directories(${CMAKE_BINARY_DIR}/exports/
+                    ${CMAKE_CURRENT_BINARY_DIR}
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_SOURCE_DIR}/src/gui
+                    ${CMAKE_SOURCE_DIR}/src/gui/Qt5)
+                    
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${Boost_INCLUDE_DIRS})
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(GUI_SOURCES
     Qt5/gui.cpp
@@ -104,32 +107,11 @@ qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
-target_link_libraries(gui PRIVATE analyzer core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
+target_link_libraries(gui PRIVATE analyzer configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
 turnOnCpp11(gui)
 hideSymbols(gui)
 
 install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
-		    LIBRARY DESTINATION ${PATH_LIBS})
-
-if(BUILD_TESTS)
-
-    qt5_wrap_cpp(GUI_WRAPPED_CPP_FOR_TEST Qt5/model_view/db_data_model.hpp)
-
-    addTestTarget(gui  SOURCES
-                           Qt5/data/photo_info_updater.cpp
-                           Qt5/model_view/model_helpers/idx_data_manager.cpp
-                           Qt5/model_view/model_helpers/idxdata_deepfetcher.cpp
-                           Qt5/model_view/db_data_model.cpp
-                           tests/db_data_model_tests.cpp
-                           ${GUI_WRAPPED_CPP_FOR_TEST}
-                       TEST_LIBRARY
-                           GMOCK
-       )
-       
-    target_link_libraries(gui_test gui system Qt5::Core)
-
-    turnOnCpp11(gui_test)
-endif(BUILD_TESTS)
-
+                    LIBRARY DESTINATION ${PATH_LIBS})

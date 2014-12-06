@@ -1,7 +1,7 @@
 
 cmake_policy(SET CMP0048 NEW)
 
-project(PhotoBroom VERSION 0.93.0 LANGUAGES CXX)
+project(PhotoBroom VERSION 0.93.0)
 
 cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -80,6 +80,10 @@ add_subdirectory(src)
 add_subdirectory(tr)
 add_subdirectory(tools)
 
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
+
 #system dependent stuff
 if(UNIX OR CYGWIN)
     include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
@@ -115,6 +119,9 @@ message("generate_code_coverage - generates code coverage in build dir")
 message("package                - generates broom installer")
 if(TARGET deploy)
     message("deploy                 - generates list of external libraries used by project and adds them to instalation (and package)")
+endif()
+if(BUILD_TESTS)
+    message("test                   - runs tests (ctest command can be also used)")
 endif()
 message("")
 
