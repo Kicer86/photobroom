@@ -628,6 +628,10 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
     to->addChild(photoIdxData);
 
     m_data->m_model->endMoveRows();
+
+    //remove empty parents
+    if (from->m_children.empty())
+        performRemove(from);
 }
 
 
