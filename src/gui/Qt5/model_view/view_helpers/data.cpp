@@ -83,20 +83,10 @@ ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(fa
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-ModelIndexInfo Data::get(const QModelIndex& index)
+ModelIndexInfo Data::get(const QModelIndex& index) const noexcept
 {
-    auto it = m_itemData.find(index);
-
-    //create if doesn't exist
-    if (it == m_itemData.end())
-    {
-        ModelIndexInfo item(index);
-        auto iit = m_itemData.insert(item);
-
-        it = iit.first;
-    }
-
-    ModelIndexInfo info = *it;
+    const auto it = m_itemData.find(index);
+    const ModelIndexInfo info = it != m_itemData.end()? *it: ModelIndexInfo(index);
 
     return info;
 }
@@ -208,7 +198,7 @@ bool Data::isExpanded(const QModelIndex& index)
 }
 
 
-bool Data::isVisible(const QModelIndex& index)
+bool Data::isVisible(const QModelIndex& index) const noexcept
 {
     QModelIndex parent = index.parent();
     bool result = false;
@@ -264,9 +254,6 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 void Data::update(const ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
-
-    //this function should only update items, do not insert them
-    assert(it != m_itemData.end());
 
     if (it == m_itemData.end())
         m_itemData.insert(info);

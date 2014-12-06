@@ -96,7 +96,7 @@ class Data
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
-        ModelIndexInfo get(const QModelIndex &);             //new item will be constructed if there are no matches
+        ModelIndexInfo get(const QModelIndex &) const noexcept;
         void forget(const QModelIndex &);                    //clear data about given index
 
         const ModelIndexInfo& get(const QPoint &) const;
@@ -104,8 +104,8 @@ class Data
         QPixmap getImage(const QModelIndex &) const;
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
 
-        bool isExpanded(const QModelIndex &);
-        bool isVisible(const QModelIndex &);
+        bool isExpanded(const QModelIndex &) const noexcept;
+        bool isVisible(const QModelIndex &) const noexcept;
         void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
         void update(const ModelIndexInfo &);
         void clear();
