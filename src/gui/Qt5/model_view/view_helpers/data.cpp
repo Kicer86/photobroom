@@ -94,6 +94,7 @@ ModelIndexInfo Data::get(const QModelIndex& index) const noexcept
 
 void Data::forget(const QModelIndex& index)
 {
+    assert(index.isValid());                         // we cannot forget root node
     auto it = m_itemData.find(index);
 
     if (it != m_itemData.end())
