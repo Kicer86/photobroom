@@ -92,8 +92,10 @@ void TagsOperator::updateTag(const QString& name, const QString& rawList)
     {
         if (info.name() == name)
         {
-            info.setRawValues(rawList);
-            setTag(info.getTypeInfo(), info.values());
+            const bool differs = info.setRawValues(rawList);
+
+            if (differs)
+                setTag(info.getTypeInfo(), info.values());
 
             updated = true;
             break;
