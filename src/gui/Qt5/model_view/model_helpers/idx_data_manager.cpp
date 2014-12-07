@@ -624,7 +624,7 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
 
-    from->removeChild(photoIdxData);
+    from->takeChild(photoIdxData);
     to->addChild(photoIdxData);
 
     m_data->m_model->endMoveRows();
