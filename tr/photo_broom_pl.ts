@@ -216,7 +216,7 @@
 <context>
     <name>StagedPhotosWidget</name>
     <message>
-        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="36"/>
+        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="34"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
