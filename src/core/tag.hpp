@@ -81,7 +81,7 @@ namespace Tag
             const TagValue& values() const;
             QString valuesString() const;
 
-            void setRawValues(const QString &);
+            bool setRawValues(const QString &);
 
         private:
             TagNameInfo m_name;

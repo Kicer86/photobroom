@@ -182,7 +182,7 @@ namespace Tag
     }
 
 
-    void Info::setRawValues(const QString& rawValues)
+    bool Info::setRawValues(const QString& rawValues)
     {
         const QStringList splitted = rawValues.split(m_name.getSeparator());
 
@@ -190,7 +190,12 @@ namespace Tag
         for(const QString& value: splitted)
             valuesSet.insert(value);
 
-        m_values.setValues(valuesSet);
+        const bool differs = m_values.getValues() != valuesSet;
+
+        if (differs)
+            m_values.setValues(valuesSet);
+
+        return differs;
     }
 
 }
