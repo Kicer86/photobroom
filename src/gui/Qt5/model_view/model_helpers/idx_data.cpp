@@ -76,6 +76,14 @@ void IdxData::addChild(IdxData* child)
 
 void IdxData::removeChild(IdxData* child)
 {
+    takeChild(child);
+
+    delete child;
+}
+
+
+void IdxData::takeChild(IdxData* child)
+{
     assert(child->m_parent == this);
     assert(static_cast<unsigned int>(child->m_row) < m_children.size());
 
@@ -86,9 +94,9 @@ void IdxData::removeChild(IdxData* child)
     }
 
     m_children.pop_back();                    //remove last child
-
     child->m_parent = nullptr;
 }
+
 
 
 void IdxData::reset()

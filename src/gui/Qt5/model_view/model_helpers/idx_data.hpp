@@ -63,7 +63,8 @@ class IdxData: public IPhotoInfo::IObserver
 
         void setNodeData(const Database::IFilter::Ptr& filter);
         void addChild(IdxData* child);
-        void removeChild(IdxData* child);
+        void removeChild(IdxData* child);         // removes child (memory is released)
+        void takeChild(IdxData* child);           // function acts as removeChild but does not delete children
         void reset();
         bool isPhoto() const;
         bool isNode() const;
