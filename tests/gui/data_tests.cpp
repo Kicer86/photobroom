@@ -86,11 +86,15 @@ TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
 TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 {
     MockConfiguration config;
+    QStandardItemModel model;
+
+    QStandardItem* top = new QStandardItem("Empty");
+    model.appendRow(top);
 
     Data data;
     data.m_configuration = &config;
-    data.get(QModelIndex());            // first access - new item
-    data.forget(QModelIndex());         // forget about it
+    data.get(top->index());                      // first access - new item
+    data.forget(top->index());                   // forget about it
 
     const auto& items = data.getAll();
     EXPECT_EQ(true, items.empty());
