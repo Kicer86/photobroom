@@ -111,6 +111,7 @@ private:
     IdxData* createAncestry(const IPhotoInfo::Ptr &);                          //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
     IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);   //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxData* createUniversalAncestor(const IPhotoInfo::Ptr &);                 //returns pointer to universal ancestor for given photo
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
