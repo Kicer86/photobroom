@@ -30,6 +30,14 @@
     </message>
 </context>
 <context>
+    <name>IdxDataManager</name>
+    <message>
+        <location filename="../src/gui/Qt5/model_view/model_helpers/idx_data_manager.cpp" line="624"/>
+        <source>Nonmatching</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LevelEditor</name>
     <message>
         <location filename="../src/gui/Qt5/components/filters_editor/level_editor.cpp" line="205"/>
