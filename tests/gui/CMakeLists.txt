@@ -12,7 +12,7 @@ get_target_property(gui_include_dirs gui INCLUDE_DIRECTORIES)
 get_target_property(gui_raw_srcs gui SOURCES)
 get_target_property(gui_link_libraries gui LINK_LIBRARIES)
 
-include_directories(${gui_include_dirs} ${BASE_DIR})
+include_directories(${gui_include_dirs} ${BASE_DIR} .)
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 foreach(source ${gui_raw_srcs})
@@ -30,9 +30,9 @@ endforeach()
 
 set(SRC
         ${gui_srcs}
-        data_tests.cpp
-        positions_calculator_tests.cpp
-        positions_reseter_tests.cpp
+        view/data_tests.cpp
+        view/positions_calculator_tests.cpp
+        view/positions_reseter_tests.cpp
         main.cpp
 
         mock_configuration.hpp
