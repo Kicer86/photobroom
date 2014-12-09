@@ -30,9 +30,12 @@ endforeach()
 
 set(SRC
         ${gui_srcs}
+        model/idx_data_manager_tests.cpp
+
         view/data_tests.cpp
         view/positions_calculator_tests.cpp
         view/positions_reseter_tests.cpp
+
         main.cpp
 
         mock_configuration.hpp
