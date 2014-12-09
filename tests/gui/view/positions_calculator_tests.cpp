@@ -26,7 +26,6 @@ TEST(PositionsCalculatorShould, BeConstructable)
 }
 
 
-
 TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 {
     using ::testing::Return;
