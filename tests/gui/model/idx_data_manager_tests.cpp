@@ -15,3 +15,10 @@ TEST(IdxDataManagerShould, BeConstructable)
         IdxDataManager manager(&model);
     });
 }
+
+
+TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNodes)
+{
+    PhotosDataModel model;
+}
+
