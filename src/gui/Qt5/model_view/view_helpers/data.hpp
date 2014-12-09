@@ -96,7 +96,7 @@ class Data
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
 
-        ModelIndexInfo get(const QModelIndex &) const noexcept;
+        ModelIndexInfo get(const QModelIndex &) const;
         void forget(const QModelIndex &);                    //clear data about given index
 
         const ModelIndexInfo& get(const QPoint &) const;
@@ -105,13 +105,13 @@ class Data
         void for_each(std::function<bool(const ModelIndexInfo &)>) const;
         void for_each_visible(std::function<bool(const ModelIndexInfo &)>) const;
 
-        bool isExpanded(const QModelIndex &) const noexcept;
-        bool isVisible(const QModelIndex &) const noexcept;
+        bool isExpanded(const QModelIndex &) const;
+        bool isVisible(const QModelIndex &) const;
         void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
         void update(const ModelIndexInfo &);
         void clear();
 
-        const ModelIndexInfoSet& getAll() const noexcept;
+        const ModelIndexInfoSet& getAll() const;
 
     private:
         ModelIndexInfoSet m_itemData;
