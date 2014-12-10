@@ -4,8 +4,7 @@
 #include <Qt5/model_view/model_helpers/idx_data_manager.hpp>
 #include <Qt5/components/photos_data_model.hpp>
 
-#include "mock_configuration.hpp"
-#include "mock_qabstractitemmodel.hpp"
+#include "mock_database.hpp"
 
 
 TEST(IdxDataManagerShould, BeConstructable)
@@ -19,6 +18,9 @@ TEST(IdxDataManagerShould, BeConstructable)
 
 TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNodes)
 {
+    MockDatabase database;
+    
     PhotosDataModel model;
+    model.setDatabase(&database);
 }
 

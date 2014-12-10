@@ -39,6 +39,7 @@ set(SRC
         main.cpp
 
         mock_configuration.hpp
+        mock_database.hpp
         mock_qabstractitemmodel.hpp
     )
 
