@@ -40,6 +40,9 @@ set(SRC
         mock_database.hpp
         mock_qabstractitemmodel.hpp
         
+        internal_task_executor.cpp
+        internal_task_executor.hpp
+        
         main.cpp
     )
 
