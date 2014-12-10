@@ -1,6 +1,6 @@
 
-#ifndef MOCK_QABSTRACTITEMMODEL_HPP
-#define MOCK_QABSTRACTITEMMODEL_HPP
+#ifndef MOCK_DATABASE_HPP
+#define MOCK_DATABASE_HPP
 
 #include <gmock/gmock.h>
 
