@@ -36,11 +36,11 @@ set(SRC
         view/positions_calculator_tests.cpp
         view/positions_reseter_tests.cpp
 
-        main.cpp
-
         mock_configuration.hpp
         mock_database.hpp
         mock_qabstractitemmodel.hpp
+        
+        main.cpp
     )
 
 add_executable(gui_tests ${SRC} ${GUI_WRAPPED_CPP})
