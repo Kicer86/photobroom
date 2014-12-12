@@ -107,6 +107,7 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 {
     m_data->init(this);
 
+    //default hierarchy
     Hierarchy hierarchy;
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
