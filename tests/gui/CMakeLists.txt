@@ -30,19 +30,23 @@ endforeach()
 
 set(SRC
         ${gui_srcs}
+        # model tests:
         model/idx_data_manager_tests.cpp
 
+        # view tests
         view/data_tests.cpp
         view/positions_calculator_tests.cpp
         view/positions_reseter_tests.cpp
 
-        mock_configuration.hpp
-        mock_database.hpp
-        mock_qabstractitemmodel.hpp
+        # helpers:
+        test_helpers/mock_configuration.hpp
+        test_helpers/mock_database.hpp
+        test_helpers/mock_qabstractitemmodel.hpp
+
+        test_helpers/internal_task_executor.cpp
+        test_helpers/internal_task_executor.hpp
         
-        internal_task_executor.cpp
-        internal_task_executor.hpp
-        
+        # main()
         main.cpp
     )
 

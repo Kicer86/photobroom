@@ -9,8 +9,8 @@
 #include <Qt5/model_view/view_helpers/positions_reseter.hpp>
 #include <Qt5/model_view/view_helpers/data.hpp>
 
-#include "mock_configuration.hpp"
-#include "mock_qabstractitemmodel.hpp"
+#include "test_helpers/mock_configuration.hpp"
+#include "test_helpers/mock_qabstractitemmodel.hpp"
 
 TEST(PositionsCalculatorShould, BeConstructable)
 {
