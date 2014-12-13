@@ -91,7 +91,7 @@ struct IdxDataManager::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    DBDataModel* m_model;
+    DATABASE_DEPRECATED DBDataModel* m_model;
     IdxData* m_root;
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
