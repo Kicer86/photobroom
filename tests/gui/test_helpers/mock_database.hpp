@@ -9,7 +9,6 @@
 
 struct MockDatabase: Database::IDatabase
 {
-   
     MOCK_METHOD2(addPath, void(const Database::Task &, const QString &));
     MOCK_METHOD0(closeConnections, void());
     MOCK_METHOD1(getAllPhotos, void(const Database::Task &));
