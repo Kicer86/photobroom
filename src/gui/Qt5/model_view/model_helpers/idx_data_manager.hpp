@@ -108,10 +108,10 @@ private:
     void appendIdxData(IdxData *, const std::deque<IdxData *> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
-    IdxData* createAncestry(const IPhotoInfo::Ptr &);                          //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxData* createAncestry(const IPhotoInfo::Ptr &);                            //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
-    IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);   //returns direct parent or nullptr if direct parent isn't fetched yet
-    IdxData* createUniversalAncestor(const IPhotoInfo::Ptr &);                 //returns pointer to universal ancestor for given photo
+    IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);

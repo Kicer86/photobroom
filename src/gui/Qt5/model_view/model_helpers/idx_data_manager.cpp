@@ -555,9 +555,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
             }
         }
         else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans
-        {
-            createUniversalAncestor(photoInfo);
-        }
+            createUniversalAncestor(&matcher, photoInfo);
     }
 
     return _parent;
@@ -619,18 +617,13 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
 }
 
 
-IdxData* IdxDataManager::createUniversalAncestor(const IPhotoInfo::Ptr& photoInfo)
+IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
-    IdxData* _parent = m_data->m_root;
+    IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
     IdxData* node = new IdxData(this, _parent, tr("Nonmatching"));
 
-    /*
-    auto fdesc = std::make_shared<Database::FilterDescription>();
-    fdesc->tagName = tagName;
-    fdesc->tagValue = tagValue;
-
-    node->setNodeData(fdesc);
-    */
+    const size_t level = _parent->m_level;
+    const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
 
     appendIdxData(_parent, {node} );
 
