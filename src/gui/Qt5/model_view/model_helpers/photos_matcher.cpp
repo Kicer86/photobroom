@@ -38,7 +38,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         IPhotoInfo* m_photo;
 
         virtual void visit(Database::FilterEmpty *) override;
-        virtual void visit(Database::FilterDescription *) override;
+        virtual void visit(Database::FilterTag *) override;
         virtual void visit(Database::FilterFlags *) override;
         virtual void visit(Database::FilterSha256 *) override;
 };
@@ -92,7 +92,7 @@ void FiltersMatcher::visit(Database::FilterEmpty *)
 }
 
 
-void FiltersMatcher::visit(Database::FilterDescription* filter)
+void FiltersMatcher::visit(Database::FilterTag* filter)
 {
     bool result = false;
 

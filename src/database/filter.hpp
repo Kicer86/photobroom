@@ -36,7 +36,7 @@ namespace Database
 {
     struct IFilterVisitor;
     struct FilterEmpty;
-    struct FilterDescription;
+    struct FilterTag;
     struct FilterFlags;
     struct FilterSha256;
 
@@ -53,7 +53,7 @@ namespace Database
         virtual ~IFilterVisitor() {}
 
         virtual void visit(FilterEmpty *) = 0;
-        virtual void visit(FilterDescription *) = 0;
+        virtual void visit(FilterTag *) = 0;
         virtual void visit(FilterFlags *) = 0;
         virtual void visit(FilterSha256 *) = 0;
     };
@@ -67,16 +67,16 @@ namespace Database
         FILTER_COMMAND
     };
 
-    struct DATABASE_EXPORT FilterDescription: IFilter
+    struct DATABASE_EXPORT FilterTag: IFilter
     {
-        virtual ~FilterDescription() {}
+        virtual ~FilterTag() {}
 
         FILTER_COMMAND
 
         TagNameInfo tagName;
         QString tagValue;
 
-        FilterDescription();
+        FilterTag();
     };
 
     struct DATABASE_EXPORT FilterFlags: IFilter

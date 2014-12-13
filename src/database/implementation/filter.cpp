@@ -22,7 +22,7 @@
 namespace Database
 {
 
-    FilterDescription::FilterDescription(): tagName("", TagNameInfo::Invalid), tagValue()
+    FilterTag::FilterTag(): tagName("", TagNameInfo::Invalid), tagValue()
     {
 
     }

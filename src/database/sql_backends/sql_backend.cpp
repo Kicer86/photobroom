@@ -131,7 +131,7 @@ namespace Database
                 {
                 }
 
-                void visit(FilterDescription* desciption) override
+                void visit(FilterTag* desciption) override
                 {
                     QString result;
 
