@@ -50,6 +50,7 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     IPhotoInfo::Flags photoFlags;
     IPhotoInfo::Id photoId(1);
     Tag::TagsList photoTags;
+    IdxDataManager manager(&model);
 
     //define expectations
     EXPECT_CALL(database, notifier()).WillRepeatedly(Return(&notifier));
@@ -67,4 +68,15 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     emit notifier.photoAdded(photoInfoPtr);
 
     //verification
+    IdxData* root = manager.getRoot();
+
+    EXPECT_EQ(1, root->m_children.size());          //one child
+
+    IdxData* node_child = root->m_children[0];      //node child
+    EXPECT_EQ(true, node_child->isNode());
+    EXPECT_EQ(1, node_child->m_children.size());
+
+    IdxData* photo_child = node_child->m_children[0];
+    EXPECT_EQ(true, photo_child->isPhoto());
+    EXPECT_EQ(true, photo_child->m_children.empty());
 }
