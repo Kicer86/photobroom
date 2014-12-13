@@ -37,6 +37,7 @@ TEST(IdxDataManagerShould, BeConstructable)
 TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNodes)
 {
     using ::testing::Return;
+    using ::testing::ReturnRef;
 
     //construct objects
     DatabaseNotifier notifier;
@@ -47,16 +48,24 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending } };
     
     PhotosDataModel model;
+    MockPhotoInfo* photoInfo = new MockPhotoInfo;
+    MockPhotoInfo::Ptr photoInfoPtr(photoInfo);
+    IPhotoInfo::Flags photoFlags;
+    IPhotoInfo::Id photoId(1);
+    Tag::TagsList photoTags;
+
+    //define expectations
+    EXPECT_CALL(database, notifier()).WillRepeatedly(Return(&notifier));
+    EXPECT_CALL(*photoInfo, getFlags()).WillRepeatedly(Return(photoFlags));
+    EXPECT_CALL(*photoInfo, getID()).WillRepeatedly(Return(photoId));
+    EXPECT_CALL(*photoInfo, getTags()).WillRepeatedly(ReturnRef(photoTags));
+
+    //setup data
     model.setDatabase(&database);
     model.setHierarchy(hierarchy);
     model.set(&executor);
 
-    //prepare data
-    MockPhotoInfo::Ptr photoInfo = std::make_shared<MockPhotoInfo>();
-    
-    //define expectations
-    EXPECT_CALL(database, notifier()).WillRepeatedly(Return(&notifier));
 
     //do test
-    notifier.photoAdded(photoInfo);
+    emit notifier.photoAdded(photoInfoPtr);
 }
