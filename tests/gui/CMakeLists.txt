@@ -28,6 +28,8 @@ foreach(source ${gui_raw_srcs})
     endif()
 endforeach()
 
+qt5_wrap_cpp(GUI_TESTS_MOCED ${CMAKE_SOURCE_DIR}/src/database/idatabase.hpp)
+
 set(SRC
         ${gui_srcs}
         # model tests:
@@ -45,6 +47,8 @@ set(SRC
 
         test_helpers/internal_task_executor.cpp
         test_helpers/internal_task_executor.hpp
+
+        ${GUI_TESTS_MOCED}
         
         # main()
         main.cpp
