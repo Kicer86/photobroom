@@ -31,7 +31,7 @@ class IdxDataManager;
 
 class IdxData: public IPhotoInfo::IObserver
 {
-	public:
+    public:
         enum class FetchStatus
         {
             NotFetched,
@@ -80,3 +80,4 @@ class IdxData: public IPhotoInfo::IObserver
 };
 
 #endif // IDXDATA_HPP
+
