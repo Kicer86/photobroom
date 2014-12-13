@@ -554,7 +554,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
                 _parent = nullptr;
             }
         }
-        else   // we could not find or create any reasonable parent. Create or attach to universal universal parent for such a orphans
+        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans
         {
             createUniversalAncestor(photoInfo);
         }
