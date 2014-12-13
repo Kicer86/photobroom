@@ -65,7 +65,7 @@ struct IPhotoInfo
         virtual void photoUpdated(IPhotoInfo *) = 0;
     };
 
-    struct Flags
+    struct DATABASE_EXPORT Flags
     {
         //information
         bool stagingArea;
