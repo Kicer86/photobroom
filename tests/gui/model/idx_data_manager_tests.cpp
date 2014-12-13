@@ -43,10 +43,7 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     DatabaseNotifier notifier;
     MockDatabase database;
     InternalTaskExecutor executor;
-
     Hierarchy hierarchy;
-    hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending } };
-    
     PhotosDataModel model;
     MockPhotoInfo* photoInfo = new MockPhotoInfo;
     MockPhotoInfo::Ptr photoInfoPtr(photoInfo);
@@ -61,11 +58,13 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     EXPECT_CALL(*photoInfo, getTags()).WillRepeatedly(ReturnRef(photoTags));
 
     //setup data
+    hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending } };
     model.setDatabase(&database);
     model.setHierarchy(hierarchy);
     model.set(&executor);
 
-
     //do test
     emit notifier.photoAdded(photoInfoPtr);
+
+    //verification
 }
