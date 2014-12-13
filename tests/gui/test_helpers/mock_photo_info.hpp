@@ -6,6 +6,8 @@
 
 #include <database/iphoto_info.hpp>
 
+
+// trick with proxies: http://stackoverflow.com/questions/7616475/can-google-mock-a-method-with-a-smart-pointer-return-type
 struct MockPhotoInfo: IPhotoInfo
 {
     MOCK_CONST_METHOD0(getPath, const QString&());
