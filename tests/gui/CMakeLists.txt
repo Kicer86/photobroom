@@ -12,7 +12,7 @@ get_target_property(gui_include_dirs gui INCLUDE_DIRECTORIES)
 get_target_property(gui_raw_srcs gui SOURCES)
 get_target_property(gui_link_libraries gui LINK_LIBRARIES)
 
-include_directories(${gui_include_dirs} ${BASE_DIR} .)
+include_directories(${gui_include_dirs} ${BASE_DIR} ${CMAKE_SOURCE_DIR}/src/ .)
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 foreach(source ${gui_raw_srcs})
