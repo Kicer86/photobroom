@@ -39,6 +39,7 @@ namespace Database
     struct FilterTag;
     struct FilterFlags;
     struct FilterSha256;
+    struct FilterMissingTag;
 
     struct IFilter
     {
@@ -56,6 +57,7 @@ namespace Database
         virtual void visit(FilterTag *) = 0;
         virtual void visit(FilterFlags *) = 0;
         virtual void visit(FilterSha256 *) = 0;
+        virtual void visit(FilterMissingTag *) = 0;
     };
 
     //filters
@@ -97,6 +99,16 @@ namespace Database
         FILTER_COMMAND
 
         IPhotoInfo::Hash sha256;
+    };
+
+    struct DATABASE_EXPORT FilterMissingTag: IFilter
+    {
+        FilterMissingTag();
+        virtual ~FilterMissingTag() {}
+
+        FILTER_COMMAND
+
+        TagNameInfo tagName;
     };
 }
 #endif // FILTER_H

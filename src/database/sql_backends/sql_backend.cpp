@@ -170,6 +170,11 @@ namespace Database
                     m_temporary_result = result;
                 }
 
+                virtual void visit(FilterMissingTag* filter)
+                {
+                    
+                }
+
                 QString m_temporary_result;
         };
 

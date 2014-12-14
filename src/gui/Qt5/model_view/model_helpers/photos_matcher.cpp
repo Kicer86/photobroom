@@ -41,6 +41,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         virtual void visit(Database::FilterTag *) override;
         virtual void visit(Database::FilterFlags *) override;
         virtual void visit(Database::FilterSha256 *) override;
+        virtual void visit(Database::FilterMissingTag *) override;
 };
 
 
@@ -123,6 +124,16 @@ void FiltersMatcher::visit(Database::FilterSha256* filter)
 {
     assert(filter->sha256.empty() == false);
     const bool status = m_photo->getHash() == filter->sha256;
+
+    m_doesMatch = status;
+}
+
+
+void FiltersMatcher::visit(Database::FilterMissingTag* filter)
+{
+    const auto& tags = m_photo->getTags();
+    const auto it = tags.find(filter->tagName);
+    const bool status = it == tags.end();
 
     m_doesMatch = status;
 }
