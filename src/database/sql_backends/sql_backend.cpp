@@ -127,11 +127,11 @@ namespace Database
 
             private:
                 // IFilterVisitor interface
-                void visit(FilterEmpty *) override
+                void visit(EmptyFilter *) override
                 {
                 }
 
-                void visit(FilterTag* desciption) override
+                void visit(FilterPhotosWithTag* desciption) override
                 {
                     QString result;
 
@@ -145,7 +145,7 @@ namespace Database
                     m_temporary_result = result;
                 }
 
-                void visit(FilterFlags* flags) override
+                void visit(FilterPhotosWithFlags* flags) override
                 {
                     QString result;
 
@@ -157,7 +157,7 @@ namespace Database
                     m_temporary_result = result;
                 }
 
-                void visit(FilterSha256* sha256) override
+                void visit(FilterPhotosWithSha256* sha256) override
                 {
                     assert(sha256->sha256.empty() == false);
                     QString result;
@@ -170,7 +170,7 @@ namespace Database
                     m_temporary_result = result;
                 }
 
-                virtual void visit(FilterMissingTag* filter)
+                virtual void visit(FilterPhotosWithoutTag* filter)
                 {
                     
                 }

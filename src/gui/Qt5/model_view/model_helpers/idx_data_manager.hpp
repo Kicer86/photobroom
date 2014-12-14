@@ -39,6 +39,11 @@ public:
         }
     };
 
+    struct INotifications
+    {
+        virtual ~INotifications() {}
+    };
+
     IdxDataManager(DBDataModel* model);
     IdxDataManager(const IdxDataManager &) = delete;
     IdxDataManager& operator=(const IdxDataManager &) = delete;

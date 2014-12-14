@@ -22,19 +22,19 @@
 namespace Database
 {
 
-    FilterTag::FilterTag(): tagName("", TagNameInfo::Invalid), tagValue()
+    FilterPhotosWithTag::FilterPhotosWithTag(): tagName("", TagNameInfo::Invalid), tagValue()
     {
 
     }
 
 
-    FilterFlags::FilterFlags(): stagingArea(false)
+    FilterPhotosWithFlags::FilterPhotosWithFlags(): stagingArea(false)
     {
 
     }
 
 
-    FilterSha256::FilterSha256(): sha256("")
+    FilterPhotosWithSha256::FilterPhotosWithSha256(): sha256("")
     {
 
     }

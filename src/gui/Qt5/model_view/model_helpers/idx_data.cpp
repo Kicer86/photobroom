@@ -127,7 +127,7 @@ bool IdxData::isNode() const
 IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_children(),
     m_data(),
-    m_filter(new Database::FilterEmpty),
+    m_filter(new Database::EmptyFilter),
     m_photo(nullptr),
     m_parent(parent),
     m_model(model),

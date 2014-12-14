@@ -425,7 +425,7 @@ void IdxDataManager::got_listTagValues(const Database::Task& task, const TagValu
 
         for(const QString& tag: tags)
         {
-            auto fdesc = std::make_shared<Database::FilterTag>();
+            auto fdesc = std::make_shared<Database::FilterPhotosWithTag>();
             fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;
             fdesc->tagValue = tag;
 
@@ -597,7 +597,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             const auto tagValue = *photoTagIt->second.begin();
             IdxData* node = new IdxData(this, _parent, tagValue);
 
-            auto fdesc = std::make_shared<Database::FilterTag>();
+            auto fdesc = std::make_shared<Database::FilterPhotosWithTag>();
             fdesc->tagName = tagName;
             fdesc->tagValue = tagValue;
 

@@ -55,7 +55,7 @@ void StagedPhotosDataModel::storePhotos()
 
 std::deque<Database::IFilter::Ptr> StagedPhotosDataModel::getModelSpecificFilters() const
 {
-    auto filter = std::make_shared<Database::FilterFlags>();
+    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
     filter->stagingArea = true;
 
     const std::deque<Database::IFilter::Ptr> result( {filter});
