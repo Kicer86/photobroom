@@ -345,22 +345,21 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
     if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
         getTagValuesFor(level, _parent);
+    else if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
+    {
+        std::deque<Database::IFilter::Ptr> filter;
+        buildFilterFor(_parent, &filter);
+        buildExtraFilters(&filter);
+
+        //prepare task and store it in local list
+        Database::Task task = m_data->m_database->prepareTask(this);
+        m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
+
+        //send task to execution
+        m_data->m_database->getPhotos(task, filter);
+    }
     else
-        if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
-        {
-            std::deque<Database::IFilter::Ptr> filter;
-            buildFilterFor(_parent, &filter);
-            buildExtraFilters(&filter);
-
-            //prepare task and store it in local list
-            Database::Task task = m_data->m_database->prepareTask(this);
-            m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
-
-            //send task to execution
-            m_data->m_database->getPhotos(task, filter);
-        }
-        else
-            assert(!"should not happen");
+        assert(!"should not happen");
 
     idxData->m_loaded = IdxData::FetchStatus::Fetching;
 }
