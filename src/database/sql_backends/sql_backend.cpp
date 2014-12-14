@@ -172,7 +172,16 @@ namespace Database
 
                 virtual void visit(FilterPhotosWithoutTag* filter)
                 {
-                    
+                    //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
+                    QString result;
+
+                    result =  " WHERE photos_id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS;
+                    result += " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) ";
+                    result += " WHERE " TAB_TAG_NAMES ".name = '%1')";
+
+                    result = result.arg(filter->tagName);
+
+                    m_temporary_result = result;
                 }
 
                 QString m_temporary_result;

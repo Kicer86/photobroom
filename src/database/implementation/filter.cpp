@@ -39,4 +39,10 @@ namespace Database
 
     }
 
+
+    FilterPhotosWithoutTag::FilterPhotosWithoutTag(): tagName("", TagNameInfo::Invalid)
+    {
+
+    }
+
 }
