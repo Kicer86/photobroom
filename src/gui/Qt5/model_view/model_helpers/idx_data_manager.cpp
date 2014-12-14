@@ -625,6 +625,11 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
     const size_t level = _parent->m_level;
     const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
 
+    auto filter = std::make_shared<Database::FilterPhotosWithoutTag>();
+    filter->tagName = tagName;
+
+    node->setNodeData(filter);
+
     appendIdxData(_parent, {node} );
 
     return node;
