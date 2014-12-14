@@ -318,6 +318,21 @@ void IdxDataManager::getTagValuesFor(size_t level, const QModelIndex& _parent)
 }
 
 
+void IdxDataManager::getPhotosFor(const QModelIndex& _parent)
+{
+    std::deque<Database::IFilter::Ptr> filter;
+    buildFilterFor(_parent, &filter);
+    buildExtraFilters(&filter);
+
+    //prepare task and store it in local list
+    Database::Task task = m_data->m_database->prepareTask(this);
+    m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
+
+    //send task to execution
+    m_data->m_database->getPhotos(task, filter);
+}
+
+
 void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
@@ -346,18 +361,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
         getTagValuesFor(level, _parent);
     else if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
-    {
-        std::deque<Database::IFilter::Ptr> filter;
-        buildFilterFor(_parent, &filter);
-        buildExtraFilters(&filter);
-
-        //prepare task and store it in local list
-        Database::Task task = m_data->m_database->prepareTask(this);
-        m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
-
-        //send task to execution
-        m_data->m_database->getPhotos(task, filter);
-    }
+        getPhotosFor(_parent);
     else
         assert(!"should not happen");
 
