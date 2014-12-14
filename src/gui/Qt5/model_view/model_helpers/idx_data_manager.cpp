@@ -299,7 +299,7 @@ void IdxDataManager::idxDataReset(IdxData* idxData)
 
 
 //function returns list of tags on particular 'level' for 'parent'
-void IdxDataManager::getLevelInfo(size_t level, const QModelIndex& _parent)
+void IdxDataManager::getTagValuesFor(size_t level, const QModelIndex& _parent)
 {
     if (level + 1 <= m_data->m_hierarchy.levels.size())
     {
@@ -344,7 +344,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
 
     if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
-        getLevelInfo(level, _parent);
+        getTagValuesFor(level, _parent);
     else
         if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
         {

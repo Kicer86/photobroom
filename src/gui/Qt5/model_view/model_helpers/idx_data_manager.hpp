@@ -88,7 +88,7 @@ private:
     }
 
     //function returns list of tags on particular 'level' for 'parent'
-    void getLevelInfo(size_t level, const QModelIndex& _parent);
+    void getTagValuesFor(size_t level, const QModelIndex& _parent);
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
