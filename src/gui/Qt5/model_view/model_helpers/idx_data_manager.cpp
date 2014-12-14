@@ -313,6 +313,8 @@ void IdxDataManager::getLevelInfo(size_t level, const QModelIndex& _parent)
         m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new ListTagValuesTask(_parent, level));
         m_data->m_database->listTagValues(task, tagNameInfo, filter);
     }
+    else
+        assert(!"should not happend");
 }
 
 
