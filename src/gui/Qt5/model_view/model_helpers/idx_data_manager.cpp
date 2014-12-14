@@ -299,7 +299,7 @@ void IdxDataManager::idxDataReset(IdxData* idxData)
 
 
 //function returns list of tags on particular 'level' for 'parent'
-void IdxDataManager::getTagValuesFor(size_t level, const QModelIndex& _parent)
+void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
 {
     if (level + 1 <= m_data->m_hierarchy.levels.size())
     {
@@ -318,7 +318,7 @@ void IdxDataManager::getTagValuesFor(size_t level, const QModelIndex& _parent)
 }
 
 
-void IdxDataManager::getPhotosFor(const QModelIndex& _parent)
+void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
 {
     std::deque<Database::IFilter::Ptr> filter;
     buildFilterFor(_parent, &filter);
@@ -359,9 +359,9 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
 
     if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
-        getTagValuesFor(level, _parent);
+        fetchTagValuesFor(level, _parent);
     else if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
-        getPhotosFor(_parent);
+        fetchPhotosFor(_parent);
     else
         assert(!"should not happen");
 
