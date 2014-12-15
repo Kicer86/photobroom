@@ -310,7 +310,7 @@ void IdxDataManager::idxDataReset(IdxData* idxData)
 }
 
 
-//function returns list of tags on particular 'level' for 'parent'
+//function returns list of tag values on particular 'level' for 'parent'
 void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
 {
     if (level + 1 <= m_data->m_hierarchy.levels.size())
