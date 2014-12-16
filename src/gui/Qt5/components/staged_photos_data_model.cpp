@@ -24,6 +24,17 @@
 //TODO: remove
 #include "model_view/model_helpers/idx_data.hpp"
 
+namespace
+{
+    struct AddPhotoTask: Database::IStorePhotoTask
+    {
+        virtual void got(bool status)
+        {
+            assert(status);
+        }
+    };
+}
+
 StagedPhotosDataModel::StagedPhotosDataModel(QObject* p): DBDataModel(p)
 {
 
@@ -38,8 +49,8 @@ StagedPhotosDataModel::~StagedPhotosDataModel()
 
 void StagedPhotosDataModel::addPhoto(const QString& path)
 {
-    auto task = getDatabase()->prepareTask(nullptr);
-    getDatabase()->addPath(task, path);
+    std::unique_ptr<Database::IStorePhotoTask> task(new AddPhotoTask);
+    getDatabase()->exec(std::move(task), path);
 }
 
 

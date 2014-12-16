@@ -37,24 +37,32 @@
 
 namespace
 {
-    struct ITaskData
-    {
-        virtual ~ITaskData() {}
-    };
 
-    struct GetPhotosTask: ITaskData
+    struct GetPhotosTask: Database::IGetPhotosTask
     {
-        GetPhotosTask(const QModelIndex& parent): m_parent(parent) {}
+        GetPhotosTask(ITasksResults* mgr, const QModelIndex& parent): m_tasks_result(mgr), m_parent(parent) {}
         virtual ~GetPhotosTask() {}
 
+        virtual void got(const IPhotoInfo::List& photos)
+        {
+            m_tasks_result->got_getPhotos(this, photos);
+        }
+
+        ITasksResults* m_tasks_result;
         QModelIndex m_parent;
     };
 
-    struct ListTagValuesTask: ITaskData
+    struct ListTagValuesTask: Database::IListTagValuesTask
     {
-        ListTagValuesTask(const QModelIndex& parent, size_t level): m_parent(parent), m_level(level) {}
+        ListTagValuesTask(ITasksResults* mgr, const QModelIndex& parent, size_t level): m_tasks_result(mgr), m_parent(parent), m_level(level) {}
         virtual ~ListTagValuesTask() {}
 
+        virtual void got(const TagValue& values)
+        {
+            m_tasks_result->got_listTagValues(this, values);
+        }
+
+        ITasksResults* m_tasks_result;
         QModelIndex m_parent;
         size_t m_level;
     };
@@ -68,7 +76,6 @@ struct IdxDataManager::Data
         m_root(nullptr),
         m_hierarchy(),
         m_database(),
-        m_db_tasks(),
         m_photoId2IdxData(),
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id()),
@@ -95,7 +102,6 @@ struct IdxDataManager::Data
     IdxData* m_root;
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
-    ol::ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
     ol::ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
     ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
@@ -309,9 +315,8 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
-        Database::Task task = m_data->m_database->prepareTask(this);
-        m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new ListTagValuesTask(_parent, level));
-        m_data->m_database->listTagValues(task, tagNameInfo, filter);
+        std::unique_ptr<Database::IListTagValuesTask> task(new ListTagValuesTask(this, _parent, level));
+        m_data->m_database->exec(std::move(task), tagNameInfo, filter);
     }
     else
         assert(!"should not happend");
@@ -325,11 +330,10 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    Database::Task task = m_data->m_database->prepareTask(this);
-    m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
+    std::unique_ptr<Database::IGetPhotosTask> task(new GetPhotosTask(this, _parent));
 
     //send task to execution
-    m_data->m_database->getPhotos(task, filter);
+    m_data->m_database->exec(std::move(task), filter);
 }
 
 
@@ -369,88 +373,50 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 }
 
 
-void IdxDataManager::got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &)
-{
-}
-
-
-void IdxDataManager::got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &)
-{
-}
-
-
 //called when leafs for particual node have been loaded
-void IdxDataManager::got_getPhotos(const Database::Task& task, const IPhotoInfo::List& photos)
+void IdxDataManager::got_getPhotos(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
-    auto tasks = m_data->m_db_tasks.lock();
-    auto it = tasks->find(task);
+    GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
+    IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
 
-    if (it != tasks->end())
+    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
+    for(IPhotoInfo::Ptr photoInfo: photos)
     {
-        GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
-        IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
-
-        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
-
-        for(IPhotoInfo::Ptr photoInfo: photos)
-        {
-            IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
-            leafs->push_back(newItem);
-        }
-
-        tasks->erase(it);
-
-        //attach nodes to parent node in main thread
-        emit nodesFetched(parentIdxData, leafs);
+        IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
+        leafs->push_back(newItem);
     }
-}
 
-
-void IdxDataManager::got_listTags(const Database::Task &, const std::deque<TagNameInfo> &)
-{
+    //attach nodes to parent node in main thread
+    emit nodesFetched(parentIdxData, leafs);
 }
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::got_listTagValues(const Database::Task& task, const TagValue& tags)
+void IdxDataManager::got_listTagValues(Database::IListTagValuesTask* task, const TagValue& tags)
 {
-    auto tasks = m_data->m_db_tasks.lock();
-    auto it = tasks->find(task);
+    ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 
-    //task may be invalid for example when model become invalid while task was executed
-    if (it != tasks->end())
+    const size_t level = l_task->m_level;
+    const QModelIndex& _parent = l_task->m_parent;
+    IdxData* parentIdxData = getParentIdxDataFor(_parent);
+
+    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
+    for(const QString& tag: tags)
     {
-        ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(it->second.get());
+        auto filter = std::make_shared<Database::FilterPhotosWithTag>();
+        filter->tagName = m_data->m_hierarchy.levels[level].tagName;
+        filter->tagValue = tag;
 
-        const size_t level = l_task->m_level;
-        const QModelIndex& _parent = l_task->m_parent;
-        IdxData* parentIdxData = getParentIdxDataFor(_parent);
+        IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
+        newItem->setNodeFilter(filter);
 
-        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
-
-        for(const QString& tag: tags)
-        {
-            auto filter = std::make_shared<Database::FilterPhotosWithTag>();
-            filter->tagName = m_data->m_hierarchy.levels[level].tagName;
-            filter->tagValue = tag;
-
-            IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
-            newItem->setNodeFilter(filter);
-
-            leafs->push_back(newItem);
-        }
-
-        tasks->erase(it);
-
-        //attach nodes to parent node in main thread
-        emit nodesFetched(parentIdxData, leafs);
+        leafs->push_back(newItem);
     }
-}
 
-
-void IdxDataManager::got_storeStatus(const Database::Task &)
-{
-    //TODO: some validation?
+    //attach nodes to parent node in main thread
+    emit nodesFetched(parentIdxData, leafs);
 }
 
 
@@ -478,9 +444,6 @@ void IdxDataManager::resetModel()
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
-
-    //mark all pending db tasks (if any) invalid as for now they reffer to previous state
-    m_data->m_db_tasks.lock().get().clear();
 
     m_data->m_model->beginResetModel();
     m_data->m_root->reset();

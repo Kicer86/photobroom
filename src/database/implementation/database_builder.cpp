@@ -48,6 +48,15 @@ namespace Database
 
     const char* databaseLocation = "Database::Backend::DataLocation";
 
+    struct InitTask: Database::IInitTask
+    {
+        virtual ~InitTask() {}
+        virtual void got(bool status)
+        {
+            assert(status);
+        }
+    };
+
     struct Builder::Impl
     {
         Impl(const Impl &) = delete;
@@ -185,9 +194,9 @@ namespace Database
             analyzer->set(m_impl->m_task_executor);
             analyzer->set(m_impl->m_configuration);
 
-            Database::Task task = database->prepareTask(nullptr);
+            std::unique_ptr<Database::IInitTask> task(new InitTask);
 
-            const bool status = database->init(task, info);
+            const bool status = database->exec(std::move(task), info);
 
             if (status)
             {

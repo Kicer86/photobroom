@@ -28,7 +28,16 @@
 class DBDataModel;
 class PhotosMatcher;
 
-class IdxDataManager: public QObject, Database::IDatabaseClient
+struct ITasksResults
+{
+    virtual ~ITasksResults() {}
+
+    virtual void got_getPhotos(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
+    virtual void got_listTagValues(Database::IListTagValuesTask *, const TagValue& tags) = 0;
+};
+
+
+class IdxDataManager: public QObject, public ITasksResults
 {
 public:
     struct DatabaseTaskHash
@@ -94,13 +103,9 @@ private:
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
 
-    //Database::IDatabaseClient:
-    void got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &) override;
-    void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
-    void got_getPhotos(const Database::Task & task, const IPhotoInfo::List& photos) override;
-    void got_listTags(const Database::Task &, const std::deque<TagNameInfo> &) override;
-    void got_listTagValues(const Database::Task& task, const TagValue& tags) override;
-    void got_storeStatus(const Database::Task &) override;
+    // database notifications:
+    void got_getPhotos(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
+    void got_listTagValues(Database::IListTagValuesTask *, const TagValue& tags) override;
     //
 
     void markIdxDataFetched(IdxData *);
