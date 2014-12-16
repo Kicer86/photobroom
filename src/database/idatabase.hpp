@@ -52,6 +52,9 @@ namespace Database
         typedef int Id;
 
         Task(IDatabaseClient* c, int i): id(i), status(false), client(c) {}
+        Task(const Task &) = default;
+
+        Task& operator=(const Task &) = default;
 
         void setStatus(bool s) { status = s; }
 
