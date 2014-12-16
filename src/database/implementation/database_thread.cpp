@@ -297,9 +297,9 @@ namespace
                     baseTask->visitMe(this);
 
                     //calculate how long transaction is active
-                    auto current_time = std::chrono::steady_clock::now();
-                    auto time_diff = current_time - transaction_begin_time;
-                    auto transaction_duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_diff).count();
+                    const auto current_time = std::chrono::steady_clock::now();
+                    const auto time_diff = current_time - transaction_begin_time;
+                    const auto transaction_duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_diff).count();
 
                     //no more tasks or transaction takes too long? end transaction
                     if ( transation_opened && (transaction_duration > 2000 || m_tasks.empty()) )
