@@ -40,8 +40,11 @@ namespace
 
     struct GetPhotosTask: Database::IGetPhotosTask
     {
-        GetPhotosTask(ITasksResults* mgr, const QModelIndex& parent): m_tasks_result(mgr), m_parent(parent) {}
+        GetPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetPhotosTask(const GetPhotosTask &) = delete;
         virtual ~GetPhotosTask() {}
+
+        GetPhotosTask& operator=(const GetPhotosTask &) = delete;
 
         virtual void got(const IPhotoInfo::List& photos)
         {
@@ -54,8 +57,11 @@ namespace
 
     struct ListTagValuesTask: Database::IListTagValuesTask
     {
-        ListTagValuesTask(ITasksResults* mgr, const QModelIndex& parent, size_t level): m_tasks_result(mgr), m_parent(parent), m_level(level) {}
+        ListTagValuesTask(ITasksResults* tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
+        ListTagValuesTask(const ListTagValuesTask &) = delete;
         virtual ~ListTagValuesTask() {}
+
+        ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
 
         virtual void got(const TagValue& values)
         {
