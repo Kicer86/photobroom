@@ -24,57 +24,42 @@
 
 #include <database/idatabase.hpp>
 
-
-struct DataReceiver: Database::IDatabaseClient
+namespace
 {
-    DataReceiver(): m_photo_list(), m_cv(), m_data_mutex(), m_got_data(false)
-    {}
-
-    void got_getAllPhotos(const Database::Task&, const IPhotoInfo::List &) override
+    struct DataReceiver
     {
+        DataReceiver(): m_photo_list(), m_cv(), m_data_mutex(), m_got_data(false)
+        {}
 
-    }
+        void got_getPhotos(const IPhotoInfo::List& photos)
+        {
+            m_photo_list = photos;
+
+            m_got_data = true;
+            m_cv.notify_one();
+        }
+
+        IPhotoInfo::List m_photo_list;
+
+        std::condition_variable m_cv;
+        std::mutex m_data_mutex;
+        bool m_got_data;
+    };
 
 
-    void got_getPhoto(const Database::Task&, const IPhotoInfo::Ptr &) override
+    struct GetPhotos: Database::IGetPhotosTask
     {
+        GetPhotos(DataReceiver* dr): m_dataReceiver(dr) {}
+        virtual ~GetPhotos(){ }
 
-    }
+        virtual void got(const IPhotoInfo::List& photos) override
+        {
+            m_dataReceiver->got_getPhotos(photos);
+        }
 
-
-    void got_getPhotos(const Database::Task&, const IPhotoInfo::List& photos) override
-    {
-        m_photo_list = photos;
-
-        m_got_data = true;
-        m_cv.notify_one();
-    }
-
-
-    void got_listTags(const Database::Task&, const std::deque<TagNameInfo> &) override
-    {
-
-    }
-
-
-    void got_listTagValues(const Database::Task&, const TagValue &) override
-    {
-
-    }
-
-
-    void got_storeStatus(const Database::Task&) override
-    {
-
-    }
-
-    IPhotoInfo::List m_photo_list;
-
-    std::condition_variable m_cv;
-    std::mutex m_data_mutex;
-    bool m_got_data;
-};
-
+        DataReceiver* m_dataReceiver;
+    };
+}
 
 
 SynchronousDatabase::SynchronousDatabase(): m_database(nullptr)
@@ -99,8 +84,8 @@ const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque< Database
 {
     DataReceiver receiver;
 
-    auto task = m_database->prepareTask(&receiver);
-    m_database->getPhotos(task, filters);
+    std::unique_ptr<Database::IGetPhotosTask> task(new GetPhotos(&receiver));
+    m_database->exec(std::move(task), filters);
 
     std::unique_lock<std::mutex> lock(receiver.m_data_mutex);
 

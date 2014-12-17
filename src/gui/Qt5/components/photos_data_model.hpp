@@ -27,7 +27,7 @@ class QObject;
 class PhotosDataModel: public DBDataModel
 {
     public:
-        PhotosDataModel(QObject *);
+        PhotosDataModel(QObject * = nullptr);
         PhotosDataModel(const PhotosDataModel &) = delete;
         ~PhotosDataModel();
 

@@ -37,10 +37,11 @@ struct FiltersMatcher: Database::IFilterVisitor
         bool m_doesMatch;
         IPhotoInfo* m_photo;
 
-        virtual void visit(Database::FilterEmpty *) override;
-        virtual void visit(Database::FilterDescription *) override;
-        virtual void visit(Database::FilterFlags *) override;
-        virtual void visit(Database::FilterSha256 *) override;
+        virtual void visit(Database::EmptyFilter *) override;
+        virtual void visit(Database::FilterPhotosWithTag *) override;
+        virtual void visit(Database::FilterPhotosWithFlags *) override;
+        virtual void visit(Database::FilterPhotosWithSha256 *) override;
+        virtual void visit(Database::FilterPhotosWithoutTag *) override;
 };
 
 
@@ -86,13 +87,13 @@ bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const Database:
 }
 
 
-void FiltersMatcher::visit(Database::FilterEmpty *)
+void FiltersMatcher::visit(Database::EmptyFilter *)
 {
     m_doesMatch = true;
 }
 
 
-void FiltersMatcher::visit(Database::FilterDescription* filter)
+void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 {
     bool result = false;
 
@@ -111,7 +112,7 @@ void FiltersMatcher::visit(Database::FilterDescription* filter)
 }
 
 
-void FiltersMatcher::visit(Database::FilterFlags* filter)
+void FiltersMatcher::visit(Database::FilterPhotosWithFlags* filter)
 {
     const bool status = m_photo->getFlags().stagingArea == filter->stagingArea;
 
@@ -119,10 +120,20 @@ void FiltersMatcher::visit(Database::FilterFlags* filter)
 }
 
 
-void FiltersMatcher::visit(Database::FilterSha256* filter)
+void FiltersMatcher::visit(Database::FilterPhotosWithSha256* filter)
 {
     assert(filter->sha256.empty() == false);
     const bool status = m_photo->getHash() == filter->sha256;
+
+    m_doesMatch = status;
+}
+
+
+void FiltersMatcher::visit(Database::FilterPhotosWithoutTag* filter)
+{
+    const auto& tags = m_photo->getTags();
+    const auto it = tags.find(filter->tagName);
+    const bool status = it == tags.end();
 
     m_doesMatch = status;
 }

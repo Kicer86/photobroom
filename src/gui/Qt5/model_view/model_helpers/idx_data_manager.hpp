@@ -28,7 +28,17 @@
 class DBDataModel;
 class PhotosMatcher;
 
-class IdxDataManager: public QObject, Database::IDatabaseClient
+struct ITasksResults
+{
+    virtual ~ITasksResults() {}
+
+    virtual void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
+    virtual void gotNonmatchingPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
+    virtual void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) = 0;
+};
+
+
+class IdxDataManager: public QObject, private ITasksResults
 {
 public:
     struct DatabaseTaskHash
@@ -37,6 +47,11 @@ public:
         {
             return t.getId();
         }
+    };
+
+    struct INotifications
+    {
+        virtual ~INotifications() {}
     };
 
     IdxDataManager(DBDataModel* model);
@@ -82,19 +97,18 @@ private:
             action(child);
     }
 
-    //function returns list of tags on particular 'level' for 'parent'
-    void getLevelInfo(size_t level, const QModelIndex& _parent);
+    void fetchTagValuesFor(size_t level, const QModelIndex& _parent);
+    void fetchPhotosFor(const QModelIndex &);
+    void checkForNonmatchingPhotos(size_t level, const QModelIndex& _parent);
+
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
 
-    //Database::IDatabaseClient:
-    void got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &) override;
-    void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override;
-    void got_getPhotos(const Database::Task & task, const IPhotoInfo::List& photos) override;
-    void got_listTags(const Database::Task &, const std::deque<TagNameInfo> &) override;
-    void got_listTagValues(const Database::Task& task, const TagValue& tags) override;
-    void got_storeStatus(const Database::Task &) override;
+    // database notifications:
+    void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
+    void gotNonmatchingPhotosForParent(Database::IGetPhotosTask*, const IPhotoInfo::List& photos) override;
+    void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) override;
     //
 
     void markIdxDataFetched(IdxData *);
@@ -108,13 +122,16 @@ private:
     void appendIdxData(IdxData *, const std::deque<IdxData *> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
-    IdxData* createAncestry(const IPhotoInfo::Ptr &);                          //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxData* createAncestry(const IPhotoInfo::Ptr &);                            //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
-    IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);   //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
+
+    IdxData* addUniversalNodeToParent(IdxData *);                                //adds node for photos without tag required by particular parent
 
 signals:
     void idxDataLoaded(IdxData *);

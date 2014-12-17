@@ -83,7 +83,7 @@ ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(fa
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-ModelIndexInfo Data::get(const QModelIndex& index) const noexcept
+ModelIndexInfo Data::get(const QModelIndex& index) const
 {
     const auto it = m_itemData.find(index);
     const ModelIndexInfo info = it != m_itemData.end()? *it: ModelIndexInfo(index);
@@ -198,7 +198,7 @@ void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
 }
 
 
-bool Data::isExpanded(const QModelIndex& index) const noexcept
+bool Data::isExpanded(const QModelIndex& index) const
 {
     bool status = true;               //for top root return true
     if (index.isValid())
@@ -212,7 +212,7 @@ bool Data::isExpanded(const QModelIndex& index) const noexcept
 }
 
 
-bool Data::isVisible(const QModelIndex& index) const noexcept
+bool Data::isVisible(const QModelIndex& index) const
 {
     QModelIndex parent = index.parent();
     bool result = false;
@@ -284,7 +284,7 @@ void Data::clear()
 }
 
 
-const Data::ModelIndexInfoSet& Data::getAll() const noexcept
+const Data::ModelIndexInfoSet& Data::getAll() const
 {
     return m_itemData;
 }

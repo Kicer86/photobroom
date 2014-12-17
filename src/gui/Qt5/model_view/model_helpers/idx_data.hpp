@@ -31,7 +31,7 @@ class IdxDataManager;
 
 class IdxData: public IPhotoInfo::IObserver
 {
-	public:
+    public:
         enum class FetchStatus
         {
             NotFetched,
@@ -61,7 +61,7 @@ class IdxData: public IPhotoInfo::IObserver
         IdxData(const IdxData &) = delete;
         IdxData& operator=(const IdxData &) = delete;
 
-        void setNodeData(const Database::IFilter::Ptr& filter);
+        void setNodeFilter(const Database::IFilter::Ptr& filter);
         void addChild(IdxData* child);
         void removeChild(IdxData* child);         // removes child (memory is released)
         void takeChild(IdxData* child);           // function acts as removeChild but does not delete children
@@ -80,3 +80,4 @@ class IdxData: public IPhotoInfo::IObserver
 };
 
 #endif // IDXDATA_HPP
+

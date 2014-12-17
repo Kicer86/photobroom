@@ -7,8 +7,8 @@
 #include <Qt5/model_view/view_helpers/data.hpp>
 #include <Qt5/model_view/view_helpers/positions_calculator.hpp>
 
-#include "mock_configuration.hpp"
-#include "mock_qabstractitemmodel.hpp"
+#include "test_helpers/mock_configuration.hpp"
+#include "test_helpers/mock_qabstractitemmodel.hpp"
 
 
 TEST(DataShould, BeConstructable)
@@ -86,11 +86,15 @@ TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
 TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 {
     MockConfiguration config;
+    QStandardItemModel model;
+
+    QStandardItem* top = new QStandardItem("Empty");
+    model.appendRow(top);
 
     Data data;
     data.m_configuration = &config;
-    data.get(QModelIndex());            // first access - new item
-    data.forget(QModelIndex());         // forget about it
+    data.get(top->index());                      // first access - new item
+    data.forget(top->index());                   // forget about it
 
     const auto& items = data.getAll();
     EXPECT_EQ(true, items.empty());

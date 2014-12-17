@@ -37,24 +37,55 @@
 
 namespace
 {
-    struct ITaskData
-    {
-        virtual ~ITaskData() {}
-    };
 
-    struct GetPhotosTask: ITaskData
+    struct GetPhotosTask: Database::IGetPhotosTask
     {
-        GetPhotosTask(const QModelIndex& parent): m_parent(parent) {}
+        GetPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetPhotosTask(const GetPhotosTask &) = delete;
         virtual ~GetPhotosTask() {}
 
+        GetPhotosTask& operator=(const GetPhotosTask &) = delete;
+
+        virtual void got(const IPhotoInfo::List& photos)
+        {
+            m_tasks_result->gotPhotosForParent(this, photos);
+        }
+
+        ITasksResults* m_tasks_result;
         QModelIndex m_parent;
     };
 
-    struct ListTagValuesTask: ITaskData
+    struct GetNonmatchingPhotosTask: Database::IGetPhotosTask
     {
-        ListTagValuesTask(const QModelIndex& parent, size_t level): m_parent(parent), m_level(level) {}
+        GetNonmatchingPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
+        virtual ~GetNonmatchingPhotosTask() {}
+
+        GetNonmatchingPhotosTask& operator=(const GetNonmatchingPhotosTask &) = delete;
+
+        virtual void got(const IPhotoInfo::List& photos)
+        {
+            m_tasks_result->gotNonmatchingPhotosForParent(this, photos);
+        }
+
+        ITasksResults* m_tasks_result;
+        QModelIndex m_parent;
+    };
+
+    struct ListTagValuesTask: Database::IListTagValuesTask
+    {
+        ListTagValuesTask(ITasksResults* tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
+        ListTagValuesTask(const ListTagValuesTask &) = delete;
         virtual ~ListTagValuesTask() {}
 
+        ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
+
+        virtual void got(const TagValue& values)
+        {
+            m_tasks_result->gotTagValuesForParent(this, values);
+        }
+
+        ITasksResults* m_tasks_result;
         QModelIndex m_parent;
         size_t m_level;
     };
@@ -68,7 +99,6 @@ struct IdxDataManager::Data
         m_root(nullptr),
         m_hierarchy(),
         m_database(),
-        m_db_tasks(),
         m_photoId2IdxData(),
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id()),
@@ -91,11 +121,10 @@ struct IdxDataManager::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    DBDataModel* m_model;
+    DATABASE_DEPRECATED DBDataModel* m_model;
     IdxData* m_root;
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
-    ol::ThreadSafeResource<std::unordered_map<Database::Task, std::unique_ptr<ITaskData>, DatabaseTaskHash>> m_db_tasks;
     ol::ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
     ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
@@ -107,6 +136,7 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 {
     m_data->init(this);
 
+    //default hierarchy
     Hierarchy hierarchy;
     hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
 
@@ -297,8 +327,8 @@ void IdxDataManager::idxDataReset(IdxData* idxData)
 }
 
 
-//function returns list of tags on particular 'level' for 'parent'
-void IdxDataManager::getLevelInfo(size_t level, const QModelIndex& _parent)
+//function returns list of tag values on particular 'level' for 'parent'
+void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
 {
     if (level + 1 <= m_data->m_hierarchy.levels.size())
     {
@@ -308,10 +338,48 @@ void IdxDataManager::getLevelInfo(size_t level, const QModelIndex& _parent)
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
-        Database::Task task = m_data->m_database->prepareTask(this);
-        m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new ListTagValuesTask(_parent, level));
-        m_data->m_database->listTagValues(task, tagNameInfo, filter);
+        std::unique_ptr<Database::IListTagValuesTask> task(new ListTagValuesTask(this, _parent, level));
+        m_data->m_database->exec(std::move(task), tagNameInfo, filter);
     }
+    else
+        assert(!"should not happend");
+}
+
+
+void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
+{
+    std::deque<Database::IFilter::Ptr> filter;
+    buildFilterFor(_parent, &filter);
+    buildExtraFilters(&filter);
+
+    //prepare task and store it in local list
+    std::unique_ptr<Database::IGetPhotosTask> task(new GetPhotosTask(this, _parent));
+
+    //send task to execution
+    m_data->m_database->exec(std::move(task), filter);
+}
+
+
+// function checks if there are photos which do not have tags required by particular parent in data model
+void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& _parent)
+{
+    std::deque<Database::IFilter::Ptr> filter;
+
+    //build filters for all parent nodes but last one
+    if (_parent.isValid())   // do not enter here if there are no parent above '_parent'
+    {
+        QModelIndex grandParent = _parent.parent();
+
+        buildFilterFor(grandParent, &filter);
+    }
+
+    buildExtraFilters(&filter);
+
+    //prepare task and store it in local list
+    std::unique_ptr<Database::IGetPhotosTask> task(new GetNonmatchingPhotosTask(this, _parent));
+
+    //send task to execution
+    m_data->m_database->exec(std::move(task), filter);
 }
 
 
@@ -340,111 +408,78 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
 
-    if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
-        getLevelInfo(level, _parent);
+    if (level < m_data->m_hierarchy.levels.size())         //construct nodes basing on tags
+    {
+        fetchTagValuesFor(level, _parent);
+        checkForNonmatchingPhotos(level, _parent);
+    }
+    else if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
+        fetchPhotosFor(_parent);
     else
-        if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
-        {
-            std::deque<Database::IFilter::Ptr> filter;
-            buildFilterFor(_parent, &filter);
-            buildExtraFilters(&filter);
-
-            //prepare task and store it in local list
-            Database::Task task = m_data->m_database->prepareTask(this);
-            m_data->m_db_tasks.lock().get()[task] = std::unique_ptr<ITaskData>(new GetPhotosTask(_parent));
-
-            //send task to execution
-            m_data->m_database->getPhotos(task, filter);
-        }
-        else
-            assert(!"should not happen");
+        assert(!"should not happen");
 
     idxData->m_loaded = IdxData::FetchStatus::Fetching;
 }
 
 
-void IdxDataManager::got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &)
-{
-}
-
-
-void IdxDataManager::got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &)
-{
-}
-
-
 //called when leafs for particual node have been loaded
-void IdxDataManager::got_getPhotos(const Database::Task& task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
-    auto tasks = m_data->m_db_tasks.lock();
-    auto it = tasks->find(task);
+    GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
+    IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
 
-    if (it != tasks->end())
+    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
+    for(IPhotoInfo::Ptr photoInfo: photos)
     {
-        GetPhotosTask* l_task = static_cast<GetPhotosTask *>(it->second.get());
-        IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
-
-        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
-
-        for(IPhotoInfo::Ptr photoInfo: photos)
-        {
-            IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
-            leafs->push_back(newItem);
-        }
-
-        tasks->erase(it);
-
-        //attach nodes to parent node in main thread
-        emit nodesFetched(parentIdxData, leafs);
+        IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
+        leafs->push_back(newItem);
     }
+
+    //attach nodes to parent node in main thread
+    emit nodesFetched(parentIdxData, leafs);
 }
 
 
-void IdxDataManager::got_listTags(const Database::Task &, const std::deque<TagNameInfo> &)
+//called when we look for photos which do not have tag required by particular parent
+void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
+    if (photos.empty() == false)  //there is at least one such a photo? Create extra node
+    {
+        GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
+        QModelIndex _parentIndex = l_task->m_parent;
+        IdxData* _parent = getParentIdxDataFor(_parentIndex);
+
+        addUniversalNodeToParent(_parent);
+    }
 }
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::got_listTagValues(const Database::Task& task, const TagValue& tags)
+void IdxDataManager::gotTagValuesForParent(Database::IListTagValuesTask* task, const TagValue& tags)
 {
-    auto tasks = m_data->m_db_tasks.lock();
-    auto it = tasks->find(task);
+    ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 
-    //task may be invalid for example when model become invalid while task was executed
-    if (it != tasks->end())
+    const size_t level = l_task->m_level;
+    const QModelIndex& _parent = l_task->m_parent;
+    IdxData* parentIdxData = getParentIdxDataFor(_parent);
+
+    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
+    for(const QString& tag: tags)
     {
-        ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(it->second.get());
+        auto filter = std::make_shared<Database::FilterPhotosWithTag>();
+        filter->tagName = m_data->m_hierarchy.levels[level].tagName;
+        filter->tagValue = tag;
 
-        const size_t level = l_task->m_level;
-        const QModelIndex& _parent = l_task->m_parent;
-        IdxData* parentIdxData = getParentIdxDataFor(_parent);
+        IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
+        newItem->setNodeFilter(filter);
 
-        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
-
-        for(const QString& tag: tags)
-        {
-            auto fdesc = std::make_shared<Database::FilterDescription>();
-            fdesc->tagName = m_data->m_hierarchy.levels[level].tagName;
-            fdesc->tagValue = tag;
-
-            IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
-            newItem->setNodeData(fdesc);
-
-            leafs->push_back(newItem);
-        }
-
-        tasks->erase(it);
-
-        //attach nodes to parent node in main thread
-        emit nodesFetched(parentIdxData, leafs);
+        leafs->push_back(newItem);
     }
-}
 
-
-void IdxDataManager::got_storeStatus(const Database::Task &)
-{
-    //TODO: some validation?
+    //attach nodes to parent node in main thread
+    emit nodesFetched(parentIdxData, leafs);
 }
 
 
@@ -473,9 +508,6 @@ void IdxDataManager::resetModel()
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    //mark all pending db tasks (if any) invalid as for now they reffer to previous state
-    m_data->m_db_tasks.lock().get().clear();
-
     m_data->m_model->beginResetModel();
     m_data->m_root->reset();
     m_data->m_model->endResetModel();
@@ -486,7 +518,7 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
 {
     assert(photos.empty() == false);
 
-    QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
+    const QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
     m_data->m_model->beginInsertRows(parentIdx, 0, last);
 
@@ -553,6 +585,8 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
                 _parent = nullptr;
             }
         }
+        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans
+            createUniversalAncestor(&matcher, photoInfo);
     }
 
     return _parent;
@@ -594,11 +628,11 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             const auto tagValue = *photoTagIt->second.begin();
             IdxData* node = new IdxData(this, _parent, tagValue);
 
-            auto fdesc = std::make_shared<Database::FilterDescription>();
-            fdesc->tagName = tagName;
-            fdesc->tagValue = tagValue;
+            auto filter = std::make_shared<Database::FilterPhotosWithTag>();
+            filter->tagName = tagName;
+            filter->tagValue = tagValue;
 
-            node->setNodeData(fdesc);
+            node->setNodeFilter(filter);
 
             appendIdxData(_parent, {node} );
 
@@ -611,6 +645,15 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
     }
 
     return result;
+}
+
+
+IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
+{
+    IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
+    IdxData* universalNode = addUniversalNodeToParent(_parent);
+
+    return universalNode;
 }
 
 
@@ -677,6 +720,24 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
     to->addChild(photoIdxData);
 
     m_data->m_model->endInsertRows();
+}
+
+
+IdxData* IdxDataManager::addUniversalNodeToParent(IdxData* _parent)
+{
+    IdxData* node = new IdxData(this, _parent, tr("Unlabeled"));
+
+    const size_t level = _parent->m_level;
+    const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithoutTag>();
+    filter->tagName = tagName;
+
+    node->setNodeFilter(filter);
+
+    appendIdxData(_parent, {node} );
+
+    return node;
 }
 
 

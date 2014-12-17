@@ -31,26 +31,25 @@ namespace Database
     class DatabaseThread: public IDatabase
     {
         public:
-            DatabaseThread(Database::IBackend *);
+            DatabaseThread(IBackend *);
             DatabaseThread(const DatabaseThread &) = delete;
             virtual ~DatabaseThread();
 
             DatabaseThread& operator=(const DatabaseThread &) = delete;
 
-            virtual Task prepareTask(IDatabaseClient *) override;
             virtual ADatabaseSignals* notifier() override;
 
-            virtual void addPath(const Task&, const QString&) override;
-            virtual void update(const Task &, const IPhotoInfo::Ptr &) override;
+            virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const QString &) override;
+            virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
 
-            virtual void getAllPhotos(const Task &) override;
-            virtual void getPhoto(const Task &, const IPhotoInfo::Id &) override;
-            virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr> &) override;
-            virtual void listTags(const Task &) override;
-            virtual void listTagValues(const Task &, const TagNameInfo &) override;
-            virtual void listTagValues(const Task &, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
+            virtual void exec(std::unique_ptr<IListTagsTask> &&) override;
+            virtual void exec(std::unique_ptr<IGetPhotoTask> &&, const IPhotoInfo::Id &) override;
+            virtual void exec(std::unique_ptr<IGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) override;
+            virtual void exec(std::unique_ptr<IGetPhotosTask> &&) override;
+            virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &) override;
+            virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
 
-            virtual bool init(const Database::Task &, const Database::ProjectInfo &) override;
+            virtual bool exec(std::unique_ptr<IInitTask> &&, const ProjectInfo &) override;
             virtual void closeConnections() override;
 
         private:

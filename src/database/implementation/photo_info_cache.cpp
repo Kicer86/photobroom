@@ -25,8 +25,16 @@
 
 #include <idatabase.hpp>
 
+namespace
+{
+    struct Update: Database::IStorePhotoTask
+    {
+        virtual ~Update() {}
+        virtual void got(bool) {}
+    };
+}
 
-struct PhotoInfoCache::Data: Database::IDatabaseClient
+struct PhotoInfoCache::Data
 {
     Data(): m_photo_cache(), m_database(nullptr) {}
     Data(const Data &) = delete;
@@ -36,13 +44,6 @@ struct PhotoInfoCache::Data: Database::IDatabaseClient
 
     std::unordered_map<IPhotoInfo::Id, std::weak_ptr<IPhotoInfo>, PhotoInfoIdHash> m_photo_cache;
     Database::IDatabase* m_database;
-
-    virtual void got_getAllPhotos(const Database::Task &, const IPhotoInfo::List &) override {}
-    virtual void got_getPhoto(const Database::Task &, const IPhotoInfo::Ptr &) override {}
-    virtual void got_getPhotos(const Database::Task &, const IPhotoInfo::List &) override {}
-    virtual void got_listTags(const Database::Task &, const std::deque<TagNameInfo> &) override {}
-    virtual void got_listTagValues(const Database::Task &, const TagValue &) override {}
-    virtual void got_storeStatus(const Database::Task &) override {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +100,8 @@ void PhotoInfoCache::photoUpdated(IPhotoInfo* photoInfo)
     //when found update changed photo in database
     if (ptr.get() != nullptr && ptr->isFullyInitialized())
     {
-        auto task = m_data->m_database->prepareTask(m_data.get());
-        m_data->m_database->update(task, ptr);
+        std::unique_ptr<Database::IStorePhotoTask> task(new Update);
+
+        m_data->m_database->exec(std::move(task), ptr);
     }
 }

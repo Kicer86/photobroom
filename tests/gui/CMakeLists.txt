@@ -12,7 +12,7 @@ get_target_property(gui_include_dirs gui INCLUDE_DIRECTORIES)
 get_target_property(gui_raw_srcs gui SOURCES)
 get_target_property(gui_link_libraries gui LINK_LIBRARIES)
 
-include_directories(${gui_include_dirs} ${BASE_DIR})
+include_directories(${gui_include_dirs} ${BASE_DIR} ${CMAKE_SOURCE_DIR}/src/ .)
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 foreach(source ${gui_raw_srcs})
@@ -28,15 +28,31 @@ foreach(source ${gui_raw_srcs})
     endif()
 endforeach()
 
+#required by Database::ADatabaseSignals
+qt5_wrap_cpp(GUI_TESTS_MOCED ${CMAKE_SOURCE_DIR}/src/database/idatabase.hpp)
+
 set(SRC
         ${gui_srcs}
-        data_tests.cpp
-        positions_calculator_tests.cpp
-        positions_reseter_tests.cpp
-        main.cpp
+        # model tests:
+        model/idx_data_manager_tests.cpp
 
-        mock_configuration.hpp
-        mock_qabstractitemmodel.hpp
+        # view tests
+        view/data_tests.cpp
+        view/positions_calculator_tests.cpp
+        view/positions_reseter_tests.cpp
+
+        # helpers:
+        test_helpers/mock_configuration.hpp
+        test_helpers/mock_database.hpp
+        test_helpers/mock_qabstractitemmodel.hpp
+
+        test_helpers/internal_task_executor.cpp
+        test_helpers/internal_task_executor.hpp
+
+        ${GUI_TESTS_MOCED}
+        
+        # main()
+        main.cpp
     )
 
 add_executable(gui_tests ${SRC} ${GUI_WRAPPED_CPP})

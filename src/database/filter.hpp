@@ -35,10 +35,11 @@
 namespace Database
 {
     struct IFilterVisitor;
-    struct FilterEmpty;
-    struct FilterDescription;
-    struct FilterFlags;
-    struct FilterSha256;
+    struct EmptyFilter;
+    struct FilterPhotosWithTag;
+    struct FilterPhotosWithFlags;
+    struct FilterPhotosWithSha256;
+    struct FilterPhotosWithoutTag;
 
     struct IFilter
     {
@@ -52,51 +53,62 @@ namespace Database
     {
         virtual ~IFilterVisitor() {}
 
-        virtual void visit(FilterEmpty *) = 0;
-        virtual void visit(FilterDescription *) = 0;
-        virtual void visit(FilterFlags *) = 0;
-        virtual void visit(FilterSha256 *) = 0;
+        virtual void visit(EmptyFilter *) = 0;
+        virtual void visit(FilterPhotosWithTag *) = 0;
+        virtual void visit(FilterPhotosWithFlags *) = 0;
+        virtual void visit(FilterPhotosWithSha256 *) = 0;
+        virtual void visit(FilterPhotosWithoutTag *) = 0;
     };
 
     //filters
 
-    struct DATABASE_EXPORT FilterEmpty: IFilter
+    struct DATABASE_EXPORT EmptyFilter: IFilter
     {
-        virtual ~FilterEmpty() {}
+        virtual ~EmptyFilter() {}
 
         FILTER_COMMAND
     };
 
-    struct DATABASE_EXPORT FilterDescription: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithTag: IFilter
     {
-        virtual ~FilterDescription() {}
+        virtual ~FilterPhotosWithTag() {}
 
         FILTER_COMMAND
 
         TagNameInfo tagName;
         QString tagValue;
 
-        FilterDescription();
+        FilterPhotosWithTag();
     };
 
-    struct DATABASE_EXPORT FilterFlags: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
     {
-        FilterFlags();
-        virtual ~FilterFlags() {}
+        FilterPhotosWithFlags();
+        virtual ~FilterPhotosWithFlags() {}
 
         FILTER_COMMAND
 
         bool stagingArea;
     };
 
-    struct DATABASE_EXPORT FilterSha256: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter
     {
-        FilterSha256();
-        virtual ~FilterSha256() {}
+        FilterPhotosWithSha256();
+        virtual ~FilterPhotosWithSha256() {}
 
         FILTER_COMMAND
 
         IPhotoInfo::Hash sha256;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithoutTag: IFilter
+    {
+        FilterPhotosWithoutTag();
+        virtual ~FilterPhotosWithoutTag() {}
+
+        FILTER_COMMAND
+
+        TagNameInfo tagName;
     };
 }
 #endif // FILTER_H

@@ -127,11 +127,11 @@ namespace Database
 
             private:
                 // IFilterVisitor interface
-                void visit(FilterEmpty *) override
+                void visit(EmptyFilter *) override
                 {
                 }
 
-                void visit(FilterDescription* desciption) override
+                void visit(FilterPhotosWithTag* desciption) override
                 {
                     QString result;
 
@@ -145,7 +145,7 @@ namespace Database
                     m_temporary_result = result;
                 }
 
-                void visit(FilterFlags* flags) override
+                void visit(FilterPhotosWithFlags* flags) override
                 {
                     QString result;
 
@@ -157,7 +157,7 @@ namespace Database
                     m_temporary_result = result;
                 }
 
-                void visit(FilterSha256* sha256) override
+                void visit(FilterPhotosWithSha256* sha256) override
                 {
                     assert(sha256->sha256.empty() == false);
                     QString result;
@@ -166,6 +166,20 @@ namespace Database
                     result += " WHERE " TAB_HASHES ".hash = '%1'";
 
                     result = result.arg(sha256->sha256.c_str());
+
+                    m_temporary_result = result;
+                }
+
+                virtual void visit(FilterPhotosWithoutTag* filter)
+                {
+                    //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
+                    QString result;
+
+                    result =  " WHERE photos_id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS;
+                    result += " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) ";
+                    result += " WHERE " TAB_TAG_NAMES ".name = '%1')";
+
+                    result = result.arg(filter->tagName);
 
                     m_temporary_result = result;
                 }

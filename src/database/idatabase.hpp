@@ -52,6 +52,9 @@ namespace Database
         typedef int Id;
 
         Task(IDatabaseClient* c, int i): id(i), status(false), client(c) {}
+        Task(const Task &) = default;
+
+        Task& operator=(const Task &) = default;
 
         void setStatus(bool s) { status = s; }
 
@@ -67,23 +70,6 @@ namespace Database
             IDatabaseClient* client;
     };
 
-
-    //Database client.
-    //Prepared for database clients.
-    //Set of functions called when particalar task is finished
-    struct IDatabaseClient
-    {
-        virtual ~IDatabaseClient() {}
-
-        virtual void got_storeStatus(const Task &) = 0;
-
-        virtual void got_listTags(const Task &, const std::deque<TagNameInfo> &) = 0;
-        virtual void got_listTagValues(const Task &, const TagValue &) = 0;
-        virtual void got_getAllPhotos(const Task &, const IPhotoInfo::List &) = 0;
-        virtual void got_getPhotos(const Task &, const IPhotoInfo::List &) = 0;
-        virtual void got_getPhoto(const Task &, const IPhotoInfo::Ptr &) = 0;
-    };
-
     //set of signals emitted when database changes or when tasks are being executed
     class ADatabaseSignals: public QObject
     {
@@ -92,9 +78,48 @@ namespace Database
         signals:
             void photoAdded(const IPhotoInfo::Ptr &);     //emited when new photo added
             void photoModified(const IPhotoInfo::Ptr &);  //emited when photo updated
+    };
 
-            void beforeTaskExecution(const Task::Id &);   //emited before task execution
-            void afterTaskExecution(const Task::Id &);    //emited after task execution
+    struct IStorePhotoTask
+    {
+        virtual ~IStorePhotoTask() {}
+
+        virtual void got(bool) = 0;
+    };
+
+    struct IListTagsTask
+    {
+        virtual ~IListTagsTask() {}
+
+        virtual void got(const std::deque<TagNameInfo> &) = 0;
+    };
+
+    struct IListTagValuesTask
+    {
+        virtual ~IListTagValuesTask() {}
+
+        virtual void got(const TagValue &) = 0;
+    };
+
+    struct IGetPhotosTask
+    {
+        virtual ~IGetPhotosTask() {}
+
+        virtual void got(const IPhotoInfo::List &) = 0;
+    };
+
+    struct IGetPhotoTask
+    {
+        virtual ~IGetPhotoTask() {}
+
+        virtual void got(const IPhotoInfo::Ptr &) = 0;
+    };
+
+    struct IInitTask
+    {
+        virtual ~IInitTask() {}
+
+        virtual void got(bool) = 0;
     };
 
     //Database interface.
@@ -103,23 +128,22 @@ namespace Database
     {
         virtual ~IDatabase() {}
 
-        virtual Task prepareTask(IDatabaseClient *) = 0;
         virtual ADatabaseSignals* notifier() = 0;
 
         //store data
-        virtual void addPath(const Task &, const QString &) = 0;
-        virtual void update(const Task &, const IPhotoInfo::Ptr &) = 0;
+        virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const QString &) = 0;
+        virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
 
         //read data
-        virtual void listTags(const Task &) = 0;                                     //list all stored tag names
-        virtual void listTagValues(const Task &, const TagNameInfo &) = 0;           //list all values of provided tag
-        virtual void listTagValues(const Task &, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
-        virtual void getAllPhotos(const Task &) = 0;                                 //list all photos
-        virtual void getPhotos(const Task &, const std::deque<IFilter::Ptr> &) = 0;  //list all photos matching filter
-        virtual void getPhoto(const Task &, const IPhotoInfo::Id &) = 0;             //get particulat photo
+        virtual void exec(std::unique_ptr<IListTagsTask> &&) = 0;                                     //list all stored tag names
+        virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &) = 0;           //list all values of provided tag
+        virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
+        virtual void exec(std::unique_ptr<IGetPhotosTask> &&) = 0;                                        //list all photos
+        virtual void exec(std::unique_ptr<IGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
+        virtual void exec(std::unique_ptr<IGetPhotoTask> &&, const IPhotoInfo::Id &) = 0;                 //get particulat photo
 
         //init backend - connect to database or create new one
-        virtual bool init(const Database::Task &, const Database::ProjectInfo &) = 0;
+        virtual bool exec(std::unique_ptr<IInitTask> &&, const Database::ProjectInfo &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

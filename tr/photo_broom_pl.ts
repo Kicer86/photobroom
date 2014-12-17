@@ -30,6 +30,14 @@
     </message>
 </context>
 <context>
+    <name>IdxDataManager</name>
+    <message>
+        <location filename="../src/gui/Qt5/model_view/model_helpers/idx_data_manager.cpp" line="728"/>
+        <source>Unlabeled</source>
+        <translation>Nieopisane</translation>
+    </message>
+</context>
+<context>
     <name>LevelEditor</name>
     <message>
         <location filename="../src/gui/Qt5/components/filters_editor/level_editor.cpp" line="205"/>
@@ -216,7 +224,7 @@
 <context>
     <name>StagedPhotosWidget</name>
     <message>
-        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="36"/>
+        <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="34"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
