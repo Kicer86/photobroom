@@ -55,6 +55,23 @@ namespace
         QModelIndex m_parent;
     };
 
+    struct GetNonmatchingPhotosTask: Database::IGetPhotosTask
+    {
+        GetNonmatchingPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
+        virtual ~GetNonmatchingPhotosTask() {}
+
+        GetNonmatchingPhotosTask& operator=(const GetNonmatchingPhotosTask &) = delete;
+
+        virtual void got(const IPhotoInfo::List& photos)
+        {
+            m_tasks_result->gotNonmatchingPhotosForParent(this, photos);
+        }
+
+        ITasksResults* m_tasks_result;
+        QModelIndex m_parent;
+    };
+
     struct ListTagValuesTask: Database::IListTagValuesTask
     {
         ListTagValuesTask(ITasksResults* tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
@@ -343,6 +360,29 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
 }
 
 
+// function checks if there are photos which do not have tags required by particular parent in data model
+void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& _parent)
+{
+    std::deque<Database::IFilter::Ptr> filter;
+
+    //build filters for all parent nodes but last one
+    if (_parent.isValid())   // do not enter here if there are no parent above '_parent'
+    {
+        QModelIndex grandParent = _parent.parent();
+
+        buildFilterFor(grandParent, &filter);
+    }
+
+    buildExtraFilters(&filter);
+
+    //prepare task and store it in local list
+    std::unique_ptr<Database::IGetPhotosTask> task(new GetNonmatchingPhotosTask(this, _parent));
+
+    //send task to execution
+    m_data->m_database->exec(std::move(task), filter);
+}
+
+
 void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
@@ -368,8 +408,11 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
 
-    if (level < m_data->m_hierarchy.levels.size())        //construct nodes basing on tags
+    if (level < m_data->m_hierarchy.levels.size())         //construct nodes basing on tags
+    {
         fetchTagValuesFor(level, _parent);
+        checkForNonmatchingPhotos(level, _parent);
+    }
     else if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
         fetchPhotosFor(_parent);
     else
@@ -395,6 +438,20 @@ void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IP
 
     //attach nodes to parent node in main thread
     emit nodesFetched(parentIdxData, leafs);
+}
+
+
+//called when we look for photos which do not have tag required by particular parent
+void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
+{
+    if (photos.empty() == false)  //there is at least one such a photo? Create extra node
+    {
+        GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
+        QModelIndex _parentIndex = l_task->m_parent;
+        IdxData* _parent = getParentIdxDataFor(_parentIndex);
+
+        addUniversalNodeToParent(_parent);
+    }
 }
 
 
@@ -594,19 +651,9 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
 IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
-    IdxData* node = new IdxData(this, _parent, tr("Nonmatching"));
+    IdxData* universalNode = addUniversalNodeToParent(_parent);
 
-    const size_t level = _parent->m_level;
-    const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
-
-    auto filter = std::make_shared<Database::FilterPhotosWithoutTag>();
-    filter->tagName = tagName;
-
-    node->setNodeFilter(filter);
-
-    appendIdxData(_parent, {node} );
-
-    return node;
+    return universalNode;
 }
 
 
@@ -673,6 +720,24 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
     to->addChild(photoIdxData);
 
     m_data->m_model->endInsertRows();
+}
+
+
+IdxData* IdxDataManager::addUniversalNodeToParent(IdxData* _parent)
+{
+    IdxData* node = new IdxData(this, _parent, tr("Nonmatching"));
+
+    const size_t level = _parent->m_level;
+    const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithoutTag>();
+    filter->tagName = tagName;
+
+    node->setNodeFilter(filter);
+
+    appendIdxData(_parent, {node} );
+
+    return node;
 }
 
 

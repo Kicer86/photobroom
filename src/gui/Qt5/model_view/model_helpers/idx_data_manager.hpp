@@ -33,6 +33,7 @@ struct ITasksResults
     virtual ~ITasksResults() {}
 
     virtual void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
+    virtual void gotNonmatchingPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
     virtual void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) = 0;
 };
 
@@ -98,13 +99,15 @@ private:
 
     void fetchTagValuesFor(size_t level, const QModelIndex& _parent);
     void fetchPhotosFor(const QModelIndex &);
-    
+    void checkForNonmatchingPhotos(size_t level, const QModelIndex& _parent);
+
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
 
     // database notifications:
     void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
+    void gotNonmatchingPhotosForParent(Database::IGetPhotosTask*, const IPhotoInfo::List& photos) override;
     void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) override;
     //
 
@@ -127,6 +130,8 @@ private:
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
+
+    IdxData* addUniversalNodeToParent(IdxData *);                                //adds node for photos without tag required by particular parent
 
 signals:
     void idxDataLoaded(IdxData *);
