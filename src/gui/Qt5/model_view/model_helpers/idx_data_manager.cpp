@@ -48,7 +48,7 @@ namespace
 
         virtual void got(const IPhotoInfo::List& photos)
         {
-            m_tasks_result->got_getPhotos(this, photos);
+            m_tasks_result->gotPhotosForParent(this, photos);
         }
 
         ITasksResults* m_tasks_result;
@@ -65,7 +65,7 @@ namespace
 
         virtual void got(const TagValue& values)
         {
-            m_tasks_result->got_listTagValues(this, values);
+            m_tasks_result->gotTagValuesForParent(this, values);
         }
 
         ITasksResults* m_tasks_result;
@@ -380,7 +380,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
 
 //called when leafs for particual node have been loaded
-void IdxDataManager::got_getPhotos(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
     IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
@@ -399,7 +399,7 @@ void IdxDataManager::got_getPhotos(Database::IGetPhotosTask* task, const IPhotoI
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::got_listTagValues(Database::IListTagValuesTask* task, const TagValue& tags)
+void IdxDataManager::gotTagValuesForParent(Database::IListTagValuesTask* task, const TagValue& tags)
 {
     ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 

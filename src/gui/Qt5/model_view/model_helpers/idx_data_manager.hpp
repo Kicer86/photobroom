@@ -32,8 +32,8 @@ struct ITasksResults
 {
     virtual ~ITasksResults() {}
 
-    virtual void got_getPhotos(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
-    virtual void got_listTagValues(Database::IListTagValuesTask *, const TagValue& tags) = 0;
+    virtual void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
+    virtual void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) = 0;
 };
 
 
@@ -104,8 +104,8 @@ private:
     void fetchData(const QModelIndex &);
 
     // database notifications:
-    void got_getPhotos(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
-    void got_listTagValues(Database::IListTagValuesTask *, const TagValue& tags) override;
+    void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
+    void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) override;
     //
 
     void markIdxDataFetched(IdxData *);
