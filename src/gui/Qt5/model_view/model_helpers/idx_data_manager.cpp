@@ -725,7 +725,7 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 
 IdxData* IdxDataManager::addUniversalNodeToParent(IdxData* _parent)
 {
-    IdxData* node = new IdxData(this, _parent, tr("Nonmatching"));
+    IdxData* node = new IdxData(this, _parent, tr("Unlabeled"));
 
     const size_t level = _parent->m_level;
     const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
