@@ -96,9 +96,9 @@ private:
             action(child);
     }
 
-    //function returns list of tags on particular 'level' for 'parent'
     void fetchTagValuesFor(size_t level, const QModelIndex& _parent);
     void fetchPhotosFor(const QModelIndex &);
+    
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
