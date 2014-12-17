@@ -37,7 +37,7 @@ struct ITasksResults
 };
 
 
-class IdxDataManager: public QObject, public ITasksResults
+class IdxDataManager: public QObject, private ITasksResults
 {
 public:
     struct DatabaseTaskHash
