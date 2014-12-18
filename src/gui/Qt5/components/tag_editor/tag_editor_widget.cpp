@@ -59,7 +59,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     l->addLayout(hl);
 
     connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
-    connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addButtonPressed));
+    connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addButtonPressed()));
 
     //initial refresh
     refreshTagNamesList(false);
