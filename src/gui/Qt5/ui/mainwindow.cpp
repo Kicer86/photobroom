@@ -149,7 +149,7 @@ void MainWindow::updateMenus()
 void MainWindow::updateGui()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = "Photo broom: " + (prj? m_currentPrj->getName(): "No album opened");
+    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No album opened"));
 
     setWindowTitle(title);
 }
