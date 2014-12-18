@@ -21,6 +21,9 @@
 #include "tag_editor_widget.hpp"
 
 #include <QVBoxLayout>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
 
 #include "helpers/tags_view.hpp"
 #include "helpers/tags_model.hpp"
@@ -30,16 +33,28 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QWidget(p, f),
     m_view(nullptr),
     m_model(nullptr),
-    m_tagsOperator()
+    m_tagsOperator(),
+    m_tagName(nullptr),
+    m_tagValue(nullptr),
+    m_addButton(nullptr)
 {
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
-    QVBoxLayout* l = new QVBoxLayout(this);
+    m_tagName = new QComboBox(this);
+    m_tagValue = new QLineEdit(this);
+    m_addButton = new QPushButton(QIcon(":/gui/add-img.svg"), "", this);
 
-    l->addWidget(m_view);
     m_view->setModel(m_model);
-
     m_model->set(&m_tagsOperator);
+
+    QHBoxLayout* hl = new QHBoxLayout;
+    hl->addWidget(m_tagName);
+    hl->addWidget(m_tagValue);
+    hl->addWidget(m_addButton);
+
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(m_view);
+    l->addLayout(hl);
 }
 
 

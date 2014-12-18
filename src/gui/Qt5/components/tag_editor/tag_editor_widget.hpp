@@ -26,6 +26,9 @@
 #include "helpers/tags_operator.hpp"
 
 class QItemSelectionModel;
+class QComboBox;
+class QLineEdit;
+class QPushButton;
 
 class TagsView;
 class TagsModel;
@@ -47,6 +50,9 @@ class TagEditorWidget: public QWidget
         TagsView* m_view;
         TagsModel* m_model;
         TagsOperator m_tagsOperator;
+        QComboBox* m_tagName;
+        QLineEdit* m_tagValue;
+        QPushButton* m_addButton;
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP
