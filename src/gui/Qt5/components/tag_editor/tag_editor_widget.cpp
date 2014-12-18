@@ -89,13 +89,12 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
     bool enable_gui = selection;
 
     m_tagName->clear();
+    m_tags.clear();
 
     if (selection)
     {
         const auto all_tags = BaseTags::getAll();
         const auto photos_tags = m_model->getTags();
-
-        QStringList tags;
 
         //remove used tags from list of all tags
         for(const TagNameInfo& info: all_tags)
@@ -103,11 +102,14 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
             const auto it = photos_tags.find(info);
 
             if (it == photos_tags.end())    //not used?
-                tags.append(info.getName());
+            {
+                const int idx = m_tags.size();
+                m_tags.push_back(info);
+                m_tagName->addItem(info.getName(), idx);
+            }
         }
 
-        m_tagName->addItems(tags);
-        enable_gui = tags.isEmpty() == false;
+        enable_gui = m_tags.empty() == false;
     }
 
     m_tagName->setEnabled(enable_gui);
@@ -118,5 +120,12 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
 
 void TagEditorWidget::addButtonPressed()
 {
+    const int idx = m_tagName->currentIndex();
 
+    assert(idx < m_tags.size());
+
+    const TagNameInfo& name = m_tags[idx];
+    const QString value = m_tagValue->text();
+
+    m_model->addTag(name, value);
 }

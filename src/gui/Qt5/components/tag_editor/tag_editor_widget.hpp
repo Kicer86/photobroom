@@ -56,6 +56,8 @@ class TagEditorWidget: public QWidget
         QLineEdit* m_tagValue;
         QPushButton* m_addButton;
 
+        std::vector<TagNameInfo> m_tags;
+
     private slots:
         void refreshTagNamesList(bool);
         void addButtonPressed();
