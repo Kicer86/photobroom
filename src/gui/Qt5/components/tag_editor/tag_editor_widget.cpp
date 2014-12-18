@@ -59,6 +59,10 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     l->addLayout(hl);
 
     connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
+    connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addButtonPressed));
+
+    //initial refresh
+    refreshTagNamesList(false);
 }
 
 
@@ -82,8 +86,10 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 
 void TagEditorWidget::refreshTagNamesList(bool selection)
 {
+    bool enable_gui = selection;
+
     m_tagName->clear();
-    
+
     if (selection)
     {
         const auto all_tags = BaseTags::getAll();
@@ -101,5 +107,16 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
         }
 
         m_tagName->addItems(tags);
+        enable_gui = tags.isEmpty() == false;
     }
+
+    m_tagName->setEnabled(enable_gui);
+    m_tagValue->setEnabled(enable_gui);
+    m_addButton->setEnabled(enable_gui);
+}
+
+
+void TagEditorWidget::addButtonPressed()
+{
+
 }
