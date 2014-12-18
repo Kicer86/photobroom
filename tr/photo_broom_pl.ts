@@ -64,6 +64,16 @@
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="152"/>
+        <source>Photo broom: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="152"/>
+        <source>No album opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="32"/>
         <source>Album</source>
         <translation>Album</translation>
