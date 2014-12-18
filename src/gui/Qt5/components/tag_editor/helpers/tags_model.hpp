@@ -45,6 +45,9 @@ class TagsModel: public QStandardItemModel
 
         TagsModel& operator=(const TagsModel &) = delete;
 
+        Tag::TagsList getTags() const;
+        void addTag(const TagNameInfo &, const QString &);
+
     private:
         QItemSelectionModel* m_selectionModel;
         DBDataModel* m_dbDataModel;
@@ -57,6 +60,9 @@ class TagsModel: public QStandardItemModel
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
         void updateData(const QModelIndex &, const QModelIndex &);
+
+    signals:
+        void modelChanged(bool);
 };
 
 #endif // TAGSMODEL_HPP

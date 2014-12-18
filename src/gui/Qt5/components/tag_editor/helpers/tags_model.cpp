@@ -76,6 +76,20 @@ void TagsModel::set(ITagsOperator* tagsOperator)
 }
 
 
+Tag::TagsList TagsModel::getTags() const
+{
+    return m_tagsOperator->getTags();
+}
+
+
+void TagsModel::addTag(const TagNameInfo& info, const QString& value)
+{
+    m_tagsOperator->setTag(info, TagValue( {value} ));
+
+    refreshModel();
+}
+
+
 void TagsModel::refreshModel()
 {
     if (m_dbDataModel != nullptr && m_selectionModel != nullptr)
@@ -85,7 +99,7 @@ void TagsModel::refreshModel()
         std::vector<IPhotoInfo::Ptr> photos = getPhotosForSelection();
         m_tagsOperator->operateOn(photos);
 
-        Tag::TagsList tags = m_tagsOperator->getTags();
+        Tag::TagsList tags = getTags();
 
         for (const auto& tag: tags)
         {
@@ -96,6 +110,8 @@ void TagsModel::refreshModel()
             const QList<QStandardItem *> items( { name, value });
             appendRow(items);
         }
+
+        emit modelChanged(photos.empty() == false);
     }
 }
 

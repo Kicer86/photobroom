@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/gui">
-        <file>../images/add.svg</file>
+        <file alias="add-img.svg">../images/add.svg</file>
         <file>../../../images/main_ico.svg</file>
     </qresource>
 </RCC>

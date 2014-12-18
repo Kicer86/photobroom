@@ -26,6 +26,9 @@
 #include "helpers/tags_operator.hpp"
 
 class QItemSelectionModel;
+class QComboBox;
+class QLineEdit;
+class QPushButton;
 
 class TagsView;
 class TagsModel;
@@ -33,6 +36,8 @@ class DBDataModel;
 
 class TagEditorWidget: public QWidget
 {
+        Q_OBJECT
+
     public:
         explicit TagEditorWidget(QWidget * = 0, Qt::WindowFlags = 0);
         virtual ~TagEditorWidget();
@@ -47,6 +52,15 @@ class TagEditorWidget: public QWidget
         TagsView* m_view;
         TagsModel* m_model;
         TagsOperator m_tagsOperator;
+        QComboBox* m_tagName;
+        QLineEdit* m_tagValue;
+        QPushButton* m_addButton;
+
+        std::vector<TagNameInfo> m_tags;
+
+    private slots:
+        void refreshTagNamesList(bool);
+        void addButtonPressed();
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP
