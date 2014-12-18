@@ -242,12 +242,12 @@
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_model.cpp" line="106"/>
+        <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_model.cpp" line="122"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_model.cpp" line="106"/>
+        <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_model.cpp" line="122"/>
         <source>Value</source>
         <translation>Wartość</translation>
     </message>
