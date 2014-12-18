@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     setupView();
     createMenus();
     updateMenus();
+    updateGui();
 }
 
 
@@ -95,6 +96,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     }
 
     updateMenus();
+    updateGui();
 }
 
 
@@ -141,6 +143,15 @@ void MainWindow::updateMenus()
 
     ui->menuPhotos->menuAction()->setVisible(prj);
     ui->menuWindows->menuAction()->setVisible(prj);
+}
+
+
+void MainWindow::updateGui()
+{
+    const bool prj = m_currentPrj.get() != nullptr;
+    const QString title = "Photo broom: " + (prj? m_currentPrj->getName(): "No album opened");
+
+    setWindowTitle(title);
 }
 
 

@@ -55,6 +55,7 @@ class MainWindow final: public QMainWindow
         void setupView();
         void createMenus();
         void updateMenus();
+        void updateGui();
         void viewChanged();
 
     private slots:
