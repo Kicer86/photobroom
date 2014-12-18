@@ -5,13 +5,13 @@
 #include <QStringList>
 
 
-TagNameInfo::TagNameInfo(const QString& n, const Type t, char s): name(n), type(t), separator(s)
+TagNameInfo::TagNameInfo(const QString& n, const Type t, const QString& s): name(n), type(t), separator(s)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const QString& n, int t, char s): TagNameInfo(n, Type(t), s)
+TagNameInfo::TagNameInfo(const QString& n, int t, const QString& s): TagNameInfo(n, Type(t), s)
 {
 
 }
@@ -63,7 +63,7 @@ const QString& TagNameInfo::getName() const
 }
 
 
-char TagNameInfo::getSeparator() const
+const QString& TagNameInfo::getSeparator() const
 {
     return separator;
 }

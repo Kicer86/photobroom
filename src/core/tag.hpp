@@ -24,8 +24,8 @@ struct CORE_EXPORT TagNameInfo
             Time    = 3,
         };
 
-        TagNameInfo(const QString& name, const Type , char searator = ';');
-        TagNameInfo(const QString& name, int type, char separator = ';');
+        TagNameInfo(const QString& name, const Type , const QString& searator = ";");
+        TagNameInfo(const QString& name, int type, const QString& separator = ";");
         TagNameInfo(const TagNameInfo& other);
 
         operator QString() const;
@@ -34,13 +34,13 @@ struct CORE_EXPORT TagNameInfo
         TagNameInfo& operator=(const TagNameInfo& other);
 
         const QString& getName() const;
-        char getSeparator() const;
+        const QString& getSeparator() const;
         Type getType() const;
 
     private:
         QString name;
         Type type;
-        char separator;
+        QString separator;
 };
 
 
