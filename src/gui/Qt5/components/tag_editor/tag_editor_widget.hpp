@@ -36,6 +36,8 @@ class DBDataModel;
 
 class TagEditorWidget: public QWidget
 {
+        Q_OBJECT
+
     public:
         explicit TagEditorWidget(QWidget * = 0, Qt::WindowFlags = 0);
         virtual ~TagEditorWidget();
@@ -53,6 +55,9 @@ class TagEditorWidget: public QWidget
         QComboBox* m_tagName;
         QLineEdit* m_tagValue;
         QPushButton* m_addButton;
+
+    private slots:
+        void refreshTagNamesList(bool);
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP

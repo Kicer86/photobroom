@@ -25,6 +25,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include <core/base_tags.hpp>
+
 #include "helpers/tags_view.hpp"
 #include "helpers/tags_model.hpp"
 
@@ -55,6 +57,8 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_view);
     l->addLayout(hl);
+
+    connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
 }
 
 
@@ -73,4 +77,29 @@ void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 void TagEditorWidget::set(DBDataModel* dbDataModel)
 {
     m_model->set(dbDataModel);
+}
+
+
+void TagEditorWidget::refreshTagNamesList(bool selection)
+{
+    m_tagName->clear();
+    
+    if (selection)
+    {
+        const auto all_tags = BaseTags::getAll();
+        const auto photos_tags = m_model->getTags();
+
+        QStringList tags;
+
+        //remove used tags from list of all tags
+        for(const TagNameInfo& info: all_tags)
+        {
+            const auto it = photos_tags.find(info);
+
+            if (it == photos_tags.end())    //not used?
+                tags.append(info.getName());
+        }
+
+        m_tagName->addItems(tags);
+    }
 }
