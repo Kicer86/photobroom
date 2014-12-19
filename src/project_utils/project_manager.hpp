@@ -59,6 +59,8 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         QString getPrjStorage() const;
         ProjectInfo get(const QString& id) const;
         QString getUniqueId() const;
+
+        void initNewProjectDatabase(const ProjectInfo &);
 };
 
 #endif // PROJECTMANAGER_HPP
