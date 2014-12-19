@@ -231,37 +231,37 @@
     <message>
         <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_operator.cpp" line="61"/>
         <source>&lt;multiple values&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;różne wartości&gt;</translation>
     </message>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
         <source>People</source>
         <comment>Default Tag Name</comment>
-        <translation type="unfinished">Osoby</translation>
+        <translation>Osoby</translation>
     </message>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
         <source>Place</source>
         <comment>Default Tag Name</comment>
-        <translation type="unfinished">Miejsce</translation>
+        <translation>Miejsce</translation>
     </message>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="31"/>
         <source>Date</source>
         <comment>Default Tag Name</comment>
-        <translation type="unfinished">Data</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="32"/>
         <source>Time</source>
         <comment>Default Tag Name</comment>
-        <translation type="unfinished">Godzina</translation>
+        <translation>Godzina</translation>
     </message>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="33"/>
         <source>Event</source>
         <comment>Default Tag Name</comment>
-        <translation type="unfinished">Wydarzenie</translation>
+        <translation>Wydarzenie</translation>
     </message>
 </context>
 <context>
