@@ -232,6 +232,14 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_operator.cpp" line="61"/>
+        <source>&lt;multiple values&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StagedPhotosWidget</name>
     <message>
         <location filename="../src/gui/Qt5/components/staged_photos_widget.cpp" line="34"/>
