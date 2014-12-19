@@ -103,7 +103,7 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 
     if (it != tagsList.end())
     {
-        const std::set<QString>& vals = it->second.getValues();
+        const std::set<QString>& vals = it->second.getAll();
 
         result = vals.find(filter->tagValue) != vals.end();
     }

@@ -98,7 +98,7 @@ namespace Database
     {
         virtual ~IListTagValuesTask() {}
 
-        virtual void got(const TagValue &) = 0;
+        virtual void got(const TagValue::List &) = 0;
     };
 
     struct IGetPhotosTask

@@ -1,3 +1,4 @@
+
 /*
  * Tags operator
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
@@ -18,6 +19,8 @@
  */
 
 #include "tags_operator.hpp"
+
+#include <QObject>
 
 
 TagsOperator::TagsOperator(): m_tagUpdaters()
@@ -53,9 +56,9 @@ Tag::TagsList TagsOperator::getTags() const
                 Tag::Info info_it(it);
                 Tag::Info info_f_it(f_it);
 
-                if (info_it.valuesString() != info_f_it.valuesString())
+                if (info_it.value() != info_f_it.value())
                 {
-                    TagValue new_value( { "<multiple values>" } );
+                    TagValue new_value( { QObject::tr("<multiple values>") } );
                     f_it->second = new_value;
                 }
             }
@@ -82,7 +85,7 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagsOperator::updateTag(const QString& name, const QString& rawList)
+void TagsOperator::updateTag(const QString& name, const QString& value)
 {
     //find tag for given name
     Tag::TagsList tags = getTags();
@@ -92,10 +95,13 @@ void TagsOperator::updateTag(const QString& name, const QString& rawList)
     {
         if (info.name() == name)
         {
-            const bool differs = info.setRawValues(rawList);
+            const bool differs = info.value() != value;
 
             if (differs)
-                setTag(info.getTypeInfo(), info.values());
+            {
+                info.setValue(value);
+                setTag(info.getTypeInfo(), info.value());
+            }
 
             updated = true;
             break;

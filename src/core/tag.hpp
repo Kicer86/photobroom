@@ -4,7 +4,7 @@
 
 #include <assert.h>
 
-#include <vector>
+#include <deque>
 #include <map>
 #include <set>
 #include <memory>
@@ -24,8 +24,8 @@ struct CORE_EXPORT TagNameInfo
             Time    = 3,
         };
 
-        TagNameInfo(const QString& name, const Type , const QString& searator = ";");
-        TagNameInfo(const QString& name, int type, const QString& separator = ";");
+        TagNameInfo(const QString& name, const Type);
+        TagNameInfo(const QString& name, int type);
         TagNameInfo(const TagNameInfo& other);
 
         operator QString() const;
@@ -34,34 +34,34 @@ struct CORE_EXPORT TagNameInfo
         TagNameInfo& operator=(const TagNameInfo& other);
 
         const QString& getName() const;
-        const QString& getSeparator() const;
         Type getType() const;
 
     private:
         QString name;
         Type type;
-        QString separator;
 };
 
 
 class CORE_EXPORT TagValue
 {
     public:
+        typedef std::set<QString> List;
+
         TagValue();
-        TagValue(const std::initializer_list<QString> &);
+        TagValue(const QString &);
         ~TagValue();
 
-        void setValue(const QString &);
-        void setValues(const std::set<QString> &);
-        void addValue(const QString &);
+        void set(const QString &);
+        void add(const QString &);
 
-        const std::set<QString>& getValues() const;
+        const QString get() const;
+        const List& getAll() const;
 
-        std::set<QString>::const_iterator begin() const;
-        std::set<QString>::const_iterator end() const;
+        bool operator==(const TagValue &) const;
+        bool operator!=(const TagValue &) const;
 
     private:
-        std::set<QString> m_values;
+        List m_values;
 };
 
 
@@ -78,14 +78,13 @@ namespace Tag
 
             QString name() const;
             TagNameInfo getTypeInfo() const;
-            const TagValue& values() const;
-            QString valuesString() const;
+            const TagValue& value() const;
 
-            bool setRawValues(const QString &);
+            void setValue(const QString &);
 
         private:
             TagNameInfo m_name;
-            TagValue m_values;
+            TagValue m_value;
     };
 
 }

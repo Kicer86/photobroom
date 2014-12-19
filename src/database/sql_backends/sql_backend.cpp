@@ -287,8 +287,8 @@ namespace Database
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
             std::deque<TagNameInfo> listTags() const;
-            TagValue listTagValues(const TagNameInfo& tagName);
-            TagValue listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            TagValue::List listTagValues(const TagNameInfo& tagName);
+            TagValue::List listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr>& filter);
 
         private:
@@ -436,11 +436,11 @@ namespace Database
     }
 
 
-    TagValue ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
+    TagValue::List ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
     {
         const Optional<unsigned int> tagId = findTagByName(tagName);
 
-        TagValue result;
+        TagValue::List result;
 
         if (tagId)
         {
@@ -455,7 +455,7 @@ namespace Database
             {
                 const QString value = query.value(0).toString();
 
-                result.addValue(value);
+                result.insert(value);
             }
         }
 
@@ -463,7 +463,7 @@ namespace Database
     }
 
 
-    TagValue ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    TagValue::List ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
         const QString filterQuery = generateFilterQuery(filter);
 
@@ -478,7 +478,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        TagValue result;
+        TagValue::List result;
         const bool status = exec(queryStr, &query);
 
         if (status)
@@ -486,7 +486,7 @@ namespace Database
             {
                 const QString value = query.value(0).toString();
 
-                result.addValue(value);
+                result.insert(value);
             }
 
         return result;
@@ -586,7 +586,7 @@ namespace Database
                 //store tag values
                 const TagValue& values = it->second;
 
-                for (const QString& valueInfo: values)
+                for (const QString& valueInfo: values.getAll())
                 {
                     const QString query_str =
                         QString("INSERT INTO " TAB_TAGS
@@ -1074,9 +1074,9 @@ namespace Database
     }
 
 
-    TagValue ASqlBackend::listTagValues(const TagNameInfo& tagName)
+    TagValue::List ASqlBackend::listTagValues(const TagNameInfo& tagName)
     {
-        TagValue result;
+        TagValue::List result;
 
         if (m_data)
             result = m_data->listTagValues(tagName);
@@ -1087,9 +1087,9 @@ namespace Database
     }
 
 
-    TagValue ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    TagValue::List ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        const TagValue result = m_data->listTagValues(tagName, filter);
+        const TagValue::List result = m_data->listTagValues(tagName, filter);
 
         return result;
     }

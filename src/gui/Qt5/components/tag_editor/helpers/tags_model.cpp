@@ -105,7 +105,7 @@ void TagsModel::refreshModel()
         {
             Tag::Info info(tag);
             QStandardItem* name = new QStandardItem(info.name());
-            QStandardItem* value = new QStandardItem(info.valuesString());
+            QStandardItem* value = new QStandardItem(info.value().get());
 
             const QList<QStandardItem *> items( { name, value });
             appendRow(items);
