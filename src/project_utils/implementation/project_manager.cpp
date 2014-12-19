@@ -175,7 +175,7 @@ bool ProjectManager::remove(const ProjectInfo& name)
 }
 
 
-QString ProjectManager::getPrjStorage()
+QString ProjectManager::getPrjStorage() const
 {
     QString result;
     auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
@@ -197,7 +197,7 @@ QString ProjectManager::getPrjStorage()
 }
 
 
-ProjectInfo ProjectManager::get(const QString& id)
+ProjectInfo ProjectManager::get(const QString& id) const
 {
     const QString prjs = getPrjStorage();
     QDir storageDir(prjs);
@@ -221,7 +221,7 @@ ProjectInfo ProjectManager::get(const QString& id)
 }
 
 
-QString ProjectManager::getUniqueId()
+QString ProjectManager::getUniqueId() const
 {
     const QString prjs = getPrjStorage();
     QDir storageDir(prjs);
