@@ -40,8 +40,6 @@ namespace
     const char DefaultTags::tag_date[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Date");
     const char DefaultTags::tag_time[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Time");
     const char DefaultTags::tag_event[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Event");
-
-    const std::vector<const char *> DefaultTags::tags_list( { tag_people, tag_place, tag_date, tag_event });
 }
 
 
