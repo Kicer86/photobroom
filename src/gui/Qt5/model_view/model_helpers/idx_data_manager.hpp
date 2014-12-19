@@ -34,7 +34,7 @@ struct ITasksResults
 
     virtual void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
     virtual void gotNonmatchingPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
-    virtual void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) = 0;
+    virtual void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue::List& tags) = 0;
 };
 
 
@@ -108,7 +108,7 @@ private:
     // database notifications:
     void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
     void gotNonmatchingPhotosForParent(Database::IGetPhotosTask*, const IPhotoInfo::List& photos) override;
-    void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue& tags) override;
+    void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue::List& tags) override;
     //
 
     void markIdxDataFetched(IdxData *);

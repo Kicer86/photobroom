@@ -5,19 +5,19 @@
 #include <QStringList>
 
 
-TagNameInfo::TagNameInfo(const QString& n, const Type t, char s): name(n), type(t), separator(s)
+TagNameInfo::TagNameInfo(const QString& n, const Type t): name(n), type(t)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const QString& n, int t, char s): TagNameInfo(n, Type(t), s)
+TagNameInfo::TagNameInfo(const QString& n, int t): TagNameInfo(n, Type(t))
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const TagNameInfo& other): name(other.name), type(other.type), separator(other.separator)
+TagNameInfo::TagNameInfo(const TagNameInfo& other): name(other.name), type(other.type)
 {
 
 }
@@ -32,8 +32,6 @@ TagNameInfo::operator QString() const
 bool TagNameInfo::operator==(const TagNameInfo& other) const
 {
     const bool result = name == other.name;
-
-    assert(result == false || separator == other.separator);  //if result is true, then separators must be equal
 
     return result;
 }
@@ -50,7 +48,6 @@ bool TagNameInfo::operator<(const TagNameInfo& other) const
 TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 {
     name = other.name;
-    separator = other.separator;
     type = other.type;
 
     return *this;
@@ -60,12 +57,6 @@ TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 const QString& TagNameInfo::getName() const
 {
     return name;
-}
-
-
-char TagNameInfo::getSeparator() const
-{
-    return separator;
 }
 
 
@@ -84,9 +75,8 @@ TagValue::TagValue(): m_values()
 }
 
 
-TagValue::TagValue(const std::initializer_list<QString>& values): m_values()
+TagValue::TagValue(const QString& value): m_values( {value} )
 {
-    m_values = values;
 }
 
 
@@ -96,40 +86,36 @@ TagValue::~TagValue()
 }
 
 
-void TagValue::setValue(const QString& value)
+void TagValue::set(const QString& value)
 {
     m_values.clear();
-    addValue(value);
-}
-
-
-void TagValue::setValues(const std::set<QString>& values)
-{
-    m_values = values;
-}
-
-
-void TagValue::addValue(const QString& value)
-{
     m_values.insert(value);
 }
 
 
-const std::set<QString>& TagValue::getValues() const
+const QString TagValue::get() const
+{
+    const QString r = m_values.empty()? "": *m_values.begin();
+
+    return r;
+}
+
+
+const TagValue::List& TagValue::getAll() const
 {
     return m_values;
 }
 
 
-std::set<QString>::const_iterator TagValue::begin() const
+bool TagValue::operator==(const TagValue& other) const
 {
-    return m_values.begin();
+    return m_values == other.m_values;
 }
 
 
-std::set<QString>::const_iterator TagValue::end() const
+bool TagValue::operator!=(const TagValue& other) const
 {
-    return m_values.end();
+    return m_values != other.m_values;
 }
 
 
@@ -139,13 +125,13 @@ std::set<QString>::const_iterator TagValue::end() const
 namespace Tag
 {
 
-    Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_values(it->second) {}
-    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_values(data.second) {}
+    Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_value(it->second) {}
+    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second) {}
 
     Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
     {
         m_name = data.first;
-        m_values = data.second;
+        m_value = data.second;
 
         return *this;
     }
@@ -160,42 +146,15 @@ namespace Tag
         return m_name;
     }
 
-    const TagValue& Info::values() const
+    const TagValue& Info::value() const
     {
-        return m_values;
-    }
-
-    QString Info::valuesString() const
-    {
-        QString result;
-
-        const auto& v = m_values.getValues();
-        int i = v.size();
-        for(const QString &str: v)
-        {
-            result += str;
-            if (--i > 0)
-                result += m_name.getSeparator() + " ";
-        }
-
-        return result.simplified();
+        return m_value;
     }
 
 
-    bool Info::setRawValues(const QString& rawValues)
+    void Info::setValue(const QString& v)
     {
-        const QStringList splitted = rawValues.split(m_name.getSeparator());
-
-        std::set<QString> valuesSet;
-        for(const QString& value: splitted)
-            valuesSet.insert(value);
-
-        const bool differs = m_values.getValues() != valuesSet;
-
-        if (differs)
-            m_values.setValues(valuesSet);
-
-        return differs;
+        m_value.set(v);
     }
 
 }

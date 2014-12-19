@@ -26,13 +26,27 @@
 #include <QDir>
 
 #include <core/iplugin_loader.hpp>
+#include <core/base_tags.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/constants.hpp>
 #include <database/idatabase_builder.hpp>
 #include <database/project_info.hpp>
+#include <database/idatabase.hpp>
 
 #include "project.hpp"
 
+namespace
+{
+    struct StoreTag: Database::IStoreTagTask
+    {
+        virtual ~StoreTag() {}
+
+        virtual void got(bool status)
+        {
+            assert(status);
+        }
+    };
+}
 
 ProjectManager::ProjectManager(): m_dbBuilder(nullptr), m_configuration(nullptr)
 {
@@ -84,6 +98,8 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     prjFile.endGroup();
 
     const ProjectInfo prjInfo(prjName, prjId);
+
+    initNewProjectDatabase(prjInfo);
 
     return prjInfo;
 }
@@ -175,7 +191,7 @@ bool ProjectManager::remove(const ProjectInfo& name)
 }
 
 
-QString ProjectManager::getPrjStorage()
+QString ProjectManager::getPrjStorage() const
 {
     QString result;
     auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
@@ -197,7 +213,7 @@ QString ProjectManager::getPrjStorage()
 }
 
 
-ProjectInfo ProjectManager::get(const QString& id)
+ProjectInfo ProjectManager::get(const QString& id) const
 {
     const QString prjs = getPrjStorage();
     QDir storageDir(prjs);
@@ -221,7 +237,7 @@ ProjectInfo ProjectManager::get(const QString& id)
 }
 
 
-QString ProjectManager::getUniqueId()
+QString ProjectManager::getUniqueId() const
 {
     const QString prjs = getPrjStorage();
     QDir storageDir(prjs);
@@ -237,4 +253,17 @@ QString ProjectManager::getUniqueId()
     } while (storageDir.exists(result) == true);
 
     return result;
+}
+
+
+void ProjectManager::initNewProjectDatabase(const ProjectInfo& prjInfo)
+{
+    auto prj = open(prjInfo);
+    Database::IDatabase* db = prj->getDatabase();
+
+    for(const TagNameInfo& info: BaseTags::getAll())
+    {
+        std::unique_ptr<Database::IStoreTagTask> task(new StoreTag);
+        db->exec(std::move(task), info);
+    }
 }

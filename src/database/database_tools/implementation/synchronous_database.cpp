@@ -50,7 +50,10 @@ namespace
     struct GetPhotos: Database::IGetPhotosTask
     {
         GetPhotos(DataReceiver* dr): m_dataReceiver(dr) {}
+        GetPhotos(const GetPhotos &) = delete;
         virtual ~GetPhotos(){ }
+
+        GetPhotos& operator=(const GetPhotos &) = delete;
 
         virtual void got(const IPhotoInfo::List& photos) override
         {

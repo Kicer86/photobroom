@@ -80,7 +80,7 @@ namespace
 
         ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
 
-        virtual void got(const TagValue& values)
+        virtual void got(const TagValue::List& values)
         {
             m_tasks_result->gotTagValuesForParent(this, values);
         }
@@ -456,7 +456,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosTask* tas
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(Database::IListTagValuesTask* task, const TagValue& tags)
+void IdxDataManager::gotTagValuesForParent(Database::IListTagValuesTask* task, const TagValue::List& tags)
 {
     ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 
@@ -625,7 +625,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
         //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
         if (photoTagIt != photoTags.end())
         {
-            const auto tagValue = *photoTagIt->second.begin();
+            const auto tagValue = photoTagIt->second.get();
             IdxData* node = new IdxData(this, _parent, tagValue);
 
             auto filter = std::make_shared<Database::FilterPhotosWithTag>();

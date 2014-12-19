@@ -87,6 +87,13 @@ namespace Database
         virtual void got(bool) = 0;
     };
 
+    struct IStoreTagTask
+    {
+        virtual ~IStoreTagTask() {}
+
+        virtual void got(bool) = 0;
+    };
+
     struct IListTagsTask
     {
         virtual ~IListTagsTask() {}
@@ -98,7 +105,7 @@ namespace Database
     {
         virtual ~IListTagValuesTask() {}
 
-        virtual void got(const TagValue &) = 0;
+        virtual void got(const TagValue::List &) = 0;
     };
 
     struct IGetPhotosTask
@@ -133,6 +140,7 @@ namespace Database
         //store data
         virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const QString &) = 0;
         virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
+        virtual void exec(std::unique_ptr<IStoreTagTask> &&, const TagNameInfo &) = 0;
 
         //read data
         virtual void exec(std::unique_ptr<IListTagsTask> &&) = 0;                                     //list all stored tag names

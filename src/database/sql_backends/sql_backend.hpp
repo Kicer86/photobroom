@@ -90,10 +90,11 @@ namespace Database
             virtual bool init(const ProjectInfo &) override final;
             virtual IPhotoInfo::Ptr addPath(const QString &) override final;
             virtual bool update(const IPhotoInfo::Ptr &) override final;
+            virtual bool update(const TagNameInfo &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;
-            virtual TagValue listTagValues(const TagNameInfo&) override final;
-            virtual TagValue listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
+            virtual TagValue::List listTagValues(const TagNameInfo&) override final;
+            virtual TagValue::List listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
             virtual IPhotoInfo::List getAllPhotos() override final;
             virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
             virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) override final;

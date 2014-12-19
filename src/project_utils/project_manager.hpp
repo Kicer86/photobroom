@@ -56,9 +56,11 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         Database::IBuilder* m_dbBuilder;
         IConfiguration* m_configuration;
         
-        QString getPrjStorage();
-        ProjectInfo get(const QString &);
-        QString getUniqueId();
+        QString getPrjStorage() const;
+        ProjectInfo get(const QString& id) const;
+        QString getUniqueId() const;
+
+        void initNewProjectDatabase(const ProjectInfo &);
 };
 
 #endif // PROJECTMANAGER_HPP

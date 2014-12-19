@@ -41,6 +41,7 @@ namespace Database
 
             virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const QString &) override;
             virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
+            virtual void exec(std::unique_ptr<IStoreTagTask>&&, const TagNameInfo&) override;
 
             virtual void exec(std::unique_ptr<IListTagsTask> &&) override;
             virtual void exec(std::unique_ptr<IGetPhotoTask> &&, const IPhotoInfo::Id &) override;

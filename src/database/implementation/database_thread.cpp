@@ -32,6 +32,7 @@ namespace
     struct IThreadVisitor;
     struct InitTask;
     struct InsertTask;
+    struct InsertTagTask;
     struct UpdateTask;
     struct GetAllPhotosTask;
     struct GetPhotoTask;
@@ -58,6 +59,7 @@ namespace
         virtual void visit(InitTask *) = 0;
         virtual void visit(InsertTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
+        virtual void visit(InsertTagTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
@@ -117,6 +119,24 @@ namespace
 
         std::unique_ptr<Database::IStorePhotoTask> m_task;
         IPhotoInfo::Ptr m_photoInfo;
+    };
+
+
+    struct InsertTagTask: ThreadBaseTask
+    {
+        InsertTagTask(std::unique_ptr<Database::IStoreTagTask>&& task, const TagNameInfo& tagInfo):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_tagInfo(tagInfo)
+        {
+        }
+
+        virtual ~InsertTagTask() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::unique_ptr<Database::IStoreTagTask> m_task;
+        TagNameInfo m_tagInfo;
     };
 
 
@@ -238,6 +258,12 @@ namespace
             task->m_task->got(status);
 
             emit photoModified(task->m_photoInfo);
+        }
+
+        virtual void visit(InsertTagTask* task) override
+        {
+            const bool status = m_backend->update(task->m_tagInfo);
+            task->m_task->got(status);
         }
 
         virtual void visit(GetAllPhotosTask* task) override
@@ -401,6 +427,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<Database::IStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
     {
         UpdateTask* task = new UpdateTask(std::move(db_task), photo);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::exec(std::unique_ptr<IStoreTagTask>&& db_task, const TagNameInfo& tagNameInfo)
+    {
+        InsertTagTask* task = new InsertTagTask(std::move(db_task), tagNameInfo);
         m_impl->addTask(task);
     }
 
