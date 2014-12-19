@@ -31,7 +31,7 @@ namespace
         static const char tag_date[];
         static const char tag_event[];
 
-        static const std::vector<const char *> tags_list;
+        static const std::vector<const char*> tags_list;
     };
 
 
@@ -50,21 +50,21 @@ std::map<BaseTagsList, TagNameInfo> BaseTags::m_base_tags(
     { BaseTagsList::Date,   TagNameInfo(DefaultTags::tag_date,   TagNameInfo::Date) },
     { BaseTagsList::Time,   TagNameInfo(DefaultTags::tag_time,   TagNameInfo::Time) },
     { BaseTagsList::People, TagNameInfo(DefaultTags::tag_people, TagNameInfo::Text) },
-} );
+});
 
 
 std::vector<TagNameInfo> BaseTags::collectTags()
 {
     std::vector<TagNameInfo> result;
 
-	for (const auto& it: m_base_tags)
+    for (const auto & it : m_base_tags)
         result.push_back(it.second);
 
     return result;
 }
 
 
-TagNameInfo BaseTags::get(const BaseTagsList &item)
+TagNameInfo BaseTags::get(const BaseTagsList& item)
 {
     auto p = m_base_tags.find(item);
     TagNameInfo result("", TagNameInfo::Invalid);
