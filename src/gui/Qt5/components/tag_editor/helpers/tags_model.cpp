@@ -84,7 +84,7 @@ Tag::TagsList TagsModel::getTags() const
 
 void TagsModel::addTag(const TagNameInfo& info, const QString& value)
 {
-    m_tagsOperator->setTag(info, TagValue( {value} ));
+    m_tagsOperator->setTag(info, TagValue(value));
 
     refreshModel();
 }
