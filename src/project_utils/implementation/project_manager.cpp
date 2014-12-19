@@ -143,7 +143,6 @@ std::shared_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
     QString location = prjFile.value("location").toString();
     prjFile.endGroup();
 
-    //TODO: extract
     auto result = std::make_shared<Project>();
     result->setPrjPath(prjPath);
     result->setDBBackend(backend);
