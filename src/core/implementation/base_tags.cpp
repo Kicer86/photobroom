@@ -19,45 +19,39 @@
 
 #include "base_tags.hpp"
 
+#include <QObject>
+
 #include <configuration/constants.hpp>
 
-namespace
+
+const std::map< BaseTagsList, TagNameInfo >& BaseTags::getBaseList()
 {
-    struct DefaultTags
+    static const QString tag_people = QObject::tr("People", "Default Tag Name");
+    static const QString tag_place  = QObject::tr("Place",  "Default Tag Name");
+    static const QString tag_date   = QObject::tr("Date",   "Default Tag Name");
+    static const QString tag_time   = QObject::tr("Time",   "Default Tag Name");
+    static const QString tag_event  = QObject::tr("Event",  "Default Tag Name");
+
+    static std::map<BaseTagsList, TagNameInfo> base_tags(
     {
-        static const char tag_people[];
-        static const char tag_place[];
-        static const char tag_time[];
-        static const char tag_date[];
-        static const char tag_event[];
+        { BaseTagsList::Event,  TagNameInfo(tag_event,  TagNameInfo::Text) },
+        { BaseTagsList::Place,  TagNameInfo(tag_place,  TagNameInfo::Text) },
+        { BaseTagsList::Date,   TagNameInfo(tag_date,   TagNameInfo::Date) },
+        { BaseTagsList::Time,   TagNameInfo(tag_time,   TagNameInfo::Time) },
+        { BaseTagsList::People, TagNameInfo(tag_people, TagNameInfo::Text) },
+    });
 
-        static const std::vector<const char*> tags_list;
-    };
-
-
-    const char DefaultTags::tag_people[] = QT_TRANSLATE_NOOP("Default Tag Name", "People");
-    const char DefaultTags::tag_place[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Place");
-    const char DefaultTags::tag_date[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Date");
-    const char DefaultTags::tag_time[]   = QT_TRANSLATE_NOOP("Default Tag Name", "Time");
-    const char DefaultTags::tag_event[]  = QT_TRANSLATE_NOOP("Default Tag Name", "Event");
+    return base_tags;
 }
 
-
-std::map<BaseTagsList, TagNameInfo> BaseTags::m_base_tags(
-{
-    { BaseTagsList::Event,  TagNameInfo(DefaultTags::tag_event,  TagNameInfo::Text) },
-    { BaseTagsList::Place,  TagNameInfo(DefaultTags::tag_place,  TagNameInfo::Text) },
-    { BaseTagsList::Date,   TagNameInfo(DefaultTags::tag_date,   TagNameInfo::Date) },
-    { BaseTagsList::Time,   TagNameInfo(DefaultTags::tag_time,   TagNameInfo::Time) },
-    { BaseTagsList::People, TagNameInfo(DefaultTags::tag_people, TagNameInfo::Text) },
-});
 
 
 std::vector<TagNameInfo> BaseTags::collectTags()
 {
     std::vector<TagNameInfo> result;
 
-    for (const auto & it : m_base_tags)
+    const std::map<BaseTagsList, TagNameInfo>& tags = getBaseList();
+    for (const auto & it: tags)
         result.push_back(it.second);
 
     return result;
@@ -66,10 +60,11 @@ std::vector<TagNameInfo> BaseTags::collectTags()
 
 TagNameInfo BaseTags::get(const BaseTagsList& item)
 {
-    auto p = m_base_tags.find(item);
+    const std::map<BaseTagsList, TagNameInfo>& tags = getBaseList();
+    auto p = tags.find(item);
     TagNameInfo result("", TagNameInfo::Invalid);
 
-    if (p != m_base_tags.end())
+    if (p != tags.end())
         result = p->second;
 
     return result;
