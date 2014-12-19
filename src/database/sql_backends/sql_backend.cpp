@@ -1061,6 +1061,21 @@ namespace Database
     }
 
 
+    bool ASqlBackend::update(const TagNameInfo& tagInfo)
+    {
+        assert(tagInfo.getType() != TagNameInfo::Invalid);
+
+        bool status = false;
+
+        if (m_data)
+            status = m_data->store(tagInfo);
+        else
+            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
+
+        return status;
+    }
+
+
     std::deque<TagNameInfo> ASqlBackend::listTags()
     {
         std::deque<TagNameInfo> result;

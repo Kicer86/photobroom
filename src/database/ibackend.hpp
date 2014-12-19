@@ -59,6 +59,7 @@ namespace Database
 
         //update data
         virtual bool update(const IPhotoInfo::Ptr &) = 0;
+        virtual bool update(const TagNameInfo &) = 0;
 
         //read data
         virtual std::deque<TagNameInfo> listTags() = 0;                                   //list all stored tag names
