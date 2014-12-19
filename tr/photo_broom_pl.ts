@@ -4,29 +4,24 @@
 <context>
     <name>Default Tag Name</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="38"/>
         <source>People</source>
-        <translation>Osoby</translation>
+        <translation type="vanished">Osoby</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="39"/>
         <source>Place</source>
-        <translation>Miejsce</translation>
+        <translation type="vanished">Miejsce</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="40"/>
         <source>Date</source>
-        <translation>Data</translation>
+        <translation type="vanished">Data</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="41"/>
         <source>Time</source>
-        <translation>Godzina</translation>
+        <translation type="vanished">Godzina</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="42"/>
         <source>Event</source>
-        <translation>Wydarzenie</translation>
+        <translation type="vanished">Wydarzenie</translation>
     </message>
 </context>
 <context>
@@ -237,6 +232,36 @@
         <location filename="../src/gui/Qt5/components/tag_editor/helpers/tags_operator.cpp" line="61"/>
         <source>&lt;multiple values&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
+        <source>People</source>
+        <comment>Default Tag Name</comment>
+        <translation type="unfinished">Osoby</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
+        <source>Place</source>
+        <comment>Default Tag Name</comment>
+        <translation type="unfinished">Miejsce</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="31"/>
+        <source>Date</source>
+        <comment>Default Tag Name</comment>
+        <translation type="unfinished">Data</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="32"/>
+        <source>Time</source>
+        <comment>Default Tag Name</comment>
+        <translation type="unfinished">Godzina</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="33"/>
+        <source>Event</source>
+        <comment>Default Tag Name</comment>
+        <translation type="unfinished">Wydarzenie</translation>
     </message>
 </context>
 <context>
