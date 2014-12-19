@@ -391,7 +391,6 @@ namespace Database
     {
         const QString& name = nameInfo.getName();
         const int type = nameInfo.getType();
-        const QString separator = nameInfo.getSeparator();
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
@@ -400,11 +399,10 @@ namespace Database
 
         if (! tagId)  //tag not yet in database
         {
-            const QString queryStr = QString("INSERT INTO %1 (id, name, type, separator) VALUES (NULL, '%2', '%3', '%4');")
+            const QString queryStr = QString("INSERT INTO %1 (id, name, type) VALUES (NULL, '%2', '%3');")
                                      .arg(TAB_TAG_NAMES)
                                      .arg(name)
-                                     .arg(type)
-                                     .arg(separator);
+                                     .arg(type);
 
             const bool status = exec(queryStr, &query);
 

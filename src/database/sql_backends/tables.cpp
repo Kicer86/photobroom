@@ -39,8 +39,7 @@ namespace Database
                         {
                             { "id", ColDefinition::Type::ID },
                               QString("name VARCHAR(%1) NOT NULL").arg(Configuration::Constraints::database_tag_name_len),
-                              "type INT NOT NULL",
-                              "separator VARCHAR(8)"                   //1 char should be enought. But maybe we will have some corner cases?
+                              "type INT NOT NULL"
                         },
                         {
                             { "tn_name", "UNIQUE INDEX", "(name)" }    //.arg(Consts::Constraints::database_tag_name_len)} required by MySQL
