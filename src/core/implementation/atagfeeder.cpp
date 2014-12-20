@@ -1,7 +1,7 @@
 
 /*
 * Base for tag feeders
-* Copyright (C) 2014  Micha≥ Walenciak <MichalWalenciak@gmail.com>
+* Copyright (C) 2014  Micha≈Ç Walenciak <MichalWalenciak@gmail.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
 
         date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
 
-        tagData[BaseTags::get(BaseTagsList::Date)] = TagValue( { date });
-        tagData[BaseTags::get(BaseTagsList::Time)] = TagValue( { time });
+        tagData[BaseTags::get(BaseTagsList::Date)] = TagValue(date);
+        tagData[BaseTags::get(BaseTagsList::Time)] = TagValue(time);
     }
 }

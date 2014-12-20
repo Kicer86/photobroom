@@ -446,11 +446,16 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosTask* tas
 {
     if (photos.empty() == false)  //there is at least one such a photo? Create extra node
     {
+        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+
         GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
         QModelIndex _parentIndex = l_task->m_parent;
         IdxData* _parent = getParentIdxDataFor(_parentIndex);
+        IdxData* node = prepareUniversalNodeFor(_parent);
 
-        addUniversalNodeToParent(_parent);
+        leafs->push_back(node);
+
+        emit nodesFetched(_parent, leafs);
     }
 }
 
@@ -518,6 +523,9 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
 {
     assert(photos.empty() == false);
 
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     const QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
     m_data->m_model->beginInsertRows(parentIdx, 0, last);
@@ -531,6 +539,9 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
 
 bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     IdxData* currentParent = getCurrentParent(photoInfo);
     IdxData* newParent = createAncestry(photoInfo);
     bool parent_changed = currentParent != newParent;
@@ -560,6 +571,9 @@ IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 
 IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     PhotosMatcher matcher;
     matcher.set(this);
     matcher.set(m_data->m_model);
@@ -609,6 +623,9 @@ IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 
 IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
     IdxData* result = nullptr;
 
@@ -650,8 +667,13 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
 
 IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
-    IdxData* universalNode = addUniversalNodeToParent(_parent);
+    IdxData* universalNode = prepareUniversalNodeFor(_parent);
+
+    appendIdxData(_parent, {universalNode} );
 
     return universalNode;
 }
@@ -659,6 +681,9 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
 
 void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from, IdxData* to)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
@@ -688,6 +713,9 @@ void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
 
 void IdxDataManager::performRemove(IdxData* item)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     IdxData* _parent = item->m_parent;
     assert(_parent != nullptr);
 
@@ -708,6 +736,9 @@ void IdxDataManager::performRemove(IdxData* item)
 
 void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 {
+    //modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
     QModelIndex toIdx = getIndex(to);
     const int toPos = to->m_children.size();
@@ -723,7 +754,7 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 }
 
 
-IdxData* IdxDataManager::addUniversalNodeToParent(IdxData* _parent)
+IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
 {
     IdxData* node = new IdxData(this, _parent, tr("Unlabeled"));
 
@@ -734,8 +765,6 @@ IdxData* IdxDataManager::addUniversalNodeToParent(IdxData* _parent)
     filter->tagName = tagName;
 
     node->setNodeFilter(filter);
-
-    appendIdxData(_parent, {node} );
 
     return node;
 }

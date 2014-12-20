@@ -58,7 +58,7 @@ Tag::TagsList TagsOperator::getTags() const
 
                 if (info_it.value() != info_f_it.value())
                 {
-                    TagValue new_value( { QObject::tr("<multiple values>") } );
+                    TagValue new_value( QObject::tr("<multiple values>") );
                     f_it->second = new_value;
                 }
             }

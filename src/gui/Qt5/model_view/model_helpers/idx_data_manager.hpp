@@ -131,7 +131,7 @@ private:
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
 
-    IdxData* addUniversalNodeToParent(IdxData *);                                //adds node for photos without tag required by particular parent
+    IdxData* prepareUniversalNodeFor(IdxData *);                                 //prepares node for photos without tag required by particular parent
 
 signals:
     void idxDataLoaded(IdxData *);

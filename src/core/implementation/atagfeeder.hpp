@@ -1,7 +1,7 @@
 
 /*
 * Base for tag feeders
-* Copyright (C) 2014  Micha≥ Walenciak <MichalWalenciak@gmail.com>
+* Copyright (C) 2014  Micha≈Ç Walenciak <MichalWalenciak@gmail.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
