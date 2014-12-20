@@ -38,6 +38,7 @@
 ModelUpdater::ModelUpdater(): QObject(), m_timer(new QTimer(this))
 {
     connect(m_timer, SIGNAL(timeout()), this, SLOT(trigger_update()));
+    m_timer->setSingleShot(true);
 }
 
 
@@ -54,6 +55,7 @@ void ModelUpdater::trigger_update()
 {
     if (m_requiresUpdate)
     {
+        m_requiresUpdate = false;
         m_timer->start(250);                   //disable updates for a 250 ms
         emit update_now();
     }
