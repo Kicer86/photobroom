@@ -352,7 +352,6 @@ void ImagesTreeView::modelReset()
 
 void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& destinationParent, int destinationRow)
 {
-    const int items = sourceEnd - sourceStart + 1;
     rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
 }
 
