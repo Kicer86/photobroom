@@ -191,17 +191,6 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 }
 
 
-void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
-{
-    QAbstractItemView::rowsInserted(_parent, from, to);
-
-    PositionsReseter reseter(m_data.get());
-    reseter.itemsAdded(_parent, to);
-
-    m_modelUpdater.update();
-}
-
-
 void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
 {
     QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
@@ -353,6 +342,17 @@ void ImagesTreeView::modelReset()
 void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& destinationParent, int destinationRow)
 {
     rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
+}
+
+
+void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
+{
+    QAbstractItemView::rowsInserted(_parent, from, to);
+
+    PositionsReseter reseter(m_data.get());
+    reseter.itemsAdded(_parent, to);
+
+    m_modelUpdater.update();
 }
 
 

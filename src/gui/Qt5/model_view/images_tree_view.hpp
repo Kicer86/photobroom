@@ -82,7 +82,6 @@ class ImagesTreeView: public QAbstractItemView
         virtual void setModel(QAbstractItemModel *) override;
 
     protected:
-        virtual void rowsInserted(const QModelIndex &, int, int) override;
         virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) override;
 
         // QWidget overrides:
@@ -106,6 +105,7 @@ class ImagesTreeView: public QAbstractItemView
     private slots:
         void modelReset();
         void rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int);
+        void rowsInserted(const QModelIndex &, int, int);
         void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);
         void rowsRemoved(const QModelIndex &, int, int);
 
