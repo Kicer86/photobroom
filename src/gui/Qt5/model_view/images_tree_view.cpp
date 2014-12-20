@@ -35,11 +35,40 @@
 #include "tree_item_delegate.hpp"
 
 
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
+ModelUpdater::ModelUpdater(): QObject(), m_timer(new QTimer(this))
+{
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(trigger_update()));
+}
+
+
+void ModelUpdater::update()
+{
+    m_requiresUpdate = true;
+
+    if (m_timer->isActive() == false)
+        trigger_update();
+}
+
+
+void ModelUpdater::trigger_update()
+{
+    if (m_requiresUpdate)
+    {
+        m_timer->start(250);                   //disable updates for a 250 ms
+        emit update_now();
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_modelUpdater()
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
 
     setItemDelegate(delegate);
+
+    connect(&m_modelUpdater, SIGNAL(update_now()), this, SLOT(updateModel()));
 }
 
 
@@ -167,7 +196,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
     PositionsReseter reseter(m_data.get());
     reseter.itemsAdded(_parent, to);
 
-    updateModel();
+    m_modelUpdater.update();
 }
 
 
@@ -227,7 +256,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         PositionsReseter reseter(m_data.get());
         reseter.itemChanged(item);
 
-        updateModel();
+        m_modelUpdater.update();
     }
 }
 
@@ -240,7 +269,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     PositionsReseter reseter(m_data.get());
     reseter.invalidateAll();
 
-    updateModel();
+    m_modelUpdater.update();
 }
 
 
@@ -289,28 +318,6 @@ std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex &) cons
 }
 
 
-void ImagesTreeView::rereadModel()
-{
-    m_data->clear();
-    updateModel();
-}
-
-
-void ImagesTreeView::updateModel()
-{
-    QAbstractItemModel* m = QAbstractItemView::model();
-
-    // is there anything to calculate?
-    if (m != nullptr && m->rowCount() > 0)
-    {
-        PositionsCalculator calculator(m, m_data.get(), viewport()->width());
-        calculator.updateItems();
-    }
-
-    updateGui();
-}
-
-
 void ImagesTreeView::updateGui()
 {
     const ModelIndexInfo info = m_data->get(QModelIndex());
@@ -341,12 +348,6 @@ void ImagesTreeView::modelReset()
 }
 
 
-void ImagesTreeView::updateModelShot()
-{
-    updateModel();
-}
-
-
 void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& destinationParent, int destinationRow)
 {
     const int items = sourceEnd - sourceStart + 1;
@@ -369,5 +370,27 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
     reseter.childrenRemoved(_parent, first);
 
     //update model
-    updateModel();
+    m_modelUpdater.update();
+}
+
+
+void ImagesTreeView::rereadModel()
+{
+    m_data->clear();
+    m_modelUpdater.update();
+}
+
+
+void ImagesTreeView::updateModel()
+{
+    QAbstractItemModel* m = QAbstractItemView::model();
+
+    // is there anything to calculate?
+    if (m != nullptr && m->rowCount() > 0)
+    {
+        PositionsCalculator calculator(m, m_data.get(), viewport()->width());
+        calculator.updateItems();
+    }
+
+    updateGui();
 }

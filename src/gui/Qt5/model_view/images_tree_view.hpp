@@ -25,8 +25,34 @@
 #include <memory>
 #include <deque>
 
+class QTimer;
+
 struct IConfiguration;
 class Data;
+
+class ModelUpdater: public QObject
+{
+        Q_OBJECT
+
+    public:
+        ModelUpdater();
+        ModelUpdater(const ModelUpdater &) = delete;
+
+        ModelUpdater& operator=(const ModelUpdater &) = delete;
+
+        void update();
+
+    private:
+        QTimer* m_timer;
+        bool m_requiresUpdate;
+
+    private slots:
+        void trigger_update();
+
+    signals:
+        void update_now();
+};
+
 
 class ImagesTreeView: public QAbstractItemView
 {
@@ -66,15 +92,12 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
+        ModelUpdater m_modelUpdater;
 
         // view stuff
         const QRect& getItemRect(const QModelIndex &) const;
         std::deque<QModelIndex> findItemsIn(const QRect &) const;
         std::deque<QModelIndex> getChildrenFor(const QModelIndex &) const;
-
-        // model updates
-        void rereadModel();
-        void updateModel();
 
         // widget operations
         void updateGui();
@@ -82,10 +105,13 @@ class ImagesTreeView: public QAbstractItemView
 
     private slots:
         void modelReset();
-        void updateModelShot();
         void rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int);
         void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);
         void rowsRemoved(const QModelIndex &, int, int);
+
+        // model updates
+        void rereadModel();
+        void updateModel();
 };
 
 #endif // IMAGESTREEVIEW_H
