@@ -93,11 +93,15 @@ TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 
     Data data;
     data.m_configuration = &config;
-    data.get(top->index());                      // first access - new item
+    auto info = data.get(top->index());          // create new item
+    data.update(info);
+    const auto& items = data.getAll();
+    EXPECT_EQ(false, items.empty());
+
     data.forget(top->index());                   // forget about it
 
-    const auto& items = data.getAll();
-    EXPECT_EQ(true, items.empty());
+    const auto& itemsAfeter = data.getAll();
+    EXPECT_EQ(true, itemsAfeter.empty());
 }
 
 
