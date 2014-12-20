@@ -185,23 +185,14 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()));
     connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
             this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)));
+
+    connect(m, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(rowsAboutToBeRemoved(QModelIndex,int,int)));
+
+    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
+
     connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
             this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)));
     connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
-}
-
-
-void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
-{
-    QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
-
-    //remove data from internal data model
-    for(int i = start; i <= end; i++)
-    {
-        QModelIndex child = model()->index(i, 0, _parent);
-
-        m_data->forget(child);
-    }
 }
 
 
@@ -345,10 +336,20 @@ void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sou
 }
 
 
+void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
+{
+    //remove data from internal data model
+    for(int i = start; i <= end; i++)
+    {
+        QModelIndex child = model()->index(i, 0, _parent);
+
+        m_data->forget(child);
+    }
+}
+
+
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
-    QAbstractItemView::rowsInserted(_parent, from, to);
-
     PositionsReseter reseter(m_data.get());
     reseter.itemsAdded(_parent, to);
 
