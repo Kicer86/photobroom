@@ -271,7 +271,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     PositionsReseter reseter(m_data.get());
     reseter.invalidateAll();
 
-    m_modelUpdater.update();
+    updateModel();
 }
 
 
