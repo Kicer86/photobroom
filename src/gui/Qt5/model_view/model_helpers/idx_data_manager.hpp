@@ -41,14 +41,6 @@ struct ITasksResults
 class IdxDataManager: public QObject, private ITasksResults
 {
 public:
-    struct DatabaseTaskHash
-    {
-        std::size_t operator()(const Database::Task& t) const
-        {
-            return t.getId();
-        }
-    };
-
     struct INotifications
     {
         virtual ~INotifications() {}

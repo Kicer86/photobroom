@@ -45,31 +45,6 @@ namespace Database
     struct IDatabaseClient;
     struct ProjectInfo;
 
-    //Task structure.
-    //Used by database to identify task and associated client.
-    struct Task
-    {
-        typedef int Id;
-
-        Task(IDatabaseClient* c, int i): id(i), status(false), client(c) {}
-        Task(const Task &) = default;
-
-        Task& operator=(const Task &) = default;
-
-        void setStatus(bool s) { status = s; }
-
-        IDatabaseClient* getClient() const { return client; }
-        Id getId() const { return id; }
-        bool getStatus() const { return status; }
-
-        bool operator==(const Task& other) const { return id == other.id; }
-
-        private:
-            Id id;
-            bool status;
-            IDatabaseClient* client;
-    };
-
     //set of signals emitted when database changes or when tasks are being executed
     class ADatabaseSignals: public QObject
     {
