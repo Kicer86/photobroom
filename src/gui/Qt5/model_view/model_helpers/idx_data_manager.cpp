@@ -239,6 +239,9 @@ IdxData* IdxDataManager::getIdxDataFor(const QModelIndex& obj) const
 {
     IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
 
+    assert(idxData == nullptr || obj.column() == idxData->m_column);
+    assert(idxData == nullptr || obj.row() == idxData->m_row);
+
     return idxData;
 }
 
