@@ -44,7 +44,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     data.m_configuration = &config;
     auto info = data.get(QModelIndex());
 
-    EXPECT_EQ(info.index, QModelIndex());
+    EXPECT_EQ(QModelIndex(), info.index);
 
     const auto& items = data.getAll();
     EXPECT_EQ(true, items.empty());
@@ -105,7 +105,7 @@ TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 }
 
 
-TEST(DataShould, SetInitialDataForItems)
+TEST(DataShould, SetInitialDataForRootItem)
 {
     MockConfiguration config;
 
@@ -114,7 +114,7 @@ TEST(DataShould, SetInitialDataForItems)
 
     ModelIndexInfo info = data.get(QModelIndex());
     EXPECT_EQ(QModelIndex(), info.index);
-    EXPECT_EQ(false, info.expanded);
+    EXPECT_EQ(true, info.expanded);
     EXPECT_EQ(QRect(), info.getRect());
     EXPECT_EQ(QRect(), info.getOverallRect());
 }
@@ -142,6 +142,8 @@ TEST(DataShould, StoreInfoAboutItem)
 
 TEST(DataShould, MarkTopItemsAsVisible)
 {
+    using ::testing::Return;
+
     MockQAbstractItemModel model;
     MockConfiguration config;
 
@@ -149,8 +151,13 @@ TEST(DataShould, MarkTopItemsAsVisible)
     data.m_configuration = &config;
 
     QModelIndex top = model.createIndex(0, 0, &data);
-    data.get(top);                                          //create object
-    EXPECT_EQ(true, data.isVisible(QModelIndex()));
+
+    EXPECT_CALL(model, parent(top)).Times(1).WillRepeatedly(Return(QModelIndex()));
+
+    ModelIndexInfo info = data.get(top);                          //create object
+    data.update(info);
+
+    EXPECT_EQ(true, data.isVisible(top));
 }
 
 
