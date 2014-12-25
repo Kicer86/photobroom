@@ -77,6 +77,7 @@ void ModelIndexInfo::cleanRects()
 
 ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect()
 {
+    expanded = idx == QModelIndex();       //expand top root
 }
 
 
@@ -200,13 +201,8 @@ void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
 
 bool Data::isExpanded(const QModelIndex& index) const
 {
-    bool status = true;               //for top root return true
-    if (index.isValid())
-    {
-        const ModelIndexInfo& info = get(index);
-
-        status = info.expanded;
-    }
+    const ModelIndexInfo& info = get(index);
+    const bool status = info.expanded;
 
     return status;
 }
