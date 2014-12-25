@@ -167,14 +167,14 @@ namespace Database
             Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
             assert(plugin);
 
-            PhotoInfoCache* manager = new PhotoInfoCache;
+            PhotoInfoCache* cache = new PhotoInfoCache;
             std::unique_ptr<IBackend> backend = plugin->constructBackend();
             IDatabase* database = new DatabaseThread(backend.get());
             PhotosAnalyzer* analyzer = new PhotosAnalyzer;
 
-            backend->setPhotoInfoManager(manager);
+            backend->setPhotoInfoManager(cache);
             backend->set(m_impl->m_logger);
-            manager->setDatabase(database);
+            cache->setDatabase(database);
             analyzer->setDatabase(database);
             analyzer->set(m_impl->m_task_executor);
             analyzer->set(m_impl->m_configuration);
@@ -188,7 +188,7 @@ namespace Database
                 Impl::DatabaseObjects dbObjs;
                 dbObjs.m_backend = std::move(backend);
                 dbObjs.m_database.reset(database);
-                dbObjs.m_photoManager.reset(manager);
+                dbObjs.m_photoManager.reset(cache);
                 dbObjs.m_photosAnalyzer.reset(analyzer);
 
                 auto insertIt = m_impl->m_backends.insert(std::make_pair(info, std::move(dbObjs)));
