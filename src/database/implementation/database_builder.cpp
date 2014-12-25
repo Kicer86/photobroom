@@ -32,7 +32,6 @@
 #include <database_tools/photos_analyzer.hpp>
 
 #include "ifs.hpp"
-#include "iphoto_info_creator.hpp"
 #include "database_thread.hpp"
 #include "photo_info_cache.hpp"
 #include "idatabase_plugin.hpp"
@@ -89,26 +88,14 @@ namespace Database
             std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         };
 
-        struct PhotoInfoCreator: Database::IPhotoInfoCreator
-        {
-            virtual IPhotoInfo::Ptr construct(const QString& path)
-            {
-                auto result = std::make_shared<PhotoInfo>(path);
-                result->markStagingArea(true);                                //by default all new photos go to staging area.
-
-                return result;
-            }
-        };
-
         std::map<ProjectInfo, DatabaseObjects> m_backends;
         IPluginLoader* pluginLoader;
         IConfiguration* m_configuration;
         std::shared_ptr<IBackend> defaultBackend;
-        PhotoInfoCreator photoInfoCreator;
         ILogger* m_logger;
         ITaskExecutor* m_task_executor;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator(), m_logger(nullptr), m_task_executor(nullptr)
+        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), m_logger(nullptr), m_task_executor(nullptr)
         {}
 
     };
@@ -186,7 +173,6 @@ namespace Database
             PhotosAnalyzer* analyzer = new PhotosAnalyzer;
 
             backend->setPhotoInfoManager(manager);
-            backend->setPhotoInfoCreator(&m_impl->photoInfoCreator);
             backend->set(m_impl->m_logger);
             manager->setDatabase(database);
             analyzer->setDatabase(database);

@@ -38,7 +38,6 @@ namespace Database
 {
 
     struct IPhotoInfoCache;
-    struct IPhotoInfoCreator;
     struct ProjectInfo;
 
     //Low level database interface.
@@ -48,7 +47,6 @@ namespace Database
         virtual ~IBackend() {}
 
         virtual void setPhotoInfoManager(Database::IPhotoInfoCache *) = 0;
-        virtual void setPhotoInfoCreator(Database::IPhotoInfoCreator *) = 0;
 
         virtual bool transactionsReady() = 0;       //transacions are ready after init()
         virtual bool beginTransaction() = 0;

@@ -42,8 +42,8 @@
 #include <core/ilogger.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
-#include <database/iphoto_info_creator.hpp>
 #include <database/project_info.hpp>
+#include <database/implementation/photo_info.hpp>
 
 #include "table_definition.hpp"
 //#include "sql_db_query.hpp"
@@ -271,7 +271,6 @@ namespace Database
             std::thread::id m_database_thread_id;
             QString m_connectionName;
             IPhotoInfoCache* m_photoInfoCache;
-            IPhotoInfoCreator* m_photoInfoCreator;
             Transaction m_transaction;
             ILogger* m_logger;
 
@@ -313,7 +312,6 @@ namespace Database
                                                    m_database_thread_id(),
                                                    m_connectionName(""),
                                                    m_photoInfoCache(nullptr),
-                                                   m_photoInfoCreator(nullptr),
                                                    m_transaction(),
                                                    m_logger(nullptr)
     {
@@ -710,7 +708,7 @@ namespace Database
         if (photoInfo.get() == nullptr)  // cache miss - construct new
         {
             //basic data
-            photoInfo = m_photoInfoCreator->construct(getPathFor(id));
+            photoInfo = std::make_shared<PhotoInfo>(getPathFor(id));
             photoInfo->initID(id);
 
             //load tags
@@ -896,12 +894,6 @@ namespace Database
     }
 
 
-    void ASqlBackend::setPhotoInfoCreator(Database::IPhotoInfoCreator *creator)
-    {
-        m_data->m_photoInfoCreator = creator;
-    }
-
-
     void ASqlBackend::setPhotoInfoManager(IPhotoInfoCache* cache)
     {
         m_data->m_photoInfoCache = cache;
@@ -1037,7 +1029,7 @@ namespace Database
 
     IPhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
     {
-        auto photoInfo = m_data->m_photoInfoCreator->construct(path);
+        auto photoInfo = std::make_shared<PhotoInfo>(path);
 
         m_data->store(photoInfo);
         m_data->m_photoInfoCache->introduce(photoInfo);
