@@ -172,7 +172,7 @@ namespace Database
             IDatabase* database = new DatabaseThread(backend.get());
             PhotosAnalyzer* analyzer = new PhotosAnalyzer;
 
-            backend->setPhotoInfoManager(cache);
+            backend->setPhotoInfoCache(cache);
             backend->set(m_impl->m_logger);
             cache->setDatabase(database);
             analyzer->setDatabase(database);

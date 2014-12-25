@@ -54,7 +54,7 @@ namespace Database
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
 
-            void setPhotoInfoManager(IPhotoInfoCache *) override;
+            void setPhotoInfoCache(IPhotoInfoCache *) override;
             void closeConnections();
 
             const QString& getConnectionName() const;

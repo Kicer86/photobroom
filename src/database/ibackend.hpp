@@ -46,7 +46,7 @@ namespace Database
     {
         virtual ~IBackend() {}
 
-        virtual void setPhotoInfoManager(Database::IPhotoInfoCache *) = 0;
+        virtual void setPhotoInfoCache(Database::IPhotoInfoCache *) = 0;
 
         virtual bool transactionsReady() = 0;       //transacions are ready after init()
         virtual bool beginTransaction() = 0;

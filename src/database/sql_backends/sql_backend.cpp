@@ -894,7 +894,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::setPhotoInfoManager(IPhotoInfoCache* cache)
+    void ASqlBackend::setPhotoInfoCache(IPhotoInfoCache* cache)
     {
         m_data->m_photoInfoCache = cache;
     }
