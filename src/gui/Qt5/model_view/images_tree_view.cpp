@@ -284,19 +284,6 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::getChildrenFor(const QModelIndex &) const
-{
-    std::deque<QModelIndex> result;
-
-    m_data->for_each_recursively(QAbstractItemView::model(), [&] (const QModelIndex &, const std::deque<QModelIndex>& _children)
-    {
-        result.insert(result.end(), _children.begin(), _children.end());
-    });
-
-    return result;
-}
-
-
 void ImagesTreeView::updateGui()
 {
     const ModelIndexInfo info = m_data->get(QModelIndex());
