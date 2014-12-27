@@ -38,6 +38,7 @@
 #include "idatabase.hpp"
 #include "ibackend.hpp"
 #include "implementation/photo_info.hpp"
+#include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
 
 //TODO: cleanup this file!
@@ -70,14 +71,15 @@ namespace Database
 
         struct DatabaseObjects
         {
-            DatabaseObjects() : m_database(), m_backend(), m_photoManager(), m_photosAnalyzer() {}
+            DatabaseObjects() : m_database(), m_backend(), m_photoManager(), m_photosAnalyzer(), m_storekeeper() {}
             ~DatabaseObjects() {}
 
             DatabaseObjects(DatabaseObjects&& other):
                 m_database(std::move(other.m_database)),
                 m_backend(std::move(other.m_backend)),
                 m_photoManager(std::move(other.m_photoManager)),
-                m_photosAnalyzer(std::move(other.m_photosAnalyzer))
+                m_photosAnalyzer(std::move(other.m_photosAnalyzer)),
+                m_storekeeper(std::move(other.m_storekeeper))
             {
 
             }
@@ -86,6 +88,7 @@ namespace Database
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<IPhotoInfoCache> m_photoManager;
             std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
+            std::unique_ptr<PhotoInfoStorekeeper> m_storekeeper;
         };
 
         std::map<ProjectInfo, DatabaseObjects> m_backends;
@@ -171,13 +174,17 @@ namespace Database
             std::unique_ptr<IBackend> backend = plugin->constructBackend();
             IDatabase* database = new DatabaseThread(backend.get());
             PhotosAnalyzer* analyzer = new PhotosAnalyzer;
+            PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
 
             backend->setPhotoInfoCache(cache);
             backend->set(m_impl->m_logger);
+            backend->addEventsObserver(storekeeper);
             cache->setDatabase(database);
             analyzer->setDatabase(database);
             analyzer->set(m_impl->m_task_executor);
             analyzer->set(m_impl->m_configuration);
+            storekeeper->setDatabase(database);
+            storekeeper->setCache(cache);
 
             std::unique_ptr<Database::IInitTask> task(new InitTask);
 
@@ -190,6 +197,7 @@ namespace Database
                 dbObjs.m_database.reset(database);
                 dbObjs.m_photoManager.reset(cache);
                 dbObjs.m_photosAnalyzer.reset(analyzer);
+                dbObjs.m_storekeeper.reset(storekeeper);
 
                 auto insertIt = m_impl->m_backends.insert(std::make_pair(info, std::move(dbObjs)));
                 backendIt = insertIt.first;
