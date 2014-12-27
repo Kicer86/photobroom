@@ -68,7 +68,6 @@ struct PhotoInfo::Data
         m_flags(),
         m_id()
     {
-
     }
 
     Data(const Data &) = delete;
@@ -89,9 +88,12 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 {
     m_data->path = p;
 
+    //default values
     QPixmap tmpThumbnail;
     tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
     m_data->m_thumbnail.lock().get() = tmpThumbnail;
+
+    markStagingArea(true);
 }
 
 

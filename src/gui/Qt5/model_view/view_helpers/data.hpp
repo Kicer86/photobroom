@@ -36,7 +36,7 @@ struct IConfiguration;
 
 struct ModelIndexInfo
 {
-    QModelIndex index;
+    QPersistentModelIndex index;
     bool expanded;
 
     void setRect(const QRect& r);
@@ -84,7 +84,7 @@ class Data
             ModelIndexInfo,
             boost::multi_index::indexed_by
             <
-                boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QModelIndex, &ModelIndexInfo::index>, IndexHasher>,
+                boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QPersistentModelIndex, &ModelIndexInfo::index>, IndexHasher>,
                 boost::multi_index::ordered_non_unique<boost::multi_index::const_mem_fun<ModelIndexInfo, const QRect &, &ModelIndexInfo::getRect>, QRectCompare>
             >
         > ModelIndexInfoSet;

@@ -32,13 +32,13 @@
 #include <database_tools/photos_analyzer.hpp>
 
 #include "ifs.hpp"
-#include "iphoto_info_creator.hpp"
 #include "database_thread.hpp"
 #include "photo_info_cache.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 #include "ibackend.hpp"
 #include "implementation/photo_info.hpp"
+#include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
 
 //TODO: cleanup this file!
@@ -71,45 +71,33 @@ namespace Database
 
         struct DatabaseObjects
         {
-            DatabaseObjects(const std::shared_ptr<IDatabase> &database,
-                            const std::shared_ptr<IBackend> &backend,
-                            const std::shared_ptr<IPhotoInfoCache> &manager,
-                            const std::shared_ptr<PhotosAnalyzer> &analyzer
-                           ) : m_database(database), m_backend(backend), m_photoManager(manager), m_photosAnalyzer(analyzer)
-            {
-
-            }
-
+            DatabaseObjects() : m_database(), m_backend(), m_cache(), m_photosAnalyzer(), m_storekeeper() {}
             ~DatabaseObjects() {}
-            //DatabaseObjects(const DatabaseObjects &) = delete;
-            //DatabaseObjects& operator=(const DatabaseObjects &) = delete;
 
-            std::shared_ptr<IDatabase> m_database;
-            std::shared_ptr<IBackend> m_backend;
-            std::shared_ptr<IPhotoInfoCache> m_photoManager;
-            std::shared_ptr<PhotosAnalyzer> m_photosAnalyzer;
-        };
-
-        struct PhotoInfoCreator: Database::IPhotoInfoCreator
-        {
-            virtual IPhotoInfo::Ptr construct(const QString& path)
+            DatabaseObjects(DatabaseObjects&& other):
+                m_database(std::move(other.m_database)),
+                m_backend(std::move(other.m_backend)),
+                m_cache(std::move(other.m_cache)),
+                m_photosAnalyzer(std::move(other.m_photosAnalyzer)),
+                m_storekeeper(std::move(other.m_storekeeper))
             {
-                auto result = std::make_shared<PhotoInfo>(path);
-                result->markStagingArea(true);                                //by default all new photos go to staging area.
 
-                return result;
             }
+
+            std::unique_ptr<IDatabase> m_database;
+            std::unique_ptr<IBackend> m_backend;
+            std::unique_ptr<IPhotoInfoCache> m_cache;
+            std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
+            std::unique_ptr<PhotoInfoStorekeeper> m_storekeeper;
         };
 
         std::map<ProjectInfo, DatabaseObjects> m_backends;
         IPluginLoader* pluginLoader;
         IConfiguration* m_configuration;
-        std::shared_ptr<IBackend> defaultBackend;
-        PhotoInfoCreator photoInfoCreator;
         ILogger* m_logger;
         ITaskExecutor* m_task_executor;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), photoInfoCreator(), m_logger(nullptr), m_task_executor(nullptr)
+        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), m_logger(nullptr), m_task_executor(nullptr)
         {}
 
     };
@@ -181,18 +169,21 @@ namespace Database
             Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
             assert(plugin);
 
-            std::shared_ptr<PhotoInfoCache> manager(new PhotoInfoCache);
-            std::shared_ptr<IBackend> backend = plugin->constructBackend();
-            std::shared_ptr<IDatabase> database(new DatabaseThread(backend.get()));
-            std::shared_ptr<PhotosAnalyzer> analyzer(new PhotosAnalyzer);
+            PhotoInfoCache* cache = new PhotoInfoCache;
+            std::unique_ptr<IBackend> backend = plugin->constructBackend();
+            IDatabase* database = new DatabaseThread(backend.get());
+            PhotosAnalyzer* analyzer = new PhotosAnalyzer;
+            PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
 
-            backend->setPhotoInfoManager(manager.get());
-            backend->setPhotoInfoCreator(&m_impl->photoInfoCreator);
+            backend->setPhotoInfoCache(cache);
             backend->set(m_impl->m_logger);
-            manager->setDatabase(database.get());
-            analyzer->setDatabase(database.get());
+            backend->addEventsObserver(storekeeper);
+            cache->setDatabase(database);
+            analyzer->setDatabase(database);
             analyzer->set(m_impl->m_task_executor);
             analyzer->set(m_impl->m_configuration);
+            storekeeper->setDatabase(database);
+            storekeeper->setCache(cache);
 
             std::unique_ptr<Database::IInitTask> task(new InitTask);
 
@@ -200,8 +191,14 @@ namespace Database
 
             if (status)
             {
-                Impl::DatabaseObjects dbObjs(database, backend, manager, analyzer);
-                auto insertIt = m_impl->m_backends.emplace(std::make_pair(info, dbObjs));
+                Impl::DatabaseObjects dbObjs;
+                dbObjs.m_backend = std::move(backend);
+                dbObjs.m_database.reset(database);
+                dbObjs.m_cache.reset(cache);
+                dbObjs.m_photosAnalyzer.reset(analyzer);
+                dbObjs.m_storekeeper.reset(storekeeper);
+
+                auto insertIt = m_impl->m_backends.insert(std::make_pair(info, std::move(dbObjs)));
                 backendIt = insertIt.first;
             }
         }

@@ -239,6 +239,9 @@ IdxData* IdxDataManager::getIdxDataFor(const QModelIndex& obj) const
 {
     IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
 
+    assert(idxData == nullptr || obj.column() == idxData->m_column);
+    assert(idxData == nullptr || obj.row() == idxData->m_row);
+
     return idxData;
 }
 
@@ -526,9 +529,10 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
+    const size_t items = _parent->m_children.size();
     const QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
     const size_t last = photos.size() - 1;
-    m_data->m_model->beginInsertRows(parentIdx, 0, last);
+    m_data->m_model->beginInsertRows(parentIdx, items, items + last);
 
     for(IdxData* newItem: photos)
         _parent->addChild(newItem);

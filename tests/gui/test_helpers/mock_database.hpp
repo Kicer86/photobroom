@@ -7,8 +7,10 @@
 #include <database/idatabase.hpp>
 #include <database/project_info.hpp>
 
+//TODO: fix
 struct MockDatabase: Database::IDatabase
 {
+    /*
     MOCK_METHOD2(addPath, void(const Database::Task &, const QString &));
     MOCK_METHOD0(closeConnections, void());
     MOCK_METHOD1(getAllPhotos, void(const Database::Task &));
@@ -21,6 +23,7 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
     MOCK_METHOD1(prepareTask, Database::Task(Database::IDatabaseClient *));
     MOCK_METHOD2(update, void(const Database::Task &, const IPhotoInfo::Ptr &));
+    */
 };
 
 #endif
