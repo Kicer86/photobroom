@@ -273,6 +273,7 @@ namespace Database
             IPhotoInfoCache* m_photoInfoCache;
             Transaction m_transaction;
             ILogger* m_logger;
+            std::set<IBackend::IEvents *> m_observers;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -315,7 +316,8 @@ namespace Database
                                                    m_connectionName(""),
                                                    m_photoInfoCache(nullptr),
                                                    m_transaction(),
-                                                   m_logger(nullptr)
+                                                   m_logger(nullptr),
+                                                   m_observers()
     {
 
     }
@@ -511,6 +513,10 @@ namespace Database
     {
         //introduce to cache
         m_photoInfoCache->introduce(photoInfo);
+
+        //notifications
+        for(IBackend::IEvents* observer: m_observers)
+            observer->photoInfoConstructed(photoInfo);
     }
 
 
@@ -1135,6 +1141,12 @@ namespace Database
     {
         m_data->m_logger = logger;
         m_data->m_transaction.set(logger);
+    }
+
+
+    void ASqlBackend::addEventsObserver(IBackend::IEvents* observer)
+    {
+        m_data->m_observers.insert(observer);
     }
 
 

@@ -44,6 +44,13 @@ namespace Database
     //To be used by particular database backend
     struct IBackend
     {
+        struct IEvents
+        {
+            virtual ~IEvents() {}
+
+            virtual void photoInfoConstructed(const IPhotoInfo::Ptr &);      //PhotoInfo object constructed
+        };
+
         virtual ~IBackend() {}
 
         virtual void setPhotoInfoCache(Database::IPhotoInfoCache *) = 0;
@@ -73,6 +80,7 @@ namespace Database
         //configuration
         virtual void set(IConfiguration *) = 0;
         virtual void set(ILogger *) = 0;
+        virtual void addEventsObserver(IEvents *) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
