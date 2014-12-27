@@ -54,8 +54,7 @@ namespace Database
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
 
-            void setPhotoInfoCreator(IPhotoInfoCreator *) override;
-            void setPhotoInfoManager(IPhotoInfoCache *) override;
+            void setPhotoInfoCache(IPhotoInfoCache *) override;
             void closeConnections();
 
             const QString& getConnectionName() const;
@@ -79,6 +78,7 @@ namespace Database
             virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
 
             virtual void set(ILogger *) override;
+            virtual void addEventsObserver(IEvents *) override;
             
         private:
             std::unique_ptr<Data> m_data;

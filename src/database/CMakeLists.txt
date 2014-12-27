@@ -17,6 +17,7 @@ set(DATABASE_SOURCES
     #implementation/photo_iterator.cpp     deprecated
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
+    implementation/photo_info_storekeeper.cpp
     #implementation/query_list.cpp         deprecated
 
     database_tools/implementation/photos_analyzer.cpp
@@ -30,7 +31,6 @@ set(DATABASE_HEADERS
     filter.hpp
     idatabase.hpp
     iphoto_info.hpp
-    iphoto_info_creator.hpp
     iphoto_info_manager.hpp
     ifs.hpp
     photo_iterator.hpp
@@ -39,6 +39,7 @@ set(DATABASE_HEADERS
     implementation/database_thread.hpp
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
+    implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photo_duplicates_finder.hpp
