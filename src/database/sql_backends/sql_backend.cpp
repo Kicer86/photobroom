@@ -290,6 +290,8 @@ namespace Database
             TagValue::List listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr>& filter);
 
+            void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
+
         private:
             Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
@@ -502,6 +504,13 @@ namespace Database
         auto result = fetch(query);
 
         return result;
+    }
+
+
+    void ASqlBackend::Data::postPhotoInfoCreation(const IPhotoInfo::Ptr& photoInfo) const
+    {
+        //introduce to cache
+        m_photoInfoCache->introduce(photoInfo);
     }
 
 
@@ -729,8 +738,7 @@ namespace Database
             //load flags
             updateFlagsOn(photoInfo.get(), id);
 
-            //introduce to cache
-            m_photoInfoCache->introduce(photoInfo);
+            postPhotoInfoCreation(photoInfo);
         }
 
         return photoInfo;
@@ -1032,7 +1040,7 @@ namespace Database
         auto photoInfo = std::make_shared<PhotoInfo>(path);
 
         m_data->store(photoInfo);
-        m_data->m_photoInfoCache->introduce(photoInfo);
+        m_data->postPhotoInfoCreation(photoInfo);
 
         return photoInfo;
     }
