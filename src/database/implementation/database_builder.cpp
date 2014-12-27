@@ -71,13 +71,13 @@ namespace Database
 
         struct DatabaseObjects
         {
-            DatabaseObjects() : m_database(), m_backend(), m_photoManager(), m_photosAnalyzer(), m_storekeeper() {}
+            DatabaseObjects() : m_database(), m_backend(), m_cache(), m_photosAnalyzer(), m_storekeeper() {}
             ~DatabaseObjects() {}
 
             DatabaseObjects(DatabaseObjects&& other):
                 m_database(std::move(other.m_database)),
                 m_backend(std::move(other.m_backend)),
-                m_photoManager(std::move(other.m_photoManager)),
+                m_cache(std::move(other.m_cache)),
                 m_photosAnalyzer(std::move(other.m_photosAnalyzer)),
                 m_storekeeper(std::move(other.m_storekeeper))
             {
@@ -86,7 +86,7 @@ namespace Database
 
             std::unique_ptr<IDatabase> m_database;
             std::unique_ptr<IBackend> m_backend;
-            std::unique_ptr<IPhotoInfoCache> m_photoManager;
+            std::unique_ptr<IPhotoInfoCache> m_cache;
             std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
             std::unique_ptr<PhotoInfoStorekeeper> m_storekeeper;
         };
@@ -94,11 +94,10 @@ namespace Database
         std::map<ProjectInfo, DatabaseObjects> m_backends;
         IPluginLoader* pluginLoader;
         IConfiguration* m_configuration;
-        std::shared_ptr<IBackend> defaultBackend;
         ILogger* m_logger;
         ITaskExecutor* m_task_executor;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), defaultBackend(), m_logger(nullptr), m_task_executor(nullptr)
+        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), m_logger(nullptr), m_task_executor(nullptr)
         {}
 
     };
@@ -195,7 +194,7 @@ namespace Database
                 Impl::DatabaseObjects dbObjs;
                 dbObjs.m_backend = std::move(backend);
                 dbObjs.m_database.reset(database);
-                dbObjs.m_photoManager.reset(cache);
+                dbObjs.m_cache.reset(cache);
                 dbObjs.m_photosAnalyzer.reset(analyzer);
                 dbObjs.m_storekeeper.reset(storekeeper);
 
