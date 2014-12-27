@@ -69,6 +69,8 @@ namespace Database
 
         //init backend - connect to database or create new one
         virtual bool init(const ProjectInfo &) = 0;
+
+        //configuration
         virtual void set(IConfiguration *) = 0;
         virtual void set(ILogger *) = 0;
 
