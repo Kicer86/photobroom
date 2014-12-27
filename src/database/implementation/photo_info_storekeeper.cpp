@@ -87,3 +87,9 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
         m_data->m_database->exec(std::move(task), ptr);
     }
 }
+
+
+void PhotoInfoStorekeeper::photoInfoConstructed(const IPhotoInfo::Ptr& photoInfo)
+{
+    photoInfo->registerObserver(this);
+}

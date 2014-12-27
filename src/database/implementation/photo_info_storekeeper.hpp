@@ -23,6 +23,7 @@
 #include <memory>
 
 #include <database/iphoto_info.hpp>
+#include <ibackend.hpp>
 
 #include "iphoto_info_manager.hpp"
 
@@ -31,7 +32,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoStorekeeper: public IPhotoInfo::IObserver
+class PhotoInfoStorekeeper: public IPhotoInfo::IObserver, public Database::IBackend::IEvents
 {
     public:
         PhotoInfoStorekeeper();
@@ -48,6 +49,7 @@ class PhotoInfoStorekeeper: public IPhotoInfo::IObserver
         std::unique_ptr<Data> m_data;
 
         virtual void photoUpdated(IPhotoInfo *) override;
+        virtual void photoInfoConstructed(const IPhotoInfo::Ptr&) override;
 };
 
 #endif // PHOTO_INFO_STOREKEEPER_HPP
