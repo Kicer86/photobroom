@@ -48,7 +48,7 @@ namespace Database
         {
             virtual ~IEvents() {}
 
-            virtual void photoInfoConstructed(const IPhotoInfo::Ptr &);      //PhotoInfo object constructed
+            virtual void photoInfoConstructed(const IPhotoInfo::Ptr &) = 0;      //PhotoInfo object constructed
         };
 
         virtual ~IBackend() {}
