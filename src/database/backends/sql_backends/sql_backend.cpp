@@ -114,12 +114,12 @@ namespace Database
                         }
 
                         const size_t index = s - i - 1;
-                        m_temporary_result = "";
+                        m_temporary_result.clear();
                         filters[index]->visitMe(this);
 
                         nest_previous = m_temporary_result.isEmpty() == false;
                         result += m_temporary_result;
-                        m_temporary_result = "";
+                        m_temporary_result.clear();
                     }
 
                     return result;
