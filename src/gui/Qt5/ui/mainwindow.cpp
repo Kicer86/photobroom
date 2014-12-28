@@ -101,6 +101,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 
     updateMenus();
     updateGui();
+    updateTools();
 }
 
 
@@ -161,7 +162,12 @@ void MainWindow::updateGui()
 
 void MainWindow::updateTools()
 {
+    const bool prj = m_currentPrj.get() != nullptr;
 
+    if (prj)
+        m_photosAnalyzer->setDatabase(m_currentPrj->getDatabase());
+    else
+        m_photosAnalyzer->setDatabase(nullptr);
 }
 
 
