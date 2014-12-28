@@ -36,8 +36,8 @@ set(DATABASE_HEADERS
     photo_iterator.hpp
     query_list.hpp
     project_info.hpp
+    backends/photo_info.hpp
     implementation/database_thread.hpp
-    implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp
