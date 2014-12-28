@@ -51,7 +51,7 @@ namespace Database
             Q_OBJECT
 
         signals:
-            void photoAdded(const IPhotoInfo::Ptr &);     //emited when new photo added
+            void photoAdded(const IPhotoInfo::Ptr &);     //emited when new photo was added to database
             void photoModified(const IPhotoInfo::Ptr &);  //emited when photo updated
     };
 
