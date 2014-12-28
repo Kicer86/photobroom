@@ -140,9 +140,9 @@ struct PhotosAnalyzer::Impl
             m_thread.set(configuration);
         }
 
-        Database::ADatabaseSignals* getNotifier()
+        Database::IDatabase* getDatabase()
         {
-            return m_database->notifier();
+            return m_database;
         }
 
         void addPhoto(const IPhotoInfo::Ptr& photo)
@@ -172,12 +172,28 @@ PhotosAnalyzer::~PhotosAnalyzer()
 }
 
 
-void PhotosAnalyzer::setDatabase(Database::IDatabase* database)
+void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
 {
-    m_data->setDatabase(database);
-    auto notifier = m_data->getNotifier();
+    //disconnect current database
+    Database::IDatabase* cur_database = m_data->getDatabase();
 
-    connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(photoAdded(IPhotoInfo::Ptr)), Qt::DirectConnection);
+    if (cur_database)
+    {
+        Database::ADatabaseSignals* notifier = cur_database->notifier();
+
+        notifier->disconnect(this);
+    }
+
+    //setup new database
+    m_data->setDatabase(new_database);
+
+    //and new connections
+    if (new_database)
+    {
+        Database::ADatabaseSignals* notifier = new_database->notifier();
+
+        connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(photoAdded(IPhotoInfo::Ptr)), Qt::DirectConnection);
+    }
 }
 
 
