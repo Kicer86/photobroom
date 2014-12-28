@@ -1,5 +1,5 @@
 
-add_subdirectory(sql_backends)
+add_subdirectory(backends)
 
 find_package(OpenLibrary 2.0 REQUIRED)
 find_package(Qt5Core REQUIRED)
