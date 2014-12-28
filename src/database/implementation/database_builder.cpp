@@ -29,7 +29,6 @@
 #include <configuration/entrydata.hpp>
 #include <configuration/constants.hpp>
 #include <core/plugin_loader.hpp>
-#include <database_tools/photos_analyzer.hpp>
 
 #include "ifs.hpp"
 #include "database_thread.hpp"
@@ -71,14 +70,13 @@ namespace Database
 
         struct DatabaseObjects
         {
-            DatabaseObjects() : m_database(), m_backend(), m_cache(), m_photosAnalyzer(), m_storekeeper() {}
+            DatabaseObjects() : m_database(), m_backend(), m_cache(), m_storekeeper() {}
             ~DatabaseObjects() {}
 
             DatabaseObjects(DatabaseObjects&& other):
                 m_database(std::move(other.m_database)),
                 m_backend(std::move(other.m_backend)),
                 m_cache(std::move(other.m_cache)),
-                m_photosAnalyzer(std::move(other.m_photosAnalyzer)),
                 m_storekeeper(std::move(other.m_storekeeper))
             {
 
@@ -87,7 +85,6 @@ namespace Database
             std::unique_ptr<IDatabase> m_database;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<IPhotoInfoCache> m_cache;
-            std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
             std::unique_ptr<PhotoInfoStorekeeper> m_storekeeper;
         };
 
@@ -172,16 +169,12 @@ namespace Database
             PhotoInfoCache* cache = new PhotoInfoCache;
             std::unique_ptr<IBackend> backend = plugin->constructBackend();
             IDatabase* database = new DatabaseThread(backend.get());
-            PhotosAnalyzer* analyzer = new PhotosAnalyzer;
             PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
 
             backend->setPhotoInfoCache(cache);
             backend->set(m_impl->m_logger);
             backend->addEventsObserver(storekeeper);
             cache->setDatabase(database);
-            analyzer->setDatabase(database);
-            analyzer->set(m_impl->m_task_executor);
-            analyzer->set(m_impl->m_configuration);
             storekeeper->setDatabase(database);
             storekeeper->setCache(cache);
 
@@ -195,7 +188,6 @@ namespace Database
                 dbObjs.m_backend = std::move(backend);
                 dbObjs.m_database.reset(database);
                 dbObjs.m_cache.reset(cache);
-                dbObjs.m_photosAnalyzer.reset(analyzer);
                 dbObjs.m_storekeeper.reset(storekeeper);
 
                 auto insertIt = m_impl->m_backends.insert(std::make_pair(info, std::move(dbObjs)));
