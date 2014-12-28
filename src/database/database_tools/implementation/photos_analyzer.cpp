@@ -34,7 +34,7 @@ namespace
 {
     struct PhotosAnalyzerThread
     {
-        PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToUpdate(), m_work(true), m_updater()
+        PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToValidate(), m_work(true), m_updater()
         {
         }
 
@@ -44,11 +44,11 @@ namespace
 
             while (m_work)
             {
-                m_data_available.wait(lock, [&] { return m_photosToUpdate.lock()->empty() == false || m_work == false; });
+                m_data_available.wait(lock, [&] { return m_photosToValidate.lock()->empty() == false || m_work == false; });
 
                 IPhotoInfo::Ptr photoInfo(nullptr);
                 {
-                    auto photosToUpdate = m_photosToUpdate.lock();
+                    auto photosToUpdate = m_photosToValidate.lock();
 
                     if (photosToUpdate->empty() == false)
                     {
@@ -91,7 +91,7 @@ namespace
 
         std::condition_variable m_data_available;
         std::mutex m_data_mutex;
-        ol::ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToUpdate;
+        ol::ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToValidate;
         bool m_work;
         PhotoInfoUpdater m_updater;
     };
@@ -147,7 +147,7 @@ struct PhotosAnalyzer::Impl
 
         void addPhoto(const IPhotoInfo::Ptr& photo)
         {
-            m_thread.m_photosToUpdate.lock()->push_back(photo);
+            m_thread.m_photosToValidate.lock()->push_back(photo);
             m_thread.m_data_available.notify_one();
         }
 
