@@ -37,7 +37,7 @@
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 #include "ibackend.hpp"
-#include "implementation/photo_info.hpp"
+#include "backends/photo_info.hpp"
 #include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
 

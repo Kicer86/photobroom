@@ -43,7 +43,7 @@
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/project_info.hpp>
-#include <database/implementation/photo_info.hpp>
+#include <database/backends/photo_info.hpp>
 
 #include "table_definition.hpp"
 //#include "sql_db_query.hpp"
