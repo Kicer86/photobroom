@@ -3,7 +3,7 @@ cmake_policy(SET CMP0020 NEW)
 
 add_subdirectory(core)
 add_subdirectory(configuration)
-add_subdirectory(analyzer)
+add_subdirectory(photos_crawler)
 add_subdirectory(database)
 add_subdirectory(gui)
 add_subdirectory(project_utils)

@@ -21,7 +21,7 @@
 
 #include <cassert>
 
-#include <analyzer/photo_crawler_builder.hpp>
+#include <photos_crawler/photo_crawler_builder.hpp>
 
 #include "components/staged_photos_data_model.hpp"
 

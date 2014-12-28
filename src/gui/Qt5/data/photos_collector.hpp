@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-#include <analyzer/iphoto_crawler.hpp>
+#include <photos_crawler/iphoto_crawler.hpp>
 
 class QString;
 class StagedPhotosDataModel;
