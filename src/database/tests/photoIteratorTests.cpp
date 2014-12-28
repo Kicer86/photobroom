@@ -70,7 +70,7 @@ TEST(PhotoIteratorShould, moveToFirstRowOfDataWhenConstructedWithQuery)
     //Database::PhotoIterator photoIt(query);
 }
 
-/*
+
 TEST(PhotoIteratorShould, BeCopyable)
 {
     //TODO: state machine required?
