@@ -100,7 +100,7 @@ struct TagsCollector: public ITaskExecutor::ITask
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
         m_photoInfo->setTags(p_tags);
-        m_photoInfo->markExifDataLoaded(true);
+        m_photoInfo->markFlag(IPhotoInfo::FlagsE::ExifLoaded, 1);
     }
 
     IPhotoInfo::Ptr m_photoInfo;

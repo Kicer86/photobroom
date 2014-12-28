@@ -88,7 +88,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        bool stagingArea;
+        int stagingArea;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter

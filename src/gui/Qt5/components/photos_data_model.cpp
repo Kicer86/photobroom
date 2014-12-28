@@ -38,7 +38,7 @@ PhotosDataModel::~PhotosDataModel()
 std::deque<Database::IFilter::Ptr> PhotosDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->stagingArea = false;
+    filter->stagingArea = 0;
 
     const std::deque<Database::IFilter::Ptr> result( {filter});
 

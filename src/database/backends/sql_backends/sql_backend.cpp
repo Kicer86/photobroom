@@ -152,7 +152,7 @@ namespace Database
                     result =  " JOIN " TAB_FLAGS " ON " TAB_FLAGS ".photo_id = photos_id";
                     result += " WHERE " TAB_FLAGS ".staging_area = '%1'";
 
-                    result = result.arg(flags->stagingArea? "TRUE": "FALSE");
+                    result = result.arg(flags->stagingArea);
 
                     m_temporary_result = result;
                 }
@@ -625,10 +625,10 @@ namespace Database
         queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "hash_loaded", "thumbnail_loaded");
         queryData.setValues( InsertQueryData::Value::Null,
                              QString::number(photo_id),
-                             photoInfo->getFlags().stagingArea? "TRUE": "FALSE",
-                             photoInfo->getFlags().exifLoaded? "TRUE": "FALSE",
-                             photoInfo->getFlags().hashLoaded? "TRUE": "FALSE",
-                             photoInfo->getFlags().thumbnailLoaded? "TRUE": "FALSE" );
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::StagingArea),
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::ExifLoaded),
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::Sha256Loaded),
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::ThumbnailLoaded));
 
         auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
 
@@ -835,20 +835,26 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, hash_loaded, thumbnail_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
 
         const bool status = exec(queryStr, &query);
 
-        if(status && query.next())
+        if (status && query.next())
         {
             QVariant variant = query.value(0);
-            photoInfo->markStagingArea(variant.toString() == "TRUE");
+            photoInfo->markFlag(IPhotoInfo::FlagsE::StagingArea, variant.toInt());
 
             variant = query.value(1);
-            photoInfo->markExifDataLoaded(variant.toString() == "TRUE");
+            photoInfo->markFlag(IPhotoInfo::FlagsE::ExifLoaded, variant.toInt());
+
+            variant = query.value(2);
+            photoInfo->markFlag(IPhotoInfo::FlagsE::Sha256Loaded, variant.toInt());
+
+            variant = query.value(3);
+            photoInfo->markFlag(IPhotoInfo::FlagsE::ThumbnailLoaded, variant.toInt());
         }
     }
 

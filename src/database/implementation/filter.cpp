@@ -28,7 +28,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithFlags::FilterPhotosWithFlags(): stagingArea(false)
+    FilterPhotosWithFlags::FilterPhotosWithFlags(): stagingArea(0)
     {
 
     }

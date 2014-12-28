@@ -51,7 +51,7 @@ PhotoInfo::Id::type PhotoInfo::Id::value() const
 /*********************************************************************************************************/
 
 
-PhotoInfo::Flags::Flags(): stagingArea(false), exifLoaded(false), hashLoaded(false), thumbnailLoaded(false)
+PhotoInfo::Flags::Flags(): stagingArea(0), exifLoaded(0), hashLoaded(0), thumbnailLoaded(0)
 {
 
 }
@@ -93,7 +93,7 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
     tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
     m_data->m_thumbnail.lock().get() = tmpThumbnail;
 
-    markStagingArea(true);
+    markFlag(FlagsE::StagingArea, 1);
 }
 
 
@@ -150,19 +150,19 @@ bool PhotoInfo::isFullyInitialized() const
 
 bool PhotoInfo::isHashLoaded() const
 {
-    return getFlags().hashLoaded;
+    return getFlag(FlagsE::Sha256Loaded) > 0;
 }
 
 
 bool PhotoInfo::isThumbnailLoaded() const
 {
-    return getFlags().thumbnailLoaded;
+    return getFlag(FlagsE::ThumbnailLoaded) > 0;
 }
 
 
 bool PhotoInfo::isExifDataLoaded() const
 {
-    return getFlags().exifLoaded;
+    return getFlag(FlagsE::ExifLoaded) > 0;
 }
 
 
@@ -222,27 +222,55 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
 }
 
 
-void PhotoInfo::markStagingArea(bool on)
+void PhotoInfo::markFlag(IPhotoInfo::FlagsE flag, int v)
 {
-    m_data->m_flags.lock()->stagingArea = on;
+    switch (flag)
+    {
+        case FlagsE::StagingArea:
+            m_data->m_flags.lock()->stagingArea = v;
+            break;
+
+        case FlagsE::ExifLoaded:
+            m_data->m_flags.lock()->exifLoaded = v;
+            break;
+
+        case FlagsE::Sha256Loaded:
+            m_data->m_flags.lock()->hashLoaded = v;
+            break;
+
+        case FlagsE::ThumbnailLoaded:
+            m_data->m_flags.lock()->thumbnailLoaded = v;
+            break;
+    }
 
     updated();
 }
 
 
-PhotoInfo::Flags PhotoInfo::getFlags() const
+int PhotoInfo::getFlag(IPhotoInfo::FlagsE flag) const
 {
-    Flags result = *m_data->m_flags.lock();
+    int result = 0;
+
+    switch (flag)
+    {
+        case FlagsE::StagingArea:
+            result = m_data->m_flags.lock()->stagingArea;
+            break;
+
+        case FlagsE::ExifLoaded:
+            result = m_data->m_flags.lock()->exifLoaded;
+            break;
+
+        case FlagsE::Sha256Loaded:
+            result = m_data->m_flags.lock()->hashLoaded;
+            break;
+
+        case FlagsE::ThumbnailLoaded:
+            result = m_data->m_flags.lock()->thumbnailLoaded;
+            break;
+    }
 
     return result;
-}
-
-
-void PhotoInfo::markExifDataLoaded(bool on)
-{
-    m_data->m_flags.lock()->exifLoaded = on;
-
-    updated();
 }
 
 

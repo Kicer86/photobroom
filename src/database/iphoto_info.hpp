@@ -78,6 +78,14 @@ struct IPhotoInfo
         Flags();
     };
 
+    enum class FlagsE
+    {
+        StagingArea,
+        ExifLoaded,
+        Sha256Loaded,
+        ThumbnailLoaded,
+    };
+
     virtual ~IPhotoInfo() {}
 
     //data getting
@@ -107,9 +115,8 @@ struct IPhotoInfo
     virtual void setTags(const Tag::TagsList &) = 0;        //set tags
 
     //flags
-    virtual void markStagingArea(bool = true) = 0;          // mark photo as stage area's photo
-    virtual void markExifDataLoaded(bool = true) = 0;       // mark photo with ExifDataLoaded flag
-    virtual Flags getFlags() const = 0;
+    virtual void markFlag(FlagsE, int) = 0;
+    virtual int  getFlag(FlagsE) const = 0;
 };
 
 

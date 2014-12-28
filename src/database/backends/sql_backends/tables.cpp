@@ -91,10 +91,10 @@ namespace Database
                     {
                         { "id", ColDefinition::Type::ID },
                           "photo_id INTEGER NOT NULL",
-                          "staging_area BOOL NOT NULL",
-                          "tags_loaded BOOL NOT NULL",
-                          "hash_loaded BOOL NOT NULL",
-                          "thumbnail_loaded BOOL NOT NULL",
+                          "staging_area INT NOT NULL",
+                          "tags_loaded INT NOT NULL",
+                          "hash_loaded INT NOT NULL",
+                          "thumbnail_loaded INT NOT NULL",
                           "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                     },
                     {
