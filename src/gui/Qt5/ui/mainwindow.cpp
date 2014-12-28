@@ -64,12 +64,14 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 {
     m_imagesModel->set(taskExecutor);
     m_stagedImagesModel->set(taskExecutor);
+    m_photosAnalyzer->set(taskExecutor);
 }
 
 
 void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+    m_photosAnalyzer->set(configuration);
 
     for(IView* view: m_views)
         view->set(configuration);
