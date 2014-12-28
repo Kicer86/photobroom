@@ -90,11 +90,9 @@ namespace Database
 
         std::map<ProjectInfo, DatabaseObjects> m_backends;
         IPluginLoader* pluginLoader;
-        IConfiguration* m_configuration;
         ILogger* m_logger;
-        ITaskExecutor* m_task_executor;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_configuration(nullptr), m_logger(nullptr), m_task_executor(nullptr)
+        Impl(): m_backends(), pluginLoader(nullptr), m_logger(nullptr)
         {}
 
     };
@@ -118,42 +116,9 @@ namespace Database
     }
 
 
-    void Builder::set(IConfiguration* configuration)
-    {
-        m_impl->m_configuration = configuration;
-
-        /*
-        Optional<Configuration::EntryData> entry = m_impl->m_configuration->findEntry(Configuration::Constants::configLocation);
-
-        assert(entry.is_initialized());
-
-        const QString configPath = entry->value();
-        const QString dbPath = configPath + "/database";
-
-        const QString configuration_xml =
-        "<configuration>                                        "
-        "   <keys>                                              "
-        "   </keys>                                             "
-        "                                                       "
-        "   <defaults>                                          "
-        "       <key name='Database::Backend::DataLocation' value='" + dbPath + "' />"
-        "   </defaults>                                         "
-        "</configuration>                                       ";
-
-        configuration->registerXml(configuration_xml);
-        */
-    }
-
-
     void Builder::set(ILogger* logger)
     {
         m_impl->m_logger = logger;
-    }
-
-
-    void Builder::set(ITaskExecutor* taskExecutor)
-    {
-        m_impl->m_task_executor = taskExecutor;
     }
 
 
