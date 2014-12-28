@@ -96,7 +96,7 @@ struct IPhotoInfo
     virtual Id getID() const = 0;
 
     //status checking
-    virtual bool isFullyInitialized() const = 0;            // returns true if hash is not null, and thumbnail is loaded (photo fully loaded)
+    virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)
     virtual bool isHashLoaded() const = 0;                  // returns true if hash is not null
     virtual bool isThumbnailLoaded() const = 0;             // returns true if thumbnail is loaded
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
