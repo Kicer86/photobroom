@@ -64,6 +64,7 @@ namespace
         }
 
 
+        //TODO: use list of updaters (introduce updater interface)
         void process(const IPhotoInfo::Ptr& photoInfo)
         {
             if (photoInfo->isFullyInitialized() == false)
