@@ -32,6 +32,22 @@
 
 namespace
 {
+
+    struct IncompletePhotos: Database::IGetPhotosTask
+    {
+        IncompletePhotos(PhotosAnalyzer::Impl* impl): m_analyzerImpl(impl) {}
+        IncompletePhotos(const IncompletePhotos &) = delete;
+
+        IncompletePhotos& operator=(const IncompletePhotos &) = delete;
+
+        virtual ~IncompletePhotos() {}
+
+        void got(const IPhotoInfo::List& photos) override;
+
+        PhotosAnalyzer::Impl* m_analyzerImpl;
+    };
+
+
     struct PhotosAnalyzerThread
     {
         PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToValidate(), m_work(true), m_updater()
@@ -129,6 +145,22 @@ struct PhotosAnalyzer::Impl
         void setDatabase(Database::IDatabase* database)
         {
             m_database = database;
+
+            //check for not fully initialized photos in database
+
+            //TODO: use independent updaters here (issue #102)
+
+            for(auto flag: { IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded })
+            {
+                const auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+                filter->flag = flag;
+                filter->value = 0;            //uninitialized
+
+                IncompletePhotos* task = new IncompletePhotos(this);
+                const std::deque<Database::IFilter::Ptr> filters = {filter};
+
+                database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+            }
         }
 
         void set(ITaskExecutor* taskExecutor)
@@ -157,6 +189,13 @@ struct PhotosAnalyzer::Impl
         PhotosAnalyzerThread m_thread;
         std::thread m_analyzerThread;
 };
+
+
+void IncompletePhotos::got(const IPhotoInfo::List& photos)
+{
+    for(const IPhotoInfo::Ptr& photo: photos)
+        m_analyzerImpl->addPhoto(photo);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
