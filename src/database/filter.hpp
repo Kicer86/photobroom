@@ -88,7 +88,8 @@ namespace Database
 
         FILTER_COMMAND
 
-        int stagingArea;
+        IPhotoInfo::FlagsE flag;
+        int value;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter

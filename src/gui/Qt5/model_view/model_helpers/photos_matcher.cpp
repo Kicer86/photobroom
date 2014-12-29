@@ -114,7 +114,7 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 
 void FiltersMatcher::visit(Database::FilterPhotosWithFlags* filter)
 {
-    const bool status = m_photo->getFlag(IPhotoInfo::FlagsE::StagingArea) == filter->stagingArea;
+    const bool status = m_photo->getFlag(filter->flag) == filter->value;
 
     m_doesMatch = status;
 }

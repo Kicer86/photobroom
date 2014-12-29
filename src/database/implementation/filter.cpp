@@ -28,7 +28,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithFlags::FilterPhotosWithFlags(): stagingArea(0)
+    FilterPhotosWithFlags::FilterPhotosWithFlags(): flag(IPhotoInfo::FlagsE::StagingArea), value(0)
     {
 
     }

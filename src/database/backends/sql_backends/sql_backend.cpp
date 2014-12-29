@@ -126,6 +126,22 @@ namespace Database
                 }
 
             private:
+                QString getFlagName(IPhotoInfo::FlagsE flag) const
+                {
+                    QString result;
+
+                    switch(flag)
+                    {
+                        case IPhotoInfo::FlagsE::StagingArea:     result = FLAG_STAGING_AREA; break;
+                        case IPhotoInfo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;  break;
+                        case IPhotoInfo::FlagsE::Sha256Loaded:    result = FLAG_HASH_LOADED;  break;
+                        case IPhotoInfo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED; break;
+                    }
+
+                    return result;
+                }
+
+
                 // IFilterVisitor interface
                 void visit(EmptyFilter *) override
                 {
@@ -148,11 +164,13 @@ namespace Database
                 void visit(FilterPhotosWithFlags* flags) override
                 {
                     QString result;
+                    const QString flagName = getFlagName(flags->flag);
 
                     result =  " JOIN " TAB_FLAGS " ON " TAB_FLAGS ".photo_id = photos_id";
-                    result += " WHERE " TAB_FLAGS ".staging_area = '%1'";
+                    result += " WHERE " TAB_FLAGS ".%1 = '%2'";
 
-                    result = result.arg(flags->stagingArea);
+                    result = result.arg(flagName);
+                    result = result.arg(flags->value);
 
                     m_temporary_result = result;
                 }
@@ -170,7 +188,7 @@ namespace Database
                     m_temporary_result = result;
                 }
 
-                virtual void visit(FilterPhotosWithoutTag* filter)
+                void visit(FilterPhotosWithoutTag* filter) override
                 {
                     //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
                     QString result;
