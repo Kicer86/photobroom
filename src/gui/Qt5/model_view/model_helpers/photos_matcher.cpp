@@ -42,6 +42,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         virtual void visit(Database::FilterPhotosWithFlags *) override;
         virtual void visit(Database::FilterPhotosWithSha256 *) override;
         virtual void visit(Database::FilterPhotosWithoutTag *) override;
+        virtual void visit(Database::FilterOrOperator*) override;
 };
 
 
@@ -136,6 +137,12 @@ void FiltersMatcher::visit(Database::FilterPhotosWithoutTag* filter)
     const bool status = it == tags.end();
 
     m_doesMatch = status;
+}
+
+
+void FiltersMatcher::visit(Database::FilterOrOperator* filter)
+{
+
 }
 
 

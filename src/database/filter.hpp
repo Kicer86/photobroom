@@ -40,6 +40,7 @@ namespace Database
     struct FilterPhotosWithFlags;
     struct FilterPhotosWithSha256;
     struct FilterPhotosWithoutTag;
+    struct FilterOrOperator;
 
     struct IFilter
     {
@@ -58,6 +59,7 @@ namespace Database
         virtual void visit(FilterPhotosWithFlags *) = 0;
         virtual void visit(FilterPhotosWithSha256 *) = 0;
         virtual void visit(FilterPhotosWithoutTag *) = 0;
+        virtual void visit(FilterOrOperator *) = 0;
     };
 
     //filters
@@ -110,6 +112,20 @@ namespace Database
         FILTER_COMMAND
 
         TagNameInfo tagName;
+    };
+
+    // logical filers
+
+    // Filters can be easly combined in AND chain when applyied one by one to set of photos.
+    // FilterOrOperator can be used to to combine two ore filters as a logical OR
+    struct FilterOrOperator: IFilter
+    {
+        FilterOrOperator();
+        virtual ~FilterOrOperator() {}
+
+        FILTER_COMMAND
+
+        std::deque<IFilter::Ptr> filters;
     };
 }
 #endif // FILTER_H

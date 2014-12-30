@@ -202,6 +202,10 @@ namespace Database
                     m_temporary_result = result;
                 }
 
+                void visit(FilterOrOperator* filter) override
+                {
+                }
+
                 QString m_temporary_result;
         };
 

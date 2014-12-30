@@ -45,4 +45,10 @@ namespace Database
 
     }
 
+
+    FilterOrOperator::FilterOrOperator(): filters()
+    {
+
+    }
+
 }
