@@ -85,54 +85,31 @@ namespace Database
 
         struct SqlFiltersVisitor: IFilterVisitor
         {
-                SqlFiltersVisitor(): m_temporary_result(), m_filterResult() {}
+                SqlFiltersVisitor(): m_filterResult() {}
                 virtual ~SqlFiltersVisitor() {}
 
                 QString parse(const std::deque<IFilter::Ptr>& filters)
                 {
-                    QString result;
                     const size_t s = filters.size();
-                    bool nest_previous = true;
-                    m_temporary_result = "";
                     m_filterResult.clear();
 
                     FilterData filterData;
 
                     for (size_t i = 0; i < s; i++)
                     {
-                        if (i > 0) // not first filter? Nest previous one
-                        {
-                            if (nest_previous) //really nest?
-                            {
-                                result = "SELECT * FROM "
-                                         "( " + result + ") AS level_%1";
-
-                                result = result.arg(i);
-                            }
-                        }
-                        else
-                        {
-                            result = "SELECT %1.id AS photos_id FROM %1";
-                            result = result.arg(TAB_PHOTOS);
-                        }
-
                         const size_t index = s - i - 1;
-                        m_temporary_result.clear();
                         m_filterResult.clear();
                         filters[index]->visitMe(this);
 
                         filterData.joins.insert(m_filterResult.joins.cbegin(), m_filterResult.joins.cend());
                         filterData.conditions.append(m_filterResult.conditions);
 
-                        nest_previous = m_temporary_result.isEmpty() == false;
-                        result += m_temporary_result;
-                        m_temporary_result.clear();
                         m_filterResult.clear();
                     }
 
-                    const QString new_result = constructQuery(filterData);
+                    const QString result = constructQuery(filterData);
 
-                    return new_result;
+                    return result;
                 }
 
             private:
@@ -250,85 +227,45 @@ namespace Database
 
                 void visit(FilterPhotosWithTag* desciption) override
                 {
-                    QString result;
-
-                    result = " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
-                             " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
-                             " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
-
-                    result = result.arg(desciption->tagName);
-                    result = result.arg(desciption->tagValue);
-
                     m_filterResult.joins.insert(FilterData::TagNamesWithTags);
                     m_filterResult.joins.insert(FilterData::TagsWithPhotos);
                     m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'")
                                                      .arg(desciption->tagName)
                                                      .arg(desciption->tagValue));
-
-                    m_temporary_result = result;
                 }
 
                 void visit(FilterPhotosWithFlags* flags) override
                 {
-                    QString result;
                     const QString flagName = getFlagName(flags->flag);
-
-                    result =  " JOIN " TAB_FLAGS " ON " TAB_FLAGS ".photo_id = photos_id";
-                    result += " WHERE " TAB_FLAGS ".%1 = '%2'";
-
-                    result = result.arg(flagName);
-                    result = result.arg(flags->value);
 
                     m_filterResult.joins.insert(FilterData::FlagsWithPhotos);
                     m_filterResult.conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
                                                      .arg(flagName)
                                                      .arg(flags->value));
-
-                    m_temporary_result = result;
                 }
 
                 void visit(FilterPhotosWithSha256* sha256) override
                 {
                     assert(sha256->sha256.empty() == false);
-                    QString result;
-
-                    result =  " JOIN " TAB_HASHES " ON " TAB_HASHES ".photo_id = photos_id";
-                    result += " WHERE " TAB_HASHES ".hash = '%1'";
-
-                    result = result.arg(sha256->sha256.c_str());
 
                     m_filterResult.joins.insert(FilterData::HashWithPhotos);
                     m_filterResult.conditions.append( QString(TAB_HASHES ".hash = '%1'").arg(sha256->sha256.c_str()) );
-
-                    m_temporary_result = result;
                 }
 
                 void visit(FilterPhotosWithoutTag* filter) override
                 {
                     //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-                    QString result;
-
-                    result =  " WHERE photos_id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS;
-                    result += " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) ";
-                    result += " WHERE " TAB_TAG_NAMES ".name = '%1')";
-
-                    result = result.arg(filter->tagName);
-
                     m_filterResult.conditions.append( QString("photos.id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS
                                                               " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) "
                                                               " WHERE " TAB_TAG_NAMES ".name = '%1')")
                                                       .arg(filter->tagName) );
-
-                    m_temporary_result = result;
                 }
 
                 void visit(FilterOrOperator* filter) override
                 {
-                    QString result;
                     FilterData orFilterData;
                     QString condition;
 
-                    result =  " ( ";
                     condition = "( ";
 
                     const size_t s = filter->filters.size();
@@ -338,25 +275,17 @@ namespace Database
                     {
                         m_filterResult.clear();
                         filter->filters[i]->visitMe(this);
-                        result += m_temporary_result;
 
                         orFilterData.joins.insert(m_filterResult.joins.cbegin(), m_filterResult.joins.cend());
                         conditions.append(m_filterResult.conditions);
-
-                        if (i + 1 < s)
-                            result += " OR ";
                     }
 
                     condition += conditions.join(" OR ");
-                    result += " )";
                     condition += " )";
 
-                    m_temporary_result = result;
                     orFilterData.conditions.append(condition);
                     m_filterResult = orFilterData;
                 }
-
-                QString m_temporary_result;
 
                 FilterData m_filterResult;
         };
