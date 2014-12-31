@@ -150,17 +150,21 @@ struct PhotosAnalyzer::Impl
 
             //TODO: use independent updaters here (issue #102)
 
+            std::shared_ptr<Database::FilterOrOperator> main_filter = std::make_shared<Database::FilterOrOperator>();
+
             for(auto flag: { IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded })
             {
                 const auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
                 filter->flag = flag;
                 filter->value = 0;            //uninitialized
 
-                IncompletePhotos* task = new IncompletePhotos(this);
-                const std::deque<Database::IFilter::Ptr> filters = {filter};
-
-                database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+                main_filter->filters.push_back(filter);
             }
+
+            IncompletePhotos* task = new IncompletePhotos(this);
+            const std::deque<Database::IFilter::Ptr> filters = {main_filter};
+
+            database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
         }
 
         void set(ITaskExecutor* taskExecutor)
