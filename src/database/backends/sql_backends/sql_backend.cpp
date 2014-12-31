@@ -132,7 +132,7 @@ namespace Database
 
                     const QString new_result = constructQuery(filterData);
 
-                    return result;
+                    return new_result;
                 }
 
             private:
@@ -177,7 +177,7 @@ namespace Database
                 {
                     QString result;
 
-                    result = "SELECT photos.id from " TAB_PHOTOS;
+                    result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
 
                     //fill JOIN section
                     if (filterData.joins.empty() == false)  //at least one join
