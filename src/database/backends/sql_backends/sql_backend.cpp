@@ -85,7 +85,7 @@ namespace Database
 
         struct SqlFiltersVisitor: IFilterVisitor
         {
-                SqlFiltersVisitor(): m_temporary_result() {}
+                SqlFiltersVisitor(): m_temporary_result(), m_filterResult() {}
                 virtual ~SqlFiltersVisitor() {}
 
                 QString parse(const std::deque<IFilter::Ptr>& filters)
@@ -94,6 +94,9 @@ namespace Database
                     const size_t s = filters.size();
                     bool nest_previous = true;
                     m_temporary_result = "";
+                    m_filterResult.clear();
+
+                    FilterData filterData;
 
                     for (size_t i = 0; i < s; i++)
                     {
@@ -115,17 +118,46 @@ namespace Database
 
                         const size_t index = s - i - 1;
                         m_temporary_result.clear();
+                        m_filterResult.clear();
                         filters[index]->visitMe(this);
+
+                        filterData.joins.insert(m_filterResult.joins.cbegin(), m_filterResult.joins.cend());
+                        filterData.conditions.append(m_filterResult.conditions);
 
                         nest_previous = m_temporary_result.isEmpty() == false;
                         result += m_temporary_result;
                         m_temporary_result.clear();
+                        m_filterResult.clear();
                     }
+
+                    const QString new_result = constructQuery(filterData);
 
                     return result;
                 }
 
             private:
+                struct FilterData
+                {
+                    enum Join
+                    {
+                        TagsWithPhotos,
+                        TagNamesWithTags,
+                        FlagsWithPhotos,
+                        HashWithPhotos,
+                    };
+
+                    std::set<Join> joins;
+                    QStringList conditions;
+
+                    FilterData(): joins(), conditions() {}
+
+                    void clear()
+                    {
+                        joins.clear();
+                        conditions.clear();
+                    }
+                };
+
                 QString getFlagName(IPhotoInfo::FlagsE flag) const
                 {
                     QString result;
@@ -141,6 +173,75 @@ namespace Database
                     return result;
                 }
 
+                QString constructQuery(const FilterData& filterData) const
+                {
+                    QString result;
+
+                    result = "SELECT photos.id from " TAB_PHOTOS;
+
+                    //fill JOIN section
+                    if (filterData.joins.empty() == false)  //at least one join
+                        result += " JOIN (";
+
+                    for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
+                    {
+                        const auto join = *it;
+
+                        switch(join)
+                        {
+                            case FilterData::TagsWithPhotos:   result += TAB_TAGS;      break;
+                            case FilterData::TagNamesWithTags: result += TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
+                            case FilterData::FlagsWithPhotos:  result += TAB_FLAGS;     break;
+                            case FilterData::HashWithPhotos:   result += TAB_HASHES;    break;
+                        }
+
+                        ++it;
+                        if ( it != filterData.joins.cend())
+                            result += ", ";
+                    }
+
+                    if (filterData.joins.empty() == false)  //at least one join
+                        result += ") ON (";
+
+                    for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
+                    {
+                        const auto join = *it;
+
+                        switch(join)
+                        {
+                            case FilterData::TagsWithPhotos:   result += TAB_TAGS ".photo_id = " TAB_PHOTOS ".id";   break;
+                            case FilterData::TagNamesWithTags: result += TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
+                            case FilterData::FlagsWithPhotos:  result += TAB_FLAGS ".photo_id = " TAB_PHOTOS ".id";  break;
+                            case FilterData::HashWithPhotos:   result += TAB_HASHES ".photo_id = " TAB_PHOTOS ".id"; break;
+                        }
+
+                        ++it;
+                        if ( it != filterData.joins.cend())
+                            result += " AND ";
+                    }
+
+                    if (filterData.joins.empty() == false)  //at least one join
+                        result += ")";
+
+                    //conditions
+                    if (filterData.conditions.isEmpty() == false)
+                    {
+                        result += " WHERE ";
+
+                        for (auto it = filterData.conditions.cbegin(); it != filterData.conditions.cend();)
+                        {
+                            const QString condition = *it;
+                            result += condition;
+
+                            ++it;
+
+                            if (it != filterData.conditions.cend())
+                                result += " AND ";
+                        }
+                    }
+
+                    return result;
+                }
 
                 // IFilterVisitor interface
                 void visit(EmptyFilter *) override
@@ -158,6 +259,12 @@ namespace Database
                     result = result.arg(desciption->tagName);
                     result = result.arg(desciption->tagValue);
 
+                    m_filterResult.joins.insert(FilterData::TagNamesWithTags);
+                    m_filterResult.joins.insert(FilterData::TagsWithPhotos);
+                    m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'")
+                                                     .arg(desciption->tagName)
+                                                     .arg(desciption->tagValue));
+
                     m_temporary_result = result;
                 }
 
@@ -172,6 +279,11 @@ namespace Database
                     result = result.arg(flagName);
                     result = result.arg(flags->value);
 
+                    m_filterResult.joins.insert(FilterData::FlagsWithPhotos);
+                    m_filterResult.conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
+                                                     .arg(flagName)
+                                                     .arg(flags->value));
+
                     m_temporary_result = result;
                 }
 
@@ -184,6 +296,9 @@ namespace Database
                     result += " WHERE " TAB_HASHES ".hash = '%1'";
 
                     result = result.arg(sha256->sha256.c_str());
+
+                    m_filterResult.joins.insert(FilterData::HashWithPhotos);
+                    m_filterResult.conditions.append( QString(TAB_HASHES ".hash = '%1'").arg(sha256->sha256.c_str()) );
 
                     m_temporary_result = result;
                 }
@@ -199,32 +314,51 @@ namespace Database
 
                     result = result.arg(filter->tagName);
 
+                    m_filterResult.conditions.append( QString("photos.id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS
+                                                              " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) "
+                                                              " WHERE " TAB_TAG_NAMES ".name = '%1')")
+                                                      .arg(filter->tagName) );
+
                     m_temporary_result = result;
                 }
 
                 void visit(FilterOrOperator* filter) override
                 {
                     QString result;
+                    FilterData orFilterData;
+                    QString condition;
 
                     result =  " ( ";
+                    condition = "( ";
 
                     const size_t s = filter->filters.size();
 
+                    QStringList conditions;
                     for(size_t i = 0; i < s; i++)
                     {
+                        m_filterResult.clear();
                         filter->filters[i]->visitMe(this);
                         result += m_temporary_result;
+
+                        orFilterData.joins.insert(m_filterResult.joins.cbegin(), m_filterResult.joins.cend());
+                        conditions.append(m_filterResult.conditions);
 
                         if (i + 1 < s)
                             result += " OR ";
                     }
 
+                    condition += conditions.join(" OR ");
                     result += " )";
+                    condition += " )";
 
                     m_temporary_result = result;
+                    orFilterData.conditions.append(condition);
+                    m_filterResult = orFilterData;
                 }
 
                 QString m_temporary_result;
+
+                FilterData m_filterResult;
         };
 
 
