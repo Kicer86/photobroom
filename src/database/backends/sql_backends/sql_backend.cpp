@@ -450,6 +450,7 @@ namespace Database
 
         m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logMessage);
 
+        assert(status);
         if (status == false)
             m_logger->log({"Database" ,"ASqlBackend"},
                           ILogger::Severity::Error,
