@@ -142,7 +142,15 @@ void FiltersMatcher::visit(Database::FilterPhotosWithoutTag* filter)
 
 void FiltersMatcher::visit(Database::FilterOrOperator* filter)
 {
+    m_doesMatch = false;
 
+    for(const Database::IFilter::Ptr& sub: filter->filters)
+    {
+        sub->visitMe(this);
+
+        if (m_doesMatch)
+            break;
+    }
 }
 
 

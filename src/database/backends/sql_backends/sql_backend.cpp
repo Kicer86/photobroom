@@ -204,6 +204,24 @@ namespace Database
 
                 void visit(FilterOrOperator* filter) override
                 {
+                    QString result;
+
+                    result =  " ( ";
+
+                    const size_t s = filter->filters.size();
+
+                    for(size_t i = 0; i < s; i++)
+                    {
+                        filter->filters[i]->visitMe(this);
+                        result += m_temporary_result;
+
+                        if (i + 1 < s)
+                            result += " OR ";
+                    }
+
+                    result += " )";
+
+                    m_temporary_result = result;
                 }
 
                 QString m_temporary_result;
