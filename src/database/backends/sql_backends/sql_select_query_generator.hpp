@@ -20,14 +20,27 @@
 #ifndef SQLSELECTQUERYGENERATOR_H
 #define SQLSELECTQUERYGENERATOR_H
 
-class SqlSelectQueryGenerator
-{
-    public:
-        SqlSelectQueryGenerator();
-        SqlSelectQueryGenerator(const SqlSelectQueryGenerator &) = delete;
-        ~SqlSelectQueryGenerator();
+#include <deque>
 
-        SqlSelectQueryGenerator& operator=(const SqlSelectQueryGenerator &) = delete;
-};
+#include <QString>
+
+#include <database/filter.hpp>
+
+namespace Database
+{
+
+    class SqlSelectQueryGenerator
+    {
+        public:
+            SqlSelectQueryGenerator();
+            SqlSelectQueryGenerator(const SqlSelectQueryGenerator &) = delete;
+            ~SqlSelectQueryGenerator();
+
+            SqlSelectQueryGenerator& operator=(const SqlSelectQueryGenerator &) = delete;
+
+            QString generate(const std::deque<IFilter::Ptr> &);
+    };
+
+}
 
 #endif // SQLSELECTQUERYGENERATOR_H
