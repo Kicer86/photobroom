@@ -49,7 +49,7 @@ namespace Database
     };
 
 
-    struct SqlFiltersVisitor: Database::IFilterVisitor
+    struct SqlFiltersVisitor final: Database::IFilterVisitor
     {
         SqlFiltersVisitor(): m_filterResult() {}
         virtual ~SqlFiltersVisitor() {}
