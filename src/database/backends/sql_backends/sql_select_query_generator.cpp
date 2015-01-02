@@ -26,59 +26,43 @@
 
 namespace Database
 {
+    struct FilterData
+    {
+        enum Join
+        {
+            TagsWithPhotos,
+            TagNamesWithTags,
+            FlagsWithPhotos,
+            HashWithPhotos,
+        };
+
+        std::set<Join> joins;
+        QStringList conditions;
+
+        FilterData(): joins(), conditions() {}
+
+        void clear()
+        {
+            joins.clear();
+            conditions.clear();
+        }
+    };
+
 
     struct SqlFiltersVisitor: Database::IFilterVisitor
     {
         SqlFiltersVisitor(): m_filterResult() {}
         virtual ~SqlFiltersVisitor() {}
 
-        QString parse(const std::deque<IFilter::Ptr>& filters)
+        FilterData visit(const IFilter::Ptr& filter)
         {
-            const size_t s = filters.size();
             m_filterResult.clear();
+            filter->visitMe(this);
 
-            FilterData filterData;
-
-            for (size_t i = 0; i < s; i++)
-            {
-                const size_t index = s - i - 1;
-                m_filterResult.clear();
-                filters[index]->visitMe(this);
-
-                filterData.joins.insert(m_filterResult.joins.cbegin(), m_filterResult.joins.cend());
-                filterData.conditions.append(m_filterResult.conditions);
-
-                m_filterResult.clear();
-            }
-
-            const QString result = constructQuery(filterData);
-
-            return result;
+            return m_filterResult;
         }
 
     private:
-        struct FilterData
-        {
-            enum Join
-            {
-                TagsWithPhotos,
-                TagNamesWithTags,
-                FlagsWithPhotos,
-                HashWithPhotos,
-            };
-
-            std::set<Join> joins;
-            QStringList conditions;
-
-            FilterData(): joins(), conditions() {}
-
-            void clear()
-            {
-                joins.clear();
-                conditions.clear();
-            }
-        };
-
         QString getFlagName(IPhotoInfo::FlagsE flag) const
         {
             QString result;
@@ -89,76 +73,6 @@ namespace Database
                 case IPhotoInfo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;  break;
                 case IPhotoInfo::FlagsE::Sha256Loaded:    result = FLAG_HASH_LOADED;  break;
                 case IPhotoInfo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED; break;
-            }
-
-            return result;
-        }
-
-        QString constructQuery(const FilterData& filterData) const
-        {
-            QString result;
-
-            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-
-            //fill JOIN section
-            if (filterData.joins.empty() == false)  //at least one join
-                result += " JOIN (";
-
-            for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
-            {
-                const auto join = *it;
-
-                switch(join)
-                {
-                    case FilterData::TagsWithPhotos:   result += TAB_TAGS;      break;
-                    case FilterData::TagNamesWithTags: result += TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
-                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS;     break;
-                    case FilterData::HashWithPhotos:   result += TAB_HASHES;    break;
-                }
-
-                ++it;
-                if ( it != filterData.joins.cend())
-                    result += ", ";
-            }
-
-            if (filterData.joins.empty() == false)  //at least one join
-                result += ") ON (";
-
-            for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
-            {
-                const auto join = *it;
-
-                switch(join)
-                {
-                    case FilterData::TagsWithPhotos:   result += TAB_TAGS ".photo_id = " TAB_PHOTOS ".id";   break;
-                    case FilterData::TagNamesWithTags: result += TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
-                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS ".photo_id = " TAB_PHOTOS ".id";  break;
-                    case FilterData::HashWithPhotos:   result += TAB_HASHES ".photo_id = " TAB_PHOTOS ".id"; break;
-                }
-
-                ++it;
-                if ( it != filterData.joins.cend())
-                    result += " AND ";
-            }
-
-            if (filterData.joins.empty() == false)  //at least one join
-                result += ")";
-
-            //conditions
-            if (filterData.conditions.isEmpty() == false)
-            {
-                result += " WHERE ";
-
-                for (auto it = filterData.conditions.cbegin(); it != filterData.conditions.cend();)
-                {
-                    const QString condition = *it;
-                    result += condition;
-
-                    ++it;
-
-                    if (it != filterData.conditions.cend())
-                        result += " AND ";
-                }
             }
 
             return result;
@@ -235,6 +149,104 @@ namespace Database
     };
 
 
+    struct Generator final
+    {
+        Generator() {}
+        ~Generator() {}
+
+        QString parse(const std::deque<IFilter::Ptr>& filters)
+        {
+            const size_t s = filters.size();
+            SqlFiltersVisitor visitor;
+            FilterData filterData;
+
+            for (size_t i = 0; i < s; i++)
+            {
+                const size_t index = s - i - 1;
+                FilterData currentfilterData = visitor.visit(filters[index]);
+
+                filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
+                filterData.conditions.append(currentfilterData.conditions);
+            }
+
+            const QString result = constructQuery(filterData);
+
+            return result;
+        }
+
+        QString constructQuery(const FilterData& filterData) const
+        {
+            QString result;
+
+            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+
+            //fill JOIN section
+            if (filterData.joins.empty() == false)  //at least one join
+                result += " JOIN (";
+
+            for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
+            {
+                const auto join = *it;
+
+                switch(join)
+                {
+                    case FilterData::TagsWithPhotos:   result += TAB_TAGS;      break;
+                    case FilterData::TagNamesWithTags: result += TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
+                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS;     break;
+                    case FilterData::HashWithPhotos:   result += TAB_HASHES;    break;
+                }
+
+                ++it;
+                if ( it != filterData.joins.cend())
+                    result += ", ";
+            }
+
+            if (filterData.joins.empty() == false)  //at least one join
+                result += ") ON (";
+
+            for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
+            {
+                const auto join = *it;
+
+                switch(join)
+                {
+                    case FilterData::TagsWithPhotos:   result += TAB_TAGS ".photo_id = " TAB_PHOTOS ".id";   break;
+                    case FilterData::TagNamesWithTags: result += TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
+                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS ".photo_id = " TAB_PHOTOS ".id";  break;
+                    case FilterData::HashWithPhotos:   result += TAB_HASHES ".photo_id = " TAB_PHOTOS ".id"; break;
+                }
+
+                ++it;
+                if ( it != filterData.joins.cend())
+                    result += " AND ";
+            }
+
+            if (filterData.joins.empty() == false)  //at least one join
+                result += ")";
+
+            //conditions
+            if (filterData.conditions.isEmpty() == false)
+            {
+                result += " WHERE ";
+
+                for (auto it = filterData.conditions.cbegin(); it != filterData.conditions.cend();)
+                {
+                    const QString condition = *it;
+                    result += condition;
+
+                    ++it;
+
+                    if (it != filterData.conditions.cend())
+                        result += " AND ";
+                }
+            }
+
+            return result;
+        }
+    };
+
+
+
     SqlSelectQueryGenerator::SqlSelectQueryGenerator()
     {
 
@@ -249,7 +261,7 @@ namespace Database
 
     QString SqlSelectQueryGenerator::generate(const std::deque<IFilter::Ptr>& filters)
     {
-        return SqlFiltersVisitor().parse(filters);
+        return Generator().parse(filters);
     }
 
 }
