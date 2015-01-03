@@ -156,14 +156,12 @@ namespace Database
 
         QString parse(const std::deque<IFilter::Ptr>& filters)
         {
-            const size_t s = filters.size();
             FiltersVisitor visitor;
             FilterData filterData;
 
-            for (size_t i = 0; i < s; i++)
+            for (const IFilter::Ptr& filter: filters)
             {
-                const size_t index = s - i - 1;
-                FilterData currentfilterData = visitor.visit(filters[index]);
+                FilterData currentfilterData = visitor.visit(filter);
 
                 filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
                 filterData.conditions.append(currentfilterData.conditions);
