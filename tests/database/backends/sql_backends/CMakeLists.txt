@@ -13,7 +13,7 @@ setupTestEnvironmentFor(sql_backend_base ${BASE_DIR})
 
 set(SRC
         ${sql_backend_base_srcs}
-        # model tests:
+        sql_select_query_generator_tests.cpp
 
         # main()
         main.cpp
