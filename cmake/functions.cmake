@@ -87,10 +87,9 @@ endmacro(find_cryptographic_package)
 # will setup:
 # ${lib}_srcs            - to list of all library sources
 # ${lib}_link_libraries  - to all necessary link libraries
-# BASE_DIR               - to library's base dir
-macro(setupTestEnvironmentFor lib)
+macro(setupTestEnvironmentFor lib dir)
 
-    set(BASE_DIR ${CMAKE_SOURCE_DIR}/src/${lib})
+    set(BASE_DIR ${dir})
 
     get_target_property(_${lib}_include_dirs ${lib} INCLUDE_DIRECTORIES)
     get_target_property(_${lib}_raw_srcs ${lib} SOURCES)
