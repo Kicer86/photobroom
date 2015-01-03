@@ -114,7 +114,7 @@ namespace Database
         {
             //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
             m_filterResult.conditions.append( QString("photos.id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS
-                                                      " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) "
+                                                      " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
                                                       " WHERE " TAB_TAG_NAMES ".name = '%1')")
                                               .arg(filter->tagName) );
         }
