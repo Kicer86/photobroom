@@ -100,3 +100,34 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
               "JOIN (hashes) ON (hashes.photo_id = photos.id) "
               "WHERE hashes.hash = '1234567890'", query);
 }
+
+
+TEST(SqlSelectQueryGeneratorTest, HandlesMergesWell)
+{
+    Database::SqlSelectQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    // sha256
+    std::shared_ptr<Database::FilterPhotosWithSha256> sha_filter = std::make_shared<Database::FilterPhotosWithSha256>();
+    filters.push_back(sha_filter);
+    sha_filter->sha256 = "1234567890";
+
+    //tag
+    std::shared_ptr<Database::FilterPhotosWithTag> tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    filters.push_back(tag_filter);
+    tag_filter->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    tag_filter->tagValue = "test_value";
+
+    //flags
+    std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    filters.push_back(flags_filter);
+    flags_filter->flag = IPhotoInfo::FlagsE::ExifLoaded;
+    flags_filter->value = 1;
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "JOIN (tags, tag_names, flags, hashes) "
+              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND hashes.photo_id = photos.id) "
+              "WHERE hashes.hash = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
+}
