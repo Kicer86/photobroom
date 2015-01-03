@@ -53,18 +53,6 @@ set(DATABASE_MOC
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
-if(BUILD_TESTS)
-    addTestTarget(database  SOURCES
-                                tests/databaseTests.cpp
-                                tests/photoIteratorTests.cpp
-                            TEST_LIBRARY
-                                GMOCK
-       )
-    target_link_libraries(database_test PRIVATE core database Qt5::Core Qt5::Gui)
-
-    turnOnCpp11(database_test)
-endif(BUILD_TESTS)
-
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
