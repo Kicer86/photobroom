@@ -49,10 +49,10 @@ namespace Database
     };
 
 
-    struct SqlFiltersVisitor final: Database::IFilterVisitor
+    struct FiltersVisitor final: Database::IFilterVisitor
     {
-        SqlFiltersVisitor(): m_filterResult() {}
-        virtual ~SqlFiltersVisitor() {}
+        FiltersVisitor(): m_filterResult() {}
+        virtual ~FiltersVisitor() {}
 
         FilterData visit(const IFilter::Ptr& filter)
         {
@@ -157,7 +157,7 @@ namespace Database
         QString parse(const std::deque<IFilter::Ptr>& filters)
         {
             const size_t s = filters.size();
-            SqlFiltersVisitor visitor;
+            FiltersVisitor visitor;
             FilterData filterData;
 
             for (size_t i = 0; i < s; i++)
