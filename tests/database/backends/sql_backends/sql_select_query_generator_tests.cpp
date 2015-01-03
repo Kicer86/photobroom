@@ -82,3 +82,21 @@ TEST(SqlSelectQueryGeneratorTest, HandlesWithoutTagsFilter)
               "JOIN tag_names ON ( tag_names.id = tags.name_id) "
               "WHERE tag_names.name = 'test_name')", query);
 }
+
+
+TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
+{
+    Database::SqlSelectQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithSha256> filter = std::make_shared<Database::FilterPhotosWithSha256>();
+    filters.push_back(filter);
+
+    filter->sha256 = "1234567890";
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "JOIN (hashes) ON (hashes.photo_id = photos.id) "
+              "WHERE hashes.hash = '1234567890'", query);
+}
