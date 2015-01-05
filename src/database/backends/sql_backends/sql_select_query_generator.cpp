@@ -300,7 +300,7 @@ namespace Database
                 case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = photos_id"; break;
             }
 
-            joins.push_back(join);
+            joins.append(join);
         }
 
         result += joins.join(" AND ");
