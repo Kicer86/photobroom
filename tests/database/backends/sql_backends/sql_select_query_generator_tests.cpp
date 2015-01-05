@@ -102,7 +102,7 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesMergesWell)
+TEST(SqlSelectQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlSelectQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
@@ -130,4 +130,30 @@ TEST(SqlSelectQueryGeneratorTest, HandlesMergesWell)
               "JOIN (tags, tag_names, flags, hashes) "
               "ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id AND flags.photo_id = photos_id AND hashes.photo_id = photos_id) "
               "WHERE hashes.hash = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
+}
+
+
+TEST(SqlSelectQueryGeneratorTest, HandlesTagFiltersMergingWell)
+{
+    Database::SqlSelectQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    // #1 tag
+    std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    filters.push_back(tag1_filter);
+    tag1_filter->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    tag1_filter->tagValue = "test_value";
+
+    // #2 tag
+    std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    filters.push_back(tag2_filter);
+    tag2_filter->tagName = TagNameInfo("test_name2", TagNameInfo::Text);
+    tag2_filter->tagValue = "test_value2";
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+    "JOIN (tags, tag_names, flags, hashes) "
+    "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND hashes.photo_id = photos.id) "
+    "WHERE hashes.hash = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
 }
