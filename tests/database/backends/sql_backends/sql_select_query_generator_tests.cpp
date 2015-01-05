@@ -14,7 +14,7 @@ TEST(SqlSelectQueryGeneratorTest, HandlesEmptyList)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesFalgsFilter)
+TEST(SqlSelectQueryGeneratorTest, HandlesFlagsFilter)
 {
     Database::SqlSelectQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
