@@ -103,8 +103,8 @@ namespace Database
 
             m_filterResult.joins.insert(FilterData::FlagsWithPhotos);
             m_filterResult.conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
-            .arg(flagName)
-            .arg(flags->value));
+                                             .arg(flagName)
+                                             .arg(flags->value));
         }
 
         void visit(FilterPhotosWithSha256* sha256) override
