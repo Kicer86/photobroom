@@ -159,3 +159,31 @@ TEST(SqlSelectQueryGeneratorTest, HandlesTagFiltersMergingWell)
               "JOIN (tags, tag_names) ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id) "
               "WHERE tag_names.name = 'test_name2' AND tags.value = 'test_value2'", query);
 }
+
+/*
+TEST(SqlSelectQueryGeneratorTest, HandlesSimpleOrFilters)
+{
+    Database::SqlSelectQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithFlags> flag1 = std::make_shared<Database::FilterPhotosWithFlags>();
+    flag1->flag = IPhotoInfo::FlagsE::ExifLoaded;
+    flag1->value = 100;
+
+    std::shared_ptr<Database::FilterPhotosWithFlags> flag2 = std::make_shared<Database::FilterPhotosWithFlags>();
+    flag1->flag = IPhotoInfo::FlagsE::StagingArea;
+    flag1->value = 200;
+
+    std::shared_ptr<Database::FilterOrOperator> or_filter = std::make_shared<Database::FilterOrOperator>();
+    or_filter->filters.push_back(flag1);
+    or_filter->filters.push_back(flag2);
+
+    filters.push_back(or_filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "JOIN (flags) ON (flags.photo_id = photos_id) "
+              "WHERE ( flags.tags_loaded = '100' OR flags.staging_area = '200' )", query);
+}
+*/
