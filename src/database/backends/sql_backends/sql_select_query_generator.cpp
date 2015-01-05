@@ -46,6 +46,11 @@ namespace Database
             joins.clear();
             conditions.clear();
         }
+
+        bool empty() const
+        {
+            return joins.empty() && conditions.empty();
+        }
     };
 
 
@@ -158,25 +163,80 @@ namespace Database
         {
             FiltersVisitor visitor;
             FilterData filterData;
+            QString result;
 
             for (const IFilter::Ptr& filter: filters)
             {
                 FilterData currentfilterData = visitor.visit(filter);
 
-                filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
-                filterData.conditions.append(currentfilterData.conditions);
+                const bool mergable = canBeMerged(currentfilterData, filterData);
+
+                if (mergable)
+                {
+                    filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
+                    filterData.conditions.append(currentfilterData.conditions);
+                }
+                else   //flush filter to QString query
+                {
+                    //flush current data
+                    result = append(result, filterData);
+
+                    //apply new one
+                    filterData = currentfilterData;
+                }
             }
 
-            const QString result = constructQuery(filterData);
+            //final flush
+            if (filterData.empty() == false || result.isEmpty())   //flush when there is somethign to be flushed or, we have empty queue (no filters case)
+            {
+                result = append(result, filterData);
+                filterData.clear();
+            }
 
             return result;
         }
 
-        QString constructQuery(const FilterData& filterData) const
+
+        bool canBeMerged(const FilterData& fd1, const FilterData& fd2) const
+        {
+            auto tf1 = fd1.joins.find(FilterData::TagsWithPhotos);
+            auto tf2 = fd2.joins.find(FilterData::TagsWithPhotos);
+
+            // there cannot be two joins for tags
+            const bool result = tf1 == fd1.joins.cend() || tf2 == fd2.joins.cend();
+
+            return result;
+        }
+
+
+        QString append(const QString& current, const QString& incoming) const
         {
             QString result;
 
-            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+            if (current.isEmpty())
+            {
+                result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+                result += incoming;
+            }
+            else
+                result = "SELECT photos_id FROM ( " + current + ")" + incoming;
+
+            return result;
+        }
+
+
+        QString append(const QString& current, const FilterData& incoming) const
+        {
+            const QString partial = constructQuery(incoming);
+            const QString result = append(current, partial);
+
+            return result;
+        }
+
+
+        QString constructQuery(const FilterData& filterData) const
+        {
+            QString result;
 
             //fill JOIN section
             if (filterData.joins.empty() == false)  //at least one join
