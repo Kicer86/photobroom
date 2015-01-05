@@ -152,8 +152,10 @@ TEST(SqlSelectQueryGeneratorTest, HandlesTagFiltersMergingWell)
 
     const QString query = generator.generate(filters);
 
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-    "JOIN (tags, tag_names, flags, hashes) "
-    "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND hashes.photo_id = photos.id) "
-    "WHERE hashes.hash = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
+    EXPECT_EQ("SELECT photos_id FROM "
+              "( SELECT photos.id AS photos_id FROM photos "
+                "JOIN (tags, tag_names) ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id) "
+                "WHERE tag_names.name = 'test_name' AND tags.value = 'test_value') "
+              "JOIN (tags, tag_names) ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id) "
+              "WHERE tag_names.name = 'test_name2' AND tags.value = 'test_value2'", query);
 }
