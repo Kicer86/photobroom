@@ -26,6 +26,7 @@
 
 namespace Database
 {
+
     struct FilterData
     {
         enum Join
@@ -51,6 +52,19 @@ namespace Database
         {
             return joins.empty() && conditions.empty();
         }
+    };
+
+    
+    struct Generator final
+    {
+        Generator();
+        ~Generator();
+
+        QString parse(const std::deque<IFilter::Ptr> &);
+        bool canBeMerged(const FilterData &, const FilterData &) const;
+        QString nest(const QString& current, const QString& incoming) const;
+        QString nest(const QString& current, const FilterData& incoming) const;
+        QString constructQuery(const FilterData &) const;
     };
 
 
@@ -154,146 +168,155 @@ namespace Database
     };
 
 
-    struct Generator final
+    ////////////////////////////////////////////////////////////////////////////
+
+
+    Generator::Generator()
     {
-        Generator() {}
-        ~Generator() {}
 
-        QString parse(const std::deque<IFilter::Ptr>& filters)
+    }
+
+
+    Generator::~Generator()
+    {
+
+    }
+
+
+    QString Generator::parse(const std::deque<IFilter::Ptr>& filters)
+    {
+        FiltersVisitor visitor;
+        FilterData filterData;
+        QString result;
+
+        for (const IFilter::Ptr& filter: filters)
         {
-            FiltersVisitor visitor;
-            FilterData filterData;
-            QString result;
+            FilterData currentfilterData = visitor.visit(filter);
 
-            for (const IFilter::Ptr& filter: filters)
+            const bool mergable = canBeMerged(currentfilterData, filterData);
+
+            if (mergable)
             {
-                FilterData currentfilterData = visitor.visit(filter);
-
-                const bool mergable = canBeMerged(currentfilterData, filterData);
-
-                if (mergable)
-                {
-                    filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
-                    filterData.conditions.append(currentfilterData.conditions);
-                }
-                else   //flush filter to QString query
-                {
-                    //flush current data
-                    result = nest(result, filterData);
-
-                    //apply new one
-                    filterData = currentfilterData;
-                }
+                filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
+                filterData.conditions.append(currentfilterData.conditions);
             }
-
-            //final flush
-            if (filterData.empty() == false || result.isEmpty())   //flush when there is somethign to be flushed or, we have empty queue (no filters case)
+            else   //flush filter to QString query
             {
+                //flush current data
                 result = nest(result, filterData);
-                filterData.clear();
-            }
 
-            return result;
+                //apply new one
+                filterData = currentfilterData;
+            }
         }
 
-
-        bool canBeMerged(const FilterData& fd1, const FilterData& fd2) const
+        //final flush
+        if (filterData.empty() == false || result.isEmpty())   //flush when there is somethign to be flushed or, we have empty queue (no filters case)
         {
-            auto tf1 = fd1.joins.find(FilterData::TagsWithPhotos);
-            auto tf2 = fd2.joins.find(FilterData::TagsWithPhotos);
-
-            // there cannot be two joins for tags
-            const bool result = tf1 == fd1.joins.cend() || tf2 == fd2.joins.cend();
-
-            return result;
+            result = nest(result, filterData);
+            filterData.clear();
         }
 
+        return result;
+    }
 
-        QString nest(const QString& current, const QString& incoming) const
+
+    bool Generator::canBeMerged(const FilterData& fd1, const FilterData& fd2) const
+    {
+        auto tf1 = fd1.joins.find(FilterData::TagsWithPhotos);
+        auto tf2 = fd2.joins.find(FilterData::TagsWithPhotos);
+
+        // there cannot be two joins for tags
+        const bool result = tf1 == fd1.joins.cend() || tf2 == fd2.joins.cend();
+
+        return result;
+    }
+
+
+    QString Generator::nest(const QString& current, const QString& incoming) const
+    {
+        QString result;
+
+        if (current.isEmpty())
         {
-            QString result;
-
-            if (current.isEmpty())
-            {
-                result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-                result += incoming;
-            }
-            else
-                result = "SELECT photos_id FROM ( " + current + ")" + incoming;
-
-            return result;
+            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+            result += incoming;
         }
+        else
+            result = "SELECT photos_id FROM ( " + current + ")" + incoming;
+
+        return result;
+    }
 
 
-        QString nest(const QString& current, const FilterData& incoming) const
+    QString Generator::nest(const QString& current, const FilterData& incoming) const
+    {
+        const QString partial = constructQuery(incoming);
+        const QString result = nest(current, partial);
+
+        return result;
+    }
+
+
+    QString Generator::constructQuery(const FilterData& filterData) const
+    {
+        QString result;
+
+        //fill JOIN section
+        if (filterData.joins.empty() == false)  //at least one join
+            result += " JOIN (";
+
+        QStringList joinsWith;
+        for(const auto& item: filterData.joins)
         {
-            const QString partial = constructQuery(incoming);
-            const QString result = nest(current, partial);
+            QString joinWith;
 
-            return result;
+            switch(item)
+            {
+                case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;      break;
+                case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
+                case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;     break;
+                case FilterData::HashWithPhotos:   joinWith = TAB_HASHES;    break;
+            }
+
+            joinsWith.append(joinWith);
         }
 
+        result += joinsWith.join(", ");
 
-        QString constructQuery(const FilterData& filterData) const
+        if (filterData.joins.empty() == false)  //at least one join
+            result += ") ON (";
+
+        QStringList joins;
+        for(const auto& item: filterData.joins)
         {
-            QString result;
+            QString join;
 
-            //fill JOIN section
-            if (filterData.joins.empty() == false)  //at least one join
-                result += " JOIN (";
-
-            QStringList joinsWith;
-            for(const auto& item: filterData.joins)
+            switch(item)
             {
-                QString joinWith;
-
-                switch(item)
-                {
-                    case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;      break;
-                    case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
-                    case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;     break;
-                    case FilterData::HashWithPhotos:   joinWith = TAB_HASHES;    break;
-                }
-
-                joinsWith.append(joinWith);
+                case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = photos_id";   break;
+                case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
+                case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = photos_id";  break;
+                case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = photos_id"; break;
             }
 
-            result += joinsWith.join(", ");
-
-            if (filterData.joins.empty() == false)  //at least one join
-                result += ") ON (";
-
-            QStringList joins;
-            for(const auto& item: filterData.joins)
-            {
-                QString join;
-
-                switch(item)
-                {
-                    case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = photos_id";   break;
-                    case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
-                    case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = photos_id";  break;
-                    case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = photos_id"; break;
-                }
-
-                joins.push_back(join);
-            }
-
-            result += joins.join(" AND ");
-
-            if (filterData.joins.empty() == false)  //at least one join
-                result += ")";
-
-            //conditions
-            if (filterData.conditions.isEmpty() == false)
-            {
-                result += " WHERE ";
-                result += filterData.conditions.join(" AND ");
-            }
-
-            return result;
+            joins.push_back(join);
         }
-    };
+
+        result += joins.join(" AND ");
+
+        if (filterData.joins.empty() == false)  //at least one join
+            result += ")";
+
+        //conditions
+        if (filterData.conditions.isEmpty() == false)
+        {
+            result += " WHERE ";
+            result += filterData.conditions.join(" AND ");
+        }
+
+        return result;
+    }
 
 
 
