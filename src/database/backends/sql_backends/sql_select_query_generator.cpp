@@ -113,7 +113,7 @@ namespace Database
         void visit(FilterPhotosWithoutTag* filter) override
         {
             //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-            m_filterResult.conditions.append( QString("photos.id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS
+            m_filterResult.conditions.append( QString("photos_id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS
                                                       " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
                                                       " WHERE " TAB_TAG_NAMES ".name = '%1')")
                                               .arg(filter->tagName) );
@@ -208,10 +208,10 @@ namespace Database
 
                 switch(join)
                 {
-                    case FilterData::TagsWithPhotos:   result += TAB_TAGS ".photo_id = " TAB_PHOTOS ".id";   break;
+                    case FilterData::TagsWithPhotos:   result += TAB_TAGS ".photo_id = photos_id";   break;
                     case FilterData::TagNamesWithTags: result += TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
-                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS ".photo_id = " TAB_PHOTOS ".id";  break;
-                    case FilterData::HashWithPhotos:   result += TAB_HASHES ".photo_id = " TAB_PHOTOS ".id"; break;
+                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS ".photo_id = photos_id";  break;
+                    case FilterData::HashWithPhotos:   result += TAB_HASHES ".photo_id = photos_id"; break;
                 }
 
                 ++it;

@@ -25,22 +25,22 @@ TEST(SqlSelectQueryGeneratorTest, HandlesFalgsFilter)
     filter->flag = IPhotoInfo::FlagsE::ExifLoaded;
     filter->value = 1;
     QString query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.tags_loaded = '1'", query);
 
     filter->flag = IPhotoInfo::FlagsE::Sha256Loaded;
     filter->value = 2;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.hash_loaded = '2'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.hash_loaded = '2'", query);
 
     filter->flag = IPhotoInfo::FlagsE::StagingArea;
     filter->value = 3;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.staging_area = '3'", query);
 
     filter->flag = IPhotoInfo::FlagsE::ThumbnailLoaded;
     filter->value = 4;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.thumbnail_loaded = '4'", query);
 }
 
 
@@ -59,7 +59,7 @@ TEST(SqlSelectQueryGeneratorTest, HandlesTagsFilter)
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (tags, tag_names) "
-              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id) "
+              "ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id) "
               "WHERE tag_names.name = 'test_name' AND tags.value = 'test_value'", query);
 }
 
@@ -77,7 +77,7 @@ TEST(SqlSelectQueryGeneratorTest, HandlesWithoutTagsFilter)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "WHERE photos.id NOT IN "
+              "WHERE photos_id NOT IN "
               "(SELECT tags.photo_id FROM tags "
               "JOIN tag_names ON ( tag_names.id = tags.name_id) "
               "WHERE tag_names.name = 'test_name')", query);
@@ -97,7 +97,7 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (hashes) ON (hashes.photo_id = photos.id) "
+              "JOIN (hashes) ON (hashes.photo_id = photos_id) "
               "WHERE hashes.hash = '1234567890'", query);
 }
 
@@ -128,6 +128,6 @@ TEST(SqlSelectQueryGeneratorTest, HandlesMergesWell)
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (tags, tag_names, flags, hashes) "
-              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND hashes.photo_id = photos.id) "
+              "ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id AND flags.photo_id = photos_id AND hashes.photo_id = photos_id) "
               "WHERE hashes.hash = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
 }
