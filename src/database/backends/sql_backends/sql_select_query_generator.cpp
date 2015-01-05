@@ -242,42 +242,44 @@ namespace Database
             if (filterData.joins.empty() == false)  //at least one join
                 result += " JOIN (";
 
-            for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
+            QStringList joinsWith;
+            for(const auto& item: filterData.joins)
             {
-                const auto join = *it;
+                QString joinWith;
 
-                switch(join)
+                switch(item)
                 {
-                    case FilterData::TagsWithPhotos:   result += TAB_TAGS;      break;
-                    case FilterData::TagNamesWithTags: result += TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
-                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS;     break;
-                    case FilterData::HashWithPhotos:   result += TAB_HASHES;    break;
+                    case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;      break;
+                    case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
+                    case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;     break;
+                    case FilterData::HashWithPhotos:   joinWith = TAB_HASHES;    break;
                 }
 
-                ++it;
-                if ( it != filterData.joins.cend())
-                    result += ", ";
+                joinsWith.append(joinWith);
             }
+
+            result += joinsWith.join(", ");
 
             if (filterData.joins.empty() == false)  //at least one join
                 result += ") ON (";
 
-            for(auto it = filterData.joins.cbegin(); it != filterData.joins.cend();)
+            QStringList joins;
+            for(const auto& item: filterData.joins)
             {
-                const auto join = *it;
+                QString join;
 
-                switch(join)
+                switch(item)
                 {
-                    case FilterData::TagsWithPhotos:   result += TAB_TAGS ".photo_id = photos_id";   break;
-                    case FilterData::TagNamesWithTags: result += TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
-                    case FilterData::FlagsWithPhotos:  result += TAB_FLAGS ".photo_id = photos_id";  break;
-                    case FilterData::HashWithPhotos:   result += TAB_HASHES ".photo_id = photos_id"; break;
+                    case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = photos_id";   break;
+                    case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
+                    case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = photos_id";  break;
+                    case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = photos_id"; break;
                 }
 
-                ++it;
-                if ( it != filterData.joins.cend())
-                    result += " AND ";
+                joins.push_back(join);
             }
+
+            result += joins.join(" AND ");
 
             if (filterData.joins.empty() == false)  //at least one join
                 result += ")";
@@ -286,17 +288,7 @@ namespace Database
             if (filterData.conditions.isEmpty() == false)
             {
                 result += " WHERE ";
-
-                for (auto it = filterData.conditions.cbegin(); it != filterData.conditions.cend();)
-                {
-                    const QString condition = *it;
-                    result += condition;
-
-                    ++it;
-
-                    if (it != filterData.conditions.cend())
-                        result += " AND ";
-                }
+                result += filterData.conditions.join(" AND ");
             }
 
             return result;
