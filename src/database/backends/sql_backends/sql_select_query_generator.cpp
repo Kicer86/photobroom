@@ -179,7 +179,7 @@ namespace Database
                 else   //flush filter to QString query
                 {
                     //flush current data
-                    result = append(result, filterData);
+                    result = nest(result, filterData);
 
                     //apply new one
                     filterData = currentfilterData;
@@ -189,7 +189,7 @@ namespace Database
             //final flush
             if (filterData.empty() == false || result.isEmpty())   //flush when there is somethign to be flushed or, we have empty queue (no filters case)
             {
-                result = append(result, filterData);
+                result = nest(result, filterData);
                 filterData.clear();
             }
 
@@ -209,7 +209,7 @@ namespace Database
         }
 
 
-        QString append(const QString& current, const QString& incoming) const
+        QString nest(const QString& current, const QString& incoming) const
         {
             QString result;
 
@@ -225,10 +225,10 @@ namespace Database
         }
 
 
-        QString append(const QString& current, const FilterData& incoming) const
+        QString nest(const QString& current, const FilterData& incoming) const
         {
             const QString partial = constructQuery(incoming);
-            const QString result = append(current, partial);
+            const QString result = nest(current, partial);
 
             return result;
         }
