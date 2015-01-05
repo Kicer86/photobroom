@@ -118,7 +118,7 @@ namespace Database
 
     // Filters can be easly combined in AND chain when applyied one by one to set of photos.
     // FilterOrOperator can be used to to combine two ore filters as a logical OR
-    struct FilterOrOperator: IFilter
+    struct DATABASE_EXPORT FilterOrOperator: IFilter
     {
         FilterOrOperator();
         virtual ~FilterOrOperator() {}
