@@ -9,6 +9,7 @@
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
+#include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/iproject.hpp>
 
@@ -30,7 +31,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_stagedImagesModel(nullptr),
     m_configuration(nullptr),
     m_photosCollector(new PhotosCollector(this)),
-    m_views()
+    m_views(),
+    m_photosAnalyzer(new PhotosAnalyzer)
 {
     ui->setupUi(this);
     setupView();
@@ -62,12 +64,14 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 {
     m_imagesModel->set(taskExecutor);
     m_stagedImagesModel->set(taskExecutor);
+    m_photosAnalyzer->set(taskExecutor);
 }
 
 
 void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+    m_photosAnalyzer->set(configuration);
 
     for(IView* view: m_views)
         view->set(configuration);
@@ -97,6 +101,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 
     updateMenus();
     updateGui();
+    updateTools();
 }
 
 
@@ -152,6 +157,17 @@ void MainWindow::updateGui()
     const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No album opened"));
 
     setWindowTitle(title);
+}
+
+
+void MainWindow::updateTools()
+{
+    const bool prj = m_currentPrj.get() != nullptr;
+
+    if (prj)
+        m_photosAnalyzer->setDatabase(m_currentPrj->getDatabase());
+    else
+        m_photosAnalyzer->setDatabase(nullptr);
 }
 
 

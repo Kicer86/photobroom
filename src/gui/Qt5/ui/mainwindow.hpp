@@ -8,6 +8,7 @@
 
 class StagedPhotosDataModel;
 class PhotosCollector;
+class PhotosAnalyzer;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -49,6 +50,7 @@ class MainWindow final: public QMainWindow
         IConfiguration*           m_configuration;
         PhotosCollector*          m_photosCollector;
         std::vector<IView *>      m_views;
+        std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
 
         void closeEvent(QCloseEvent *);
         void openProject(const ProjectInfo &);
@@ -56,6 +58,7 @@ class MainWindow final: public QMainWindow
         void createMenus();
         void updateMenus();
         void updateGui();
+        void updateTools();
         void viewChanged();
 
     private slots:

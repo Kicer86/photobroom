@@ -34,7 +34,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         Id getID() const;
 
         //status checking
-        bool isFullyInitialized() const;            // returns true if hash is not null, and thumbnail is loaded (photo fully loaded)
+        bool isFullyInitialized() const;            // returns true if photo fully loaded (all items below are loaded)
         bool isHashLoaded() const;                  // returns true if hash is not null
         bool isThumbnailLoaded() const;             // returns true if thumbnail is loaded
         bool isExifDataLoaded() const;              // returns true is tags were loaded
@@ -53,9 +53,8 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         virtual void setTags(const Tag::TagsList &);
 
         //flags
-        void markStagingArea(bool = true);          // mark photo as stage area's photo
-        void markExifDataLoaded(bool = true);
-        Flags getFlags() const;
+        void markFlag(FlagsE, int) override;
+        int getFlag(FlagsE) const override;
 
     private:
         struct Data;

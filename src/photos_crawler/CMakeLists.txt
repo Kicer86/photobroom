@@ -33,7 +33,7 @@ set(ANALYZER_HEADERS
 
 if(BUILD_TESTS)
 
-    addTestTarget(analyzer
+    addTestTarget(photos_crawler
                             TEST_LIBRARY
                                 GMOCK
                             SOURCES
@@ -42,19 +42,19 @@ if(BUILD_TESTS)
                                 tests/photo_crawler_tests.cpp
                                 tests/photo_crawler_builder_tests.cpp
                 )
-    target_link_libraries(analyzer_test PRIVATE Qt5::Core)
-    turnOnCpp11(analyzer_test)
+    target_link_libraries(photos_crawler_test PRIVATE Qt5::Core)
+    turnOnCpp11(photos_crawler_test)
 
 endif(BUILD_TESTS)
 
-source_group(analyzer REGULAR_EXPRESSION .*analyzer.* )
+source_group(photos_crawler REGULAR_EXPRESSION .*photos_crawler.* )
 
-add_library(analyzer SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(analyzer PRIVATE Qt5::Core)
+add_library(photos_crawler SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
+target_link_libraries(photos_crawler PRIVATE Qt5::Core)
 
-generate_export_header(analyzer EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/analyzer_export.h)
-turnOnCpp11(analyzer)
-hideSymbols(analyzer)
+generate_export_header(photos_crawler EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/photos_crawler_export.h)
+turnOnCpp11(photos_crawler)
+hideSymbols(photos_crawler)
 
-install(TARGETS analyzer RUNTIME DESTINATION ${PATH_LIBS}
-		         LIBRARY DESTINATION ${PATH_LIBS})
+install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}
+                               LIBRARY DESTINATION ${PATH_LIBS})

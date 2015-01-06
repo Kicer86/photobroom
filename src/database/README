@@ -1,0 +1,6 @@
+
+Directory structure:
+backends        - various backend implementations and backends' data
+database_tools  - extra tools for database clients
+implementation  - internals
+tests           - tests

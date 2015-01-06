@@ -54,6 +54,7 @@ namespace Database
 
             void addColumn(const QString &);
             void addValue(const QString &);
+            void addValue(int);
             void addValue(Value);
 
             //finish variadic templates

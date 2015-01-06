@@ -28,9 +28,7 @@ int main(int argc, char **argv)
     
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
-    database_builder.set(&configuration);
     database_builder.set(&logger);
-    database_builder.set(&taskExecutor);
 
     ProjectManager prjManager;
     prjManager.set(&database_builder);

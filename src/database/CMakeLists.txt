@@ -1,5 +1,5 @@
 
-add_subdirectory(sql_backends)
+add_subdirectory(backends)
 
 find_package(OpenLibrary 2.0 REQUIRED)
 find_package(Qt5Core REQUIRED)
@@ -36,8 +36,8 @@ set(DATABASE_HEADERS
     photo_iterator.hpp
     query_list.hpp
     project_info.hpp
+    backends/photo_info.hpp
     implementation/database_thread.hpp
-    implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp
@@ -52,18 +52,6 @@ set(DATABASE_MOC
 	database_tools/photos_analyzer.hpp)
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
-
-if(BUILD_TESTS)
-    addTestTarget(database  SOURCES
-                                tests/databaseTests.cpp
-                                tests/photoIteratorTests.cpp
-                            TEST_LIBRARY
-                                GMOCK
-       )
-    target_link_libraries(database_test PRIVATE core database Qt5::Core Qt5::Gui)
-
-    turnOnCpp11(database_test)
-endif(BUILD_TESTS)
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 

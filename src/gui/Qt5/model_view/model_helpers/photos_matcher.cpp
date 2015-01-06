@@ -114,7 +114,29 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 
 void FiltersMatcher::visit(Database::FilterPhotosWithFlags* filter)
 {
-    const bool status = m_photo->getFlags().stagingArea == filter->stagingArea;
+    bool status = true;
+
+    switch (filter->mode)
+    {
+        case Database::FilterPhotosWithFlags::Mode::And: status = true;  break;
+        case Database::FilterPhotosWithFlags::Mode::Or:  status = false; break;
+    }
+
+    for(const auto& it: filter->flags)
+    {
+        const bool partial_result = m_photo->getFlag(it.first) == it.second;
+
+        switch (filter->mode)
+        {
+            case Database::FilterPhotosWithFlags::Mode::And:
+                status &= partial_result;
+                break;
+
+            case Database::FilterPhotosWithFlags::Mode::Or:
+                status |= partial_result;
+                break;
+        }
+    }
 
     m_doesMatch = status;
 }
@@ -140,6 +162,7 @@ void FiltersMatcher::visit(Database::FilterPhotosWithoutTag* filter)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 PhotosMatcher::PhotosMatcher(): m_idxDataManager(nullptr), m_dbDataModel(nullptr)
 {

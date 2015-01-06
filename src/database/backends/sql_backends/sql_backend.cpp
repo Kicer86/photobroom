@@ -43,13 +43,14 @@
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/project_info.hpp>
-#include <database/implementation/photo_info.hpp>
+#include <database/backends/photo_info.hpp>
 
 #include "table_definition.hpp"
 //#include "sql_db_query.hpp"
 #include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
+#include "sql_select_query_generator.hpp"
 
 
 namespace Database
@@ -81,111 +82,6 @@ namespace Database
 
             return pixmap;
         }
-
-
-        struct SqlFiltersVisitor: IFilterVisitor
-        {
-                SqlFiltersVisitor(): m_temporary_result() {}
-                virtual ~SqlFiltersVisitor() {}
-
-                QString parse(const std::deque<IFilter::Ptr>& filters)
-                {
-                    QString result;
-                    const size_t s = filters.size();
-                    bool nest_previous = true;
-                    m_temporary_result = "";
-
-                    for (size_t i = 0; i < s; i++)
-                    {
-                        if (i > 0) // not first filter? Nest previous one
-                        {
-                            if (nest_previous) //really nest?
-                            {
-                                result = "SELECT * FROM "
-                                         "( " + result + ") AS level_%1";
-
-                                result = result.arg(i);
-                            }
-                        }
-                        else
-                        {
-                            result = "SELECT %1.id AS photos_id FROM %1";
-                            result = result.arg(TAB_PHOTOS);
-                        }
-
-                        const size_t index = s - i - 1;
-                        m_temporary_result = "";
-                        filters[index]->visitMe(this);
-
-                        nest_previous = m_temporary_result.isEmpty() == false;
-                        result += m_temporary_result;
-                        m_temporary_result = "";
-                    }
-
-                    return result;
-                }
-
-            private:
-                // IFilterVisitor interface
-                void visit(EmptyFilter *) override
-                {
-                }
-
-                void visit(FilterPhotosWithTag* desciption) override
-                {
-                    QString result;
-
-                    result = " JOIN (" TAB_TAGS ", " TAB_TAG_NAMES ")"
-                             " ON (" TAB_TAGS ".photo_id = photos_id AND " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
-                             " WHERE " TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'";
-
-                    result = result.arg(desciption->tagName);
-                    result = result.arg(desciption->tagValue);
-
-                    m_temporary_result = result;
-                }
-
-                void visit(FilterPhotosWithFlags* flags) override
-                {
-                    QString result;
-
-                    result =  " JOIN " TAB_FLAGS " ON " TAB_FLAGS ".photo_id = photos_id";
-                    result += " WHERE " TAB_FLAGS ".staging_area = '%1'";
-
-                    result = result.arg(flags->stagingArea? "TRUE": "FALSE");
-
-                    m_temporary_result = result;
-                }
-
-                void visit(FilterPhotosWithSha256* sha256) override
-                {
-                    assert(sha256->sha256.empty() == false);
-                    QString result;
-
-                    result =  " JOIN " TAB_HASHES " ON " TAB_HASHES ".photo_id = photos_id";
-                    result += " WHERE " TAB_HASHES ".hash = '%1'";
-
-                    result = result.arg(sha256->sha256.c_str());
-
-                    m_temporary_result = result;
-                }
-
-                virtual void visit(FilterPhotosWithoutTag* filter)
-                {
-                    //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-                    QString result;
-
-                    result =  " WHERE photos_id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS;
-                    result += " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id) ";
-                    result += " WHERE " TAB_TAG_NAMES ".name = '%1')";
-
-                    result = result.arg(filter->tagName);
-
-                    m_temporary_result = result;
-                }
-
-                QString m_temporary_result;
-        };
 
 
         struct Transaction
@@ -347,6 +243,7 @@ namespace Database
 
         m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logMessage);
 
+        assert(status);
         if (status == false)
             m_logger->log({"Database" ,"ASqlBackend"},
                           ILogger::Severity::Error,
@@ -538,8 +435,7 @@ namespace Database
 
     QString ASqlBackend::Data::generateFilterQuery(const std::deque<IFilter::Ptr>& filters)
     {
-        SqlFiltersVisitor visitor;
-        const QString result = visitor.parse(filters);
+        const QString result = SqlSelectQueryGenerator().generate(filters);
 
         return result;
     }
@@ -625,10 +521,10 @@ namespace Database
         queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "hash_loaded", "thumbnail_loaded");
         queryData.setValues( InsertQueryData::Value::Null,
                              QString::number(photo_id),
-                             photoInfo->getFlags().stagingArea? "TRUE": "FALSE",
-                             photoInfo->getFlags().exifLoaded? "TRUE": "FALSE",
-                             photoInfo->getFlags().hashLoaded? "TRUE": "FALSE",
-                             photoInfo->getFlags().thumbnailLoaded? "TRUE": "FALSE" );
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::StagingArea),
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::ExifLoaded),
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::Sha256Loaded),
+                             photoInfo->getFlag(IPhotoInfo::FlagsE::ThumbnailLoaded));
 
         auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
 
@@ -835,20 +731,26 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, hash_loaded, thumbnail_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
 
         const bool status = exec(queryStr, &query);
 
-        if(status && query.next())
+        if (status && query.next())
         {
             QVariant variant = query.value(0);
-            photoInfo->markStagingArea(variant.toString() == "TRUE");
+            photoInfo->markFlag(IPhotoInfo::FlagsE::StagingArea, variant.toInt());
 
             variant = query.value(1);
-            photoInfo->markExifDataLoaded(variant.toString() == "TRUE");
+            photoInfo->markFlag(IPhotoInfo::FlagsE::ExifLoaded, variant.toInt());
+
+            variant = query.value(2);
+            photoInfo->markFlag(IPhotoInfo::FlagsE::Sha256Loaded, variant.toInt());
+
+            variant = query.value(3);
+            photoInfo->markFlag(IPhotoInfo::FlagsE::ThumbnailLoaded, variant.toInt());
         }
     }
 

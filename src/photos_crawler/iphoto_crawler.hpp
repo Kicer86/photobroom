@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "analyzer_export.h"
+#include "photos_crawler_export.h"
 
 class QString;
 
@@ -22,7 +22,7 @@ struct IMediaNotification
     virtual void finished() = 0;
 };
 
-struct ANALYZER_EXPORT IPhotoCrawler
+struct PHOTOS_CRAWLER_EXPORT IPhotoCrawler
 {
     virtual ~IPhotoCrawler();
 
