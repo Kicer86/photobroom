@@ -90,8 +90,15 @@ namespace Database
 
         FILTER_COMMAND
 
+        enum class Mode
+        {
+            And,
+            Or,
+        };
+
         IPhotoInfo::FlagsE flag;
         int value;
+        Mode mode;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter
