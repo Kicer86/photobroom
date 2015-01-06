@@ -28,7 +28,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithFlags::FilterPhotosWithFlags(): flag(IPhotoInfo::FlagsE::StagingArea), value(0), mode(Mode::And)
+    FilterPhotosWithFlags::FilterPhotosWithFlags(): flags(), mode(Mode::And)
     {
 
     }
@@ -41,12 +41,6 @@ namespace Database
 
 
     FilterPhotosWithoutTag::FilterPhotosWithoutTag(): tagName("", TagNameInfo::Invalid)
-    {
-
-    }
-
-
-    FilterOrOperator::FilterOrOperator(): filters()
     {
 
     }

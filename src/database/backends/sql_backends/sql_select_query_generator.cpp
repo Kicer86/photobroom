@@ -54,7 +54,7 @@ namespace Database
         }
     };
 
-    
+
     struct Generator final
     {
         Generator();
@@ -113,12 +113,34 @@ namespace Database
 
         void visit(FilterPhotosWithFlags* flags) override
         {
-            const QString flagName = getFlagName(flags->flag);
-
             m_filterResult.joins.insert(FilterData::FlagsWithPhotos);
-            m_filterResult.conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
-                                             .arg(flagName)
-                                             .arg(flags->value));
+
+            QStringList conditions;
+
+            for(const auto& it: flags->flags)
+            {
+                const QString flagName = getFlagName(it.first);
+                const int flagValue = it.second;
+
+                conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
+                                  .arg(flagName)
+                                  .arg(flagValue));
+            }
+
+            QString merged_conditions;
+
+            switch (flags->mode)
+            {
+                case FilterPhotosWithFlags::Mode::And:
+                    merged_conditions = conditions.join(" AND ");
+                    break;
+
+                case FilterPhotosWithFlags::Mode::Or:
+                    merged_conditions = "( " + conditions.join(" OR ") + " )";
+                    break;
+            }
+
+            m_filterResult.conditions.append(merged_conditions);
         }
 
         void visit(FilterPhotosWithSha256* sha256) override
@@ -136,32 +158,6 @@ namespace Database
                                                       " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
                                                       " WHERE " TAB_TAG_NAMES ".name = '%1')")
                                               .arg(filter->tagName) );
-        }
-
-        void visit(FilterOrOperator* filter) override
-        {
-            FilterData orFilterData;
-            QString condition;
-
-            condition = "( ";
-
-            const size_t s = filter->filters.size();
-
-            QStringList conditions;
-            for(size_t i = 0; i < s; i++)
-            {
-                m_filterResult.clear();
-                filter->filters[i]->visitMe(this);
-
-                orFilterData.joins.insert(m_filterResult.joins.cbegin(), m_filterResult.joins.cend());
-                conditions.append(m_filterResult.conditions);
-            }
-
-            condition += conditions.join(" OR ");
-            condition += " )";
-
-            orFilterData.conditions.append(condition);
-            m_filterResult = orFilterData;
         }
 
         FilterData m_filterResult;

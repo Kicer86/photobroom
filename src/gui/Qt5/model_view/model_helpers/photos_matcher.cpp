@@ -42,7 +42,6 @@ struct FiltersMatcher: Database::IFilterVisitor
         virtual void visit(Database::FilterPhotosWithFlags *) override;
         virtual void visit(Database::FilterPhotosWithSha256 *) override;
         virtual void visit(Database::FilterPhotosWithoutTag *) override;
-        virtual void visit(Database::FilterOrOperator*) override;
 };
 
 
@@ -115,7 +114,29 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 
 void FiltersMatcher::visit(Database::FilterPhotosWithFlags* filter)
 {
-    const bool status = m_photo->getFlag(filter->flag) == filter->value;
+    bool status = true;
+
+    switch (filter->mode)
+    {
+        case Database::FilterPhotosWithFlags::Mode::And: status = true;  break;
+        case Database::FilterPhotosWithFlags::Mode::Or:  status = false; break;
+    }
+
+    for(const auto& it: filter->flags)
+    {
+        const bool partial_result = m_photo->getFlag(it.first) == it.second;
+
+        switch (filter->mode)
+        {
+            case Database::FilterPhotosWithFlags::Mode::And:
+                status &= partial_result;
+                break;
+
+            case Database::FilterPhotosWithFlags::Mode::Or:
+                status |= partial_result;
+                break;
+        }
+    }
 
     m_doesMatch = status;
 }
@@ -140,21 +161,8 @@ void FiltersMatcher::visit(Database::FilterPhotosWithoutTag* filter)
 }
 
 
-void FiltersMatcher::visit(Database::FilterOrOperator* filter)
-{
-    m_doesMatch = false;
-
-    for(const Database::IFilter::Ptr& sub: filter->filters)
-    {
-        sub->visitMe(this);
-
-        if (m_doesMatch)
-            break;
-    }
-}
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 PhotosMatcher::PhotosMatcher(): m_idxDataManager(nullptr), m_dbDataModel(nullptr)
 {

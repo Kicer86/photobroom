@@ -67,8 +67,7 @@ void StagedPhotosDataModel::storePhotos()
 std::deque<Database::IFilter::Ptr> StagedPhotosDataModel::getModelSpecificFilters() const
 {
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flag = IPhotoInfo::FlagsE::StagingArea;
-    filter->value = 1;
+    filter->flags[IPhotoInfo::FlagsE::StagingArea] = 1;
 
     const std::deque<Database::IFilter::Ptr> result( {filter});
 
