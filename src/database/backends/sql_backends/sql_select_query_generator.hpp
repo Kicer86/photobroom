@@ -1,6 +1,6 @@
 /*
- * Small modification od DBDataModel for main view purposes.
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Generator of SELECT queries.
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,30 +17,30 @@
  *
  */
 
-#include "photos_data_model.hpp"
+#ifndef SQLSELECTQUERYGENERATOR_HPP
+#define SQLSELECTQUERYGENERATOR_HPP
 
-#include <memory>
+#include <deque>
+
+#include <QString>
 
 #include <database/filter.hpp>
 
-PhotosDataModel::PhotosDataModel(QObject* p): DBDataModel(p)
+namespace Database
 {
+
+    class SqlSelectQueryGenerator
+    {
+        public:
+            SqlSelectQueryGenerator();
+            SqlSelectQueryGenerator(const SqlSelectQueryGenerator &) = delete;
+            ~SqlSelectQueryGenerator();
+
+            SqlSelectQueryGenerator& operator=(const SqlSelectQueryGenerator &) = delete;
+
+            QString generate(const std::deque<IFilter::Ptr> &);
+    };
 
 }
 
-
-PhotosDataModel::~PhotosDataModel()
-{
-
-}
-
-
-std::deque<Database::IFilter::Ptr> PhotosDataModel::getModelSpecificFilters() const
-{
-    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[IPhotoInfo::FlagsE::StagingArea] = 0;
-
-    const std::deque<Database::IFilter::Ptr> result( {filter});
-
-    return result;
-}
+#endif // SQLSELECTQUERYGENERATOR_HPP

@@ -21,6 +21,7 @@ set(SOURCES
         tables.cpp
         query_structs.cpp
         sql_query_constructor.cpp
+        sql_select_query_generator.cpp
     )
 
 set(HEADERS
@@ -31,6 +32,7 @@ set(HEADERS
         tables.hpp
         query_structs.hpp
         sql_query_constructor.hpp
+        sql_select_query_generator.hpp
     )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
@@ -40,4 +42,4 @@ hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/sql_backend_base_export.h)
 
 install(TARGETS sql_backend_base RUNTIME DESTINATION ${PATH_LIBS}
-		                 LIBRARY DESTINATION ${PATH_LIBS})
+                                 LIBRARY DESTINATION ${PATH_LIBS})

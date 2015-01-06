@@ -88,7 +88,14 @@ namespace Database
 
         FILTER_COMMAND
 
-        bool stagingArea;
+        enum class Mode
+        {
+            And,
+            Or,
+        };
+
+        std::map<IPhotoInfo::FlagsE, int> flags;
+        Mode mode;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter
@@ -110,5 +117,6 @@ namespace Database
 
         TagNameInfo tagName;
     };
+
 }
 #endif // FILTER_H

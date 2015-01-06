@@ -74,6 +74,12 @@ namespace Database
     }
 
 
+    void InsertQueryData::addValue(int value)
+    {
+        addValue(QString::number(value));
+    }
+
+
     void InsertQueryData::addValue(InsertQueryData::Value value)
     {
         QString v;
