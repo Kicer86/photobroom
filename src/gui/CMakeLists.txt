@@ -110,7 +110,6 @@ add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WR
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
 
 generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
-turnOnCpp11(gui)
 hideSymbols(gui)
 
 install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}

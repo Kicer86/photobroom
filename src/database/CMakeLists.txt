@@ -59,7 +59,6 @@ add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_M
 target_link_libraries(database PRIVATE configuration core Qt5::Core Qt5::Gui)
 
 generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
-turnOnCpp11(database)
 hideSymbols(database)
 
 install(TARGETS database RUNTIME DESTINATION ${PATH_LIBS}

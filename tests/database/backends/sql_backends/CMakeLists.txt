@@ -22,7 +22,6 @@ set(SRC
 add_executable(sql_backend_base_tests ${SRC})
 
 target_link_libraries(sql_backend_base_tests PRIVATE ${sql_backend_base_link_libraries} ${GMOCK_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
-turnOnCpp11(sql_backend_base_tests)
 enableCodeCoverage(sql_backend_base_tests)
 
 add_test(sql_backend_base sql_backend_base_tests)

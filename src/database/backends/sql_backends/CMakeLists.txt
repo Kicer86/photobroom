@@ -37,7 +37,6 @@ set(HEADERS
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
 target_link_libraries(sql_backend_base PRIVATE database configuration core Qt5::Core Qt5::Sql Qt5::Gui)
-turnOnCpp11(sql_backend_base)
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/sql_backend_base_export.h)
 

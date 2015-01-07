@@ -58,7 +58,6 @@ set(SRC
 add_executable(gui_tests ${SRC} ${GUI_WRAPPED_CPP})
 
 target_link_libraries(gui_tests PRIVATE ${gui_link_libraries} ${GMOCK_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
-turnOnCpp11(gui_tests)
 enableCodeCoverage(gui_tests)
 
 add_test(gui gui_tests)

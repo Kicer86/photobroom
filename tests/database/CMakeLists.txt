@@ -23,7 +23,6 @@ set(SRC
 add_executable(database_tests ${SRC})
 
 target_link_libraries(database_tests PRIVATE ${database_link_libraries} ${GMOCK_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
-turnOnCpp11(database_tests)
 enableCodeCoverage(database_tests)
 
 add_test(database database_tests)

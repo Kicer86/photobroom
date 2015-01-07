@@ -26,8 +26,7 @@ add_library(system SHARED ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
 
 target_link_libraries(system PRIVATE Qt5::Core)
-turnOnCpp11(system)
 hideSymbols(system)
 
 install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
-		       LIBRARY DESTINATION ${PATH_LIBS})
+                       LIBRARY DESTINATION ${PATH_LIBS})

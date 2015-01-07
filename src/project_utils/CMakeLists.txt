@@ -34,7 +34,6 @@ target_link_libraries(project_utils PRIVATE
                      )
 
 generate_export_header(project_utils EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/project_utils_export.h)
-turnOnCpp11(project_utils)
 hideSymbols(project_utils)
 
 install(TARGETS project_utils RUNTIME DESTINATION ${PATH_LIBS}

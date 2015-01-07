@@ -89,7 +89,7 @@ if(BUILD_TESTS)
                         TEST_LIBRARY
                             GTEST
                 )
-    turnOnCpp11(core_test)
+
     target_link_libraries(core_test PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
     if(MSVC)
 
@@ -122,8 +122,7 @@ endif(OPENMP_FOUND)
 
 
 generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
-turnOnCpp11(core)
 hideSymbols(core)
 
 install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}
-		     LIBRARY DESTINATION ${PATH_LIBS})
+                     LIBRARY DESTINATION ${PATH_LIBS})

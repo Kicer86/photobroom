@@ -34,7 +34,6 @@ if(BUILD_TESTS)
                                     GTEST
        )
     target_link_libraries(configuration_test PRIVATE system Qt5::Core)
-    turnOnCpp11(configuration_test)
 
 endif(BUILD_TESTS)
 
@@ -46,7 +45,6 @@ add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
 target_link_libraries(configuration PRIVATE system Qt5::Core)
 
 generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
-turnOnCpp11(configuration)
 hideSymbols(configuration)
 
 install(TARGETS configuration RUNTIME DESTINATION ${PATH_LIBS}

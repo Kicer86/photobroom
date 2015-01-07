@@ -210,25 +210,22 @@ bool PhotosMatcher::doesMatchFilter(const IPhotoInfo::Ptr& photoInfo, const Data
 
 IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
-    IdxData* root = m_idxDataManager->getRoot();
-
-    return findParentFor(photoInfo, root, true);
+    return findParentFor(photoInfo, true);
 }
 
 
 IdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
 {
-    IdxData* root = m_idxDataManager->getRoot();
-
-    return findParentFor(photoInfo, root, false);
+    return findParentFor(photoInfo, false);
 }
 
 
-IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, IdxData* current, bool exact) const
+IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool exact) const
 {
     const size_t depth = m_idxDataManager->getHierarchy().levels.size();
     IdxData* result = nullptr;
-    std::deque<IdxData *> toCheck = { current };
+    IdxData* root = m_idxDataManager->getRoot();
+    std::deque<IdxData *> toCheck = { root };
     FiltersMatcher matcher;
 
     while (toCheck.empty() == false)
