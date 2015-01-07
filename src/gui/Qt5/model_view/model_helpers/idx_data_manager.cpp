@@ -603,7 +603,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
                 _parent = nullptr;
             }
         }
-        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans
+        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans (if possible)
             createUniversalAncestor(&matcher, photoInfo);
     }
 
@@ -636,32 +636,36 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
     const Tag::TagsList& photoTags = photoInfo->getTags();
     const size_t level = _parent->m_level;
 
-    if (level == m_data->m_hierarchy.levels.size())  //this parent is at the bottom of hierarchy? Just use it as result
-        result = _parent;
-    else
+    // found parent is not fetched? Quit with null
+    if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
     {
-        const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
-        auto photoTagIt = photoTags.find(tagName);
-
-        //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
-        if (photoTagIt != photoTags.end())
-        {
-            const auto tagValue = photoTagIt->second.get();
-            IdxData* node = new IdxData(this, _parent, tagValue);
-
-            auto filter = std::make_shared<Database::FilterPhotosWithTag>();
-            filter->tagName = tagName;
-            filter->tagValue = tagValue;
-
-            node->setNodeFilter(filter);
-
-            appendIdxData(_parent, {node} );
-
-            result = node;
-        }
+        if (level == m_data->m_hierarchy.levels.size())  //this parent is at the bottom of hierarchy? Just use it as result
+            result = _parent;
         else
         {
-            //photo doesn't match. It may be not loaded yet or has incomplete tags list
+            const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+            auto photoTagIt = photoTags.find(tagName);
+
+            //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
+            if (photoTagIt != photoTags.end())
+            {
+                const auto tagValue = photoTagIt->second.get();
+                IdxData* node = new IdxData(this, _parent, tagValue);
+
+                auto filter = std::make_shared<Database::FilterPhotosWithTag>();
+                filter->tagName = tagName;
+                filter->tagValue = tagValue;
+
+                node->setNodeFilter(filter);
+
+                appendIdxData(_parent, {node} );
+
+                result = node;
+            }
+            else
+            {
+                //photo doesn't match. It may be not loaded yet or has incomplete tags list
+            }
         }
     }
 
@@ -675,9 +679,15 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
-    IdxData* universalNode = prepareUniversalNodeFor(_parent);
+    IdxData* universalNode = nullptr;
 
-    appendIdxData(_parent, {universalNode} );
+    //closer parent is not fetched? Do no create anything for it
+    if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
+    {
+        universalNode = prepareUniversalNodeFor(_parent);
+
+        appendIdxData(_parent, {universalNode} );
+    }
 
     return universalNode;
 }
