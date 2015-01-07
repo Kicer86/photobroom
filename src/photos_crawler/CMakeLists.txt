@@ -43,7 +43,6 @@ if(BUILD_TESTS)
                                 tests/photo_crawler_builder_tests.cpp
                 )
     target_link_libraries(photos_crawler_test PRIVATE Qt5::Core)
-    turnOnCpp11(photos_crawler_test)
 
 endif(BUILD_TESTS)
 
@@ -53,7 +52,6 @@ add_library(photos_crawler SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(photos_crawler PRIVATE Qt5::Core)
 
 generate_export_header(photos_crawler EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/photos_crawler_export.h)
-turnOnCpp11(photos_crawler)
 hideSymbols(photos_crawler)
 
 install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}
