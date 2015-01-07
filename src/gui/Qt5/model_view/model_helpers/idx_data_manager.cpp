@@ -525,6 +525,9 @@ void IdxDataManager::resetModel()
 void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>& photos)
 {
     assert(photos.empty() == false);
+    // We are not expecting any sub-nodes for not fetched nodes.
+    // Only fully fetched and being fetched nodes may accept something.
+    assert(_parent->m_loaded != IdxData::FetchStatus::NotFetched);
 
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
