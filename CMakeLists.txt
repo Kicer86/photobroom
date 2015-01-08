@@ -1,13 +1,14 @@
 
 cmake_policy(SET CMP0048 NEW)
 
-project(PhotoBroom VERSION 0.98.1)
+project(PhotoBroom VERSION 0.98.2)
 
 cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
 
 #options for CPack
 set(CPACK_PACKAGE_VENDOR "Michal Walenciak")
