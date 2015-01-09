@@ -3,3 +3,7 @@
 /tmp
 /broom.kdev4
 /.kdev4
+/packaging/arch/src
+/packaging/arch/pkg
+/packaging/arch/*.tar.xz
+/packaging/arch/v*
