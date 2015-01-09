@@ -1,14 +1,14 @@
 # Maintainer: Michał Walenciak <kicer86@gmail.com>
 pkgname=photobroom
 pkgver=0.98.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Photos managing tool"
 arch=('i686' 'x86_64')
 url="https://github.com/Kicer86/photobroom"
 license=('GPL3')
 groups=()
 depends=('qt5-base' 'exiv2')
-makedepends=('cmake' 'libkexiv2' 'boost' 'openlibrary')
+makedepends=('cmake' 'libkexiv2' 'boost' 'openlibrary' 'qt5-tools')
 optdepends=()
 provides=()
 conflicts=()
