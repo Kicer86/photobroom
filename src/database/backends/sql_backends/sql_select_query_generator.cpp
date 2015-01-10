@@ -106,9 +106,15 @@ namespace Database
         {
             m_filterResult.joins.insert(FilterData::TagNamesWithTags);
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
-            m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'")
-                                             .arg(desciption->tagName)
-                                             .arg(desciption->tagValue));
+
+            if (desciption->tagValue.is_initialized())
+            {
+                m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'")
+                                                 .arg(desciption->tagName)
+                                                 .arg(*desciption->tagValue));
+            }
+            else
+                m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1'").arg(desciption->tagName));
         }
 
         void visit(FilterPhotosWithFlags* flags) override
@@ -151,13 +157,13 @@ namespace Database
             m_filterResult.conditions.append( QString(TAB_HASHES ".hash = '%1'").arg(sha256->sha256.c_str()) );
         }
 
-        void visit(FilterPhotosWithoutTag* filter) override
+        void visit(FilterNotMatchingFilter* filter) override
         {
+            Generator generator;
+            const QString internal_condition = generator.parse( {filter->filter} );
+
             //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-            m_filterResult.conditions.append( QString("photos_id NOT IN (SELECT " TAB_TAGS ".photo_id FROM " TAB_TAGS
-                                                      " JOIN " TAB_TAG_NAMES " ON ( " TAB_TAG_NAMES ".id = " TAB_TAGS ".name_id)"
-                                                      " WHERE " TAB_TAG_NAMES ".name = '%1')")
-                                              .arg(filter->tagName) );
+            m_filterResult.conditions.append( QString("photos_id NOT IN (%1)").arg(internal_condition) );
         }
 
         FilterData m_filterResult;

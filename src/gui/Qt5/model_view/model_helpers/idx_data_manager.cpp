@@ -778,8 +778,11 @@ IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
     const size_t level = _parent->m_level;
     const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
 
-    auto filter = std::make_shared<Database::FilterPhotosWithoutTag>();
-    filter->tagName = tagName;
+    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>();
+    filterTag->tagName = tagName;
+
+    auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
+    filter->filter = filterTag;
 
     node->setNodeFilter(filter);
 
