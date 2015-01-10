@@ -376,6 +376,15 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
         buildFilterFor(grandParent, &filter);
     }
 
+    //add anti-filter for last node
+    auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>();
+    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    tag_filter->tagName = m_data->m_hierarchy.levels[level].tagName;
+
+    node_filter->filter = tag_filter;
+    filter.push_back(node_filter);
+
+    //model related filters
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
