@@ -186,7 +186,7 @@ namespace Database
             TagValue::List listTagValues(const TagNameInfo& tagName);
             TagValue::List listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
-            bool anyPhoto(const std::deque<IFilter::Ptr> &);
+            int anyPhoto(const std::deque<IFilter::Ptr> &);
 
             void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
 
@@ -407,7 +407,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::anyPhoto(const std::deque<IFilter::Ptr>& filter)
+    int ASqlBackend::Data::anyPhoto(const std::deque<IFilter::Ptr>& filter)
     {
         const QString queryStr = generateFilterQuery(filter);
 
@@ -1054,7 +1054,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::anyPhoto(const std::deque<IFilter::Ptr>& filter)
+    int ASqlBackend::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->anyPhoto(filter);
     }

@@ -55,7 +55,7 @@ namespace
         QModelIndex m_parent;
     };
 
-    struct GetNonmatchingPhotosTask: Database::IGetPhotosTask
+    struct GetNonmatchingPhotosTask: Database::IGetPhotosCount
     {
         GetNonmatchingPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
@@ -63,9 +63,9 @@ namespace
 
         GetNonmatchingPhotosTask& operator=(const GetNonmatchingPhotosTask &) = delete;
 
-        virtual void got(const IPhotoInfo::List& photos)
+        virtual void got(int size)
         {
-            m_tasks_result->gotNonmatchingPhotosForParent(this, photos);
+            m_tasks_result->gotNonmatchingPhotosForParent(this, size);
         }
 
         ITasksResults* m_tasks_result;
@@ -388,7 +388,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::IGetPhotosTask> task(new GetNonmatchingPhotosTask(this, _parent));
+    std::unique_ptr<Database::IGetPhotosCount> task(new GetNonmatchingPhotosTask(this, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -454,9 +454,9 @@ void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IP
 
 
 //called when we look for photos which do not have tag required by particular parent
-void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosCount* task, int size)
 {
-    if (photos.empty() == false)  //there is at least one such a photo? Create extra node
+    if (size > 0)  //there is at least one such a photo? Create extra node
     {
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 

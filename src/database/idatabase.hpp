@@ -97,11 +97,11 @@ namespace Database
         virtual void got(const IPhotoInfo::Ptr &) = 0;
     };
 
-    struct IAnyPhotoTask
+    struct IGetPhotosCount
     {
-        virtual ~IAnyPhotoTask() {}
+        virtual ~IGetPhotosCount() {}
 
-        virtual void got(bool) = 0;
+        virtual void got(int) = 0;
     };
 
     struct IInitTask
@@ -131,7 +131,7 @@ namespace Database
         virtual void exec(std::unique_ptr<IGetPhotosTask> &&) = 0;                                        //list all photos
         virtual void exec(std::unique_ptr<IGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
         virtual void exec(std::unique_ptr<IGetPhotoTask> &&, const IPhotoInfo::Id &) = 0;                 //get particulat photo
-        virtual void exec(std::unique_ptr<IAnyPhotoTask> &&, const std::deque<IFilter::Ptr> &) = 0;       //is there any photo matching filters?
+        virtual void exec(std::unique_ptr<IGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         //init backend - connect to database or create new one
         virtual bool exec(std::unique_ptr<IInitTask> &&, const Database::ProjectInfo &) = 0;

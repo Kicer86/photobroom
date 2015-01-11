@@ -73,7 +73,7 @@ namespace Database
         virtual IPhotoInfo::List getAllPhotos() = 0;                                      //list all photos
         virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
         virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) = 0;         //find all photos matching filter
-        virtual bool anyPhoto(const std::deque<IFilter::Ptr> &) = 0;                      //is there any photo matching filters?
+        virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;                 //is there any photo matching filters?
 
         //init backend - connect to database or create new one
         virtual bool init(const ProjectInfo &) = 0;

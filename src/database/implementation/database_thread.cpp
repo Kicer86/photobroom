@@ -233,7 +233,7 @@ namespace
 
     struct AnyPhotoTask: ThreadBaseTask
     {
-        AnyPhotoTask(std::unique_ptr<Database::IAnyPhotoTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+        AnyPhotoTask(std::unique_ptr<Database::IGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_filter(filter)
@@ -243,7 +243,7 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IAnyPhotoTask> m_task;
+        std::unique_ptr<Database::IGetPhotosCount> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
@@ -316,7 +316,7 @@ namespace
 
         virtual void visit(AnyPhotoTask* task) override
         {
-            auto result = m_backend->anyPhoto(task->m_filter);
+            auto result = m_backend->getPhotosCount(task->m_filter);
             task->m_task->got(result);
         }
 
@@ -503,7 +503,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<IAnyPhotoTask>&& db_task, const std::deque<IFilter::Ptr>& filters)
+    void DatabaseThread::exec(std::unique_ptr<IGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
         m_impl->addTask(task);
