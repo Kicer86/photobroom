@@ -40,7 +40,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithoutTag::FilterPhotosWithoutTag(): tagName("", TagNameInfo::Invalid)
+    FilterNotMatchingFilter::FilterNotMatchingFilter(): filter()
     {
 
     }

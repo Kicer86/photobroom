@@ -55,7 +55,7 @@ namespace
         QModelIndex m_parent;
     };
 
-    struct GetNonmatchingPhotosTask: Database::IGetPhotosTask
+    struct GetNonmatchingPhotosTask: Database::IGetPhotosCount
     {
         GetNonmatchingPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
@@ -63,9 +63,9 @@ namespace
 
         GetNonmatchingPhotosTask& operator=(const GetNonmatchingPhotosTask &) = delete;
 
-        virtual void got(const IPhotoInfo::List& photos)
+        virtual void got(int size)
         {
-            m_tasks_result->gotNonmatchingPhotosForParent(this, photos);
+            m_tasks_result->gotNonmatchingPhotosForParent(this, size);
         }
 
         ITasksResults* m_tasks_result;
@@ -376,10 +376,19 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
         buildFilterFor(grandParent, &filter);
     }
 
+    //add anti-filter for last node
+    auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>();
+    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    tag_filter->tagName = m_data->m_hierarchy.levels[level].tagName;
+
+    node_filter->filter = tag_filter;
+    filter.push_back(node_filter);
+
+    //model related filters
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::IGetPhotosTask> task(new GetNonmatchingPhotosTask(this, _parent));
+    std::unique_ptr<Database::IGetPhotosCount> task(new GetNonmatchingPhotosTask(this, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -445,9 +454,9 @@ void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IP
 
 
 //called when we look for photos which do not have tag required by particular parent
-void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosCount* task, int size)
 {
-    if (photos.empty() == false)  //there is at least one such a photo? Create extra node
+    if (size > 0)  //there is at least one such a photo? Create extra node
     {
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
@@ -778,8 +787,11 @@ IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
     const size_t level = _parent->m_level;
     const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
 
-    auto filter = std::make_shared<Database::FilterPhotosWithoutTag>();
-    filter->tagName = tagName;
+    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>();
+    filterTag->tagName = tagName;
+
+    auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
+    filter->filter = filterTag;
 
     node->setNodeFilter(filter);
 

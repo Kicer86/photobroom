@@ -30,6 +30,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlDriver>
 #include <QVariant>
 #include <QPixmap>
 #include <QBuffer>
@@ -170,6 +171,7 @@ namespace Database
             Transaction m_transaction;
             ILogger* m_logger;
             std::set<IBackend::IEvents *> m_observers;
+            bool m_dbHasSizeFeature;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -185,7 +187,8 @@ namespace Database
             std::deque<TagNameInfo> listTags() const;
             TagValue::List listTagValues(const TagNameInfo& tagName);
             TagValue::List listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
-            IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr>& filter);
+            IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
+            int getPhotosCount(const std::deque<IFilter::Ptr> &);
 
             void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
 
@@ -213,7 +216,8 @@ namespace Database
                                                    m_photoInfoCache(nullptr),
                                                    m_transaction(),
                                                    m_logger(nullptr),
-                                                   m_observers()
+                                                   m_observers(),
+                                                   m_dbHasSizeFeature(false)
     {
 
     }
@@ -401,6 +405,26 @@ namespace Database
 
         exec(queryStr, &query);
         auto result = fetch(query);
+
+        return result;
+    }
+
+
+    int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
+    {
+        const QString queryStr = generateFilterQuery(filter);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        exec(queryStr, &query);
+
+        int result = 0;
+
+        if (m_dbHasSizeFeature)
+            result = query.size();
+        else
+            result = query.next()? 1: 0;
 
         return result;
     }
@@ -927,6 +951,8 @@ namespace Database
         bool status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
+        m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
+
         if (status)
             status = db.open();
 
@@ -1036,6 +1062,12 @@ namespace Database
     IPhotoInfo::List ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotos(filter);
+    }
+
+
+    int ASqlBackend::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
+    {
+        return m_data->getPhotosCount(filter);
     }
 
 

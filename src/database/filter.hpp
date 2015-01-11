@@ -25,6 +25,8 @@
 
 #include <QString>
 
+#include <OpenLibrary/utils/optional.hpp>
+
 #include <core/tag.hpp>
 
 #include "database_export.h"
@@ -39,7 +41,7 @@ namespace Database
     struct FilterPhotosWithTag;
     struct FilterPhotosWithFlags;
     struct FilterPhotosWithSha256;
-    struct FilterPhotosWithoutTag;
+    struct FilterNotMatchingFilter;
 
     struct IFilter
     {
@@ -57,7 +59,7 @@ namespace Database
         virtual void visit(FilterPhotosWithTag *) = 0;
         virtual void visit(FilterPhotosWithFlags *) = 0;
         virtual void visit(FilterPhotosWithSha256 *) = 0;
-        virtual void visit(FilterPhotosWithoutTag *) = 0;
+        virtual void visit(FilterNotMatchingFilter *) = 0;
     };
 
     //filters
@@ -76,7 +78,7 @@ namespace Database
         FILTER_COMMAND
 
         TagNameInfo tagName;
-        QString tagValue;
+        Optional<QString> tagValue;
 
         FilterPhotosWithTag();
     };
@@ -108,14 +110,14 @@ namespace Database
         IPhotoInfo::Hash sha256;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithoutTag: IFilter
+    struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
     {
-        FilterPhotosWithoutTag();
-        virtual ~FilterPhotosWithoutTag() {}
+        FilterNotMatchingFilter();
+        virtual ~FilterNotMatchingFilter() {}
 
         FILTER_COMMAND
 
-        TagNameInfo tagName;
+        IFilter::Ptr filter;
     };
 
 }

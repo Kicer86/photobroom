@@ -35,13 +35,13 @@ struct FiltersMatcher: Database::IFilterVisitor
 
     private:
         bool m_doesMatch;
-        IPhotoInfo* m_photo;
+        IPhotoInfo::Ptr m_photo;
 
         virtual void visit(Database::EmptyFilter *) override;
         virtual void visit(Database::FilterPhotosWithTag *) override;
         virtual void visit(Database::FilterPhotosWithFlags *) override;
         virtual void visit(Database::FilterPhotosWithSha256 *) override;
-        virtual void visit(Database::FilterPhotosWithoutTag *) override;
+        virtual void visit(Database::FilterNotMatchingFilter *) override;
 };
 
 
@@ -60,7 +60,7 @@ FiltersMatcher::~FiltersMatcher()
 bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::deque<Database::IFilter::Ptr>& filters)
 {
     m_doesMatch = false;
-    m_photo = photoInfo.get();
+    m_photo = photoInfo;
 
     for(const Database::IFilter::Ptr& filter: filters)
     {
@@ -70,7 +70,7 @@ bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::dequ
             break;
     }
 
-    m_photo = nullptr;
+    m_photo.reset();
     return m_doesMatch;
 }
 
@@ -78,7 +78,7 @@ bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::dequ
 bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const Database::IFilter::Ptr& filter)
 {
     m_doesMatch = false;
-    m_photo = photoInfo.get();
+    m_photo = photoInfo;
 
     filter->visitMe(this);
 
@@ -95,17 +95,16 @@ void FiltersMatcher::visit(Database::EmptyFilter *)
 
 void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 {
-    bool result = false;
-
     const Tag::TagsList& tagsList = m_photo->getTags();
 
     auto it = tagsList.find(filter->tagName);
+    bool result = it != tagsList.end();
 
-    if (it != tagsList.end())
+    if (result && filter->tagValue.is_initialized())
     {
         const std::set<QString>& vals = it->second.getAll();
 
-        result = vals.find(filter->tagValue) != vals.end();
+        result = vals.find(*filter->tagValue) != vals.end();
     }
 
     m_doesMatch = result;
@@ -151,13 +150,12 @@ void FiltersMatcher::visit(Database::FilterPhotosWithSha256* filter)
 }
 
 
-void FiltersMatcher::visit(Database::FilterPhotosWithoutTag* filter)
+void FiltersMatcher::visit(Database::FilterNotMatchingFilter* filter)
 {
-    const auto& tags = m_photo->getTags();
-    const auto it = tags.find(filter->tagName);
-    const bool status = it == tags.end();
+    FiltersMatcher matcher;
+    const bool matches = matcher.doesMatch(m_photo, filter->filter);
 
-    m_doesMatch = status;
+    m_doesMatch = !matches;
 }
 
 
