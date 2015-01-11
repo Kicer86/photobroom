@@ -171,6 +171,7 @@ namespace Database
             Transaction m_transaction;
             ILogger* m_logger;
             std::set<IBackend::IEvents *> m_observers;
+            bool m_dbHasSizeFeature;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -215,7 +216,8 @@ namespace Database
                                                    m_photoInfoCache(nullptr),
                                                    m_transaction(),
                                                    m_logger(nullptr),
-                                                   m_observers()
+                                                   m_observers(),
+                                                   m_dbHasSizeFeature(false)
     {
 
     }
@@ -418,9 +420,8 @@ namespace Database
         exec(queryStr, &query);
 
         int result = 0;
-        const bool querySizeFeature = query.driver()->hasFeature(QSqlDriver::QuerySize);
 
-        if (querySizeFeature)
+        if (m_dbHasSizeFeature)
             result = query.size();
         else
             result = query.next()? 1: 0;
@@ -949,6 +950,8 @@ namespace Database
 
         bool status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+        m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
 
         if (status)
             status = db.open();
