@@ -63,22 +63,24 @@ TEST(SqlSelectQueryGeneratorTest, HandlesTagsFilter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesWithoutTagsFilter)
+TEST(SqlSelectQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlSelectQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
-    std::shared_ptr<Database::FilterPhotosWithoutTag> filter = std::make_shared<Database::FilterPhotosWithoutTag>();
+    std::shared_ptr<Database::FilterNotMatchingFilter> filter = std::make_shared<Database::FilterNotMatchingFilter>();
     filters.push_back(filter);
 
-    filter->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>();
+    sub_filter1->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    filter->filter = sub_filter1;
 
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos_id NOT IN "
-              "(SELECT tags.photo_id FROM tags "
-              "JOIN tag_names ON ( tag_names.id = tags.name_id) "
+              "(SELECT photos.id AS photos_id FROM photos "
+              "JOIN (tags, tag_names) ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id) "
               "WHERE tag_names.name = 'test_name')", query);
 }
 

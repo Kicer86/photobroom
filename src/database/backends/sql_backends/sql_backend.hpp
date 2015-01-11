@@ -98,6 +98,7 @@ namespace Database
             virtual IPhotoInfo::List getAllPhotos() override final;
             virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
             virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
 
             bool checkStructure();
     };

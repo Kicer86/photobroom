@@ -39,6 +39,7 @@ namespace
     struct GetPhotosTask;
     struct ListTagsTask;
     struct ListTagValuesTask;
+    struct AnyPhotoTask;
 
     struct IThreadTask
     {
@@ -65,6 +66,8 @@ namespace
         virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
+        virtual void visit(AnyPhotoTask *) = 0;
+
     };
 
     struct InitTask: ThreadBaseTask
@@ -228,6 +231,21 @@ namespace
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
+    struct AnyPhotoTask: ThreadBaseTask
+    {
+        AnyPhotoTask(std::unique_ptr<Database::IGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_filter(filter)
+        {
+
+        }
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::unique_ptr<Database::IGetPhotosCount> m_task;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
 
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
@@ -296,6 +314,11 @@ namespace
             task->m_task->got(result);
         }
 
+        virtual void visit(AnyPhotoTask* task) override
+        {
+            auto result = m_backend->getPhotosCount(task->m_filter);
+            task->m_task->got(result);
+        }
 
         void begin()
         {
@@ -476,6 +499,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<Database::IListTagValuesTask>&& db_task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter)
     {
         ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, filter);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::exec(std::unique_ptr<IGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
+    {
+        AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
         m_impl->addTask(task);
     }
 
