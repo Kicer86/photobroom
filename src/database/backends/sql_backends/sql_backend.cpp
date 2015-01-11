@@ -30,6 +30,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlDriver>
 #include <QVariant>
 #include <QPixmap>
 #include <QBuffer>
@@ -415,7 +416,14 @@ namespace Database
         QSqlQuery query(db);
 
         exec(queryStr, &query);
-        const bool result = query.numRowsAffected();
+
+        int result = 0;
+        const bool querySizeFeature = query.driver()->hasFeature(QSqlDriver::QuerySize);
+
+        if (querySizeFeature)
+            result = query.size();
+        else
+            result = query.next()? 1: 0;
 
         return result;
     }
