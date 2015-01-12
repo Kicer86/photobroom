@@ -50,8 +50,9 @@ source_group(photos_crawler REGULAR_EXPRESSION .*photos_crawler.* )
 
 add_library(photos_crawler SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(photos_crawler PRIVATE Qt5::Core)
+target_include_directories(photos_crawler PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-generate_export_header(photos_crawler EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/photos_crawler_export.h)
+generate_export_header(photos_crawler)
 hideSymbols(photos_crawler)
 
 install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}

@@ -33,7 +33,7 @@ if(BUILD_TESTS)
                                 TEST_LIBRARY
                                     GTEST
        )
-    target_link_libraries(configuration_test PRIVATE system Qt5::Core)
+    target_link_libraries(configuration_test PRIVATE core system Qt5::Core)
 
 endif(BUILD_TESTS)
 
@@ -42,9 +42,10 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
 add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
-target_link_libraries(configuration PRIVATE system Qt5::Core)
+target_link_libraries(configuration PRIVATE core system Qt5::Core)
+target_include_directories(configuration PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-generate_export_header(configuration EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/configuration_export.h)
+generate_export_header(configuration)
 hideSymbols(configuration)
 
 install(TARGETS configuration RUNTIME DESTINATION ${PATH_LIBS}

@@ -17,7 +17,9 @@ qt5_wrap_cpp(BACKEND_MOCS ${BACKEND_HEADERS})
 
 add_library(database_sqlite_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_MOCS})
 target_link_libraries(database_sqlite_backend PRIVATE core sql_backend_base Qt5::Core Qt5::Sql)
+target_include_directories(database_sqlite_backend PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
 hideSymbols(database_sqlite_backend)
-generate_export_header(database_sqlite_backend EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_sqlite_backend_export.h)
+generate_export_header(database_sqlite_backend)
 
 install(TARGETS database_sqlite_backend RUNTIME LIBRARY DESTINATION ${PATH_PLUGINS}/database)

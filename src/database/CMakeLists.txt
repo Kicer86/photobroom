@@ -47,9 +47,9 @@ set(DATABASE_HEADERS
     )
 
 set(DATABASE_MOC 
-	idatabase.hpp 
+    idatabase.hpp
 
-	database_tools/photos_analyzer.hpp)
+    database_tools/photos_analyzer.hpp)
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
@@ -57,9 +57,10 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database PRIVATE configuration core Qt5::Core Qt5::Gui)
+target_include_directories(database PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-generate_export_header(database EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_export.h)
+generate_export_header(database)
 hideSymbols(database)
 
 install(TARGETS database RUNTIME DESTINATION ${PATH_LIBS}
-		         LIBRARY DESTINATION ${PATH_LIBS})
+                         LIBRARY DESTINATION ${PATH_LIBS})

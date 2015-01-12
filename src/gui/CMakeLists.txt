@@ -108,8 +108,9 @@ qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
+target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-generate_export_header(gui EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/gui_export.h)
+generate_export_header(gui)
 hideSymbols(gui)
 
 install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}

@@ -17,7 +17,9 @@ qt5_wrap_cpp(BACKEND_WRAPPED_CPP backend.hpp mysql_server.hpp)
 
 add_library(database_mysql_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_WRAPPED_CPP})
 target_link_libraries(database_mysql_backend PRIVATE core configuration sql_backend_base system Qt5::Core Qt5::Sql)
+target_include_directories(database_mysql_backend PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
 hideSymbols(database_mysql_backend)
-generate_export_header(database_mysql_backend EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/database_mysql_backend_export.h)
+generate_export_header(database_mysql_backend)
 
 install(TARGETS database_mysql_backend RUNTIME LIBRARY DESTINATION ${PATH_PLUGINS}/database)
