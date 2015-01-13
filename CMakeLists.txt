@@ -1,9 +1,9 @@
 
+cmake_minimum_required(VERSION 3.1)                           # due to CMAKE_CXX_STANDARD variables
 cmake_policy(SET CMP0048 NEW)
 
 project(PhotoBroom VERSION 0.98.2)
 
-cmake_minimum_required(VERSION 3.0)   # due to VERSION argument for project()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
