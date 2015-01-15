@@ -28,7 +28,7 @@ Tested compilers:
 
 PhotoBroom cannot be run from compilation dir without installing.
 It will search for plugins in destination (installation) dir.
-Build 'install' target to install PhotoBroom. When you can launch it.
+Build 'install' target to install PhotoBroom. Then you can launch it.
 
 Extra targets available for Windows:
 'deploy' - prepares extra dir with Qt's libraries and plugins required by PhotoBroom.
