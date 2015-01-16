@@ -5,10 +5,12 @@ find_package(OpenLibrary 2.0 REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
+include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM
                     ${OPENLIBRARY_INCLUDE_DIRS}
                     ${Qt5Core_INCLUDE_DIRS})
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(DATABASE_SOURCES
     implementation/database_builder.cpp
@@ -57,7 +59,7 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database PRIVATE configuration core Qt5::Core Qt5::Gui)
-target_include_directories(database PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(database INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(database)
 hideSymbols(database)

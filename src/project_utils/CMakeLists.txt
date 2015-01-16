@@ -29,6 +29,7 @@ add_library(project_utils SHARED ${PROJECT_UTILS_SOURCES} ${PROJECT_UTILS_HEADER
 target_link_libraries(project_utils PRIVATE 
                                     configuration
                                     core
+                                    database
                                     Qt5::Core
                                     ${OPENLIBRARY_LIBRARIES}
                      )

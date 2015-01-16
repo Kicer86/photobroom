@@ -8,6 +8,8 @@ include(GenerateExportHeader)
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(CONFIG_SOURCES
     private/configuration.cpp
     private/constants.cpp

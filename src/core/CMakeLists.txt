@@ -18,6 +18,9 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${CRYPTOGRAPHIC_INCLUDE_DIR}
                            ${EXIF_INCLUDE_DIR})
 
+# some classes in core are using interface types of database. Is it ok? - to consider
+include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES

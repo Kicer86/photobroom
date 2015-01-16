@@ -21,9 +21,6 @@
 
 #include <QObject>
 
-#include <configuration/constants.hpp>
-
-
 const std::map< BaseTagsList, TagNameInfo >& BaseTags::getBaseList()
 {
     static const QString tag_people = QObject::tr("People", "Default Tag Name");

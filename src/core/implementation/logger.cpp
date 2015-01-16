@@ -30,10 +30,6 @@
 #include <QTextStream>
 #include <QDir>
 
-#include <configuration/iconfiguration.hpp>
-#include <configuration/entrydata.hpp>
-#include <configuration/constants.hpp>
-
 
 Logger::Logger(): m_basePath(""), m_severity(Severity::Warning), m_files()
 {

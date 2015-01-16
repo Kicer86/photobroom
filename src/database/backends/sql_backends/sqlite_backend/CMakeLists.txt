@@ -9,6 +9,8 @@ include_directories(${CMAKE_SOURCE_DIR}/src/
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Sql_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS})
+                           
+include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set(BACKEND_SOURCES backend.cpp)
 set(BACKEND_HEADERS backend.hpp)
