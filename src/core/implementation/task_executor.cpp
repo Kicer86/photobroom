@@ -66,7 +66,7 @@ TaskExecutor::~TaskExecutor()
 
 void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 {
-    assert(m_taskEater.joinable());
+    assert(m_working);
     m_tasks.push_back(task);
 }
 
