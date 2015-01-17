@@ -40,6 +40,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 private:
     ol::TS_Queue<std::shared_ptr<ITask>> m_tasks;
     std::thread m_taskEater;
+    bool m_working;
 
     void execute(const std::shared_ptr<ITask>& task) const;
     int getId() const;

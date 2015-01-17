@@ -52,7 +52,7 @@ static void trampoline(TaskExecutor* executor)
 }
 
 
-TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this)
+TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this), m_working(true)
 {
 
 }
@@ -73,9 +73,13 @@ void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 
 void TaskExecutor::stop()
 {
-    m_tasks.stop();
-    assert(m_taskEater.joinable());
-    m_taskEater.join();
+    if (m_working)
+    {
+        m_working = false;
+        m_tasks.stop();
+        assert(m_taskEater.joinable());
+        m_taskEater.join();
+    }
 }
 
 
