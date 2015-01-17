@@ -106,7 +106,7 @@ namespace Database
 
     Builder::~Builder()
     {
-
+        closeAll();
     }
 
 
