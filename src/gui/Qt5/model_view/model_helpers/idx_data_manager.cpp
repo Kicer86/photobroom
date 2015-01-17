@@ -215,17 +215,13 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
     m_data->m_database = database;
 
-    connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
-    connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
+    if (database != nullptr)
+    {
+        connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
+        connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
+    }
 
     resetModel();
-}
-
-
-void IdxDataManager::close()
-{
-    if (m_data->m_database)
-        m_data->m_database->closeConnections();
 }
 
 
