@@ -59,7 +59,9 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database PRIVATE configuration core Qt5::Core Qt5::Gui)
-target_include_directories(database INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
+
+#define interface of database
+target_include_directories(database INTERFACE ${CMAKE_CURRENT_BINARY_DIR} ${OPENLIBRARY_INCLUDE_DIRS})
 
 generate_export_header(database)
 hideSymbols(database)
