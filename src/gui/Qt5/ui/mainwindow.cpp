@@ -83,6 +83,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     // TODO: close project!
     //m_currentPrj->close();
 
+    closeProject();
     m_photosAnalyzer->stop();
 
     e->accept();
@@ -104,6 +105,25 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     updateMenus();
     updateGui();
     updateTools();
+}
+
+
+void MainWindow::closeProject()
+{
+    if (m_currentPrj)
+    {
+        Database::IDatabase* db = m_currentPrj->getDatabase();
+
+        m_currentPrj = nullptr;
+        m_imagesModel->setDatabase(nullptr);
+        m_stagedImagesModel->setDatabase(nullptr);
+
+        updateMenus();
+        updateGui();
+        updateTools();
+
+        db->closeConnections();
+    }
 }
 
 

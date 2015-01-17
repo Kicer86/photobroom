@@ -54,6 +54,7 @@ class MainWindow final: public QMainWindow
 
         void closeEvent(QCloseEvent *);
         void openProject(const ProjectInfo &);
+        void closeProject();
         void setupView();
         void createMenus();
         void updateMenus();
