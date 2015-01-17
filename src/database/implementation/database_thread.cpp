@@ -374,7 +374,7 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(IBackend* backend): m_executor(backend), m_thread(beginThread, &m_executor)
+        Impl(IBackend* backend): m_executor(backend), m_thread(beginThread, &m_executor), m_working(true)
         {
 
         }
@@ -382,6 +382,7 @@ namespace Database
         //store task to be executed by thread
         void addTask(ThreadBaseTask* task)
         {
+            assert(m_working);
             m_executor.m_tasks.push_back(std::shared_ptr<ThreadBaseTask>(task));
         }
 
@@ -392,14 +393,21 @@ namespace Database
 
         void stopExecutor()
         {
-            m_executor.m_tasks.stop();
+            if (m_working)
+            {
+                m_working = false;
+                m_executor.m_tasks.stop();
 
-            assert(m_thread.joinable());
-            m_thread.join();
+                assert(m_thread.joinable());
+                m_thread.join();
+
+                m_executor.m_backend->closeConnections();
+            }
         }
 
         Executor m_executor;
         std::thread m_thread;
+        bool m_working;
     };
 
 
@@ -412,15 +420,13 @@ namespace Database
     DatabaseThread::~DatabaseThread()
     {
         //terminate thread
-        m_impl->stopExecutor();
+        closeConnections();
     }
 
 
     void DatabaseThread::closeConnections()
     {
-        //m_impl->m_backend->closeConnections();
-
-        assert("!not implemented");
+        m_impl->stopExecutor();
     }
 
 
