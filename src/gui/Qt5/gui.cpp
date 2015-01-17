@@ -5,6 +5,7 @@
 #include <QTranslator>
 
 #include <core/ilogger.hpp>
+#include <core/itask_executor.hpp>
 #include <system/filesystem.hpp>
 
 #include "ui/mainwindow.hpp"
@@ -72,4 +73,7 @@ void Gui::run(int argc, char **argv)
 
     mainWindow.show();
     app.exec();
+
+    //stop all tasks
+    m_taskExecutor->stop();
 }
