@@ -33,6 +33,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     virtual ~TaskExecutor();
 
     virtual void add(const std::shared_ptr<ITask> &);
+    virtual void stop();
 
     void eat();
 

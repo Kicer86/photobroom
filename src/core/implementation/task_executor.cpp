@@ -60,16 +60,24 @@ TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this)
 
 TaskExecutor::~TaskExecutor()
 {
-    m_tasks.stop();
-    assert(m_taskEater.joinable());
-    m_taskEater.join();
+    stop();
 }
 
 
 void TaskExecutor::add(const std::shared_ptr<ITask> &task)
 {
+    assert(m_taskEater.joinable());
     m_tasks.push_back(task);
 }
+
+
+void TaskExecutor::stop()
+{
+    m_tasks.stop();
+    assert(m_taskEater.joinable());
+    m_taskEater.join();
+}
+
 
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
