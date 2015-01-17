@@ -83,6 +83,8 @@ void MainWindow::closeEvent(QCloseEvent *e)
     // TODO: close project!
     //m_currentPrj->close();
 
+    m_photosAnalyzer->stop();
+
     e->accept();
 }
 
