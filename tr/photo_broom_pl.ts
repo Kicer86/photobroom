@@ -27,7 +27,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/Qt5/model_view/model_helpers/idx_data_manager.cpp" line="785"/>
+        <location filename="../src/gui/Qt5/model_view/model_helpers/idx_data_manager.cpp" line="788"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
