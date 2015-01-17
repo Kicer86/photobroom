@@ -135,11 +135,7 @@ struct PhotosAnalyzer::Impl
 
         ~Impl()
         {
-            m_thread.m_work = false;
-            m_thread.m_data_available.notify_one();
-
-            assert(m_analyzerThread.joinable());
-            m_analyzerThread.join();
+            stop();
         }
 
         void setDatabase(Database::IDatabase* database)
@@ -179,8 +175,21 @@ struct PhotosAnalyzer::Impl
 
         void addPhoto(const IPhotoInfo::Ptr& photo)
         {
+            assert(m_analyzerThread.joinable());
             m_thread.m_photosToValidate.lock()->push_back(photo);
             m_thread.m_data_available.notify_one();
+        }
+
+        void stop()
+        {
+            if (m_thread.m_work)
+            {
+                m_thread.m_work = false;
+                m_thread.m_data_available.notify_one();
+
+                assert(m_analyzerThread.joinable());
+                m_analyzerThread.join();
+            }
         }
 
     private:
@@ -245,6 +254,12 @@ void PhotosAnalyzer::set(ITaskExecutor* taskExecutor)
 void PhotosAnalyzer::set(IConfiguration* configuration)
 {
     m_data->set(configuration);
+}
+
+
+void PhotosAnalyzer::stop()
+{
+    m_data->stop();
 }
 
 
