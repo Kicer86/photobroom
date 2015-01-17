@@ -18,6 +18,9 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${CRYPTOGRAPHIC_INCLUDE_DIR}
                            ${EXIF_INCLUDE_DIR})
 
+# some classes in core are using interface types of database. Is it ok? - to consider
+include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
@@ -111,6 +114,7 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core SHARED ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
 target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
+target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 if(OPENMP_FOUND)
     if(MSVC)
@@ -121,7 +125,7 @@ if(OPENMP_FOUND)
 endif(OPENMP_FOUND)
 
 
-generate_export_header(core EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/core_export.h)
+generate_export_header(core)
 hideSymbols(core)
 
 install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}

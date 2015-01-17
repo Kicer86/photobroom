@@ -27,7 +27,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/Qt5/model_view/model_helpers/idx_data_manager.cpp" line="776"/>
+        <location filename="../src/gui/Qt5/model_view/model_helpers/idx_data_manager.cpp" line="785"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -234,31 +234,31 @@
         <translation>&lt;różne wartości&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="26"/>
         <source>People</source>
         <comment>Default Tag Name</comment>
         <translation>Osoby</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="27"/>
         <source>Place</source>
         <comment>Default Tag Name</comment>
         <translation>Miejsce</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="31"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="28"/>
         <source>Date</source>
         <comment>Default Tag Name</comment>
         <translation>Data</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="32"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
         <source>Time</source>
         <comment>Default Tag Name</comment>
         <translation>Godzina</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="33"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
         <source>Event</source>
         <comment>Default Tag Name</comment>
         <translation>Wydarzenie</translation>

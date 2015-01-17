@@ -29,12 +29,14 @@ add_library(project_utils SHARED ${PROJECT_UTILS_SOURCES} ${PROJECT_UTILS_HEADER
 target_link_libraries(project_utils PRIVATE 
                                     configuration
                                     core
+                                    database
                                     Qt5::Core
                                     ${OPENLIBRARY_LIBRARIES}
                      )
+target_include_directories(project_utils PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-generate_export_header(project_utils EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/project_utils_export.h)
+generate_export_header(project_utils)
 hideSymbols(project_utils)
 
 install(TARGETS project_utils RUNTIME DESTINATION ${PATH_LIBS}
-		              LIBRARY DESTINATION ${PATH_LIBS})
+                              LIBRARY DESTINATION ${PATH_LIBS})

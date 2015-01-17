@@ -23,10 +23,11 @@ else()
 endif()
 
 add_library(system SHARED ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
-generate_export_header(system EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/system_export.h)
-
 target_link_libraries(system PRIVATE Qt5::Core)
+target_include_directories(system PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
 hideSymbols(system)
+generate_export_header(system EXPORT_FILE_NAME)
 
 install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
                        LIBRARY DESTINATION ${PATH_LIBS})

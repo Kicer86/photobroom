@@ -98,8 +98,6 @@ macro(setupTestEnvironmentFor lib dir)
     include_directories(${_${lib}_include_dirs} ${BASE_DIR} ${CMAKE_SOURCE_DIR}/src/ .)
     include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
-    message("dupa ${_${lib}_include_dirs}")
-
     foreach(source ${_${lib}_raw_srcs})
         if (IS_ABSOLUTE ${source})
             list(APPEND ${lib}_srcs ${source})

@@ -12,6 +12,8 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 set(BASE_DIR ${CMAKE_SOURCE_DIR}/src/database)
 setupTestEnvironmentFor(database ${BASE_DIR})
 
+include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
+
 set(SRC
         ${database_srcs}
         # model tests:

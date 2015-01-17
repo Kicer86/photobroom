@@ -742,21 +742,24 @@ void IdxDataManager::performRemove(IdxData* item)
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IdxData* _parent = item->m_parent;
-    assert(_parent != nullptr);
+    if (item != m_data->m_root)   // never drop root
+    {
+        IdxData* _parent = item->m_parent;
+        assert(_parent != nullptr);
 
-    QModelIndex parentIdx = getIndex(_parent);
-    const int itemPos = item->m_row;
+        QModelIndex parentIdx = getIndex(_parent);
+        const int itemPos = item->m_row;
 
-    m_data->m_model->beginRemoveRows(parentIdx, itemPos, itemPos);
+        m_data->m_model->beginRemoveRows(parentIdx, itemPos, itemPos);
 
-    _parent->removeChild(item);
+        _parent->removeChild(item);
 
-    m_data->m_model->endRemoveRows();
+        m_data->m_model->endRemoveRows();
 
-    //remove empty parents
-    if (_parent->m_children.empty())
-        performRemove(_parent);
+        //remove empty parents
+        if (_parent->m_children.empty())
+            performRemove(_parent);
+    }
 }
 
 
