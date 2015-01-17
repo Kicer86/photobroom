@@ -830,7 +830,7 @@ namespace Database
 
     ASqlBackend::~ASqlBackend()
     {
-
+        closeConnections();
     }
 
 
