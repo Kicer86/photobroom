@@ -176,7 +176,8 @@ void IdxDataManager::set(ITaskExecutor* taskExecutor)
 
 void IdxDataManager::fetchMore(const QModelIndex& _parent)
 {
-    fetchData(_parent);
+    if (m_data->m_database != nullptr)
+        fetchData(_parent);
 }
 
 
