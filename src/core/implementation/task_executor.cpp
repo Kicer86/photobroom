@@ -64,10 +64,10 @@ TaskExecutor::~TaskExecutor()
 }
 
 
-void TaskExecutor::add(const std::shared_ptr<ITask> &task)
+void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 {
     assert(m_working);
-    m_tasks.push_back(task);
+    m_tasks.push_back(std::move(task));
 }
 
 
@@ -93,13 +93,13 @@ void TaskExecutor::eat()
 
         while(true)
         {
-            Optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
+            Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_front());
 
             if (opt_task)
             {
-                std::shared_ptr<ITask> task = *opt_task;
+                std::unique_ptr<ITask> task = std::move(*opt_task);
 
-                execute(task);
+                execute(std::move(task));
             }
             else
                 break;

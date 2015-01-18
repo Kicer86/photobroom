@@ -37,7 +37,7 @@ struct CORE_EXPORT ITaskExecutor
 
     virtual ~ITaskExecutor();
 
-    virtual void add(const std::shared_ptr<ITask> &) = 0;
+    virtual void add(std::unique_ptr<ITask> &&) = 0;
     virtual void stop() = 0;
 };
 

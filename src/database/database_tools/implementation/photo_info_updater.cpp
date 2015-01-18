@@ -122,8 +122,8 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_shared<HashAssigner>(photoInfo);
-    m_task_executor->add(task);
+    std::unique_ptr<HashAssigner> task(new HashAssigner(photoInfo));
+    m_task_executor->add(std::move(task));
 }
 
 
@@ -135,17 +135,17 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     if (widthEntry)
         width = widthEntry->toInt();
 
-    auto task = std::make_shared<ThumbnailGenerator>(photoInfo, width);
-    m_task_executor->add(task);
+    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(photoInfo, width));
+    m_task_executor->add(std::move(task));
 }
 
 
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_shared<TagsCollector>(photoInfo);
+    std::unique_ptr<TagsCollector> task(new TagsCollector(photoInfo));
     task->set(&m_tagFeederFactory);
 
-    m_task_executor->add(task);
+    m_task_executor->add(std::move(task));
 }
 
 

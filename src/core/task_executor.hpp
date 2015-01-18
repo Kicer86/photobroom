@@ -32,13 +32,13 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor();
     virtual ~TaskExecutor();
 
-    virtual void add(const std::shared_ptr<ITask> &);
+    virtual void add(std::unique_ptr<ITask> &&);
     virtual void stop();
 
     void eat();
 
 private:
-    ol::TS_Queue<std::shared_ptr<ITask>> m_tasks;
+    ol::TS_Queue<std::unique_ptr<ITask>> m_tasks;
     std::thread m_taskEater;
     bool m_working;
 

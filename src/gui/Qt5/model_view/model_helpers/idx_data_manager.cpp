@@ -194,7 +194,7 @@ void IdxDataManager::deepFetch(IdxData* top)
         QEventLoopLocker* eventLoopLocker = new QEventLoopLocker(&eventLoop);
         fetcher->setEventLoopLocker(eventLoopLocker);
 
-        m_data->m_taskExecutor->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
+        m_data->m_taskExecutor->add(std::unique_ptr<IdxDataDeepFetcher>(fetcher));
         eventLoop.exec();
     }
 }
