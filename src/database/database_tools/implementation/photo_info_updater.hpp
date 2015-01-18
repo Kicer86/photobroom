@@ -1,6 +1,6 @@
 
-#ifndef GUI_PHOTO_INFO_HPP
-#define GUI_PHOTO_INFO_HPP
+#ifndef GUI_PHOTO_INFO_UPDATER_HPP
+#define GUI_PHOTO_INFO_UPDATER_HPP
 
 #include <core/tag_feeder_factory.hpp>
 #include <database/iphoto_info.hpp>
