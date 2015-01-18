@@ -21,6 +21,8 @@
 
 #include <QString>
 
+#include <database/idatabase_builder.hpp>
+
 Project::Project(): m_backend(), m_location(), m_prjPath(), m_name(), m_database(nullptr)
 {
 
@@ -51,9 +53,9 @@ void Project::setDBLocation(const QString& location)
 }
 
 
-void Project::setDatabase(Database::IDatabase* database)
+void Project::setDatabase(std::unique_ptr<Database::IDBPack>&& database)
 {
-    m_database = database;
+    m_database = std::move(database);
 }
 
 
@@ -83,7 +85,7 @@ QString Project::getPrjPath() const
 
 Database::IDatabase* Project::getDatabase() const
 {
-    return m_database;
+    return m_database->get();
 }
 
 

@@ -20,7 +20,14 @@
 #ifndef PROJECT_HPP
 #define PROJECT_HPP
 
+#include <memory>
+
 #include "iproject.hpp"
+
+namespace Database
+{
+    struct IDBPack;
+}
 
 class Project: public IProject
 {
@@ -37,7 +44,7 @@ class Project: public IProject
         //init fields
         void setDBBackend(const QString &);
         void setDBLocation(const QString &);
-        void setDatabase(Database::IDatabase *);
+        void setDatabase(std::unique_ptr<Database::IDBPack> &&);
         void setName(const QString &);
 
         // overrides
@@ -52,7 +59,7 @@ class Project: public IProject
         QString m_location;
         QString m_prjPath;
         QString m_name;
-        Database::IDatabase* m_database;
+        std::unique_ptr<Database::IDBPack> m_database;
 };
 
 #endif // PROJECT_HPP
