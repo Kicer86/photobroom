@@ -18,9 +18,25 @@
 #include <database/ifs.hpp>
 
 
-struct ThumbnailGenerator: ITaskExecutor::ITask
+struct BaseTask: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo, int photoWidth): ITask(), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
+    BaseTask(ITaskObserver* observer): m_observer(observer) {}
+    BaseTask(const BaseTask &) = delete;
+
+    virtual ~BaseTask()
+    {
+        m_observer->finished(this);
+    }
+
+    BaseTask& operator=(const BaseTask &) = delete;
+
+    ITaskObserver* m_observer;
+};
+
+
+struct ThumbnailGenerator: BaseTask
+{
+    ThumbnailGenerator(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo, int photoWidth): BaseTask(observer), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -46,9 +62,9 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 };
 
 
-struct HashAssigner: public ITaskExecutor::ITask
+struct HashAssigner: public BaseTask
 {
-    HashAssigner(const IPhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    HashAssigner(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo): BaseTask(observer), m_photoInfo(photoInfo)
     {
     }
 
@@ -74,9 +90,9 @@ struct HashAssigner: public ITaskExecutor::ITask
 };
 
 
-struct TagsCollector: public ITaskExecutor::ITask
+struct TagsCollector: public BaseTask
 {
-    TagsCollector(const IPhotoInfo::Ptr& photoInfo) : ITask(), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo) : BaseTask(observer), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
     {
     }
 
@@ -108,7 +124,7 @@ struct TagsCollector: public ITaskExecutor::ITask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr)
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr), m_runningTasks()
 {
 
 }
@@ -122,7 +138,9 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<HashAssigner> task(new HashAssigner(photoInfo));
+    std::unique_ptr<HashAssigner> task(new HashAssigner(this, photoInfo));
+
+    started(task.get());
     m_task_executor->add(std::move(task));
 }
 
@@ -135,16 +153,19 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     if (widthEntry)
         width = widthEntry->toInt();
 
-    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(photoInfo, width));
+    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(this, photoInfo, width));
+
+    started(task.get());
     m_task_executor->add(std::move(task));
 }
 
 
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<TagsCollector> task(new TagsCollector(photoInfo));
+    std::unique_ptr<TagsCollector> task(new TagsCollector(this, photoInfo));
     task->set(&m_tagFeederFactory);
 
+    started(task.get());
     m_task_executor->add(std::move(task));
 }
 
@@ -158,4 +179,20 @@ void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
 void PhotoInfoUpdater::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+}
+
+
+void PhotoInfoUpdater::started(BaseTask* task)
+{
+    m_runningTasks.insert(task);
+}
+
+
+void PhotoInfoUpdater::finished(BaseTask* task)
+{
+    auto it = m_runningTasks.find(task);
+
+    assert(it != m_runningTasks.cend());
+
+    m_runningTasks.erase(it);
 }

@@ -8,8 +8,18 @@
 struct IConfiguration;
 struct ITaskExecutor;
 
+struct BaseTask;
+
+struct ITaskObserver
+{
+    virtual ~ITaskObserver() {}
+
+    virtual void finished(BaseTask *) = 0;
+};
+
+
 //TODO: construct photo manualy. Add fillers manualy on demand
-class PhotoInfoUpdater final
+class PhotoInfoUpdater final: ITaskObserver
 {
     public:
         PhotoInfoUpdater();
@@ -29,6 +39,10 @@ class PhotoInfoUpdater final
         TagFeederFactory m_tagFeederFactory;
         ITaskExecutor* m_task_executor;
         IConfiguration* m_configuration;
+        std::set<BaseTask *> m_runningTasks;
+
+        void started(BaseTask *);
+        void finished(BaseTask *) override;
 };
 
 #endif
