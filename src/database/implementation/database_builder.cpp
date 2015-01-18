@@ -78,8 +78,8 @@ namespace Database
             ~DatabaseObjects()
             {
                 //destroy objects in right order
-                m_cache.reset();
                 m_storekeeper.reset();
+                m_cache.reset();
                 m_database.reset();
                 m_backend.reset();
             }
