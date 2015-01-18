@@ -142,20 +142,23 @@ struct PhotosAnalyzer::Impl
         {
             m_database = database;
 
-            //check for not fully initialized photos in database
+            if (m_database != nullptr)
+            {
+                //check for not fully initialized photos in database
 
-            //TODO: use independent updaters here (issue #102)
+                //TODO: use independent updaters here (issue #102)
 
-            std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-            flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
+                std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+                flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
 
-            for(auto flag: { IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded })
-                flags_filter->flags[flag] = 0;            //uninitialized
+                for(auto flag: { IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded })
+                    flags_filter->flags[flag] = 0;            //uninitialized
 
-            IncompletePhotos* task = new IncompletePhotos(this);
-            const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
+                IncompletePhotos* task = new IncompletePhotos(this);
+                const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
 
-            database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+                database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+            }
         }
 
         void set(ITaskExecutor* taskExecutor)
