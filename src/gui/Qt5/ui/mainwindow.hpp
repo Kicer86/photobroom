@@ -44,7 +44,7 @@ class MainWindow final: public QMainWindow
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
-        std::shared_ptr<IProject> m_currentPrj;
+        std::unique_ptr<IProject> m_currentPrj;
         DBDataModel*              m_imagesModel;
         StagedPhotosDataModel*    m_stagedImagesModel;
         IConfiguration*           m_configuration;
