@@ -77,6 +77,8 @@ namespace
                     process(photoInfo);
             }
 
+            stopWork();
+
         }
 
 
@@ -94,6 +96,16 @@ namespace
                 if (photoInfo->isExifDataLoaded() == false)
                     m_updater.updateTags(photoInfo);
             }
+        }
+
+        void stopWork()
+        {
+            // drop any not processed photos
+            m_photosToValidate.lock()->clear();
+
+            // wait for tasks being processed
+            m_updater.waitForPendingTasks();
+
         }
 
         void set(ITaskExecutor* taskExecutor)
