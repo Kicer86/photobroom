@@ -124,7 +124,7 @@ struct TagsCollector: public BaseTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr), m_runningTasks()
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr), m_runningTasks(), m_pendingTasksMutex(), m_pendigTasksNotifier()
 {
 
 }
@@ -188,6 +188,13 @@ int PhotoInfoUpdater::tasksInProgress()
 }
 
 
+void PhotoInfoUpdater::waitForPendingTasks()
+{
+    std::unique_lock<std::mutex> tasks_lock(m_pendingTasksMutex);
+    m_pendigTasksNotifier.wait(tasks_lock, [&]{ return tasksInProgress() == 0; } );
+}
+
+
 void PhotoInfoUpdater::started(BaseTask* task)
 {
     m_runningTasks.lock()->insert(task);
@@ -196,10 +203,12 @@ void PhotoInfoUpdater::started(BaseTask* task)
 
 void PhotoInfoUpdater::finished(BaseTask* task)
 {
-    auto tasks = m_runningTasks.lock();    
+    auto tasks = m_runningTasks.lock();
     auto it = tasks->find(task);
 
     assert(it != tasks->cend());
 
     tasks->erase(it);
+
+    m_pendigTasksNotifier.notify_one();
 }

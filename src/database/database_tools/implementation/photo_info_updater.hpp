@@ -2,6 +2,9 @@
 #ifndef GUI_PHOTO_INFO_UPDATER_HPP
 #define GUI_PHOTO_INFO_UPDATER_HPP
 
+#include <mutex>
+#include <condition_variable>
+
 #include <core/tag_feeder_factory.hpp>
 #include <database/iphoto_info.hpp>
 
@@ -36,12 +39,15 @@ class PhotoInfoUpdater final: ITaskObserver
         void set(IConfiguration *);
 
         int tasksInProgress();
+        void waitForPendingTasks();
 
     private:
         TagFeederFactory m_tagFeederFactory;
         ITaskExecutor* m_task_executor;
         IConfiguration* m_configuration;
         ol::ThreadSafeResource<std::set<BaseTask *>> m_runningTasks;
+        std::mutex m_pendingTasksMutex;
+        std::condition_variable m_pendigTasksNotifier;
 
         void started(BaseTask *);
         void finished(BaseTask *) override;
