@@ -191,7 +191,13 @@ int PhotoInfoUpdater::tasksInProgress()
 void PhotoInfoUpdater::waitForPendingTasks()
 {
     std::unique_lock<std::mutex> tasks_lock(m_pendingTasksMutex);
-    m_pendigTasksNotifier.wait(tasks_lock, [&]{ return tasksInProgress() == 0; } );
+    m_pendigTasksNotifier.wait(tasks_lock, [&]
+    {
+        const int tasks = tasksInProgress();
+        std::clog << "PhotoInfoUpdater: " << tasks << " left" << std::endl;
+
+        return tasks == 0;
+    });
 }
 
 
