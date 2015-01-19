@@ -93,7 +93,7 @@ void TaskExecutor::eat()
 
         while(true)
         {
-            Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_front());
+            ol::Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_front());
 
             if (opt_task)
             {
