@@ -29,7 +29,7 @@ struct DefaultConfigurationPrivate
         void set(ILogger *);
 
         QString getConfigDir() const;
-        Optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;
+        ol::Optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;
         std::vector<Configuration::EntryData> getAll() const;
         void addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data, bool def = false);
         void introduceKey(const Configuration::ConfigurationKey& key);

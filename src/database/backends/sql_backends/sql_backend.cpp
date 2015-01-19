@@ -181,7 +181,7 @@ namespace Database
             bool exec(const QString& query, QSqlQuery* result) const;
             bool exec(const SqlQuery& query, QSqlQuery* result) const;
             bool createDB(const QString& dbName) const;
-            Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
+            ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
             std::deque<TagNameInfo> listTags() const;
@@ -193,7 +193,7 @@ namespace Database
             void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
 
         private:
-            Optional<unsigned int> findTagByName(const QString& name) const;
+            ol::Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
 
             bool storeThumbnail(int photo_id, const QPixmap &) const;
@@ -202,8 +202,8 @@ namespace Database
             bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
 
             Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
-            Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
-            Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
+            ol::Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
+            ol::Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
             void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
             IPhotoInfo::List fetch(QSqlQuery &);
@@ -290,7 +290,7 @@ namespace Database
     }
 
 
-    Optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
+    ol::Optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
     {
         const QString& name = nameInfo.getName();
         const int type = nameInfo.getType();
@@ -298,7 +298,7 @@ namespace Database
         QSqlQuery query(db);
 
         //check if tag exists
-        Optional<unsigned int> tagId = findTagByName(name);
+        ol::Optional<unsigned int> tagId = findTagByName(name);
 
         if (! tagId)  //tag not yet in database
         {
@@ -341,7 +341,7 @@ namespace Database
 
     TagValue::List ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
     {
-        const Optional<unsigned int> tagId = findTagByName(tagName);
+        const ol::Optional<unsigned int> tagId = findTagByName(tagName);
 
         TagValue::List result;
 
@@ -441,14 +441,14 @@ namespace Database
     }
 
 
-    Optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
+    ol::Optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
         const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
         const bool status = exec(find_tag_query, &query);
 
-        Optional<unsigned int> result;
+        ol::Optional<unsigned int> result;
 
         if (status && query.next())
             result = query.value(0).toInt();
@@ -512,7 +512,7 @@ namespace Database
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
             //store tag name
-            const Optional<unsigned int> tag_id = store(it->first);
+            const ol::Optional<unsigned int> tag_id = store(it->first);
 
             if (tag_id)
             {
@@ -652,12 +652,12 @@ namespace Database
             photoInfo->setTags(tagData);
 
             //load thumbnail
-            const Optional<QPixmap> thumbnail = getThumbnailFor(id);
+            const ol::Optional<QPixmap> thumbnail = getThumbnailFor(id);
             if (thumbnail)
                 photoInfo->initThumbnail(*thumbnail);
 
             //load hash
-            const Optional<IPhotoInfo::Hash> hash = getHashFor(id);
+            const ol::Optional<IPhotoInfo::Hash> hash = getHashFor(id);
             if (hash)
                 photoInfo->initHash(*hash);
 
@@ -704,11 +704,11 @@ namespace Database
     }
 
 
-    Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
+    ol::Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        Optional<QPixmap> pixmap;
+        ol::Optional<QPixmap> pixmap;
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
@@ -728,7 +728,7 @@ namespace Database
         return pixmap;
     }
     
-    Optional<IPhotoInfo::Hash> ASqlBackend::Data::getHashFor(const IPhotoInfo::Id& id)
+    ol::Optional<IPhotoInfo::Hash> ASqlBackend::Data::getHashFor(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -739,7 +739,7 @@ namespace Database
 
         const bool status = exec(queryStr, &query);
 
-        Optional<IPhotoInfo::Hash> result;
+        ol::Optional<IPhotoInfo::Hash> result;
         if(status && query.next())
         {
             const QVariant variant = query.value(0);

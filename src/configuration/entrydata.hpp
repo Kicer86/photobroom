@@ -52,7 +52,7 @@ namespace Configuration
 
         private:
             struct Data;
-            data_ptr<Data> m_data;
+            ol::data_ptr<Data> m_data;
     };
 
     class CONFIGURATION_EXPORT EntryData
@@ -69,7 +69,7 @@ namespace Configuration
 
         private:
             struct Data;
-            data_ptr<Data> m_data;
+            ol::data_ptr<Data> m_data;
     };
 
 }

@@ -327,7 +327,7 @@ namespace
 
             for(;;)
             {
-                Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop_front();
+                ol::Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop_front();
 
                 if (task)
                 {

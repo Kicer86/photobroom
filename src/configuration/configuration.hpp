@@ -37,8 +37,8 @@ class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
 
         void init(ILogger *);
 
-        virtual Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;
-        virtual Optional<QString> findEntry(const char *) const override;
+        virtual ol::Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;
+        virtual ol::Optional<QString> findEntry(const char *) const override;
         virtual QString findEntry(const char *, const QString& defaultValue) const override;
         const std::vector<Configuration::EntryData> getEntries() override;
 
