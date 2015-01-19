@@ -35,6 +35,8 @@ class PhotoInfoUpdater final: ITaskObserver
         void set(ITaskExecutor *);
         void set(IConfiguration *);
 
+        int tasksInProgress() const;
+
     private:
         TagFeederFactory m_tagFeederFactory;
         ITaskExecutor* m_task_executor;

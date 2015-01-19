@@ -182,6 +182,12 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 }
 
 
+int PhotoInfoUpdater::tasksInProgress() const
+{
+    return m_runningTasks.size();
+}
+
+
 void PhotoInfoUpdater::started(BaseTask* task)
 {
     m_runningTasks.insert(task);
