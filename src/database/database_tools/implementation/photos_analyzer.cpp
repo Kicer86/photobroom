@@ -77,8 +77,7 @@ namespace
                     process(photoInfo);
             }
 
-            stopWork();
-
+            dropPendingTasks();
         }
 
 
@@ -98,7 +97,7 @@ namespace
             }
         }
 
-        void stopWork()
+        void dropPendingTasks()
         {
             // drop any not processed photos
             m_photosToValidate.lock()->clear();
@@ -153,6 +152,8 @@ struct PhotosAnalyzer::Impl
         void setDatabase(Database::IDatabase* database)
         {
             m_database = database;
+
+            m_thread.dropPendingTasks();
 
             if (m_database != nullptr)
             {
