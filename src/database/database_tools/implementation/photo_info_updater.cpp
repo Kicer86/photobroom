@@ -182,23 +182,24 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 }
 
 
-int PhotoInfoUpdater::tasksInProgress() const
+int PhotoInfoUpdater::tasksInProgress()
 {
-    return m_runningTasks.size();
+    return m_runningTasks.lock()->size();
 }
 
 
 void PhotoInfoUpdater::started(BaseTask* task)
 {
-    m_runningTasks.insert(task);
+    m_runningTasks.lock()->insert(task);
 }
 
 
 void PhotoInfoUpdater::finished(BaseTask* task)
 {
-    auto it = m_runningTasks.find(task);
+    auto tasks = m_runningTasks.lock();    
+    auto it = tasks->find(task);
 
-    assert(it != m_runningTasks.cend());
+    assert(it != tasks->cend());
 
-    m_runningTasks.erase(it);
+    tasks->erase(it);
 }

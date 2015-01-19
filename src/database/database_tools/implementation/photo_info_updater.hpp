@@ -35,13 +35,13 @@ class PhotoInfoUpdater final: ITaskObserver
         void set(ITaskExecutor *);
         void set(IConfiguration *);
 
-        int tasksInProgress() const;
+        int tasksInProgress();
 
     private:
         TagFeederFactory m_tagFeederFactory;
         ITaskExecutor* m_task_executor;
         IConfiguration* m_configuration;
-        std::set<BaseTask *> m_runningTasks;
+        ol::ThreadSafeResource<std::set<BaseTask *>> m_runningTasks;
 
         void started(BaseTask *);
         void finished(BaseTask *) override;
