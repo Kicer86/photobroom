@@ -77,6 +77,8 @@ namespace Database
 
             ~DatabaseObjects()
             {
+                m_database->closeConnections();
+
                 //destroy objects in right order
                 m_storekeeper.reset();
                 m_cache.reset();
