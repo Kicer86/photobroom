@@ -77,6 +77,7 @@ namespace
                     process(photoInfo);
             }
 
+            dropPendingTasks();
         }
 
 
@@ -94,6 +95,16 @@ namespace
                 if (photoInfo->isExifDataLoaded() == false)
                     m_updater.updateTags(photoInfo);
             }
+        }
+
+        void dropPendingTasks()
+        {
+            // drop any not processed photos
+            m_photosToValidate.lock()->clear();
+
+            // wait for tasks being processed
+            m_updater.waitForPendingTasks();
+
         }
 
         void set(ITaskExecutor* taskExecutor)
@@ -135,31 +146,32 @@ struct PhotosAnalyzer::Impl
 
         ~Impl()
         {
-            m_thread.m_work = false;
-            m_thread.m_data_available.notify_one();
-
-            assert(m_analyzerThread.joinable());
-            m_analyzerThread.join();
+            stop();
         }
 
         void setDatabase(Database::IDatabase* database)
         {
             m_database = database;
 
-            //check for not fully initialized photos in database
+            m_thread.dropPendingTasks();
 
-            //TODO: use independent updaters here (issue #102)
+            if (m_database != nullptr)
+            {
+                //check for not fully initialized photos in database
 
-            std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-            flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
+                //TODO: use independent updaters here (issue #102)
 
-            for(auto flag: { IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded })
-                flags_filter->flags[flag] = 0;            //uninitialized
+                std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+                flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
 
-            IncompletePhotos* task = new IncompletePhotos(this);
-            const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
+                for(auto flag: { IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded })
+                    flags_filter->flags[flag] = 0;            //uninitialized
 
-            database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+                IncompletePhotos* task = new IncompletePhotos(this);
+                const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
+
+                database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+            }
         }
 
         void set(ITaskExecutor* taskExecutor)
@@ -179,8 +191,21 @@ struct PhotosAnalyzer::Impl
 
         void addPhoto(const IPhotoInfo::Ptr& photo)
         {
+            assert(m_analyzerThread.joinable());
             m_thread.m_photosToValidate.lock()->push_back(photo);
             m_thread.m_data_available.notify_one();
+        }
+
+        void stop()
+        {
+            if (m_thread.m_work)
+            {
+                m_thread.m_work = false;
+                m_thread.m_data_available.notify_one();
+
+                assert(m_analyzerThread.joinable());
+                m_analyzerThread.join();
+            }
         }
 
     private:
@@ -245,6 +270,12 @@ void PhotosAnalyzer::set(ITaskExecutor* taskExecutor)
 void PhotosAnalyzer::set(IConfiguration* configuration)
 {
     m_data->set(configuration);
+}
+
+
+void PhotosAnalyzer::stop()
+{
+    m_data->stop();
 }
 
 

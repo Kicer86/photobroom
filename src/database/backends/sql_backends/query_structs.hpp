@@ -50,7 +50,7 @@ namespace Database
 
         private:
             struct Data;
-            data_ptr<Data> m_data;
+            ol::data_ptr<Data> m_data;
 
             void addColumn(const QString &);
             void addValue(const QString &);

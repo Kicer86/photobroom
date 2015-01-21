@@ -72,13 +72,13 @@ void DefaultConfiguration::init(ILogger* logger)
 
 
 
-Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
+ol::Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
 {
     return m_impl->find(key);
 }
 
 
-Optional<QString> DefaultConfiguration::findEntry(const char* key) const
+ol::Optional<QString> DefaultConfiguration::findEntry(const char* key) const
 {
     const auto entry = findEntry(Configuration::ConfigurationKey(key));
     return entry->value();

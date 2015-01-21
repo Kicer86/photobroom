@@ -18,9 +18,25 @@
 #include <database/ifs.hpp>
 
 
-struct ThumbnailGenerator: ITaskExecutor::ITask
+struct BaseTask: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo, int photoWidth): ITask(), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
+    BaseTask(ITaskObserver* observer): m_observer(observer) {}
+    BaseTask(const BaseTask &) = delete;
+
+    virtual ~BaseTask()
+    {
+        m_observer->finished(this);
+    }
+
+    BaseTask& operator=(const BaseTask &) = delete;
+
+    ITaskObserver* m_observer;
+};
+
+
+struct ThumbnailGenerator: BaseTask
+{
+    ThumbnailGenerator(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo, int photoWidth): BaseTask(observer), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -46,9 +62,9 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 };
 
 
-struct HashAssigner: public ITaskExecutor::ITask
+struct HashAssigner: public BaseTask
 {
-    HashAssigner(const IPhotoInfo::Ptr& photoInfo): ITask(), m_photoInfo(photoInfo)
+    HashAssigner(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo): BaseTask(observer), m_photoInfo(photoInfo)
     {
     }
 
@@ -74,9 +90,9 @@ struct HashAssigner: public ITaskExecutor::ITask
 };
 
 
-struct TagsCollector: public ITaskExecutor::ITask
+struct TagsCollector: public BaseTask
 {
-    TagsCollector(const IPhotoInfo::Ptr& photoInfo) : ITask(), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo) : BaseTask(observer), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
     {
     }
 
@@ -108,7 +124,7 @@ struct TagsCollector: public ITaskExecutor::ITask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr)
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr), m_runningTasks(), m_pendingTasksMutex(), m_pendigTasksNotifier()
 {
 
 }
@@ -122,8 +138,10 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_shared<HashAssigner>(photoInfo);
-    m_task_executor->add(task);
+    std::unique_ptr<HashAssigner> task(new HashAssigner(this, photoInfo));
+
+    started(task.get());
+    m_task_executor->add(std::move(task));
 }
 
 
@@ -135,17 +153,20 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     if (widthEntry)
         width = widthEntry->toInt();
 
-    auto task = std::make_shared<ThumbnailGenerator>(photoInfo, width);
-    m_task_executor->add(task);
+    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(this, photoInfo, width));
+
+    started(task.get());
+    m_task_executor->add(std::move(task));
 }
 
 
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_shared<TagsCollector>(photoInfo);
+    std::unique_ptr<TagsCollector> task(new TagsCollector(this, photoInfo));
     task->set(&m_tagFeederFactory);
 
-    m_task_executor->add(task);
+    started(task.get());
+    m_task_executor->add(std::move(task));
 }
 
 
@@ -158,4 +179,42 @@ void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
 void PhotoInfoUpdater::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+}
+
+
+int PhotoInfoUpdater::tasksInProgress()
+{
+    return m_runningTasks.lock()->size();
+}
+
+
+void PhotoInfoUpdater::waitForPendingTasks()
+{
+    std::unique_lock<std::mutex> tasks_lock(m_pendingTasksMutex);
+    m_pendigTasksNotifier.wait(tasks_lock, [&]
+    {
+        const int tasks = tasksInProgress();
+        std::clog << "PhotoInfoUpdater: " << tasks << " left" << std::endl;
+
+        return tasks == 0;
+    });
+}
+
+
+void PhotoInfoUpdater::started(BaseTask* task)
+{
+    m_runningTasks.lock()->insert(task);
+}
+
+
+void PhotoInfoUpdater::finished(BaseTask* task)
+{
+    auto tasks = m_runningTasks.lock();
+    auto it = tasks->find(task);
+
+    assert(it != tasks->cend());
+
+    tasks->erase(it);
+
+    m_pendigTasksNotifier.notify_one();
 }

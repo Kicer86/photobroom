@@ -154,12 +154,6 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 }
 
 
-void DBDataModel::close()
-{
-    m_idxDataManager->close();
-}
-
-
 IdxData* DBDataModel::getRootIdxData()
 {
     return m_idxDataManager->getRoot();

@@ -83,6 +83,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
     // TODO: close project!
     //m_currentPrj->close();
 
+    closeProject();
+    m_photosAnalyzer->stop();
+
     e->accept();
 }
 
@@ -91,8 +94,8 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 {
     if (prjInfo.isValid())
     {
-        std::shared_ptr<IProject> prj = m_prjManager->open(prjInfo);
-        m_currentPrj = prj;
+        m_currentPrj = m_prjManager->open(prjInfo);
+        
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
         m_imagesModel->setDatabase(db);
@@ -102,6 +105,24 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     updateMenus();
     updateGui();
     updateTools();
+}
+
+
+void MainWindow::closeProject()
+{
+    if (m_currentPrj)
+    {
+        // Move m_currentPrj to a temporary place, so m_currentPrj is null and all tools will change theirs state basing on this.
+        // Project object will be destroyed at the end of this routine
+        auto prj = std::move(m_currentPrj);
+
+        m_imagesModel->setDatabase(nullptr);
+        m_stagedImagesModel->setDatabase(nullptr);
+
+        updateMenus();
+        updateGui();
+        updateTools();
+    }
 }
 
 

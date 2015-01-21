@@ -49,22 +49,22 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="39"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="112"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="133"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="119"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="140"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="157"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="178"/>
         <source>Photo broom: </source>
         <translation>Photo broom:</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="157"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="178"/>
         <source>No album opened</source>
         <translation>Nie otwarto albumu</translation>
     </message>
@@ -121,7 +121,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="213"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="234"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>

@@ -52,7 +52,7 @@ static void trampoline(TaskExecutor* executor)
 }
 
 
-TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this)
+TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this), m_working(true)
 {
 
 }
@@ -60,16 +60,28 @@ TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this)
 
 TaskExecutor::~TaskExecutor()
 {
-    m_tasks.stop();
-    assert(m_taskEater.joinable());
-    m_taskEater.join();
+    stop();
 }
 
 
-void TaskExecutor::add(const std::shared_ptr<ITask> &task)
+void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 {
-    m_tasks.push_back(task);
+    assert(m_working);
+    m_tasks.push_back(std::move(task));
 }
+
+
+void TaskExecutor::stop()
+{
+    if (m_working)
+    {
+        m_working = false;
+        m_tasks.stop();
+        assert(m_taskEater.joinable());
+        m_taskEater.join();
+    }
+}
+
 
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
@@ -81,13 +93,13 @@ void TaskExecutor::eat()
 
         while(true)
         {
-            Optional<std::shared_ptr<ITask>> opt_task = m_tasks.pop_front();
+            ol::Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_front());
 
             if (opt_task)
             {
-                std::shared_ptr<ITask> task = *opt_task;
+                std::unique_ptr<ITask> task = std::move(*opt_task);
 
-                execute(task);
+                execute(std::move(task));
             }
             else
                 break;

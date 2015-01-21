@@ -39,11 +39,11 @@ QString DefaultConfigurationPrivate::getConfigDir() const
 }
 
 
-Optional<Configuration::EntryData> DefaultConfigurationPrivate::find(const Configuration::ConfigurationKey& key) const
+ol::Optional<Configuration::EntryData> DefaultConfigurationPrivate::find(const Configuration::ConfigurationKey& key) const
 {
     verifyKey(key);
 
-    Optional<Configuration::EntryData> result;
+    ol::Optional<Configuration::EntryData> result;
     auto it = m_data.find(key);
 
     if (it != m_data.end())

@@ -62,16 +62,9 @@ namespace Database
 
         Impl& operator=(const Impl &) = delete;
 
-        //backend type
-        enum Type
-        {
-            Main,
-        };
-
-        struct DatabaseObjects
+        struct DatabaseObjects: Database::IDBPack
         {
             DatabaseObjects() : m_database(), m_backend(), m_cache(), m_storekeeper() {}
-            ~DatabaseObjects() {}
 
             DatabaseObjects(DatabaseObjects&& other):
                 m_database(std::move(other.m_database)),
@@ -82,17 +75,32 @@ namespace Database
 
             }
 
+            ~DatabaseObjects()
+            {
+                m_database->closeConnections();
+
+                //destroy objects in right order
+                m_storekeeper.reset();
+                m_cache.reset();
+                m_database.reset();
+                m_backend.reset();
+            }
+
             std::unique_ptr<IDatabase> m_database;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<IPhotoInfoCache> m_cache;
             std::unique_ptr<PhotoInfoStorekeeper> m_storekeeper;
+
+            IDatabase* get() override
+            {
+                return m_database.get();
+            }
         };
 
-        std::map<ProjectInfo, DatabaseObjects> m_backends;
         IPluginLoader* pluginLoader;
         ILogger* m_logger;
 
-        Impl(): m_backends(), pluginLoader(nullptr), m_logger(nullptr)
+        Impl(): pluginLoader(nullptr), m_logger(nullptr)
         {}
 
     };
@@ -122,52 +130,41 @@ namespace Database
     }
 
 
-    IDatabase* Builder::get(const ProjectInfo& info)
+    std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info)
     {
-        auto backendIt = m_impl->m_backends.find(info);
+        Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
+        assert(plugin);
 
-        if (backendIt == m_impl->m_backends.end())
+        PhotoInfoCache* cache = new PhotoInfoCache;
+        std::unique_ptr<IBackend> backend = plugin->constructBackend();
+        IDatabase* database = new DatabaseThread(backend.get());
+        PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
+
+        backend->setPhotoInfoCache(cache);
+        backend->set(m_impl->m_logger);
+        backend->addEventsObserver(storekeeper);
+        cache->setDatabase(database);
+        storekeeper->setDatabase(database);
+        storekeeper->setCache(cache);
+
+        std::unique_ptr<Database::IInitTask> task(new InitTask);
+
+        const bool status = database->exec(std::move(task), info);
+
+        std::unique_ptr<IDBPack> result;
+
+        if (status)
         {
-            Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
-            assert(plugin);
+            Impl::DatabaseObjects* dbObjs = new Impl::DatabaseObjects;
+            dbObjs->m_backend = std::move(backend);
+            dbObjs->m_database.reset(database);
+            dbObjs->m_cache.reset(cache);
+            dbObjs->m_storekeeper.reset(storekeeper);
 
-            PhotoInfoCache* cache = new PhotoInfoCache;
-            std::unique_ptr<IBackend> backend = plugin->constructBackend();
-            IDatabase* database = new DatabaseThread(backend.get());
-            PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
-
-            backend->setPhotoInfoCache(cache);
-            backend->set(m_impl->m_logger);
-            backend->addEventsObserver(storekeeper);
-            cache->setDatabase(database);
-            storekeeper->setDatabase(database);
-            storekeeper->setCache(cache);
-
-            std::unique_ptr<Database::IInitTask> task(new InitTask);
-
-            const bool status = database->exec(std::move(task), info);
-
-            if (status)
-            {
-                Impl::DatabaseObjects dbObjs;
-                dbObjs.m_backend = std::move(backend);
-                dbObjs.m_database.reset(database);
-                dbObjs.m_cache.reset(cache);
-                dbObjs.m_storekeeper.reset(storekeeper);
-
-                auto insertIt = m_impl->m_backends.insert(std::make_pair(info, std::move(dbObjs)));
-                backendIt = insertIt.first;
-            }
+            result.reset(dbObjs);
         }
 
-        return backendIt->second.m_database.get();
-    }
-
-
-    void Builder::closeAll()
-    {
-        for (auto& backend: m_impl->m_backends)
-            backend.second.m_database->closeConnections();
+        return result;
     }
 
 }

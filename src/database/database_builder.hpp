@@ -44,9 +44,7 @@ namespace Database
             void set(IPluginLoader *);
             void set(ILogger *);
 
-            IDatabase* get(const ProjectInfo &);
-
-            void closeAll();
+            virtual std::unique_ptr<IDBPack> get(const ProjectInfo &) override;
 
         private:
             struct Impl;
