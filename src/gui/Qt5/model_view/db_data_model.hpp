@@ -67,7 +67,6 @@ class DBDataModel: public QAbstractItemModel
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
-        void close();
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
     protected:

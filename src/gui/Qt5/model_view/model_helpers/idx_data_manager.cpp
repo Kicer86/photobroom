@@ -176,7 +176,8 @@ void IdxDataManager::set(ITaskExecutor* taskExecutor)
 
 void IdxDataManager::fetchMore(const QModelIndex& _parent)
 {
-    fetchData(_parent);
+    if (m_data->m_database != nullptr)
+        fetchData(_parent);
 }
 
 
@@ -193,7 +194,7 @@ void IdxDataManager::deepFetch(IdxData* top)
         QEventLoopLocker* eventLoopLocker = new QEventLoopLocker(&eventLoop);
         fetcher->setEventLoopLocker(eventLoopLocker);
 
-        m_data->m_taskExecutor->add(std::shared_ptr<IdxDataDeepFetcher>(fetcher));
+        m_data->m_taskExecutor->add(std::unique_ptr<IdxDataDeepFetcher>(fetcher));
         eventLoop.exec();
     }
 }
@@ -215,17 +216,13 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
     m_data->m_database = database;
 
-    connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
-    connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
+    if (database != nullptr)
+    {
+        connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
+        connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
+    }
 
     resetModel();
-}
-
-
-void IdxDataManager::close()
-{
-    if (m_data->m_database)
-        m_data->m_database->closeConnections();
 }
 
 

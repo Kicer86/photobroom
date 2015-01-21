@@ -33,12 +33,18 @@ namespace Database
     struct IDatabase;
     struct ProjectInfo;
 
+    struct IDBPack
+    {
+        virtual ~IDBPack() {}
+
+        virtual IDatabase* get() = 0;
+    };
+
     struct IBuilder
     {
         virtual ~IBuilder() {}
 
-        virtual IDatabase* get(const ProjectInfo &) = 0;
-        virtual void closeAll() = 0;
+        virtual std::unique_ptr<IDBPack> get(const ProjectInfo &) = 0;
     };
 }
 

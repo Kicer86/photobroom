@@ -128,7 +128,7 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 }
 
 
-std::shared_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
+std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
 {
     QDir storagePath(getPrjStorage());
     storagePath.cd(prjInfo.getId());
@@ -143,18 +143,18 @@ std::shared_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
     QString location = prjFile.value("location").toString();
     prjFile.endGroup();
 
-    auto result = std::make_shared<Project>();
+    Project* result = new Project();
     result->setPrjPath(prjPath);
     result->setDBBackend(backend);
     result->setDBLocation(location);
     result->setName(prjInfo.getName());
 
     Database::ProjectInfo dbPrjInfo(location, backend, prjDir);
-    Database::IDatabase* db = m_dbBuilder->get(dbPrjInfo);
+    auto db = m_dbBuilder->get(dbPrjInfo);
 
-    result->setDatabase(db);
+    result->setDatabase(std::move(db));
 
-    return result;
+    return std::unique_ptr<IProject>(result);
 }
 
 
