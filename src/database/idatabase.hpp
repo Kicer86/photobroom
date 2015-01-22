@@ -55,62 +55,61 @@ namespace Database
             void photoModified(const IPhotoInfo::Ptr &);  //emited when photo updated
     };
 
-    struct IStorePhotoTask
+    struct AStorePhotoTask
     {
-        virtual ~IStorePhotoTask() {}
+        virtual ~AStorePhotoTask() {}
 
         virtual void got(bool) = 0;
     };
 
-    struct IStoreTagTask
+    struct AStoreTagTask
     {
-        virtual ~IStoreTagTask() {}
+        virtual ~AStoreTagTask() {}
 
         virtual void got(bool) = 0;
     };
 
-    struct IListTagsTask
+    struct AListTagsTask
     {
-        virtual ~IListTagsTask() {}
+        virtual ~AListTagsTask() {}
 
         virtual void got(const std::deque<TagNameInfo> &) = 0;
     };
 
-    struct IListTagValuesTask
+    struct AListTagValuesTask
     {
-        virtual ~IListTagValuesTask() {}
+        virtual ~AListTagValuesTask() {}
 
         virtual void got(const TagValue::List &) = 0;
     };
 
-    struct IGetPhotosTask
+    struct AGetPhotosTask
     {
-        virtual ~IGetPhotosTask() {}
+        virtual ~AGetPhotosTask() {}
 
         virtual void got(const IPhotoInfo::List &) = 0;
     };
 
-    struct IGetPhotoTask
+    struct AGetPhotoTask
     {
-        virtual ~IGetPhotoTask() {}
+        virtual ~AGetPhotoTask() {}
 
         virtual void got(const IPhotoInfo::Ptr &) = 0;
     };
 
-    struct IGetPhotosCount
+    struct AGetPhotosCount
     {
-        virtual ~IGetPhotosCount() {}
+        virtual ~AGetPhotosCount() {}
 
         virtual void got(int) = 0;
     };
 
-    struct IInitTask
+    struct AInitTask
     {
-        virtual ~IInitTask() {}
+        virtual ~AInitTask() {}
 
         virtual void got(bool) = 0;
     };
-    
 
     //Database interface.
     //A bridge between clients and backend.
@@ -121,21 +120,21 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         //store data
-        virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const QString &) = 0;
-        virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
-        virtual void exec(std::unique_ptr<IStoreTagTask> &&, const TagNameInfo &) = 0;
+        virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const QString &) = 0;
+        virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
+        virtual void exec(std::unique_ptr<AStoreTagTask> &&, const TagNameInfo &) = 0;
 
         //read data
-        virtual void exec(std::unique_ptr<IListTagsTask> &&) = 0;                                         //list all stored tag names
-        virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
-        virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
-        virtual void exec(std::unique_ptr<IGetPhotosTask> &&) = 0;                                        //list all photos
-        virtual void exec(std::unique_ptr<IGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
-        virtual void exec(std::unique_ptr<IGetPhotoTask> &&, const IPhotoInfo::Id &) = 0;                 //get particulat photo
-        virtual void exec(std::unique_ptr<IGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
+        virtual void exec(std::unique_ptr<AListTagsTask> &&) = 0;                                         //list all stored tag names
+        virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
+        virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
+        virtual void exec(std::unique_ptr<AGetPhotosTask> &&) = 0;                                        //list all photos
+        virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
+        virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const IPhotoInfo::Id &) = 0;                 //get particulat photo
+        virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         //init backend - connect to database or create new one
-        virtual bool exec(std::unique_ptr<IInitTask> &&, const Database::ProjectInfo &) = 0;
+        virtual bool exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

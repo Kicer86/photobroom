@@ -37,7 +37,7 @@
 
 namespace
 {
-    struct StoreTag: Database::IStoreTagTask
+    struct StoreTag: Database::AStoreTagTask
     {
         virtual ~StoreTag() {}
 
@@ -263,7 +263,7 @@ void ProjectManager::initNewProjectDatabase(const ProjectInfo& prjInfo)
 
     for(const TagNameInfo& info: BaseTags::getAll())
     {
-        std::unique_ptr<Database::IStoreTagTask> task(new StoreTag);
+        std::unique_ptr<Database::AStoreTagTask> task(new StoreTag);
         db->exec(std::move(task), info);
     }
 }

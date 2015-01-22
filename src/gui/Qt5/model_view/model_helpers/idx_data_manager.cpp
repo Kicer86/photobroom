@@ -38,7 +38,7 @@
 namespace
 {
 
-    struct GetPhotosTask: Database::IGetPhotosTask
+    struct GetPhotosTask: Database::AGetPhotosTask
     {
         GetPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetPhotosTask(const GetPhotosTask &) = delete;
@@ -55,7 +55,7 @@ namespace
         QModelIndex m_parent;
     };
 
-    struct GetNonmatchingPhotosTask: Database::IGetPhotosCount
+    struct GetNonmatchingPhotosTask: Database::AGetPhotosCount
     {
         GetNonmatchingPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
@@ -72,7 +72,7 @@ namespace
         QModelIndex m_parent;
     };
 
-    struct ListTagValuesTask: Database::IListTagValuesTask
+    struct ListTagValuesTask: Database::AListTagValuesTask
     {
         ListTagValuesTask(ITasksResults* tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
         ListTagValuesTask(const ListTagValuesTask &) = delete;
@@ -338,7 +338,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
-        std::unique_ptr<Database::IListTagValuesTask> task(new ListTagValuesTask(this, _parent, level));
+        std::unique_ptr<Database::AListTagValuesTask> task(new ListTagValuesTask(this, _parent, level));
         m_data->m_database->exec(std::move(task), tagNameInfo, filter);
     }
     else
@@ -353,7 +353,7 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::IGetPhotosTask> task(new GetPhotosTask(this, _parent));
+    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(this, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -385,7 +385,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::IGetPhotosCount> task(new GetNonmatchingPhotosTask(this, _parent));
+    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(this, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -432,7 +432,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
 
 //called when leafs for particual node have been loaded
-void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
     IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
@@ -451,7 +451,7 @@ void IdxDataManager::gotPhotosForParent(Database::IGetPhotosTask* task, const IP
 
 
 //called when we look for photos which do not have tag required by particular parent
-void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosCount* task, int size)
+void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* task, int size)
 {
     if (size > 0)  //there is at least one such a photo? Create extra node
     {
@@ -470,7 +470,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::IGetPhotosCount* ta
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(Database::IListTagValuesTask* task, const TagValue::List& tags)
+void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const TagValue::List& tags)
 {
     ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 
