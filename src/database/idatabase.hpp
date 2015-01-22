@@ -110,6 +110,7 @@ namespace Database
 
         virtual void got(bool) = 0;
     };
+    
 
     //Database interface.
     //A bridge between clients and backend.
@@ -125,8 +126,8 @@ namespace Database
         virtual void exec(std::unique_ptr<IStoreTagTask> &&, const TagNameInfo &) = 0;
 
         //read data
-        virtual void exec(std::unique_ptr<IListTagsTask> &&) = 0;                                     //list all stored tag names
-        virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &) = 0;           //list all values of provided tag
+        virtual void exec(std::unique_ptr<IListTagsTask> &&) = 0;                                         //list all stored tag names
+        virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
         virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual void exec(std::unique_ptr<IGetPhotosTask> &&) = 0;                                        //list all photos
         virtual void exec(std::unique_ptr<IGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
