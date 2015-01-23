@@ -113,6 +113,10 @@
    </property>
   </action>
   <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/gui/images/main_ico.svg</normaloff>:/gui/images/main_ico.svg</iconset>
+   </property>
    <property name="text">
     <string>Help</string>
    </property>
