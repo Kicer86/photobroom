@@ -63,9 +63,16 @@ class MainWindow final: public QMainWindow
         void viewChanged();
 
     private slots:
+        // album menu
         void on_actionNew_project_triggered();
         void on_actionOpen_project_triggered();
+        void on_actionClose_triggered();
+        void on_actionQuit_triggered();
+        
+        // photos menu
         void on_actionAdd_photos_triggered();
+        
+        // help menu
         void activateWindow(QAction *);
 };
 

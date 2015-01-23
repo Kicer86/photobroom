@@ -229,6 +229,18 @@ void MainWindow::on_actionOpen_project_triggered()
 }
 
 
+void MainWindow::on_actionClose_triggered()
+{
+    closeProject();
+}
+
+
+void MainWindow::on_actionQuit_triggered()
+{
+    close();
+}
+
+
 void MainWindow::on_actionAdd_photos_triggered()
 {
     const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
@@ -246,3 +258,4 @@ void MainWindow::activateWindow(QAction* action)
 
     viewChanged();
 }
+
