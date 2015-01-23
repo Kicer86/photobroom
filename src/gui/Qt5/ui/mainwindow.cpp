@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QFileDialog>
 #include <QLayout>
+#include <QMessageBox>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -259,3 +260,20 @@ void MainWindow::activateWindow(QAction* action)
     viewChanged();
 }
 
+
+void MainWindow::on_actionHelp_triggered()
+{
+
+}
+
+
+void MainWindow::on_actionAbout_triggered()
+{
+    //QMessageBox::about(this, tr("About Photo Broom"), "Photo Broom version");
+}
+
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this, tr("About Qt"));
+}

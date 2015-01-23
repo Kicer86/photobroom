@@ -72,8 +72,13 @@ class MainWindow final: public QMainWindow
         // photos menu
         void on_actionAdd_photos_triggered();
         
-        // help menu
+        // window menu
         void activateWindow(QAction *);
+        
+        // help menu
+        void on_actionHelp_triggered();
+        void on_actionAbout_triggered();
+        void on_actionAbout_Qt_triggered();
 };
 
 #endif // MAINWINDOW_HPP
