@@ -30,6 +30,7 @@
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/base_tags.hpp>
+#include <core/callback_ptr.hpp>
 #include <database/iphoto_info.hpp>
 
 #include "idxdata_deepfetcher.hpp"
@@ -40,7 +41,7 @@ namespace
 
     struct GetPhotosTask: Database::AGetPhotosTask
     {
-        GetPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetPhotosTask(const callback_ptr_ctrl<ITasksResults>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetPhotosTask(const GetPhotosTask &) = delete;
         virtual ~GetPhotosTask() {}
 
@@ -48,16 +49,19 @@ namespace
 
         virtual void got(const IPhotoInfo::List& photos)
         {
-            m_tasks_result->gotPhotosForParent(this, photos);
+            auto callback = **m_tasks_result;
+
+            if (callback)
+                callback->gotPhotosForParent(this, photos);
         }
 
-        ITasksResults* m_tasks_result;
+        callback_ptr<ITasksResults> m_tasks_result;
         QModelIndex m_parent;
     };
 
     struct GetNonmatchingPhotosTask: Database::AGetPhotosCount
     {
-        GetNonmatchingPhotosTask(ITasksResults* tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetNonmatchingPhotosTask(const callback_ptr_ctrl<ITasksResults>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
         virtual ~GetNonmatchingPhotosTask() {}
 
@@ -65,16 +69,19 @@ namespace
 
         virtual void got(int size)
         {
-            m_tasks_result->gotNonmatchingPhotosForParent(this, size);
+            auto callback = **m_tasks_result;
+
+            if (callback)
+                callback->gotNonmatchingPhotosForParent(this, size);
         }
 
-        ITasksResults* m_tasks_result;
+        callback_ptr<ITasksResults> m_tasks_result;
         QModelIndex m_parent;
     };
 
     struct ListTagValuesTask: Database::AListTagValuesTask
     {
-        ListTagValuesTask(ITasksResults* tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
+        ListTagValuesTask(callback_ptr_ctrl<ITasksResults>& tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
         ListTagValuesTask(const ListTagValuesTask &) = delete;
         virtual ~ListTagValuesTask() {}
 
@@ -82,10 +89,13 @@ namespace
 
         virtual void got(const TagValue::List& values)
         {
-            m_tasks_result->gotTagValuesForParent(this, values);
+            auto callback = **m_tasks_result;
+
+            if (callback)
+                callback->gotTagValuesForParent(this, values);
         }
 
-        ITasksResults* m_tasks_result;
+        callback_ptr<ITasksResults> m_tasks_result;
         QModelIndex m_parent;
         size_t m_level;
     };
@@ -94,7 +104,7 @@ namespace
 
 struct IdxDataManager::Data
 {
-    Data(DBDataModel* model):
+    Data(DBDataModel* model, ITasksResults* tasksResults):
         m_model(model),
         m_root(nullptr),
         m_hierarchy(),
@@ -102,14 +112,15 @@ struct IdxDataManager::Data
         m_photoId2IdxData(),
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id()),
-        m_taskExecutor(nullptr)
+        m_taskExecutor(nullptr),
+        m_tasksResultsCtrl(tasksResults)
     {
     }
 
     ~Data()
     {
-        //delete manualy so `this` is still valid when notifications from deleted IdxData will come
-        delete m_root;
+        // disable any notifications from database
+        m_tasksResultsCtrl.invalidate();
     }
 
     void init(IdxDataManager* manager)
@@ -129,10 +140,11 @@ struct IdxDataManager::Data
     ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
+    callback_ptr_ctrl<ITasksResults> m_tasksResultsCtrl;
 };
 
 
-IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
+IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this))
 {
     m_data->init(this);
 
@@ -338,7 +350,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
-        std::unique_ptr<Database::AListTagValuesTask> task(new ListTagValuesTask(this, _parent, level));
+        std::unique_ptr<Database::AListTagValuesTask> task(new ListTagValuesTask(m_data->m_tasksResultsCtrl, _parent, level));
         m_data->m_database->exec(std::move(task), tagNameInfo, filter);
     }
     else
@@ -353,7 +365,7 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(this, _parent));
+    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(m_data->m_tasksResultsCtrl, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -385,7 +397,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(this, _parent));
+    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(m_data->m_tasksResultsCtrl, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -521,6 +533,9 @@ void IdxDataManager::resetModel()
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
+    // drop any result from currently pending tasks
+    m_data->m_tasksResultsCtrl.invalidate();
 
     m_data->m_model->beginResetModel();
     m_data->m_root->reset();
