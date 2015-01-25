@@ -47,7 +47,7 @@ namespace Database
 
     const char* databaseLocation = "Database::Backend::DataLocation";
 
-    struct InitTask: Database::IInitTask
+    struct InitTask: Database::AInitTask
     {
         virtual ~InitTask() {}
         virtual void got(bool status)
@@ -147,7 +147,7 @@ namespace Database
         storekeeper->setDatabase(database);
         storekeeper->setCache(cache);
 
-        std::unique_ptr<Database::IInitTask> task(new InitTask);
+        std::unique_ptr<Database::AInitTask> task(new InitTask);
 
         const bool status = database->exec(std::move(task), info);
 

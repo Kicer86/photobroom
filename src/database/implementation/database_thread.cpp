@@ -72,7 +72,7 @@ namespace
 
     struct InitTask: ThreadBaseTask
     {
-        InitTask(std::unique_ptr<Database::IInitTask>&& task, const Database::ProjectInfo& prjInfo):
+        InitTask(std::unique_ptr<Database::AInitTask>&& task, const Database::ProjectInfo& prjInfo):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_prjInfo(prjInfo)
@@ -84,13 +84,13 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IInitTask> m_task;
+        std::unique_ptr<Database::AInitTask> m_task;
         Database::ProjectInfo m_prjInfo;
     };
 
     struct InsertTask: ThreadBaseTask
     {
-        InsertTask(std::unique_ptr<Database::IStorePhotoTask>&& task, const QString& path):
+        InsertTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const QString& path):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_path(path)
@@ -102,13 +102,13 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IStorePhotoTask> m_task;
+        std::unique_ptr<Database::AStorePhotoTask> m_task;
         QString m_path;
     };
 
     struct UpdateTask: ThreadBaseTask
     {
-        UpdateTask(std::unique_ptr<Database::IStorePhotoTask>&& task, const IPhotoInfo::Ptr& photo):
+        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const IPhotoInfo::Ptr& photo):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_photoInfo(photo)
@@ -120,14 +120,14 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IStorePhotoTask> m_task;
+        std::unique_ptr<Database::AStorePhotoTask> m_task;
         IPhotoInfo::Ptr m_photoInfo;
     };
 
 
     struct InsertTagTask: ThreadBaseTask
     {
-        InsertTagTask(std::unique_ptr<Database::IStoreTagTask>&& task, const TagNameInfo& tagInfo):
+        InsertTagTask(std::unique_ptr<Database::AStoreTagTask>&& task, const TagNameInfo& tagInfo):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_tagInfo(tagInfo)
@@ -138,14 +138,14 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IStoreTagTask> m_task;
+        std::unique_ptr<Database::AStoreTagTask> m_task;
         TagNameInfo m_tagInfo;
     };
 
 
     struct GetAllPhotosTask: ThreadBaseTask
     {
-        GetAllPhotosTask(std::unique_ptr<Database::IGetPhotosTask>&& task):
+        GetAllPhotosTask(std::unique_ptr<Database::AGetPhotosTask>&& task):
             ThreadBaseTask(),
             m_task(std::move(task))
         {
@@ -156,13 +156,13 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IGetPhotosTask> m_task;
+        std::unique_ptr<Database::AGetPhotosTask> m_task;
     };
 
 
     struct GetPhotoTask: ThreadBaseTask
     {
-        GetPhotoTask(std::unique_ptr<Database::IGetPhotoTask>&& task, const IPhotoInfo::Id& id):
+        GetPhotoTask(std::unique_ptr<Database::AGetPhotoTask>&& task, const IPhotoInfo::Id& id):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_id(id)
@@ -173,13 +173,13 @@ namespace
         virtual ~GetPhotoTask() {}
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IGetPhotoTask> m_task;
+        std::unique_ptr<Database::AGetPhotoTask> m_task;
         IPhotoInfo::Id m_id;
     };
 
     struct GetPhotosTask: ThreadBaseTask
     {
-        GetPhotosTask(std::unique_ptr<Database::IGetPhotosTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+        GetPhotosTask(std::unique_ptr<Database::AGetPhotosTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_filter(filter)
@@ -191,13 +191,13 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IGetPhotosTask> m_task;
+        std::unique_ptr<Database::AGetPhotosTask> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct ListTagsTask: ThreadBaseTask
     {
-        ListTagsTask(std::unique_ptr<Database::IListTagsTask>&& task):
+        ListTagsTask(std::unique_ptr<Database::AListTagsTask>&& task):
             ThreadBaseTask(),
             m_task(std::move(task))
         {
@@ -208,12 +208,12 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IListTagsTask> m_task;
+        std::unique_ptr<Database::AListTagsTask> m_task;
     };
 
     struct ListTagValuesTask: ThreadBaseTask
     {
-        ListTagValuesTask(std::unique_ptr<Database::IListTagValuesTask>&& task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter):
+        ListTagValuesTask(std::unique_ptr<Database::AListTagValuesTask>&& task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_info(info),
@@ -226,14 +226,14 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IListTagValuesTask> m_task;
+        std::unique_ptr<Database::AListTagValuesTask> m_task;
         TagNameInfo m_info;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct AnyPhotoTask: ThreadBaseTask
     {
-        AnyPhotoTask(std::unique_ptr<Database::IGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+        AnyPhotoTask(std::unique_ptr<Database::AGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_filter(filter)
@@ -243,7 +243,7 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::IGetPhotosCount> m_task;
+        std::unique_ptr<Database::AGetPhotosCount> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
@@ -430,7 +430,7 @@ namespace Database
     }
 
 
-    bool DatabaseThread::exec(std::unique_ptr<Database::IInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+    bool DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
     {
         InitTask* task = new InitTask(std::move(db_task), prjInfo);
         m_impl->addTask(task);
@@ -446,70 +446,70 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IStorePhotoTask>&& db_task, const QString& path)
+    void DatabaseThread::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const QString& path)
     {
         InsertTask* task = new InsertTask(std::move(db_task), path);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
+    void DatabaseThread::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
     {
         UpdateTask* task = new UpdateTask(std::move(db_task), photo);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<IStoreTagTask>&& db_task, const TagNameInfo& tagNameInfo)
+    void DatabaseThread::exec(std::unique_ptr<AStoreTagTask>&& db_task, const TagNameInfo& tagNameInfo)
     {
         InsertTagTask* task = new InsertTagTask(std::move(db_task), tagNameInfo);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IListTagsTask>&& db_task)
+    void DatabaseThread::exec(std::unique_ptr<Database::AListTagsTask>&& db_task)
     {
         ListTagsTask* task = new ListTagsTask(std::move(db_task));
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IGetPhotoTask>&& db_task, const IPhotoInfo::Id& id)
+    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const IPhotoInfo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IGetPhotosTask>&& db_task, const std::deque<Database::IFilter::Ptr>& filter)
+    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotosTask>&& db_task, const std::deque<Database::IFilter::Ptr>& filter)
     {
         GetPhotosTask* task = new GetPhotosTask(std::move(db_task), filter);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr< Database::IGetPhotosTask >&& db_task)
+    void DatabaseThread::exec(std::unique_ptr< Database::AGetPhotosTask >&& db_task)
     {
         GetAllPhotosTask* task = new GetAllPhotosTask(std::move(db_task));
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IListTagValuesTask>&& db_task, const TagNameInfo& info)
+    void DatabaseThread::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info)
     {
         ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, std::deque<IFilter::Ptr>());
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::IListTagValuesTask>&& db_task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter)
+    void DatabaseThread::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter)
     {
         ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, filter);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<IGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
+    void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
         m_impl->addTask(task);

@@ -26,7 +26,7 @@
 
 namespace
 {
-    struct AddPhotoTask: Database::IStorePhotoTask
+    struct AddPhotoTask: Database::AStorePhotoTask
     {
         virtual void got(bool status)
         {
@@ -49,7 +49,7 @@ StagedPhotosDataModel::~StagedPhotosDataModel()
 
 void StagedPhotosDataModel::addPhoto(const QString& path)
 {
-    std::unique_ptr<Database::IStorePhotoTask> task(new AddPhotoTask);
+    std::unique_ptr<Database::AStorePhotoTask> task(new AddPhotoTask);
     getDatabase()->exec(std::move(task), path);
 }
 

@@ -33,7 +33,7 @@
 namespace
 {
 
-    struct IncompletePhotos: Database::IGetPhotosTask
+    struct IncompletePhotos: Database::AGetPhotosTask
     {
         IncompletePhotos(PhotosAnalyzer::Impl* impl): m_analyzerImpl(impl) {}
         IncompletePhotos(const IncompletePhotos &) = delete;

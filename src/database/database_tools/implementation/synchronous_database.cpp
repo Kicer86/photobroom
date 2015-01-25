@@ -47,7 +47,7 @@ namespace
     };
 
 
-    struct GetPhotos: Database::IGetPhotosTask
+    struct GetPhotos: Database::AGetPhotosTask
     {
         GetPhotos(DataReceiver* dr): m_dataReceiver(dr) {}
         GetPhotos(const GetPhotos &) = delete;
@@ -87,7 +87,7 @@ const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque< Database
 {
     DataReceiver receiver;
 
-    std::unique_ptr<Database::IGetPhotosTask> task(new GetPhotos(&receiver));
+    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotos(&receiver));
     m_database->exec(std::move(task), filters);
 
     std::unique_lock<std::mutex> lock(receiver.m_data_mutex);
