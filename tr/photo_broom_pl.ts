@@ -75,7 +75,7 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="50"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="121"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="117"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
