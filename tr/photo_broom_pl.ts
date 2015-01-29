@@ -49,22 +49,22 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="43"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="134"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="136"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="141"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="143"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="179"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="181"/>
         <source>Photo broom: </source>
         <translation>Photo broom:</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="179"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="181"/>
         <source>No album opened</source>
         <translation>Nie otwarto albumu</translation>
     </message>
@@ -106,7 +106,7 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="97"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="272"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="274"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -122,7 +122,7 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="112"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="278"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="280"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
@@ -143,7 +143,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="247"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="249"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
