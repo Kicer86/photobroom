@@ -107,23 +107,23 @@
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="97"/>
         <source>About Photo Broom</source>
-        <translation type="unfinished"></translation>
+        <translation>O programie</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="102"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="107"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończ</translation>
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="112"/>
         <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="278"/>
         <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>O Qt</translation>
     </message>
     <message>
         <source>About</source>
