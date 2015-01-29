@@ -32,9 +32,9 @@ struct ITasksResults
 {
     virtual ~ITasksResults() {}
 
-    virtual void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
-    virtual void gotNonmatchingPhotosForParent(Database::IGetPhotosCount *, int size) = 0;
-    virtual void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue::List& tags) = 0;
+    virtual void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
+    virtual void gotNonmatchingPhotosForParent(Database::AGetPhotosCount *, int size) = 0;
+    virtual void gotTagValuesForParent(Database::AListTagValuesTask *, const TagValue::List& tags) = 0;
 };
 
 
@@ -97,9 +97,9 @@ private:
     void fetchData(const QModelIndex &);
 
     // database notifications:
-    void gotPhotosForParent(Database::IGetPhotosTask *, const IPhotoInfo::List& photos) override;
-    void gotNonmatchingPhotosForParent(Database::IGetPhotosCount*, int) override;
-    void gotTagValuesForParent(Database::IListTagValuesTask *, const TagValue::List& tags) override;
+    void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) override;
+    void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int) override;
+    void gotTagValuesForParent(Database::AListTagValuesTask *, const TagValue::List& tags) override;
     //
 
     void markIdxDataFetched(IdxData *);

@@ -39,6 +39,7 @@ set(CORE_SOURCES
 
 set(CORE_HEADERS
     base_tags.hpp
+    callback_ptr.hpp
     hash_functions.hpp
     ilogger.hpp
     itagfeeder.hpp

@@ -39,19 +39,19 @@ namespace Database
 
             virtual ADatabaseSignals* notifier() override;
 
-            virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const QString &) override;
-            virtual void exec(std::unique_ptr<IStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
-            virtual void exec(std::unique_ptr<IStoreTagTask>&&, const TagNameInfo&) override;
+            virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const QString &) override;
+            virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
+            virtual void exec(std::unique_ptr<AStoreTagTask>&&, const TagNameInfo&) override;
 
-            virtual void exec(std::unique_ptr<IListTagsTask> &&) override;
-            virtual void exec(std::unique_ptr<IGetPhotoTask> &&, const IPhotoInfo::Id &) override;
-            virtual void exec(std::unique_ptr<IGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) override;
-            virtual void exec(std::unique_ptr<IGetPhotosTask> &&) override;
-            virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &) override;
-            virtual void exec(std::unique_ptr<IListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
-            virtual void exec(std::unique_ptr< IGetPhotosCount > && , const std::deque< IFilter::Ptr >&) override;
+            virtual void exec(std::unique_ptr<AListTagsTask> &&) override;
+            virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const IPhotoInfo::Id &) override;
+            virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) override;
+            virtual void exec(std::unique_ptr<AGetPhotosTask> &&) override;
+            virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) override;
+            virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
+            virtual void exec(std::unique_ptr< AGetPhotosCount > && , const std::deque< IFilter::Ptr >&) override;
 
-            virtual bool exec(std::unique_ptr<IInitTask> &&, const ProjectInfo &) override;
+            virtual bool exec(std::unique_ptr<AInitTask> &&, const ProjectInfo &) override;
             virtual void closeConnections() override;
 
         private:

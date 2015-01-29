@@ -24,7 +24,7 @@
 
 namespace
 {
-    struct Update: Database::IStorePhotoTask
+    struct Update: Database::AStorePhotoTask
     {
         virtual ~Update() {}
         virtual void got(bool) {}
@@ -82,7 +82,7 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
     //if found, update changed photo in database (but only if fully loaded)
     if (ptr.get() != nullptr && ptr->isFullyInitialized())
     {
-        std::unique_ptr<Database::IStorePhotoTask> task(new Update);
+        std::unique_ptr<Database::AStorePhotoTask> task(new Update);
 
         m_data->m_database->exec(std::move(task), ptr);
     }
