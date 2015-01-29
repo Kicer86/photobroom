@@ -1,6 +1,7 @@
 
 find_package(Threads REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Svg REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)

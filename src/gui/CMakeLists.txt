@@ -1,11 +1,12 @@
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Svg REQUIRED)
 find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/
+include_directories(${CMAKE_BINARY_DIR}/
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
@@ -106,7 +107,7 @@ qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
-target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets)
+target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(gui)

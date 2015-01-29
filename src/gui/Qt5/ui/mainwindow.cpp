@@ -6,12 +6,15 @@
 #include <QMenuBar>
 #include <QFileDialog>
 #include <QLayout>
+#include <QMessageBox>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/iproject.hpp>
+
+#include "config.hpp"
 
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/photos_data_model.hpp"
@@ -229,6 +232,18 @@ void MainWindow::on_actionOpen_project_triggered()
 }
 
 
+void MainWindow::on_actionClose_triggered()
+{
+    closeProject();
+}
+
+
+void MainWindow::on_actionQuit_triggered()
+{
+    close();
+}
+
+
 void MainWindow::on_actionAdd_photos_triggered()
 {
     const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
@@ -245,4 +260,26 @@ void MainWindow::activateWindow(QAction* action)
     ui->centralWidget->setCurrentIndex(w);
 
     viewChanged();
+}
+
+
+void MainWindow::on_actionHelp_triggered()
+{
+
+}
+
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QString about;
+    about =  QString("Photo Broom ") + PHOTO_BROOM_VERSION + "\n";
+    about += "by Michał Walenciak";
+
+    QMessageBox::about(this, tr("About Photo Broom"), about);
+}
+
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this, tr("About Qt"));
 }
