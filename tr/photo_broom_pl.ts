@@ -106,6 +106,7 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="97"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="272"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
