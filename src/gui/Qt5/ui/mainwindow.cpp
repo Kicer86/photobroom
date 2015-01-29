@@ -14,6 +14,8 @@
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/iproject.hpp>
 
+#include "config.hpp"
+
 #include "components/project_creator/project_creator_dialog.hpp"
 #include "components/photos_data_model.hpp"
 #include "components/staged_photos_data_model.hpp"
@@ -269,7 +271,11 @@ void MainWindow::on_actionHelp_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    //QMessageBox::about(this, tr("About Photo Broom"), "Photo Broom version");
+    QString about;
+    about =  QString("Photo Broom ") + PHOTO_BROOM_VERSION + "\n";
+    about += "by Michał Walenciak";
+
+    QMessageBox::about(this, tr("About Photo Broom"), about);
 }
 
 

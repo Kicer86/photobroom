@@ -6,7 +6,7 @@ find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/
+include_directories(${CMAKE_BINARY_DIR}/
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
