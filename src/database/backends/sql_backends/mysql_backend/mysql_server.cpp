@@ -260,7 +260,7 @@ void DiskObserver::eventOccured()
 
 /*******************************************************************************************/
 
-MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullptr), m_logger(nullptr)
+MySqlServer::MySqlServer(): m_serverProcess(nullptr), m_configuration(nullptr), m_logger(nullptr)
 {
 
 }
@@ -310,7 +310,8 @@ QString MySqlServer::getDaemonPath() const
 
     if (daemonPath)
         path = *daemonPath;
-    else
+
+    if (path.isEmpty())
     {
         path = System::findProgram("mysqld").c_str();
 
@@ -335,7 +336,13 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
         const std::string dataDirOption  = "--datadir=" + dbDir;
         const std::string userNameOption = "--user=" + userName;
 
-        init.start( path.c_str(), {dataDirOption.c_str(), userNameOption.c_str(), extraOptions.c_str()} );
+        const QString installDBPath = path.c_str();
+        const QFileInfo installDBPathInfo(installDBPath);
+        QDir installDBDir = installDBPathInfo.absoluteDir();
+        installDBDir.cdUp();
+
+        init.setWorkingDirectory(installDBDir.path());
+        init.start( installDBPath, {dataDirOption.c_str(), userNameOption.c_str(), extraOptions.c_str()} );
         status = init.waitForStarted();
         init.waitForFinished();
 
@@ -392,7 +399,7 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 }
 
 
-QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath) const
+QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath)
 {
     const QString socketPath = basePath + "mysql.socket";
     const bool alive = QFile::exists(socketPath);
@@ -400,7 +407,6 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
 
     if (!alive)
     {
-
         const QString configFile = basePath + "mysql.conf";
         const QString baseDataPath = basePath + "db_data";
 
@@ -422,6 +428,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             {
                 QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
+                m_serverProcess.reset(new QProcess);
                 m_serverProcess->setProgram(daemonPath);
                 m_serverProcess->setArguments(args);
                 m_serverProcess->closeWriteChannel();

@@ -85,7 +85,7 @@ class MySqlServer
         bool initDB(const std::string &, const std::string &) const;
         bool createConfig(const QString &) const;
         bool waitForServerToStart(const QString &) const;
-        QString startProcess(const QString &, const QString &) const;
+        QString startProcess(const QString &, const QString &);
 };
 
 #endif // MYSQLSERVER_H

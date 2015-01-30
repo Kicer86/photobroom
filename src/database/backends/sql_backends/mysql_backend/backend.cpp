@@ -124,6 +124,7 @@ namespace Database
     void MySqlBackend::set(IConfiguration* configuration)
     {
         m_data->set(configuration);
+        m_data->m_server.set(configuration);
     }
 
 

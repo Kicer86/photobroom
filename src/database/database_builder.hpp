@@ -30,6 +30,7 @@
 
 struct ILogger;
 struct IPluginLoader;
+struct IConfiguration;
 
 namespace Database
 {
@@ -43,6 +44,7 @@ namespace Database
 
             void set(IPluginLoader *);
             void set(ILogger *);
+            void set(IConfiguration *);
 
             virtual std::unique_ptr<IDBPack> get(const ProjectInfo &) override;
 

@@ -93,7 +93,7 @@ namespace Database
     }
 
 
-    void SQLiteBackend::set(IConfiguration*)
+    void SQLiteBackend::set(IConfiguration *)
     {
 
     }

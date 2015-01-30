@@ -247,12 +247,12 @@ namespace Database
 
         m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logMessage);
 
-        assert(status);
         if (status == false)
             m_logger->log({"Database" ,"ASqlBackend"},
                           ILogger::Severity::Error,
                           "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
 
+        assert(status);
         return status;
     }
 
@@ -271,20 +271,21 @@ namespace Database
 
     bool ASqlBackend::Data::createDB(const QString& dbName) const
     {
+        const QString mysql_db("database");
         //check if database exists
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        bool status = exec(QString("SHOW DATABASES LIKE '%1';").arg(dbName), &query);
+        bool status = exec(QString("SHOW DATABASES LIKE '%1'").arg(mysql_db), &query);
 
         //create database if doesn't exists
         bool empty = query.next() == false;
 
         if (status && empty)
-            status = exec(QString("CREATE DATABASE `%1`;").arg(dbName), &query);
+            status = exec(QString("CREATE DATABASE '%1'").arg(mysql_db), &query);
 
         //switch to database
         if (status)
-            status = exec(QString("USE %1;").arg(dbName), &query);
+            status = exec(QString("USE %1").arg(mysql_db), &query);
 
         return status;
     }
