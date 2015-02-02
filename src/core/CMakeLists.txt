@@ -26,6 +26,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
+    implementation/disk_observer.cpp
     implementation/hash_functions.cpp
     implementation/logger.cpp
     implementation/plugin_loader.cpp
@@ -40,6 +41,7 @@ set(CORE_SOURCES
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
+    disk_observer.hpp
     hash_functions.hpp
     ilogger.hpp
     itagfeeder.hpp
