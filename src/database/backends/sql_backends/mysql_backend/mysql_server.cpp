@@ -249,7 +249,7 @@ void DiskObserver::eventOccured()
     const bool exists = QFile::exists(this->m_socketPath);
 
     if (exists)
-        m_eventLoop->exit(0);     //file exists -> quit with status "ok"
+        m_eventLoop->exit(0);         //file exists -> quit with status "ok"
     else
         if(m_timeout)
             m_eventLoop->exit(1);     //timeout + file desn't exist = error
