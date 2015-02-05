@@ -180,7 +180,6 @@ namespace Database
 
             bool exec(const QString& query, QSqlQuery* result) const;
             bool exec(const SqlQuery& query, QSqlQuery* result) const;
-            bool createDB(const QString& dbName) const;
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
@@ -264,28 +263,6 @@ namespace Database
 
         for(size_t i = 0; i < queries.size() && status; i++)
             status = exec(queries[i], result);
-
-        return status;
-    }
-
-
-    bool ASqlBackend::Data::createDB(const QString& dbName) const
-    {
-        const QString mysql_db("database");
-        //check if database exists
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = exec(QString("SHOW DATABASES LIKE '%1'").arg(mysql_db), &query);
-
-        //create database if doesn't exists
-        bool empty = query.next() == false;
-
-        if (status && empty)
-            status = exec(QString("CREATE DATABASE '%1'").arg(mysql_db), &query);
-
-        //switch to database
-        if (status)
-            status = exec(QString("USE %1").arg(mysql_db), &query);
 
         return status;
     }
@@ -856,12 +833,6 @@ namespace Database
     const QString& ASqlBackend::getConnectionName() const
     {
         return m_data->m_connectionName;
-    }
-
-
-    bool ASqlBackend::createDB(const QString& location)
-    {
-        return m_data->createDB(location);
     }
 
 
