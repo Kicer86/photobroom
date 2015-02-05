@@ -59,9 +59,10 @@ set(CORE_HEADERS
     )
 
 set(CORE_RESOURCE_FILES images/images.qrc)
+set(CORE_MOC_FILES disk_observer.hpp)
 
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
-
+qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
 if(EXIV2_FOUND)
 
@@ -90,6 +91,7 @@ if(BUILD_TESTS)
                         SOURCES
                             ${CORE_SOURCES}
                             ${CORE_RESOURCES}
+                            ${CORE_WRAPPED}
                             tests/coreTests.cpp
                             tests/algoTests.cpp
                         TEST_LIBRARY
@@ -115,7 +117,7 @@ endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core SHARED ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS})
+add_library(core SHARED ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
 target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 

@@ -20,14 +20,55 @@
 #ifndef DISKOBSERVER_HPP
 #define DISKOBSERVER_HPP
 
-class DiskObserver
+#include <memory>
+#include <condition_variable>
+
+#include <QThread>
+
+#include "core_export.h"
+
+class QEventLoopLocker;
+class QFileSystemWatcher;
+class QTimer;
+
+class Watcher: public QThread
 {
+        Q_OBJECT
+
+    public:
+        Watcher(const QString &, QEventLoopLocker *, QObject* parent = 0);
+        ~Watcher();
+        Watcher(const Watcher &) = delete;
+
+        Watcher& operator=(const Watcher &) = delete;
+
+    private:
+        const QString m_filePath;
+        QFileSystemWatcher* m_fsWatcher;
+        QTimer* m_timer;
+        std::unique_ptr<QEventLoopLocker> m_locker;
+        std::condition_variable m_cv;
+
+        virtual void run() override;
+
+    private slots:
+        void timeout();
+        void dirChanged(const QString &);
+};
+
+
+class CORE_EXPORT DiskObserver: public QObject
+{
+    Q_OBJECT
+
     public:
         DiskObserver();
         DiskObserver(const DiskObserver &) = delete;
         ~DiskObserver();
 
         DiskObserver& operator=(const DiskObserver &) = delete;
+
+        bool waitForFileToAppear(const QString &);
 };
 
 #endif // DISKOBSERVER_HPP

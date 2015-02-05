@@ -19,7 +19,67 @@
 
 #include "disk_observer.hpp"
 
-DiskObserver::DiskObserver()
+#include <QFileSystemWatcher>
+#include <QTimer>
+#include <QEventLoop>
+#include <QFileInfo>
+#include <QEventLoopLocker>
+
+
+Watcher::Watcher(const QString& filePath, QEventLoopLocker* locker, QObject* p):
+    QThread(p),
+    m_filePath(filePath),
+    m_fsWatcher(new QFileSystemWatcher(this)),
+    m_timer(new QTimer(this)),
+    m_locker(locker),
+    m_cv()
+{
+    const QFileInfo filePathInfo(m_filePath);
+    const QString dir = filePathInfo.absolutePath();
+
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(10e3);
+    m_timer->start();
+}
+
+
+Watcher::~Watcher()
+{
+}
+
+
+void Watcher::run()
+{
+    connect( m_fsWatcher, SIGNAL(directoryChanged(QString)), this, SLOT(dirChanged(QString)));
+    connect( m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    
+    QFileInfo fileInfo(m_filePath);
+
+    //wait for file to appear
+    std::mutex m;
+    std::unique_lock<std::mutex> l(m);
+    m_cv.wait(l, [&]
+    {
+        return fileInfo.exists();
+    });
+
+    m_locker.reset();
+}
+
+
+void Watcher::timeout()
+{
+    m_cv.notify_one();
+}
+
+
+void Watcher::dirChanged(const QString &)
+{
+    m_cv.notify_one();
+}
+
+
+DiskObserver::DiskObserver(): QObject()
 {
 
 }
@@ -29,3 +89,19 @@ DiskObserver::~DiskObserver()
 {
 
 }
+
+
+bool DiskObserver::waitForFileToAppear(const QString& path)
+{
+    QEventLoop loop;
+    QEventLoopLocker* locker = new QEventLoopLocker(&loop);
+    QFileInfo fInfo(path);
+    Watcher watcher(path, locker);
+    watcher.start();
+
+    loop.exec();
+    watcher.wait();
+
+    return fInfo.exists();
+}
+
