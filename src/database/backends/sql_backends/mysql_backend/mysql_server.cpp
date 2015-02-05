@@ -39,6 +39,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <core/ilogger.hpp>
+#include <core/disk_observer.hpp>
 #include <database/database_builder.hpp>
 #include <system/system.hpp>
 
@@ -175,91 +176,6 @@ namespace
 
 /*******************************************************************************************/
 
-
-DiskObserver::DiskObserver(const QString &socketPath):
-    m_watcher(new QFileSystemWatcher),
-    m_socketPath(socketPath),
-    m_timer(new QTimer),
-    m_eventLoop(new QEventLoop),
-    m_timeout(false)
-{
-    const QFileInfo socketFile(socketPath);
-    const QString socketDir = socketFile.absolutePath();
-
-    connect( m_watcher, SIGNAL(directoryChanged(QString)), this, SLOT(dirChanged(QString)) );
-    connect( m_timer, SIGNAL(timeout()), this, SLOT(timeout()) );
-    m_watcher->addPath(socketDir);
-}
-
-
-DiskObserver::~DiskObserver()
-{
-    delete m_watcher;
-    delete m_timer;
-    delete m_eventLoop;
-}
-
-
-bool DiskObserver::waitForChange()
-{
-    const bool exists = QFile::exists(this->m_socketPath);
-    int result = 0;
-
-    if (!exists)
-    {
-        m_timer->setSingleShot(true);
-        m_timer->setInterval(10e3);
-        m_timer->start();
-
-        result = m_eventLoop->exec();
-    }
-
-    return result == 0;
-}
-
-
-void DiskObserver::set(IConfiguration* configuration)
-{
-    const QString configuration_xml =
-    "<configuration>                                        "
-    "    <keys>                                             "
-    "        <key name='" + QString(MySQL_daemon) + "' />   "
-    "    </keys>                                            "
-    "</configuration>                                       ";
-
-    configuration->registerXml(configuration_xml);
-}
-
-
-void DiskObserver::dirChanged(const QString &)
-{
-    eventOccured();
-}
-
-
-void DiskObserver::timeout()
-{
-    m_timeout = true;
-    eventOccured();
-}
-
-
-void DiskObserver::eventOccured()
-{
-    const bool exists = QFile::exists(this->m_socketPath);
-
-    if (exists)
-        m_eventLoop->exit(0);         //file exists -> quit with status "ok"
-    else
-        if(m_timeout)
-            m_eventLoop->exit(1);     //timeout + file desn't exist = error
-
-    //no timeout and no file, keep waiting
-}
-
-
-/*******************************************************************************************/
-
 MySqlServer::MySqlServer(): m_serverProcess(nullptr), m_configuration(nullptr), m_logger(nullptr)
 {
 
@@ -385,8 +301,8 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
     //wait for socket to appear
     std::string logMsg = "Waiting for MySQL server to get up: ";
 
-    DiskObserver observer(socketPath);
-    const bool status = observer.waitForChange();
+    DiskObserver observer;
+    const bool status = observer.waitForFileToAppear(socketPath);
 
     if (status)
         logMsg += "done.";

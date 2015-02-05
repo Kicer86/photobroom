@@ -26,40 +26,9 @@
 #include <QObject>
 
 class QProcess;
-class QFileSystemWatcher;
-class QTimer;
-class QEventLoop;
 
 struct ILogger;
 struct IConfiguration;
-
-struct DiskObserver: public QObject
-{
-        Q_OBJECT
-
-    public:
-        DiskObserver(const QString &);
-        DiskObserver(const DiskObserver &) = delete;
-        ~DiskObserver();
-
-        DiskObserver& operator=(const DiskObserver &) = delete;
-
-        bool waitForChange();
-        void set(IConfiguration *);
-
-    private slots:
-        void dirChanged(const QString &);
-        void timeout();
-
-    private:
-        QFileSystemWatcher* m_watcher;
-        QString m_socketPath;
-        QTimer* m_timer;
-        QEventLoop* m_eventLoop;
-        bool m_timeout;
-
-        void eventOccured();
-};
 
 
 class MySqlServer
