@@ -172,6 +172,7 @@ namespace Database
             ILogger* m_logger;
             std::set<IBackend::IEvents *> m_observers;
             bool m_dbHasSizeFeature;
+            bool m_dbOpen;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -216,7 +217,8 @@ namespace Database
                                                    m_transaction(),
                                                    m_logger(nullptr),
                                                    m_observers(),
-                                                   m_dbHasSizeFeature(false)
+                                                   m_dbHasSizeFeature(false),
+                                                   m_dbOpen(false)
     {
 
     }
@@ -808,7 +810,7 @@ namespace Database
 
     ASqlBackend::~ASqlBackend()
     {
-        closeConnections();
+        assert(m_data->m_dbOpen == false);
     }
 
 
@@ -820,13 +822,19 @@ namespace Database
 
     void ASqlBackend::closeConnections()
     {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-
-        if (db.isValid() && db.isOpen())
         {
-            m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
-            db.close();
+            QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+            assert(m_data->m_dbOpen == db.isOpen());
+            if (db.isValid() && db.isOpen())
+            {
+                m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
+                db.close();
+                m_data->m_dbOpen = false;
+            }
         }
+        
+        QSqlDatabase::removeDatabase(m_data->m_connectionName);
     }
 
 
@@ -937,6 +945,8 @@ namespace Database
             m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
 
         //TODO: crash when status == false;
+
+        m_data->m_dbOpen = status;
         return status;
     }
 
