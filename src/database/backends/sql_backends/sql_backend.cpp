@@ -349,7 +349,7 @@ namespace Database
         const QString filterQuery = generateFilterQuery(filter);
 
         //from filtered photos, get info about tags used there
-        QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) JOIN %2, %3 ON photos_id=%2.photo_id AND %3.id=%2.name_id WHERE name='%4'";
+        QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) AS distinct_select JOIN (%2, %3) ON (photos_id=%2.photo_id AND %3.id=%2.name_id) WHERE name='%4'";
 
         queryStr = queryStr.arg(filterQuery);
         queryStr = queryStr.arg(TAB_TAGS);
