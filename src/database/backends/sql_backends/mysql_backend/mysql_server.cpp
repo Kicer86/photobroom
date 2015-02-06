@@ -187,7 +187,7 @@ MySqlServer::~MySqlServer()
     m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
 
     m_serverProcess->terminate();
-    m_serverProcess->waitForFinished();  //TODO: zwiecha?
+    m_serverProcess->waitForFinished();
 
     m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
 }
