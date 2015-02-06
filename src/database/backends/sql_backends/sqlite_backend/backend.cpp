@@ -108,7 +108,6 @@ namespace Database
         result = result.arg(data.getValues().join(", "));
 
         return result;
-
     }
 
 
