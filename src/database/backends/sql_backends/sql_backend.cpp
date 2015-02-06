@@ -172,6 +172,7 @@ namespace Database
             ILogger* m_logger;
             std::set<IBackend::IEvents *> m_observers;
             bool m_dbHasSizeFeature;
+            bool m_dbOpen;
 
             Data(ASqlBackend* backend);
             ~Data();
@@ -180,7 +181,6 @@ namespace Database
 
             bool exec(const QString& query, QSqlQuery* result) const;
             bool exec(const SqlQuery& query, QSqlQuery* result) const;
-            bool createDB(const QString& dbName) const;
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
@@ -217,7 +217,8 @@ namespace Database
                                                    m_transaction(),
                                                    m_logger(nullptr),
                                                    m_observers(),
-                                                   m_dbHasSizeFeature(false)
+                                                   m_dbHasSizeFeature(false),
+                                                   m_dbOpen(false)
     {
 
     }
@@ -247,12 +248,12 @@ namespace Database
 
         m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logMessage);
 
-        assert(status);
         if (status == false)
             m_logger->log({"Database" ,"ASqlBackend"},
                           ILogger::Severity::Error,
                           "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
 
+        assert(status);
         return status;
     }
 
@@ -264,27 +265,6 @@ namespace Database
 
         for(size_t i = 0; i < queries.size() && status; i++)
             status = exec(queries[i], result);
-
-        return status;
-    }
-
-
-    bool ASqlBackend::Data::createDB(const QString& dbName) const
-    {
-        //check if database exists
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = exec(QString("SHOW DATABASES LIKE '%1';").arg(dbName), &query);
-
-        //create database if doesn't exists
-        bool empty = query.next() == false;
-
-        if (status && empty)
-            status = exec(QString("CREATE DATABASE `%1`;").arg(dbName), &query);
-
-        //switch to database
-        if (status)
-            status = exec(QString("USE %1;").arg(dbName), &query);
 
         return status;
     }
@@ -371,7 +351,7 @@ namespace Database
         const QString filterQuery = generateFilterQuery(filter);
 
         //from filtered photos, get info about tags used there
-        QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) JOIN %2, %3 ON photos_id=%2.photo_id AND %3.id=%2.name_id WHERE name='%4'";
+        QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) AS distinct_select JOIN (%2, %3) ON (photos_id=%2.photo_id AND %3.id=%2.name_id) WHERE name='%4'";
 
         queryStr = queryStr.arg(filterQuery);
         queryStr = queryStr.arg(TAB_TAGS);
@@ -830,7 +810,7 @@ namespace Database
 
     ASqlBackend::~ASqlBackend()
     {
-        closeConnections();
+        assert(m_data->m_dbOpen == false);
     }
 
 
@@ -842,25 +822,25 @@ namespace Database
 
     void ASqlBackend::closeConnections()
     {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-
-        if (db.isValid() && db.isOpen())
         {
-            m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
-            db.close();
+            QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+            assert(m_data->m_dbOpen == db.isOpen());
+            if (db.isValid() && db.isOpen())
+            {
+                m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
+                db.close();
+                m_data->m_dbOpen = false;
+            }
         }
+        
+        QSqlDatabase::removeDatabase(m_data->m_connectionName);
     }
 
 
     const QString& ASqlBackend::getConnectionName() const
     {
         return m_data->m_connectionName;
-    }
-
-
-    bool ASqlBackend::createDB(const QString& location)
-    {
-        return m_data->createDB(location);
     }
 
 
@@ -965,6 +945,8 @@ namespace Database
             m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
 
         //TODO: crash when status == false;
+
+        m_data->m_dbOpen = status;
         return status;
     }
 

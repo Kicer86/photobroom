@@ -62,9 +62,11 @@ namespace Database
 
         QString parse(const std::deque<IFilter::Ptr> &);
         bool canBeMerged(const FilterData &, const FilterData &) const;
-        QString nest(const QString& current, const QString& incoming) const;
-        QString nest(const QString& current, const FilterData& incoming) const;
+        QString nest(const QString& current, const FilterData& incoming);
         QString constructQuery(const FilterData &) const;
+        QString getPhotoId() const;
+
+        int level = 0;
     };
 
 
@@ -163,7 +165,7 @@ namespace Database
             const QString internal_condition = generator.parse( {filter->filter} );
 
             //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-            m_filterResult.conditions.append( QString("photos_id NOT IN (%1)").arg(internal_condition) );
+            m_filterResult.conditions.append( QString("photos.id NOT IN (%1)").arg(internal_condition) );
         }
 
         FilterData m_filterResult;
@@ -235,26 +237,24 @@ namespace Database
     }
 
 
-    QString Generator::nest(const QString& current, const QString& incoming) const
+    QString Generator::nest(const QString& current, const FilterData& incoming)
     {
         QString result;
 
         if (current.isEmpty())
         {
+            const QString partial = constructQuery(incoming);
             result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-            result += incoming;
+            result += partial;
         }
         else
-            result = "SELECT photos_id FROM ( " + current + ")" + incoming;
+        {
+            result = "SELECT photos_id FROM ( " + current + ") AS level_%1_query";
+            result = result.arg(++level);
 
-        return result;
-    }
-
-
-    QString Generator::nest(const QString& current, const FilterData& incoming) const
-    {
-        const QString partial = constructQuery(incoming);
-        const QString result = nest(current, partial);
+            const QString partial = constructQuery(incoming);
+            result += partial;
+        }
 
         return result;
     }
@@ -296,10 +296,10 @@ namespace Database
 
             switch(item)
             {
-                case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = photos_id";   break;
+                case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = " + getPhotoId();   break;
                 case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
-                case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = photos_id";  break;
-                case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = photos_id"; break;
+                case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = " + getPhotoId();  break;
+                case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = " + getPhotoId(); break;
             }
 
             joins.append(join);
@@ -320,6 +320,11 @@ namespace Database
         return result;
     }
 
+
+    QString Generator::getPhotoId() const
+    {
+        return level == 0? "photos.id" : "photos_id";   //Use directly photos.id for non-nested queries. For nested one - use photos.id alias.
+    }
 
 
     SqlSelectQueryGenerator::SqlSelectQueryGenerator()

@@ -6,12 +6,14 @@
 #include <QProcess>
 #include <QSqlDatabase>
 #include <QDir>
+#include <QSqlQuery>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <database/database_builder.hpp>
 #include <database/project_info.hpp>
 #include <backends/sql_backends/table_definition.hpp>
+#include <database/backends/sql_backends/query_structs.hpp>
 
 #include "mysql_server.hpp"
 
@@ -67,7 +69,6 @@ namespace Database
                 //setup db connection
                 db_obj = QSqlDatabase::addDatabase("QMYSQL", getConnectionName());
                 db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
-                //db_obj.setDatabaseName("broom");
                 db_obj.setHostName("localhost");
                 db_obj.setUserName("root");
             }
@@ -81,7 +82,24 @@ namespace Database
 
     bool MySqlBackend::onAfterOpen()
     {
-        return ASqlBackend::createDB(m_data->m_dbLocation);
+        const QString mysql_db("photo_broom");
+        //check if database exists
+        QSqlDatabase db = QSqlDatabase::database(getConnectionName());
+        QSqlQuery query(db);
+        bool status = exec(QString("SHOW DATABASES LIKE '%1'").arg(mysql_db), &query);
+
+        //create database if doesn't exists
+        bool empty = query.next() == false;
+
+        if (status && empty)
+            status = exec(QString("CREATE DATABASE %1;").arg(mysql_db), &query);
+
+        //Reconnect to database. Not nice, but is there any other way?
+        db.setDatabaseName(mysql_db);
+        db.close();
+        db.open();
+
+        return status;
     }
 
 
@@ -107,7 +125,7 @@ namespace Database
                 break;
 
             case ColDefinition::Type::ID:
-                result = col.name + " " + "UNSIGNED INT PRIMARY KEY AUTO_INCREMENT";
+                result = col.name + " " + "INT PRIMARY KEY AUTO_INCREMENT";
                 break;
         }
 
@@ -124,6 +142,7 @@ namespace Database
     void MySqlBackend::set(IConfiguration* configuration)
     {
         m_data->set(configuration);
+        m_data->m_server.set(configuration);
     }
 
 
@@ -136,11 +155,15 @@ namespace Database
 
 
 
-    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
+    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
     {
-        assert(!"not implemented");
+        QString result("REPLACE INTO %1(%2) VALUES(%3)");
 
-        return SqlQuery();
+        result = result.arg(data.getName());
+        result = result.arg(data.getColumns().join(", "));
+        result = result.arg(data.getValues().join(", "));
+
+        return result;
     }
 
 
