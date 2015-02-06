@@ -13,6 +13,7 @@
 #include <database/database_builder.hpp>
 #include <database/project_info.hpp>
 #include <backends/sql_backends/table_definition.hpp>
+#include <database/backends/sql_backends/query_structs.hpp>
 
 #include "mysql_server.hpp"
 
@@ -154,11 +155,15 @@ namespace Database
 
 
 
-    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData &) const
+    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
     {
-        assert(!"not implemented");
+        QString result("REPLACE INTO %1(%2) VALUES(%3)");
 
-        return SqlQuery();
+        result = result.arg(data.getName());
+        result = result.arg(data.getColumns().join(", "));
+        result = result.arg(data.getValues().join(", "));
+
+        return result;
     }
 
 
