@@ -37,8 +37,10 @@ Watcher::Watcher(const QString& filePath, QEventLoopLocker* locker, QObject* p):
     const QFileInfo filePathInfo(m_filePath);
     const QString dir = filePathInfo.absolutePath();
 
+    m_fsWatcher->addPath(dir);
+
     m_timer->setSingleShot(true);
-    m_timer->setInterval(10e3);
+    m_timer->setInterval(3000);
     m_timer->start();
 }
 
