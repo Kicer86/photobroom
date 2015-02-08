@@ -51,9 +51,10 @@ class MySqlServer
         ILogger* m_logger;
 
         QString getDaemonPath() const;
-        bool initDB(const std::string &, const std::string &) const;
+        bool initDB(const QString &, const QString &) const;
         bool createConfig(const QString &) const;
         bool waitForServerToStart(const QString &) const;
+        bool initDBStructures(const QString &) const;
         QString startProcess(const QString &, const QString &);
 };
 

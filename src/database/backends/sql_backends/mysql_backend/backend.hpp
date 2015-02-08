@@ -26,7 +26,6 @@ namespace Database
             virtual bool prepareDB(const ProjectInfo &) override;
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareColumnDescription(const ColDefinition &) const override;
-            virtual bool onAfterOpen() override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
             virtual void set(IConfiguration *) override;
             virtual void set(ILogger *) override;

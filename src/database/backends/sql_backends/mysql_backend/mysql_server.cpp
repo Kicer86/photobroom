@@ -33,8 +33,9 @@
 #include <QFile>
 #include <QDir>
 #include <QTimer>
-#include <QFileSystemWatcher>
-#include <QEventLoop>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
@@ -190,7 +191,7 @@ QString MySqlServer::getDaemonPath() const
 }
 
 
-bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptions) const
+bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) const
 {
     const std::string path = System::findProgram("mysql_install_db");
     bool status = false;
@@ -199,9 +200,9 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
     {
         QProcess init;
 
-        const std::string userName = System::userName();
-        const std::string dataDirOption  = "--datadir=" + dbDir;
-        const std::string userNameOption = "--user=" + userName;
+        const QString userName = System::userName().c_str();
+        const QString dataDirOption  = "--datadir=" + dbDir;
+        const QString userNameOption = "--user=" + userName;
 
         const QString installDBPath = path.c_str();
         const QFileInfo installDBPathInfo(installDBPath);
@@ -209,7 +210,7 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
         installDBDir.cdUp();
 
         init.setWorkingDirectory(installDBDir.path());
-        init.start( installDBPath, {dataDirOption.c_str(), userNameOption.c_str(), extraOptions.c_str()} );
+        init.start( installDBPath, {dataDirOption, userNameOption, extraOptions} );
         status = init.waitForStarted();
         init.waitForFinished();
 
@@ -221,7 +222,7 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
                           ILogger::Severity::Error,
                           "MySQL Database Backend: database initialization failed:" + QString(init.readAll()).toStdString() );
 
-            status = QDir(dbDir.c_str()).rmdir(dbDir.c_str());
+            status = QDir().rmdir(dbDir);
         }
     }
 
@@ -266,11 +267,45 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 }
 
 
+bool MySqlServer::initDBStructures(const QString& socketPath) const
+{
+    const char* connectionName = "dbCreator";
+    bool status = true;
+    {
+        QSqlDatabase db_obj;
+        //setup db connection
+        db_obj = QSqlDatabase::addDatabase("QMYSQL", connectionName);
+        db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+        db_obj.setHostName("localhost");
+        db_obj.setUserName("root");
+
+        status = db_obj.open();
+
+        if (status)
+        {
+            QSqlQuery query(db_obj);
+            status = query.exec("CREATE DATABASE photo_broom");
+
+            db_obj.close();
+        }
+    }
+
+    QSqlDatabase::removeDatabase(connectionName);
+
+    return status;
+}
+
+
 QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath)
 {
+    bool status = true;
+
+    const QFileInfo basePathInfo(basePath);
+    if (basePathInfo.exists() == false)
+        status = QDir().mkdir(basePath);
+
     const QString socketPath = basePath + "mysql.socket";
     const bool alive = QFile::exists(socketPath);
-    bool status = true;
 
     if (!alive)
     {
@@ -283,9 +318,13 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
         if (status)
             status = createConfig(configFile);
 
+        bool freshDatabase = false;
         if (status)
             if (QDir(baseDataPath).exists() == false)
-                status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
+            {
+                status = initDB(baseDataPath, mysql_config);
+                freshDatabase = status;
+            }
 
         if (status)
         {
@@ -306,6 +345,9 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             if (status)
                 status = waitForServerToStart(socketPath);
         }
+
+        if (status && freshDatabase)
+            initDBStructures(socketPath);
 
     }
 

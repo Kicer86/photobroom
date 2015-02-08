@@ -6,7 +6,6 @@
 #include <QProcess>
 #include <QSqlDatabase>
 #include <QDir>
-#include <QSqlQuery>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
@@ -69,35 +68,13 @@ namespace Database
                 //setup db connection
                 db_obj = QSqlDatabase::addDatabase("QMYSQL", getConnectionName());
                 db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+                db_obj.setDatabaseName("photo_broom");
                 db_obj.setHostName("localhost");
                 db_obj.setUserName("root");
             }
 
             m_data->m_initialized = socketPath.isEmpty() == false;;
         }
-
-        return status;
-    }
-
-
-    bool MySqlBackend::onAfterOpen()
-    {
-        const QString mysql_db("photo_broom");
-        //check if database exists
-        QSqlDatabase db = QSqlDatabase::database(getConnectionName());
-        QSqlQuery query(db);
-        bool status = exec(QString("SHOW DATABASES LIKE '%1'").arg(mysql_db), &query);
-
-        //create database if doesn't exists
-        bool empty = query.next() == false;
-
-        if (status && empty)
-            status = exec(QString("CREATE DATABASE %1;").arg(mysql_db), &query);
-
-        //Reconnect to database. Not nice, but is there any other way?
-        db.setDatabaseName(mysql_db);
-        db.close();
-        db.open();
 
         return status;
     }
