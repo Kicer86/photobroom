@@ -130,12 +130,17 @@ MySqlServer::MySqlServer(): m_serverProcess(nullptr), m_configuration(nullptr), 
 
 MySqlServer::~MySqlServer()
 {
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
+    if (m_serverProcess)
+    {
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
 
-    m_serverProcess->terminate();
-    m_serverProcess->waitForFinished();
+        m_serverProcess->terminate();
+        m_serverProcess->waitForFinished();
 
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+    }
+    else
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server not owned by photo broom. Leaving it untouched");
 }
 
 
