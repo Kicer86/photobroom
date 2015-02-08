@@ -130,12 +130,17 @@ MySqlServer::MySqlServer(): m_serverProcess(nullptr), m_configuration(nullptr), 
 
 MySqlServer::~MySqlServer()
 {
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
+    if (m_serverProcess)
+    {
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
 
-    m_serverProcess->terminate();
-    m_serverProcess->waitForFinished();
+        m_serverProcess->terminate();
+        m_serverProcess->waitForFinished();
 
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+    }
+    else
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server not owned by photo broom. Leaving it untouched");
 }
 
 
@@ -271,40 +276,35 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
     {
         const QString configFile = basePath + "mysql.conf";
         const QString baseDataPath = basePath + "db_data";
+        const QString mysql_config  = "--defaults-file=" + configFile;
+        const QString mysql_datadir = "--datadir=" + baseDataPath;
+        const QString mysql_socket  = "--socket=" + socketPath;
 
         if (status)
             status = createConfig(configFile);
 
         if (status)
-        {
-            const QString mysql_config  = "--defaults-file=" + configFile;
-            const QString mysql_datadir = "--datadir=" + baseDataPath;
-            const QString mysql_socket  = "--socket=" + socketPath;
-
-            status = true;
-
             if (QDir(baseDataPath).exists() == false)
                 status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
 
+        if (status)
+        {
+            QStringList args = { mysql_config, mysql_datadir, mysql_socket};
+
+            m_serverProcess.reset(new QProcess);
+            m_serverProcess->setProgram(daemonPath);
+            m_serverProcess->setArguments(args);
+            m_serverProcess->closeWriteChannel();
+
+            m_logger->log({"Database", "MySQL"},
+                          ILogger::Severity::Debug,
+                          "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
+
+            m_serverProcess->start();
+            status = m_serverProcess->waitForStarted();
+
             if (status)
-            {
-                QStringList args = { mysql_config, mysql_datadir, mysql_socket};
-
-                m_serverProcess.reset(new QProcess);
-                m_serverProcess->setProgram(daemonPath);
-                m_serverProcess->setArguments(args);
-                m_serverProcess->closeWriteChannel();
-
-                m_logger->log({"Database", "MySQL"},
-                              ILogger::Severity::Debug,
-                              "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
-
-                m_serverProcess->start();
-                status = m_serverProcess->waitForStarted();
-
-                if (status)
-                    status = waitForServerToStart(socketPath);
-            }
+                status = waitForServerToStart(socketPath);
         }
 
     }
