@@ -93,7 +93,7 @@ namespace Database
     }
 
 
-    void SQLiteBackend::set(IConfiguration*)
+    void SQLiteBackend::set(IConfiguration *)
     {
 
     }
@@ -108,7 +108,6 @@ namespace Database
         result = result.arg(data.getValues().join(", "));
 
         return result;
-
     }
 
 

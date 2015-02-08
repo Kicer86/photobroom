@@ -33,12 +33,14 @@
 #include <QFile>
 #include <QDir>
 #include <QTimer>
-#include <QFileSystemWatcher>
-#include <QEventLoop>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <core/ilogger.hpp>
+#include <core/disk_observer.hpp>
 #include <database/database_builder.hpp>
 #include <system/system.hpp>
 
@@ -48,33 +50,7 @@ namespace
     const char* MySQL_daemon = "Database::Backend::MySQL::Server";
 
     const char* MySQL_config =
-        "#Config based on Akonadi's config file                                                        \n"
         "[mysqld]                                                                                     \n"
-
-        "# strict query parsing/interpretation                                                        \n"
-        "# TODO: make Akonadi work with those settings enabled                                        \n"
-        "# sql_mode=strict_trans_tables,strict_all_tables,strict_error_for_division_by_zero,no_auto_create_user,no_auto_value_on_zero,no_engine_substitution,no_zero_date,no_zero_in_date,only_full_group_by,pipes_as_concat\n"
-        "# sql_mode=strict_trans_tables                                                               \n"
-
-        "# DEBUGGING:\n"
-        "# log all queries, useful for debugging but generates an enormous amount of data\n"
-        "# log=mysql.full\n"
-        "# log queries slower than n seconds, log file name relative to datadir (for debugging only)\n"
-        "# log_slow_queries=mysql.slow\n"
-        "# long_query_time=1\n"
-        "# log queries not using indices, debug only, disable for production use\n"
-        "# log_queries_not_using_indexes=1\n"
-        "#\n"
-        "# mesure database size and adjust innodb_buffer_pool_size\n"
-        "# SELECT sum(data_length) as bla, sum(index_length) as blub FROM information_schema.tables WHERE table_schema not in (\"mysql\", \"information_schema\");\n"
-
-        "# NOTES:\n"
-        "# Keep Innob_log_waits and keep Innodb_buffer_pool_wait_free small (see show global status like \"inno%\", show global variables)\n"
-
-        "#expire_logs_days=3\n"
-
-        "#sync_bin_log=0\n"
-
         "# Use UTF-8 encoding for tables\n"
         "character_set_server=utf8\n"
         "collation_server=utf8_general_ci\n"
@@ -85,10 +61,6 @@ namespace
         "# memory pool InnoDB uses to store data dictionary information and other internal data structures (default:1M)\n"
         "# Deprecated in MySQL >= 5.6.3\n"
         "innodb_additional_mem_pool_size=1M\n"
-
-        "# memory buffer InnoDB uses to cache data and indexes of its tables (default:128M)\n"
-        "# Larger values means less I/O\n"
-        "innodb_buffer_pool_size=80M\n"
 
         "# Create a .ibd file for each table (default:0)\n"
         "innodb_file_per_table=1\n"
@@ -112,35 +84,11 @@ namespace
         "# Convert table named to lowercase\n"
         "lower_case_table_names=1\n"
 
-        "# Maximum size of one packet or any generated/intermediate string. (default:1M)\n"
-        "max_allowed_packet=32M\n"
-
-        "# Maximum simultaneous connections allowed (default:100)\n"
-        "max_connections=256\n"
-
-        "# The two options below make no sense with prepared statements and/or transactions\n"
-        "# (make sense when having the same query multiple times)\n"
-
-        "# Memory allocated for caching query results (default:0 (disabled))\n"
-        "query_cache_size=0\n"
-
-        "# Do not cache results (default:1)\n"
-        "query_cache_type=0\n"
-
         "# Do not use the privileges mechanisms\n"
         "skip_grant_tables\n"
 
         "# Do not listen for TCP/IP connections at all\n"
         "skip_networking\n"
-
-        "# The number of open tables for all threads. (default:64)\n"
-        "table_open_cache=200\n"
-
-        "# How many threads the server should cache for reuse (default:0)\n"
-        "thread_cache_size=3\n"
-
-        "# wait 365d before dropping the DB connection (default:8h)\n"
-        "wait_timeout=31536000\n"
 
         "[client]\n"
         "default-character-set=utf8\n";
@@ -175,92 +123,7 @@ namespace
 
 /*******************************************************************************************/
 
-
-DiskObserver::DiskObserver(const QString &socketPath):
-    m_watcher(new QFileSystemWatcher),
-    m_socketPath(socketPath),
-    m_timer(new QTimer),
-    m_eventLoop(new QEventLoop),
-    m_timeout(false)
-{
-    const QFileInfo socketFile(socketPath);
-    const QString socketDir = socketFile.absolutePath();
-
-    connect( m_watcher, SIGNAL(directoryChanged(QString)), this, SLOT(dirChanged(QString)) );
-    connect( m_timer, SIGNAL(timeout()), this, SLOT(timeout()) );
-    m_watcher->addPath(socketDir);
-}
-
-
-DiskObserver::~DiskObserver()
-{
-    delete m_watcher;
-    delete m_timer;
-    delete m_eventLoop;
-}
-
-
-bool DiskObserver::waitForChange()
-{
-    const bool exists = QFile::exists(this->m_socketPath);
-    int result = 0;
-
-    if (!exists)
-    {
-        m_timer->setSingleShot(true);
-        m_timer->setInterval(10e3);
-        m_timer->start();
-
-        result = m_eventLoop->exec();
-    }
-
-    return result == 0;
-}
-
-
-void DiskObserver::set(IConfiguration* configuration)
-{
-    const QString configuration_xml =
-    "<configuration>                                        "
-    "    <keys>                                             "
-    "        <key name='" + QString(MySQL_daemon) + "' />   "
-    "    </keys>                                            "
-    "</configuration>                                       ";
-
-    configuration->registerXml(configuration_xml);
-}
-
-
-void DiskObserver::dirChanged(const QString &)
-{
-    eventOccured();
-}
-
-
-void DiskObserver::timeout()
-{
-    m_timeout = true;
-    eventOccured();
-}
-
-
-void DiskObserver::eventOccured()
-{
-    const bool exists = QFile::exists(this->m_socketPath);
-
-    if (exists)
-        m_eventLoop->exit(0);     //file exists -> quit with status "ok"
-    else
-        if(m_timeout)
-            m_eventLoop->exit(1);     //timeout + file desn't exist = error
-
-    //no timeout and no file, keep waiting
-}
-
-
-/*******************************************************************************************/
-
-MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullptr), m_logger(nullptr)
+MySqlServer::MySqlServer(): m_serverProcess(nullptr), m_configuration(nullptr), m_logger(nullptr)
 {
 
 }
@@ -268,12 +131,17 @@ MySqlServer::MySqlServer(): m_serverProcess(new QProcess), m_configuration(nullp
 
 MySqlServer::~MySqlServer()
 {
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
+    if (m_serverProcess)
+    {
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
 
-    m_serverProcess->terminate();
-    m_serverProcess->waitForFinished();  //TODO: zwiecha?
+        m_serverProcess->terminate();
+        m_serverProcess->waitForFinished();
 
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+    }
+    else
+        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server not owned by photo broom. Leaving it untouched");
 }
 
 
@@ -310,7 +178,8 @@ QString MySqlServer::getDaemonPath() const
 
     if (daemonPath)
         path = *daemonPath;
-    else
+
+    if (path.isEmpty())
     {
         path = System::findProgram("mysqld").c_str();
 
@@ -322,7 +191,7 @@ QString MySqlServer::getDaemonPath() const
 }
 
 
-bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptions) const
+bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) const
 {
     const std::string path = System::findProgram("mysql_install_db");
     bool status = false;
@@ -331,11 +200,17 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
     {
         QProcess init;
 
-        const std::string userName = System::userName();
-        const std::string dataDirOption  = "--datadir=" + dbDir;
-        const std::string userNameOption = "--user=" + userName;
+        const QString userName = System::userName().c_str();
+        const QString dataDirOption  = "--datadir=" + dbDir;
+        const QString userNameOption = "--user=" + userName;
 
-        init.start( path.c_str(), {dataDirOption.c_str(), userNameOption.c_str(), extraOptions.c_str()} );
+        const QString installDBPath = path.c_str();
+        const QFileInfo installDBPathInfo(installDBPath);
+        QDir installDBDir = installDBPathInfo.absoluteDir();
+        installDBDir.cdUp();
+
+        init.setWorkingDirectory(installDBDir.path());
+        init.start( installDBPath, {dataDirOption, userNameOption, extraOptions} );
         status = init.waitForStarted();
         init.waitForFinished();
 
@@ -347,7 +222,7 @@ bool MySqlServer::initDB(const std::string& dbDir, const std::string& extraOptio
                           ILogger::Severity::Error,
                           "MySQL Database Backend: database initialization failed:" + QString(init.readAll()).toStdString() );
 
-            status = QDir(dbDir.c_str()).rmdir(dbDir.c_str());
+            status = QDir().rmdir(dbDir);
         }
     }
 
@@ -378,8 +253,8 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
     //wait for socket to appear
     std::string logMsg = "Waiting for MySQL server to get up: ";
 
-    DiskObserver observer(socketPath);
-    const bool status = observer.waitForChange();
+    DiskObserver observer;
+    const bool status = observer.waitForFileToAppear(socketPath);
 
     if (status)
         logMsg += "done.";
@@ -392,51 +267,87 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 }
 
 
-QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath) const
+bool MySqlServer::initDBStructures(const QString& socketPath) const
 {
+    const char* connectionName = "dbCreator";
+    bool status = true;
+    {
+        QSqlDatabase db_obj;
+        //setup db connection
+        db_obj = QSqlDatabase::addDatabase("QMYSQL", connectionName);
+        db_obj.setConnectOptions("UNIX_SOCKET=" + socketPath);
+        db_obj.setHostName("localhost");
+        db_obj.setUserName("root");
+
+        status = db_obj.open();
+
+        if (status)
+        {
+            QSqlQuery query(db_obj);
+            status = query.exec("CREATE DATABASE photo_broom");
+
+            db_obj.close();
+        }
+    }
+
+    QSqlDatabase::removeDatabase(connectionName);
+
+    return status;
+}
+
+
+QString MySqlServer::startProcess(const QString& daemonPath, const QString& basePath)
+{
+    bool status = true;
+
+    const QFileInfo basePathInfo(basePath);
+    if (basePathInfo.exists() == false)
+        status = QDir().mkdir(basePath);
+
     const QString socketPath = basePath + "mysql.socket";
     const bool alive = QFile::exists(socketPath);
-    bool status = true;
 
     if (!alive)
     {
-
         const QString configFile = basePath + "mysql.conf";
         const QString baseDataPath = basePath + "db_data";
+        const QString mysql_config  = "--defaults-file=" + configFile;
+        const QString mysql_datadir = "--datadir=" + baseDataPath;
+        const QString mysql_socket  = "--socket=" + socketPath;
 
         if (status)
             status = createConfig(configFile);
 
+        bool freshDatabase = false;
+        if (status)
+            if (QDir(baseDataPath).exists() == false)
+            {
+                status = initDB(baseDataPath, mysql_config);
+                freshDatabase = status;
+            }
+
         if (status)
         {
-            const QString mysql_config  = "--defaults-file=" + configFile;
-            const QString mysql_datadir = "--datadir=" + baseDataPath;
-            const QString mysql_socket  = "--socket=" + socketPath;
+            QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
-            status = true;
+            m_serverProcess.reset(new QProcess);
+            m_serverProcess->setProgram(daemonPath);
+            m_serverProcess->setArguments(args);
+            m_serverProcess->closeWriteChannel();
 
-            if (QDir(baseDataPath).exists() == false)
-                status = initDB(baseDataPath.toStdString(), mysql_config.toStdString());
+            m_logger->log({"Database", "MySQL"},
+                          ILogger::Severity::Debug,
+                          "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
+
+            m_serverProcess->start();
+            status = m_serverProcess->waitForStarted();
 
             if (status)
-            {
-                QStringList args = { mysql_config, mysql_datadir, mysql_socket};
-
-                m_serverProcess->setProgram(daemonPath);
-                m_serverProcess->setArguments(args);
-                m_serverProcess->closeWriteChannel();
-
-                m_logger->log({"Database", "MySQL"},
-                              ILogger::Severity::Debug,
-                              "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
-
-                m_serverProcess->start();
-                status = m_serverProcess->waitForStarted();
-
-                if (status)
-                    status = waitForServerToStart(socketPath);
-            }
+                status = waitForServerToStart(socketPath);
         }
+
+        if (status && freshDatabase)
+            initDBStructures(socketPath);
 
     }
 

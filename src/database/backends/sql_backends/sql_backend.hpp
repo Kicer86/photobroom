@@ -63,9 +63,6 @@ namespace Database
             //will be called from init(). Prepare QSqlDatabase object here
             virtual bool prepareDB(const ProjectInfo& location) = 0;
 
-            //Creates sql database. Can be called in onAfterOpen in backends which need it
-            virtual bool createDB(const QString &);
-
             //called after db open. May be used by backends for some extra steps after open.
             virtual bool onAfterOpen();
 

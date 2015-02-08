@@ -19,7 +19,7 @@ void SHA256(const unsigned char* data, unsigned int len, unsigned char* hash)
     sha256_ctx sha256;
     sha256_init(&sha256);
     sha256_update(&sha256, len, data);
-    sha256_digest(&sha256, len, hash);
+    sha256_digest(&sha256, SHA256_DIGEST_SIZE, hash);
 }
 
 
@@ -28,5 +28,5 @@ void MD5(const unsigned char* data, unsigned int len, unsigned char* hash)
     md5_ctx md5;
     md5_init(&md5);
     md5_update(&md5, len, data);
-    md5_digest(&md5, len, hash);
+    md5_digest(&md5, MD5_DIGEST_SIZE, hash);
 }

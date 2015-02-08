@@ -99,6 +99,7 @@ namespace Database
 
         IPluginLoader* pluginLoader;
         ILogger* m_logger;
+        IConfiguration* m_configuration;
 
         Impl(): pluginLoader(nullptr), m_logger(nullptr)
         {}
@@ -130,6 +131,12 @@ namespace Database
     }
 
 
+    void Builder::set(IConfiguration* configuration)
+    {
+        m_impl->m_configuration = configuration;
+    }
+
+
     std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info)
     {
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
@@ -142,6 +149,7 @@ namespace Database
 
         backend->setPhotoInfoCache(cache);
         backend->set(m_impl->m_logger);
+        backend->set(m_impl->m_configuration);
         backend->addEventsObserver(storekeeper);
         cache->setDatabase(database);
         storekeeper->setDatabase(database);

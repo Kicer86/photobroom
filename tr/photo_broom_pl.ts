@@ -106,7 +106,7 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="97"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="274"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="278"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -122,7 +122,7 @@
     </message>
     <message>
         <location filename="../src/gui/Qt5/ui/mainwindow.ui" line="112"/>
-        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="280"/>
+        <location filename="../src/gui/Qt5/ui/mainwindow.cpp" line="284"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
