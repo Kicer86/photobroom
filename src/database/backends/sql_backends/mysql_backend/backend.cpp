@@ -186,4 +186,9 @@ namespace Database
         return nullptr;
     }
 
+
+    char MySqlPlugin::simplicity() const
+    {
+        return 0;
+    }
 }

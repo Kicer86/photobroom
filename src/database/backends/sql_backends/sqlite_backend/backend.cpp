@@ -150,4 +150,10 @@ namespace Database
         return nullptr;
     }
 
+
+    char SQLitePlugin::simplicity() const
+    {
+        return 127;
+    }
+
 }
