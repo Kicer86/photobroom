@@ -19,6 +19,8 @@
 
 #include "project_creator_dialog.hpp"
 
+#include <set>
+
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -45,8 +47,7 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
                                               m_prjName(nullptr),
                                               m_engines(nullptr),
                                               m_engineOptions(nullptr),
-                                              m_pluginLoader(nullptr),
-                                              m_plugins()
+                                              m_pluginLoader(nullptr)
 {
     setWindowTitle(tr("Album creator"));
     resize(500, 250);
@@ -120,17 +121,18 @@ void ProjectCreatorDialog::initEngines()
 {
     const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
 
-    m_plugins.insert(plugins.cbegin(), plugins.cend());
+    std::set<Database::IPlugin *> plugins_ordered;
+    plugins_ordered.insert(plugins.cbegin(), plugins.cend());
 
     QStackedLayout* engineOptionsLayout = new QStackedLayout(m_engineOptions);
 
-    for(auto plugin: m_plugins)
+    for(auto plugin: plugins_ordered)
     {
-        const QVariant itemData = QVariant::fromValue<Database::IPlugin *>(plugin.second);
-        m_engines->addItem(plugin.first, itemData);
+        const QVariant itemData = QVariant::fromValue<Database::IPlugin *>(plugin);
+        m_engines->addItem(plugin->backendName(), itemData);
 
         QWidget* optionsWidget = new QWidget(this);
-        QLayout* optionsWidgetLayout = plugin.second->buildDBOptions();
+        QLayout* optionsWidgetLayout = plugin->buildDBOptions();
 
         if (optionsWidgetLayout != nullptr)
             optionsWidget->setLayout(optionsWidgetLayout);
