@@ -120,8 +120,7 @@ void ProjectCreatorDialog::initEngines()
 {
     const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
 
-    for(Database::IPlugin* plugin: plugins)
-        m_plugins[plugin->backendName()] = plugin;
+    m_plugins.insert(plugins.cbegin(), plugins.cend());
 
     QStackedLayout* engineOptionsLayout = new QStackedLayout(m_engineOptions);
 
