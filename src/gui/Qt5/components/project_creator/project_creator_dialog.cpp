@@ -36,10 +36,20 @@
 
 #include <core/iplugin_loader.hpp>
 #include <database/idatabase_plugin.hpp>
-
 #include <project_utils/iproject_manager.hpp>
 
 Q_DECLARE_METATYPE(Database::IPlugin *)
+
+namespace
+{
+    struct PluginOrder
+    {
+        bool operator() (const Database::IPlugin* p1, const Database::IPlugin* p2) const
+        {
+            return p1->simplicity() > p2->simplicity();
+        }
+    };
+}
 
 
 ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
@@ -121,7 +131,7 @@ void ProjectCreatorDialog::initEngines()
 {
     const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
 
-    std::set<Database::IPlugin *> plugins_ordered;
+    std::set<Database::IPlugin *, PluginOrder> plugins_ordered;
     plugins_ordered.insert(plugins.cbegin(), plugins.cend());
 
     QStackedLayout* engineOptionsLayout = new QStackedLayout(m_engineOptions);
