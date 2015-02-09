@@ -52,6 +52,7 @@ namespace Database
             virtual QString backendName() const override;
             virtual ProjectInfo initPrjDir(const QString&) const override;
             virtual QLayout* buildDBOptions() override;
+            virtual char simplicity() const override;
     };
 
 

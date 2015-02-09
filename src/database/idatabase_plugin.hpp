@@ -37,11 +37,12 @@ namespace Database
     struct IPlugin
     {
         virtual ~IPlugin() {}
-        
+
         virtual std::unique_ptr<IBackend> constructBackend() = 0;         //return backend object
         virtual QString backendName() const = 0;                          //return backend name
         virtual ProjectInfo initPrjDir(const QString &) const = 0;        //prepares database in provided directory
         virtual QLayout* buildDBOptions() = 0;                            //return QLayout for ProjectCreator dialog with options for specific backend
+        virtual char simplicity() const = 0;                              //simplicity of backend. 127 for very user friendly, -128 for complex
     };
 }
 

@@ -1,5 +1,8 @@
 
-add_subdirectory(mysql_backend)
+if(NOT WIN32)
+    add_subdirectory(mysql_backend)
+endif()
+
 add_subdirectory(sqlite_backend)
 
 find_package(Qt5Core REQUIRED)

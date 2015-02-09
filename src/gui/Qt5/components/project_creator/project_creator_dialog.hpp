@@ -58,7 +58,6 @@ class ProjectCreatorDialog: public QDialog
         QComboBox* m_engines;
         QGroupBox* m_engineOptions;
         IPluginLoader* m_pluginLoader;
-        std::map<QString, Database::IPlugin *> m_plugins;
 
         void initEngines();
         Database::IPlugin* getSelectedPlugin() const;
