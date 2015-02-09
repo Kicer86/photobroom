@@ -101,7 +101,7 @@ namespace Database
         ILogger* m_logger;
         IConfiguration* m_configuration;
 
-        Impl(): pluginLoader(nullptr), m_logger(nullptr)
+        Impl(): pluginLoader(nullptr), m_logger(nullptr), m_configuration(nullptr)
         {}
 
     };
