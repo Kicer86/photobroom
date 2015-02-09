@@ -187,7 +187,7 @@
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="51"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="62"/>
         <source>Album creator</source>
         <translation>Kreator albumu</translation>
     </message>
@@ -200,17 +200,17 @@
         <translation type="vanished">Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="55"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="66"/>
         <source>Album name:</source>
         <translation>Nazwa albumu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="64"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="75"/>
         <source>Database engine:</source>
         <translation>Silnik bazy danych:</translation>
     </message>
     <message>
-        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="73"/>
+        <location filename="../src/gui/Qt5/components/project_creator/project_creator_dialog.cpp" line="84"/>
         <source>Engine options</source>
         <translation>Opcje silnika</translation>
     </message>
