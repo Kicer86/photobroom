@@ -87,9 +87,6 @@ TEST_F(PositionsReseterShould, BeConstructable)
 
 TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 {
-    //preparations
-
-
     //expand main node to show children
     {
         ModelIndexInfo top_info = data.get(top->index());
@@ -158,7 +155,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     }
 
     //// test
-    model.removeRow(2, top->index());                  // remove central child of first node (0, 1, 2, 3. 4)
+    model.removeRow(2, top->index());                  // remove central child of first node (0, 1, 2, 3, 4)
 
     PositionsReseter reseter(&data);
     reseter.childrenRemoved(top->index(), 2);
