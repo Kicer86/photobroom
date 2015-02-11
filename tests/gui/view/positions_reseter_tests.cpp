@@ -11,63 +11,84 @@
 #include "test_helpers/mock_configuration.hpp"
 
 
-TEST(PositionsReseterShould, BeConstructable)
+class PositionsReseterShould : public ::testing::Test
 {
-    EXPECT_NO_THROW({
-        MockConfiguration config;
+protected:
+    virtual void SetUp()
+    {
+        QPixmap pixmap(img_w, img_h);
+        icon = pixmap;
 
-        Data data;
         data.m_configuration = &config;
 
+        top = new QStandardItem("Empty");
+        child1 = new QStandardItem(icon, "Empty1");
+        child2 = new QStandardItem(icon, "Empty2");
+        child3 = new QStandardItem(icon, "Empty3");
+        child4 = new QStandardItem(icon, "Empty4");
+        child5 = new QStandardItem(icon, "Empty5");
+
+        top2 = new QStandardItem("Empty");
+        child2_1 = new QStandardItem(icon, "Empty1");
+        child2_2 = new QStandardItem(icon, "Empty2");
+        child2_3 = new QStandardItem(icon, "Empty3");
+        child2_4 = new QStandardItem(icon, "Empty4");
+        child2_5 = new QStandardItem(icon, "Empty5");
+
+        top->appendRow(child1);
+        top->appendRow(child2);
+        top->appendRow(child3);
+        top->appendRow(child4);
+        top->appendRow(child5);
+
+        top2->appendRow(child2_1);
+        top2->appendRow(child2_2);
+        top2->appendRow(child2_3);
+        top2->appendRow(child2_4);
+        top2->appendRow(child2_5);
+
+        model.appendRow(top);
+        model.appendRow(top2);
+    }
+
+    const int img_w = 100;
+    const int img_h = 50;
+    const int canvas_w = 500;
+
+    QIcon icon;
+
+    Data data;
+    MockConfiguration config;
+    QStandardItemModel model;
+
+    QStandardItem* top;
+    QStandardItem* child1;
+    QStandardItem* child2;
+    QStandardItem* child3;
+    QStandardItem* child4;
+    QStandardItem* child5;
+
+    QStandardItem* top2;
+    QStandardItem* child2_1;
+    QStandardItem* child2_2;
+    QStandardItem* child2_3;
+    QStandardItem* child2_4;
+    QStandardItem* child2_5;
+};
+
+
+TEST_F(PositionsReseterShould, BeConstructable)
+{
+    EXPECT_NO_THROW({
         PositionsReseter reseter(&data);
     });
 }
  
 
-TEST(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
+TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 {
     //preparations
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
 
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    Data data;
-    data.m_configuration = &config;
-
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-
-    QStandardItem* top2 = new QStandardItem("Empty");
-    QStandardItem* child2_1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2_2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child2_3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child2_4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child2_5 = new QStandardItem(icon, "Empty5");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-
-    top2->appendRow(child2_1);
-    top2->appendRow(child2_2);
-    top2->appendRow(child2_3);
-    top2->appendRow(child2_4);
-    top2->appendRow(child2_5);
-
-    model.appendRow(top);
-    model.appendRow(top2);
 
     //expand main node to show children
     {
@@ -118,52 +139,8 @@ TEST(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 }
 
 
-
-TEST(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
+TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 {
-    //preparations
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
-
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    Data data;
-    data.m_configuration = &config;
-
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-
-    QStandardItem* top2 = new QStandardItem("Empty");
-    QStandardItem* child2_1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2_2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child2_3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child2_4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child2_5 = new QStandardItem(icon, "Empty5");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-
-    top2->appendRow(child2_1);
-    top2->appendRow(child2_2);
-    top2->appendRow(child2_3);
-    top2->appendRow(child2_4);
-    top2->appendRow(child2_5);
-
-    model.appendRow(top);
-    model.appendRow(top2);
-
     //expand main node to show children
     {
         ModelIndexInfo top_info = data.get(top->index());
@@ -216,51 +193,8 @@ TEST(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 }
 
 
-TEST(PositionsReseterShould, ResetProperItemsWhenChildChanged)
+TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 {
-    //preparations
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
-
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    Data data;
-    data.m_configuration = &config;
-
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-
-    QStandardItem* top2 = new QStandardItem("Empty");
-    QStandardItem* child2_1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2_2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child2_3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child2_4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child2_5 = new QStandardItem(icon, "Empty5");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-
-    top2->appendRow(child2_1);
-    top2->appendRow(child2_2);
-    top2->appendRow(child2_3);
-    top2->appendRow(child2_4);
-    top2->appendRow(child2_5);
-
-    model.appendRow(top);
-    model.appendRow(top2);
-
     //expand main node to show children
     {
         ModelIndexInfo top_info = data.get(top->index());
@@ -311,51 +245,8 @@ TEST(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 }
 
 
-TEST(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
+TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 {
-    //preparations
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
-
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    Data data;
-    data.m_configuration = &config;
-
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-
-    QStandardItem* top2 = new QStandardItem("Empty");
-    QStandardItem* child2_1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2_2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child2_3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child2_4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child2_5 = new QStandardItem(icon, "Empty5");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-
-    top2->appendRow(child2_1);
-    top2->appendRow(child2_2);
-    top2->appendRow(child2_3);
-    top2->appendRow(child2_4);
-    top2->appendRow(child2_5);
-
-    model.appendRow(top);
-    model.appendRow(top2);
-
     //expand main nodes to show children
     {
         ModelIndexInfo top_info = data.get(top->index());
@@ -404,51 +295,8 @@ TEST(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 }
 
 
-TEST(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
+TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 {
-    //preparations
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
-
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    Data data;
-    data.m_configuration = &config;
-
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-
-    QStandardItem* top2 = new QStandardItem("Empty");
-    QStandardItem* child2_1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2_2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child2_3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child2_4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child2_5 = new QStandardItem(icon, "Empty5");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-
-    top2->appendRow(child2_1);
-    top2->appendRow(child2_2);
-    top2->appendRow(child2_3);
-    top2->appendRow(child2_4);
-    top2->appendRow(child2_5);
-
-    model.appendRow(top);
-    model.appendRow(top2);
-
     //expand main node to show children
     {
         ModelIndexInfo top_info = data.get(top->index());
@@ -497,51 +345,8 @@ TEST(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 }
 
 
-TEST(PositionsReseterShould, ResetProperItemsWhenParentChanged)
+TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
 {
-    //preparations
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
-
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    Data data;
-    data.m_configuration = &config;
-
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-
-    QStandardItem* top2 = new QStandardItem("Empty");
-    QStandardItem* child2_1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2_2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child2_3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child2_4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child2_5 = new QStandardItem(icon, "Empty5");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-
-    top2->appendRow(child2_1);
-    top2->appendRow(child2_2);
-    top2->appendRow(child2_3);
-    top2->appendRow(child2_4);
-    top2->appendRow(child2_5);
-
-    model.appendRow(top);
-    model.appendRow(top2);
-
     //expand main node to show children
     {
         ModelIndexInfo top_info = data.get(top->index());
