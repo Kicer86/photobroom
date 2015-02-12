@@ -22,6 +22,7 @@
 
 #include <deque>
 #include <memory>
+#include <stack>
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
@@ -73,11 +74,7 @@ class tree final
             public:
                 iterator(): m_tree(nullptr), m_node() {}
 
-                iterator(const iterator& other)
-                {
-                    m_tree = other.m_tree;
-                    m_node = other.m_node;
-                }
+                iterator(const iterator& other): m_tree(other.m_tree), m_node(other.m_node) { }
 
                 ~iterator() {}
 
@@ -146,6 +143,98 @@ class tree final
                 typename nodes::iterator m_node;
 
                 iterator(tree* tr, typename nodes::iterator n): m_tree(tr), m_node(n) { }
+        };
+
+
+        class recursive_iterator final
+        {
+            public:
+                recursive_iterator(const iterator& b, const iterator& e): m_iterators()
+                {
+                    m_iterators.push(std::make_pair(b, e));
+                }
+
+                recursive_iterator(const recursive_iterator& other): m_iterators(other.iterators) { }
+
+                ~recursive_iterator() {}
+
+                recursive_iterator& operator=(const recursive_iterator& other)
+                {
+                    m_iterators = other.m_iterators;
+
+                    return *this;
+                }
+
+                bool operator==(const recursive_iterator& other) const
+                {
+                    return m_iterators == other.m_iterators;
+                }
+
+                recursive_iterator& operator++()
+                {
+                    iterator& c = current();
+                    const nodes& ch = c->children();
+
+                    if (ch.empty() == false)                          //dive
+                        m_iterators.push(ch.begin(), ch.end());
+                    else
+                    {                                                 //iterate
+                        ++c;
+
+                        if (c == last())                              //last one at current level? pop out an keep going
+                        {
+                            if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
+                            {
+                                m_iterators.pop();
+                                ++(*this);
+                            }
+                        }
+                    }
+
+                    return *this;
+                }
+
+                recursive_iterator operator++(int)
+                {
+                    iterator it = *this;
+                    ++(*this);
+
+                    return it;
+                }
+
+                T& operator*()
+                {
+                    return *current();
+                }
+
+                const T& operator&() const
+                {
+                    return *current();
+                }
+
+                T* operator->()
+                {
+                    return *current();
+                }
+
+                const T* operator->() const
+                {
+                    return *current();
+                }
+
+            private:
+                std::stack< std::pair<iterator, iterator> > m_iterators;
+
+                iterator& current()
+                {
+                    return m_iterators.top().first;
+                }
+
+                iterator& last()
+                {
+                    return m_iterators.top().second;
+                }
+
         };
 
 
