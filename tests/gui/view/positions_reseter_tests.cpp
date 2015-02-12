@@ -96,9 +96,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
         ModelIndexInfo top2_info = data.get(top2->index());
         top2_info.expanded = true;
         data.update(top2_info);
-    }
 
-    {
         PositionsCalculator calculator(&model, &data, canvas_w);
         calculator.updateItems();
     }
@@ -147,9 +145,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
         ModelIndexInfo top2_info = data.get(top2->index());
         top2_info.expanded = true;
         data.update(top2_info);
-    }
 
-    {
         PositionsCalculator calculator(&model, &data, canvas_w);
         calculator.updateItems();
     }
@@ -253,9 +249,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
         ModelIndexInfo top2_info = data.get(top2->index());
         top2_info.expanded = true;
         data.update(top2_info);
-    }
 
-    {
         PositionsCalculator calculator(&model, &data, canvas_w);
         calculator.updateItems();
     }
@@ -303,9 +297,7 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
         ModelIndexInfo top2_info = data.get(top2->index());
         top2_info.expanded = true;
         data.update(top2_info);
-    }
 
-    {
         PositionsCalculator calculator(&model, &data, canvas_w);
         calculator.updateItems();
     }
@@ -353,9 +345,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
         ModelIndexInfo top2_info = data.get(top2->index());
         top2_info.expanded = true;
         data.update(top2_info);
-    }
 
-    {
         PositionsCalculator calculator(&model, &data, canvas_w);
         calculator.updateItems();
     }
@@ -405,9 +395,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
         ModelIndexInfo top2_info = data.get(top2->index());
         top2_info.expanded = true;
         data.update(top2_info);
-    }
 
-    {
         PositionsCalculator calculator(&model, &data, canvas_w);
         calculator.updateItems();
     }
