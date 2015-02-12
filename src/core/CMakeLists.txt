@@ -1,7 +1,7 @@
 
 # openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
 
-find_package(OpenLibrary 2.0 REQUIRED putils)
+find_package(OpenLibrary 2.0 REQUIRED putils utils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenMP)
