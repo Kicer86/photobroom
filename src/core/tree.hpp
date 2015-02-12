@@ -20,15 +20,107 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include <deque>
+#include <memory>
+
+#include <OpenLibrary/utils/data_ptr.hpp>
+
 template<typename T>
-class tree
+class tree final
 {
     public:
-        tree();
-        tree(const tree& other);
-        ~tree();
-        tree& operator=(const tree& other);
-        bool operator==(const tree& other) const;
+        class node;
+        typedef std::deque<node> nodes;
+
+        class node final
+        {
+            public:
+                node(): m_children() {}
+
+                node(const node& other): m_item(other.m_item), m_children(other.m_children)
+                {
+                }
+
+                ~node() {}
+
+                node& operator=(const node& other)
+                {
+                    m_item = other.m_item;
+                    m_children = other.m_children;
+
+                    return *this;
+                }
+
+                bool operator==(const node& other) const
+                {
+                    return m_item == other.m_item && m_children == other.m_children;
+                }
+
+            private:
+                T m_item;
+
+                ol::data_ptr<nodes> m_children;
+        };
+
+
+        class iterator final
+        {
+            public:
+                iterator(): m_tree(nullptr), m_node(nullptr) {}
+
+                iterator(const iterator& other)
+                {
+                    m_tree = other.m_tree;
+                    m_node = other.m_node;
+                }
+
+                ~iterator() {}
+
+                iterator& operator=(const iterator& other)
+                {
+                    m_tree = other.m_tree;
+                    m_node = other.m_node;
+
+                    return *this;
+                }
+
+                bool operator==(const iterator& other) const
+                {
+                    return m_tree == other.m_tree && m_node == other.node;
+                }
+
+            private:
+                tree* m_tree;
+                node* m_node;
+        };
+
+
+        tree()
+        {
+        }
+
+        tree(const tree& other): m_roots(other.m_roots)
+        {
+        }
+
+        ~tree()
+        {
+        }
+
+        tree& operator=(const tree& other)
+        {
+            m_roots = other.m_roots;
+
+            return *this;
+        }
+
+        bool operator==(const tree& other) const
+        {
+            return m_roots == other.m_roots;
+        }
+
+    private:
+        nodes m_roots;
 };
 
 #endif // TREE_H
