@@ -88,7 +88,7 @@ class tree final
 
                 bool operator==(const iterator& other) const
                 {
-                    return m_tree == other.m_tree && m_node == other.node;
+                    return m_tree == other.m_tree && m_node == other.m_node;
                 }
 
                 iterator& operator++()
@@ -262,14 +262,19 @@ class tree final
             return m_roots == other.m_roots;
         }
 
-        iterator begin() const
+        iterator begin()
         {
             return iterator(this, m_roots.begin());
         }
 
-        iterator end() const
+        iterator end()
         {
             return iterator(this, m_roots.end());
+        }
+
+        bool empty() const
+        {
+            return m_roots.empty();
         }
 
     private:
