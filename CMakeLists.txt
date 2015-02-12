@@ -111,7 +111,10 @@ endif(DOXYGEN)
 if(BUILD_TESTS)
     add_custom_target(RunUnitTests ALL
                       COMMAND ctest
-                      DEPENDS gui_tests database_tests sql_backend_base_tests)
+                      DEPENDS core_tests
+                              database_tests
+                              gui_tests
+                              sql_backend_base_tests)
 endif()
 
 #package
