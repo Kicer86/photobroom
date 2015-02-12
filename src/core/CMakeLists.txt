@@ -85,28 +85,6 @@ elseif(NETTLE_FOUND)
     add_definitions(-DUSE_NETTLE)
 endif(OPENSSL_FOUND)
 
-
-if(BUILD_TESTS)
-    addTestTarget(core
-                        SOURCES
-                            ${CORE_SOURCES}
-                            ${CORE_RESOURCES}
-                            ${CORE_WRAPPED}
-                            tests/coreTests.cpp
-                            tests/algoTests.cpp
-                        TEST_LIBRARY
-                            GTEST
-                )
-
-    target_link_libraries(core_test PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
-    if(MSVC)
-
-    else()
-        target_link_libraries(core_test PRIVATE ${OpenMP_CXX_FLAGS})
-    endif(MSVC)
-
-endif(BUILD_TESTS)
-
 #task executor uses openmp
 if(OPENMP_FOUND)
     addSourceFlags(implementation/task_executor.cpp COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
