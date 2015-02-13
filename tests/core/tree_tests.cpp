@@ -43,3 +43,16 @@ TEST(treeTest, acceptsRootLevelInserts)
     EXPECT_EQ(6, tr.end() - tr.begin());
     EXPECT_EQ("(3 2 1 4 5 6)", tr.dump());
 }
+
+
+TEST(treeTest, acceptsChildLevelInserts)
+{
+    tree<int> tr;
+
+    tr.insert(tr.end(), 1);
+    tr.insert(tr.end(), 2);
+    tr.insert(tr.begin().children_begin(), 3);
+
+    EXPECT_EQ(2, tr.end() - tr.begin());
+    EXPECT_EQ("(1(3) 2)", tr.dump());
+}
