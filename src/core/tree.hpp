@@ -36,7 +36,7 @@ class tree final
         class node final
         {
             public:
-                node(): m_children() {}
+                explicit node(const T& v): m_item(v), m_children() {}
 
                 node(const node& other): m_item(other.m_item), m_children(other.m_children)
                 {
@@ -60,6 +60,16 @@ class tree final
                     return m_item == other.m_item && m_children == other.m_children;
                 }
 
+                const T& operator*() const
+                {
+                    return m_item;
+                }
+
+                T& operator*()
+                {
+                    return m_item;
+                }
+
                 const nodes& children() const
                 {
                     return *m_children;
@@ -75,9 +85,9 @@ class tree final
         class iterator final
         {
             public:
-                iterator(): m_tree(nullptr), m_node() {}
+                iterator(): m_tree(nullptr), m_nodes(nullptr), m_node() {}
 
-                iterator(const iterator& other): m_tree(other.m_tree), m_node(other.m_node) { }
+                iterator(const iterator& other): m_tree(other.m_tree), m_nodes(nullptr), m_node(other.m_node) { }
 
                 ~iterator() {}
 
@@ -86,6 +96,7 @@ class tree final
                     if (this != &other)
                     {
                         m_tree = other.m_tree;
+                        m_nodes = other.m_nodes;
                         m_node = other.m_node;
                     }
 
@@ -94,7 +105,9 @@ class tree final
 
                 bool operator==(const iterator& other) const
                 {
-                    return m_tree == other.m_tree && m_node == other.m_node;
+                    return m_tree == other.m_tree &&
+                           m_nodes == other.m_nodes &&
+                           m_node == other.m_node;
                 }
 
                 iterator& operator++()
@@ -150,10 +163,11 @@ class tree final
             private:
                 friend class tree;
 
-                tree* m_tree;
+                tree*  m_tree;
+                nodes* m_nodes;
                 typename nodes::iterator m_node;
 
-                iterator(tree* tr, typename nodes::iterator n): m_tree(tr), m_node(n) { }
+                iterator(tree* tr, nodes* ns, typename nodes::iterator n): m_tree(tr), m_nodes(ns), m_node(n) { }
         };
 
 
@@ -277,17 +291,25 @@ class tree final
 
         iterator begin()
         {
-            return iterator(this, m_roots.begin());
+            return iterator(this, &m_roots, m_roots.begin());
         }
 
         iterator end()
         {
-            return iterator(this, m_roots.end());
+            return iterator(this, &m_roots, m_roots.end());
         }
 
         bool empty() const
         {
             return m_roots.empty();
+        }
+
+        iterator insert(iterator pos, const T& value)
+        {
+            const node n(value);
+            auto it = pos.m_nodes->insert(pos.m_node, n);
+
+            return iterator(this, pos.m_nodes, it);
         }
 
     private:

@@ -23,3 +23,13 @@ TEST(treeTest, isConstructedEmpty)
     EXPECT_EQ(true, tr.end() == tr.begin());
     EXPECT_EQ(0, tr.end() - tr.begin());
 }
+
+
+TEST(treeTest, acceptsRootLevelInserts)
+{
+    tree<int> tr;
+
+    tr.insert(tr.begin(), 1);
+
+    EXPECT_EQ(1, tr.end() - tr.begin());
+}
