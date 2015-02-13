@@ -81,9 +81,13 @@ class tree final
                     return *m_children;
                 }
 
+                nodes& children()
+                {
+                    return *m_children;
+                }
+
             private:
                 T m_item;
-
                 ol::data_ptr<nodes> m_children;
 
                 friend std::ostream& operator<<(std::ostream& st, const node& n)
@@ -165,12 +169,12 @@ class tree final
 
                 iterator children_begin() const
                 {
-                    return iterator(m_tree, m_node->children().begin());
+                    return iterator(m_tree, &m_node->children(), m_node->children().begin());
                 }
 
                 iterator children_end() const
                 {
-                    return iterator(m_tree, m_node->children().end());
+                    return iterator(m_tree, &m_node->children(), m_node->children().end());
                 }
 
                 bool has_children() const
