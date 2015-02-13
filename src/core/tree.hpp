@@ -23,6 +23,7 @@
 #include <deque>
 #include <memory>
 #include <stack>
+#include <sstream>
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
@@ -70,6 +71,11 @@ class tree final
                     return m_item;
                 }
 
+                bool has_children() const
+                {
+                    return m_children->empty() == false;
+                }
+
                 const nodes& children() const
                 {
                     return *m_children;
@@ -79,6 +85,13 @@ class tree final
                 T m_item;
 
                 ol::data_ptr<nodes> m_children;
+
+                friend std::ostream& operator<<(std::ostream& st, const node& n)
+                {
+                    st << *n;
+
+                    return st;
+                }
         };
 
 
@@ -158,6 +171,16 @@ class tree final
                 iterator children_end() const
                 {
                     return iterator(m_tree, m_node->children().end());
+                }
+
+                bool has_children() const
+                {
+                    return m_node->has_children();
+                }
+
+                const nodes& children() const
+                {
+                    return m_node->children();
                 }
 
             private:
@@ -312,8 +335,40 @@ class tree final
             return iterator(this, pos.m_nodes, it);
         }
 
+        std::string dump() const
+        {
+            std::stringstream d;
+
+            d << m_roots;
+
+            return d.str();
+        }
+
     private:
         nodes m_roots;
+
+        friend std::ostream& operator<<(std::ostream& st, const nodes& ns)
+        {
+            st << "(";
+
+            for(auto it = ns.begin(); it != ns.end();)
+            {
+                const node& n = *it;
+                st << n;
+
+                if (n.has_children())
+                    st << n.children();
+
+                ++it;
+
+                if (it != ns.end())
+                    st << " ";
+            }
+
+            st << ")";
+
+            return st;
+        }
 };
 
 #endif // TREE_H
