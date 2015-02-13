@@ -21,4 +21,5 @@ TEST(treeTest, isConstructedEmpty)
 
     EXPECT_EQ(true, tr.empty());
     EXPECT_EQ(true, tr.end() == tr.begin());
+    EXPECT_EQ(0, tr.end() - tr.begin());
 }

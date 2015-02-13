@@ -46,8 +46,11 @@ class tree final
 
                 node& operator=(const node& other)
                 {
-                    m_item = other.m_item;
-                    m_children = other.m_children;
+                    if (this != &other)
+                    {
+                        m_item = other.m_item;
+                        m_children = other.m_children;
+                    }
 
                     return *this;
                 }
@@ -80,8 +83,11 @@ class tree final
 
                 iterator& operator=(const iterator& other)
                 {
-                    m_tree = other.m_tree;
-                    m_node = other.m_node;
+                    if (this != &other)
+                    {
+                        m_tree = other.m_tree;
+                        m_node = other.m_node;
+                    }
 
                     return *this;
                 }
@@ -104,6 +110,11 @@ class tree final
                     ++(*this);
 
                     return it;
+                }
+
+                int operator-(const iterator& it) const
+                {
+                    return m_node - it.m_node;
                 }
 
                 T& operator*()
@@ -160,7 +171,8 @@ class tree final
 
                 recursive_iterator& operator=(const recursive_iterator& other)
                 {
-                    m_iterators = other.m_iterators;
+                    if (this != &other)
+                        m_iterators = other.m_iterators;
 
                     return *this;
                 }
@@ -252,7 +264,8 @@ class tree final
 
         tree& operator=(const tree& other)
         {
-            m_roots = other.m_roots;
+            if (this != &other)
+                m_roots = other.m_roots;
 
             return *this;
         }
