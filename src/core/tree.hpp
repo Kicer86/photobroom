@@ -375,4 +375,4 @@ class tree final
         }
 };
 
-#endif // TREE_H
+#endif // TREE_HPP
