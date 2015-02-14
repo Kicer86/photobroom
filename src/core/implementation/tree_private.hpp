@@ -74,22 +74,22 @@ namespace tree_utils
 
             bool has_children() const
             {
-                return m_children->empty() == false;
+                return m_children.empty() == false;
             }
 
             const nodes<T>& children() const
             {
-                return *m_children;
+                return m_children;
             }
 
             nodes<T>& children()
             {
-                return *m_children;
+                return m_children;
             }
 
         private:
             T m_item;
-            ol::data_ptr<nodes<T>> m_children;
+            nodes<T> m_children;
 
             friend std::ostream& operator<<(std::ostream& st, const node& n)
             {

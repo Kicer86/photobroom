@@ -20,13 +20,6 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 
-#include <deque>
-#include <memory>
-#include <stack>
-#include <ostream>
-
-#include <OpenLibrary/utils/data_ptr.hpp>
-
 #include "implementation/tree_private.hpp"
 
 template<typename T>
