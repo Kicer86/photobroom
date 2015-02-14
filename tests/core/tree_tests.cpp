@@ -56,6 +56,20 @@ TEST(treeTest, acceptsRootLevelInserts)
 }
 
 
+TEST(treeTest, acceptsRootLevelInsertsAtRandomLocations)
+{
+    tree<int> tr;
+
+    tr.insert(tr.end(), 1);               // (1)
+    tr.insert(tr.end(), 3);               // (1 3)
+    tr.insert(tr.begin() + 1, 2);         // (1 2 3)
+    tr.insert(tr.begin() + 2, 8);         // (1 2 8 3)
+
+    EXPECT_EQ(4, tr.end() - tr.begin());
+    EXPECT_EQ("(1 2 8 3)", dump<int>(tr));
+}
+
+
 TEST(treeTest, acceptsChildLevelInserts)
 {
     tree<int> tr;
