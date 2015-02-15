@@ -102,12 +102,31 @@ namespace tree_utils
 
 namespace tree_private
 {
+
+    template<typename T>
+    struct iterator_traits;
+
+    template<>
+    template<typename T>
+    struct iterator_traits<tree_utils::node<T>>
+    {
+        typedef tree_utils::nodes<T> nodes;
+        typedef typename tree_utils::nodes<T>::iterator iterator;
+    };
+
+    template<>
+    template<typename T>
+    struct iterator_traits<const tree_utils::node<T>>
+    {
+        typedef const tree_utils::nodes<T> nodes;
+        typedef typename tree_utils::nodes<T>::const_iterator iterator;
+    };
+
+
     template<typename NT, typename T>
     class iterator final
     {
         public:
-            typedef tree_utils::nodes<T> nodes;
-
             iterator(): m_nodes(nullptr), m_node() {}
 
             iterator(const iterator& other): m_nodes(nullptr), m_node(other.m_node) { }
@@ -173,12 +192,12 @@ namespace tree_private
 
             NT& operator*()
             {
-                return m_node;
+                return *m_node;
             }
 
             NT* operator->()
             {
-                return &m_node;
+                return &(*m_node);
             }
 
             iterator children_begin() const
@@ -204,10 +223,10 @@ namespace tree_private
         private:
             friend class tree<T>;
 
-            nodes* m_nodes;
-            typename nodes::iterator m_node;
+            typename iterator_traits<NT>::nodes* m_nodes;
+            typename iterator_traits<NT>::iterator m_node;
 
-            iterator(nodes* ns, typename nodes::iterator n): m_nodes(ns), m_node(n) { }
+            iterator(typename iterator_traits<NT>::nodes* ns, typename iterator_traits<NT>::iterator n): m_nodes(ns), m_node(n) { }
     };
 }
 

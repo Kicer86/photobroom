@@ -67,12 +67,12 @@ class tree final
 
         const_iterator cbegin() const
         {
-            return iterator(&m_roots, m_roots.begin());
+            return const_iterator(&m_roots, m_roots.begin());
         }
 
         const_iterator cend() const
         {
-            return iterator(&m_roots, m_roots.end());
+            return const_iterator(&m_roots, m_roots.end());
         }
 
         bool empty() const
