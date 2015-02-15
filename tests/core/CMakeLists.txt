@@ -14,6 +14,8 @@ setupTestEnvironmentFor(core ${BASE_DIR})
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set(SRC
+        ${BASE_DIR}/implementation/tree.cpp
+
         tree_tests.cpp
     )
 

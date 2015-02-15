@@ -20,182 +20,48 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 
-#include "implementation/tree_private.hpp"
-
-template<typename T>
 class tree final
 {
     public:
-        typedef tree_private::iterator<tree_utils::node<T>, T> iterator;
-        typedef tree_private::iterator<const tree_utils::node<T>, T> const_iterator;
-        typedef tree_utils::node<T> node;
 
-        tree(): m_roots()
+        class item
         {
-        }
+            public:
+                item();
+                item(const item &) = delete;
+                virtual ~item();
 
-        tree(const tree& other): m_roots(other.m_roots)
-        {
-        }
+                item& operator=(const item &) = delete;
 
-        ~tree()
-        {
-        }
+                void insert_after(item *);
+                void insert_before(item *);
+                void insert_first_child(item *);
+                void insert_last_child(item *);
 
-        tree& operator=(const tree& other)
-        {
-            if (this != &other)
-                m_roots = other.m_roots;
+                item* parent();
+                item* first_child();
+                item* last_child();
+                item* next();
+                item* previous();
 
-            return *this;
-        }
+            private:
+                item* m_prev;
+                item* m_next;
+                item* m_parent;
+                item* m_first_child;
+                item* m_last_child;
+        };
 
-        bool operator==(const tree& other) const
-        {
-            return m_roots == other.m_roots;
-        }
+        tree();
+        ~tree();
 
-        iterator begin()
-        {
-            return iterator(&m_roots, m_roots.begin());
-        }
-
-        iterator end()
-        {
-            return iterator(&m_roots, m_roots.end());
-        }
-
-        const_iterator cbegin() const
-        {
-            return iterator(&m_roots, m_roots.begin());
-        }
-
-        const_iterator cend() const
-        {
-            return iterator(&m_roots, m_roots.end());
-        }
-
-        bool empty() const
-        {
-            return m_roots.empty();
-        }
-
-        iterator insert(iterator pos, const T& value)
-        {
-            const node n(value);
-            auto it = pos.m_nodes->insert(pos.m_node, n);
-
-            return iterator(pos.m_nodes, it);
-        }
+        item* first();
+        item* last();
+        void insert_front(tree::item*);
+        void insert_back(tree::item*);
 
     private:
-        tree_utils::nodes<T> m_roots;
-
-        friend std::ostream& operator<<(std::ostream& st, const tree& tr)
-        {
-            st << tr.m_roots;
-
-            return st;
-        }
+        item m_root;
 };
-
-
-namespace tree_utils
-{
-    template<typename NT, typename T>
-    class recursive_iterator final
-    {
-            typedef typename tree<T>::iterator iterator;
-
-        public:
-            recursive_iterator(const iterator& b, const iterator& e): m_iterators()
-            {
-                m_iterators.push(std::make_pair(b, e));
-            }
-
-            recursive_iterator(const recursive_iterator& other): m_iterators(other.iterators) { }
-
-            ~recursive_iterator() {}
-
-            recursive_iterator& operator=(const recursive_iterator& other)
-            {
-                if (this != &other)
-                    m_iterators = other.m_iterators;
-
-                return *this;
-            }
-
-            bool operator==(const recursive_iterator& other) const
-            {
-                return m_iterators == other.m_iterators;
-            }
-
-            recursive_iterator& operator++()
-            {
-                iterator& c = current();
-                const nodes<T>& ch = c->children();
-
-                if (ch.empty() == false)                          //dive
-                    m_iterators.push(ch.begin(), ch.end());
-                else
-                {                                                 //iterate
-                    ++c;
-
-                    if (c == last())                              //last one at current level? pop out an keep going
-                    {
-                        if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
-                        {
-                            m_iterators.pop();
-                            ++(*this);
-                        }
-                    }
-                }
-
-                return *this;
-            }
-
-            recursive_iterator operator++(int)
-            {
-                iterator it = *this;
-                ++(*this);
-
-                return it;
-            }
-
-            T& operator*()
-            {
-                return *current();
-            }
-
-            const T& operator&() const
-            {
-                return *current();
-            }
-
-            T* operator->()
-            {
-                return *current();
-            }
-
-            const T* operator->() const
-            {
-                return *current();
-            }
-
-        private:
-            typedef std::pair<iterator, iterator> level_info;
-            std::stack<level_info> m_iterators;
-
-            iterator& current()
-            {
-                return m_iterators.top().first;
-            }
-
-            iterator& last()
-            {
-                return m_iterators.top().second;
-            }
-    };
-}
 
 #endif // TREE_HPP
