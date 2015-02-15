@@ -36,7 +36,6 @@ set(CORE_SOURCES
     implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
-    implementation/tree.cpp
 )
 
 set(CORE_HEADERS
@@ -57,6 +56,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     implementation/atagfeeder.hpp
+    implementation/tree_private.hpp
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)

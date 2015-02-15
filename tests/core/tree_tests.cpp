@@ -1,15 +1,26 @@
 
+#include <sstream>
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 #include <core/tree.hpp>
 
+template<typename T>
+std::string dump(const tree<T>& tr)
+{
+    std::stringstream s;
+
+    s << tr;
+
+    return s.str();
+}
 
 TEST(treeTest, isConstructible)
 {
     EXPECT_NO_THROW(
     {
-        tree tr;
+        tree<int> tr;
     });
 }
 
@@ -17,102 +28,73 @@ TEST(treeTest, isConstructible)
 
 TEST(treeTest, isConstructedEmpty)
 {
-    tree tr;
+    tree<int> tr;
 
-    EXPECT_EQ(nullptr, tr.first());
-    EXPECT_EQ(nullptr, tr.last());
+    EXPECT_EQ(true, tr.empty());
+    EXPECT_EQ(true, tr.end() == tr.begin());
+    EXPECT_EQ(0, tr.end() - tr.begin());
 }
 
 
-TEST(treeTest, allowsToSetFirstItem)
+TEST(treeTest, acceptsRootLevelInserts)
 {
-    tree tr;
+    tree<int> tr;
 
-    tree::item* i = new tree::item;
-    tr.insert_front(i);
+    tr.insert(tr.begin(), 1);
+    tr.insert(tr.begin(), 2);
+    tr.insert(tr.begin(), 3);
 
-    EXPECT_EQ(i, tr.first());
-    EXPECT_EQ(i, tr.last());
+    EXPECT_EQ(3, tr.end() - tr.begin());
+    EXPECT_EQ("(3 2 1)", dump<int>(tr));
 
-    tree::item* i2 = new tree::item;
-    tr.insert_front(i2);
+    tr.insert(tr.end(), 4);
+    tr.insert(tr.end(), 5);
+    tr.insert(tr.end(), 6);
 
-    EXPECT_EQ(i2, tr.first());
-    EXPECT_EQ(i, tr.last());
-
-    delete i;
-    delete i2;
+    EXPECT_EQ(6, tr.end() - tr.begin());
+    EXPECT_EQ("(3 2 1 4 5 6)", dump<int>(tr));
 }
 
 
-TEST(treeTest, allowsToSetLastItem)
+TEST(treeTest, acceptsRootLevelInsertsAtRandomLocations)
 {
-    tree tr;
+    tree<int> tr;
 
-    tree::item* i = new tree::item;
-    tr.insert_back(i);
+    tr.insert(tr.end(), 1);               // (1)
+    tr.insert(tr.end(), 3);               // (1 3)
+    tr.insert(tr.begin() + 1, 2);         // (1 2 3)
+    tr.insert(tr.begin() + 2, 8);         // (1 2 8 3)
 
-    EXPECT_EQ(i, tr.first());
-    EXPECT_EQ(i, tr.last());
-
-    tree::item* i2 = new tree::item;
-    tr.insert_back(i2);
-
-    EXPECT_EQ(i, tr.first());
-    EXPECT_EQ(i2, tr.last());
-
-    delete i;
-    delete i2;
+    EXPECT_EQ(4, tr.end() - tr.begin());
+    EXPECT_EQ("(1 2 8 3)", dump<int>(tr));
 }
 
 
-TEST(treeTest, removesDeletedItem)
+TEST(treeTest, acceptsChildLevelInserts)
 {
-    tree tr;
+    tree<int> tr;
 
-    tree::item* i = new tree::item;
-    tr.insert_front(i);
+    tr.insert(tr.end(), 1);
+    tr.insert(tr.end(), 2);
+    tr.insert(tr.begin().children_begin(), 3);
 
-    delete i;
-
-    EXPECT_EQ(nullptr, tr.first());
-    EXPECT_EQ(nullptr, tr.last());
+    EXPECT_EQ(2, tr.end() - tr.begin());
+    EXPECT_EQ("(1(3) 2)", dump<int>(tr));
 }
 
 
-TEST(treeTest, dealsRightWithInsertionsOnRootLevel)
+TEST(treeTest, acceptsChildLevelInsertsAtRandomLocations)
 {
-    tree tr;
+    tree<int> tr;
 
-    tree::item* i1 = new tree::item;
-    tree::item* i2 = new tree::item;
-    tree::item* i3 = new tree::item;
-    tree::item* i4 = new tree::item;
-    tree::item* i5 = new tree::item;
-    tree::item* i6 = new tree::item;
+    tr.insert(tr.end(), 1);                         // (1)
+    auto it = tr.insert(tr.end(), 3);               // (1 3)
 
-    tr.insert_front(i3);
-    tr.insert_back(i5);
-    i5->insert_before(i4);
-    tr.insert_front(i2);
-    i2->insert_before(i1);
-    i5->insert_after(i6);
+    tr.insert(it.children_begin(), 4);              // (1 3(4))
+    it = tr.insert(it.children_begin(), 2);         // (1 3(2 4))
+    tr.insert(it.children_end(), 7);                // (1 3(2(7) 4))
+    tr.insert(it.children_end(), 8);                // (1 3(2(7 8) 4))
 
-    EXPECT_EQ(nullptr, i1->previous());
-    EXPECT_EQ(i2, i1->next());
-
-    EXPECT_EQ(i1, i2->previous());
-    EXPECT_EQ(i3, i2->next());
-
-    EXPECT_EQ(i2, i3->previous());
-    EXPECT_EQ(i4, i3->next());
-
-    EXPECT_EQ(i3, i4->previous());
-    EXPECT_EQ(i5, i4->next());
-
-    EXPECT_EQ(i4, i5->previous());
-    EXPECT_EQ(i6, i5->next());
-
-    EXPECT_EQ(i5, i6->previous());
-    EXPECT_EQ(nullptr, i6->next());
+    EXPECT_EQ(2, tr.end() - tr.begin());
+    EXPECT_EQ("(1 3(2(7 8) 4))", dump<int>(tr));
 }
