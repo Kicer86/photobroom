@@ -76,7 +76,7 @@ TEST(treeTest, acceptsChildLevelInserts)
 
     tr.insert(tr.end(), 1);
     tr.insert(tr.end(), 2);
-    tr.insert(tr.begin().children_begin(), 3);
+    tr.insert(tr.begin()->begin(), 3);
 
     EXPECT_EQ(2, tr.end() - tr.begin());
     EXPECT_EQ("(1(3) 2)", dump<int>(tr));
@@ -90,10 +90,10 @@ TEST(treeTest, acceptsChildLevelInsertsAtRandomLocations)
     tr.insert(tr.end(), 1);                         // (1)
     auto it = tr.insert(tr.end(), 3);               // (1 3)
 
-    tr.insert(it.children_begin(), 4);              // (1 3(4))
-    it = tr.insert(it.children_begin(), 2);         // (1 3(2 4))
-    tr.insert(it.children_end(), 7);                // (1 3(2(7) 4))
-    tr.insert(it.children_end(), 8);                // (1 3(2(7 8) 4))
+    tr.insert(it->begin(), 4);                      // (1 3(4))
+    it = tr.insert(it->begin(), 2);                 // (1 3(2 4))
+    tr.insert(it->end(), 7);                        // (1 3(2(7) 4))
+    tr.insert(it->end(), 8);                        // (1 3(2(7 8) 4))
 
     EXPECT_EQ(2, tr.end() - tr.begin());
     EXPECT_EQ("(1 3(2(7 8) 4))", dump<int>(tr));

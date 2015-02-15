@@ -26,15 +26,16 @@ template<typename T>
 class tree final
 {
     public:
-        typedef tree_private::iterator<tree_utils::node<T>, T> iterator;
-        typedef tree_private::iterator<const tree_utils::node<T>, T> const_iterator;
+        typedef typename tree_utils::node<T>::iterator iterator;
+        typedef typename tree_utils::node<T>::const_iterator const_iterator;
+
         typedef tree_utils::node<T> node;
 
-        tree(): m_roots()
+        tree(): m_root(T())
         {
         }
 
-        tree(const tree& other): m_roots(other.m_roots)
+        tree(const tree& other): m_root(other.m_root)
         {
         }
 
@@ -45,55 +46,57 @@ class tree final
         tree& operator=(const tree& other)
         {
             if (this != &other)
-                m_roots = other.m_roots;
+                m_root = other.m_root;
 
             return *this;
         }
 
         bool operator==(const tree& other) const
         {
-            return m_roots == other.m_roots;
+            return m_root == other.m_root;
         }
 
         iterator begin()
         {
-            return iterator(&m_roots, m_roots.begin());
+            return m_root.begin();
         }
 
         iterator end()
         {
-            return iterator(&m_roots, m_roots.end());
+            return m_root.end();
         }
 
         const_iterator cbegin() const
         {
-            return const_iterator(&m_roots, m_roots.begin());
+            return m_root.cbegin();
         }
 
         const_iterator cend() const
         {
-            return const_iterator(&m_roots, m_roots.end());
+            return m_root.cend();
         }
 
         bool empty() const
         {
-            return m_roots.empty();
+            return m_root.has_children() == false;
         }
 
         iterator insert(iterator pos, const T& value)
         {
-            const node n(value);
-            auto it = pos.m_nodes->insert(pos.m_node, n);
+            tree_utils::node<T> v(value);           //prepare value
+            auto l = pos.get_nodes_list();          //get proper sublist from iterator
+            auto& it = pos.get_node();              //get position in list
+            auto r = l->insert(it, v);
 
-            return iterator(pos.m_nodes, it);
+            return iterator(l, r);
         }
 
     private:
-        tree_utils::nodes<T> m_roots;
+        tree_utils::node<T> m_root;
 
         friend std::ostream& operator<<(std::ostream& st, const tree& tr)
         {
-            st << tr.m_roots;
+            st << tr.m_root.children();
 
             return st;
         }

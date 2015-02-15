@@ -33,72 +33,8 @@ namespace tree_utils
 {
     template<typename T> class node;
     template<typename T> using nodes = std::deque<node<T>>;
-
-    template<typename T>
-    class node final
-    {
-        public:
-            explicit node(const T& v): m_item(v), m_children() {}
-
-            node(const node& other): m_item(other.m_item), m_children(other.m_children)
-            {
-            }
-
-            ~node() {}
-
-            node& operator=(const node& other)
-            {
-                if (this != &other)
-                {
-                    m_item = other.m_item;
-                    m_children = other.m_children;
-                }
-
-                return *this;
-            }
-
-            bool operator==(const node& other) const
-            {
-                return m_item == other.m_item && m_children == other.m_children;
-            }
-
-            const T& operator*() const
-            {
-                return m_item;
-            }
-
-            T& operator*()
-            {
-                return m_item;
-            }
-
-            bool has_children() const
-            {
-                return m_children.empty() == false;
-            }
-
-            const nodes<T>& children() const
-            {
-                return m_children;
-            }
-
-            nodes<T>& children()
-            {
-                return m_children;
-            }
-
-        private:
-            T m_item;
-            nodes<T> m_children;
-
-            friend std::ostream& operator<<(std::ostream& st, const node& n)
-            {
-                st << *n;
-
-                return st;
-            }
-    };
 }
+
 
 namespace tree_private
 {
@@ -110,16 +46,16 @@ namespace tree_private
     template<typename T>
     struct iterator_traits<tree_utils::node<T>>
     {
-        typedef tree_utils::nodes<T> nodes;
-        typedef typename tree_utils::nodes<T>::iterator iterator;
+        typedef tree_utils::nodes<T> nodes_list;
+        typedef typename tree_utils::nodes<T>::iterator node_iterator;
     };
 
     template<>
     template<typename T>
     struct iterator_traits<const tree_utils::node<T>>
     {
-        typedef const tree_utils::nodes<T> nodes;
-        typedef typename tree_utils::nodes<T>::const_iterator iterator;
+        typedef const tree_utils::nodes<T> nodes_list;
+        typedef typename tree_utils::nodes<T>::const_iterator node_iterator;
     };
 
 
@@ -200,33 +136,116 @@ namespace tree_private
                 return &(*m_node);
             }
 
-            iterator children_begin() const
+        private:
+            friend class tree_utils::node<T>;
+            friend class tree<T>;
+
+            typename iterator_traits<NT>::nodes_list* m_nodes;
+            typename iterator_traits<NT>::node_iterator m_node;
+
+            iterator(typename iterator_traits<NT>::nodes_list* ns, typename iterator_traits<NT>::node_iterator n): m_nodes(ns), m_node(n) { }
+
+            typename iterator_traits<NT>::nodes_list* get_nodes_list()
             {
-                return iterator(&m_node->children(), m_node->children().begin());
+                return m_nodes;
             }
 
-            iterator children_end() const
+            typename iterator_traits<NT>::node_iterator& get_node()
             {
-                return iterator(&m_node->children(), m_node->children().end());
+                return m_node;
+            }
+    };
+}
+
+
+namespace tree_utils
+{
+    template<typename T>
+    class node final
+    {
+        public:
+            typedef tree_private::iterator<tree_utils::node<T>, T> iterator;
+            typedef tree_private::iterator<const tree_utils::node<T>, T> const_iterator;
+
+            explicit node(const T& v): m_item(v), m_children() {}
+
+            node(const node& other): m_item(other.m_item), m_children(other.m_children)
+            {
+            }
+
+            ~node() {}
+
+            node& operator=(const node& other)
+            {
+                if (this != &other)
+                {
+                    m_item = other.m_item;
+                    m_children = other.m_children;
+                }
+
+                return *this;
+            }
+
+            bool operator==(const node& other) const
+            {
+                return m_item == other.m_item && m_children == other.m_children;
+            }
+
+            const T& operator*() const
+            {
+                return m_item;
+            }
+
+            T& operator*()
+            {
+                return m_item;
+            }
+
+            iterator begin()
+            {
+                return iterator(&m_children, m_children.begin());
+            }
+
+            iterator end()
+            {
+                return iterator(&m_children, m_children.end());
+            }
+
+            const_iterator cbegin() const
+            {
+                return const_iterator(&m_children, m_children.begin());
+            }
+
+            const_iterator cend() const
+            {
+                return const_iterator(&m_children, m_children.end());
             }
 
             bool has_children() const
             {
-                return m_node->has_children();
+                return m_children.empty() == false;
             }
 
-            const tree_utils::nodes<T>& children() const
+            const nodes<T>& children() const
             {
-                return m_node->children();
+                return m_children;
+            }
+
+            nodes<T>& children()
+            {
+                return m_children;
             }
 
         private:
-            friend class tree<T>;
+            T m_item;
+            nodes<T> m_children;
 
-            typename iterator_traits<NT>::nodes* m_nodes;
-            typename iterator_traits<NT>::iterator m_node;
+            friend std::ostream& operator<<(std::ostream& st, const node& n)
+            {
+                st << *n;
 
-            iterator(typename iterator_traits<NT>::nodes* ns, typename iterator_traits<NT>::iterator n): m_nodes(ns), m_node(n) { }
+                return st;
+            }
     };
 }
 
