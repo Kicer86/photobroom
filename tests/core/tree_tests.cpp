@@ -98,3 +98,23 @@ TEST(treeTest, acceptsChildLevelInsertsAtRandomLocations)
     EXPECT_EQ(2, tr.end() - tr.begin());
     EXPECT_EQ("(1 3(2(7 8) 4))", dump<int>(tr));
 }
+
+
+TEST(treeTest, iterationsOverConstTree)
+{
+    tree<int> tr;
+
+    tr.insert(tr.end(), 1);
+    tr.insert(tr.end(), 2);
+    tr.insert(tr.end(), 3);
+    tr.insert(tr.end(), 4);
+
+    const tree<int>& c_tr = tr;
+
+    int s = 0;
+    for(auto it = c_tr.cbegin(); it != c_tr.cend(); ++it)
+        s += **it;
+
+    EXPECT_EQ(10, s);
+
+}
