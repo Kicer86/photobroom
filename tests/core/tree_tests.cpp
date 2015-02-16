@@ -116,5 +116,21 @@ TEST(treeTest, iterationsOverConstTree)
         s += **it;
 
     EXPECT_EQ(10, s);
+}
 
+
+TEST(treeTest, randomIteratorsGoThrouHierarchy)
+{
+    tree<int> tr;
+
+    tr.insert(tr.end(), 1);                         // (1)
+    auto it = tr.insert(tr.end(), 3);               // (1 3)
+
+    tr.insert(it->begin(), 4);                      // (1 3(4))
+    it = tr.insert(it->begin(), 2);                 // (1 3(2 4))
+    tr.insert(it->end(), 7);                        // (1 3(2(7) 4))
+    tr.insert(it->end(), 8);                        // (1 3(2(7 8) 4))
+
+
+    //for(tree_utils::recursive_iterator<int> it =
 }
