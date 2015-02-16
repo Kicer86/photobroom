@@ -66,6 +66,16 @@ class tree final
             return m_root.end();
         }
 
+        const_iterator begin() const
+        {
+            return m_root.begin();
+        }
+
+        const_iterator end() const
+        {
+            return m_root.end();
+        }
+
         const_iterator cbegin() const
         {
             return m_root.cbegin();

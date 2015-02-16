@@ -221,14 +221,24 @@ namespace tree_utils
                 return iterator(&m_children, m_children.end());
             }
 
-            const_iterator cbegin() const
+            const_iterator begin() const
             {
                 return const_iterator(&m_children, m_children.begin());
             }
 
-            const_iterator cend() const
+            const_iterator end() const
             {
                 return const_iterator(&m_children, m_children.end());
+            }
+
+            const_iterator cbegin() const
+            {
+                return const_iterator(&m_children, m_children.cbegin());
+            }
+
+            const_iterator cend() const
+            {
+                return const_iterator(&m_children, m_children.cend());
             }
 
             bool has_children() const
