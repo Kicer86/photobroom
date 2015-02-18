@@ -73,6 +73,8 @@ namespace
                     
                     QObject* raw_plugin = load(path);
                     Database::IPlugin* plugin = dynamic_cast<Database::IPlugin *>(raw_plugin);
+
+                    assert(plugin != nullptr);
                     
                     m_db_plugins.push_back(plugin);
                 }

@@ -4,8 +4,8 @@
 #include <QPixmap>
 
 #include <core/base_tags.hpp>
-#include <Qt5/model_view/model_helpers/idx_data_manager.hpp>
-#include <Qt5/components/photos_data_model.hpp>
+#include <desktop/model_view/model_helpers/idx_data_manager.hpp>
+#include <desktop/components/photos_data_model.hpp>
 
 #include "test_helpers/mock_database.hpp"
 #include "test_helpers/internal_task_executor.hpp"
