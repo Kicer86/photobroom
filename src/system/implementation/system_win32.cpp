@@ -38,7 +38,7 @@ QString System::getApplicationConfigDir()
 
 std::string System::userName()
 {
-    const std::string result = readVar("USERNAME").toStdString();
+    const QString name = qgetenv("USERNAME");
 
-    return result;
+    return name.toStdString();
 }

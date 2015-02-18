@@ -6,23 +6,6 @@
 #include <QRegExp>
 #include <QProcess>
 
-namespace
-{
-    std::string run(const std::string& program)
-    {
-        QProcess process;
-
-        process.closeWriteChannel();
-        process.start(program.c_str(), QProcess::ReadOnly);
-        process.waitForFinished(3000);
-
-        const QString line = process.readAll();
-        const std::string result = line.toStdString();
-
-        return result;
-    }
-}
-
 
 QString System::getApplicationConfigDir()
 {
@@ -36,10 +19,7 @@ QString System::getApplicationConfigDir()
 
 std::string System::userName()
 {
-    const std::string result = run("whoami");
-
-    QString name(result.c_str());
-    name = name.simplified();
+    const QString name = qgetenv("USER");
 
     return name.toStdString();
 }
