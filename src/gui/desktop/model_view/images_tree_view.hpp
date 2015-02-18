@@ -30,17 +30,17 @@ class QTimer;
 struct IConfiguration;
 class Data;
 
-class ModelUpdater: public QObject
+class ViewStatus: public QObject
 {
         Q_OBJECT
 
     public:
-        ModelUpdater();
-        ModelUpdater(const ModelUpdater &) = delete;
+        ViewStatus();
+        ViewStatus(const ViewStatus &) = delete;
 
-        ModelUpdater& operator=(const ModelUpdater &) = delete;
+        ViewStatus& operator=(const ViewStatus &) = delete;
 
-        void update();
+        void markDirty();
 
     private:
         QTimer* m_timer;
@@ -89,13 +89,14 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
-        ModelUpdater m_modelUpdater;
+        ViewStatus m_viewStatus;
 
         // view stuff
         const QRect& getItemRect(const QModelIndex &) const;
         std::deque<QModelIndex> findItemsIn(const QRect &) const;
 
         // widget operations
+        void updateData();
         void updateGui();
         QPoint getOffset() const;
 
