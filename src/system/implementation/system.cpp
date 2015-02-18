@@ -7,7 +7,9 @@
 
 QString System::getApplicationConfigDir()
 {
-    const QString result = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString result = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+
+    result += "/photo_broom";
 
     return result;
 }
@@ -15,7 +17,7 @@ QString System::getApplicationConfigDir()
 
 std::string System::findProgram(const std::string& name)
 {
-    QString path = QStandardPaths::findExecutable(name.c_str());
+    const QString path = QStandardPaths::findExecutable(name.c_str());
     
     return path.toStdString();
 }
