@@ -434,3 +434,31 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
         EXPECT_EQ(info5.getRect(), QRect());
     }
 }
+
+
+
+TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedAndChildChanges)
+{
+    //prepare data
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+    
+    // test
+    model.removeRow(0, top->index());
+
+    PositionsReseter reseter(&data);
+    reseter.childrenRemoved(top->index(), 0);
+
+   //expectations
+    {
+        ModelIndexInfo info = data.get(top->index());
+        EXPECT_NE(info.getRect(), QRect());               // Parent's size should not be reseted
+        EXPECT_NE(info.getOverallRect(), QRect());
+    }
+
+    {
+        ModelIndexInfo info2 = data.get(top2->index());   // Parent's siblings should not be touched
+        EXPECT_NE(QRect(), info2.getRect());
+        EXPECT_NE(QRect(), info2.getOverallRect());
+    }
+}
