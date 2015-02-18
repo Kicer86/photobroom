@@ -1,17 +1,13 @@
 
 #include "../system.hpp"
 
-#include <stdlib.h>
-
-#include <QRegExp>
-#include <QProcess>
-
+#include <QStandardPaths>
 
 QString System::getApplicationConfigDir()
 {
-    QString result(getenv("HOME"));
+    QString result = QStandardPaths::displayName(QStandardPaths::HomeLocation);
 
-    result += "/.config/broom";
+    result += "/.config/photo_broom";
 
     return result;
 }
