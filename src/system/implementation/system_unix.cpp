@@ -1,17 +1,6 @@
 
 #include "../system.hpp"
 
-#include <QStandardPaths>
-
-QString System::getApplicationConfigDir()
-{
-    QString result = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-
-    result += "/.config/photo_broom";
-
-    return result;
-}
-
 
 std::string System::userName()
 {
@@ -19,4 +8,3 @@ std::string System::userName()
 
     return name.toStdString();
 }
-
