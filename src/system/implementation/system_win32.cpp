@@ -8,7 +8,7 @@
 
 QString System::getApplicationConfigDir()
 {
-    const QString result = QStandardPaths::displayName(QStandardPaths::AppDataLocation);
+    const QString result = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
     return result;
 }

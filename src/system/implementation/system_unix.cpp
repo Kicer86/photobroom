@@ -5,7 +5,7 @@
 
 QString System::getApplicationConfigDir()
 {
-    QString result = QStandardPaths::displayName(QStandardPaths::HomeLocation);
+    QString result = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 
     result += "/.config/photo_broom";
 
