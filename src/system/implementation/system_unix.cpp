@@ -34,22 +34,6 @@ QString System::getApplicationConfigDir()
 }
 
 
-std::string System::findProgram(const std::string& name)
-{
-    const std::string result = run("whereis " + name);
-    const QString pattern = QString("%1: ([^ ]+).*").arg(name.c_str());
-    const QRegExp regex(pattern);
-    const bool matches = regex.exactMatch(result.c_str());
-
-    std::string path;
-
-    if (matches)
-        path = regex.capturedTexts()[1].toStdString();
-
-    return path;
-}
-
-
 std::string System::userName()
 {
     const std::string result = run("whoami");

@@ -13,7 +13,11 @@ else()
     set(SYSTEM_SOURCES implementation/system_unix.cpp)
 endif(WIN32)
 
-set(SYSTEM_SOURCES ${SYSTEM_SOURCES} implementation/filesystem.cpp)
+set(SYSTEM_SOURCES ${SYSTEM_SOURCES} 
+                   implementation/filesystem.cpp
+                   implementation/system.cpp
+)
+                   
 set(SYSTEM_HEADERS system.hpp filesystem.hpp)
 
 if(WIN32)

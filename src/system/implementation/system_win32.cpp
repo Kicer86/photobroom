@@ -36,15 +36,6 @@ QString System::getApplicationConfigDir()
 }
 
 
-std::string System::findProgram(const std::string &)
-{
-    //TODO: use "where"
-    assert(!"Not implemented");
-
-    return "";
-}
-
-
 std::string System::userName()
 {
     const std::string result = readVar("USERNAME").toStdString();
