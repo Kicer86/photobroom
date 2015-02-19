@@ -1,7 +1,7 @@
 
 Required tools and libraries:
  - cmake - version 3.0 or later
- - Qt5
+ - Qt5 - version 5.4 or higher
  - OpenSSL or Nettle
  - Exiv2 of easyexif*
  - Boost
@@ -17,14 +17,12 @@ or select proper checkbox in cmake-gui tool.
 Tested compilers:
 1. gcc  (Linux and Windows)
         At least 4.8.0 version is required (due to c++11).
-        Qt 5.0 is minimum.
         gcc has support for OpenMP which will be used for various tasks.
 
 2. clang (Linux)
 
 3. Visual studio (Windows)
     Visual Studio 2013 at least is required with Visual C++ Compiler Nov 2013 CTP (CTP_Nov2013) (due to c++11). Service Pack 2 is required (www.microsoft.com/pl-pl/download/details.aspx?id=42666)
-    Qt 5.3 (first one with support for Visual Studio 2013).
 
 PhotoBroom cannot be run from compilation dir without installing.
 It will search for plugins in destination (installation) dir.
