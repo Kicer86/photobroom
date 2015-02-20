@@ -61,7 +61,7 @@
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="181"/>
         <source>Photo broom: </source>
-        <translation>Photo broom:</translation>
+        <translation>Photo broom: </translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="181"/>
