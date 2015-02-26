@@ -114,10 +114,6 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
     {
         IdxData* cData = pData->m_children[row];
         idx = createIndex(row, column, cData);
-
-        //check data consistency
-        assert(cData->m_row == row);
-        assert(cData->m_column == column);
     }
 
     return idx;
@@ -176,6 +172,6 @@ Database::IDatabase* DBDataModel::getDatabase()
 QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 {
     const QModelIndex idx = idxData->m_level == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
-                                                   createIndex(idxData->m_row, idxData->m_column, idxData);
+                                                   createIndex(idxData->getRow(), idxData->getCol(), idxData);
     return idx;
 }

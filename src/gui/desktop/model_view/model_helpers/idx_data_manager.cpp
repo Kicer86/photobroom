@@ -248,9 +248,6 @@ IdxData* IdxDataManager::getIdxDataFor(const QModelIndex& obj) const
 {
     IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
 
-    assert(idxData == nullptr || obj.column() == idxData->m_column);
-    assert(idxData == nullptr || obj.row() == idxData->m_row);
-
     return idxData;
 }
 
@@ -452,6 +449,14 @@ void IdxDataManager::setupNewNode(IdxData* node, const Database::IFilter::Ptr& f
 }
 
 
+void IdxDataManager::setupRootNode()
+{
+    auto topLevel = m_data->m_hierarchy.levels.empty()? Hierarchy::Level(): m_data->m_hierarchy.levels[0];
+
+    getRoot()->setNodeSorting(topLevel);
+}
+
+
 //called when leafs for particual node have been loaded
 void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
@@ -548,6 +553,7 @@ void IdxDataManager::resetModel()
 
     m_data->m_model->beginResetModel();
     m_data->m_root->reset();
+    setupRootNode();
     m_data->m_model->endResetModel();
 }
 
@@ -733,7 +739,7 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
-    const int fromPos = photoIdxData->m_row;
+    const int fromPos = photoIdxData->getRow();
     const int toPos = to->m_children.size();
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
@@ -768,7 +774,7 @@ void IdxDataManager::performRemove(IdxData* item)
         assert(_parent != nullptr);
 
         QModelIndex parentIdx = getIndex(_parent);
-        const int itemPos = item->m_row;
+        const int itemPos = item->getRow();
 
         m_data->m_model->beginRemoveRows(parentIdx, itemPos, itemPos);
 

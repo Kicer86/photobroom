@@ -48,8 +48,6 @@ class IdxData: public IPhotoInfo::IObserver
         IdxData* m_parent;
         IdxDataManager* m_model;
         size_t m_level;
-        int m_row;
-        int m_column;
         FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
@@ -65,17 +63,20 @@ class IdxData: public IPhotoInfo::IObserver
 
         void setNodeFilter(const Database::IFilter::Ptr& filter);
         void setNodeSorting(const Hierarchy::Level &);
-        int  findPositionFor(IdxData* child) const; // returns position where child matches
+        int  findPositionFor(const IdxData* child) const; // returns position where child matches
+        int  getPositionOf(const IdxData* child) const;   // returns position of children
         void addChild(IdxData* child);
-        void removeChild(IdxData* child);           // removes child (memory is released)
-        void takeChild(IdxData* child);             // function acts as removeChild but does not delete children
+        void removeChild(IdxData* child);                 // removes child (memory is released)
+        void takeChild(IdxData* child);                   // function acts as removeChild but does not delete children
         void reset();
         bool isPhoto() const;
         bool isNode() const;
 
+        int getRow() const;
+        int getCol() const;
+
     private:
         IdxData(IdxDataManager *, IdxData* parent);
-        void setPosition(int row, int col);
         void updateLeafData();
         void init();
 
