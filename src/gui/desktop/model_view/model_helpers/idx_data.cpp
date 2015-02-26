@@ -51,6 +51,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& 
 IdxData::~IdxData()
 {
     m_model->idxDataDeleted(this);
+    
     if (m_photo.get() != nullptr)
         m_photo->unregisterObserver(this);
 
