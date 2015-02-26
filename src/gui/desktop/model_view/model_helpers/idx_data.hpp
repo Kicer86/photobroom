@@ -24,6 +24,7 @@
 
 #include <database/iphoto_info.hpp>
 #include <database/filter.hpp>
+#include <model_view/db_data_model.hpp>
 
 class QVariant;
 
@@ -42,6 +43,7 @@ class IdxData: public IPhotoInfo::IObserver
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;
+        Hierarchy::Level m_order;
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxData* m_parent;
         IdxDataManager* m_model;
@@ -62,9 +64,11 @@ class IdxData: public IPhotoInfo::IObserver
         IdxData& operator=(const IdxData &) = delete;
 
         void setNodeFilter(const Database::IFilter::Ptr& filter);
+        void setNodeSorting(const Hierarchy::Level &);
+        int  findPositionFor(IdxData* child) const; // returns position where child matches
         void addChild(IdxData* child);
-        void removeChild(IdxData* child);         // removes child (memory is released)
-        void takeChild(IdxData* child);           // function acts as removeChild but does not delete children
+        void removeChild(IdxData* child);           // removes child (memory is released)
+        void takeChild(IdxData* child);             // function acts as removeChild but does not delete children
         void reset();
         bool isPhoto() const;
         bool isNode() const;

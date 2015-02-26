@@ -64,12 +64,25 @@ void IdxData::setNodeFilter(const Database::IFilter::Ptr& filter)
 }
 
 
+void IdxData::setNodeSorting(const Hierarchy::Level& order)
+{
+    m_order = order;
+}
+
+
+int IdxData::findPositionFor(IdxData* child) const
+{
+    return m_children.size();
+}
+
+
 void IdxData::addChild(IdxData* child)
 {
     assert(isNode());                        //child (leaf) cannot accept any child
 
-    child->setPosition(m_children.size(), 0);
-    m_children.push_back(child);
+    const size_t pos = findPositionFor(child);
+    child->setPosition(pos, 0);
+    m_children.insert(m_children.cbegin() + pos, child);
     child->m_parent = this;
 }
 
@@ -128,6 +141,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
     m_children(),
     m_data(),
     m_filter(new Database::EmptyFilter),
+    m_order(),
     m_photo(nullptr),
     m_parent(parent),
     m_model(model),
