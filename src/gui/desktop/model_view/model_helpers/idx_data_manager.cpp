@@ -443,6 +443,15 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 }
 
 
+void IdxDataManager::setupNewNode(IdxData* node, const Database::IFilter::Ptr& filter, const Hierarchy::Level& order) const
+{
+    assert(node->isNode());
+
+    node->setNodeFilter(filter);
+    node->setNodeSorting(order);
+}
+
+
 //called when leafs for particual node have been loaded
 void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
@@ -499,7 +508,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
         filter->tagValue = tag;
 
         IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
-        newItem->setNodeFilter(filter);
+        setupNewNode(newItem, filter, m_data->m_hierarchy.levels[level]);
 
         leafs->push_back(newItem);
     }
@@ -680,8 +689,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
                 filter->tagName = tagName;
                 filter->tagValue = tagValue;
 
-                node->setNodeFilter(filter);
-
+                setupNewNode(node, filter, m_data->m_hierarchy.levels[level]);
                 appendIdxData(_parent, {node} );
 
                 result = node;
@@ -782,7 +790,7 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
     QModelIndex toIdx = getIndex(to);
-    const int toPos = to->m_children.size();
+    const int toPos = to->findPositionFor(photoIdxData);
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
@@ -808,7 +816,7 @@ IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
     filter->filter = filterTag;
 
-    node->setNodeFilter(filter);
+    setupNewNode(node, filter, m_data->m_hierarchy.levels[level]);
 
     return node;
 }
@@ -839,7 +847,7 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
         //make sure photo is assigned to right parent
         movePhotoToRightParent(photoInfo);
 
-        //tak IdxData now, it is possible we have removed it while moving to new parent
+        //take IdxData now, it is possible we have removed it while moving to new parent
         IdxData* idx = findIdxDataFor(photoInfo);
         if (idx != nullptr)
         {

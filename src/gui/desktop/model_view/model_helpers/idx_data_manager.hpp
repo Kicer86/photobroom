@@ -95,6 +95,7 @@ private:
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
+    void setupNewNode(IdxData *, const Database::IFilter::Ptr &, const Hierarchy::Level &) const;
 
     // database notifications:
     void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) override;
