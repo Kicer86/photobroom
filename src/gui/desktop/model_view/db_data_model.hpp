@@ -41,6 +41,9 @@ struct Hierarchy
             ascending,
             descending
         } order;
+
+        Level(): tagName(), order() {}
+        Level(const TagNameInfo &, const Order &);
     };
 
     std::vector<Level> levels;

@@ -29,6 +29,13 @@
 #include "model_helpers/idx_data_manager.hpp"
 
 
+Hierarchy::Level::Level(const TagNameInfo& i, const Hierarchy::Level::Order& o): tagName(i), order(o)
+{
+
+}
+
+//////////////////////////////////////
+
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr)
 {
 }
