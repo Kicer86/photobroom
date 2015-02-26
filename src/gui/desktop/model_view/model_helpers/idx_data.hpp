@@ -42,8 +42,8 @@ class IdxData: public IPhotoInfo::IObserver
 
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
-        Database::IFilter::Ptr m_filter;
-        Hierarchy::Level m_order;
+        Database::IFilter::Ptr m_filter;         // define which children match
+        Hierarchy::Level m_order;                // defines how to sort children
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxData* m_parent;
         IdxDataManager* m_model;
