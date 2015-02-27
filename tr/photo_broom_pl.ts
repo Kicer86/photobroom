@@ -27,7 +27,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="800"/>
+        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="844"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
