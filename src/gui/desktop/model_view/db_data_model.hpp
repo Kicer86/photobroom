@@ -42,13 +42,19 @@ struct Hierarchy
             descending
         } order;
 
-        Level(): tagName(), order() {}
+        Level();
         Level(const TagNameInfo &, const Order &);
     };
 
-    std::vector<Level> levels;
+    Hierarchy();
+    Hierarchy(const std::initializer_list<Level> &);
 
-    Hierarchy(): levels() {}
+    size_t nodeLevels() const;                       //number of node levels
+    const Level& getNodeInfo(size_t level) const;
+    const Level& getLeafsInfo() const;
+
+    private:
+        std::vector<Level> levels;
 };
 
 

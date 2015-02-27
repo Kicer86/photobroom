@@ -29,12 +29,54 @@
 #include "model_helpers/idx_data_manager.hpp"
 
 
+Hierarchy::Level::Level(): tagName(), order()
+{
+
+}
+
+
 Hierarchy::Level::Level(const TagNameInfo& i, const Hierarchy::Level::Order& o): tagName(i), order(o)
 {
 
 }
 
+
+Hierarchy::Hierarchy(): levels()
+{
+
+}
+
+
+Hierarchy::Hierarchy(const std::initializer_list<Hierarchy::Level>& l): levels(l)
+{
+
+}
+
+
+size_t Hierarchy::nodeLevels() const
+{
+    return levels.size() - 1;        // last level is for leafs description
+}
+
+
+const Hierarchy::Level& Hierarchy::getNodeInfo(size_t level) const
+{
+    assert(level < levels.size());   // less than real size of levels?
+
+    return levels[level];
+}
+
+
+const Hierarchy::Level& Hierarchy::getLeafsInfo() const
+{
+    const size_t last = levels.size() - 1;
+
+    return levels[last];
+}
+
+
 //////////////////////////////////////
+
 
 DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr)
 {
