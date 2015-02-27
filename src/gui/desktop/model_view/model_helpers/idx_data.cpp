@@ -158,6 +158,7 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 
 int IdxData::findPositionFor(const IdxData* child) const
 {
+    assert(sortingRequired() == false);
     IdxDataComparer comparer(m_order);
 
     const auto pos = std::lower_bound(m_children.cbegin(), m_children.cend(), child, comparer);
@@ -220,6 +221,21 @@ void IdxData::reset()
 }
 
 
+bool IdxData::sortChildren()
+{
+    const bool result = sortingRequired();
+
+    if (result)
+    {
+        IdxDataComparer comparer(m_order);
+
+        std::sort(m_children.begin(), m_children.end(), comparer);
+    }
+
+    return result;
+}
+
+
 bool IdxData::isPhoto() const
 {
     return m_photo.get() != nullptr;
@@ -270,6 +286,17 @@ void IdxData::updateLeafData()
 void IdxData::init()
 {
     m_model->idxDataCreated(this);
+}
+
+
+bool IdxData::sortingRequired() const
+{
+    IdxDataComparer comparer(m_order);
+
+    const bool sorted = std::is_sorted(m_children.cbegin(), m_children.cend(), comparer);
+    const bool required = !sorted;
+
+    return required;
 }
 
 

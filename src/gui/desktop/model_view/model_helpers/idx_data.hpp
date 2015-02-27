@@ -68,6 +68,7 @@ class IdxData: public IPhotoInfo::IObserver
         void addChild(IdxData* child);
         void removeChild(IdxData* child);                 // removes child (memory is released)
         void takeChild(IdxData* child);                   // function acts as removeChild but does not delete children
+        bool sortChildren();                              // returns true if sorting was required (at least one child was on a wrong position)
         void reset();
         bool isPhoto() const;
         bool isNode() const;
@@ -79,6 +80,7 @@ class IdxData: public IPhotoInfo::IObserver
         IdxData(IdxDataManager *, IdxData* parent);
         void updateLeafData();
         void init();
+        bool sortingRequired() const;
 
         //IObserver:
         void photoUpdated(IPhotoInfo *) override;
