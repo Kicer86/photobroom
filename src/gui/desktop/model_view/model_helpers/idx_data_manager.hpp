@@ -120,9 +120,11 @@ private:
     IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo if could be created
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
+    void performMove(IdxData* item, IdxData* from, IdxData* to);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
+    bool sortChildrenOf(IdxData *);
 
     IdxData* prepareUniversalNodeFor(IdxData *);                                 //prepares node for photos without tag required by particular parent
 

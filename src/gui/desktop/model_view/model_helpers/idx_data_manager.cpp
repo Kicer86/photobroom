@@ -602,7 +602,7 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
             performMove(photoInfo, currentParent, newParent);
     }
     else if (currentParent != nullptr)                            //same parent, but maybe reorder of children is required? (sorting)
-        position_changed = currentParent->sortChildren();
+        position_changed = sortChildrenOf(currentParent);
 
     return position_changed;
 }
@@ -742,15 +742,21 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    performMove(photoIdxData, from, to);
+}
+
+
+void IdxDataManager::performMove(IdxData* item, IdxData* from, IdxData* to)
+{
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
-    const int fromPos = photoIdxData->getRow();
-    const int toPos = to->findPositionFor(photoIdxData);
+    const int fromPos = item->getRow();
+    const int toPos = to->findPositionFor(item);
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
 
-    from->takeChild(photoIdxData);
-    to->addChild(photoIdxData);
+    from->takeChild(item);
+    to->addChild(item);
 
     m_data->m_model->endMoveRows();
 
@@ -811,6 +817,25 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
     to->addChild(photoIdxData);
 
     m_data->m_model->endInsertRows();
+}
+
+
+bool IdxDataManager::sortChildrenOf(IdxData* parent)
+{
+    const bool result = parent->sortingRequired();
+    bool dirty = result;
+
+    while (dirty)
+    {
+        IdxData* child = parent->findChildWithBadPosition();
+
+        if (child == nullptr)
+            dirty = false;
+        else
+            performMove(child, parent, parent);
+    }
+
+    return result;
 }
 
 
