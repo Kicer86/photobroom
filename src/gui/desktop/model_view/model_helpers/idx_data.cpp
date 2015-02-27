@@ -158,10 +158,9 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 
 int IdxData::findPositionFor(const IdxData* child) const
 {
-    assert(sortingRequired() == false);
     IdxDataComparer comparer(m_order);
 
-    const auto pos = std::lower_bound(m_children.cbegin(), m_children.cend(), child, comparer);
+    const auto pos = std::upper_bound(m_children.cbegin(), m_children.cend(), child, comparer);
 
     return pos - m_children.cbegin();
 }
