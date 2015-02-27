@@ -745,7 +745,7 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
     const int fromPos = photoIdxData->getRow();
-    const int toPos = to->m_children.size();
+    const int toPos = to->findPositionFor(photoIdxData);
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
 
