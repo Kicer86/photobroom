@@ -221,21 +221,6 @@ void IdxData::reset()
 }
 
 
-bool IdxData::sortChildren()
-{
-    const bool result = sortingRequired();
-
-    if (result)
-    {
-        IdxDataComparer comparer(m_order);
-
-        std::sort(m_children.begin(), m_children.end(), comparer);
-    }
-
-    return result;
-}
-
-
 bool IdxData::isPhoto() const
 {
     return m_photo.get() != nullptr;
@@ -258,6 +243,33 @@ int IdxData::getRow() const
 int IdxData::getCol() const
 {
     return 0;
+}
+
+
+IdxData* IdxData::findChildWithBadPosition() const
+{
+    IdxDataComparer comparer(m_order);
+    IdxData* result = nullptr;
+
+    for(size_t i = 1; i < m_children.size(); i++)
+        if (comparer(m_children[i -1], m_children[i]) == false)
+        {
+            result = m_children[i - 1];
+            break;
+        }
+
+    return result;
+}
+
+
+bool IdxData::sortingRequired() const
+{
+    IdxDataComparer comparer(m_order);
+
+    const bool sorted = std::is_sorted(m_children.cbegin(), m_children.cend(), comparer);
+    const bool required = !sorted;
+
+    return required;
 }
 
 
@@ -286,17 +298,6 @@ void IdxData::updateLeafData()
 void IdxData::init()
 {
     m_model->idxDataCreated(this);
-}
-
-
-bool IdxData::sortingRequired() const
-{
-    IdxDataComparer comparer(m_order);
-
-    const bool sorted = std::is_sorted(m_children.cbegin(), m_children.cend(), comparer);
-    const bool required = !sorted;
-
-    return required;
 }
 
 
