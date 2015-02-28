@@ -36,7 +36,7 @@ set(CORE_SOURCES
     implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
-    )
+)
 
 set(CORE_HEADERS
     base_tags.hpp
@@ -56,7 +56,8 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     implementation/atagfeeder.hpp
-    )
+    implementation/tree_private.hpp
+)
 
 set(CORE_RESOURCE_FILES images/images.qrc)
 set(CORE_MOC_FILES disk_observer.hpp)
@@ -84,28 +85,6 @@ if(OPENSSL_FOUND)
 elseif(NETTLE_FOUND)
     add_definitions(-DUSE_NETTLE)
 endif(OPENSSL_FOUND)
-
-
-if(BUILD_TESTS)
-    addTestTarget(core
-                        SOURCES
-                            ${CORE_SOURCES}
-                            ${CORE_RESOURCES}
-                            ${CORE_WRAPPED}
-                            tests/coreTests.cpp
-                            tests/algoTests.cpp
-                        TEST_LIBRARY
-                            GTEST
-                )
-
-    target_link_libraries(core_test PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
-    if(MSVC)
-
-    else()
-        target_link_libraries(core_test PRIVATE ${OpenMP_CXX_FLAGS})
-    endif(MSVC)
-
-endif(BUILD_TESTS)
 
 #task executor uses openmp
 if(OPENMP_FOUND)
