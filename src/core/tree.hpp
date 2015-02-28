@@ -91,6 +91,11 @@ class tree final
             return m_root.has_children() == false;
         }
 
+        void clear()
+        {
+            m_root.clear();
+        }
+
         iterator insert(iterator pos, const T& value)
         {
             tree_utils::node<T> v(value);           //prepare value

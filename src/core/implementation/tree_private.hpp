@@ -266,6 +266,11 @@ namespace tree_utils
                 return m_children;
             }
 
+            void clear()
+            {
+                m_children.clear();
+            }
+
         private:
             T m_item;
             nodes<T> m_children;
