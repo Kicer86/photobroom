@@ -513,3 +513,29 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
         EXPECT_EQ(QRect(), info3.getOverallRect());
     }
 }
+
+
+TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingRemoved)
+{
+    //prepare data
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+
+    // test
+    model.removeRow(1);
+
+    PositionsReseter reseter(&model, &data);
+    reseter.childrenRemoved(QModelIndex(), 1);
+
+    //expectations
+    {
+        //all top items should be reseted
+        ModelIndexInfo info = data.get(top->index());
+        EXPECT_NE(QRect(), info.getRect());
+        EXPECT_NE(QRect(), info.getOverallRect());
+
+        ModelIndexInfo info3 = data.get(top3->index());
+        EXPECT_EQ(QRect(), info3.getRect());
+        EXPECT_EQ(QRect(), info3.getOverallRect());
+    }
+}

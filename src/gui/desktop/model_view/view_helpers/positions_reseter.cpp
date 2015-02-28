@@ -117,10 +117,10 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
 }
 
 
-void PositionsReseter::invalidateChildrenRect(const QModelIndex& idx, int from) const
+void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int from) const
 {
     int r = from;
-    for(QModelIndex child = idx.child(r, 0); child.isValid(); child = idx.child(++r, 0))
+    for(QModelIndex child = m_model->index(r, 0, parent); child.isValid(); child = m_model->index(++r, 0, parent))
     {
         resetRect(child);
 
