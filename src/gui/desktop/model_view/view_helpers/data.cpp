@@ -125,18 +125,22 @@ const ModelIndexInfo& Data::get(const QPoint& point) const
 
 bool Data::isImage(const QModelIndex& index) const
 {
-    const QAbstractItemModel* model = index.model();
-    const bool has_children = model->hasChildren(index);
     bool result = false;
 
-    if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
+    if (index.isValid())
     {
-        QPixmap pixmap = getImage(index);
+        const QAbstractItemModel* model = index.model();
+        const bool has_children = model->hasChildren(index);
 
-        result = pixmap.isNull() == false;
+        if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
+        {
+            QPixmap pixmap = getImage(index);
+
+            result = pixmap.isNull() == false;
+        }
+        //else - has children so it is node so it is not image :)
     }
-    //else - has children so it is node so it is not image :)
-
+    
     return result;
 }
 
