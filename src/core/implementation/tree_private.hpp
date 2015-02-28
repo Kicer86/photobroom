@@ -136,9 +136,19 @@ namespace tree_private
                 return r;
             }
 
+            const node_value& operator*() const
+            {
+                return *m_node;
+            }
+
             node_value& operator*()
             {
                 return *m_node;
+            }
+
+            const node_value* operator->() const
+            {
+                return &(*m_node);
             }
 
             node_value* operator->()
