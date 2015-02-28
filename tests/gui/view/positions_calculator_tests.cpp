@@ -394,7 +394,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     top_info.expanded = false;
     data.update(top_info);
 
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.itemChanged(top->index());
 
     calculator.updateItems();

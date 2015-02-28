@@ -235,7 +235,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         m_data->update(info);
 
         //reset some positions
-        PositionsReseter reseter(m_data.get());
+        PositionsReseter reseter(model(), m_data.get());
         reseter.itemChanged(item);
 
         updateData();
@@ -250,7 +250,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     QAbstractItemView::resizeEvent(e);
 
     //reset all positions
-    PositionsReseter reseter(m_data.get());
+    PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
     updateData();
@@ -354,7 +354,7 @@ void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start,
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
-    PositionsReseter reseter(m_data.get());
+    PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, to);
 
     updateData();
@@ -374,7 +374,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
 {
     //reset sizes and positions of existing items
-    PositionsReseter reseter(m_data.get());
+    PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(_parent, first);
 
     updateData();

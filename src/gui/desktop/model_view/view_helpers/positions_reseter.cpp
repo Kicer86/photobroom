@@ -20,10 +20,11 @@
 #include "positions_reseter.hpp"
 
 #include <QModelIndex>
+#include <QAbstractItemModel>
 
 #include "data.hpp"
 
-PositionsReseter::PositionsReseter(Data* data): m_data(data)
+PositionsReseter::PositionsReseter(QAbstractItemModel* model, Data* data): m_data(data), m_model(model)
 {
 
 }
@@ -41,8 +42,8 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int pos) const
     invalidateItemOverallRect(parent);
 
     //invalidate all items which are after 'pos'
-    const QModelIndex sibling = parent.child(pos + 1, 0);
-    invalidateSiblingsRect(sibling);
+    const QModelIndex item = m_model->index(pos, 0, parent);
+    invalidateSiblingsRect(item);
 }
 
 

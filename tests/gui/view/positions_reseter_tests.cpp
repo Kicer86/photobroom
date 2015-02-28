@@ -35,6 +35,13 @@ protected:
         child2_4 = new QStandardItem(icon, "Empty4");
         child2_5 = new QStandardItem(icon, "Empty5");
 
+        top3 = new QStandardItem("Empty");
+        child3_1 = new QStandardItem(icon, "Empty1");
+        child3_2 = new QStandardItem(icon, "Empty2");
+        child3_3 = new QStandardItem(icon, "Empty3");
+        child3_4 = new QStandardItem(icon, "Empty4");
+        child3_5 = new QStandardItem(icon, "Empty5");
+
         top->appendRow(child1);
         top->appendRow(child2);
         top->appendRow(child3);
@@ -47,8 +54,15 @@ protected:
         top2->appendRow(child2_4);
         top2->appendRow(child2_5);
 
+        top3->appendRow(child3_1);
+        top3->appendRow(child3_2);
+        top3->appendRow(child3_3);
+        top3->appendRow(child3_4);
+        top3->appendRow(child3_5);
+
         model.appendRow(top);
         model.appendRow(top2);
+        model.appendRow(top3);
     }
 
     const int img_w = 100;
@@ -74,13 +88,20 @@ protected:
     QStandardItem* child2_3;
     QStandardItem* child2_4;
     QStandardItem* child2_5;
+
+    QStandardItem* top3;
+    QStandardItem* child3_1;
+    QStandardItem* child3_2;
+    QStandardItem* child3_3;
+    QStandardItem* child3_4;
+    QStandardItem* child3_5;
 };
 
 
 TEST_F(PositionsReseterShould, BeConstructable)
 {
     EXPECT_NO_THROW({
-        PositionsReseter reseter(&data);
+        PositionsReseter reseter(&model, &data);
     });
 }
  
@@ -105,7 +126,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
     QStandardItem* child6 = new QStandardItem(icon, "Empty6");
     top->appendRow(child6);
 
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.itemsAdded(top->index(), 5);
 
     //expectations
@@ -153,7 +174,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     //// test
     model.removeRow(2, top->index());                  // remove central child of first node (0, 1, 2, 3, 4)
 
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.childrenRemoved(top->index(), 2);
 
     //expectations
@@ -205,7 +226,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     }
 
     //// test
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.itemChanged(child3->index());
 
     //expectations
@@ -255,7 +276,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
     }
 
     //// test
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.itemChanged(top->index());
 
     //expectations
@@ -303,7 +324,7 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
     }
 
     //// test
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.invalidateAll();
 
     //expectations
@@ -351,7 +372,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
     }
 
     //// test
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.itemChanged(child3->index());
 
     //expectations
@@ -403,7 +424,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     // test
     model.removeRow(0, top->index());
 
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.childrenRemoved(top->index(), 0);
 
     //expectations
@@ -436,7 +457,6 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 }
 
 
-
 TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedAndChildChanges)
 {
     //prepare data
@@ -446,7 +466,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
     // test
     model.removeRow(0, top->index());
 
-    PositionsReseter reseter(&data);
+    PositionsReseter reseter(&model, &data);
     reseter.childrenRemoved(top->index(), 0);
 
    //expectations
@@ -460,5 +480,36 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
         ModelIndexInfo info2 = data.get(top2->index());   // Parent's siblings should not be touched
         EXPECT_NE(QRect(), info2.getRect());
         EXPECT_NE(QRect(), info2.getOverallRect());
+    }
+}
+
+
+TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
+{
+    //prepare data
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+
+    // test
+    QStandardItem* new_top0 = new QStandardItem("Empty");
+    model.insertRow(0, new_top0);
+
+    PositionsReseter reseter(&model, &data);
+    reseter.itemsAdded(QModelIndex(), 0);
+
+    //expectations
+    {
+        //all top items should be reseted
+        ModelIndexInfo info = data.get(top->index());
+        EXPECT_EQ(QRect(), info.getRect());
+        EXPECT_EQ(QRect(), info.getOverallRect());
+
+        ModelIndexInfo info2 = data.get(top2->index());
+        EXPECT_EQ(QRect(), info2.getRect());
+        EXPECT_EQ(QRect(), info2.getOverallRect());
+
+        ModelIndexInfo info3 = data.get(top3->index());
+        EXPECT_EQ(QRect(), info3.getRect());
+        EXPECT_EQ(QRect(), info3.getOverallRect());
     }
 }
