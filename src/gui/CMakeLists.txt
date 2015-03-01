@@ -2,7 +2,6 @@
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Svg REQUIRED)
-find_package(Boost REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -14,8 +13,7 @@ include_directories(${CMAKE_BINARY_DIR}/
                     
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
-                           ${Qt5Gui_INCLUDE_DIRS}
-                           ${Boost_INCLUDE_DIRS})
+                           ${Qt5Gui_INCLUDE_DIRS})
 
 set(GUI_SOURCES
     desktop/gui.cpp
@@ -27,6 +25,7 @@ set(GUI_SOURCES
     desktop/model_view/model_helpers/idxdata_deepfetcher.cpp
     desktop/model_view/model_helpers/photos_matcher.cpp
     desktop/model_view/view_helpers/data.cpp
+    desktop/model_view/view_helpers/model_index_info.cpp
     desktop/model_view/view_helpers/positions_calculator.cpp
     desktop/model_view/view_helpers/positions_reseter.cpp
     desktop/model_view/images_tree_view.cpp
@@ -56,6 +55,7 @@ set(GUI_HEADERS
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
     desktop/model_view/model_helpers/photos_matcher.hpp
     desktop/model_view/view_helpers/data.hpp
+    desktop/model_view/view_helpers/model_index_info.hpp
     desktop/model_view/view_helpers/positions_calculator.hpp
     desktop/model_view/view_helpers/positions_reseter.hpp
     desktop/model_view/images_tree_view.hpp

@@ -20,37 +20,14 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
-#include <unordered_map>
 #include <deque>
 
 #include <QRect>
 #include <QModelIndex>
 
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/mem_fun.hpp>
+#include "model_index_info.hpp"
 
 struct IConfiguration;
-
-struct ModelIndexInfo
-{
-    QPersistentModelIndex index;
-    bool expanded;
-
-    void setRect(const QRect& r);
-    void setOverallRect(const QRect& r);
-    const QRect& getRect() const;
-    const QRect& getOverallRect() const;
-    void cleanRects();
-
-    ModelIndexInfo(const QModelIndex& idx = QModelIndex());
-
-private:
-    QRect rect;
-    QRect overallRect;
-};
 
 
 class Data
@@ -78,16 +55,6 @@ class Data
                 return result;
             }
         };
-
-        typedef boost::multi_index_container
-        <
-            ModelIndexInfo,
-            boost::multi_index::indexed_by
-            <
-                boost::multi_index::hashed_unique<boost::multi_index::member<ModelIndexInfo, QPersistentModelIndex, &ModelIndexInfo::index>, IndexHasher>,
-                boost::multi_index::ordered_non_unique<boost::multi_index::const_mem_fun<ModelIndexInfo, const QRect &, &ModelIndexInfo::getRect>, QRectCompare>
-            >
-        > ModelIndexInfoSet;
 
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;

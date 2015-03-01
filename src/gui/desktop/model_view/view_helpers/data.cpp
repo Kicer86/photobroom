@@ -19,6 +19,7 @@
 
 #include "data.hpp"
 
+#include <cassert>
 #include <iostream>
 
 #include <QPixmap>
@@ -40,44 +41,6 @@ std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
     os << str.toStdString();
 
     return os;
-}
-
-
-void ModelIndexInfo::setRect(const QRect& r)
-{
-    rect = r;
-    overallRect = QRect();          // not valid anymore
-}
-
-
-void ModelIndexInfo::setOverallRect(const QRect& r)
-{
-    overallRect = r;
-}
-
-
-const QRect& ModelIndexInfo::getRect() const
-{
-    return rect;
-}
-
-
-const QRect& ModelIndexInfo::getOverallRect() const
-{
-    return overallRect;
-}
-
-
-void ModelIndexInfo::cleanRects()
-{
-    rect = QRect();
-    overallRect = QRect();
-}
-
-
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect()
-{
-    expanded = idx == QModelIndex();       //expand top root
 }
 
 
@@ -174,8 +137,8 @@ QPixmap Data::getImage(const QModelIndex& index) const
 
 void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 {
-    auto it = m_itemData.get<1>().begin();
-    auto it_end = m_itemData.get<1>().end();
+    ModelIndexInfoSet::const_iterator it = m_itemData.begin();
+    auto it_end = m_itemData.end();
 
     ModelIndexInfo result( (QModelIndex()) );
 
@@ -284,7 +247,7 @@ void Data::clear()
 }
 
 
-const Data::ModelIndexInfoSet& Data::getAll() const
+const ModelIndexInfoSet& Data::getAll() const
 {
     return m_itemData;
 }
