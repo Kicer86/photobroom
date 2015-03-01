@@ -158,7 +158,7 @@ namespace tree_utils
             recursive_iterator& operator++()
             {
                 iterator& c = current();
-                const auto& node = *c;
+                auto& node = *c;
 
                 if (node.has_children())                          //dive
                 {
@@ -257,11 +257,23 @@ namespace tree_utils
     };
 
 
-    //helper function
+    //helper functions
     template<typename T>
     recursive_iterator<T> make_recursive_iterator(const T& b, const T& e)
     {
         return recursive_iterator<T>(b, e);
+    }
+
+    template<typename T>
+    auto make_recursive_iterator(const tree<T>& t) -> decltype( make_recursive_iterator(t.begin(), t.end()) )
+    {
+        return make_recursive_iterator(t.begin(), t.end());
+    }
+
+    template<typename T>
+    auto make_recursive_iterator(tree<T>& t) -> decltype( make_recursive_iterator(t.begin(), t.end()) )
+    {
+        return make_recursive_iterator(t.begin(), t.end());
     }
 }
 
