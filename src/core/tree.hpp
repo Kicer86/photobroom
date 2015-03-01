@@ -120,18 +120,18 @@ class tree final
 
 namespace tree_utils
 {
-    template<typename NT, typename T>
+    template<typename iterator>
     class recursive_iterator final
     {
-            typedef typename tree<T>::iterator iterator;
-
         public:
+            typedef typename iterator::value_type RetType;
+
             recursive_iterator(const iterator& b, const iterator& e): m_iterators()
             {
                 m_iterators.push(std::make_pair(b, e));
             }
 
-            recursive_iterator(const recursive_iterator& other): m_iterators(other.iterators) { }
+            recursive_iterator(const recursive_iterator& other): m_iterators(other.m_iterators) { }
 
             ~recursive_iterator() {}
 
@@ -148,13 +148,21 @@ namespace tree_utils
                 return m_iterators == other.m_iterators;
             }
 
+            bool operator!=(const recursive_iterator& other) const
+            {
+                return m_iterators != other.m_iterators;
+            }
+
             recursive_iterator& operator++()
             {
                 iterator& c = current();
-                const nodes<T>& ch = c->children();
+                const auto& node = *c;
 
-                if (ch.empty() == false)                          //dive
-                    m_iterators.push(ch.begin(), ch.end());
+                if (node.has_children())                          //dive
+                {
+                    level_info level(node.begin(), node.end());
+                    m_iterators.push(level);
+                }
                 else
                 {                                                 //iterate
                     ++c;
@@ -180,22 +188,27 @@ namespace tree_utils
                 return it;
             }
 
-            T& operator*()
+            const RetType& operator*() const
+            {
+                return **current();
+            }
+
+            RetType& operator*()
+            {
+                return **current();
+            }
+
+            const RetType& operator&() const
             {
                 return *current();
             }
 
-            const T& operator&() const
+            const RetType* operator->() const
             {
                 return *current();
             }
 
-            T* operator->()
-            {
-                return *current();
-            }
-
-            const T* operator->() const
+            RetType* operator->()
             {
                 return *current();
             }
@@ -203,6 +216,16 @@ namespace tree_utils
         private:
             typedef std::pair<iterator, iterator> level_info;
             std::stack<level_info> m_iterators;
+
+            const iterator& current() const
+            {
+                return m_iterators.top().first;
+            }
+
+            const iterator& last() const
+            {
+                return m_iterators.top().second;
+            }
 
             iterator& current()
             {
