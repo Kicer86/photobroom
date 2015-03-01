@@ -131,6 +131,9 @@ TEST(treeTest, randomIteratorsGoThrouHierarchy)
     tr.insert(it->end(), 7);                        // (1 3(2(7) 4))
     tr.insert(it->end(), 8);                        // (1 3(2(7 8) 4))
 
+    std::vector<int> values;
+    for(tree_utils::recursive_iterator<tree<int>::const_iterator> r_it(tr.cbegin(), tr.cend()); r_it.valid(); ++r_it)
+        values.push_back(*r_it);
 
-    //for(tree_utils::recursive_iterator<int> it =
+    EXPECT_EQ( std::vector<int>({1, 3, 2, 7, 8, 4}), values);
 }

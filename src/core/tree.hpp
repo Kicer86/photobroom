@@ -20,6 +20,8 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 
+#include <cassert>
+
 #include "implementation/tree_private.hpp"
 
 template<typename T>
@@ -163,19 +165,8 @@ namespace tree_utils
                     level_info level(node.begin(), node.end());
                     m_iterators.push(level);
                 }
-                else
-                {                                                 //iterate
-                    ++c;
-
-                    if (c == last())                              //last one at current level? pop out an keep going
-                    {
-                        if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
-                        {
-                            m_iterators.pop();
-                            ++(*this);
-                        }
-                    }
-                }
+                else                                              //iterate
+                    increment_current();
 
                 return *this;
             }
@@ -213,6 +204,17 @@ namespace tree_utils
                 return *current();
             }
 
+            bool valid() const
+            {
+                bool status = true;
+
+                assert(m_iterators.empty() == false);
+                if (m_iterators.size() == 1)
+                    status = current() != last();
+
+                return status;
+            }
+
         private:
             typedef std::pair<iterator, iterator> level_info;
             std::stack<level_info> m_iterators;
@@ -235,6 +237,22 @@ namespace tree_utils
             iterator& last()
             {
                 return m_iterators.top().second;
+            }
+
+            void increment_current()
+            {
+                iterator& c = current();
+                ++c;
+
+                if (c == last())                              //last one at current level? pop out an keep going
+                {
+                    if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
+                    {
+                        m_iterators.pop();
+
+                        increment_current();
+                    }
+                }
             }
     };
 }
