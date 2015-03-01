@@ -255,6 +255,14 @@ namespace tree_utils
                 }
             }
     };
+
+
+    //helper function
+    template<typename T>
+    recursive_iterator<T> make_recursive_iterator(const T& b, const T& e)
+    {
+        return recursive_iterator<T>(b, e);
+    }
 }
 
 #endif // TREE_HPP
