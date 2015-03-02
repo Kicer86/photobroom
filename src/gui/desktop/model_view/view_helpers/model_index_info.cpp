@@ -155,13 +155,13 @@ void ModelIndexInfoSet::update(iterator& it, const ModelIndexInfo& info)
 
 bool ModelIndexInfoSet::empty() const
 {
-    return true;
+    return m_model.empty();
 }
 
 
 size_t ModelIndexInfoSet::size() const
 {
-    return 0;
+    return m_model.cend() - m_model.cbegin();
 }
 
 
