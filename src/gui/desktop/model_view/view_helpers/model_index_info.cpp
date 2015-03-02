@@ -147,7 +147,7 @@ void ModelIndexInfoSet::erase(const iterator& it)
 }
 
 
-void ModelIndexInfoSet::update(iterator& it, const ModelIndexInfo& info)
+void ModelIndexInfoSet::replace(iterator& it, const ModelIndexInfo& info)
 {    
     *it = info;
 }

@@ -233,7 +233,7 @@ void Data::update(const ModelIndexInfo& info)
     auto it = m_itemData.find(info.index);
 
     assert(it != m_itemData.end());
-    m_itemData.update(it, info);
+    m_itemData.replace(it, info);
 
     dump();
 }
