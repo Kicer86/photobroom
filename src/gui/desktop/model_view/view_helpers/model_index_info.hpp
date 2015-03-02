@@ -63,8 +63,7 @@ class ModelIndexInfoSet final
 
         void clear();
         void erase(const iterator &);
-        void insert(const ModelIndexInfo &);
-        void replace(const iterator &, const ModelIndexInfo &);
+        void update(iterator &, const ModelIndexInfo &);
 
         bool empty() const;
         size_t size() const;

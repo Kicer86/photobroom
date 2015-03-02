@@ -143,19 +143,13 @@ void ModelIndexInfoSet::clear()
 
 void ModelIndexInfoSet::erase(const iterator& it)
 {
-
+    m_model.erase(it);
 }
 
 
-void ModelIndexInfoSet::insert(const ModelIndexInfo&)
-{
-
-}
-
-
-void ModelIndexInfoSet::replace(const iterator&, const ModelIndexInfo&)
-{
-
+void ModelIndexInfoSet::update(iterator& it, const ModelIndexInfo& info)
+{    
+    *it = info;
 }
 
 

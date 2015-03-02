@@ -232,10 +232,8 @@ void Data::update(const ModelIndexInfo& info)
 {
     auto it = m_itemData.find(info.index);
 
-    if (it == m_itemData.end())
-        m_itemData.insert(info);
-    else
-        m_itemData.replace(it, info);
+    assert(it != m_itemData.end());
+    m_itemData.update(it, info);
 
     dump();
 }
