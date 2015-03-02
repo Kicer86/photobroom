@@ -258,6 +258,11 @@ namespace tree_utils
             {
                 return m_children.empty() == false;
             }
+            
+            size_t size() const
+            {
+                return m_children.size();
+            }
 
             const nodes<T>& children() const
             {
