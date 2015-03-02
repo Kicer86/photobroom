@@ -212,6 +212,16 @@ namespace tree_utils
             {
                 return *current();
             }
+            
+            operator iterator()
+            {
+                return current();
+            }
+            
+            operator iterator() const
+            {
+                return current();
+            }
 
             bool valid() const
             {
