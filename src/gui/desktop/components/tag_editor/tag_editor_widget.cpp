@@ -123,7 +123,7 @@ void TagEditorWidget::addButtonPressed()
 {
     const int idx = m_tagName->currentIndex();
 
-    assert(idx < m_tags.size());
+    assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
 
     const TagNameInfo& name = m_tags[idx];
     const QString value = m_tagValue->text();
