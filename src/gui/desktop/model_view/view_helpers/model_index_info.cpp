@@ -209,12 +209,15 @@ size_t ModelIndexInfoSet::size() const
 std::vector<size_t> ModelIndexInfoSet::generateHierarchy(const QModelIndex& index) const
 {
     std::vector<size_t> result;
+    
     if (index.isValid())
     {
         std::vector<size_t> parents = generateHierarchy(index.parent());
         result.insert(result.begin(), parents.cbegin(), parents.cend());
         result.push_back(index.row());
     }
+    else
+        result.push_back(0);             //top item
     
     return result;
 }
