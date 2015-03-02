@@ -71,6 +71,8 @@ class ModelIndexInfoSet final
 
     private:
         Model m_model;
+        
+        std::vector<size_t> generateHierarchy(const QModelIndex &) const;
 };
 
 #endif // MODELINDEXINFO_H

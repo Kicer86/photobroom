@@ -73,9 +73,22 @@ ModelIndexInfoSet::~ModelIndexInfoSet()
 
 }
 
-ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex&) const
+ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex& index) const
 {
-    return end();
+    std::vector<size_t> hierarchy = generateHierarchy(index);
+    
+    auto base_it = m_model.begin();
+    auto item_it = m_model.begin();
+    auto end_it  = m_model.end();
+    for(size_t i: hierarchy)
+    {      
+        assert(i < base_it->size());                         // make sure there is enought items at desired level
+
+        item_it = base_it + i;                               // find node with index 'i'        
+        base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
+    }
+    
+    return tree_utils::make_recursive_iterator(item_it, m_model.end());              // TODO: use last item at particular level instead of whole hierarchy
 }
 
 
@@ -91,9 +104,22 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::end() const
 }
 
 
-ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex&)
+ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
 {
-    return end();
+    std::vector<size_t> hierarchy = generateHierarchy(index);
+    
+    auto base_it = m_model.begin();
+    auto item_it = m_model.begin();
+    auto end_it  = m_model.end();
+    for(size_t i: hierarchy)
+    {      
+        assert(i < base_it->size());                         // make sure there is enought items at desired level
+
+        item_it = base_it + i;                               // find node with index 'i'        
+        base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
+    }
+    
+    return tree_utils::make_recursive_iterator(item_it, m_model.end());              // TODO: use last item at particular level instead of whole hierarchy
 }
 
 
@@ -115,7 +141,7 @@ void ModelIndexInfoSet::clear()
 }
 
 
-void ModelIndexInfoSet::erase(const iterator&)
+void ModelIndexInfoSet::erase(const iterator& it)
 {
 
 }
@@ -142,4 +168,18 @@ bool ModelIndexInfoSet::empty() const
 size_t ModelIndexInfoSet::size() const
 {
     return 0;
+}
+
+
+std::vector<size_t> ModelIndexInfoSet::generateHierarchy(const QModelIndex& index) const
+{
+    std::vector<size_t> result;
+    if (index.isValid())
+    {
+        std::vector<size_t> parents = generateHierarchy(index.parent());
+        result.insert(result.begin(), parents.cbegin(), parents.cend());
+        result.push_back(index.row());
+    }
+    
+    return result;
 }
