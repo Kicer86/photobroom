@@ -59,8 +59,10 @@ class Data
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
 
-        Data(): m_configuration(nullptr), m_itemData(), m_invalid() {}
+        Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_invalid() {}
         Data(const Data &) = delete;
+        
+        ~Data();
         Data& operator=(const Data &) = delete;
 
         ModelIndexInfo get(const QModelIndex &) const;
@@ -81,7 +83,7 @@ class Data
         const ModelIndexInfoSet& getAll() const;
 
     private:
-        ModelIndexInfoSet m_itemData;
+        std::unique_ptr<ModelIndexInfoSet> m_itemData;
         ModelIndexInfo m_invalid;
 
         std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);

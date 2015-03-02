@@ -47,10 +47,20 @@ std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
 //////////////////////////////////////////////////////////////////////////////////////
 
 
+Data::~Data()
+{
+
+}
+
+
 ModelIndexInfo Data::get(const QModelIndex& index) const
 {
-    const auto it = m_itemData.find(index);
-    const ModelIndexInfo info = it != m_itemData.end()? *it: ModelIndexInfo(index);
+    auto it = m_itemData->find(index);
+           
+    if (it == m_itemData->end())
+        it = m_itemData->insert(index, ModelIndexInfo(index));
+    
+    const ModelIndexInfo info = *it;
 
     return info;
 }
@@ -59,10 +69,10 @@ ModelIndexInfo Data::get(const QModelIndex& index) const
 void Data::forget(const QModelIndex& index)
 {
     assert(index.isValid());                         // we cannot forget root node
-    auto it = m_itemData.find(index);
+    auto it = m_itemData->find(index);
 
-    if (it != m_itemData.end())
-        m_itemData.erase(it);
+    if (it != m_itemData->end())
+        m_itemData->erase(it);
 }
 
 
@@ -137,8 +147,8 @@ QPixmap Data::getImage(const QModelIndex& index) const
 
 void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 {
-    ModelIndexInfoSet::const_iterator it = m_itemData.begin();
-    auto it_end = m_itemData.end();
+    ModelIndexInfoSet::const_iterator it = m_itemData->cbegin();
+    auto it_end = m_itemData->cend();
 
     ModelIndexInfo result( (QModelIndex()) );
 
@@ -230,10 +240,10 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 
 void Data::update(const ModelIndexInfo& info)
 {
-    auto it = m_itemData.find(info.index);
+    auto it = m_itemData->find(info.index);
 
-    assert(it != m_itemData.end());
-    m_itemData.replace(it, info);
+    assert(it != m_itemData->end());
+    m_itemData->replace(it, info);
 
     dump();
 }
@@ -241,13 +251,13 @@ void Data::update(const ModelIndexInfo& info)
 
 void Data::clear()
 {
-    m_itemData.clear();
+    m_itemData->clear();
 }
 
 
 const ModelIndexInfoSet& Data::getAll() const
 {
-    return m_itemData;
+    return *m_itemData;
 }
 
 
