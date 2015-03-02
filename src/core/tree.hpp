@@ -148,7 +148,7 @@ namespace tree_utils
 
             recursive_iterator& operator=(const recursive_iterator& other)
             {
-                if (this != &other)
+                if (*this != other)
                     m_iterators = other.m_iterators;
 
                 return *this;
