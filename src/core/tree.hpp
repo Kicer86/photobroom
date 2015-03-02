@@ -107,6 +107,15 @@ class tree final
 
             return iterator(l, r);
         }
+        
+        iterator erase(iterator pos)
+        {
+            auto l = pos.get_nodes_list();          //get proper sublist from iterator
+            auto& it = pos.get_node();              //get position in list            
+            auto r = l->erase(it);
+
+            return iterator(l, r);
+        }
 
     private:
         tree_utils::node<T> m_root;
