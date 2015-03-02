@@ -57,6 +57,8 @@ class ModelIndexInfoSet final
         const_iterator find(const QModelIndex &) const;
         const_iterator begin() const;
         const_iterator end() const;
+        const_iterator cbegin() const;
+        const_iterator cend() const;
         iterator find(const QModelIndex &);
         iterator begin();
         iterator end();
@@ -64,6 +66,7 @@ class ModelIndexInfoSet final
         void clear();
         void erase(const iterator &);
         void replace(iterator &, const ModelIndexInfo &);
+        iterator insert(const QModelIndex &, const ModelIndexInfo &);
 
         bool empty() const;
         size_t size() const;

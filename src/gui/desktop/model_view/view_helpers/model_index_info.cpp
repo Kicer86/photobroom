@@ -104,13 +104,24 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::end() const
 }
 
 
+ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cbegin() const
+{
+    return begin();
+}
+
+
+ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cend() const
+{
+    return end();
+}
+
+
 ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
 {
     std::vector<size_t> hierarchy = generateHierarchy(index);
     
     auto base_it = m_model.begin();
     auto item_it = m_model.begin();
-    auto end_it  = m_model.end();
     for(size_t i: hierarchy)
     {      
         assert(i < base_it->size());                         // make sure there is enought items at desired level
@@ -150,6 +161,36 @@ void ModelIndexInfoSet::erase(const iterator& it)
 void ModelIndexInfoSet::replace(iterator& it, const ModelIndexInfo& info)
 {    
     *it = info;
+}
+
+
+ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, const ModelIndexInfo& info)
+{
+    auto it = find(index);
+    
+    if (it == end())
+    {
+        std::vector<size_t> hierarchy = generateHierarchy(index);
+        
+        //TODO: function extraction
+        auto base_it = m_model.begin();
+        auto item_it = m_model.begin();
+        for(size_t i: hierarchy)
+        {      
+            assert(i < base_it->size());                         // make sure there is enought items at desired level
+
+            item_it = base_it + i;                               // find node with index 'i'        
+            base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
+        }
+        
+        auto r_it = tree_utils::make_recursive_iterator(item_it, m_model.end());
+        replace(r_it, info);
+        it = r_it;
+    }
+    else
+        replace(it, info);    
+    
+    return it;
 }
 
 
