@@ -33,11 +33,11 @@ class tree final
 
         typedef tree_utils::node<T> node;
 
-        tree(): m_root(T())
+        tree(): m_roots()
         {
         }
 
-        tree(const tree& other): m_root(other.m_root)
+        tree(const tree& other): m_roots(other.m_root)
         {
         }
 
@@ -48,54 +48,54 @@ class tree final
         tree& operator=(const tree& other)
         {
             if (this != &other)
-                m_root = other.m_root;
+                m_roots = other.m_roots;
 
             return *this;
         }
 
         bool operator==(const tree& other) const
         {
-            return m_root == other.m_root;
+            return m_roots == other.m_roots;
         }
 
         iterator begin()
         {
-            return m_root.begin();
+            return iterator(&m_roots, m_roots.begin());
         }
 
         iterator end()
         {
-            return m_root.end();
+            return iterator(&m_roots, m_roots.end());
         }
 
         const_iterator begin() const
         {
-            return m_root.begin();
+            return const_iterator(&m_roots, m_roots.begin());
         }
 
         const_iterator end() const
         {
-            return m_root.end();
+            return const_iterator(&m_roots, m_roots.end());
         }
 
         const_iterator cbegin() const
         {
-            return m_root.cbegin();
+            return const_iterator(&m_roots, m_roots.cbegin());
         }
 
         const_iterator cend() const
         {
-            return m_root.cend();
+            return const_iterator(&m_roots, m_roots.cend());
         }
 
         bool empty() const
         {
-            return m_root.has_children() == false;
+            return m_roots.empty();
         }
 
         void clear()
         {
-            m_root.clear();
+            m_roots.clear();
         }
 
         iterator insert(iterator pos, const T& value)
@@ -118,11 +118,11 @@ class tree final
         }
 
     private:
-        tree_utils::node<T> m_root;
+        tree_utils::nodes<T> m_roots;
 
         friend std::ostream& operator<<(std::ostream& st, const tree& tr)
         {
-            st << tr.m_root.children();
+            st << tr.m_roots;
 
             return st;
         }
