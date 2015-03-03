@@ -259,7 +259,7 @@ namespace tree_utils
                 return m_children.empty() == false;
             }
             
-            size_t size() const
+            size_t children_count() const
             {
                 return m_children.size();
             }

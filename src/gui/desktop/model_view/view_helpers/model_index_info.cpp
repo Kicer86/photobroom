@@ -82,7 +82,7 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex& ind
     auto end_it  = m_model.end();
     for(size_t i: hierarchy)
     {      
-        assert(i < base_it->size());                         // make sure there is enought items at desired level
+        assert(i < base_it->children_count());               // make sure there is enought items at desired level
 
         item_it = base_it + i;                               // find node with index 'i'        
         base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
@@ -124,7 +124,7 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
     auto item_it = m_model.begin();
     for(size_t i: hierarchy)
     {      
-        assert(i < base_it->size());                         // make sure there is enought items at desired level
+        assert(i < base_it->children_count());               // make sure there is enought items at desired level
 
         item_it = base_it + i;                               // find node with index 'i'        
         base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
@@ -177,7 +177,7 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
         auto item_it = m_model.begin();
         for(size_t i: hierarchy)
         {      
-            assert(i < base_it->size());                         // make sure there is enought items at desired level
+            assert(i < base_it->children_count());               // make sure there is enought items at desired level
 
             item_it = base_it + i;                               // find node with index 'i'        
             base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
