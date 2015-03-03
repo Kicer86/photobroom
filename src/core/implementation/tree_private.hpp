@@ -53,7 +53,7 @@ namespace tree_private
     {
         typedef tree_utils::nodes<T> nodes_list;
         typedef typename tree_utils::nodes<T>::iterator node_iterator;
-        typedef tree_utils::node<T> node_value;
+        typedef tree_utils::node<T> node_type;
         typedef T value_type;
     };
 
@@ -62,7 +62,7 @@ namespace tree_private
     {
         typedef const tree_utils::nodes<T> nodes_list;
         typedef typename tree_utils::nodes<T>::const_iterator node_iterator;
-        typedef const tree_utils::node<T> node_value;
+        typedef const tree_utils::node<T> node_type;
         typedef const T value_type;
     };
 
@@ -73,7 +73,7 @@ namespace tree_private
         public:
             typedef typename iterator_traits<T, iteratorType>::nodes_list nodes_list;
             typedef typename iterator_traits<T, iteratorType>::node_iterator node_iterator;
-            typedef typename iterator_traits<T, iteratorType>::node_value node_value;
+            typedef typename iterator_traits<T, iteratorType>::node_type node_value;
             typedef typename iterator_traits<T, iteratorType>::value_type value_type;
 
             iterator(): m_nodes(nullptr), m_node() {}
