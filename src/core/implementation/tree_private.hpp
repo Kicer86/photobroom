@@ -224,6 +224,11 @@ namespace tree_utils
                 return *this;
             }
 
+            node& operator=(const T& v)
+            {
+                m_item = v;
+            }
+
             bool operator==(const node& other) const
             {
                 return m_item == other.m_item && m_children == other.m_children;
@@ -235,6 +240,16 @@ namespace tree_utils
             }
 
             T& operator*()
+            {
+                return m_item;
+            }
+
+            operator T&()
+            {
+                return m_item;
+            }
+
+            operator const T&() const
             {
                 return m_item;
             }
