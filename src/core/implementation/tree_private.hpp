@@ -120,6 +120,21 @@ namespace tree_private
                 return it;
             }
 
+            iterator& operator--()
+            {
+                --m_node;
+
+                return *this;
+            }
+
+            iterator operator-(int)
+            {
+                iterator it = *this;
+                --(*this);
+
+                return it;
+            }
+
             int operator-(const iterator& it) const
             {
                 return m_node - it.m_node;
