@@ -73,7 +73,7 @@ namespace tree_private
         public:
             typedef typename iterator_traits<T, iteratorType>::nodes_list nodes_list;
             typedef typename iterator_traits<T, iteratorType>::node_iterator node_iterator;
-            typedef typename iterator_traits<T, iteratorType>::node_type node_value;
+            typedef typename iterator_traits<T, iteratorType>::node_type node_type;
             typedef typename iterator_traits<T, iteratorType>::value_type value_type;
 
             iterator(): m_nodes(nullptr), m_node() {}
@@ -139,22 +139,22 @@ namespace tree_private
                 return r;
             }
 
-            const node_value& operator*() const
+            const node_type& operator*() const
             {
                 return *m_node;
             }
 
-            node_value& operator*()
+            node_type& operator*()
             {
                 return *m_node;
             }
 
-            const node_value* operator->() const
+            const node_type* operator->() const
             {
                 return &(*m_node);
             }
 
-            node_value* operator->()
+            node_type* operator->()
             {
                 return &(*m_node);
             }
