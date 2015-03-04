@@ -78,7 +78,7 @@ namespace tree_private
 
             iterator(): m_nodes(nullptr), m_node() {}
 
-            iterator(const iterator& other): m_nodes(nullptr), m_node(other.m_node) { }
+            iterator(const iterator& other): m_nodes(other.m_nodes), m_node(other.m_node) { }
 
             ~iterator() {}
 
