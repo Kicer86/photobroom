@@ -28,8 +28,10 @@ template<typename T>
 class tree final
 {
     public:
-        typedef typename tree_utils::node<T>::iterator iterator;
-        typedef typename tree_utils::node<T>::const_iterator const_iterator;
+        typedef typename tree_utils::node<T>::iterator node_iterator;
+        typedef typename tree_utils::node<T>::const_iterator const_node_iterator;
+        typedef typename tree_private::recursive_iterator<node_iterator> iterator;
+        typedef typename tree_private::recursive_iterator<const_node_iterator> const_iterator;
 
         typedef tree_utils::node<T> node;
 
@@ -58,35 +60,73 @@ class tree final
             return m_roots == other.m_roots;
         }
 
+        //recursive iterator
         iterator begin()
         {
-            return iterator(&m_roots, m_roots.begin());
+            node_iterator ni(&m_roots, m_roots.begin());
+            return iterator(ni);
         }
 
         iterator end()
         {
-            return iterator(&m_roots, m_roots.end());
+            node_iterator ni(&m_roots, m_roots.end());
+            return iterator(ni);
         }
 
         const_iterator begin() const
         {
-            return const_iterator(&m_roots, m_roots.begin());
+            const_node_iterator ni(&m_roots, m_roots.begin());
+            return const_iterator(ni);
         }
 
         const_iterator end() const
         {
-            return const_iterator(&m_roots, m_roots.end());
+            const_node_iterator ni(&m_roots, m_roots.end());
+            return const_iterator(ni);
         }
 
         const_iterator cbegin() const
         {
-            return const_iterator(&m_roots, m_roots.cbegin());
+            return begin();
         }
 
         const_iterator cend() const
         {
-            return const_iterator(&m_roots, m_roots.cend());
+            return end();
         }
+
+        //node iterator
+        node_iterator top_begin()
+        {
+            return node_iterator(&m_roots, m_roots.begin());
+        }
+
+        node_iterator top_end()
+        {
+            return node_iterator(&m_roots, m_roots.end());
+        }
+
+        const_node_iterator top_begin() const
+        {
+            return const_node_iterator(&m_roots, m_roots.begin());
+        }
+
+        const_node_iterator top_end() const
+        {
+            return const_node_iterator(&m_roots, m_roots.end());
+        }
+
+        const_node_iterator top_cbegin() const
+        {
+            return top_begin();
+        }
+
+        const_node_iterator top_cend() const
+        {
+            return top_end();
+        }
+
+        //
 
         bool empty() const
         {
@@ -98,23 +138,23 @@ class tree final
             m_roots.clear();
         }
 
-        iterator insert(iterator pos, const T& value)
+        node_iterator insert(node_iterator pos, const T& value)
         {
             tree_utils::node<T> v(value);           //prepare value
             auto l = pos.get_nodes_list();          //get proper sublist from iterator
             auto& it = pos.get_node();              //get position in list
             auto r = l->insert(it, v);
 
-            return iterator(l, r);
+            return node_iterator(l, r);
         }
         
-        iterator erase(iterator pos)
+        node_iterator erase(node_iterator pos)
         {
             auto l = pos.get_nodes_list();          //get proper sublist from iterator
-            auto& it = pos.get_node();              //get position in list            
+            auto& it = pos.get_node();              //get position in list
             auto r = l->erase(it);
 
-            return iterator(l, r);
+            return node_iterator(l, r);
         }
 
     private:
@@ -128,172 +168,5 @@ class tree final
         }
 };
 
-
-namespace tree_utils
-{
-    template<typename iterator>
-    class recursive_iterator final
-    {
-        public:
-            typedef typename iterator::value_type RetType;
-
-            recursive_iterator(const iterator& b, const iterator& e): m_iterators()
-            {
-                m_iterators.push(std::make_pair(b, e));
-            }
-
-            recursive_iterator(const recursive_iterator& other): m_iterators(other.m_iterators) { }
-
-            ~recursive_iterator() {}
-
-            recursive_iterator& operator=(const recursive_iterator& other)
-            {
-                if (*this != other)
-                    m_iterators = other.m_iterators;
-
-                return *this;
-            }
-
-            bool operator==(const recursive_iterator& other) const
-            {
-                return m_iterators == other.m_iterators;
-            }
-
-            bool operator!=(const recursive_iterator& other) const
-            {
-                return m_iterators != other.m_iterators;
-            }
-
-            recursive_iterator& operator++()
-            {
-                iterator& c = current();
-                auto& node = *c;
-
-                if (node.has_children())                          //dive
-                {
-                    level_info level(node.begin(), node.end());
-                    m_iterators.push(level);
-                }
-                else                                              //iterate
-                    increment_current();
-
-                return *this;
-            }
-
-            recursive_iterator operator++(int)
-            {
-                iterator it = *this;
-                ++(*this);
-
-                return it;
-            }
-
-            const RetType& operator*() const
-            {
-                return **current();
-            }
-
-            RetType& operator*()
-            {
-                return **current();
-            }
-
-            const RetType& operator&() const
-            {
-                return *current();
-            }
-
-            const RetType* operator->() const
-            {
-                return *current();
-            }
-
-            RetType* operator->()
-            {
-                return *current();
-            }
-            
-            operator iterator()
-            {
-                return current();
-            }
-            
-            operator iterator() const
-            {
-                return current();
-            }
-
-            bool valid() const
-            {
-                bool status = true;
-
-                assert(m_iterators.empty() == false);
-                if (m_iterators.size() == 1)
-                    status = current() != last();
-
-                return status;
-            }
-
-        private:
-            typedef std::pair<iterator, iterator> level_info;
-            std::stack<level_info> m_iterators;
-
-            const iterator& current() const
-            {
-                return m_iterators.top().first;
-            }
-
-            const iterator& last() const
-            {
-                return m_iterators.top().second;
-            }
-
-            iterator& current()
-            {
-                return m_iterators.top().first;
-            }
-
-            iterator& last()
-            {
-                return m_iterators.top().second;
-            }
-
-            void increment_current()
-            {
-                iterator& c = current();
-                ++c;
-
-                if (c == last())                              //last one at current level? pop out an keep going
-                {
-                    if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
-                    {
-                        m_iterators.pop();
-
-                        increment_current();
-                    }
-                }
-            }
-    };
-
-
-    //helper functions
-    template<typename T>
-    recursive_iterator<T> make_recursive_iterator(const T& b, const T& e)
-    {
-        return recursive_iterator<T>(b, e);
-    }
-
-    template<typename T>
-    auto make_recursive_iterator(const tree<T>& t) -> decltype( make_recursive_iterator(t.begin(), t.end()) )
-    {
-        return make_recursive_iterator(t.begin(), t.end());
-    }
-
-    template<typename T>
-    auto make_recursive_iterator(tree<T>& t) -> decltype( make_recursive_iterator(t.begin(), t.end()) )
-    {
-        return make_recursive_iterator(t.begin(), t.end());
-    }
-}
 
 #endif // TREE_HPP

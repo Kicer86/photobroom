@@ -75,6 +75,7 @@ ModelIndexInfoSet::~ModelIndexInfoSet()
 
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex& index) const
 {
+    /*
     std::vector<size_t> hierarchy = generateHierarchy(index);
     
     auto base_it = m_model.begin();
@@ -89,35 +90,37 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex& ind
     }
     
     return tree_utils::make_recursive_iterator(item_it, m_model.end());              // TODO: use last item at particular level instead of whole hierarchy
+    */
 }
 
 
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::begin() const
 {
-    return tree_utils::make_recursive_iterator(m_model);
+    return m_model.begin();
 }
 
 
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::end() const
 {
-    return tree_utils::make_recursive_iterator(m_model.cend(), m_model.cend());
+    return m_model.end();
 }
 
 
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cbegin() const
 {
-    return begin();
+    return m_model.cbegin();
 }
 
 
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cend() const
 {
-    return end();
+    return m_model.cend();
 }
 
 
 ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
 {
+    /*
     std::vector<size_t> hierarchy = generateHierarchy(index);
     
     auto base_it = m_model.begin();
@@ -131,18 +134,19 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
     }
     
     return tree_utils::make_recursive_iterator(item_it, m_model.end());              // TODO: use last item at particular level instead of whole hierarchy
+    */
 }
 
 
 ModelIndexInfoSet::iterator ModelIndexInfoSet::begin()
 {
-    return tree_utils::make_recursive_iterator(m_model);
+    return m_model.begin();
 }
 
 
 ModelIndexInfoSet::iterator ModelIndexInfoSet::end()
 {
-    return tree_utils::make_recursive_iterator(m_model.end(), m_model.end());
+    return m_model.end();
 }
 
 
@@ -166,6 +170,7 @@ void ModelIndexInfoSet::replace(iterator& it, const ModelIndexInfo& info)
 
 ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, const ModelIndexInfo& info)
 {
+    /*
     auto it = find(index);
     
     if (it == end())
@@ -191,6 +196,7 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
         replace(it, info);    
     
     return it;
+    */
 }
 
 

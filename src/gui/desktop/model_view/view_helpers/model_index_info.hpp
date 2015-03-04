@@ -48,8 +48,8 @@ class ModelIndexInfoSet final
 {
     public:
         typedef tree<ModelIndexInfo> Model;
-        typedef tree_utils::recursive_iterator<Model::const_iterator> const_iterator;
-        typedef tree_utils::recursive_iterator<Model::iterator>       iterator;
+        typedef Model::const_iterator const_iterator;
+        typedef Model::iterator       iterator;
 
         ModelIndexInfoSet();
         ~ModelIndexInfoSet();

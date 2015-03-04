@@ -62,8 +62,8 @@ TEST(treeTest, acceptsRootLevelInsertsAtRandomLocations)
 
     tr.insert(tr.end(), 1);               // (1)
     tr.insert(tr.end(), 3);               // (1 3)
-    tr.insert(tr.begin() + 1, 2);         // (1 2 3)
-    tr.insert(tr.begin() + 2, 8);         // (1 2 8 3)
+    tr.insert(tr.top_begin() + 1, 2);     // (1 2 3)
+    tr.insert(tr.top_begin() + 2, 8);     // (1 2 8 3)
 
     EXPECT_EQ(4, tr.end() - tr.begin());
     EXPECT_EQ("(1 2 8 3)", dump<int>(tr));
@@ -132,8 +132,8 @@ TEST(treeTest, randomIteratorsGoThrouHierarchy)
     tr.insert(it->end(), 8);                        // (1 3(2(7 8) 4))
 
     std::vector<int> values;
-    for(auto r_it = tree_utils::make_recursive_iterator(tr); r_it.valid(); ++r_it)
-        values.push_back(*r_it);
+    for(int v: tr)
+        values.push_back(v);
 
     EXPECT_EQ( std::vector<int>({1, 3, 2, 7, 8, 4}), values);
 }
