@@ -129,12 +129,11 @@ namespace tree_private
                 return *this;
             }
 
-            iterator operator-(int)
+            iterator operator-(int v)
             {
-                iterator it = *this;
-                --(*this);
+                iterator r(m_nodes, m_node - v);
 
-                return it;
+                return r;
             }
 
             int operator-(const iterator& it) const
@@ -254,13 +253,25 @@ namespace tree_private
 
             recursive_iterator& operator--()
             {
-                decrement_current();
+                //step back
 
+                //first one? go up
                 iterator& c = current();
-                auto& node = *c;
+                if (c == first())                             //first one at current level? pop out an keep going
+                {
+                    if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
+                        m_iterators.pop();
+                }
+                else
+                {
+                    --c;
 
-                if (node.has_children())                          //dive
-                    m_iterators.push(node.end());
+                    //subnodes?
+                    auto& node = *c;
+
+                    if (node.has_children())                      // dive
+                        m_iterators.push(node.end() - 1);         // ommit end(), go directly to last element
+                }
 
                 return *this;
             }
@@ -370,23 +381,6 @@ namespace tree_private
                         increment_current();
                     }
                 }
-            }
-
-            void decrement_current()
-            {
-                iterator& c = current();
-
-                if (c == first())                             //first one at current level? pop out an keep going
-                {
-                    if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
-                    {
-                        m_iterators.pop();
-
-                        decrement_current();
-                    }
-                }
-
-                --c;
             }
     };
 
