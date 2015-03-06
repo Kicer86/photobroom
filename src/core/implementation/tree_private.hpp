@@ -266,11 +266,19 @@ namespace tree_private
                 {
                     --c;
 
-                    //subnodes?
-                    auto& node = *c;
+                    //go as deep as possible
+                    bool dive = true;
+                    do
+                    {
+                        iterator& cur = current();
+                        //subnodes?
+                        auto& node = *cur;
 
-                    if (node.has_children())                      // dive
-                        m_iterators.push(node.end() - 1);         // ommit end(), go directly to last element
+                        dive = node.has_children();
+                        if (dive)                                     // dive
+                            m_iterators.push(node.end() - 1);         // ommit end(), go directly to last element
+                    }
+                    while(dive);
                 }
 
                 return *this;
