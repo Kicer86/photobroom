@@ -238,7 +238,23 @@ namespace tree_private
                 if (node.has_children())                          //dive
                     m_iterators.push(node.begin());
                 else                                              //iterate
-                    increment_current();
+                {
+                    bool jumpout = true;
+
+                    do
+                    {
+                        iterator& cur = current();
+                        ++cur;
+
+                        //last one at current level? pop out an keep going
+                        //anything to pop? (don't pop out from last)
+                        jumpout = cur == last() && m_iterators.size() > 1;
+
+                        if (jumpout)
+                            m_iterators.pop();
+                    }
+                    while(jumpout);
+                }
 
                 return *this;
             }
@@ -275,6 +291,7 @@ namespace tree_private
                         auto& node = *cur;
 
                         dive = node.has_children();
+
                         if (dive)                                     // dive
                             m_iterators.push(node.end() - 1);         // ommit end(), go directly to last element
                     }
@@ -373,22 +390,6 @@ namespace tree_private
             iterator& current()
             {
                 return m_iterators.top();
-            }
-
-            void increment_current()
-            {
-                iterator& c = current();
-                ++c;
-
-                if (c == last())                              //last one at current level? pop out an keep going
-                {
-                    if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
-                    {
-                        m_iterators.pop();
-
-                        increment_current();
-                    }
-                }
             }
     };
 
