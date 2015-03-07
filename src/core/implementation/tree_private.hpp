@@ -45,7 +45,7 @@ namespace tree_private
         NonConst,
     };
 
-    template<typename Iterator> class recursive_iterator;
+    template<typename Iterator> class iterator_base;
 
     template<typename T, IteratorType>
     struct iterator_traits;
@@ -178,7 +178,7 @@ namespace tree_private
         private:
             friend class tree_utils::node<T>;
             friend class tree<T>;
-            template<typename Iterator> friend class recursive_iterator;
+            template<typename Iterator> friend class iterator_base;
 
             nodes_list* m_nodes;
             node_iterator m_node;
@@ -195,7 +195,7 @@ namespace tree_private
                 return m_node;
             }
     };
-    
+
 }
 
 

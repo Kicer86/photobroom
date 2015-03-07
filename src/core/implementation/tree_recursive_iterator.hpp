@@ -22,7 +22,7 @@
 
 #include <stack>
 
-#include <OpenLibrary/utils/data_ptr.hpp>
+#include "tree_iterator_base.hpp"
 
 template<typename T> class tree;
 
@@ -31,57 +31,46 @@ namespace tree_private
 {
 
     template<typename iterator>
-    class recursive_iterator final
+    class recursive_iterator final: public iterator_base<iterator>
     {
-        public:
-            typedef typename iterator::node_type RetType;
+            typedef iterator_base<iterator> base;
 
-            recursive_iterator(const iterator& b): m_iterators()
+        public:
+            recursive_iterator(const iterator& b): base(b)
             {
-                m_iterators.push(b);
             }
 
-            recursive_iterator(const recursive_iterator& other): m_iterators(other.m_iterators) { }
+            recursive_iterator(const recursive_iterator& other): base(other) { }
 
             ~recursive_iterator() {}
 
             recursive_iterator& operator=(const recursive_iterator& other)
             {
-                if (*this != other)
-                    m_iterators = other.m_iterators;
+                base::operator=(other);
 
                 return *this;
             }
 
-            bool operator==(const recursive_iterator& other) const
-            {
-                return m_iterators == other.m_iterators;
-            }
-
-            bool operator!=(const recursive_iterator& other) const
-            {
-                return m_iterators != other.m_iterators;
-            }
-
             recursive_iterator& operator++()
             {
-                iterator& c = current();
+                iterator& c = base::current();
                 auto& node = *c;
 
                 if (node.has_children())                          //dive
-                    m_iterators.push(node.begin());
+                    base::m_iterators.push(node.begin());
                 else                                              //iterate
                 {
                     bool do_jumpout = true;
 
                     do
                     {
-                        iterator& cur = current();
+                        iterator& cur = base::current();
                         ++cur;
 
                         //last one at current level? pop out an keep going
                         //anything to pop? (don't pop out from last)
-                        do_jumpout = cur == last() && m_iterators.size() > 1;
+                        do_jumpout = cur == base::last() &&
+                                     base::m_iterators.size() > 1;
 
                         if (do_jumpout)
                             jumpout();
@@ -105,10 +94,10 @@ namespace tree_private
                 //step back
 
                 //first one? go up
-                iterator& c = current();
-                if (c == first())                             //first one at current level? pop out an keep going
+                iterator& c = base::current();
+                if (c == base::first())                 //first one at current level? pop out an keep going
                 {
-                    if (m_iterators.size() > 1)               //anything to pop? (don't pop out from last)
+                    if (base::m_iterators.size() > 1)   //anything to pop? (don't pop out from last)
                         jumpout();
                 }
                 else
@@ -119,14 +108,14 @@ namespace tree_private
                     bool dive = true;
                     do
                     {
-                        iterator& cur = current();
+                        iterator& cur = base::current();
                         //subnodes?
                         auto& node = *cur;
 
                         dive = node.has_children();
 
                         if (dive)                                     // dive
-                            m_iterators.push(node.end() - 1);         // ommit end(), go directly to last element
+                            base::m_iterators.push(node.end() - 1);   // ommit end(), go directly to last element
                     }
                     while(dive);
                 }
@@ -142,41 +131,6 @@ namespace tree_private
                 return it;
             }
 
-            const RetType& operator*() const
-            {
-                return *current();
-            }
-
-            RetType& operator*()
-            {
-                return *current();
-            }
-
-            const RetType& operator&() const
-            {
-                return *current();
-            }
-
-            const RetType* operator->() const
-            {
-                return &(*current());
-            }
-
-            RetType* operator->()
-            {
-                return &(*current());
-            }
-
-            operator iterator()
-            {
-                return current();
-            }
-
-            operator iterator() const
-            {
-                return current();
-            }
-
             size_t operator-(const recursive_iterator<iterator>& other) const
             {
                 size_t r = 0;
@@ -190,20 +144,20 @@ namespace tree_private
             {
                 bool status = true;
 
-                assert(m_iterators.empty() == false);
-                if (m_iterators.size() == 1)
-                    status = current() != last();
+                assert(base::m_iterators.empty() == false);
+                if (base::m_iterators.size() == 1)
+                    status = base::current() != base::last();
 
                 return status;
             }
 
             recursive_iterator parent() const
             {
-                assert(m_iterators.empty() == false);
+                assert(base::m_iterators.empty() == false);
 
-                recursive_iterator result = last();
+                recursive_iterator result = base::last();
 
-                if (m_iterators.size() > 1)
+                if (base::m_iterators.size() > 1)
                 {
                     result = *this;
                     result.jumpout();
@@ -213,38 +167,11 @@ namespace tree_private
             }
 
         private:
-            template<typename T> friend class tree;
-            std::stack<iterator> m_iterators;
-
-            iterator first() const
-            {
-                auto ns = current().get_nodes_list();
-                iterator result(ns, ns->begin());
-                return result;
-            }
-
-            const iterator& current() const
-            {
-                return m_iterators.top();
-            }
-
-            iterator last() const
-            {
-                auto ns = current().get_nodes_list();
-                iterator result(ns, ns->end());
-                return result;
-            }
-
-            iterator& current()
-            {
-                return m_iterators.top();
-            }
-
             void jumpout()
             {
-                assert(m_iterators.size() > 1);
+                assert(base::m_iterators.size() > 1);
 
-                m_iterators.pop();
+                base::m_iterators.pop();
             }
     };
 
