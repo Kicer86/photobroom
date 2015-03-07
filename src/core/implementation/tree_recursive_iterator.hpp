@@ -20,7 +20,7 @@
 #ifndef TREE_RECURSIVE_ITERATOR_HPP
 #define TREE_RECURSIVE_ITERATOR_HPP
 
-#include <stack>
+#include <cassert>
 
 #include "tree_iterator_base.hpp"
 
@@ -138,17 +138,6 @@ namespace tree_private
                     r++;
 
                 return r;
-            }
-
-            bool valid() const
-            {
-                bool status = true;
-
-                assert(base::m_iterators.empty() == false);
-                if (base::m_iterators.size() == 1)
-                    status = base::current() != base::last();
-
-                return status;
             }
 
             recursive_iterator parent() const
