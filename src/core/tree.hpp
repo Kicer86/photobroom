@@ -112,7 +112,7 @@ class tree final
 
         iterator insert(iterator pos, const T& value)
         {
-            tree_utils::node<T> v(value);           //prepare value
+            tree_utils::node<T> v(value);                     //prepare value
             auto l = pos.current().get_nodes_list();          //get proper sublist from iterator
             auto& it = pos.current().get_node();              //get position in list
             auto r = l->insert(it, v);
