@@ -237,6 +237,8 @@ namespace tree_utils
             node& operator=(const T& v)
             {
                 m_item = v;
+
+                return *this;
             }
 
             bool operator==(const node& other) const
