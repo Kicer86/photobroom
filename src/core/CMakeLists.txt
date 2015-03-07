@@ -57,6 +57,7 @@ set(CORE_HEADERS
     time_guardian.hpp
     implementation/atagfeeder.hpp
     implementation/tree_private.hpp
+    implementation/tree_recursive_iterator.hpp
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)

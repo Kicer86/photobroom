@@ -23,6 +23,7 @@
 #include <cassert>
 
 #include "implementation/tree_private.hpp"
+#include "implementation/tree_recursive_iterator.hpp"
 
 template<typename T>
 class tree final
