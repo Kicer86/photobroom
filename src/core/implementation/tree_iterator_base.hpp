@@ -99,6 +99,7 @@ namespace tree_private
             }
 
         protected:
+            template<typename T> friend class tree;
             std::stack<iterator> m_iterators;
 
             iterator first() const

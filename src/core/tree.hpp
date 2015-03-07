@@ -24,15 +24,19 @@
 
 #include "implementation/tree_private.hpp"
 #include "implementation/tree_recursive_iterator.hpp"
+#include "implementation/tree_flat_iterator.hpp"
 
 template<typename T>
 class tree final
 {
-    public:
         typedef typename tree_utils::node<T>::iterator node_iterator;
         typedef typename tree_utils::node<T>::const_iterator const_node_iterator;
+
+    public:
         typedef typename tree_private::recursive_iterator<node_iterator> iterator;
         typedef typename tree_private::recursive_iterator<const_node_iterator> const_iterator;
+        typedef typename tree_private::flat_iterator<node_iterator> flat_iterator;
+        typedef typename tree_private::flat_iterator<const_node_iterator> const_flat_iterator;
 
         typedef tree_utils::node<T> node;
 
@@ -96,39 +100,6 @@ class tree final
             return end();
         }
 
-        //node iterator
-        node_iterator top_begin()
-        {
-            return node_iterator(&m_roots, m_roots.begin());
-        }
-
-        node_iterator top_end()
-        {
-            return node_iterator(&m_roots, m_roots.end());
-        }
-
-        const_node_iterator top_begin() const
-        {
-            return const_node_iterator(&m_roots, m_roots.begin());
-        }
-
-        const_node_iterator top_end() const
-        {
-            return const_node_iterator(&m_roots, m_roots.end());
-        }
-
-        const_node_iterator top_cbegin() const
-        {
-            return top_begin();
-        }
-
-        const_node_iterator top_cend() const
-        {
-            return top_end();
-        }
-
-        //
-
         bool empty() const
         {
             return m_roots.empty();
@@ -139,23 +110,29 @@ class tree final
             m_roots.clear();
         }
 
-        node_iterator insert(node_iterator pos, const T& value)
+        iterator insert(iterator pos, const T& value)
         {
             tree_utils::node<T> v(value);           //prepare value
-            auto l = pos.get_nodes_list();          //get proper sublist from iterator
-            auto& it = pos.get_node();              //get position in list
+            auto l = pos.current().get_nodes_list();          //get proper sublist from iterator
+            auto& it = pos.current().get_node();              //get position in list
             auto r = l->insert(it, v);
 
-            return node_iterator(l, r);
+            //update iterator
+            pos.current() = node_iterator(l, r);
+
+            return pos;
         }
         
-        node_iterator erase(node_iterator pos)
+        iterator erase(iterator pos)
         {
-            auto l = pos.get_nodes_list();          //get proper sublist from iterator
-            auto& it = pos.get_node();              //get position in list
+            auto l = pos.current().get_nodes_list();          //get proper sublist from iterator
+            auto& it = pos.current().get_node();              //get position in list
             auto r = l->erase(it);
 
-            return node_iterator(l, r);
+            //update iterator
+            pos.current() = node_iterator(l, r);
+
+            return pos;
         }
 
     private:

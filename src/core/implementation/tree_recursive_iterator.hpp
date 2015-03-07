@@ -24,8 +24,6 @@
 
 #include "tree_iterator_base.hpp"
 
-template<typename T> class tree;
-
 
 namespace tree_private
 {
@@ -40,7 +38,7 @@ namespace tree_private
             {
             }
 
-            recursive_iterator(const recursive_iterator& other): base(other) { }
+            recursive_iterator(const base& other): base(other) { }
 
             ~recursive_iterator() {}
 
