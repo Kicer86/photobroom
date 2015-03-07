@@ -56,6 +56,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     implementation/atagfeeder.hpp
+    implementation/tree_iterator_base.hpp
     implementation/tree_private.hpp
     implementation/tree_recursive_iterator.hpp
 )
