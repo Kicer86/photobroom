@@ -27,7 +27,6 @@
 
 struct ModelIndexInfo
 {
-        QPersistentModelIndex index;
         bool expanded;
 
         void setRect(const QRect& r);
@@ -36,7 +35,7 @@ struct ModelIndexInfo
         const QRect& getOverallRect() const;
         void cleanRects();
 
-        ModelIndexInfo(const QModelIndex& idx = QModelIndex());
+        ModelIndexInfo();
 
     private:
         QRect rect;
@@ -50,6 +49,9 @@ class ModelIndexInfoSet final
         typedef tree<ModelIndexInfo> Model;
         typedef Model::const_iterator const_iterator;
         typedef Model::iterator       iterator;
+
+        typedef Model::const_flat_iterator const_flat_iterator;
+        typedef Model::flat_iterator       flat_iterator;
 
         ModelIndexInfoSet();
         ~ModelIndexInfoSet();
@@ -65,7 +67,6 @@ class ModelIndexInfoSet final
 
         void clear();
         void erase(const iterator &);
-        void replace(iterator &, const ModelIndexInfo &);
         iterator insert(const QModelIndex &, const ModelIndexInfo &);
 
         bool empty() const;

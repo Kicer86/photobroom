@@ -59,32 +59,40 @@ class Data
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
 
-        Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_invalid() {}
+        Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr) {}
         Data(const Data &) = delete;
         
         ~Data();
         Data& operator=(const Data &) = delete;
 
-        ModelIndexInfo get(const QModelIndex &) const;
+        void set(QAbstractItemModel *);
+
+        ModelIndexInfoSet::iterator get(const QModelIndex &) const;
         void forget(const QModelIndex &);                    //clear data about given index
 
-        const ModelIndexInfo& get(const QPoint &) const;
+        ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;
         QPixmap getImage(const QModelIndex &) const;
-        void for_each(std::function<bool(const ModelIndexInfo &)>) const;
-        void for_each_visible(std::function<bool(const ModelIndexInfo &)>) const;
+        void for_each(std::function<bool(const ModelIndexInfo &)>) const __attribute__ ((deprecated));
+        void for_each_visible(std::function<bool(const ModelIndexInfo &)>) const __attribute__ ((deprecated));
+        void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
+        QModelIndex get(const ModelIndexInfoSet::iterator &) const;
 
         bool isExpanded(const QModelIndex &) const;
+        bool isExpanded(const ModelIndexInfoSet::iterator &) const;
+        bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
         bool isVisible(const QModelIndex &) const;
+        bool isVisible(const ModelIndexInfoSet::iterator &) const;
+        bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
         void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
-        void update(const ModelIndexInfo &);
         void clear();
 
         const ModelIndexInfoSet& getAll() const;
+        ModelIndexInfoSet& getAll();
 
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
-        ModelIndexInfo m_invalid;
+        QAbstractItemModel* m_model;
 
         std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
         void dump();

@@ -39,12 +39,16 @@ TEST(DataShould, BeEmptyWhenConstructed)
 TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
     MockConfiguration config;
+    QStandardItemModel model;
 
     Data data;
     data.m_configuration = &config;
-    auto info = data.get(QModelIndex());
+    data.set(&model);
 
-    EXPECT_EQ(QModelIndex(), info.index);
+    ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
+    QModelIndex idx = data.get(infoIt);
+
+    EXPECT_EQ(QModelIndex(), idx);
 
     const auto& items = data.getAll();
     EXPECT_EQ(true, items.empty());
@@ -57,8 +61,7 @@ TEST(DataShould, StoreDataItemOnUpdate)
 
     Data data;
     data.m_configuration = &config;
-    auto info = data.get(QModelIndex());
-    data.update(info);
+    data.get(QModelIndex());
 
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
@@ -72,11 +75,8 @@ TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
 
     Data data;
     data.m_configuration = &config;
-    auto info = data.get(QModelIndex());            //first access - new item
-    data.update(info);
-
-    info = data.get(QModelIndex());                 //second access - the same item
-    data.update(info);
+    data.get(QModelIndex());            //first access - new item
+    data.get(QModelIndex());           //second access - the same item
 
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
@@ -93,8 +93,8 @@ TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 
     Data data;
     data.m_configuration = &config;
-    auto info = data.get(top->index());          // create new item
-    data.update(info);
+    data.get(top->index());          // create new item
+
     const auto& items = data.getAll();
     EXPECT_EQ(false, items.empty());
 
@@ -112,8 +112,7 @@ TEST(DataShould, SetInitialDataForRootItem)
     Data data;
     data.m_configuration = &config;
 
-    ModelIndexInfo info = data.get(QModelIndex());
-    EXPECT_EQ(QModelIndex(), info.index);
+    const ModelIndexInfo& info = **data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
     EXPECT_EQ(QRect(), info.getRect());
     EXPECT_EQ(QRect(), info.getOverallRect());
@@ -127,13 +126,12 @@ TEST(DataShould, StoreInfoAboutItem)
     Data data;
     data.m_configuration = &config;
 
-    ModelIndexInfo info = data.get(QModelIndex());
+    ModelIndexInfo& info = **data.get(QModelIndex());
     info.expanded = true;
     info.setRect(QRect(0, 0, 100, 50));
     info.setOverallRect(QRect(0, 0, 100, 50));
-    data.update(info);
 
-    const ModelIndexInfo info2 = data.get(QModelIndex());
+    const ModelIndexInfo& info2 = **data.get(QModelIndex());
     EXPECT_EQ(true, info2.expanded);
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getOverallRect());
@@ -154,8 +152,7 @@ TEST(DataShould, MarkTopItemsAsVisible)
 
     EXPECT_CALL(model, parent(top)).Times(1).WillRepeatedly(Return(QModelIndex()));
 
-    ModelIndexInfo info = data.get(top);                          //create object
-    data.update(info);
+    data.get(top);                          //create object
 
     EXPECT_EQ(true, data.isVisible(top));
 }
@@ -181,28 +178,27 @@ TEST(DataShould, NotReturnInvisibleItems)
     model.appendRow(top);
 
     //expand top and update items positions
-    ModelIndexInfo info = data.get(top->index());
+    ModelIndexInfo& info = **data.get(top->index());
     info.expanded = true;
-    data.update(info);
 
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
-    auto info1 = data.get(child1->index());
-    auto info2 = data.get(child2->index());
+    const auto& info1 = **data.get(child1->index());
+    const auto& info2 = **data.get(child2->index());
     const QRect rect1 = info1.getRect();
     const QRect rect2 = info2.getRect();
 
     //collapse top
     info.expanded = false;
-    data.update(info);
 
     //even if we ask for point within child area, we should get empty result, as children are invisible
     {
         const QPoint c = rect1.center();
-        const ModelIndexInfo& info = data.get(c);
+        auto infoIt = data.get(c);
+        QModelIndex index = data.get(infoIt);
 
-        EXPECT_EQ(QModelIndex(), info.index);
+        EXPECT_EQ(QModelIndex(), index);
     }
 }
 
@@ -227,15 +223,14 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     model.appendRow(top);
 
     //expand top and update items positions
-    ModelIndexInfo info = data.get(top->index());
+    ModelIndexInfo& info = **data.get(top->index());
     info.expanded = true;
-    data.update(info);
 
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
-    auto info1 = data.get(child1->index());
-    auto info2 = data.get(child2->index());
+    const auto& info1 = **data.get(child1->index());
+    const auto& info2 = **data.get(child2->index());
     const QRect rect1 = info1.getRect();
     const QRect rect2 = info2.getRect();
 
@@ -245,24 +240,22 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 
     //collapse top
     info.expanded = false;
-    data.update(info);
 
     //children size should be preserved
     {
-        auto info1 = data.get(child1->index());
-        auto info2 = data.get(child2->index());
+        const auto& info1 = **data.get(child1->index());
+        const auto& info2 = **data.get(child2->index());
         EXPECT_EQ(rect1, info1.getRect());
         EXPECT_EQ(rect2, info2.getRect());
     }
 
     //expand top
     info.expanded = false;
-    data.update(info);
 
     //children size should be preserved
     {
-        auto info1 = data.get(child1->index());
-        auto info2 = data.get(child2->index());
+        const auto& info1 = **data.get(child1->index());
+        const auto& info2 = **data.get(child2->index());
         EXPECT_EQ(rect1, info1.getRect());
         EXPECT_EQ(rect2, info2.getRect());
     }
@@ -289,16 +282,14 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     model.appendRow(top);
 
     //expand top and update items positions
-    ModelIndexInfo info = data.get(top->index());
+    ModelIndexInfo& info = **data.get(top->index());
     info.expanded = true;
-    data.update(info);
 
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
     //collapse top
     info.expanded = false;
-    data.update(info);
 
     //children should be marked invisible
     {

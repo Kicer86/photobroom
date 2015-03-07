@@ -19,6 +19,45 @@
 
 #include "model_index_info.hpp"
 
+namespace
+{
+    template<typename T, typename M>
+    T _find(const QModelIndex& index, M& model, const std::vector<size_t>& hierarchy)
+    {
+        assert(hierarchy.empty() == false);
+
+        //setup first item
+        T item_it = model.end();
+
+        if (model.empty() == false)
+            for(size_t i = 0; i < hierarchy.size(); i++)
+            {
+                const size_t pos = hierarchy[i];
+
+                if (i == 0)
+                {
+                    T b(model.begin());
+                    T e(model.end());
+
+                    const size_t c = e - b;               //how many items?
+                    if (pos <= c)
+                        item_it = T(model.begin()) + hierarchy[i];
+                    else
+                        break;                            //out of scope
+                }
+                else
+                {
+                    if (pos <= item_it->children_count())
+                        item_it = item_it->begin() + i;
+                    else
+                        break;                            //out of scope
+                }
+            }
+
+        return item_it;
+    }
+}
+
 
 void ModelIndexInfo::setRect(const QRect& r)
 {
@@ -52,9 +91,8 @@ void ModelIndexInfo::cleanRects()
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect()
+ModelIndexInfo::ModelIndexInfo(): expanded(false), rect(), overallRect()
 {
-    expanded = idx == QModelIndex();       //expand top root
 }
 
 
@@ -75,22 +113,9 @@ ModelIndexInfoSet::~ModelIndexInfoSet()
 
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex& index) const
 {
-    /*
     std::vector<size_t> hierarchy = generateHierarchy(index);
-    
-    auto base_it = m_model.begin();
-    auto item_it = m_model.begin();
-    auto end_it  = m_model.end();
-    for(size_t i: hierarchy)
-    {      
-        assert(i < base_it->children_count());               // make sure there is enought items at desired level
 
-        item_it = base_it + i;                               // find node with index 'i'        
-        base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
-    }
-    
-    return tree_utils::make_recursive_iterator(item_it, m_model.end());              // TODO: use last item at particular level instead of whole hierarchy
-    */
+    return _find<const_flat_iterator>(index, m_model, hierarchy);
 }
 
 
@@ -120,21 +145,9 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cend() const
 
 ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
 {
-    /*
     std::vector<size_t> hierarchy = generateHierarchy(index);
-    
-    auto base_it = m_model.begin();
-    auto item_it = m_model.begin();
-    for(size_t i: hierarchy)
-    {      
-        assert(i < base_it->children_count());               // make sure there is enought items at desired level
 
-        item_it = base_it + i;                               // find node with index 'i'        
-        base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
-    }
-    
-    return tree_utils::make_recursive_iterator(item_it, m_model.end());              // TODO: use last item at particular level instead of whole hierarchy
-    */
+    return _find<flat_iterator>(index, m_model, hierarchy);
 }
 
 
@@ -162,41 +175,31 @@ void ModelIndexInfoSet::erase(const iterator& it)
 }
 
 
-void ModelIndexInfoSet::replace(iterator& it, const ModelIndexInfo& info)
-{    
-    *it = info;
-}
-
-
 ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, const ModelIndexInfo& info)
 {
-    /*
     auto it = find(index);
     
     if (it == end())
     {
         std::vector<size_t> hierarchy = generateHierarchy(index);
-        
-        //TODO: function extraction
-        auto base_it = m_model.begin();
-        auto item_it = m_model.begin();
-        for(size_t i: hierarchy)
-        {      
-            assert(i < base_it->children_count());               // make sure there is enought items at desired level
+        assert(hierarchy.empty() == false);
 
-            item_it = base_it + i;                               // find node with index 'i'        
-            base_it = item_it->begin();                          // move base to it's first child (in case we are moving deeper)
+        //setup first item
+        auto item_it = Model::flat_iterator(m_model.begin()) + hierarchy[0];
+
+        for(size_t i = 1; i < hierarchy.size(); i++)
+        {
+            assert(i < item_it->children_count());               // make sure there is enought items at desired level
+
+            item_it = item_it->begin() + i;                      // item to desired position
         }
         
-        auto r_it = tree_utils::make_recursive_iterator(item_it, m_model.end());
-        replace(r_it, info);
-        it = r_it;
+        it = m_model.insert(item_it, info);
     }
     else
-        replace(it, info);    
+        *it = info;
     
     return it;
-    */
 }
 
 

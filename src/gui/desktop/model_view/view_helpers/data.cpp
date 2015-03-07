@@ -53,16 +53,20 @@ Data::~Data()
 }
 
 
-ModelIndexInfo Data::get(const QModelIndex& index) const
+void Data::set(QAbstractItemModel* model)
+{
+    m_model = model;
+}
+
+
+ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
 {
     auto it = m_itemData->find(index);
            
     if (it == m_itemData->end())
-        it = m_itemData->insert(index, ModelIndexInfo(index));
+        it = m_itemData->insert(index, ModelIndexInfo());
     
-    const ModelIndexInfo info = *it;
-
-    return info;
+    return it;
 }
 
 
@@ -76,23 +80,22 @@ void Data::forget(const QModelIndex& index)
 }
 
 
-const ModelIndexInfo& Data::get(const QPoint& point) const
+ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
-    const ModelIndexInfo* result = &m_invalid;
+    ModelIndexInfoSet::iterator result = m_itemData->end();
 
-    for_each([&] (const ModelIndexInfo& info)
+    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
     {
-        bool cont = true;
-        if (info.getRect().contains(point) && isVisible(info.index))
+        const ModelIndexInfo& info = **it;
+
+        if (info.getRect().contains(point) && isVisible(it))
         {
-            result = &info;
-            cont = false;
+            result = it;
+            break;
         }
+    }
 
-        return cont;
-    });
-
-    return *result;
+    return result;
 }
 
 
@@ -150,7 +153,7 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
     ModelIndexInfoSet::const_iterator it = m_itemData->cbegin();
     auto it_end = m_itemData->cend();
 
-    ModelIndexInfo result( (QModelIndex()) );
+    ModelIndexInfo result(QModelIndex());
 
     for(; it != it_end; ++it)
     {
@@ -165,23 +168,76 @@ void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
 
 void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
 {
-    for_each([&](const ModelIndexInfo& info)
+    for(auto it = m_itemData->cbegin(); it != m_itemData->cend(); ++it)
     {
+        const ModelIndexInfo& info = **it;
+
         bool cont = true;
-        if (isVisible(info.index))
+        if (isVisible(it))
             cont = f(info);
 
-        return cont;
-    });
+        if (cont == false)
+            break;
+    }
+}
+
+
+void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) const
+{
+    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
+    {
+        bool cont = true;
+        if (isVisible(it))
+            cont = f(it);
+
+        if (cont == false)
+            break;
+    }
+}
+
+
+QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
+{
+    assert(m_model != nullptr);
+
+    ModelIndexInfoSet::iterator parent = it.parent();
+    const size_t i = ModelIndexInfoSet::flat_iterator(it).index();
+
+    QModelIndex result;
+
+    if (parent == m_itemData->end())   // one of top items
+        result = m_model->index(i, 0);
+    else                               // somewhere deep in hierarchy
+    {
+        QModelIndex parentIdx = get(parent);  // index of parent
+        result = m_model->index(i, 0, parentIdx);
+    }
+
+    return result;
 }
 
 
 bool Data::isExpanded(const QModelIndex& index) const
 {
-    const ModelIndexInfo& info = get(index);
+    ModelIndexInfoSet::iterator infoIt = get(index);
+    const ModelIndexInfo& info = **infoIt;
     const bool status = info.expanded;
 
     return status;
+}
+
+
+bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
+{
+    const ModelIndexInfo& info = **it;
+    return info.expanded;
+}
+
+
+bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
+{
+    const ModelIndexInfo& info = **it;
+    return info.expanded;
 }
 
 
@@ -191,6 +247,34 @@ bool Data::isVisible(const QModelIndex& index) const
     bool result = false;
 
     if (parent == QModelIndex())    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
+}
+
+
+bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
+{
+    ModelIndexInfoSet::iterator parent = it.parent();
+    bool result = false;
+
+    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
+}
+
+
+bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
+{
+    ModelIndexInfoSet::const_iterator parent = it.parent();
+    bool result = false;
+
+    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
         result = true;
     else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
         result = true;
@@ -238,17 +322,6 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 }
 
 
-void Data::update(const ModelIndexInfo& info)
-{
-    auto it = m_itemData->find(info.index);
-
-    assert(it != m_itemData->end());
-    m_itemData->replace(it, info);
-
-    dump();
-}
-
-
 void Data::clear()
 {
     m_itemData->clear();
@@ -256,6 +329,12 @@ void Data::clear()
 
 
 const ModelIndexInfoSet& Data::getAll() const
+{
+    return *m_itemData;
+}
+
+
+ModelIndexInfoSet& Data::getAll()
 {
     return *m_itemData;
 }
