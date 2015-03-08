@@ -240,7 +240,7 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
             }
         }
 
-        m_model.insert(item_it, info);
+        it = m_model.insert(item_it, info);
     }
     else
         *it = info;
