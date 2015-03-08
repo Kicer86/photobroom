@@ -93,7 +93,7 @@ TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 
     Data data;
     data.m_configuration = &config;
-    data.get(top->index());          // create new item
+    data.get(top->index());                      // create new item
 
     const auto& items = data.getAll();
     EXPECT_EQ(false, items.empty());
@@ -166,6 +166,7 @@ TEST(DataShould, NotReturnInvisibleItems)
     const QIcon icon(pixmap);
 
     Data data;
+    data.set(&model);
     data.m_configuration = &config;
 
     QStandardItem* top = new QStandardItem("Empty");

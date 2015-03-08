@@ -22,7 +22,7 @@
 namespace
 {
     template<typename T, typename M>
-    T _find(const QModelIndex& index, M& model, const std::vector<size_t>& hierarchy)
+    T _find(M& model, const std::vector<size_t>& hierarchy)
     {
         assert(hierarchy.empty() == false);
 
@@ -41,16 +41,24 @@ namespace
 
                     const size_t c = e - b;               //how many items?
                     if (pos < c)
-                        item_it = T(model.begin()) + hierarchy[i];
+                        item_it = T(model.begin()) + pos;
                     else
+                    {
+                        item_it = model.end();
                         break;                            //out of scope
+                    }
                 }
                 else
                 {
-                    if (pos < item_it->children_count())
-                        item_it = item_it->begin() + i;
+                    const size_t c = item_it->children_count();
+
+                    if (pos < c)
+                        item_it = item_it->begin() + pos;
                     else
+                    {
+                        item_it = model.end();
                         break;                            //out of scope
+                    }
                 }
             }
 
@@ -115,7 +123,7 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::find(const QModelIndex& ind
 {
     std::vector<size_t> hierarchy = generateHierarchy(index);
 
-    return _find<const_flat_iterator>(index, m_model, hierarchy);
+    return _find<const_flat_iterator>(m_model, hierarchy);
 }
 
 
@@ -147,7 +155,7 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::find(const QModelIndex& index)
 {
     std::vector<size_t> hierarchy = generateHierarchy(index);
 
-    return _find<flat_iterator>(index, m_model, hierarchy);
+    return _find<flat_iterator>(m_model, hierarchy);
 }
 
 
@@ -175,6 +183,7 @@ void ModelIndexInfoSet::erase(const iterator& it)
 }
 
 
+//TODO: simplify and mix with find()
 ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, const ModelIndexInfo& info)
 {
     auto it = find(index);
@@ -182,19 +191,56 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
     if (it == end())
     {
         std::vector<size_t> hierarchy = generateHierarchy(index);
-        assert(hierarchy.empty() == false);
+        const size_t hierarchy_size = hierarchy.size();
+        assert(hierarchy_size > 0);
 
         //setup first item
-        auto item_it = Model::flat_iterator(m_model.begin()) + hierarchy[0];
+        flat_iterator item_it = m_model.end();
 
-        for(size_t i = 1; i < hierarchy.size(); i++)
+        for(size_t i = 0; i < hierarchy.size(); i++)
         {
-            assert(i < item_it->children_count());               // make sure there is enought items at desired level
+            const size_t pos = hierarchy[i];
+            const bool last = i + 1 == hierarchy_size;
 
-            item_it = item_it->begin() + i;                      // item to desired position
+            if (i == 0)
+            {
+                flat_iterator b(m_model.begin());
+                flat_iterator e(m_model.end());
+
+                const size_t c = e - b;               //how many items?
+                if (pos < c)
+                    item_it = flat_iterator(m_model.begin()) + hierarchy[i];
+                else if (pos == c)                    //just append after last item?
+                {
+                    if (last == false)                //for last level do nothing - we will inster this item later below
+                    {
+                        flat_iterator ins = b + pos;
+                        item_it = m_model.insert(ins, ModelIndexInfo());
+                    }
+                }
+                else
+                    assert(!"missing siblings");
+            }
+            else
+            {
+                const size_t c = item_it->children_count();
+                if (pos < c)
+                    item_it = item_it->begin() + pos;
+                else if (pos == c)                    //just append after last item?
+                {
+                    flat_iterator ins = item_it->begin() + pos;
+
+                    if (last)
+                        item_it = ins;                // for last level of hierarchy set item_it to desired position
+                    else
+                        item_it = m_model.insert(ins, ModelIndexInfo());
+                }
+                else
+                    assert(!"missing siblings");
+            }
         }
-        
-        it = m_model.insert(item_it, info);
+
+        m_model.insert(item_it, info);
     }
     else
         *it = info;
