@@ -51,7 +51,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     EXPECT_EQ(QModelIndex(), idx);
 
     const auto& items = data.getAll();
-    EXPECT_EQ(true, items.empty());
+    EXPECT_EQ(false, items.empty());
 }
 
 
@@ -93,15 +93,16 @@ TEST(DataShould, ForgetAboutItemWhenAskedForIt)
 
     Data data;
     data.m_configuration = &config;
-    data.get(top->index());                      // create new item
+    data.get(top->index());                      // create new top item + root item (QModelIndex())
 
     const auto& items = data.getAll();
     EXPECT_EQ(false, items.empty());
+    EXPECT_EQ(2, items.size());
 
-    data.forget(top->index());                   // forget about it
+    data.forget(top->index());                   // forget about top item
 
-    const auto& itemsAfeter = data.getAll();
-    EXPECT_EQ(true, itemsAfeter.empty());
+    const auto& itemsAfter = data.getAll();
+    EXPECT_EQ(1, itemsAfter.size());             // only root should stay
 }
 
 
