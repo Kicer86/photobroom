@@ -40,14 +40,14 @@ namespace
                     T e(model.end());
 
                     const size_t c = e - b;               //how many items?
-                    if (pos <= c)
+                    if (pos < c)
                         item_it = T(model.begin()) + hierarchy[i];
                     else
                         break;                            //out of scope
                 }
                 else
                 {
-                    if (pos <= item_it->children_count())
+                    if (pos < item_it->children_count())
                         item_it = item_it->begin() + i;
                     else
                         break;                            //out of scope
