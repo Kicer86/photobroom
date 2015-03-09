@@ -41,10 +41,10 @@ namespace
 
                     const size_t c = e - b;               //how many items?
                     if (pos < c)
-                        item_it = T(model.begin()) + pos;
+                        item_it = T(b) + pos;
                     else
                     {
-                        item_it = model.end();
+                        item_it = e;
                         break;                            //out of scope
                     }
                 }
@@ -53,7 +53,7 @@ namespace
                     const size_t c = item_it->children_count();
 
                     if (pos < c)
-                        item_it = item_it->begin() + pos;
+                        item_it = item_it.begin() + pos;
                     else
                     {
                         item_it = model.end();
@@ -225,10 +225,10 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
             {
                 const size_t c = item_it->children_count();
                 if (pos < c)
-                    item_it = item_it->begin() + pos;
+                    item_it.dive(item_it->begin() + pos);
                 else if (pos == c)                    //just append after last item?
                 {
-                    flat_iterator ins = item_it->begin() + pos;
+                    flat_iterator ins = item_it.begin() + pos;
 
                     if (last)
                         item_it = ins;                // for last level of hierarchy set item_it to desired position

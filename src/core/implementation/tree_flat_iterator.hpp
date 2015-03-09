@@ -34,11 +34,11 @@ namespace tree_private
     {
             typedef iterator_base<iterator> base;
 
-        public:
             flat_iterator(const iterator& b): base(b)
             {
             }
 
+        public:
             flat_iterator(const base& other): base(other) { }
 
             ~flat_iterator() {}
@@ -102,6 +102,36 @@ namespace tree_private
             {
                 const size_t result = this->current() - this->first();
                 return result;
+            }
+
+
+            flat_iterator begin()
+            {
+                flat_iterator result = *this;
+
+                auto it = base::current()->begin();
+                result.dive(it);
+
+                return result;
+            }
+
+
+            flat_iterator end()
+            {
+                flat_iterator result = *this;
+
+                auto it = base::current()->end();
+                result.dive(it);
+
+                return result;
+            }
+
+
+            flat_iterator& dive(const iterator& it)
+            {
+                base::m_iterators.push(it);
+
+                return *this;
             }
 
     };

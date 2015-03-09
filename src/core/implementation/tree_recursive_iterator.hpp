@@ -24,6 +24,7 @@
 
 #include "tree_iterator_base.hpp"
 
+template<typename T> class tree;
 
 namespace tree_private
 {
@@ -33,11 +34,11 @@ namespace tree_private
     {
             typedef iterator_base<iterator> base;
 
-        public:
             recursive_iterator(const iterator& b): base(b)
             {
             }
 
+        public:
             recursive_iterator(const base& other): base(other) { }
 
             ~recursive_iterator() {}
@@ -154,6 +155,8 @@ namespace tree_private
             }
 
         private:
+            template<typename T> friend class tree;
+
             void jumpout()
             {
                 assert(base::m_iterators.size() > 1);
