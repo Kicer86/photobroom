@@ -281,7 +281,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 
     m_data->for_each_visible( [&] ( ModelIndexInfoSet::iterator it)
     {
-        const ModelIndexInfo info = **it;
+        const ModelIndexInfo& info = **it;
         const QRect& item_rect = info.getRect();
         const bool overlap = _rect.intersects(item_rect);
 
