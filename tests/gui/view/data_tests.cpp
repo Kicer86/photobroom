@@ -314,3 +314,47 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
         EXPECT_EQ(false, data.isVisible(child2->index()));
     }
 }
+
+
+TEST(DataShould, ReturnProperIndicesOfItems)
+{
+    QStandardItemModel model;
+    MockConfiguration config;
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
+
+    Data data;
+    data.m_configuration = &config;
+    data.set(&model);
+
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+
+    top->appendRow(child1);
+    top->appendRow(child2);
+
+    model.appendRow(top);
+
+    //expand top so children will be stored in 'data' when calculating positions
+    auto it = data.get(top->index());
+    (**it).expanded = true;
+
+    PositionsCalculator positions_calculator(&model, &data, 100);
+    positions_calculator.updateItems();
+
+    {
+        auto it1 = data.get(top->index());
+        QModelIndex topIdx = data.get(it1);
+
+        auto it2 = data.get(child1->index());
+        QModelIndex child1Idx = data.get(it2);
+
+        auto it3 = data.get(child2->index());
+        QModelIndex child2Idx = data.get(it3);
+
+        EXPECT_EQ(top->index(), topIdx);
+        EXPECT_EQ(child1->index(), child1Idx);
+        EXPECT_EQ(child2->index(), child2Idx);
+    }
+}
