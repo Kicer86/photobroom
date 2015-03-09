@@ -110,10 +110,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());;
+        ModelIndexInfo& top2_info = *data.get(top2->index());;
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&model, &data, canvas_w);
@@ -130,7 +130,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
     //expectations
     {
         ModelIndexInfoSet::iterator top_infoIt = data.get(top->index());
-        ModelIndexInfo info = **top_infoIt;
+        const ModelIndexInfo& info = *top_infoIt;
         EXPECT_NE(info.getRect(), QRect());            // Parent's size should not be reseted
         EXPECT_EQ(info.getOverallRect(), QRect());     // But its overall rect should
     }
@@ -139,8 +139,8 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
         ModelIndexInfoSet::iterator info1_It = data.get(child1->index());
         ModelIndexInfoSet::iterator info5_It = data.get(child5->index());
 
-        ModelIndexInfo info1 = **info1_It;
-        ModelIndexInfo info5 = **info5_It;
+        const ModelIndexInfo& info1 = *info1_It;
+        const ModelIndexInfo& info5 = *info5_It;
         EXPECT_NE(info1.getRect(), QRect());            //siblings should not be reseted
         EXPECT_NE(info5.getRect(), QRect());            //siblings should not be reseted
     }
@@ -150,9 +150,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
         ModelIndexInfoSet::iterator info1_It = data.get(child2_1->index());
         ModelIndexInfoSet::iterator info5_It = data.get(child2_5->index());
 
-        ModelIndexInfo info = **info_It;           //top2's and all its children's positions should be reseted
-        ModelIndexInfo info1 = **info1_It;
-        ModelIndexInfo info5 = **info5_It;
+        const ModelIndexInfo& info  = *info_It;           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = *info1_It;
+        const ModelIndexInfo& info5 = *info5_It;
 
         EXPECT_EQ(info.getRect(), QRect());
         EXPECT_EQ(info1.getRect(), QRect());
@@ -165,10 +165,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&model, &data, canvas_w);
@@ -183,16 +183,16 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 
     //expectations
     {
-        ModelIndexInfo& info = **data.get(top->index());
+        ModelIndexInfo& info = *data.get(top->index());
         EXPECT_NE(info.getRect(), QRect());            // Parent's size should not be reseted
         EXPECT_EQ(info.getOverallRect(), QRect());     // But its overall rect should
     }
 
     {
-        const ModelIndexInfo& info1 = **data.get(child1->index());
-        const ModelIndexInfo& info2 = **data.get(child2->index());
-        const ModelIndexInfo& info4 = **data.get(child4->index());
-        const ModelIndexInfo& info5 = **data.get(child5->index());
+        const ModelIndexInfo& info1 = *data.get(child1->index());
+        const ModelIndexInfo& info2 = *data.get(child2->index());
+        const ModelIndexInfo& info4 = *data.get(child4->index());
+        const ModelIndexInfo& info5 = *data.get(child5->index());
         EXPECT_NE(info1.getRect(), QRect());            //siblings before removed one should not be reseted
         EXPECT_NE(info2.getRect(), QRect());
         EXPECT_EQ(info4.getRect(), QRect());            //siblings after removed one should be reseted
@@ -200,9 +200,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     }
 
     {
-        const ModelIndexInfo& info = **data.get(top2->index());           //top2's and all its children's positions should be reseted
-        const ModelIndexInfo& info1 = **data.get(child2_1->index());
-        const ModelIndexInfo& info5 = **data.get(child2_5->index());
+        const ModelIndexInfo& info = *data.get(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = *data.get(child2_1->index());
+        const ModelIndexInfo& info5 = *data.get(child2_5->index());
 
         EXPECT_EQ(QRect(), info.getRect());
         EXPECT_EQ(QRect(), info1.getRect());
@@ -215,10 +215,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
     }
 
@@ -233,16 +233,16 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
     //expectations
     {
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
         EXPECT_EQ(QRect(), info.getOverallRect());     // But its overall rect should
     }
 
     {
-        const ModelIndexInfo& info1 = **data.get(child1->index());
-        const ModelIndexInfo& info2 = **data.get(child2->index());
-        const ModelIndexInfo& info4 = **data.get(child4->index());
-        const ModelIndexInfo& info5 = **data.get(child5->index());
+        const ModelIndexInfo& info1 = *data.get(child1->index());
+        const ModelIndexInfo& info2 = *data.get(child2->index());
+        const ModelIndexInfo& info4 = *data.get(child4->index());
+        const ModelIndexInfo& info5 = *data.get(child5->index());
         EXPECT_NE(QRect(), info1.getRect());            //siblings before removed one should not be reseted
         EXPECT_NE(QRect(), info2.getRect());
         EXPECT_EQ(QRect(), info4.getRect());            //siblings after removed one should be reseted
@@ -250,9 +250,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     }
 
     {
-        const ModelIndexInfo& info = **data.get(top2->index());           //top2's and all its children's positions should be reseted
-        const ModelIndexInfo& info1 = **data.get(child2_1->index());
-        const ModelIndexInfo& info5 = **data.get(child2_5->index());
+        const ModelIndexInfo& info  = *data.get(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = *data.get(child2_1->index());
+        const ModelIndexInfo& info5 = *data.get(child2_5->index());
 
         EXPECT_EQ(QRect(), info.getRect());
         EXPECT_EQ(QRect(), info1.getRect());
@@ -265,10 +265,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 {
     //expand main nodes to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&model, &data, canvas_w);
@@ -281,7 +281,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 
     //expectations
     {
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_EQ(QRect(), info.getRect());            // Node's size should be reseted.
         EXPECT_EQ(QRect(), info.getOverallRect());     // So overall size should.
     }
@@ -289,16 +289,16 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 
     {
         //children should not be reseted
-        const ModelIndexInfo& info1 = **data.get(child1->index());
-        const ModelIndexInfo& info5 = **data.get(child5->index());
+        const ModelIndexInfo& info1 = *data.get(child1->index());
+        const ModelIndexInfo& info5 = *data.get(child5->index());
         EXPECT_NE(QRect(), info1.getRect());
         EXPECT_NE(QRect(), info5.getRect());
     }
 
     {
-        const ModelIndexInfo& info = **data.get(top2->index());           //top2's and all its children's positions should be reseted
-        const ModelIndexInfo& info1 = **data.get(child2_1->index());
-        const ModelIndexInfo& info5 = **data.get(child2_5->index());
+        const ModelIndexInfo& info  = *data.get(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = *data.get(child2_1->index());
+        const ModelIndexInfo& info5 = *data.get(child2_5->index());
 
         EXPECT_EQ(QRect(), info.getRect());
         EXPECT_EQ(QRect(), info1.getRect());
@@ -311,10 +311,10 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&model, &data, canvas_w);
@@ -327,25 +327,25 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 
     //expectations
     {
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_EQ(QRect(), info.getRect());            // Parent's size should be reseted
         EXPECT_EQ(QRect(), info.getOverallRect());
 
-        const ModelIndexInfo& info2 = **data.get(top2->index());
+        const ModelIndexInfo& info2 = *data.get(top2->index());
         EXPECT_EQ(QRect(), info2.getRect());
         EXPECT_EQ(QRect(), info2.getOverallRect());
     }
 
     {
-        const ModelIndexInfo& info1 = **data.get(child1->index());
-        const ModelIndexInfo& info5 = **data.get(child5->index());
+        const ModelIndexInfo& info1 = *data.get(child1->index());
+        const ModelIndexInfo& info5 = *data.get(child5->index());
         EXPECT_EQ(QRect(), info1.getRect());
         EXPECT_EQ(QRect(), info5.getRect());
     }
 
     {
-        const ModelIndexInfo& info1 = **data.get(child2_1->index());
-        const ModelIndexInfo& info5 = **data.get(child2_5->index());
+        const ModelIndexInfo& info1 = *data.get(child2_1->index());
+        const ModelIndexInfo& info5 = *data.get(child2_5->index());
 
         EXPECT_EQ(QRect(), info1.getRect());
         EXPECT_EQ(QRect(), info5.getRect());
@@ -357,10 +357,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&model, &data, canvas_w);
@@ -373,16 +373,16 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
 
     //expectations
     {
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
         EXPECT_EQ(QRect(), info.getOverallRect());     // But its overall rect should
     }
 
     {
-        const ModelIndexInfo& info1 = **data.get(child1->index());
-        const ModelIndexInfo& info2 = **data.get(child2->index());
-        const ModelIndexInfo& info4 = **data.get(child4->index());
-        const ModelIndexInfo& info5 = **data.get(child5->index());
+        const ModelIndexInfo& info1 = *data.get(child1->index());
+        const ModelIndexInfo& info2 = *data.get(child2->index());
+        const ModelIndexInfo& info4 = *data.get(child4->index());
+        const ModelIndexInfo& info5 = *data.get(child5->index());
         EXPECT_NE(QRect(), info1.getRect());            //siblings before removed one should not be reseted
         EXPECT_NE(QRect(), info2.getRect());
         EXPECT_EQ(QRect(), info4.getRect());            //siblings after removed one should be reseted
@@ -390,9 +390,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
     }
 
     {
-        const ModelIndexInfo& info = **data.get(top2->index());           //top2's and all its children's positions should be reseted
-        const ModelIndexInfo& info1 = **data.get(child2_1->index());
-        const ModelIndexInfo& info5 = **data.get(child2_5->index());
+        const ModelIndexInfo& info = *data.get(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = *data.get(child2_1->index());
+        const ModelIndexInfo& info5 = *data.get(child2_5->index());
 
         EXPECT_EQ(QRect(), info.getRect());
         EXPECT_EQ(QRect(), info1.getRect());
@@ -405,10 +405,10 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = **data.get(top->index());
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = **data.get(top2->index());
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&model, &data, canvas_w);
@@ -423,16 +423,16 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 
     //expectations
     {
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
         EXPECT_EQ(QRect(), info.getOverallRect());     // But its overall rect should
     }
 
     {
-        const ModelIndexInfo& info2 = **data.get(child2->index());
-        const ModelIndexInfo& info3 = **data.get(child3->index());
-        const ModelIndexInfo& info4 = **data.get(child4->index());
-        const ModelIndexInfo& info5 = **data.get(child5->index());
+        const ModelIndexInfo& info2 = *data.get(child2->index());
+        const ModelIndexInfo& info3 = *data.get(child3->index());
+        const ModelIndexInfo& info4 = *data.get(child4->index());
+        const ModelIndexInfo& info5 = *data.get(child5->index());
         EXPECT_EQ(QRect(), info2.getRect());            //siblings after removed one should be reseted
         EXPECT_EQ(QRect(), info3.getRect());
         EXPECT_EQ(QRect(), info4.getRect());
@@ -440,9 +440,9 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     }
 
     {
-        const ModelIndexInfo& info = **data.get(top2->index());           //top2's and all its children's positions should be reseted
-        const ModelIndexInfo& info1 = **data.get(child2_1->index());
-        const ModelIndexInfo& info5 = **data.get(child2_5->index());
+        const ModelIndexInfo& info  = *data.get(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = *data.get(child2_1->index());
+        const ModelIndexInfo& info5 = *data.get(child2_5->index());
 
         EXPECT_EQ(QRect(), info.getRect());
         EXPECT_EQ(QRect(), info1.getRect());
@@ -465,13 +465,13 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
 
    //expectations
     {
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_NE(QRect(), info.getRect());                        // Parent's size should not be reseted
         EXPECT_NE(QRect(), info.getOverallRect());
     }
 
     {
-        const ModelIndexInfo& info2 = **data.get(top2->index());   // Parent's siblings should not be touched
+        const ModelIndexInfo& info2 = *data.get(top2->index());   // Parent's siblings should not be touched
         EXPECT_NE(QRect(), info2.getRect());
         EXPECT_NE(QRect(), info2.getOverallRect());
     }
@@ -494,15 +494,15 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
     //expectations
     {
         //all top items should be reseted
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_EQ(QRect(), info.getRect());
         EXPECT_EQ(QRect(), info.getOverallRect());
 
-        const ModelIndexInfo& info2 = **data.get(top2->index());
+        const ModelIndexInfo& info2 = *data.get(top2->index());
         EXPECT_EQ(QRect(), info2.getRect());
         EXPECT_EQ(QRect(), info2.getOverallRect());
 
-        const ModelIndexInfo& info3 = **data.get(top3->index());
+        const ModelIndexInfo& info3 = *data.get(top3->index());
         EXPECT_EQ(QRect(), info3.getRect());
         EXPECT_EQ(QRect(), info3.getOverallRect());
     }
@@ -524,11 +524,11 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
     //expectations
     {
         //all top items should be reseted
-        const ModelIndexInfo& info = **data.get(top->index());
+        const ModelIndexInfo& info = *data.get(top->index());
         EXPECT_NE(QRect(), info.getRect());
         EXPECT_NE(QRect(), info.getOverallRect());
 
-        const ModelIndexInfo& info3 = **data.get(top3->index());
+        const ModelIndexInfo& info3 = *data.get(top3->index());
         EXPECT_EQ(QRect(), info3.getRect());
         EXPECT_EQ(QRect(), info3.getOverallRect());
     }

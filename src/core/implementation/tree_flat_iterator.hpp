@@ -126,6 +126,12 @@ namespace tree_private
                 return result;
             }
 
+            
+            size_t children_count() const
+            {
+                return base::current()->children_count();
+            }
+
 
             flat_iterator& dive(const iterator& it)
             {

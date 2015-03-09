@@ -52,7 +52,7 @@ void PositionsReseter::invalidateAll() const
     ModelIndexInfoSet& dataSet = m_data->getAll();
     for(auto it = dataSet.begin(); it != dataSet.end(); ++it)
     {
-        ModelIndexInfo& info = **it;
+        ModelIndexInfo& info = *it;
 
         info.cleanRects();
     };
@@ -77,7 +77,7 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {
     //invalidate parent if expanded
     ModelIndexInfoSet::iterator infoIt = m_data->get(parent);
-    ModelIndexInfo parentInfo = **infoIt;
+    const ModelIndexInfo& parentInfo = *infoIt;
     if (parentInfo.expanded)
         invalidateItemOverallRect(parent);
 
@@ -133,7 +133,7 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int fro
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
     ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-    ModelIndexInfo& info = **infoIt;
+    ModelIndexInfo& info = *infoIt;
     info.setRect(QRect());
 }
 
@@ -141,6 +141,6 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
 void PositionsReseter::resetOverallRect(const QModelIndex& idx) const
 {
     ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-    ModelIndexInfo& info = **infoIt;
+    ModelIndexInfo& info = *infoIt;
     info.setOverallRect(QRect());
 }

@@ -72,7 +72,7 @@ ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
     if (it == m_itemData->end())
         it = m_itemData->insert(index, ModelIndexInfo());
     
-    assert(index.isValid() || (**it).expanded == true);
+    assert(index.isValid() || it->expanded == true);
 
     return it;
 }
@@ -94,7 +94,7 @@ ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 
     for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
     {
-        const ModelIndexInfo& info = **it;
+        const ModelIndexInfo& info = *it;
 
         if (info.getRect().contains(point) && isVisible(it))
         {
@@ -178,7 +178,7 @@ void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
 {
     for(auto it = m_itemData->cbegin(); it != m_itemData->cend(); ++it)
     {
-        const ModelIndexInfo& info = **it;
+        const ModelIndexInfo& info = *it;
 
         bool cont = true;
         if (isVisible(it))
@@ -227,7 +227,7 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 bool Data::isExpanded(const QModelIndex& index) const
 {
     ModelIndexInfoSet::iterator infoIt = get(index);
-    const ModelIndexInfo& info = **infoIt;
+    const ModelIndexInfo& info = *infoIt;
     const bool status = info.expanded;
 
     return status;
@@ -236,14 +236,14 @@ bool Data::isExpanded(const QModelIndex& index) const
 
 bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
 {
-    const ModelIndexInfo& info = **it;
+    const ModelIndexInfo& info = *it;
     return info.expanded;
 }
 
 
 bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 {
-    const ModelIndexInfo& info = **it;
+    const ModelIndexInfo& info = *it;
     return info.expanded;
 }
 
@@ -353,7 +353,7 @@ void Data::setupRoot()
     //setup info for index QModelIndex()
     auto it = m_itemData->insert(QModelIndex(), ModelIndexInfo());
 
-    (**it).expanded = true;
+    it->expanded = true;
 }
 
 

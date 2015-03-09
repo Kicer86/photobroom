@@ -45,7 +45,7 @@ void PositionsCalculator::updateItems() const
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
         ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-        ModelIndexInfo& info = **infoIt;
+        ModelIndexInfo& info = *infoIt;
 
         // calculations only for dirty ones
         if (info.getRect().isNull())
@@ -63,7 +63,7 @@ void PositionsCalculator::updateItems() const
                 for(const QModelIndex& child: children)
                 {
                     ModelIndexInfoSet::iterator c_infoIt = m_data->get(child);
-                    ModelIndexInfo c_info = **c_infoIt;
+                    const ModelIndexInfo& c_info = *c_infoIt;
                     QRect c_rect = c_info.getOverallRect();
                     assert(c_rect.isValid());
 
@@ -119,7 +119,7 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
     assert(index.isValid());
 
     ModelIndexInfoSet::iterator infoIt = m_data->get(index);
-    const ModelIndexInfo& info = **infoIt;
+    const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
     const QModelIndex nextIndex = index.sibling(index.row() + 1, 0);
     const int nextIndexWidth = getitemWidth(nextIndex);
@@ -134,7 +134,7 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
         for(const QModelIndex& idx: selection.indexes())
         {
             ModelIndexInfoSet::iterator idxInfoIt = m_data->get(idx);
-            ModelIndexInfo idxInfo = **idxInfoIt;
+            const ModelIndexInfo& idxInfo = *idxInfoIt;
             const QRect& idxRect = idxInfo.getRect();
             const int idxHeight = idxRect.height();
 
@@ -153,7 +153,7 @@ QPoint PositionsCalculator::positionOfNextNode(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    ModelIndexInfo info = **m_data->get(index);
+    const ModelIndexInfo& info = *m_data->get(index);
     const QRect items_pos = info.getOverallRect();
     assert(items_pos.isValid());
     const QPoint result = QPoint(0, items_pos.bottom());
@@ -222,7 +222,7 @@ QItemSelection PositionsCalculator::selectRowFor(const QModelIndex& index) const
     while(itemToCheck.isValid())
     {
         const QModelIndex current = itemToCheck;
-        const ModelIndexInfo indexInfo = **m_data->get(itemToCheck);
+        const ModelIndexInfo& indexInfo = *m_data->get(itemToCheck);
         const QRect& indexRect = indexInfo.getRect();
 
         //go to previous item
@@ -230,7 +230,7 @@ QItemSelection PositionsCalculator::selectRowFor(const QModelIndex& index) const
 
         if (itemToCheck.isValid())
         {
-            const ModelIndexInfo prevInfo = **m_data->get(itemToCheck);
+            const ModelIndexInfo& prevInfo = *m_data->get(itemToCheck);
             const QRect& prevRect = prevInfo.getRect();
 
             if (prevRect.top() != indexRect.top())   //items are at the same y-position? If no - we are no longer in the same row

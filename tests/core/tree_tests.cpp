@@ -115,7 +115,7 @@ TEST(treeTest, iterationsOverConstTree)
 
     int s = 0;
     for(auto it = c_tr.cbegin(); it != c_tr.cend(); ++it)
-        s += **it;
+        s += *it;
 
     EXPECT_EQ(10, s);
 }
@@ -163,7 +163,7 @@ TEST(treeTest, forwardTraversingThrouTree)
 
     std::vector<int> v;
     for(auto n: tr)
-        v.push_back(*n);
+        v.push_back(n);
 
     EXPECT_EQ(std::vector<int>({1, 3, 4, 2, 7, 8, 9, 10}), v);
 }
@@ -190,7 +190,7 @@ TEST(treeTest, forwardTraversingThrouTree2)
 
     std::vector<int> v;
     for(auto n: tr)
-        v.push_back(*n);
+        v.push_back(n);
 
     EXPECT_EQ(std::vector<int>({1, 3, 2, 7, 8, 4, 9, 10}), v);
 }

@@ -50,7 +50,7 @@ namespace
                 }
                 else
                 {
-                    const size_t c = item_it->children_count();
+                    const size_t c = item_it.children_count();
 
                     if (pos < c)
                         item_it = item_it.begin() + pos;
@@ -223,9 +223,9 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
             }
             else
             {
-                const size_t c = item_it->children_count();
+                const size_t c = item_it.children_count();
                 if (pos < c)
-                    item_it.dive(item_it->begin() + pos);
+                    item_it = item_it.begin() + pos;
                 else if (pos == c)                    //just append after last item?
                 {
                     flat_iterator ins = item_it.begin() + pos;

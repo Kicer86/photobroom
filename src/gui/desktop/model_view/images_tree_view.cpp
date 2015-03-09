@@ -122,7 +122,7 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
     for (const QModelIndex& idx: indexes)
     {
         ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-        ModelIndexInfo info = **infoIt;
+        const ModelIndexInfo& info = *infoIt;
 
         result += info.getRect();
     }
@@ -212,7 +212,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     for (const QModelIndex& item: items)
     {
         ModelIndexInfoSet::iterator infoIt = m_data->get(item);
-        const ModelIndexInfo& info = **infoIt;
+        const ModelIndexInfo& info = *infoIt;
 
         QStyleOptionViewItem styleOption;
         styleOption.rect = info.getRect();
@@ -231,7 +231,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 
     QModelIndex item = indexAt(e->pos());
     ModelIndexInfoSet::iterator infoIt = m_data->get(item);
-    ModelIndexInfo& info = **infoIt;
+    ModelIndexInfo& info = *infoIt;
 
     if (item.isValid())
     {
@@ -268,7 +268,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
     ModelIndexInfoSet::iterator infoIt = m_data->get(index);
-    const ModelIndexInfo& info = **infoIt;
+    const ModelIndexInfo& info = *infoIt;
 
     return info.getRect();
 }
@@ -281,7 +281,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 
     m_data->for_each_visible( [&] ( ModelIndexInfoSet::iterator it)
     {
-        const ModelIndexInfo& info = **it;
+        const ModelIndexInfo& info = *it;
         const QRect& item_rect = info.getRect();
         const bool overlap = _rect.intersects(item_rect);
 
@@ -315,7 +315,7 @@ void ImagesTreeView::updateData()
 void ImagesTreeView::updateGui()
 {
     ModelIndexInfoSet::iterator infoIt = m_data->get(QModelIndex());
-    const ModelIndexInfo info = **infoIt;
+    const ModelIndexInfo& info = *infoIt;
     const QSize areaSize = viewport()->size();
     const QSize treeAreaSize = info.getOverallRect().size();
 

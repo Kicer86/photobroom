@@ -128,7 +128,7 @@ TEST(DataShould, SetInitialDataForRootItem)
     Data data;
     data.m_configuration = &config;
 
-    const ModelIndexInfo& info = **data.get(QModelIndex());
+    const ModelIndexInfo& info = *data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
     EXPECT_EQ(QRect(), info.getRect());
     EXPECT_EQ(QRect(), info.getOverallRect());
@@ -142,12 +142,12 @@ TEST(DataShould, StoreInfoAboutItem)
     Data data;
     data.m_configuration = &config;
 
-    ModelIndexInfo& info = **data.get(QModelIndex());
+    ModelIndexInfo& info = *data.get(QModelIndex());
     info.expanded = true;
     info.setRect(QRect(0, 0, 100, 50));
     info.setOverallRect(QRect(0, 0, 100, 50));
 
-    const ModelIndexInfo& info2 = **data.get(QModelIndex());
+    const ModelIndexInfo& info2 = *data.get(QModelIndex());
     EXPECT_EQ(true, info2.expanded);
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getOverallRect());
@@ -195,14 +195,14 @@ TEST(DataShould, NotReturnInvisibleItems)
     model.appendRow(top);
 
     //expand top and update items positions
-    ModelIndexInfo& info = **data.get(top->index());
+    ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
-    const auto& info1 = **data.get(child1->index());
-    const auto& info2 = **data.get(child2->index());
+    const auto& info1 = *data.get(child1->index());
+    const auto& info2 = *data.get(child2->index());
     const QRect rect1 = info1.getRect();
     const QRect rect2 = info2.getRect();
 
@@ -240,14 +240,14 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     model.appendRow(top);
 
     //expand top and update items positions
-    ModelIndexInfo& info = **data.get(top->index());
+    ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
-    const auto& info1 = **data.get(child1->index());
-    const auto& info2 = **data.get(child2->index());
+    const auto& info1 = *data.get(child1->index());
+    const auto& info2 = *data.get(child2->index());
     const QRect rect1 = info1.getRect();
     const QRect rect2 = info2.getRect();
 
@@ -260,8 +260,8 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 
     //children size should be preserved
     {
-        const auto& info1 = **data.get(child1->index());
-        const auto& info2 = **data.get(child2->index());
+        const auto& info1 = *data.get(child1->index());
+        const auto& info2 = *data.get(child2->index());
         EXPECT_EQ(rect1, info1.getRect());
         EXPECT_EQ(rect2, info2.getRect());
     }
@@ -271,8 +271,8 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 
     //children size should be preserved
     {
-        const auto& info1 = **data.get(child1->index());
-        const auto& info2 = **data.get(child2->index());
+        const auto& info1 = *data.get(child1->index());
+        const auto& info2 = *data.get(child2->index());
         EXPECT_EQ(rect1, info1.getRect());
         EXPECT_EQ(rect2, info2.getRect());
     }
@@ -299,7 +299,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     model.appendRow(top);
 
     //expand top and update items positions
-    ModelIndexInfo& info = **data.get(top->index());
+    ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&model, &data, 100);
@@ -338,7 +338,7 @@ TEST(DataShould, ReturnProperIndicesOfItems)
 
     //expand top so children will be stored in 'data' when calculating positions
     auto it = data.get(top->index());
-    (**it).expanded = true;
+    it->expanded = true;
 
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();

@@ -33,7 +33,7 @@ namespace tree_private
     class iterator_base
     {
         public:
-            typedef typename iterator::node_type RetType;
+            typedef typename iterator::value_type RetType;
 
             iterator_base(const iterator& b): m_iterators()
             {
@@ -64,27 +64,27 @@ namespace tree_private
 
             const RetType& operator*() const
             {
-                return *current();
+                return **current();
             }
 
             RetType& operator*()
             {
-                return *current();
+                return **current();
             }
 
             const RetType& operator&() const
             {
-                return *current();
+                return **current();
             }
 
             const RetType* operator->() const
             {
-                return &(*current());
+                return &(**current());
             }
 
             RetType* operator->()
             {
-                return &(*current());
+                return &(**current());
             }
 
             bool valid() const
