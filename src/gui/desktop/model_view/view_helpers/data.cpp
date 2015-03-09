@@ -211,11 +211,10 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
     ModelIndexInfoSet::iterator parent = it.parent();
     const size_t i = ModelIndexInfoSet::flat_iterator(it).index();
 
-    QModelIndex result;
+    QModelIndex result;          //top item in tree == QModelIndex()
 
-    if (parent == m_itemData->end())   // one of top items
-        result = m_model->index(i, 0);
-    else                               // somewhere deep in hierarchy
+    const ModelIndexInfoSet::iterator last = m_itemData->end();
+    if (parent != last)
     {
         QModelIndex parentIdx = get(parent);  // index of parent
         result = m_model->index(i, 0, parentIdx);
@@ -351,6 +350,7 @@ ModelIndexInfoSet& Data::getAll()
 
 void Data::setupRoot()
 {
+    //setup info for index QModelIndex()
     auto it = m_itemData->insert(QModelIndex(), ModelIndexInfo());
 
     (**it).expanded = true;
