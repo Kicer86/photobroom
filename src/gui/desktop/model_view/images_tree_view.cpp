@@ -212,7 +212,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     for (const QModelIndex& item: items)
     {
         ModelIndexInfoSet::iterator infoIt = m_data->get(item);
-        ModelIndexInfo info = **infoIt;
+        const ModelIndexInfo& info = **infoIt;
 
         QStyleOptionViewItem styleOption;
         styleOption.rect = info.getRect();
