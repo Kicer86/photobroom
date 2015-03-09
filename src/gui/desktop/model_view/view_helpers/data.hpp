@@ -59,7 +59,7 @@ class Data
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
 
-        Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr) {}
+        Data();
         Data(const Data &) = delete;
         
         ~Data();
@@ -95,6 +95,7 @@ class Data
         QAbstractItemModel* m_model;
 
         std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
+        void setupRoot();
         void dump();
 };
 

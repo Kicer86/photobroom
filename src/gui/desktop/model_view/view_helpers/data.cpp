@@ -25,6 +25,7 @@
 #include <QPixmap>
 #include <QIcon>
 #include <QDebug>
+#include <QModelIndex>
 
 
 std::ostream &operator<<(std::ostream &o, const QRect &r)
@@ -46,6 +47,11 @@ std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
 
 //////////////////////////////////////////////////////////////////////////////////////
 
+Data::Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr)
+{
+    setupRoot();
+}
+
 
 Data::~Data()
 {
@@ -66,6 +72,8 @@ ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
     if (it == m_itemData->end())
         it = m_itemData->insert(index, ModelIndexInfo());
     
+    assert(index.isValid() || (**it).expanded == true);
+
     return it;
 }
 
@@ -325,6 +333,7 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 void Data::clear()
 {
     m_itemData->clear();
+    setupRoot();
 }
 
 
@@ -337,6 +346,14 @@ const ModelIndexInfoSet& Data::getAll() const
 ModelIndexInfoSet& Data::getAll()
 {
     return *m_itemData;
+}
+
+
+void Data::setupRoot()
+{
+    auto it = m_itemData->insert(QModelIndex(), ModelIndexInfo());
+
+    (**it).expanded = true;
 }
 
 
