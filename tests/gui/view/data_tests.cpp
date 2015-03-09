@@ -23,7 +23,7 @@ TEST(DataShould, BeConstructable)
 }
  
 
-TEST(DataShould, BeEmptyWhenConstructed)
+TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
 
     MockConfiguration config;
@@ -32,7 +32,22 @@ TEST(DataShould, BeEmptyWhenConstructed)
     data.m_configuration = &config;
 
     const auto& items = data.getAll();
-    EXPECT_EQ(true, items.empty());
+    EXPECT_EQ(1, items.size());
+}
+
+
+TEST(DataShould, ContainOnlyRootNodeAfterClear)
+{
+
+    MockConfiguration config;
+
+    Data data;
+    data.m_configuration = &config;
+
+    data.clear();
+
+    const auto& items = data.getAll();
+    EXPECT_EQ(1, items.size());
 }
 
 
@@ -151,7 +166,7 @@ TEST(DataShould, MarkTopItemsAsVisible)
 
     QModelIndex top = model.createIndex(0, 0, &data);
 
-    EXPECT_CALL(model, parent(top)).Times(1).WillRepeatedly(Return(QModelIndex()));
+    EXPECT_CALL(model, parent(top)).Times(4).WillRepeatedly(Return(QModelIndex()));
 
     data.get(top);                          //create object
 
