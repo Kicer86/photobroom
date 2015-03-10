@@ -132,15 +132,23 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int fro
 
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
-    ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-    ModelIndexInfo& info = *infoIt;
-    info.setRect(QRect());
+    ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.setRect(QRect());
+    }
 }
 
 
 void PositionsReseter::resetOverallRect(const QModelIndex& idx) const
 {
-    ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-    ModelIndexInfo& info = *infoIt;
-    info.setOverallRect(QRect());
+    ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.setOverallRect(QRect());
+    }
 }
