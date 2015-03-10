@@ -64,26 +64,31 @@ namespace tree_private
 
             const RetType& operator*() const
             {
+                assert(valid());
                 return **current();
             }
 
             RetType& operator*()
             {
+                assert(valid());
                 return **current();
             }
 
             const RetType& operator&() const
             {
+                assert(valid());
                 return **current();
             }
 
             const RetType* operator->() const
             {
+                assert(valid());
                 return &(**current());
             }
 
             RetType* operator->()
             {
+                assert(valid());
                 return &(**current());
             }
 
