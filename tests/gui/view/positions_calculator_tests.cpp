@@ -134,14 +134,14 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = *data.get(top_idx);
+        const ModelIndexInfo& info = *data.cfind(top_idx);
 
         EXPECT_EQ(QRect(), info.getRect());                                   //invisible
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getOverallRect());    //but has overall size of all items
     }
 
     {
-        const ModelIndexInfo& info = *data.get(top_child1_idx);
+        const ModelIndexInfo& info = *data.cfind(top_child1_idx);
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());           // its position
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getOverallRect());    // no children expanded - overall == size
@@ -258,14 +258,14 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = *view_data.get(top_idx);
+        const ModelIndexInfo& info = *view_data.cfind(top_idx);
 
         EXPECT_EQ(QRect(), info.getRect());                                                      //invisible
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h + img_h + margin), info.getOverallRect());      //but has overall size of all items
     }
 
     {
-        const ModelIndexInfo& info = *view_data.get(top_child1_idx);
+        const ModelIndexInfo& info = *view_data.cfind(top_child1_idx);
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                              // its position
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h + img_h + margin), info.getOverallRect());      // no children expanded - overall == size
@@ -312,14 +312,14 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = *view_data.get(top->index());
+        const ModelIndexInfo& info = *view_data.cfind(top->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                                  // its position
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h + img_h*2 + margin*2), info.getOverallRect());      // we expect two rows
     }
 
     {
-        const ModelIndexInfo& info = *view_data.get(child5->index());
+        const ModelIndexInfo& info = *view_data.cfind(child5->index());
         const QRect childSize(0, header_h + img_h + margin, img_w + margin, img_h + margin);  // should start in second row (parent's header + first row height + margin)
 
         EXPECT_EQ(childSize, info.getRect());
@@ -397,7 +397,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.get(top->index());
+        const ModelIndexInfo& info = *data.cfind(top->index());
         EXPECT_EQ(info.getRect(), info.getOverallRect());       //children are invisible, so both sizes should be equal
     }
 }

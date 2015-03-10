@@ -139,6 +139,12 @@ ModelIndexInfoSet::const_iterator ModelIndexInfoSet::end() const
 }
 
 
+ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cfind(const QModelIndex& index) const
+{
+    return find(index);
+}
+
+
 ModelIndexInfoSet::const_iterator ModelIndexInfoSet::cbegin() const
 {
     return m_model.cbegin();

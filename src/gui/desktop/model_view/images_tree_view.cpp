@@ -121,10 +121,14 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
 
     for (const QModelIndex& idx: indexes)
     {
-        ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
-        const ModelIndexInfo& info = *infoIt;
+        ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
-        result += info.getRect();
+        if (infoIt.valid())
+        {
+            const ModelIndexInfo& info = *infoIt;
+
+            result += info.getRect();
+        }
     }
 
     return result;
@@ -211,7 +215,8 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        ModelIndexInfoSet::iterator infoIt = m_data->get(item);
+        ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
+        assert(infoIt.valid());
         const ModelIndexInfo& info = *infoIt;
 
         QStyleOptionViewItem styleOption;
@@ -230,11 +235,11 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
-    ModelIndexInfoSet::iterator infoIt = m_data->get(item);
-    ModelIndexInfo& info = *infoIt;
+    ModelIndexInfoSet::iterator infoIt = m_data->find(item);
 
-    if (item.isValid())
+    if (item.isValid() && infoIt.valid())
     {
+        ModelIndexInfo& info = *infoIt;
         info.expanded = !info.expanded;
 
         //reset some positions
@@ -267,7 +272,9 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 
 const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    ModelIndexInfoSet::iterator infoIt = m_data->get(index);
+    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+
+    assert(infoIt.valid());
     const ModelIndexInfo& info = *infoIt;
 
     return info.getRect();
@@ -288,7 +295,9 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
         if (overlap)
         {
             QModelIndex modelIdx = m_data->get(it);
-            assert(modelIdx.isValid());
+            if(modelIdx.isValid() == false)
+                modelIdx = m_data->get(it);
+
             result.push_back(modelIdx);
         }
 
@@ -314,7 +323,9 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    ModelIndexInfoSet::iterator infoIt = m_data->get(QModelIndex());
+    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
+    assert(infoIt.valid());
+
     const ModelIndexInfo& info = *infoIt;
     const QSize areaSize = viewport()->size();
     const QSize treeAreaSize = info.getOverallRect().size();

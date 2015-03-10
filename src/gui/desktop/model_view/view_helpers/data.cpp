@@ -65,7 +65,7 @@ void Data::set(QAbstractItemModel* model)
 }
 
 
-ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
+ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
            
@@ -78,7 +78,15 @@ ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
 }
 
 
-ModelIndexInfoSet::iterator Data::find(const QModelIndex& index) const
+ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
+{
+    auto it = m_itemData->cfind(index);
+
+    return it;
+}
+
+
+ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
 
@@ -200,9 +208,14 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 
 bool Data::isExpanded(const QModelIndex& index) const
 {
-    ModelIndexInfoSet::iterator infoIt = get(index);
-    const ModelIndexInfo& info = *infoIt;
-    const bool status = info.expanded;
+    ModelIndexInfoSet::const_iterator infoIt = cfind(index);
+
+    bool status = false;
+    if (infoIt.valid())
+    {
+        const ModelIndexInfo& info = *infoIt;
+        status = info.expanded;
+    }
 
     return status;
 }
@@ -210,6 +223,8 @@ bool Data::isExpanded(const QModelIndex& index) const
 
 bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
 {
+    assert(it.valid());
+
     const ModelIndexInfo& info = *it;
     return info.expanded;
 }
@@ -217,6 +232,8 @@ bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
 
 bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 {
+    assert(it.valid());
+
     const ModelIndexInfo& info = *it;
     return info.expanded;
 }

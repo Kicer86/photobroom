@@ -67,9 +67,10 @@ class Data
 
         void set(QAbstractItemModel *);
 
-        ModelIndexInfoSet::iterator get(const QModelIndex &) const;        //always returns valid iterator (if index does not exist yet, will be added)
-        ModelIndexInfoSet::iterator find(const QModelIndex &) const;
-        void forget(const QModelIndex &);                    //clear data about given index
+        ModelIndexInfoSet::iterator get(const QModelIndex &);   //always returns valid iterator (if index does not exist yet, will be added)
+        ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
+        ModelIndexInfoSet::iterator find(const QModelIndex &);
+        void forget(const QModelIndex &);                       //clear data about given index
 
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;

@@ -76,13 +76,17 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {
     //invalidate parent if expanded
-    ModelIndexInfoSet::iterator infoIt = m_data->get(parent);
-    const ModelIndexInfo& parentInfo = *infoIt;
-    if (parentInfo.expanded)
-        invalidateItemOverallRect(parent);
+    ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
 
-    //invalidate all items which are after 'pos'
-    invalidateChildrenRect(parent, pos);
+    if (infoIt.valid())
+    {
+        const ModelIndexInfo& parentInfo = *infoIt;
+        if (parentInfo.expanded)
+            invalidateItemOverallRect(parent);
+
+        //invalidate all items which are after 'pos'
+        invalidateChildrenRect(parent, pos);
+    }
 }
 
 

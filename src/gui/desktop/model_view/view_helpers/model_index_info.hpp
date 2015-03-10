@@ -59,6 +59,7 @@ class ModelIndexInfoSet final
         const_iterator find(const QModelIndex &) const;
         const_iterator begin() const;
         const_iterator end() const;
+        const_iterator cfind(const QModelIndex &) const;
         const_iterator cbegin() const;
         const_iterator cend() const;
         iterator find(const QModelIndex &);
