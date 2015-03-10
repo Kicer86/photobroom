@@ -67,7 +67,8 @@ class Data
 
         void set(QAbstractItemModel *);
 
-        ModelIndexInfoSet::iterator get(const QModelIndex &) const;
+        ModelIndexInfoSet::iterator get(const QModelIndex &) const;        //always returns valid iterator (if index does not exist yet, will be added)
+        ModelIndexInfoSet::iterator find(const QModelIndex &) const;
         void forget(const QModelIndex &);                    //clear data about given index
 
         ModelIndexInfoSet::iterator get(const QPoint &) const;

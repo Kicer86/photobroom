@@ -78,6 +78,14 @@ ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
 }
 
 
+ModelIndexInfoSet::iterator Data::find(const QModelIndex& index) const
+{
+    auto it = m_itemData->find(index);
+
+    return it;
+}
+
+
 void Data::forget(const QModelIndex& index)
 {
     assert(index.isValid());                         // we cannot forget root node
