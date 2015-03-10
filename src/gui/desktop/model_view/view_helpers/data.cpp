@@ -156,40 +156,6 @@ QPixmap Data::getImage(const QModelIndex& index) const
 }
 
 
-void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
-{
-    ModelIndexInfoSet::const_iterator it = m_itemData->cbegin();
-    auto it_end = m_itemData->cend();
-
-    ModelIndexInfo result(QModelIndex());
-
-    for(; it != it_end; ++it)
-    {
-        const ModelIndexInfo& info = *it;
-        const bool cont = f(info);
-
-        if (!cont)
-            break;
-    }
-}
-
-
-void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
-{
-    for(auto it = m_itemData->cbegin(); it != m_itemData->cend(); ++it)
-    {
-        const ModelIndexInfo& info = *it;
-
-        bool cont = true;
-        if (isVisible(it))
-            cont = f(info);
-
-        if (cont == false)
-            break;
-    }
-}
-
-
 void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) const
 {
     for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
