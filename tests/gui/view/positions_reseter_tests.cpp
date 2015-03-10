@@ -533,3 +533,21 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
         EXPECT_EQ(QRect(), info3.getOverallRect());
     }
 }
+
+
+TEST_F(PositionsReseterShould, handleRemovalOfNotLoadedChildren)
+{
+    //prepare data
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+
+    // test
+    ModelIndexInfo& info = *data.get(top->index());
+    info.expanded = true;
+
+    EXPECT_NO_THROW(
+    {
+        PositionsReseter reseter(&model, &data);
+        reseter.childrenRemoved(top->index(), 5);         //info for child 5 may be not prepared as top was not expanded while calculations of positions were made
+    });
+}
