@@ -140,6 +140,19 @@ namespace tree_private
                 return *this;
             }
 
+
+            flat_iterator parent() const
+            {
+                flat_iterator result = *this;
+
+                if (result.m_iterators.size() == 1)
+                    result = base::last();           // no parent
+                else
+                    result.m_iterators.pop();
+
+                return result;
+            }
+
     };
 
 }
