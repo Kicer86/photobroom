@@ -32,7 +32,7 @@ PositionsReseter::PositionsReseter(QAbstractItemModel* model, Data* data): m_dat
 
 PositionsReseter::~PositionsReseter()
 {
-
+    assert(m_data->validate());
 }
 
 
