@@ -58,8 +58,8 @@ void PositionsCalculator::updateItems() const
         {
             QRect rect = info.getRect();
 
-            //calculate overall only if node is expanded as has any children
-            if (m_data->isExpanded(idx))
+            //calculate overall only if node is expanded and has any children
+            if (children.empty() == false && m_data->isExpanded(idx))
                 for(const QModelIndex& child: children)
                 {
                     ModelIndexInfoSet::const_iterator c_infoIt = m_data->cfind(child);
