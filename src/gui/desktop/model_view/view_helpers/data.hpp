@@ -90,6 +90,8 @@ class Data
         const ModelIndexInfoSet& getAll() const;
         ModelIndexInfoSet& getAll();
 
+        bool validate() const;                       //checks data consistency
+
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;

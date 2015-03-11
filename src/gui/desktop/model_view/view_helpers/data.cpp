@@ -44,6 +44,24 @@ std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
     return os;
 }
 
+namespace
+{
+    bool validate(QAbstractItemModel* model, const QModelIndex& index, ModelIndexInfoSet::const_flat_iterator it)
+    {
+        const size_t it_children = it.children_count();
+        const size_t idx_children = model->rowCount(index);
+        bool equal = it_children == idx_children;
+
+        assert(equal);
+
+        if (equal && it_children != 0)
+            for(size_t i = 0; i < it_children; i++)
+                equal = validate(model, model->index(i, 0, index), it.begin() + i);
+
+        return equal;
+    }
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -336,6 +354,12 @@ const ModelIndexInfoSet& Data::getAll() const
 ModelIndexInfoSet& Data::getAll()
 {
     return *m_itemData;
+}
+
+
+bool Data::validate() const
+{
+    return ::validate(m_model, QModelIndex(), m_itemData->cbegin());
 }
 
 
