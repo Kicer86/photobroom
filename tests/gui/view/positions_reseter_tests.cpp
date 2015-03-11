@@ -20,6 +20,7 @@ protected:
         icon = pixmap;
 
         data.m_configuration = &config;
+        data.set(&model);
 
         top = new QStandardItem("Empty");
         child1 = new QStandardItem(icon, "Empty1");
@@ -101,6 +102,9 @@ protected:
 TEST_F(PositionsReseterShould, BeConstructable)
 {
     EXPECT_NO_THROW({
+        PositionsCalculator calculator(&model, &data, canvas_w);
+        calculator.updateItems();
+
         PositionsReseter reseter(&model, &data);
     });
 }

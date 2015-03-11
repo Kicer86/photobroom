@@ -20,6 +20,7 @@ TEST(PositionsCalculatorShould, BeConstructable)
 
         Data data;
         data.m_configuration = &config;
+        data.set(&model);
 
         PositionsCalculator calculator(&model, &data, 100);
     });
@@ -341,6 +342,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     const QPixmap pixmap(img_w, img_h);
     const QIcon icon(pixmap);
