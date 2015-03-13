@@ -52,8 +52,6 @@ namespace
         const size_t idx_children = model->rowCount(index);
         bool equal = it_children == idx_children;
 
-        assert(equal);
-
         if (equal && it_children != 0)
             for(size_t i = 0; i < it_children; i++)
                 equal = validate(model, model->index(i, 0, index), it.begin() + i);
