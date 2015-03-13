@@ -73,7 +73,7 @@ class Data
         
         void forget(const QModelIndex &);                       //clear data about given index
         void erase(ModelIndexInfoSet::iterator);
-        void insert(ModelIndexInfoSet::iterator, const ModelIndexInfo &);
+        ModelIndexInfoSet::iterator insert(ModelIndexInfoSet::iterator, const ModelIndexInfo &);
 
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;

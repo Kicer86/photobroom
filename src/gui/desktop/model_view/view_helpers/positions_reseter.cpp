@@ -53,12 +53,12 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int t
 {
     //update model
     auto parentIt = m_data->find(parent);
-    auto childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
+    ModelIndexInfoSet::iterator childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
     const int count = to_pos - from_pos + 1;
     
     for( int i = 0; i < count; i++)
-        m_data->insert(childIt, ModelIndexInfo());                    // each  next sub node is being placed at the same position but is doesn't matter
-    
+        childIt = m_data->insert(childIt, ModelIndexInfo());                    // each next sub node is being placed at the same position but is doesn't matter. 
+                                                                                // Also remember to rewrite iterator, as container may change and iterator used for inserting may become invalid    
     //invalidate parent
     invalidateItemOverallRect(parent);
 

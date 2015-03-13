@@ -117,9 +117,9 @@ void Data::erase(ModelIndexInfoSet::iterator it)
 }
 
 
-void Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
+ModelIndexInfoSet::iterator Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
 {
-    m_itemData->insert(it, info);
+    return m_itemData->insert(it, info);
 }
 
 
