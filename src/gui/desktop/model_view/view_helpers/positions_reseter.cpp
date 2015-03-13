@@ -19,6 +19,10 @@
 
 #include "positions_reseter.hpp"
 
+#ifndef NDEBUG
+    #include <iostream>
+#endif
+
 #include <QModelIndex>
 #include <QAbstractItemModel>
 
@@ -32,7 +36,16 @@ PositionsReseter::PositionsReseter(QAbstractItemModel* model, Data* data): m_dat
 
 PositionsReseter::~PositionsReseter()
 {
+#ifndef NDEBUG
+    const bool valid = m_data->validate();
+    
+    if (valid == false)
+    {
+        const std::string dump = m_data->getAll().dumpModel();
+        std::cout << dump << std::endl;
+    }
     assert(m_data->validate());
+#endif
 }
 
 
