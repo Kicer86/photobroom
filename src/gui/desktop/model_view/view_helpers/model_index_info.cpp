@@ -208,64 +208,65 @@ void ModelIndexInfoSet::erase(const iterator& it)
 //TODO: simplify and mix with find()
 ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, const ModelIndexInfo& info)
 {
-    auto it = find(index);
+    assert(find(index) == end());                 // we do not expect this item already in model
     
-    if (it == end())
+    std::vector<size_t> hierarchy = generateHierarchy(index);
+    const size_t hierarchy_size = hierarchy.size();
+    assert(hierarchy_size > 0);
+
+    //setup first item
+    flat_iterator item_it = m_model.end();
+
+    for(size_t i = 0; i < hierarchy.size(); i++)
     {
-        std::vector<size_t> hierarchy = generateHierarchy(index);
-        const size_t hierarchy_size = hierarchy.size();
-        assert(hierarchy_size > 0);
+        const size_t pos = hierarchy[i];
+        const bool last = i + 1 == hierarchy_size;
 
-        //setup first item
-        flat_iterator item_it = m_model.end();
-
-        for(size_t i = 0; i < hierarchy.size(); i++)
+        if (i == 0)
         {
-            const size_t pos = hierarchy[i];
-            const bool last = i + 1 == hierarchy_size;
+            flat_iterator b(m_model.begin());
+            flat_iterator e(m_model.end());
 
-            if (i == 0)
+            const size_t c = e - b;               // how many items?
+            if (pos < c)
             {
-                flat_iterator b(m_model.begin());
-                flat_iterator e(m_model.end());
-
-                const size_t c = e - b;               //how many items?
-                if (pos < c)
-                    item_it = flat_iterator(m_model.begin()) + hierarchy[i];
-                else if (pos == c)                    //just append after last item?
+                assert(last == false);            // we want to insert item. If this is last level and there is such item, something went wrong (assert at top of the function should have catch it)
+                item_it = flat_iterator(m_model.begin()) + hierarchy[i];
+            }
+            else if (pos == c)                    // just append after last item?
+            {
+                if (last == false)                // for last level do nothing - we will instert this item later below
                 {
-                    if (last == false)                //for last level do nothing - we will inster this item later below
-                    {
-                        flat_iterator ins = b + pos;
-                        item_it = m_model.insert(ins, ModelIndexInfo());
-                    }
+                    flat_iterator ins = b + pos;
+                    item_it = m_model.insert(ins, ModelIndexInfo());
                 }
-                else
-                    assert(!"missing siblings");
             }
             else
-            {
-                const size_t c = item_it.children_count();
-                if (pos < c)
-                    item_it = item_it.begin() + pos;
-                else if (pos == c)                    //just append after last item?
-                {
-                    flat_iterator ins = item_it.begin() + pos;
-
-                    if (last)
-                        item_it = ins;                // for last level of hierarchy set item_it to desired position
-                    else
-                        item_it = m_model.insert(ins, ModelIndexInfo());
-                }
-                else
-                    assert(!"missing siblings");
-            }
+                assert(!"missing siblings");
         }
+        else
+        {
+            const size_t c = item_it.children_count();
+            if (pos < c)
+            {
+                assert(last == false);            // we want to insert item. If this is last level and there is such item, something went wrong (assert at top of the function should have catch it)
+                item_it = item_it.begin() + pos;
+            }
+            else if (pos == c)                    //just append after last item?
+            {
+                flat_iterator ins = item_it.begin() + pos;
 
-        it = m_model.insert(item_it, info);
+                if (last)
+                    item_it = ins;                // for last level of hierarchy set item_it to desired position
+                else
+                    item_it = m_model.insert(ins, ModelIndexInfo());
+            }
+            else
+                assert(!"missing siblings");
+        }
     }
-    else
-        *it = info;
+
+    auto it = m_model.insert(item_it, info);
     
     return it;
 }
