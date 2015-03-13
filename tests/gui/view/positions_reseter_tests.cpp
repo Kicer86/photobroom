@@ -129,7 +129,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
     top->appendRow(child6);
 
     PositionsReseter reseter(&model, &data);
-    reseter.itemsAdded(top->index(), 5);
+    reseter.itemsAdded(top->index(), 5, 5);
 
     //expectations
     {
@@ -493,7 +493,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
     model.insertRow(0, new_top0);
 
     PositionsReseter reseter(&model, &data);
-    reseter.itemsAdded(QModelIndex(), 0);
+    reseter.itemsAdded(QModelIndex(), 0, 0);
 
     //expectations
     {
@@ -555,3 +555,6 @@ TEST_F(PositionsReseterShould, throwOnRemovalOfNotLoadedChildren)
         reseter.childrenRemoved(top->index(), 5);         //info for child 5 may be not prepared as top was not expanded while calculations of positions were made
     }, "model is not consistent");
 }
+
+//TODO: add tests for many inserts/removals
+

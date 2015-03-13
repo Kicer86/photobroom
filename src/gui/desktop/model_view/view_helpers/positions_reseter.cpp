@@ -49,18 +49,21 @@ PositionsReseter::~PositionsReseter()
 }
 
 
-void PositionsReseter::itemsAdded(const QModelIndex& parent, int pos) const
+void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const
 {
     //update model
     auto parentIt = m_data->find(parent);
-    auto childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + pos;
-    m_data->insert(childIt, ModelIndexInfo());
+    auto childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
+    const int count = to_pos - from_pos + 1;
+    
+    for( int i = 0; i < count; i++)
+        m_data->insert(childIt, ModelIndexInfo());                    // each  next sub node is being placed at the same position but is doesn't matter
     
     //invalidate parent
     invalidateItemOverallRect(parent);
 
-    //invalidate all items which are after 'pos'
-    const QModelIndex item = m_model->index(pos, 0, parent);
+    //invalidate all items which are after 'to_pos'
+    const QModelIndex item = m_model->index(to_pos, 0, parent);
     invalidateSiblingsRect(item);
 }
 

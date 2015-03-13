@@ -39,6 +39,8 @@ namespace
             const size_t it_children = it.children_count();
             const size_t idx_children = model->rowCount(index);
             equal = it_children == idx_children;
+            
+            assert(equal);
 
             if (equal && it_children != 0)                         // still ok && has children
                 for(size_t i = 0; i < it_children; i++)

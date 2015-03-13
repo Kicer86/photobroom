@@ -372,10 +372,10 @@ void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start,
 }
 
 
-void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int /*from*/, int to)
+void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
     PositionsReseter reseter(model(), m_data.get());
-    reseter.itemsAdded(_parent, to);
+    reseter.itemsAdded(_parent, from, to);
 
     updateData();
 
