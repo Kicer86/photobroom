@@ -60,7 +60,7 @@ namespace tree_private
 
             flat_iterator operator++(int)
             {
-                iterator it = *this;
+                flat_iterator it = *this;
                 ++(*this);
 
                 return it;
