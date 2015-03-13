@@ -98,7 +98,6 @@ class Data
 
         std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
         void setupRoot();
-        void dump();
 };
 
 #endif // DATA_HPP

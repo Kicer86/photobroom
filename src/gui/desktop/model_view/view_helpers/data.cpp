@@ -28,22 +28,6 @@
 #include <QModelIndex>
 
 
-std::ostream &operator<<(std::ostream &o, const QRect &r)
-{
-    return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
-}
-
-
-std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
-{
-    QString str;
-    QDebug(&str) << idx;
-
-    os << str.toStdString();
-
-    return os;
-}
-
 namespace
 {
     bool validate(QAbstractItemModel* model, const QModelIndex& index, ModelIndexInfoSet::const_flat_iterator it)
@@ -370,18 +354,3 @@ void Data::setupRoot()
     it->expanded = true;
 }
 
-
-void Data::dump()
-{
-    /*
-    int i = 0;
-    for_each([&](const ModelIndexInfo& item)
-    {
-        std::cout << i++ << ": " << item.index << ", " << item.getRect() << ", " << item.getOverallRect() << ", expanded: " << item.expanded << std::endl;
-
-        return true;
-    });
-
-    std::cout << std::endl;
-    */
-}
