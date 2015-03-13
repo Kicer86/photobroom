@@ -806,13 +806,14 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
+
+    if (photoIdxData == nullptr)
+        photoIdxData = new IdxData(this, nullptr, photoInfo);
+
     QModelIndex toIdx = getIndex(to);
     const int toPos = to->findPositionFor(photoIdxData);
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
-
-    if (photoIdxData == nullptr)
-        photoIdxData = new IdxData(this, to, photoInfo);
 
     to->addChild(photoIdxData);
 
