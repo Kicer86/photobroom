@@ -19,6 +19,8 @@
 
 #include "model_index_info.hpp"
 
+#include <sstream>
+
 namespace
 {
     template<typename T, typename M>
@@ -64,6 +66,12 @@ namespace
 
         return item_it;
     }
+    
+    std::ostream &operator<<(std::ostream &o, const QRect &r)
+    {
+        return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
+    }
+
 }
 
 
@@ -103,6 +111,14 @@ ModelIndexInfo::ModelIndexInfo(): expanded(false), rect(), overallRect()
 {
 }
 
+
+ModelIndexInfo::operator std::string() const
+{
+    std::stringstream result;
+    result << getRect() << ", " << getOverallRect() << ", expanded: " << expanded;
+    
+    return result.str();
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -264,6 +280,13 @@ bool ModelIndexInfoSet::empty() const
 size_t ModelIndexInfoSet::size() const
 {
     return m_model.cend() - m_model.cbegin();
+}
+
+
+std::string ModelIndexInfoSet::dumpModel() const
+{
+    const std::string dump = m_model.dump();
+    return dump;
 }
 
 

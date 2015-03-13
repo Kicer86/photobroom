@@ -36,6 +36,8 @@ struct ModelIndexInfo
         void cleanRects();
 
         ModelIndexInfo();
+        
+        operator std::string() const;
 
     private:
         QRect rect;
@@ -72,6 +74,8 @@ class ModelIndexInfoSet final
 
         bool empty() const;
         size_t size() const;
+        
+        std::string dumpModel() const;
 
     private:
         Model m_model;
