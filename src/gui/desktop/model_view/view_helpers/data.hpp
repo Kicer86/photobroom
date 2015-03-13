@@ -70,7 +70,10 @@ class Data
         ModelIndexInfoSet::iterator get(const QModelIndex &);   //always returns valid iterator (if index does not exist yet, will be added)
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
+        
         void forget(const QModelIndex &);                       //clear data about given index
+        void erase(ModelIndexInfoSet::iterator);
+        void insert(ModelIndexInfoSet::iterator, const ModelIndexInfo &);
 
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;

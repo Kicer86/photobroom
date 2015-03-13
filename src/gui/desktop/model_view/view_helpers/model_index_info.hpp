@@ -71,6 +71,7 @@ class ModelIndexInfoSet final
         void clear();
         void erase(const iterator &);
         iterator insert(const QModelIndex &, const ModelIndexInfo &);
+        iterator insert(flat_iterator, const ModelIndexInfo &);
 
         bool empty() const;
         size_t size() const;

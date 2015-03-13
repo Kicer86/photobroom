@@ -271,6 +271,12 @@ ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(const QModelIndex& index, 
 }
 
 
+ModelIndexInfoSet::iterator ModelIndexInfoSet::insert(ModelIndexInfoSet::flat_iterator it, const ModelIndexInfo& info)
+{
+    return m_model.insert(it, info);
+}
+
+
 bool ModelIndexInfoSet::empty() const
 {
     return m_model.empty();

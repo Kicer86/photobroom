@@ -109,6 +109,18 @@ void Data::forget(const QModelIndex& index)
 }
 
 
+void Data::erase(ModelIndexInfoSet::iterator it)
+{
+    m_itemData->erase(it);
+}
+
+
+void Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
+{
+    m_itemData->insert(it, info);
+}
+
+
 ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
     ModelIndexInfoSet::iterator result = m_itemData->end();

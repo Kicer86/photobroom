@@ -51,6 +51,11 @@ PositionsReseter::~PositionsReseter()
 
 void PositionsReseter::itemsAdded(const QModelIndex& parent, int pos) const
 {
+    //update model
+    auto parentIt = m_data->find(parent);
+    auto childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + pos;
+    m_data->insert(childIt, ModelIndexInfo());
+    
     //invalidate parent
     invalidateItemOverallRect(parent);
 
@@ -87,7 +92,19 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 
 
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
-{
+{   
+    //update model
+    auto parentIt = m_data->find(parent);
+    ModelIndexInfoSet::flat_iterator flat_parent(parentIt);
+    
+    if (flat_parent.children_count())
+    {
+        auto childIt = flat_parent.begin() + pos;
+        m_data->erase(childIt);
+    }
+    else if (flat_parent->expanded)
+        assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
+    
     //invalidate parent if expanded
     ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
 

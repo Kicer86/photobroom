@@ -539,7 +539,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
 }
 
 
-TEST_F(PositionsReseterShould, handleRemovalOfNotLoadedChildren)
+TEST_F(PositionsReseterShould, throwOnRemovalOfNotLoadedChildren)
 {
     //prepare data
     PositionsCalculator calculator(&model, &data, canvas_w);
@@ -549,9 +549,9 @@ TEST_F(PositionsReseterShould, handleRemovalOfNotLoadedChildren)
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
-    EXPECT_NO_THROW(
+    EXPECT_DEATH(
     {
         PositionsReseter reseter(&model, &data);
         reseter.childrenRemoved(top->index(), 5);         //info for child 5 may be not prepared as top was not expanded while calculations of positions were made
-    });
+    }, "model is not consistent");
 }
