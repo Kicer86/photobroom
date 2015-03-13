@@ -149,8 +149,10 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this)
     m_data->init(this);
 
     //default hierarchy
-    Hierarchy hierarchy;
-    hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
+    const Hierarchy hierarchy = {
+                                  { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending },
+                                  { BaseTags::get(BaseTagsList::Time), Hierarchy::Level::Order::ascending }
+                                };
 
     setHierarchy(hierarchy);
 
@@ -248,9 +250,6 @@ IdxData* IdxDataManager::getIdxDataFor(const QModelIndex& obj) const
 {
     IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
 
-    assert(idxData == nullptr || obj.column() == idxData->m_column);
-    assert(idxData == nullptr || obj.row() == idxData->m_row);
-
     return idxData;
 }
 
@@ -342,11 +341,11 @@ void IdxDataManager::idxDataReset(IdxData* idxData)
 //function returns list of tag values on particular 'level' for 'parent'
 void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
 {
-    if (level + 1 <= m_data->m_hierarchy.levels.size())
+    if (level <= m_data->m_hierarchy.nodeLevels())
     {
         std::deque<Database::IFilter::Ptr> filter;
 
-        const TagNameInfo& tagNameInfo = m_data->m_hierarchy.levels[level].tagName;
+        const TagNameInfo& tagNameInfo = m_data->m_hierarchy.getNodeInfo(level).tagName;
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
@@ -388,7 +387,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     //add anti-filter for last node
     auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>();
     auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
-    tag_filter->tagName = m_data->m_hierarchy.levels[level].tagName;
+    tag_filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
     node_filter->filter = tag_filter;
     filter.push_back(node_filter);
@@ -428,18 +427,36 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     const size_t level = idxData->m_level;
 
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
+    assert(level <= m_data->m_hierarchy.nodeLevels());
 
-    if (level < m_data->m_hierarchy.levels.size())         //construct nodes basing on tags
+    const bool leafs_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
+
+    if (leafs_level)                  //construct leafs basing on photos
+        fetchPhotosFor(_parent);
+    else                              //construct nodes basing on tags
     {
         fetchTagValuesFor(level, _parent);
         checkForNonmatchingPhotos(level, _parent);
     }
-    else if (level == m_data->m_hierarchy.levels.size())   //construct leafs basing on photos
-        fetchPhotosFor(_parent);
-    else
-        assert(!"should not happen");
 
     idxData->m_loaded = IdxData::FetchStatus::Fetching;
+}
+
+
+void IdxDataManager::setupNewNode(IdxData* node, const Database::IFilter::Ptr& filter, const Hierarchy::Level& order) const
+{
+    assert(node->isNode());
+
+    node->setNodeFilter(filter);
+    node->setNodeSorting(order);
+}
+
+
+void IdxDataManager::setupRootNode()
+{
+    const auto& topLevel = m_data->m_hierarchy.getNodeInfo(0);
+
+    getRoot()->setNodeSorting(topLevel);
 }
 
 
@@ -495,11 +512,11 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
     for(const QString& tag: tags)
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>();
-        filter->tagName = m_data->m_hierarchy.levels[level].tagName;
+        filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
         filter->tagValue = tag;
 
         IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
-        newItem->setNodeFilter(filter);
+        setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
         leafs->push_back(newItem);
     }
@@ -539,6 +556,7 @@ void IdxDataManager::resetModel()
 
     m_data->m_model->beginResetModel();
     m_data->m_root->reset();
+    setupRootNode();
     m_data->m_model->endResetModel();
 }
 
@@ -572,9 +590,9 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 
     IdxData* currentParent = getCurrentParent(photoInfo);
     IdxData* newParent = createAncestry(photoInfo);
-    bool parent_changed = currentParent != newParent;
+    bool position_changed = currentParent != newParent;
 
-    if (parent_changed)
+    if (position_changed)
     {
         if (currentParent == nullptr)
             performAdd(photoInfo, newParent);
@@ -583,8 +601,10 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
         else
             performMove(photoInfo, currentParent, newParent);
     }
+    else if (currentParent != nullptr)                            //same parent, but maybe reorder of children is required? (sorting)
+        position_changed = sortChildrenOf(currentParent);
 
-    return parent_changed;
+    return position_changed;
 }
 
 
@@ -663,11 +683,11 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
     // found parent is not fetched? Quit with null
     if (_parent->m_loaded == IdxData::FetchStatus::Fetched)
     {
-        if (level == m_data->m_hierarchy.levels.size())  //this parent is at the bottom of hierarchy? Just use it as result
+        if (level == m_data->m_hierarchy.nodeLevels())  //this parent is at the bottom of hierarchy? Just use it as result
             result = _parent;
         else
         {
-            const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+            const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
             auto photoTagIt = photoTags.find(tagName);
 
             //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
@@ -680,8 +700,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
                 filter->tagName = tagName;
                 filter->tagValue = tagValue;
 
-                node->setNodeFilter(filter);
-
+                setupNewNode(node, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
                 appendIdxData(_parent, {node} );
 
                 result = node;
@@ -723,15 +742,21 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    performMove(photoIdxData, from, to);
+}
+
+
+void IdxDataManager::performMove(IdxData* item, IdxData* from, IdxData* to)
+{
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
-    const int fromPos = photoIdxData->m_row;
-    const int toPos = to->m_children.size();
+    const int fromPos = item->getRow();
+    const int toPos = to->findPositionFor(item);
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
 
-    from->takeChild(photoIdxData);
-    to->addChild(photoIdxData);
+    from->takeChild(item);
+    to->addChild(item);
 
     m_data->m_model->endMoveRows();
 
@@ -760,7 +785,7 @@ void IdxDataManager::performRemove(IdxData* item)
         assert(_parent != nullptr);
 
         QModelIndex parentIdx = getIndex(_parent);
-        const int itemPos = item->m_row;
+        const int itemPos = item->getRow();
 
         m_data->m_model->beginRemoveRows(parentIdx, itemPos, itemPos);
 
@@ -782,7 +807,7 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
     QModelIndex toIdx = getIndex(to);
-    const int toPos = to->m_children.size();
+    const int toPos = to->findPositionFor(photoIdxData);
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
@@ -795,12 +820,31 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 }
 
 
+bool IdxDataManager::sortChildrenOf(IdxData* parent)
+{
+    const bool result = parent->sortingRequired();
+    bool dirty = result;
+
+    while (dirty)
+    {
+        IdxData* child = parent->findChildWithBadPosition();
+
+        if (child == nullptr)
+            dirty = false;
+        else
+            performMove(child, parent, parent);
+    }
+
+    return result;
+}
+
+
 IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
 {
     IdxData* node = new IdxData(this, _parent, tr("Unlabeled"));
 
     const size_t level = _parent->m_level;
-    const TagNameInfo& tagName = m_data->m_hierarchy.levels[level].tagName;
+    const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
     auto filterTag = std::make_shared<Database::FilterPhotosWithTag>();
     filterTag->tagName = tagName;
@@ -808,7 +852,7 @@ IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
     filter->filter = filterTag;
 
-    node->setNodeFilter(filter);
+    setupNewNode(node, filter, m_data->m_hierarchy.getNodeInfo(level + 1) );
 
     return node;
 }
@@ -839,7 +883,7 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
         //make sure photo is assigned to right parent
         movePhotoToRightParent(photoInfo);
 
-        //tak IdxData now, it is possible we have removed it while moving to new parent
+        //take IdxData now, it is possible we have removed it while moving to new parent
         IdxData* idx = findIdxDataFor(photoInfo);
         if (idx != nullptr)
         {

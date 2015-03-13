@@ -220,7 +220,7 @@ IdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) 
 
 IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool exact) const
 {
-    const size_t depth = m_idxDataManager->getHierarchy().levels.size();
+    const size_t depth = m_idxDataManager->getHierarchy().nodeLevels();
     IdxData* result = nullptr;
     IdxData* root = m_idxDataManager->getRoot();
     std::deque<IdxData *> toCheck = { root };

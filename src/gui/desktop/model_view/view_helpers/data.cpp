@@ -19,124 +19,147 @@
 
 #include "data.hpp"
 
+#include <cassert>
 #include <iostream>
 
 #include <QPixmap>
 #include <QIcon>
 #include <QDebug>
+#include <QModelIndex>
 
 
-std::ostream &operator<<(std::ostream &o, const QRect &r)
+namespace
 {
-    return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
-}
+    bool validate(QAbstractItemModel* model, const QModelIndex& index, ModelIndexInfoSet::const_flat_iterator it)
+    {
+        bool equal = true;
+        
+        if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
+        {
+            const size_t it_children = it.children_count();
+            const size_t idx_children = model->rowCount(index);
+            equal = it_children == idx_children;
+            
+            assert(equal);
 
-
-std::ostream& operator<<( std::ostream& os, const QModelIndex& idx )
-{
-    QString str;
-    QDebug(&str) << idx;
-
-    os << str.toStdString();
-
-    return os;
-}
-
-
-void ModelIndexInfo::setRect(const QRect& r)
-{
-    rect = r;
-    overallRect = QRect();          // not valid anymore
-}
-
-
-void ModelIndexInfo::setOverallRect(const QRect& r)
-{
-    overallRect = r;
-}
-
-
-const QRect& ModelIndexInfo::getRect() const
-{
-    return rect;
-}
-
-
-const QRect& ModelIndexInfo::getOverallRect() const
-{
-    return overallRect;
-}
-
-
-void ModelIndexInfo::cleanRects()
-{
-    rect = QRect();
-    overallRect = QRect();
-}
-
-
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& idx) : index(idx), expanded(false), rect(), overallRect()
-{
-    expanded = idx == QModelIndex();       //expand top root
+            if (equal && it_children != 0)                         // still ok && has children
+                for(size_t i = 0; i < it_children; i++)
+                    equal = validate(model, model->index(i, 0, index), it.begin() + i);
+        }
+        
+        return equal;
+    }
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-ModelIndexInfo Data::get(const QModelIndex& index) const
+Data::Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr)
 {
-    const auto it = m_itemData.find(index);
-    const ModelIndexInfo info = it != m_itemData.end()? *it: ModelIndexInfo(index);
+    setupRoot();
+}
 
-    return info;
+
+Data::~Data()
+{
+
+}
+
+
+void Data::set(QAbstractItemModel* model)
+{
+    m_model = model;
+}
+
+
+ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
+{
+    auto it = m_itemData->find(index);
+           
+    if (it == m_itemData->end())
+        it = m_itemData->insert(index, ModelIndexInfo());
+    
+    assert(index.isValid() || it->expanded == true);
+
+    return it;
+}
+
+
+ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
+{
+    auto it = m_itemData->cfind(index);
+
+    return it;
+}
+
+
+ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
+{
+    auto it = m_itemData->find(index);
+
+    return it;
 }
 
 
 void Data::forget(const QModelIndex& index)
 {
     assert(index.isValid());                         // we cannot forget root node
-    auto it = m_itemData.find(index);
+    auto it = m_itemData->find(index);
 
-    if (it != m_itemData.end())
-        m_itemData.erase(it);
+    if (it != m_itemData->end())
+        m_itemData->erase(it);
 }
 
 
-const ModelIndexInfo& Data::get(const QPoint& point) const
+void Data::erase(ModelIndexInfoSet::iterator it)
 {
-    const ModelIndexInfo* result = &m_invalid;
+    m_itemData->erase(it);
+}
 
-    for_each([&] (const ModelIndexInfo& info)
+
+ModelIndexInfoSet::iterator Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
+{
+    return m_itemData->insert(it, info);
+}
+
+
+ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
+{
+    ModelIndexInfoSet::iterator result = m_itemData->end();
+
+    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
     {
-        bool cont = true;
-        if (info.getRect().contains(point) && isVisible(info.index))
+        const ModelIndexInfo& info = *it;
+
+        if (info.getRect().contains(point) && isVisible(it))
         {
-            result = &info;
-            cont = false;
+            result = it;
+            break;
         }
+    }
 
-        return cont;
-    });
-
-    return *result;
+    return result;
 }
 
 
 bool Data::isImage(const QModelIndex& index) const
 {
-    const QAbstractItemModel* model = index.model();
-    const bool has_children = model->hasChildren(index);
     bool result = false;
 
-    if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
+    if (index.isValid())
     {
-        QPixmap pixmap = getImage(index);
+        const QAbstractItemModel* model = index.model();
+        const bool has_children = model->hasChildren(index);
 
-        result = pixmap.isNull() == false;
+        if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
+        {
+            QPixmap pixmap = getImage(index);
+
+            result = pixmap.isNull() == false;
+        }
+        //else - has children so it is node so it is not image :)
     }
-    //else - has children so it is node so it is not image :)
-
+    
     return result;
 }
 
@@ -168,43 +191,71 @@ QPixmap Data::getImage(const QModelIndex& index) const
 }
 
 
-void Data::for_each(std::function<bool(const ModelIndexInfo &)> f) const
+void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) const
 {
-    auto it = m_itemData.get<1>().begin();
-    auto it_end = m_itemData.get<1>().end();
-
-    ModelIndexInfo result( (QModelIndex()) );
-
-    for(; it != it_end; ++it)
+    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
     {
-        const ModelIndexInfo& info = *it;
-        const bool cont = f(info);
+        bool cont = true;
+        if (isVisible(it))
+            cont = f(it);
 
-        if (!cont)
+        if (cont == false)
             break;
     }
 }
 
 
-void Data::for_each_visible(std::function<bool(const ModelIndexInfo &)> f) const
+QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 {
-    for_each([&](const ModelIndexInfo& info)
-    {
-        bool cont = true;
-        if (isVisible(info.index))
-            cont = f(info);
+    assert(m_model != nullptr);
 
-        return cont;
-    });
+    ModelIndexInfoSet::flat_iterator flat_it(it);
+    ModelIndexInfoSet::iterator parent = flat_it.parent();
+    const size_t i = flat_it.index();
+
+    QModelIndex result;          //top item in tree == QModelIndex()
+
+    const ModelIndexInfoSet::iterator last = m_itemData->end();
+    if (parent != last)
+    {
+        QModelIndex parentIdx = get(parent);  // index of parent
+        result = m_model->index(i, 0, parentIdx);
+    }
+
+    return result;
 }
 
 
 bool Data::isExpanded(const QModelIndex& index) const
 {
-    const ModelIndexInfo& info = get(index);
-    const bool status = info.expanded;
+    ModelIndexInfoSet::const_iterator infoIt = cfind(index);
+
+    bool status = false;
+    if (infoIt.valid())
+    {
+        const ModelIndexInfo& info = *infoIt;
+        status = info.expanded;
+    }
 
     return status;
+}
+
+
+bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
+{
+    assert(it.valid());
+
+    const ModelIndexInfo& info = *it;
+    return info.expanded;
+}
+
+
+bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
+{
+    assert(it.valid());
+
+    const ModelIndexInfo& info = *it;
+    return info.expanded;
 }
 
 
@@ -214,6 +265,34 @@ bool Data::isVisible(const QModelIndex& index) const
     bool result = false;
 
     if (parent == QModelIndex())    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
+}
+
+
+bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
+{
+    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::flat_iterator(it).parent();
+    bool result = false;
+
+    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
+}
+
+
+bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
+{
+    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_flat_iterator(it).parent();
+    bool result = false;
+
+    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
         result = true;
     else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
         result = true;
@@ -261,42 +340,36 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 }
 
 
-void Data::update(const ModelIndexInfo& info)
-{
-    auto it = m_itemData.find(info.index);
-
-    if (it == m_itemData.end())
-        m_itemData.insert(info);
-    else
-        m_itemData.replace(it, info);
-
-    dump();
-}
-
-
 void Data::clear()
 {
-    m_itemData.clear();
+    m_itemData->clear();
+    setupRoot();
 }
 
 
-const Data::ModelIndexInfoSet& Data::getAll() const
+const ModelIndexInfoSet& Data::getAll() const
 {
-    return m_itemData;
+    return *m_itemData;
 }
 
 
-void Data::dump()
+ModelIndexInfoSet& Data::getAll()
 {
-    /*
-    int i = 0;
-    for_each([&](const ModelIndexInfo& item)
-    {
-        std::cout << i++ << ": " << item.index << ", " << item.getRect() << ", " << item.getOverallRect() << ", expanded: " << item.expanded << std::endl;
-
-        return true;
-    });
-
-    std::cout << std::endl;
-    */
+    return *m_itemData;
 }
+
+
+bool Data::validate() const
+{
+    return ::validate(m_model, QModelIndex(), m_itemData->cbegin());
+}
+
+
+void Data::setupRoot()
+{
+    //setup info for index QModelIndex()
+    auto it = m_itemData->insert(QModelIndex(), ModelIndexInfo());
+
+    it->expanded = true;
+}
+

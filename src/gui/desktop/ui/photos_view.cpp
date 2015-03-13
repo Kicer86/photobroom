@@ -49,15 +49,16 @@ void PhotosView::on_sortingCombo_currentIndexChanged(int index)
 {
     if (index == 0)
     {
-        Hierarchy hierarchy;
-        hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending }  };
+        const Hierarchy hierarchy = {
+                                      { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending },
+                                      { BaseTags::get(BaseTagsList::Time), Hierarchy::Level::Order::ascending }
+                                    };
 
         m_imagesModel->setHierarchy(hierarchy);
     }
     else
     {
-        Hierarchy hierarchy;
-        hierarchy.levels = { { BaseTags::get(BaseTagsList::People), Hierarchy::Level::Order::ascending }  };
+        const Hierarchy hierarchy = { { BaseTags::get(BaseTagsList::People), Hierarchy::Level::Order::ascending }  };
 
         m_imagesModel->setHierarchy(hierarchy);
     }

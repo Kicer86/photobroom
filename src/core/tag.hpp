@@ -24,6 +24,7 @@ struct CORE_EXPORT TagNameInfo
             Time    = 3,
         };
 
+        TagNameInfo();
         TagNameInfo(const QString& name, const Type);
         TagNameInfo(const QString& name, int type);
         TagNameInfo(const TagNameInfo& other);
@@ -52,7 +53,7 @@ class CORE_EXPORT TagValue
         ~TagValue();
 
         void set(const QString &);
-        void add(const QString &);
+        //void add(const QString &);
 
         const QString get() const;
         const List& getAll() const;

@@ -5,6 +5,12 @@
 #include <QStringList>
 
 
+TagNameInfo::TagNameInfo(): name(), type(Invalid)
+{
+
+}
+
+
 TagNameInfo::TagNameInfo(const QString& n, const Type t): name(n), type(t)
 {
 

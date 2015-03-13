@@ -44,25 +44,28 @@ void PositionsCalculator::updateItems() const
 {
     m_data->for_each_recursively(m_model, [&](const QModelIndex& idx, const std::deque<QModelIndex>& children)
     {
-        ModelIndexInfo info = m_data->get(idx);
+        ModelIndexInfoSet::iterator infoIt = m_data->get(idx);
+        ModelIndexInfo& info = *infoIt;
 
         // calculations only for dirty ones
         if (info.getRect().isNull())
         {
             QRect rect = calcItemRect(idx);
-            info.setRect(rect);
-            m_data->update(info);                                        // size muse be stored at this point, as children calculations may require it
+            info.setRect(rect);                  // size muse be set at this point, as children calculations may require it
         }
 
         if (info.getOverallRect().isNull())
         {
             QRect rect = info.getRect();
 
-            //calculate overall only if node is expanded as has any children
-            if (m_data->isExpanded(idx))
+            //calculate overall only if node is expanded and has any children
+            if (children.empty() == false && m_data->isExpanded(idx))
                 for(const QModelIndex& child: children)
                 {
-                    ModelIndexInfo c_info = m_data->get(child);
+                    ModelIndexInfoSet::const_iterator c_infoIt = m_data->cfind(child);
+                    assert(c_infoIt.valid());
+
+                    const ModelIndexInfo& c_info = *c_infoIt;
                     QRect c_rect = c_info.getOverallRect();
                     assert(c_rect.isValid());
 
@@ -70,7 +73,6 @@ void PositionsCalculator::updateItems() const
                 }
 
             info.setOverallRect(rect);
-            m_data->update(info);
         }
     });
 }
@@ -118,7 +120,8 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    const ModelIndexInfo& info = m_data->get(index);
+    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+    const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
     const QModelIndex nextIndex = index.sibling(index.row() + 1, 0);
     const int nextIndexWidth = getitemWidth(nextIndex);
@@ -132,7 +135,8 @@ QPoint PositionsCalculator::positionOfNextImage(const QModelIndex& index) const
         const QItemSelection selection = selectRowFor(index);
         for(const QModelIndex& idx: selection.indexes())
         {
-            ModelIndexInfo idxInfo = m_data->get(idx);
+            ModelIndexInfoSet::const_iterator idxInfoIt = m_data->cfind(idx);
+            const ModelIndexInfo& idxInfo = *idxInfoIt;
             const QRect& idxRect = idxInfo.getRect();
             const int idxHeight = idxRect.height();
 
@@ -151,7 +155,10 @@ QPoint PositionsCalculator::positionOfNextNode(const QModelIndex& index) const
 {
     assert(index.isValid());
 
-    ModelIndexInfo info = m_data->get(index);
+    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+    assert(infoIt.valid());
+
+    const ModelIndexInfo& info = *infoIt;
     const QRect items_pos = info.getOverallRect();
     assert(items_pos.isValid());
     const QPoint result = QPoint(0, items_pos.bottom());
@@ -220,7 +227,10 @@ QItemSelection PositionsCalculator::selectRowFor(const QModelIndex& index) const
     while(itemToCheck.isValid())
     {
         const QModelIndex current = itemToCheck;
-        const ModelIndexInfo indexInfo = m_data->get(itemToCheck);
+        ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(itemToCheck);
+        assert(infoIt.valid());
+
+        const ModelIndexInfo& indexInfo = *infoIt;
         const QRect& indexRect = indexInfo.getRect();
 
         //go to previous item
@@ -228,7 +238,10 @@ QItemSelection PositionsCalculator::selectRowFor(const QModelIndex& index) const
 
         if (itemToCheck.isValid())
         {
-            const ModelIndexInfo prevInfo = m_data->get(itemToCheck);
+            infoIt = m_data->cfind(itemToCheck);
+            assert(infoIt.valid());
+
+            const ModelIndexInfo& prevInfo = *infoIt;
             const QRect& prevRect = prevInfo.getRect();
 
             if (prevRect.top() != indexRect.top())   //items are at the same y-position? If no - we are no longer in the same row
