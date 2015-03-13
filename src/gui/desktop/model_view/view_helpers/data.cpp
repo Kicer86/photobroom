@@ -32,14 +32,19 @@ namespace
 {
     bool validate(QAbstractItemModel* model, const QModelIndex& index, ModelIndexInfoSet::const_flat_iterator it)
     {
-        const size_t it_children = it.children_count();
-        const size_t idx_children = model->rowCount(index);
-        bool equal = it_children == idx_children;
+        bool equal = true;
+        
+        if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
+        {
+            const size_t it_children = it.children_count();
+            const size_t idx_children = model->rowCount(index);
+            equal = it_children == idx_children;
 
-        if (equal && it_children != 0)
-            for(size_t i = 0; i < it_children; i++)
-                equal = validate(model, model->index(i, 0, index), it.begin() + i);
-
+            if (equal && it_children != 0)                         // still ok && has children
+                for(size_t i = 0; i < it_children; i++)
+                    equal = validate(model, model->index(i, 0, index), it.begin() + i);
+        }
+        
         return equal;
     }
 }
