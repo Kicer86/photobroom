@@ -138,22 +138,7 @@ namespace tree_private
 
                 return r;
             }
-
-            recursive_iterator parent() const
-            {
-                assert(base::m_iterators.empty() == false);
-
-                recursive_iterator result = base::last();
-
-                if (base::m_iterators.size() > 1)
-                {
-                    result = *this;
-                    result.jumpout();
-                }
-
-                return result;
-            }
-
+ 
         private:
             template<typename T> friend class tree;
 

@@ -140,7 +140,6 @@ namespace tree_private
                 return *this;
             }
 
-
             flat_iterator parent() const
             {
                 flat_iterator result = *this;

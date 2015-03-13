@@ -94,11 +94,7 @@ namespace tree_private
 
             bool valid() const
             {
-                bool status = true;
-
-                assert(m_iterators.empty() == false);
-                if (m_iterators.size() == 1)
-                    status = current() != last();
+                const bool status = current() != last();
 
                 return status;
             }

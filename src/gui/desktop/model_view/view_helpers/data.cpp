@@ -208,8 +208,9 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 {
     assert(m_model != nullptr);
 
-    ModelIndexInfoSet::iterator parent = it.parent();
-    const size_t i = ModelIndexInfoSet::flat_iterator(it).index();
+    ModelIndexInfoSet::flat_iterator flat_it(it);
+    ModelIndexInfoSet::iterator parent = flat_it.parent();
+    const size_t i = flat_it.index();
 
     QModelIndex result;          //top item in tree == QModelIndex()
 
@@ -273,7 +274,7 @@ bool Data::isVisible(const QModelIndex& index) const
 
 bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 {
-    ModelIndexInfoSet::iterator parent = it.parent();
+    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::flat_iterator(it).parent();
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
@@ -287,7 +288,7 @@ bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 
 bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 {
-    ModelIndexInfoSet::const_iterator parent = it.parent();
+    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_flat_iterator(it).parent();
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
