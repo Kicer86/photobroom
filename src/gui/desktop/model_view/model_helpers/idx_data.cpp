@@ -113,7 +113,7 @@ namespace
 }
 
 
-IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name): IdxData(model, parent)
 {
     m_data[Qt::DisplayRole] = name;
     
@@ -121,7 +121,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name) : 
 }
 
 
-IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& photo) : IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& photo): IdxData(model, parent)
 {
     m_photo = photo;
     m_loaded = FetchStatus::Fetched;
