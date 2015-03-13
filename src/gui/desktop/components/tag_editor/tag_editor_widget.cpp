@@ -38,7 +38,8 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagsOperator(),
     m_tagName(nullptr),
     m_tagValue(nullptr),
-    m_addButton(nullptr)
+    m_addButton(nullptr),
+    m_tags()
 {
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
@@ -122,7 +123,7 @@ void TagEditorWidget::addButtonPressed()
 {
     const int idx = m_tagName->currentIndex();
 
-    assert(idx < m_tags.size());
+    assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
 
     const TagNameInfo& name = m_tags[idx];
     const QString value = m_tagValue->text();

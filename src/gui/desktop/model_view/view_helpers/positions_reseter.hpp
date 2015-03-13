@@ -21,23 +21,26 @@
 #define POSITIONSRESETER_H
 
 class QModelIndex;
+class QAbstractItemModel;
+
 class Data;
 
 class PositionsReseter
 {
 public:
-    PositionsReseter(Data *);
+    PositionsReseter(QAbstractItemModel *, Data *);
     PositionsReseter(const PositionsReseter &) = delete;
     ~PositionsReseter();
     PositionsReseter& operator=(const PositionsReseter &) = delete;
 
-    void itemsAdded(const QModelIndex& parent, int pos) const;
+    void itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const;
     void invalidateAll() const;
     void itemChanged(const QModelIndex &);
     void childrenRemoved(const QModelIndex &, int pos);
 
 private:
     Data* m_data;
+    QAbstractItemModel* m_model;
 
     void invalidateItemOverallRect(const QModelIndex &) const;
     void invalidateSiblingsRect(const QModelIndex &) const;

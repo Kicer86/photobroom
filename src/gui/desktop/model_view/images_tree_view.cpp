@@ -93,8 +93,8 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
     const QPoint offset = getOffset();
     const QPoint treePoint = point + offset;
-    const ModelIndexInfo info = m_data->get(treePoint);
-    const QModelIndex& result = info.index;
+    ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
+    const QModelIndex result = m_data->get(infoIt);
 
     return result;
 }
@@ -121,9 +121,14 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
 
     for (const QModelIndex& idx: indexes)
     {
-        ModelIndexInfo info = m_data->get(idx);
+        ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
-        result += info.getRect();
+        if (infoIt.valid())
+        {
+            const ModelIndexInfo& info = *infoIt;
+
+            result += info.getRect();
+        }
     }
 
     return result;
@@ -180,19 +185,20 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
     //
     QAbstractItemView::setModel(m);
+    m_data->set(m);
 
     //read model
     rereadModel();
 
     //connect to model's signals
-    connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()));
+    connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
-            this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)));
-    connect(m, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(rowsAboutToBeRemoved(QModelIndex,int,int)));
+            this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)), Qt::UniqueConnection);
+    connect(m, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(rowsAboutToBeRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
 
-    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
-    connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)));
-    connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
+    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
+    connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
+    connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
 }
 
 
@@ -209,7 +215,9 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        ModelIndexInfo info = m_data->get(item);
+        ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
+        assert(infoIt.valid());
+        const ModelIndexInfo& info = *infoIt;
 
         QStyleOptionViewItem styleOption;
         styleOption.rect = info.getRect();
@@ -227,15 +235,15 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
-    ModelIndexInfo info = m_data->get(item);
+    ModelIndexInfoSet::iterator infoIt = m_data->find(item);
 
-    if (item.isValid())
+    if (item.isValid() && infoIt.valid())
     {
+        ModelIndexInfo& info = *infoIt;
         info.expanded = !info.expanded;
-        m_data->update(info);
 
         //reset some positions
-        PositionsReseter reseter(m_data.get());
+        PositionsReseter reseter(model(), m_data.get());
         reseter.itemChanged(item);
 
         updateData();
@@ -250,7 +258,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     QAbstractItemView::resizeEvent(e);
 
     //reset all positions
-    PositionsReseter reseter(m_data.get());
+    PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
     updateData();
@@ -264,7 +272,10 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 
 const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    const ModelIndexInfo& info = m_data->get(index);
+    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+
+    assert(infoIt.valid());
+    const ModelIndexInfo& info = *infoIt;
 
     return info.getRect();
 }
@@ -275,14 +286,20 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
     //TODO: optimise?
     std::deque<QModelIndex> result;
 
-    m_data->for_each_visible( [&] (const ModelIndexInfo& info)
+    m_data->for_each_visible( [&] ( ModelIndexInfoSet::iterator it)
     {
+        const ModelIndexInfo& info = *it;
         const QRect& item_rect = info.getRect();
-        const QModelIndex& index = info.index;
         const bool overlap = _rect.intersects(item_rect);
 
         if (overlap)
-            result.push_back(index);
+        {
+            QModelIndex modelIdx = m_data->get(it);
+            if(modelIdx.isValid() == false)
+                modelIdx = m_data->get(it);
+
+            result.push_back(modelIdx);
+        }
 
         return true;
     });
@@ -306,7 +323,10 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    const ModelIndexInfo info = m_data->get(QModelIndex());
+    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
+    assert(infoIt.valid());
+
+    const ModelIndexInfo& info = *infoIt;
     const QSize areaSize = viewport()->size();
     const QSize treeAreaSize = info.getOverallRect().size();
 
@@ -334,7 +354,7 @@ void ImagesTreeView::modelReset()
 }
 
 
-void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& destinationParent, int destinationRow)
+void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& /*destinationParent*/, int /*destinationRow*/)
 {
     rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
 }
@@ -354,8 +374,8 @@ void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start,
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
-    PositionsReseter reseter(m_data.get());
-    reseter.itemsAdded(_parent, to);
+    PositionsReseter reseter(model(), m_data.get());
+    reseter.itemsAdded(_parent, from, to);
 
     updateData();
 
@@ -374,7 +394,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
 {
     //reset sizes and positions of existing items
-    PositionsReseter reseter(m_data.get());
+    PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(_parent, first);
 
     updateData();

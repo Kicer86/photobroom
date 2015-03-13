@@ -19,11 +19,16 @@
 
 #include "positions_reseter.hpp"
 
+#ifndef NDEBUG
+    #include <iostream>
+#endif
+
 #include <QModelIndex>
+#include <QAbstractItemModel>
 
 #include "data.hpp"
 
-PositionsReseter::PositionsReseter(Data* data): m_data(data)
+PositionsReseter::PositionsReseter(QAbstractItemModel* model, Data* data): m_data(data), m_model(model)
 {
 
 }
@@ -31,31 +36,47 @@ PositionsReseter::PositionsReseter(Data* data): m_data(data)
 
 PositionsReseter::~PositionsReseter()
 {
-
+#ifndef NDEBUG
+    const bool valid = m_data->validate();
+    
+    if (valid == false)
+    {
+        const std::string dump = m_data->getAll().dumpModel();
+        std::cout << dump << std::endl;
+    }
+    assert(m_data->validate());
+#endif
 }
 
 
-void PositionsReseter::itemsAdded(const QModelIndex& parent, int pos) const
+void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const
 {
+    //update model
+    auto parentIt = m_data->find(parent);
+    ModelIndexInfoSet::iterator childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
+    const int count = to_pos - from_pos + 1;
+    
+    for( int i = 0; i < count; i++)
+        childIt = m_data->insert(childIt, ModelIndexInfo());                    // each next sub node is being placed at the same position but is doesn't matter. 
+                                                                                // Also remember to rewrite iterator, as container may change and iterator used for inserting may become invalid    
     //invalidate parent
     invalidateItemOverallRect(parent);
 
-    //invalidate all items which are after 'pos'
-    const QModelIndex sibling = parent.child(pos + 1, 0);
-    invalidateSiblingsRect(sibling);
+    //invalidate all items which are after 'to_pos'
+    const QModelIndex item = m_model->index(to_pos, 0, parent);
+    invalidateSiblingsRect(item);
 }
 
 
 void PositionsReseter::invalidateAll() const
 {
-    m_data->for_each( [&](const ModelIndexInfo& c_info)
+    ModelIndexInfoSet& dataSet = m_data->getAll();
+    for(auto it = dataSet.begin(); it != dataSet.end(); ++it)
     {
-        ModelIndexInfo info = c_info;
-        info.cleanRects();
-        m_data->update(info);
+        ModelIndexInfo& info = *it;
 
-        return true;
-    });
+        info.cleanRects();
+    };
 }
 
 
@@ -74,14 +95,31 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 
 
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
-{
+{   
+    //update model
+    auto parentIt = m_data->find(parent);
+    ModelIndexInfoSet::flat_iterator flat_parent(parentIt);
+    
+    if (flat_parent.children_count())
+    {
+        auto childIt = flat_parent.begin() + pos;
+        m_data->erase(childIt);
+    }
+    else if (flat_parent->expanded)
+        assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
+    
     //invalidate parent if expanded
-    ModelIndexInfo parentInfo =  m_data->get(parent);
-    if (parentInfo.expanded)
-        invalidateItemOverallRect(parent);
+    ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
 
-    //invalidate all items which are after 'pos'
-    invalidateChildrenRect(parent, pos);
+    if (infoIt.valid())
+    {
+        const ModelIndexInfo& parentInfo = *infoIt;
+        if (parentInfo.expanded)
+            invalidateItemOverallRect(parent);
+
+        //invalidate all items which are after 'pos'
+        invalidateChildrenRect(parent, pos);
+    }
 }
 
 
@@ -116,10 +154,10 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
 }
 
 
-void PositionsReseter::invalidateChildrenRect(const QModelIndex& idx, int from) const
+void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int from) const
 {
     int r = from;
-    for(QModelIndex child = idx.child(r, 0); child.isValid(); child = idx.child(++r, 0))
+    for(QModelIndex child = m_model->index(r, 0, parent); child.isValid(); child = m_model->index(++r, 0, parent))
     {
         resetRect(child);
 
@@ -131,15 +169,23 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& idx, int from) 
 
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
-    ModelIndexInfo info = m_data->get(idx);
-    info.setRect(QRect());
-    m_data->update(info);
+    ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.setRect(QRect());
+    }
 }
 
 
 void PositionsReseter::resetOverallRect(const QModelIndex& idx) const
 {
-    ModelIndexInfo info = m_data->get(idx);
-    info.setOverallRect(QRect());
-    m_data->update(info);
+    ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.setOverallRect(QRect());
+    }
 }
