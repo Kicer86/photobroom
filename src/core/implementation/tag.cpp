@@ -4,14 +4,22 @@
 #include <QString>
 #include <QStringList>
 
+#include "base_tags.hpp"
 
-TagNameInfo::TagNameInfo(): name(), type(Invalid)
+TagNameInfo::TagNameInfo(): name(), displayName(), type(Invalid)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const QString& n, const Type t): name(n), type(t)
+TagNameInfo::TagNameInfo(const QString& n, const TagNameInfo::Type t, const QString& d): name(n), displayName(d), type(t)
+{
+
+}
+
+
+
+TagNameInfo::TagNameInfo(const QString& n, const Type t): name(n), displayName(dn(n)), type(t)
 {
 
 }
@@ -23,7 +31,7 @@ TagNameInfo::TagNameInfo(const QString& n, int t): TagNameInfo(n, Type(t))
 }
 
 
-TagNameInfo::TagNameInfo(const TagNameInfo& other): name(other.name), type(other.type)
+TagNameInfo::TagNameInfo(const TagNameInfo& other): name(other.name), displayName(other.displayName), type(other.type)
 {
 
 }
@@ -66,9 +74,40 @@ const QString& TagNameInfo::getName() const
 }
 
 
+const QString& TagNameInfo::getDisplayName() const
+{
+    return displayName;
+}
+
+
+
 TagNameInfo::Type TagNameInfo::getType() const
 {
     return type;
+}
+
+
+QString TagNameInfo::dn(const QString& n) const
+{
+    // If name is base name, then we have translation.
+    // Otherwise we are working with user defined tag
+
+    const TagNameInfo* baseTag = nullptr;
+    const auto& all = BaseTags::getAll();
+
+    for(const auto& tag: all)
+    {
+        if (n == tag)
+        {
+            baseTag = &tag;
+            break;
+        }
+    }
+
+    //use translation for base. For user's tags use name directly
+    const QString result = baseTag == nullptr? n: baseTag->displayName;
+
+    return result;
 }
 
 
@@ -142,12 +181,17 @@ namespace Tag
         return *this;
     }
 
-    QString Info::name() const
+    const QString& Info::name() const
     {
-        return m_name;
+        return m_name.getName();
     }
 
-    TagNameInfo Info::getTypeInfo() const
+    const QString& Info::displayName() const
+    {
+        return m_name.getDisplayName();
+    }
+
+    const TagNameInfo& Info::getTypeInfo() const
     {
         return m_name;
     }

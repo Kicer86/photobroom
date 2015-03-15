@@ -25,6 +25,7 @@ struct CORE_EXPORT TagNameInfo
         };
 
         TagNameInfo();
+        TagNameInfo(const QString& name, const Type, const QString& displayName);
         TagNameInfo(const QString& name, const Type);
         TagNameInfo(const QString& name, int type);
         TagNameInfo(const TagNameInfo& other);
@@ -35,11 +36,15 @@ struct CORE_EXPORT TagNameInfo
         TagNameInfo& operator=(const TagNameInfo& other);
 
         const QString& getName() const;
+        const QString& getDisplayName() const;
         Type getType() const;
 
     private:
         QString name;
+        QString displayName;
         Type type;
+
+        QString dn(const QString &) const;
 };
 
 
@@ -77,8 +82,10 @@ namespace Tag
 
             Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
-            QString name() const;
-            TagNameInfo getTypeInfo() const;
+            const QString& name() const;
+            const QString& displayName() const;
+
+            const TagNameInfo& getTypeInfo() const;
             const TagValue& value() const;
 
             void setValue(const QString &);

@@ -22,7 +22,7 @@
 namespace Database
 {
 
-    FilterPhotosWithTag::FilterPhotosWithTag(): tagName("", TagNameInfo::Invalid), tagValue()
+    FilterPhotosWithTag::FilterPhotosWithTag(): tagName(), tagValue()
     {
 
     }

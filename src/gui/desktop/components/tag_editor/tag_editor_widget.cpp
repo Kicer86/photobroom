@@ -106,7 +106,7 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
             {
                 const int idx = m_tags.size();
                 m_tags.push_back(info);
-                m_tagName->addItem(info.getName(), idx);
+                m_tagName->addItem(info.getDisplayName(), idx);
             }
         }
 

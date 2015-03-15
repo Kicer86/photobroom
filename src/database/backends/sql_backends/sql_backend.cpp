@@ -657,7 +657,7 @@ namespace Database
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT "
-                                   "%1.id, %2.name, %1.value, %1.name_id "
+                                   "%1.id, %2.name, %1.value, %2.type "
                                    "FROM "
                                    "%1 "
                                    "JOIN "

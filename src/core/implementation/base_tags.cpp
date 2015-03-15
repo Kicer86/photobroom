@@ -21,21 +21,16 @@
 
 #include <QObject>
 
+
 const std::map< BaseTagsList, TagNameInfo >& BaseTags::getBaseList()
 {
-    static const QString tag_people = QObject::tr("People", "Default Tag Name");
-    static const QString tag_place  = QObject::tr("Place",  "Default Tag Name");
-    static const QString tag_date   = QObject::tr("Date",   "Default Tag Name");
-    static const QString tag_time   = QObject::tr("Time",   "Default Tag Name");
-    static const QString tag_event  = QObject::tr("Event",  "Default Tag Name");
-
     static std::map<BaseTagsList, TagNameInfo> base_tags(
     {
-        { BaseTagsList::Event,  TagNameInfo(tag_event,  TagNameInfo::Text) },
-        { BaseTagsList::Place,  TagNameInfo(tag_place,  TagNameInfo::Text) },
-        { BaseTagsList::Date,   TagNameInfo(tag_date,   TagNameInfo::Date) },
-        { BaseTagsList::Time,   TagNameInfo(tag_time,   TagNameInfo::Time) },
-        { BaseTagsList::People, TagNameInfo(tag_people, TagNameInfo::Text) },
+        { BaseTagsList::Event,  TagNameInfo("Event",  TagNameInfo::Text, tr("Event")) },
+        { BaseTagsList::Place,  TagNameInfo("Place",  TagNameInfo::Text, tr("Place")) },
+        { BaseTagsList::Date,   TagNameInfo("Date",   TagNameInfo::Date, tr("Date")) },
+        { BaseTagsList::Time,   TagNameInfo("Time",   TagNameInfo::Time, tr("Time")) },
+        { BaseTagsList::People, TagNameInfo("People", TagNameInfo::Text, tr("People")) },
     });
 
     return base_tags;
@@ -59,7 +54,7 @@ TagNameInfo BaseTags::get(const BaseTagsList& item)
 {
     const std::map<BaseTagsList, TagNameInfo>& tags = getBaseList();
     auto p = tags.find(item);
-    TagNameInfo result("", TagNameInfo::Invalid);
+    TagNameInfo result;
 
     if (p != tags.end())
         result = p->second;

@@ -2,6 +2,34 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL">
 <context>
+    <name>BaseTags</name>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="33"/>
+        <source>People</source>
+        <translation>Osoby</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
+        <source>Place</source>
+        <translation>Miejsce</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="31"/>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="32"/>
+        <source>Time</source>
+        <translation>Godzina</translation>
+    </message>
+    <message>
+        <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
+        <source>Event</source>
+        <translation>Wydarzenie</translation>
+    </message>
+</context>
+<context>
     <name>Default Tag Name</name>
     <message>
         <source>People</source>
@@ -27,7 +55,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="844"/>
+        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="845"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -256,34 +284,29 @@
         <translation>&lt;różne wartości&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="26"/>
         <source>People</source>
         <comment>Default Tag Name</comment>
-        <translation>Osoby</translation>
+        <translation type="vanished">Osoby</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="27"/>
         <source>Place</source>
         <comment>Default Tag Name</comment>
-        <translation>Miejsce</translation>
+        <translation type="vanished">Miejsce</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="28"/>
         <source>Date</source>
         <comment>Default Tag Name</comment>
-        <translation>Data</translation>
+        <translation type="vanished">Data</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
         <source>Time</source>
         <comment>Default Tag Name</comment>
-        <translation>Godzina</translation>
+        <translation type="vanished">Godzina</translation>
     </message>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
         <source>Event</source>
         <comment>Default Tag Name</comment>
-        <translation>Wydarzenie</translation>
+        <translation type="vanished">Wydarzenie</translation>
     </message>
 </context>
 <context>

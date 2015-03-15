@@ -104,7 +104,7 @@ void TagsModel::refreshModel()
         for (const auto& tag: tags)
         {
             Tag::Info info(tag);
-            QStandardItem* name = new QStandardItem(info.name());
+            QStandardItem* name = new QStandardItem(info.displayName());
             QStandardItem* value = new QStandardItem(info.value().get());
 
             const QList<QStandardItem *> items( { name, value });
