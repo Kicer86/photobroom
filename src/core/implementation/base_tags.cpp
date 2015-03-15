@@ -59,7 +59,7 @@ TagNameInfo BaseTags::get(const BaseTagsList& item)
 {
     const std::map<BaseTagsList, TagNameInfo>& tags = getBaseList();
     auto p = tags.find(item);
-    TagNameInfo result("", TagNameInfo::Invalid);
+    TagNameInfo result;
 
     if (p != tags.end())
         result = p->second;
