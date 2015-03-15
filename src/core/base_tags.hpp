@@ -23,6 +23,8 @@
 #include <map>
 #include <vector>
 
+#include <QCoreApplication>
+
 #include "tag.hpp"
 
 #include "core_export.h"
@@ -38,6 +40,8 @@ enum class BaseTagsList
 
 class CORE_EXPORT BaseTags
 {
+        Q_DECLARE_TR_FUNCTIONS(BaseTags)
+
         static const std::map<BaseTagsList, TagNameInfo>& getBaseList();
         static std::vector<TagNameInfo> collectTags();
 
