@@ -312,9 +312,14 @@
 <context>
     <name>StagedPhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/components/staged_photos_widget.cpp" line="34"/>
+        <location filename="../src/gui/desktop/components/staged_photos_widget.cpp" line="35"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/components/staged_photos_widget.cpp" line="41"/>
+        <source>Changed photos:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
