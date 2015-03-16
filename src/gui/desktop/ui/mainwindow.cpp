@@ -97,6 +97,8 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 {
     if (prjInfo.isValid())
     {
+        closeProject();
+        
         m_currentPrj = m_prjManager->open(prjInfo);
         
         Database::IDatabase* db = m_currentPrj->getDatabase();
