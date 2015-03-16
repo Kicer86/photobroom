@@ -48,7 +48,7 @@ namespace
             }
         }
 
-        void addAt(const QPoint& point, QLabel* label)
+        void addAt(const QPoint& /*point*/, QLabel* /*label*/)
         {
             
         }

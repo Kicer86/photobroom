@@ -21,6 +21,7 @@
 
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QLabel>
 
 #include "staged_photos_data_model.hpp"
 #include "ui/photos_view.hpp"
@@ -36,8 +37,11 @@ StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
     QHBoxLayout* h = new QHBoxLayout;
     h->addStretch();
     h->addWidget(commitButton);
+    
+    QLabel* header = new QLabel(tr("Changed photos:"), this);
 
     QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(header);;
     l->addWidget(m_view);
     l->addLayout(h);
 

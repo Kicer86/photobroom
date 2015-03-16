@@ -29,6 +29,8 @@ class QLabel;
 
 class LevelEditor : public QWidget
 {
+        Q_OBJECT
+    
     public:
         LevelEditor(QWidget * = nullptr);
         LevelEditor(const LevelEditor &) = delete;

@@ -39,6 +39,8 @@ namespace Database
 
 class ProjectCreatorDialog: public QDialog
 {
+        Q_OBJECT
+    
     public:
         ProjectCreatorDialog();
         ProjectCreatorDialog(const ProjectCreatorDialog& other) = delete;

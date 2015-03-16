@@ -81,10 +81,11 @@ set(GUI_HEADERS
 set(GUI_FILES_TO_MOC
     desktop/data/thread_multiplexer.hpp
     desktop/data/photos_collector.hpp
+    desktop/components/filters_editor/level_editor.hpp
+    desktop/components/project_creator/project_creator_dialog.hpp
+    desktop/components/staged_photos_widget.hpp
     desktop/components/tag_editor/tag_editor_widget.hpp
     desktop/components/tag_editor/helpers/tags_model.hpp
-    desktop/components/staged_photos_widget.hpp
-    desktop/model_view/db_data_model.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
