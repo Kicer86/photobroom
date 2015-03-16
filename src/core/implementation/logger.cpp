@@ -62,7 +62,7 @@ void Logger::log(const char* utility, ILogger::Severity severity, const std::str
 }
 
 
-void Logger::log(const std::vector<const char *>& utility, ILogger::Severity severity, const std::string& message)
+void Logger::log(const std::vector<const char *>& utility, ILogger::Severity, const std::string& message)
 {
     assert(m_basePath.isEmpty() == false);
 
