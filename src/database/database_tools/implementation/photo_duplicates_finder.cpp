@@ -44,7 +44,7 @@ void PhotoDuplicatesFinder::setDatabase(Database::IDatabase* database)
 
 bool PhotoDuplicatesFinder::hasDuplicate(const IPhotoInfo::Ptr& photo) const
 {
-    const QString& path = photo->getPath();
+    //const QString& path = photo->getPath();
 
     SynchronousDatabase database;
 

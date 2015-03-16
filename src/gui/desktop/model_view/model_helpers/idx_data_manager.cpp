@@ -821,19 +821,19 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 }
 
 
-bool IdxDataManager::sortChildrenOf(IdxData* parent)
+bool IdxDataManager::sortChildrenOf(IdxData* _parent)
 {
-    const bool result = parent->sortingRequired();
+    const bool result = _parent->sortingRequired();
     bool dirty = result;
 
     while (dirty)
     {
-        IdxData* child = parent->findChildWithBadPosition();
+        IdxData* child = _parent->findChildWithBadPosition();
 
         if (child == nullptr)
             dirty = false;
         else
-            performMove(child, parent, parent);
+            performMove(child, _parent, _parent);
     }
 
     return result;

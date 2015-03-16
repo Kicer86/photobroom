@@ -60,7 +60,10 @@ namespace
     struct ChoosenLevelsWidget: QFrame
     {
         ChoosenLevelsWidget();
+        ChoosenLevelsWidget(const ChoosenLevelsWidget &) = delete;
         virtual ~ChoosenLevelsWidget();
+
+        ChoosenLevelsWidget& operator=(const ChoosenLevelsWidget &) = delete;
 
         virtual void dragEnterEvent(QDragEnterEvent *) override;
         virtual void dragMoveEvent(QDragMoveEvent *) override;
@@ -83,7 +86,7 @@ namespace
     template<> struct PtrSize<8> { typedef quint64 ptr_size; };
     typedef PtrSize<sizeof(void *)>::ptr_size ptr_size;
 
-    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame(), m_levels(), m_organizer(&m_levels), m_dd_label(nullptr), m_dd_offset()
+    ChoosenLevelsWidget::ChoosenLevelsWidget(): QFrame(), m_levels(), m_organizer(&m_levels), m_dd_label(nullptr), m_dd_offset(), m_dd_dropPosition()
     {
         setAcceptDrops(true);
     }
@@ -119,8 +122,8 @@ namespace
 
     void ChoosenLevelsWidget::dragMoveEvent(QDragMoveEvent *_event)
     {
-        const QPoint pos = _event->pos() - m_dd_offset;
-        m_dd_dropPosition = calcDropPosition(pos);
+        const QPoint mouse_pos = _event->pos() - m_dd_offset;
+        m_dd_dropPosition = calcDropPosition(mouse_pos);
 
         qDebug() << m_dd_dropPosition;
 
@@ -130,8 +133,8 @@ namespace
 
     void ChoosenLevelsWidget::dropEvent(QDropEvent *_event)
     {
-        const QPoint pos = _event->pos() - m_dd_offset;
-        const QPoint dropPosition = calcDropPosition(pos);
+        const QPoint mouse_pos = _event->pos() - m_dd_offset;
+        const QPoint dropPosition = calcDropPosition(mouse_pos);
 
         m_dd_label->setParent(this);
         m_dd_label->move(dropPosition);
@@ -146,9 +149,9 @@ namespace
     }
 
 
-    void ChoosenLevelsWidget::paintEvent(QPaintEvent* event)
+    void ChoosenLevelsWidget::paintEvent(QPaintEvent* _event)
     {
-        QFrame::paintEvent(event);
+        QFrame::paintEvent(_event);
 
         if (m_dd_label != nullptr)
         {
@@ -157,9 +160,9 @@ namespace
             QPen pen(Qt::blue, 4);
             painter.setPen(pen);
 
-            const QSize size = this->size();
+            const QSize widget_size = this->size();
             painter.drawLine(m_dd_dropPosition.x(), 0,
-                            m_dd_dropPosition.x(), size.height() - 1);
+                             m_dd_dropPosition.x(), widget_size.height() - 1);
         }
     }
 
@@ -170,11 +173,11 @@ namespace
 
         for(QWidget* child: m_levels)
         {
-            const QSize size = child->size();
-            const QPoint pos = child->pos();
+            const QSize child_size = child->size();
+            const QPoint child_pos = child->pos();
 
-            const int left = pos.x();
-            const int right = pos.x() + size.width();
+            const int left = child_pos.x();
+            const int right = child_pos.x() + child_size.width();
             const int m = (left + right) / 2;  //central point
 
             if (point.x() >= left && point.x() <= m)   //mouse over left part of child? Return left side of child as result

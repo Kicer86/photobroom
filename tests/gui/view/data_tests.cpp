@@ -252,10 +252,10 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
-    const auto& info1 = *data.get(child1->index());
-    const auto& info2 = *data.get(child2->index());
-    const QRect rect1 = info1.getRect();
-    const QRect rect2 = info2.getRect();
+    const auto& f_info1 = *data.get(child1->index());
+    const auto& f_info2 = *data.get(child2->index());
+    const QRect rect1 = f_info1.getRect();
+    const QRect rect2 = f_info2.getRect();
 
     //children size should be calculated
     EXPECT_NE(QRect(), rect1);
