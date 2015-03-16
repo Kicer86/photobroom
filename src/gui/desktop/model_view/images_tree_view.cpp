@@ -35,45 +35,11 @@
 #include "tree_item_delegate.hpp"
 
 
-ViewStatus::ViewStatus():
-    QObject(),
-    m_timer(new QTimer(this)),
-    m_requiresUpdate(false)
-{
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(trigger_update()));
-    m_timer->setSingleShot(true);
-}
-
-
-void ViewStatus::markDirty()
-{
-    m_requiresUpdate = true;
-
-    if (m_timer->isActive() == false)
-        trigger_update();
-}
-
-
-void ViewStatus::trigger_update()
-{
-    if (m_requiresUpdate)
-    {
-        m_requiresUpdate = false;
-        m_timer->start(250);                   //disable updates for a 250 ms
-        emit update_now();
-    }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus()
+ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
 
     setItemDelegate(delegate);
-
-    connect(&m_viewStatus, SIGNAL(update_now()), this, SLOT(updateModel()));
 }
 
 
@@ -246,9 +212,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         PositionsReseter reseter(model(), m_data.get());
         reseter.itemChanged(item);
 
-        updateData();
-
-        m_viewStatus.markDirty();
+        updateModel();
     }
 }
 
@@ -262,8 +226,6 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     reseter.invalidateAll();
 
     updateData();
-
-    m_viewStatus.markDirty();
 }
 
 
@@ -377,9 +339,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
 
-    updateData();
-
-    m_viewStatus.markDirty();
+    updateModel();
 }
 
 
@@ -397,17 +357,13 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
     PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(_parent, first);
 
-    updateData();
-
-    //update model
-    m_viewStatus.markDirty();
+    updateModel();
 }
 
 
 void ImagesTreeView::rereadModel()
 {
     m_data->clear();
-    m_viewStatus.markDirty();
 }
 
 
