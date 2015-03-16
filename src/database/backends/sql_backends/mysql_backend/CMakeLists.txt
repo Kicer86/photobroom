@@ -12,10 +12,17 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            
 include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
 
-set(BACKEND_SOURCES mysql_server.cpp backend.cpp)
-set(BACKEND_HEADERS mysql_server.hpp backend.hpp)
+set(BACKEND_SOURCES 
+        mysql_server.cpp 
+        backend.cpp
+)
 
-qt5_wrap_cpp(BACKEND_WRAPPED_CPP backend.hpp mysql_server.hpp)
+set(BACKEND_HEADERS 
+        mysql_server.hpp 
+        backend.hpp
+)
+
+qt5_wrap_cpp(BACKEND_WRAPPED_CPP backend.hpp )
 
 add_library(database_mysql_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_WRAPPED_CPP})
 target_link_libraries(database_mysql_backend PRIVATE core configuration sql_backend_base system Qt5::Core Qt5::Sql)

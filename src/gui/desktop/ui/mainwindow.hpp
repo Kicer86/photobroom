@@ -24,7 +24,7 @@ namespace Ui
     class MainWindow;
 }
 
-class MainWindow final: public QMainWindow
+class MainWindow: public QMainWindow
 {
         Q_OBJECT
 
