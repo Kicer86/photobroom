@@ -63,7 +63,7 @@
 <context>
     <name>LevelEditor</name>
     <message>
-        <location filename="../src/gui/desktop/components/filters_editor/level_editor.cpp" line="205"/>
+        <location filename="../src/gui/desktop/components/filters_editor/level_editor.cpp" line="208"/>
         <source>Grouping:</source>
         <translation>Grupowanie:</translation>
     </message>
@@ -77,22 +77,22 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="43"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="136"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="138"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="143"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="145"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="181"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="183"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="181"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="183"/>
         <source>No album opened</source>
         <translation>Nie otwarto albumu</translation>
     </message>
@@ -134,7 +134,7 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="97"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="278"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="280"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -150,7 +150,7 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="112"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="284"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="286"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
@@ -171,7 +171,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="249"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="251"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
@@ -319,7 +319,7 @@
     <message>
         <location filename="../src/gui/desktop/components/staged_photos_widget.cpp" line="41"/>
         <source>Changed photos:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmodyfikowane zdjęcia:</translation>
     </message>
 </context>
 <context>
