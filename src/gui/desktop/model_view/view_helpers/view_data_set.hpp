@@ -292,15 +292,35 @@ class ViewDataSet final: ModelObserverInterface
                 return result;
         }
 
-        void rowsInserted(const QModelIndex &, int, int) override
+        void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
+            //update model
+            auto parentIt = find(parent);
+            iterator childIt = flat_iterator(parentIt).begin() + from;
+
+            for( int i = from; i <= to; i++)
+                childIt = insert(childIt, T());                       // each next sub node is being placed at the same position but is doesn't matter.
         }
 
-        void rowsRemoved(const QModelIndex &, int, int) override
+        void rowsRemoved(const QModelIndex& parent, int from , int to) override
         {
+            //update model
+            auto parentIt = find(parent);
+            flat_iterator flat_parent(parentIt);
+
+            if (flat_parent.children_count() < to)
+            {
+                for(int i = from; i <= to; i++)
+                {
+                    auto childIt = flat_parent.begin() + from;        // keep deleting item at the same position
+                    erase(childIt);
+                }
+            }
+            else
+                assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
         }
 
-        void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) override
+        void rowsMoved(const QModelIndex&, int, int, const QModelIndex &, int) override
         {
         }
 

@@ -50,15 +50,7 @@ PositionsReseter::~PositionsReseter()
 
 
 void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const
-{
-    //update model
-    auto parentIt = m_data->find(parent);
-    Data::ModelIndexInfoSet::iterator childIt = Data::ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
-    const int count = to_pos - from_pos + 1;
-    
-    for( int i = 0; i < count; i++)
-        childIt = m_data->insert(childIt, ModelIndexInfo());                    // each next sub node is being placed at the same position but is doesn't matter. 
-                                                                                // Also remember to rewrite iterator, as container may change and iterator used for inserting may become invalid    
+{                                                                // Also remember to rewrite iterator, as container may change and iterator used for inserting may become invalid
     //invalidate parent
     invalidateItemOverallRect(parent);
 
@@ -96,18 +88,6 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {   
-    //update model
-    auto parentIt = m_data->find(parent);
-    Data::ModelIndexInfoSet::flat_iterator flat_parent(parentIt);
-    
-    if (flat_parent.children_count())
-    {
-        auto childIt = flat_parent.begin() + pos;
-        m_data->erase(childIt);
-    }
-    else if (flat_parent->expanded)
-        assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
-    
     //invalidate parent if expanded
     Data::ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
 
