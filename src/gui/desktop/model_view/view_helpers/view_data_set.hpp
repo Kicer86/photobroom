@@ -64,6 +64,7 @@ struct ModelObserverInterface: public QObject
         QAbstractItemModel* m_model;
 };
 
+
 template<typename T>
 class ViewDataSet final: ModelObserverInterface
 {
