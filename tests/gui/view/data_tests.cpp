@@ -60,7 +60,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     data.m_configuration = &config;
     data.set(&model);
 
-    ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
+    Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
     QModelIndex idx = data.get(infoIt);
 
     EXPECT_EQ(QModelIndex(), idx);
