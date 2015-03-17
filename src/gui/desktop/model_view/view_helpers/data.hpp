@@ -26,6 +26,7 @@
 #include <QModelIndex>
 
 #include "model_index_info.hpp"
+#include "view_data_set.hpp"
 
 struct IConfiguration;
 
@@ -55,6 +56,8 @@ class Data
                 return result;
             }
         };
+
+        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
 
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;

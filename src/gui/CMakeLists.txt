@@ -58,6 +58,7 @@ set(GUI_HEADERS
     desktop/model_view/view_helpers/model_index_info.hpp
     desktop/model_view/view_helpers/positions_calculator.hpp
     desktop/model_view/view_helpers/positions_reseter.hpp
+    desktop/model_view/view_helpers/view_data_set.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/tree_item_delegate.hpp
     desktop/components/iview.hpp
@@ -89,6 +90,7 @@ set(GUI_FILES_TO_MOC
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
+    desktop/model_view/view_helpers/view_data_set.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp

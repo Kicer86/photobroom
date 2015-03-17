@@ -53,7 +53,7 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int t
 {
     //update model
     auto parentIt = m_data->find(parent);
-    ModelIndexInfoSet::iterator childIt = ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
+    Data::ModelIndexInfoSet::iterator childIt = Data::ModelIndexInfoSet::flat_iterator(parentIt).begin() + from_pos;
     const int count = to_pos - from_pos + 1;
     
     for( int i = 0; i < count; i++)
@@ -70,7 +70,7 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int t
 
 void PositionsReseter::invalidateAll() const
 {
-    ModelIndexInfoSet& dataSet = m_data->getAll();
+    Data::ModelIndexInfoSet& dataSet = m_data->getAll();
     for(auto it = dataSet.begin(); it != dataSet.end(); ++it)
     {
         ModelIndexInfo& info = *it;
@@ -98,7 +98,7 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {   
     //update model
     auto parentIt = m_data->find(parent);
-    ModelIndexInfoSet::flat_iterator flat_parent(parentIt);
+    Data::ModelIndexInfoSet::flat_iterator flat_parent(parentIt);
     
     if (flat_parent.children_count())
     {
@@ -109,7 +109,7 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
         assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
     
     //invalidate parent if expanded
-    ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
 
     if (infoIt.valid())
     {
@@ -169,7 +169,7 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int fro
 
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
-    ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {
@@ -181,7 +181,7 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
 
 void PositionsReseter::resetOverallRect(const QModelIndex& idx) const
 {
-    ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {

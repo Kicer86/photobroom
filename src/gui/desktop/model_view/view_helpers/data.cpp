@@ -30,7 +30,7 @@
 
 namespace
 {
-    bool validate(QAbstractItemModel* model, const QModelIndex& index, ModelIndexInfoSet::const_flat_iterator it)
+    bool validate(QAbstractItemModel* model, const QModelIndex& index, Data::ModelIndexInfoSet::const_flat_iterator it)
     {
         bool equal = true;
         
@@ -72,7 +72,7 @@ void Data::set(QAbstractItemModel* model)
 }
 
 
-ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
+Data::ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
            
@@ -85,7 +85,7 @@ ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
 }
 
 
-ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
+Data::ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
 {
     auto it = m_itemData->cfind(index);
 
@@ -93,7 +93,7 @@ ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
 }
 
 
-ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
+Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
 
@@ -117,13 +117,13 @@ void Data::erase(ModelIndexInfoSet::iterator it)
 }
 
 
-ModelIndexInfoSet::iterator Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
+Data::ModelIndexInfoSet::iterator Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
 {
     return m_itemData->insert(it, info);
 }
 
 
-ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
+Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
     ModelIndexInfoSet::iterator result = m_itemData->end();
 
@@ -347,13 +347,13 @@ void Data::clear()
 }
 
 
-const ModelIndexInfoSet& Data::getAll() const
+const Data::ModelIndexInfoSet& Data::getAll() const
 {
     return *m_itemData;
 }
 
 
-ModelIndexInfoSet& Data::getAll()
+Data::ModelIndexInfoSet& Data::getAll()
 {
     return *m_itemData;
 }

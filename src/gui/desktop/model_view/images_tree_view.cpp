@@ -59,7 +59,7 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
     const QPoint offset = getOffset();
     const QPoint treePoint = point + offset;
-    ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
     const QModelIndex result = m_data->get(infoIt);
 
     return result;
@@ -87,7 +87,7 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
 
     for (const QModelIndex& idx: indexes)
     {
-        ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+        Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
         if (infoIt.valid())
         {
@@ -181,7 +181,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
+        Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
         assert(infoIt.valid());
         const ModelIndexInfo& info = *infoIt;
 
@@ -201,7 +201,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
-    ModelIndexInfoSet::iterator infoIt = m_data->find(item);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(item);
 
     if (item.isValid() && infoIt.valid())
     {
@@ -234,7 +234,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 
 const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+    Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
 
     assert(infoIt.valid());
     const ModelIndexInfo& info = *infoIt;
@@ -248,7 +248,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
     //TODO: optimise?
     std::deque<QModelIndex> result;
 
-    m_data->for_each_visible( [&] ( ModelIndexInfoSet::iterator it)
+    m_data->for_each_visible( [&] ( Data::ModelIndexInfoSet::iterator it)
     {
         const ModelIndexInfo& info = *it;
         const QRect& item_rect = info.getRect();
@@ -285,7 +285,7 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
+    Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
     assert(infoIt.valid());
 
     const ModelIndexInfo& info = *infoIt;
