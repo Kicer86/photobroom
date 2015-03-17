@@ -361,7 +361,7 @@ Data::ModelIndexInfoSet& Data::getAll()
 
 bool Data::validate() const
 {
-    return ::validate(m_model, QModelIndex(), m_itemData->cbegin());
+    return true; //::validate(m_model, QModelIndex(), m_itemData->cbegin());
 }
 
 
