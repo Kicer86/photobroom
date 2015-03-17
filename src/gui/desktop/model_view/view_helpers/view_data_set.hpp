@@ -50,6 +50,8 @@ struct ModelObserverInterface: public QObject
 
                 connect(m_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
             }
+
+            modelReset();
         }
 
     protected slots:
@@ -58,12 +60,12 @@ struct ModelObserverInterface: public QObject
         virtual void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
         virtual void modelReset() = 0;
 
-    private:
+    protected:
         QAbstractItemModel* m_model;
 };
 
 template<typename T>
-class ViewDataSet final
+class ViewDataSet final: ModelObserverInterface
 {
         template<typename IT, typename M>
         IT _find(M& model, const std::vector<size_t>& hierarchy) const
@@ -287,6 +289,22 @@ class ViewDataSet final
                 result.push_back(0);             //top item
 
                 return result;
+        }
+
+        void rowsInserted(const QModelIndex &, int, int) override
+        {
+        }
+
+        void rowsRemoved(const QModelIndex &, int, int) override
+        {
+        }
+
+        void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) override
+        {
+        }
+
+        void modelReset() override
+        {
         }
 };
 
