@@ -325,7 +325,7 @@ class ViewDataSet final: ModelObserverInterface
             auto parentIt = find(parent);
             flat_iterator flat_parent(parentIt);
 
-            if (flat_parent.children_count() < to)
+            if (flat_parent.children_count() > to)
             {
                 for(int i = from; i <= to; i++)
                 {
