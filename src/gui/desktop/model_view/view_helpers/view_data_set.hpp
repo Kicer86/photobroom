@@ -35,14 +35,14 @@ struct ModelObserverInterface: public QObject
         {
         }
 
-        void set(QAbstractItemModel* model)
+        void set(QAbstractItemModel* model, bool attach)
         {
             if (m_db_model != nullptr)
                 m_db_model->disconnect(this);
 
             m_db_model = model;
 
-            if (m_db_model != nullptr)
+            if (m_db_model != nullptr && attach)
             {
                 connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
                 connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
@@ -129,9 +129,9 @@ class ViewDataSet final: ModelObserverInterface
         {
         }
 
-        void set(QAbstractItemModel* model)
+        void set(QAbstractItemModel* model, bool attach = true)
         {
-            ModelObserverInterface::set(model);
+            ModelObserverInterface::set(model, attach);
         }
 
         const_iterator find(const QModelIndex& index) const

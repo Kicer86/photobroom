@@ -69,7 +69,7 @@ Data::~Data()
 void Data::set(QAbstractItemModel* model)
 {
     m_model = model;
-    m_itemData->set(model);
+    m_itemData->set(model, false);
 }
 
 
