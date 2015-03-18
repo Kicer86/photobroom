@@ -324,13 +324,7 @@ void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sou
 
 void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
 {
-    //remove data from internal data model
-    for(int i = start; i <= end; i++)
-    {
-        QModelIndex child = model()->index(i, 0, _parent);
 
-        m_data->forget(child);
-    }
 }
 
 
