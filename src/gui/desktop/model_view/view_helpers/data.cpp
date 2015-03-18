@@ -98,12 +98,6 @@ Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 }
 
 
-Data::ModelIndexInfoSet::iterator Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
-{
-    return m_itemData->insert(it, info);
-}
-
-
 Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
     ModelIndexInfoSet::iterator result = m_itemData->end();
@@ -318,12 +312,6 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
     }
 
     return result;
-}
-
-
-void Data::clear()
-{
-    m_itemData->clear();
 }
 
 

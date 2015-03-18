@@ -44,8 +44,6 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
     Data data;
     data.m_configuration = &config;
 
-    data.clear();
-
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
 }

@@ -74,8 +74,6 @@ class Data
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
         
-        ModelIndexInfoSet::iterator insert(ModelIndexInfoSet::iterator, const ModelIndexInfo &);
-
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;
         QPixmap getImage(const QModelIndex &) const;
@@ -89,7 +87,6 @@ class Data
         bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
         void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
-        void clear();
 
         const ModelIndexInfoSet& getAll() const;
         ModelIndexInfoSet& getAll();

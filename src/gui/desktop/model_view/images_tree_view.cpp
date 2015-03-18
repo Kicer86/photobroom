@@ -153,9 +153,6 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     QAbstractItemView::setModel(m);
     m_data->set(m);
 
-    //read model
-    rereadModel();
-
     //connect to model's signals
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
@@ -312,7 +309,7 @@ QPoint ImagesTreeView::getOffset() const
 
 void ImagesTreeView::modelReset()
 {
-    rereadModel();
+
 }
 
 
@@ -352,12 +349,6 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
     reseter.childrenRemoved(_parent, first);
 
     updateModel();
-}
-
-
-void ImagesTreeView::rereadModel()
-{
-    m_data->clear();
 }
 
 

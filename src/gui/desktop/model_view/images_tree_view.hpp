@@ -85,7 +85,6 @@ class ImagesTreeView: public QAbstractItemView
         void rowsRemoved(const QModelIndex &, int, int);
 
         // model updates
-        void rereadModel();
         void updateModel();
 };
 
