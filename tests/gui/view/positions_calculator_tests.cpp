@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 
 #include <QStandardItemModel>
+#include <QIcon>
 
 #include <configuration/constants.hpp>
 
@@ -16,7 +17,7 @@ TEST(PositionsCalculatorShould, BeConstructable)
 {
     EXPECT_NO_THROW({
         MockConfiguration config;
-        MockQAbstractItemModel model;
+        QStandardItemModel model;
 
         Data data;
         data.m_configuration = &config;
@@ -34,17 +35,16 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     QModelIndex top;
 
     MockConfiguration config;
-    MockQAbstractItemModel model;
-
-    EXPECT_CALL(model, rowCount(top)).Times(1).WillOnce(Return(0));
+    QStandardItemModel model;
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     PositionsCalculator calculator(&model, &data, 100);
     calculator.updateItems();
 
-    ModelIndexInfoSet::iterator infoIt = data.get(top);
+    Data::ModelIndexInfoSet::iterator infoIt = data.get(top);
     const ModelIndexInfo& info = *infoIt;
 
     EXPECT_EQ(info.getRect(), QRect());
@@ -64,92 +64,42 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     const int canvas_w = 500;
     const int header_h = 40;
 
-    struct Item
-    {
-
-    };
-
     MockConfiguration config;
-    MockQAbstractItemModel model;
+    QStandardItemModel model;
 
     // top + 1 main node + 2 children
-    Item top_child1;                     //0, 0
-    Item top_child1_child1;              //    0, 0
-    Item top_child1_child2;              //    1, 0
+    QStandardItem* top_idx = new QStandardItem;
+    QStandardItem* top_child1_idx = new QStandardItem;
+    QStandardItem* top_child1_child1_idx = new QStandardItem;
+    QStandardItem* top_child1_child2_idx = new QStandardItem;
 
-    QModelIndex top_idx;
-    QModelIndex top_child1_idx = model.createIndex(0, 0, &top_child1);
-    QModelIndex top_child1_child1_idx = model.createIndex(0, 0, &top_child1_child1);
-    QModelIndex top_child1_child2_idx = model.createIndex(1, 0, &top_child1_child2);
+    top_idx->appendRow(top_child1_idx);
+    top_child1_idx->appendRow(top_child1_child1_idx);
+    top_child1_idx->appendRow(top_child1_child2_idx);
 
-    auto createIndex = [&](int r, int c, const QModelIndex& p)
-    {
-        QModelIndex result;
-        EXPECT_EQ(true, p == top_idx || p == top_child1_idx);
-
-        if (p == top_idx)
-        {
-            EXPECT_EQ(r, 0);
-            EXPECT_EQ(c, 0);
-            result = top_child1_idx;
-        }
-        else if (p == top_child1_idx)
-        {
-            EXPECT_EQ(c, 0);
-            EXPECT_EQ(true, r == 0 || r == 1);
-
-            if (r == 0)
-                result = top_child1_child1_idx;
-            else if (r == 1)
-                result = top_child1_child2_idx;
-        }
-
-        return result;
-    };
-
-    auto parent = [&](const QModelIndex& idx)
-    {
-        EXPECT_EQ(idx, top_child1_idx);
-
-        QModelIndex result;
-
-        if (idx == top_child1_idx)
-            result = top_idx;
-
-        return result;
-    };
-
-    EXPECT_CALL(model, rowCount(top_idx)).WillRepeatedly(Return(1));
-    EXPECT_CALL(model, rowCount(top_child1_idx)).WillRepeatedly(Return(2));
-    EXPECT_CALL(model, rowCount(top_child1_child1_idx)).WillRepeatedly(Return(0));
-    EXPECT_CALL(model, rowCount(top_child1_child2_idx)).WillRepeatedly(Return(0));
-
-    EXPECT_CALL(model, columnCount(_)).WillRepeatedly(Return(1));              // one column
-    EXPECT_CALL(model, index(0, 0, top_idx)).WillRepeatedly(Invoke(createIndex));
-    EXPECT_CALL(model, parent(_)).WillRepeatedly(Invoke(parent));
+    model.appendRow(top_idx);
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = *data.cfind(top_idx);
+        const ModelIndexInfo& info = *data.cfind(QModelIndex());
 
         EXPECT_EQ(QRect(), info.getRect());                                   //invisible
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getOverallRect());    //but has overall size of all items
     }
 
     {
-        const ModelIndexInfo& info = *data.cfind(top_child1_idx);
+        const ModelIndexInfo& info = *data.cfind(top_idx->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());           // its position
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getOverallRect());    // no children expanded - overall == size
     }
 }
-
-
 
 
 TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
@@ -168,105 +118,36 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     const int canvas_w = 500;
     const int header_h = 40;
 
-    struct Item
-    {
-
-    };
-
     MockConfiguration config;
-    MockQAbstractItemModel model;
+    QStandardItemModel model;
 
-    // 1 main node + 2 children
-    Item top_child1;                     //0, 0
-    Item top_child1_child1;              //    0, 0
-    Item top_child1_child2;              //    1, 0
+    QStandardItem* top_idx = new QStandardItem( "Empty" );
+    QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
 
-    QModelIndex top_idx;
-    QModelIndex top_child1_idx = model.createIndex(0, 0, &top_child1);
-    QModelIndex top_child1_child1_idx = model.createIndex(0, 0, &top_child1_child1);
-    QModelIndex top_child1_child2_idx = model.createIndex(1, 0, &top_child1_child2);
+    top_idx->appendRow(top_child1_idx);
 
-    auto createIndex = [&](int r, int c, const QModelIndex& p)
-    {
-        QModelIndex result;
-        EXPECT_EQ(true, p == top_idx || p == top_child1_idx);
-
-        if (p == top_idx)
-        {
-            EXPECT_EQ(r, 0);
-            EXPECT_EQ(c, 0);
-            result = top_child1_idx;
-        }
-        else if (p == top_child1_idx)
-        {
-            EXPECT_EQ(c, 0);
-            EXPECT_EQ(true, r == 0 || r == 1);
-
-            if (r == 0)
-                result = top_child1_child1_idx;
-            else if (r == 1)
-                result = top_child1_child2_idx;
-        }
-
-        return result;
-    };
-
-    auto parent = [&](const QModelIndex& idx)
-    {
-        EXPECT_EQ(true, idx == top_child1_idx || idx == top_child1_child1_idx || idx == top_child1_child2_idx);
-
-        QModelIndex result;
-
-        if (idx == top_child1_idx)
-            result = top_idx;
-        else if (idx == top_child1_child1_idx || idx == top_child1_child2_idx)
-            result = top_child1_idx;
-
-        return result;
-    };
-
-    auto data = [&](const QModelIndex& idx, int d)
-    {
-        QVariant result;
-        EXPECT_EQ(true, idx == top_child1_child1_idx || idx == top_child1_child2_idx);
-
-        if (d == Qt::DecorationRole)
-            result = QPixmap(img_w, img_h);
-        else if (d == Qt::DisplayRole)
-            result = "Empty";
-
-        return result;
-    };
-
-    EXPECT_CALL(model, rowCount(top_idx)).WillRepeatedly(Return(1));
-    EXPECT_CALL(model, rowCount(top_child1_idx)).WillRepeatedly(Return(2));
-    EXPECT_CALL(model, rowCount(top_child1_child1_idx)).WillRepeatedly(Return(0));
-    EXPECT_CALL(model, rowCount(top_child1_child2_idx)).WillRepeatedly(Return(0));
-
-    EXPECT_CALL(model, columnCount(_)).WillRepeatedly(Return(1));              // one column
-    EXPECT_CALL(model, index(_, _, _)).WillRepeatedly(Invoke(createIndex));
-    EXPECT_CALL(model, parent(_)).WillRepeatedly(Invoke(parent));
-    EXPECT_CALL(model, data(_, _)).WillRepeatedly(Invoke(data));
+    model.appendRow(top_idx);;
 
     Data view_data;
     view_data.m_configuration = &config;
+    view_data.set(&model);
 
     //expand main node to show children
-    ModelIndexInfo& top_info = *view_data.get(top_child1_idx);
+    ModelIndexInfo& top_info = *view_data.get(top_idx->index());
     top_info.expanded = true;
 
     PositionsCalculator calculator(&model, &view_data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = *view_data.cfind(top_idx);
+        const ModelIndexInfo& info = *view_data.cfind(QModelIndex());
 
         EXPECT_EQ(QRect(), info.getRect());                                                      //invisible
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h + img_h + margin), info.getOverallRect());      //but has overall size of all items
     }
 
     {
-        const ModelIndexInfo& info = *view_data.cfind(top_child1_idx);
+        const ModelIndexInfo& info = *view_data.cfind(top_idx->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                              // its position
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h + img_h + margin), info.getOverallRect());      // no children expanded - overall == size
@@ -304,6 +185,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 
     Data view_data;
     view_data.m_configuration = &config;
+    view_data.set(&model);
 
     //expand main node to show children
     ModelIndexInfo& top_info = *view_data.get(top->index());

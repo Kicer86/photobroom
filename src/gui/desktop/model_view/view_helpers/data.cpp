@@ -28,35 +28,9 @@
 #include <QModelIndex>
 
 
-namespace
-{
-    bool validate(QAbstractItemModel* model, const QModelIndex& index, ModelIndexInfoSet::const_flat_iterator it)
-    {
-        bool equal = true;
-        
-        if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
-        {
-            const size_t it_children = it.children_count();
-            const size_t idx_children = model->rowCount(index);
-            equal = it_children == idx_children;
-            
-            assert(equal);
-
-            if (equal && it_children != 0)                         // still ok && has children
-                for(size_t i = 0; i < it_children; i++)
-                    equal = validate(model, model->index(i, 0, index), it.begin() + i);
-        }
-        
-        return equal;
-    }
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 Data::Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr)
 {
-    setupRoot();
+
 }
 
 
@@ -66,26 +40,23 @@ Data::~Data()
 }
 
 
-void Data::set(QAbstractItemModel* model)
+void Data::set(QAbstractItemModel* model, bool attach)
 {
     m_model = model;
+    m_itemData->set(model, attach);
 }
 
 
-ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
+Data::ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
-           
-    if (it == m_itemData->end())
-        it = m_itemData->insert(index, ModelIndexInfo());
-    
-    assert(index.isValid() || it->expanded == true);
+    assert(it != m_itemData->end());
 
     return it;
 }
 
 
-ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
+Data::ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
 {
     auto it = m_itemData->cfind(index);
 
@@ -93,7 +64,7 @@ ModelIndexInfoSet::const_iterator Data::cfind(const QModelIndex& index) const
 }
 
 
-ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
+Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
 
@@ -101,29 +72,7 @@ ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 }
 
 
-void Data::forget(const QModelIndex& index)
-{
-    assert(index.isValid());                         // we cannot forget root node
-    auto it = m_itemData->find(index);
-
-    if (it != m_itemData->end())
-        m_itemData->erase(it);
-}
-
-
-void Data::erase(ModelIndexInfoSet::iterator it)
-{
-    m_itemData->erase(it);
-}
-
-
-ModelIndexInfoSet::iterator Data::insert(ModelIndexInfoSet::iterator it, const ModelIndexInfo& info)
-{
-    return m_itemData->insert(it, info);
-}
-
-
-ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
+Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
     ModelIndexInfoSet::iterator result = m_itemData->end();
 
@@ -340,36 +289,13 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 }
 
 
-void Data::clear()
-{
-    m_itemData->clear();
-    setupRoot();
-}
-
-
-const ModelIndexInfoSet& Data::getAll() const
+const Data::ModelIndexInfoSet& Data::getModel() const
 {
     return *m_itemData;
 }
 
 
-ModelIndexInfoSet& Data::getAll()
+Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
 }
-
-
-bool Data::validate() const
-{
-    return ::validate(m_model, QModelIndex(), m_itemData->cbegin());
-}
-
-
-void Data::setupRoot()
-{
-    //setup info for index QModelIndex()
-    auto it = m_itemData->insert(QModelIndex(), ModelIndexInfo());
-
-    it->expanded = true;
-}
-

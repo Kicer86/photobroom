@@ -35,53 +35,13 @@ struct ModelIndexInfo
         const QRect& getOverallRect() const;
         void cleanRects();
 
-        ModelIndexInfo();
+        ModelIndexInfo(const QModelIndex &);
         
         operator std::string() const;
 
     private:
         QRect rect;
         QRect overallRect;
-};
-
-
-class ModelIndexInfoSet final
-{
-    public:
-        typedef tree<ModelIndexInfo> Model;
-        typedef Model::const_iterator const_iterator;
-        typedef Model::iterator       iterator;
-
-        typedef Model::const_flat_iterator const_flat_iterator;
-        typedef Model::flat_iterator       flat_iterator;
-
-        ModelIndexInfoSet();
-        ~ModelIndexInfoSet();
-
-        const_iterator find(const QModelIndex &) const;
-        const_iterator begin() const;
-        const_iterator end() const;
-        const_iterator cfind(const QModelIndex &) const;
-        const_iterator cbegin() const;
-        const_iterator cend() const;
-        iterator find(const QModelIndex &);
-        iterator begin();
-        iterator end();
-
-        void clear();
-        void erase(const iterator &);
-        iterator insert(const QModelIndex &, const ModelIndexInfo &);
-        iterator insert(flat_iterator, const ModelIndexInfo &);
-
-        bool empty() const;
-        size_t size() const;
-        
-        std::string dumpModel() const;
-
-    private:
-        Model m_model;
-        
-        std::vector<size_t> generateHierarchy(const QModelIndex &) const;
 };
 
 #endif // MODELINDEXINFO_H

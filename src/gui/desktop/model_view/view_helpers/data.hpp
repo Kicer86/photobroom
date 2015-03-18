@@ -26,6 +26,7 @@
 #include <QModelIndex>
 
 #include "model_index_info.hpp"
+#include "view_data_set.hpp"
 
 struct IConfiguration;
 
@@ -56,6 +57,8 @@ class Data
             }
         };
 
+        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
+
         const int indexMargin = 10;           // TODO: move to configuration
         IConfiguration* m_configuration;
 
@@ -65,16 +68,12 @@ class Data
         ~Data();
         Data& operator=(const Data &) = delete;
 
-        void set(QAbstractItemModel *);
+        void set(QAbstractItemModel *, bool attach = true);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &);   //always returns valid iterator (if index does not exist yet, will be added)
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
         
-        void forget(const QModelIndex &);                       //clear data about given index
-        void erase(ModelIndexInfoSet::iterator);
-        ModelIndexInfoSet::iterator insert(ModelIndexInfoSet::iterator, const ModelIndexInfo &);
-
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;
         QPixmap getImage(const QModelIndex &) const;
@@ -88,19 +87,15 @@ class Data
         bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
         void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
-        void clear();
 
-        const ModelIndexInfoSet& getAll() const;
-        ModelIndexInfoSet& getAll();
-
-        bool validate() const;                       //checks data consistency
+        const ModelIndexInfoSet& getModel() const;
+        ModelIndexInfoSet& getModel();
 
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
 
         std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
-        void setupRoot();
 };
 
 #endif // DATA_HPP

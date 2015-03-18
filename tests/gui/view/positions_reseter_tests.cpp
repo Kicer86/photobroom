@@ -133,15 +133,15 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 
     //expectations
     {
-        ModelIndexInfoSet::const_iterator top_infoIt = data.cfind(top->index());
+        Data::ModelIndexInfoSet::const_iterator top_infoIt = data.cfind(top->index());
         const ModelIndexInfo& info = *top_infoIt;
         EXPECT_NE(info.getRect(), QRect());            // Parent's size should not be reseted
         EXPECT_EQ(info.getOverallRect(), QRect());     // But its overall rect should
     }
 
     {
-        ModelIndexInfoSet::const_iterator info1_It = data.cfind(child1->index());
-        ModelIndexInfoSet::const_iterator info5_It = data.cfind(child5->index());
+        Data::ModelIndexInfoSet::const_iterator info1_It = data.cfind(child1->index());
+        Data::ModelIndexInfoSet::const_iterator info5_It = data.cfind(child5->index());
 
         const ModelIndexInfo& info1 = *info1_It;
         const ModelIndexInfo& info5 = *info5_It;
@@ -150,9 +150,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
     }
 
     {
-        ModelIndexInfoSet::const_iterator info_It  = data.cfind(top2->index());
-        ModelIndexInfoSet::const_iterator info1_It = data.cfind(child2_1->index());
-        ModelIndexInfoSet::const_iterator info5_It = data.cfind(child2_5->index());
+        Data::ModelIndexInfoSet::const_iterator info_It  = data.cfind(top2->index());
+        Data::ModelIndexInfoSet::const_iterator info1_It = data.cfind(child2_1->index());
+        Data::ModelIndexInfoSet::const_iterator info5_It = data.cfind(child2_5->index());
 
         const ModelIndexInfo& info  = *info_It;           //top2's and all its children's positions should be reseted
         const ModelIndexInfo& info1 = *info1_It;
@@ -536,24 +536,6 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
         EXPECT_EQ(QRect(), info3.getRect());
         EXPECT_EQ(QRect(), info3.getOverallRect());
     }
-}
-
-
-TEST_F(PositionsReseterShould, throwOnRemovalOfNotLoadedChildren)
-{
-    //prepare data
-    PositionsCalculator calculator(&model, &data, canvas_w);
-    calculator.updateItems();
-
-    // test
-    ModelIndexInfo& info = *data.get(top->index());
-    info.expanded = true;
-
-    EXPECT_DEATH(
-    {
-        PositionsReseter reseter(&model, &data);
-        reseter.childrenRemoved(top->index(), 5);         //info for child 5 may be not prepared as top was not expanded while calculations of positions were made
-    }, "model is not consistent");
 }
 
 //TODO: add tests for many inserts/removals

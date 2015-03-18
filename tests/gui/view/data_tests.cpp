@@ -31,22 +31,21 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
     Data data;
     data.m_configuration = &config;
 
-    const auto& items = data.getAll();
-    EXPECT_EQ(1, items.size());
+    const auto& items = data.getModel();
+    EXPECT_EQ(0, items.size());
 }
 
 
 TEST(DataShould, ContainOnlyRootNodeAfterClear)
 {
-
     MockConfiguration config;
+    QStandardItemModel model;
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
-    data.clear();
-
-    const auto& items = data.getAll();
+    const auto& items = data.getModel();
     EXPECT_EQ(1, items.size());
 }
 
@@ -60,73 +59,24 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     data.m_configuration = &config;
     data.set(&model);
 
-    ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
+    Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
     QModelIndex idx = data.get(infoIt);
 
     EXPECT_EQ(QModelIndex(), idx);
 
-    const auto& items = data.getAll();
+    const auto& items = data.getModel();
     EXPECT_EQ(false, items.empty());
-}
-
-
-TEST(DataShould, StoreDataItemOnUpdate)
-{
-    MockConfiguration config;
-
-    Data data;
-    data.m_configuration = &config;
-    data.get(QModelIndex());
-
-    const auto& items = data.getAll();
-    EXPECT_EQ(1, items.size());
-}
-
-
-TEST(DataShould, ReturnExistingItemWhenItWasCreatedPreviously)
-{
-
-    MockConfiguration config;
-
-    Data data;
-    data.m_configuration = &config;
-    data.get(QModelIndex());            //first access - new item
-    data.get(QModelIndex());           //second access - the same item
-
-    const auto& items = data.getAll();
-    EXPECT_EQ(1, items.size());
-}
-
-
-TEST(DataShould, ForgetAboutItemWhenAskedForIt)
-{
-    MockConfiguration config;
-    QStandardItemModel model;
-
-    QStandardItem* top = new QStandardItem("Empty");
-    model.appendRow(top);
-
-    Data data;
-    data.m_configuration = &config;
-    data.get(top->index());                      // create new top item + root item (QModelIndex())
-
-    const auto& items = data.getAll();
-    EXPECT_EQ(false, items.empty());
-    EXPECT_EQ(2, items.size());
-
-    data.forget(top->index());                   // forget about top item
-
-    const auto& itemsAfter = data.getAll();
-    EXPECT_EQ(1, itemsAfter.size());             // only root should stay
 }
 
 
 TEST(DataShould, SetInitialDataForRootItem)
 {
     MockConfiguration config;
+    QStandardItemModel model;
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     const ModelIndexInfo& info = *data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
@@ -138,9 +88,11 @@ TEST(DataShould, SetInitialDataForRootItem)
 TEST(DataShould, StoreInfoAboutItem)
 {
     MockConfiguration config;
+    QStandardItemModel model;
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     ModelIndexInfo& info = *data.get(QModelIndex());
     info.expanded = true;
@@ -158,19 +110,21 @@ TEST(DataShould, MarkTopItemsAsVisible)
 {
     using ::testing::Return;
 
-    MockQAbstractItemModel model;
+    QStandardItemModel model;
     MockConfiguration config;
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
-    QModelIndex top = model.createIndex(0, 0, &data);
+    QStandardItem* top = new QStandardItem("Empty");
+    model.appendRow(top);
 
-    EXPECT_CALL(model, parent(top)).Times(4).WillRepeatedly(Return(QModelIndex()));
+    QModelIndex top_idx = top->index();
 
-    data.get(top);                          //create object
+    data.get(top_idx);
 
-    EXPECT_EQ(true, data.isVisible(top));
+    EXPECT_EQ(true, data.isVisible(top_idx));
 }
 
 
@@ -235,6 +189,7 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -294,6 +249,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");

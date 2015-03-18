@@ -35,45 +35,11 @@
 #include "tree_item_delegate.hpp"
 
 
-ViewStatus::ViewStatus():
-    QObject(),
-    m_timer(new QTimer(this)),
-    m_requiresUpdate(false)
-{
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(trigger_update()));
-    m_timer->setSingleShot(true);
-}
-
-
-void ViewStatus::markDirty()
-{
-    m_requiresUpdate = true;
-
-    if (m_timer->isActive() == false)
-        trigger_update();
-}
-
-
-void ViewStatus::trigger_update()
-{
-    if (m_requiresUpdate)
-    {
-        m_requiresUpdate = false;
-        m_timer->start(250);                   //disable updates for a 250 ms
-        emit update_now();
-    }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus()
+ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
 
     setItemDelegate(delegate);
-
-    connect(&m_viewStatus, SIGNAL(update_now()), this, SLOT(updateModel()));
 }
 
 
@@ -93,7 +59,7 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
     const QPoint offset = getOffset();
     const QPoint treePoint = point + offset;
-    ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
     const QModelIndex result = m_data->get(infoIt);
 
     return result;
@@ -121,7 +87,7 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
 
     for (const QModelIndex& idx: indexes)
     {
-        ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+        Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
         if (infoIt.valid())
         {
@@ -185,17 +151,11 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
     //
     QAbstractItemView::setModel(m);
-    m_data->set(m);
-
-    //read model
-    rereadModel();
+    m_data->set(m, false);
 
     //connect to model's signals
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
-            this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(rowsAboutToBeRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
-
+    
     connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
@@ -215,7 +175,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
+        Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
         assert(infoIt.valid());
         const ModelIndexInfo& info = *infoIt;
 
@@ -235,7 +195,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
-    ModelIndexInfoSet::iterator infoIt = m_data->find(item);
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(item);
 
     if (item.isValid() && infoIt.valid())
     {
@@ -246,9 +206,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         PositionsReseter reseter(model(), m_data.get());
         reseter.itemChanged(item);
 
-        updateData();
-
-        m_viewStatus.markDirty();
+        updateModel();
     }
 }
 
@@ -262,8 +220,6 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     reseter.invalidateAll();
 
     updateData();
-
-    m_viewStatus.markDirty();
 }
 
 
@@ -272,7 +228,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 
 const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
-    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+    Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
 
     assert(infoIt.valid());
     const ModelIndexInfo& info = *infoIt;
@@ -286,7 +242,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
     //TODO: optimise?
     std::deque<QModelIndex> result;
 
-    m_data->for_each_visible( [&] ( ModelIndexInfoSet::iterator it)
+    m_data->for_each_visible( [&] ( Data::ModelIndexInfoSet::iterator it)
     {
         const ModelIndexInfo& info = *it;
         const QRect& item_rect = info.getRect();
@@ -323,7 +279,7 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
+    Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
     assert(infoIt.valid());
 
     const ModelIndexInfo& info = *infoIt;
@@ -350,64 +306,40 @@ QPoint ImagesTreeView::getOffset() const
 
 void ImagesTreeView::modelReset()
 {
-    rereadModel();
-}
-
-
-void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& /*destinationParent*/, int /*destinationRow*/)
-{
-    rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
-}
-
-
-void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
-{
-    //remove data from internal data model
-    for(int i = start; i <= end; i++)
-    {
-        QModelIndex child = model()->index(i, 0, _parent);
-
-        m_data->forget(child);
-    }
+    m_data->getModel().modelReset();
 }
 
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
+    m_data->getModel().rowsInserted(_parent, from, to);
+
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
 
-    updateData();
-
-    m_viewStatus.markDirty();
+    updateModel();
 }
 
 
 void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
 {
+    m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
+
     const int items = sourceEnd - sourceStart + 1;
     rowsRemoved(sourceParent, sourceStart, sourceEnd);
     rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
 }
 
 
-void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
+void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
+    m_data->getModel().rowsRemoved(_parent, first, last);
+
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(_parent, first);
 
-    updateData();
-
-    //update model
-    m_viewStatus.markDirty();
-}
-
-
-void ImagesTreeView::rereadModel()
-{
-    m_data->clear();
-    m_viewStatus.markDirty();
+    updateModel();
 }
 
 
