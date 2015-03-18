@@ -32,7 +32,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
     data.m_configuration = &config;
 
     const auto& items = data.getAll();
-    EXPECT_EQ(1, items.size());
+    EXPECT_EQ(0, items.size());
 }
 
 
@@ -67,19 +67,6 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
     const auto& items = data.getAll();
     EXPECT_EQ(false, items.empty());
-}
-
-
-TEST(DataShould, StoreDataItemOnUpdate)
-{
-    MockConfiguration config;
-
-    Data data;
-    data.m_configuration = &config;
-    data.get(QModelIndex());
-
-    const auto& items = data.getAll();
-    EXPECT_EQ(1, items.size());
 }
 
 
