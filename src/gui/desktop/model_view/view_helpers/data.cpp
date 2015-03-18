@@ -28,32 +28,6 @@
 #include <QModelIndex>
 
 
-namespace
-{
-    bool validate(QAbstractItemModel* model, const QModelIndex& index, Data::ModelIndexInfoSet::const_flat_iterator it)
-    {
-        bool equal = true;
-        
-        if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
-        {
-            const size_t it_children = it.children_count();
-            const size_t idx_children = model->rowCount(index);
-            equal = it_children == idx_children;
-            
-            assert(equal);
-
-            if (equal && it_children != 0)                         // still ok && has children
-                for(size_t i = 0; i < it_children; i++)
-                    equal = validate(model, model->index(i, 0, index), it.begin() + i);
-        }
-        
-        return equal;
-    }
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 Data::Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr)
 {
 
@@ -324,10 +298,4 @@ const Data::ModelIndexInfoSet& Data::getAll() const
 Data::ModelIndexInfoSet& Data::getAll()
 {
     return *m_itemData;
-}
-
-
-bool Data::validate() const
-{
-    return true; //::validate(m_model, QModelIndex(), m_itemData->cbegin());
 }

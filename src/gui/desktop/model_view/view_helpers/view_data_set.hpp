@@ -216,6 +216,8 @@ class ViewDataSet final: ModelObserverInterface
                 if (children)
                     rowsInserted(child_idx, 0, children - 1);
             }
+
+            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
         void rowsRemoved(const QModelIndex& parent, int from , int to) override
@@ -234,6 +236,8 @@ class ViewDataSet final: ModelObserverInterface
             }
             else
                 assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
+
+            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
         void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
@@ -244,6 +248,8 @@ class ViewDataSet final: ModelObserverInterface
             // TODO: implement variant which would do a real move
             rowsRemoved(sourceParent, src_from, src_to);
             rowsInserted(destinationParent, dst_from, dst_to);
+
+            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
         void modelReset() override
@@ -252,10 +258,32 @@ class ViewDataSet final: ModelObserverInterface
 
             //load all data
             loadIndex(QModelIndex(), begin());
+
+            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
     private:
         Model m_model;
+
+        bool validate(QAbstractItemModel* model, const QModelIndex& index, const_flat_iterator it) const
+        {
+            bool equal = true;
+
+            if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
+            {
+                const size_t it_children = it.children_count();
+                const size_t idx_children = model->rowCount(index);
+                equal = it_children == idx_children;
+
+                assert(equal);
+
+                if (equal && it_children != 0)                         // still ok && has children
+                    for(size_t i = 0; i < it_children; i++)
+                        equal = validate(model, model->index(i, 0, index), it.begin() + i);
+            }
+
+            return equal;
+        }
         
         std::vector<size_t> generateHierarchy(const QModelIndex& index) const
         {
