@@ -26,9 +26,48 @@
 
 #include <core/tree.hpp>
 
+struct ModelObserverInterface: public QObject
+{
+    Q_OBJECT
+
+    public:
+        explicit ModelObserverInterface(QObject* p = 0): QObject(p), m_db_model(nullptr)
+        {
+        }
+
+        void set(QAbstractItemModel* model)
+        {
+            if (m_db_model != nullptr)
+                m_db_model->disconnect(this);
+
+            m_db_model = model;
+
+            if (m_db_model != nullptr)
+            {
+                connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
+                connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
+                connect(m_db_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
+                        this, SLOT(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
+
+                connect(m_db_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
+            }
+
+            modelReset();
+        }
+
+    protected slots:
+        virtual void rowsInserted(const QModelIndex &, int, int) = 0;
+        virtual void rowsRemoved(const QModelIndex &, int, int) = 0;
+        virtual void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
+        virtual void modelReset() = 0;
+
+    protected:
+        QAbstractItemModel* m_db_model;
+};
+
 
 template<typename T>
-class ViewDataSet final
+class ViewDataSet final: ModelObserverInterface
 {
         template<typename IT, typename M>
         IT _find(M& model, const std::vector<size_t>& hierarchy) const
@@ -82,7 +121,7 @@ class ViewDataSet final
         typedef typename Model::const_flat_iterator const_flat_iterator;
         typedef typename Model::flat_iterator       flat_iterator;
 
-        ViewDataSet(): m_model(), m_db_model(nullptr)
+        ViewDataSet(): m_model()
         {
         }
 
@@ -92,7 +131,7 @@ class ViewDataSet final
 
         void set(QAbstractItemModel* model)
         {
-            m_db_model = model;
+            ModelObserverInterface::set(model);
         }
 
         const_iterator find(const QModelIndex& index) const
