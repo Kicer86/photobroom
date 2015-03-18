@@ -38,11 +38,12 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 
 TEST(DataShould, ContainOnlyRootNodeAfterClear)
 {
-
     MockConfiguration config;
+    QStandardItemModel model;
 
     Data data;
     data.m_configuration = &config;
+    data.set(&model);
 
     const auto& items = data.getAll();
     EXPECT_EQ(1, items.size());
