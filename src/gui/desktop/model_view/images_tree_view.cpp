@@ -155,10 +155,7 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
     //connect to model's signals
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)),
-            this, SLOT(rowsAboutToBeMoved(const QModelIndex &, int, int, const QModelIndex &, int)), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(rowsAboutToBeRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
-
+    
     connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
@@ -309,24 +306,14 @@ QPoint ImagesTreeView::getOffset() const
 
 void ImagesTreeView::modelReset()
 {
-
-}
-
-
-void ImagesTreeView::rowsAboutToBeMoved(const QModelIndex& sourceParent, int sourceStart, int sourceEnd, const QModelIndex& /*destinationParent*/, int /*destinationRow*/)
-{
-    rowsAboutToBeRemoved(sourceParent, sourceStart, sourceEnd);
-}
-
-
-void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
-{
-
+    m_data->getAll().modelReset();
 }
 
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
+    m_data->getAll().rowsInserted(_parent, from, to);
+
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
 
@@ -336,14 +323,18 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 
 void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
 {
+    m_data->getAll().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
+
     const int items = sourceEnd - sourceStart + 1;
     rowsRemoved(sourceParent, sourceStart, sourceEnd);
     rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
 }
 
 
-void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int)
+void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
+    m_data->getAll().rowsRemoved(_parent, first, last);
+
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(_parent, first);

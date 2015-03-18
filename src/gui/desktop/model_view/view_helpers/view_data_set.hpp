@@ -26,48 +26,9 @@
 
 #include <core/tree.hpp>
 
-struct ModelObserverInterface: public QObject
-{
-    Q_OBJECT
-
-    public:
-        explicit ModelObserverInterface(QObject* p = 0): QObject(p), m_db_model(nullptr)
-        {
-        }
-
-        void set(QAbstractItemModel* model)
-        {
-            if (m_db_model != nullptr)
-                m_db_model->disconnect(this);
-
-            m_db_model = model;
-
-            if (m_db_model != nullptr)
-            {
-                connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
-                connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
-                connect(m_db_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
-                        this, SLOT(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
-
-                connect(m_db_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
-            }
-
-            modelReset();
-        }
-
-    protected slots:
-        virtual void rowsInserted(const QModelIndex &, int, int) = 0;
-        virtual void rowsRemoved(const QModelIndex &, int, int) = 0;
-        virtual void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
-        virtual void modelReset() = 0;
-
-    protected:
-        QAbstractItemModel* m_db_model;
-};
-
 
 template<typename T>
-class ViewDataSet final: ModelObserverInterface
+class ViewDataSet final
 {
         template<typename IT, typename M>
         IT _find(M& model, const std::vector<size_t>& hierarchy) const
@@ -121,7 +82,7 @@ class ViewDataSet final: ModelObserverInterface
         typedef typename Model::const_flat_iterator const_flat_iterator;
         typedef typename Model::flat_iterator       flat_iterator;
 
-        ViewDataSet(): m_model()
+        ViewDataSet(): m_model(), m_db_model(nullptr)
         {
         }
 
@@ -131,7 +92,7 @@ class ViewDataSet final: ModelObserverInterface
 
         void set(QAbstractItemModel* model)
         {
-            ModelObserverInterface::set(model);
+            m_db_model = model;
         }
 
         const_iterator find(const QModelIndex& index) const
@@ -181,6 +142,102 @@ class ViewDataSet final: ModelObserverInterface
         iterator end()
         {
             return m_model.end();
+        }
+
+        bool empty() const
+        {
+            return m_model.empty();
+        }
+
+        size_t size() const
+        {
+            return m_model.cend() - m_model.cbegin();
+        }
+        
+        std::string dumpModel() const
+        {
+            const std::string dump = m_model.dump();
+            return dump;
+        }
+
+        // to be called by view:
+        void rowsInserted(const QModelIndex& parent, int from, int to)
+        {
+            //update model
+            auto parentIt = find(parent);
+            iterator childIt = flat_iterator(parentIt).begin() + from;
+
+            for( int i = from; i <= to; i++)
+            {
+                QModelIndex child_idx = m_db_model->index(i, 0, parent);
+                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position
+
+                //check if inserted item has children, and add them if any
+                const int children = m_db_model->rowCount(child_idx);
+                if (children)
+                    rowsInserted(child_idx, 0, children - 1);
+            }
+        }
+
+        void rowsRemoved(const QModelIndex& parent, int from , int to)
+        {
+            //update model
+            auto parentIt = find(parent);
+            flat_iterator flat_parent(parentIt);
+
+            if (flat_parent.children_count() > to)
+            {
+                for(int i = from; i <= to; i++)
+                {
+                    auto childIt = flat_parent.begin() + from;        // keep deleting item at the same position
+                    erase(childIt);
+                }
+            }
+            else
+                assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
+        }
+
+        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from)
+        {
+            const int n = src_to - src_from;
+            const int dst_to = dst_from + n;
+
+            // TODO: implement variant which would do a real move
+            rowsRemoved(sourceParent, src_from, src_to);
+            rowsInserted(destinationParent, dst_from, dst_to);
+        }
+
+        void modelReset()
+        {
+            clear();
+
+            //load all data
+            loadIndex(QModelIndex(), begin());
+        }
+
+    private:
+        Model m_model;
+        QAbstractItemModel* m_db_model;
+        
+        std::vector<size_t> generateHierarchy(const QModelIndex& index) const
+        {
+            std::vector<size_t> result;
+
+            if (index.isValid())
+            {
+                std::vector<size_t> parents = generateHierarchy(index.parent());
+                result.insert(result.begin(), parents.cbegin(), parents.cend());
+                result.push_back(index.row());
+            }
+            else
+                result.push_back(0);             //top item
+
+                return result;
+        }
+
+        void erase(const iterator& it)
+        {
+            m_model.erase(it);
         }
 
         void clear()
@@ -259,100 +316,6 @@ class ViewDataSet final: ModelObserverInterface
         iterator insert(flat_iterator it, const T& info)
         {
             return m_model.insert(it, info);
-        }
-
-        bool empty() const
-        {
-            return m_model.empty();
-        }
-
-        size_t size() const
-        {
-            return m_model.cend() - m_model.cbegin();
-        }
-        
-        std::string dumpModel() const
-        {
-            const std::string dump = m_model.dump();
-            return dump;
-        }
-
-    private:
-        Model m_model;
-        
-        std::vector<size_t> generateHierarchy(const QModelIndex& index) const
-        {
-            std::vector<size_t> result;
-
-            if (index.isValid())
-            {
-                std::vector<size_t> parents = generateHierarchy(index.parent());
-                result.insert(result.begin(), parents.cbegin(), parents.cend());
-                result.push_back(index.row());
-            }
-            else
-                result.push_back(0);             //top item
-
-                return result;
-        }
-
-        void erase(const iterator& it)
-        {
-            m_model.erase(it);
-        }
-
-        void rowsInserted(const QModelIndex& parent, int from, int to) override
-        {
-            //update model
-            auto parentIt = find(parent);
-            iterator childIt = flat_iterator(parentIt).begin() + from;
-
-            for( int i = from; i <= to; i++)
-            {
-                QModelIndex child_idx = m_db_model->index(i, 0, parent);
-                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position
-
-                //check if inserted item has children, and add them if any
-                const int children = m_db_model->rowCount(child_idx);
-                if (children)
-                    rowsInserted(child_idx, 0, children - 1);
-            }
-        }
-
-        void rowsRemoved(const QModelIndex& parent, int from , int to) override
-        {
-            //update model
-            auto parentIt = find(parent);
-            flat_iterator flat_parent(parentIt);
-
-            if (flat_parent.children_count() > to)
-            {
-                for(int i = from; i <= to; i++)
-                {
-                    auto childIt = flat_parent.begin() + from;        // keep deleting item at the same position
-                    erase(childIt);
-                }
-            }
-            else
-                assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
-        }
-
-        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
-        {
-            const int n = src_to - src_from;
-            const int dst_to = dst_from + n;
-
-            // TODO: implement variant which would do a real move
-            rowsRemoved(sourceParent, src_from, src_to);
-            rowsInserted(destinationParent, dst_from, dst_to);
-        }
-
-        void modelReset() override
-        {
-            clear();
-
-            //load all data
-            loadIndex(QModelIndex(), begin());
         }
 
         void loadIndex(const QModelIndex& p, flat_iterator p_it)
