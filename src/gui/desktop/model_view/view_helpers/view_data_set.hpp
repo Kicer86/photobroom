@@ -186,6 +186,9 @@ class ViewDataSet final: ModelObserverInterface
         void clear()
         {
             m_model.clear();
+
+            //add item for QModelIndex() which is always present
+            insert(begin(), T());
         }
 
         void erase(const iterator& it)
