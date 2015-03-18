@@ -341,6 +341,25 @@ class ViewDataSet final: ModelObserverInterface
 
         void modelReset() override
         {
+            clear();
+
+            //load all data
+            loadIndex(QModelIndex(), begin());
+        }
+
+        void loadIndex(const QModelIndex& p, flat_iterator p_it)
+        {
+            assert(p_it.children_count() == 0);
+            const int c = m_db_model->rowCount(p);
+
+            for(int i = 0; i < c; i++)
+            {
+                flat_iterator c_it = p_it.begin() + i;
+                QModelIndex c_idx = m_db_model->index(i, 0, p);
+
+                m_model.insert(c_it, T());
+                loadIndex(c_idx, c_it);
+            }
         }
 };
 
