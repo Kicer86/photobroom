@@ -188,12 +188,7 @@ class ViewDataSet final: ModelObserverInterface
             m_model.clear();
 
             //add item for QModelIndex() which is always present
-            insert(begin(), T());
-        }
-
-        void erase(const iterator& it)
-        {
-            m_model.erase(it);
+            insert( begin(), T(QModelIndex()) );
         }
 
         iterator insert(const QModelIndex& index, const T& info)
@@ -301,6 +296,11 @@ class ViewDataSet final: ModelObserverInterface
                 return result;
         }
 
+        void erase(const iterator& it)
+        {
+            m_model.erase(it);
+        }
+
         void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
             //update model
@@ -308,7 +308,10 @@ class ViewDataSet final: ModelObserverInterface
             iterator childIt = flat_iterator(parentIt).begin() + from;
 
             for( int i = from; i <= to; i++)
-                childIt = insert(childIt, T());                       // each next sub node is being placed at the same position but is doesn't matter.
+            {
+                QModelIndex child_idx = m_db_model->index(i, 0, parent);
+                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position but is doesn't matter.
+            }
         }
 
         void rowsRemoved(const QModelIndex& parent, int from , int to) override
@@ -357,7 +360,7 @@ class ViewDataSet final: ModelObserverInterface
                 flat_iterator c_it = p_it.begin() + i;
                 QModelIndex c_idx = m_db_model->index(i, 0, p);
 
-                m_model.insert(c_it, T());
+                m_model.insert(c_it, T(c_idx));
                 loadIndex(c_idx, c_it);
             }
         }

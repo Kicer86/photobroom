@@ -62,7 +62,7 @@ void ModelIndexInfo::cleanRects()
 }
 
 
-ModelIndexInfo::ModelIndexInfo(): expanded(false), rect(), overallRect()
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), rect(), overallRect()
 {
 }
 

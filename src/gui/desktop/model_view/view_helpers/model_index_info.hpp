@@ -35,7 +35,7 @@ struct ModelIndexInfo
         const QRect& getOverallRect() const;
         void cleanRects();
 
-        ModelIndexInfo();
+        ModelIndexInfo(const QModelIndex &);
         
         operator std::string() const;
 
