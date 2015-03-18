@@ -20,6 +20,7 @@
 #ifndef VIEW_DATA_SET_HPP
 #define VIEW_DATA_SET_HPP
 
+#include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QRect>
 
@@ -126,6 +127,11 @@ class ViewDataSet final: ModelObserverInterface
 
         ~ViewDataSet()
         {
+        }
+
+        void set(QAbstractItemModel* model)
+        {
+            ModelObserverInterface::set(model);
         }
 
         const_iterator find(const QModelIndex& index) const
