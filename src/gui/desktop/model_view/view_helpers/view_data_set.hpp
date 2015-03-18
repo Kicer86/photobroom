@@ -320,8 +320,14 @@ class ViewDataSet final: ModelObserverInterface
                 assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
         }
 
-        void rowsMoved(const QModelIndex&, int, int, const QModelIndex &, int) override
+        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
         {
+            const int n = src_to - src_from;
+            const int dst_to = dst_from + n;
+
+            // TODO: implement variant which would do a real move
+            rowsRemoved(sourceParent, src_from, src_to);
+            rowsInserted(destinationParent, dst_from, dst_to);
         }
 
         void modelReset() override
