@@ -200,7 +200,7 @@ class ViewDataSet final: ModelObserverInterface
         }
 
         // to be called by view:
-        void rowsInserted(const QModelIndex& parent, int from, int to)
+        void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
             //update model
             auto parentIt = find(parent);
@@ -218,7 +218,7 @@ class ViewDataSet final: ModelObserverInterface
             }
         }
 
-        void rowsRemoved(const QModelIndex& parent, int from , int to)
+        void rowsRemoved(const QModelIndex& parent, int from , int to) override
         {
             //update model
             auto parentIt = find(parent);
@@ -236,7 +236,7 @@ class ViewDataSet final: ModelObserverInterface
                 assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
         }
 
-        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from)
+        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
         {
             const int n = src_to - src_from;
             const int dst_to = dst_from + n;
@@ -246,7 +246,7 @@ class ViewDataSet final: ModelObserverInterface
             rowsInserted(destinationParent, dst_from, dst_to);
         }
 
-        void modelReset()
+        void modelReset() override
         {
             clear();
 
