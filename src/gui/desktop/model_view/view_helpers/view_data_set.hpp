@@ -129,6 +129,13 @@ class ViewDataSet final: ModelObserverInterface
         {
         }
 
+        // attach - if set to true, ViewDataSet will connect itself to model.
+        //          This will cause, that any model change will be automatically stored in tree.
+        //          The only problem is that if owner of ViewDataSet (View) also connects
+        //          itself to model's signals and will try to access ViewDataSet in
+        //          for example rowsInserted, ViewDataSet may not be up to date yet.
+        //          In such case, pass attach = false and call all functions
+        //          marked with override manualy from view.
         void set(QAbstractItemModel* model, bool attach)
         {
             ModelObserverInterface::set(model, attach);
