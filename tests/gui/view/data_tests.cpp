@@ -31,7 +31,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
     Data data;
     data.m_configuration = &config;
 
-    const auto& items = data.getAll();
+    const auto& items = data.getModel();
     EXPECT_EQ(0, items.size());
 }
 
@@ -45,7 +45,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
     data.m_configuration = &config;
     data.set(&model);
 
-    const auto& items = data.getAll();
+    const auto& items = data.getModel();
     EXPECT_EQ(1, items.size());
 }
 
@@ -64,7 +64,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
     EXPECT_EQ(QModelIndex(), idx);
 
-    const auto& items = data.getAll();
+    const auto& items = data.getModel();
     EXPECT_EQ(false, items.empty());
 }
 

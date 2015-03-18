@@ -53,7 +53,7 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int from_pos, int t
 
 void PositionsReseter::invalidateAll() const
 {
-    Data::ModelIndexInfoSet& dataSet = m_data->getAll();
+    Data::ModelIndexInfoSet& dataSet = m_data->getModel();
     for(auto it = dataSet.begin(); it != dataSet.end(); ++it)
     {
         ModelIndexInfo& info = *it;

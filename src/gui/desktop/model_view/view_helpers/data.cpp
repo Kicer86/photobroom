@@ -289,13 +289,13 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 }
 
 
-const Data::ModelIndexInfoSet& Data::getAll() const
+const Data::ModelIndexInfoSet& Data::getModel() const
 {
     return *m_itemData;
 }
 
 
-Data::ModelIndexInfoSet& Data::getAll()
+Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
 }

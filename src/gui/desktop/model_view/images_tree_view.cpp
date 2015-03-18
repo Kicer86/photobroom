@@ -306,13 +306,13 @@ QPoint ImagesTreeView::getOffset() const
 
 void ImagesTreeView::modelReset()
 {
-    m_data->getAll().modelReset();
+    m_data->getModel().modelReset();
 }
 
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
-    m_data->getAll().rowsInserted(_parent, from, to);
+    m_data->getModel().rowsInserted(_parent, from, to);
 
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
@@ -323,7 +323,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 
 void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
 {
-    m_data->getAll().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
+    m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
     rowsRemoved(sourceParent, sourceStart, sourceEnd);
@@ -333,7 +333,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
-    m_data->getAll().rowsRemoved(_parent, first, last);
+    m_data->getModel().rowsRemoved(_parent, first, last);
 
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());

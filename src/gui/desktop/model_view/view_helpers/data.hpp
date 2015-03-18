@@ -88,8 +88,8 @@ class Data
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
         void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
 
-        const ModelIndexInfoSet& getAll() const;
-        ModelIndexInfoSet& getAll();
+        const ModelIndexInfoSet& getModel() const;
+        ModelIndexInfoSet& getModel();
 
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
