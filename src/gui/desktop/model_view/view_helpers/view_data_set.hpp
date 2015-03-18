@@ -30,25 +30,25 @@ struct ModelObserverInterface: public QObject
     Q_OBJECT
 
     public:
-        explicit ModelObserverInterface(QObject* p = 0): QObject(p), m_model(nullptr)
+        explicit ModelObserverInterface(QObject* p = 0): QObject(p), m_db_model(nullptr)
         {
         }
 
         void set(QAbstractItemModel* model)
         {
-            if (m_model != nullptr)
-                m_model->disconnect(this);
+            if (m_db_model != nullptr)
+                m_db_model->disconnect(this);
 
-            m_model = model;
+            m_db_model = model;
 
-            if (m_model != nullptr)
+            if (m_db_model != nullptr)
             {
-                connect(m_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
-                connect(m_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
-                connect(m_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
+                connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
+                connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
+                connect(m_db_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
                         this, SLOT(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
 
-                connect(m_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
+                connect(m_db_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
             }
 
             modelReset();
@@ -61,7 +61,7 @@ struct ModelObserverInterface: public QObject
         virtual void modelReset() = 0;
 
     protected:
-        QAbstractItemModel* m_model;
+        QAbstractItemModel* m_db_model;
 };
 
 
