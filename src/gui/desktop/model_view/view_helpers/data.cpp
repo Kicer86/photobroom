@@ -56,7 +56,7 @@ namespace
 
 Data::Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr)
 {
-    setupRoot();
+
 }
 
 
@@ -69,17 +69,14 @@ Data::~Data()
 void Data::set(QAbstractItemModel* model)
 {
     m_model = model;
+    m_itemData->set(model);
 }
 
 
 Data::ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);
-           
-    if (it == m_itemData->end())
-        it = m_itemData->insert(index, ModelIndexInfo());
-    
-    assert(index.isValid() || it->expanded == true);
+    assert(it != m_itemData->end());
 
     return it;
 }
@@ -98,22 +95,6 @@ Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
     auto it = m_itemData->find(index);
 
     return it;
-}
-
-
-void Data::forget(const QModelIndex& index)
-{
-    assert(index.isValid());                         // we cannot forget root node
-    auto it = m_itemData->find(index);
-
-    if (it != m_itemData->end())
-        m_itemData->erase(it);
-}
-
-
-void Data::erase(ModelIndexInfoSet::iterator it)
-{
-    m_itemData->erase(it);
 }
 
 
@@ -343,7 +324,6 @@ std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const 
 void Data::clear()
 {
     m_itemData->clear();
-    setupRoot();
 }
 
 
@@ -363,13 +343,3 @@ bool Data::validate() const
 {
     return true; //::validate(m_model, QModelIndex(), m_itemData->cbegin());
 }
-
-
-void Data::setupRoot()
-{
-    //setup info for index QModelIndex()
-    auto it = m_itemData->insert(QModelIndex(), ModelIndexInfo());
-
-    it->expanded = true;
-}
-

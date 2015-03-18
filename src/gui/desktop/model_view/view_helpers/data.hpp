@@ -74,8 +74,6 @@ class Data
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
         
-        void forget(const QModelIndex &);                       //clear data about given index
-        void erase(ModelIndexInfoSet::iterator);
         ModelIndexInfoSet::iterator insert(ModelIndexInfoSet::iterator, const ModelIndexInfo &);
 
         ModelIndexInfoSet::iterator get(const QPoint &) const;
@@ -103,7 +101,6 @@ class Data
         QAbstractItemModel* m_model;
 
         std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
-        void setupRoot();
 };
 
 #endif // DATA_HPP
