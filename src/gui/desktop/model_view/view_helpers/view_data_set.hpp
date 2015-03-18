@@ -310,7 +310,12 @@ class ViewDataSet final: ModelObserverInterface
             for( int i = from; i <= to; i++)
             {
                 QModelIndex child_idx = m_db_model->index(i, 0, parent);
-                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position but is doesn't matter.
+                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position
+
+                //check if inserted item has children, and add them if any
+                const int children = m_db_model->rowCount(child_idx);
+                if (children)
+                    rowsInserted(child_idx, 0, children - 1);
             }
         }
 
@@ -360,7 +365,7 @@ class ViewDataSet final: ModelObserverInterface
                 flat_iterator c_it = p_it.begin() + i;
                 QModelIndex c_idx = m_db_model->index(i, 0, p);
 
-                m_model.insert(c_it, T(c_idx));
+                c_it = m_model.insert(c_it, T(c_idx));
                 loadIndex(c_idx, c_it);
             }
         }
