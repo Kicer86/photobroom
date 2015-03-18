@@ -66,10 +66,10 @@ Data::~Data()
 }
 
 
-void Data::set(QAbstractItemModel* model)
+void Data::set(QAbstractItemModel* model, bool attach)
 {
     m_model = model;
-    m_itemData->set(model, false);
+    m_itemData->set(model, attach);
 }
 
 

@@ -151,7 +151,7 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
     //
     QAbstractItemView::setModel(m);
-    m_data->set(m);
+    m_data->set(m, false);
 
     //connect to model's signals
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);

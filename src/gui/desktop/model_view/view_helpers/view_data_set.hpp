@@ -129,7 +129,7 @@ class ViewDataSet final: ModelObserverInterface
         {
         }
 
-        void set(QAbstractItemModel* model, bool attach = true)
+        void set(QAbstractItemModel* model, bool attach)
         {
             ModelObserverInterface::set(model, attach);
         }
@@ -256,7 +256,6 @@ class ViewDataSet final: ModelObserverInterface
 
     private:
         Model m_model;
-        QAbstractItemModel* m_db_model;
         
         std::vector<size_t> generateHierarchy(const QModelIndex& index) const
         {
