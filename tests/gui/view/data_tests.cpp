@@ -44,6 +44,8 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     const auto& items = data.getModel();
     EXPECT_EQ(1, items.size());
@@ -58,6 +60,8 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
     QModelIndex idx = data.get(infoIt);
@@ -77,6 +81,8 @@ TEST(DataShould, SetInitialDataForRootItem)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     const ModelIndexInfo& info = *data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
@@ -93,6 +99,8 @@ TEST(DataShould, StoreInfoAboutItem)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     ModelIndexInfo& info = *data.get(QModelIndex());
     info.expanded = true;
@@ -116,6 +124,8 @@ TEST(DataShould, MarkTopItemsAsVisible)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     model.appendRow(top);
@@ -138,6 +148,8 @@ TEST(DataShould, NotReturnInvisibleItems)
     Data data;
     data.set(&model);
     data.m_configuration = &config;
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -190,6 +202,8 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -250,6 +264,8 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -288,6 +304,8 @@ TEST(DataShould, ReturnProperIndicesOfItems)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");

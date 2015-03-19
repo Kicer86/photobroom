@@ -21,6 +21,8 @@ protected:
 
         data.m_configuration = &config;
         data.set(&model);
+        
+        mo.reset( new ViewDataModelObserver(&data.getModel(), &model) );
 
         top = new QStandardItem("Empty");
         child1 = new QStandardItem(icon, "Empty1");
@@ -96,6 +98,8 @@ protected:
     QStandardItem* child3_3;
     QStandardItem* child3_4;
     QStandardItem* child3_5;
+    
+    std::unique_ptr<ViewDataModelObserver> mo;
 };
 
 
