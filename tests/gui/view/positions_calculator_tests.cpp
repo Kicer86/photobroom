@@ -40,6 +40,8 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     PositionsCalculator calculator(&model, &data, 100);
     calculator.updateItems();
@@ -82,6 +84,8 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
@@ -131,6 +135,8 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     Data view_data;
     view_data.m_configuration = &config;
     view_data.set(&model);
+    
+    ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
     ModelIndexInfo& top_info = *view_data.get(top_idx->index());
@@ -186,6 +192,8 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     Data view_data;
     view_data.m_configuration = &config;
     view_data.set(&model);
+    
+    ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
     ModelIndexInfo& top_info = *view_data.get(top->index());
@@ -225,6 +233,8 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     Data data;
     data.m_configuration = &config;
     data.set(&model);
+    
+    ViewDataModelObserver mo(&data.getModel(), &model);
 
     const QPixmap pixmap(img_w, img_h);
     const QIcon icon(pixmap);

@@ -68,7 +68,7 @@ class Data
         ~Data();
         Data& operator=(const Data &) = delete;
 
-        void set(QAbstractItemModel *, bool attach = true);
+        void set(QAbstractItemModel *);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &);   //always returns valid iterator (if index does not exist yet, will be added)
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;

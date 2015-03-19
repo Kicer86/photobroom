@@ -26,48 +26,20 @@
 
 #include <core/tree.hpp>
 
-struct ModelObserverInterface: public QObject
-{
-    Q_OBJECT
 
-    public:
-        explicit ModelObserverInterface(QObject* p = 0): QObject(p), m_db_model(nullptr)
-        {
-        }
+struct IViewDataSet
+{  
+        virtual ~IViewDataSet() {}
 
-        void set(QAbstractItemModel* model, bool attach)
-        {
-            if (m_db_model != nullptr)
-                m_db_model->disconnect(this);
-
-            m_db_model = model;
-
-            if (m_db_model != nullptr && attach)
-            {
-                connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
-                connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
-                connect(m_db_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
-                        this, SLOT(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
-
-                connect(m_db_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
-            }
-
-            modelReset();
-        }
-
-    protected slots:
         virtual void rowsInserted(const QModelIndex &, int, int) = 0;
         virtual void rowsRemoved(const QModelIndex &, int, int) = 0;
         virtual void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
         virtual void modelReset() = 0;
-
-    protected:
-        QAbstractItemModel* m_db_model;
 };
 
 
 template<typename T>
-class ViewDataSet final: ModelObserverInterface
+class ViewDataSet final: public IViewDataSet
 {
         template<typename IT, typename M>
         IT _find(M& model, const std::vector<size_t>& hierarchy) const
@@ -121,7 +93,7 @@ class ViewDataSet final: ModelObserverInterface
         typedef typename Model::const_flat_iterator const_flat_iterator;
         typedef typename Model::flat_iterator       flat_iterator;
 
-        ViewDataSet(): m_model()
+        ViewDataSet(): m_model(), m_db_model(nullptr)
         {
         }
 
@@ -129,16 +101,9 @@ class ViewDataSet final: ModelObserverInterface
         {
         }
 
-        // attach - if set to true, ViewDataSet will connect itself to model.
-        //          This will cause, that any model change will be automatically stored in tree.
-        //          The only problem is that if owner of ViewDataSet (View) also connects
-        //          itself to model's signals and will try to access ViewDataSet in
-        //          for example rowsInserted, ViewDataSet may not be up to date yet.
-        //          In such case, pass attach = false and call all functions
-        //          marked with override manualy from view.
-        void set(QAbstractItemModel* model, bool attach)
+        void set(QAbstractItemModel* model)
         {
-            ModelObserverInterface::set(model, attach);
+            m_db_model = model;
         }
 
         const_iterator find(const QModelIndex& index) const
@@ -271,6 +236,7 @@ class ViewDataSet final: ModelObserverInterface
 
     private:
         Model m_model;
+        QAbstractItemModel* m_db_model;
 
         bool validate(QAbstractItemModel* model, const QModelIndex& index, const_flat_iterator it) const
         {
@@ -406,5 +372,56 @@ class ViewDataSet final: ModelObserverInterface
             }
         }
 };
+
+
+// A helper class which purpose is to store  in tree any model change automatically
+// The only problem is that if owner of ViewDataSet (View) also connects
+// itself to model's signals and will try to access ViewDataSet in
+// for example rowsInserted, ViewDataSet may not be up to date yet.
+// In such case, do not use this class but call all ViewDataSet's functions 
+// related to model changes manually.
+
+struct ViewDataModelObserver: public QObject
+{
+    Q_OBJECT
+
+    public:
+        explicit ViewDataModelObserver(IViewDataSet* viewDataSet, QAbstractItemModel* model, QObject* p = 0): QObject(p), m_db_model(nullptr), m_viewDataSet(viewDataSet)
+        {
+            set(model);
+        }
+
+        void set(QAbstractItemModel* model)
+        {
+            if (m_db_model != nullptr)
+                m_db_model->disconnect(this);
+
+            m_db_model = model;
+
+            if (m_db_model != nullptr)
+            {
+                connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
+                connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
+                connect(m_db_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
+                        this, SLOT(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
+
+                connect(m_db_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
+            }
+
+            modelReset();
+        }
+
+    private slots:
+        virtual void rowsInserted(const QModelIndex& p, int f, int t) { m_viewDataSet->rowsInserted(p, f, t); }
+        virtual void rowsRemoved(const QModelIndex& p, int f, int t)  { m_viewDataSet->rowsRemoved(p, f, t); }
+        virtual void rowsMoved(const QModelIndex& p, int f, int t, 
+                               const QModelIndex& d, int dt)          { m_viewDataSet->rowsMoved(p, f, t, d, dt); }
+        virtual void modelReset()                                     { m_viewDataSet->modelReset(); }
+
+    private:
+        QAbstractItemModel* m_db_model;
+        IViewDataSet* m_viewDataSet;
+};
+
 
 #endif // VIEW_DATA_SET_HPP
