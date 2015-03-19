@@ -41,7 +41,7 @@ PositionsReseter::~PositionsReseter()
 
 
 void PositionsReseter::itemsAdded(const QModelIndex& parent, int /*from_pos*/, int to_pos) const
-{                                                                // Also remember to rewrite iterator, as container may change and iterator used for inserting may become invalid
+{
     //invalidate parent
     invalidateItemOverallRect(parent);
 
