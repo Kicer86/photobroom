@@ -1083,9 +1083,9 @@ namespace Database
 
         QSqlQuery query(db);
 
-        //at least one row must be present in table 'version_history'
+        // table 'version' cannot be empty
         if (status)
-            status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER_HIST ";", &query);
+            status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
 
         if (status)
             status = query.next() == true;
@@ -1094,11 +1094,10 @@ namespace Database
 
         //insert first entry
         if (status && rows == 0)
-            status = m_data->exec(QString("INSERT INTO " TAB_VER_HIST "(version, date)"
-                                          " VALUES(%1, CURRENT_TIMESTAMP);")
+            status = m_data->exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
                                   .arg(db_version), &query);
-
-        //TODO: check last entry with current version
+        else
+            status = checkDBVersion();
 
         if (status)
             status = m_data->m_transaction.end();
@@ -1106,4 +1105,27 @@ namespace Database
         return status;
     }
 
+}
+
+
+bool Database::ASqlBackend::checkDBVersion()
+{
+    QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+    QSqlQuery query(db);
+    
+    bool status = m_data->exec("SELECT version FROM " TAB_VER ";", &query);
+    
+    if (status)
+        status = query.next();
+    
+    if (status)
+    {
+        const int v = query.value(0).toInt();
+        
+        // More than we expect? Quit with error
+        if (v > 1)
+            status = false;
+    }
+    
+    return status;
 }

@@ -98,6 +98,7 @@ namespace Database
             virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
 
             bool checkStructure();
+            bool checkDBVersion();
     };
 
 }
