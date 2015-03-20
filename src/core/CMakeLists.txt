@@ -50,6 +50,7 @@ set(CORE_HEADERS
     logger.hpp
     plugin_loader.hpp
     photos_manager.hpp
+    status.hpp
     tag.hpp
     tag_feeder_factory.hpp
     tag_updater.hpp
