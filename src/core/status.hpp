@@ -31,6 +31,11 @@ class Status
 
         Status& operator=(const Status &) = default;
 
+        Status& operator=(const T& v)
+        {
+            m_status = v;
+        }
+
         bool operator==(const Status& other) const
         {
             return m_status == other.m_status;
