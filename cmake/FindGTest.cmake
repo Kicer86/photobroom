@@ -35,7 +35,8 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
         add_library(gtest-main STATIC ${GTEST_MAIN_SOURCE})
 
         get_filename_component(gtest_base_dir ${GTEST_BASE_SOURCE} PATH)
-        set_target_properties(gtest gtest-main PROPERTIES COMPILE_FLAGS "${CMAKE_INCLUDE_SYSTEM_FLAG_CXX} ${gtest_base_dir}/../")
+        target_include_directories(gtest      SYSTEM PRIVATE ${gtest_base_dir}/../)
+        target_include_directories(gtest-main SYSTEM PRIVATE ${gtest_base_dir}/../)
 
     endif(NOT TARGET gtest)
 

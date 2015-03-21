@@ -35,7 +35,8 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
         add_library(gmock-main STATIC ${GMOCK_MAIN_SOURCE})
 
         get_filename_component(gmock_base_dir ${GMOCK_BASE_SOURCE} PATH)
-        set_target_properties(gmock gmock-main PROPERTIES COMPILE_FLAGS "${CMAKE_INCLUDE_SYSTEM_FLAG_CXX} ${gmock_base_dir}/../")
+        target_include_directories(gmock      SYSTEM PRIVATE ${gmock_base_dir}/../)
+        target_include_directories(gmock-main SYSTEM PRIVATE ${gmock_base_dir}/../)
 
         #there should be a CMakeLists.txt for GMock however it introduces a GTest targets also which may conflict with targets from FindGTest
 
