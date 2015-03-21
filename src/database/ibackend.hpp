@@ -41,7 +41,7 @@ namespace Database
     struct IPhotoInfoCache;
     struct ProjectInfo;
 
-    enum class ErrorCodes
+    enum class StatusCodes
     {
         Ok,
         BadVersion,                         // db format is unknown (newer that supported)
@@ -51,7 +51,7 @@ namespace Database
         QueryFailed,
     };
 
-    typedef Status<ErrorCodes, ErrorCodes::Ok> BackendStatus;
+    typedef Status<StatusCodes, StatusCodes::Ok> BackendStatus;
 
     //Low level database interface.
     //To be used by particular database backend

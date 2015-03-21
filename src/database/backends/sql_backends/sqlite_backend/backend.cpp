@@ -25,7 +25,7 @@ namespace Database
 
         BackendStatus prepareDB(ASqlBackend* backend, const ProjectInfo& prjInfo)
         {
-            BackendStatus status = ErrorCodes::Ok;
+            BackendStatus status = StatusCodes::Ok;
 
             if (m_initialized == false)
             {

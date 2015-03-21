@@ -53,7 +53,7 @@ namespace Database
 
     BackendStatus MySqlBackend::prepareDB(const ProjectInfo& prjInfo)
     {
-        BackendStatus status = ErrorCodes::Ok;
+        BackendStatus status = StatusCodes::Ok;
 
         if (m_data->m_initialized == false)
         {

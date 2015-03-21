@@ -105,14 +105,14 @@ namespace Database
             BackendStatus begin()
             {
                 assert(m_name != "");
-                BackendStatus status(ErrorCodes::Ok);
+                BackendStatus status(StatusCodes::Ok);
 
                 if (m_level++ == 0)
                 {
                     QSqlDatabase db = QSqlDatabase::database(m_name, false);
 
                     if (db.isOpen())
-                        status = db.transaction()? ErrorCodes::Ok: ErrorCodes::TransactionFailed;
+                        status = db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
                 }
 
                 return status;
@@ -122,7 +122,7 @@ namespace Database
             BackendStatus end()
             {
                 assert(m_name != "" && m_level > 0);
-                BackendStatus status = ErrorCodes::Ok;
+                BackendStatus status = StatusCodes::Ok;
 
                 if (--m_level == 0)
                 {
@@ -132,7 +132,7 @@ namespace Database
 
                     if (db.isOpen())
                     {
-                        status = db.commit()? ErrorCodes::Ok: ErrorCodes::TransactionCommitFailed;
+                        status = db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
 
                         if (status == false)
                             db.rollback();
@@ -240,7 +240,7 @@ namespace Database
         std::string logMessage = query.toStdString();
 
         const auto start = std::chrono::steady_clock::now();
-        const BackendStatus status = result->exec(query)? ErrorCodes::Ok: ErrorCodes::QueryFailed;
+        const BackendStatus status = result->exec(query)? StatusCodes::Ok: StatusCodes::QueryFailed;
         const auto end = std::chrono::steady_clock::now();
         const auto diff = end - start;
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
@@ -261,7 +261,7 @@ namespace Database
     BackendStatus ASqlBackend::Data::exec(const SqlQuery& query, QSqlQuery* result) const
     {
         auto& queries = query.getQueries();
-        BackendStatus status(ErrorCodes::Ok);
+        BackendStatus status(StatusCodes::Ok);
 
         for(size_t i = 0; i < queries.size() && status; i++)
             status = exec(queries[i], result);
@@ -928,7 +928,7 @@ namespace Database
         m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
 
         if (status)
-            status = db.open()? ErrorCodes::Ok: ErrorCodes::OpenFailed;
+            status = db.open()? StatusCodes::Ok: StatusCodes::OpenFailed;
 
         if (status)
             status = checkStructure();
@@ -1079,7 +1079,7 @@ namespace Database
             status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
 
         if (status)
-            status = query.next()? ErrorCodes::Ok: ErrorCodes::QueryFailed;
+            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
 
         const QVariant rows = status? query.value(0): QVariant(0);
 
@@ -1109,7 +1109,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
     BackendStatus status = m_data->exec("SELECT version FROM " TAB_VER ";", &query);
     
     if (status)
-        status = query.next()? ErrorCodes::Ok: ErrorCodes::QueryFailed;
+        status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
     
     if (status)
     {
@@ -1117,7 +1117,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         
         // More than we expect? Quit with error
         if (v > 1)
-            status = ErrorCodes::BadVersion;
+            status = StatusCodes::BadVersion;
     }
     
     return status;
