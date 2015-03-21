@@ -32,6 +32,7 @@
 
 //#include "photo_iterator.hpp"
 //#include "query_list.hpp"
+#include "database_status.hpp"
 #include "filter.hpp"
 
 struct ILogger;
@@ -108,7 +109,7 @@ namespace Database
     {
         virtual ~AInitTask() {}
 
-        virtual void got(bool) = 0;
+        virtual void got(const Database::BackendStatus &) = 0;
     };
 
     //Database interface.

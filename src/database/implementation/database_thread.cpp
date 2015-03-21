@@ -257,9 +257,8 @@ namespace
 
         virtual void visit(InitTask* task) override
         {
-            m_backend->init(task->m_prjInfo);
-
-            //TODO: result
+            Database::BackendStatus status = m_backend->init(task->m_prjInfo);
+            task->m_task->got(status);
         }
 
         virtual void visit(InsertTask* task) override

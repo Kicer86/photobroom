@@ -50,7 +50,7 @@ namespace Database
     struct InitTask: Database::AInitTask
     {
         virtual ~InitTask() {}
-        virtual void got(bool status)
+        virtual void got(const BackendStatus& status) override
         {
             assert(status);
         }
