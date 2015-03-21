@@ -1093,7 +1093,7 @@ namespace Database
                 status = checkDBVersion();
         }
 
-        status = m_data->m_transaction.end();
+        status &= m_data->m_transaction.end();
 
         return status;
     }
