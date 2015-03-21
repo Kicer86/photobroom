@@ -34,6 +34,8 @@ class Status
         Status& operator=(const T& v)
         {
             m_status = v;
+
+            return *this;
         }
 
         bool operator==(const Status& other) const
@@ -43,12 +45,12 @@ class Status
 
         operator bool() const
         {
-            m_status == ok;
+            return m_status == ok;
         }
 
         bool operator!() const
         {
-            m_status != ok;
+            return m_status != ok;
         }
 
     private:
