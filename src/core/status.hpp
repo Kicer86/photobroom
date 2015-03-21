@@ -53,6 +53,21 @@ class Status
             return m_status != ok;
         }
 
+        Status<T, ok>& operator&=(const T& v)     // perform AND operation between 'this' and 'v'. 'ok' status is equal to '1', any other to '0'
+        {
+            if (m_status == ok)             // this is ok? Check 'v'
+                m_status = v == ok? ok: v;
+
+            return *this;
+        }
+
+        Status<T, ok>& operator&=(const Status<T, ok>& v)
+        {
+            *this &= v.m_status;
+
+            return *this;
+        }
+
     private:
         T m_status;
 };
