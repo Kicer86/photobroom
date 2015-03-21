@@ -25,11 +25,11 @@
 #include <deque>
 
 #include <core/tag.hpp>
-#include <core/status.hpp>
 #include <database/iphoto_info.hpp>
 
 //#include "photo_iterator.hpp"
 //#include "query_list.hpp"
+#include "database_status.hpp"
 #include "filter.hpp"
 
 struct ILogger;
@@ -40,18 +40,6 @@ namespace Database
 
     struct IPhotoInfoCache;
     struct ProjectInfo;
-
-    enum class StatusCodes
-    {
-        Ok,
-        BadVersion,                         // db format is unknown (newer that supported)
-        OpenFailed,
-        TransactionFailed,                  // Fail at transaction begin.
-        TransactionCommitFailed,            // Fail at transaction commit
-        QueryFailed,
-    };
-
-    typedef Status<StatusCodes, StatusCodes::Ok> BackendStatus;
 
     //Low level database interface.
     //To be used by particular database backend
