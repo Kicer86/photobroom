@@ -198,7 +198,7 @@ void IdxDataManager::fetchMore(const QModelIndex& _parent)
 
 void IdxDataManager::deepFetch(IdxData* top)
 {
-    if (m_data->m_notFetchedIdxData.lock().get().empty() == false)
+    if (m_data->m_notFetchedIdxData.lock()->empty() == false)
     {
         IdxDataDeepFetcher* fetcher = new IdxDataDeepFetcher;
         fetcher->setModelImpl(this);
