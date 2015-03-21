@@ -25,7 +25,7 @@ namespace Database
 
         private:
             // ASqlBackend:
-            virtual bool prepareDB(const ProjectInfo &) override;
+            virtual BackendStatus prepareDB(const ProjectInfo &) override;
             virtual QString prepareFindTableQuery(const QString &) const override;
             virtual QString prepareColumnDescription(const ColDefinition&) const override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;

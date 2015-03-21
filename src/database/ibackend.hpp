@@ -25,6 +25,7 @@
 #include <deque>
 
 #include <core/tag.hpp>
+#include <core/status.hpp>
 #include <database/iphoto_info.hpp>
 
 //#include "photo_iterator.hpp"
@@ -39,6 +40,18 @@ namespace Database
 
     struct IPhotoInfoCache;
     struct ProjectInfo;
+
+    enum class ErrorCodes
+    {
+        Ok,
+        BadVersion,                         // db format is unknown (newer that supported)
+        OpenFailed,
+        TransactionFailed,                  // Fail at transaction begin.
+        TransactionCommitFailed,            // Fail at transaction commit
+        QueryFailed,
+    };
+
+    typedef Status<ErrorCodes, ErrorCodes::Ok> BackendStatus;
 
     //Low level database interface.
     //To be used by particular database backend
@@ -76,7 +89,7 @@ namespace Database
         virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;                 //is there any photo matching filters?
 
         //init backend - connect to database or create new one
-        virtual bool init(const ProjectInfo &) = 0;
+        virtual BackendStatus init(const ProjectInfo &) = 0;
 
         //configuration
         virtual void set(IConfiguration *) = 0;

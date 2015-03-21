@@ -51,9 +51,9 @@ namespace Database
     }
 
 
-    bool MySqlBackend::prepareDB(const ProjectInfo& prjInfo)
+    BackendStatus MySqlBackend::prepareDB(const ProjectInfo& prjInfo)
     {
-        bool status = true;
+        BackendStatus status = ErrorCodes::Ok;
 
         if (m_data->m_initialized == false)
         {

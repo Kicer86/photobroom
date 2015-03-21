@@ -23,9 +23,9 @@ namespace Database
 
         }
 
-        bool prepareDB(ASqlBackend* backend, const ProjectInfo& prjInfo)
+        BackendStatus prepareDB(ASqlBackend* backend, const ProjectInfo& prjInfo)
         {
-            bool status = true;
+            BackendStatus status = ErrorCodes::Ok;
 
             if (m_initialized == false)
             {
@@ -56,7 +56,7 @@ namespace Database
     }
 
 
-    bool SQLiteBackend::prepareDB(const ProjectInfo& prjInfo)
+    BackendStatus SQLiteBackend::prepareDB(const ProjectInfo& prjInfo)
     {
         return m_data->prepareDB(this, prjInfo);
     }
