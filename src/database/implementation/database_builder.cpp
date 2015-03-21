@@ -157,20 +157,17 @@ namespace Database
 
         std::unique_ptr<Database::AInitTask> task(new InitTask);
 
-        const bool status = database->exec(std::move(task), info);
+        database->exec(std::move(task), info);
 
         std::unique_ptr<IDBPack> result;
 
-        if (status)
-        {
-            Impl::DatabaseObjects* dbObjs = new Impl::DatabaseObjects;
-            dbObjs->m_backend = std::move(backend);
-            dbObjs->m_database.reset(database);
-            dbObjs->m_cache.reset(cache);
-            dbObjs->m_storekeeper.reset(storekeeper);
+        Impl::DatabaseObjects* dbObjs = new Impl::DatabaseObjects;
+        dbObjs->m_backend = std::move(backend);
+        dbObjs->m_database.reset(database);
+        dbObjs->m_cache.reset(cache);
+        dbObjs->m_storekeeper.reset(storekeeper);
 
-            result.reset(dbObjs);
-        }
+        result.reset(dbObjs);
 
         return result;
     }

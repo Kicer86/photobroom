@@ -429,13 +429,10 @@ namespace Database
     }
 
 
-    bool DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+    void DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
     {
         InitTask* task = new InitTask(std::move(db_task), prjInfo);
         m_impl->addTask(task);
-
-        //TODO: fix it
-        return true;
     }
 
 

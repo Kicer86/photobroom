@@ -135,7 +135,7 @@ namespace Database
         virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         //init backend - connect to database or create new one
-        virtual bool exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;
+        virtual void exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
