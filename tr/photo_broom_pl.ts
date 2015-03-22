@@ -55,7 +55,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="845"/>
+        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="849"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -95,6 +95,31 @@
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="190"/>
         <source>No album opened</source>
         <translation>Nie otwarto albumu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="306"/>
+        <source>Unsupported project version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="307"/>
+        <source>Project you are trying to open uses database in version which is not supported.
+It means your application is too old to open it.
+
+Please upgrade application to open this project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="316"/>
+        <source>Unexpected error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="317"/>
+        <source>An unexpected error occured while opening project.
+Please report a bug.
+Error code: </source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="32"/>
