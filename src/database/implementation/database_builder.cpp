@@ -49,11 +49,15 @@ namespace Database
 
     struct InitTask: Database::AInitTask
     {
+        InitTask(IBuilder::OpenResult openResult): m_openResult(openResult) {}
+
         virtual ~InitTask() {}
-        virtual void got(bool status)
+        virtual void got(const BackendStatus& status) override
         {
-            assert(status);
+            m_openResult(status);
         }
+
+        IBuilder::OpenResult m_openResult;
     };
 
     struct Builder::Impl
@@ -137,7 +141,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info)
+    std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info, OpenResult openResult)
     {
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);
@@ -155,22 +159,19 @@ namespace Database
         storekeeper->setDatabase(database);
         storekeeper->setCache(cache);
 
-        std::unique_ptr<Database::AInitTask> task(new InitTask);
+        std::unique_ptr<Database::AInitTask> task(new InitTask(openResult));
 
-        const bool status = database->exec(std::move(task), info);
+        database->exec(std::move(task), info);
 
         std::unique_ptr<IDBPack> result;
 
-        if (status)
-        {
-            Impl::DatabaseObjects* dbObjs = new Impl::DatabaseObjects;
-            dbObjs->m_backend = std::move(backend);
-            dbObjs->m_database.reset(database);
-            dbObjs->m_cache.reset(cache);
-            dbObjs->m_storekeeper.reset(storekeeper);
+        Impl::DatabaseObjects* dbObjs = new Impl::DatabaseObjects;
+        dbObjs->m_backend = std::move(backend);
+        dbObjs->m_database.reset(database);
+        dbObjs->m_cache.reset(cache);
+        dbObjs->m_storekeeper.reset(storekeeper);
 
-            result.reset(dbObjs);
-        }
+        result.reset(dbObjs);
 
         return result;
     }

@@ -3,7 +3,7 @@
 #define DATABASE_TABLES_HPP
 
 #define TAB_TAG_NAMES "tag_names"
-#define TAB_VER_HIST  "version_history"
+#define TAB_VER       "version"
 #define TAB_PHOTOS    "photos"
 #define TAB_TAGS      "tags"
 #define TAB_THUMBS    "thumbnails"

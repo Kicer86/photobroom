@@ -46,7 +46,7 @@ class IdxData: public IPhotoInfo::IObserver
         Hierarchy::Level m_order;                // defines how to sort children
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxDataManager* m_model;
-        int m_level;
+        size_t m_level;
         FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor

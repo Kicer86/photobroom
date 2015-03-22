@@ -6,6 +6,8 @@
 
 #include <QMainWindow>
 
+#include <database/idatabase.hpp>
+
 class StagedPhotosDataModel;
 class PhotosCollector;
 class PhotosAnalyzer;
@@ -79,6 +81,15 @@ class MainWindow: public QMainWindow
         void on_actionHelp_triggered();
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
+
+        //internal slots
+        void projectOpenedStatus(const Database::BackendStatus &);
+
+    private:
+        void projectOpened(const Database::BackendStatus &);
+
+    signals:
+        void projectOpenedSignal(const Database::BackendStatus &);
 };
 
 #endif // MAINWINDOW_HPP

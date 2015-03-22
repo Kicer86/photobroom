@@ -48,7 +48,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
         ProjectInfo new_prj(const QString &, const Database::IPlugin *) override;
         std::deque<ProjectInfo> listProjects() override;
-        std::unique_ptr<IProject> open(const ProjectInfo &) override;
+        std::unique_ptr<IProject> open(const ProjectInfo &, Database::IBuilder::OpenResult) override;
         bool save(const IProject *) override;
         bool remove(const ProjectInfo &) override;
 
@@ -59,8 +59,6 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         QString getPrjStorage() const;
         ProjectInfo get(const QString& id) const;
         QString getUniqueId() const;
-
-        void initNewProjectDatabase(const ProjectInfo &);
 };
 
 #endif // PROJECTMANAGER_HPP

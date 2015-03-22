@@ -10,14 +10,12 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const char db_version[] = "0.01";
+        const char db_version[] = "0";
 
         TableDefinition
-        table_versionHistory(TAB_VER_HIST,
+        table_versionHistory(TAB_VER,
                              {
-                                 { "id", ColDefinition::Type::ID },
-                                   "version DECIMAL(4,2) NOT NULL",       //xx.yy
-                                   "date TIMESTAMP NOT NULL"
+                                   "version INT NOT NULL"
                              }
         );
 

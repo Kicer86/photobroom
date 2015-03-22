@@ -2,6 +2,8 @@
 #include "mainwindow.hpp"
 #include "project_picker.hpp"
 
+#include <functional>
+
 #include <QCloseEvent>
 #include <QMenuBar>
 #include <QFileDialog>
@@ -37,6 +39,9 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_views(),
     m_photosAnalyzer(new PhotosAnalyzer)
 {
+    qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
+    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpenedStatus(const Database::BackendStatus &)));
+
     ui->setupUi(this);
     setupView();
     createMenus();
@@ -98,8 +103,10 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     if (prjInfo.isValid())
     {
         closeProject();
+
+        auto openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
         
-        m_currentPrj = m_prjManager->open(prjInfo);
+        m_currentPrj = m_prjManager->open(prjInfo, openCallback);
         
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
@@ -285,3 +292,40 @@ void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this, tr("About Qt"));
 }
+
+
+void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
+{
+    switch(status.get())
+    {
+        case Database::StatusCodes::Ok:
+            break;
+
+        case Database::StatusCodes::BadVersion:
+            QMessageBox::critical(this,
+                                  tr("Unsupported album version"),
+                                  tr("Album you are trying to open uses database in version which is not supported.\n"
+                                     "It means your application is too old to open it.\n\n"
+                                     "Please upgrade application to open this album.")
+                                 );
+            closeProject();
+            break;
+
+        default:
+            QMessageBox::critical(this,
+                                  tr("Unexpected error"),
+                                  tr("An unexpected error occured while opening album.\n"
+                                     "Please report a bug.\n"
+                                     "Error code: " + static_cast<int>( status.get()) )
+                                 );
+            closeProject();
+            break;
+    }
+}
+
+
+void MainWindow::projectOpened(const Database::BackendStatus& status)
+{
+    emit projectOpenedSignal(status);
+}
+

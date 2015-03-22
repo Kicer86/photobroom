@@ -257,9 +257,8 @@ namespace
 
         virtual void visit(InitTask* task) override
         {
-            m_backend->init(task->m_prjInfo);
-
-            //TODO: result
+            Database::BackendStatus status = m_backend->init(task->m_prjInfo);
+            task->m_task->got(status);
         }
 
         virtual void visit(InsertTask* task) override
@@ -430,13 +429,10 @@ namespace Database
     }
 
 
-    bool DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+    void DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
     {
         InitTask* task = new InitTask(std::move(db_task), prjInfo);
         m_impl->addTask(task);
-
-        //TODO: fix it
-        return true;
     }
 
 

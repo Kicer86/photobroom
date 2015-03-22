@@ -49,9 +49,9 @@ namespace Database
             virtual void exec(std::unique_ptr<AGetPhotosTask> &&) override;
             virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) override;
             virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
-            virtual void exec(std::unique_ptr< AGetPhotosCount > && , const std::deque< IFilter::Ptr >&) override;
+            virtual void exec(std::unique_ptr<AGetPhotosCount> && , const std::deque< IFilter::Ptr >&) override;
 
-            virtual bool exec(std::unique_ptr<AInitTask> &&, const ProjectInfo &) override;
+            virtual void exec(std::unique_ptr<AInitTask> &&, const ProjectInfo &) override;
             virtual void closeConnections() override;
 
         private:

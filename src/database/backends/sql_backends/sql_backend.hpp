@@ -61,13 +61,10 @@ namespace Database
 
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
-            virtual bool prepareDB(const ProjectInfo& location) = 0;
-
-            //called after db open. May be used by backends for some extra steps after open.
-            virtual bool onAfterOpen();
+            virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
 
             //make sure table exists. Makes sure a table maching TableDefinition exists in database
-            virtual bool assureTableExists(const TableDefinition &) const;
+            virtual BackendStatus assureTableExists(const TableDefinition &) const;
 
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
@@ -84,7 +81,7 @@ namespace Database
             virtual bool beginTransaction() override;
             virtual bool endTransaction() override;
 
-            virtual bool init(const ProjectInfo &) override final;
+            virtual BackendStatus init(const ProjectInfo &) override final;
             virtual IPhotoInfo::Ptr addPath(const QString &) override final;
             virtual bool update(const IPhotoInfo::Ptr &) override final;
             virtual bool update(const TagNameInfo &) override final;
@@ -97,7 +94,8 @@ namespace Database
             virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
 
-            bool checkStructure();
+            BackendStatus checkStructure();
+            Database::BackendStatus checkDBVersion();
     };
 
 }

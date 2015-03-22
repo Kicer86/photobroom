@@ -30,6 +30,7 @@ set(DATABASE_SOURCES
 
 set(DATABASE_HEADERS
     database_builder.hpp
+    database_status.hpp
     filter.hpp
     idatabase.hpp
     iphoto_info.hpp

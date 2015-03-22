@@ -102,27 +102,27 @@ namespace Database
                 m_logger = logger;
             }
 
-            bool begin()
+            BackendStatus begin()
             {
                 assert(m_name != "");
-                bool status = true;
+                BackendStatus status(StatusCodes::Ok);
 
                 if (m_level++ == 0)
                 {
                     QSqlDatabase db = QSqlDatabase::database(m_name, false);
 
                     if (db.isOpen())
-                        status = db.transaction();
+                        status = db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
                 }
 
                 return status;
             }
 
 
-            bool end()
+            BackendStatus end()
             {
                 assert(m_name != "" && m_level > 0);
-                bool status = true;
+                BackendStatus status = StatusCodes::Ok;
 
                 if (--m_level == 0)
                 {
@@ -132,7 +132,7 @@ namespace Database
 
                     if (db.isOpen())
                     {
-                        status = db.commit();
+                        status = db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
 
                         if (status == false)
                             db.rollback();
@@ -179,8 +179,8 @@ namespace Database
             Data(const Data &) = delete;
             Data& operator=(const Data &) = delete;
 
-            bool exec(const QString& query, QSqlQuery* result) const;
-            bool exec(const SqlQuery& query, QSqlQuery* result) const;
+            BackendStatus exec(const QString& query, QSqlQuery* result) const;
+            BackendStatus exec(const SqlQuery& query, QSqlQuery* result) const;
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
@@ -230,7 +230,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::exec(const QString& query, QSqlQuery* result) const
+    BackendStatus ASqlBackend::Data::exec(const QString& query, QSqlQuery* result) const
     {
         // threads cannot be used with sql connections:
         // http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
@@ -240,7 +240,7 @@ namespace Database
         std::string logMessage = query.toStdString();
 
         const auto start = std::chrono::steady_clock::now();
-        const bool status = result->exec(query);
+        const BackendStatus status = result->exec(query)? StatusCodes::Ok: StatusCodes::QueryFailed;
         const auto end = std::chrono::steady_clock::now();
         const auto diff = end - start;
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
@@ -258,10 +258,10 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::exec(const SqlQuery& query, QSqlQuery* result) const
+    BackendStatus ASqlBackend::Data::exec(const SqlQuery& query, QSqlQuery* result) const
     {
         auto& queries = query.getQueries();
-        bool status = true;
+        BackendStatus status(StatusCodes::Ok);
 
         for(size_t i = 0; i < queries.size() && status; i++)
             status = exec(queries[i], result);
@@ -844,20 +844,14 @@ namespace Database
     }
 
 
-    bool ASqlBackend::onAfterOpen()
-    {
-        return true;
-    }
-
-
-    bool ASqlBackend::assureTableExists(const TableDefinition& definition) const
+    BackendStatus ASqlBackend::assureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
         QSqlQuery query(db);
         const QString showQuery = getQueryConstructor()->prepareFindTableQuery(definition.name);
 
-        bool status = m_data->exec(showQuery, &query);
+        BackendStatus status = m_data->exec(showQuery, &query);
 
         //create table 'name' if doesn't exist
         bool empty = query.next() == false;
@@ -921,32 +915,29 @@ namespace Database
     }
 
 
-    bool ASqlBackend::init(const ProjectInfo& prjInfo)
+    BackendStatus ASqlBackend::init(const ProjectInfo& prjInfo)
     {
         //store thread id for further validation
         m_data->m_database_thread_id = std::this_thread::get_id();
         m_data->m_connectionName = prjInfo.projectDir;
         m_data->m_transaction.setDBName(prjInfo.projectDir);
 
-        bool status = prepareDB(prjInfo);
+        BackendStatus status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
         m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
 
         if (status)
-            status = db.open();
-
-        if (status)
-            status = onAfterOpen();
+        {
+            m_data->m_dbOpen = db.open();
+            status = m_data->m_dbOpen? StatusCodes::Ok: StatusCodes::OpenFailed;
+        }
 
         if (status)
             status = checkStructure();
         else
             m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
 
-        //TODO: crash when status == false;
-
-        m_data->m_dbOpen = status;
         return status;
     }
 
@@ -1066,10 +1057,10 @@ namespace Database
     }
 
 
-    bool ASqlBackend::checkStructure()
+    BackendStatus ASqlBackend::checkStructure()
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        bool status = m_data->m_transaction.begin();
+        BackendStatus status = m_data->m_transaction.begin();
 
         //check tables existance
         if (status)
@@ -1083,27 +1074,51 @@ namespace Database
 
         QSqlQuery query(db);
 
-        //at least one row must be present in table 'version_history'
+        // table 'version' cannot be empty
         if (status)
-            status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER_HIST ";", &query);
+            status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
 
         if (status)
-            status = query.next() == true;
+            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
 
         const QVariant rows = status? query.value(0): QVariant(0);
 
         //insert first entry
-        if (status && rows == 0)
-            status = m_data->exec(QString("INSERT INTO " TAB_VER_HIST "(version, date)"
-                                          " VALUES(%1, CURRENT_TIMESTAMP);")
-                                  .arg(db_version), &query);
-
-        //TODO: check last entry with current version
-
         if (status)
-            status = m_data->m_transaction.end();
+        {
+            if (rows == 0)
+                status = m_data->exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
+                                      .arg(db_version), &query);
+            else
+                status = checkDBVersion();
+        }
+
+        status &= m_data->m_transaction.end();
 
         return status;
     }
 
+}
+
+
+Database::BackendStatus Database::ASqlBackend::checkDBVersion()
+{
+    QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+    QSqlQuery query(db);
+    
+    BackendStatus status = m_data->exec("SELECT version FROM " TAB_VER ";", &query);
+    
+    if (status)
+        status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
+    
+    if (status)
+    {
+        const int v = query.value(0).toInt();
+        
+        // More than we expect? Quit with error
+        if (v > 1)
+            status = StatusCodes::BadVersion;
+    }
+    
+    return status;
 }

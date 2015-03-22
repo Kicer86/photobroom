@@ -29,6 +29,7 @@
 
 //#include "photo_iterator.hpp"
 //#include "query_list.hpp"
+#include "database_status.hpp"
 #include "filter.hpp"
 
 struct ILogger;
@@ -76,7 +77,7 @@ namespace Database
         virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;                 //is there any photo matching filters?
 
         //init backend - connect to database or create new one
-        virtual bool init(const ProjectInfo &) = 0;
+        virtual BackendStatus init(const ProjectInfo &) = 0;
 
         //configuration
         virtual void set(IConfiguration *) = 0;

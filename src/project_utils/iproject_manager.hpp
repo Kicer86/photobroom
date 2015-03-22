@@ -60,7 +60,7 @@ struct IProjectManager
 
     virtual ProjectInfo new_prj(const QString& name, const Database::IPlugin *) = 0;
     virtual std::deque<ProjectInfo> listProjects() = 0;
-    virtual std::unique_ptr<IProject> open(const ProjectInfo &) = 0;
+    virtual std::unique_ptr<IProject> open(const ProjectInfo &, Database::IBuilder::OpenResult) = 0;
     virtual bool save(const IProject *) = 0;
     virtual bool remove(const ProjectInfo &) = 0;
 };
