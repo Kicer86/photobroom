@@ -928,16 +928,16 @@ namespace Database
         m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
 
         if (status)
-            status = db.open()? StatusCodes::Ok: StatusCodes::OpenFailed;
+        {
+            m_data->m_dbOpen = db.open();
+            status = m_data->m_dbOpen? StatusCodes::Ok: StatusCodes::OpenFailed;
+        }
 
         if (status)
             status = checkStructure();
         else
             m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
 
-        //TODO: crash when status == false;
-
-        m_data->m_dbOpen = status;
         return status;
     }
 
