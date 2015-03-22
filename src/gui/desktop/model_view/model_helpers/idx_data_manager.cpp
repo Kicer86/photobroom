@@ -126,7 +126,8 @@ struct IdxDataManager::Data
     void init(IdxDataManager* manager)
     {
         assert(m_root == nullptr);
-        m_root = new IdxData(manager, nullptr, "");
+        m_root = new IdxData(manager, "");
+        m_root->setParent(nullptr);
     }
 
     Data(const Data &) = delete;
@@ -291,7 +292,7 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
 IdxData* IdxDataManager::parent(const QModelIndex& child)
 {
     IdxData* idxData = getIdxDataFor(child);
-    IdxData* result  = idxData->m_parent;
+    IdxData* result  = idxData->parent();
 
     return result;
 }
@@ -424,12 +425,13 @@ void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filte
 void IdxDataManager::fetchData(const QModelIndex& _parent)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
-    const size_t level = idxData->m_level;
+    const int level = idxData->m_level;
 
+    assert(level >= 0);
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
-    assert(level <= m_data->m_hierarchy.nodeLevels());
+    assert(static_cast<size_t>(level) <= m_data->m_hierarchy.nodeLevels());
 
-    const bool leafs_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
+    const bool leafs_level = static_cast<size_t>(level) == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
 
     if (leafs_level)                  //construct leafs basing on photos
         fetchPhotosFor(_parent);
@@ -470,7 +472,7 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
 
     for(IPhotoInfo::Ptr photoInfo: photos)
     {
-        IdxData* newItem = new IdxData(this, parentIdxData, photoInfo);
+        IdxData* newItem = new IdxData(this, photoInfo );
         leafs->push_back(newItem);
     }
 
@@ -515,7 +517,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
         filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
         filter->tagValue = tag;
 
-        IdxData* newItem = new IdxData(m_data->m_root->m_model, parentIdxData, tag);
+        IdxData* newItem = new IdxData(m_data->m_root->m_model, tag);
         setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
         leafs->push_back(newItem);
@@ -573,6 +575,8 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
 
     const size_t items = _parent->m_children.size();
     const QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
+    assert(parentIdx.isValid()  || _parent->parent() == nullptr);               // parentIdx may be invalid only in one case - then _parent is top
+
     const size_t last = photos.size() - 1;
     m_data->m_model->beginInsertRows(parentIdx, items, items + last);
 
@@ -611,7 +615,7 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* item = findIdxDataFor(photoInfo);
-    IdxData* result = item != nullptr? item->m_parent: nullptr;
+    IdxData* result = item != nullptr? item->parent(): nullptr;
 
     return result;
 }
@@ -694,7 +698,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             if (photoTagIt != photoTags.end())
             {
                 const auto tagValue = photoTagIt->second.get();
-                IdxData* node = new IdxData(this, _parent, tagValue);
+                IdxData* node = new IdxData(this, tagValue);
 
                 auto filter = std::make_shared<Database::FilterPhotosWithTag>();
                 filter->tagName = tagName;
@@ -781,7 +785,7 @@ void IdxDataManager::performRemove(IdxData* item)
 
     if (item != m_data->m_root)   // never drop root
     {
-        IdxData* _parent = item->m_parent;
+        IdxData* _parent = item->parent();
         assert(_parent != nullptr);
 
         QModelIndex parentIdx = getIndex(_parent);
@@ -808,7 +812,7 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
 
     if (photoIdxData == nullptr)
-        photoIdxData = new IdxData(this, nullptr, photoInfo);
+        photoIdxData = new IdxData(this, photoInfo);
 
     QModelIndex toIdx = getIndex(to);
     const int toPos = to->findPositionFor(photoIdxData);
@@ -842,7 +846,7 @@ bool IdxDataManager::sortChildrenOf(IdxData* _parent)
 
 IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
 {
-    IdxData* node = new IdxData(this, _parent, tr("Unlabeled"));
+    IdxData* node = new IdxData(this, tr("Unlabeled"));
 
     const size_t level = _parent->m_level;
     const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
