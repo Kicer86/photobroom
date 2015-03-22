@@ -425,13 +425,13 @@ void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filte
 void IdxDataManager::fetchData(const QModelIndex& _parent)
 {
     IdxData* idxData = getParentIdxDataFor(_parent);
-    const int level = idxData->m_level;
+    const size_t level = idxData->m_level;
 
     assert(level >= 0);
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
-    assert(static_cast<size_t>(level) <= m_data->m_hierarchy.nodeLevels());
+    assert(level <= m_data->m_hierarchy.nodeLevels());
 
-    const bool leafs_level = static_cast<size_t>(level) == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
+    const bool leafs_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
 
     if (leafs_level)                  //construct leafs basing on photos
         fetchPhotosFor(_parent);
