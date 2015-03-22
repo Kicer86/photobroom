@@ -99,27 +99,32 @@
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="306"/>
         <source>Unsupported project version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieobsługiwana wersja projektu</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="307"/>
-        <source>Project you are trying to open uses database in version which is not supported.
+        <source>Album you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
 Please upgrade application to open this project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
+
+Proszę zaktualizować aplikację.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="317"/>
+        <source>An unexpected error occured while opening album.
+Please report a bug.
+Error code: </source>
+        <translation>Podczas otwierania albumu wystąpił niespodziewany błąd.
+Proszę zgłosić błąd w programie.
+Kod błędu: </translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="316"/>
         <source>Unexpected error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="317"/>
-        <source>An unexpected error occured while opening project.
-Please report a bug.
-Error code: </source>
-        <translation type="unfinished"></translation>
+        <translation>Niespodziewany błąd</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="32"/>
