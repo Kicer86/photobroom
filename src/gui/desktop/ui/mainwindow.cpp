@@ -304,7 +304,7 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
         case Database::StatusCodes::BadVersion:
             QMessageBox::critical(this,
                                   tr("Unsupported project version"),
-                                  tr("Project you are trying to open uses database in version which is not supported.\n"
+                                  tr("Album you are trying to open uses database in version which is not supported.\n"
                                      "It means your application is too old to open it.\n\n"
                                      "Please upgrade application to open this project.")
                                  );
@@ -314,7 +314,7 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
         default:
             QMessageBox::critical(this,
                                   tr("Unexpected error"),
-                                  tr("An unexpected error occured while opening project.\n"
+                                  tr("An unexpected error occured while opening album.\n"
                                      "Please report a bug.\n"
                                      "Error code: " + static_cast<int>( status.get()) )
                                  );
