@@ -77,22 +77,22 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="43"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="138"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="145"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="145"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="152"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="183"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="190"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="183"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="190"/>
         <source>No album opened</source>
         <translation>Nie otwarto albumu</translation>
     </message>
@@ -134,7 +134,7 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="97"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="280"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="287"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -150,7 +150,7 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="112"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="286"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="293"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
@@ -171,7 +171,7 @@
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="251"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="258"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
