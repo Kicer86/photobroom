@@ -303,10 +303,10 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
 
         case Database::StatusCodes::BadVersion:
             QMessageBox::critical(this,
-                                  tr("Unsupported project version"),
+                                  tr("Unsupported album version"),
                                   tr("Album you are trying to open uses database in version which is not supported.\n"
                                      "It means your application is too old to open it.\n\n"
-                                     "Please upgrade application to open this project.")
+                                     "Please upgrade application to open this album.")
                                  );
             closeProject();
             break;
