@@ -29,6 +29,11 @@ class Status
         Status(const Status &) = default;
         ~Status() {}
 
+        const T& get() const
+        {
+            return m_status;
+        }
+
         Status& operator=(const Status &) = default;
 
         Status& operator=(const T& v)
@@ -46,6 +51,11 @@ class Status
         operator bool() const
         {
             return m_status == ok;
+        }
+
+        operator const T&() const
+        {
+            return m_status;
         }
 
         bool operator!() const
