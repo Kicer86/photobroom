@@ -98,16 +98,30 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="306"/>
-        <source>Unsupported project version</source>
-        <translation>Nieobsługiwana wersja projektu</translation>
+        <source>Unsupported album version</source>
+        <translation>Nieobsługiwana wersja albumu</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="307"/>
         <source>Album you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
-Please upgrade application to open this project.</source>
+Please upgrade application to open this album.</source>
         <translation>Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
+
+Proszę zaktualizować aplikację.</translation>
+    </message>
+    <message>
+        <source>Unsupported project version</source>
+        <translation type="vanished">Nieobsługiwana wersja projektu</translation>
+    </message>
+    <message>
+        <source>Album you are trying to open uses database in version which is not supported.
+It means your application is too old to open it.
+
+Please upgrade application to open this project.</source>
+        <translation type="vanished">Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
 Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
 
 Proszę zaktualizować aplikację.</translation>
