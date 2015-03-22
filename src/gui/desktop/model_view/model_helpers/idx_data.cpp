@@ -113,7 +113,7 @@ namespace
 }
 
 
-IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name): IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, const QString& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
     
@@ -121,7 +121,7 @@ IdxData::IdxData(IdxDataManager* model, IdxData* parent, const QString& name): I
 }
 
 
-IdxData::IdxData(IdxDataManager* model, IdxData* parent, const IPhotoInfo::Ptr& photo): IdxData(model, parent)
+IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(model)
 {
     m_photo = photo;
     m_loaded = FetchStatus::Fetched;
@@ -183,7 +183,7 @@ void IdxData::addChild(IdxData* child)
 
     const size_t pos = findPositionFor(child);
     m_children.insert(m_children.cbegin() + pos, child);
-    child->m_parent = this;
+    child->setParent(this);
 }
 
 
@@ -203,7 +203,7 @@ void IdxData::takeChild(IdxData* child)
     const int pos = getPositionOf(child);
     m_children.erase(m_children.cbegin() + pos);
 
-    child->m_parent = nullptr;
+    child->setParent(nullptr);
 }
 
 
@@ -218,6 +218,19 @@ void IdxData::reset()
     m_children.clear();
     m_photo.reset();
     m_data.clear();
+}
+
+
+void IdxData::setParent(IdxData* _parent)
+{
+    m_parent = _parent;
+    m_level = _parent ? _parent->m_level + 1 : 0;
+}
+
+
+IdxData* IdxData::parent() const
+{
+    return m_parent;
 }
 
 
@@ -273,18 +286,18 @@ bool IdxData::sortingRequired() const
 }
 
 
-IdxData::IdxData(IdxDataManager* model, IdxData* parent) :
+IdxData::IdxData(IdxDataManager* model) :
     m_children(),
     m_data(),
     m_filter(new Database::EmptyFilter),
     m_order(),
     m_photo(nullptr),
-    m_parent(parent),
     m_model(model),
     m_level(-1),
-    m_loaded(FetchStatus::NotFetched)
+    m_loaded(FetchStatus::NotFetched),
+    m_parent(nullptr)
 {
-    m_level = parent ? parent->m_level + 1 : 0;
+
 }
 
 

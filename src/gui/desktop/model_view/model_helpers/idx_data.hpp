@@ -45,16 +45,15 @@ class IdxData: public IPhotoInfo::IObserver
         Database::IFilter::Ptr m_filter;         // define which children match
         Hierarchy::Level m_order;                // defines how to sort children
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
-        IdxData* m_parent;
         IdxDataManager* m_model;
-        size_t m_level;
+        int m_level;
         FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
-        IdxData(IdxDataManager *, IdxData* parent, const QString& name);
+        IdxData(IdxDataManager *, const QString& name);
 
         //leaf constructor
-        IdxData(IdxDataManager *, IdxData* parent, const IPhotoInfo::Ptr &);
+        IdxData(IdxDataManager *, const IPhotoInfo::Ptr &);
 
         virtual ~IdxData();
 
@@ -69,6 +68,8 @@ class IdxData: public IPhotoInfo::IObserver
         void removeChild(IdxData* child);                 // removes child (memory is released)
         void takeChild(IdxData* child);                   // function acts as removeChild but does not delete children
         void reset();
+        void setParent(IdxData *);
+        IdxData* parent() const;
         bool isPhoto() const;
         bool isNode() const;
 
@@ -79,7 +80,9 @@ class IdxData: public IPhotoInfo::IObserver
         bool sortingRequired() const;
 
     private:
-        IdxData(IdxDataManager *, IdxData* parent);
+        IdxData* m_parent;
+
+        IdxData(IdxDataManager *);
         void updateLeafData();
         void init();
 
