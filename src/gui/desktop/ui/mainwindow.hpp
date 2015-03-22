@@ -82,7 +82,14 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
+        //internal slots
+        void projectOpenedStatus(const Database::BackendStatus &);
+
+    private:
         void projectOpened(const Database::BackendStatus &);
+
+    signals:
+        void projectOpenedSignal(const Database::BackendStatus &);
 };
 
 #endif // MAINWINDOW_HPP

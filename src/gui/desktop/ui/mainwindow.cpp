@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_views(),
     m_photosAnalyzer(new PhotosAnalyzer)
 {
+    qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
+    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpenedStatus(const Database::BackendStatus &)));
+
     ui->setupUi(this);
     setupView();
     createMenus();
@@ -291,8 +294,14 @@ void MainWindow::on_actionAbout_Qt_triggered()
 }
 
 
-void MainWindow::projectOpened(const Database::BackendStatus&)
+void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
 {
 
+}
+
+
+void MainWindow::projectOpened(const Database::BackendStatus& status)
+{
+    emit projectOpenedSignal(status);
 }
 
