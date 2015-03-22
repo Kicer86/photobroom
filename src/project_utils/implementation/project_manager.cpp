@@ -99,8 +99,6 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
 
     const ProjectInfo prjInfo(prjName, prjId);
 
-    initNewProjectDatabase(prjInfo);
-
     return prjInfo;
 }
 
@@ -128,7 +126,7 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 }
 
 
-std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
+std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Database::IBuilder::OpenResult openResult)
 {
     QDir storagePath(getPrjStorage());
     storagePath.cd(prjInfo.getId());
@@ -150,7 +148,7 @@ std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo)
     result->setName(prjInfo.getName());
 
     Database::ProjectInfo dbPrjInfo(location, backend, prjDir);
-    auto db = m_dbBuilder->get(dbPrjInfo);
+    auto db = m_dbBuilder->get(dbPrjInfo, openResult);
 
     result->setDatabase(std::move(db));
 
@@ -253,17 +251,4 @@ QString ProjectManager::getUniqueId() const
     } while (storageDir.exists(result) == true);
 
     return result;
-}
-
-
-void ProjectManager::initNewProjectDatabase(const ProjectInfo& prjInfo)
-{
-    auto prj = open(prjInfo);
-    Database::IDatabase* db = prj->getDatabase();
-
-    for(const TagNameInfo& info: BaseTags::getAll())
-    {
-        std::unique_ptr<Database::AStoreTagTask> task(new StoreTag);
-        db->exec(std::move(task), info);
-    }
 }

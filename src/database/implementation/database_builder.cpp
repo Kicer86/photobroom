@@ -49,11 +49,15 @@ namespace Database
 
     struct InitTask: Database::AInitTask
     {
+        InitTask(IBuilder::OpenResult openResult): m_openResult(openResult) {}
+
         virtual ~InitTask() {}
         virtual void got(const BackendStatus& status) override
         {
-            assert(status);
+            m_openResult(status);
         }
+
+        IBuilder::OpenResult m_openResult;
     };
 
     struct Builder::Impl
@@ -137,7 +141,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info)
+    std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info, OpenResult openResult)
     {
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);
@@ -155,7 +159,7 @@ namespace Database
         storekeeper->setDatabase(database);
         storekeeper->setCache(cache);
 
-        std::unique_ptr<Database::AInitTask> task(new InitTask);
+        std::unique_ptr<Database::AInitTask> task(new InitTask(openResult));
 
         database->exec(std::move(task), info);
 

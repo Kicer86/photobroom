@@ -2,6 +2,8 @@
 #include "mainwindow.hpp"
 #include "project_picker.hpp"
 
+#include <functional>
+
 #include <QCloseEvent>
 #include <QMenuBar>
 #include <QFileDialog>
@@ -98,8 +100,10 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     if (prjInfo.isValid())
     {
         closeProject();
+
+        auto openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
         
-        m_currentPrj = m_prjManager->open(prjInfo);
+        m_currentPrj = m_prjManager->open(prjInfo, openCallback);
         
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
@@ -285,3 +289,10 @@ void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this, tr("About Qt"));
 }
+
+
+void MainWindow::projectOpened(const Database::BackendStatus&)
+{
+
+}
+

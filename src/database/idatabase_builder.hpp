@@ -28,6 +28,8 @@
 
 #include "database_export.h"
 
+#include "idatabase.hpp"
+
 namespace Database
 {
     struct IDatabase;
@@ -42,9 +44,11 @@ namespace Database
 
     struct IBuilder
     {
+        typedef std::function<void(const Database::BackendStatus &)> OpenResult;
+
         virtual ~IBuilder() {}
 
-        virtual std::unique_ptr<IDBPack> get(const ProjectInfo &) = 0;
+        virtual std::unique_ptr<IDBPack> get(const ProjectInfo &, OpenResult) = 0;
     };
 }
 
