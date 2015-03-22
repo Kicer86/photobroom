@@ -178,7 +178,8 @@ int IdxData::getPositionOf(const IdxData* child) const
 
 void IdxData::addChild(IdxData* child)
 {
-    assert(isNode());                        //child (leaf) cannot accept any child
+    assert(isNode());                        // child (leaf) cannot accept any child
+    assert(child->m_parent == nullptr);      // child should not have parent
 
     const size_t pos = findPositionFor(child);
     m_children.insert(m_children.cbegin() + pos, child);
