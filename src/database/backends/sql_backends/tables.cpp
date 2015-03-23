@@ -79,6 +79,7 @@ namespace Database
                                "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                          },
                          {
+                             { "ha_photo_id", "UNIQUE INDEX", "(photo_id)"  },               //one hash per photo
                              { "ha_hash", "INDEX", "(hash)"  },
                          }
         );
