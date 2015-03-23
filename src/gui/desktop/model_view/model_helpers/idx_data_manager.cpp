@@ -427,7 +427,6 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     IdxData* idxData = getParentIdxDataFor(_parent);
     const size_t level = idxData->m_level;
 
-    assert(level >= 0);
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
     assert(level <= m_data->m_hierarchy.nodeLevels());
 
