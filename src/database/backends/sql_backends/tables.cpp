@@ -64,9 +64,9 @@ namespace Database
                                "data BLOB",
                                "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                              },
-                         {
-                             { "th_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one thumbnail per photo
-                         }
+                             {
+                                 { "th_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one thumbnail per photo
+                             }
         );
 
 
