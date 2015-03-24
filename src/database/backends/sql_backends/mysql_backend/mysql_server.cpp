@@ -41,6 +41,7 @@
 #include <configuration/entrydata.hpp>
 #include <core/ilogger.hpp>
 #include <core/disk_observer.hpp>
+#include <core/ilogger_factory.hpp>
 #include <database/database_builder.hpp>
 #include <system/system.hpp>
 
@@ -133,15 +134,15 @@ MySqlServer::~MySqlServer()
 {
     if (m_serverProcess)
     {
-        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "closing down MySQL server");
+        m_logger->log(ILogger::Severity::Info, "closing down MySQL server");
 
         m_serverProcess->terminate();
         m_serverProcess->waitForFinished();
 
-        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server down");
+        m_logger->log(ILogger::Severity::Info, "MySQL server down");
     }
     else
-        m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, "MySQL server not owned by photo broom. Leaving it untouched");
+        m_logger->log(ILogger::Severity::Info, "MySQL server not owned by photo broom. Leaving it untouched");
 }
 
 
@@ -163,9 +164,9 @@ void MySqlServer::set(IConfiguration* configuration)
 }
 
 
-void MySqlServer::set(ILogger* logger)
+void MySqlServer::set(ILoggerFactory* logger_factory)
 {
-    m_logger = logger;
+    m_logger = logger_factory->get({"Database", "MySQL"});
 }
 
 
@@ -218,8 +219,7 @@ bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) cons
 
         if (!status)
         {
-            m_logger->log({"Database", "MySQL"},
-                          ILogger::Severity::Error,
+            m_logger->log(ILogger::Severity::Error,
                           "MySQL Database Backend: database initialization failed:" + QString(init.readAll()).toStdString() );
 
             status = QDir().rmdir(dbDir);
@@ -261,7 +261,7 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
     else
         logMsg += "timeout error.";
 
-    m_logger->log({"Database", "MySQL"}, ILogger::Severity::Info, logMsg);
+    m_logger->log(ILogger::Severity::Info, logMsg);
 
     return status;
 }
@@ -335,8 +335,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             m_serverProcess->setArguments(args);
             m_serverProcess->closeWriteChannel();
 
-            m_logger->log({"Database", "MySQL"},
-                          ILogger::Severity::Debug,
+            m_logger->log(ILogger::Severity::Debug,
                           "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
 
             m_serverProcess->start();

@@ -11,14 +11,18 @@ struct ILogger
 
     enum class Severity
     {
-        Info,
-        Warning,
         Error,
+        Warning,
+        Info,
         Debug,
     };
 
-    virtual void log(const char* utility, Severity, const std::string& message) = 0;
-    virtual void log(const std::vector<const char *>& utility, Severity, const std::string& message) = 0;
+    virtual void log(Severity, const std::string& message) = 0;
+
+    virtual void info(const std::string &) = 0;
+    virtual void warning(const std::string &) = 0;
+    virtual void error(const std::string &) = 0;
+    virtual void debug(const std::string &) = 0;
 };
 
 #endif

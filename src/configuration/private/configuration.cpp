@@ -44,7 +44,7 @@ DefaultConfiguration::~DefaultConfiguration()
 }
 
 
-void DefaultConfiguration::init(ILogger* logger)
+void DefaultConfiguration::init(ILoggerFactory* logger_factory)
 {
     const QString baseConfig =
     "<configuration>"
@@ -67,7 +67,7 @@ void DefaultConfiguration::init(ILogger* logger)
 
     //logger->log("Configuration", ILogger::Severity::Info, "using " + m_impl->getConfigDir().toStdString() + " for broom's base dir");
 
-    m_impl->set(logger);
+    m_impl->set(logger_factory);
 }
 
 

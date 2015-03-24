@@ -102,10 +102,10 @@ namespace Database
         };
 
         IPluginLoader* pluginLoader;
-        ILogger* m_logger;
+        ILoggerFactory* m_logger_factory;
         IConfiguration* m_configuration;
 
-        Impl(): pluginLoader(nullptr), m_logger(nullptr), m_configuration(nullptr)
+        Impl(): pluginLoader(nullptr), m_logger_factory(nullptr), m_configuration(nullptr)
         {}
 
     };
@@ -129,9 +129,9 @@ namespace Database
     }
 
 
-    void Builder::set(ILogger* logger)
+    void Builder::set(ILoggerFactory* logger)
     {
-        m_impl->m_logger = logger;
+        m_impl->m_logger_factory = logger;
     }
 
 
@@ -152,7 +152,7 @@ namespace Database
         PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
 
         backend->setPhotoInfoCache(cache);
-        backend->set(m_impl->m_logger);
+        backend->set(m_impl->m_logger_factory);
         backend->set(m_impl->m_configuration);
         backend->addEventsObserver(storekeeper);
         cache->setDatabase(database);

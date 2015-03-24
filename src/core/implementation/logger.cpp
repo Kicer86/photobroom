@@ -31,7 +31,17 @@
 #include <QDir>
 
 
-Logger::Logger(): m_basePath(""), m_severity(Severity::Warning), m_files()
+Logger::Logger(const QString& path, const std::vector<QString>& utility):
+    m_utility(utility),
+    m_path(getPath(path)),
+    m_severity(Severity::Warning),
+    m_file(nullptr)
+{
+    prepareFile();
+}
+
+
+Logger::Logger(const QString& path, const QString& utility): Logger(path, std::vector<QString>({ utility}) )
 {
 
 }
@@ -39,14 +49,7 @@ Logger::Logger(): m_basePath(""), m_severity(Severity::Warning), m_files()
 
 Logger::~Logger()
 {
-    for(auto entry: m_files)
-        delete entry.second;
-}
-
-
-void Logger::setPath(const QString& path)
-{
-    m_basePath = path;
+    delete m_file;
 }
 
 
@@ -56,62 +59,69 @@ void Logger::setLevel(ILogger::Severity severity)
 }
 
 
-void Logger::log(const char* utility, ILogger::Severity severity, const std::string& message)
+void Logger::log(ILogger::Severity severity, const std::string& message)
 {
-    log( std::vector<const char *>({utility}), severity, message);
-}
-
-
-void Logger::log(const std::vector<const char *>& utility, ILogger::Severity, const std::string& message)
-{
-    assert(m_basePath.isEmpty() == false);
-
-    const QString path = getPath(utility);
-    QIODevice* file = getFile(path);
+    assert(m_path.isEmpty() == false);
     
-    QTextStream fileStream(file);
+    if (static_cast<int>(severity) <= static_cast<int>(m_severity))
+    {
+        QTextStream fileStream(m_file);
 
-    fileStream << currentTime() << ": ";
-    fileStream << message.c_str() << "\n";
+        fileStream << currentTime() << ": ";
+        fileStream << message.c_str() << "\n";
+    }
 }
 
 
-QString Logger::getPath(const std::vector<const char *>& utility) const
+void Logger::info(const std::string& msg)
 {
-    QString result(m_basePath);
+    log(Severity::Info, msg);
+}
 
-    if (utility.empty() == false)
+
+void Logger::warning(const std::string& msg)
+{
+    log(Severity::Warning, msg);
+}
+
+
+void Logger::error(const std::string& msg)
+{
+    log(Severity::Error, msg);
+}
+
+
+void Logger::debug(const std::string& msg)
+{
+    log(Severity::Debug, msg);
+}
+
+
+QString Logger::getPath(const QString& path) const
+{
+    QString result(path);
+
+    if (m_utility.empty() == false)
     {
-        size_t i = 0;
-        for(; i < utility.size(); i++)
-            result = result + "/" + utility[i];
+        for(size_t i = 0; i < m_utility.size(); i++)
+            result = result + "/" + m_utility[i];
 
-        result = result + ".log";
+        result += ".log";
     }
 
     return result;
 }
 
 
-QIODevice* Logger::getFile(const QString& path)
+void Logger::prepareFile()
 {
-    auto it = m_files.find(path);
+    assert(m_file == nullptr);
 
-    if (it == m_files.end())
-    {
-        createPath(path);
-        QFile* file = new QFile(path);
+    createPath(m_path);
+    m_file = new QFile(m_path);
 
-        file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
-        file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
-
-        auto data = std::pair<QString, QIODevice *>(path, file);
-        auto iit = m_files.insert(data);
-
-        it= iit.first;
-    }
-
-    return it->second;
+    m_file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
+    m_file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
 }
 
 

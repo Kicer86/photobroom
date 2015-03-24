@@ -2,7 +2,6 @@
 #ifndef DATABASE_MYSQL_BACKEND_HPP
 #define DATABASE_MYSQL_BACKEND_HPP
 
-
 #include <memory>
 
 #include <database/idatabase.hpp>
@@ -28,7 +27,7 @@ namespace Database
             virtual QString prepareColumnDescription(const ColDefinition &) const override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
             virtual void set(IConfiguration *) override;
-            virtual void set(ILogger *) override;
+            virtual void set(ILoggerFactory *) override;
 
             // GenericSqlQueryConstructor:
             virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;

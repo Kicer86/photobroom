@@ -18,7 +18,9 @@
  */
 
 #include "plugin_loader.hpp"
+
 #include <ilogger.hpp>
+#include <ilogger_factory.hpp>
 
 #include <deque>
 #include <cassert>
@@ -49,9 +51,9 @@ namespace
 
         PluginFinder& operator=(const PluginFinder &) = delete;
         
-        void set(ILogger* logger)
+        void set(ILoggerFactory* logger_factory)
         {
-            m_logger = logger;
+            m_logger = logger_factory->get("PluginLoader");
         }
 
         void find_all_db_plugins()
@@ -69,7 +71,7 @@ namespace
                 {
                     const QString path = info.absoluteFilePath();
                                     
-                    m_logger->log("PluginLoader", ILogger::Severity::Info, "Found database plugin: " + path.toStdString());
+                    m_logger->log(ILogger::Severity::Info, "Found database plugin: " + path.toStdString());
                     
                     QObject* raw_plugin = load(path);
                     Database::IPlugin* plugin = dynamic_cast<Database::IPlugin *>(raw_plugin);
@@ -110,17 +112,17 @@ namespace
     private:
         QObject* load(const QString& path)
         {
-            m_logger->log("PluginLoader", ILogger::Severity::Info, "Loading database plugin: " + path.toStdString());
+            m_logger->log(ILogger::Severity::Info, "Loading database plugin: " + path.toStdString());
             QPluginLoader loader(path);
             QObject* plugin = loader.instance();
 
             if (plugin == nullptr)
-                m_logger->log("PluginLoader", ILogger::Severity::Error, "\tError: " + loader.errorString().toStdString());
+                m_logger->log(ILogger::Severity::Error, "\tError: " + loader.errorString().toStdString());
 
             return plugin;
         }
 
-        ILogger* m_logger;
+        std::unique_ptr<ILogger> m_logger;
         std::deque<Database::IPlugin *> m_db_plugins;
         bool m_found;
     };
@@ -148,9 +150,9 @@ PluginLoader::~PluginLoader()
 }
 
 
-void PluginLoader::set(ILogger* logger)
+void PluginLoader::set(ILoggerFactory* logger_factor)
 {
-    m_impl->m_finder.set(logger);
+    m_impl->m_finder.set(logger_factor);
 }
 
 

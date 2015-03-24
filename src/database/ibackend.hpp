@@ -32,7 +32,7 @@
 #include "database_status.hpp"
 #include "filter.hpp"
 
-struct ILogger;
+struct ILoggerFactory;
 struct IConfiguration;
 
 namespace Database
@@ -81,7 +81,7 @@ namespace Database
 
         //configuration
         virtual void set(IConfiguration *) = 0;
-        virtual void set(ILogger *) = 0;
+        virtual void set(ILoggerFactory *) = 0;
         virtual void addEventsObserver(IEvents *) = 0;
 
         //close database connection

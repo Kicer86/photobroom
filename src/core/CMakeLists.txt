@@ -29,6 +29,7 @@ set(CORE_SOURCES
     implementation/disk_observer.cpp
     implementation/hash_functions.cpp
     implementation/logger.cpp
+    implementation/logger_factory.cpp
     implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
     implementation/tag.cpp
@@ -44,10 +45,12 @@ set(CORE_HEADERS
     disk_observer.hpp
     hash_functions.hpp
     ilogger.hpp
+    ilogger_factory.hpp
     itagfeeder.hpp
     itask_executor.hpp
     iplugin_loader.hpp
     logger.hpp
+    logger_factory.hpp
     plugin_loader.hpp
     photos_manager.hpp
     status.hpp

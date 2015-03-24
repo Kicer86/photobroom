@@ -26,7 +26,7 @@
 #include "iconfiguration.hpp"
 #include "configuration_export.h"
 
-struct ILogger;
+struct ILoggerFactory;
 struct DefaultConfigurationPrivate;
 
 class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
@@ -35,7 +35,7 @@ class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
         DefaultConfiguration();
         virtual ~DefaultConfiguration();
 
-        void init(ILogger *);
+        void init(ILoggerFactory *);
 
         virtual ol::Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const override;
         virtual ol::Optional<QString> findEntry(const char *) const override;

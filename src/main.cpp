@@ -5,7 +5,7 @@
 #include <string>
 
 #include <core/plugin_loader.hpp>
-#include <core/logger.hpp>
+#include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
@@ -15,20 +15,22 @@
 
 int main(int argc, char **argv)
 {
+    const QString basePath = System::getApplicationConfigDir() + "/logs";
+
     // build objects
-    Logger logger;
+    LoggerFactory logger_factory(basePath);
 
     DefaultConfiguration configuration;
-    configuration.init(&logger);
+    configuration.init(&logger_factory);
 
     PluginLoader pluginLoader;
-    pluginLoader.set(&logger);
+    pluginLoader.set(&logger_factory);
 
     TaskExecutor taskExecutor;
     
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
-    database_builder.set(&logger);
+    database_builder.set(&logger_factory);
     database_builder.set(&configuration);
 
     ProjectManager prjManager;
@@ -38,17 +40,12 @@ int main(int argc, char **argv)
     // init configuration
     configuration.load();
 
-    const QString basePath = System::getApplicationConfigDir() + "/logs";
-    auto severity = Logger::Severity::Debug;
-    logger.setPath(basePath);
-    logger.setLevel(severity);
-
     // start gui
     Gui gui;
     gui.set(&prjManager);
     gui.set(&pluginLoader);
     gui.set(&configuration);
-    gui.set(&logger);
+    gui.set(&logger_factory);
     gui.set(&taskExecutor);
     gui.run(argc, argv);
 

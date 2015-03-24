@@ -34,25 +34,30 @@ class QString;
 class CORE_EXPORT Logger: public ILogger
 {
     public:
-        Logger();
+        Logger(const QString &, const QString& utility);
+        Logger(const QString &, const std::vector<QString>& utility);
         Logger(const Logger& other) = delete;
         ~Logger();
 
         Logger& operator=(const Logger& other) = delete;
 
-        void setPath(const QString &);
         void setLevel(Severity);
 
-        virtual void log(const char* utility, Severity, const std::string& message) override;
-        virtual void log(const std::vector<const char *>& utility, Severity, const std::string& message) override;
+        void log(Severity, const std::string& message) override;
+
+        void info(const std::string &) override;
+        void warning(const std::string &) override;
+        void error(const std::string &) override;
+        void debug(const std::string &) override;
 
     private:
-        QString m_basePath;
+        const std::vector<QString> m_utility;
+        const QString m_path;
         Severity m_severity;
-        std::map<QString, QIODevice *> m_files;
+        QIODevice* m_file;
 
-        QString getPath(const std::vector<const char *> &) const;
-        QIODevice* getFile(const QString &);
+        QString getPath(const QString &) const;
+        void prepareFile();
 
         QString currentTime() const;
         void createPath(const QString &) const;

@@ -123,7 +123,7 @@ namespace Database
     }
 
 
-    void MySqlBackend::set(ILogger* logger)
+    void MySqlBackend::set(ILoggerFactory* logger)
     {
         Database::ASqlBackend::set(logger);
 
