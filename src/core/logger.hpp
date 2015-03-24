@@ -46,6 +46,11 @@ class CORE_EXPORT Logger: public ILogger
 
         void log(Severity, const std::string& message) override;
 
+        void info(const std::string &) override;
+        void warning(const std::string &) override;
+        void error(const std::string &) override;
+        void debug(const std::string &) override;
+
     private:
         const std::vector<QString> m_utility;
         QString m_basePath;

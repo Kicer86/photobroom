@@ -80,6 +80,30 @@ void Logger::log(ILogger::Severity, const std::string& message)
 }
 
 
+void Logger::info(const std::string& msg)
+{
+    log(Severity::Info, msg);
+}
+
+
+void Logger::warning(const std::string& msg)
+{
+    log(Severity::Warning, msg);
+}
+
+
+void Logger::error(const std::string& msg)
+{
+    log(Severity::Error, msg);
+}
+
+
+void Logger::debug(const std::string& msg)
+{
+    log(Severity::Debug, msg);
+}
+
+
 QString Logger::getPath() const
 {
     QString result(m_basePath);
