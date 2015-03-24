@@ -27,19 +27,17 @@
 class CORE_EXPORT LoggerFactory: public ILoggerFactory
 {
     public:
-        LoggerFactory();
+        LoggerFactory(const QString &);
         LoggerFactory(const LoggerFactory &) = delete;
         virtual ~LoggerFactory();
 
         LoggerFactory& operator=(const LoggerFactory &) = delete;
 
-        void setPath(const QString &);
-
         std::unique_ptr<ILogger> get(const QString& utility) override;
         std::unique_ptr<ILogger> get(const std::vector<QString>& utility) override;
 
     private:
-        QString m_path;
+        const QString m_path;
 };
 
 #endif // LOGGERFACTORY_HPP

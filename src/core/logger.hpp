@@ -34,8 +34,8 @@ class QString;
 class CORE_EXPORT Logger: public ILogger
 {
     public:
-        Logger(const QString& utility);
-        Logger(const std::vector<QString>& utility);
+        Logger(const QString &, const QString& utility);
+        Logger(const QString &, const std::vector<QString>& utility);
         Logger(const Logger& other) = delete;
         ~Logger();
 
@@ -53,12 +53,12 @@ class CORE_EXPORT Logger: public ILogger
 
     private:
         const std::vector<QString> m_utility;
-        QString m_basePath;
+        const QString m_path;
         Severity m_severity;
-        std::map<QString, QIODevice *> m_files;
+        QIODevice* m_file;
 
-        QString getPath() const;
-        QIODevice* getFile(const QString &);
+        QString getPath(const QString &) const;
+        void prepareFile();
 
         QString currentTime() const;
         void createPath(const QString &) const;

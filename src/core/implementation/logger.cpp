@@ -31,17 +31,17 @@
 #include <QDir>
 
 
-Logger::Logger(const std::vector<QString>& utility):
+Logger::Logger(const QString& path, const std::vector<QString>& utility):
     m_utility(utility),
-    m_basePath(""),
+    m_path(getPath(path)),
     m_severity(Severity::Warning),
-    m_files()
+    m_file(nullptr)
 {
 
 }
 
 
-Logger::Logger(const QString& utility): Logger( std::vector<QString>({ utility}) )
+Logger::Logger(const QString& path, const QString& utility): Logger(path, std::vector<QString>({ utility}) )
 {
 
 }
@@ -49,14 +49,14 @@ Logger::Logger(const QString& utility): Logger( std::vector<QString>({ utility})
 
 Logger::~Logger()
 {
-    for(auto entry: m_files)
-        delete entry.second;
+    delete m_file;
 }
 
 
 void Logger::setPath(const QString& path)
 {
-    m_basePath = path;
+    getPath(path);
+    prepareFile();
 }
 
 
@@ -68,12 +68,9 @@ void Logger::setLevel(ILogger::Severity severity)
 
 void Logger::log(ILogger::Severity, const std::string& message)
 {
-    assert(m_basePath.isEmpty() == false);
-
-    const QString path = getPath();
-    QIODevice* file = getFile(path);
+    assert(m_path.isEmpty() == false);
     
-    QTextStream fileStream(file);
+    QTextStream fileStream(m_file);
 
     fileStream << currentTime() << ": ";
     fileStream << message.c_str() << "\n";
@@ -104,41 +101,31 @@ void Logger::debug(const std::string& msg)
 }
 
 
-QString Logger::getPath() const
+QString Logger::getPath(const QString& path) const
 {
-    QString result(m_basePath);
+    QString result(path);
 
     if (m_utility.empty() == false)
     {
         for(size_t i = 0; i < m_utility.size(); i++)
             result = result + "/" + m_utility[i];
 
-        result = result + ".log";
+        result += ".log";
     }
 
     return result;
 }
 
 
-QIODevice* Logger::getFile(const QString& path)
+void Logger::prepareFile()
 {
-    auto it = m_files.find(path);
+    assert(m_file == nullptr);
 
-    if (it == m_files.end())
-    {
-        createPath(path);
-        QFile* file = new QFile(path);
+    createPath(m_path);
+    m_file = new QFile(m_path);
 
-        file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
-        file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
-
-        auto data = std::pair<QString, QIODevice *>(path, file);
-        auto iit = m_files.insert(data);
-
-        it= iit.first;
-    }
-
-    return it->second;
+    m_file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
+    m_file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
 }
 
 

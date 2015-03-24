@@ -15,8 +15,10 @@
 
 int main(int argc, char **argv)
 {
+    const QString basePath = System::getApplicationConfigDir() + "/logs";
+
     // build objects
-    LoggerFactory logger_factory;
+    LoggerFactory logger_factory(basePath);
 
     DefaultConfiguration configuration;
     configuration.init(&logger_factory);
@@ -37,9 +39,6 @@ int main(int argc, char **argv)
 
     // init configuration
     configuration.load();
-
-    const QString basePath = System::getApplicationConfigDir() + "/logs";
-    logger_factory.setPath(basePath);
 
     // start gui
     Gui gui;
