@@ -59,14 +59,17 @@ void Logger::setLevel(ILogger::Severity severity)
 }
 
 
-void Logger::log(ILogger::Severity, const std::string& message)
+void Logger::log(ILogger::Severity severity, const std::string& message)
 {
     assert(m_path.isEmpty() == false);
     
-    QTextStream fileStream(m_file);
+    if (static_cast<int>(severity) <= static_cast<int>(m_severity))
+    {
+        QTextStream fileStream(m_file);
 
-    fileStream << currentTime() << ": ";
-    fileStream << message.c_str() << "\n";
+        fileStream << currentTime() << ": ";
+        fileStream << message.c_str() << "\n";
+    }
 }
 
 
