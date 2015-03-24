@@ -28,6 +28,7 @@
 class QProcess;
 
 struct ILogger;
+struct ILoggerFactory;
 struct IConfiguration;
 
 
@@ -43,12 +44,12 @@ class MySqlServer
 
         QString run_server(const QString &);  //returns socket or null if failed
         void set(IConfiguration *);
-        void set(ILogger *);
+        void set(ILoggerFactory *);
 
     private:
         std::unique_ptr<QProcess> m_serverProcess;
         IConfiguration* m_configuration;
-        ILogger* m_logger;
+        std::unique_ptr<ILogger> m_logger;
 
         QString getDaemonPath() const;
         bool initDB(const QString &, const QString &) const;

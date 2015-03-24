@@ -41,6 +41,7 @@
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/project_info.hpp>
@@ -144,7 +145,7 @@ namespace Database
                     
                     std::stringstream logInfo;
                     logInfo << "Transaction commit: " << diff_ms << "ms";
-                    m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logInfo.str());
+                    m_logger->log(ILogger::Severity::Debug, logInfo.str());
                 }
 
                 return status;
@@ -169,7 +170,7 @@ namespace Database
             QString m_connectionName;
             IPhotoInfoCache* m_photoInfoCache;
             Transaction m_transaction;
-            ILogger* m_logger;
+            std::unique_ptr<ILogger> m_logger;
             std::set<IBackend::IEvents *> m_observers;
             bool m_dbHasSizeFeature;
             bool m_dbOpen;
@@ -246,11 +247,10 @@ namespace Database
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
         logMessage = logMessage + " Exec time: " + std::to_string(diff_ms) + "ms";
 
-        m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Debug, logMessage);
+        m_logger->log(ILogger::Severity::Debug, logMessage);
 
         if (status == false)
-            m_logger->log({"Database" ,"ASqlBackend"},
-                          ILogger::Severity::Error,
+            m_logger->log(ILogger::Severity::Error,
                           "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
 
         assert(status);
@@ -828,7 +828,7 @@ namespace Database
             assert(m_data->m_dbOpen == db.isOpen());
             if (db.isValid() && db.isOpen())
             {
-                m_data->m_logger->log({"Database", "ASqlBackend"}, ILogger::Severity::Info, "ASqlBackend: closing database connections.");
+                m_data->m_logger->log(ILogger::Severity::Info, "ASqlBackend: closing database connections.");
                 db.close();
                 m_data->m_dbOpen = false;
             }
@@ -936,7 +936,7 @@ namespace Database
         if (status)
             status = checkStructure();
         else
-            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
+            m_data->m_logger->log(ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
 
         return status;
     }
@@ -962,7 +962,7 @@ namespace Database
         if (m_data)
             status = m_data->store(entry);
         else
-            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
 
         return status;
     }
@@ -977,7 +977,7 @@ namespace Database
         if (m_data)
             status = m_data->store(tagInfo);
         else
-            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
 
         return status;
     }
@@ -990,7 +990,7 @@ namespace Database
         if (m_data)
             result = m_data->listTags();
         else
-            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
 
         return result;
     }
@@ -1003,7 +1003,7 @@ namespace Database
         if (m_data)
             result = m_data->listTagValues(tagName);
         else
-            m_data->m_logger->log({"Database" ,"ASqlBackend"}, ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
 
         return result;
     }
@@ -1044,10 +1044,10 @@ namespace Database
     }
 
 
-    void ASqlBackend::set(ILogger* logger)
+    void ASqlBackend::set(ILoggerFactory* logger_factory)
     {
-        m_data->m_logger = logger;
-        m_data->m_transaction.set(logger);
+        m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
+        m_data->m_transaction.set(m_data->m_logger.get());
     }
 
 

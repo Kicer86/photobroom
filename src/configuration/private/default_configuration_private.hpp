@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <memory>
 
 #include <OpenLibrary/utils/optional.hpp>
 
@@ -16,6 +17,8 @@ namespace Configuration
 {
     struct IInitializer;
 }
+
+struct ILoggerFactory;
 struct ILogger;
 
 struct DefaultConfigurationPrivate
@@ -26,7 +29,7 @@ struct DefaultConfigurationPrivate
         DefaultConfigurationPrivate(const DefaultConfigurationPrivate &) = delete;
         DefaultConfigurationPrivate& operator=(const DefaultConfigurationPrivate &) = delete;
 
-        void set(ILogger *);
+        void set(ILoggerFactory *);
 
         QString getConfigDir() const;
         ol::Optional<Configuration::EntryData> find(const Configuration::ConfigurationKey& key) const;
@@ -47,7 +50,7 @@ struct DefaultConfigurationPrivate
 
         std::unordered_set<Configuration::ConfigurationKey, hash> m_known_keys;
         std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash> m_data;
-        ILogger* m_logger;
+        std::unique_ptr<ILogger> m_logger;
 
         bool parseXml_Keys(QXmlStreamReader* reader);
         bool parseXml_DefaultKeys(QXmlStreamReader* reader);

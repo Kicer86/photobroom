@@ -8,6 +8,7 @@
 #include <QFile>
 
 #include <core/logger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <system/system.hpp>
 
 #include "iconfiguration.hpp"
@@ -25,9 +26,9 @@ DefaultConfigurationPrivate::~DefaultConfigurationPrivate()
 }
 
 
-void DefaultConfigurationPrivate::set(ILogger* logger)
+void DefaultConfigurationPrivate::set(ILoggerFactory* logger_factory)
 {
-    m_logger = logger;
+    m_logger = logger_factory->get("Configuration");
 }
 
 
@@ -107,8 +108,7 @@ bool DefaultConfigurationPrivate::useXml(const QString& xml)
                 status = parseXml_DefaultKeys(&reader);
             else
             {
-                m_logger->log("Configuration",
-                              ILogger::Severity::Error,
+                m_logger->log(ILogger::Severity::Error,
                               "DefaultConfiguration: invalid format of xml file (unknown tag: " + name.toString().toStdString() + ")");
 
                 status = false;
@@ -153,7 +153,7 @@ bool DefaultConfigurationPrivate::parseXml_Keys(QXmlStreamReader* reader)
                 introduceKey(key);
             }
             else
-                m_logger->log("Configuration", ILogger::Severity::Error, "There is a key, in <keys> section, with null name.");
+                m_logger->log(ILogger::Severity::Error, "There is a key, in <keys> section, with null name.");
         }
         else
         {
@@ -216,7 +216,7 @@ bool DefaultConfigurationPrivate::parseXml_DefaultKeys(QXmlStreamReader* reader)
                 addEntry(key, entry);
             }
             else
-                m_logger->log("Configuration", ILogger::Severity::Error, "There is a key, in <defaults> section, with null name.");
+                m_logger->log(ILogger::Severity::Error, "There is a key, in <defaults> section, with null name.");
         }
         else
         {
@@ -272,5 +272,5 @@ bool DefaultConfigurationPrivate::gotoNextUseful(QXmlStreamReader* reader)
 void DefaultConfigurationPrivate::verifyKey(const Configuration::ConfigurationKey& key) const
 {
     if (m_known_keys.find(key) == m_known_keys.end())
-        m_logger->log("Configuration", ILogger::Severity::Error, "DefaultConfiguration: unknown key: " + key.getKeyRaw());
+        m_logger->log(ILogger::Severity::Error, "DefaultConfiguration: unknown key: " + key.getKeyRaw());
 }

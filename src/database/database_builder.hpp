@@ -28,7 +28,7 @@
 
 #include "idatabase_builder.hpp"
 
-struct ILogger;
+struct ILoggerFactory;
 struct IPluginLoader;
 struct IConfiguration;
 
@@ -43,7 +43,7 @@ namespace Database
             virtual ~Builder();
 
             void set(IPluginLoader *);
-            void set(ILogger *);
+            void set(ILoggerFactory *);
             void set(IConfiguration *);
 
             virtual std::unique_ptr<IDBPack> get(const ProjectInfo &, OpenResult) override;

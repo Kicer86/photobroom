@@ -31,7 +31,17 @@
 #include <QDir>
 
 
-Logger::Logger(): m_basePath(""), m_severity(Severity::Warning), m_files()
+Logger::Logger(const std::vector<QString>& utility):
+    m_utility(utility),
+    m_basePath(""),
+    m_severity(Severity::Warning),
+    m_files()
+{
+
+}
+
+
+Logger::Logger(const QString& utility): Logger( std::vector<QString>({ utility}) )
 {
 
 }
@@ -56,17 +66,11 @@ void Logger::setLevel(ILogger::Severity severity)
 }
 
 
-void Logger::log(const char* utility, ILogger::Severity severity, const std::string& message)
-{
-    log( std::vector<const char *>({utility}), severity, message);
-}
-
-
-void Logger::log(const std::vector<const char *>& utility, ILogger::Severity, const std::string& message)
+void Logger::log(ILogger::Severity, const std::string& message)
 {
     assert(m_basePath.isEmpty() == false);
 
-    const QString path = getPath(utility);
+    const QString path = getPath();
     QIODevice* file = getFile(path);
     
     QTextStream fileStream(file);
@@ -76,15 +80,14 @@ void Logger::log(const std::vector<const char *>& utility, ILogger::Severity, co
 }
 
 
-QString Logger::getPath(const std::vector<const char *>& utility) const
+QString Logger::getPath() const
 {
     QString result(m_basePath);
 
-    if (utility.empty() == false)
+    if (m_utility.empty() == false)
     {
-        size_t i = 0;
-        for(; i < utility.size(); i++)
-            result = result + "/" + utility[i];
+        for(size_t i = 0; i < m_utility.size(); i++)
+            result = result + "/" + m_utility[i];
 
         result = result + ".log";
     }

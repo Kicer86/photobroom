@@ -6,6 +6,7 @@
 
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
+#include <core/ilogger_factory.hpp>
 #include <system/filesystem.hpp>
 
 #include "ui/mainwindow.hpp"
@@ -15,6 +16,13 @@ Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullp
 {
 
 }
+
+
+Gui::~Gui()
+{
+
+}
+
 
 void Gui::set(IProjectManager* prjManager)
 {
@@ -40,9 +48,9 @@ void Gui::set(IConfiguration* configuration)
 }
 
 
-void Gui::set(ILogger* logger)
+void Gui::set(ILoggerFactory* logger_factory)
 {
-    m_logger = logger;
+    m_logger = logger_factory->get("gui");
 }
 
 
@@ -60,9 +68,9 @@ void Gui::run(int argc, char **argv)
     const bool status = app.installTranslator(&translator);
 
     if (status)
-        m_logger->log("gui", ILogger::Severity::Info, "Polish translations loaded successfully.");
+        m_logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
     else
-        m_logger->log("gui", ILogger::Severity::Error, "Could not load Polish translations.");
+        m_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
     MainWindow mainWindow;
 

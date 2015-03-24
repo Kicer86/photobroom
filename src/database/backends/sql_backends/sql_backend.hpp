@@ -71,7 +71,7 @@ namespace Database
 
             virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
 
-            virtual void set(ILogger *) override;
+            virtual void set(ILoggerFactory *) override;
             virtual void addEventsObserver(IEvents *) override;
             
         private:
