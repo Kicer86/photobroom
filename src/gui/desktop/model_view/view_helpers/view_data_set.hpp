@@ -97,9 +97,13 @@ class ViewDataSet final: public IViewDataSet
         {
         }
 
+        ViewDataSet(const ViewDataSet<T> &) = delete;
+
         ~ViewDataSet()
         {
         }
+
+        ViewDataSet<T>& operator=(const ViewDataSet<T> &) = delete;
 
         void set(QAbstractItemModel* model)
         {
@@ -390,6 +394,10 @@ struct ViewDataModelObserver: public QObject
         {
             set(model);
         }
+
+        ViewDataModelObserver(const ViewDataModelObserver &) = delete;
+
+        ViewDataModelObserver& operator=(const ViewDataModelObserver &) = delete;
 
         void set(QAbstractItemModel* model)
         {
