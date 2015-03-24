@@ -11,9 +11,9 @@ struct ILogger
 
     enum class Severity
     {
-        Info,
-        Warning,
         Error,
+        Warning,
+        Info,
         Debug,
     };
 

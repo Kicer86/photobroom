@@ -37,7 +37,7 @@ Logger::Logger(const QString& path, const std::vector<QString>& utility):
     m_severity(Severity::Warning),
     m_file(nullptr)
 {
-
+    prepareFile();
 }
 
 
@@ -50,13 +50,6 @@ Logger::Logger(const QString& path, const QString& utility): Logger(path, std::v
 Logger::~Logger()
 {
     delete m_file;
-}
-
-
-void Logger::setPath(const QString& path)
-{
-    getPath(path);
-    prepareFile();
 }
 
 

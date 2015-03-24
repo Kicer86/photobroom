@@ -42,7 +42,6 @@ std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility)
 std::unique_ptr<ILogger> LoggerFactory::get(const std::vector<QString>& utility)
 {
     Logger* logger = new Logger(m_path, utility);
-    logger->setPath(m_path);
 
     return std::unique_ptr<ILogger>(logger);
 }
