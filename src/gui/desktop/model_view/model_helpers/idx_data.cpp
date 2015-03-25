@@ -50,12 +50,12 @@ namespace
         private:
             bool ascendingComparer(const QString& l, const QString& r) const
             {
-                return l < r;
+                return l <= r;
             }
 
             bool descendingComparer(const QString& l, const QString& r) const
             {
-                return l > r;
+                return l >= r;
             }
 
             typedef bool (TagValueComparer::*CompFun)(const QString& l, const QString& r) const;
