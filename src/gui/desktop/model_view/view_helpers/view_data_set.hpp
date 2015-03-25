@@ -192,8 +192,6 @@ class ViewDataSet final: public IViewDataSet
                 if (children)
                     rowsInserted(child_idx, 0, children - 1);
             }
-
-            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
         void rowsRemoved(const QModelIndex& parent, int from , int to) override
@@ -212,8 +210,6 @@ class ViewDataSet final: public IViewDataSet
             }
             else
                 assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
-
-            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
         void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
@@ -221,11 +217,9 @@ class ViewDataSet final: public IViewDataSet
             const int n = src_to - src_from;
             const int dst_to = dst_from + n;
 
-            // TODO: implement variant which would do a real move
+            // TODO: implement variant which would do a real move                                             
             rowsRemoved(sourceParent, src_from, src_to);
             rowsInserted(destinationParent, dst_from, dst_to);
-
-            assert(validate(m_db_model, QModelIndex(), cbegin()));
         }
 
         void modelReset() override
@@ -233,15 +227,14 @@ class ViewDataSet final: public IViewDataSet
             clear();
 
             //load all data
-            loadIndex(QModelIndex(), begin());
-
-            assert(validate(m_db_model, QModelIndex(), cbegin()));
+            loadIndex(QModelIndex(), begin());            
         }
 
     private:
         Model m_model;
         QAbstractItemModel* m_db_model;
 
+        // TODO: itnroduce tests for validity
         bool validate(QAbstractItemModel* model, const QModelIndex& index, const_flat_iterator it) const
         {
             bool equal = true;
