@@ -326,8 +326,13 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
-    rowsRemoved(sourceParent, sourceStart, sourceEnd);
-    rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
+    
+    //reset sizes and positions of existing items
+    PositionsReseter reseter(model(), m_data.get());
+    reseter.childrenRemoved(sourceParent, sourceStart);
+    reseter.itemsAdded(destinationParent, destinationRow, destinationRow + items - 1);
+
+    updateModel();
 }
 
 
