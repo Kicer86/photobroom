@@ -98,6 +98,15 @@ namespace tree_private
                 return result;
             }
 
+            flat_iterator operator-(int v) const
+            {
+                flat_iterator result = *this;
+                iterator& c = result.current();
+                c -= v;
+
+                return result;
+            }
+
             size_t index() const
             {
                 const size_t result = this->current() - this->first();
