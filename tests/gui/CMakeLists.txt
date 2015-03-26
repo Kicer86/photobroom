@@ -35,6 +35,7 @@ set(SRC
         ${gui_srcs}
         # model tests:
         model/idx_data_manager_tests.cpp
+        model/idx_data_tests.cpp
 
         # view tests
         view/data_tests.cpp
