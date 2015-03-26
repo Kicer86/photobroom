@@ -162,6 +162,13 @@ namespace tree_private
                 return r;
             }
 
+            iterator operator-=(int o)
+            {
+                m_node -= o;
+
+                return *this;
+            }
+
             const node_type& operator*() const
             {
                 return *m_node;
