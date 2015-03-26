@@ -11,8 +11,37 @@
 #include "test_helpers/mock_configuration.hpp"
 
 
-class PositionsReseterShould : public ::testing::Test
+class PositionsReseterShould: public ::testing::Test
 {
+public:
+        PositionsReseterShould():
+            testing::Test(),
+            icon(),
+            data(),
+            config(),
+            model(),
+            top(),
+            child1(),
+            child2(),
+            child3(),
+            child4(),
+            child5(),
+            top2(),
+            child2_1(),
+            child2_2(),
+            child2_3(),
+            child2_4(),
+            child2_5(),
+            top3(),
+            child3_1(),
+            child3_2(),
+            child3_3(),
+            child3_4(),
+            child3_5(),
+            mo()
+        {
+        }
+
 protected:
     virtual void SetUp()
     {
