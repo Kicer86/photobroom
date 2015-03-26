@@ -217,9 +217,23 @@ class ViewDataSet final: public IViewDataSet
             const int n = src_to - src_from;
             const int dst_to = dst_from + n;
 
-            // TODO: implement variant which would do a real move                                             
-            rowsInserted(destinationParent, dst_from, dst_to);
-            rowsRemoved(sourceParent, src_from, src_to);
+            // TODO: implement variant which would do a real move
+
+            if (sourceParent != destinationParent || src_from > dst_to)
+            {
+                rowsRemoved(sourceParent, src_from, src_to);
+                rowsInserted(destinationParent, dst_from, dst_to);
+            }
+            else
+            {
+                // The same parent, and source rows are before destination rows.
+                // In such case we need to do some adjustments in destination row
+
+                const int rows_removed = n + 1;
+
+                rowsRemoved(sourceParent, src_from, src_to);
+                rowsInserted(destinationParent, dst_from - rows_removed , dst_to - rows_removed);
+            }
         }
 
         void modelReset() override
