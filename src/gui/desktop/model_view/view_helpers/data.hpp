@@ -75,9 +75,7 @@ class Data
         ModelIndexInfoSet::iterator find(const QModelIndex &);
         
         ModelIndexInfoSet::iterator get(const QPoint &) const;
-        bool isImage(const QModelIndex &) const __attribute__((deprecated));
         bool isImage(const ModelIndexInfoSet::iterator &) const;
-        QPixmap getImage(const QModelIndex &) const __attribute__((deprecated));
         QPixmap getImage(Data::ModelIndexInfoSet::flat_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
         QModelIndex get(const ModelIndexInfoSet::iterator &) const;

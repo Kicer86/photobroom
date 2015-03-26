@@ -175,13 +175,12 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
-        assert(infoIt.valid());
+        Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
         QStyleOptionViewItem styleOption;
         styleOption.rect = info.getRect();
-        styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+        styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.palette = palette();
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
 
