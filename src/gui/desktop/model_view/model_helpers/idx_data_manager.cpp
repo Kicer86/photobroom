@@ -562,9 +562,9 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>& photos)
+void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>& nodes)
 {
-    assert(photos.empty() == false);
+    assert(nodes.empty() == false);
     // We are not expecting any sub-nodes for not fetched nodes.
     // Only fully fetched and being fetched nodes may accept something.
     assert(_parent->m_loaded != IdxData::FetchStatus::NotFetched);
@@ -572,17 +572,25 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    const size_t items = _parent->m_children.size();
     const QModelIndex parentIdx = m_data->m_model->createIndex(_parent);
-    assert(parentIdx.isValid()  || _parent->parent() == nullptr);               // parentIdx may be invalid only in one case - then _parent is top
+    assert(parentIdx.isValid() || _parent->parent() == nullptr);               // parentIdx may be invalid only in one case - then _parent is top
 
-    const size_t last = photos.size() - 1;
-    m_data->m_model->beginInsertRows(parentIdx, items, items + last);
+    //This function should be used only when writing to an empty parent.
+    //Reason for it is that addChild does sorting and items may go
+    //to other positions than reported by beginInsertRows() and endInsertRows()
+    if(_parent->m_children.empty())
+    {
+        const size_t last = nodes.size() - 1;
+        m_data->m_model->beginInsertRows(parentIdx, 0, last);
 
-    for(IdxData* newItem: photos)
-        _parent->addChild(newItem);
+        for(IdxData* newItem: nodes)
+            _parent->addChild(newItem);
 
-    m_data->m_model->endInsertRows();
+        m_data->m_model->endInsertRows();
+    }
+    else                                               //model already has something. Add items one by one
+        for(IdxData* idx: nodes)
+            performAdd(_parent, idx);
 }
 
 
@@ -704,7 +712,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
                 filter->tagValue = tagValue;
 
                 setupNewNode(node, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
-                appendIdxData(_parent, {node} );
+                performAdd(_parent, node);
 
                 result = node;
             }
@@ -732,7 +740,7 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
     {
         universalNode = prepareUniversalNodeFor(_parent);
 
-        appendIdxData(_parent, {universalNode} );
+        performAdd(_parent, universalNode);
     }
 
     return universalNode;
@@ -813,12 +821,18 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
     if (photoIdxData == nullptr)
         photoIdxData = new IdxData(this, photoInfo);
 
-    QModelIndex toIdx = getIndex(to);
-    const int toPos = to->findPositionFor(photoIdxData);
+    performAdd(to, photoIdxData);
+}
+
+
+void IdxDataManager::performAdd(IdxData* _parent, IdxData* item)
+{
+    QModelIndex toIdx = getIndex(_parent);
+    const int toPos = _parent->findPositionFor(item);
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
-    to->addChild(photoIdxData);
+    _parent->addChild(item);
 
     m_data->m_model->endInsertRows();
 }
