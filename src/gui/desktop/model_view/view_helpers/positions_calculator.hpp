@@ -24,10 +24,10 @@
 #include <QPixmap>
 #include <QItemSelection>
 
+#include "data.hpp"
+
 class QModelIndex;
 class QAbstractItemModel;
-
-class Data;
 
 class PositionsCalculator
 {
@@ -40,16 +40,18 @@ class PositionsCalculator
         void updateItems() const;
 
     private:
-        QRect calcItemRect(const QModelIndex &) const;
-        QPoint positionOfNext(const QModelIndex &) const;                             // calculate position of next item
-        QPoint positionOfNextImage(const QModelIndex &) const;                        // calculate position of next item (image item)
-        QPoint positionOfNextNode(const QModelIndex &) const;                         // calculate position of next item (node item)
-        QPoint positionOfFirstChild(const QModelIndex &) const;                       // calculate position for first item
+        QRect calcItemRect(Data::ModelIndexInfoSet::flat_iterator) const;
+        QPoint positionOfNext(Data::ModelIndexInfoSet::flat_iterator) const;          // calculate position of next item
+        QPoint positionOfNextImage(Data::ModelIndexInfoSet::flat_iterator) const;     // calculate position of next item (image item)
+        QPoint positionOfNextNode(Data::ModelIndexInfoSet::flat_iterator) const;      // calculate position of next item (node item)
+        QPoint positionOfFirstChild(Data::ModelIndexInfoSet::flat_iterator) const;    // calculate position for first item
 
-        int getitemWidth(const QModelIndex &) const;
-        int getItemHeigth(const QModelIndex &) const;
-        QSize getItemSize(const QModelIndex &) const;
-        QItemSelection selectRowFor(const QModelIndex &) const;
+        int getitemWidth(Data::ModelIndexInfoSet::flat_iterator) const;
+        int getItemHeigth(Data::ModelIndexInfoSet::flat_iterator) const;
+        QSize getItemSize(Data::ModelIndexInfoSet::flat_iterator) const;
+        std::pair<int, int> selectRowFor(Data::ModelIndexInfoSet::flat_iterator) const;
+
+        bool isRoot(Data::ModelIndexInfoSet::flat_iterator) const;
 
         QAbstractItemModel* m_model;
         Data* m_data;

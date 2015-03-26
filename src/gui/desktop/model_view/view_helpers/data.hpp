@@ -70,23 +70,25 @@ class Data
 
         void set(QAbstractItemModel *);
 
-        ModelIndexInfoSet::iterator get(const QModelIndex &);   //always returns valid iterator (if index does not exist yet, will be added)
+        ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
         
         ModelIndexInfoSet::iterator get(const QPoint &) const;
-        bool isImage(const QModelIndex &) const;
-        QPixmap getImage(const QModelIndex &) const;
+        bool isImage(const QModelIndex &) const __attribute__((deprecated));
+        bool isImage(const ModelIndexInfoSet::iterator &) const;
+        QPixmap getImage(const QModelIndex &) const __attribute__((deprecated));
+        QPixmap getImage(Data::ModelIndexInfoSet::flat_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
         QModelIndex get(const ModelIndexInfoSet::iterator &) const;
 
-        bool isExpanded(const QModelIndex &) const;
+        bool isExpanded(const QModelIndex &) const __attribute__((deprecated));
         bool isExpanded(const ModelIndexInfoSet::iterator &) const;
         bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
-        bool isVisible(const QModelIndex &) const;
+        bool isVisible(const QModelIndex &) const __attribute__((deprecated));
         bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
-        void for_each_recursively(QAbstractItemModel *, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>, const QModelIndex& first = QModelIndex());
+        void for_each_recursively(std::function<void(ModelIndexInfoSet::flat_iterator)>);
 
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
@@ -95,7 +97,7 @@ class Data
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
 
-        std::deque<QModelIndex> for_each_recursively(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)>);
+        void for_each_recursively(ModelIndexInfoSet::flat_iterator, std::function<void(ModelIndexInfoSet::flat_iterator)>);
 };
 
 #endif // DATA_HPP

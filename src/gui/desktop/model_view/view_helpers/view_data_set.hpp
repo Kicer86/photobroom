@@ -230,11 +230,16 @@ class ViewDataSet final: public IViewDataSet
             loadIndex(QModelIndex(), begin());            
         }
 
+        bool validate() const
+        {
+            return validate(m_db_model, QModelIndex(), begin());
+        }
+
     private:
         Model m_model;
         QAbstractItemModel* m_db_model;
 
-        // TODO: itnroduce tests for validity
+        // TODO: introduce tests for validity
         bool validate(QAbstractItemModel* model, const QModelIndex& index, const_flat_iterator it) const
         {
             bool equal = true;

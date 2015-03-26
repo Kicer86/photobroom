@@ -202,8 +202,12 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         ModelIndexInfo& info = *infoIt;
         info.expanded = !info.expanded;
 
+        QAbstractItemModel* view_model = QAbstractItemView::model();
+        if (view_model->canFetchMore(item))
+            view_model->fetchMore(item);
+
         //reset some positions
-        PositionsReseter reseter(model(), m_data.get());
+        PositionsReseter reseter(view_model, m_data.get());
         reseter.itemChanged(item);
 
         updateModel();
