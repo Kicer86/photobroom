@@ -218,8 +218,8 @@ class ViewDataSet final: public IViewDataSet
             const int dst_to = dst_from + n;
 
             // TODO: implement variant which would do a real move                                             
-            rowsRemoved(sourceParent, src_from, src_to);
             rowsInserted(destinationParent, dst_from, dst_to);
+            rowsRemoved(sourceParent, src_from, src_to);
         }
 
         void modelReset() override
