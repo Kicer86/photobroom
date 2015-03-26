@@ -220,20 +220,6 @@ bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 }
 
 
-bool Data::isVisible(const QModelIndex& index) const
-{
-    QModelIndex parent = index.parent();
-    bool result = false;
-
-    if (parent == QModelIndex())    //parent is on the top of hierarchy? Always visible
-        result = true;
-    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
-        result = true;
-
-    return result;
-}
-
-
 bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 {
     ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::flat_iterator(it).parent();

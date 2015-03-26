@@ -85,7 +85,6 @@ class Data
         bool isExpanded(const QModelIndex &) const __attribute__((deprecated));
         bool isExpanded(const ModelIndexInfoSet::iterator &) const;
         bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
-        bool isVisible(const QModelIndex &) const __attribute__((deprecated));
         bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
         void for_each_recursively(std::function<void(ModelIndexInfoSet::flat_iterator)>);
