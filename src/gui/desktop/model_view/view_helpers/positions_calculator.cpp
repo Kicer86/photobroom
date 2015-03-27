@@ -200,7 +200,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::flat_iterator in
         QPixmap pixmap = m_data->getImage(infoIt);
         item_height = pixmap.height() + m_data->indexMargin * 2;
     }
-    else                  //node's title
+    else                           //node's title
         item_height = 40;          //TODO: temporary
 
     return item_height;
