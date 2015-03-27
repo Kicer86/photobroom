@@ -175,13 +175,12 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(item);
-        assert(infoIt.valid());
+        Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
         QStyleOptionViewItem styleOption;
         styleOption.rect = info.getRect();
-        styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+        styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.palette = palette();
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
 
@@ -202,8 +201,12 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         ModelIndexInfo& info = *infoIt;
         info.expanded = !info.expanded;
 
+        QAbstractItemModel* view_model = QAbstractItemView::model();
+        if (view_model->canFetchMore(item))
+            view_model->fetchMore(item);
+
         //reset some positions
-        PositionsReseter reseter(model(), m_data.get());
+        PositionsReseter reseter(view_model, m_data.get());
         reseter.itemChanged(item);
 
         updateModel();
@@ -251,8 +254,7 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
         if (overlap)
         {
             QModelIndex modelIdx = m_data->get(it);
-            if(modelIdx.isValid() == false)
-                modelIdx = m_data->get(it);
+            assert(modelIdx.isValid());
 
             result.push_back(modelIdx);
         }
@@ -326,8 +328,19 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
-    rowsRemoved(sourceParent, sourceStart, sourceEnd);
-    rowsInserted(destinationParent, destinationRow, destinationRow + items - 1);
+    
+    //reset sizes and positions of existing items
+    PositionsReseter reseter(model(), m_data.get());
+    reseter.childrenRemoved(sourceParent, sourceStart);
+
+    // when src and dst parents are the same, watch out!
+    // http://doc.qt.io/qt-5/qabstractitemmodel.html#beginMoveRows
+    if (sourceParent != destinationParent || sourceStart > destinationRow)
+        reseter.itemsAdded(destinationParent, destinationRow, destinationRow + items - 1);
+    else
+        reseter.itemsAdded(destinationParent, destinationRow - items, destinationRow - 1);   // (destinationRow + items - 1) - items
+
+    updateModel();
 }
 
 

@@ -64,6 +64,40 @@ namespace
     };
 
 
+    struct RelaxedTagValueComparer
+    {
+        RelaxedTagValueComparer(const Hierarchy::Level& l): m_compFun(nullptr)
+        {
+            switch (l.order)
+            {
+                case Hierarchy::Level::Order::ascending:  m_compFun = &RelaxedTagValueComparer::ascendingComparer;  break;
+                case Hierarchy::Level::Order::descending: m_compFun = &RelaxedTagValueComparer::descendingComparer; break;
+            }
+        }
+
+        bool operator() (const QString& l, const QString& r) const
+        {
+            return (this->*m_compFun)(l, r);
+        }
+
+    private:
+        bool ascendingComparer(const QString& l, const QString& r) const
+        {
+            return l <= r;
+        }
+
+        bool descendingComparer(const QString& l, const QString& r) const
+        {
+            return l >= r;
+        }
+
+        typedef bool (RelaxedTagValueComparer::*CompFun)(const QString& l, const QString& r) const;
+
+        CompFun m_compFun;
+    };
+
+
+    template<typename Comparer>
     struct IdxDataComparer
     {
         IdxDataComparer(const Hierarchy::Level& l): m_level(l), m_comparer(l) {}
@@ -79,7 +113,7 @@ namespace
 
         private:
             const Hierarchy::Level& m_level;
-            TagValueComparer m_comparer;
+            Comparer m_comparer;
 
             bool compareNodes(const IdxData* l, const IdxData* r) const
             {
@@ -158,7 +192,7 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 
 int IdxData::findPositionFor(const IdxData* child) const
 {
-    IdxDataComparer comparer(m_order);
+    IdxDataComparer<TagValueComparer> comparer(m_order);
 
     const auto pos = std::upper_bound(m_children.cbegin(), m_children.cend(), child, comparer);
 
@@ -261,7 +295,7 @@ int IdxData::getCol() const
 
 IdxData* IdxData::findChildWithBadPosition() const
 {
-    IdxDataComparer comparer(m_order);
+    IdxDataComparer<RelaxedTagValueComparer> comparer(m_order);
     IdxData* result = nullptr;
 
     for(size_t i = 1; i < m_children.size(); i++)
@@ -277,7 +311,7 @@ IdxData* IdxData::findChildWithBadPosition() const
 
 bool IdxData::sortingRequired() const
 {
-    IdxDataComparer comparer(m_order);
+    IdxDataComparer<TagValueComparer> comparer(m_order);
 
     const bool sorted = std::is_sorted(m_children.cbegin(), m_children.cend(), comparer);
     const bool required = !sorted;

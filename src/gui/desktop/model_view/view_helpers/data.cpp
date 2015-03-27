@@ -47,7 +47,7 @@ void Data::set(QAbstractItemModel* model)
 }
 
 
-Data::ModelIndexInfoSet::iterator Data::get(const QModelIndex& index)
+Data::ModelIndexInfoSet::iterator Data::get(const QModelIndex& index) const
 {
     auto it = m_itemData->find(index);
     assert(it != m_itemData->end());
@@ -91,8 +91,10 @@ Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 }
 
 
-bool Data::isImage(const QModelIndex& index) const
+bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
 {
+    QModelIndex index = get(it);
+
     bool result = false;
 
     if (index.isValid())
@@ -102,19 +104,21 @@ bool Data::isImage(const QModelIndex& index) const
 
         if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
         {
-            QPixmap pixmap = getImage(index);
+            QPixmap pixmap = getImage(it);
 
             result = pixmap.isNull() == false;
         }
         //else - has children so it is node so it is not image :)
     }
-    
+
     return result;
 }
 
 
-QPixmap Data::getImage(const QModelIndex& index) const
+QPixmap Data::getImage(ModelIndexInfoSet::flat_iterator it) const
 {
+    QModelIndex index = get(it);
+
     const QAbstractItemModel* model = index.model();
     const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
     const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
@@ -208,20 +212,6 @@ bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 }
 
 
-bool Data::isVisible(const QModelIndex& index) const
-{
-    QModelIndex parent = index.parent();
-    bool result = false;
-
-    if (parent == QModelIndex())    //parent is on the top of hierarchy? Always visible
-        result = true;
-    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
-        result = true;
-
-    return result;
-}
-
-
 bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 {
     ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::flat_iterator(it).parent();
@@ -250,42 +240,25 @@ bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 }
 
 
-void Data::for_each_recursively(QAbstractItemModel* m, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)> f, const QModelIndex& first)
+void Data::for_each_recursively(std::function<void(ModelIndexInfoSet::flat_iterator)> f)
 {
-    std::deque<QModelIndex> c_result = for_each_recursively(m, first, f);
-    f(first, c_result);
+    for_each_recursively(m_itemData->begin(), f);
+    f(m_itemData->begin());
 }
 
 
-std::deque<QModelIndex> Data::for_each_recursively(QAbstractItemModel* m, const QModelIndex& idx, std::function<void(const QModelIndex &, const std::deque<QModelIndex> &)> f)
+void Data::for_each_recursively(ModelIndexInfoSet::flat_iterator it, std::function<void(ModelIndexInfoSet::flat_iterator)> f)
 {
     std::deque<QModelIndex> result;
-    const bool expanded = isExpanded(idx);
+    const bool expanded = isExpanded(it);
 
     if (expanded)
-    {
-        const bool fetchMore = m->canFetchMore(idx);
-        if (fetchMore)
-            m->fetchMore(idx);
-
-        const bool has_children = m->hasChildren(idx);
-
-        if (has_children)
+        for(ModelIndexInfoSet::flat_iterator c_it = it.begin(); c_it.valid(); ++c_it)
         {
-            const int r = m->rowCount(idx);
-            for(int i = 0; i < r; i++)
-            {
-                QModelIndex c = m->index(i, 0, idx);
-                result.push_back(c);
+            for_each_recursively(c_it, f);
 
-                std::deque<QModelIndex> c_result = for_each_recursively(m, c, f);
-
-                f(c, c_result);
-            }
+            f(c_it);
         }
-    }
-
-    return result;
 }
 
 

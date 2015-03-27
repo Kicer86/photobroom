@@ -124,6 +124,7 @@ private:
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
+    void performAdd(IdxData* parent, IdxData* item);
     bool sortChildrenOf(IdxData *);
 
     IdxData* prepareUniversalNodeFor(IdxData *);                                 //prepares node for photos without tag required by particular parent

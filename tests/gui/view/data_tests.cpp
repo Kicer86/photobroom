@@ -132,9 +132,10 @@ TEST(DataShould, MarkTopItemsAsVisible)
 
     QModelIndex top_idx = top->index();
 
-    data.get(top_idx);
+    auto top_it = data.get(top_idx);
 
-    EXPECT_EQ(true, data.isVisible(top_idx));
+    EXPECT_EQ(true, top_it.valid());
+    EXPECT_EQ(true, data.isVisible(top_it));
 }
 
 
@@ -288,8 +289,14 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 
     //children should be marked invisible
     {
-        EXPECT_EQ(false, data.isVisible(child1->index()));
-        EXPECT_EQ(false, data.isVisible(child2->index()));
+        auto c1_it = data.get(child1->index());
+        auto c2_it = data.get(child2->index());
+
+        EXPECT_EQ(true, c1_it.valid());
+        EXPECT_EQ(true, c2_it.valid());
+
+        EXPECT_EQ(false, data.isVisible(c1_it));
+        EXPECT_EQ(false, data.isVisible(c2_it));
     }
 }
 
