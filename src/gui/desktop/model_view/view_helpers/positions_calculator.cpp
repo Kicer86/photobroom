@@ -44,35 +44,7 @@ void PositionsCalculator::updateItems() const
 {
     assert(m_data->getModel().validate());
 
-    m_data->for_each_recursively([&](Data::ModelIndexInfoSet::flat_iterator infoIt)
-    {
-        ModelIndexInfo& info = *infoIt;
-
-        // calculations only for dirty ones
-        if (info.getRect().isNull())
-        {
-            QRect rect = calcItemRect(infoIt);
-            info.setRect(rect);                  // size muse be set at this point, as children calculations may require it
-        }
-
-        if (info.getOverallRect().isNull())
-        {
-            QRect rect = info.getRect();
-
-            //calculate overall only if node is expanded and has any children
-            if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
-                for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
-                {
-                    const ModelIndexInfo& c_info = *c_infoIt;
-                    QRect c_rect = c_info.getOverallRect();
-                    assert(c_rect.isValid());
-
-                    rect = rect.united(c_rect);
-                }
-
-            info.setOverallRect(rect);
-        }
-    });
+    updateItems(m_data->getModel().begin());
 }
 
 
@@ -246,4 +218,47 @@ bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::flat_iterator it) 
     Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
 
     return it_parent.valid() == false;
+}
+
+
+void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator item) const
+{
+    const bool expanded = m_data->isExpanded(item);
+
+    if (expanded)
+        for(Data::ModelIndexInfoSet::flat_iterator c_it = item.begin(); c_it.valid(); ++c_it)
+            updateItems(c_it);
+
+    updateItem(item);
+}
+
+
+void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+{
+    ModelIndexInfo& info = *infoIt;
+
+    // calculations only for dirty ones
+    if (info.getRect().isNull())
+    {
+        QRect rect = calcItemRect(infoIt);
+        info.setRect(rect);                  // size muse be set at this point, as children calculations may require it
+    }
+
+    if (info.getOverallRect().isNull())
+    {
+        QRect rect = info.getRect();
+
+        //calculate overall only if node is expanded and has any children
+        if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
+            for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
+            {
+                const ModelIndexInfo& c_info = *c_infoIt;
+                QRect c_rect = c_info.getOverallRect();
+                assert(c_rect.isValid());
+
+                rect = rect.united(c_rect);
+            }
+
+        info.setOverallRect(rect);
+    }
 }

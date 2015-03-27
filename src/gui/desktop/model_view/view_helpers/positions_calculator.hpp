@@ -53,6 +53,9 @@ class PositionsCalculator
 
         bool isRoot(Data::ModelIndexInfoSet::flat_iterator) const;
 
+        void updateItems(Data::ModelIndexInfoSet::flat_iterator) const;
+        void updateItem(Data::ModelIndexInfoSet::flat_iterator) const;
+
         QAbstractItemModel* m_model;
         Data* m_data;
         const int m_width;
