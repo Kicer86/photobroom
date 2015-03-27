@@ -223,13 +223,18 @@ bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::flat_iterator it) 
 
 void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator item) const
 {
-    const bool expanded = m_data->isExpanded(item);
+    const bool invalid = item->getOverallRect().isNull();
 
-    if (expanded)
-        for(Data::ModelIndexInfoSet::flat_iterator c_it = item.begin(); c_it.valid(); ++c_it)
-            updateItems(c_it);
+    if (invalid)
+    {
+        const bool expanded = m_data->isExpanded(item);
 
-    updateItem(item);
+        if (expanded)
+            for(Data::ModelIndexInfoSet::flat_iterator c_it = item.begin(); c_it.valid(); ++c_it)
+                updateItems(c_it);
+
+        updateItem(item);
+    }
 }
 
 
