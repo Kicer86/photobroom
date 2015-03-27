@@ -85,7 +85,6 @@ class Data
         bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
         bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
-        void for_each_recursively(std::function<void(ModelIndexInfoSet::flat_iterator)>);
 
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
