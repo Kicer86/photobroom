@@ -255,9 +255,6 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
         {
             QModelIndex modelIdx = m_data->get(it);
             assert(modelIdx.isValid());
-            
-            if(modelIdx.isValid() == false)
-                modelIdx = m_data->get(it);
 
             result.push_back(modelIdx);
         }
