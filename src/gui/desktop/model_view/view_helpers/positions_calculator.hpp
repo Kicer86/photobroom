@@ -41,6 +41,8 @@ class PositionsCalculator
 
     private:
         QRect calcItemRect(Data::ModelIndexInfoSet::flat_iterator) const;
+        QSize calcItemSize(Data::ModelIndexInfoSet::flat_iterator) const;
+        QPoint calcItemPosition(Data::ModelIndexInfoSet::flat_iterator) const;
         QPoint positionOfNext(Data::ModelIndexInfoSet::flat_iterator) const;          // calculate position of next item
         QPoint positionOfNextImage(Data::ModelIndexInfoSet::flat_iterator) const;     // calculate position of next item (image item)
         QPoint positionOfNextNode(Data::ModelIndexInfoSet::flat_iterator) const;      // calculate position of next item (node item)

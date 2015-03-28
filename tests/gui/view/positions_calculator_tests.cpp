@@ -49,8 +49,9 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     Data::ModelIndexInfoSet::iterator infoIt = data.get(top);
     const ModelIndexInfo& info = *infoIt;
 
-    EXPECT_EQ(QRect(), info.getRect());
-    EXPECT_EQ(QSize(0, 0), info.getOverallSize());
+    EXPECT_EQ(true, info.isPositionValid());
+    EXPECT_EQ(QSize(), info.getSize());
+    EXPECT_EQ(QSize(), info.getOverallSize());
 }
 
 
@@ -93,7 +94,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     {
         const ModelIndexInfo& info = *data.cfind(QModelIndex());
 
-        EXPECT_EQ(QRect(), info.getRect());                             //invisible
+        EXPECT_EQ(false, info.isSizeValid());                           //invisible
         EXPECT_EQ(QSize(canvas_w, header_h), info.getOverallSize());    //but has overall size of all items
     }
 
@@ -148,7 +149,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
     {
         const ModelIndexInfo& info = *view_data.cfind(QModelIndex());
 
-        EXPECT_EQ(QRect(), info.getRect());                                                //invisible
+        EXPECT_EQ(false, info.isSizeValid());                                              //invisible
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin), info.getOverallSize());      //but has overall size of all items
     }
 

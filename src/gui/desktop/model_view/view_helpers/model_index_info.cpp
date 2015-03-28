@@ -36,7 +36,7 @@ namespace
 
 QRect ModelIndexInfo::Postition::getRect() const
 {
-    const QRect result = valid? QRect(position, size): QRect();
+    const QRect result = valid && size.isValid()? QRect(position, size): QRect();
     return result;
 }
 
@@ -50,6 +50,19 @@ void ModelIndexInfo::Postition::setRect(const QRect& rect)
 
 
 ///////////////////////////////////////////////////////////////////////////////
+
+
+void ModelIndexInfo::setPosition(const QPoint& p)
+{
+    position.valid = true;
+    position.position = p;
+}
+
+
+void ModelIndexInfo::setSize(const QSize& s)
+{
+    position.size = s;
+}
 
 
 void ModelIndexInfo::setRect(const QRect& r)
@@ -116,15 +129,14 @@ bool ModelIndexInfo::isPositionValid() const
 
 bool ModelIndexInfo::valid() const
 {
-    return position.valid && position.size.isValid() && overallRect.isValid();
+    return isPositionValid() && isSizeValid() && overallRect.isValid();
 }
 
 
 bool ModelIndexInfo::isSizeValid() const
 {
-    return position.size.isValid();
+    return position.size.isValid() && position.size.isNull() == false;   // valid and not null
 }
-
 
 
 ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), position(), overallRect()

@@ -29,6 +29,8 @@ struct ModelIndexInfo
 {
         bool expanded;
 
+        void setPosition(const QPoint &);
+        void setSize(const QSize &);
         void setRect(const QRect& r);
         void setOverallSize(const QSize& r);
         const QRect getRect() const;
@@ -54,7 +56,7 @@ struct ModelIndexInfo
         {
             QPoint position;
             QSize size;
-            bool valid;
+            bool valid;             //'position' field is valid?
 
             Postition(): position(), size(), valid(false) {}
 

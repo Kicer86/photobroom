@@ -76,6 +76,34 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::flat_iterator i
     return result;
 }
 
+QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::flat_iterator it) const
+{
+    const QSize result = isRoot(it)? QSize(): getItemSize(it);
+
+    return result;
+}
+
+
+QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_iterator it) const
+{
+    QPoint result;
+
+    Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
+
+    if (it_parent.valid())              //do not enter for top item
+    {
+        if (it.index() == 0)  //first
+            result = positionOfFirstChild(it_parent);
+        else
+        {
+            Data::ModelIndexInfoSet::flat_iterator it_sibling = it - 1;
+            result = positionOfNext(it_sibling);
+        }
+    }
+
+    return result;
+}
+
 
 QPoint PositionsCalculator::positionOfNext(Data::ModelIndexInfoSet::flat_iterator it) const
 {
@@ -198,16 +226,16 @@ std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::f
     Data::ModelIndexInfoSet::flat_iterator firstIt = lastIt;
 
     const ModelIndexInfo& indexInfo = *lastIt;
-    const QRect& indexRect = indexInfo.getRect();
+    const QPoint& index_pos = indexInfo.getPosition();
 
     while(searchIt.index() > 0)
     {
         //go to previous item
         --searchIt;
 
-        const QRect& prevRect = searchIt->getRect();
+        const QPoint& s_pos = searchIt->getPosition();
 
-        if (prevRect.top() == indexRect.top())   //items are at the same y-position? If no - we are no longer in the same row
+        if (s_pos.y() == index_pos.y())   //items are at the same y-position? If no - we are no longer in the same row
             firstIt = searchIt;
         else
             break;
@@ -247,10 +275,16 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator info
     ModelIndexInfo& info = *infoIt;
 
     // calculations only for dirty ones
-    if (info.getRect().isNull())
+    if (info.isPositionValid() == false)
     {
-        QRect rect = calcItemRect(infoIt);
-        info.setRect(rect);                  // size muse be set at this point, as children calculations may require it
+        const QPoint pos = calcItemPosition(infoIt);
+        info.setPosition(pos);
+    }
+
+    if (info.isSizeValid() == false)
+    {
+        const QSize size = calcItemSize(infoIt);
+        info.setSize(size);                       // size muse be set at this point, as children calculations may require it
     }
 
     if (info.getOverallSize().isValid() == false)
