@@ -109,12 +109,14 @@ qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
-add_library(gui SHARED ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
+add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(gui)
 hideSymbols(gui)
 
-install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
-                    LIBRARY DESTINATION ${PATH_LIBS})
+if(BUILD_SHARED_LIBS)
+    install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
+                        LIBRARY DESTINATION ${PATH_LIBS})
+endif()

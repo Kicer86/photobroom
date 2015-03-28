@@ -48,12 +48,14 @@ endif(BUILD_TESTS)
 
 source_group(photos_crawler REGULAR_EXPRESSION .*photos_crawler.* )
 
-add_library(photos_crawler SHARED ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
+add_library(photos_crawler ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(photos_crawler PRIVATE Qt5::Core)
 target_include_directories(photos_crawler PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(photos_crawler)
 hideSymbols(photos_crawler)
 
-install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}
-                               LIBRARY DESTINATION ${PATH_LIBS})
+if(BUILD_SHARED_LIBS)
+    install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}
+                                   LIBRARY DESTINATION ${PATH_LIBS})
+endif()
