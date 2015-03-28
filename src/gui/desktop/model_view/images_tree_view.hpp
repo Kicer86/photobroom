@@ -68,7 +68,7 @@ class ImagesTreeView: public QAbstractItemView
         std::unique_ptr<Data> m_data;
 
         // view stuff
-        const QRect& getItemRect(const QModelIndex &) const;
+        const QRect getItemRect(const QModelIndex &) const;
         std::deque<QModelIndex> findItemsIn(const QRect &) const;
 
         // widget operations

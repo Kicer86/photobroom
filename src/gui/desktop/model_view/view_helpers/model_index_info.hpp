@@ -31,7 +31,7 @@ struct ModelIndexInfo
 
         void setRect(const QRect& r);
         void setOverallRect(const QRect& r);
-        const QRect& getRect() const;
+        const QRect getRect() const;
         const QRect& getOverallRect() const;
         void cleanRects();
 
@@ -40,7 +40,19 @@ struct ModelIndexInfo
         operator std::string() const;
 
     private:
-        QRect rect;
+        struct Postition
+        {
+            QPoint position;
+            QSize size;
+            bool valid;
+
+            Postition(): position(), size(), valid(false) {}
+
+            QRect getRect() const;
+            void setRect(const QRect &);
+
+        } position;
+
         QRect overallRect;
 };
 

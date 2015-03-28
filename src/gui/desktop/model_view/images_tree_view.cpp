@@ -229,7 +229,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 /// private:
 
 
-const QRect& ImagesTreeView::getItemRect(const QModelIndex& index) const
+const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
     Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
 

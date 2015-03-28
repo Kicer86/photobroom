@@ -29,10 +29,27 @@ namespace
     }
 }
 
+QRect ModelIndexInfo::Postition::getRect() const
+{
+    const QRect result = valid? QRect(position, size): QRect();
+    return result;
+}
+
+
+void ModelIndexInfo::Postition::setRect(const QRect& rect)
+{
+    valid = rect.isValid();
+    size = rect.size();
+    position = rect.topLeft();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
 
 void ModelIndexInfo::setRect(const QRect& r)
 {
-    rect = r;
+    position.setRect(r);
     overallRect = QRect();          // not valid anymore
 }
 
@@ -43,9 +60,9 @@ void ModelIndexInfo::setOverallRect(const QRect& r)
 }
 
 
-const QRect& ModelIndexInfo::getRect() const
+const QRect ModelIndexInfo::getRect() const
 {
-    return rect;
+    return position.getRect();
 }
 
 
@@ -57,12 +74,12 @@ const QRect& ModelIndexInfo::getOverallRect() const
 
 void ModelIndexInfo::cleanRects()
 {
-    rect = QRect();
+    position = Postition();
     overallRect = QRect();
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), rect(), overallRect()
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), position(), overallRect()
 {
 }
 
