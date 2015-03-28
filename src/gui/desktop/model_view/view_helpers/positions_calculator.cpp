@@ -127,9 +127,13 @@ QPoint PositionsCalculator::positionOfNextNode(Data::ModelIndexInfoSet::flat_ite
     assert(isRoot(infoIt) == false);
 
     const ModelIndexInfo& info = *infoIt;
-    const QRect items_pos = info.getOverallRect();
-    assert(items_pos.isValid());
-    const QPoint result = QPoint(0, items_pos.bottom());
+    assert(info.isPositionValid());
+
+    const QPoint& item_pos = info.getPosition();
+    const QSize& items_size = info.getOverallSize();
+    assert(items_size.isValid());
+
+    const QPoint result = QPoint(0, item_pos.y() + items_size.height());
 
     return result;
 }
@@ -223,7 +227,7 @@ bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::flat_iterator it) 
 
 void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator item) const
 {
-    const bool invalid = item->getOverallRect().isNull();
+    const bool invalid = item->valid() == false;
 
     if (invalid)
     {
@@ -249,21 +253,24 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator info
         info.setRect(rect);                  // size muse be set at this point, as children calculations may require it
     }
 
-    if (info.getOverallRect().isNull())
+    if (info.getOverallSize().isValid() == false)
     {
-        QRect rect = info.getRect();
+        QSize rect = info.getSize();
 
         //calculate overall only if node is expanded and has any children
         if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
             for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
             {
                 const ModelIndexInfo& c_info = *c_infoIt;
-                QRect c_rect = c_info.getOverallRect();
-                assert(c_rect.isValid());
+                const QPoint& position = c_info.getPosition();
+                QSize c_size = c_info.getOverallSize();
+                assert(c_size.isValid());
 
-                rect = rect.united(c_rect);
+                c_size.setHeight(c_size.height() + position.y());
+
+                rect = rect.expandedTo(c_size);
             }
 
-        info.setOverallRect(rect);
+        info.setOverallSize(rect);
     }
 }

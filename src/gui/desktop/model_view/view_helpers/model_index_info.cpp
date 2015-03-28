@@ -27,6 +27,11 @@ namespace
     {
         return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
     }
+
+    std::ostream &operator<<(std::ostream &o, const QSize &s)
+    {
+        return o << "[width: " << s.width () << "; height: " << s.height() << "]";
+    }
 }
 
 QRect ModelIndexInfo::Postition::getRect() const
@@ -50,11 +55,11 @@ void ModelIndexInfo::Postition::setRect(const QRect& rect)
 void ModelIndexInfo::setRect(const QRect& r)
 {
     position.setRect(r);
-    overallRect = QRect();          // not valid anymore
+    overallRect = QSize();          // not anymore valid
 }
 
 
-void ModelIndexInfo::setOverallRect(const QRect& r)
+void ModelIndexInfo::setOverallSize(const QSize& r)
 {
     overallRect = r;
 }
@@ -66,17 +71,60 @@ const QRect ModelIndexInfo::getRect() const
 }
 
 
-const QRect& ModelIndexInfo::getOverallRect() const
+const QSize& ModelIndexInfo::getOverallSize() const
 {
     return overallRect;
+}
+
+
+const QPoint& ModelIndexInfo::getPosition() const
+{
+    return position.position;
+}
+
+
+const QSize& ModelIndexInfo::getSize() const
+{
+    return position.size;
 }
 
 
 void ModelIndexInfo::cleanRects()
 {
     position = Postition();
-    overallRect = QRect();
+    overallRect = QSize();
 }
+
+
+void ModelIndexInfo::markPositionInvalid()
+{
+    position.valid = false;
+}
+
+
+void ModelIndexInfo::markSizeInvalid()
+{
+    position.size = QSize();
+}
+
+
+bool ModelIndexInfo::isPositionValid() const
+{
+    return position.valid;
+}
+
+
+bool ModelIndexInfo::valid() const
+{
+    return position.valid && position.size.isValid() && overallRect.isValid();
+}
+
+
+bool ModelIndexInfo::isSizeValid() const
+{
+    return position.size.isValid();
+}
+
 
 
 ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), position(), overallRect()
@@ -87,7 +135,7 @@ ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid
 ModelIndexInfo::operator std::string() const
 {
     std::stringstream result;
-    result << getRect() << ", " << getOverallRect() << ", expanded: " << expanded;
+    result << getRect() << ", " << getOverallSize() << ", expanded: " << expanded;
     
     return result.str();
 }

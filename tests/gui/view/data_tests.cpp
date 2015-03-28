@@ -87,7 +87,7 @@ TEST(DataShould, SetInitialDataForRootItem)
     const ModelIndexInfo& info = *data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
     EXPECT_EQ(QRect(), info.getRect());
-    EXPECT_EQ(QRect(), info.getOverallRect());
+    EXPECT_EQ(QSize(), info.getOverallSize());
 }
 
 
@@ -105,12 +105,12 @@ TEST(DataShould, StoreInfoAboutItem)
     ModelIndexInfo& info = *data.get(QModelIndex());
     info.expanded = true;
     info.setRect(QRect(0, 0, 100, 50));
-    info.setOverallRect(QRect(0, 0, 100, 50));
+    info.setOverallSize(QSize(100, 50));
 
     const ModelIndexInfo& info2 = *data.get(QModelIndex());
     EXPECT_EQ(true, info2.expanded);
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
-    EXPECT_EQ(QRect(0, 0, 100, 50), info2.getOverallRect());
+    EXPECT_EQ(QSize(100, 50), info2.getOverallSize());
 }
 
 

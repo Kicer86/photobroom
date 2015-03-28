@@ -30,10 +30,20 @@ struct ModelIndexInfo
         bool expanded;
 
         void setRect(const QRect& r);
-        void setOverallRect(const QRect& r);
+        void setOverallSize(const QSize& r);
         const QRect getRect() const;
-        const QRect& getOverallRect() const;
+        const QSize& getOverallSize() const;
+
+        const QPoint& getPosition() const;
+        const QSize& getSize() const;
+
         void cleanRects();
+        void markPositionInvalid();
+        void markSizeInvalid();
+
+        bool isSizeValid() const;
+        bool isPositionValid() const;
+        bool valid() const;
 
         ModelIndexInfo(const QModelIndex &);
         
@@ -53,7 +63,7 @@ struct ModelIndexInfo
 
         } position;
 
-        QRect overallRect;
+        QSize overallRect;
 };
 
 #endif // MODELINDEXINFO_H
