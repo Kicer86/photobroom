@@ -20,6 +20,7 @@
 #include "images_tree_view.hpp"
 
 #include <cassert>
+#include <iostream>
 
 #include <QScrollBar>
 #include <QPainter>
@@ -28,6 +29,7 @@
 
 #include <configuration/constants.hpp>
 #include <configuration/configuration.hpp>
+#include <core/time_guardian.hpp>
 
 #include "view_helpers/data.hpp"
 #include "view_helpers/positions_calculator.hpp"
@@ -197,6 +199,9 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
+    static int i;
+    std::cout << "paint event " << i++ << std::endl;
+
     QPainter painter(viewport());
     const QPoint offset = getOffset();
     QRect visible_area = viewport()->rect();
@@ -347,6 +352,8 @@ void ImagesTreeView::modelReset()
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
+    TIME_GUARDIAN("insert", 100, "long inserting");
+
     m_data->getModel().rowsInserted(_parent, from, to);
 
     PositionsReseter reseter(model(), m_data.get());
@@ -358,6 +365,8 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 
 void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
 {
+    TIME_GUARDIAN("move", 100, "long moving");
+
     m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
@@ -379,6 +388,8 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
+    TIME_GUARDIAN("remove", 100, "long removing");
+
     m_data->getModel().rowsRemoved(_parent, first, last);
 
     //reset sizes and positions of existing items
