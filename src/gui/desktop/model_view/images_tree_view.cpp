@@ -37,7 +37,7 @@
 #include "tree_item_delegate.hpp"
 
 
-ViewStatus::ViewStatus():
+ViewUpdateStatus::ViewUpdateStatus():
     QObject(),
     m_timer(new QTimer(this)),
     m_requiresUpdate(false)
@@ -47,7 +47,7 @@ ViewStatus::ViewStatus():
 }
 
 
-void ViewStatus::markDirty()
+void ViewUpdateStatus::markDirty()
 {
     m_requiresUpdate = true;
 
@@ -56,7 +56,7 @@ void ViewStatus::markDirty()
 }
 
 
-void ViewStatus::trigger_update()
+void ViewUpdateStatus::trigger_update()
 {
     if (m_requiresUpdate)
     {
@@ -206,7 +206,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     static int i;
     std::cout << "paint event " << i++ << std::endl;
 
-    updateModel();
+    updateView();
 
     QPainter painter(viewport());
     const QPoint offset = getOffset();
@@ -403,7 +403,7 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 }
 
 
-void ImagesTreeView::updateModel()
+void ImagesTreeView::updateView()
 {
     updateData();
     updateGui();

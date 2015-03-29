@@ -30,15 +30,15 @@ class QTimer;
 struct IConfiguration;
 class Data;
 
-class ViewStatus: public QObject
+class ViewUpdateStatus: public QObject
 {
         Q_OBJECT
 
     public:
-        ViewStatus();
-        ViewStatus(const ViewStatus&) = delete;
+        ViewUpdateStatus();
+        ViewUpdateStatus(const ViewUpdateStatus&) = delete;
 
-        ViewStatus& operator=(const ViewStatus&) = delete;
+        ViewUpdateStatus& operator=(const ViewUpdateStatus&) = delete;
 
         void markDirty();
 
@@ -89,7 +89,7 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
-        ViewStatus m_viewStatus;
+        ViewUpdateStatus m_viewStatus;
 
         // view stuff
         const QRect getItemRect(const QModelIndex &) const;
@@ -107,7 +107,7 @@ class ImagesTreeView: public QAbstractItemView
         void rowsRemoved(const QModelIndex &, int, int);
 
         // model updates
-        void updateModel();
+        void updateView();
 };
 
 #endif // IMAGESTREEVIEW_H
