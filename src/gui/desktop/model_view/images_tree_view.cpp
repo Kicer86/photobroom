@@ -286,7 +286,7 @@ void ImagesTreeView::updateGui()
 
     const ModelIndexInfo& info = *infoIt;
     const QSize areaSize = viewport()->size();
-    const QSize treeAreaSize = info.getOverallRect().size();
+    const QSize treeAreaSize = info.getOverallSize();
 
     verticalScrollBar()->setPageStep(areaSize.height());
     horizontalScrollBar()->setPageStep(areaSize.width());
