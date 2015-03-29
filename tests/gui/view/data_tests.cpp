@@ -32,7 +32,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
     data.m_configuration = &config;
 
     const auto& items = data.getModel();
-    EXPECT_EQ(0, items.size());
+    EXPECT_EQ(1, items.size());
 }
 
 
