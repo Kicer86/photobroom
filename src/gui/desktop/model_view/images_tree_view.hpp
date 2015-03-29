@@ -30,6 +30,29 @@ class QTimer;
 struct IConfiguration;
 class Data;
 
+class ViewStatus: public QObject
+{
+        Q_OBJECT
+
+    public:
+        ViewStatus();
+        ViewStatus(const ViewStatus&) = delete;
+
+        ViewStatus& operator=(const ViewStatus&) = delete;
+
+        void markDirty();
+
+    private:
+        QTimer* m_timer;
+        bool m_requiresUpdate;
+
+    private slots:
+        void trigger_update();
+
+    signals:
+        void update_now();
+};
+
 
 class ImagesTreeView: public QAbstractItemView
 {

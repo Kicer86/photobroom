@@ -35,6 +35,39 @@
 #include "tree_item_delegate.hpp"
 
 
+ViewStatus::ViewStatus():
+    QObject(),
+    m_timer(new QTimer(this)),
+    m_requiresUpdate(false)
+{
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(trigger_update()));
+    m_timer->setSingleShot(true);
+}
+
+
+void ViewStatus::markDirty()
+{
+    m_requiresUpdate = true;
+
+    if (m_timer->isActive() == false)
+        trigger_update();
+}
+
+
+void ViewStatus::trigger_update()
+{
+    if (m_requiresUpdate)
+    {
+        m_requiresUpdate = false;
+        m_timer->start(250);                   //disable updates for a 250 ms
+        emit update_now();
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
