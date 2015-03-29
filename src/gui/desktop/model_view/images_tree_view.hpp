@@ -89,6 +89,7 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
+        ViewStatus m_viewStatus;
 
         // view stuff
         const QRect getItemRect(const QModelIndex &) const;
