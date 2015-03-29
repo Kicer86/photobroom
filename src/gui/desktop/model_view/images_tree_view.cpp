@@ -199,6 +199,8 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
+    TIME_GUARDIAN("paint", 100, "long paint");
+
     static int i;
     std::cout << "paint event " << i++ << std::endl;
 
