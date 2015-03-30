@@ -119,4 +119,6 @@ hideSymbols(gui)
 if(BUILD_SHARED_LIBS)
     install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
                         LIBRARY DESTINATION ${PATH_LIBS})
+else()
+    add_definitions(-DGUI_STATIC)
 endif()

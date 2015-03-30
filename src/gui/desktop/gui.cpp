@@ -56,6 +56,12 @@ void Gui::set(ILoggerFactory* logger_factory)
 
 void Gui::run(int argc, char **argv)
 {
+#ifdef GUI_STATIC
+    // see: http://doc.qt.io/qt-5/resources.html
+    Q_INIT_RESOURCE(images);
+#endif
+
+
     // On Windows, add extra location for Qt plugins
 #ifdef OS_WIN
     QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
