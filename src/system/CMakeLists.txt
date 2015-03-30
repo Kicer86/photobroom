@@ -26,12 +26,14 @@ else()
     configure_file(paths_unix.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 endif()
 
-add_library(system SHARED ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
+add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 target_link_libraries(system PRIVATE Qt5::Core)
 target_include_directories(system PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 hideSymbols(system)
 generate_export_header(system EXPORT_FILE_NAME)
 
-install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
-                       LIBRARY DESTINATION ${PATH_LIBS})
+if(BUILD_SHARED_LIBS)
+    install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
+                           LIBRARY DESTINATION ${PATH_LIBS})
+endif()

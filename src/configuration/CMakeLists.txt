@@ -43,12 +43,14 @@ source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
-add_library(configuration SHARED ${CONFIG_SOURCES} ${CONFIG_HEADERS})
+add_library(configuration ${CONFIG_SOURCES} ${CONFIG_HEADERS})
 target_link_libraries(configuration PRIVATE core system Qt5::Core)
 target_include_directories(configuration PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(configuration)
 hideSymbols(configuration)
 
-install(TARGETS configuration RUNTIME DESTINATION ${PATH_LIBS}
-                              LIBRARY DESTINATION ${PATH_LIBS})
+if(BUILD_SHARED_LIBS)
+    install(TARGETS configuration RUNTIME DESTINATION ${PATH_LIBS}
+                                  LIBRARY DESTINATION ${PATH_LIBS})
+endif()

@@ -103,7 +103,7 @@ endif()
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core SHARED ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
+add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
 target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -119,5 +119,7 @@ endif(OPENMP_FOUND)
 generate_export_header(core)
 hideSymbols(core)
 
-install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}
-                     LIBRARY DESTINATION ${PATH_LIBS})
+if(BUILD_SHARED_LIBS)
+    install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}
+                         LIBRARY DESTINATION ${PATH_LIBS})
+endif()
