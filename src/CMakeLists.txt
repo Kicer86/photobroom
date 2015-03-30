@@ -20,11 +20,11 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS})
 set(BROOM_SOURCES main.cpp)
 
 if(WIN32)
-        set(EXE_FLAGS WIN32)
-        include_directories(${CMAKE_BINARY_DIR}/tools)                                 #for PhotoBroom.rc include files
-        set(BROOM_SOURCES ${BROOM_SOURCES} ${CMAKE_SOURCE_DIR}/tools/PhotoBroom.rc)
+    set(EXE_FLAGS WIN32)
+    include_directories(${CMAKE_BINARY_DIR}/tools)                                 #for PhotoBroom.rc include files
+    set(BROOM_SOURCES ${BROOM_SOURCES} ${CMAKE_SOURCE_DIR}/tools/PhotoBroom.rc)
 else()
-	set(EXE_FLAGS)
+    set(EXE_FLAGS)
 endif()
 
 add_executable(photo_broom ${EXE_FLAGS} ${BROOM_SOURCES})
