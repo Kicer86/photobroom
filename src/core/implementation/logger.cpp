@@ -63,7 +63,7 @@ void Logger::log(ILogger::Severity severity, const std::string& message)
 {
     assert(m_path.isEmpty() == false);
     
-    if (static_cast<int>(severity) <= static_cast<int>(m_severity))
+    if (severity <= m_severity)
     {
         QTextStream fileStream(m_file);
 
