@@ -26,6 +26,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests")
 option(AUTODOWNLOAD_EASYEXIF "Automatically download EasyExif package if not found")
+option(BUILD_SHARED_LIBS "Global flag to cause add_library to create shared libraries if on.")
 
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
