@@ -62,26 +62,43 @@ function(addDeploymentActions)
     if(WINDEPLOY)
 
         get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
-        add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
-                           COMMAND ${WINDEPLOY} 
-                              ARGS --dir ${OUTPUT_PATH}/deploy/tr 
-                                   --libdir ${OUTPUT_PATH}/deploy/lib
-                                   --no-compiler-runtime
-                                   --release
-                                   $<TARGET_FILE:gui>
+        
+        if(BUILD_SHARED_LIBS)
+            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr 
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:gui>
                                    
-                           COMMAND ${WINDEPLOY} 
-                              ARGS --dir ${OUTPUT_PATH}/deploy/tr 
-                                   --libdir ${OUTPUT_PATH}/deploy/lib
-                                   --no-compiler-runtime 
-                                   --release
-                                   $<TARGET_FILE:sql_backend_base>
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr 
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime 
+                                       --release
+                                       $<TARGET_FILE:sql_backend_base>
                                    
-                           COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
-                           DEPENDS ${OUTPUT_PATH}/deploy_main
-                           DEPENDS photo_broom
-                           WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                          )
+                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                               DEPENDS ${OUTPUT_PATH}/deploy_main
+                               DEPENDS photo_broom
+                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
+                              )
+        else()
+            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr 
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:photo_broom>
+                                   
+                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                               DEPENDS ${OUTPUT_PATH}/deploy_main
+                               DEPENDS photo_broom
+                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
+                              )
+        endif()
     else()
         message(FATAL_ERROR "Could not find windeployqt")
     endif(WINDEPLOY)
