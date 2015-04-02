@@ -71,6 +71,7 @@ set(GUI_HEADERS
     desktop/components/project_creator/project_creator_dialog.hpp
     desktop/components/tag_editor/tag_editor_widget.hpp
     desktop/components/tag_editor/helpers/itags_operator.hpp
+    desktop/components/tag_editor/helpers/itag_value_widget.hpp
     desktop/components/tag_editor/helpers/tags_operator.hpp
     desktop/components/tag_editor/helpers/tags_view.hpp
     desktop/components/tag_editor/helpers/tags_model.hpp
