@@ -19,6 +19,9 @@
 
 #include "tag_value_widget_factory.hpp"
 
+#include "itag_value_widget.hpp"
+
+
 TagValueWidgetFactory::TagValueWidgetFactory()
 {
 
@@ -28,4 +31,10 @@ TagValueWidgetFactory::TagValueWidgetFactory()
 TagValueWidgetFactory::~TagValueWidgetFactory()
 {
 
+}
+
+
+std::unique_ptr<ITagValueWidget> TagValueWidgetFactory::construct(const TagNameInfo::Type& type)
+{
+    return std::unique_ptr<ITagValueWidget>(nullptr);
 }

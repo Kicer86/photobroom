@@ -20,6 +20,12 @@
 #ifndef TAGVALUEWIDGETFACTORY_HPP
 #define TAGVALUEWIDGETFACTORY_HPP
 
+#include <memory>
+
+#include <core/tag.hpp>
+
+class ITagValueWidget;
+
 class TagValueWidgetFactory
 {
     public:
@@ -28,6 +34,8 @@ class TagValueWidgetFactory
         ~TagValueWidgetFactory();
         
         TagValueWidgetFactory& operator=(const TagValueWidgetFactory &) = delete;
+        
+        std::unique_ptr<ITagValueWidget> construct(const TagNameInfo::Type &);
 };
 
 #endif // TAGVALUEWIDGETFACTORY_HPP

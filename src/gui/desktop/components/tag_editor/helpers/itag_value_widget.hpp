@@ -20,9 +20,14 @@
 #ifndef ITAGVALUEWIDGET_HPP
 #define ITAGVALUEWIDGET_HPP
 
+#include <QString>
+
 struct ITagValueWidget
 {
-
+    virtual ~ITagValueWidget() {}
+    
+    virtual void setValue(const QString &) = 0;
+    virtual QString getValue() const = 0;
 };
 
 #endif // ITAGVALUEWIDGET_HPP
