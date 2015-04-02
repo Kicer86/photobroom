@@ -20,9 +20,31 @@
 #include "tag_value_widget_factory.hpp"
 
 #include <QLineEdit>
+#include <QDateEdit>
+#include <QTimeEdit>
 
 #include "itag_value_widget.hpp"
 
+
+struct EmptyEdit: QWidget, ITagValueWidget
+{
+    explicit EmptyEdit(QWidget* p = 0): QWidget(p) {}
+    
+    QString getValue() const override
+    {
+        return "";
+    }
+    
+    void setValue(const QString &) override
+    {
+        
+    }
+    
+    QWidget* getWidget() override
+    {
+        return this;
+    }
+};
 
 
 struct LineEdit: QLineEdit, ITagValueWidget
@@ -46,18 +68,39 @@ struct LineEdit: QLineEdit, ITagValueWidget
 };
 
 
-struct EmptyEdit: QWidget, ITagValueWidget
+struct DataEdit: QDateEdit, ITagValueWidget
 {
-    explicit EmptyEdit(QWidget* p = 0): QWidget(p) {}
+    explicit DataEdit(QWidget* p = 0): QDateEdit(p) {}
     
     QString getValue() const override
     {
-        return "";
+        return QDateEdit::date().toString();
     }
     
-    void setValue(const QString &) override
+    void setValue(const QString& t) override
     {
-        
+        QDateEdit::setDate(QDate::fromString(t));
+    }
+    
+    QWidget* getWidget() override
+    {
+        return this;
+    }
+};
+
+
+struct TimeEdit: QTimeEdit, ITagValueWidget
+{
+    explicit TimeEdit(QWidget* p = 0): QTimeEdit(p) {}
+    
+    QString getValue() const override
+    {
+        return QTimeEdit::time().toString();
+    }
+    
+    void setValue(const QString& t) override
+    {
+        QTimeEdit::setTime(QTime::fromString(t));
     }
     
     QWidget* getWidget() override
@@ -88,10 +131,10 @@ std::unique_ptr<ITagValueWidget> TagValueWidgetFactory::construct(const TagNameI
     
     switch(type)
     {
-        case TagNameInfo::Text:    result = new LineEdit;  break;
         case TagNameInfo::Invalid: result = new EmptyEdit; break;
-        
-        default: break;
+        case TagNameInfo::Text:    result = new LineEdit;  break;
+        case TagNameInfo::Date:    result = new DataEdit;  break;
+        case TagNameInfo::Time:    result = new TimeEdit;  break;
     }
     
     return std::unique_ptr<ITagValueWidget>(result);

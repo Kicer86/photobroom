@@ -63,6 +63,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
 
     connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
     connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addButtonPressed()));
+    connect(m_tagName, SIGNAL(currentIndexChanged(int)), this, SLOT( tagNameChanged(int) ));
 
     //initial refresh
     refreshTagNamesList(false);
@@ -131,4 +132,17 @@ void TagEditorWidget::addButtonPressed()
     const QString value = m_tagValue->getValue();
 
     m_model->addTag(name, value);
+}
+
+
+void TagEditorWidget::tagNameChanged(int idx)
+{
+    if (idx >= 0)
+    {
+        assert(static_cast<size_t>(idx) < m_tags.size());
+
+        const TagNameInfo& name = m_tags[idx];
+        
+        m_tagValue = TagValueWidgetFactory().construct(name.getType());
+    }
 }

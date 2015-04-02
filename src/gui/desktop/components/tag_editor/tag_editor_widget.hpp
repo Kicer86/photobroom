@@ -63,6 +63,7 @@ class TagEditorWidget: public QWidget
     private slots:
         void refreshTagNamesList(bool);
         void addButtonPressed();
+        void tagNameChanged(int);
 };
 
 #endif // TAG_EDITOR_WIDGET_HPP
