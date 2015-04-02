@@ -19,7 +19,30 @@
 
 #include "tag_value_widget_factory.hpp"
 
+#include <QLineEdit>
+
 #include "itag_value_widget.hpp"
+
+
+
+struct LineEdit: QLineEdit, ITagValueWidget
+{
+    explicit LineEdit(QWidget* p = 0): QLineEdit(p) {}
+    
+    QString getValue() const override
+    {
+        return QLineEdit::text();
+    }
+    
+    void setValue(const QString& t)
+    {
+        QLineEdit::setText(t);
+    }
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 TagValueWidgetFactory::TagValueWidgetFactory()
@@ -36,5 +59,14 @@ TagValueWidgetFactory::~TagValueWidgetFactory()
 
 std::unique_ptr<ITagValueWidget> TagValueWidgetFactory::construct(const TagNameInfo::Type& type)
 {
-    return std::unique_ptr<ITagValueWidget>(nullptr);
+    ITagValueWidget* result = nullptr;
+    
+    switch(type)
+    {
+        case TagNameInfo::Text: result = new LineEdit; break;
+        
+        default: break;
+    }
+    
+    return std::unique_ptr<ITagValueWidget>(result);
 }
