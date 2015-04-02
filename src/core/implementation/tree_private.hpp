@@ -222,20 +222,23 @@ namespace tree_utils
             typedef tree_private::iterator<tree_private::IteratorType::NonConst, T> iterator;
             typedef tree_private::iterator<tree_private::IteratorType::Const, T> const_iterator;
 
-            explicit node(const T& v): m_item(v), m_children() {}
+            explicit node(const T& v): m_item(v), m_children(new nodes<T>) {}
 
-            node(const node& other): m_item(other.m_item), m_children(other.m_children)
+            node(const node& other): m_item(other.m_item), m_children(new nodes<T>(*other.m_children))
             {
             }
 
-            ~node() {}
+            ~node() 
+			{
+				delete m_children;
+			}
 
             node& operator=(const node& other)
             {
                 if (this != &other)
                 {
                     m_item = other.m_item;
-                    m_children = other.m_children;
+                    *m_children = *other.m_children;
                 }
 
                 return *this;
@@ -275,62 +278,62 @@ namespace tree_utils
 
             iterator begin()
             {
-                return iterator(&m_children, m_children.begin());
+                return iterator(m_children, m_children->begin());
             }
 
             iterator end()
             {
-                return iterator(&m_children, m_children.end());
+                return iterator(m_children, m_children->end());
             }
 
             const_iterator begin() const
             {
-                return const_iterator(&m_children, m_children.begin());
+                return const_iterator(m_children, m_children->begin());
             }
 
             const_iterator end() const
             {
-                return const_iterator(&m_children, m_children.end());
+                return const_iterator(m_children, m_children->end());
             }
 
             const_iterator cbegin() const
             {
-                return const_iterator(&m_children, m_children.cbegin());
+                return const_iterator(m_children, m_children->cbegin());
             }
 
             const_iterator cend() const
             {
-                return const_iterator(&m_children, m_children.cend());
+                return const_iterator(m_children, m_children->cend());
             }
 
             bool has_children() const
             {
-                return m_children.empty() == false;
+                return m_children->empty() == false;
             }
             
             size_t children_count() const
             {
-                return m_children.size();
+                return m_children->size();
             }
 
             const nodes<T>& children() const
             {
-                return m_children;
+                return *m_children;
             }
 
             nodes<T>& children()
             {
-                return m_children;
+                return *m_children;
             }
 
             void clear()
             {
-                m_children.clear();
+                m_children->clear();
             }
 
         private:
             T m_item;
-            nodes<T> m_children;
+            nodes<T>* m_children;
 
             friend std::ostream& operator<<(std::ostream& st, const node& n)
             {
