@@ -40,6 +40,7 @@ set(GUI_SOURCES
     desktop/components/tag_editor/helpers/tags_operator.cpp
     desktop/components/tag_editor/helpers/tags_view.cpp
     desktop/components/tag_editor/helpers/tags_model.cpp
+    desktop/components/tag_editor/helpers/tag_value_widget_factory.cpp
     desktop/ui/mainwindow.cpp
     desktop/ui/photos_view.cpp
     desktop/ui/project_picker.cpp
@@ -73,6 +74,7 @@ set(GUI_HEADERS
     desktop/components/tag_editor/helpers/tags_operator.hpp
     desktop/components/tag_editor/helpers/tags_view.hpp
     desktop/components/tag_editor/helpers/tags_model.hpp
+    desktop/components/tag_editor/helpers/tag_value_widget_factory.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
