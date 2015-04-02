@@ -24,10 +24,10 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QMetaMethod>
 
 #include <core/base_tags.hpp>
 
-#include "helpers/itag_value_widget.hpp"
 #include "helpers/tags_view.hpp"
 #include "helpers/tags_model.hpp"
 #include "helpers/tag_value_widget_factory.hpp"
@@ -35,11 +35,11 @@
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QWidget(p, f),    
-    m_tagValue(nullptr),
     m_view(nullptr),
     m_model(nullptr),
     m_tagsOperator(),
     m_tagName(nullptr),
+    m_tagValue(nullptr),
     m_addButton(nullptr),
     m_tags()
 {
@@ -54,7 +54,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
 
     QHBoxLayout* hl = new QHBoxLayout;
     hl->addWidget(m_tagName);
-    hl->addWidget(m_tagValue->getWidget());
+    hl->addWidget(m_tagValue);
     hl->addWidget(m_addButton);
 
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -129,7 +129,10 @@ void TagEditorWidget::addButtonPressed()
     assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
 
     const TagNameInfo& name = m_tags[idx];
-    const QString value = m_tagValue->getValue();
+    QString value;
+    const int methodIdx = m_tagValue->metaObject()->indexOfMethod("getValue()");
+    QMetaMethod method = m_tagValue->metaObject()->method(methodIdx);
+    method.invoke(m_tagValue, Qt::DirectConnection, Q_RETURN_ARG(QString, value));
 
     m_model->addTag(name, value);
 }

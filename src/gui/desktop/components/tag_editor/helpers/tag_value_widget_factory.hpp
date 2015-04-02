@@ -20,11 +20,9 @@
 #ifndef TAGVALUEWIDGETFACTORY_HPP
 #define TAGVALUEWIDGETFACTORY_HPP
 
-#include <memory>
-
 #include <core/tag.hpp>
 
-class ITagValueWidget;
+class QWidget;
 
 class TagValueWidgetFactory
 {
@@ -35,7 +33,7 @@ class TagValueWidgetFactory
         
         TagValueWidgetFactory& operator=(const TagValueWidgetFactory &) = delete;
         
-        std::unique_ptr<ITagValueWidget> construct(const TagNameInfo::Type &);
+        QWidget* construct(const TagNameInfo::Type &);
 };
 
 #endif // TAGVALUEWIDGETFACTORY_HPP

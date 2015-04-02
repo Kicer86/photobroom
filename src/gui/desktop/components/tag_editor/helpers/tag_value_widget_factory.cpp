@@ -19,99 +19,7 @@
 
 #include "tag_value_widget_factory.hpp"
 
-#include <QLineEdit>
-#include <QDateEdit>
-#include <QTimeEdit>
-
-#include "itag_value_widget.hpp"
-
-
-struct EmptyEdit: QWidget, ITagValueWidget
-{
-    explicit EmptyEdit(QWidget* p = 0): QWidget(p) {}
-    
-    QString getValue() const override
-    {
-        return "";
-    }
-    
-    void setValue(const QString &) override
-    {
-        
-    }
-    
-    QWidget* getWidget() override
-    {
-        return this;
-    }
-};
-
-
-struct LineEdit: QLineEdit, ITagValueWidget
-{
-    explicit LineEdit(QWidget* p = 0): QLineEdit(p) {}
-    
-    QString getValue() const override
-    {
-        return QLineEdit::text();
-    }
-    
-    void setValue(const QString& t) override
-    {
-        QLineEdit::setText(t);
-    }
-    
-    QWidget* getWidget() override
-    {
-        return this;
-    }
-};
-
-
-struct DataEdit: QDateEdit, ITagValueWidget
-{
-    explicit DataEdit(QWidget* p = 0): QDateEdit(p) {}
-    
-    QString getValue() const override
-    {
-        return QDateEdit::date().toString();
-    }
-    
-    void setValue(const QString& t) override
-    {
-        QDateEdit::setDate(QDate::fromString(t));
-    }
-    
-    QWidget* getWidget() override
-    {
-        return this;
-    }
-};
-
-
-struct TimeEdit: QTimeEdit, ITagValueWidget
-{
-    explicit TimeEdit(QWidget* p = 0): QTimeEdit(p) {}
-    
-    QString getValue() const override
-    {
-        return QTimeEdit::time().toString();
-    }
-    
-    void setValue(const QString& t) override
-    {
-        QTimeEdit::setTime(QTime::fromString(t));
-    }
-    
-    QWidget* getWidget() override
-    {
-        return this;
-    }
-};
-
-
-///////////////////////////////////////////////////////////////////////////////
-
+#include "tag_value_widgets.hpp"
 
 TagValueWidgetFactory::TagValueWidgetFactory()
 {
@@ -125,9 +33,9 @@ TagValueWidgetFactory::~TagValueWidgetFactory()
 }
 
 
-std::unique_ptr<ITagValueWidget> TagValueWidgetFactory::construct(const TagNameInfo::Type& type)
+QWidget* TagValueWidgetFactory::construct(const TagNameInfo::Type& type)
 {
-    ITagValueWidget* result = nullptr;
+    QWidget* result = nullptr;
     
     switch(type)
     {
@@ -137,5 +45,5 @@ std::unique_ptr<ITagValueWidget> TagValueWidgetFactory::construct(const TagNameI
         case TagNameInfo::Time:    result = new TimeEdit;  break;
     }
     
-    return std::unique_ptr<ITagValueWidget>(result);
+    return result;
 }

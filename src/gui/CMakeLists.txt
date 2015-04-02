@@ -71,11 +71,11 @@ set(GUI_HEADERS
     desktop/components/project_creator/project_creator_dialog.hpp
     desktop/components/tag_editor/tag_editor_widget.hpp
     desktop/components/tag_editor/helpers/itags_operator.hpp
-    desktop/components/tag_editor/helpers/itag_value_widget.hpp
     desktop/components/tag_editor/helpers/tags_operator.hpp
     desktop/components/tag_editor/helpers/tags_view.hpp
     desktop/components/tag_editor/helpers/tags_model.hpp
     desktop/components/tag_editor/helpers/tag_value_widget_factory.hpp
+    desktop/components/tag_editor/helpers/tag_value_widgets.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
@@ -90,6 +90,7 @@ set(GUI_FILES_TO_MOC
     desktop/components/staged_photos_widget.hpp
     desktop/components/tag_editor/tag_editor_widget.hpp
     desktop/components/tag_editor/helpers/tags_model.hpp
+    desktop/components/tag_editor/helpers/tag_value_widgets.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
