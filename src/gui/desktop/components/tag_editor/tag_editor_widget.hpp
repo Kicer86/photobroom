@@ -34,6 +34,8 @@ class TagsView;
 class TagsModel;
 class DBDataModel;
 
+struct ITagValueWidget;
+
 class TagEditorWidget: public QWidget
 {
         Q_OBJECT
@@ -49,11 +51,11 @@ class TagEditorWidget: public QWidget
         void set(DBDataModel *);
 
     private:
+        std::unique_ptr<ITagValueWidget> m_tagValue;
         TagsView* m_view;
         TagsModel* m_model;
         TagsOperator m_tagsOperator;
         QComboBox* m_tagName;
-        QLineEdit* m_tagValue;
         QPushButton* m_addButton;
 
         std::vector<TagNameInfo> m_tags;

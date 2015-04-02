@@ -22,12 +22,15 @@
 
 #include <QString>
 
+class QWidget;
+
 struct ITagValueWidget
 {
     virtual ~ITagValueWidget() {}
     
     virtual void setValue(const QString &) = 0;
     virtual QString getValue() const = 0;
+    virtual QWidget* getWidget() = 0; 
 };
 
 #endif // ITAGVALUEWIDGET_HPP

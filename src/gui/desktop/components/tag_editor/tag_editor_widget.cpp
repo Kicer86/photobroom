@@ -27,24 +27,26 @@
 
 #include <core/base_tags.hpp>
 
+#include "helpers/itag_value_widget.hpp"
 #include "helpers/tags_view.hpp"
 #include "helpers/tags_model.hpp"
+#include "helpers/tag_value_widget_factory.hpp"
 
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
-    QWidget(p, f),
+    QWidget(p, f),    
+    m_tagValue(nullptr),
     m_view(nullptr),
     m_model(nullptr),
     m_tagsOperator(),
     m_tagName(nullptr),
-    m_tagValue(nullptr),
     m_addButton(nullptr),
     m_tags()
 {
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
-    m_tagValue = new QLineEdit(this);
+    m_tagValue = TagValueWidgetFactory().construct(TagNameInfo::Invalid);
     m_addButton = new QPushButton(QIcon(":/gui/add-img.svg"), "", this);
 
     m_view->setModel(m_model);
@@ -52,7 +54,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
 
     QHBoxLayout* hl = new QHBoxLayout;
     hl->addWidget(m_tagName);
-    hl->addWidget(m_tagValue);
+    hl->addWidget(m_tagValue->getWidget());
     hl->addWidget(m_addButton);
 
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -114,7 +116,7 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
     }
 
     m_tagName->setEnabled(enable_gui);
-    m_tagValue->setEnabled(enable_gui);
+    //m_tagValue->setEnabled(enable_gui);
     m_addButton->setEnabled(enable_gui);
 }
 
@@ -126,7 +128,7 @@ void TagEditorWidget::addButtonPressed()
     assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
 
     const TagNameInfo& name = m_tags[idx];
-    const QString value = m_tagValue->text();
+    const QString value = m_tagValue->getValue();
 
     m_model->addTag(name, value);
 }

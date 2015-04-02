@@ -34,12 +34,37 @@ struct LineEdit: QLineEdit, ITagValueWidget
         return QLineEdit::text();
     }
     
-    void setValue(const QString& t)
+    void setValue(const QString& t) override
     {
         QLineEdit::setText(t);
     }
+    
+    QWidget* getWidget() override
+    {
+        return this;
+    }
 };
 
+
+struct EmptyEdit: QWidget, ITagValueWidget
+{
+    explicit EmptyEdit(QWidget* p = 0): QWidget(p) {}
+    
+    QString getValue() const override
+    {
+        return "";
+    }
+    
+    void setValue(const QString &) override
+    {
+        
+    }
+    
+    QWidget* getWidget() override
+    {
+        return this;
+    }
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,7 +88,8 @@ std::unique_ptr<ITagValueWidget> TagValueWidgetFactory::construct(const TagNameI
     
     switch(type)
     {
-        case TagNameInfo::Text: result = new LineEdit; break;
+        case TagNameInfo::Text:    result = new LineEdit;  break;
+        case TagNameInfo::Invalid: result = new EmptyEdit; break;
         
         default: break;
     }
