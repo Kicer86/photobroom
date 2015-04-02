@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TAGVALUEWIDGETFACTORY_H
-#define TAGVALUEWIDGETFACTORY_H
+#ifndef TAGVALUEWIDGETFACTORY_HPP
+#define TAGVALUEWIDGETFACTORY_HPP
 
 class TagValueWidgetFactory
 {
@@ -30,4 +30,4 @@ class TagValueWidgetFactory
         TagValueWidgetFactory& operator=(const TagValueWidgetFactory &) = delete;
 };
 
-#endif // TAGVALUEWIDGETFACTORY_H
+#endif // TAGVALUEWIDGETFACTORY_HPP
