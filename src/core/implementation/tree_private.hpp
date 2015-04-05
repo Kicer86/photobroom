@@ -129,13 +129,6 @@ namespace tree_private
                 return *this;
             }
 
-            iterator operator-(int v)
-            {
-                iterator r(m_nodes, m_node - v);
-
-                return r;
-            }
-
             int operator-(const iterator& it) const
             {
                 return m_node - it.m_node;
@@ -143,6 +136,11 @@ namespace tree_private
 
             iterator operator+(int o) const
             {
+#ifndef NDEBUG
+				const size_t cur_pos = m_node - m_nodes.begin();
+				const size_t container_size = m_nodes->size();
+				assert(container_size >= cur_pos + o);               // is there enought elements?
+#endif
                 iterator r(m_nodes, m_node + o);
 
                 return r;
@@ -150,6 +148,11 @@ namespace tree_private
 
             iterator operator+=(int o)
             {
+#ifndef NDEBUG
+				const size_t cur_pos = m_node - m_nodes->begin();
+				const size_t container_size = m_nodes->size();
+				assert(container_size >= cur_pos + o);               // is there enought elements?
+#endif
                 m_node += o;
 
                 return *this;
@@ -157,14 +160,22 @@ namespace tree_private
 
             iterator operator-(int o) const
             {
+#ifndef NDEBUG
+				const size_t cur_pos = m_node - m_nodes.begin();
+				assert(cur_pos >= o);
+#endif
                 iterator r(m_nodes, m_node - o);
 
                 return r;
             }
 
-            iterator operator-=(int o)
+            iterator operator-=(int v)
             {
-                m_node -= o;
+#ifndef NDEBUG
+				const size_t cur_pos = m_node - m_nodes->begin();
+				assert(cur_pos >= v);
+#endif
+                m_node -= v;
 
                 return *this;
             }
