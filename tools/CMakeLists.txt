@@ -1,14 +1,4 @@
 
-if(WIN32)
-    configure_file(PhotoBroom.hpp.cmake PhotoBroom.hpp @ONLY)
-    include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-    add_executable(PhotoBroom WIN32 PhotoBroom.cpp PhotoBroom.rc)
-    add_dependencies(PhotoBroom Images)
-
-    install(TARGETS PhotoBroom RUNTIME DESTINATION ".")
-endif()
-
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Svg REQUIRED)
 

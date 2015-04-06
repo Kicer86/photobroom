@@ -21,6 +21,7 @@
 #define DATA_HPP
 
 #include <deque>
+#include <functional>
 
 #include <QRect>
 #include <QModelIndex>
@@ -80,7 +81,6 @@ class Data
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
         QModelIndex get(const ModelIndexInfoSet::iterator &) const;
 
-        bool isExpanded(const QModelIndex &) const __attribute__((deprecated));
         bool isExpanded(const ModelIndexInfoSet::iterator &) const;
         bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
         bool isVisible(const ModelIndexInfoSet::iterator &) const;

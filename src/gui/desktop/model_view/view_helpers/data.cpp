@@ -179,21 +179,6 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 }
 
 
-bool Data::isExpanded(const QModelIndex& index) const
-{
-    ModelIndexInfoSet::const_iterator infoIt = cfind(index);
-
-    bool status = false;
-    if (infoIt.valid())
-    {
-        const ModelIndexInfo& info = *infoIt;
-        status = info.expanded;
-    }
-
-    return status;
-}
-
-
 bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
 {
     assert(it.valid());
