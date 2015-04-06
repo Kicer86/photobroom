@@ -161,7 +161,7 @@ namespace tree_private
             iterator operator-(int o) const
             {
 #ifndef NDEBUG
-				const size_t cur_pos = m_node - m_nodes.begin();
+				const int cur_pos = m_node - m_nodes->begin();
 				assert(cur_pos >= o);
 #endif
                 iterator r(m_nodes, m_node - o);
