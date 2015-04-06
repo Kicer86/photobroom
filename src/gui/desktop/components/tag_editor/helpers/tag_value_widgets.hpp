@@ -58,7 +58,7 @@ struct DataEdit: QDateEdit
     
     Q_INVOKABLE QString getValue() const
     {
-        return QDateEdit::date().toString();
+        return QDateEdit::date().toString("yyyy.MM.dd");
     }
     
     Q_OBJECT
