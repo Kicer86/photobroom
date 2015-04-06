@@ -172,7 +172,7 @@ namespace tree_private
             iterator operator-=(int v)
             {
 #ifndef NDEBUG
-				const size_t cur_pos = m_node - m_nodes->begin();
+				const int cur_pos = m_node - m_nodes->begin();
 				assert(cur_pos >= v);
 #endif
                 m_node -= v;
