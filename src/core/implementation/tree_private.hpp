@@ -20,10 +20,11 @@
 #ifndef TREE_PRIVATE_HPP
 #define TREE_PRIVATE_HPP
 
+#include <cassert>
 #include <deque>
 #include <memory>
-#include <stack>
 #include <ostream>
+#include <stack>
 
 #include <OpenLibrary/utils/data_ptr.hpp>
 
