@@ -39,22 +39,24 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_model(nullptr),
     m_tagsOperator(),
     m_tagName(nullptr),
-    m_tagValue(nullptr),
     m_addButton(nullptr),
+    m_tagValueContainer(nullptr),
     m_tags()
 {
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
-    m_tagValue = TagValueWidgetFactory().construct(TagNameInfo::Invalid);
     m_addButton = new QPushButton(QIcon(":/gui/add-img.svg"), "", this);
+    m_tagValueContainer = new QWidget(this);
 
     m_view->setModel(m_model);
     m_model->set(&m_tagsOperator);
 
+    new QHBoxLayout(m_tagValueContainer);
+
     QHBoxLayout* hl = new QHBoxLayout;
     hl->addWidget(m_tagName);
-    hl->addWidget(m_tagValue);
+    hl->addWidget(m_tagValueContainer);
     hl->addWidget(m_addButton);
 
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -85,6 +87,45 @@ void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 void TagEditorWidget::set(DBDataModel* dbDataModel)
 {
     m_model->set(dbDataModel);
+}
+
+
+void TagEditorWidget::setTagValueWidget(int idx)
+{
+    //remove previous widget-editor (if any)
+    QObject* f = getTagValueWidget();
+    if (f != nullptr)
+    {
+        f->setParent(nullptr);
+        f->deleteLater();
+    }
+
+    //insert new widget-editor
+    assert(static_cast<size_t>(idx) < m_tags.size());
+    const TagNameInfo& name = m_tags[idx];
+
+    QWidget* w = TagValueWidgetFactory().construct(name.getType());
+    m_tagValueContainer->layout()->addWidget(w);
+}
+
+
+QObject* TagEditorWidget::getTagValueWidget()
+{
+    QObject* result = nullptr;
+    const QObjectList& c = m_tagValueContainer->children();
+
+    // we don't want to return layout, but real widget-editor child
+    QLayout* l = m_tagValueContainer->layout();
+    const size_t s = c.size();
+
+    //twop possible situations: only layout, layout + widget
+    assert(s == 1 || s == 2);
+
+    for(size_t i = 0; result == nullptr && i < s; i++)
+        if (c[i] != l)
+            result = c[i];
+
+    return result;
 }
 
 
@@ -128,11 +169,14 @@ void TagEditorWidget::addButtonPressed()
 
     assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
 
+    QObject* tagValue = getTagValueWidget();
+    assert(tagValue != nullptr);
+
     const TagNameInfo& name = m_tags[idx];
     QString value;
-    const int methodIdx = m_tagValue->metaObject()->indexOfMethod("getValue()");
-    QMetaMethod method = m_tagValue->metaObject()->method(methodIdx);
-    method.invoke(m_tagValue, Qt::DirectConnection, Q_RETURN_ARG(QString, value));
+    const int methodIdx = tagValue->metaObject()->indexOfMethod("getValue()");
+    QMetaMethod method = tagValue->metaObject()->method(methodIdx);
+    method.invoke(tagValue, Qt::DirectConnection, Q_RETURN_ARG(QString, value));
 
     m_model->addTag(name, value);
 }
@@ -141,11 +185,5 @@ void TagEditorWidget::addButtonPressed()
 void TagEditorWidget::tagNameChanged(int idx)
 {
     if (idx >= 0)
-    {
-        assert(static_cast<size_t>(idx) < m_tags.size());
-
-        const TagNameInfo& name = m_tags[idx];
-        
-        m_tagValue = TagValueWidgetFactory().construct(name.getType());
-    }
+        setTagValueWidget(idx);
 }
