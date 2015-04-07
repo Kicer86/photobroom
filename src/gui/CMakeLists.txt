@@ -39,6 +39,7 @@ set(GUI_SOURCES
     desktop/components/tag_editor/tag_editor_widget.cpp
     desktop/components/tag_editor/helpers/tags_operator.cpp
     desktop/components/tag_editor/helpers/tags_view.cpp
+    desktop/components/tag_editor/helpers/tags_view_delegate.cpp
     desktop/components/tag_editor/helpers/tags_model.cpp
     desktop/components/tag_editor/helpers/tag_value_widget_factory.cpp
     desktop/ui/mainwindow.cpp
@@ -73,6 +74,7 @@ set(GUI_HEADERS
     desktop/components/tag_editor/helpers/itags_operator.hpp
     desktop/components/tag_editor/helpers/tags_operator.hpp
     desktop/components/tag_editor/helpers/tags_view.hpp
+    desktop/components/tag_editor/helpers/tags_view_delegate.hpp
     desktop/components/tag_editor/helpers/tags_model.hpp
     desktop/components/tag_editor/helpers/tag_value_widget_factory.hpp
     desktop/components/tag_editor/helpers/tag_value_widgets.hpp
