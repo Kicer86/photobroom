@@ -108,7 +108,8 @@ void TagsModel::refreshModel()
             Tag::Info info(tag);
             QStandardItem* name = new QStandardItem(info.displayName());
             QStandardItem* value = new QStandardItem;
-            value->setData(getValueFor(info), Qt::EditRole);
+            const QVariant v_value = getValueFor(info);            // get tag value as variant (it may be QDate, QTime, QString etc)
+            value->setData(v_value, Qt::DisplayRole);
 
             const QList<QStandardItem *> items( { name, value });
             appendRow(items);
