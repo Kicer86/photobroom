@@ -30,6 +30,8 @@
 #include "tags_model.hpp"
 
 #include <QItemSelectionModel>
+#include <QDate>
+#include <QTime>
 
 #include "model_view/db_data_model.hpp"
 #include "tags_operator.hpp"
@@ -105,7 +107,8 @@ void TagsModel::refreshModel()
         {
             Tag::Info info(tag);
             QStandardItem* name = new QStandardItem(info.displayName());
-            QStandardItem* value = new QStandardItem(info.value().get());
+            QStandardItem* value = new QStandardItem;
+            value->setData(getValueFor(info), Qt::EditRole);
 
             const QList<QStandardItem *> items( { name, value });
             appendRow(items);
@@ -142,6 +145,32 @@ std::vector<IPhotoInfo::Ptr> TagsModel::getPhotosForSelection()
         }
     }
 
+    return result;
+}
+
+
+QVariant TagsModel::getValueFor(const Tag::Info& i) const
+{
+    TagNameInfo::Type type = i.getTypeInfo().getType();
+    QVariant result;
+    const QString value = i.value().get();
+    
+    switch(type)
+    {
+        case TagNameInfo::Invalid:
+        case TagNameInfo::Text:
+            result = value;
+            break;
+            
+        case TagNameInfo::Date:
+            result = QDate::fromString(value, "yyyy.MM.dd");
+            break;
+            
+        case TagNameInfo::Time:
+            result = QTime::fromString(value, "hh:mm:ss");
+            break;
+    };
+    
     return result;
 }
 
