@@ -1,6 +1,6 @@
 /*
  * Item delegate for TagsView
- * Copyright (C) 2015  Michał <email>
+ * Copyright (C) 2015  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 
 class TagsViewDelegate : public QStyledItemDelegate
 {
-public:
-    TagsViewDelegate(QObject *);
-    TagsViewDelegate(const TagsViewDelegate &) = delete;
-    ~TagsViewDelegate();
-    
-    TagsViewDelegate& operator=(const TagsViewDelegate &) = delete;
+    public:
+        TagsViewDelegate(QObject *);
+        TagsViewDelegate(const TagsViewDelegate &) = delete;
+        ~TagsViewDelegate();
+        
+        TagsViewDelegate& operator=(const TagsViewDelegate &) = delete;
 };
 
 #endif // TAGSVIEWDELEGATE_HPP
