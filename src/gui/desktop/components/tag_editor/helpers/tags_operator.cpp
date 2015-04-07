@@ -93,7 +93,7 @@ void TagsOperator::updateTag(const QString& name, const QString& value)
 
     for(Tag::Info info: tags)
     {
-        if (info.name() == name)
+        if (info.displayName() == name)
         {
             const bool differs = info.value() != value;
 
