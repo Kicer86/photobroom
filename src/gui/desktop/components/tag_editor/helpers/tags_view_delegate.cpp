@@ -1,6 +1,6 @@
 /*
  * Item delegate for TagsView
- * Copyright (C) 2015  Michał <email>
+ * Copyright (C) 2015  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,19 @@
 
 #include "tags_view_delegate.hpp"
 
+#include <QItemEditorFactory>
+
+#include "date_edit.hpp"
+
 TagsViewDelegate::TagsViewDelegate(QObject* p): QStyledItemDelegate(p)
 {
-
+    QItemEditorFactory* factory = new QItemEditorFactory;
+        
+    //override Date editor
+    QItemEditorCreatorBase *date_creator = new QStandardItemEditorCreator<DateEdit>();
+    factory->registerEditor(QVariant::Date, date_creator);
+    
+    this->setItemEditorFactory(factory);
 }
 
 
