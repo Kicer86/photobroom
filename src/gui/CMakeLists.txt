@@ -37,6 +37,7 @@ set(GUI_SOURCES
     desktop/components/filters_editor/level_editor.cpp
     desktop/components/project_creator/project_creator_dialog.cpp
     desktop/components/tag_editor/tag_editor_widget.cpp
+    desktop/components/tag_editor/helpers/date_edit.cpp
     desktop/components/tag_editor/helpers/tags_operator.cpp
     desktop/components/tag_editor/helpers/tags_view.cpp
     desktop/components/tag_editor/helpers/tags_view_delegate.cpp
@@ -71,6 +72,7 @@ set(GUI_HEADERS
     desktop/components/filters_editor/level_editor.hpp
     desktop/components/project_creator/project_creator_dialog.hpp
     desktop/components/tag_editor/tag_editor_widget.hpp
+    desktop/components/tag_editor/helpers/date_edit.hpp
     desktop/components/tag_editor/helpers/itags_operator.hpp
     desktop/components/tag_editor/helpers/tags_operator.hpp
     desktop/components/tag_editor/helpers/tags_view.hpp
