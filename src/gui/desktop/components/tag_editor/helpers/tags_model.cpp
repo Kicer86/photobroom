@@ -175,6 +175,33 @@ QVariant TagsModel::getValueFor(const Tag::Info& i) const
 }
 
 
+QString TagsModel::getValueFor(const QVariant& v) const
+{
+    const QVariant::Type type = v.type();
+    QString result;
+
+    switch(type)
+    {
+        default:
+            assert(!"unknown type");
+
+        case QVariant::String:
+            result = v.toString();
+            break;
+
+        case QVariant::Date:
+            result = v.toDate().toString("yyyy.MM.dd");
+            break;
+
+        case QVariant::Time:
+            result = v.toTime().toString("hh::mm::ss");
+            break;
+    };
+
+    return result;
+}
+
+
 void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
 {
     refreshModel();
@@ -194,7 +221,8 @@ void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottom
         {
             const QModelIndex tagNameIndex = itemIndex.sibling(itemIndex.row(), 0);
             const QString tagName = tagNameIndex.data().toString();
-            const QString tagValue = itemIndex.data().toString();
+            const QVariant rawValue = itemIndex.data();
+            const QString tagValue = getValueFor(rawValue);
 
             m_tagsOperator->updateTag(tagName, tagValue);
         }
