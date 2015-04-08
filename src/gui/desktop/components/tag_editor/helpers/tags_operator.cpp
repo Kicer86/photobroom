@@ -78,6 +78,14 @@ void TagsOperator::setTag(const TagNameInfo& name, const TagValue& values)
 }
 
 
+void TagsOperator::setTag(const TagNameInfo& name, const QVariant& value)
+{
+    Tag::Info info(name, value);
+
+    setTag(info.getTypeInfo(), info.value());
+}
+
+
 void TagsOperator::setTags(const Tag::TagsList& tags)
 {
     for (TagUpdater& updater: m_tagUpdaters)
@@ -87,6 +95,12 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 
 void TagsOperator::updateTag(const QString& name, const QString& value)
 {
+    updateTag(name, QVariant(value));
+}
+
+
+void TagsOperator::updateTag(const QString& name, const QVariant& value)
+{
     //find tag for given name
     Tag::TagsList tags = getTags();
     bool updated = false;
@@ -95,7 +109,7 @@ void TagsOperator::updateTag(const QString& name, const QString& value)
     {
         if (info.displayName() == name)
         {
-            const bool differs = info.value() != value;
+            const bool differs = info.getValue() != value;
 
             if (differs)
             {
@@ -110,3 +124,4 @@ void TagsOperator::updateTag(const QString& name, const QString& value)
 
     assert(updated);
 }
+

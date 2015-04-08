@@ -37,8 +37,10 @@ class TagsOperator: public ITagsOperator
         Tag::TagsList getTags() const override;
 
         void setTag(const TagNameInfo &, const TagValue &) override;
+        void setTag(const TagNameInfo &, const QVariant &) override;
         void setTags(const Tag::TagsList &) override;
         void updateTag(const QString &, const QString& rawList) override;
+        void updateTag(const QString &, const QVariant& value) override;
 
     private:
         std::deque<TagUpdater> m_tagUpdaters;

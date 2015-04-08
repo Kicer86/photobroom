@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QStringList>
+#include <QDate>
+#include <QTime>
 
 #include "base_tags.hpp"
 
@@ -173,6 +175,11 @@ namespace Tag
     Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_value(it->second) {}
     Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second) {}
 
+    Info::Info(const TagNameInfo& n, const QVariant& v): m_name(n), m_value()
+    {
+        setValue(v);
+    }
+
     Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
     {
         m_name = data.first;
@@ -201,10 +208,60 @@ namespace Tag
         return m_value;
     }
 
+    QVariant Info::getValue() const
+    {
+        TagNameInfo::Type type = getTypeInfo().getType();
+        QVariant result;
+        const QString tag_value = value().get();
+
+        switch(type)
+        {
+            case TagNameInfo::Invalid:
+            case TagNameInfo::Text:
+                result = tag_value;
+                break;
+
+            case TagNameInfo::Date:
+                result = QDate::fromString(tag_value, "yyyy.MM.dd");
+                break;
+
+            case TagNameInfo::Time:
+                result = QTime::fromString(tag_value, "hh:mm:ss");
+                break;
+        };
+
+        return result;
+    }
 
     void Info::setValue(const QString& v)
     {
         m_value.set(v);
+    }
+
+    void Info::setValue(const QVariant& v)
+    {
+        const QVariant::Type type = v.type();
+        QString result;
+
+        switch(type)
+        {
+            default:
+                assert(!"unknown type");
+
+            case QVariant::String:
+                result = v.toString();
+                break;
+
+            case QVariant::Date:
+                result = v.toDate().toString("yyyy.MM.dd");
+                break;
+
+            case QVariant::Time:
+                result = v.toTime().toString("hh::mm::ss");
+                break;
+        };
+
+        setValue(result);
     }
 
 }

@@ -84,9 +84,9 @@ Tag::TagsList TagsModel::getTags() const
 }
 
 
-void TagsModel::addTag(const TagNameInfo& info, const QString& value)
+void TagsModel::addTag(const TagNameInfo& info, const QVariant& value)
 {
-    m_tagsOperator->setTag(info, TagValue(value));
+    m_tagsOperator->setTag(info, value);
 
     refreshModel();
 }
@@ -108,7 +108,7 @@ void TagsModel::refreshModel()
             Tag::Info info(tag);
             QStandardItem* name = new QStandardItem(info.displayName());
             QStandardItem* value = new QStandardItem;
-            const QVariant v_value = getValueFor(info);            // get tag value as variant (it may be QDate, QTime, QString etc)
+            const QVariant v_value = info.getValue();            // get tag value as variant (it may be QDate, QTime, QString etc)
             value->setData(v_value, Qt::DisplayRole);
 
             const QList<QStandardItem *> items( { name, value });
@@ -150,59 +150,6 @@ std::vector<IPhotoInfo::Ptr> TagsModel::getPhotosForSelection()
 }
 
 
-QVariant TagsModel::getValueFor(const Tag::Info& i) const
-{
-    TagNameInfo::Type type = i.getTypeInfo().getType();
-    QVariant result;
-    const QString value = i.value().get();
-    
-    switch(type)
-    {
-        case TagNameInfo::Invalid:
-        case TagNameInfo::Text:
-            result = value;
-            break;
-            
-        case TagNameInfo::Date:
-            result = QDate::fromString(value, "yyyy.MM.dd");
-            break;
-            
-        case TagNameInfo::Time:
-            result = QTime::fromString(value, "hh:mm:ss");
-            break;
-    };
-    
-    return result;
-}
-
-
-QString TagsModel::getValueFor(const QVariant& v) const
-{
-    const QVariant::Type type = v.type();
-    QString result;
-
-    switch(type)
-    {
-        default:
-            assert(!"unknown type");
-
-        case QVariant::String:
-            result = v.toString();
-            break;
-
-        case QVariant::Date:
-            result = v.toDate().toString("yyyy.MM.dd");
-            break;
-
-        case QVariant::Time:
-            result = v.toTime().toString("hh::mm::ss");
-            break;
-    };
-
-    return result;
-}
-
-
 void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
 {
     refreshModel();
@@ -222,10 +169,9 @@ void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottom
         {
             const QModelIndex tagNameIndex = itemIndex.sibling(itemIndex.row(), 0);
             const QString tagName = tagNameIndex.data().toString();
-            const QVariant rawValue = itemIndex.data();
-            const QString tagValue = getValueFor(rawValue);
+            const QVariant value = itemIndex.data();
 
-            m_tagsOperator->updateTag(tagName, tagValue);
+            m_tagsOperator->updateTag(tagName, value);
         }
     }
 }
