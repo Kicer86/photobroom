@@ -22,12 +22,10 @@
 #include <QStringListModel>
 #include <QHeaderView>
 
-#include "tags_view_delegate.hpp"
 
 TagsView::TagsView(QWidget* p): QTableView(p)
 {
     verticalHeader()->hide();
-    setItemDelegate(new TagsViewDelegate(this));
 }
 
 
