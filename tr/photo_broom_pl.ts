@@ -369,12 +369,12 @@ Kod błędu: </translation>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_model.cpp" line="125"/>
+        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_model.cpp" line="126"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_model.cpp" line="125"/>
+        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_model.cpp" line="126"/>
         <source>Value</source>
         <translation>Wartość</translation>
     </message>
