@@ -24,6 +24,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <qitemeditorfactory.h>
 #include <QMetaMethod>
 
 #include <core/base_tags.hpp>
@@ -41,6 +42,8 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagName(nullptr),
     m_addButton(nullptr),
     m_tagValueContainer(nullptr),
+    m_tagValueWidget(nullptr),
+    m_tagValueProp(),
     m_tags()
 {
     m_view = new TagsView(this);
@@ -93,39 +96,40 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 void TagEditorWidget::setTagValueWidget(int idx)
 {
     //remove previous widget-editor (if any)
-    QObject* f = getTagValueWidget();
-    if (f != nullptr)
+    if (m_tagValueWidget != nullptr)
     {
-        f->setParent(nullptr);
-        f->deleteLater();
+        m_tagValueWidget->setParent(nullptr);
+        m_tagValueWidget->deleteLater();
     }
 
     //insert new widget-editor
     assert(static_cast<size_t>(idx) < m_tags.size());
     const TagNameInfo& name = m_tags[idx];
 
-    QWidget* w = TagValueWidgetFactory().construct(name.getType());
-    m_tagValueContainer->layout()->addWidget(w);
-}
+    QVariant::Type type;
+    auto tagType = name.getType();
 
+    switch(tagType)
+    {
+        case TagNameInfo::Invalid:
+        case TagNameInfo::Text:
+            type = QVariant::String;
+            break;
 
-QObject* TagEditorWidget::getTagValueWidget()
-{
-    QObject* result = nullptr;
-    const QObjectList& c = m_tagValueContainer->children();
+        case TagNameInfo::Date:
+            type = QVariant::Date;
+            break;
 
-    // we don't want to return layout, but real widget-editor child
-    QLayout* l = m_tagValueContainer->layout();
-    const size_t s = c.size();
+        case TagNameInfo::Time:
+            type = QVariant::Time;
+            break;
+    }
 
-    //twop possible situations: only layout, layout + widget
-    assert(s == 1 || s == 2);
+    QItemEditorFactory factory;
 
-    for(size_t i = 0; result == nullptr && i < s; i++)
-        if (c[i] != l)
-            result = c[i];
-
-    return result;
+    m_tagValueWidget = factory.createEditor(type, m_tagValueContainer);
+    m_tagValueProp = factory.valuePropertyName(type);
+    m_tagValueContainer->layout()->addWidget(m_tagValueWidget);
 }
 
 
@@ -168,15 +172,10 @@ void TagEditorWidget::addButtonPressed()
     const int idx = m_tagName->currentIndex();
 
     assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
+    assert(m_tagValueWidget != nullptr);
 
-    QObject* tagValue = getTagValueWidget();
-    assert(tagValue != nullptr);
-
+    const QString value = m_tagValueWidget->property(m_tagValueProp).toString();
     const TagNameInfo& name = m_tags[idx];
-    QString value;
-    const int methodIdx = tagValue->metaObject()->indexOfMethod("getValue()");
-    QMetaMethod method = tagValue->metaObject()->method(methodIdx);
-    method.invoke(tagValue, Qt::DirectConnection, Q_RETURN_ARG(QString, value));
 
     m_model->addTag(name, value);
 }

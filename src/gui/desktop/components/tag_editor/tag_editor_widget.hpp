@@ -57,11 +57,12 @@ class TagEditorWidget: public QWidget
         QComboBox* m_tagName;
         QPushButton* m_addButton;
         QWidget* m_tagValueContainer;
+        QWidget* m_tagValueWidget;
+        QByteArray m_tagValueProp;
 
         std::vector<TagNameInfo> m_tags;
 
         void setTagValueWidget(int);
-        QObject* getTagValueWidget();
 
     private slots:
         void refreshTagNamesList(bool);
