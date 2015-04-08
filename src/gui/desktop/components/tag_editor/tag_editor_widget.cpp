@@ -31,7 +31,6 @@
 
 #include "helpers/tags_view.hpp"
 #include "helpers/tags_model.hpp"
-#include "helpers/tag_value_widget_factory.hpp"
 
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
