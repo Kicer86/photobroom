@@ -22,6 +22,7 @@
 #include <QStringListModel>
 #include <QHeaderView>
 
+
 TagsView::TagsView(QWidget* p): QTableView(p)
 {
     verticalHeader()->hide();

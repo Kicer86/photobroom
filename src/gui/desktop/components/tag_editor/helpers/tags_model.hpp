@@ -46,7 +46,7 @@ class TagsModel: public QStandardItemModel
         TagsModel& operator=(const TagsModel &) = delete;
 
         Tag::TagsList getTags() const;
-        void addTag(const TagNameInfo &, const QString &);
+        void addTag(const TagNameInfo &, const QVariant &);
 
     private:
         QItemSelectionModel* m_selectionModel;
@@ -56,7 +56,7 @@ class TagsModel: public QStandardItemModel
         void refreshModel();
         void clearModel();
         std::vector<IPhotoInfo::Ptr> getPhotosForSelection();
-
+        
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
         void updateData(const QModelIndex &, const QModelIndex &);

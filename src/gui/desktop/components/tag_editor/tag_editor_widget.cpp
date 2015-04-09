@@ -24,6 +24,8 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <qitemeditorfactory.h>
+#include <QMetaMethod>
 
 #include <core/base_tags.hpp>
 
@@ -32,27 +34,31 @@
 
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
-    QWidget(p, f),
+    QWidget(p, f),    
     m_view(nullptr),
     m_model(nullptr),
     m_tagsOperator(),
     m_tagName(nullptr),
-    m_tagValue(nullptr),
     m_addButton(nullptr),
+    m_tagValueContainer(nullptr),
+    m_tagValueWidget(nullptr),
+    m_tagValueProp(),
     m_tags()
 {
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
-    m_tagValue = new QLineEdit(this);
     m_addButton = new QPushButton(QIcon(":/gui/add-img.svg"), "", this);
+    m_tagValueContainer = new QWidget(this);
 
     m_view->setModel(m_model);
     m_model->set(&m_tagsOperator);
 
+    new QHBoxLayout(m_tagValueContainer);
+
     QHBoxLayout* hl = new QHBoxLayout;
     hl->addWidget(m_tagName);
-    hl->addWidget(m_tagValue);
+    hl->addWidget(m_tagValueContainer);
     hl->addWidget(m_addButton);
 
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -61,6 +67,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
 
     connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
     connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addButtonPressed()));
+    connect(m_tagName, SIGNAL(currentIndexChanged(int)), this, SLOT( tagNameChanged(int) ));
 
     //initial refresh
     refreshTagNamesList(false);
@@ -82,6 +89,46 @@ void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 void TagEditorWidget::set(DBDataModel* dbDataModel)
 {
     m_model->set(dbDataModel);
+}
+
+
+void TagEditorWidget::setTagValueWidget(int idx)
+{
+    //remove previous widget-editor (if any)
+    if (m_tagValueWidget != nullptr)
+    {
+        m_tagValueWidget->setParent(nullptr);
+        m_tagValueWidget->deleteLater();
+    }
+
+    //insert new widget-editor
+    assert(static_cast<size_t>(idx) < m_tags.size());
+    const TagNameInfo& name = m_tags[idx];
+
+    QVariant::Type type;
+    auto tagType = name.getType();
+
+    switch(tagType)
+    {
+        case TagNameInfo::Invalid:
+        case TagNameInfo::Text:
+            type = QVariant::String;
+            break;
+
+        case TagNameInfo::Date:
+            type = QVariant::Date;
+            break;
+
+        case TagNameInfo::Time:
+            type = QVariant::Time;
+            break;
+    }
+
+    QItemEditorFactory factory;
+
+    m_tagValueWidget = factory.createEditor(type, m_tagValueContainer);
+    m_tagValueProp = factory.valuePropertyName(type);
+    m_tagValueContainer->layout()->addWidget(m_tagValueWidget);
 }
 
 
@@ -114,7 +161,7 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
     }
 
     m_tagName->setEnabled(enable_gui);
-    m_tagValue->setEnabled(enable_gui);
+    //m_tagValue->setEnabled(enable_gui);
     m_addButton->setEnabled(enable_gui);
 }
 
@@ -124,9 +171,17 @@ void TagEditorWidget::addButtonPressed()
     const int idx = m_tagName->currentIndex();
 
     assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
+    assert(m_tagValueWidget != nullptr);
 
+    const QVariant value = m_tagValueWidget->property(m_tagValueProp);
     const TagNameInfo& name = m_tags[idx];
-    const QString value = m_tagValue->text();
 
     m_model->addTag(name, value);
+}
+
+
+void TagEditorWidget::tagNameChanged(int idx)
+{
+    if (idx >= 0)
+        setTagValueWidget(idx);
 }

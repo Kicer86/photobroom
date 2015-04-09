@@ -10,6 +10,7 @@
 #include <memory>
 
 #include <QString>
+#include <QVariant>
 
 #include "core_export.h"
 
@@ -79,6 +80,7 @@ namespace Tag
     {
             Info(const TagsList::const_iterator &);
             Info(const std::pair<const TagNameInfo, TagValue> &data);
+            Info(const TagNameInfo &, const QVariant &);
 
             Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
@@ -87,8 +89,10 @@ namespace Tag
 
             const TagNameInfo& getTypeInfo() const;
             const TagValue& value() const;
+            QVariant getValue() const;
 
             void setValue(const QString &);
+            void setValue(const QVariant &);
 
         private:
             TagNameInfo m_name;
