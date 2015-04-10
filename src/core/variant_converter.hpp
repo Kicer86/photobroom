@@ -22,6 +22,8 @@
 
 #include <QVariant>
 
+#include "core_export.h"
+
 namespace Tag
 {
     class Info;
@@ -29,7 +31,7 @@ namespace Tag
 
 class TagNameInfo;
 
-class VariantConverter
+class CORE_EXPORT VariantConverter
 {
     public:
         VariantConverter();
