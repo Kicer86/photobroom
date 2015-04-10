@@ -21,6 +21,7 @@
 
 #include <QCache>
 #include <QPainter>
+#include <QStyledItemDelegate>
 
 #include "view_helpers/data.hpp"
 
@@ -89,7 +90,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DisplayRole);
-    const QString t = v.toString();
+    const QString t = QStyledItemDelegate().displayText(v, option.locale);
 
     painter->drawText(r, Qt::AlignCenter, t);
 }
