@@ -53,7 +53,7 @@ class CORE_EXPORT TagValue
 {
     public:
         TagValue();
-        TagValue(const QVariant &);
+        explicit TagValue(const QVariant &);
         ~TagValue();
 
         void set(const QVariant &);

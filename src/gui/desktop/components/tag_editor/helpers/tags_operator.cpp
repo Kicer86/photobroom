@@ -109,7 +109,7 @@ void TagsOperator::updateTag(const QString& name, const QVariant& value)
     {
         if (info.displayName() == name)
         {
-            const bool differs = info.value() != value;
+            const bool differs = info.value().get() != value;
 
             if (differs)
             {
