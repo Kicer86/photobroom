@@ -20,10 +20,10 @@
 #ifndef POSITIONSRESETER_H
 #define POSITIONSRESETER_H
 
+#include "data.hpp"
+
 class QModelIndex;
 class QAbstractItemModel;
-
-class Data;
 
 class PositionsReseter
 {
@@ -48,6 +48,9 @@ private:
 
     void resetRect(const QModelIndex &) const;
     void resetOverallRect(const QModelIndex &) const;
+
+    void resetPosition(Data::ModelIndexInfoSet::flat_iterator) const;
+    void resetSize(Data::ModelIndexInfoSet::flat_iterator) const;
 };
 
 #endif // POSITIONSRESETER_H

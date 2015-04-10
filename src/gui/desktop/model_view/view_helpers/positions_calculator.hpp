@@ -41,6 +41,8 @@ class PositionsCalculator
 
     private:
         QRect calcItemRect(Data::ModelIndexInfoSet::flat_iterator) const;
+        QSize calcItemSize(Data::ModelIndexInfoSet::flat_iterator) const;
+        QPoint calcItemPosition(Data::ModelIndexInfoSet::flat_iterator) const;
         QPoint positionOfNext(Data::ModelIndexInfoSet::flat_iterator) const;          // calculate position of next item
         QPoint positionOfNextImage(Data::ModelIndexInfoSet::flat_iterator) const;     // calculate position of next item (image item)
         QPoint positionOfNextNode(Data::ModelIndexInfoSet::flat_iterator) const;      // calculate position of next item (node item)
@@ -52,6 +54,9 @@ class PositionsCalculator
         std::pair<int, int> selectRowFor(Data::ModelIndexInfoSet::flat_iterator) const;
 
         bool isRoot(Data::ModelIndexInfoSet::flat_iterator) const;
+
+        void updateItems(Data::ModelIndexInfoSet::flat_iterator) const;
+        void updateItem(Data::ModelIndexInfoSet::flat_iterator) const;
 
         QAbstractItemModel* m_model;
         Data* m_data;

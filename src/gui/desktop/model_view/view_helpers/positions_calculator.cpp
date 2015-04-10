@@ -44,35 +44,7 @@ void PositionsCalculator::updateItems() const
 {
     assert(m_data->getModel().validate());
 
-    m_data->for_each_recursively([&](Data::ModelIndexInfoSet::flat_iterator infoIt)
-    {
-        ModelIndexInfo& info = *infoIt;
-
-        // calculations only for dirty ones
-        if (info.getRect().isNull())
-        {
-            QRect rect = calcItemRect(infoIt);
-            info.setRect(rect);                  // size muse be set at this point, as children calculations may require it
-        }
-
-        if (info.getOverallRect().isNull())
-        {
-            QRect rect = info.getRect();
-
-            //calculate overall only if node is expanded and has any children
-            if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
-                for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
-                {
-                    const ModelIndexInfo& c_info = *c_infoIt;
-                    QRect c_rect = c_info.getOverallRect();
-                    assert(c_rect.isValid());
-
-                    rect = rect.united(c_rect);
-                }
-
-            info.setOverallRect(rect);
-        }
-    });
+    updateItems(m_data->getModel().begin());
 }
 
 
@@ -98,6 +70,34 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::flat_iterator i
             const QPoint point = positionOfNext(it_sibling);
 
             result = QRect(point, item_size);
+        }
+    }
+
+    return result;
+}
+
+QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::flat_iterator it) const
+{
+    const QSize result = isRoot(it)? QSize(): getItemSize(it);
+
+    return result;
+}
+
+
+QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_iterator it) const
+{
+    QPoint result;
+
+    Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
+
+    if (it_parent.valid())              //do not enter for top item
+    {
+        if (it.index() == 0)  //first
+            result = positionOfFirstChild(it_parent);
+        else
+        {
+            Data::ModelIndexInfoSet::flat_iterator it_sibling = it - 1;
+            result = positionOfNext(it_sibling);
         }
     }
 
@@ -155,9 +155,13 @@ QPoint PositionsCalculator::positionOfNextNode(Data::ModelIndexInfoSet::flat_ite
     assert(isRoot(infoIt) == false);
 
     const ModelIndexInfo& info = *infoIt;
-    const QRect items_pos = info.getOverallRect();
-    assert(items_pos.isValid());
-    const QPoint result = QPoint(0, items_pos.bottom());
+    assert(info.isPositionValid());
+
+    const QPoint& item_pos = info.getPosition();
+    const QSize& items_size = info.getOverallSize();
+    assert(items_size.isValid());
+
+    const QPoint result = QPoint(0, item_pos.y() + items_size.height());
 
     return result;
 }
@@ -200,7 +204,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::flat_iterator in
         QPixmap pixmap = m_data->getImage(infoIt);
         item_height = pixmap.height() + m_data->indexMargin * 2;
     }
-    else                  //node's title
+    else                           //node's title
         item_height = 40;          //TODO: temporary
 
     return item_height;
@@ -222,16 +226,16 @@ std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::f
     Data::ModelIndexInfoSet::flat_iterator firstIt = lastIt;
 
     const ModelIndexInfo& indexInfo = *lastIt;
-    const QRect& indexRect = indexInfo.getRect();
+    const QPoint& index_pos = indexInfo.getPosition();
 
     while(searchIt.index() > 0)
     {
         //go to previous item
         --searchIt;
 
-        const QRect& prevRect = searchIt->getRect();
+        const QPoint& s_pos = searchIt->getPosition();
 
-        if (prevRect.top() == indexRect.top())   //items are at the same y-position? If no - we are no longer in the same row
+        if (s_pos.y() == index_pos.y())   //items are at the same y-position? If no - we are no longer in the same row
             firstIt = searchIt;
         else
             break;
@@ -246,4 +250,61 @@ bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::flat_iterator it) 
     Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
 
     return it_parent.valid() == false;
+}
+
+
+void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator item) const
+{
+    const bool invalid = item->valid() == false;
+
+    if (invalid)
+    {
+        const bool expanded = m_data->isExpanded(item);
+
+        if (expanded)
+            for(Data::ModelIndexInfoSet::flat_iterator c_it = item.begin(); c_it.valid(); ++c_it)
+                updateItems(c_it);
+
+        updateItem(item);
+    }
+}
+
+
+void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+{
+    ModelIndexInfo& info = *infoIt;
+
+    // calculations only for dirty ones
+    if (info.isPositionValid() == false)
+    {
+        const QPoint pos = calcItemPosition(infoIt);
+        info.setPosition(pos);
+    }
+
+    if (info.isSizeValid() == false)
+    {
+        const QSize size = calcItemSize(infoIt);
+        info.setSize(size);                       // size muse be set at this point, as children calculations may require it
+    }
+
+    if (info.getOverallSize().isValid() == false)
+    {
+        QSize rect = info.getSize();
+
+        //calculate overall only if node is expanded and has any children
+        if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
+            for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
+            {
+                const ModelIndexInfo& c_info = *c_infoIt;
+                const QPoint& position = c_info.getPosition();
+                QSize c_size = c_info.getOverallSize();
+                assert(c_size.isValid());
+
+                c_size.setHeight(c_size.height() + position.y());
+
+                rect = rect.expandedTo(c_size);
+            }
+
+        info.setOverallSize(rect);
+    }
 }

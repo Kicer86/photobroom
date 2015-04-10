@@ -95,6 +95,7 @@ class ViewDataSet final: public IViewDataSet
 
         ViewDataSet(): m_model(), m_db_model(nullptr)
         {
+            clear();
         }
 
         ViewDataSet(const ViewDataSet<T> &) = delete;

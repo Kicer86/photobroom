@@ -225,28 +225,6 @@ bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 }
 
 
-void Data::for_each_recursively(std::function<void(ModelIndexInfoSet::flat_iterator)> f)
-{
-    for_each_recursively(m_itemData->begin(), f);
-    f(m_itemData->begin());
-}
-
-
-void Data::for_each_recursively(ModelIndexInfoSet::flat_iterator it, std::function<void(ModelIndexInfoSet::flat_iterator)> f)
-{
-    std::deque<QModelIndex> result;
-    const bool expanded = isExpanded(it);
-
-    if (expanded)
-        for(ModelIndexInfoSet::flat_iterator c_it = it.begin(); c_it.valid(); ++c_it)
-        {
-            for_each_recursively(c_it, f);
-
-            f(c_it);
-        }
-}
-
-
 const Data::ModelIndexInfoSet& Data::getModel() const
 {
     return *m_itemData;

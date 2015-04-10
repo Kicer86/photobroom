@@ -27,42 +27,119 @@ namespace
     {
         return o << "[left: " << r.left () << "; top: " << r.top() << "; right: " << r.right() << "; bottom: " << r.bottom() << "]";
     }
+
+    std::ostream &operator<<(std::ostream &o, const QSize &s)
+    {
+        return o << "[width: " << s.width () << "; height: " << s.height() << "]";
+    }
+}
+
+QRect ModelIndexInfo::Postition::getRect() const
+{
+    const QRect result = valid && size.isValid()? QRect(position, size): QRect();
+    return result;
+}
+
+
+void ModelIndexInfo::Postition::setRect(const QRect& rect)
+{
+    valid = rect.isValid();
+    size = rect.size();
+    position = rect.topLeft();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+void ModelIndexInfo::setPosition(const QPoint& p)
+{
+    position.valid = true;
+    position.position = p;
+}
+
+
+void ModelIndexInfo::setSize(const QSize& s)
+{
+    position.size = s;
 }
 
 
 void ModelIndexInfo::setRect(const QRect& r)
 {
-    rect = r;
-    overallRect = QRect();          // not valid anymore
+    position.setRect(r);
+    overallRect = QSize();          // not anymore valid
 }
 
 
-void ModelIndexInfo::setOverallRect(const QRect& r)
+void ModelIndexInfo::setOverallSize(const QSize& r)
 {
     overallRect = r;
 }
 
 
-const QRect& ModelIndexInfo::getRect() const
+const QRect ModelIndexInfo::getRect() const
 {
-    return rect;
+    return position.getRect();
 }
 
 
-const QRect& ModelIndexInfo::getOverallRect() const
+const QSize& ModelIndexInfo::getOverallSize() const
 {
     return overallRect;
 }
 
 
-void ModelIndexInfo::cleanRects()
+const QPoint& ModelIndexInfo::getPosition() const
 {
-    rect = QRect();
-    overallRect = QRect();
+    return position.position;
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), rect(), overallRect()
+const QSize& ModelIndexInfo::getSize() const
+{
+    return position.size;
+}
+
+
+void ModelIndexInfo::cleanRects()
+{
+    position = Postition();
+    overallRect = QSize();
+}
+
+
+void ModelIndexInfo::markPositionInvalid()
+{
+    position.valid = false;
+}
+
+
+void ModelIndexInfo::markSizeInvalid()
+{
+    position.size = QSize();
+}
+
+
+bool ModelIndexInfo::isPositionValid() const
+{
+    return position.valid;
+}
+
+
+bool ModelIndexInfo::valid() const
+{
+    return isPositionValid() && isSizeValid() && overallRect.isValid();
+}
+
+
+bool ModelIndexInfo::isSizeValid() const
+{
+    return position.size.isValid() && position.size.isNull() == false;   // valid and not null
+}
+
+
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), position(), overallRect()
 {
 }
 
@@ -70,7 +147,7 @@ ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid
 ModelIndexInfo::operator std::string() const
 {
     std::stringstream result;
-    result << getRect() << ", " << getOverallRect() << ", expanded: " << expanded;
+    result << getRect() << ", " << getOverallSize() << ", expanded: " << expanded;
     
     return result.str();
 }

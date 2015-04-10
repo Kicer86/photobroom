@@ -80,7 +80,7 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {   
     //invalidate parent if expanded
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(parent);
+    Data::ModelIndexInfoSet::flat_iterator infoIt = m_data->find(parent);
 
     if (infoIt.valid())
     {
@@ -89,7 +89,8 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
             invalidateItemOverallRect(parent);
 
         //invalidate all items which are after 'pos'
-        invalidateChildrenRect(parent, pos);
+        for(Data::ModelIndexInfoSet::flat_iterator it = infoIt.begin() + pos; it.valid(); ++it)
+            resetPosition(it);
     }
 }
 
@@ -157,6 +158,18 @@ void PositionsReseter::resetOverallRect(const QModelIndex& idx) const
     if (infoIt.valid())
     {
         ModelIndexInfo& info = *infoIt;
-        info.setOverallRect(QRect());
+        info.setOverallSize(QSize());
     }
+}
+
+
+void PositionsReseter::resetPosition(Data::ModelIndexInfoSet::flat_iterator it) const
+{
+    it->markPositionInvalid();
+}
+
+
+void PositionsReseter::resetSize(Data::ModelIndexInfoSet::flat_iterator it) const
+{
+    it->markSizeInvalid();
 }

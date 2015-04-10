@@ -29,19 +29,43 @@ struct ModelIndexInfo
 {
         bool expanded;
 
+        void setPosition(const QPoint &);
+        void setSize(const QSize &);
         void setRect(const QRect& r);
-        void setOverallRect(const QRect& r);
-        const QRect& getRect() const;
-        const QRect& getOverallRect() const;
+        void setOverallSize(const QSize& r);
+        const QRect getRect() const;
+        const QSize& getOverallSize() const;
+
+        const QPoint& getPosition() const;
+        const QSize& getSize() const;
+
         void cleanRects();
+        void markPositionInvalid();
+        void markSizeInvalid();
+
+        bool isSizeValid() const;
+        bool isPositionValid() const;
+        bool valid() const;
 
         ModelIndexInfo(const QModelIndex &);
         
         operator std::string() const;
 
     private:
-        QRect rect;
-        QRect overallRect;
+        struct Postition
+        {
+            QPoint position;
+            QSize size;
+            bool valid;             //'position' field is valid?
+
+            Postition(): position(), size(), valid(false) {}
+
+            QRect getRect() const;
+            void setRect(const QRect &);
+
+        } position;
+
+        QSize overallRect;
 };
 
 #endif // MODELINDEXINFO_H
