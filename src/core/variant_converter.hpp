@@ -38,6 +38,7 @@ class CORE_EXPORT VariantConverter
         ~VariantConverter();
 
         QString operator()(const QVariant &) const;
+        QString operator()(const QString &) const = delete;
         QVariant operator()(const TagNameInfo::Type &, const QString &) const;
 
         VariantConverter& operator=(const VariantConverter &) = delete;

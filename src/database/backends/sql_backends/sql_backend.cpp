@@ -373,7 +373,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const QVariant value = convert(raw_value);
+                const QVariant value = convert( tagName.getType(), raw_value);
 
                 result.push_back(value);
             }
