@@ -22,6 +22,8 @@
 
 #include <QByteArray>
 #include <QStringList>
+#include <QDate>
+#include <QTime>
 
 #include "photos_manager.hpp"
 #include "tag.hpp"
@@ -62,13 +64,11 @@ void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
     const QStringList time_splitted = v.split(" ");
 
     if (time_splitted.size() == 2)
-    {
+    {        
         QString date = time_splitted[0];
         const QString time = time_splitted[1];
 
-        date.replace(":", ".");     //convert 2011:05:09 to 2011.05.09
-
-        tagData[BaseTags::get(BaseTagsList::Date)] = TagValue(date);
-        tagData[BaseTags::get(BaseTagsList::Time)] = TagValue(time);
+        tagData[BaseTags::get(BaseTagsList::Date)] = TagValue(QDate::fromString(date, "yyyy:MM:dd"));
+        tagData[BaseTags::get(BaseTagsList::Time)] = TagValue(QTime::fromString(time, "hh:mm:ss"));
     }
 }
