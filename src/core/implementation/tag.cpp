@@ -63,6 +63,7 @@ TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 {
     name = other.name;
     type = other.type;
+    displayName = other.displayName;
 
     return *this;
 }
@@ -122,7 +123,7 @@ TagValue::TagValue(): m_value()
 
 TagValue::TagValue(const QVariant& value): m_value(value)
 {
-    
+
 }
 
 
