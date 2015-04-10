@@ -42,13 +42,13 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/variant_converter.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/project_info.hpp>
 #include <database/backends/photo_info.hpp>
 
 #include "table_definition.hpp"
-//#include "sql_db_query.hpp"
 #include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
@@ -186,8 +186,8 @@ namespace Database
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
             std::deque<TagNameInfo> listTags() const;
-            TagValue::List listTagValues(const TagNameInfo& tagName);
-            TagValue::List listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            std::deque<QVariant> listTagValues(const TagNameInfo& tagName);
+            std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
             int getPhotosCount(const std::deque<IFilter::Ptr> &);
 
@@ -319,14 +319,15 @@ namespace Database
     }
 
 
-    TagValue::List ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
+    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
     {
         const ol::Optional<unsigned int> tagId = findTagByName(tagName);
 
-        TagValue::List result;
+        std::deque<QVariant> result;
 
         if (tagId)
         {
+            VariantConverter convert;
             QSqlDatabase db = QSqlDatabase::database(m_connectionName);
             QSqlQuery query(db);
             const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
@@ -336,9 +337,10 @@ namespace Database
 
             while (status && query.next())
             {
-                const QString value = query.value(0).toString();
+                const QString raw_value = query.value(0).toString();
+                const QVariant value = convert(tagName.getType(), raw_value);
 
-                result.insert(value);
+                result.push_back(value);
             }
         }
 
@@ -346,7 +348,7 @@ namespace Database
     }
 
 
-    TagValue::List ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
         const QString filterQuery = generateFilterQuery(filter);
 
@@ -361,16 +363,21 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        TagValue::List result;
+        std::deque<QVariant> result;
         const bool status = exec(queryStr, &query);
 
         if (status)
+        {
+            VariantConverter convert;
+
             while (status && query.next())
             {
-                const QString value = query.value(0).toString();
+                const QString raw_value = query.value(0).toString();
+                const QVariant value = convert( tagName.getType(), raw_value);
 
-                result.insert(value);
+                result.push_back(value);
             }
+        }
 
         return result;
     }
@@ -497,19 +504,18 @@ namespace Database
             if (tag_id)
             {
                 //store tag values
-                const TagValue& values = it->second;
+                const TagValue& value = it->second;
+                const VariantConverter convert;
+                const QString tag_value = convert(value.get());
 
-                for (const QString& valueInfo: values.getAll())
-                {
-                    const QString query_str =
-                        QString("INSERT INTO " TAB_TAGS
-                                "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");")
-                        .arg(valueInfo)
-                        .arg(photo_id)
-                        .arg(*tag_id);
+                const QString query_str =
+                    QString("INSERT INTO " TAB_TAGS
+                            "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");")
+                    .arg(tag_value)
+                    .arg(photo_id)
+                    .arg(*tag_id);
 
-                    status = exec(query_str, &query);
-                }
+                status = exec(query_str, &query);
             }
             else
                 status = false;
@@ -670,6 +676,7 @@ namespace Database
 
         const bool status = exec(queryStr, &query);
         Tag::TagsList tagData;
+        VariantConverter convert;
 
         while(status && query.next())
         {
@@ -677,7 +684,8 @@ namespace Database
             const QString value = query.value(2).toString();
             const unsigned int tagType = query.value(3).toInt();
 
-            tagData[TagNameInfo(name, tagType)] = TagValue(value);
+            const TagNameInfo tagName(name, tagType);
+            tagData[tagName] = TagValue( convert(tagName.getType(), value) );
         }
 
         return tagData;
@@ -996,9 +1004,9 @@ namespace Database
     }
 
 
-    TagValue::List ASqlBackend::listTagValues(const TagNameInfo& tagName)
+    std::deque<QVariant> ASqlBackend::listTagValues(const TagNameInfo& tagName)
     {
-        TagValue::List result;
+        std::deque<QVariant> result;
 
         if (m_data)
             result = m_data->listTagValues(tagName);
@@ -1009,9 +1017,9 @@ namespace Database
     }
 
 
-    TagValue::List ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    std::deque<QVariant> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        const TagValue::List result = m_data->listTagValues(tagName, filter);
+        const std::deque<QVariant> result = m_data->listTagValues(tagName, filter);
 
         return result;
     }

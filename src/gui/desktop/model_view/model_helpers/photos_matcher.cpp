@@ -102,9 +102,9 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 
     if (result && filter->tagValue.is_initialized())
     {
-        const std::set<QString>& vals = it->second.getAll();
+        const QVariant& val = it->second.get();
 
-        result = vals.find(*filter->tagValue) != vals.end();
+        result = *filter->tagValue == val;
     }
 
     m_doesMatch = result;

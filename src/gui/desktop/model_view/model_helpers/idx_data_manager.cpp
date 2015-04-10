@@ -87,12 +87,12 @@ namespace
 
         ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
 
-        virtual void got(const TagValue::List& values)
+        virtual void got(const std::deque<QVariant>& value)
         {
             auto callback = **m_tasks_result;
 
             if (callback)
-                callback->gotTagValuesForParent(this, values);
+                callback->gotTagValuesForParent(this, value);
         }
 
         callback_ptr<ITasksResults> m_tasks_result;
@@ -500,7 +500,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* ta
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const TagValue::List& tags)
+void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const std::deque<QVariant>& tags)
 {
     ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 
@@ -510,7 +510,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-    for(const QString& tag: tags)
+    for(const QVariant& tag: tags)
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>();
         filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;

@@ -42,23 +42,23 @@ namespace
             }
         }
 
-        bool operator() (const QString& l, const QString& r) const
+        bool operator() (const QVariant& l, const QVariant& r) const
         {
             return (this->*m_compFun)(l, r);
         }
 
         private:
-            bool ascendingComparer(const QString& l, const QString& r) const
+            bool ascendingComparer(const QVariant& l, const QVariant& r) const
             {
                 return l < r;
             }
 
-            bool descendingComparer(const QString& l, const QString& r) const
+            bool descendingComparer(const QVariant& l, const QVariant& r) const
             {
                 return l > r;
             }
 
-            typedef bool (TagValueComparer::*CompFun)(const QString& l, const QString& r) const;
+            typedef bool (TagValueComparer::*CompFun)(const QVariant& l, const QVariant& r) const;
 
             CompFun m_compFun;
     };
@@ -75,23 +75,23 @@ namespace
             }
         }
 
-        bool operator() (const QString& l, const QString& r) const
+        bool operator() (const QVariant& l, const QVariant& r) const
         {
             return (this->*m_compFun)(l, r);
         }
 
     private:
-        bool ascendingComparer(const QString& l, const QString& r) const
+        bool ascendingComparer(const QVariant& l, const QVariant& r) const
         {
             return l <= r;
         }
 
-        bool descendingComparer(const QString& l, const QString& r) const
+        bool descendingComparer(const QVariant& l, const QVariant& r) const
         {
             return l >= r;
         }
 
-        typedef bool (RelaxedTagValueComparer::*CompFun)(const QString& l, const QString& r) const;
+        typedef bool (RelaxedTagValueComparer::*CompFun)(const QVariant& l, const QVariant& r) const;
 
         CompFun m_compFun;
     };
@@ -117,27 +117,27 @@ namespace
 
             bool compareNodes(const IdxData* l, const IdxData* r) const
             {
-                const QString l_val = l->m_data[Qt::DisplayRole].toString();
-                const QString r_val = r->m_data[Qt::DisplayRole].toString();
+                const QVariant l_val = l->m_data[Qt::DisplayRole];
+                const QVariant r_val = r->m_data[Qt::DisplayRole];
 
                 return m_comparer(l_val, r_val);
             }
 
             bool compareLeafs(const IdxData* l, const IdxData* r) const
             {
-                const QString l_val = getValue(l);
-                const QString r_val = getValue(r);
+                const QVariant l_val = getValue(l);
+                const QVariant r_val = getValue(r);
 
                 return m_comparer(l_val, r_val);
             }
 
-            QString getValue(const IdxData* idx) const
+            QVariant getValue(const IdxData* idx) const
             {
                 const Tag::TagsList& tags = idx->m_photo->getTags();
 
                 const auto& tag = tags.find(m_level.tagName);
 
-                QString result;
+                QVariant result;
                 if (tag != tags.cend())
                     result = tag->second.get();
 
@@ -147,7 +147,7 @@ namespace
 }
 
 
-IdxData::IdxData(IdxDataManager* model, const QString& name): IdxData(model)
+IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
     

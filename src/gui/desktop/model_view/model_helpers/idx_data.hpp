@@ -50,7 +50,7 @@ class IdxData: public IPhotoInfo::IObserver
         FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
-        IdxData(IdxDataManager *, const QString& name);
+        IdxData(IdxDataManager *, const QVariant& name);
 
         //leaf constructor
         IdxData(IdxDataManager *, const IPhotoInfo::Ptr &);
