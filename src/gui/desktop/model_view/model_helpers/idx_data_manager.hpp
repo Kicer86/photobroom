@@ -34,7 +34,7 @@ struct ITasksResults
 
     virtual void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
     virtual void gotNonmatchingPhotosForParent(Database::AGetPhotosCount *, int size) = 0;
-    virtual void gotTagValuesForParent(Database::AListTagValuesTask *, const TagValue::List& tags) = 0;
+    virtual void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<QVariant>& tags) = 0;
 };
 
 
@@ -101,7 +101,7 @@ private:
     // database notifications:
     void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) override;
     void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int) override;
-    void gotTagValuesForParent(Database::AListTagValuesTask *, const TagValue::List& tags) override;
+    void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<QVariant>& tags) override;
     //
 
     void markIdxDataFetched(IdxData *);

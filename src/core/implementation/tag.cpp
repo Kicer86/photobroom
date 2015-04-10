@@ -3,8 +3,6 @@
 
 #include <QString>
 #include <QStringList>
-#include <QDate>
-#include <QTime>
 
 #include "base_tags.hpp"
 
@@ -116,13 +114,13 @@ QString TagNameInfo::dn(const QString& n) const
 //////////////////////////////////////////////////////////////
 
 
-TagValue::TagValue(): m_values()
+TagValue::TagValue(): m_value()
 {
 
 }
 
 
-TagValue::TagValue(const QString& value): m_values( {value} )
+TagValue::TagValue(const QVariant& value): m_value(value)
 {
 }
 
@@ -133,36 +131,27 @@ TagValue::~TagValue()
 }
 
 
-void TagValue::set(const QString& value)
+void TagValue::set(const QVariant& value)
 {
-    m_values.clear();
-    m_values.insert(value);
+   m_value = value;
 }
 
 
-const QString TagValue::get() const
+const QVariant& TagValue::get() const
 {
-    const QString r = m_values.empty()? "": *m_values.begin();
-
-    return r;
-}
-
-
-const TagValue::List& TagValue::getAll() const
-{
-    return m_values;
+    return m_value;
 }
 
 
 bool TagValue::operator==(const TagValue& other) const
 {
-    return m_values == other.m_values;
+    return m_value == other.m_value;
 }
 
 
 bool TagValue::operator!=(const TagValue& other) const
 {
-    return m_values != other.m_values;
+    return m_value != other.m_value;
 }
 
 
@@ -208,60 +197,10 @@ namespace Tag
         return m_value;
     }
 
-    QVariant Info::getValue() const
-    {
-        TagNameInfo::Type type = getTypeInfo().getType();
-        QVariant result;
-        const QString tag_value = value().get();
-
-        switch(type)
-        {
-            case TagNameInfo::Invalid:
-            case TagNameInfo::Text:
-                result = tag_value;
-                break;
-
-            case TagNameInfo::Date:
-                result = QDate::fromString(tag_value, "yyyy.MM.dd");
-                break;
-
-            case TagNameInfo::Time:
-                result = QTime::fromString(tag_value, "hh:mm:ss");
-                break;
-        };
-
-        return result;
-    }
-
-    void Info::setValue(const QString& v)
-    {
-        m_value.set(v);
-    }
 
     void Info::setValue(const QVariant& v)
     {
-        const QVariant::Type type = v.type();
-        QString result;
-
-        switch(type)
-        {
-            default:
-                assert(!"unknown type");
-
-            case QVariant::String:
-                result = v.toString();
-                break;
-
-            case QVariant::Date:
-                result = v.toDate().toString("yyyy.MM.dd");
-                break;
-
-            case QVariant::Time:
-                result = v.toTime().toString("hh::mm::ss");
-                break;
-        };
-
-        setValue(result);
+        m_value.set(v);
     }
 
 }

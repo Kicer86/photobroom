@@ -20,12 +20,25 @@
 #ifndef VARIANTCONVERTER_HPP
 #define VARIANTCONVERTER_HPP
 
+#include <QVariant>
+
+namespace Tag
+{
+    class Info;
+}
+
+class TagNameInfo;
+
 class VariantConverter
 {
     public:
         VariantConverter();
         VariantConverter(const VariantConverter &) = delete;
         ~VariantConverter();
+
+        QString operator()(const QVariant &) const;
+        QVariant operator()(const Tag::Info &) const;
+        QVariant operator()(const TagNameInfo &, const QString &) const;
 
         VariantConverter& operator=(const VariantConverter &) = delete;
 };

@@ -52,23 +52,19 @@ struct CORE_EXPORT TagNameInfo
 class CORE_EXPORT TagValue
 {
     public:
-        typedef std::set<QString> List;
-
         TagValue();
-        TagValue(const QString &);
+        TagValue(const QVariant &);
         ~TagValue();
 
-        void set(const QString &);
-        //void add(const QString &);
+        void set(const QVariant &);
 
-        const QString get() const;
-        const List& getAll() const;
+        const QVariant& get() const;
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
 
     private:
-        List m_values;
+        QVariant m_value;
 };
 
 
@@ -89,9 +85,7 @@ namespace Tag
 
             const TagNameInfo& getTypeInfo() const;
             const TagValue& value() const;
-            QVariant getValue() const;
 
-            void setValue(const QString &);
             void setValue(const QVariant &);
 
         private:

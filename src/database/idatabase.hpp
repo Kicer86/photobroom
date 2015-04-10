@@ -81,7 +81,7 @@ namespace Database
     {
         virtual ~AListTagValuesTask() {}
 
-        virtual void got(const TagValue::List &) = 0;
+        virtual void got(const std::deque<QVariant> &) = 0;
     };
 
     struct AGetPhotosTask

@@ -30,8 +30,6 @@
 #include "tags_model.hpp"
 
 #include <QItemSelectionModel>
-#include <QDate>
-#include <QTime>
 
 #include "model_view/db_data_model.hpp"
 #include "tags_operator.hpp"
@@ -108,7 +106,7 @@ void TagsModel::refreshModel()
             Tag::Info info(tag);
             QStandardItem* name = new QStandardItem(info.displayName());
             QStandardItem* value = new QStandardItem;
-            const QVariant v_value = info.getValue();            // get tag value as variant (it may be QDate, QTime, QString etc)
+            const QVariant v_value = info.value().get();
             value->setData(v_value, Qt::DisplayRole);
 
             const QList<QStandardItem *> items( { name, value });

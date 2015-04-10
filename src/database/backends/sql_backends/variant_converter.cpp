@@ -19,6 +19,13 @@
 
 #include "variant_converter.hpp"
 
+#include <cassert>
+
+#include <QDate>
+#include <QTime>
+
+#include <core/tag.hpp>
+
 VariantConverter::VariantConverter()
 {
 
@@ -31,7 +38,63 @@ VariantConverter::~VariantConverter()
 }
 
 
-VariantConverter& VariantConverter::operator=(const VariantConverter& other)
+QString VariantConverter::operator()(const QVariant& v) const
 {
 
+    const QVariant::Type type = v.type();
+    QString result;
+
+    switch(type)
+    {
+        default:
+            assert(!"unknown type");
+
+        case QVariant::String:
+            result = v.toString();
+            break;
+
+        case QVariant::Date:
+            result = v.toDate().toString("yyyy.MM.dd");
+            break;
+
+        case QVariant::Time:
+            result = v.toTime().toString("hh::mm::ss");
+            break;
+    };
+
+    return result;
+}
+
+
+QVariant VariantConverter::operator()(const Tag::Info& i) const
+{
+    TagNameInfo::Type type = i.getTypeInfo().getType();
+    QVariant result;
+    const QString tag_value = i.value().get().toString();
+
+    switch(type)
+    {
+        case TagNameInfo::Invalid:
+        case TagNameInfo::Text:
+            result = tag_value;
+            break;
+
+        case TagNameInfo::Date:
+            result = QDate::fromString(tag_value, "yyyy.MM.dd");
+            break;
+
+        case TagNameInfo::Time:
+            result = QTime::fromString(tag_value, "hh:mm:ss");
+            break;
+    };
+
+    return result;
+}
+
+
+QVariant VariantConverter::operator()(const TagNameInfo& i, const QString& v) const
+{
+    Tag::Info info(i, v);
+
+    return this->operator()(info);
 }

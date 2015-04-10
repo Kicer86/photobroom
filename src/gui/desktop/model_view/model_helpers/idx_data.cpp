@@ -139,7 +139,7 @@ namespace
 
                 QString result;
                 if (tag != tags.cend())
-                    result = tag->second.get();
+                    result = tag->second.get().toString();
 
                 return result;
             }
@@ -147,7 +147,7 @@ namespace
 }
 
 
-IdxData::IdxData(IdxDataManager* model, const QString& name): IdxData(model)
+IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
     
