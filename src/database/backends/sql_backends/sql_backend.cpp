@@ -338,7 +338,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const QVariant value = convert(tagName, raw_value);
+                const QVariant value = convert(tagName.getType(), raw_value);
 
                 result.push_back(value);
             }
@@ -676,6 +676,7 @@ namespace Database
 
         const bool status = exec(queryStr, &query);
         Tag::TagsList tagData;
+        VariantConverter convert;
 
         while(status && query.next())
         {
@@ -683,7 +684,8 @@ namespace Database
             const QString value = query.value(2).toString();
             const unsigned int tagType = query.value(3).toInt();
 
-            tagData[TagNameInfo(name, tagType)] = TagValue(value);
+            const TagNameInfo tagName(name, tagType);
+            tagData[tagName] = TagValue( convert(tagName.getType(), value) );
         }
 
         return tagData;

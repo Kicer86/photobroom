@@ -122,6 +122,7 @@ TagValue::TagValue(): m_value()
 
 TagValue::TagValue(const QVariant& value): m_value(value)
 {
+    
 }
 
 

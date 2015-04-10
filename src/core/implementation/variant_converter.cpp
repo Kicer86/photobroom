@@ -66,11 +66,9 @@ QString VariantConverter::operator()(const QVariant& v) const
 }
 
 
-QVariant VariantConverter::operator()(const Tag::Info& i) const
+QVariant VariantConverter::operator()(const TagNameInfo::Type& type, const QString& tag_value) const
 {
-    TagNameInfo::Type type = i.getTypeInfo().getType();
     QVariant result;
-    const QString tag_value = i.value().get().toString();
 
     switch(type)
     {
@@ -89,12 +87,4 @@ QVariant VariantConverter::operator()(const Tag::Info& i) const
     };
 
     return result;
-}
-
-
-QVariant VariantConverter::operator()(const TagNameInfo& i, const QString& v) const
-{
-    Tag::Info info(i, v);
-
-    return this->operator()(info);
 }

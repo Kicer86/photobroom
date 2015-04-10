@@ -23,13 +23,12 @@
 #include <QVariant>
 
 #include "core_export.h"
+#include "tag.hpp"
 
 namespace Tag
 {
     class Info;
 }
-
-class TagNameInfo;
 
 class CORE_EXPORT VariantConverter
 {
@@ -39,8 +38,7 @@ class CORE_EXPORT VariantConverter
         ~VariantConverter();
 
         QString operator()(const QVariant &) const;
-        QVariant operator()(const Tag::Info &) const;
-        QVariant operator()(const TagNameInfo &, const QString &) const;
+        QVariant operator()(const TagNameInfo::Type &, const QString &) const;
 
         VariantConverter& operator=(const VariantConverter &) = delete;
 };
