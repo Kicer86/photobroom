@@ -161,18 +161,28 @@ bool TagValue::operator!=(const TagValue& other) const
 namespace Tag
 {
 
-    Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_value(it->second) {}
-    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second) {}
+    Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_value(it->second) 
+    {
+        validate();
+    }
+    
+    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second) 
+    {
+        validate();
+    }
 
     Info::Info(const TagNameInfo& n, const QVariant& v): m_name(n), m_value()
     {
         setValue(v);
+        validate();
     }
 
     Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
     {
         m_name = data.first;
         m_value = data.second;
+        
+        validate();
 
         return *this;
     }
@@ -197,10 +207,42 @@ namespace Tag
         return m_value;
     }
 
-
     void Info::setValue(const QVariant& v)
     {
         m_value.set(v);
+        validate();
     }
+        
+    void Info::validate() const
+    {
+#ifndef NDEBUG
+        bool ok = false;
+        const auto expectedValueType = m_name.getType();
+        const auto currentValueType = m_value.get().userType();
+        
+        switch (expectedValueType)
+        {
+            case TagNameInfo::Invalid:
+                ok = currentValueType == QVariant::Invalid;
+                break;
+                
+            case TagNameInfo::Text:
+                ok = currentValueType == QVariant::String;
+                break;
+                
+            case TagNameInfo::Date:
+                ok = currentValueType == QVariant::Date;
+                break;
+                
+            case TagNameInfo::Time:
+                ok = currentValueType == QVariant::Time;
+                break;
+        }
+        
+        if (ok == false)
+            std::abort();
+#endif
+    }
+
 
 }

@@ -91,6 +91,8 @@ namespace Tag
         private:
             TagNameInfo m_name;
             TagValue m_value;
+            
+            void validate() const;
     };
 
 }
