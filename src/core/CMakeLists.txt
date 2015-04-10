@@ -60,6 +60,7 @@ set(CORE_HEADERS
     tag_updater.hpp
     task_executor.hpp
     time_guardian.hpp
+    tree.hpp
     variant_converter.hpp
     implementation/atagfeeder.hpp
     implementation/tree_iterator_base.hpp
