@@ -48,7 +48,7 @@ QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
         case QVariant::Date:
         {
             QDate d = v.toDate();
-            result = l.toString(d, QLocale::LongFormat);
+            result = l.toString(d, QLocale::ShortFormat);
             break;
         }
 
