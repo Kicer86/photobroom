@@ -55,7 +55,7 @@ QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
         case QVariant::Time:
         {
             QTime t = v.toTime();
-            result = l.toString(t, QLocale::LongFormat);
+            result = l.toString(t, "hh:mm:ss");
             break;
         }
 
