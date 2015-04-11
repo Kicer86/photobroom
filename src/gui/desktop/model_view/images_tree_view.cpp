@@ -201,10 +201,7 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
-    TIME_GUARDIAN("paint", 100, "long paint");
-
-    static int i;
-    std::cout << "paint event " << i++ << std::endl;
+    TIME_GUARDIAN("ImagesTreeView::paintEvent", 100, "long paint");
 
     updateView();
 
@@ -355,7 +352,7 @@ void ImagesTreeView::modelReset()
 
 void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
-    TIME_GUARDIAN("insert", 100, "long inserting");
+    TIME_GUARDIAN("ImagesTreeView::rowsInserted", 100, "long inserting");
 
     m_data->getModel().rowsInserted(_parent, from, to);
 
@@ -368,7 +365,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 
 void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
 {
-    TIME_GUARDIAN("move", 100, "long moving");
+    TIME_GUARDIAN("ImagesTreeView::rowsMoved", 100, "long moving");
 
     m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
@@ -391,7 +388,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
-    TIME_GUARDIAN("remove", 100, "long removing");
+    TIME_GUARDIAN("ImagesTreeView::rowsRemoved", 100, "long removing");
 
     m_data->getModel().rowsRemoved(_parent, first, last);
 
