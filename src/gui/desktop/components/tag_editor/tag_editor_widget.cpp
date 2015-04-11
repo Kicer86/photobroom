@@ -24,8 +24,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
-#include <qitemeditorfactory.h>
-#include <QMetaMethod>
+#include <QItemEditorFactory>
 
 #include <core/base_tags.hpp>
 
