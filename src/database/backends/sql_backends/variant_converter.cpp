@@ -58,7 +58,7 @@ QString VariantConverter::operator()(const QVariant& v) const
             break;
 
         case QVariant::Time:
-            result = v.toTime().toString("hh:mm:ss");
+            result = v.toTime().toString("HH:mm:ss");
             break;
     };
 
@@ -82,7 +82,7 @@ QVariant VariantConverter::operator()(const TagNameInfo::Type& type, const QStri
             break;
 
         case TagNameInfo::Time:
-            result = QTime::fromString(tag_value, "hh:mm:ss");
+            result = QTime::fromString(tag_value, "HH:mm:ss");
             break;
     };
 
