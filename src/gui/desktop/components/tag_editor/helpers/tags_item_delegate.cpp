@@ -21,6 +21,7 @@
 
 #include "components/variant_display.hpp"
 
+
 TagsItemDelegate::TagsItemDelegate()
 {
 
