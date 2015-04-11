@@ -34,6 +34,7 @@ set(GUI_SOURCES
     desktop/components/photos_widget.cpp
     desktop/components/staged_photos_data_model.cpp
     desktop/components/staged_photos_widget.cpp
+    desktop/components/variant_display.cpp
     desktop/components/filters_editor/level_editor.cpp
     desktop/components/project_creator/project_creator_dialog.cpp
     desktop/components/tag_editor/tag_editor_widget.cpp
@@ -66,6 +67,7 @@ set(GUI_HEADERS
     desktop/components/photos_widget.hpp
     desktop/components/staged_photos_data_model.hpp
     desktop/components/staged_photos_widget.hpp
+    desktop/components/variant_display.hpp
     desktop/components/filters_editor/level_editor.hpp
     desktop/components/project_creator/project_creator_dialog.hpp
     desktop/components/tag_editor/tag_editor_widget.hpp
