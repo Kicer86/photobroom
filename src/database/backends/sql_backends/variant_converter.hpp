@@ -1,5 +1,5 @@
 /*
- * Tool for QVariant conversions.
+ * Tool for QVariant conversions for database storage purposes.
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,14 @@
 
 #include <QVariant>
 
-#include "core_export.h"
-#include "tag.hpp"
+#include <core/tag.hpp>
 
 namespace Tag
 {
     class Info;
 }
 
-class CORE_EXPORT VariantConverter
+class VariantConverter
 {
     public:
         VariantConverter();

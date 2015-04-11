@@ -42,7 +42,6 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
-#include <core/variant_converter.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_manager.hpp>
 #include <database/project_info.hpp>
@@ -53,6 +52,7 @@
 #include "tables.hpp"
 #include "query_structs.hpp"
 #include "sql_select_query_generator.hpp"
+#include "variant_converter.hpp"
 
 
 namespace Database
