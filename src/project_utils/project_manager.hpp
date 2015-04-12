@@ -31,7 +31,8 @@ namespace Database
 {
     struct IBuilder;
 }
-class IConfiguration;
+
+struct IConfiguration;
 
 
 class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
