@@ -26,7 +26,7 @@
 
 namespace Tag
 {
-    class Info;
+    struct Info;
 }
 
 class VariantConverter
