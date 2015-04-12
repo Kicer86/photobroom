@@ -50,7 +50,7 @@ void PhotosReceiver::found(const QString &path)
 struct PhotosCollector::Data
 {
     StagedPhotosDataModel* m_model;
-    IPhotoCrawler* m_crawler;
+    std::unique_ptr<IPhotoCrawler> m_crawler;
     PhotosReceiver m_receiver;
 
     Data(): m_model(nullptr), m_crawler(nullptr), m_receiver()

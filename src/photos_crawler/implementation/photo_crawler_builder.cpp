@@ -14,7 +14,7 @@ PhotoCrawlerBuilder::~PhotoCrawlerBuilder()
 {
 }
 
-IPhotoCrawler* PhotoCrawlerBuilder::build()
+std::unique_ptr<IPhotoCrawler> PhotoCrawlerBuilder::build()
 {
     auto analyzer = std::make_shared<FileAnalyzer>();
 
@@ -27,5 +27,5 @@ IPhotoCrawler* PhotoCrawlerBuilder::build()
     //build crawler
     IPhotoCrawler* crawler = new PhotoCrawler(scanner, analyzer);
 
-    return crawler;
+    return std::unique_ptr<IPhotoCrawler>(crawler);
 }
