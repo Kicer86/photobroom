@@ -55,7 +55,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="862"/>
+        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="864"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
