@@ -22,6 +22,8 @@
 
 #include <QTableView>
 
+#include "components/editor_factory.hpp"
+
 class TagsView: public QTableView
 {
     public:
@@ -32,6 +34,8 @@ class TagsView: public QTableView
         TagsView& operator=(const TagsView &) = delete;
 
     private:
+        EditorFactory m_editorFactory;
+
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
 };
 
