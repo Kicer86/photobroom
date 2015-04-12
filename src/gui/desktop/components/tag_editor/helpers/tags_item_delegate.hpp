@@ -20,7 +20,7 @@
 #ifndef TAGSITEMDELEGATE_HPP
 #define TAGSITEMDELEGATE_HPP
 
-#include <qt/QtWidgets/QStyledItemDelegate>
+#include <QStyledItemDelegate>
 
 class TagsItemDelegate : public QStyledItemDelegate
 {
