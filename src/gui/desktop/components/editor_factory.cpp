@@ -19,9 +19,23 @@
 
 #include "editor_factory.hpp"
 
+#include <QTimeEdit>
+#include <QDateEdit>
+
+
+struct TimeEditor: QTimeEdit
+{
+    explicit TimeEditor(QWidget* parent_widget = 0): QTimeEdit(parent_widget)
+    {
+        setDisplayFormat("hh:mm:ss");
+    }
+};
+
+
 EditorFactory::EditorFactory(): QItemEditorFactory()
 {
-
+    QItemEditorCreatorBase *time_creator = new QStandardItemEditorCreator<TimeEditor>();
+    registerEditor(QVariant::Time, time_creator);
 }
 
 
