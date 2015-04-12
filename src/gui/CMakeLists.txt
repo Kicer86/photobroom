@@ -30,6 +30,7 @@ set(GUI_SOURCES
     desktop/model_view/view_helpers/positions_reseter.cpp
     desktop/model_view/images_tree_view.cpp
     desktop/model_view/tree_item_delegate.cpp
+    desktop/components/editor_factory.cpp
     desktop/components/photos_data_model.cpp
     desktop/components/photos_widget.cpp
     desktop/components/staged_photos_data_model.cpp
@@ -63,6 +64,7 @@ set(GUI_HEADERS
     desktop/model_view/view_helpers/view_data_set.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/tree_item_delegate.hpp
+    desktop/components/editor_factory.hpp
     desktop/components/iview.hpp
     desktop/components/photos_data_model.hpp
     desktop/components/photos_widget.hpp
