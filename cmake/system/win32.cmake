@@ -37,7 +37,6 @@ endfunction(install_external_lib)
 function(addDeploymentActions)
 
     # install required dll files
-    set(libs_OL  libputils)
     set(libs_SSL libeay32)
 
     if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
@@ -46,7 +45,6 @@ function(addDeploymentActions)
         set(libs_Compiler )
     endif()
             
-    install_external_lib(NAME "Open Library" DLLFILES ${libs_OL})
     install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
     
@@ -113,11 +111,8 @@ function(addDeploymentActions)
     
 endfunction(addDeploymentActions)
 
-#enable deployment only for gcc
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    #execute functions
-    addDeploymentActions()
-endif()
+#enable deployment
+addDeploymentActions()
 
 #http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
 set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
