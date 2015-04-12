@@ -39,10 +39,24 @@ function(addDeploymentActions)
     # install required dll files
     set(libs_SSL libeay32)
 
-    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+
         set(libs_Compiler libgcc_s_dw2-1 libstdc++-6 libwinpthread-1 libgomp-1)
-    else()
+
+    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+
+        find_program(VS_REDIST
+                     vcredist_x86
+                     DOC "Visual Studio redistributable package installer"
+                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 12.0/VC/redist/"
+                    )
+
+        if(NOT VS_REDIST)
+            message(FATAL_ERROR "Could not find Visual Studio redistributable package installer")
+        endif()
+
         set(libs_Compiler )
+
     endif()
             
     install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
