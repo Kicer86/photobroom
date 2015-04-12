@@ -34,7 +34,7 @@ function(install_external_lib)
 endfunction(install_external_lib)
 
 
-function(addDeploymentActions)
+macro(addDeploymentActions)
 
     # install required dll files
     set(libs_SSL libeay32)
@@ -58,7 +58,7 @@ function(addDeploymentActions)
         #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
         install(PROGRAMS ${VS_REDIST} DESTINATION tmp)
 
-        list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '$INSTDIR\\\\tmp\\\\vcredist_x86.exe'")
+        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\vcredist_x86.exe\\\"'")
 
         set(libs_Compiler )
 
@@ -128,7 +128,7 @@ function(addDeploymentActions)
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
     
-endfunction(addDeploymentActions)
+endmacro(addDeploymentActions)
 
 #enable deployment
 addDeploymentActions()
