@@ -123,7 +123,7 @@ void TagEditorWidget::setTagValueWidget(int idx)
             break;
     }
 
-    QItemEditorFactory factory;
+    EditorFactory factory;
 
     m_tagValueWidget = factory.createEditor(type, m_tagValueContainer);
     m_tagValueProp = factory.valuePropertyName(type);
