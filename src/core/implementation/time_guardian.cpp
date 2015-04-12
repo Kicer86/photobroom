@@ -48,8 +48,6 @@ TimeGuardian::~TimeGuardian()
 
     if (diff_ms > m_data->m_limit)
         std::cerr << m_data->m_title << ": " << diff_ms << "ms. " << m_data->m_limitMessage << std::endl;
-    else
-        std::cout << m_data->m_title << ": " << diff_ms << "ms." << std::endl;
 }
 
 

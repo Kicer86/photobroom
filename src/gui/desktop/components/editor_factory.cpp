@@ -1,5 +1,5 @@
 /*
- * Tool for QVariant conversions.
+ * Editor factory for views
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,29 @@
  *
  */
 
-#ifndef VARIANTCONVERTER_HPP
-#define VARIANTCONVERTER_HPP
+#include "editor_factory.hpp"
 
-#include <QVariant>
+#include <QTimeEdit>
+#include <QDateEdit>
 
-#include "core_export.h"
-#include "tag.hpp"
 
-namespace Tag
+struct TimeEditor: QTimeEdit
 {
-    class Info;
-}
-
-class CORE_EXPORT VariantConverter
-{
-    public:
-        VariantConverter();
-        VariantConverter(const VariantConverter &) = delete;
-        ~VariantConverter();
-
-        QString operator()(const QVariant &) const;
-        QString operator()(const QString &) const = delete;
-        QVariant operator()(const TagNameInfo::Type &, const QString &) const;
-
-        VariantConverter& operator=(const VariantConverter &) = delete;
+    explicit TimeEditor(QWidget* parent_widget = 0): QTimeEdit(parent_widget)
+    {
+        setDisplayFormat("hh:mm:ss");
+    }
 };
 
-#endif // VARIANTCONVERTER_HPP
+
+EditorFactory::EditorFactory(): QItemEditorFactory()
+{
+    QItemEditorCreatorBase *time_creator = new QStandardItemEditorCreator<TimeEditor>();
+    registerEditor(QVariant::Time, time_creator);
+}
+
+
+EditorFactory::~EditorFactory()
+{
+
+}

@@ -121,6 +121,8 @@ struct IdxDataManager::Data
     {
         // disable any notifications from database
         m_tasksResultsCtrl.invalidate();
+
+        delete m_root;
     }
 
     void init(IdxDataManager* manager)

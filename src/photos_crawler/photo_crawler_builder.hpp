@@ -13,7 +13,7 @@ struct PHOTOS_CRAWLER_EXPORT PhotoCrawlerBuilder
     PhotoCrawlerBuilder();
     virtual ~PhotoCrawlerBuilder();
 
-    IPhotoCrawler* build();
+    std::unique_ptr<IPhotoCrawler> build();
 };
 
 #endif

@@ -1,6 +1,6 @@
 /*
- * View for tags
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Item delagate for tags view
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,26 +17,23 @@
  *
  */
 
-#ifndef TAGSVIEW_HPP
-#define TAGSVIEW_HPP
+#ifndef TAGSITEMDELEGATE_HPP
+#define TAGSITEMDELEGATE_HPP
 
-#include <QTableView>
+#include <qt/QtWidgets/QStyledItemDelegate>
 
-#include "components/editor_factory.hpp"
-
-class TagsView: public QTableView
+class TagsItemDelegate : public QStyledItemDelegate
 {
     public:
-        TagsView(QWidget * = 0);
-        TagsView(const TagsView &) = delete;
-        ~TagsView();
+        TagsItemDelegate();
+        TagsItemDelegate(const TagsItemDelegate &) = delete;
+        ~TagsItemDelegate();
 
-        TagsView& operator=(const TagsView &) = delete;
+        TagsItemDelegate& operator=(const TagsItemDelegate &) = delete;
 
     private:
-        EditorFactory m_editorFactory;
-
-        bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
+        QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+        QString displayText(const QVariant& value, const QLocale& locale) const override;
 };
 
-#endif // TAGSVIEW_HPP
+#endif // TAGSITEMDELEGATE_HPP

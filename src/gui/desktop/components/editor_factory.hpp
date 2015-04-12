@@ -1,6 +1,6 @@
 /*
- * View for tags
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Editor factory for views
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,26 +17,19 @@
  *
  */
 
-#ifndef TAGSVIEW_HPP
-#define TAGSVIEW_HPP
+#ifndef EDITORFACTORY_HPP
+#define EDITORFACTORY_HPP
 
-#include <QTableView>
+#include <QItemEditorFactory>
 
-#include "components/editor_factory.hpp"
-
-class TagsView: public QTableView
+class EditorFactory: public QItemEditorFactory
 {
     public:
-        TagsView(QWidget * = 0);
-        TagsView(const TagsView &) = delete;
-        ~TagsView();
+        EditorFactory();
+        EditorFactory(const EditorFactory &) = delete;
+        ~EditorFactory();
 
-        TagsView& operator=(const TagsView &) = delete;
-
-    private:
-        EditorFactory m_editorFactory;
-
-        bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
+        EditorFactory& operator=(const EditorFactory &) = delete;
 };
 
-#endif // TAGSVIEW_HPP
+#endif // EDITORFACTORY_HPP

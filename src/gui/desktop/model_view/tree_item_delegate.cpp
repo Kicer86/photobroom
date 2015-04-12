@@ -21,9 +21,10 @@
 
 #include <QCache>
 #include <QPainter>
-#include <QStyledItemDelegate>
 
+#include "components/variant_display.hpp"
 #include "view_helpers/data.hpp"
+
 
 TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_rotationData(new QCache<QModelIndex, RotationData>(1000))
 {
@@ -90,7 +91,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DisplayRole);
-    const QString t = QStyledItemDelegate().displayText(v, option.locale);
+    const QString t = VariantDisplay()(v, option.locale);
 
     painter->drawText(r, Qt::AlignCenter, t);
 }

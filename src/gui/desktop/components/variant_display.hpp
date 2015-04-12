@@ -1,6 +1,6 @@
 /*
- * View for tags
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Tool for QVariant to readable string conversion.
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,26 +17,24 @@
  *
  */
 
-#ifndef TAGSVIEW_HPP
-#define TAGSVIEW_HPP
+#ifndef VARIANTDISPLAY_HPP
+#define VARIANTDISPLAY_HPP
 
-#include <QTableView>
+#include <QString>
 
-#include "components/editor_factory.hpp"
+class QVariant;
+class QLocale;
 
-class TagsView: public QTableView
+class VariantDisplay
 {
     public:
-        TagsView(QWidget * = 0);
-        TagsView(const TagsView &) = delete;
-        ~TagsView();
+        VariantDisplay();
+        VariantDisplay(const VariantDisplay &) = delete;
+        ~VariantDisplay();
 
-        TagsView& operator=(const TagsView &) = delete;
+        VariantDisplay& operator=(const VariantDisplay &) = delete;
 
-    private:
-        EditorFactory m_editorFactory;
-
-        bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
+        QString operator()(const QVariant &, const QLocale &) const;
 };
 
-#endif // TAGSVIEW_HPP
+#endif // VARIANTDISPLAY_HPP

@@ -1,5 +1,5 @@
 /*
- * Tool for QVariant conversions.
+ * Tool for QVariant to readable string conversion.
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,74 +17,56 @@
  *
  */
 
-#include "variant_converter.hpp"
+#include "variant_display.hpp"
 
 #include <cassert>
 
+#include <QVariant>
+#include <QLocale>
 #include <QDate>
 #include <QTime>
 
-#include <core/tag.hpp>
-
-VariantConverter::VariantConverter()
+VariantDisplay::VariantDisplay()
 {
 
 }
 
 
-VariantConverter::~VariantConverter()
+VariantDisplay::~VariantDisplay()
 {
 
 }
 
 
-QString VariantConverter::operator()(const QVariant& v) const
+QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
 {
-
     const QVariant::Type type = v.type();
     QString result;
 
     switch(type)
     {
-        default:
-            assert(!"unknown type");
+        case QVariant::Date:
+        {
+            QDate d = v.toDate();
+            result = l.toString(d, QLocale::ShortFormat);
+            break;
+        }
+
+        case QVariant::Time:
+        {
+            QTime t = v.toTime();
+            result = l.toString(t, "hh:mm:ss");
+            break;
+        }
 
         case QVariant::String:
             result = v.toString();
             break;
 
-        case QVariant::Date:
-            result = v.toDate().toString("yyyy.MM.dd");
+        default:
+            assert(!"unexpected type");
             break;
-
-        case QVariant::Time:
-            result = v.toTime().toString("hh:mm:ss");
-            break;
-    };
-
-    return result;
-}
-
-
-QVariant VariantConverter::operator()(const TagNameInfo::Type& type, const QString& tag_value) const
-{
-    QVariant result;
-
-    switch(type)
-    {
-        case TagNameInfo::Invalid:
-        case TagNameInfo::Text:
-            result = tag_value;
-            break;
-
-        case TagNameInfo::Date:
-            result = QDate::fromString(tag_value, "yyyy.MM.dd");
-            break;
-
-        case TagNameInfo::Time:
-            result = QTime::fromString(tag_value, "hh:mm:ss");
-            break;
-    };
+    }
 
     return result;
 }
