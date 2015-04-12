@@ -7,13 +7,13 @@ include(ExternalProject)
 
 function(addEasyExif)
 
-    find_program(SVN_EXECUTABLE svn DOC "Path to subversion executable")
+    find_package(git)
 
-    if (SVN_EXECUTABLE)
+    if(GIT_FOUND)
                               
         #download easyexif rule
         add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp
-                           COMMAND ${SVN_EXECUTABLE} checkout http://easyexif.googlecode.com/svn/trunk/ easyexif
+                           COMMAND ${GIT_EXECUTABLE} clone https://github.com/mayanklahiri/easyexif.git
                            DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/src/dir
                            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/src)
 
@@ -27,7 +27,7 @@ function(addEasyExif)
 
         set_source_files_properties(${CMAKE_BINARY_DIR}/3rd_party/src/easyexif/exif.cpp PROPERTIES GENERATED TRUE)
     else()
-        message(FATAL_ERROR "EasyEXIF cannot be downloaded. No svn command found.")
+        message(FATAL_ERROR "EasyEXIF cannot be downloaded. No git command found.")
     endif()
 
 endfunction(addEasyExif)
