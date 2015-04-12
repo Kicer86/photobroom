@@ -23,12 +23,16 @@
 #include <QHeaderView>
 
 #include "tags_item_delegate.hpp"
+#include "components/editor_factory.hpp"
 
 
 TagsView::TagsView(QWidget* p): QTableView(p)
 {
+    TagsItemDelegate* delegate = new TagsItemDelegate;
+    delegate->setItemEditorFactory(new EditorFactory);
+
     verticalHeader()->hide();
-    setItemDelegate(new TagsItemDelegate);
+    setItemDelegate(delegate);
 }
 
 
