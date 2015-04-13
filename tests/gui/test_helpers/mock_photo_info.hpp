@@ -13,18 +13,18 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_CONST_METHOD0(getPath, const QString&());
     MOCK_CONST_METHOD0(getTags, const Tag::TagsList&());
     MOCK_CONST_METHOD0(getThumbnail, const QPixmap&());
-    MOCK_CONST_METHOD0(getHash, const Hash&());
+    MOCK_CONST_METHOD0(getSha256, const Sha256sum&());
     MOCK_CONST_METHOD0(getID, Id());
 
     MOCK_CONST_METHOD0(isFullyInitialized, bool());
-    MOCK_CONST_METHOD0(isHashLoaded, bool());
+    MOCK_CONST_METHOD0(isSha256Loaded, bool());
     MOCK_CONST_METHOD0(isThumbnailLoaded, bool());
     MOCK_CONST_METHOD0(isExifDataLoaded, bool());
 
     MOCK_METHOD1(registerObserver, void(IObserver *));
     MOCK_METHOD1(unregisterObserver, void(IObserver *));
 
-    MOCK_METHOD1(initHash, void(const Hash &));
+    MOCK_METHOD1(initSha256, void(const Sha256sum &));
     MOCK_METHOD1(initThumbnail, void(const QPixmap &));
     MOCK_METHOD1(initID, void(const Id &));
 

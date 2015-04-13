@@ -35,7 +35,7 @@ namespace Database
             TagsWithPhotos,
             TagNamesWithTags,
             FlagsWithPhotos,
-            HashWithPhotos,
+            Sha256WithPhotos,
         };
 
         std::set<Join> joins;
@@ -91,10 +91,10 @@ namespace Database
 
             switch(flag)
             {
-                case IPhotoInfo::FlagsE::StagingArea:     result = FLAG_STAGING_AREA; break;
-                case IPhotoInfo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;  break;
-                case IPhotoInfo::FlagsE::Sha256Loaded:    result = FLAG_HASH_LOADED;  break;
-                case IPhotoInfo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED; break;
+                case IPhotoInfo::FlagsE::StagingArea:     result = FLAG_STAGING_AREA;  break;
+                case IPhotoInfo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;   break;
+                case IPhotoInfo::FlagsE::Sha256Loaded:    result = FLAG_SHA256_LOADED; break;
+                case IPhotoInfo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
             }
 
             return result;
@@ -158,8 +158,8 @@ namespace Database
         {
             assert(sha256->sha256.empty() == false);
 
-            m_filterResult.joins.insert(FilterData::HashWithPhotos);
-            m_filterResult.conditions.append( QString(TAB_HASHES ".hash = '%1'").arg(sha256->sha256.c_str()) );
+            m_filterResult.joins.insert(FilterData::Sha256WithPhotos);
+            m_filterResult.conditions.append( QString(TAB_SHA256SUMS ".sha256 = '%1'").arg(sha256->sha256.c_str()) );
         }
 
         void visit(FilterNotMatchingFilter* filter) override
@@ -278,10 +278,10 @@ namespace Database
 
             switch(item)
             {
-                case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;      break;
-                case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES; break;      //TAB_TAGS must be already joined
-                case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;     break;
-                case FilterData::HashWithPhotos:   joinWith = TAB_HASHES;    break;
+                case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;       break;
+                case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES;  break;      //TAB_TAGS must be already joined
+                case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;      break;
+                case FilterData::Sha256WithPhotos: joinWith = TAB_SHA256SUMS; break;
             }
 
             joinsWith.append(joinWith);
@@ -302,7 +302,7 @@ namespace Database
                 case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = " + getPhotoId();   break;
                 case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
                 case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = " + getPhotoId();  break;
-                case FilterData::HashWithPhotos:   join = TAB_HASHES ".photo_id = " + getPhotoId(); break;
+                case FilterData::Sha256WithPhotos: join = TAB_SHA256SUMS ".photo_id = " + getPhotoId(); break;
             }
 
             joins.append(join);

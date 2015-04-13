@@ -86,8 +86,8 @@ namespace
         {
             if (photoInfo->isFullyInitialized() == false)
             {
-                if (photoInfo->isHashLoaded() == false)
-                    m_updater.updateHash(photoInfo);
+                if (photoInfo->isSha256Loaded() == false)
+                    m_updater.updateSha256(photoInfo);
 
                 if (photoInfo->isThumbnailLoaded() == false)
                     m_updater.updateThumbnail(photoInfo);

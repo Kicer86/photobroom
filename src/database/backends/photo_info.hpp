@@ -15,7 +15,7 @@
 
 class QPixmap;
 
-struct HashAssigner;
+struct Sha256Assigner;
 
 class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource<Tag::TagsList>::INotify
 {
@@ -30,12 +30,12 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         const QString& getPath() const;
         const Tag::TagsList& getTags() const;       // a access to tags
         const QPixmap& getThumbnail() const;        // a temporary thumbnail may be returned when final one is not yet generated.
-        const Hash& getHash() const;                // Do not call until isHashLoaded()
+        const Sha256sum& getSha256() const;         // Do not call until isSha256Loaded()
         Id getID() const;
 
         //status checking
         bool isFullyInitialized() const;            // returns true if photo fully loaded (all items below are loaded)
-        bool isHashLoaded() const;                  // returns true if hash is not null
+        bool isSha256Loaded() const;                // returns true if sha256 is not null
         bool isThumbnailLoaded() const;             // returns true if thumbnail is loaded
         bool isExifDataLoaded() const;              // returns true is tags were loaded
 
@@ -44,7 +44,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         void unregisterObserver(IObserver *);
 
         //data initializing
-        void initHash(const Hash &);
+        void initSha256(const Sha256sum &);
         void initThumbnail(const QPixmap &);
         void initID(const Id &);
 

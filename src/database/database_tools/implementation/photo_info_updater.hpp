@@ -31,7 +31,7 @@ class PhotoInfoUpdater final: ITaskObserver
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
         PhotoInfoUpdater& operator=(const PhotoInfoUpdater &) = delete;
 
-        void updateHash(const IPhotoInfo::Ptr &);
+        void updateSha256(const IPhotoInfo::Ptr &);
         void updateThumbnail(const IPhotoInfo::Ptr &);
         void updateTags(const IPhotoInfo::Ptr &);
 

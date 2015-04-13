@@ -51,7 +51,7 @@ PhotoInfo::Id::type PhotoInfo::Id::value() const
 /*********************************************************************************************************/
 
 
-PhotoInfo::Flags::Flags(): stagingArea(0), exifLoaded(0), hashLoaded(0), thumbnailLoaded(0)
+PhotoInfo::Flags::Flags(): stagingArea(0), exifLoaded(0), sha256Loaded(0), thumbnailLoaded(0)
 {
 
 }
@@ -63,7 +63,7 @@ struct PhotoInfo::Data
         path(),
         m_observers(),
         tags(),
-        hash(),
+        sha256(),
         m_thumbnail(),
         m_flags(),
         m_id()
@@ -77,7 +77,7 @@ struct PhotoInfo::Data
     std::set<IObserver *> m_observers;
 
     ol::ThreadSafeResource<Tag::TagsList> tags;
-    ol::ThreadSafeResource<PhotoInfo::Hash> hash;
+    ol::ThreadSafeResource<PhotoInfo::Sha256sum> sha256;
     ol::ThreadSafeResource<QPixmap> m_thumbnail;
     ol::ThreadSafeResource<PhotoInfo::Flags> m_flags;
     ol::ThreadSafeResource<PhotoInfo::Id> m_id;
@@ -125,10 +125,10 @@ const QPixmap& PhotoInfo::getThumbnail() const
 }
 
 
-const PhotoInfo::Hash& PhotoInfo::getHash() const
+const PhotoInfo::Sha256sum& PhotoInfo::getSha256() const
 {
-    assert(isHashLoaded());
-    auto result = m_data->hash.lock();
+    assert(isSha256Loaded());
+    auto result = m_data->sha256.lock();
 
     return result.get();
 }
@@ -144,11 +144,11 @@ PhotoInfo::Id PhotoInfo::getID() const
 
 bool PhotoInfo::isFullyInitialized() const
 {
-    return isHashLoaded() && isThumbnailLoaded() && isExifDataLoaded();
+    return isSha256Loaded() && isThumbnailLoaded() && isExifDataLoaded();
 }
 
 
-bool PhotoInfo::isHashLoaded() const
+bool PhotoInfo::isSha256Loaded() const
 {
     return getFlag(FlagsE::Sha256Loaded) > 0;
 }
@@ -178,12 +178,12 @@ void PhotoInfo::unregisterObserver(IObserver* observer)
 }
 
 
-void PhotoInfo::initHash(const Hash& hash)
+void PhotoInfo::initSha256(const Sha256sum& sha256)
 {
-    assert(isHashLoaded() == false);
+    assert(isSha256Loaded() == false);
 
-    m_data->hash.lock().get() = hash;
-    m_data->m_flags.lock().get().hashLoaded = true;
+    m_data->sha256.lock().get() = sha256;
+    m_data->m_flags.lock().get().sha256Loaded = true;
 
     updated();
 }
@@ -235,7 +235,7 @@ void PhotoInfo::markFlag(IPhotoInfo::FlagsE flag, int v)
             break;
 
         case FlagsE::Sha256Loaded:
-            m_data->m_flags.lock()->hashLoaded = v;
+            m_data->m_flags.lock()->sha256Loaded = v;
             break;
 
         case FlagsE::ThumbnailLoaded:
@@ -262,7 +262,7 @@ int PhotoInfo::getFlag(IPhotoInfo::FlagsE flag) const
             break;
 
         case FlagsE::Sha256Loaded:
-            result = m_data->m_flags.lock()->hashLoaded;
+            result = m_data->m_flags.lock()->sha256Loaded;
             break;
 
         case FlagsE::ThumbnailLoaded:

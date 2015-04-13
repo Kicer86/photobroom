@@ -62,14 +62,14 @@ struct ThumbnailGenerator: BaseTask
 };
 
 
-struct HashAssigner: public BaseTask
+struct Sha256Assigner: public BaseTask
 {
-    HashAssigner(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo): BaseTask(observer), m_photoInfo(photoInfo)
+    Sha256Assigner(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo): BaseTask(observer), m_photoInfo(photoInfo)
     {
     }
 
-    HashAssigner(const HashAssigner &) = delete;
-    HashAssigner& operator=(const HashAssigner &) = delete;
+    Sha256Assigner(const Sha256Assigner &) = delete;
+    Sha256Assigner& operator=(const Sha256Assigner &) = delete;
 
     virtual std::string name() const override
     {
@@ -82,8 +82,8 @@ struct HashAssigner: public BaseTask
         PhotosManager::instance()->getPhoto(m_photoInfo, &data);
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        const IPhotoInfo::Hash hash = HashFunctions::sha256(udata, data.size());
-        m_photoInfo->initHash(hash);
+        const IPhotoInfo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
+        m_photoInfo->initSha256(hash);
     }
 
     IPhotoInfo::Ptr m_photoInfo;
@@ -136,9 +136,9 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 }
 
 
-void PhotoInfoUpdater::updateHash(const IPhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<HashAssigner> task(new HashAssigner(this, photoInfo));
+    std::unique_ptr<Sha256Assigner> task(new Sha256Assigner(this, photoInfo));
 
     started(task.get());
     m_task_executor->add(std::move(task));

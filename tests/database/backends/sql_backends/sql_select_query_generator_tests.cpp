@@ -29,7 +29,7 @@ TEST(SqlSelectQueryGeneratorTest, HandlesFlagsFilter)
     filter->flags.clear();
     filter->flags[IPhotoInfo::FlagsE::Sha256Loaded] = 2;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.hash_loaded = '2'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
 
     filter->flags.clear();
     filter->flags[IPhotoInfo::FlagsE::StagingArea] = 3;
@@ -98,8 +98,8 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (hashes) ON (hashes.photo_id = photos.id) "
-              "WHERE hashes.hash = '1234567890'", query);
+              "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
+              "WHERE sha256sums.sha256 = '1234567890'", query);
 }
 
 
@@ -127,9 +127,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSimpleMergesWell)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags, tag_names, flags, hashes) "
-              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND hashes.photo_id = photos.id) "
-              "WHERE hashes.hash = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
+              "JOIN (tags, tag_names, flags, sha256sums) "
+              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND sha256sums.photo_id = photos.id) "
+              "WHERE sha256sums.sha256 = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
 }
 
 

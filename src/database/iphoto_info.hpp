@@ -38,7 +38,7 @@ struct IPhotoInfo
 {
     typedef std::shared_ptr<IPhotoInfo> Ptr;
     typedef std::deque<IPhotoInfo::Ptr> List;
-    typedef std::string Hash;                // Hash is hash of photo's file
+    typedef std::string Sha256sum;
 
     struct DATABASE_EXPORT Id
     {
@@ -72,7 +72,7 @@ struct IPhotoInfo
 
         //related to data loading
         bool exifLoaded;
-        bool hashLoaded;
+        bool sha256Loaded;
         bool thumbnailLoaded;
 
         Flags();
@@ -92,12 +92,12 @@ struct IPhotoInfo
     virtual const QString& getPath() const = 0;
     virtual const Tag::TagsList& getTags() const = 0;       // access to tags
     virtual const QPixmap& getThumbnail() const = 0;        // a temporary thumbnail may be returned when final one is not yet generated.
-    virtual const Hash& getHash() const = 0;                // Do not call until isHashLoaded()
+    virtual const Sha256sum& getSha256() const = 0;         // Do not call until isSha256Loaded()
     virtual Id getID() const = 0;
 
     //status checking
     virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)
-    virtual bool isHashLoaded() const = 0;                  // returns true if hash is not null
+    virtual bool isSha256Loaded() const = 0;                // returns true if sha256 is not null
     virtual bool isThumbnailLoaded() const = 0;             // returns true if thumbnail is loaded
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
@@ -106,7 +106,7 @@ struct IPhotoInfo
     virtual void unregisterObserver(IObserver *) = 0;
 
     //data initializing
-    virtual void initHash(const Hash &) = 0;
+    virtual void initSha256(const Sha256sum &) = 0;
     virtual void initThumbnail(const QPixmap &) = 0;
     virtual void initID(const Id &) = 0;
 

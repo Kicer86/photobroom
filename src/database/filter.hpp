@@ -107,7 +107,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        IPhotoInfo::Hash sha256;
+        IPhotoInfo::Sha256sum sha256;
     };
 
     struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter

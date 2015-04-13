@@ -71,16 +71,16 @@ namespace Database
 
 
         TableDefinition
-        table_hashes(TAB_HASHES,
+        table_sha256sums(TAB_SHA256SUMS,
                          {
                              { "id", ColDefinition::Type::ID },
                                "photo_id INTEGER NOT NULL",
-                               "hash VARCHAR(256) NOT NULL",
+                               "sha256 CHAR(32) NOT NULL",
                                "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                          },
                          {
-                             { "ha_photo_id", "UNIQUE INDEX", "(photo_id)"  },               //one hash per photo
-                             { "ha_hash", "INDEX", "(hash)"  },
+                             { "ha_photo_id", "UNIQUE INDEX", "(photo_id)"  },               //one sha per photo
+                             { "ha_sha256", "INDEX", "(sha256)"  },
                          }
         );
 
@@ -90,10 +90,10 @@ namespace Database
                     {
                         { "id", ColDefinition::Type::ID },
                           "photo_id INTEGER NOT NULL",
-                          FLAG_STAGING_AREA " INT NOT NULL",
-                          FLAG_TAGS_LOADED  " INT NOT NULL",
-                          FLAG_HASH_LOADED  " INT NOT NULL",
-                          FLAG_THUMB_LOADED " INT NOT NULL",
+                          FLAG_STAGING_AREA  " INT NOT NULL",
+                          FLAG_TAGS_LOADED   " INT NOT NULL",
+                          FLAG_SHA256_LOADED " INT NOT NULL",
+                          FLAG_THUMB_LOADED  " INT NOT NULL",
                           "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)"
                     },
                     {
@@ -108,6 +108,6 @@ namespace Database
                                      table_tag_names,
                                      table_tags,
                                      table_thumbnails,
-                                     table_hashes,
+                                     table_sha256sums,
                                      table_flags};
 }

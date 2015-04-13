@@ -198,13 +198,13 @@ namespace Database
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
 
             bool storeThumbnail(int photo_id, const QPixmap &) const;
-            bool storeHash(int photo_id, const IPhotoInfo::Hash &) const;
+            bool storeSha256(int photo_id, const IPhotoInfo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
 
             Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
             ol::Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
-            ol::Optional<IPhotoInfo::Hash> getHashFor(const IPhotoInfo::Id &);
+            ol::Optional<IPhotoInfo::Sha256sum> getSha256For(const IPhotoInfo::Id &);
             void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
             IPhotoInfo::List fetch(QSqlQuery &);
@@ -469,12 +469,12 @@ namespace Database
     }
     
     
-    bool ASqlBackend::Data::storeHash(int photo_id, const IPhotoInfo::Hash& hash) const
+    bool ASqlBackend::Data::storeSha256(int photo_id, const IPhotoInfo::Sha256sum& sha256) const
     {
-        InsertQueryData data(TAB_HASHES);
+        InsertQueryData data(TAB_SHA256SUMS);
 
-        data.setColumns("photo_id", "hash");
-        data.setValues(QString::number(photo_id), hash.c_str());
+        data.setColumns("photo_id", "sha256");
+        data.setValues(QString::number(photo_id), sha256.c_str());
 
         SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
@@ -528,7 +528,7 @@ namespace Database
     bool ASqlBackend::Data::storeFlags(int photo_id, const IPhotoInfo::Ptr& photoInfo) const
     {
         InsertQueryData queryData(TAB_FLAGS);
-        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "hash_loaded", "thumbnail_loaded");
+        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded");
         queryData.setValues( InsertQueryData::Value::Null,
                              QString::number(photo_id),
                              photoInfo->getFlag(IPhotoInfo::FlagsE::StagingArea),
@@ -553,7 +553,7 @@ namespace Database
 
         bool status = m_transaction.begin();
 
-        //store path and hash
+        //store path and sha256
         IPhotoInfo::Id id = data->getID();
         const bool updating = id.valid();
         const bool inserting = !updating;
@@ -604,8 +604,8 @@ namespace Database
         if (status && data->isThumbnailLoaded())
             status = storeThumbnail(id, data->getThumbnail());
         
-        if (status && data->isHashLoaded())
-            status = storeHash(id, data->getHash());
+        if (status && data->isSha256Loaded())
+            status = storeSha256(id, data->getSha256());
 
         if (status)
             status = storeFlags(id, data);
@@ -642,10 +642,10 @@ namespace Database
             if (thumbnail)
                 photoInfo->initThumbnail(*thumbnail);
 
-            //load hash
-            const ol::Optional<IPhotoInfo::Hash> hash = getHashFor(id);
-            if (hash)
-                photoInfo->initHash(*hash);
+            //load sha256
+            const ol::Optional<IPhotoInfo::Sha256sum> sha256 = getSha256For(id);
+            if (sha256)
+                photoInfo->initSha256(*sha256);
 
             //load flags
             updateFlagsOn(photoInfo.get(), id);
@@ -716,18 +716,18 @@ namespace Database
         return pixmap;
     }
     
-    ol::Optional<IPhotoInfo::Hash> ASqlBackend::Data::getHashFor(const IPhotoInfo::Id& id)
+    ol::Optional<IPhotoInfo::Sha256sum> ASqlBackend::Data::getSha256For(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT hash FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT sha256 FROM %1 WHERE %1.photo_id = '%2'");
 
-        queryStr = queryStr.arg(TAB_HASHES);
+        queryStr = queryStr.arg(TAB_SHA256SUMS);
         queryStr = queryStr.arg(id.value());
 
         const bool status = exec(queryStr, &query);
 
-        ol::Optional<IPhotoInfo::Hash> result;
+        ol::Optional<IPhotoInfo::Sha256sum> result;
         if(status && query.next())
         {
             const QVariant variant = query.value(0);
@@ -743,7 +743,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, hash_loaded, thumbnail_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
