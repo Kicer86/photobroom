@@ -7,7 +7,7 @@ include(ExternalProject)
 
 function(addEasyExif)
 
-    find_package(git)
+    find_package(Git)
 
     if(GIT_FOUND)
                               
