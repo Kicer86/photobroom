@@ -30,7 +30,7 @@ const std::map< BaseTagsList, TagNameInfo >& BaseTags::getBaseList()
         { BaseTagsList::Place,  TagNameInfo("Place",  TagNameInfo::Text, tr("Place")) },
         { BaseTagsList::Date,   TagNameInfo("Date",   TagNameInfo::Date, tr("Date")) },
         { BaseTagsList::Time,   TagNameInfo("Time",   TagNameInfo::Time, tr("Time")) },
-        { BaseTagsList::People, TagNameInfo("People", TagNameInfo::Text, tr("People")) },
+        { BaseTagsList::People, TagNameInfo("People", TagNameInfo::List, tr("People")) },
     });
 
     return base_tags;

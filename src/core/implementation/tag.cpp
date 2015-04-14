@@ -239,6 +239,10 @@ namespace Tag
             case TagNameInfo::Time:
                 ok = currentValueType == QVariant::Time;
                 break;
+
+            case TagNameInfo::List:
+                ok = currentValueType == QVariant::StringList;
+                break;
         }
         
         if (ok == false)

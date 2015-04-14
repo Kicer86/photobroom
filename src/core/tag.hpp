@@ -23,6 +23,7 @@ struct CORE_EXPORT TagNameInfo
             Text    = 1,
             Date    = 2,
             Time    = 3,
+            List    = 4,
         };
 
         TagNameInfo();

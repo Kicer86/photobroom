@@ -121,6 +121,10 @@ void TagEditorWidget::setTagValueWidget(int idx)
         case TagNameInfo::Time:
             type = QVariant::Time;
             break;
+
+        case TagNameInfo::List:
+            type = QVariant::StringList;
+            break;
     }
 
     EditorFactory factory;
