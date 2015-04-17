@@ -21,6 +21,9 @@
 
 #include <QTimeEdit>
 #include <QDateEdit>
+#include <QLineEdit>
+#include <QTableWidget>
+#include <QHeaderView>
 
 
 struct TimeEditor: QTimeEdit
@@ -32,10 +35,50 @@ struct TimeEditor: QTimeEdit
 };
 
 
+struct ListEditor: QTableWidget
+{
+    explicit ListEditor(QWidget* parent_widget = 0): QTableWidget(parent_widget)
+    {
+        setColumnCount(1);
+        horizontalHeader()->hide();
+        verticalHeader()->hide();
+        setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+        setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
+
+        review();
+    }
+
+    private:
+        void addRow(int p)
+        {
+            insertRow(p);
+            setCellWidget(p, 0, new QLineEdit);
+        }
+
+        // QWidget overrides
+        virtual QSize minimumSizeHint() const override
+        {
+            const QSize result = sizeHint();
+
+            return result;
+        }
+
+    private slots:
+        void review()
+        {
+            while(rowCount() < 2)
+                addRow(0);
+        }
+};
+
+
 EditorFactory::EditorFactory(): QItemEditorFactory()
 {
     QItemEditorCreatorBase *time_creator = new QStandardItemEditorCreator<TimeEditor>();
     registerEditor(QVariant::Time, time_creator);
+
+    QItemEditorCreatorBase *list_creator = new QStandardItemEditorCreator<ListEditor>();
+    registerEditor(QVariant::StringList, list_creator);
 }
 
 
