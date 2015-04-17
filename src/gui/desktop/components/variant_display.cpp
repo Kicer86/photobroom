@@ -63,6 +63,10 @@ QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
             result = v.toString();
             break;
 
+        case QVariant::StringList:
+            result = v.toStringList().join(", ");
+            break;
+
         default:
             assert(!"unexpected type");
             break;
