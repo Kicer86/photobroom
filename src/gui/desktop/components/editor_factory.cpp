@@ -35,44 +35,45 @@ struct TimeEditor: QTimeEdit
 };
 
 
-struct ListEditor: QTableWidget
+///////////////////////////////////////////////////////////////////////////////
+
+
+ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
 {
-    explicit ListEditor(QWidget* parent_widget = 0): QTableWidget(parent_widget)
-    {
-        setColumnCount(1);
-        horizontalHeader()->hide();
-        horizontalHeader()->setStretchLastSection(true);
-        verticalHeader()->hide();
-        setGridStyle(Qt::NoPen);
-        setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-        setFrameShape(QFrame::NoFrame);
-        setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    setColumnCount(1);
+    horizontalHeader()->hide();
+    horizontalHeader()->setStretchLastSection(true);
+    verticalHeader()->hide();
+    setGridStyle(Qt::NoPen);
+    setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    setFrameShape(QFrame::NoFrame);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-        review();
-    }
+    review();
+}
 
-    private:
-        void addRow(int p)
-        {
-            insertRow(p);
-            setCellWidget(p, 0, new QLineEdit);
-        }
 
-        // QWidget overrides
-        virtual QSize minimumSizeHint() const override
-        {
-            const QSize result = sizeHint();
+void ListEditor::addRow(int p)
+{
+    insertRow(p);
+    setCellWidget(p, 0, new QLineEdit);
+}
 
-            return result;
-        }
 
-    private slots:
-        void review()
-        {
-            if(rowCount() == 0)
-                addRow(0);
-        }
-};
+QSize ListEditor::minimumSizeHint() const
+{
+    const QSize result = sizeHint();
+
+    return result;
+}
+
+void ListEditor::review()
+{
+    if (rowCount() == 0)
+        addRow(0);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 EditorFactory::EditorFactory(): QItemEditorFactory()
