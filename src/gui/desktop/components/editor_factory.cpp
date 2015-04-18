@@ -42,8 +42,10 @@ struct ListEditor: QTableWidget
         setColumnCount(1);
         horizontalHeader()->hide();
         verticalHeader()->hide();
+        setGridStyle(Qt::NoPen);
         setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-        setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
+        setFrameShape(QFrame::NoFrame);
+        setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 
         review();
     }
@@ -66,7 +68,7 @@ struct ListEditor: QTableWidget
     private slots:
         void review()
         {
-            while(rowCount() < 2)
+            if(rowCount() == 0)
                 addRow(0);
         }
 };
