@@ -41,6 +41,7 @@ struct ListEditor: QTableWidget
     {
         setColumnCount(1);
         horizontalHeader()->hide();
+        horizontalHeader()->setStretchLastSection(true);
         verticalHeader()->hide();
         setGridStyle(Qt::NoPen);
         setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
