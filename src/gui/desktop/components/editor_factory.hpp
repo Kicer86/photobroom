@@ -44,6 +44,7 @@ struct ListEditor: QTableWidget
 
     private:
         void addRow(int);
+        QString value(int);
 
         // QWidget overrides
         QSize minimumSizeHint() const override;

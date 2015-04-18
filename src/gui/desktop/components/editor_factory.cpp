@@ -19,6 +19,8 @@
 
 #include "editor_factory.hpp"
 
+#include <cassert>
+
 #include <QTimeEdit>
 #include <QDateEdit>
 #include <QLineEdit>
@@ -55,8 +57,22 @@ ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
 
 void ListEditor::addRow(int p)
 {
+    QLineEdit* e = new QLineEdit;
+
     insertRow(p);
-    setCellWidget(p, 0, new QLineEdit);
+    setCellWidget(p, 0, e);
+
+    connect(e, SIGNAL(textEdited(QString)), this, SLOT(review()));
+}
+
+
+QString ListEditor::value(int r)
+{
+    QWidget* w = cellWidget(r, 0);
+    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
+    QLineEdit* l = static_cast<QLineEdit *>(w);
+
+    return l->text();
 }
 
 
@@ -69,8 +85,25 @@ QSize ListEditor::minimumSizeHint() const
 
 void ListEditor::review()
 {
-    if (rowCount() == 0)
+    const int r = rowCount();
+    if (r == 0)
         addRow(0);
+
+    if (r > 0)
+    {
+        const QString v1 = value(r - 1);
+        if (v1.isEmpty() == false)                   // last row not empty? add new one
+            addRow(r);
+    }
+
+    if (r > 1)
+    {
+        const QString v1 = value(r - 1);
+        const QString v2 = value(r - 2);
+
+        if (v1.isEmpty() && v2.isEmpty())       // two last rows empty? remove last one
+            removeRow(r - 1);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
