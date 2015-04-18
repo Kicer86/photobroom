@@ -23,6 +23,7 @@
 #include <QItemEditorFactory>
 #include <QTableWidget>
 
+
 class EditorFactory: public QItemEditorFactory
 {
     public:
