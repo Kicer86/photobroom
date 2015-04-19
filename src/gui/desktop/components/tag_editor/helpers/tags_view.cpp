@@ -47,7 +47,7 @@ bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger tri
 {
     const bool status = index.column() == 0?
             false:
-            QAbstractItemView::edit(index, trigger, e);
+            QTableView::edit(index, trigger, e);
 
     return status;
 }
