@@ -101,7 +101,7 @@ void ListEditor::review()
         const QString v1 = value(r - 1);
         const QString v2 = value(r - 2);
 
-        if (v1.isEmpty() && v2.isEmpty())       // two last rows empty? remove last one
+        if (v1.isEmpty() && v2.isEmpty())            // two last rows empty? remove last one
             removeRow(r - 1);
     }
 }
