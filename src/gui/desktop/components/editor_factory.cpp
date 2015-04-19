@@ -72,6 +72,13 @@ QStringList ListEditor::getValues() const
 }
 
 
+void ListEditor::setValues(const QStringList& values)
+{
+    for(int i = 0; i < values.size(); i++)
+        setValue(i, values[i]);
+}
+
+
 void ListEditor::addRow(int p)
 {
     QLineEdit* e = new QLineEdit;
@@ -79,7 +86,7 @@ void ListEditor::addRow(int p)
     insertRow(p);
     setCellWidget(p, 0, e);
 
-    connect(e, SIGNAL(textEdited(QString)), this, SLOT(review()));
+    connect(e, SIGNAL(textChanged(QString)), this, SLOT(review()));
 }
 
 
@@ -90,6 +97,16 @@ QString ListEditor::value(int r) const
     QLineEdit* l = static_cast<QLineEdit *>(w);
 
     return l->text();
+}
+
+
+void ListEditor::setValue(int r, const QString& v)
+{
+    QWidget* w = cellWidget(r, 0);
+    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
+    QLineEdit* l = static_cast<QLineEdit *>(w);
+
+    l->setText(v);
 }
 
 

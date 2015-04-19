@@ -38,16 +38,19 @@ class EditorFactory: public QItemEditorFactory
 struct ListEditor: QTableWidget
 {
         Q_OBJECT
-        Q_PROPERTY(QStringList value READ getValues USER true)
+        Q_PROPERTY(QStringList value READ getValues WRITE setValues USER true)
 
     public:
         explicit ListEditor(QWidget* parent = 0);
 
         QStringList getValues() const;
+        void setValues(const QStringList &);
 
     private:
         void addRow(int);
         QString value(int) const;
+
+        void setValue(int, const QString &);
 
         // QWidget overrides
         QSize minimumSizeHint() const override;
