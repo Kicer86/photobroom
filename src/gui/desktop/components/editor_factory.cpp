@@ -85,7 +85,7 @@ QSize ListEditor::minimumSizeHint() const
 
 void ListEditor::review()
 {
-    const int r = rowCount();
+    int r = rowCount();
     if (r == 0)
         addRow(0);
 
@@ -96,13 +96,16 @@ void ListEditor::review()
             addRow(r);
     }
 
-    if (r > 1)
+    for(; r > 1; r--)
     {
         const QString v1 = value(r - 1);
         const QString v2 = value(r - 2);
 
-        if (v1.isEmpty() && v2.isEmpty())            // two last rows empty? remove last one
+        if (v1.isEmpty() && v2.isEmpty())            // two last rows empty? remove last one and continue looping with r-1 elements
             removeRow(r - 1);
+        else
+            break;                                   // otherwise - stop
+
     }
 }
 
