@@ -83,6 +83,7 @@ QSize ListEditor::minimumSizeHint() const
     return result;
 }
 
+
 void ListEditor::review()
 {
     int r = rowCount();
