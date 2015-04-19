@@ -55,6 +55,23 @@ ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
 }
 
 
+QStringList ListEditor::getValues() const
+{
+    QStringList result;
+    const int rows = rowCount();
+
+    for(int r = 0; r < rows; r++)
+    {
+        const QString v = value(r);
+
+        if (v.isEmpty() == false)
+            result.push_back(v);
+    }
+
+    return result;
+}
+
+
 void ListEditor::addRow(int p)
 {
     QLineEdit* e = new QLineEdit;
@@ -66,7 +83,7 @@ void ListEditor::addRow(int p)
 }
 
 
-QString ListEditor::value(int r)
+QString ListEditor::value(int r) const
 {
     QWidget* w = cellWidget(r, 0);
     assert(dynamic_cast<QLineEdit *>(w) != nullptr);
