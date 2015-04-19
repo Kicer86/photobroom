@@ -34,6 +34,7 @@ TagsView::TagsView(QWidget* p): QTableView(p), m_editorFactory()
 
     verticalHeader()->hide();
     setItemDelegate(delegate);
+    horizontalHeader()->setStretchLastSection(true);
 }
 
 
