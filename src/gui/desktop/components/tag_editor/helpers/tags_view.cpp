@@ -64,15 +64,6 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
 }
 
 
-void TagsView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
-{
-    QTableView::dataChanged(topLeft, bottomRight, roles);
-
-    for(int i = topLeft.row(); i <= bottomRight.row(); i++)
-        updateRow(i);
-}
-
-
 void TagsView::updateRow(int row)
 {
     QAbstractItemModel* m = QTableView::model();
@@ -85,9 +76,8 @@ void TagsView::updateRow(int row)
         QHeaderView* hv = verticalHeader();
 
         const int s_default3 = hv->defaultSectionSize() * 3;
-        const int s_adjusted = sizeHintForRow(row);
-        const int n_size = std::max(s_default3, s_adjusted);
 
-        hv->resizeSection(row, n_size);
+        hv->setMinimumSectionSize(row, s_default3);
+        hv->setSectionResizeMode(row, QHeaderView::ResizeToContents);
     }
 }
