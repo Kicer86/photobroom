@@ -21,6 +21,8 @@
 #define EDITORFACTORY_HPP
 
 #include <QItemEditorFactory>
+#include <QTableWidget>
+
 
 class EditorFactory: public QItemEditorFactory
 {
@@ -30,6 +32,31 @@ class EditorFactory: public QItemEditorFactory
         ~EditorFactory();
 
         EditorFactory& operator=(const EditorFactory &) = delete;
+};
+
+
+struct ListEditor: QTableWidget
+{
+        Q_OBJECT
+        Q_PROPERTY(QStringList value READ getValues WRITE setValues USER true)
+
+    public:
+        explicit ListEditor(QWidget* parent = 0);
+
+        QStringList getValues() const;
+        void setValues(const QStringList &);
+
+    private:
+        void addRow(int);
+        QString value(int) const;
+
+        void setValue(int, const QString &);
+
+        // QWidget overrides
+        QSize minimumSizeHint() const override;
+
+    private slots:
+        void review();
 };
 
 #endif // EDITORFACTORY_HPP

@@ -19,6 +19,8 @@
 
 #include "tags_view.hpp"
 
+#include <cassert>
+
 #include <QStringListModel>
 #include <QHeaderView>
 
@@ -32,6 +34,7 @@ TagsView::TagsView(QWidget* p): QTableView(p), m_editorFactory()
 
     verticalHeader()->hide();
     setItemDelegate(delegate);
+    horizontalHeader()->setStretchLastSection(true);
 }
 
 
@@ -45,8 +48,38 @@ bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger tri
 {
     const bool status = index.column() == 0?
             false:
-            QAbstractItemView::edit(index, trigger, e);
+            QTableView::edit(index, trigger, e);
 
     return status;
 }
 
+
+void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
+{
+    QTableView::rowsInserted(parent, start, end);
+
+    if (parent.isValid() == false)
+        for(int i = start; i <= end; i++)
+            updateRow(i);
+}
+
+int TagsView::sizeHintForRow(int row) const
+{
+    const int default3 = verticalHeader()->defaultSectionSize() * 3;
+    const int sizeHint = QTableView::sizeHintForRow(row);
+
+    const int result = std::max(default3, sizeHint);
+
+    return result;
+}
+
+void TagsView::updateRow(int row)
+{
+    QAbstractItemModel* m = QTableView::model();
+    const QModelIndex item = m->index(row, 1);
+    const QVariant d = item.data();
+    const QVariant::Type t = d.type();
+
+    if (t == QVariant::StringList)
+        verticalHeader()->setSectionResizeMode(row, QHeaderView::ResizeToContents);
+}

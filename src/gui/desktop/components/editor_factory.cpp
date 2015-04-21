@@ -19,8 +19,13 @@
 
 #include "editor_factory.hpp"
 
+#include <cassert>
+
 #include <QTimeEdit>
 #include <QDateEdit>
+#include <QLineEdit>
+#include <QTableWidget>
+#include <QHeaderView>
 
 
 struct TimeEditor: QTimeEdit
@@ -32,10 +37,123 @@ struct TimeEditor: QTimeEdit
 };
 
 
+///////////////////////////////////////////////////////////////////////////////
+
+
+ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
+{
+    setColumnCount(1);
+    horizontalHeader()->hide();
+    horizontalHeader()->setStretchLastSection(true);
+    verticalHeader()->hide();
+    setGridStyle(Qt::NoPen);
+    setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    setFrameShape(QFrame::NoFrame);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+
+    review();
+}
+
+
+QStringList ListEditor::getValues() const
+{
+    QStringList result;
+    const int rows = rowCount();
+
+    for(int r = 0; r < rows; r++)
+    {
+        const QString v = value(r);
+
+        if (v.isEmpty() == false)
+            result.push_back(v);
+    }
+
+    return result;
+}
+
+
+void ListEditor::setValues(const QStringList& values)
+{
+    for(int i = 0; i < values.size(); i++)
+        setValue(i, values[i]);
+}
+
+
+void ListEditor::addRow(int p)
+{
+    QLineEdit* e = new QLineEdit;
+
+    insertRow(p);
+    setCellWidget(p, 0, e);
+
+    connect(e, SIGNAL(textChanged(QString)), this, SLOT(review()));
+}
+
+
+QString ListEditor::value(int r) const
+{
+    QWidget* w = cellWidget(r, 0);
+    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
+    QLineEdit* l = static_cast<QLineEdit *>(w);
+
+    return l->text();
+}
+
+
+void ListEditor::setValue(int r, const QString& v)
+{
+    QWidget* w = cellWidget(r, 0);
+    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
+    QLineEdit* l = static_cast<QLineEdit *>(w);
+
+    l->setText(v);
+}
+
+
+QSize ListEditor::minimumSizeHint() const
+{
+    const QSize result = sizeHint();
+
+    return result;
+}
+
+
+void ListEditor::review()
+{
+    int r = rowCount();
+    if (r == 0)
+        addRow(0);
+
+    if (r > 0)
+    {
+        const QString v1 = value(r - 1);
+        if (v1.isEmpty() == false)                   // last row not empty? add new one
+            addRow(r);
+    }
+
+    for(; r > 1; r--)
+    {
+        const QString v1 = value(r - 1);
+        const QString v2 = value(r - 2);
+
+        if (v1.isEmpty() && v2.isEmpty())            // two last rows empty? remove last one and continue looping with r-1 elements
+            removeRow(r - 1);
+        else
+            break;                                   // otherwise - stop
+
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 EditorFactory::EditorFactory(): QItemEditorFactory()
 {
     QItemEditorCreatorBase *time_creator = new QStandardItemEditorCreator<TimeEditor>();
     registerEditor(QVariant::Time, time_creator);
+
+    QItemEditorCreatorBase *list_creator = new QStandardItemEditorCreator<ListEditor>();
+    registerEditor(QVariant::StringList, list_creator);
 }
 
 

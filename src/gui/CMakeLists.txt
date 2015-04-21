@@ -88,6 +88,7 @@ set(GUI_HEADERS
 set(GUI_FILES_TO_MOC
     desktop/data/thread_multiplexer.hpp
     desktop/data/photos_collector.hpp
+    desktop/components/editor_factory.hpp
     desktop/components/filters_editor/level_editor.hpp
     desktop/components/project_creator/project_creator_dialog.hpp
     desktop/components/staged_photos_widget.hpp

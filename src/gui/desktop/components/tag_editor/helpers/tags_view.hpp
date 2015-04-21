@@ -37,6 +37,12 @@ class TagsView: public QTableView
         EditorFactory m_editorFactory;
 
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
+        void rowsInserted(const QModelIndex& parent, int start, int end) override;
+
+        void updateRow(int);
+
+        // QTableViews:
+        int sizeHintForRow(int row) const override;
 };
 
 #endif // TAGSVIEW_HPP
