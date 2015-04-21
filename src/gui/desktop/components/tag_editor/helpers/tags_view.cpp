@@ -63,6 +63,15 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
             updateRow(i);
 }
 
+int TagsView::sizeHintForRow(int row) const
+{
+    const int default3 = verticalHeader()->defaultSectionSize() * 3;
+    const int sizeHint = QTableView::sizeHintForRow(row);
+
+    const int result = std::max(default3, sizeHint);
+
+    return result;
+}
 
 void TagsView::updateRow(int row)
 {
@@ -72,12 +81,5 @@ void TagsView::updateRow(int row)
     const QVariant::Type t = d.type();
 
     if (t == QVariant::StringList)
-    {
-        QHeaderView* hv = verticalHeader();
-
-        const int s_default3 = hv->defaultSectionSize() * 3;
-
-        hv->setMinimumSectionSize(row, s_default3);
-        hv->setSectionResizeMode(row, QHeaderView::ResizeToContents);
-    }
+        verticalHeader()->setSectionResizeMode(row, QHeaderView::ResizeToContents);
 }
