@@ -19,7 +19,7 @@
 
 #include "tags_item_delegate.hpp"
 
-#include "components/variant_display.hpp"
+#include "utils/variant_display.hpp"
 
 
 TagsItemDelegate::TagsItemDelegate()

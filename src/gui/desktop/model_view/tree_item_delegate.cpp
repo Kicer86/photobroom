@@ -22,7 +22,7 @@
 #include <QCache>
 #include <QPainter>
 
-#include "components/variant_display.hpp"
+#include "utils/variant_display.hpp"
 #include "view_helpers/data.hpp"
 
 

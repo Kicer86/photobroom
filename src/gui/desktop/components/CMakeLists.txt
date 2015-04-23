@@ -10,7 +10,6 @@ set(COMPONENTS_SOURCES
     photos_widget.cpp
     staged_photos_data_model.cpp
     staged_photos_widget.cpp
-    variant_display.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
     tag_editor/tag_editor_widget.cpp
@@ -27,7 +26,6 @@ set(COMPONENTS_HEADERS
     photos_widget.hpp
     staged_photos_data_model.hpp
     staged_photos_widget.hpp
-    variant_display.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp
