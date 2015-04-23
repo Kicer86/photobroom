@@ -23,7 +23,7 @@
 
 #include <photos_crawler/photo_crawler_builder.hpp>
 
-#include "components/staged_photos_data_model.hpp"
+#include "widgets/staged_photos_data_model.hpp"
 
 
 PhotosReceiver::PhotosReceiver(): m_model(nullptr)

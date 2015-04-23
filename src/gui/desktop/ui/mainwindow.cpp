@@ -18,11 +18,11 @@
 
 #include "config.hpp"
 
-#include "components/project_creator/project_creator_dialog.hpp"
-#include "components/photos_data_model.hpp"
-#include "components/staged_photos_data_model.hpp"
-#include "components/photos_widget.hpp"
-#include "components/staged_photos_widget.hpp"
+#include "widgets/project_creator/project_creator_dialog.hpp"
+#include "widgets/photos_data_model.hpp"
+#include "widgets/staged_photos_data_model.hpp"
+#include "widgets/photos_widget.hpp"
+#include "widgets/staged_photos_widget.hpp"
 #include "utils/photos_collector.hpp"
 #include "ui_mainwindow.h"
 

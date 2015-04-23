@@ -1,5 +1,5 @@
 /*
- * Widget for Photos
+ * View for tags
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,32 @@
  *
  */
 
-#ifndef PHOTOSWIDGET_HPP
-#define PHOTOSWIDGET_HPP
+#ifndef TAGSVIEW_HPP
+#define TAGSVIEW_HPP
 
-#include "model_view/images_tree_view.hpp"
-#include "components/iview.hpp"
+#include <QTableView>
 
-class PhotosWidget: public ImagesTreeView, public IView
+#include "widgets/editor_factory.hpp"
+
+class TagsView: public QTableView
 {
     public:
-        PhotosWidget(QWidget * = nullptr);
-        PhotosWidget(const PhotosWidget &) = delete;
-        ~PhotosWidget();
-        PhotosWidget& operator=(const PhotosWidget &) = delete;
+        TagsView(QWidget * = 0);
+        TagsView(const TagsView &) = delete;
+        ~TagsView();
 
-        void setModel(DBDataModel *);
-
-        // IView:
-        QItemSelectionModel* getSelectionModel() override;
-        DBDataModel* getModel() override;
-        QString getName() override;
-
-        void set(IConfiguration *) override;
+        TagsView& operator=(const TagsView &) = delete;
 
     private:
-        DBDataModel* m_dataModel;
+        EditorFactory m_editorFactory;
+
+        bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
+        void rowsInserted(const QModelIndex& parent, int start, int end) override;
+
+        void updateRow(int);
+
+        // QTableViews:
+        int sizeHintForRow(int row) const override;
 };
 
-#endif // PHOTOSWIDGET_H
+#endif // TAGSVIEW_HPP

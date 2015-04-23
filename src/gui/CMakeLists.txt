@@ -20,7 +20,7 @@ if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
 
-add_subdirectory(desktop/components)
+add_subdirectory(desktop/widgets)
 add_subdirectory(desktop/utils)
 
 set(GUI_SOURCES
