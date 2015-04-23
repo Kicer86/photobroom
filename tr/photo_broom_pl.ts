@@ -76,6 +76,11 @@
         <translation>Photo broom</translation>
     </message>
     <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="32"/>
+        <source>Photo collection</source>
+        <translation>Kolekcja zdjęć</translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="43"/>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="145"/>
         <source>Photos</source>
@@ -93,21 +98,48 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="190"/>
-        <source>No album opened</source>
-        <translation>Nie otwarto albumu</translation>
+        <source>No collection opened</source>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="306"/>
-        <source>Unsupported album version</source>
-        <translation>Nieobsługiwana wersja albumu</translation>
+        <source>Unsupported photo collection version</source>
+        <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="307"/>
+        <source>Photo collection you are trying to open uses database in version which is not supported.
+It means your application is too old to open it.
+
+Please upgrade application to open this collection.</source>
+        <translation>Kolekcja, którą chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
+
+Proszę zaktualizować aplikację.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="317"/>
+        <source>An unexpected error occured while opening photo collection.
+Please report a bug.
+Error code: </source>
+        <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
+Proszę zgłosić błąd w programie.
+Kod błędu: </translation>
+    </message>
+    <message>
+        <source>No album opened</source>
+        <translation type="vanished">Nie otwarto albumu</translation>
+    </message>
+    <message>
+        <source>Unsupported album version</source>
+        <translation type="vanished">Nieobsługiwana wersja albumu</translation>
+    </message>
+    <message>
         <source>Album you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
 Please upgrade application to open this album.</source>
-        <translation>Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+        <translation type="vanished">Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
 Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
 
 Proszę zaktualizować aplikację.</translation>
@@ -127,11 +159,10 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="317"/>
         <source>An unexpected error occured while opening album.
 Please report a bug.
 Error code: </source>
-        <translation>Podczas otwierania albumu wystąpił niespodziewany błąd.
+        <translation type="vanished">Podczas otwierania albumu wystąpił niespodziewany błąd.
 Proszę zgłosić błąd w programie.
 Kod błędu: </translation>
     </message>
@@ -141,9 +172,8 @@ Kod błędu: </translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="32"/>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="50"/>
@@ -259,9 +289,8 @@ Kod błędu: </translation>
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="62"/>
         <source>Album creator</source>
-        <translation>Kreator albumu</translation>
+        <translation type="vanished">Kreator albumu</translation>
     </message>
     <message>
         <source>Album location:</source>
@@ -272,9 +301,18 @@ Kod błędu: </translation>
         <translation type="vanished">Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="66"/>
         <source>Album name:</source>
-        <translation>Nazwa albumu:</translation>
+        <translation type="vanished">Nazwa albumu:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="62"/>
+        <source>Photo collection creator</source>
+        <translation>Tworzenie kolekcji zdjęć</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="66"/>
+        <source>Collection name:</source>
+        <translation>Nazwa kolekcji:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="75"/>
