@@ -23,7 +23,7 @@
 #include "components/staged_photos_data_model.hpp"
 #include "components/photos_widget.hpp"
 #include "components/staged_photos_widget.hpp"
-#include "data/photos_collector.hpp"
+#include "utils/photos_collector.hpp"
 #include "ui_mainwindow.h"
 
 

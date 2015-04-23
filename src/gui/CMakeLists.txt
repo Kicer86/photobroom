@@ -25,8 +25,6 @@ add_subdirectory(desktop/utils)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/data/thread_multiplexer.cpp
-    desktop/data/photos_collector.cpp
     desktop/model_view/db_data_model.cpp
     desktop/model_view/model_helpers/idx_data_manager.cpp
     desktop/model_view/model_helpers/idx_data.cpp
@@ -45,8 +43,6 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/data/thread_multiplexer.hpp
-    desktop/data/photos_collector.hpp
     desktop/model_view/db_data_model.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idx_data.hpp
@@ -66,8 +62,6 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
-    desktop/data/thread_multiplexer.hpp
-    desktop/data/photos_collector.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
