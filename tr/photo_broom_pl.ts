@@ -63,7 +63,7 @@
 <context>
     <name>LevelEditor</name>
     <message>
-        <location filename="../src/gui/desktop/components/filters_editor/level_editor.cpp" line="208"/>
+        <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="208"/>
         <source>Grouping:</source>
         <translation>Grupowanie:</translation>
     </message>
@@ -259,7 +259,7 @@ Kod błędu: </translation>
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/components/project_creator/project_creator_dialog.cpp" line="62"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="62"/>
         <source>Album creator</source>
         <translation>Kreator albumu</translation>
     </message>
@@ -272,17 +272,17 @@ Kod błędu: </translation>
         <translation type="vanished">Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/project_creator/project_creator_dialog.cpp" line="66"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="66"/>
         <source>Album name:</source>
         <translation>Nazwa albumu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/project_creator/project_creator_dialog.cpp" line="75"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="75"/>
         <source>Database engine:</source>
         <translation>Silnik bazy danych:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/project_creator/project_creator_dialog.cpp" line="84"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="84"/>
         <source>Engine options</source>
         <translation>Opcje silnika</translation>
     </message>
@@ -323,7 +323,7 @@ Kod błędu: </translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_operator.cpp" line="61"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_operator.cpp" line="61"/>
         <source>&lt;multiple values&gt;</source>
         <translation>&lt;różne wartości&gt;</translation>
     </message>
@@ -356,12 +356,12 @@ Kod błędu: </translation>
 <context>
     <name>StagedPhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/components/staged_photos_widget.cpp" line="35"/>
+        <location filename="../src/gui/desktop/widgets/staged_photos_widget.cpp" line="35"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/staged_photos_widget.cpp" line="41"/>
+        <location filename="../src/gui/desktop/widgets/staged_photos_widget.cpp" line="41"/>
         <source>Changed photos:</source>
         <translation>Zmodyfikowane zdjęcia:</translation>
     </message>
@@ -369,12 +369,12 @@ Kod błędu: </translation>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_model.cpp" line="124"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="124"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/tag_editor/helpers/tags_model.cpp" line="124"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="124"/>
         <source>Value</source>
         <translation>Wartość</translation>
     </message>
