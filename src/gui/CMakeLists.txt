@@ -15,6 +15,13 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS})
 
+
+if(NOT BUILD_SHARED_LIBS)
+    add_definitions(-DGUI_STATIC)
+endif()
+
+add_subdirectory(desktop/components)
+
 set(GUI_SOURCES
     desktop/gui.cpp
     desktop/data/thread_multiplexer.cpp
@@ -30,19 +37,6 @@ set(GUI_SOURCES
     desktop/model_view/view_helpers/positions_reseter.cpp
     desktop/model_view/images_tree_view.cpp
     desktop/model_view/tree_item_delegate.cpp
-    desktop/components/editor_factory.cpp
-    desktop/components/photos_data_model.cpp
-    desktop/components/photos_widget.cpp
-    desktop/components/staged_photos_data_model.cpp
-    desktop/components/staged_photos_widget.cpp
-    desktop/components/variant_display.cpp
-    desktop/components/filters_editor/level_editor.cpp
-    desktop/components/project_creator/project_creator_dialog.cpp
-    desktop/components/tag_editor/tag_editor_widget.cpp
-    desktop/components/tag_editor/helpers/tags_item_delegate.cpp
-    desktop/components/tag_editor/helpers/tags_operator.cpp
-    desktop/components/tag_editor/helpers/tags_view.cpp
-    desktop/components/tag_editor/helpers/tags_model.cpp
     desktop/ui/mainwindow.cpp
     desktop/ui/photos_view.cpp
     desktop/ui/project_picker.cpp
@@ -64,21 +58,6 @@ set(GUI_HEADERS
     desktop/model_view/view_helpers/view_data_set.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/tree_item_delegate.hpp
-    desktop/components/editor_factory.hpp
-    desktop/components/iview.hpp
-    desktop/components/photos_data_model.hpp
-    desktop/components/photos_widget.hpp
-    desktop/components/staged_photos_data_model.hpp
-    desktop/components/staged_photos_widget.hpp
-    desktop/components/variant_display.hpp
-    desktop/components/filters_editor/level_editor.hpp
-    desktop/components/project_creator/project_creator_dialog.hpp
-    desktop/components/tag_editor/tag_editor_widget.hpp
-    desktop/components/tag_editor/helpers/itags_operator.hpp
-    desktop/components/tag_editor/helpers/tags_item_delegate.hpp
-    desktop/components/tag_editor/helpers/tags_operator.hpp
-    desktop/components/tag_editor/helpers/tags_view.hpp
-    desktop/components/tag_editor/helpers/tags_model.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
@@ -88,12 +67,6 @@ set(GUI_HEADERS
 set(GUI_FILES_TO_MOC
     desktop/data/thread_multiplexer.hpp
     desktop/data/photos_collector.hpp
-    desktop/components/editor_factory.hpp
-    desktop/components/filters_editor/level_editor.hpp
-    desktop/components/project_creator/project_creator_dialog.hpp
-    desktop/components/staged_photos_widget.hpp
-    desktop/components/tag_editor/tag_editor_widget.hpp
-    desktop/components/tag_editor/helpers/tags_model.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
@@ -116,7 +89,7 @@ qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
-add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES})
+add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES} $<TARGET_OBJECTS:gui_components>)
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -126,6 +99,4 @@ hideSymbols(gui)
 if(BUILD_SHARED_LIBS)
     install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
                         LIBRARY DESTINATION ${PATH_LIBS})
-else()
-    add_definitions(-DGUI_STATIC)
 endif()
