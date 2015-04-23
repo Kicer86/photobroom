@@ -40,7 +40,7 @@ TreeItemDelegate::~TreeItemDelegate()
 
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const
 {
-	return QSize();
+    return QSize();
 }
 
 
