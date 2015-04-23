@@ -24,15 +24,15 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProject">
     <property name="title">
-     <string>Album</string>
+     <string>Collection</string>
     </property>
-    <addaction name="actionNew_project"/>
-    <addaction name="actionOpen_project"/>
+    <addaction name="actionNew_collection"/>
+    <addaction name="actionOpen_collection"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
@@ -74,12 +74,12 @@
    </attribute>
    <widget class="TagEditorWidget" name="tagEditor"/>
   </widget>
-  <action name="actionNew_project">
+  <action name="actionNew_collection">
    <property name="text">
     <string>New</string>
    </property>
   </action>
-  <action name="actionOpen_project">
+  <action name="actionOpen_collection">
    <property name="text">
     <string>Open</string>
    </property>
