@@ -187,7 +187,7 @@ void MainWindow::updateMenus()
 void MainWindow::updateGui()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No album opened"));
+    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No collection opened"));
 
     setWindowTitle(title);
 }
@@ -214,7 +214,7 @@ void MainWindow::viewChanged()
 }
 
 
-void MainWindow::on_actionNew_project_triggered()
+void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
@@ -224,7 +224,7 @@ void MainWindow::on_actionNew_project_triggered()
 }
 
 
-void MainWindow::on_actionOpen_project_triggered()
+void MainWindow::on_actionOpen_collection_triggered()
 {
     ProjectPicker picker;
 
@@ -303,10 +303,10 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
 
         case Database::StatusCodes::BadVersion:
             QMessageBox::critical(this,
-                                  tr("Unsupported album version"),
-                                  tr("Album you are trying to open uses database in version which is not supported.\n"
+                                  tr("Unsupported photo collection version"),
+                                  tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your application is too old to open it.\n\n"
-                                     "Please upgrade application to open this album.")
+                                     "Please upgrade application to open this collection.")
                                  );
             closeProject();
             break;
@@ -314,7 +314,7 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
         default:
             QMessageBox::critical(this,
                                   tr("Unexpected error"),
-                                  tr("An unexpected error occured while opening album.\n"
+                                  tr("An unexpected error occured while opening photo collection.\n"
                                      "Please report a bug.\n"
                                      "Error code: " + static_cast<int>( status.get()) )
                                  );

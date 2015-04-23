@@ -66,8 +66,8 @@ class MainWindow: public QMainWindow
 
     private slots:
         // album menu
-        void on_actionNew_project_triggered();
-        void on_actionOpen_project_triggered();
+        void on_actionNew_collection_triggered();
+        void on_actionOpen_collection_triggered();
         void on_actionClose_triggered();
         void on_actionQuit_triggered();
         

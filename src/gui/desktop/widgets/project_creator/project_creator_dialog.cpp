@@ -59,11 +59,11 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
                                               m_engineOptions(nullptr),
                                               m_pluginLoader(nullptr)
 {
-    setWindowTitle(tr("Album creator"));
+    setWindowTitle(tr("Photo collection creator"));
     resize(500, 250);
 
     //project location line
-    QLabel* prjNameLabel = new QLabel(tr("Album name:"), this);
+    QLabel* prjNameLabel = new QLabel(tr("Collection name:"), this);
     m_prjName = new QLineEdit(this);
 
     //project location line layout

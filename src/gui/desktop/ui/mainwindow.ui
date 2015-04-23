@@ -27,9 +27,9 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuProject">
+   <widget class="QMenu" name="menuCollection">
     <property name="title">
-     <string>Collection</string>
+     <string>Photo collection</string>
     </property>
     <addaction name="actionNew_collection"/>
     <addaction name="actionOpen_collection"/>
@@ -59,7 +59,7 @@
      <string>Windows</string>
     </property>
    </widget>
-   <addaction name="menuProject"/>
+   <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
