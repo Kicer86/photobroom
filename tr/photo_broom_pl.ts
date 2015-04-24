@@ -194,7 +194,7 @@ Kod błędu: </translation>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="79"/>
         <source>New</source>
-        <translation>Nowy</translation>
+        <translation>Nowa</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="84"/>
