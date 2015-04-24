@@ -6,6 +6,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 set(COMPONENTS_SOURCES
     editor_factory.cpp
+    info_widget.cpp
     photos_data_model.cpp
     photos_widget.cpp
     staged_photos_data_model.cpp
@@ -21,6 +22,7 @@ set(COMPONENTS_SOURCES
 
 set(COMPONENTS_HEADERS
     editor_factory.hpp
+    info_widget.hpp
     iview.hpp
     photos_data_model.hpp
     photos_widget.hpp
