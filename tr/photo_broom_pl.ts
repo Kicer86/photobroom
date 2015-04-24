@@ -187,9 +187,13 @@ Kod błędu: </translation>
         <translation>Okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="70"/>
         <source>Tags editor</source>
-        <translation>Edytor tagów</translation>
+        <translation type="vanished">Edytor tagów</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="70"/>
+        <source>Photo information</source>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="79"/>
@@ -334,12 +338,12 @@ Kod błędu: </translation>
     <message>
         <location filename="../src/gui/desktop/ui/project_picker.ui" line="14"/>
         <source>Collections browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądarka kolekcji</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/project_picker.ui" line="26"/>
         <source>New</source>
-        <translation>Nowy</translation>
+        <translation>Nowa</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/project_picker.ui" line="33"/>

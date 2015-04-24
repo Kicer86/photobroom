@@ -67,7 +67,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Tags editor</string>
+    <string>Photo information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
