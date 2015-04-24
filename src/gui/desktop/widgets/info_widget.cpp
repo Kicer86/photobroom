@@ -19,9 +19,15 @@
 
 #include "info_widget.hpp"
 
-InfoWidget::InfoWidget(QWidget* parent_widget): QWidget(parent_widget)
-{
+#include <QLabel>
+#include <QVBoxLayout>
 
+InfoWidget::InfoWidget(const QString& info, QWidget* parent_widget): QFrame(parent_widget)
+{
+    QLabel* infoText = new QLabel(info, this);
+
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(infoText);
 }
 
 

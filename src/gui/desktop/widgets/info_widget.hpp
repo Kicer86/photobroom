@@ -20,12 +20,12 @@
 #ifndef INFOWIDGET_HPP
 #define INFOWIDGET_HPP
 
-#include <QWidget>
+#include <QFrame>
 
-class InfoWidget: public QWidget
+class InfoWidget: public QFrame
 {
     public:
-        InfoWidget(QWidget* parent = nullptr);
+        InfoWidget(const QString &, QWidget* parent = nullptr);
         InfoWidget(const InfoWidget &) = delete;
         ~InfoWidget();
 
