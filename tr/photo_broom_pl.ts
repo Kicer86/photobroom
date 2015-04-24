@@ -328,9 +328,13 @@ Kod błędu: </translation>
 <context>
     <name>ProjectPicker</name>
     <message>
-        <location filename="../src/gui/desktop/ui/project_picker.ui" line="14"/>
         <source>Album browser</source>
-        <translation>Przeglądarka albumów</translation>
+        <translation type="vanished">Przeglądarka albumów</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/project_picker.ui" line="14"/>
+        <source>Collections browser</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/project_picker.ui" line="26"/>
