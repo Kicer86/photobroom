@@ -78,12 +78,6 @@ class DBDataModel: public QAbstractItemModel
         void set(ITaskExecutor *);
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
-    protected:
-        IdxData* getRootIdxData();
-
-        Database::IDatabase* getDatabase(); //TODO: remove
-
-    private:
         //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
@@ -95,7 +89,12 @@ class DBDataModel: public QAbstractItemModel
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
-        //own:
+    protected:
+        IdxData* getRootIdxData();
+
+        Database::IDatabase* getDatabase(); //TODO: remove
+
+    private:
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
 
