@@ -40,6 +40,16 @@ void PhotosWidget::setModel(DBDataModel* dataModel)
 }
 
 
+bool PhotosWidget::hasPhotos() const
+{
+    QAbstractItemModel* m = model();
+
+    const bool result = m != nullptr && m->rowCount() != 0;
+
+    return result;
+}
+
+
 QItemSelectionModel* PhotosWidget::getSelectionModel()
 {
     return selectionModel();
