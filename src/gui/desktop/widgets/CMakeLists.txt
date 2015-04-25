@@ -42,6 +42,7 @@ set(COMPONENTS_HEADERS
 set(COMPONENTS_FILES_TO_MOC
     editor_factory.hpp
     filters_editor/level_editor.hpp
+    photos_widget.hpp
     project_creator/project_creator_dialog.hpp
     staged_photos_widget.hpp
     tag_editor/tag_editor_widget.hpp
