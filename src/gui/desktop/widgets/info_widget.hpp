@@ -25,7 +25,7 @@
 class InfoWidget: public QLabel
 {
     public:
-        InfoWidget(const QString &, QWidget* parent = nullptr);
+        InfoWidget(QWidget* parent = nullptr);
         InfoWidget(const InfoWidget &) = delete;
         ~InfoWidget();
 

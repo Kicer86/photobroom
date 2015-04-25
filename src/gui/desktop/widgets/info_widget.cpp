@@ -22,7 +22,7 @@
 
 #include <QVBoxLayout>
 
-InfoWidget::InfoWidget(const QString& info, QWidget* parent_widget): QLabel(info, parent_widget)
+InfoWidget::InfoWidget(QWidget* parent_widget): QLabel(parent_widget)
 {
     //style
     setStyleSheet(
