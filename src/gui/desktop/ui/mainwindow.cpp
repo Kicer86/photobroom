@@ -230,6 +230,9 @@ void MainWindow::changeEvent(QEvent* e)
         if (m_currentPrj.get() == nullptr)
             infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
 
+        if (infoText.isEmpty() && m_imagesModel->rowCount() == 0)
+            infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+
         if (infoText.isEmpty() == false)
         {
             const QRect w_r = rect();
@@ -252,7 +255,7 @@ void MainWindow::changeEvent(QEvent* e)
         if (infoText.isEmpty() == false && m_infoWidget->isHidden())
             m_infoWidget->show();
     }
-    
+
     QMainWindow::changeEvent(e);
 }
 
