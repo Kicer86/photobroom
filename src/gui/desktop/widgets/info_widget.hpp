@@ -20,9 +20,9 @@
 #ifndef INFOWIDGET_HPP
 #define INFOWIDGET_HPP
 
-#include <QFrame>
+#include <QLabel>
 
-class InfoWidget: public QFrame
+class InfoWidget: public QLabel
 {
     public:
         InfoWidget(const QString &, QWidget* parent = nullptr);

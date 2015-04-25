@@ -19,15 +19,21 @@
 
 #include "info_widget.hpp"
 
-#include <QLabel>
+
 #include <QVBoxLayout>
 
-InfoWidget::InfoWidget(const QString& info, QWidget* parent_widget): QFrame(parent_widget)
+InfoWidget::InfoWidget(const QString& info, QWidget* parent_widget): QLabel(info, parent_widget)
 {
-    QLabel* infoText = new QLabel(info, this);
-
-    QVBoxLayout* l = new QVBoxLayout(this);
-    l->addWidget(infoText);
+    //style
+    setStyleSheet(
+        "QLabel {                        "
+        "   border-width: 1px;           "
+        "   border-style: solid;         "
+        "   border-radius: 10px;         "
+        "   background: CornflowerBlue;  "
+        "   color: white;                "
+        "}                               "
+    );
 }
 
 
