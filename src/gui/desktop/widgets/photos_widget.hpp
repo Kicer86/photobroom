@@ -34,7 +34,6 @@ class PhotosWidget: public ImagesTreeView, public IView
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void setModel(DBDataModel *);
-        bool hasPhotos() const;
 
         // IView:
         QItemSelectionModel* getSelectionModel() override;
