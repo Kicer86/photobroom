@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QLayout>
 #include <QMessageBox>
+#include <QPainter>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -18,6 +19,7 @@
 
 #include "config.hpp"
 
+#include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_data_model.hpp"
 #include "widgets/staged_photos_data_model.hpp"
@@ -37,7 +39,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_photosCollector(new PhotosCollector(this)),
     m_views(),
-    m_photosAnalyzer(new PhotosAnalyzer)
+    m_photosAnalyzer(new PhotosAnalyzer),
+    m_infoWidget(nullptr)
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpenedStatus(const Database::BackendStatus &)));
@@ -157,6 +160,8 @@ void MainWindow::setupView()
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
 
+    m_infoWidget = new InfoWidget(this);
+
     viewChanged();
 }
 
@@ -211,6 +216,44 @@ void MainWindow::viewChanged()
     IView* view = m_views[w];
     ui->tagEditor->set( view->getSelectionModel() );
     ui->tagEditor->set( view->getModel() );
+}
+
+
+
+
+void MainWindow::changeEvent(QEvent* e)
+{
+    if (m_infoWidget)
+    {
+        QString infoText;
+
+        if (m_currentPrj.get() == nullptr)
+            infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
+
+        if (infoText.isEmpty() == false)
+        {
+            const QRect w_r = rect();
+            const QPoint w_c = w_r.center();
+
+            m_infoWidget->setText(infoText);
+            m_infoWidget->adjustSize();
+
+            const QSize infoSizeHint = m_infoWidget->sizeHint();
+
+            const QPoint p(w_c.x() - infoSizeHint.width() / 2,
+                        w_c.y() - infoSizeHint.height() / 2);
+
+            m_infoWidget->move(p);
+        }
+
+        if (infoText.isEmpty() && m_infoWidget->isVisible())
+            m_infoWidget->hide();
+
+        if (infoText.isEmpty() == false && m_infoWidget->isHidden())
+            m_infoWidget->show();
+    }
+    
+    QMainWindow::changeEvent(e);
 }
 
 
