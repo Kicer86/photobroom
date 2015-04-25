@@ -23,8 +23,6 @@
 #include "model_view/images_tree_view.hpp"
 #include "widgets/iview.hpp"
 
-class InfoWidget;
-
 class PhotosWidget: public ImagesTreeView, public IView
 {
         Q_OBJECT
@@ -46,9 +44,6 @@ class PhotosWidget: public ImagesTreeView, public IView
 
     private:
         DBDataModel* m_dataModel;
-        InfoWidget*  m_infoWidget;
-
-        void paintEvent(QPaintEvent *) override;
 };
 
 #endif // PHOTOSWIDGET_H

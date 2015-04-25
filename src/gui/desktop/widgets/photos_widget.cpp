@@ -19,16 +19,11 @@
 
 #include "photos_widget.hpp"
 
-#include <QPainter>
-
-#include "info_widget.hpp"
-
 #include "model_view/db_data_model.hpp"
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr), m_infoWidget(nullptr)
+PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr)
 {
-    m_infoWidget = new InfoWidget( tr("foo"), this);
-    m_infoWidget->hide();
+
 }
 
 
@@ -40,9 +35,6 @@ PhotosWidget::~PhotosWidget()
 
 void PhotosWidget::setModel(DBDataModel* dataModel)
 {
-    if (m_dataModel != nullptr)
-        m_dataModel->disconnect(this);
-
     m_dataModel = dataModel;
     ImagesTreeView::setModel(dataModel);
 }
@@ -69,24 +61,4 @@ QString PhotosWidget::getName()
 void PhotosWidget::set(IConfiguration* configuration)
 {
     ImagesTreeView::set(configuration);
-}
-
-
-void PhotosWidget::paintEvent(QPaintEvent* e)
-{
-    ImagesTreeView::paintEvent(e);
-
-    const int rows = model()->rowCount();
-
-    if (rows == 0)
-    {
-        const QRect w_r = rect();
-        const QPoint w_c = w_r.center();
-
-        QRect info = QRect(w_c, w_c);
-        info = info.marginsAdded(QMargins(50, 30, 50, 30));
-
-        m_infoWidget->resize(info.size());
-        m_infoWidget->render(this->viewport(), info.topLeft(), QRegion(), QWidget::DrawChildren);;
-    }
 }
