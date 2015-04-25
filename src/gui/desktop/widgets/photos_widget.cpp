@@ -87,6 +87,6 @@ void PhotosWidget::paintEvent(QPaintEvent* e)
         info = info.marginsAdded(QMargins(50, 30, 50, 30));
 
         m_infoWidget->resize(info.size());
-        m_infoWidget->render(this->viewport(), info.topLeft());;
+        m_infoWidget->render(this->viewport(), info.topLeft(), QRegion(), QWidget::DrawChildren);;
     }
 }
