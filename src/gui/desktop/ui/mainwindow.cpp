@@ -163,6 +163,14 @@ void MainWindow::setupView()
     m_infoWidget = new InfoWidget(this);
 
     viewChanged();
+
+    connect(m_imagesModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(imagesModelChanged()));
+    connect(m_imagesModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(imagesModelChanged()));
+
+    connect(m_stagedImagesModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(staggedAreaModelChanged()));
+    connect(m_stagedImagesModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(staggedAreaModelChanged()));
+
+    changed();
 }
 
 
@@ -216,47 +224,6 @@ void MainWindow::viewChanged()
     IView* view = m_views[w];
     ui->tagEditor->set( view->getSelectionModel() );
     ui->tagEditor->set( view->getModel() );
-}
-
-
-
-
-void MainWindow::changeEvent(QEvent* e)
-{
-    if (m_infoWidget)
-    {
-        QString infoText;
-
-        if (m_currentPrj.get() == nullptr)
-            infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
-
-        if (infoText.isEmpty() && m_imagesModel->rowCount() == 0)
-            infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
-
-        if (infoText.isEmpty() == false)
-        {
-            const QRect w_r = rect();
-            const QPoint w_c = w_r.center();
-
-            m_infoWidget->setText(infoText);
-            m_infoWidget->adjustSize();
-
-            const QSize infoSizeHint = m_infoWidget->sizeHint();
-
-            const QPoint p(w_c.x() - infoSizeHint.width() / 2,
-                        w_c.y() - infoSizeHint.height() / 2);
-
-            m_infoWidget->move(p);
-        }
-
-        if (infoText.isEmpty() && m_infoWidget->isVisible())
-            m_infoWidget->hide();
-
-        if (infoText.isEmpty() == false && m_infoWidget->isHidden())
-            m_infoWidget->show();
-    }
-
-    QMainWindow::changeEvent(e);
 }
 
 
@@ -366,6 +333,55 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
                                  );
             closeProject();
             break;
+    }
+}
+
+
+void MainWindow::imagesModelChanged()
+{
+    changed();
+}
+
+
+void MainWindow::staggedAreaModelChanged()
+{
+    changed();
+}
+
+
+void MainWindow::changed()
+{
+    if (m_infoWidget)
+    {
+        QString infoText;
+
+        if (m_currentPrj.get() == nullptr)
+            infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
+
+        if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
+            infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+
+        if (infoText.isEmpty() == false)
+        {
+            const QRect w_r = rect();
+            const QPoint w_c = w_r.center();
+
+            m_infoWidget->setText(infoText);
+            m_infoWidget->adjustSize();
+
+            const QSize infoSizeHint = m_infoWidget->sizeHint();
+
+            const QPoint p(w_c.x() - infoSizeHint.width() / 2,
+                           w_c.y() - infoSizeHint.height() / 2);
+
+            m_infoWidget->move(p);
+        }
+
+        if (infoText.isEmpty() && m_infoWidget->isVisible())
+            m_infoWidget->hide();
+
+        if (infoText.isEmpty() == false && m_infoWidget->isHidden())
+            m_infoWidget->show();
     }
 }
 

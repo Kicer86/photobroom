@@ -66,9 +66,6 @@ class MainWindow: public QMainWindow
         void updateTools();
         void viewChanged();
 
-        // QWidget overrides
-        void changeEvent(QEvent*) override;
-
     private slots:
         // album menu
         void on_actionNew_collection_triggered();
@@ -89,6 +86,11 @@ class MainWindow: public QMainWindow
 
         //internal slots
         void projectOpenedStatus(const Database::BackendStatus &);
+
+        //model observers
+        void imagesModelChanged();
+        void staggedAreaModelChanged();
+        void changed();
 
     private:
         void projectOpened(const Database::BackendStatus &);
