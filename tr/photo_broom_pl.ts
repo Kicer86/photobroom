@@ -30,29 +30,6 @@
     </message>
 </context>
 <context>
-    <name>Default Tag Name</name>
-    <message>
-        <source>People</source>
-        <translation type="vanished">Osoby</translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation type="vanished">Miejsce</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation type="vanished">Data</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation type="vanished">Godzina</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <translation type="vanished">Wydarzenie</translation>
-    </message>
-</context>
-<context>
     <name>IdxDataManager</name>
     <message>
         <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="864"/>
@@ -141,53 +118,9 @@ Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No album opened</source>
-        <translation type="vanished">Nie otwarto albumu</translation>
-    </message>
-    <message>
-        <source>Unsupported album version</source>
-        <translation type="vanished">Nieobsługiwana wersja albumu</translation>
-    </message>
-    <message>
-        <source>Album you are trying to open uses database in version which is not supported.
-It means your application is too old to open it.
-
-Please upgrade application to open this album.</source>
-        <translation type="vanished">Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
-Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
-
-Proszę zaktualizować aplikację.</translation>
-    </message>
-    <message>
-        <source>Unsupported project version</source>
-        <translation type="vanished">Nieobsługiwana wersja projektu</translation>
-    </message>
-    <message>
-        <source>Album you are trying to open uses database in version which is not supported.
-It means your application is too old to open it.
-
-Please upgrade application to open this project.</source>
-        <translation type="vanished">Album, który chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
-Oznacza to, że twoja aplikacja jest zbyt stara aby go otworzyć.
-
-Proszę zaktualizować aplikację.</translation>
-    </message>
-    <message>
-        <source>An unexpected error occured while opening album.
-Please report a bug.
-Error code: </source>
-        <translation type="vanished">Podczas otwierania albumu wystąpił niespodziewany błąd.
-Proszę zgłosić błąd w programie.
-Kod błędu: </translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="332"/>
         <source>Unexpected error</source>
         <translation>Niespodziewany błąd</translation>
-    </message>
-    <message>
-        <source>Album</source>
-        <translation type="vanished">Album</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="50"/>
@@ -199,10 +132,6 @@ Kod błędu: </translation>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="59"/>
         <source>Windows</source>
         <translation>Okna</translation>
-    </message>
-    <message>
-        <source>Tags editor</source>
-        <translation type="vanished">Edytor tagów</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="70"/>
@@ -247,32 +176,9 @@ Kod błędu: </translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <source>About</source>
-        <translation type="vanished">O programie</translation>
-    </message>
-    <message>
-        <source>Browse staged photos</source>
-        <translation type="vanished">Przeglądaj zdjęcia do zatwierdzenia</translation>
-    </message>
-    <message>
-        <source>Open File</source>
-        <translation type="vanished">Otwórz plik</translation>
-    </message>
-    <message>
-        <source>Photo Broom albums (*.bpj)</source>
-        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="273"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
-    </message>
-</context>
-<context>
-    <name>PhotosStagingArea</name>
-    <message>
-        <source>save photos</source>
-        <translation type="vanished">Zapisz zdjęcia</translation>
     </message>
 </context>
 <context>
@@ -294,34 +200,7 @@ Kod błędu: </translation>
     </message>
 </context>
 <context>
-    <name>PrjLocationDialog</name>
-    <message>
-        <source>File name</source>
-        <translation type="vanished">Nazwa pliku</translation>
-    </message>
-    <message>
-        <source>Photo Broom albums (*.bpj)</source>
-        <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
-    </message>
-</context>
-<context>
     <name>ProjectCreatorDialog</name>
-    <message>
-        <source>Album creator</source>
-        <translation type="vanished">Kreator albumu</translation>
-    </message>
-    <message>
-        <source>Album location:</source>
-        <translation type="vanished">Lokacja albumu:</translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation type="vanished">Przeglądaj</translation>
-    </message>
-    <message>
-        <source>Album name:</source>
-        <translation type="vanished">Nazwa albumu:</translation>
-    </message>
     <message>
         <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="62"/>
         <source>Photo collection creator</source>
@@ -345,10 +224,6 @@ Kod błędu: </translation>
 </context>
 <context>
     <name>ProjectPicker</name>
-    <message>
-        <source>Album browser</source>
-        <translation type="vanished">Przeglądarka albumów</translation>
-    </message>
     <message>
         <location filename="../src/gui/desktop/ui/project_picker.ui" line="14"/>
         <source>Collections browser</source>
@@ -386,31 +261,6 @@ Kod błędu: </translation>
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_operator.cpp" line="61"/>
         <source>&lt;multiple values&gt;</source>
         <translation>&lt;różne wartości&gt;</translation>
-    </message>
-    <message>
-        <source>People</source>
-        <comment>Default Tag Name</comment>
-        <translation type="vanished">Osoby</translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <comment>Default Tag Name</comment>
-        <translation type="vanished">Miejsce</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <comment>Default Tag Name</comment>
-        <translation type="vanished">Data</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <comment>Default Tag Name</comment>
-        <translation type="vanished">Godzina</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <comment>Default Tag Name</comment>
-        <translation type="vanished">Wydarzenie</translation>
     </message>
 </context>
 <context>
