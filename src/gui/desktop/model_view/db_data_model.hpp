@@ -78,6 +78,8 @@ class DBDataModel: public QAbstractItemModel
         void set(ITaskExecutor *);
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
+        bool isEmpty() const;
+
         //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
