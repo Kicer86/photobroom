@@ -351,38 +351,35 @@ void MainWindow::staggedAreaModelChanged()
 
 void MainWindow::changed()
 {
-    if (m_infoWidget)
+    QString infoText;
+
+    if (m_currentPrj.get() == nullptr)
+        infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
+
+    if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
+        infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+
+    if (infoText.isEmpty() == false)
     {
-        QString infoText;
+        const QRect w_r = rect();
+        const QPoint w_c = w_r.center();
 
-        if (m_currentPrj.get() == nullptr)
-            infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
+        m_infoWidget->setText(infoText);
+        m_infoWidget->adjustSize();
 
-        if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
-            infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+        const QSize infoSizeHint = m_infoWidget->sizeHint();
 
-        if (infoText.isEmpty() == false)
-        {
-            const QRect w_r = rect();
-            const QPoint w_c = w_r.center();
+        const QPoint p(w_c.x() - infoSizeHint.width() / 2,
+                        w_c.y() - infoSizeHint.height() / 2);
 
-            m_infoWidget->setText(infoText);
-            m_infoWidget->adjustSize();
-
-            const QSize infoSizeHint = m_infoWidget->sizeHint();
-
-            const QPoint p(w_c.x() - infoSizeHint.width() / 2,
-                           w_c.y() - infoSizeHint.height() / 2);
-
-            m_infoWidget->move(p);
-        }
-
-        if (infoText.isEmpty() && m_infoWidget->isVisible())
-            m_infoWidget->hide();
-
-        if (infoText.isEmpty() == false && m_infoWidget->isHidden())
-            m_infoWidget->show();
+        m_infoWidget->move(p);
     }
+
+    if (infoText.isEmpty() && m_infoWidget->isVisible())
+        m_infoWidget->hide();
+
+    if (infoText.isEmpty() == false && m_infoWidget->isHidden())
+        m_infoWidget->show();
 }
 
 
