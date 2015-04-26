@@ -80,6 +80,12 @@ class DBDataModel: public QAbstractItemModel
 
         bool isEmpty() const;
 
+    protected:
+        IdxData* getRootIdxData();
+
+        Database::IDatabase* getDatabase(); //TODO: remove
+
+    private:
         //QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
@@ -91,12 +97,7 @@ class DBDataModel: public QAbstractItemModel
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
-    protected:
-        IdxData* getRootIdxData();
-
-        Database::IDatabase* getDatabase(); //TODO: remove
-
-    private:
+        //own:
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
 
