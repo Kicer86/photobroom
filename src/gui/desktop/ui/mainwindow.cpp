@@ -362,7 +362,7 @@ void MainWindow::updateInfoWidget()
                       "or 'new' action and create new collection.");
 
     if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
-        infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+        infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
 
     if (infoText.isEmpty() == false)
     {
