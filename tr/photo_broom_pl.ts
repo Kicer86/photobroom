@@ -117,8 +117,16 @@ lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="365"/>
         <source>There are no photos in your collection.
+
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation>W twojej kolekcji nie ma żadnych zdjęć.
+        <translation type="unfinished">W twojej kolekcji nie ma żadnych zdjęć.
+
+Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
+    </message>
+    <message>
+        <source>There are no photos in your collection.
+Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
+        <translation type="vanished">W twojej kolekcji nie ma żadnych zdjęć.
 Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
     </message>
     <message>
