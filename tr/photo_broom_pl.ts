@@ -109,13 +109,17 @@ Kod błędu: </translation>
 
 Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one
 or &apos;new&apos; action and create new collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć.
+
+Aby wybrać istniejącą kolekcję, wybierz akcję &quot;Otwórz&quot; z menu &quot;Kolekcja zdjęć&quot;,
+lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="365"/>
         <source>There are no photos in your collection.
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>W twojej kolekcji nie ma żadnych zdjęć.
+Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="332"/>
