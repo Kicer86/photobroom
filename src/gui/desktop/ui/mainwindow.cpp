@@ -108,7 +108,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     {
         closeProject();
 
-        auto openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
+        auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
         
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
         
@@ -386,7 +386,7 @@ void MainWindow::updateInfoWidget()
 }
 
 
-void MainWindow::projectOpened(const Database::BackendStatus& status)
+void MainWindow::projectOpenedNotification(const Database::BackendStatus& status)
 {
     emit projectOpenedSignal(status);
 }

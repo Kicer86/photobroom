@@ -93,7 +93,7 @@ class MainWindow: public QMainWindow
         void updateInfoWidget();
 
     private:
-        void projectOpened(const Database::BackendStatus &);
+        void projectOpenedNotification(const Database::BackendStatus &);
 
     signals:
         void projectOpenedSignal(const Database::BackendStatus &);
