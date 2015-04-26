@@ -85,7 +85,7 @@ class MainWindow: public QMainWindow
         void on_actionAbout_Qt_triggered();
 
         //internal slots
-        void projectOpenedStatus(const Database::BackendStatus &);
+        void projectOpened(const Database::BackendStatus &);
 
         //model observers
         void imagesModelChanged();
