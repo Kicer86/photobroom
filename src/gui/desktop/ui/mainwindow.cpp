@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpenedStatus(const Database::BackendStatus &)));
+    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(changed()));
 
     ui->setupUi(this);
     setupView();
@@ -130,6 +131,8 @@ void MainWindow::closeProject()
         // Move m_currentPrj to a temporary place, so m_currentPrj is null and all tools will change theirs state basing on this.
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
+
+        changed();
 
         m_imagesModel->setDatabase(nullptr);
         m_stagedImagesModel->setDatabase(nullptr);
