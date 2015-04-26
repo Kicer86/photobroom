@@ -24,11 +24,12 @@
 
 InfoWidget::InfoWidget(QWidget* parent_widget): QLabel(parent_widget)
 {
+    setMargin(4);
+    setFrameStyle(NoFrame);
+
     //style
     setStyleSheet(
         "QLabel {                        "
-        "   border-width: 1px;           "
-        "   border-style: solid;         "
         "   border-radius: 10px;         "
         "   background: CornflowerBlue;  "
         "   color: white;                "
