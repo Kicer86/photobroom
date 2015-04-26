@@ -82,32 +82,32 @@
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="43"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="145"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="150"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="152"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="157"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="190"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="205"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="190"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="205"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="306"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="322"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="307"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="323"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -118,13 +118,27 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="317"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="333"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: </source>
         <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
 Proszę zgłosić błąd w programie.
 Kod błędu: </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="360"/>
+        <source>No photo collection is opened.
+
+Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one
+or &apos;new&apos; action and create new collection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="365"/>
+        <source>There are no photos in your collection.
+Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No album opened</source>
@@ -167,7 +181,7 @@ Proszę zgłosić błąd w programie.
 Kod błędu: </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="316"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="332"/>
         <source>Unexpected error</source>
         <translation>Niespodziewany błąd</translation>
     </message>
@@ -212,7 +226,7 @@ Kod błędu: </translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="97"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="287"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="302"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -228,7 +242,7 @@ Kod błędu: </translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="112"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="293"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="308"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
@@ -249,7 +263,7 @@ Kod błędu: </translation>
         <translation type="vanished">Projekty programu Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="258"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="273"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
