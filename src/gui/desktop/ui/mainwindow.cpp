@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpenedStatus(const Database::BackendStatus &)));
-    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(changed()));
+    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(updateInfoWidget()));
 
     ui->setupUi(this);
     setupView();
@@ -132,7 +132,7 @@ void MainWindow::closeProject()
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
 
-        changed();
+        updateInfoWidget();
 
         m_imagesModel->setDatabase(nullptr);
         m_stagedImagesModel->setDatabase(nullptr);
@@ -173,7 +173,7 @@ void MainWindow::setupView()
     connect(m_stagedImagesModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(staggedAreaModelChanged()));
     connect(m_stagedImagesModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(staggedAreaModelChanged()));
 
-    changed();
+    updateInfoWidget();
 }
 
 
@@ -342,17 +342,17 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
 
 void MainWindow::imagesModelChanged()
 {
-    changed();
+    updateInfoWidget();
 }
 
 
 void MainWindow::staggedAreaModelChanged()
 {
-    changed();
+    updateInfoWidget();
 }
 
 
-void MainWindow::changed()
+void MainWindow::updateInfoWidget()
 {
     QString infoText;
 

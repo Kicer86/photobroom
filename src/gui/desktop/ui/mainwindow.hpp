@@ -90,7 +90,7 @@ class MainWindow: public QMainWindow
         //model observers
         void imagesModelChanged();
         void staggedAreaModelChanged();
-        void changed();
+        void updateInfoWidget();
 
     private:
         void projectOpened(const Database::BackendStatus &);
