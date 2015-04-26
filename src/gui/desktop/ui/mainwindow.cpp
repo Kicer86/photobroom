@@ -357,7 +357,9 @@ void MainWindow::updateInfoWidget()
     QString infoText;
 
     if (m_currentPrj.get() == nullptr)
-        infoText = tr("No photo collection is opened.\nUse 'open' action form 'Photo collection' menu to choose one");
+        infoText = tr("No photo collection is opened.\n\n"
+                      "Use 'open' action form 'Photo collection' menu to choose one\n"
+                      "or 'new' action and create new collection.");
 
     if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
         infoText = tr("There are no photos in your collection.\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
