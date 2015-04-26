@@ -375,7 +375,7 @@ void MainWindow::updateInfoWidget()
         const QSize infoSizeHint = m_infoWidget->sizeHint();
 
         const QPoint p(w_c.x() - infoSizeHint.width() / 2,
-                        w_c.y() - infoSizeHint.height() / 2);
+                       w_c.y() - infoSizeHint.height() / 2);
 
         m_infoWidget->move(p);
     }
