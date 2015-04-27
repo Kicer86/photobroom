@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
+    connect(m_photosCollector, SIGNAL(finished()), this, SLOT(updateInfoWidget()));
 
     ui->setupUi(this);
     setupView();
@@ -274,6 +275,8 @@ void MainWindow::on_actionAdd_photos_triggered()
 
     if (path.isEmpty() == false)
         m_photosCollector->addDir(path);
+
+    updateInfoWidget();
 }
 
 
@@ -360,6 +363,20 @@ void MainWindow::updateInfoWidget()
         infoText = tr("No photo collection is opened.\n\n"
                       "Use 'open' action form 'Photo collection' menu to choose one\n"
                       "or 'new' action and create new collection.");
+
+    const bool photos_in_staging_area = m_stagedImagesModel->isEmpty() == false;
+    const bool photos_in_images_area  = m_imagesModel->isEmpty() == false;
+    const bool photos_collector_works = m_photosCollector->isWorking();
+
+    const bool state_photos_for_review = photos_in_images_area == false && (photos_in_staging_area || photos_collector_works);
+
+    if (infoText.isEmpty() && state_photos_for_review)
+        infoText = tr("%1.\n\n"
+                      "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
+                      "To se those photos choose %2 and then %3\n")
+                   .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
+                   .arg(ui->menuWindows->title())
+                   .arg(m_views[1]->getName());
 
     if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
         infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
