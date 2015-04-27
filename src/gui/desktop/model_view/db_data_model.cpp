@@ -202,7 +202,7 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 bool DBDataModel::isEmpty() const
 {
     IdxData* root = m_idxDataManager->getRoot();
-    const bool result = root->m_children.size() != 0;
+    const bool result = root->m_children.empty();
 
     return result;
 }
