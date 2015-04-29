@@ -17,7 +17,7 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
   </property>
-  <widget class="QStackedWidget" name="centralWidget"/>
+  <widget class="QStackedWidget" name="viewsContainer"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>

@@ -151,14 +151,14 @@ void MainWindow::setupView()
     photosWidget->setWindowTitle(tr("Photos"));
     photosWidget->setModel(m_imagesModel);
     m_views.push_back(photosWidget);
-    ui->centralWidget->addWidget(photosWidget);
+    ui->viewsContainer->addWidget(photosWidget);
 
     m_stagedImagesModel = new StagedPhotosDataModel(this);
     StagedPhotosWidget* stagedPhotosWidget = new StagedPhotosWidget(this);
     stagedPhotosWidget->setWindowTitle(tr("Staged photos"));
     stagedPhotosWidget->setModel(m_stagedImagesModel);
     m_views.push_back(stagedPhotosWidget);
-    ui->centralWidget->addWidget(stagedPhotosWidget);
+    ui->viewsContainer->addWidget(stagedPhotosWidget);
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
@@ -222,7 +222,7 @@ void MainWindow::updateTools()
 
 void MainWindow::viewChanged()
 {
-    const int w = ui->centralWidget->currentIndex();
+    const int w = ui->viewsContainer->currentIndex();
 
     IView* view = m_views[w];
     ui->tagEditor->set( view->getSelectionModel() );
@@ -284,7 +284,7 @@ void MainWindow::activateWindow(QAction* action)
 {
     const int w = action->data().toInt();
 
-    ui->centralWidget->setCurrentIndex(w);
+    ui->viewsContainer->setCurrentIndex(w);
 
     viewChanged();
 }
