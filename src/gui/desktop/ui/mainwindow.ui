@@ -17,14 +17,20 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
   </property>
-  <widget class="QStackedWidget" name="viewsContainer"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QStackedWidget" name="viewsContainer"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCollection">
