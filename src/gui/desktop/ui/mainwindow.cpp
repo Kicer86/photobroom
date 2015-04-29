@@ -154,11 +154,11 @@ void MainWindow::setupView()
     ui->centralWidget->addWidget(photosWidget);
 
     m_stagedImagesModel = new StagedPhotosDataModel(this);
-    StagedPhotosWidget* stagetPhotosWidget = new StagedPhotosWidget(this);
-    stagetPhotosWidget->setWindowTitle(tr("Staged photos"));
-    stagetPhotosWidget->setModel(m_stagedImagesModel);
-    m_views.push_back(stagetPhotosWidget);
-    ui->centralWidget->addWidget(stagetPhotosWidget);
+    StagedPhotosWidget* stagedPhotosWidget = new StagedPhotosWidget(this);
+    stagedPhotosWidget->setWindowTitle(tr("Staged photos"));
+    stagedPhotosWidget->setModel(m_stagedImagesModel);
+    m_views.push_back(stagedPhotosWidget);
+    ui->centralWidget->addWidget(stagedPhotosWidget);
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
