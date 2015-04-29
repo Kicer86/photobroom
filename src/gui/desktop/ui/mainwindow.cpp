@@ -164,6 +164,7 @@ void MainWindow::setupView()
     m_photosCollector->set(m_stagedImagesModel);
 
     m_infoWidget = new InfoWidget(this);
+    ui->centralWidgetLayout->addWidget(m_infoWidget);
 
     viewChanged();
 
@@ -382,20 +383,7 @@ void MainWindow::updateInfoWidget()
         infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
 
     if (infoText.isEmpty() == false)
-    {
-        const QRect w_r = rect();
-        const QPoint w_c = w_r.center();
-
         m_infoWidget->setText(infoText);
-        m_infoWidget->adjustSize();
-
-        const QSize infoSizeHint = m_infoWidget->sizeHint();
-
-        const QPoint p(w_c.x() - infoSizeHint.width() / 2,
-                       w_c.y() - infoSizeHint.height() / 2);
-
-        m_infoWidget->move(p);
-    }
 
     if (infoText.isEmpty() && m_infoWidget->isVisible())
         m_infoWidget->hide();
