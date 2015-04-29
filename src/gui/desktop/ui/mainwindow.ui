@@ -37,6 +37,9 @@
     <item>
      <widget class="QStackedWidget" name="viewsContainer"/>
     </item>
+    <item>
+     <widget class="InfoWidget" name="infoWidget" native="true"/>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -144,6 +147,12 @@
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
    <header>widgets/tag_editor/tag_editor_widget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>InfoWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/info_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

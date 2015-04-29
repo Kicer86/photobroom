@@ -11,7 +11,6 @@
 class StagedPhotosDataModel;
 class PhotosCollector;
 class PhotosAnalyzer;
-class InfoWidget;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -54,7 +53,6 @@ class MainWindow: public QMainWindow
         PhotosCollector*          m_photosCollector;
         std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
-        InfoWidget*               m_infoWidget;
 
         void closeEvent(QCloseEvent *);
         void openProject(const ProjectInfo &);

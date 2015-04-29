@@ -39,8 +39,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_photosCollector(new PhotosCollector(this)),
     m_views(),
-    m_photosAnalyzer(new PhotosAnalyzer),
-    m_infoWidget(nullptr)
+    m_photosAnalyzer(new PhotosAnalyzer)
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -162,9 +161,6 @@ void MainWindow::setupView()
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
-
-    m_infoWidget = new InfoWidget(this);
-    ui->centralWidgetLayout->addWidget(m_infoWidget);
 
     viewChanged();
 
@@ -383,13 +379,13 @@ void MainWindow::updateInfoWidget()
         infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
 
     if (infoText.isEmpty() == false)
-        m_infoWidget->setText(infoText);
+        ui->infoWidget->setText(infoText);
 
-    if (infoText.isEmpty() && m_infoWidget->isVisible())
-        m_infoWidget->hide();
+    if (infoText.isEmpty() && ui->infoWidget->isVisible())
+        ui->infoWidget->hide();
 
-    if (infoText.isEmpty() == false && m_infoWidget->isHidden())
-        m_infoWidget->show();
+    if (infoText.isEmpty() == false && ui->infoWidget->isHidden())
+        ui->infoWidget->show();
 }
 
 
