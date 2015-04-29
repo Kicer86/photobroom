@@ -18,7 +18,7 @@
     <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="centralWidgetLayout">
     <item>
      <widget class="QStackedWidget" name="viewsContainer"/>
     </item>
