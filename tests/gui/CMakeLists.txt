@@ -16,7 +16,6 @@ include_directories(${gui_include_dirs} ${BASE_DIR} ${CMAKE_SOURCE_DIR}/src/ .)
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 foreach(source ${gui_raw_srcs})
-    message("dupa: ${source}")
     if (IS_ABSOLUTE ${source})
         list(APPEND gui_srcs ${source})
 
