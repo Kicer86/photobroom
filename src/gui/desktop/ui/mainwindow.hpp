@@ -54,7 +54,8 @@ class MainWindow: public QMainWindow
         std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
 
-        void closeEvent(QCloseEvent *);
+        void closeEvent(QCloseEvent *) override;
+
         void openProject(const ProjectInfo &);
         void closeProject();
         void setupView();
