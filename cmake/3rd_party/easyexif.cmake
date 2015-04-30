@@ -13,6 +13,7 @@ function(addEasyExif)
                               
         #download easyexif rule
         add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif_downloaded
+                           COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif
                            COMMAND ${GIT_EXECUTABLE} clone https://github.com/mayanklahiri/easyexif.git
                            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/3rd_party/src/easyexif_downloaded
                            DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/src/dir
