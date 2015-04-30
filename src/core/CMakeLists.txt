@@ -5,6 +5,7 @@ find_package(OpenLibrary 2.0 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(OpenMP)
+find_package(Threads)
 find_exif_package()
 find_cryptographic_package()       # OpenSSL or Nettle
 
@@ -105,7 +106,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
-target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES})
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 if(OPENMP_FOUND)
