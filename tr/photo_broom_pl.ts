@@ -53,15 +53,65 @@
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="32"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="56"/>
         <source>Photo collection</source>
         <translation>Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="43"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="67"/>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="150"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="74"/>
+        <source>He&amp;lp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="94"/>
+        <source>Photo &amp;information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="103"/>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="108"/>
+        <source>&amp;Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="116"/>
+        <source>&amp;Add photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="121"/>
+        <source>&amp;About Photo Broom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="126"/>
+        <source>&amp;Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="131"/>
+        <source>&amp;Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="136"/>
+        <source>About &amp;Qt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="141"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="157"/>
@@ -69,12 +119,12 @@
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="205"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="203"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="205"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="203"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -115,7 +165,26 @@ Aby wybrać istniejącą kolekcję, wybierz akcję &quot;Otwórz&quot; z menu &q
 lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="365"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="371"/>
+        <source>%1.
+
+All new photos are added to special area where they can be reviewed before they will be added to collection.
+To se those photos choose %2 and then %3
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="374"/>
+        <source>Photos are being loaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="374"/>
+        <source>Photos waiting for review</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="379"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
@@ -135,60 +204,50 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="50"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="117"/>
         <source>Help</source>
-        <translation>Pomoc</translation>
+        <translation type="vanished">Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="59"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="83"/>
         <source>Windows</source>
         <translation>Okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="70"/>
         <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <translation type="vanished">Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="79"/>
         <source>New</source>
-        <translation>Nowa</translation>
+        <translation type="vanished">Nowa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="84"/>
         <source>Open</source>
-        <translation>Otwórz</translation>
+        <translation type="vanished">Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="92"/>
         <source>Add photos</source>
-        <translation>Dodaj zdjęcia</translation>
+        <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="97"/>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="302"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="102"/>
         <source>Close</source>
-        <translation>Zamknij</translation>
+        <translation type="vanished">Zamknij</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="107"/>
         <source>Quit</source>
-        <translation>Zakończ</translation>
+        <translation type="vanished">Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="112"/>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="308"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="273"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="271"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
     </message>
