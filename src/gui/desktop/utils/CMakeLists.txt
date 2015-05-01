@@ -7,12 +7,14 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     
 
 set(UTILS_SOURCES
+    info_generator.cpp
     photos_collector.cpp
     thread_multiplexer.cpp
     variant_display.cpp
     )
 
 set(UTILS_HEADERS
+    info_generator.hpp
     photos_collector.hpp
     thread_multiplexer.hpp
     variant_display.hpp
@@ -20,6 +22,7 @@ set(UTILS_HEADERS
     
     
 set(UTILS_FILES_TO_MOC
+    info_generator.hpp
     photos_collector.hpp
     thread_multiplexer.hpp
 )
