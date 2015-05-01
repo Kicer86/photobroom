@@ -22,13 +22,36 @@
 
 #include <QObject>
 
+class QSignalMapper;
+
+
 class SignalFilter: public QObject
 {
+        Q_OBJECT
+
     public:
-        SignalFilter();
+        SignalFilter(QObject *);
         SignalFilter(const SignalFilter &) = delete;
         ~SignalFilter();
+
         SignalFilter& operator=(const SignalFilter &) = delete;
+
+        void connect(QObject* sender, const char* signal,
+                     QObject* receiver, const char* method, Qt::ConnectionType type = Qt::AutoConnection);
+
+
+    private:
+        struct Receiver
+        {
+            QObject* receiver;
+            const char* method;
+        };
+
+        std::map<const QObject *, Receiver> m_signals;
+        QSignalMapper* m_mapper;
+
+    private slots:
+        void notification(QObject *);
 };
 
 #endif // SIGNALFILTER_HPP

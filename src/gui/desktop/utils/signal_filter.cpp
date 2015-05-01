@@ -19,7 +19,12 @@
 
 #include "signal_filter.hpp"
 
-SignalFilter::SignalFilter()
+#include <cassert>
+
+#include <QSignalMapper>
+
+
+SignalFilter::SignalFilter(QObject* parent_object): QObject(parent_object), m_signals(), m_mapper(new QSignalMapper(this))
 {
 
 }
@@ -28,4 +33,27 @@ SignalFilter::SignalFilter()
 SignalFilter::~SignalFilter()
 {
 
+}
+
+
+void SignalFilter::connect(QObject* sender_obj, const char* signal, QObject* receiver, const char* method, Qt::ConnectionType type)
+{
+    Receiver rec = {receiver, method};
+    m_signals[sender_obj] = rec;
+    m_mapper->setMapping(sender_obj, sender_obj);
+    connect(sender_obj, signal, m_mapper, SLOT(map()), type);
+}
+
+
+void SignalFilter::notification(QObject* obj)
+{
+    auto it = m_signals.find(obj);
+    assert(it != m_signals.end());
+
+    if (it != m_signals.end())
+    {
+        const Receiver& r = it->second;
+
+        QMetaObject::invokeMethod(r.receiver, r.method);
+    }
 }
