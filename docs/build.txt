@@ -8,9 +8,11 @@ Required tools and libraries:
  - OpenMP (optional)
  - OpenLibrary
 
-* EasyExif can be automatically downloaded in configuration process if AUTODOWNLOAD_EASYEXIF flag is ON.
-To enable this flag use cmake with -DAUTODOWNLOAD_EASYEXIF=ON like this:
-cmake -DAUTODOWNLOAD_EASYEXIF=ON /path/to/sources
+* PhotoBroom at configuration phase will additionaly search for EasyExif in (TOP_SOURCE_DIR)/3rd_party/easyexif.
+  So if it is not installed in your system you may:
+  - cd photo_broom_sources
+  - mkdir 3rd_party
+  - git clone https://github.com/mayanklahiri/easyexif.git
 
 or select proper checkbox in cmake-gui tool.
 
