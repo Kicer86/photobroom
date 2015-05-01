@@ -21,7 +21,10 @@
 
 #include <database/idatabase.hpp>
 
-InfoGenerator::InfoGenerator(QObject* parent_object): QObject(parent_object), m_database(nullptr)
+#include "signal_filter.hpp"
+
+
+InfoGenerator::InfoGenerator(QObject* parent_object): QObject(parent_object), m_database(nullptr), m_signalFiler(new SignalFilter(this))
 {
 
 }
@@ -38,11 +41,11 @@ void InfoGenerator::set(Database::IDatabase* database)
     m_database = database;
 
     auto notifier = m_database->notifier();
-    connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbCahnged()));
+    m_signalFiler->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
 }
 
 
 void InfoGenerator::dbChanged()
 {
-    
+
 }

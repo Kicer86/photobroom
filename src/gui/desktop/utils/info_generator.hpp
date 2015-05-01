@@ -22,6 +22,8 @@
 
 #include <QObject>
 
+class SignalFilter;
+
 namespace Database
 {
     struct IDatabase;
@@ -41,6 +43,7 @@ class InfoGenerator: public QObject
 
     private:
         Database::IDatabase* m_database;
+        SignalFilter* m_signalFiler;
 
     private slots:
         void dbChanged();
