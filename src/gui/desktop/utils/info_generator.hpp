@@ -22,6 +22,11 @@
 
 #include <QObject>
 
+namespace Database
+{
+    struct IDatabase;
+}
+
 class InfoGenerator: public QObject
 {
         Q_OBJECT
@@ -31,6 +36,14 @@ class InfoGenerator: public QObject
         InfoGenerator(const InfoGenerator &) = delete;
         ~InfoGenerator();
         InfoGenerator& operator=(const InfoGenerator &) = delete;
+
+        void set(Database::IDatabase *);
+
+    private:
+        Database::IDatabase* m_database;
+
+    private slots:
+        void dbChanged();
 };
 
 #endif // INFOGENERATOR_HPP

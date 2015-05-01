@@ -19,7 +19,9 @@
 
 #include "info_generator.hpp"
 
-InfoGenerator::InfoGenerator(QObject* parent_object): QObject(parent_object)
+#include <database/idatabase.hpp>
+
+InfoGenerator::InfoGenerator(QObject* parent_object): QObject(parent_object), m_database(nullptr)
 {
 
 }
@@ -30,3 +32,17 @@ InfoGenerator::~InfoGenerator()
 
 }
 
+
+void InfoGenerator::set(Database::IDatabase* database)
+{
+    m_database = database;
+
+    auto notifier = m_database->notifier();
+    connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbCahnged()));
+}
+
+
+void InfoGenerator::dbChanged()
+{
+    
+}
