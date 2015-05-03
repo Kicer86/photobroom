@@ -162,6 +162,8 @@ void MainWindow::setupView()
     m_views.push_back(stagedPhotosWidget);
     ui->viewsContainer->addWidget(stagedPhotosWidget);
 
+    ui->infoWidget->hide();
+
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
 
