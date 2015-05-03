@@ -125,6 +125,8 @@ void InfoGenerator::calculateStates()
 
     if (infoText.isEmpty() && m_collection_empty)
         infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+
+    emit infoUpdated(infoText);
 }
 
 

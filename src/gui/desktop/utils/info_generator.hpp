@@ -54,6 +54,9 @@ class InfoGenerator: public QObject
 
     private slots:
         void dbChanged();
+
+    signals:
+        void infoUpdated(const QString &);
 };
 
 #endif // INFOGENERATOR_HPP
