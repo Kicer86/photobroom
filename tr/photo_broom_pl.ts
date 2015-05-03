@@ -128,15 +128,23 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+42"/>
         <source>Photo collection</source>
-        <translation>Kolekcja zdjęć</translation>
+        <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location line="+11"/>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+153"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+42"/>
+        <source>&amp;Photo collection</source>
+        <translation>&amp;Kolekcja zdjęć</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pho&amp;tos</source>
+        <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -144,7 +152,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+9"/>
+        <source>&amp;Windows</source>
+        <translation>&amp;Okna</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -262,9 +275,8 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-58"/>
         <source>Windows</source>
-        <translation>Okna</translation>
+        <translation type="vanished">Okna</translation>
     </message>
     <message>
         <source>Photo information</source>
@@ -283,7 +295,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-29"/>
+        <location line="-29"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
