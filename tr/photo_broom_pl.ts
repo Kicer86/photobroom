@@ -45,46 +45,69 @@
 
 Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one
 or &apos;new&apos; action and create new collection.</source>
-        <translation type="unfinished">Nie otwarto kolekcji zdjęć.
+        <translation>Nie otwarto kolekcji zdjęć.
 
 Aby wybrać istniejącą kolekcję, wybierz akcję &quot;Otwórz&quot; z menu &quot;Kolekcja zdjęć&quot;,
 lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation>
+    </message>
+    <message>
+        <source>%1.
+
+All new photos are added to special area where they can be reviewed before they will be added to collection.
+To se those photos choose %2 and then %3
+</source>
+        <translation type="vanished">%1.
+
+Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
+Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3.</translation>
+    </message>
+    <message>
+        <source>%1.
+
+All new photos are added to special area where they can be reviewed before they will be added to collection.
+To se those photos choose %2 and then %3</source>
+        <translation type="obsolete">%1.
+
+Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
+Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1.
 
 All new photos are added to special area where they can be reviewed before they will be added to collection.
-To se those photos choose %2 and then %3
-</source>
-        <translation type="unfinished"></translation>
+To se those photos choose %2 and then %3.</source>
+        <translation>%1.
+
+Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
+Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Photos are being loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Trwa wyszukiwanie zdjęć</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Photos waiting for review</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjęcia oczekujące na przejrzenie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Windows</source>
-        <translation type="unfinished">Okna</translation>
+        <translation>Okna</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Staged area</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="unfinished">W twojej kolekcji nie ma żadnych zdjęć.
+        <translation>W twojej kolekcji nie ma żadnych zdjęć.
 
 Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
     </message>
@@ -118,52 +141,52 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+7"/>
         <source>He&amp;lp</source>
-        <translation type="unfinished"></translation>
+        <translation>Po&amp;moc</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Photo &amp;information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nowa</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Otwórz</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&amp;Add photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dodaj zdjęcia</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;About Photo Broom</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;O Photo Broom</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zamknij</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Za&amp;kończ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>About &amp;Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>O &amp;Qt</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pomoc</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+7"/>
