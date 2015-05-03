@@ -137,7 +137,7 @@ void InfoGenerator::calculateStates()
         if (infoText.isEmpty() && state_photos_for_review)
             infoText = tr("%1.\n\n"
                         "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
-                        "To se those photos choose %2 and then %3\n")
+                        "To se those photos choose %2 and then %3.")
             .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
             .arg(tr("Windows"))
             .arg(tr("Staged area"));
