@@ -10,6 +10,7 @@
 #include <QLayout>
 #include <QMessageBox>
 #include <QPainter>
+#include <qtimer.h>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -26,6 +27,7 @@
 #include "widgets/photos_widget.hpp"
 #include "widgets/staged_photos_widget.hpp"
 #include "utils/photos_collector.hpp"
+#include "utils/info_generator.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -39,11 +41,11 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_photosCollector(new PhotosCollector(this)),
     m_views(),
-    m_photosAnalyzer(new PhotosAnalyzer)
+    m_photosAnalyzer(new PhotosAnalyzer),
+    m_infoGenerator(new InfoGenerator(this))
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
-    connect(m_photosCollector, SIGNAL(finished()), this, SLOT(updateInfoWidget()));
 
     ui->setupUi(this);
     setupView();
@@ -115,6 +117,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 
         m_imagesModel->setDatabase(db);
         m_stagedImagesModel->setDatabase(db);
+        m_infoGenerator->set(db);
     }
 
     updateMenus();
@@ -131,10 +134,9 @@ void MainWindow::closeProject()
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
 
-        updateInfoWidget();
-
         m_imagesModel->setDatabase(nullptr);
         m_stagedImagesModel->setDatabase(nullptr);
+        m_infoGenerator->set(nullptr);
 
         updateMenus();
         updateGui();
@@ -164,13 +166,7 @@ void MainWindow::setupView()
 
     viewChanged();
 
-    connect(m_imagesModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(imagesModelChanged()));
-    connect(m_imagesModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(imagesModelChanged()));
-
-    connect(m_stagedImagesModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(staggedAreaModelChanged()));
-    connect(m_stagedImagesModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(staggedAreaModelChanged()));
-
-    updateInfoWidget();
+    QTimer::singleShot(0, m_infoGenerator.get(), &InfoGenerator::externalRefresh);
 }
 
 
@@ -272,8 +268,6 @@ void MainWindow::on_actionAdd_photos_triggered()
 
     if (path.isEmpty() == false)
         m_photosCollector->addDir(path);
-
-    updateInfoWidget();
 }
 
 
@@ -314,7 +308,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     switch(status.get())
     {
         case Database::StatusCodes::Ok:
-            updateInfoWidget();
             break;
 
         case Database::StatusCodes::BadVersion:
@@ -340,44 +333,8 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 }
 
 
-void MainWindow::imagesModelChanged()
+void MainWindow::updateInfoWidget(const QString& infoText)
 {
-    updateInfoWidget();
-}
-
-
-void MainWindow::staggedAreaModelChanged()
-{
-    updateInfoWidget();
-}
-
-
-void MainWindow::updateInfoWidget()
-{
-    QString infoText;
-
-    if (m_currentPrj.get() == nullptr)
-        infoText = tr("No photo collection is opened.\n\n"
-                      "Use 'open' action form 'Photo collection' menu to choose one\n"
-                      "or 'new' action and create new collection.");
-
-    const bool photos_in_staging_area = m_stagedImagesModel->isEmpty() == false;
-    const bool photos_in_images_area  = m_imagesModel->isEmpty() == false;
-    const bool photos_collector_works = m_photosCollector->isWorking();
-
-    const bool state_photos_for_review = photos_in_images_area == false && (photos_in_staging_area || photos_collector_works);
-
-    if (infoText.isEmpty() && state_photos_for_review)
-        infoText = tr("%1.\n\n"
-                      "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
-                      "To se those photos choose %2 and then %3\n")
-                   .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
-                   .arg(ui->menuWindows->title())
-                   .arg(m_views[1]->getName());
-
-    if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
-        infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
-
     if (infoText.isEmpty() == false)
         ui->infoWidget->setText(infoText);
 

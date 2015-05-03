@@ -11,6 +11,7 @@
 class StagedPhotosDataModel;
 class PhotosCollector;
 class PhotosAnalyzer;
+class InfoGenerator;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -53,6 +54,7 @@ class MainWindow: public QMainWindow
         PhotosCollector*          m_photosCollector;
         std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
+        std::unique_ptr<InfoGenerator> m_infoGenerator;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -87,9 +89,7 @@ class MainWindow: public QMainWindow
         void projectOpened(const Database::BackendStatus &);
 
         //model observers
-        void imagesModelChanged();
-        void staggedAreaModelChanged();
-        void updateInfoWidget();
+        void updateInfoWidget(const QString &);
 
     private:
         void projectOpenedNotification(const Database::BackendStatus &);
