@@ -5,7 +5,7 @@ find_program(LRELEASE lrelease)
 if(LUPDATE AND LRELEASE)
     add_custom_target(generate_ts_files
                       COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/src/ -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts
-                      )
+                     )
 
     set_source_files_properties(${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts PROPERTIES GENERATED TRUE)
 
