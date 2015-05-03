@@ -61,7 +61,8 @@ InfoGenerator::InfoGenerator(QObject* parent_object):
     m_database(nullptr),
     m_signalFiler(new SignalFilter(this)),
     m_collection_empty(true),
-    m_staged_area_empty(true)
+    m_staged_area_empty(true),
+    m_task_in_progress(0)
 {
 
 }
@@ -100,39 +101,52 @@ void InfoGenerator::externalRefresh()
 
 void InfoGenerator::stagingAreaPhotosCount(int c)
 {
+    assert(m_task_in_progress > 0);
+
     m_staged_area_empty = c == 0;
+    m_task_in_progress -= 1;
+
+    calculateStates();
 }
 
 
 void InfoGenerator::collectionPhotosCount(int c)
 {
+    assert(m_task_in_progress > 0);
+
     m_collection_empty = c == 0;
+    m_task_in_progress -= 1;
+
+    calculateStates();
 }
 
 
 void InfoGenerator::calculateStates()
 {
-    QString infoText;
-    if (m_database == nullptr)
-        infoText = tr("No photo collection is opened.\n\n"
-                      "Use 'open' action form 'Photo collection' menu to choose one\n"
-                      "or 'new' action and create new collection.");
+    if (m_task_in_progress == 0)
+    {
+        QString infoText;
+        if (m_database == nullptr)
+            infoText = tr("No photo collection is opened.\n\n"
+                        "Use 'open' action form 'Photo collection' menu to choose one\n"
+                        "or 'new' action and create new collection.");
 
-    const bool photos_collector_works = false;
-    const bool state_photos_for_review = m_collection_empty && (m_staged_area_empty == false || photos_collector_works);
+        const bool photos_collector_works = false;
+        const bool state_photos_for_review = m_collection_empty && (m_staged_area_empty == false || photos_collector_works);
 
-    if (infoText.isEmpty() && state_photos_for_review)
-        infoText = tr("%1.\n\n"
-                      "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
-                      "To se those photos choose %2 and then %3\n")
-        .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
-        .arg(tr("Windows"))
-        .arg(tr("Staged area"));
+        if (infoText.isEmpty() && state_photos_for_review)
+            infoText = tr("%1.\n\n"
+                        "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
+                        "To se those photos choose %2 and then %3\n")
+            .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
+            .arg(tr("Windows"))
+            .arg(tr("Staged area"));
 
-    if (infoText.isEmpty() && m_collection_empty)
-        infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+        if (infoText.isEmpty() && m_collection_empty)
+            infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
 
-    emit infoUpdated(infoText);
+        emit infoUpdated(infoText);
+    }
 }
 
 
@@ -154,7 +168,10 @@ void InfoGenerator::dbChanged()
         stagedAreaPhotosFilter->flags[IPhotoInfo::FlagsE::StagingArea] = 1;
         collectionPhotosFilter->flags[IPhotoInfo::FlagsE::StagingArea] = 0;
 
+        m_task_in_progress += 2;
         m_database->exec(std::move(stagedAreaPhotos), {stagedAreaPhotosFilter});
         m_database->exec(std::move(collectionPhotos), {collectionPhotosFilter});
     }
+
+    calculateStates();
 }
