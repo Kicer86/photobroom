@@ -3,7 +3,7 @@ find_program(LUPDATE lupdate)
 find_program(LRELEASE lrelease)
 
 if(LUPDATE AND LRELEASE)
-    add_custom_target(generate_ts_files ALL
+    add_custom_target(generate_ts_files
                       COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/src/ -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts
                       )
 
@@ -13,6 +13,7 @@ if(LUPDATE AND LRELEASE)
                        COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts -qm ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm)
 
     add_custom_target(translations ALL
+                      DEPENDS generate_ts_files
                       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm)
 
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm DESTINATION ${PATH_TR})
