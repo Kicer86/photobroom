@@ -92,6 +92,12 @@ void InfoGenerator::set(Database::IDatabase* database)
 }
 
 
+void InfoGenerator::externalRefresh()
+{
+    dbChanged();
+}
+
+
 void InfoGenerator::stagingAreaPhotosCount(int c)
 {
     m_staged_area_empty = c == 0;

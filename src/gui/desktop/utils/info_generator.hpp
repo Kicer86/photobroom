@@ -41,6 +41,9 @@ class InfoGenerator: public QObject
 
         void set(Database::IDatabase *);
 
+    public slots:
+        void externalRefresh();
+
     private:
         Database::IDatabase* m_database;
         SignalFilter* m_signalFiler;
