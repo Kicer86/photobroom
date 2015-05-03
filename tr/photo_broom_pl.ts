@@ -137,7 +137,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+42"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
+        <source>Hint:</source>
+        <translation>Podpowiedź:</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
