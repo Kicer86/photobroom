@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
+    connect(m_infoGenerator.get(), &InfoGenerator::infoUpdated, this, &MainWindow::updateInfoWidget);
 
     ui->setupUi(this);
     setupView();
