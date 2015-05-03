@@ -82,7 +82,7 @@
   <customwidget>
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
-   <header>components/tag_editor/tag_editor_widget.hpp</header>
+   <header>widgets/tag_editor/tag_editor_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
