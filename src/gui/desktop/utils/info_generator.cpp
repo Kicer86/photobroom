@@ -42,6 +42,7 @@ void InfoGenerator::set(Database::IDatabase* database)
 
     auto notifier = m_database->notifier();
     m_signalFiler->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
+    m_signalFiler->connect(notifier, SIGNAL(photoChanged(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
 }
 
 
