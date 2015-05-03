@@ -51,7 +51,7 @@ class InfoGenerator: public QObject
         SignalFilter* m_signalFiler;
         bool m_collection_empty;
         bool m_staged_area_empty;
-        std::atomic_int m_task_in_progress;
+        std::atomic<int> m_task_in_progress;
 
         void stagingAreaPhotosCount(int);
         void collectionPhotosCount(int);
