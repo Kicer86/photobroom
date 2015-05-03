@@ -50,6 +50,8 @@ class InfoGenerator: public QObject
         void stagingAreaPhotosCount(int);
         void collectionPhotosCount(int);
 
+        void calculateStates();
+
     private slots:
         void dbChanged();
 };

@@ -104,6 +104,30 @@ void InfoGenerator::collectionPhotosCount(int c)
 }
 
 
+void InfoGenerator::calculateStates()
+{
+    QString infoText;
+    if (m_database == nullptr)
+        infoText = tr("No photo collection is opened.\n\n"
+                      "Use 'open' action form 'Photo collection' menu to choose one\n"
+                      "or 'new' action and create new collection.");
+
+    const bool photos_collector_works = false;
+    const bool state_photos_for_review = m_collection_empty && (m_staged_area_empty == false || photos_collector_works);
+
+    if (infoText.isEmpty() && state_photos_for_review)
+        infoText = tr("%1.\n\n"
+                      "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
+                      "To se those photos choose %2 and then %3\n")
+        .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
+        .arg(tr("Windows"))
+        .arg(tr("Staged area"));
+
+    if (infoText.isEmpty() && m_collection_empty)
+        infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
+}
+
+
 void InfoGenerator::dbChanged()
 {
     using namespace std::placeholders;
