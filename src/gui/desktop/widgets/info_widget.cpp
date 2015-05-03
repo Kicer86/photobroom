@@ -22,7 +22,7 @@
 
 #include <QVBoxLayout>
 
-InfoWidget::InfoWidget(QWidget* parent_widget): QLabel(parent_widget)
+InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget): QLabel(parent_widget)
 {
     setMargin(4);
     setFrameStyle(NoFrame);
@@ -38,7 +38,7 @@ InfoWidget::InfoWidget(QWidget* parent_widget): QLabel(parent_widget)
 }
 
 
-InfoWidget::~InfoWidget()
+InfoBaloonWidget::~InfoBaloonWidget()
 {
 
 }
