@@ -138,56 +138,23 @@ void InfoGenerator::calculateStates()
 
 void InfoGenerator::dbChanged()
 {
-    using namespace std::placeholders;
+    if (m_database != nullptr)
+    {
+        using namespace std::placeholders;
 
-    auto stagedAreaPhotosDBCallback = std::bind(&InfoGenerator::stagingAreaPhotosCount, this, _1);
-    auto collectionPhotosDBCallback = std::bind(&InfoGenerator::collectionPhotosCount, this, _1);
+        auto stagedAreaPhotosDBCallback = std::bind(&InfoGenerator::stagingAreaPhotosCount, this, _1);
+        auto collectionPhotosDBCallback = std::bind(&InfoGenerator::collectionPhotosCount, this, _1);
 
-    std::unique_ptr<StagedAreaPhotos> stagedAreaPhotos( new StagedAreaPhotos(stagedAreaPhotosDBCallback) );
-    std::unique_ptr<CollectionPhotos> collectionPhotos( new CollectionPhotos(collectionPhotosDBCallback) );
+        std::unique_ptr<StagedAreaPhotos> stagedAreaPhotos( new StagedAreaPhotos(stagedAreaPhotosDBCallback) );
+        std::unique_ptr<CollectionPhotos> collectionPhotos( new CollectionPhotos(collectionPhotosDBCallback) );
 
-    auto stagedAreaPhotosFilter = std::make_shared<Database::FilterPhotosWithFlags>();
-    auto collectionPhotosFilter = std::make_shared<Database::FilterPhotosWithFlags>();
+        auto stagedAreaPhotosFilter = std::make_shared<Database::FilterPhotosWithFlags>();
+        auto collectionPhotosFilter = std::make_shared<Database::FilterPhotosWithFlags>();
 
-    stagedAreaPhotosFilter->flags[IPhotoInfo::FlagsE::StagingArea] = 1;
-    collectionPhotosFilter->flags[IPhotoInfo::FlagsE::StagingArea] = 0;
+        stagedAreaPhotosFilter->flags[IPhotoInfo::FlagsE::StagingArea] = 1;
+        collectionPhotosFilter->flags[IPhotoInfo::FlagsE::StagingArea] = 0;
 
-    m_database->exec(std::move(stagedAreaPhotos), {stagedAreaPhotosFilter});
-    m_database->exec(std::move(collectionPhotos), {collectionPhotosFilter});
-
-
-    /*
-    QString infoText;
-
-    if (m_currentPrj.get() == nullptr)
-        infoText = tr("No photo collection is opened.\n\n"
-        "Use 'open' action form 'Photo collection' menu to choose one\n"
-        "or 'new' action and create new collection.");
-
-    const bool photos_in_staging_area = m_stagedImagesModel->isEmpty() == false;
-    const bool photos_in_images_area  = m_imagesModel->isEmpty() == false;
-    const bool photos_collector_works = m_photosCollector->isWorking();
-
-    const bool state_photos_for_review = photos_in_images_area == false && (photos_in_staging_area || photos_collector_works);
-
-    if (infoText.isEmpty() && state_photos_for_review)
-        infoText = tr("%1.\n\n"
-        "All new photos are added to special area where they can be reviewed before they will be added to collection.\n"
-        "To se those photos choose %2 and then %3\n")
-        .arg(photos_collector_works? tr("Photos are being loaded"): tr("Photos waiting for review"))
-        .arg(ui->menuWindows->title())
-        .arg(m_views[1]->getName());
-
-    if (infoText.isEmpty() && m_imagesModel->isEmpty() == 0)
-        infoText = tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu.");
-
-    if (infoText.isEmpty() == false)
-        ui->infoWidget->setText(infoText);
-
-    if (infoText.isEmpty() && ui->infoWidget->isVisible())
-        ui->infoWidget->hide();
-
-    if (infoText.isEmpty() == false && ui->infoWidget->isHidden())
-        ui->infoWidget->show();
-    */
+        m_database->exec(std::move(stagedAreaPhotos), {stagedAreaPhotosFilter});
+        m_database->exec(std::move(collectionPhotos), {collectionPhotosFilter});
+    }
 }
