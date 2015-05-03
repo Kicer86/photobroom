@@ -41,7 +41,7 @@ void SignalFilter::connect(QObject* sender_obj, const char* signal, QObject* rec
     Receiver rec = {receiver, method};
     m_signals[sender_obj] = rec;
     m_mapper->setMapping(sender_obj, sender_obj);
-    connect(sender_obj, signal, m_mapper, SLOT(map()), type);
+    QObject::connect(sender_obj, signal, m_mapper, SLOT(map()), type);
 }
 
 
