@@ -38,7 +38,20 @@
      <widget class="QStackedWidget" name="viewsContainer"/>
     </item>
     <item>
-     <widget class="InfoBaloonWidget" name="infoWidget" native="true"/>
+     <widget class="QGroupBox" name="infoGroupBox">
+      <property name="title">
+       <string>Hint:</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="infoWidget">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -147,12 +160,6 @@
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
    <header>widgets/tag_editor/tag_editor_widget.hpp</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>InfoBaloonWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/info_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
