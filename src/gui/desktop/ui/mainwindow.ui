@@ -53,7 +53,7 @@
    </property>
    <widget class="QMenu" name="menuCollection">
     <property name="title">
-     <string>Photo collection</string>
+     <string>&amp;Photo collection</string>
     </property>
     <addaction name="actionNew_collection"/>
     <addaction name="actionOpen_collection"/>
@@ -64,7 +64,7 @@
    </widget>
    <widget class="QMenu" name="menuPhotos">
     <property name="title">
-     <string>Photos</string>
+     <string>Pho&amp;tos</string>
     </property>
     <addaction name="actionAdd_photos"/>
     <addaction name="separator"/>
@@ -80,7 +80,7 @@
    </widget>
    <widget class="QMenu" name="menuWindows">
     <property name="title">
-     <string>Windows</string>
+     <string>&amp;Windows</string>
     </property>
    </widget>
    <addaction name="menuCollection"/>
