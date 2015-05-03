@@ -44,6 +44,11 @@ class InfoGenerator: public QObject
     private:
         Database::IDatabase* m_database;
         SignalFilter* m_signalFiler;
+        bool m_collection_empty;
+        bool m_staged_area_empty;
+
+        void stagingAreaPhotosCount(int);
+        void collectionPhotosCount(int);
 
     private slots:
         void dbChanged();

@@ -19,41 +19,49 @@
 
 #include "info_generator.hpp"
 
+#include <functional>
+
+
 #include <database/idatabase.hpp>
 
 #include "signal_filter.hpp"
 
-namespace std
-{
-    template<typename T, typename... Args>
-    std::unique_ptr<T> make_unique(Args... args)
-    {
-        return std::unique_ptr<T>( new T(args...) );
-    }
-}
 
 namespace
 {
     struct CollectionPhotos: Database::AGetPhotosCount
     {
+        CollectionPhotos(const std::function<void(int)>& callback): m_callback(callback) {}
+
         virtual void got(int c)
         {
-
+            m_callback(c);
         }
+
+        std::function<void(int)> m_callback;
     };
 
 
     struct StagedAreaPhotos: Database::AGetPhotosCount
     {
+        StagedAreaPhotos(const std::function<void(int)>& callback): m_callback(callback) {}
+
         virtual void got(int c)
         {
-
+            m_callback(c);
         }
+
+        std::function<void(int)> m_callback;
     };
 }
 
 
-InfoGenerator::InfoGenerator(QObject* parent_object): QObject(parent_object), m_database(nullptr), m_signalFiler(new SignalFilter(this))
+InfoGenerator::InfoGenerator(QObject* parent_object):
+    QObject(parent_object),
+    m_database(nullptr),
+    m_signalFiler(new SignalFilter(this)),
+    m_collection_empty(true),
+    m_staged_area_empty(true)
 {
 
 }
@@ -67,18 +75,41 @@ InfoGenerator::~InfoGenerator()
 
 void InfoGenerator::set(Database::IDatabase* database)
 {
+    if (m_database != nullptr)
+        m_database->notifier()->disconnect(this);
+
     m_database = database;
 
     auto notifier = m_database->notifier();
     m_signalFiler->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
-    m_signalFiler->connect(notifier, SIGNAL(photoChanged(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
+    m_signalFiler->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
+
+    //consider db dirty
+    dbChanged();
+}
+
+
+void InfoGenerator::stagingAreaPhotosCount(int c)
+{
+    m_staged_area_empty = c == 0;
+}
+
+
+void InfoGenerator::collectionPhotosCount(int c)
+{
+    m_collection_empty = c == 0;
 }
 
 
 void InfoGenerator::dbChanged()
 {
-    auto stagedAreaPhotos = std::make_unique<StagedAreaPhotos>();
-    auto collectionPhotos = std::make_unique<CollectionPhotos>();
+    using namespace std::placeholders;
+
+    auto stagedAreaPhotosDBCallback = std::bind(&InfoGenerator::stagingAreaPhotosCount, this, _1);
+    auto collectionPhotosDBCallback = std::bind(&InfoGenerator::collectionPhotosCount, this, _1);
+
+    std::unique_ptr<StagedAreaPhotos> stagedAreaPhotos( new StagedAreaPhotos(stagedAreaPhotosDBCallback) );
+    std::unique_ptr<CollectionPhotos> collectionPhotos( new CollectionPhotos(collectionPhotosDBCallback) );
 
     auto stagedAreaPhotosFilter = std::make_shared<Database::FilterPhotosWithFlags>();
     auto collectionPhotosFilter = std::make_shared<Database::FilterPhotosWithFlags>();
