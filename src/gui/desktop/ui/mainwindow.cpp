@@ -162,7 +162,7 @@ void MainWindow::setupView()
     m_views.push_back(stagedPhotosWidget);
     ui->viewsContainer->addWidget(stagedPhotosWidget);
 
-    ui->infoWidget->hide();
+    ui->infoGroupBox->hide();
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
@@ -341,11 +341,11 @@ void MainWindow::updateInfoWidget(const QString& infoText)
     if (infoText.isEmpty() == false)
         ui->infoWidget->setText(infoText);
 
-    if (infoText.isEmpty() && ui->infoWidget->isVisible())
-        ui->infoWidget->hide();
+    if (infoText.isEmpty() && ui->infoGroupBox->isVisible())
+        ui->infoGroupBox->hide();
 
-    if (infoText.isEmpty() == false && ui->infoWidget->isHidden())
-        ui->infoWidget->show();
+    if (infoText.isEmpty() == false && ui->infoGroupBox->isHidden())
+        ui->infoGroupBox->show();
 }
 
 
