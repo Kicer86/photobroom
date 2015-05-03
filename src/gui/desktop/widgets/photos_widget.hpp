@@ -21,10 +21,12 @@
 #define PHOTOSWIDGET_HPP
 
 #include "model_view/images_tree_view.hpp"
-#include "components/iview.hpp"
+#include "widgets/iview.hpp"
 
 class PhotosWidget: public ImagesTreeView, public IView
 {
+        Q_OBJECT
+
     public:
         PhotosWidget(QWidget * = nullptr);
         PhotosWidget(const PhotosWidget &) = delete;

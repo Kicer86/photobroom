@@ -62,4 +62,3 @@ void PhotosWidget::set(IConfiguration* configuration)
 {
     ImagesTreeView::set(configuration);
 }
-

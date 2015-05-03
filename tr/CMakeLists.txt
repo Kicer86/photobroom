@@ -1,9 +1,23 @@
 
-find_package(Qt5LinguistTools)
+find_program(LUPDATE lupdate)
+find_program(LRELEASE lrelease)
 
-qt5_create_translation(broom_qm_files ${PROJECT_SOURCE_DIR}/src/ photo_broom_pl.ts)
+if(LUPDATE AND LRELEASE)
+    add_custom_target(generate_ts_files
+                      COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/src/ -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts
+                     )
 
-add_custom_target(translations ALL
-                  DEPENDS ${broom_qm_files})
+    set_source_files_properties(${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts PROPERTIES GENERATED TRUE)
 
-install(FILES ${broom_qm_files} DESTINATION ${PATH_TR})
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm
+                       COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts -qm ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm
+                       DEPENDS ${PROJECT_SOURCE_DIR}/tr/photo_broom_pl.ts
+                      )
+
+    add_custom_target(translations ALL
+                      DEPENDS generate_ts_files
+                      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm
+                     )
+
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_pl.qm DESTINATION ${PATH_TR})
+endif()

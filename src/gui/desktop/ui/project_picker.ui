@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Album browser</string>
+   <string>Collections browser</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>

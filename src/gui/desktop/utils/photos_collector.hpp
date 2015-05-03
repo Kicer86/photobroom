@@ -60,8 +60,9 @@ class PhotosCollector: public QObject
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
 
         void set(StagedPhotosDataModel *);
-
         void addDir(const QString &);          // adds dir to model. Emits finished() when ready
+
+        bool isWorking() const;                // return true when work in progress
 
     signals:
         void finished();
@@ -69,6 +70,9 @@ class PhotosCollector: public QObject
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
+
+    private slots:
+        void workIsDone();
 };
 
 #endif // PHOTOSCOLLECTOR_HPP

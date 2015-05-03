@@ -7,7 +7,7 @@
 #include <QStandardItemModel>
 #include <QMessageBox>
 
-#include "components/project_creator/project_creator_dialog.hpp"
+#include "widgets/project_creator/project_creator_dialog.hpp"
 #include <project_utils/iproject_manager.hpp>
 
 ProjectPicker::ProjectPicker(QWidget *_parent) :

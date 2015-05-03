@@ -22,7 +22,7 @@
 #include <QCache>
 #include <QPainter>
 
-#include "components/variant_display.hpp"
+#include "utils/variant_display.hpp"
 #include "view_helpers/data.hpp"
 
 
@@ -40,7 +40,7 @@ TreeItemDelegate::~TreeItemDelegate()
 
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const
 {
-	return QSize();
+    return QSize();
 }
 
 

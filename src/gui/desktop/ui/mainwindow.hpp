@@ -11,6 +11,7 @@
 class StagedPhotosDataModel;
 class PhotosCollector;
 class PhotosAnalyzer;
+class InfoGenerator;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -53,8 +54,10 @@ class MainWindow: public QMainWindow
         PhotosCollector*          m_photosCollector;
         std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
+        std::unique_ptr<InfoGenerator> m_infoGenerator;
 
-        void closeEvent(QCloseEvent *);
+        void closeEvent(QCloseEvent *) override;
+
         void openProject(const ProjectInfo &);
         void closeProject();
         void setupView();
@@ -66,8 +69,8 @@ class MainWindow: public QMainWindow
 
     private slots:
         // album menu
-        void on_actionNew_project_triggered();
-        void on_actionOpen_project_triggered();
+        void on_actionNew_collection_triggered();
+        void on_actionOpen_collection_triggered();
         void on_actionClose_triggered();
         void on_actionQuit_triggered();
         
@@ -83,10 +86,13 @@ class MainWindow: public QMainWindow
         void on_actionAbout_Qt_triggered();
 
         //internal slots
-        void projectOpenedStatus(const Database::BackendStatus &);
+        void projectOpened(const Database::BackendStatus &);
+
+        //model observers
+        void updateInfoWidget(const QString &);
 
     private:
-        void projectOpened(const Database::BackendStatus &);
+        void projectOpenedNotification(const Database::BackendStatus &);
 
     signals:
         void projectOpenedSignal(const Database::BackendStatus &);

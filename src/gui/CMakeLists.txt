@@ -20,12 +20,11 @@ if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
 
-add_subdirectory(desktop/components)
+add_subdirectory(desktop/widgets)
+add_subdirectory(desktop/utils)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/data/thread_multiplexer.cpp
-    desktop/data/photos_collector.cpp
     desktop/model_view/db_data_model.cpp
     desktop/model_view/model_helpers/idx_data_manager.cpp
     desktop/model_view/model_helpers/idx_data.cpp
@@ -44,8 +43,6 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/data/thread_multiplexer.hpp
-    desktop/data/photos_collector.hpp
     desktop/model_view/db_data_model.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idx_data.hpp
@@ -65,8 +62,6 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
-    desktop/data/thread_multiplexer.hpp
-    desktop/data/photos_collector.hpp
     desktop/model_view/images_tree_view.hpp
     desktop/model_view/model_helpers/idx_data_manager.hpp
     desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
@@ -89,7 +84,16 @@ qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})
 qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
-add_library(gui ${GUI_SOURCES} ${GUI_WRAPPED_CPP} ${GUI_HEADERS} ${GUI_WRAPPED_UI} ${GUI_RESOURCES} $<TARGET_OBJECTS:gui_components>)
+add_library(gui
+            ${GUI_SOURCES}
+            ${GUI_WRAPPED_CPP}
+            ${GUI_HEADERS}
+            ${GUI_WRAPPED_UI}
+            ${GUI_RESOURCES}
+            $<TARGET_OBJECTS:gui_components>
+            $<TARGET_OBJECTS:gui_utils>
+           )
+
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 

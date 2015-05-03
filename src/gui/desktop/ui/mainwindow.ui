@@ -17,7 +17,29 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
   </property>
-  <widget class="QStackedWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="centralWidgetLayout">
+    <item>
+     <widget class="QStackedWidget" name="viewsContainer"/>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="infoGroupBox">
+      <property name="title">
+       <string>Hint:</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="infoWidget">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -27,12 +49,12 @@
      <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuProject">
+   <widget class="QMenu" name="menuCollection">
     <property name="title">
-     <string>Album</string>
+     <string>&amp;Photo collection</string>
     </property>
-    <addaction name="actionNew_project"/>
-    <addaction name="actionOpen_project"/>
+    <addaction name="actionNew_collection"/>
+    <addaction name="actionOpen_collection"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
@@ -40,14 +62,14 @@
    </widget>
    <widget class="QMenu" name="menuPhotos">
     <property name="title">
-     <string>Photos</string>
+     <string>Pho&amp;tos</string>
     </property>
     <addaction name="actionAdd_photos"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>He&amp;lp</string>
     </property>
     <addaction name="actionHelp"/>
     <addaction name="separator"/>
@@ -56,10 +78,10 @@
    </widget>
    <widget class="QMenu" name="menuWindows">
     <property name="title">
-     <string>Windows</string>
+     <string>&amp;Windows</string>
     </property>
    </widget>
-   <addaction name="menuProject"/>
+   <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
@@ -67,21 +89,21 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Tags editor</string>
+    <string>Photo &amp;information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
    <widget class="TagEditorWidget" name="tagEditor"/>
   </widget>
-  <action name="actionNew_project">
+  <action name="actionNew_collection">
    <property name="text">
-    <string>New</string>
+    <string>&amp;New</string>
    </property>
   </action>
-  <action name="actionOpen_project">
+  <action name="actionOpen_collection">
    <property name="text">
-    <string>Open</string>
+    <string>&amp;Open</string>
    </property>
   </action>
   <action name="actionAdd_photos">
@@ -89,32 +111,32 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Add photos</string>
+    <string>&amp;Add photos</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About Photo Broom</string>
+    <string>&amp;About Photo Broom</string>
    </property>
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>Close</string>
+    <string>&amp;Close</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
    <property name="text">
-    <string>About Qt</string>
+    <string>About &amp;Qt</string>
    </property>
   </action>
   <action name="actionHelp">
    <property name="text">
-    <string>Help</string>
+    <string>&amp;Help</string>
    </property>
   </action>
  </widget>
@@ -122,7 +144,7 @@
   <customwidget>
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
-   <header>components/tag_editor/tag_editor_widget.hpp</header>
+   <header>widgets/tag_editor/tag_editor_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

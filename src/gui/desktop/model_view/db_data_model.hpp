@@ -78,6 +78,8 @@ class DBDataModel: public QAbstractItemModel
         void set(ITaskExecutor *);
         virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
 
+        bool isEmpty() const;
+
     protected:
         IdxData* getRootIdxData();
 

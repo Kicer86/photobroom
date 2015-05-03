@@ -23,7 +23,7 @@
 
 #include <photos_crawler/photo_crawler_builder.hpp>
 
-#include "components/staged_photos_data_model.hpp"
+#include "widgets/staged_photos_data_model.hpp"
 
 
 PhotosReceiver::PhotosReceiver(): m_model(nullptr)
@@ -52,8 +52,9 @@ struct PhotosCollector::Data
     StagedPhotosDataModel* m_model;
     std::unique_ptr<IPhotoCrawler> m_crawler;
     PhotosReceiver m_receiver;
+    bool m_workInProgress;
 
-    Data(): m_model(nullptr), m_crawler(nullptr), m_receiver()
+    Data(): m_model(nullptr), m_crawler(nullptr), m_receiver(), m_workInProgress(false)
     {
         m_crawler = PhotoCrawlerBuilder().build();
     }
@@ -65,7 +66,7 @@ struct PhotosCollector::Data
 
 PhotosCollector::PhotosCollector(QObject* p): QObject(p), m_data(new Data)
 {
-    connect(&m_data->m_receiver, SIGNAL(finished()), this, SIGNAL(finished()));
+    connect(&m_data->m_receiver, SIGNAL(finished()), this, SLOT(workIsDone()));
 }
 
 
@@ -87,4 +88,18 @@ void PhotosCollector::addDir(const QString& path)
     assert(m_data->m_model != nullptr);
 
     m_data->m_crawler->crawl(path, &m_data->m_receiver);
+    m_data->m_workInProgress = true;
+}
+
+
+bool PhotosCollector::isWorking() const
+{
+    return m_data->m_workInProgress;
+}
+
+
+void PhotosCollector::workIsDone()
+{
+    m_data->m_workInProgress = false;
+    emit finished();
 }

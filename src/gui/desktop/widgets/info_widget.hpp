@@ -1,5 +1,5 @@
 /*
- * Item delagate for tags view
+ * Widget with tips
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,30 +17,19 @@
  *
  */
 
-#include "tags_item_delegate.hpp"
+#ifndef INFOWIDGET_HPP
+#define INFOWIDGET_HPP
 
-#include "components/variant_display.hpp"
+#include <QLabel>
 
-
-TagsItemDelegate::TagsItemDelegate()
+class InfoBaloonWidget: public QLabel
 {
+    public:
+        InfoBaloonWidget(QWidget* parent = nullptr);
+        InfoBaloonWidget(const InfoBaloonWidget &) = delete;
+        ~InfoBaloonWidget();
 
-}
+        InfoBaloonWidget& operator=(const InfoBaloonWidget &) = delete;
+};
 
-
-TagsItemDelegate::~TagsItemDelegate()
-{
-
-}
-
-
-QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-    return QStyledItemDelegate::createEditor(parent_widget, option, index);
-}
-
-
-QString TagsItemDelegate::displayText(const QVariant& value, const QLocale& locale) const
-{
-    return VariantDisplay()(value, locale);
-}
+#endif // INFOWIDGET_HPP

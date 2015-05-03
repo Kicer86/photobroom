@@ -9,6 +9,8 @@
 #include <QFileDialog>
 #include <QLayout>
 #include <QMessageBox>
+#include <QPainter>
+#include <qtimer.h>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -18,12 +20,14 @@
 
 #include "config.hpp"
 
-#include "components/project_creator/project_creator_dialog.hpp"
-#include "components/photos_data_model.hpp"
-#include "components/staged_photos_data_model.hpp"
-#include "components/photos_widget.hpp"
-#include "components/staged_photos_widget.hpp"
-#include "data/photos_collector.hpp"
+#include "widgets/info_widget.hpp"
+#include "widgets/project_creator/project_creator_dialog.hpp"
+#include "widgets/photos_data_model.hpp"
+#include "widgets/staged_photos_data_model.hpp"
+#include "widgets/photos_widget.hpp"
+#include "widgets/staged_photos_widget.hpp"
+#include "utils/photos_collector.hpp"
+#include "utils/info_generator.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -37,10 +41,12 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_photosCollector(new PhotosCollector(this)),
     m_views(),
-    m_photosAnalyzer(new PhotosAnalyzer)
+    m_photosAnalyzer(new PhotosAnalyzer),
+    m_infoGenerator(new InfoGenerator(this))
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
-    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpenedStatus(const Database::BackendStatus &)));
+    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
+    connect(m_infoGenerator.get(), &InfoGenerator::infoUpdated, this, &MainWindow::updateInfoWidget);
 
     ui->setupUi(this);
     setupView();
@@ -104,7 +110,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     {
         closeProject();
 
-        auto openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
+        auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
         
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
         
@@ -112,6 +118,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 
         m_imagesModel->setDatabase(db);
         m_stagedImagesModel->setDatabase(db);
+        m_infoGenerator->set(db);
     }
 
     updateMenus();
@@ -130,6 +137,7 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_stagedImagesModel->setDatabase(nullptr);
+        m_infoGenerator->set(nullptr);
 
         updateMenus();
         updateGui();
@@ -145,19 +153,23 @@ void MainWindow::setupView()
     photosWidget->setWindowTitle(tr("Photos"));
     photosWidget->setModel(m_imagesModel);
     m_views.push_back(photosWidget);
-    ui->centralWidget->addWidget(photosWidget);
+    ui->viewsContainer->addWidget(photosWidget);
 
     m_stagedImagesModel = new StagedPhotosDataModel(this);
-    StagedPhotosWidget* stagetPhotosWidget = new StagedPhotosWidget(this);
-    stagetPhotosWidget->setWindowTitle(tr("Staged photos"));
-    stagetPhotosWidget->setModel(m_stagedImagesModel);
-    m_views.push_back(stagetPhotosWidget);
-    ui->centralWidget->addWidget(stagetPhotosWidget);
+    StagedPhotosWidget* stagedPhotosWidget = new StagedPhotosWidget(this);
+    stagedPhotosWidget->setWindowTitle(tr("Staged photos"));
+    stagedPhotosWidget->setModel(m_stagedImagesModel);
+    m_views.push_back(stagedPhotosWidget);
+    ui->viewsContainer->addWidget(stagedPhotosWidget);
+
+    ui->infoGroupBox->hide();
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
 
     viewChanged();
+
+    QTimer::singleShot(0, m_infoGenerator.get(), &InfoGenerator::externalRefresh);
 }
 
 
@@ -187,7 +199,7 @@ void MainWindow::updateMenus()
 void MainWindow::updateGui()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No album opened"));
+    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No collection opened"));
 
     setWindowTitle(title);
 }
@@ -206,7 +218,7 @@ void MainWindow::updateTools()
 
 void MainWindow::viewChanged()
 {
-    const int w = ui->centralWidget->currentIndex();
+    const int w = ui->viewsContainer->currentIndex();
 
     IView* view = m_views[w];
     ui->tagEditor->set( view->getSelectionModel() );
@@ -214,7 +226,7 @@ void MainWindow::viewChanged()
 }
 
 
-void MainWindow::on_actionNew_project_triggered()
+void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
@@ -224,7 +236,7 @@ void MainWindow::on_actionNew_project_triggered()
 }
 
 
-void MainWindow::on_actionOpen_project_triggered()
+void MainWindow::on_actionOpen_collection_triggered()
 {
     ProjectPicker picker;
 
@@ -266,7 +278,7 @@ void MainWindow::activateWindow(QAction* action)
 {
     const int w = action->data().toInt();
 
-    ui->centralWidget->setCurrentIndex(w);
+    ui->viewsContainer->setCurrentIndex(w);
 
     viewChanged();
 }
@@ -294,7 +306,7 @@ void MainWindow::on_actionAbout_Qt_triggered()
 }
 
 
-void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
+void MainWindow::projectOpened(const Database::BackendStatus& status)
 {
     switch(status.get())
     {
@@ -303,10 +315,10 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
 
         case Database::StatusCodes::BadVersion:
             QMessageBox::critical(this,
-                                  tr("Unsupported album version"),
-                                  tr("Album you are trying to open uses database in version which is not supported.\n"
+                                  tr("Unsupported photo collection version"),
+                                  tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your application is too old to open it.\n\n"
-                                     "Please upgrade application to open this album.")
+                                     "Please upgrade application to open this collection.")
                                  );
             closeProject();
             break;
@@ -314,7 +326,7 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
         default:
             QMessageBox::critical(this,
                                   tr("Unexpected error"),
-                                  tr("An unexpected error occured while opening album.\n"
+                                  tr("An unexpected error occured while opening photo collection.\n"
                                      "Please report a bug.\n"
                                      "Error code: " + static_cast<int>( status.get()) )
                                  );
@@ -324,7 +336,20 @@ void MainWindow::projectOpenedStatus(const Database::BackendStatus& status)
 }
 
 
-void MainWindow::projectOpened(const Database::BackendStatus& status)
+void MainWindow::updateInfoWidget(const QString& infoText)
+{
+    if (infoText.isEmpty() == false)
+        ui->infoWidget->setText(infoText);
+
+    if (infoText.isEmpty() && ui->infoGroupBox->isVisible())
+        ui->infoGroupBox->hide();
+
+    if (infoText.isEmpty() == false && ui->infoGroupBox->isHidden())
+        ui->infoGroupBox->show();
+}
+
+
+void MainWindow::projectOpenedNotification(const Database::BackendStatus& status)
 {
     emit projectOpenedSignal(status);
 }
