@@ -32,7 +32,7 @@ StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),
                                                     m_view(new ImagesTreeView(this)),
                                                     m_dataModel(nullptr)
 {
-    QPushButton* commitButton = new QPushButton(tr("Apply"));
+    QPushButton* commitButton = new QPushButton(tr("Review finished"));
 
     QHBoxLayout* h = new QHBoxLayout;
     h->addStretch();

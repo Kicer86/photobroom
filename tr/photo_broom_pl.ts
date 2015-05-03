@@ -408,9 +408,13 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>StagedPhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/staged_photos_widget.cpp" line="+35"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="vanished">Zastosuj</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/widgets/staged_photos_widget.cpp" line="+35"/>
+        <source>Review finished</source>
+        <translation>Dodaj do kolekcji</translation>
     </message>
     <message>
         <location line="+6"/>
