@@ -10,6 +10,7 @@ add_subdirectory(database)
 add_subdirectory(gui)
 add_subdirectory(project_utils)
 add_subdirectory(system)
+add_subdirectory(updater)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
