@@ -136,14 +136,14 @@ addDeploymentActions()
 #http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
 set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 
-#uninstal previous version of photo broom
+#uninstall previous version of photo broom
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 
-#define instalation locations on windows (remove any references to version - only project name)
+#define installation locations on windows (remove any references to version - only project name)
 set(CPACK_PACKAGE_INSTALL_DIRECTORY     ${PROJECT_NAME})
 set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY  ${PROJECT_NAME})
 
 #define Start menu
 set(CPACK_PACKAGE_EXECUTABLES
-    PhotoBroom "Photo Broom"
+    photo_broom "Photo Broom"
    )
