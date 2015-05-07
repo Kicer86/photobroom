@@ -144,7 +144,7 @@ namespace Database
     }
 
 
-    MySqlPlugin::MySqlPlugin(): QObject()
+    MySqlPlugin::MySqlPlugin(): IPlugin()
     {
 
     }

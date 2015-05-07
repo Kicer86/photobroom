@@ -39,7 +39,7 @@ namespace Database
     };
 
 
-    class DATABASE_SQLITE_BACKEND_EXPORT SQLitePlugin final: public QObject, public IPlugin
+    class DATABASE_SQLITE_BACKEND_EXPORT SQLitePlugin final: public IPlugin
     {
             Q_OBJECT
             Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "sqlite_backend.json")

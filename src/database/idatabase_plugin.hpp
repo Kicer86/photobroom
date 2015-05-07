@@ -26,6 +26,7 @@
 
 #include <QString>
 #include "idatabase_builder.hpp"
+#include "database_export.h"
 
 #define DatabasePluginInterface_iid "org.broom.plugins.database.iplugin"
 
@@ -34,7 +35,7 @@ namespace Database
 {
     struct IBackend;
 
-    struct IPlugin
+    struct DATABASE_EXPORT IPlugin: QObject
     {
         virtual ~IPlugin() {}
 
@@ -43,6 +44,8 @@ namespace Database
         virtual ProjectInfo initPrjDir(const QString &) const = 0;        //prepares database in provided directory
         virtual QLayout* buildDBOptions() = 0;                            //return QLayout for ProjectCreator dialog with options for specific backend
         virtual char simplicity() const = 0;                              //simplicity of backend. 127 for very user friendly, -128 for complex
+
+        Q_OBJECT
     };
 }
 

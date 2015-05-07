@@ -76,9 +76,10 @@ namespace
                     m_logger->log(ILogger::Severity::Info, "Found database plugin: " + path.toStdString());
                     
                     QObject* raw_plugin = load(path);
-                    Database::IPlugin* plugin = dynamic_cast<Database::IPlugin *>(raw_plugin);
 
-                    assert(plugin != nullptr);
+                    Database::IPlugin* plugin = static_cast<Database::IPlugin *>(raw_plugin);
+
+                    assert(plugin == dynamic_cast<Database::IPlugin *>(raw_plugin));
                     
                     m_db_plugins.push_back(plugin);
                 }
