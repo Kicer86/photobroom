@@ -46,7 +46,5 @@ target_include_directories(sql_backend_base PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base)
 
-if(BUILD_SHARED_LIBS)
-    install(TARGETS sql_backend_base RUNTIME DESTINATION ${PATH_LIBS}
-                                     LIBRARY DESTINATION ${PATH_LIBS})
-endif()
+install(TARGETS sql_backend_base RUNTIME DESTINATION ${PATH_LIBS}
+                                 LIBRARY DESTINATION ${PATH_LIBS})
