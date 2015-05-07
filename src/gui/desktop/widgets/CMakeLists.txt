@@ -4,7 +4,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
                     
 
-set(COMPONENTS_SOURCES
+set(SRCS
     editor_factory.cpp
     info_widget.cpp
     photos_data_model.cpp
@@ -20,7 +20,7 @@ set(COMPONENTS_SOURCES
     tag_editor/helpers/tags_model.cpp
     )
 
-set(COMPONENTS_HEADERS
+set(HEADERS
     editor_factory.hpp
     info_widget.hpp
     iview.hpp
@@ -39,7 +39,7 @@ set(COMPONENTS_HEADERS
     )
 
 #set of file to be moced
-set(COMPONENTS_FILES_TO_MOC
+set(TO_MOC
     editor_factory.hpp
     filters_editor/level_editor.hpp
     photos_widget.hpp
@@ -49,7 +49,7 @@ set(COMPONENTS_FILES_TO_MOC
     tag_editor/helpers/tags_model.hpp
     )
 
-qt5_wrap_cpp(COMPONENTS_WRAPPED_CPP ${COMPONENTS_FILES_TO_MOC})
+qt5_wrap_cpp(MOCED ${TO_MOC})
 
-add_library(gui_components OBJECT ${COMPONENTS_SOURCES} ${COMPONENTS_WRAPPED_CPP} ${COMPONENTS_HEADERS})
+add_library(gui_components OBJECT ${SRCS} ${MOCED} ${HEADERS})
 set_target_properties(gui_components PROPERTIES POSITION_INDEPENDENT_CODE ON)
