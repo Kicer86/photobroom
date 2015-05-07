@@ -51,5 +51,5 @@ set(TO_MOC
 
 qt5_wrap_cpp(MOCED ${TO_MOC})
 
-add_library(gui_components OBJECT ${SRCS} ${MOCED} ${HEADERS})
-set_target_properties(gui_components PROPERTIES POSITION_INDEPENDENT_CODE ON)
+add_library(gui_widgets OBJECT ${SRCS} ${MOCED} ${HEADERS})
+set_target_properties(gui_widgets PROPERTIES POSITION_INDEPENDENT_CODE ON)

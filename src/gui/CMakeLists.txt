@@ -90,7 +90,7 @@ add_library(gui
             ${GUI_HEADERS}
             ${GUI_WRAPPED_UI}
             ${GUI_RESOURCES}
-            $<TARGET_OBJECTS:gui_components>
+            $<TARGET_OBJECTS:gui_widgets>
             $<TARGET_OBJECTS:gui_utils>
            )
 
