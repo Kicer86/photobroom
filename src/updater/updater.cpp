@@ -25,13 +25,15 @@
 #include "github_api/github_api.hpp"
 #include "github_api/aconnection.hpp"
 
+#include "implementation/updater_impl.hpp"
 
-Updater::Updater(): m_manager(new QNetworkAccessManager), m_connection(nullptr)
+
+Updater::Updater(): m_manager(new QNetworkAccessManager), m_connection(nullptr), m_impl(new UpdaterImpl)
 {
     GitHubApi api;
     api.set(m_manager.get());
 
-    m_connection = api.connect();
+    m_connection = api.connect("8e47abda51d9e3515acf5c22c8278204d5206610");
 
     m_connection->get("users/Kicer86");
 }

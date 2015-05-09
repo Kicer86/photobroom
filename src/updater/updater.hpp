@@ -24,7 +24,10 @@
 
 #include "updater_export.h"
 
+class UpdaterImpl;
+
 class QNetworkAccessManager;
+class QJsonDocument;
 
 namespace GitHub
 {
@@ -43,6 +46,7 @@ class UPDATER_EXPORT Updater
     private:
         std::unique_ptr<QNetworkAccessManager> m_manager;
         std::unique_ptr<GitHub::AConnection> m_connection;
+        std::unique_ptr<UpdaterImpl> m_impl;
 };
 
 #endif // UPDATER_H
