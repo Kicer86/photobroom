@@ -8,6 +8,7 @@
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <system/filesystem.hpp>
+#include <updater/updater.hpp>
 
 #include "ui/mainwindow.hpp"
 
@@ -77,6 +78,8 @@ void Gui::run(int argc, char **argv)
         m_logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
     else
         m_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
+
+    Updater updater;
 
     MainWindow mainWindow;
 
