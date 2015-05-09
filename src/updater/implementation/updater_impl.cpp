@@ -19,15 +19,28 @@
 
 #include "updater_impl.hpp"
 
-UpdaterImpl::UpdaterImpl()
-{
+#include "github_api/github_api.hpp"
+#include "github_api/aconnection.hpp"
 
+UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(nullptr)
+{
+    GitHubApi api;
+    api.set(m_manager.get());
+
+    m_connection = api.connect("8e47abda51d9e3515acf5c22c8278204d5206610");
 }
 
 
 UpdaterImpl::~UpdaterImpl()
 {
 
+}
+
+
+void UpdaterImpl::checkVersion()
+{
+    connect(m_connection.get(), &GitHub::AConnection::gotReply, this, &UpdaterImpl::gotReply);
+    m_connection->get("users/Kicer86");
 }
 
 

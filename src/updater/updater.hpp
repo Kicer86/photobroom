@@ -26,13 +26,6 @@
 
 class UpdaterImpl;
 
-class QNetworkAccessManager;
-class QJsonDocument;
-
-namespace GitHub
-{
-    struct AConnection;
-}
 
 class UPDATER_EXPORT Updater
 {
@@ -44,8 +37,6 @@ class UPDATER_EXPORT Updater
         Updater& operator=(const Updater &) = delete;
 
     private:
-        std::unique_ptr<QNetworkAccessManager> m_manager;
-        std::unique_ptr<GitHub::AConnection> m_connection;
         std::unique_ptr<UpdaterImpl> m_impl;
 };
 

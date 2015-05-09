@@ -20,8 +20,18 @@
 #ifndef UPDATERIMPL_HPP
 #define UPDATERIMPL_HPP
 
+#include <memory>
+
 #include <QObject>
 #include <QNetworkReply>
+
+class QNetworkAccessManager;
+class QJsonDocument;
+
+namespace GitHub
+{
+    struct AConnection;
+}
 
 class UpdaterImpl : public QObject
 {
@@ -33,6 +43,13 @@ class UpdaterImpl : public QObject
         ~UpdaterImpl();
 
         UpdaterImpl& operator=(const UpdaterImpl &) = delete;
+
+    public slots:
+        void checkVersion();
+
+    private:
+        std::unique_ptr<QNetworkAccessManager> m_manager;
+        std::unique_ptr<GitHub::AConnection> m_connection;
 
     private slots:
         void gotReply(const QJsonDocument &, const QList<QNetworkReply::RawHeaderPair> &);
