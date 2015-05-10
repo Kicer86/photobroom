@@ -19,8 +19,11 @@
 
 #include "updater_impl.hpp"
 
-#include <QJsonDocument>
+#include <cassert>
+
 #include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include "github_api/github_api.hpp"
 #include "github_api/aconnection.hpp"
@@ -44,9 +47,36 @@ UpdaterImpl::~UpdaterImpl()
 
 void UpdaterImpl::checkVersion()
 {
-    const QJsonDocument& doc = m_request->getUserInfo("Kicer86");
+    const QJsonDocument& doc = m_request->getReleases("Kicer86", "photobroom");
 
-    qDebug() << doc.isEmpty();
-    qDebug() << doc;
-    qDebug() << doc.array();
+    QJsonArray releases = doc.array();
+    for(const QJsonValueRef& release_ref: releases)
+    {
+        assert(release_ref.isObject());
+        const QJsonObject release = release_ref.toObject();
+
+        const QString releaseVer = releaseVersion(release);
+    }
+}
+
+
+QString UpdaterImpl::releaseVersion(const QJsonObject& release) const
+{
+    QString result;
+
+    auto draft_it = release.find("draft");
+    const bool is_draft = draft_it->toBool(false);
+
+    auto prerelease_it = release.find("draft");
+    const bool is_prerelease = prerelease_it->toBool(false);
+
+    if (is_draft == false && is_prerelease == false)
+    {
+        auto tag_name_it = release.find("tag_name");
+        const QString tag_name = tag_name_it->toString();
+
+        result = tag_name;
+    }
+
+    return result;
 }

@@ -52,6 +52,8 @@ class UpdaterImpl : public QObject
         std::unique_ptr<QNetworkAccessManager> m_manager;
         std::unique_ptr<GitHub::AConnection> m_connection;
         std::unique_ptr<GitHub::Request> m_request;
+
+        QString releaseVersion(const QJsonObject &) const;
 };
 
 #endif // UPDATERIMPL_HPP
