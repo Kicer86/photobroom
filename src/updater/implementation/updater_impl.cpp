@@ -19,15 +19,22 @@
 
 #include "updater_impl.hpp"
 
+#include <QJsonDocument>
+#include <QJsonArray>
+
 #include "github_api/github_api.hpp"
 #include "github_api/aconnection.hpp"
+#include "github_api/request.hpp"
 
-UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(nullptr)
+UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(nullptr), m_request(nullptr)
 {
     GitHubApi api;
     api.set(m_manager.get());
 
     m_connection = api.connect("8e47abda51d9e3515acf5c22c8278204d5206610");
+    m_request.reset( new GitHub::Request(m_connection.get()) );
+
+    connect(m_request.get(), &GitHub::Request::got, this, &UpdaterImpl::gotReply );
 }
 
 
@@ -39,12 +46,13 @@ UpdaterImpl::~UpdaterImpl()
 
 void UpdaterImpl::checkVersion()
 {
-    connect(m_connection.get(), &GitHub::AConnection::gotReply, this, &UpdaterImpl::gotReply);
-    m_connection->get("users/Kicer86");
+    m_request->getUserInfo("Kicer86");
 }
 
 
-void UpdaterImpl::gotReply(const QJsonDocument&, const QList<QNetworkReply::RawHeaderPair>&)
+void UpdaterImpl::gotReply(const QJsonDocument& doc)
 {
-
+    qDebug() << doc.isEmpty();
+    qDebug() << doc;
+    qDebug() << doc.array();
 }

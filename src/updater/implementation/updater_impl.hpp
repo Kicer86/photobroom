@@ -31,6 +31,7 @@ class QJsonDocument;
 namespace GitHub
 {
     struct AConnection;
+    class Request;
 }
 
 class UpdaterImpl : public QObject
@@ -50,9 +51,10 @@ class UpdaterImpl : public QObject
     private:
         std::unique_ptr<QNetworkAccessManager> m_manager;
         std::unique_ptr<GitHub::AConnection> m_connection;
+        std::unique_ptr<GitHub::Request> m_request;
 
     private slots:
-        void gotReply(const QJsonDocument &, const QList<QNetworkReply::RawHeaderPair> &);
+        void gotReply(const QJsonDocument &);
 };
 
 #endif // UPDATERIMPL_HPP

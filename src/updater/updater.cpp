@@ -29,7 +29,7 @@
 
 Updater::Updater(): m_impl(new UpdaterImpl)
 {
-    QTimer::singleShot(10000, m_impl.get(), &UpdaterImpl::checkVersion);
+    QTimer::singleShot(1, m_impl.get(), &UpdaterImpl::checkVersion);
 }
 
 
