@@ -33,8 +33,6 @@ UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(n
 
     m_connection = api.connect("8e47abda51d9e3515acf5c22c8278204d5206610");
     m_request.reset( new GitHub::Request(m_connection.get()) );
-
-    connect(m_request.get(), &GitHub::Request::got, this, &UpdaterImpl::gotReply );
 }
 
 
@@ -46,12 +44,8 @@ UpdaterImpl::~UpdaterImpl()
 
 void UpdaterImpl::checkVersion()
 {
-    m_request->getUserInfo("Kicer86");
-}
+    const QJsonDocument& doc = m_request->getUserInfo("Kicer86");
 
-
-void UpdaterImpl::gotReply(const QJsonDocument& doc)
-{
     qDebug() << doc.isEmpty();
     qDebug() << doc;
     qDebug() << doc.array();
