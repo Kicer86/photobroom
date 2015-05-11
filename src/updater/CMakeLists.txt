@@ -12,11 +12,13 @@ include_directories(SYSTEM ${Qt5Network_INCLUDE_DIRS})
 set(SRCS
     updater.cpp
     implementation/updater_impl.cpp
+    implementation/version.cpp
     )
 
 set(HEADERS
     updater.hpp
     implementation/updater_impl.hpp
+    implementation/version.hpp
     )
 
 #set of file to be moced
