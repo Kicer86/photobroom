@@ -19,7 +19,7 @@
 
 #include "version.hpp"
 
-Version::Version(): m_version()
+Version::Version(): m_major(0), m_minor(0), m_patch(0), m_valid(false)
 {
 
 }
@@ -33,5 +33,43 @@ Version::~Version()
 
 bool Version::operator==(const Version& other) const
 {
-    return m_version == other.m_version;
+    return m_major == other.m_major &&
+           m_minor == other.m_minor &&
+           m_patch == other.m_patch;
+}
+
+
+bool Version::operator<(const Version& other) const
+{
+    bool status = false;
+
+    if (m_major < other.m_major)
+        status = true;
+    else if (m_major == other.m_major)
+    {
+        if (m_minor < other.m_minor)
+            status = true;
+        else if (m_minor == other.m_minor)
+            status = m_patch < other.m_patch;
+    }
+
+    return status;
+}
+
+
+bool Version::operator>(const Version& other) const
+{
+    bool status = false;
+
+    if (m_major > other.m_major)
+        status = true;
+    else if (m_major == other.m_major)
+    {
+        if (m_minor > other.m_minor)
+            status = true;
+        else if (m_minor == other.m_minor)
+            status = m_patch > other.m_patch;
+    }
+
+    return status;
 }

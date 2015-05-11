@@ -32,9 +32,14 @@ class Version
         Version& operator=(const Version &) = default;
 
         bool operator==(const Version &) const;
+        bool operator<(const Version &) const;
+        bool operator>(const Version &) const;
 
     private:
-        QString m_version;
+        int m_major;
+        int m_minor;
+        int m_patch;
+        bool m_valid;
 };
 
 #endif // VERSION_HPP
