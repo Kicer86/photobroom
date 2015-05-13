@@ -16,6 +16,7 @@ set(SRCS
     )
 
 set(HEADERS
+    iupdater.hpp
     updater.hpp
     implementation/updater_impl.hpp
     implementation/version.hpp
