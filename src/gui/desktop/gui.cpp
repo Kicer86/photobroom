@@ -8,6 +8,7 @@
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <system/filesystem.hpp>
+#include <updater/updater.hpp>
 
 #include "ui/mainwindow.hpp"
 
@@ -81,12 +82,15 @@ void Gui::run(int argc, char **argv)
     else
         m_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
+    Updater updater;
+
     MainWindow mainWindow;
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);
     mainWindow.set(m_taskExecutor);
     mainWindow.set(m_configuration);
+    mainWindow.set(&updater);
 
     mainWindow.show();
     app.exec();

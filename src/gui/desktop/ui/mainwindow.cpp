@@ -10,7 +10,7 @@
 #include <QLayout>
 #include <QMessageBox>
 #include <QPainter>
-#include <qtimer.h>
+#include <QTimer>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_imagesModel(nullptr),
     m_stagedImagesModel(nullptr),
     m_configuration(nullptr),
+    m_updater(nullptr),
     m_photosCollector(new PhotosCollector(this)),
     m_views(),
     m_photosAnalyzer(new PhotosAnalyzer),
@@ -89,6 +90,48 @@ void MainWindow::set(IConfiguration* configuration)
 
     for(IView* view: m_views)
         view->set(configuration);
+}
+
+
+void MainWindow::set(IUpdater* updater)
+{
+    m_updater = updater;
+
+    QTimer::singleShot(1000, this, &MainWindow::checkVersion);
+}
+
+
+void MainWindow::checkVersion()
+{
+    auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
+    m_updater->getStatus(callback);
+}
+
+
+
+void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
+{
+    switch (versionInfo.status)
+    {
+        case IUpdater::OnlineVersion::NewVersionAvailable:
+            QMessageBox::information(this,
+                                     tr("New version"),
+                                     tr("New version of PhotoBroom is available <a href=\"%1\">here</a>.")
+                                        .arg(versionInfo.url.url())
+                                    );
+            break;
+
+        case IUpdater::OnlineVersion::ConnectionError:
+            QMessageBox::critical(this,
+                                  tr("Internet connection problem"),
+                                  tr("Could not check if there is new version of PhotoBroom.\n"
+                                     "Please check your internet connection.")
+                                 );
+            break;
+
+        default:
+            break;
+    }
 }
 
 

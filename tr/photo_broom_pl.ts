@@ -132,7 +132,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+153"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+196"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
@@ -207,7 +207,29 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+7"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-78"/>
+        <source>New version</source>
+        <translation>Nowa wersja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
+        <translation>Nowa wersja programu PhotoBroom jest dostępna &lt;a href=&quot;%1&quot;&gt;tutaj&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Internet connection problem</source>
+        <translation>Problem z połączeniem internetowym</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Could not check if there is new version of PhotoBroom.
+Please check your internet connection.</source>
+        <translation>Nie udało się sprawdzić, czy jest dostępna nowsza wersja programu.
+Sprawdź proszę swoje połączenie z internetem.</translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>

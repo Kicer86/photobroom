@@ -7,6 +7,7 @@
 #include <QMainWindow>
 
 #include <database/idatabase.hpp>
+#include <updater/iupdater.hpp>
 
 class StagedPhotosDataModel;
 class PhotosCollector;
@@ -42,6 +43,7 @@ class MainWindow: public QMainWindow
         void set(IPluginLoader *);
         void set(ITaskExecutor *);
         void set(IConfiguration *);
+        void set(IUpdater *);
 
     private:
         Ui::MainWindow*           ui;
@@ -51,6 +53,7 @@ class MainWindow: public QMainWindow
         DBDataModel*              m_imagesModel;
         StagedPhotosDataModel*    m_stagedImagesModel;
         IConfiguration*           m_configuration;
+        IUpdater*                 m_updater;
         PhotosCollector*          m_photosCollector;
         std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
@@ -91,7 +94,11 @@ class MainWindow: public QMainWindow
         //model observers
         void updateInfoWidget(const QString &);
 
+        //check version
+        void checkVersion();
+
     private:
+        void currentVersion(const IUpdater::OnlineVersion &);
         void projectOpenedNotification(const Database::BackendStatus &);
 
     signals:
