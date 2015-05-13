@@ -20,6 +20,7 @@
 #include "updater_impl.hpp"
 
 #include <cassert>
+#include <set>
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -28,6 +29,11 @@
 #include "github_api/github_api.hpp"
 #include "github_api/aconnection.hpp"
 #include "github_api/request.hpp"
+
+#include "config.hpp"
+
+#include "version.hpp"
+
 
 UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(nullptr), m_request(nullptr)
 {
@@ -47,7 +53,9 @@ UpdaterImpl::~UpdaterImpl()
 
 void UpdaterImpl::checkVersion()
 {
+    const Version currentVersion = Version::fromString(PHOTO_BROOM_VERSION);
     const QJsonDocument& doc = m_request->getReleases("Kicer86", "photobroom");
+    std::set<Version> versions;
 
     QJsonArray releases = doc.array();
     for(const QJsonValueRef& release_ref: releases)
@@ -56,6 +64,18 @@ void UpdaterImpl::checkVersion()
         const QJsonObject release = release_ref.toObject();
 
         const QString releaseVer = releaseVersion(release);
+        const Version ver = Version::fromTagName(releaseVer);
+
+        versions.insert(ver);
+    }
+
+    if (versions.empty() == false)
+    {
+        const Version& onlineVersion = *versions.rbegin();
+        if (onlineVersion > currentVersion)
+        {
+
+        }
     }
 }
 
@@ -67,7 +87,7 @@ QString UpdaterImpl::releaseVersion(const QJsonObject& release) const
     auto draft_it = release.find("draft");
     const bool is_draft = draft_it->toBool(false);
 
-    auto prerelease_it = release.find("draft");
+    auto prerelease_it = release.find("prerelease");
     const bool is_prerelease = prerelease_it->toBool(false);
 
     if (is_draft == false && is_prerelease == false)
