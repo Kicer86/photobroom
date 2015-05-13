@@ -209,23 +209,24 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-78"/>
         <source>New version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja programu PhotoBroom jest dostępna &lt;a href=&quot;%1&quot;&gt;tutaj&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internet connection problem</source>
-        <translation type="unfinished"></translation>
+        <translation>Problem z połączeniem internetowym</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się sprawdzić, czy jest dostępna nowsza wersja programu.
+Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
         <location line="+76"/>
