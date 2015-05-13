@@ -20,7 +20,10 @@
 #ifndef VERSION_HPP
 #define VERSION_HPP
 
+#include <regex>
+
 #include <QString>
+
 
 class Version
 {
@@ -36,12 +39,15 @@ class Version
         bool operator<(const Version &) const;
         bool operator>(const Version &) const;
 
-        static Version fromTagName(const QString &);
+        static Version fromTagName(const QString &);       // expecting vX.Y.Z format
+        static Version fromString(const char *);           // expecting X.Y.Z format
 
     private:
         int m_major;
         int m_minor;
         int m_patch;
+
+        static Version build(const std::string&, const std::regex &);
 };
 
 #endif // VERSION_HPP

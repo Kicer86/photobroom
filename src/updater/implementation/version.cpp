@@ -88,10 +88,23 @@ bool Version::operator>(const Version& other) const
 Version Version::fromTagName(const QString& tag)
 {
     const std::regex pattern("^v([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
+    return build(tag.toStdString(), pattern);
+}
+
+
+Version Version::fromString(const char* version)
+{
+    const std::regex pattern("^([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
+    return build(version, pattern);
+}
+
+
+Version Version::build(const std::string& version_raw, const std::regex& pattern)
+{
     std::smatch version;
     Version result;
 
-    const bool matches = std::regex_match(tag.toStdString(), version, pattern);
+    const bool matches = std::regex_match(version_raw, version, pattern);
 
     if (matches)
     {
@@ -104,3 +117,4 @@ Version Version::fromTagName(const QString& tag)
 
     return result;
 }
+
