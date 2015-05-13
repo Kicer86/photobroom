@@ -19,8 +19,6 @@
 
 #include "version.hpp"
 
-#include <regex>
-
 
 Version::Version(): m_major(0), m_minor(0), m_patch(0)
 {
@@ -108,9 +106,9 @@ Version Version::build(const std::string& version_raw, const std::regex& pattern
 
     if (matches)
     {
-        const int major = std::stoi( version[0].str() );
-        const int minor = std::stoi( version[1].str() );
-        const int patch = std::stoi( version[2].str() );
+        const int major = std::stoi( version[1].str() );
+        const int minor = std::stoi( version[2].str() );
+        const int patch = std::stoi( version[3].str() );
 
         result = Version(major, minor, patch);
     }
