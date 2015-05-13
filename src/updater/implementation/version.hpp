@@ -27,6 +27,7 @@ class Version
     public:
         Version();
         Version(const Version &) = default;
+        Version(int, int, int);
         ~Version();
 
         Version& operator=(const Version &) = default;
@@ -35,11 +36,12 @@ class Version
         bool operator<(const Version &) const;
         bool operator>(const Version &) const;
 
+        static Version fromTagName(const QString &);
+
     private:
         int m_major;
         int m_minor;
         int m_patch;
-        bool m_valid;
 };
 
 #endif // VERSION_HPP

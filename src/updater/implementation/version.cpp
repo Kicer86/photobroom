@@ -19,10 +19,20 @@
 
 #include "version.hpp"
 
-Version::Version(): m_major(0), m_minor(0), m_patch(0), m_valid(false)
+#include <regex>
+
+
+Version::Version(): m_major(0), m_minor(0), m_patch(0)
 {
 
 }
+
+
+Version::Version(int major, int minor, int patch): m_major(major), m_minor(minor), m_patch(patch)
+{
+
+}
+
 
 
 Version::~Version()
@@ -72,4 +82,25 @@ bool Version::operator>(const Version& other) const
     }
 
     return status;
+}
+
+
+Version Version::fromTagName(const QString& tag)
+{
+    const std::regex pattern("^v([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
+    std::smatch version;
+    Version result;
+
+    const bool matches = std::regex_match(tag.toStdString(), version, pattern);
+
+    if (matches)
+    {
+        const int major = std::stoi( version[0].str() );
+        const int minor = std::stoi( version[1].str() );
+        const int patch = std::stoi( version[2].str() );
+
+        result = Version(major, minor, patch);
+    }
+
+    return result;
 }
