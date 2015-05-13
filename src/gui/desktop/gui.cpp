@@ -87,8 +87,7 @@ void Gui::run(int argc, char **argv)
     mainWindow.set(m_pluginLoader);
     mainWindow.set(m_taskExecutor);
     mainWindow.set(m_configuration);
-
-    QObject::connect(&updater, &Updater::currentVersion, &mainWindow, &MainWindow::currentVersion);
+    mainWindow.set(&updater);
 
     mainWindow.show();
     app.exec();

@@ -24,7 +24,6 @@ set(HEADERS
 
 #set of file to be moced
 set(TO_MOC
-    updater.hpp
     implementation/updater_impl.hpp
     )
 

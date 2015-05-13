@@ -19,19 +19,14 @@
 
 #include "updater.hpp"
 
-
 #include <QNetworkAccessManager>
-#include <QTimer>
-
 
 #include "implementation/updater_impl.hpp"
 
 
 Updater::Updater(): m_impl(new UpdaterImpl)
 {
-    connect(m_impl.get(), &UpdaterImpl::foundVersion, this, &Updater::currentVersion);
 
-    QTimer::singleShot(1, m_impl.get(), &UpdaterImpl::checkVersion);
 }
 
 
@@ -40,3 +35,8 @@ Updater::~Updater()
 
 }
 
+
+void Updater::getStatus(const StatusCallback& callback)
+{
+    m_impl->checkVersion(callback);
+}

@@ -51,11 +51,12 @@ UpdaterImpl::~UpdaterImpl()
 }
 
 
-void UpdaterImpl::checkVersion()
+void UpdaterImpl::checkVersion(const IUpdater::StatusCallback& callback)
 {
     const Version currentVersion = Version::fromString(PHOTO_BROOM_VERSION);
     const QJsonDocument& doc = m_request->getReleases("Kicer86", "photobroom");
     std::map<Version, int> versions;
+    IUpdater::OnlineVersion versionInfo;
 
     QJsonArray releases = doc.array();
     for(const QJsonValueRef& release_ref: releases)
@@ -69,16 +70,20 @@ void UpdaterImpl::checkVersion()
         versions[ver] = releaseVer.second;
     }
 
-    QString url;
     if (versions.empty() == false)
     {
-        auto verionInfo = versions.rbegin();
-        const Version& onlineVersion = verionInfo->first;
+        auto newestVersion = versions.rbegin();
+        const Version& onlineVersion = newestVersion->first;
         if (onlineVersion > currentVersion)
-            url = getReleaseUrl(verionInfo->second);
+        {
+            versionInfo.status = IUpdater::OnlineVersion::NewVersionAvailable;
+            versionInfo.url = getReleaseUrl(newestVersion->second);
+        }
+        else
+            versionInfo.status = IUpdater::OnlineVersion::UpToDate;
     }
 
-    emit foundVersion(url);
+    callback(versionInfo);
 }
 
 
