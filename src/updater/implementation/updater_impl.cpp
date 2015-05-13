@@ -40,7 +40,7 @@ UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(n
     GitHubApi api;
     api.set(m_manager.get());
 
-    m_connection = api.connect("8e47abda51d9e3515acf5c22c8278204d5206610");
+    m_connection = api.connect();
     m_request.reset( new GitHub::Request(m_connection.get()) );
 }
 
