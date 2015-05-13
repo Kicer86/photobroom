@@ -47,4 +47,4 @@ class UPDATER_EXPORT Updater: public QObject
         void currentVersion(const QString &);    //returns url to newest version or empty string when it's up to date
 };
 
-#endif // UPDATER_H
+#endif // UPDATER_HPP
