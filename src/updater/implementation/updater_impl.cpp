@@ -27,7 +27,7 @@
 #include <QJsonObject>
 
 #include "github_api/github_api.hpp"
-#include "github_api/aconnection.hpp"
+#include "github_api/iconnection.hpp"
 #include "github_api/request.hpp"
 
 #include "config.hpp"
