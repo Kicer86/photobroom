@@ -53,7 +53,8 @@ class UpdaterImpl : public QObject
         std::unique_ptr<GitHub::AConnection> m_connection;
         std::unique_ptr<GitHub::Request> m_request;
 
-        QString releaseVersion(const QJsonObject &) const;
+        std::pair<QString, int> releaseVersion(const QJsonObject &) const;
+        QString getReleaseUrl(int) const;
 };
 
 #endif // UPDATERIMPL_HPP

@@ -55,7 +55,7 @@ void UpdaterImpl::checkVersion()
 {
     const Version currentVersion = Version::fromString(PHOTO_BROOM_VERSION);
     const QJsonDocument& doc = m_request->getReleases("Kicer86", "photobroom");
-    std::set<Version> versions;
+    std::map<Version, int> versions;
 
     QJsonArray releases = doc.array();
     for(const QJsonValueRef& release_ref: releases)
@@ -63,26 +63,27 @@ void UpdaterImpl::checkVersion()
         assert(release_ref.isObject());
         const QJsonObject release = release_ref.toObject();
 
-        const QString releaseVer = releaseVersion(release);
-        const Version ver = Version::fromTagName(releaseVer);
+        const auto releaseVer = releaseVersion(release);
+        const Version ver = Version::fromTagName(releaseVer.first);
 
-        versions.insert(ver);
+        versions[ver] = releaseVer.second;
     }
 
     if (versions.empty() == false)
     {
-        const Version& onlineVersion = *versions.rbegin();
+        auto verionInfo = versions.rbegin();
+        const Version& onlineVersion = verionInfo->first;
         if (onlineVersion > currentVersion)
         {
-
+            const QString url = getReleaseUrl(verionInfo->second);
         }
     }
 }
 
 
-QString UpdaterImpl::releaseVersion(const QJsonObject& release) const
+std::pair<QString, int> UpdaterImpl::releaseVersion(const QJsonObject& release) const
 {
-    QString result;
+    std::pair<QString, int> result;
 
     auto draft_it = release.find("draft");
     const bool is_draft = draft_it->toBool(false);
@@ -95,8 +96,24 @@ QString UpdaterImpl::releaseVersion(const QJsonObject& release) const
         auto tag_name_it = release.find("tag_name");
         const QString tag_name = tag_name_it->toString();
 
-        result = tag_name;
+        auto id_it = release.find("id");
+        const int id = id_it->toInt();
+
+        result.first = tag_name;
+        result.second = id;
     }
 
     return result;
+}
+
+
+QString UpdaterImpl::getReleaseUrl(int id) const
+{
+    const QJsonDocument& doc = m_request->getRelease("Kicer86", "photobroom", id);
+    const QJsonObject release = doc.object();
+
+    auto url_it = release.find("html_url");
+    const QString url = url_it->toString();;
+
+    return url;
 }
