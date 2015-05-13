@@ -111,7 +111,7 @@ namespace Database
     }
 
 
-    SQLitePlugin::SQLitePlugin(): QObject()
+    SQLitePlugin::SQLitePlugin(): IPlugin()
     {
 
     }

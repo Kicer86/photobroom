@@ -51,7 +51,7 @@ set(DATABASE_HEADERS
 
 set(DATABASE_MOC 
     idatabase.hpp
-
+    idatabase_plugin.hpp
     database_tools/photos_analyzer.hpp)
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})

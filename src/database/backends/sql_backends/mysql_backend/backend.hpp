@@ -37,7 +37,7 @@ namespace Database
     };
 
 
-    class DATABASE_MYSQL_BACKEND_EXPORT MySqlPlugin final: public QObject, public IPlugin
+    class DATABASE_MYSQL_BACKEND_EXPORT MySqlPlugin final: public IPlugin
     {
             Q_OBJECT
             Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "mysql_backend.json")
