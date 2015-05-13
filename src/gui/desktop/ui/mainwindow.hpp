@@ -43,6 +43,9 @@ class MainWindow: public QMainWindow
         void set(ITaskExecutor *);
         void set(IConfiguration *);
 
+    public slots:
+        void currentVersion(const QString &);
+
     private:
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;

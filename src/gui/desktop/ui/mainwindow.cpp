@@ -10,7 +10,7 @@
 #include <QLayout>
 #include <QMessageBox>
 #include <QPainter>
-#include <qtimer.h>
+#include <QTimer>
 
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -89,6 +89,13 @@ void MainWindow::set(IConfiguration* configuration)
 
     for(IView* view: m_views)
         view->set(configuration);
+}
+
+
+void MainWindow::currentVersion(const QString& url)
+{
+    if (url.isEmpty() == false)
+        QMessageBox::information(this, tr("New version"), tr("New version of PhotoBroom is available <a href=\"%1\">here</a>.").arg(url));
 }
 
 
