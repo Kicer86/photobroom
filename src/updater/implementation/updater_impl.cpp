@@ -69,15 +69,16 @@ void UpdaterImpl::checkVersion()
         versions[ver] = releaseVer.second;
     }
 
+    QString url;
     if (versions.empty() == false)
     {
         auto verionInfo = versions.rbegin();
         const Version& onlineVersion = verionInfo->first;
         if (onlineVersion > currentVersion)
-        {
-            const QString url = getReleaseUrl(verionInfo->second);
-        }
+            url = getReleaseUrl(verionInfo->second);
     }
+
+    emit foundVersion(url);
 }
 
 

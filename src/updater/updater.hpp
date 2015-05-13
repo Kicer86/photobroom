@@ -22,13 +22,17 @@
 
 #include <memory>
 
+#include <QObject>
+
 #include "updater_export.h"
 
 class UpdaterImpl;
 
 
-class UPDATER_EXPORT Updater
+class UPDATER_EXPORT Updater: public QObject
 {
+        Q_OBJECT
+
     public:
         Updater();
         Updater(const Updater &) = delete;
@@ -38,6 +42,9 @@ class UPDATER_EXPORT Updater
 
     private:
         std::unique_ptr<UpdaterImpl> m_impl;
+
+    signals:
+        void currentVersion(const QString &);    //returns url to newest version or empty string when it's up to date
 };
 
 #endif // UPDATER_H

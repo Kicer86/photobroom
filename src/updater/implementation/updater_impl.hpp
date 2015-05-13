@@ -55,6 +55,9 @@ class UpdaterImpl : public QObject
 
         std::pair<QString, int> releaseVersion(const QJsonObject &) const;
         QString getReleaseUrl(int) const;
+
+    signals:
+        void foundVersion(const QString &);   //returns url to newest version or empty string when it's up to date
 };
 
 #endif // UPDATERIMPL_HPP

@@ -29,6 +29,8 @@
 
 Updater::Updater(): m_impl(new UpdaterImpl)
 {
+    connect(m_impl.get(), &UpdaterImpl::foundVersion, this, &Updater::currentVersion);
+
     QTimer::singleShot(1, m_impl.get(), &UpdaterImpl::checkVersion);
 }
 
