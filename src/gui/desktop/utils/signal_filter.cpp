@@ -26,7 +26,7 @@
 
 SignalFilter::SignalFilter(QObject* parent_object): QObject(parent_object), m_signals(), m_mapper(new QSignalMapper(this))
 {
-
+    QObject::connect(m_mapper, SIGNAL(mapped(QObject*)), this, SLOT(notification(QObject*)));
 }
 
 

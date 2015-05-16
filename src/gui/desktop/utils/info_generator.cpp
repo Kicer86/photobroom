@@ -84,8 +84,8 @@ void InfoGenerator::set(Database::IDatabase* database)
     if (m_database != nullptr)
     {
         auto notifier = m_database->notifier();
-        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
-        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
+        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, "dbChanged");
+        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), this, "dbChanged");
 
         //consider db dirty
         dbChanged();
