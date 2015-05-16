@@ -59,7 +59,7 @@ namespace
 InfoGenerator::InfoGenerator(QObject* parent_object):
     QObject(parent_object),
     m_database(nullptr),
-    m_signalFiler(new SignalFilter(this)),
+    m_signalFilter(new SignalFilter(this)),
     m_collection_empty(true),
     m_staged_area_empty(true),
     m_task_in_progress(0)
@@ -84,8 +84,8 @@ void InfoGenerator::set(Database::IDatabase* database)
     if (m_database != nullptr)
     {
         auto notifier = m_database->notifier();
-        m_signalFiler->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
-        m_signalFiler->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
+        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
+        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(dbChanged()));
 
         //consider db dirty
         dbChanged();
