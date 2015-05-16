@@ -27,8 +27,13 @@ Tested compilers:
    At least Visual Studio 2013 is required with Visual C++ Compiler Nov 2013 CTP (CTP_Nov2013) (due to c++11). Service Pack 2 is required (www.microsoft.com/pl-pl/download/details.aspx?id=42666)
 
 PhotoBroom cannot be run from compilation dir without installing.
-It will search for plugins in destination (installation) dir.
+On Linux it will search for plugins in destination (installation) dir.
 Build 'install' target to install PhotoBroom. Then you can launch it.
+On Windows operating system, PhotoBroom searches for plugins and translations,
+in location relative to exe file.
+To make debuging possible on Windows, set DEVELOPER_BUILD option to ON.
+This will force PhotoBroom to look for plugins and translations in location
+defined by CMAKE_INSTALL_PREFIX (so as it does on Linux).
 
 Extra targets available for Windows:
 'deploy' - prepares extra dir with Qt's libraries and plugins required by PhotoBroom.

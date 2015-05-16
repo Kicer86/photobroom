@@ -26,9 +26,11 @@ include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests")
 option(BUILD_SHARED_LIBS "Global flag to cause add_library to create shared libraries if on.")
+option(DEVELOPER_BUILD "Enable developer build. Enable it to make debugging easier.")
 
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
+add_feature_info("Enable developer build" DEVELOPER_BUILD "Enable it to make debugging easier.")
 
 #tests
 if(BUILD_TESTS)

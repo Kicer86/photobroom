@@ -21,6 +21,12 @@ set(SYSTEM_SOURCES ${SYSTEM_SOURCES}
 set(SYSTEM_HEADERS system.hpp filesystem.hpp)
 
 if(WIN32)
+    if(DEVELOPER_BUILD)
+        #Add installation path as a base path.
+        set(BASE_PATH "${CMAKE_INSTALL_PREFIX}/")
+    else()
+        unset(BASE_PATH)
+    endif()
     configure_file(paths_win.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 else()
     configure_file(paths_unix.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
