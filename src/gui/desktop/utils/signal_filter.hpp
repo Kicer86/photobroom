@@ -20,15 +20,26 @@
 #ifndef SIGNALFILTER_HPP
 #define SIGNALFILTER_HPP
 
+#include <functional>
+
 #include <QObject>
 
-class QSignalMapper;
-
-
-class SignalFilter: public QObject
+class Receiver: public QObject
 {
         Q_OBJECT
 
+    public:
+        Receiver(QObject *, const std::function<void()> &);
+
+    private:
+        std::function<void()> m_target;
+
+    public slots:
+        void notification();
+};
+
+class SignalFilter: public QObject
+{
     public:
         SignalFilter(QObject *);
         SignalFilter(const SignalFilter &) = delete;
@@ -36,22 +47,7 @@ class SignalFilter: public QObject
 
         SignalFilter& operator=(const SignalFilter &) = delete;
 
-        void connect(QObject* sender, const char* signal,
-                     QObject* receiver, const char* method, Qt::ConnectionType type = Qt::AutoConnection);
-
-
-    private:
-        struct Receiver
-        {
-            QObject* receiver;
-            const char* method;
-        };
-
-        std::map<const QObject *, Receiver> m_signals;
-        QSignalMapper* m_mapper;
-
-    private slots:
-        void notification(QObject *);
+        void connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, Qt::ConnectionType type = Qt::AutoConnection);
 };
 
 #endif // SIGNALFILTER_HPP

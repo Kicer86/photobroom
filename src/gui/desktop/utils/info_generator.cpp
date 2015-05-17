@@ -83,9 +83,10 @@ void InfoGenerator::set(Database::IDatabase* database)
 
     if (m_database != nullptr)
     {
+        auto listener = std::bind(&InfoGenerator::dbChanged, this);
         auto notifier = m_database->notifier();
-        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, "dbChanged");
-        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), this, "dbChanged");
+        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), listener);
+        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), listener);
 
         //consider db dirty
         dbChanged();

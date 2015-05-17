@@ -21,12 +21,22 @@
 
 #include <cassert>
 
-#include <QSignalMapper>
 
-
-SignalFilter::SignalFilter(QObject* parent_object): QObject(parent_object), m_signals(), m_mapper(new QSignalMapper(this))
+Receiver::Receiver(QObject* parent_object, const std::function<void()>& target): QObject(parent_object), m_target(target)
 {
-    QObject::connect(m_mapper, SIGNAL(mapped(QObject*)), this, SLOT(notification(QObject*)));
+
+}
+
+
+void Receiver::notification()
+{
+    m_target();
+}
+
+
+SignalFilter::SignalFilter(QObject* parent_object): QObject(parent_object)
+{
+
 }
 
 
@@ -36,24 +46,8 @@ SignalFilter::~SignalFilter()
 }
 
 
-void SignalFilter::connect(QObject* sender_obj, const char* signal, QObject* receiver, const char* method, Qt::ConnectionType type)
+void SignalFilter::connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, Qt::ConnectionType type)
 {
-    Receiver rec = {receiver, method};
-    m_signals[sender_obj] = rec;
-    m_mapper->setMapping(sender_obj, sender_obj);
-    QObject::connect(sender_obj, signal, m_mapper, SLOT(map()), type);
-}
-
-
-void SignalFilter::notification(QObject* obj)
-{
-    auto it = m_signals.find(obj);
-    assert(it != m_signals.end());
-
-    if (it != m_signals.end())
-    {
-        const Receiver& r = it->second;
-
-        QMetaObject::invokeMethod(r.receiver, r.method);
-    }
+    Receiver* rec = new Receiver(this, target);
+    QObject::connect(sender_obj, signal, rec, SLOT(notification()), type);
 }
