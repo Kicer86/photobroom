@@ -33,9 +33,12 @@ class Receiver: public QObject
 
     private:
         std::function<void()> m_target;
+        bool m_blocked;
+        bool m_dirty;
 
     public slots:
         void notification();
+        void clear();
 };
 
 class SignalFilter: public QObject

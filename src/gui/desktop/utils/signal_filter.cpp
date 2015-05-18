@@ -21,8 +21,14 @@
 
 #include <cassert>
 
+#include <QTimer>
 
-Receiver::Receiver(QObject* parent_object, const std::function<void()>& target): QObject(parent_object), m_target(target)
+
+Receiver::Receiver(QObject* parent_object, const std::function<void()>& target):
+    QObject(parent_object),
+    m_target(target),
+    m_blocked(false),
+    m_dirty(false)
 {
 
 }
@@ -30,7 +36,29 @@ Receiver::Receiver(QObject* parent_object, const std::function<void()>& target):
 
 void Receiver::notification()
 {
-    m_target();
+    if (m_blocked)
+        m_dirty = true;
+    else
+    {
+        m_blocked = true;
+        QTimer::singleShot(100, this, &Receiver::clear);
+
+        m_target();
+    }
+}
+
+
+void Receiver::clear()
+{
+    assert(m_blocked);
+
+    m_blocked = false;
+
+    if (m_dirty)
+    {
+        m_dirty = false;
+        notification();
+    }
 }
 
 
