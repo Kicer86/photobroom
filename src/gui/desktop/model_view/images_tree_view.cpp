@@ -154,7 +154,9 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 {
     //disconnect current model
     QAbstractItemModel* current_model = QAbstractItemView::model();
-    disconnect(current_model);
+
+    if (current_model)
+        current_model->disconnect(this);
 
     //
     QAbstractItemView::setModel(m);
