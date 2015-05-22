@@ -21,6 +21,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <functional>
 
 #include <QScrollBar>
 #include <QPainter>
@@ -37,46 +38,15 @@
 #include "tree_item_delegate.hpp"
 
 
-ViewUpdateStatus::ViewUpdateStatus():
-    QObject(),
-    m_timer(new QTimer(this)),
-    m_requiresUpdate(false)
-{
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(trigger_update()));
-    m_timer->setSingleShot(true);
-}
-
-
-void ViewUpdateStatus::markDirty()
-{
-    m_requiresUpdate = true;
-
-    if (m_timer->isActive() == false)
-        trigger_update();
-}
-
-
-void ViewUpdateStatus::trigger_update()
-{
-    if (m_requiresUpdate)
-    {
-        m_requiresUpdate = false;
-        m_timer->start(250);                   //disable updates for a 250 ms
-        emit update_now();
-    }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus()
+ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
 
     setItemDelegate(delegate);
 
-    connect(&m_viewStatus, SIGNAL(update_now()), viewport(), SLOT(update()));
+    auto update_event = std::bind(&ImagesTreeView::update, this);
+
+    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event);
 }
 
 
@@ -250,7 +220,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
         PositionsReseter reseter(view_model, m_data.get());
         reseter.itemChanged(item);
 
-        m_viewStatus.markDirty();
+        emit refreshView();
     }
 }
 
@@ -263,7 +233,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
-    m_viewStatus.markDirty();
+    emit refreshView();
 }
 
 
@@ -336,6 +306,12 @@ void ImagesTreeView::updateGui()
 }
 
 
+void ImagesTreeView::update()
+{
+    viewport()->update();
+}
+
+
 QPoint ImagesTreeView::getOffset() const
 {
     const QPoint offset(horizontalOffset(), verticalOffset());
@@ -359,7 +335,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
 
-    m_viewStatus.markDirty();
+    emit refreshView();
 }
 
 
@@ -382,7 +358,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     else
         reseter.itemsAdded(destinationParent, destinationRow - items, destinationRow - 1);   // (destinationRow + items - 1) - items
 
-    m_viewStatus.markDirty();
+    emit refreshView();
 }
 
 
@@ -396,7 +372,7 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
     PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(_parent, first);
 
-    m_viewStatus.markDirty();
+    emit refreshView();
 }
 
 
