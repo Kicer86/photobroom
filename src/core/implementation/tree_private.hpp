@@ -240,10 +240,10 @@ namespace tree_utils
             {
             }
 
-            ~node() 
-			{
-				delete m_children;
-			}
+            ~node()
+            {
+                delete m_children;
+            }
 
             node& operator=(const node& other)
             {
