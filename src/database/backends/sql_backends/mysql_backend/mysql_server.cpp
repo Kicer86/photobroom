@@ -330,7 +330,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
         {
             QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
-            m_serverProcess.reset(new QProcess);
+            m_serverProcess = std::make_unique<QProcess>();
             m_serverProcess->setProgram(daemonPath);
             m_serverProcess->setArguments(args);
             m_serverProcess->closeWriteChannel();

@@ -21,8 +21,21 @@
 
 #include <cassert>
 
+#include <QTimer>
 
-Receiver::Receiver(QObject* parent_object, const std::function<void()>& target): QObject(parent_object), m_target(target)
+
+std::chrono::milliseconds operator ""_fps(unsigned long long fps)
+{
+	return std::chrono::milliseconds(1000 / fps);
+}
+
+
+Receiver::Receiver(QObject* parent_object, const std::function<void()>& target, const std::chrono::milliseconds& ms):
+    QObject(parent_object),
+    m_block_time(ms),
+    m_target(target),
+    m_blocked(false),
+    m_dirty(false)
 {
 
 }
@@ -30,7 +43,30 @@ Receiver::Receiver(QObject* parent_object, const std::function<void()>& target):
 
 void Receiver::notification()
 {
-    m_target();
+    if (m_blocked)
+        m_dirty = true;
+    else
+    {
+        m_blocked = true;
+        const int ms = m_block_time.count();
+        QTimer::singleShot(ms, this, &Receiver::clear);
+
+        m_target();
+    }
+}
+
+
+void Receiver::clear()
+{
+    assert(m_blocked);
+
+    m_blocked = false;
+
+    if (m_dirty)
+    {
+        m_dirty = false;
+        notification();
+    }
 }
 
 
@@ -46,8 +82,8 @@ SignalFilter::~SignalFilter()
 }
 
 
-void SignalFilter::connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, Qt::ConnectionType type)
+void SignalFilter::connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, const std::chrono::milliseconds& ms, Qt::ConnectionType type)
 {
-    Receiver* rec = new Receiver(this, target);
+    Receiver* rec = new Receiver(this, target, ms);
     QObject::connect(sender_obj, signal, rec, SLOT(notification()), type);
 }

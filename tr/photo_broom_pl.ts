@@ -40,7 +40,7 @@
 <context>
     <name>InfoGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/info_generator.cpp" line="+131"/>
+        <location filename="../src/gui/desktop/utils/info_generator.cpp" line="+133"/>
         <source>No photo collection is opened.
 
 Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one

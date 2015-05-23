@@ -25,33 +25,12 @@
 #include <memory>
 #include <deque>
 
+#include <utils/signal_filter.hpp>
+
 class QTimer;
 
 struct IConfiguration;
 class Data;
-
-class ViewUpdateStatus: public QObject
-{
-        Q_OBJECT
-
-    public:
-        ViewUpdateStatus();
-        ViewUpdateStatus(const ViewUpdateStatus&) = delete;
-
-        ViewUpdateStatus& operator=(const ViewUpdateStatus&) = delete;
-
-        void markDirty();
-
-    private:
-        QTimer* m_timer;
-        bool m_requiresUpdate;
-
-    private slots:
-        void trigger_update();
-
-    signals:
-        void update_now();
-};
 
 
 class ImagesTreeView: public QAbstractItemView
@@ -89,7 +68,7 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
-        ViewUpdateStatus m_viewStatus;
+        SignalFilter m_viewStatus;
 
         // view stuff
         const QRect getItemRect(const QModelIndex &) const;
@@ -98,6 +77,7 @@ class ImagesTreeView: public QAbstractItemView
         // widget operations
         void updateData();
         void updateGui();
+        void update();
         QPoint getOffset() const;
 
     private slots:
@@ -108,6 +88,9 @@ class ImagesTreeView: public QAbstractItemView
 
         // model updates
         void updateView();
+
+    signals:
+        void refreshView();
 };
 
 #endif // IMAGESTREEVIEW_H
