@@ -24,6 +24,12 @@
 #include <QTimer>
 
 
+std::chrono::milliseconds operator ""_fps(unsigned long long fps)
+{
+	return std::chrono::milliseconds(1000 / fps);
+}
+
+
 Receiver::Receiver(QObject* parent_object, const std::function<void()>& target, const std::chrono::milliseconds& ms):
     QObject(parent_object),
     m_block_time(ms),

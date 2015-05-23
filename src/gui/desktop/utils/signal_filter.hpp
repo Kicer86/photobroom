@@ -25,10 +25,8 @@
 
 #include <QObject>
 
-constexpr std::chrono::milliseconds operator ""_fps(unsigned long long fps)
-{
-    return std::chrono::milliseconds(1000/fps);
-}
+
+std::chrono::milliseconds operator ""_fps(unsigned long long fps);
 
 
 class Receiver: public QObject
