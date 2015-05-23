@@ -31,6 +31,7 @@
 #define DatabasePluginInterface_iid "org.broom.plugins.database.iplugin"
 
 class QLayout;
+
 namespace Database
 {
     struct IBackend;

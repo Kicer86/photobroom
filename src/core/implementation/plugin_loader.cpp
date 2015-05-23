@@ -65,7 +65,7 @@ namespace
                 pluginsDir.cd("database");
                 QFileInfoList db_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
 
-				m_logger->log( ILogger::Severity::Info, "Searching for plugins in: " + pluginsDir.path().toStdString() );
+                m_logger->log( ILogger::Severity::Info, "Searching for plugins in: " + pluginsDir.path().toStdString() );
 
                 m_found = true;
 

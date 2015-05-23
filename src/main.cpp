@@ -13,6 +13,7 @@
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
 
+
 int main(int argc, char **argv)
 {
     const QString basePath = System::getApplicationConfigDir() + "/logs";

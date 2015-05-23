@@ -1,6 +1,6 @@
 
-#ifndef __SYSTEM_HPP__
-#define __SYSTEM_HPP__
+#ifndef SYSTEM_HPP
+#define SYSTEM_HPP
 
 #include <QString>
 

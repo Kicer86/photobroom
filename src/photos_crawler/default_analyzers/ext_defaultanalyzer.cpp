@@ -23,15 +23,8 @@
 //#include <regex>  doesn't work as expected in gcc 4.7.2
 
 #include <QFileInfo>
-#include <QRegExp>
 
-namespace
-{
-    const QRegExp ext_regex("jpe?g", Qt::CaseInsensitive);
-}
-
-
-Ext_DefaultAnalyzer::Ext_DefaultAnalyzer()
+Ext_DefaultAnalyzer::Ext_DefaultAnalyzer(): m_ext_regex("jpe?g", Qt::CaseInsensitive)
 {
 
 }
@@ -47,7 +40,7 @@ bool Ext_DefaultAnalyzer::isImage(const QString &file_path)
 {
     QFileInfo path(file_path);
     const QString ext = path.suffix();
-    const bool matches = ext_regex.exactMatch(ext);
+    const bool matches = m_ext_regex.exactMatch(ext);
 
     return matches;
 }

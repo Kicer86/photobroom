@@ -21,6 +21,8 @@
 #ifndef EXT_DEFAULTANALYZER_HPP
 #define EXT_DEFAULTANALYZER_HPP
 
+#include <QRegExp>
+
 #include "ianalyzer.hpp"
 
 
@@ -33,6 +35,8 @@ class Ext_DefaultAnalyzer : public IAnalyzer
         virtual bool isImage(const QString &) override;
 
     private:
+        const QRegExp m_ext_regex;
+
         Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &) = delete;
         virtual Ext_DefaultAnalyzer& operator=(const Ext_DefaultAnalyzer &) = delete;
         virtual bool operator==(const Ext_DefaultAnalyzer &) const = delete;
