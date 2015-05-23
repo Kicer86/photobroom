@@ -46,7 +46,7 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
 
     auto update_event = std::bind(&ImagesTreeView::update, this);
 
-    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event);
+    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 4_fps);
 }
 
 

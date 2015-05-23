@@ -24,8 +24,9 @@
 #include <QTimer>
 
 
-Receiver::Receiver(QObject* parent_object, const std::function<void()>& target):
+Receiver::Receiver(QObject* parent_object, const std::function<void()>& target, const std::chrono::milliseconds& ms):
     QObject(parent_object),
+    m_block_time(ms),
     m_target(target),
     m_blocked(false),
     m_dirty(false)
@@ -41,7 +42,8 @@ void Receiver::notification()
     else
     {
         m_blocked = true;
-        QTimer::singleShot(100, this, &Receiver::clear);
+        const int ms = m_block_time.count();
+        QTimer::singleShot(ms, this, &Receiver::clear);
 
         m_target();
     }
@@ -74,8 +76,8 @@ SignalFilter::~SignalFilter()
 }
 
 
-void SignalFilter::connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, Qt::ConnectionType type)
+void SignalFilter::connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, const std::chrono::milliseconds& ms, Qt::ConnectionType type)
 {
-    Receiver* rec = new Receiver(this, target);
+    Receiver* rec = new Receiver(this, target, ms);
     QObject::connect(sender_obj, signal, rec, SLOT(notification()), type);
 }

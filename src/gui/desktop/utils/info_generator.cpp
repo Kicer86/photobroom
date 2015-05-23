@@ -83,10 +83,12 @@ void InfoGenerator::set(Database::IDatabase* database)
 
     if (m_database != nullptr)
     {
+        using namespace std::chrono_literals;
+
         auto listener = std::bind(&InfoGenerator::dbChanged, this);
         auto notifier = m_database->notifier();
-        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), listener);
-        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), listener);
+        m_signalFilter->connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), listener, 100ms);
+        m_signalFilter->connect(notifier, SIGNAL(photoModified(IPhotoInfo::Ptr)), listener, 100ms);
 
         //consider db dirty
         dbChanged();
