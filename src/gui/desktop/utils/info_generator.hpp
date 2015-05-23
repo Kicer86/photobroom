@@ -48,7 +48,7 @@ class InfoGenerator: public QObject
 
     private:
         Database::IDatabase* m_database;
-        SignalFilter* m_signalFiler;
+        SignalFilter* m_signalFilter;
         bool m_collection_empty;
         bool m_staged_area_empty;
         std::atomic<int> m_task_in_progress;

@@ -20,15 +20,35 @@
 #ifndef SIGNALFILTER_HPP
 #define SIGNALFILTER_HPP
 
+#include <chrono>
+#include <functional>
+
 #include <QObject>
 
-class QSignalMapper;
+
+std::chrono::milliseconds operator ""_fps(unsigned long long fps);
 
 
-class SignalFilter: public QObject
+class Receiver: public QObject
 {
         Q_OBJECT
 
+    public:
+        Receiver(QObject *, const std::function<void()> &, const std::chrono::milliseconds &);
+
+    private:
+        const std::chrono::milliseconds m_block_time;
+        std::function<void()> m_target;
+        bool m_blocked;
+        bool m_dirty;
+
+    public slots:
+        void notification();
+        void clear();
+};
+
+class SignalFilter: public QObject
+{
     public:
         SignalFilter(QObject *);
         SignalFilter(const SignalFilter &) = delete;
@@ -36,22 +56,8 @@ class SignalFilter: public QObject
 
         SignalFilter& operator=(const SignalFilter &) = delete;
 
-        void connect(QObject* sender, const char* signal,
-                     QObject* receiver, const char* method, Qt::ConnectionType type = Qt::AutoConnection);
-
-
-    private:
-        struct Receiver
-        {
-            QObject* receiver;
-            const char* method;
-        };
-
-        std::map<const QObject *, Receiver> m_signals;
-        QSignalMapper* m_mapper;
-
-    private slots:
-        void notification(QObject *);
+        void connect(QObject* sender_obj, const char* signal, const std::function<void()>& target,
+                     const std::chrono::milliseconds &, Qt::ConnectionType type = Qt::AutoConnection);
 };
 
 #endif // SIGNALFILTER_HPP

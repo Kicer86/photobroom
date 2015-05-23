@@ -76,10 +76,10 @@ namespace Configuration
                     if (rawData[i] == ':' || rawData[i] == '\0')     // ':' means that '::' goes
                     {
                         rawData[i++] = '\0';
-                        i++;                     // jump over first and second ':'
+                        i++;                                         // jump over first and second ':'
 
-                        pointers.push_back(&rawData[first_pos]);  //save current string
-                        first_pos = i;                            //mark first char of next one
+                        pointers.push_back(&rawData[first_pos]);     //save current string
+                        first_pos = i;                               //mark first char of next one
                     }
                     else
                         i++;

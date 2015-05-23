@@ -58,7 +58,7 @@ struct PhotoCrawler::Impl
     void run(const QString& path, IMediaNotification* notifications)
     {
         releaseThread();
-        m_thread.reset( new std::thread(trampoline, this, path, notifications) );
+        m_thread = std::make_unique<std::thread>(trampoline, this, path, notifications);
     }
 
     void releaseThread()

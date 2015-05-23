@@ -78,7 +78,11 @@ set(GUI_UI_FILES desktop/ui/mainwindow.ui
                  desktop/ui/project_picker.ui
     )
 
-source_group(files REGULAR_EXPRESSION .*gui.* )
+source_group(interface FILES gui.hpp)
+source_group(desktop .*\/desktop\/.* )
+source_group(desktop\\model_view .*\/model_view\/.* )
+source_group(desktop\\ui .*\/ui\/.* )
+source_group(generated_files \(moc.*\)|\(ui_.*\)|\(qrc_.*\) )
 
 qt5_wrap_cpp(GUI_WRAPPED_CPP ${GUI_FILES_TO_MOC})
 qt5_wrap_ui(GUI_WRAPPED_UI ${GUI_UI_FILES})

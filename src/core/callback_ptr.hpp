@@ -47,7 +47,7 @@ class callback_ptr_ctrl final
 
         void setup()
         {
-            m_data.reset( new Data(m_callback) );
+            m_data = std::make_shared<Data>(m_callback);
         }
 
         void reset()

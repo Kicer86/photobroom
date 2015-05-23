@@ -49,6 +49,12 @@ set(TO_MOC
     tag_editor/helpers/tags_model.hpp
     )
 
+source_group(files .*)
+source_group(filters_editor .*\/filters_editor\/.* )
+source_group(project_creator .*\/project_creator\/.* )
+source_group(tag_editor .*\/tag_editor\/.* )
+source_group(generated_files \(moc.*\)|\(ui_.*\)|\(qrc_.*\) )
+
 qt5_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(gui_widgets OBJECT ${SRCS} ${MOCED} ${HEADERS})

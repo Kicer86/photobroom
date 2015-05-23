@@ -21,10 +21,56 @@
 
 #include <cassert>
 
-#include <QSignalMapper>
+#include <QTimer>
 
 
-SignalFilter::SignalFilter(QObject* parent_object): QObject(parent_object), m_signals(), m_mapper(new QSignalMapper(this))
+std::chrono::milliseconds operator ""_fps(unsigned long long fps)
+{
+	return std::chrono::milliseconds(1000 / fps);
+}
+
+
+Receiver::Receiver(QObject* parent_object, const std::function<void()>& target, const std::chrono::milliseconds& ms):
+    QObject(parent_object),
+    m_block_time(ms),
+    m_target(target),
+    m_blocked(false),
+    m_dirty(false)
+{
+
+}
+
+
+void Receiver::notification()
+{
+    if (m_blocked)
+        m_dirty = true;
+    else
+    {
+        m_blocked = true;
+        const int ms = m_block_time.count();
+        QTimer::singleShot(ms, this, &Receiver::clear);
+
+        m_target();
+    }
+}
+
+
+void Receiver::clear()
+{
+    assert(m_blocked);
+
+    m_blocked = false;
+
+    if (m_dirty)
+    {
+        m_dirty = false;
+        notification();
+    }
+}
+
+
+SignalFilter::SignalFilter(QObject* parent_object): QObject(parent_object)
 {
 
 }
@@ -36,24 +82,8 @@ SignalFilter::~SignalFilter()
 }
 
 
-void SignalFilter::connect(QObject* sender_obj, const char* signal, QObject* receiver, const char* method, Qt::ConnectionType type)
+void SignalFilter::connect(QObject* sender_obj, const char* signal, const std::function<void()>& target, const std::chrono::milliseconds& ms, Qt::ConnectionType type)
 {
-    Receiver rec = {receiver, method};
-    m_signals[sender_obj] = rec;
-    m_mapper->setMapping(sender_obj, sender_obj);
-    QObject::connect(sender_obj, signal, m_mapper, SLOT(map()), type);
-}
-
-
-void SignalFilter::notification(QObject* obj)
-{
-    auto it = m_signals.find(obj);
-    assert(it != m_signals.end());
-
-    if (it != m_signals.end())
-    {
-        const Receiver& r = it->second;
-
-        QMetaObject::invokeMethod(r.receiver, r.method);
-    }
+    Receiver* rec = new Receiver(this, target, ms);
+    QObject::connect(sender_obj, signal, rec, SLOT(notification()), type);
 }
