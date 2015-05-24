@@ -5,7 +5,9 @@ include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports
                     ${CMAKE_SOURCE_DIR}/src
+                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
                     )
 
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
