@@ -19,15 +19,14 @@
 
 #include "plugin_loader.hpp"
 
-#include <ilogger.hpp>
-#include <ilogger_factory.hpp>
-
 #include <deque>
 #include <cassert>
 
 #include <QDir>
 #include <QPluginLoader>
 
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <system/filesystem.hpp>
 #include <database/idatabase_plugin.hpp>
 

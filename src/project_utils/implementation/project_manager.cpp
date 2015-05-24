@@ -25,13 +25,13 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include <core/iplugin_loader.hpp>
 #include <core/base_tags.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/constants.hpp>
 #include <database/idatabase_builder.hpp>
 #include <database/project_info.hpp>
 #include <database/idatabase.hpp>
+#include <plugins/iplugin_loader.hpp>
 
 #include "project.hpp"
 

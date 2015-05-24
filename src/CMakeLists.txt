@@ -8,6 +8,7 @@ add_subdirectory(configuration)
 add_subdirectory(photos_crawler)
 add_subdirectory(database)
 add_subdirectory(gui)
+add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(system)
 add_subdirectory(updater)
@@ -34,7 +35,7 @@ else()
 endif()
 
 add_executable(photo_broom ${EXE_FLAGS} ${BROOM_SOURCES})
-target_link_libraries(photo_broom core database configuration gui project_utils system Qt5::Core)
+target_link_libraries(photo_broom core database configuration gui plugins  project_utils system Qt5::Core)
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
 

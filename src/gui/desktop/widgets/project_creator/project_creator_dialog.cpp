@@ -34,8 +34,8 @@
 #include <QString>
 
 
-#include <core/iplugin_loader.hpp>
 #include <database/idatabase_plugin.hpp>
+#include <plugins/iplugin_loader.hpp>
 #include <project_utils/iproject_manager.hpp>
 
 Q_DECLARE_METATYPE(Database::IPlugin *)
