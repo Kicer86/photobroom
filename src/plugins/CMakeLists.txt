@@ -1,12 +1,14 @@
 
-find_package(OpenLibrary 2.0 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
-                           )
+include_directories(${CMAKE_BINARY_DIR}/exports
+                    ${CMAKE_SOURCE_DIR}/src
+                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
+                    )
+
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -19,9 +21,8 @@ set(HEADERS
     plugin_loader.hpp
 )
 
-add_library(plugins STATIC ${SRCS} ${HEADERS})
-target_link_libraries(plugins PRIVATE core database system Qt5::Core)
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+add_library(plugins OBJECT ${SRCS} ${HEADERS})
+set_target_properties(plugins PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 generate_export_header(plugins)
 hideSymbols(plugins)

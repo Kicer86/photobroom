@@ -19,7 +19,8 @@ find_package(Qt5Core REQUIRED)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS})
 
-set(BROOM_SOURCES main.cpp)
+set(BROOM_SOURCES main.cpp
+                  $<TARGET_OBJECTS:plugins>)
 
 if(WIN32)
 
@@ -35,7 +36,7 @@ else()
 endif()
 
 add_executable(photo_broom ${EXE_FLAGS} ${BROOM_SOURCES})
-target_link_libraries(photo_broom core database configuration gui plugins  project_utils system Qt5::Core)
+target_link_libraries(photo_broom core database configuration gui project_utils system Qt5::Core)
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
 
