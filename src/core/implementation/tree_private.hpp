@@ -138,9 +138,9 @@ namespace tree_private
             iterator operator+(int o) const
             {
 #ifndef NDEBUG
-				const size_t cur_pos = m_node - m_nodes.begin();
-				const size_t container_size = m_nodes->size();
-				assert(container_size >= cur_pos + o);               // is there enought elements?
+                const size_t cur_pos = m_node - m_nodes->begin();
+                const size_t container_size = m_nodes->size();
+                assert(container_size >= cur_pos + o);               // is there enought elements?
 #endif
                 iterator r(m_nodes, m_node + o);
 
@@ -150,9 +150,9 @@ namespace tree_private
             iterator operator+=(int o)
             {
 #ifndef NDEBUG
-				const size_t cur_pos = m_node - m_nodes->begin();
-				const size_t container_size = m_nodes->size();
-				assert(container_size >= cur_pos + o);               // is there enought elements?
+                const size_t cur_pos = m_node - m_nodes->begin();
+                const size_t container_size = m_nodes->size();
+                assert(container_size >= cur_pos + o);               // is there enought elements?
 #endif
                 m_node += o;
 
@@ -162,8 +162,8 @@ namespace tree_private
             iterator operator-(int o) const
             {
 #ifndef NDEBUG
-				const int cur_pos = m_node - m_nodes->begin();
-				assert(cur_pos >= o);
+                const int cur_pos = m_node - m_nodes->begin();
+                assert(cur_pos >= o);
 #endif
                 iterator r(m_nodes, m_node - o);
 
@@ -173,8 +173,8 @@ namespace tree_private
             iterator operator-=(int v)
             {
 #ifndef NDEBUG
-				const int cur_pos = m_node - m_nodes->begin();
-				assert(cur_pos >= v);
+                const int cur_pos = m_node - m_nodes->begin();
+                assert(cur_pos >= v);
 #endif
                 m_node -= v;
 

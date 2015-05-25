@@ -166,6 +166,4 @@ namespace tree_private
 }
 
 
-
 #endif // TREE_RECURSIVE_ITERATOR_HPP
-

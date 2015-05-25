@@ -22,13 +22,11 @@
 
 #include <memory>
 
-#include "core_export.h"
-
 #include "iplugin_loader.hpp"
 
 struct ILoggerFactory;
 
-class CORE_EXPORT PluginLoader: public IPluginLoader
+class PluginLoader: public IPluginLoader
 {
     public:
         PluginLoader();

@@ -31,7 +31,6 @@ set(CORE_SOURCES
     implementation/hash_functions.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
-    implementation/plugin_loader.cpp
     implementation/photos_manager.cpp
     implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
@@ -49,10 +48,8 @@ set(CORE_HEADERS
     ilogger_factory.hpp
     itagfeeder.hpp
     itask_executor.hpp
-    iplugin_loader.hpp
     logger.hpp
     logger_factory.hpp
-    plugin_loader.hpp
     photos_manager.hpp
     status.hpp
     tag.hpp

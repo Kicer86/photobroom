@@ -140,7 +140,7 @@ namespace tree_private
             }
  
         private:
-            template<typename T> friend class tree;
+            template<typename T> friend class ::tree;
 
             void jumpout()
             {

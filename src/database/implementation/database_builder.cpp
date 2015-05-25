@@ -28,7 +28,7 @@
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
 #include <configuration/constants.hpp>
-#include <core/plugin_loader.hpp>
+#include <plugins/plugin_loader.hpp>
 
 #include "ifs.hpp"
 #include "database_thread.hpp"

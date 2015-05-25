@@ -1,6 +1,7 @@
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(Threads)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -49,7 +50,7 @@ endif(BUILD_TESTS)
 source_group(photos_crawler REGULAR_EXPRESSION .*photos_crawler.* )
 
 add_library(photos_crawler ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(photos_crawler PRIVATE Qt5::Core)
+target_link_libraries(photos_crawler PRIVATE Qt5::Core ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(photos_crawler PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(photos_crawler)

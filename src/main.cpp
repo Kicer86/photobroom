@@ -4,14 +4,15 @@
 #include <vector>
 #include <string>
 
-#include <core/plugin_loader.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
+#include <plugins/plugin_loader.hpp>
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
+
 
 int main(int argc, char **argv)
 {

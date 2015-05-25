@@ -10,6 +10,7 @@ include_directories(SYSTEM ${Qt5Network_INCLUDE_DIRS})
 
 
 set(SRCS
+    iupdater.cpp
     updater.cpp
     implementation/updater_impl.cpp
     implementation/version.cpp

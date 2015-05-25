@@ -8,6 +8,7 @@ add_subdirectory(configuration)
 add_subdirectory(photos_crawler)
 add_subdirectory(database)
 add_subdirectory(gui)
+add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(system)
 add_subdirectory(updater)
@@ -18,7 +19,8 @@ find_package(Qt5Core REQUIRED)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS})
 
-set(BROOM_SOURCES main.cpp)
+set(BROOM_SOURCES main.cpp
+                  $<TARGET_OBJECTS:plugins>)
 
 if(WIN32)
 

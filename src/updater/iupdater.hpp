@@ -2,7 +2,10 @@
 #ifndef IUPDATER_HPP
 #define IUPDATER_HPP
 
+#include <functional>
+
 #include <QUrl>
+
 
 struct IUpdater
 {
@@ -21,7 +24,7 @@ struct IUpdater
 
     typedef std::function<void(const OnlineVersion &)> StatusCallback;
 
-    virtual ~IUpdater() {}
+    virtual ~IUpdater();
 
     virtual void getStatus(const StatusCallback &) = 0;
 };
