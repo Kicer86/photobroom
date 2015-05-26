@@ -17,24 +17,16 @@
  *
  */
 
-#ifndef HASHFUNCTIONS_H
-#define HASHFUNCTIONS_H
+#ifndef HASHFUNCTIONS_HPP
+#define HASHFUNCTIONS_HPP
 
 #include <string>
 
 #include "core_export.h"
 
-class CORE_EXPORT HashFunctions
+namespace  HashFunctions
 {
-    public:
-        static std::string sha256(const unsigned char *, unsigned int len);
-        static std::string sha256(std::istream &);
+    std::string CORE_EXPORT sha256(const unsigned char *, unsigned int len);
+}
 
-        static std::string md5(const unsigned char *, unsigned int len);
-        static std::string md5(std::istream &);
-
-    private:
-        static std::string format(unsigned char* raw, int len);
-};
-
-#endif // HASHFUNCTIONS_H
+#endif // HASHFUNCTIONS_HPP

@@ -2,19 +2,17 @@
 Required tools and libraries:
  - cmake - version 3.0 or later
  - Qt5 - version 5.4 or higher
- - OpenSSL or Nettle
- - Exiv2 of easyexif*
- - Boost
+ - hash-library*
+ - easyexif*
  - OpenMP (optional)
  - OpenLibrary
 
-* PhotoBroom at configuration phase will additionaly search for EasyExif in (TOP_SOURCE_DIR)/3rd_party/easyexif.
+* PhotoBroom at configuration phase will additionaly search for EasyExif and hash-library in (TOP_SOURCE_DIR)/3rd_party/.
   So if it is not installed in your system you may:
   - cd photo_broom_sources
   - mkdir 3rd_party
   - git clone https://github.com/mayanklahiri/easyexif.git
-
-or select proper checkbox in cmake-gui tool.
+  - git clone http://create.stephan-brumme.com/hash-library/.git 
 
 Tested compilers:
 1. gcc  (Linux and Windows)
@@ -23,6 +21,7 @@ Tested compilers:
 
 2. clang (Linux)
 
+VisualStudio is not supported due to missing support for c++11/14.
 
 PhotoBroom cannot be run from compilation dir without installing.
 On Linux it will search for plugins in destination (installation) dir.

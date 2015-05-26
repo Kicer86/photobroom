@@ -4,10 +4,10 @@
 find_package(OpenLibrary 2.0 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(EasyExif REQUIRED)
+find_package(HashLibrary REQUIRED)
 find_package(OpenMP)
 find_package(Threads)
-find_exif_package()
-find_cryptographic_package()       # OpenSSL or Nettle
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -17,7 +17,9 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
                            ${CRYPTOGRAPHIC_INCLUDE_DIR}
-                           ${EXIF_INCLUDE_DIR})
+                           ${EASYEXIF_INCLUDE_DIR}
+                           ${HASHLIBRARY_INCLUDE_DIR}
+                   )
 
 # some classes in core are using interface types of database. Is it ok? - to consider
 include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
@@ -71,26 +73,8 @@ set(CORE_MOC_FILES disk_observer.hpp)
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
-if(EXIV2_FOUND)
-
-    add_definitions(-DUSE_EXIV2)
-    set(CORE_SOURCES ${CORE_SOURCES} implementation/exiv2_tag_feeder.cpp)
-    set(CORE_HEADERS ${CORE_HEADERS} implementation/exiv2_tag_feeder.hpp)
-
-elseif(EASYEXIF_FOUND)
-
-    add_definitions(-DUSE_EASY_EXIF)
-    set(CORE_SOURCES ${CORE_SOURCES} implementation/easy_exif_tag_feeder.cpp)
-    set(CORE_HEADERS ${CORE_HEADERS} implementation/easy_exif_tag_feeder.hpp)
-
-endif(EXIV2_FOUND)
-
-
-if(OPENSSL_FOUND)
-    add_definitions(-DUSE_OPENSSL)
-elseif(NETTLE_FOUND)
-    add_definitions(-DUSE_NETTLE)
-endif(OPENSSL_FOUND)
+list(APPEND CORE_SOURCES implementation/easy_exif_tag_feeder.cpp)
+list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
 
 #task executor uses openmp
 if(OPENMP_FOUND)
@@ -103,7 +87,7 @@ endif()
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
-target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${CRYPTOGRAPHIC_LIBRARIES} ${EXIF_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${HASHLIBRARY_LIBRARIES} ${EASYEXIF_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 if(OPENMP_FOUND)
