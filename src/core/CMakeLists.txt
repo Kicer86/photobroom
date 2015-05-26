@@ -8,7 +8,7 @@ find_package(OpenMP)
 find_package(Threads)
 find_exif_package()
 
-add_subdirectory(implementation/cryptolib)
+add_subdirectory(cryptolib)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
