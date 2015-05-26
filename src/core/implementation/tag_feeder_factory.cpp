@@ -3,15 +3,7 @@
 
 #include <thread>
 
-#if defined USE_EXIV2
-	#include "exiv2_tag_feeder.hpp"
-	#define ExifTool Exiv2TagFeeder
-#elif defined USE_EASY_EXIF
-	#include "easy_exif_tag_feeder.hpp"
-	#define ExifTool EasyExifTagFeeder
-#else
-	#define ExifTool NullFeeder
-#endif
+#include "easy_exif_tag_feeder.hpp"
 
 #include "tag.hpp"
 #include "itagfeeder.hpp"
@@ -44,7 +36,7 @@ std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 
 	if (it == m_feeders.end())
 	{
-		auto feeder = std::make_shared<ExifTool>();
+        auto feeder = std::make_shared<EasyExifTagFeeder>();
 		auto data = std::make_pair(id, feeder);
 		auto in = m_feeders.insert(data);
 
