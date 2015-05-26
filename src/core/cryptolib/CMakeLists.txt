@@ -33,7 +33,7 @@ set(SRCS ${SRCS} utils.cpp utils.hpp)
 
 include_directories(SYSTEM ${CRYPTOGRAPHIC_INCLUDE_DIR})
 
-add_library(crypto STATIC ${SRCS} crypto.hpp)
+add_library(crypto ${SRCS} crypto.hpp)
 target_link_libraries(crypto PRIVATE ${CRYPTOGRAPHIC_LIBRARIES})
 target_include_directories(crypto PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 set_target_properties(crypto PROPERTIES POSITION_INDEPENDENT_CODE ON)
