@@ -7,14 +7,8 @@ For build instructions see build.txt file in 'docs' directory.
 
 External libraries and tools used  by Photo Broom:
  * Qt5 for gui.
- * OpenSSL or Nettle is used for cryptographic hash functions.
- * EasyExif or Exiv2 for exif access.
+ * hash-library is used for sha functions (http://create.stephan-brumme.com/hash-library/)
+ * EasyExif for exif access.  
  * OpenMP (when available).
  * Boost.
  * GMock and GTest
-
-Licenses of external tools and libraries are available under links below, and in "docs" directory
-http://www.boost.org/users/license.html
-https://www.openssl.org/source/license.html
-http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
-http://www.exiv2.org/download.html#license
