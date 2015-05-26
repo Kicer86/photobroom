@@ -66,6 +66,24 @@ macro(find_exif_package)
 endmacro(find_exif_package)
 
 
+macro(find_cryptographic_package)
+
+    find_package(OpenSSL)
+    
+    if(OPENSSL_FOUND)
+        set(CRYPTOGRAPHIC_INCLUDE_DIR ${OPENSSL_INCLUDE_DIR})
+        set(CRYPTOGRAPHIC_LIBRARIES ${OPENSSL_LIBRARIES})
+        install(FILES ${CMAKE_SOURCE_DIR}/docs/install/OpenSSL.txt DESTINATION ${PATH_DOCS})
+    else()
+        find_package(Nettle REQUIRED)
+
+        set(CRYPTOGRAPHIC_INCLUDE_DIR ${NETTLE_INCLUDE_DIRS})
+        set(CRYPTOGRAPHIC_LIBRARIES ${NETTLE_LIBRARIES})
+    endif()
+
+endmacro(find_cryptographic_package)
+
+
 # will setup:
 # ${lib}_srcs            - to list of all library sources
 # ${lib}_link_libraries  - to all necessary link libraries
