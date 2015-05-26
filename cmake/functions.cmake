@@ -48,42 +48,6 @@ function(addTestTarget target)
 
 endfunction(addTestTarget)
 
-
-macro(find_exif_package)
-
-    find_package(Exiv2)
-
-    if(EXIV2_FOUND)
-        set(EXIF_INCLUDE_DIR ${EXIV2_INCLUDE_DIRS})
-        set(EXIF_LIBRARIES ${EXIV2_LIBRARIES})
-    else()
-        find_package(EasyExif REQUIRED)
-
-        set(EXIF_INCLUDE_DIR ${EASYEXIF_INCLUDE_DIRS})
-        set(EXIF_LIBRARIES ${EASYEXIF_LIBRARIES})
-    endif()
-
-endmacro(find_exif_package)
-
-
-macro(find_cryptographic_package)
-
-    find_package(OpenSSL)
-    
-    if(OPENSSL_FOUND)
-        set(CRYPTOGRAPHIC_INCLUDE_DIR ${OPENSSL_INCLUDE_DIR})
-        set(CRYPTOGRAPHIC_LIBRARIES ${OPENSSL_LIBRARIES})
-        install(FILES ${CMAKE_SOURCE_DIR}/docs/install/OpenSSL.txt DESTINATION ${PATH_DOCS})
-    else()
-        find_package(Nettle REQUIRED)
-
-        set(CRYPTOGRAPHIC_INCLUDE_DIR ${NETTLE_INCLUDE_DIRS})
-        set(CRYPTOGRAPHIC_LIBRARIES ${NETTLE_LIBRARIES})
-    endif()
-
-endmacro(find_cryptographic_package)
-
-
 # will setup:
 # ${lib}_srcs            - to list of all library sources
 # ${lib}_link_libraries  - to all necessary link libraries
