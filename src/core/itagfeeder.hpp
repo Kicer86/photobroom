@@ -21,9 +21,9 @@ struct ITagFeeder
 
 struct ITagFeederFactory
 {
-	virtual ~ITagFeederFactory() {}
+    virtual ~ITagFeederFactory() {}
 
-	virtual std::shared_ptr<ITagFeeder> get() = 0;
+    virtual std::shared_ptr<ITagFeeder> get() = 0;
 };
 
 #endif

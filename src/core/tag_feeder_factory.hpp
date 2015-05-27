@@ -12,13 +12,13 @@
 
 class CORE_EXPORT TagFeederFactory: public ITagFeederFactory
 {
-	public:
-		TagFeederFactory();
+    public:
+        TagFeederFactory();
 
-		std::shared_ptr<ITagFeeder> get() override;
+        std::shared_ptr<ITagFeeder> get() override;
 
-	private:
-		std::map<std::thread::id, std::shared_ptr<ITagFeeder>> m_feeders;
+    private:
+        std::map<std::thread::id, std::shared_ptr<ITagFeeder>> m_feeders;
 };
 
 #endif
