@@ -11,6 +11,7 @@ Required tools and libraries:
   So if it is not installed in your system you may:
   - cd photo_broom_sources
   - mkdir 3rd_party
+  - cd 3rd_party
   - git clone https://github.com/mayanklahiri/easyexif.git
   - git clone http://create.stephan-brumme.com/hash-library/.git 
 
