@@ -22,12 +22,15 @@
 
 #include <memory>
 
+#include <QPixmap>
+#include <QByteArray>
+
 #include <database/iphoto_info.hpp>
 
 #include "core_export.h"
 
-class QPixmap;
-class QByteArray;
+
+
 class QString;
 
 class CORE_EXPORT PhotosManager
@@ -40,9 +43,8 @@ class CORE_EXPORT PhotosManager
 
         PhotosManager& operator=(const PhotosManager &) = delete;
 
-        void getPhoto(const IPhotoInfo::Ptr &, QPixmap *);
-        void getPhoto(const IPhotoInfo::Ptr &, QByteArray *);
-        void getPhoto(const QString& path, QByteArray *);
+        QByteArray getPhoto(const IPhotoInfo::Ptr &);
+        QByteArray getPhoto(const QString& path);
 
     private:
         PhotosManager();

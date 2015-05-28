@@ -49,10 +49,11 @@ struct ThumbnailGenerator: BaseTask
 
     virtual void perform() override
     {
-        QPixmap pixmap;
-        PhotosManager::instance()->getPhoto(m_photoInfo, &pixmap);
+        const QByteArray data = PhotosManager::instance()->getPhoto(m_photoInfo);
+        QPixmap image;
+        image.loadFromData(data);
 
-        const QPixmap thumbnail = pixmap.scaled(m_photoWidth, m_photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        const QPixmap thumbnail = image.scaled(m_photoWidth, m_photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         m_photoInfo->initThumbnail(thumbnail);
     }
@@ -78,8 +79,7 @@ struct Sha256Assigner: public BaseTask
 
     virtual void perform() override
     {
-        QByteArray data;
-        PhotosManager::instance()->getPhoto(m_photoInfo, &data);
+        const QByteArray data = PhotosManager::instance()->getPhoto(m_photoInfo);
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
         const IPhotoInfo::Sha256sum hash = HashFunctions::sha256(udata, data.size());

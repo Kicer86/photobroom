@@ -43,8 +43,7 @@ ATagFeeder::~ATagFeeder()
 
 Tag::TagsList ATagFeeder::getTagsFor(const QString& path)
 {
-    QByteArray data;
-    PhotosManager::instance()->getPhoto(path, &data);
+    const QByteArray data = PhotosManager::instance()->getPhoto(path);
 
     collect(data);
 

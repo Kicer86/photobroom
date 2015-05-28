@@ -22,9 +22,8 @@
 #include <mutex>
 
 #include <QCache>
-#include <QByteArray>
 #include <QFile>
-#include <QPixmap>
+
 
 
 struct PhotosManager::Data
@@ -56,38 +55,27 @@ PhotosManager* PhotosManager::instance()
 }
 
 
-void PhotosManager::getPhoto(const IPhotoInfo::Ptr& photo, QPixmap* pixmap)
+QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
 {
-    QByteArray data;
-    getPhoto(photo, &data);
-
-    pixmap->loadFromData(data);
+    return getPhoto(photoInfo->getPath());
 }
 
 
-void PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo, QByteArray* array)
-{
-    getPhoto(photoInfo->getPath(), array);
-}
-
-
-void PhotosManager::getPhoto(const QString& path, QByteArray* array)
+QByteArray PhotosManager::getPhoto(const QString& path)
 {
     std::unique_lock<std::mutex> lock(m_data->m_mutex);
 
-    QByteArray* raw = m_data->m_cache.object(path);
+    QByteArray* result = m_data->m_cache.object(path);
 
-    if (raw == nullptr)
+    if (result == nullptr)
     {
-        raw = new QByteArray;
-
         QFile photo(path);
         photo.open(QIODevice::ReadOnly);
 
-        *raw = photo.readAll();
+        result = new QByteArray(photo.readAll());
 
-        m_data->m_cache.insert(path, raw);
+        m_data->m_cache.insert(path, result);
     }
 
-    *array = *raw;
+    return *result;
 }
