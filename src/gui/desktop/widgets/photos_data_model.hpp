@@ -32,8 +32,6 @@ class PhotosDataModel: public DBDataModel
         ~PhotosDataModel();
 
         PhotosDataModel& operator=(const PhotosDataModel &) = delete;
-
-        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
 
 #endif // STAGINGDATAMODEL_H
