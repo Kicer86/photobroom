@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef DBDATAMODEL_H
-#define DBDATAMODEL_H
+#ifndef DBDATAMODEL_HPP
+#define DBDATAMODEL_HPP
 
 #include <memory>
 
@@ -105,4 +105,4 @@ class DBDataModel: public QAbstractItemModel
         Database::IDatabase* m_database;
 };
 
-#endif // DBDATAMODEL_H
+#endif // DBDATAMODEL_HPP
