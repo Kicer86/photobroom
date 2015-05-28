@@ -25,22 +25,16 @@
 
 PhotosDataModel::PhotosDataModel(QObject* p): DBDataModel(p)
 {
+    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    filter->flags[IPhotoInfo::FlagsE::StagingArea] = 0;
 
+    const std::deque<Database::IFilter::Ptr> filters( {filter});
+    
+    setModelSpecificFilter(filters);
 }
 
 
 PhotosDataModel::~PhotosDataModel()
 {
 
-}
-
-
-std::deque<Database::IFilter::Ptr> PhotosDataModel::getModelSpecificFilters() const
-{
-    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[IPhotoInfo::FlagsE::StagingArea] = 0;
-
-    const std::deque<Database::IFilter::Ptr> result( {filter});
-
-    return result;
 }

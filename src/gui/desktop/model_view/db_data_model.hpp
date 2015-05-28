@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef DBDATAMODEL_H
-#define DBDATAMODEL_H
+#ifndef DBDATAMODEL_HPP
+#define DBDATAMODEL_HPP
 
 #include <memory>
 
@@ -76,7 +76,9 @@ class DBDataModel: public QAbstractItemModel
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
-        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const = 0;
+        void setModelSpecificFilter(const std::deque<Database::IFilter::Ptr> &);
+        
+        const std::deque<Database::IFilter::Ptr>& getModelSpecificFilters() const;
 
         bool isEmpty() const;
 
@@ -103,6 +105,7 @@ class DBDataModel: public QAbstractItemModel
 
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
+        std::deque<Database::IFilter::Ptr> m_filters;
 };
 
-#endif // DBDATAMODEL_H
+#endif // DBDATAMODEL_HPP

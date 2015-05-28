@@ -199,6 +199,18 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 }
 
 
+void DBDataModel::setModelSpecificFilter(const std::deque<Database::IFilter::Ptr>& filters)
+{
+    m_filters = filters;
+}
+
+
+const std::deque<Database::IFilter::Ptr>& DBDataModel::getModelSpecificFilters() const
+{
+    return m_filters;
+}
+
+
 bool DBDataModel::isEmpty() const
 {
     IdxData* root = m_idxDataManager->getRoot();

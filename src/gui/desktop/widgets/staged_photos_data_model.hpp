@@ -35,9 +35,6 @@ class StagedPhotosDataModel: public DBDataModel
 
         void addPhoto(const QString &);
         void storePhotos();
-
-        // DBDataModel interface:
-        virtual std::deque<Database::IFilter::Ptr> getModelSpecificFilters() const override;
 };
 
 #endif // STAGEDPHOTOSDATAMODEL_HPP
