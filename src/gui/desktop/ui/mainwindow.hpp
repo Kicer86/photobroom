@@ -66,6 +66,7 @@ class MainWindow: public QMainWindow
         void setupView();
         void createMenus();
         void updateMenus();
+        void updateTitle();
         void updateGui();
         void updateTools();
         void viewChanged();
