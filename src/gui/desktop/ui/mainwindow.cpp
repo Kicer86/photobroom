@@ -50,8 +50,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     ui->setupUi(this);
     setupView();
-    createMenus();
-    updateMenus();
+    
+    createMenus();    
     updateGui();
 }
 
@@ -113,17 +113,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
         
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
-        
-        Database::IDatabase* db = m_currentPrj->getDatabase();
-
-        m_imagesModel->setDatabase(db);
-        m_stagedImagesModel->setDatabase(db);
-        m_infoGenerator->set(db);
     }
-
-    updateMenus();
-    updateGui();
-    updateTools();
 }
 
 
@@ -139,9 +129,7 @@ void MainWindow::closeProject()
         m_stagedImagesModel->setDatabase(nullptr);
         m_infoGenerator->set(nullptr);
 
-        updateMenus();
         updateGui();
-        updateTools();
     }
 }
 
@@ -196,12 +184,20 @@ void MainWindow::updateMenus()
 }
 
 
-void MainWindow::updateGui()
+void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
     const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No collection opened"));
 
     setWindowTitle(title);
+}
+
+
+void MainWindow::updateGui()
+{
+    updateMenus();
+    updateTitle();
+    updateTools();
 }
 
 
@@ -311,7 +307,14 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     switch(status.get())
     {
         case Database::StatusCodes::Ok:
+        {            
+            Database::IDatabase* db = m_currentPrj->getDatabase();
+
+            m_imagesModel->setDatabase(db);
+            m_stagedImagesModel->setDatabase(db);
+            m_infoGenerator->set(db);
             break;
+        }
 
         case Database::StatusCodes::BadVersion:
             QMessageBox::critical(this,
@@ -322,17 +325,30 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                  );
             closeProject();
             break;
+            
+        case Database::StatusCodes::OpenFailed:
+            QMessageBox::critical(this,
+                                  tr("Could not open collection"),
+                                  tr("Photo collection could not be opened.\n"
+                                     "It usually means that collection files are broken\n"
+                                     "or you don't have rights to access them.\n\n"
+                                     "Please check collection files:\n%1").arg(m_currentPrj->getPrjPath())
+                                 );
+            closeProject();
+            break;
 
         default:
             QMessageBox::critical(this,
                                   tr("Unexpected error"),
                                   tr("An unexpected error occured while opening photo collection.\n"
                                      "Please report a bug.\n"
-                                     "Error code: " + static_cast<int>( status.get()) )
+                                     "Error code: %1").arg(static_cast<int>( status.get()) )
                                  );
             closeProject();
             break;
     }
+
+    updateGui();
 }
 
 

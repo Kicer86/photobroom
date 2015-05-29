@@ -132,7 +132,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+153"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+141"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
@@ -222,7 +222,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+131"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -238,11 +238,39 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>Could not open collection</source>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Photo collection could not be opened.
+It usually means that collection files are broken
+or you don&apos;t have rights to access them.
+
+Please check collection files:
+%1</source>
+        <translation>Nie można było załadować kolekcji zdjęć.
+Zwykle oznacza to, że pliki kolekcji są uszkodzone
+lub nie posiadasz do nich praw dostępu.
+
+Sprawdź proszę pliki kolekcji:
+%1</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>An unexpected error occured while opening photo collection.
+Please report a bug.
+Error code: %1</source>
+        <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
+Proszę zgłosić błąd w programie.
+Kod błędu: %1</translation>
+    </message>
+    <message>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: </source>
-        <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
+        <translation type="vanished">Podczas otwierania kolekcji wystąpił niespodziewany błąd.
 Proszę zgłosić błąd w programie.
 Kod błędu: </translation>
     </message>
@@ -300,7 +328,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-47"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
