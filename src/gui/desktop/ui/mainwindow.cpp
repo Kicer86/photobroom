@@ -320,6 +320,17 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                  );
             closeProject();
             break;
+            
+        case Database::StatusCodes::OpenFailed:
+            QMessageBox::critical(this,
+                                  tr("Could not open collection"),
+                                  tr("Photo collection could not be opened.\n"
+                                     "It usually means that collection files are broken\n"
+                                     "or you don't have rights to access them.\n\n"
+                                     "Please check collection files:\n%1").arg(m_currentPrj->getPrjPath())
+                                 );
+            closeProject();
+            break;
 
         default:
             QMessageBox::critical(this,
