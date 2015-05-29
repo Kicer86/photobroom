@@ -51,8 +51,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->setupUi(this);
     setupView();
     
-    createMenus();
-    updateMenus();
+    createMenus();    
     updateGui();
 }
 
@@ -130,9 +129,7 @@ void MainWindow::closeProject()
         m_stagedImagesModel->setDatabase(nullptr);
         m_infoGenerator->set(nullptr);
 
-        updateMenus();
         updateGui();
-        updateTools();
     }
 }
 
@@ -187,12 +184,20 @@ void MainWindow::updateMenus()
 }
 
 
-void MainWindow::updateGui()
+void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
     const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No collection opened"));
 
     setWindowTitle(title);
+}
+
+
+void MainWindow::updateGui()
+{
+    updateMenus();
+    updateTitle();
+    updateTools();
 }
 
 
@@ -343,9 +348,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
             break;
     }
 
-    updateMenus();
     updateGui();
-    updateTools();
 }
 
 
