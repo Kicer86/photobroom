@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     ui->setupUi(this);
     setupView();
+    
     createMenus();
     updateMenus();
     updateGui();
@@ -113,17 +114,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
         
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
-        
-        Database::IDatabase* db = m_currentPrj->getDatabase();
-
-        m_imagesModel->setDatabase(db);
-        m_stagedImagesModel->setDatabase(db);
-        m_infoGenerator->set(db);
     }
-
-    updateMenus();
-    updateGui();
-    updateTools();
 }
 
 
@@ -311,7 +302,14 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     switch(status.get())
     {
         case Database::StatusCodes::Ok:
+        {            
+            Database::IDatabase* db = m_currentPrj->getDatabase();
+
+            m_imagesModel->setDatabase(db);
+            m_stagedImagesModel->setDatabase(db);
+            m_infoGenerator->set(db);
             break;
+        }
 
         case Database::StatusCodes::BadVersion:
             QMessageBox::critical(this,
@@ -328,11 +326,15 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                   tr("Unexpected error"),
                                   tr("An unexpected error occured while opening photo collection.\n"
                                      "Please report a bug.\n"
-                                     "Error code: " + static_cast<int>( status.get()) )
+                                     "Error code: %1").arg(static_cast<int>( status.get()) )
                                  );
             closeProject();
             break;
     }
+
+    updateMenus();
+    updateGui();
+    updateTools();
 }
 
 
