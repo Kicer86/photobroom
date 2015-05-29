@@ -240,7 +240,7 @@ Proszę zaktualizować aplikację.</translation>
     <message>
         <location line="+9"/>
         <source>Could not open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -250,14 +250,21 @@ or you don&apos;t have rights to access them.
 
 Please check collection files:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można było załadować kolekcji zdjęć.
+Zwykle oznacza to, że pliki kolekcji są uszkodzone
+lub nie posiadasz do nich praw dostępu.
+
+Sprawdź proszę pliki kolekcji:
+%1</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
+Proszę zgłosić błąd w programie.
+Kod błędu: %1</translation>
     </message>
     <message>
         <source>An unexpected error occured while opening photo collection.
