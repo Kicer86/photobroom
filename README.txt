@@ -10,5 +10,4 @@ External libraries and tools used  by Photo Broom:
  * hash-library is used for sha functions (http://create.stephan-brumme.com/hash-library/)
  * EasyExif for exif access.  
  * OpenMP (when available).
- * Boost.
  * GMock and GTest
