@@ -238,7 +238,22 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>Could not open collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Photo collection could not be opened.
+It usually means that collection files are broken
+or you don&apos;t have rights to access them.
+
+Please check collection files:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -306,7 +321,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-36"/>
+        <location line="-47"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
