@@ -132,7 +132,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+141"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
@@ -222,7 +222,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+131"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
