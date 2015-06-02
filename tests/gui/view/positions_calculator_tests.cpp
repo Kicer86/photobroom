@@ -107,7 +107,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 }
 
 
-TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
+TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 {
 
     // Situation:
@@ -131,7 +131,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
 
     top_idx->appendRow(top_child1_idx);
 
-    model.appendRow(top_idx);;
+    model.appendRow(top_idx);
 
     Data view_data;
     view_data.m_configuration = &config;
@@ -157,6 +157,60 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChild)
         const ModelIndexInfo& info = *view_data.cfind(top_idx->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                        // its position
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin), info.getOverallSize());      // no children expanded - overall == size
+    }
+}
+
+
+TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
+{
+
+    // Situation:
+    // two nodes with two children. Second node is expanded and its children are visible in one row.
+
+    using ::testing::_;
+    using ::testing::Return;
+    using ::testing::Invoke;
+
+    const int img_w = 100;
+    const int img_h = 50;
+    const int margin = 20;
+    const int canvas_w = 500;
+    const int header_h = 40;
+
+    MockConfiguration config;
+    QStandardItemModel model;
+
+    QStandardItem* top_idx = new QStandardItem( "Empty" );
+    QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+
+    top_idx->appendRow(top_child1_idx);
+
+    QStandardItem* top_idx2 = new QStandardItem( "Empty2" );
+    QStandardItem* top2_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+
+    top_idx2->appendRow(top2_child1_idx);
+
+    model.appendRow(top_idx);
+    model.appendRow(top_idx2);
+
+    Data view_data;
+    view_data.m_configuration = &config;
+    view_data.set(&model);
+
+    ViewDataModelObserver mo(&view_data.getModel(), &model);
+
+    //expand second node to show children
+    ModelIndexInfo& top_info = *view_data.get(top_idx2->index());
+    top_info.expanded = true;
+
+    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    calculator.updateItems();
+
+    {
+        const ModelIndexInfo& info = *view_data.cfind(top_idx2->index());
+
+        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                 // its position - just after first item of height `header_h`
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin), info.getOverallSize());      // no children expanded - overall == size
     }
 }

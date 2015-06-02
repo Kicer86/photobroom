@@ -293,17 +293,23 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator info
 
         //calculate overall only if node is expanded and has any children
         if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
+        {
+            const QPoint offset = info.getPosition();
+
             for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
             {
                 const ModelIndexInfo& c_info = *c_infoIt;
-                const QPoint& position = c_info.getPosition();
-                QSize c_size = c_info.getOverallSize();
-                assert(c_size.isValid());
 
-                c_size.setHeight(c_size.height() + position.y());
+                const QPoint c_relative_position = c_info.getPosition() - offset;
+                const QSize c_overall_size = c_info.getOverallSize();
+                assert(c_overall_size.isValid());
 
+                const QSize c_size(c_overall_size.width() + c_relative_position.x(),
+                                   c_overall_size.height() + c_relative_position.y());
+                
                 rect = rect.expandedTo(c_size);
             }
+        }
 
         info.setOverallSize(rect);
     }
