@@ -43,12 +43,12 @@ class PositionsCalculator
         QRect calcItemRect(Data::ModelIndexInfoSet::flat_iterator) const;
         QSize calcItemSize(Data::ModelIndexInfoSet::flat_iterator) const;
         QPoint calcItemPosition(Data::ModelIndexInfoSet::flat_iterator) const;
-        QPoint positionOfNext(Data::ModelIndexInfoSet::flat_iterator) const;          // calculate position of next item
-        QPoint positionOfNextImage(Data::ModelIndexInfoSet::flat_iterator) const;     // calculate position of next item (image item)
-        QPoint positionOfNextNode(Data::ModelIndexInfoSet::flat_iterator) const;      // calculate position of next item (node item)
-        QPoint positionOfFirstChild(Data::ModelIndexInfoSet::flat_iterator) const;    // calculate position for first item
+        QPoint calcPositionOfNext(Data::ModelIndexInfoSet::flat_iterator) const;          // calculate position of next item
+        QPoint calcPositionOfNextImage(Data::ModelIndexInfoSet::flat_iterator) const;     // calculate position of next item (image item)
+        QPoint calcPositionOfNextNode(Data::ModelIndexInfoSet::flat_iterator) const;      // calculate position of next item (node item)
+        QPoint calcPositionOfFirstChild(Data::ModelIndexInfoSet::flat_iterator) const;    // calculate position for first item
 
-        int getitemWidth(Data::ModelIndexInfoSet::flat_iterator) const;
+        int getItemWidth(Data::ModelIndexInfoSet::flat_iterator) const;
         int getItemHeigth(Data::ModelIndexInfoSet::flat_iterator) const;
         QSize getItemSize(Data::ModelIndexInfoSet::flat_iterator) const;
         std::pair<int, int> selectRowFor(Data::ModelIndexInfoSet::flat_iterator) const;
