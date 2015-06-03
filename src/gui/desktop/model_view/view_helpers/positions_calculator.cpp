@@ -120,12 +120,12 @@ QPoint PositionsCalculator::positionOfNextImage(Data::ModelIndexInfoSet::flat_it
     const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
     Data::ModelIndexInfoSet::flat_iterator next_it = infoIt + 1;
-    const int nextIndexWidth = getitemWidth(next_it);
+    const int nextIndexWidth = getItemWidth(next_it);
     Data::ModelIndexInfoSet::flat_iterator parentIt = infoIt.parent();
 
     QPoint result;
     if (item_pos.right() + nextIndexWidth < m_width)             //is there place for item?
-        result = QPoint(item_pos.x() + getitemWidth(infoIt), item_pos.y());
+        result = QPoint(item_pos.x() + getItemWidth(infoIt), item_pos.y());
     else                                                         //no space, add new row
     {
         int row_height = 0;
@@ -181,7 +181,7 @@ QPoint PositionsCalculator::positionOfFirstChild(Data::ModelIndexInfoSet::flat_i
 }
 
 
-int PositionsCalculator::getitemWidth(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::flat_iterator infoIt) const
 {
     int w = 0;
     if (m_data->isImage(infoIt))   //image
@@ -213,7 +213,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::flat_iterator in
 
 QSize PositionsCalculator::getItemSize(Data::ModelIndexInfoSet::flat_iterator infoIt) const
 {
-    const QSize item_size(getitemWidth(infoIt), getItemHeigth(infoIt));
+    const QSize item_size(getItemWidth(infoIt), getItemHeigth(infoIt));
 
     return item_size;
 }
