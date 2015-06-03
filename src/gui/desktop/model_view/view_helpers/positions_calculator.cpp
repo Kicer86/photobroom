@@ -60,14 +60,14 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::flat_iterator i
 
         if (it.index() == 0)  //first
         {
-            const QPoint point = positionOfFirstChild(it_parent);
+            const QPoint point = calcPositionOfFirstChild(it_parent);
 
             result = QRect(point, item_size);
         }
         else
         {
             Data::ModelIndexInfoSet::flat_iterator it_sibling = it - 1;
-            const QPoint point = positionOfNext(it_sibling);
+            const QPoint point = calcPositionOfNext(it_sibling);
 
             result = QRect(point, item_size);
         }
@@ -93,11 +93,11 @@ QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_itera
     if (it_parent.valid())              //do not enter for top item
     {
         if (it.index() == 0)  //first
-            result = positionOfFirstChild(it_parent);
+            result = calcPositionOfFirstChild(it_parent);
         else
         {
             Data::ModelIndexInfoSet::flat_iterator it_sibling = it - 1;
-            result = positionOfNext(it_sibling);
+            result = calcPositionOfNext(it_sibling);
         }
     }
 
@@ -105,17 +105,17 @@ QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_itera
 }
 
 
-QPoint PositionsCalculator::positionOfNext(Data::ModelIndexInfoSet::flat_iterator it) const
+QPoint PositionsCalculator::calcPositionOfNext(Data::ModelIndexInfoSet::flat_iterator it) const
 {
     const bool image = m_data->isImage(it);
-    const QPoint result = image? positionOfNextImage(it):
-                                 positionOfNextNode(it);
+    const QPoint result = image? calcPositionOfNextImage(it):
+                                 calcPositionOfNextNode(it);
 
     return result;
 }
 
 
-QPoint PositionsCalculator::positionOfNextImage(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::flat_iterator infoIt) const
 {
     const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
@@ -150,7 +150,7 @@ QPoint PositionsCalculator::positionOfNextImage(Data::ModelIndexInfoSet::flat_it
 }
 
 
-QPoint PositionsCalculator::positionOfNextNode(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::flat_iterator infoIt) const
 {
     assert(isRoot(infoIt) == false);
 
@@ -167,7 +167,7 @@ QPoint PositionsCalculator::positionOfNextNode(Data::ModelIndexInfoSet::flat_ite
 }
 
 
-QPoint PositionsCalculator::positionOfFirstChild(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::flat_iterator infoIt) const
 {
     QPoint result(0, 0);
 
