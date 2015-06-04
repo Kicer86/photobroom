@@ -285,6 +285,23 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
 
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfo& item_info = *item_it;
+
+    for(ModelIndexInfoSet::level_iterator it = item_it; it.valid(); --it)
+    {
+        const ModelIndexInfo& sibling_item = *it;
+
+        if (sibling_item.getPosition().y() < item_info.getPosition().y())       // is sibling_item in row over item?
+            if (sibling_item.getPosition().x() <= item_info.getPosition().x())  // and is exactly over it?
+            {
+                result = get(it);
+                break;
+            }
+    }
+
     return result;
 }
 
@@ -292,6 +309,23 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
 QModelIndex Data::getBottomOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
+
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfo& item_info = *item_it;
+
+    for(ModelIndexInfoSet::level_iterator it = item_it; it.valid(); ++it)
+    {
+        const ModelIndexInfo& sibling_item = *it;
+
+        if (sibling_item.getPosition().y() > item_info.getPosition().y())       // is sibling_item in row below item?
+            if (sibling_item.getPosition().x() >= item_info.getPosition().x())  // and is exactly below it?
+            {
+                result = get(it);
+                break;
+            }
+    }
 
     return result;
 }
