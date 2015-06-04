@@ -66,7 +66,6 @@ void ImagesTreeView::set(IConfiguration* configuration)
     {
         verticalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
         horizontalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
-
     }
 }
 
@@ -131,10 +130,18 @@ int ImagesTreeView::verticalOffset() const
 
 QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
 {
-    (void) cursorAction;
-    (void) modifiers;
+    const QModelIndex current = selectionModel()->currentIndex();
+    QModelIndex result = current;
 
-    return QModelIndex();
+    switch (cursorAction)
+    {
+        case MoveLeft:  result = m_data->getLeftOf(current);   break;
+        case MoveRight: result = m_data->getRightOf(current);  break;
+        case MoveDown:  result = m_data->getBottomOf(current); break;
+        case MoveUp:    result = m_data->getTopOf(current);    break;
+    }
+
+    return result;
 }
 
 
