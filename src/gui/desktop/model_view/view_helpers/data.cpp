@@ -248,8 +248,8 @@ QModelIndex Data::getRightOf(const QModelIndex& item) const
 
     if (right_it.valid())
     {
-        const ModelIndexInfo item_info = *item_it;
-        const ModelIndexInfo right_item = *right_it;
+        const ModelIndexInfo& item_info = *item_it;
+        const ModelIndexInfo& right_item = *right_it;
 
         if (item_info.getPosition().y() == right_item.getPosition().y())  // both at the same y?
             result = get(right_it);
@@ -270,8 +270,8 @@ QModelIndex Data::getLeftOf(const QModelIndex& item) const
 
     if (left_it.valid())
     {
-        const ModelIndexInfo item_info = *item_it;
-        const ModelIndexInfo left_item = *left_it;
+        const ModelIndexInfo& item_info = *item_it;
+        const ModelIndexInfo& left_item = *left_it;
 
         if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
             result = get(left_it);
