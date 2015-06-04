@@ -115,7 +115,7 @@ bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
 }
 
 
-QPixmap Data::getImage(ModelIndexInfoSet::flat_iterator it) const
+QPixmap Data::getImage(ModelIndexInfoSet::level_iterator it) const
 {
     QModelIndex index = get(it);
 
@@ -162,9 +162,9 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 {
     assert(m_model != nullptr);
 
-    ModelIndexInfoSet::flat_iterator flat_it(it);
-    ModelIndexInfoSet::iterator parent = flat_it.parent();
-    const size_t i = flat_it.index();
+    ModelIndexInfoSet::level_iterator level_it(it);
+    ModelIndexInfoSet::iterator parent = level_it.parent();
+    const size_t i = level_it.index();
 
     QModelIndex result;          //top item in tree == QModelIndex()
 
@@ -199,7 +199,7 @@ bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 
 bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 {
-    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::flat_iterator(it).parent();
+    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::level_iterator(it).parent();
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
@@ -213,7 +213,7 @@ bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 
 bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 {
-    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_flat_iterator(it).parent();
+    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_level_iterator(it).parent();
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible

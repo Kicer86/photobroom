@@ -1,5 +1,5 @@
 /*
- * Tree container - flat_iterator
+ * Tree container - level_iterator
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TREE_FLAT_ITERATOR_HPP
-#define TREE_FLAT_ITERATOR_HPP
+#ifndef TREE_LEVEL_ITERATOR_HPP
+#define TREE_LEVEL_ITERATOR_HPP
 
 
 #include "tree_iterator_base.hpp"
@@ -30,27 +30,27 @@ namespace tree_private
 {
 
     template<typename iterator>
-    class flat_iterator final: public iterator_base<iterator>
+    class level_iterator final: public iterator_base<iterator>
     {
             typedef iterator_base<iterator> base;
 
-            flat_iterator(const iterator& b): base(b)
+            level_iterator(const iterator& b): base(b)
             {
             }
 
         public:
-            flat_iterator(const base& other): base(other) { }
+            level_iterator(const base& other): base(other) { }
 
-            ~flat_iterator() {}
+            ~level_iterator() {}
 
-            flat_iterator& operator=(const flat_iterator& other)
+            level_iterator& operator=(const level_iterator& other)
             {
                 base::operator=(other);
 
                 return *this;
             }
 
-            flat_iterator& operator++()
+            level_iterator& operator++()
             {
                 iterator& c = base::current();
                 ++c;
@@ -58,15 +58,15 @@ namespace tree_private
                 return *this;
             }
 
-            flat_iterator operator++(int)
+            level_iterator operator++(int)
             {
-                flat_iterator it = *this;
+                level_iterator it = *this;
                 ++(*this);
 
                 return it;
             }
 
-            flat_iterator& operator--()
+            level_iterator& operator--()
             {
                 iterator& c = base::current();
                 --c;
@@ -74,7 +74,7 @@ namespace tree_private
                 return *this;
             }
 
-            flat_iterator operator--(int)
+            level_iterator operator--(int)
             {
                 iterator it = *this;
                 ++(*this);
@@ -82,25 +82,25 @@ namespace tree_private
                 return it;
             }
 
-            size_t operator-(const flat_iterator<iterator>& other) const
+            size_t operator-(const level_iterator<iterator>& other) const
             {
                 const size_t result = this->current() - other.current();
 
                 return result;
             }
 
-            flat_iterator operator+(int v) const
+            level_iterator operator+(int v) const
             {
-                flat_iterator result = *this;
+                level_iterator result = *this;
                 iterator& c = result.current();
                 c += v;
 
                 return result;
             }
 
-            flat_iterator operator-(int v) const
+            level_iterator operator-(int v) const
             {
-                flat_iterator result = *this;
+                level_iterator result = *this;
                 iterator& c = result.current();
                 c -= v;
 
@@ -114,9 +114,9 @@ namespace tree_private
             }
 
 
-            flat_iterator begin()
+            level_iterator begin()
             {
-                flat_iterator result = *this;
+                level_iterator result = *this;
 
                 auto it = base::current()->begin();
                 result.dive(it);
@@ -125,9 +125,9 @@ namespace tree_private
             }
 
 
-            flat_iterator end()
+            level_iterator end()
             {
-                flat_iterator result = *this;
+                level_iterator result = *this;
 
                 auto it = base::current()->end();
                 result.dive(it);
@@ -142,16 +142,16 @@ namespace tree_private
             }
 
 
-            flat_iterator& dive(const iterator& it)
+            level_iterator& dive(const iterator& it)
             {
                 base::m_iterators.push(it);
 
                 return *this;
             }
 
-            flat_iterator parent() const
+            level_iterator parent() const
             {
-                flat_iterator result = *this;
+                level_iterator result = *this;
 
                 if (result.m_iterators.size() == 1)
                     result = base::last();           // no parent
@@ -166,4 +166,4 @@ namespace tree_private
 }
 
 
-#endif // TREE_RECURSIVE_ITERATOR_HPP
+#endif // TREE_LEVEL_ITERATOR_HPP

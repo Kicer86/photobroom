@@ -48,11 +48,11 @@ void PositionsCalculator::updateItems() const
 }
 
 
-QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::flat_iterator it) const
+QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::level_iterator it) const
 {
     QRect result;
 
-    Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
+    Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
 
     if (it_parent.valid())              //do not enter for top item
     {
@@ -66,7 +66,7 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::flat_iterator i
         }
         else
         {
-            Data::ModelIndexInfoSet::flat_iterator it_sibling = it - 1;
+            Data::ModelIndexInfoSet::level_iterator it_sibling = it - 1;
             const QPoint point = calcPositionOfNext(it_sibling);
 
             result = QRect(point, item_size);
@@ -76,7 +76,7 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::flat_iterator i
     return result;
 }
 
-QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::flat_iterator it) const
+QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::level_iterator it) const
 {
     const QSize result = isRoot(it)? QSize(): getItemSize(it);
 
@@ -84,11 +84,11 @@ QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::flat_iterator i
 }
 
 
-QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_iterator it) const
+QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::level_iterator it) const
 {
     QPoint result;
 
-    Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
+    Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
 
     if (it_parent.valid())              //do not enter for top item
     {
@@ -96,7 +96,7 @@ QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_itera
             result = calcPositionOfFirstChild(it_parent);
         else
         {
-            Data::ModelIndexInfoSet::flat_iterator it_sibling = it - 1;
+            Data::ModelIndexInfoSet::level_iterator it_sibling = it - 1;
             result = calcPositionOfNext(it_sibling);
         }
     }
@@ -105,7 +105,7 @@ QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::flat_itera
 }
 
 
-QPoint PositionsCalculator::calcPositionOfNext(Data::ModelIndexInfoSet::flat_iterator it) const
+QPoint PositionsCalculator::calcPositionOfNext(Data::ModelIndexInfoSet::level_iterator it) const
 {
     const bool image = m_data->isImage(it);
     const QPoint result = image? calcPositionOfNextImage(it):
@@ -115,13 +115,13 @@ QPoint PositionsCalculator::calcPositionOfNext(Data::ModelIndexInfoSet::flat_ite
 }
 
 
-QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
-    Data::ModelIndexInfoSet::flat_iterator next_it = infoIt + 1;
+    Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
     const int nextIndexWidth = getItemWidth(next_it);
-    Data::ModelIndexInfoSet::flat_iterator parentIt = infoIt.parent();
+    Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
 
     QPoint result;
     if (item_pos.right() + nextIndexWidth < m_width)             //is there place for item?
@@ -130,10 +130,10 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::fla
     {
         int row_height = 0;
         const std::pair<int, int> selection = selectRowFor(infoIt);
-        Data::ModelIndexInfoSet::flat_iterator from = parentIt.begin() + selection.first;
-        Data::ModelIndexInfoSet::flat_iterator to = parentIt.begin() + selection.second;
+        Data::ModelIndexInfoSet::level_iterator from = parentIt.begin() + selection.first;
+        Data::ModelIndexInfoSet::level_iterator to = parentIt.begin() + selection.second;
 
-        for(Data::ModelIndexInfoSet::flat_iterator idxInfoIt = from; idxInfoIt != to; ++idxInfoIt)
+        for(Data::ModelIndexInfoSet::level_iterator idxInfoIt = from; idxInfoIt != to; ++idxInfoIt)
         {
             const ModelIndexInfo& idxInfo = *idxInfoIt;
             const QRect& idxRect = idxInfo.getRect();
@@ -150,7 +150,7 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::fla
 }
 
 
-QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     assert(isRoot(infoIt) == false);
 
@@ -167,7 +167,7 @@ QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::flat
 }
 
 
-QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     QPoint result(0, 0);
 
@@ -181,7 +181,7 @@ QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::fl
 }
 
 
-int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     int w = 0;
     if (m_data->isImage(infoIt))   //image
@@ -196,7 +196,7 @@ int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::flat_iterator inf
 }
 
 
-int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     int item_height = 0;
     if (m_data->isImage(infoIt))   //image
@@ -211,7 +211,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::flat_iterator in
 }
 
 
-QSize PositionsCalculator::getItemSize(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+QSize PositionsCalculator::getItemSize(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     const QSize item_size(getItemWidth(infoIt), getItemHeigth(infoIt));
 
@@ -219,11 +219,11 @@ QSize PositionsCalculator::getItemSize(Data::ModelIndexInfoSet::flat_iterator in
 }
 
 
-std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::flat_iterator lastIt) const
+std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::level_iterator lastIt) const
 {
     std::pair<int, int> result;
-    Data::ModelIndexInfoSet::flat_iterator searchIt = lastIt;
-    Data::ModelIndexInfoSet::flat_iterator firstIt = lastIt;
+    Data::ModelIndexInfoSet::level_iterator searchIt = lastIt;
+    Data::ModelIndexInfoSet::level_iterator firstIt = lastIt;
 
     const ModelIndexInfo& indexInfo = *lastIt;
     const QPoint& index_pos = indexInfo.getPosition();
@@ -245,15 +245,15 @@ std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::f
 }
 
 
-bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::flat_iterator it) const
+bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::level_iterator it) const
 {
-    Data::ModelIndexInfoSet::flat_iterator it_parent = it.parent();
+    Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
 
     return it_parent.valid() == false;
 }
 
 
-void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator item) const
+void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::level_iterator item) const
 {
     const bool invalid = item->valid() == false;
 
@@ -262,7 +262,7 @@ void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator ite
         const bool expanded = m_data->isExpanded(item);
 
         if (expanded)
-            for(Data::ModelIndexInfoSet::flat_iterator c_it = item.begin(); c_it.valid(); ++c_it)
+            for(Data::ModelIndexInfoSet::level_iterator c_it = item.begin(); c_it.valid(); ++c_it)
                 updateItems(c_it);
 
         updateItem(item);
@@ -270,7 +270,7 @@ void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::flat_iterator ite
 }
 
 
-void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator infoIt) const
+void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     ModelIndexInfo& info = *infoIt;
 
@@ -296,7 +296,7 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::flat_iterator info
         {
             const QPoint offset = info.getPosition();
 
-            for(Data::ModelIndexInfoSet::flat_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
+            for(Data::ModelIndexInfoSet::level_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
             {
                 const ModelIndexInfo& c_info = *c_infoIt;
 

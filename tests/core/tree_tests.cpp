@@ -62,8 +62,8 @@ TEST(treeTest, acceptsRootLevelInsertsAtRandomLocations)
 
     tr.insert(tr.end(), 1);           // (1)
     tr.insert(tr.end(), 3);           // (1 3)
-    tr.insert(tree<int>::flat_iterator(tr.begin()) + 1, 2);     // (1 2 3)
-    tr.insert(tree<int>::flat_iterator(tr.begin()) + 2, 8);     // (1 2 8 3)
+    tr.insert(tree<int>::level_iterator(tr.begin()) + 1, 2);     // (1 2 3)
+    tr.insert(tree<int>::level_iterator(tr.begin()) + 2, 8);     // (1 2 8 3)
 
     EXPECT_EQ(4, tr.end() - tr.begin());
     EXPECT_EQ("(1 2 8 3)", dump<int>(tr));
@@ -76,7 +76,7 @@ TEST(treeTest, acceptsChildLevelInserts)
 
     tr.insert(tr.end(), 1);
     tr.insert(tr.end(), 2);
-    tr.insert( tree<int>::flat_iterator(tr.begin()).begin(), 3);
+    tr.insert( tree<int>::level_iterator(tr.begin()).begin(), 3);
 
     EXPECT_EQ(3, tr.end() - tr.begin());
     EXPECT_EQ("(1(3) 2)", dump<int>(tr));
@@ -87,7 +87,7 @@ TEST(treeTest, acceptsChildLevelInsertsAtRandomLocations)
 {
     tree<int> tr;
 
-    typedef tree<int>::flat_iterator flat;
+    typedef tree<int>::level_iterator flat;
 
     tr.insert(tr.end(), 1);                         // (1)
     auto it = tr.insert(tr.end(), 3);               // (1 3)
@@ -124,7 +124,7 @@ TEST(treeTest, iterationsOverConstTree)
 TEST(treeTest, randomIteratorsGoThrouHierarchy)
 {
     tree<int> tr;
-    typedef tree<int>::flat_iterator flat;
+    typedef tree<int>::level_iterator flat;
 
     tr.insert(tr.end(), 1);                         // (1)
     auto it = tr.insert(tr.end(), 3);               // (1 3)
@@ -145,7 +145,7 @@ TEST(treeTest, randomIteratorsGoThrouHierarchy)
 TEST(treeTest, forwardTraversingThrouTree)
 {
     tree<int> tr;
-    typedef tree<int>::flat_iterator flat;
+    typedef tree<int>::level_iterator flat;
 
     tr.insert(tr.end(), 1);                         // (1)
     auto it = tr.insert(tr.end(), 3);               // (1 3)
@@ -172,7 +172,7 @@ TEST(treeTest, forwardTraversingThrouTree)
 TEST(treeTest, forwardTraversingThrouTree2)
 {
     tree<int> tr;
-    typedef tree<int>::flat_iterator flat;
+    typedef tree<int>::level_iterator flat;
 
     tr.insert(tr.end(), 1);                         // (1)
     auto it = tr.insert(tr.end(), 3);               // (1 3)

@@ -49,8 +49,8 @@ private:
     void resetRect(const QModelIndex &) const;
     void resetOverallRect(const QModelIndex &) const;
 
-    void resetPosition(Data::ModelIndexInfoSet::flat_iterator) const;
-    void resetSize(Data::ModelIndexInfoSet::flat_iterator) const;
+    void resetPosition(Data::ModelIndexInfoSet::level_iterator) const;
+    void resetSize(Data::ModelIndexInfoSet::level_iterator) const;
 };
 
 #endif // POSITIONSRESETER_H
