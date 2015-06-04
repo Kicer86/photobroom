@@ -64,7 +64,7 @@ set(CORE_HEADERS
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
     implementation/tree_private.hpp
-    implementation/tree_recursive_iterator.hpp
+    implementation/tree_flat_iterator.hpp
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)

@@ -1,5 +1,5 @@
 /*
- * Tree container - recursive_iterator
+ * Tree container - flat_iterator
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TREE_RECURSIVE_ITERATOR_HPP
-#define TREE_RECURSIVE_ITERATOR_HPP
+#ifndef TREE_FLAT_ITERATOR_HPP
+#define TREE_FLAT_ITERATOR_HPP
 
 #include <cassert>
 
@@ -30,27 +30,27 @@ namespace tree_private
 {
 
     template<typename iterator>
-    class recursive_iterator final: public iterator_base<iterator>
+    class flat_iterator final: public iterator_base<iterator>
     {
             typedef iterator_base<iterator> base;
 
-            recursive_iterator(const iterator& b): base(b)
+            flat_iterator(const iterator& b): base(b)
             {
             }
 
         public:
-            recursive_iterator(const base& other): base(other) { }
+            flat_iterator(const base& other): base(other) { }
 
-            ~recursive_iterator() {}
+            ~flat_iterator() {}
 
-            recursive_iterator& operator=(const recursive_iterator& other)
+            flat_iterator& operator=(const flat_iterator& other)
             {
                 base::operator=(other);
 
                 return *this;
             }
 
-            recursive_iterator& operator++()
+            flat_iterator& operator++()
             {
                 iterator& c = base::current();
                 auto& node = *c;
@@ -80,7 +80,7 @@ namespace tree_private
                 return *this;
             }
 
-            recursive_iterator operator++(int)
+            flat_iterator operator++(int)
             {
                 iterator it = *this;
                 ++(*this);
@@ -88,7 +88,7 @@ namespace tree_private
                 return it;
             }
 
-            recursive_iterator& operator--()
+            flat_iterator& operator--()
             {
                 //step back
 
@@ -122,7 +122,7 @@ namespace tree_private
                 return *this;
             }
 
-            recursive_iterator operator--(int)
+            flat_iterator operator--(int)
             {
                 iterator it = *this;
                 ++(*this);
@@ -130,10 +130,10 @@ namespace tree_private
                 return it;
             }
 
-            size_t operator-(const recursive_iterator<iterator>& other) const
+            size_t operator-(const flat_iterator<iterator>& other) const
             {
                 size_t r = 0;
-                for(recursive_iterator<iterator> it = *this; it != other; --it)
+                for(flat_iterator<iterator> it = *this; it != other; --it)
                     r++;
 
                 return r;
@@ -154,5 +154,5 @@ namespace tree_private
 
 
 
-#endif // TREE_RECURSIVE_ITERATOR_HPP
+#endif // TREE_FLAT_ITERATOR_HPP
 

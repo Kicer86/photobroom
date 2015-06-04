@@ -23,7 +23,7 @@
 #include <cassert>
 
 #include "implementation/tree_private.hpp"
-#include "implementation/tree_recursive_iterator.hpp"
+#include "implementation/tree_flat_iterator.hpp"
 #include "implementation/tree_level_iterator.hpp"
 
 template<typename T>
@@ -33,8 +33,8 @@ class tree final
         typedef typename tree_utils::node<T>::const_iterator const_node_iterator;
 
     public:
-        typedef typename tree_private::recursive_iterator<node_iterator> iterator;
-        typedef typename tree_private::recursive_iterator<const_node_iterator> const_iterator;
+        typedef typename tree_private::flat_iterator<node_iterator> iterator;
+        typedef typename tree_private::flat_iterator<const_node_iterator> const_iterator;
         typedef typename tree_private::level_iterator<node_iterator> level_iterator;
         typedef typename tree_private::level_iterator<const_node_iterator> const_level_iterator;
 
