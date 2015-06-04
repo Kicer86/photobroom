@@ -241,6 +241,20 @@ QModelIndex Data::getRightOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
 
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfoSet::level_iterator right_it = item_it + 1;
+
+    if (right_it.valid())
+    {
+        const ModelIndexInfo item_info = *item_it;
+        const ModelIndexInfo right_item = *right_it;
+
+        if (item_info.getPosition().y() == right_item.getPosition().y())  // both at the same y?
+            result = get(right_it);
+    }
+
     return result;
 }
 
@@ -248,6 +262,20 @@ QModelIndex Data::getRightOf(const QModelIndex& item) const
 QModelIndex Data::getLeftOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
+
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfoSet::level_iterator left_it = item_it - 1;
+
+    if (left_it.valid())
+    {
+        const ModelIndexInfo item_info = *item_it;
+        const ModelIndexInfo left_item = *left_it;
+
+        if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
+            result = get(left_it);
+    }
 
     return result;
 }
