@@ -66,6 +66,12 @@ class Data
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
 
+        //getting siblings
+        QModelIndex getRightOf(const QModelIndex &) const;
+        QModelIndex getLeftOf(const QModelIndex &) const;
+        QModelIndex getTopOf(const QModelIndex &) const;
+        QModelIndex getBottomOf(const QModelIndex &) const;
+
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;

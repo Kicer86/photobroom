@@ -235,3 +235,35 @@ Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
 }
+
+
+QModelIndex Data::getRightOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    return result;
+}
+
+
+QModelIndex Data::getLeftOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    return result;
+}
+
+
+QModelIndex Data::getTopOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    return result;
+}
+
+
+QModelIndex Data::getBottomOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    return result;
+}
