@@ -59,6 +59,15 @@ ImagesTreeView::~ImagesTreeView()
 void ImagesTreeView::set(IConfiguration* configuration)
 {
     m_data->m_configuration = configuration;
+    auto widthEntry = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+
+    assert(widthEntry);
+    if (widthEntry)
+    {
+        verticalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
+        horizontalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
+
+    }
 }
 
 
@@ -303,6 +312,7 @@ void ImagesTreeView::updateGui()
 
     verticalScrollBar()->setPageStep(areaSize.height());
     horizontalScrollBar()->setPageStep(areaSize.width());
+
     verticalScrollBar()->setRange(0, treeAreaSize.height() - areaSize.height());
     horizontalScrollBar()->setRange(0, treeAreaSize.width() - areaSize.width());
 }
