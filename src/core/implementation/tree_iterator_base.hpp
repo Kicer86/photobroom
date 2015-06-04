@@ -53,12 +53,12 @@ namespace tree_private
 
             bool operator==(const iterator_base& other) const
             {
-				return same(other);
+                return same(other);
             }
 
             bool operator!=(const iterator_base& other) const
             {
-				return !same(other);
+                return !same(other);
             }
 
             const RetType& operator*() const
@@ -126,25 +126,25 @@ namespace tree_private
                 return m_iterators.top();
             }
 
-			bool same(const iterator_base& other) const
-			{
-				bool status = true;
+            bool same(const iterator_base& other) const
+            {
+                bool status = true;
 
-				//same depth?
-				if (m_iterators.size() != other.m_iterators.size())
-					status = false;
-				else
-				{
-					//check top items (most deep ones) if they point to the same list of nodes and to the same position
-					const iterator& t_i = m_iterators.top();
-					const iterator& o_i = other.m_iterators.top();
+                //same depth?
+                if (m_iterators.size() != other.m_iterators.size())
+                    status = false;
+                else
+                {
+                    //check top items (most deep ones) if they point to the same list of nodes and to the same position
+                    const iterator& t_i = m_iterators.top();
+                    const iterator& o_i = other.m_iterators.top();
 
-					status = t_i.m_nodes == o_i.m_nodes &&
-					         t_i.m_node  == o_i.m_node;
-				}
+                    status = t_i.m_nodes == o_i.m_nodes &&
+                             t_i.m_node  == o_i.m_node;
+                }
 
-				return status;
-			}
+                return status;
+            }
     };
 
 }
