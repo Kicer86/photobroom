@@ -69,8 +69,6 @@ class Data
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
-
-        void for_each_recursively(ModelIndexInfoSet::flat_iterator, std::function<void(ModelIndexInfoSet::flat_iterator)>);
 };
 
 #endif // DATA_HPP
