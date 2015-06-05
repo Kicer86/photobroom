@@ -437,14 +437,22 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/project_picker.cpp" line="+83"/>
         <source>Project deletion</source>
-        <translation>Usunięcie projektu</translation>
+        <translation type="vanished">Usunięcie projektu</translation>
+    </message>
+    <message>
+        <source>Are you sure to remove project %1?</source>
+        <translation type="vanished">Czy na pewno usunąć projekt %1?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/project_picker.cpp" line="+83"/>
+        <source>Collection deletion</source>
+        <translation>Kasowanie kolekcji</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Are you sure to remove project %1?</source>
-        <translation>Czy na pewno usunąć projekt %1?</translation>
+        <source>Are you sure to remove collection %1?</source>
+        <translation>Czy na pewno usunąć kolekcję %1?</translation>
     </message>
 </context>
 <context>

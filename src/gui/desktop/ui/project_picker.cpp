@@ -80,8 +80,8 @@ void ProjectPicker::on_deleteButton_clicked()
     const ProjectInfo prj = selectedPrj();
 
     QMessageBox msgBox;
-    msgBox.setWindowTitle( tr("Project deletion") );
-    msgBox.setText( tr("Are you sure to remove project %1?").arg(prj.getName()) );
+    msgBox.setWindowTitle( tr("Collection deletion") );
+    msgBox.setText( tr("Are you sure to remove collection %1?").arg(prj.getName()) );
     msgBox.setIcon(QMessageBox::Question);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
