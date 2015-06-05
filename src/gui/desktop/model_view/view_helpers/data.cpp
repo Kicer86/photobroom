@@ -266,15 +266,18 @@ QModelIndex Data::getLeftOf(const QModelIndex& item) const
     const ModelIndexInfoSet::level_iterator item_it = get(item);
     assert(item_it.valid());
 
-    const ModelIndexInfoSet::level_iterator left_it = item_it - 1;
-
-    if (left_it.valid())
+    if (item_it.is_first() == false)
     {
-        const ModelIndexInfo& item_info = *item_it;
-        const ModelIndexInfo& left_item = *left_it;
+        const ModelIndexInfoSet::level_iterator left_it = item_it - 1;
 
-        if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
-            result = get(left_it);
+        if (left_it.valid())
+        {
+            const ModelIndexInfo& item_info = *item_it;
+            const ModelIndexInfo& left_item = *left_it;
+
+            if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
+                result = get(left_it);
+        }
     }
 
     return result;
@@ -290,7 +293,9 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
 
     const ModelIndexInfo& item_info = *item_it;
 
-    for(ModelIndexInfoSet::level_iterator it = item_it; it.valid(); --it)
+    ModelIndexInfoSet::level_iterator it = item_it;
+
+    while (true)
     {
         const ModelIndexInfo& sibling_item = *it;
 
@@ -300,6 +305,11 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
                 result = get(it);
                 break;
             }
+
+        if (it.is_first())
+            break;
+        else
+            --it;
     }
 
     return result;
