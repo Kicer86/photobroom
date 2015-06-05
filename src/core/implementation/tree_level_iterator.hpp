@@ -161,6 +161,20 @@ namespace tree_private
                 return result;
             }
 
+            bool is_first() const
+            {
+                const bool result = base::current() == base::first();
+
+                return result;
+            }
+
+            bool is_last() const
+            {
+                const bool result = base::current() == base::last();
+
+                return result;
+            }
+
     };
 
 }
