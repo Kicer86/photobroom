@@ -262,7 +262,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QModelIndex item = indexAt(e->pos());
     Data::ModelIndexInfoSet::iterator infoIt = m_data->find(item);
 
-    if (item.isValid() && infoIt.valid())
+    if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
     {
         ModelIndexInfo& info = *infoIt;
         info.expanded = !info.expanded;
