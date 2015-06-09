@@ -37,7 +37,7 @@ endfunction(install_external_lib)
 macro(addDeploymentActions)
 
     # install required dll files
-    set(libs_SSL libeay32)
+    #set(libs_SSL libeay32)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -64,7 +64,7 @@ macro(addDeploymentActions)
 
     endif()
             
-    install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
+    #install_external_lib(NAME "Open SSL"     DLLFILES ${libs_SSL})
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
     
     #Qt5
