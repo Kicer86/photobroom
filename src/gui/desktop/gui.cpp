@@ -62,7 +62,6 @@ void Gui::run(int argc, char **argv)
     Q_INIT_RESOURCE(images);
 #endif
 
-
     // On Windows, add extra location for Qt plugins
 #ifdef OS_WIN
     QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
