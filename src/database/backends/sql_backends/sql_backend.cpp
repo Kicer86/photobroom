@@ -833,7 +833,6 @@ namespace Database
         {
             QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
-            assert(m_data->m_dbOpen == db.isOpen());
             if (db.isValid() && db.isOpen())
             {
                 m_data->m_logger->log(ILogger::Severity::Info, "ASqlBackend: closing database connections.");
