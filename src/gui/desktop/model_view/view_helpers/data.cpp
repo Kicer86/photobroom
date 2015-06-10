@@ -348,7 +348,7 @@ QModelIndex Data::getFirst(const QModelIndex& item) const
 
     ModelIndexInfoSet::level_iterator result = item_it;
 
-    for (result; result.is_first() == false; --result);
+    for(; result.is_first() == false; --result);
 
     const QModelIndex resultIdx = get(result);
 
@@ -363,7 +363,7 @@ QModelIndex Data::getLast(const QModelIndex& item) const
 
     ModelIndexInfoSet::level_iterator result = item_it;
 
-    for (result; result.is_last() == false; ++result);
+    for (; result.is_last() == false; ++result);
 
     const QModelIndex resultIdx = get(result);
 
