@@ -248,10 +248,9 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
-        QStyleOptionViewItem styleOption;
+        QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
-        styleOption.palette = palette();
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
