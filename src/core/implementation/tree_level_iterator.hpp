@@ -170,7 +170,7 @@ namespace tree_private
 
             bool is_last() const
             {
-                const bool result = base::current() == base::last();
+                const bool result = base::current() + 1 == base::last();
 
                 return result;
             }
