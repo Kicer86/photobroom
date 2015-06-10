@@ -23,8 +23,8 @@
 #include <cassert>
 
 #include "implementation/tree_private.hpp"
-#include "implementation/tree_recursive_iterator.hpp"
 #include "implementation/tree_flat_iterator.hpp"
+#include "implementation/tree_level_iterator.hpp"
 
 template<typename T>
 class tree final
@@ -33,10 +33,10 @@ class tree final
         typedef typename tree_utils::node<T>::const_iterator const_node_iterator;
 
     public:
-        typedef typename tree_private::recursive_iterator<node_iterator> iterator;
-        typedef typename tree_private::recursive_iterator<const_node_iterator> const_iterator;
-        typedef typename tree_private::flat_iterator<node_iterator> flat_iterator;
-        typedef typename tree_private::flat_iterator<const_node_iterator> const_flat_iterator;
+        typedef typename tree_private::flat_iterator<node_iterator> iterator;
+        typedef typename tree_private::flat_iterator<const_node_iterator> const_iterator;
+        typedef typename tree_private::level_iterator<node_iterator> level_iterator;
+        typedef typename tree_private::level_iterator<const_node_iterator> const_level_iterator;
 
         typedef tree_utils::node<T> node;
 
@@ -137,7 +137,7 @@ class tree final
         
         std::string dump() const
         {
-            const std::string result = empty()? "": dumpNode( 0, const_flat_iterator(begin()) );
+            const std::string result = empty()? "": dumpNode( 0, const_level_iterator(begin()) );
             
             return result;
         }
@@ -152,7 +152,7 @@ class tree final
             return st;
         }
         
-        std::string dumpNode(int level, const_flat_iterator it) const
+        std::string dumpNode(int level, const_level_iterator it) const
         {
             std::string result;
            

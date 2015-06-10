@@ -90,8 +90,8 @@ class ViewDataSet final: public IViewDataSet
         typedef typename Model::const_iterator const_iterator;
         typedef typename Model::iterator       iterator;
 
-        typedef typename Model::const_flat_iterator const_flat_iterator;
-        typedef typename Model::flat_iterator       flat_iterator;
+        typedef typename Model::const_level_iterator const_level_iterator;
+        typedef typename Model::level_iterator       level_iterator;
 
         ViewDataSet(): m_model(), m_db_model(nullptr)
         {
@@ -115,7 +115,7 @@ class ViewDataSet final: public IViewDataSet
         {
             std::vector<size_t> hierarchy = generateHierarchy(index);
 
-            return _find<const_flat_iterator>(m_model, hierarchy);
+            return _find<const_level_iterator>(m_model, hierarchy);
         }
 
         const_iterator begin() const
@@ -147,7 +147,7 @@ class ViewDataSet final: public IViewDataSet
         {
             std::vector<size_t> hierarchy = generateHierarchy(index);
 
-            return _find<flat_iterator>(m_model, hierarchy);
+            return _find<level_iterator>(m_model, hierarchy);
         }
 
         iterator begin()
@@ -181,7 +181,7 @@ class ViewDataSet final: public IViewDataSet
         {
             //update model
             auto parentIt = find(parent);
-            iterator childIt = flat_iterator(parentIt).begin() + from;
+            iterator childIt = level_iterator(parentIt).begin() + from;
 
             for( int i = from; i <= to; i++)
             {
@@ -199,7 +199,7 @@ class ViewDataSet final: public IViewDataSet
         {
             //update model
             auto parentIt = find(parent);
-            flat_iterator flat_parent(parentIt);
+            level_iterator flat_parent(parentIt);
 
             if (flat_parent.children_count() > static_cast<unsigned int>(to))
             {
@@ -255,7 +255,7 @@ class ViewDataSet final: public IViewDataSet
         QAbstractItemModel* m_db_model;
 
         // TODO: introduce tests for validity
-        bool validate(QAbstractItemModel* model, const QModelIndex& index, const_flat_iterator it) const
+        bool validate(QAbstractItemModel* model, const QModelIndex& index, const_level_iterator it) const
         {
             bool equal = true;
 
@@ -313,7 +313,7 @@ class ViewDataSet final: public IViewDataSet
             assert(hierarchy_size > 0);
 
             //setup first item
-            flat_iterator item_it = m_model.end();
+            level_iterator item_it = m_model.end();
 
             for(size_t i = 0; i < hierarchy.size(); i++)
             {
@@ -322,20 +322,20 @@ class ViewDataSet final: public IViewDataSet
 
                 if (i == 0)
                 {
-                    flat_iterator b(m_model.begin());
-                    flat_iterator e(m_model.end());
+                    level_iterator b(m_model.begin());
+                    level_iterator e(m_model.end());
 
                     const size_t c = e - b;               // how many items?
                     if (pos < c)
                     {
                         assert(last == false);            // we want to insert item. If this is last level and there is such item, something went wrong (assert at top of the function should have catch it)
-                        item_it = flat_iterator(m_model.begin()) + hierarchy[i];
+                        item_it = level_iterator(m_model.begin()) + hierarchy[i];
                     }
                     else if (pos == c)                    // just append after last item?
                     {
                         if (last == false)                // for last level do nothing - we will instert this item later below
                         {
-                            flat_iterator ins = b + pos;
+                            level_iterator ins = b + pos;
                             item_it = m_model.insert(ins, T());
                         }
                     }
@@ -352,7 +352,7 @@ class ViewDataSet final: public IViewDataSet
                     }
                     else if (pos == c)                    //just append after last item?
                     {
-                        flat_iterator ins = item_it.begin() + pos;
+                        level_iterator ins = item_it.begin() + pos;
 
                         if (last)
                             item_it = ins;                // for last level of hierarchy set item_it to desired position
@@ -369,19 +369,19 @@ class ViewDataSet final: public IViewDataSet
             return it;
         }
 
-        iterator insert(flat_iterator it, const T& info)
+        iterator insert(level_iterator it, const T& info)
         {
             return m_model.insert(it, info);
         }
 
-        void loadIndex(const QModelIndex& p, flat_iterator p_it)
+        void loadIndex(const QModelIndex& p, level_iterator p_it)
         {
             assert(p_it.children_count() == 0);
             const int c = m_db_model->rowCount(p);
 
             for(int i = 0; i < c; i++)
             {
-                flat_iterator c_it = p_it.begin() + i;
+                level_iterator c_it = p_it.begin() + i;
                 QModelIndex c_idx = m_db_model->index(i, 0, p);
 
                 c_it = m_model.insert(c_it, T(c_idx));

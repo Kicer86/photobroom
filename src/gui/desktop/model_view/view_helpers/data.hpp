@@ -35,29 +35,6 @@ struct IConfiguration;
 class Data
 {
     public:
-        struct IndexHasher
-        {
-            std::size_t operator()(const QModelIndex& index) const
-            {
-                return reinterpret_cast<std::size_t>(index.internalPointer());
-            }
-        };
-
-        struct QRectCompare
-        {
-            bool operator()(const QRect& r1, const QRect& r2) const
-            {
-                bool result = false;
-
-                if (r1.y() < r2.y())
-                    result = true;
-                else if (r1.y() == r2.y())
-                    result = r1.x() < r2.x();
-
-                return result;
-            }
-        };
-
         typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
 
         const int indexMargin = 10;           // TODO: move to configuration
@@ -77,7 +54,7 @@ class Data
         
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const ModelIndexInfoSet::iterator &) const;
-        QPixmap getImage(Data::ModelIndexInfoSet::flat_iterator) const;
+        QPixmap getImage(Data::ModelIndexInfoSet::level_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
         QModelIndex get(const ModelIndexInfoSet::iterator &) const;
 
@@ -89,11 +66,18 @@ class Data
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
 
+        //getting siblings
+        QModelIndex getRightOf(const QModelIndex &) const;
+        QModelIndex getLeftOf(const QModelIndex &) const;
+        QModelIndex getTopOf(const QModelIndex &) const;
+        QModelIndex getBottomOf(const QModelIndex &) const;
+
+        QModelIndex getFirst(const QModelIndex &) const;
+        QModelIndex getLast(const QModelIndex &) const;
+
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
-
-        void for_each_recursively(ModelIndexInfoSet::flat_iterator, std::function<void(ModelIndexInfoSet::flat_iterator)>);
 };
 
 #endif // DATA_HPP

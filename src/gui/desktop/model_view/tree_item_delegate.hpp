@@ -36,16 +36,8 @@ class TreeItemDelegate: public QAbstractItemDelegate
         virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
     private:
-        struct RotationData
-        {
-            int rotation;
-        };
-        std::unique_ptr<QCache<QModelIndex, RotationData>> m_rotationData;
-
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-        
-        int getRotationFor(const QModelIndex &) const;
 };
 
 #endif // TREEITEMDELEGATE_HPP

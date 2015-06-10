@@ -59,6 +59,14 @@ ImagesTreeView::~ImagesTreeView()
 void ImagesTreeView::set(IConfiguration* configuration)
 {
     m_data->m_configuration = configuration;
+    auto widthEntry = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+
+    assert(widthEntry);
+    if (widthEntry)
+    {
+        verticalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
+        horizontalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
+    }
 }
 
 
@@ -83,7 +91,11 @@ bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
 
 QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 {
-    return getItemRect(index);
+    const QRect item_rect = getItemRect(index);
+    const QPoint offset = getOffset();
+    const QRect result = item_rect.translated(-offset);
+
+    return result;
 }
 
 
@@ -122,17 +134,51 @@ int ImagesTreeView::verticalOffset() const
 
 QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
 {
-    (void) cursorAction;
-    (void) modifiers;
+    const QModelIndex current = selectionModel()->currentIndex();
+    QModelIndex result = current;
 
-    return QModelIndex();
+    switch (cursorAction)
+    {
+        case MoveLeft:  result = m_data->getLeftOf(current);   break;
+        case MoveRight: result = m_data->getRightOf(current);  break;
+        case MoveDown:  result = m_data->getBottomOf(current); break;
+        case MoveUp:    result = m_data->getTopOf(current);    break;
+
+        case MoveHome:  result = m_data->getFirst(current);    break;
+        case MoveEnd:   result = m_data->getLast(current);    break;
+    }
+
+    return result;
 }
 
 
 void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint hint)
 {
-    (void) index;
-    (void) hint;
+    QPoint offset;
+
+    const QRect view = viewport()->rect();
+    const int height = view.height();
+    const QRect item_visual_rect = visualRect(index);
+    const QPoint topLeft = item_visual_rect.topLeft();
+    const QPoint bottomRight = item_visual_rect.bottomRight();
+
+    if (topLeft.y() < 0)
+    {
+        const int dy = topLeft.y();
+        offset.setY(dy);
+    }
+    else if (bottomRight.y() > height)
+    {
+        const int dy = bottomRight.y() - height;
+        offset.setY(dy);
+    }
+
+    if (offset.isNull() == false)
+    {
+        const int y = verticalScrollBar()->value();
+        const int ny = y + offset.y();
+        verticalScrollBar()->setValue(ny);
+    }
 }
 
 
@@ -191,10 +237,9 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
-        QStyleOptionViewItem styleOption;
+        QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
-        styleOption.palette = palette();
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
@@ -209,7 +254,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QModelIndex item = indexAt(e->pos());
     Data::ModelIndexInfoSet::iterator infoIt = m_data->find(item);
 
-    if (item.isValid() && infoIt.valid())
+    if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
     {
         ModelIndexInfo& info = *infoIt;
         info.expanded = !info.expanded;
@@ -303,6 +348,7 @@ void ImagesTreeView::updateGui()
 
     verticalScrollBar()->setPageStep(areaSize.height());
     horizontalScrollBar()->setPageStep(areaSize.width());
+
     verticalScrollBar()->setRange(0, treeAreaSize.height() - areaSize.height());
     horizontalScrollBar()->setRange(0, treeAreaSize.width() - areaSize.width());
 }

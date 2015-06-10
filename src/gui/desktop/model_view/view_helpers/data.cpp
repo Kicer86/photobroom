@@ -115,7 +115,7 @@ bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
 }
 
 
-QPixmap Data::getImage(ModelIndexInfoSet::flat_iterator it) const
+QPixmap Data::getImage(ModelIndexInfoSet::level_iterator it) const
 {
     QModelIndex index = get(it);
 
@@ -162,9 +162,9 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 {
     assert(m_model != nullptr);
 
-    ModelIndexInfoSet::flat_iterator flat_it(it);
-    ModelIndexInfoSet::iterator parent = flat_it.parent();
-    const size_t i = flat_it.index();
+    ModelIndexInfoSet::level_iterator level_it(it);
+    ModelIndexInfoSet::iterator parent = level_it.parent();
+    const size_t i = level_it.index();
 
     QModelIndex result;          //top item in tree == QModelIndex()
 
@@ -199,7 +199,7 @@ bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 
 bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 {
-    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::flat_iterator(it).parent();
+    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::level_iterator(it).parent();
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
@@ -213,7 +213,7 @@ bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
 
 bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 {
-    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_flat_iterator(it).parent();
+    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_level_iterator(it).parent();
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
@@ -234,4 +234,138 @@ const Data::ModelIndexInfoSet& Data::getModel() const
 Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
+}
+
+
+QModelIndex Data::getRightOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfoSet::level_iterator right_it = item_it + 1;
+
+    if (right_it.valid())
+    {
+        const ModelIndexInfo& item_info = *item_it;
+        const ModelIndexInfo& right_item = *right_it;
+
+        if (item_info.getPosition().y() == right_item.getPosition().y())  // both at the same y?
+            result = get(right_it);
+    }
+
+    return result;
+}
+
+
+QModelIndex Data::getLeftOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    if (item_it.is_first() == false)
+    {
+        const ModelIndexInfoSet::level_iterator left_it = item_it - 1;
+
+        if (left_it.valid())
+        {
+            const ModelIndexInfo& item_info = *item_it;
+            const ModelIndexInfo& left_item = *left_it;
+
+            if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
+                result = get(left_it);
+        }
+    }
+
+    return result;
+}
+
+
+QModelIndex Data::getTopOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfo& item_info = *item_it;
+
+    ModelIndexInfoSet::level_iterator it = item_it;
+
+    while (true)
+    {
+        const ModelIndexInfo& sibling_item = *it;
+
+        if (sibling_item.getPosition().y() < item_info.getPosition().y())       // is sibling_item in row over item?
+            if (sibling_item.getPosition().x() <= item_info.getPosition().x())  // and is exactly over it?
+            {
+                result = get(it);
+                break;
+            }
+
+        if (it.is_first())
+            break;
+        else
+            --it;
+    }
+
+    return result;
+}
+
+
+QModelIndex Data::getBottomOf(const QModelIndex& item) const
+{
+    QModelIndex result = item;
+
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    const ModelIndexInfo& item_info = *item_it;
+
+    for(ModelIndexInfoSet::level_iterator it = item_it; it.valid(); ++it)
+    {
+        const ModelIndexInfo& sibling_item = *it;
+
+        if (sibling_item.getPosition().y() > item_info.getPosition().y())       // is sibling_item in row below item?
+            if (sibling_item.getPosition().x() >= item_info.getPosition().x())  // and is exactly below it?
+            {
+                result = get(it);
+                break;
+            }
+    }
+
+    return result;
+}
+
+
+QModelIndex Data::getFirst(const QModelIndex& item) const
+{
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    ModelIndexInfoSet::level_iterator result = item_it;
+
+    for(; result.is_first() == false; --result);
+
+    const QModelIndex resultIdx = get(result);
+
+    return resultIdx;
+}
+
+
+QModelIndex Data::getLast(const QModelIndex& item) const
+{
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    ModelIndexInfoSet::level_iterator result = item_it;
+
+    for (; result.is_last() == false; ++result);
+
+    const QModelIndex resultIdx = get(result);
+
+    return resultIdx;
 }

@@ -20,11 +20,11 @@
 #ifndef TREE_FLAT_ITERATOR_HPP
 #define TREE_FLAT_ITERATOR_HPP
 
+#include <cassert>
 
 #include "tree_iterator_base.hpp"
 
 template<typename T> class tree;
-
 
 namespace tree_private
 {
@@ -53,14 +53,36 @@ namespace tree_private
             flat_iterator& operator++()
             {
                 iterator& c = base::current();
-                ++c;
+                auto& node = *c;
+
+                if (node.has_children())                          //dive
+                    base::m_iterators.push(node.begin());
+                else                                              //iterate
+                {
+                    bool do_jumpout = true;
+
+                    do
+                    {
+                        iterator& cur = base::current();
+                        ++cur;
+
+                        //last one at current level? pop out an keep going
+                        //anything to pop? (don't pop out from last)
+                        do_jumpout = cur == base::nodes_end() &&
+                                     base::m_iterators.size() > 1;
+
+                        if (do_jumpout)
+                            jumpout();
+                    }
+                    while(do_jumpout);
+                }
 
                 return *this;
             }
 
             flat_iterator operator++(int)
             {
-                flat_iterator it = *this;
+                iterator it = *this;
                 ++(*this);
 
                 return it;
@@ -68,8 +90,34 @@ namespace tree_private
 
             flat_iterator& operator--()
             {
+                //step back
+
+                //first one? go up
                 iterator& c = base::current();
-                --c;
+                if (c == base::nodes_begin())           //first one at current level? pop out an keep going
+                {
+                    if (base::m_iterators.size() > 1)   //anything to pop? (don't pop out from last)
+                        jumpout();
+                }
+                else
+                {
+                    --c;
+
+                    //go as deep as possible
+                    bool dive = true;
+                    do
+                    {
+                        iterator& cur = base::current();
+                        //subnodes?
+                        auto& node = *cur;
+
+                        dive = node.has_children();
+
+                        if (dive)                                     // dive
+                            base::m_iterators.push(node.end() - 1);   // ommit end(), go directly to last element
+                    }
+                    while(dive);
+                }
 
                 return *this;
             }
@@ -84,86 +132,27 @@ namespace tree_private
 
             size_t operator-(const flat_iterator<iterator>& other) const
             {
-                const size_t result = this->current() - other.current();
+                size_t r = 0;
+                for(flat_iterator<iterator> it = *this; it != other; --it)
+                    r++;
 
-                return result;
+                return r;
             }
+ 
+        private:
+            template<typename T> friend class ::tree;
 
-            flat_iterator operator+(int v) const
+            void jumpout()
             {
-                flat_iterator result = *this;
-                iterator& c = result.current();
-                c += v;
+                assert(base::m_iterators.size() > 1);
 
-                return result;
+                base::m_iterators.pop();
             }
-
-            flat_iterator operator-(int v) const
-            {
-                flat_iterator result = *this;
-                iterator& c = result.current();
-                c -= v;
-
-                return result;
-            }
-
-            size_t index() const
-            {
-                const size_t result = this->current() - this->first();
-                return result;
-            }
-
-
-            flat_iterator begin()
-            {
-                flat_iterator result = *this;
-
-                auto it = base::current()->begin();
-                result.dive(it);
-
-                return result;
-            }
-
-
-            flat_iterator end()
-            {
-                flat_iterator result = *this;
-
-                auto it = base::current()->end();
-                result.dive(it);
-
-                return result;
-            }
-
-            
-            size_t children_count() const
-            {
-                return base::current()->children_count();
-            }
-
-
-            flat_iterator& dive(const iterator& it)
-            {
-                base::m_iterators.push(it);
-
-                return *this;
-            }
-
-            flat_iterator parent() const
-            {
-                flat_iterator result = *this;
-
-                if (result.m_iterators.size() == 1)
-                    result = base::last();           // no parent
-                else
-                    result.m_iterators.pop();
-
-                return result;
-            }
-
     };
 
 }
 
 
-#endif // TREE_RECURSIVE_ITERATOR_HPP
+
+#endif // TREE_FLAT_ITERATOR_HPP
+
