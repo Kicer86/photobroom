@@ -72,6 +72,9 @@ class Data
         QModelIndex getTopOf(const QModelIndex &) const;
         QModelIndex getBottomOf(const QModelIndex &) const;
 
+        QModelIndex getFirst(const QModelIndex &) const;
+        QModelIndex getLast(const QModelIndex &) const;
+
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;

@@ -143,6 +143,9 @@ QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardMo
         case MoveRight: result = m_data->getRightOf(current);  break;
         case MoveDown:  result = m_data->getBottomOf(current); break;
         case MoveUp:    result = m_data->getTopOf(current);    break;
+
+        case MoveHome:  result = m_data->getFirst(current);    break;
+        case MoveEnd:   result = m_data->getLast(current);    break;
     }
 
     return result;

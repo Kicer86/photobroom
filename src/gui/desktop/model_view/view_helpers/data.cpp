@@ -339,3 +339,33 @@ QModelIndex Data::getBottomOf(const QModelIndex& item) const
 
     return result;
 }
+
+
+QModelIndex Data::getFirst(const QModelIndex& item) const
+{
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    ModelIndexInfoSet::level_iterator result = item_it;
+
+    for (result; result.is_first() == false; --result);
+
+    const QModelIndex resultIdx = get(result);
+
+    return resultIdx;
+}
+
+
+QModelIndex Data::getLast(const QModelIndex& item) const
+{
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
+
+    ModelIndexInfoSet::level_iterator result = item_it;
+
+    for (result; result.is_last() == false; ++result);
+
+    const QModelIndex resultIdx = get(result);
+
+    return resultIdx;
+}
