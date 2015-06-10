@@ -37,33 +37,6 @@
 #include "view_helpers/positions_reseter.hpp"
 #include "tree_item_delegate.hpp"
 
-namespace
-{
-    class Range
-    {
-        public:
-            Range(int from, int to): m_from(from), m_to(to) {}
-
-            bool isIn(int v) const
-            {
-                const bool in = v >= m_from && v <= m_to;
-                return in;
-            }
-
-            bool isIn(const Range& other) const
-            {
-                const bool from_in = isIn(other.m_from);
-                const bool to_in   = isIn(other.m_to);
-
-                return from_in && to_in;
-            }
-
-        private:
-            int m_from;
-            int m_to;
-    };
-}
-
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
@@ -178,18 +151,31 @@ QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardMo
 
 void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint hint)
 {
-    const auto index_it = m_data->get(index);
-    const ModelIndexInfo& info = *index_it;
-    const QPoint& pos = info.getPosition();
+    QPoint offset;
 
-    const QSize areaSize = viewport()->size();
-    const int v_pos = verticalScrollBar()->value();
+    const QRect view = viewport()->rect();
+    const int height = view.height();
+    const QRect item_visual_rect = visualRect(index);
+    const QPoint topLeft = item_visual_rect.topLeft();
+    const QPoint bottomRight = item_visual_rect.bottomRight();
 
-    const Range v_visual_range(v_pos, v_pos + areaSize.height());
-    const Range v_item_range(pos.y(), pos.y() + info.getSize().height());
+    if (topLeft.y() < 0)
+    {
+        const int dy = topLeft.y();
+        offset.setY(dy);
+    }
+    else if (bottomRight.y() > height)
+    {
+        const int dy = bottomRight.y() - height;
+        offset.setY(dy);
+    }
 
-    if (v_visual_range.isIn(v_item_range) == false)
-        verticalScrollBar()->setValue(pos.y());
+    if (offset.isNull() == false)
+    {
+        const int y = verticalScrollBar()->value();
+        const int ny = y + offset.y();
+        verticalScrollBar()->setValue(ny);
+    }
 }
 
 
