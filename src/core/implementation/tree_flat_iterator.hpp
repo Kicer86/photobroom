@@ -68,7 +68,7 @@ namespace tree_private
 
                         //last one at current level? pop out an keep going
                         //anything to pop? (don't pop out from last)
-                        do_jumpout = cur == base::last() &&
+                        do_jumpout = cur == base::nodes_end() &&
                                      base::m_iterators.size() > 1;
 
                         if (do_jumpout)
@@ -94,7 +94,7 @@ namespace tree_private
 
                 //first one? go up
                 iterator& c = base::current();
-                if (c == base::first())                 //first one at current level? pop out an keep going
+                if (c == base::nodes_begin())           //first one at current level? pop out an keep going
                 {
                     if (base::m_iterators.size() > 1)   //anything to pop? (don't pop out from last)
                         jumpout();

@@ -109,7 +109,7 @@ namespace tree_private
 
             size_t index() const
             {
-                const size_t result = this->current() - this->first();
+                const size_t result = this->current() - this->nodes_begin();
                 return result;
             }
 
@@ -154,7 +154,7 @@ namespace tree_private
                 level_iterator result = *this;
 
                 if (result.m_iterators.size() == 1)
-                    result = base::last();           // no parent
+                    result = base::nodes_end();           // no parent
                 else
                     result.m_iterators.pop();
 
@@ -163,14 +163,14 @@ namespace tree_private
 
             bool is_first() const
             {
-                const bool result = base::current() == base::first();
+                const bool result = base::current() == base::nodes_begin();
 
                 return result;
             }
 
             bool is_last() const
             {
-                const bool result = base::current() + 1 == base::last();
+                const bool result = base::current() + 1 == base::nodes_end();
 
                 return result;
             }

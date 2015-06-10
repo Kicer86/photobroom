@@ -93,7 +93,7 @@ namespace tree_private
 
             bool valid() const
             {
-                const bool status = current() != last();
+                const bool status = current() != nodes_end();
 
                 return status;
             }
@@ -102,7 +102,7 @@ namespace tree_private
             template<typename T> friend class tree;
             std::stack<iterator> m_iterators;
 
-            iterator first() const
+            iterator nodes_begin() const
             {
                 auto ns = current().get_nodes_list();
                 iterator result(ns, ns->begin());
@@ -114,7 +114,7 @@ namespace tree_private
                 return m_iterators.top();
             }
 
-            iterator last() const
+            iterator nodes_end() const
             {
                 auto ns = current().get_nodes_list();
                 iterator result(ns, ns->end());
