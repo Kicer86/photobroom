@@ -118,7 +118,11 @@ bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
 
 QRect ImagesTreeView::visualRect(const QModelIndex& index) const
 {
-    return getItemRect(index);
+    const QRect item_rect = getItemRect(index);
+    const QPoint offset = getOffset();
+    const QRect result = item_rect.translated(-offset);
+
+    return result;
 }
 
 
