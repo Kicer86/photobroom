@@ -155,7 +155,6 @@ namespace Database
         backend->set(m_impl->m_logger_factory);
         backend->set(m_impl->m_configuration);
         backend->addEventsObserver(storekeeper);
-        cache->setDatabase(database);
         storekeeper->setDatabase(database);
         storekeeper->setCache(cache);
 

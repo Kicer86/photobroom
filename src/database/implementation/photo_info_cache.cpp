@@ -36,14 +36,13 @@ namespace
 
 struct PhotoInfoCache::Data
 {
-    Data(): m_photo_cache(), m_database(nullptr) {}
+    Data(): m_photo_cache() {}
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
     ~Data() {}
 
     std::unordered_map<IPhotoInfo::Id, std::weak_ptr<IPhotoInfo>, PhotoInfoIdHash> m_photo_cache;
-    Database::IDatabase* m_database;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,33 +74,4 @@ void PhotoInfoCache::introduce(const IPhotoInfo::Ptr& ptr)
 {
     const auto id = ptr->getID();
     m_data->m_photo_cache[id] = ptr;
-
-    ptr->registerObserver(this);
-}
-
-
-void PhotoInfoCache::setDatabase(Database::IDatabase* database)
-{
-    m_data->m_database = database;
-}
-
-
-//TODO: those conditions there don't look nice...
-//is there nicer way for direct access to IPhotoInfo::Ptr?
-void PhotoInfoCache::photoUpdated(IPhotoInfo* photoInfo)
-{
-    //find photo in cache
-    IPhotoInfo::Id id = photoInfo->getID();
-    IPhotoInfo::Ptr ptr = find(id);
-
-    //we should be aware of all exisitng photo info
-    assert(ptr.get() != nullptr);
-
-    //when found update changed photo in database
-    if (ptr.get() != nullptr && ptr->isFullyInitialized())
-    {
-        std::unique_ptr<Database::AStorePhotoTask> task(new Update);
-
-        m_data->m_database->exec(std::move(task), ptr);
-    }
 }
