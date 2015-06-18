@@ -31,7 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoCache: public Database::IPhotoInfoCache, IPhotoInfo::IObserver
+class PhotoInfoCache: public Database::IPhotoInfoCache
 {
     public:
         PhotoInfoCache();
@@ -43,13 +43,9 @@ class PhotoInfoCache: public Database::IPhotoInfoCache, IPhotoInfo::IObserver
         IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const override;
         void introduce(const IPhotoInfo::Ptr &) override;
 
-        void setDatabase(Database::IDatabase *);
-
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
-
-        virtual void photoUpdated(IPhotoInfo *) override;
 };
 
 #endif // PHOTOINFOMANAGER_H

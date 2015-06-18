@@ -29,6 +29,7 @@
 #include <QTime>
 #include <QTextStream>
 #include <QDir>
+#include <QDebug>
 
 
 Logger::Logger(const QString& path, const std::vector<QString>& utility):
@@ -62,14 +63,17 @@ void Logger::setLevel(ILogger::Severity severity)
 void Logger::log(ILogger::Severity severity, const std::string& message)
 {
     assert(m_path.isEmpty() == false);
+
+    const QString m = QString("%1: %2").arg(currentTime()).arg(message.c_str());
     
     if (severity <= m_severity)
     {
         QTextStream fileStream(m_file);
 
-        fileStream << currentTime() << ": ";
-        fileStream << message.c_str() << "\n";
+        fileStream << m << "\n";
     }
+
+    qDebug() << m;
 }
 
 
