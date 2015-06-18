@@ -183,6 +183,7 @@ namespace Database
             BackendStatus exec(const QString& query, QSqlQuery* result) const;
             BackendStatus exec(const SqlQuery& query, QSqlQuery* result) const;
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
+            bool store(const TagValue& value, int photo_id, int tag_id) const;
             bool store(const IPhotoInfo::Ptr& data);
             IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
             std::deque<TagNameInfo> listTags() const;
@@ -294,6 +295,30 @@ namespace Database
         }
 
         return tagId;
+    }
+
+
+    bool ASqlBackend::Data::store(const TagValue& value, int photo_id, int tag_id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        //store tag values
+        const VariantConverter convert;
+        const QString tag_value = convert(value.get());
+
+        InsertQueryData queryData(TAB_TAGS);
+        queryData.setColumns("id", "value", "photo_id", "name_id");
+        queryData.setValues(InsertQueryData::Value::Null,
+                            tag_value,
+                            photo_id,
+                            tag_id);
+
+        auto query_str = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
+
+        const bool status = exec(query_str, &query);
+
+        return status;
     }
 
 
@@ -503,19 +528,9 @@ namespace Database
 
             if (tag_id)
             {
-                //store tag values
                 const TagValue& value = it->second;
-                const VariantConverter convert;
-                const QString tag_value = convert(value.get());
-
-                const QString query_str =
-                    QString("INSERT INTO " TAB_TAGS
-                            "(id, value, photo_id, name_id) VALUES(NULL, \"%1\", \"%2\", \"%3\");")
-                    .arg(tag_value)
-                    .arg(photo_id)
-                    .arg(*tag_id);
-
-                status = exec(query_str, &query);
+                const int tagid = *tag_id;
+                status = store(value, photo_id, tagid);
             }
             else
                 status = false;
