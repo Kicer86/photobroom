@@ -137,12 +137,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
         <source>Hint:</source>
-        <translation>Podpowiedź:</translation>
+        <translation type="vanished">Podpowiedź:</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+27"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -165,6 +164,16 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location line="+11"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Hint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>&amp;Tasks</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
