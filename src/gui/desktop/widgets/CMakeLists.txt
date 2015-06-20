@@ -1,5 +1,7 @@
 
 
+add_subdirectory(tasks_view)
+
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
                     

@@ -95,6 +95,7 @@ add_library(gui
             ${GUI_WRAPPED_UI}
             ${GUI_RESOURCES}
             $<TARGET_OBJECTS:gui_widgets>
+            $<TARGET_OBJECTS:gui_widgets_tasks_view>
             $<TARGET_OBJECTS:gui_utils>
            )
 
