@@ -19,6 +19,9 @@
 
 #include "tasks_view_widget.hpp"
 
+#include "itask.hpp"
+
+
 TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p)
 {
 
@@ -26,6 +29,18 @@ TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p)
 
 
 TasksViewWidget::~TasksViewWidget()
+{
+
+}
+
+
+void TasksViewWidget::add(ITask* task)
+{
+
+}
+
+
+void TasksViewWidget::finished(ITask* task)
 {
 
 }

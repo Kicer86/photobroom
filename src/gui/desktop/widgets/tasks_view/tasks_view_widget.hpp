@@ -22,11 +22,16 @@
 
 #include <QWidget>
 
+struct ITask;
+
 class TasksViewWidget: public QWidget
 {
     public:
         TasksViewWidget(QWidget* p = nullptr);
         ~TasksViewWidget();
+
+        void add(ITask *);
+        void finished(ITask *);
 };
 
-#endif // TASKSVIEWWIDGET_H
+#endif // TASKSVIEWWIDGET_HPP
