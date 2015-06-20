@@ -4,8 +4,8 @@
 
 #include <QStandardItemModel>
 
-#include <desktop/model_view/view_helpers/data.hpp>
-#include <desktop/model_view/view_helpers/positions_calculator.hpp>
+#include <desktop/images_model_view/view_helpers/data.hpp>
+#include <desktop/images_model_view/view_helpers/positions_calculator.hpp>
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"

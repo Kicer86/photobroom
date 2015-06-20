@@ -31,7 +31,7 @@
 
 #include <QItemSelectionModel>
 
-#include "model_view/db_data_model.hpp"
+#include "images_model_view/db_data_model.hpp"
 #include "tags_operator.hpp"
 
 

@@ -20,7 +20,7 @@
 #ifndef PHOTOSWIDGET_HPP
 #define PHOTOSWIDGET_HPP
 
-#include "model_view/images_tree_view.hpp"
+#include "images_model_view/images_tree_view.hpp"
 #include "widgets/iview.hpp"
 
 class PhotosWidget: public ImagesTreeView, public IView

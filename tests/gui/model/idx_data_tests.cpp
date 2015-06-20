@@ -1,8 +1,8 @@
 
 #include <gtest/gtest.h>
 
-#include <desktop/model_view/model_helpers/idx_data.hpp>
-#include <desktop/model_view/model_helpers/idx_data_manager.hpp>
+#include <desktop/images_model_view/model_helpers/idx_data.hpp>
+#include <desktop/images_model_view/model_helpers/idx_data_manager.hpp>
 #include <desktop/widgets/photos_data_model.hpp>
 
 

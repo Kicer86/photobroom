@@ -25,7 +25,7 @@
 
 #include "staged_photos_data_model.hpp"
 #include "ui/photos_view.hpp"
-#include "model_view/images_tree_view.hpp"
+#include "images_model_view/images_tree_view.hpp"
 
 
 StagedPhotosWidget::StagedPhotosWidget(QWidget* p): QWidget(p),

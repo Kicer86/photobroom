@@ -20,7 +20,7 @@
 #ifndef STAGINGDATAMODEL_H
 #define STAGINGDATAMODEL_H
 
-#include "model_view/db_data_model.hpp"
+#include "images_model_view/db_data_model.hpp"
 
 class QObject;
 
