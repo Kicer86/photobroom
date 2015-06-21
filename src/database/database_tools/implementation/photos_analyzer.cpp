@@ -221,6 +221,7 @@ void IncompletePhotos::got(const IPhotoInfo::List& photos)
         m_analyzerImpl->addPhoto(photo);
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -283,4 +284,3 @@ void PhotosAnalyzer::photoAdded(const IPhotoInfo::Ptr& photo)
 {
     m_data->addPhoto(photo);
 }
-
