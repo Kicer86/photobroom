@@ -1,14 +1,14 @@
 
-#ifndef ITASK_HPP
-#define ITASK_HPP
+#ifndef IVIEW_TASK_HPP
+#define IVIEW_TASK_HPP
 
 #include <QString>
 
 class QProgressBar;
 
-struct ITask
+struct IViewTask
 {
-    virtual ~ITask() {}
+    virtual ~IViewTask() {}
 
     virtual const QString& getName() = 0;
     virtual QProgressBar*  getProgressBar() = 0;

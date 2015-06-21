@@ -27,12 +27,12 @@
 #include <QProgressBar>
 #include <QLabel>
 
-#include <core/itask.hpp>
+#include <core/iview_task.hpp>
 
 
-struct TasksViewWidget::Task: QWidget, ITask
+struct TasksViewWidget::Task: QWidget, IViewTask
 {
-    Task(const QString& name, TasksViewWidget* parent): QWidget(parent), ITask(), m_name(name), m_progressBar(nullptr), m_parent(parent)
+    Task(const QString& name, TasksViewWidget* parent): QWidget(parent), IViewTask(), m_name(name), m_progressBar(nullptr), m_parent(parent)
     {
         m_progressBar = new QProgressBar(this);
         const QString format = QString("%1%p%").arg(name);
@@ -84,7 +84,7 @@ TasksViewWidget::~TasksViewWidget()
 }
 
 
-ITask* TasksViewWidget::add(const QString& name)
+IViewTask* TasksViewWidget::add(const QString& name)
 {
     Task* task = new Task(name, this);
 
@@ -94,7 +94,7 @@ ITask* TasksViewWidget::add(const QString& name)
 }
 
 
-void TasksViewWidget::finished(ITask* task)
+void TasksViewWidget::finished(IViewTask* task)
 {
     Task* t = static_cast<Task *>(task);
 

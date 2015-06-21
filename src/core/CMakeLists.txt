@@ -49,9 +49,9 @@ set(CORE_HEADERS
     ilogger.hpp
     ilogger_factory.hpp
     itagfeeder.hpp
-    itask.hpp
     itask_executor.hpp
     itasks_view.hpp
+    iview_task.hpp
     logger.hpp
     logger_factory.hpp
     photos_manager.hpp

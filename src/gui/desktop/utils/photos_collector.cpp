@@ -24,7 +24,7 @@
 #include <QProgressBar>
 
 #include <core/itasks_view.hpp>
-#include <core/itask.hpp>
+#include <core/iview_task.hpp>
 #include <photos_crawler/photo_crawler_builder.hpp>
 
 #include "widgets/staged_photos_data_model.hpp"
@@ -55,7 +55,7 @@ struct PhotosCollector::Data
 {
     StagedPhotosDataModel* m_model;
     ITasksView* m_tasksView;
-    ITask* m_task;
+    IViewTask* m_task;
     std::unique_ptr<IPhotoCrawler> m_crawler;
     PhotosReceiver m_receiver;
     bool m_workInProgress;

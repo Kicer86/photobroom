@@ -6,14 +6,14 @@
 
 class QProgressBar;
 
-struct ITask;
+struct IViewTask;
 
 
 struct ITasksView
 {
     virtual ~ITasksView() {}
 
-    virtual ITask* add(const QString& name) = 0;
+    virtual IViewTask* add(const QString& name) = 0;
 };
 
 #endif
