@@ -383,6 +383,14 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
 </context>
 <context>
+    <name>PhotosCollector</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+105"/>
+        <source>Collecting photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotosView</name>
     <message>
         <location filename="../src/gui/desktop/ui/photos_view.ui" line="+14"/>

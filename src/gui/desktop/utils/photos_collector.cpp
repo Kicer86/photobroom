@@ -24,6 +24,8 @@
 #include <photos_crawler/photo_crawler_builder.hpp>
 
 #include "widgets/staged_photos_data_model.hpp"
+#include "widgets/tasks_view/itasks_view.hpp"
+#include "widgets/tasks_view/itask.hpp"
 
 
 PhotosReceiver::PhotosReceiver(): m_model(nullptr)
@@ -51,11 +53,12 @@ struct PhotosCollector::Data
 {
     StagedPhotosDataModel* m_model;
     ITasksView* m_tasksView;
+    ITask* m_task;
     std::unique_ptr<IPhotoCrawler> m_crawler;
     PhotosReceiver m_receiver;
     bool m_workInProgress;
 
-    Data(): m_model(nullptr), m_tasksView(nullptr), m_crawler(nullptr), m_receiver(), m_workInProgress(false)
+    Data(): m_model(nullptr), m_tasksView(nullptr), m_task(nullptr), m_crawler(nullptr), m_receiver(), m_workInProgress(false)
     {
         m_crawler = PhotoCrawlerBuilder().build();
     }
@@ -96,6 +99,12 @@ void PhotosCollector::addDir(const QString& path)
 
     m_data->m_crawler->crawl(path, &m_data->m_receiver);
     m_data->m_workInProgress = true;
+
+    if (m_data->m_task == nullptr)
+    {
+        m_data->m_task = m_data->m_tasksView->add(tr("Collecting photos"));
+
+    }
 }
 
 
@@ -109,4 +118,11 @@ void PhotosCollector::workIsDone()
 {
     m_data->m_workInProgress = false;
     emit finished();
+
+    assert(m_data->m_task != nullptr);
+    if (m_data->m_task != nullptr)
+    {
+        m_data->m_task->finished();
+        m_data->m_task = nullptr;
+    }
 }
