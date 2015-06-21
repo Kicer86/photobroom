@@ -25,15 +25,18 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QProgressBar>
+#include <QLabel>
 
 #include "itask.hpp"
 
 
-struct TasksViewWidget::Task: ITask
+struct TasksViewWidget::Task: QWidget, ITask
 {
-    Task(const QString& name, TasksViewWidget* parent): m_name(name), m_progressBar(nullptr), m_parent(parent)
+    Task(const QString& name, TasksViewWidget* parent): QWidget(parent), ITask(), m_name(name), m_progressBar(nullptr), m_parent(parent)
     {
-        m_progressBar = new QProgressBar(parent);
+        m_progressBar = new QProgressBar(this);
+        const QString format = QString("%1%p%").arg(name);
+        m_progressBar->setFormat(format);
     }
 
     Task(const Task &) = delete;
@@ -60,11 +63,12 @@ struct TasksViewWidget::Task: ITask
 };
 
 
-TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p), m_tasks(), m_view(nullptr)
+TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p), m_view(nullptr)
 {
     m_view = new QScrollArea(this);
+    m_view->setWidgetResizable(true);
 
-    QWidget* mainWidget = new QWidget(m_view);
+    QWidget* mainWidget = new QWidget(this);
     new QVBoxLayout(mainWidget);
 
     m_view->setWidget(mainWidget);
@@ -82,14 +86,9 @@ TasksViewWidget::~TasksViewWidget()
 
 ITask* TasksViewWidget::add(const QString& name)
 {
-    QWidget* item = new QWidget(this);
-    QHBoxLayout* l = new QHBoxLayout(item);
-
     Task* task = new Task(name, this);
-    l->addWidget(task->getProgressBar());
 
-    m_tasks[task] = item;
-    getLayout()->addWidget(item);
+    getLayout()->addWidget(task);
 
     return task;
 }
@@ -97,17 +96,9 @@ ITask* TasksViewWidget::add(const QString& name)
 
 void TasksViewWidget::finished(ITask* task)
 {
-    auto it = m_tasks.find(task);
+    Task* t = static_cast<Task *>(task);
 
-    assert(it != m_tasks.end());
-
-    if (it != m_tasks.end())
-    {
-        QWidget* item = it->second;
-        item->deleteLater();
-
-        m_tasks.erase(it);
-    }
+    t->deleteLater();
 }
 
 

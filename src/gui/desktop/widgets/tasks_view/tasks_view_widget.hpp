@@ -42,8 +42,7 @@ class TasksViewWidget: public QWidget, public ITasksView
     private:
         struct Task;
         friend struct Task;
-
-        std::map<ITask *, QWidget *> m_tasks;
+        
         QScrollArea* m_view;
 
         void finished(ITask *);
