@@ -197,6 +197,7 @@ void MainWindow::setupView()
 
     //photos collector will write to stagedPhotosArea
     m_photosCollector->set(m_stagedImagesModel);
+    m_photosCollector->set(ui->tasksWidget);
 
     viewChanged();
 
