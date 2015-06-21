@@ -106,7 +106,7 @@
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="tasksWidget"/>
+   <widget class="TasksViewWidget" name="tasksWidget"/>
   </widget>
   <action name="actionNew_collection">
    <property name="text">
@@ -157,6 +157,12 @@
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
    <header>widgets/tag_editor/tag_editor_widget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TasksViewWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/tasks_view/tasks_view_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
