@@ -22,13 +22,13 @@
 
 #include <QWidget>
 
+#include "itasks_view.hpp"
+
 class QScrollArea;
 class QBoxLayout;
 
-struct ITask;
 
-
-class TasksViewWidget: public QWidget
+class TasksViewWidget: public QWidget, public ITasksView
 {
     public:
         TasksViewWidget(QWidget* p = nullptr);
@@ -37,8 +37,8 @@ class TasksViewWidget: public QWidget
 
         TasksViewWidget& operator=(const TasksViewWidget &) = delete;
 
-        void add(ITask*);
-        void finished(ITask*);
+        void add(ITask*) override;
+        void finished(ITask*) override;
 
     private:
         std::map<ITask *, QWidget *> m_tasks;

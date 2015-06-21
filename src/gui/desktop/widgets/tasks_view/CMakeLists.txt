@@ -8,6 +8,7 @@ set(SRCS
 
 set(HEADERS
     itask.hpp
+    itasks_view.hpp
     tasks_view_widget.hpp
     )
 
