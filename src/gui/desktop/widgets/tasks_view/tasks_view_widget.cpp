@@ -19,12 +19,27 @@
 
 #include "tasks_view_widget.hpp"
 
+#include <cassert>
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QScrollArea>
+#include <QProgressBar>
+
 #include "itask.hpp"
 
 
-TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p)
+TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p), m_tasks(), m_view(nullptr)
 {
+    m_view = new QScrollArea(this);
 
+    QWidget* mainWidget = new QWidget(m_view);
+    new QVBoxLayout(mainWidget);
+
+    m_view->setWidget(mainWidget);
+
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    mainLayout->addWidget(m_view);
 }
 
 
@@ -36,11 +51,37 @@ TasksViewWidget::~TasksViewWidget()
 
 void TasksViewWidget::add(ITask* task)
 {
+    QWidget* item = new QWidget(this);
+    QHBoxLayout* l = new QHBoxLayout(item);
 
+    l->addWidget(task->getProgressBar());
+
+    m_tasks[task] = item;
+    getLayout()->addWidget(item);
 }
 
 
 void TasksViewWidget::finished(ITask* task)
 {
+    auto it = m_tasks.find(task);
 
+    assert(it != m_tasks.end());
+
+    if (it != m_tasks.end())
+    {
+        QWidget* item = it->second;
+        item->deleteLater();
+    }
+}
+
+
+QBoxLayout* TasksViewWidget::getLayout()
+{
+    QWidget* w = m_view->widget();
+    QLayout* l = w->layout();
+
+    assert(dynamic_cast<QBoxLayout*>(l));
+    QBoxLayout *bl = static_cast<QBoxLayout *>(l);
+
+    return bl;
 }
