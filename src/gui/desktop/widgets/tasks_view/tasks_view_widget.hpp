@@ -22,7 +22,7 @@
 
 #include <QWidget>
 
-#include "itasks_view.hpp"
+#include <core/itasks_view.hpp>
 
 class QScrollArea;
 class QBoxLayout;
@@ -42,7 +42,7 @@ class TasksViewWidget: public QWidget, public ITasksView
     private:
         struct Task;
         friend struct Task;
-        
+
         QScrollArea* m_view;
 
         void finished(ITask *);

@@ -23,11 +23,11 @@
 
 #include <QProgressBar>
 
+#include <core/itasks_view.hpp>
+#include <core/itask.hpp>
 #include <photos_crawler/photo_crawler_builder.hpp>
 
 #include "widgets/staged_photos_data_model.hpp"
-#include "widgets/tasks_view/itasks_view.hpp"
-#include "widgets/tasks_view/itask.hpp"
 
 
 PhotosReceiver::PhotosReceiver(): m_model(nullptr)

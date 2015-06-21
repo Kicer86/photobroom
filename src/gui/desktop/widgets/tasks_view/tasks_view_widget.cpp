@@ -27,7 +27,7 @@
 #include <QProgressBar>
 #include <QLabel>
 
-#include "itask.hpp"
+#include <core/itask.hpp>
 
 
 struct TasksViewWidget::Task: QWidget, ITask
