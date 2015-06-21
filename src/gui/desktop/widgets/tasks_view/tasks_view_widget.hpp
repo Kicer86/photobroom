@@ -37,13 +37,16 @@ class TasksViewWidget: public QWidget, public ITasksView
 
         TasksViewWidget& operator=(const TasksViewWidget &) = delete;
 
-        void add(ITask*) override;
-        void finished(ITask*) override;
+        ITask* add(const QString &) override;
 
     private:
+        struct Task;
+        friend struct Task;
+
         std::map<ITask *, QWidget *> m_tasks;
         QScrollArea* m_view;
 
+        void finished(ITask *);
         QBoxLayout* getLayout();
 };
 

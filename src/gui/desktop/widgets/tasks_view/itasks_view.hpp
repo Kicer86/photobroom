@@ -13,8 +13,7 @@ struct ITasksView
 {
     virtual ~ITasksView() {}
 
-    virtual void add(ITask *) = 0;
-    virtual void finished(ITask *) = 0;
+    virtual ITask* add(const QString& name) = 0;
 };
 
 #endif

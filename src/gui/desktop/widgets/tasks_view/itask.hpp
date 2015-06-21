@@ -10,8 +10,10 @@ struct ITask
 {
     virtual ~ITask() {}
 
-    virtual QString       getName() = 0;
-    virtual QProgressBar* getProgressBar() = 0;
+    virtual const QString& getName() = 0;
+    virtual QProgressBar*  getProgressBar() = 0;
+
+    virtual void finished() = 0;
 };
 
 #endif

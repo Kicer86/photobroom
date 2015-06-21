@@ -29,6 +29,37 @@
 #include "itask.hpp"
 
 
+struct TasksViewWidget::Task: ITask
+{
+    Task(const QString& name, TasksViewWidget* parent): m_name(name), m_progressBar(nullptr), m_parent(parent)
+    {
+        m_progressBar = new QProgressBar(parent);
+    }
+
+    Task(const Task &) = delete;
+    Task& operator=(const Task &) = delete;
+
+    const QString& getName() override
+    {
+        return m_name;
+    }
+
+    QProgressBar* getProgressBar() override
+    {
+        return m_progressBar;
+    }
+
+    void finished() override
+    {
+        m_parent->finished(this);
+    }
+
+    QString m_name;
+    QProgressBar* m_progressBar;
+    TasksViewWidget* m_parent;
+};
+
+
 TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p), m_tasks(), m_view(nullptr)
 {
     m_view = new QScrollArea(this);
@@ -49,15 +80,18 @@ TasksViewWidget::~TasksViewWidget()
 }
 
 
-void TasksViewWidget::add(ITask* task)
+ITask* TasksViewWidget::add(const QString& name)
 {
     QWidget* item = new QWidget(this);
     QHBoxLayout* l = new QHBoxLayout(item);
 
+    Task* task = new Task(name, this);
     l->addWidget(task->getProgressBar());
 
     m_tasks[task] = item;
     getLayout()->addWidget(item);
+
+    return task;
 }
 
 
@@ -71,6 +105,8 @@ void TasksViewWidget::finished(ITask* task)
     {
         QWidget* item = it->second;
         item->deleteLater();
+
+        m_tasks.erase(it);
     }
 }
 
