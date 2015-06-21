@@ -243,7 +243,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+43"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -385,7 +385,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosCollector</name>
     <message>
-        <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+105"/>
+        <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+107"/>
         <source>Collecting photos</source>
         <translation type="unfinished"></translation>
     </message>
