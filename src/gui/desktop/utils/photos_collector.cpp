@@ -50,11 +50,12 @@ void PhotosReceiver::found(const QString &path)
 struct PhotosCollector::Data
 {
     StagedPhotosDataModel* m_model;
+    ITasksView* m_tasksView;
     std::unique_ptr<IPhotoCrawler> m_crawler;
     PhotosReceiver m_receiver;
     bool m_workInProgress;
 
-    Data(): m_model(nullptr), m_crawler(nullptr), m_receiver(), m_workInProgress(false)
+    Data(): m_model(nullptr), m_tasksView(nullptr), m_crawler(nullptr), m_receiver(), m_workInProgress(false)
     {
         m_crawler = PhotoCrawlerBuilder().build();
     }
@@ -73,6 +74,12 @@ PhotosCollector::PhotosCollector(QObject* p): QObject(p), m_data(new Data)
 PhotosCollector::~PhotosCollector()
 {
 
+}
+
+
+void PhotosCollector::set(ITasksView* tasksView)
+{
+    m_data->m_tasksView = tasksView;
 }
 
 
