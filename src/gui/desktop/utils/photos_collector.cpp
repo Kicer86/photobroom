@@ -21,6 +21,8 @@
 
 #include <cassert>
 
+#include <QProgressBar>
+
 #include <photos_crawler/photo_crawler_builder.hpp>
 
 #include "widgets/staged_photos_data_model.hpp"
@@ -103,7 +105,8 @@ void PhotosCollector::addDir(const QString& path)
     if (m_data->m_task == nullptr)
     {
         m_data->m_task = m_data->m_tasksView->add(tr("Collecting photos"));
-
+        m_data->m_task->getProgressBar()->setMinimum(0);
+        m_data->m_task->getProgressBar()->setMaximum(0);
     }
 }
 
