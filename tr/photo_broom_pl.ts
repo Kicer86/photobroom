@@ -168,12 +168,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+9"/>
         <source>Hint</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpowiedź</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>&amp;Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -387,15 +387,15 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+245"/>
         <source>Loading photos data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
 </context>
 <context>
     <name>PhotosCollector</name>
     <message>
         <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+107"/>
-        <source>Collecting photos</source>
-        <translation type="unfinished"></translation>
+        <source>Looking for photos...</source>
+        <translation>Wyszukiwanie zdjęć...</translation>
     </message>
 </context>
 <context>
