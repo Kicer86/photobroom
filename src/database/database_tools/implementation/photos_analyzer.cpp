@@ -23,8 +23,13 @@
 #include <condition_variable>
 #include <mutex>
 
+#include <QTimer>
+#include <QProgressBar>
+
 #include <OpenLibrary/putils/ts_resource.hpp>
 
+#include <core/itasks_view.hpp>
+#include <core/iview_task.hpp>
 #include <database/idatabase.hpp>
 
 #include "photo_info_updater.hpp"
@@ -134,11 +139,21 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-struct PhotosAnalyzer::Impl
+class PhotosAnalyzer::Impl: public QObject
 {
-        Impl(): m_database(nullptr), m_thread(), m_analyzerThread(trampoline, &m_thread)
+    public:
+        Impl():
+            m_database(nullptr),
+            m_thread(),
+            m_analyzerThread(trampoline, &m_thread),
+            m_timer(),
+            m_tasksView(nullptr),
+            m_viewTask(nullptr),
+            m_maxTasks(0)
         {
+            connect(&m_timer, &QTimer::timeout, this, &Impl::refreshView);
 
+            m_timer.start(500);
         }
 
         Impl(const Impl &) = delete;
@@ -184,6 +199,11 @@ struct PhotosAnalyzer::Impl
             m_thread.set(configuration);
         }
 
+        void set(ITasksView* tasksView)
+        {
+            m_tasksView = tasksView;
+        }
+
         Database::IDatabase* getDatabase()
         {
             return m_database;
@@ -212,6 +232,40 @@ struct PhotosAnalyzer::Impl
         Database::IDatabase* m_database;
         PhotosAnalyzerThread m_thread;
         std::thread m_analyzerThread;
+        QTimer m_timer;
+        ITasksView* m_tasksView;
+        IViewTask* m_viewTask;
+        int m_maxTasks;
+
+        void setupRefresher(const ol::ThreadSafeResource <std::deque<IPhotoInfo::Ptr>>::Accessor& photos)
+        {
+            if (photos->empty() == false && m_viewTask == nullptr)         //there are tasks but no view task
+            {
+                m_maxTasks = 0;
+                m_viewTask = m_tasksView->add(tr("Loading photos data..."));
+            }
+            else if (photos->empty() && m_viewTask != nullptr)
+            {
+                m_viewTask->finished();
+                m_viewTask = nullptr;
+            }
+        }
+
+        void refreshView()
+        {
+            auto photos = m_thread.m_photosToValidate.lock();
+            setupRefresher(photos);
+
+            if (m_viewTask != nullptr)
+            {
+                const int current_size = photos->size();
+                m_maxTasks = std::max(m_maxTasks, current_size);
+
+                QProgressBar* progressBar = m_viewTask->getProgressBar();
+                progressBar->setMaximum(m_maxTasks);
+                progressBar->setValue(m_maxTasks - current_size);
+            }
+        }
 };
 
 
@@ -271,6 +325,12 @@ void PhotosAnalyzer::set(ITaskExecutor* taskExecutor)
 void PhotosAnalyzer::set(IConfiguration* configuration)
 {
     m_data->set(configuration);
+}
+
+
+void PhotosAnalyzer::set(ITasksView* tasksView)
+{
+    m_data->set(tasksView);
 }
 
 

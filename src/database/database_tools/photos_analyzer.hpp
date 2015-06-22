@@ -26,6 +26,7 @@
 
 #include "database_export.h"
 
+struct ITasksView;
 struct ITaskExecutor;
 struct IConfiguration;
 
@@ -39,7 +40,7 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
         Q_OBJECT
 
     public:
-        struct Impl;
+        class Impl;
         
         PhotosAnalyzer();
         PhotosAnalyzer(const PhotosAnalyzer &) = delete;
@@ -50,6 +51,7 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
         void set(IConfiguration *);
+        void set(ITasksView *);
         void stop();
 
     private:
@@ -57,7 +59,6 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
 
     private slots:
         void photoAdded(const IPhotoInfo::Ptr &);
-
 };
 
 #endif // PHOTOS_ANALYZER_HPP

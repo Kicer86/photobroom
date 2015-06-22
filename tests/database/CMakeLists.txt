@@ -3,6 +3,7 @@ add_subdirectory(backends)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
