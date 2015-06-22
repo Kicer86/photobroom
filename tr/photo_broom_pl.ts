@@ -243,7 +243,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+45"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -380,6 +380,14 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location line="-35"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosAnalyzer</name>
+    <message>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+245"/>
+        <source>Loading photos data...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
