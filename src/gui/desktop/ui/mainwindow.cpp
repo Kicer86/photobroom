@@ -199,6 +199,8 @@ void MainWindow::setupView()
     m_photosCollector->set(m_stagedImagesModel);
     m_photosCollector->set(ui->tasksWidget);
 
+    m_photosAnalyzer->set(ui->tasksWidget);
+
     viewChanged();
 
     QTimer::singleShot(0, m_infoGenerator.get(), &InfoGenerator::externalRefresh);
