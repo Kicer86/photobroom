@@ -34,13 +34,14 @@ struct TasksViewWidget::Task: QWidget, IViewTask
 {
     Task(const QString& name, TasksViewWidget* parent): QWidget(parent), IViewTask(), m_name(name), m_progressBar(nullptr), m_parent(parent)
     {
-        QHBoxLayout* l = new QHBoxLayout(this);
-
         m_progressBar = new QProgressBar(this);
-        l->addWidget(m_progressBar);
 
         QLabel* label = new QLabel(name, this);
-        l->addWidget(label);
+        label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+        QHBoxLayout* l = new QHBoxLayout(this);
+        l->addWidget(m_progressBar, 30);
+        l->addWidget(label, 70);
     }
 
     Task(const Task &) = delete;
