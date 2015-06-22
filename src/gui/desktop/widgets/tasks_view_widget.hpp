@@ -44,6 +44,7 @@ class TasksViewWidget: public QWidget, public ITasksView
         friend struct Task;
 
         QScrollArea* m_view;
+        int m_tasks;
 
         void finished(IViewTask *);
         QBoxLayout* getLayout();
