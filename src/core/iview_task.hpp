@@ -4,14 +4,22 @@
 
 #include <QString>
 
-class QProgressBar;
+struct IProgressBar
+{
+    virtual ~IProgressBar() {}
+
+    virtual void setMinimum(int) = 0;
+    virtual void setMaximum(int) = 0;
+    virtual void setValue(int) = 0;
+};
+
 
 struct IViewTask
 {
     virtual ~IViewTask() {}
 
     virtual const QString& getName() = 0;
-    virtual QProgressBar*  getProgressBar() = 0;
+    virtual IProgressBar*  getProgressBar() = 0;
 
     virtual void finished() = 0;
 };

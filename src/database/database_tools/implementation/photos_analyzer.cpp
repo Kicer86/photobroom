@@ -24,7 +24,6 @@
 #include <mutex>
 
 #include <QTimer>
-#include <QProgressBar>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
@@ -261,7 +260,7 @@ class PhotosAnalyzer::Impl: public QObject
                 const int current_size = photos->size();
                 m_maxTasks = std::max(m_maxTasks, current_size);
 
-                QProgressBar* progressBar = m_viewTask->getProgressBar();
+                IProgressBar* progressBar = m_viewTask->getProgressBar();
                 progressBar->setMaximum(m_maxTasks);
                 progressBar->setValue(m_maxTasks - current_size);
             }

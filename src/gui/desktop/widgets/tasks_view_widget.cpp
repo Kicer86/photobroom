@@ -30,12 +30,43 @@
 #include <core/iview_task.hpp>
 
 
+struct ProgressBar: IProgressBar
+{
+    ProgressBar(QProgressBar* pb): m_progressBar(pb) {}
+    ProgressBar(const ProgressBar &) = delete;
+
+    ProgressBar& operator=(const ProgressBar &) = delete;
+
+    virtual void setMaximum(int v) override
+    {
+        m_progressBar->setMaximum(v);
+    }
+
+    virtual void setMinimum(int v) override
+    {
+        m_progressBar->setMinimum(v);
+    }
+
+    virtual void setValue(int v) override
+    {
+        m_progressBar->setValue(v);
+    }
+
+
+    QProgressBar* m_progressBar;
+};
+
+
 struct TasksViewWidget::Task: QWidget, IViewTask
 {
-    Task(const QString& name, TasksViewWidget* parent): QWidget(parent), IViewTask(), m_name(name), m_progressBar(nullptr), m_parent(parent)
+    Task(const QString& name, TasksViewWidget* parent):
+        QWidget(parent),
+        IViewTask(),
+        m_name(name),
+        m_progressBar(new QProgressBar(this)),
+        m_parent(parent),
+        m_progressBarInterface(m_progressBar)
     {
-        m_progressBar = new QProgressBar(this);
-
         QLabel* label = new QLabel(name, this);
         label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -52,9 +83,9 @@ struct TasksViewWidget::Task: QWidget, IViewTask
         return m_name;
     }
 
-    QProgressBar* getProgressBar() override
+    IProgressBar* getProgressBar() override
     {
-        return m_progressBar;
+        return &m_progressBarInterface;
     }
 
     void finished() override
@@ -65,6 +96,7 @@ struct TasksViewWidget::Task: QWidget, IViewTask
     QString m_name;
     QProgressBar* m_progressBar;
     TasksViewWidget* m_parent;
+    ProgressBar m_progressBarInterface;
 };
 
 
