@@ -30,28 +30,27 @@
 #include <core/iview_task.hpp>
 
 
-struct ProgressBar: IProgressBar
+struct ProgressBar final: IProgressBar
 {
     ProgressBar(QProgressBar* pb): m_progressBar(pb) {}
     ProgressBar(const ProgressBar &) = delete;
 
     ProgressBar& operator=(const ProgressBar &) = delete;
 
-    virtual void setMaximum(int v) override
+    void setMaximum(int v) override
     {
         m_progressBar->setMaximum(v);
     }
 
-    virtual void setMinimum(int v) override
+    void setMinimum(int v) override
     {
         m_progressBar->setMinimum(v);
     }
 
-    virtual void setValue(int v) override
+    void setValue(int v) override
     {
         m_progressBar->setValue(v);
     }
-
 
     QProgressBar* m_progressBar;
 };
