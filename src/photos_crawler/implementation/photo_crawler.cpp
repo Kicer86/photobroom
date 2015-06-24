@@ -9,8 +9,6 @@
 #include "ifile_system_scanner.hpp"
 #include "ianalyzer.hpp"
 
-void trampoline(PhotoCrawler::Impl*, const QString &, IMediaNotification *);
-
 namespace
 {
 
@@ -42,7 +40,7 @@ namespace
 struct PhotoCrawler::Impl
 {
     Impl(const std::shared_ptr<IFileSystemScanner>& scanner,
-         const std::shared_ptr<IAnalyzer>& analyzer): m_scanner(scanner), m_analyzer(analyzer), m_thread(nullptr) {}
+         const std::shared_ptr<IAnalyzer>& analyzer): m_scanner(scanner), m_analyzer(analyzer), m_thread() {}
     ~Impl()
     {
         releaseThread();
@@ -53,21 +51,22 @@ struct PhotoCrawler::Impl
 
     std::shared_ptr<IFileSystemScanner> m_scanner;
     std::shared_ptr<IAnalyzer> m_analyzer;
-    std::unique_ptr<std::thread> m_thread;
+    std::thread m_thread;
 
     void run(const QString& path, IMediaNotification* notifications)
     {
         releaseThread();
-        m_thread = std::make_unique<std::thread>(trampoline, this, path, notifications);
+        
+        m_thread = std::thread( [&]
+        {
+            this->thread(path, notifications);
+        });
     }
 
     void releaseThread()
     {
-        if (m_thread.get() != nullptr)
-        {
-            assert(m_thread->joinable());
-            m_thread->join();
-        }
+        if (m_thread.joinable())
+            m_thread.join();
     }
 
     //thread function
@@ -78,12 +77,6 @@ struct PhotoCrawler::Impl
         m_scanner->getFilesFor(path, &notifier);
     }
 };
-
-
-void trampoline(PhotoCrawler::Impl* impl, const QString& path, IMediaNotification* notify)
-{
-    impl->thread(path, notify);
-}
 
 
 PhotoCrawler::PhotoCrawler(const std::shared_ptr<IFileSystemScanner>& scanner,

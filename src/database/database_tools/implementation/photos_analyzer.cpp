@@ -124,10 +124,6 @@ namespace
         PhotoInfoUpdater m_updater;
     };
 
-    void trampoline(PhotosAnalyzerThread* thread)
-    {
-        thread->execute();
-    }
 }
 
 
@@ -136,9 +132,12 @@ namespace
 
 struct PhotosAnalyzer::Impl
 {
-        Impl(): m_database(nullptr), m_thread(), m_analyzerThread(trampoline, &m_thread)
+        Impl(): m_database(nullptr), m_thread(), m_analyzerThread()
         {
-
+            m_analyzerThread = std::thread([&] 
+            {
+                m_thread.execute();
+            });
         }
 
         Impl(const Impl &) = delete;
@@ -220,6 +219,7 @@ void IncompletePhotos::got(const IPhotoInfo::List& photos)
     for(const IPhotoInfo::Ptr& photo: photos)
         m_analyzerImpl->addPhoto(photo);
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
