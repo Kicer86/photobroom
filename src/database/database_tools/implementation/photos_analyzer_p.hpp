@@ -39,12 +39,12 @@ class PhotosAnalyzerImpl;
 
 struct IncompletePhotos: Database::AGetPhotosTask
 {
-    IncompletePhotos(PhotosAnalyzerImpl* impl): m_analyzerImpl(impl) {}
+    IncompletePhotos(PhotosAnalyzerImpl *);
     IncompletePhotos(const IncompletePhotos &) = delete;
 
     IncompletePhotos& operator=(const IncompletePhotos &) = delete;
 
-    virtual ~IncompletePhotos() {}
+    virtual ~IncompletePhotos();
 
     void got(const IPhotoInfo::List& photos) override;
 

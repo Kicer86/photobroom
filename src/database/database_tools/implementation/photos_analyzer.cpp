@@ -24,6 +24,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
+IncompletePhotos::IncompletePhotos(PhotosAnalyzerImpl* impl): m_analyzerImpl(impl)
+{
+
+}
+
+
+IncompletePhotos::~IncompletePhotos()
+{
+
+}
+
+
 void IncompletePhotos::got(const IPhotoInfo::List& photos)
 {
     for(const IPhotoInfo::Ptr& photo: photos)
