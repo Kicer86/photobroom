@@ -128,10 +128,6 @@ namespace
         PhotoInfoUpdater m_updater;
     };
 
-    void trampoline(PhotosAnalyzerThread* thread)
-    {
-        thread->execute();
-    }
 }
 
 
@@ -144,7 +140,7 @@ class PhotosAnalyzer::Impl: public QObject
         Impl():
             m_database(nullptr),
             m_thread(),
-            m_analyzerThread(trampoline, &m_thread),
+            m_analyzerThread(),
             m_timer(),
             m_tasksView(nullptr),
             m_viewTask(nullptr),
@@ -153,6 +149,11 @@ class PhotosAnalyzer::Impl: public QObject
             connect(&m_timer, &QTimer::timeout, this, &Impl::refreshView);
 
             m_timer.start(500);
+
+            m_analyzerThread = std::thread([&]
+            {
+                m_thread.execute();
+            });
         }
 
         Impl(const Impl &) = delete;

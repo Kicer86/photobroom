@@ -44,17 +44,13 @@ ITaskExecutor::~ITaskExecutor()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static void trampoline(TaskExecutor *);
 
-static void trampoline(TaskExecutor* executor)
+TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(), m_working(true)
 {
-    executor->eat();
-}
-
-
-TaskExecutor::TaskExecutor(): m_tasks(2048), m_taskEater(trampoline, this), m_working(true)
-{
-
+    m_taskEater = std::thread( [&]
+    {
+        this->eat();
+    });
 }
 
 
