@@ -162,7 +162,7 @@
   <customwidget>
    <class>TasksViewWidget</class>
    <extends>QWidget</extends>
-   <header>widgets/tasks_view/tasks_view_widget.hpp</header>
+   <header>widgets/tasks_view_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
