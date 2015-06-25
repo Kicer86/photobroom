@@ -1,5 +1,4 @@
 
-
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
                     
@@ -11,6 +10,7 @@ set(SRCS
     photos_widget.cpp
     staged_photos_data_model.cpp
     staged_photos_widget.cpp
+    tasks_view_widget.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
     tag_editor/tag_editor_widget.cpp
@@ -28,6 +28,7 @@ set(HEADERS
     photos_widget.hpp
     staged_photos_data_model.hpp
     staged_photos_widget.hpp
+    tasks_view_widget.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp

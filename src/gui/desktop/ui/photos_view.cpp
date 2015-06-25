@@ -3,7 +3,7 @@
 
 #include <core/base_tags.hpp>
 
-#include "model_view/db_data_model.hpp"
+#include "images_model_view/db_data_model.hpp"
 #include "ui_photos_view.h"
 
 PhotosView::PhotosView(QWidget *_parent) :

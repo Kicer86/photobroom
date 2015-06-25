@@ -26,6 +26,8 @@
 
 #include <photos_crawler/iphoto_crawler.hpp>
 
+struct ITasksView;
+
 class QString;
 class StagedPhotosDataModel;
 
@@ -59,6 +61,7 @@ class PhotosCollector: public QObject
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
 
+        void set(ITasksView *);
         void set(StagedPhotosDataModel *);
         void addDir(const QString &);          // adds dir to model. Emits finished() when ready
 

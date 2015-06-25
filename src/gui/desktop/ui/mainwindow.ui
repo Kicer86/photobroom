@@ -17,26 +17,13 @@
    <iconset resource="../images.qrc">
     <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
   </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="centralWidgetLayout">
     <item>
      <widget class="QStackedWidget" name="viewsContainer"/>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="infoGroupBox">
-      <property name="title">
-       <string>Hint:</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="infoWidget">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
     </item>
    </layout>
   </widget>
@@ -96,6 +83,31 @@
    </attribute>
    <widget class="TagEditorWidget" name="tagEditor"/>
   </widget>
+  <widget class="QDockWidget" name="infoDockWidget">
+   <property name="windowTitle">
+    <string>Hint</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QLabel" name="infoWidget">
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="tasksDockWidget">
+   <property name="windowTitle">
+    <string>&amp;Tasks</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="TasksViewWidget" name="tasksWidget"/>
+  </widget>
   <action name="actionNew_collection">
    <property name="text">
     <string>&amp;New</string>
@@ -145,6 +157,12 @@
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>
    <header>widgets/tag_editor/tag_editor_widget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TasksViewWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/tasks_view/tasks_view_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

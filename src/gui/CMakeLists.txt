@@ -25,17 +25,17 @@ add_subdirectory(desktop/utils)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/model_view/db_data_model.cpp
-    desktop/model_view/model_helpers/idx_data_manager.cpp
-    desktop/model_view/model_helpers/idx_data.cpp
-    desktop/model_view/model_helpers/idxdata_deepfetcher.cpp
-    desktop/model_view/model_helpers/photos_matcher.cpp
-    desktop/model_view/view_helpers/data.cpp
-    desktop/model_view/view_helpers/model_index_info.cpp
-    desktop/model_view/view_helpers/positions_calculator.cpp
-    desktop/model_view/view_helpers/positions_reseter.cpp
-    desktop/model_view/images_tree_view.cpp
-    desktop/model_view/tree_item_delegate.cpp
+    desktop/images_model_view/db_data_model.cpp
+    desktop/images_model_view/model_helpers/idx_data_manager.cpp
+    desktop/images_model_view/model_helpers/idx_data.cpp
+    desktop/images_model_view/model_helpers/idxdata_deepfetcher.cpp
+    desktop/images_model_view/model_helpers/photos_matcher.cpp
+    desktop/images_model_view/view_helpers/data.cpp
+    desktop/images_model_view/view_helpers/model_index_info.cpp
+    desktop/images_model_view/view_helpers/positions_calculator.cpp
+    desktop/images_model_view/view_helpers/positions_reseter.cpp
+    desktop/images_model_view/images_tree_view.cpp
+    desktop/images_model_view/tree_item_delegate.cpp
     desktop/ui/mainwindow.cpp
     desktop/ui/photos_view.cpp
     desktop/ui/project_picker.cpp
@@ -43,18 +43,18 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/model_view/db_data_model.hpp
-    desktop/model_view/model_helpers/idx_data_manager.hpp
-    desktop/model_view/model_helpers/idx_data.hpp
-    desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
-    desktop/model_view/model_helpers/photos_matcher.hpp
-    desktop/model_view/view_helpers/data.hpp
-    desktop/model_view/view_helpers/model_index_info.hpp
-    desktop/model_view/view_helpers/positions_calculator.hpp
-    desktop/model_view/view_helpers/positions_reseter.hpp
-    desktop/model_view/view_helpers/view_data_set.hpp
-    desktop/model_view/images_tree_view.hpp
-    desktop/model_view/tree_item_delegate.hpp
+    desktop/images_model_view/db_data_model.hpp
+    desktop/images_model_view/model_helpers/idx_data_manager.hpp
+    desktop/images_model_view/model_helpers/idx_data.hpp
+    desktop/images_model_view/model_helpers/idxdata_deepfetcher.hpp
+    desktop/images_model_view/model_helpers/photos_matcher.hpp
+    desktop/images_model_view/view_helpers/data.hpp
+    desktop/images_model_view/view_helpers/model_index_info.hpp
+    desktop/images_model_view/view_helpers/positions_calculator.hpp
+    desktop/images_model_view/view_helpers/positions_reseter.hpp
+    desktop/images_model_view/view_helpers/view_data_set.hpp
+    desktop/images_model_view/images_tree_view.hpp
+    desktop/images_model_view/tree_item_delegate.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
@@ -62,10 +62,10 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
-    desktop/model_view/images_tree_view.hpp
-    desktop/model_view/model_helpers/idx_data_manager.hpp
-    desktop/model_view/model_helpers/idxdata_deepfetcher.hpp
-    desktop/model_view/view_helpers/view_data_set.hpp
+    desktop/images_model_view/images_tree_view.hpp
+    desktop/images_model_view/model_helpers/idx_data_manager.hpp
+    desktop/images_model_view/model_helpers/idxdata_deepfetcher.hpp
+    desktop/images_model_view/view_helpers/view_data_set.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
@@ -80,7 +80,7 @@ set(GUI_UI_FILES desktop/ui/mainwindow.ui
 
 source_group(interface FILES gui.hpp)
 source_group(desktop .*\/desktop\/.* )
-source_group(desktop\\model_view .*\/model_view\/.* )
+source_group(desktop\\images_model_view .*\/images_model_view\/.* )
 source_group(desktop\\ui .*\/ui\/.* )
 source_group(generated_files \(moc.*\)|\(ui_.*\)|\(qrc_.*\) )
 

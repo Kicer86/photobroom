@@ -20,7 +20,7 @@
 #ifndef STAGEDPHOTOSDATAMODEL_HPP
 #define STAGEDPHOTOSDATAMODEL_HPP
 
-#include "model_view/db_data_model.hpp"
+#include "images_model_view/db_data_model.hpp"
 
 class QObject;
 

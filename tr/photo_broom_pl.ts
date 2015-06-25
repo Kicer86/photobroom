@@ -32,7 +32,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/model_view/model_helpers/idx_data_manager.cpp" line="+864"/>
+        <location filename="../src/gui/desktop/images_model_view/model_helpers/idx_data_manager.cpp" line="+864"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -137,12 +137,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
         <source>Hint:</source>
-        <translation>Podpowiedź:</translation>
+        <translation type="vanished">Podpowiedź:</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+27"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -165,6 +164,16 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location line="+11"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Hint</source>
+        <translation>Podpowiedź</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>&amp;Tasks</source>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -234,7 +243,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+45"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -371,6 +380,29 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location line="-35"/>
         <source>Choose directory with photos</source>
         <translation>Wybierz katalog ze zdjęciami</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosAnalyzer</name>
+    <message>
+        <source>Loading photos data...</source>
+        <translation type="vanished">Wczytywanie danych ze zdjęć...</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosAnalyzerImpl</name>
+    <message>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+225"/>
+        <source>Loading photos data...</source>
+        <translation type="unfinished">Wczytywanie danych ze zdjęć...</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosCollector</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+107"/>
+        <source>Looking for photos...</source>
+        <translation>Wyszukiwanie zdjęć...</translation>
     </message>
 </context>
 <context>

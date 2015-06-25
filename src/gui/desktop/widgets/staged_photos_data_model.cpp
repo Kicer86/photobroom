@@ -21,8 +21,6 @@
 
 #include <memory>
 
-//TODO: remove
-#include "model_view/model_helpers/idx_data.hpp"
 
 namespace
 {

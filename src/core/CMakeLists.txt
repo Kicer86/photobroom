@@ -50,6 +50,8 @@ set(CORE_HEADERS
     ilogger_factory.hpp
     itagfeeder.hpp
     itask_executor.hpp
+    itasks_view.hpp
+    iview_task.hpp
     logger.hpp
     logger_factory.hpp
     photos_manager.hpp
