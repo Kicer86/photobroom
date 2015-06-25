@@ -70,103 +70,24 @@ struct PhotosAnalyzerThread
 };
 
 
-
 class PhotosAnalyzerImpl: public QObject
 {
     public:
-        PhotosAnalyzerImpl():
-            m_database(nullptr),
-            m_thread(),
-            m_analyzerThread(),
-            m_timer(),
-            m_tasksView(nullptr),
-            m_viewTask(nullptr),
-            m_maxTasks(0)
-        {
-            connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
-
-            m_timer.start(500);
-
-            m_analyzerThread = std::thread([&]
-            {
-                m_thread.execute();
-            });
-        }
-
+        PhotosAnalyzerImpl();
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
         PhotosAnalyzerImpl& operator=(const PhotosAnalyzerImpl&) = delete;
 
-        ~PhotosAnalyzerImpl()
-        {
-            stop();
-        }
+        ~PhotosAnalyzerImpl();
 
-        void setDatabase(Database::IDatabase* database)
-        {
-            m_database = database;
+        void setDatabase(Database::IDatabase* database);
+        void set(ITaskExecutor* taskExecutor);
+        void set(IConfiguration* configuration);
+        void set(ITasksView* tasksView);
 
-            m_thread.dropPendingTasks();
+        Database::IDatabase* getDatabase();
 
-            if (m_database != nullptr)
-            {
-                //check for not fully initialized photos in database
-
-                //TODO: use independent updaters here (issue #102)
-
-                std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-                flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
-
-                for (auto flag :
-                        {
-                            IPhotoInfo::FlagsE::ExifLoaded, IPhotoInfo::FlagsE::Sha256Loaded, IPhotoInfo::FlagsE::ThumbnailLoaded
-                        })
-                    flags_filter->flags[flag] = 0;            //uninitialized
-
-                IncompletePhotos* task = new IncompletePhotos(this);
-                const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
-
-                database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
-            }
-        }
-
-        void set(ITaskExecutor* taskExecutor)
-        {
-            m_thread.set(taskExecutor);
-        }
-
-        void set(IConfiguration* configuration)
-        {
-            m_thread.set(configuration);
-        }
-
-        void set(ITasksView* tasksView)
-        {
-            m_tasksView = tasksView;
-        }
-
-        Database::IDatabase* getDatabase()
-        {
-            return m_database;
-        }
-
-        void addPhoto(const IPhotoInfo::Ptr& photo)
-        {
-            assert(m_analyzerThread.joinable());
-            m_thread.m_photosToValidate.lock()->push_back(photo);
-            m_thread.m_data_available.notify_one();
-        }
-
-        void stop()
-        {
-            if (m_thread.m_work)
-            {
-                m_thread.m_work = false;
-                m_thread.m_data_available.notify_one();
-
-                assert(m_analyzerThread.joinable());
-                m_analyzerThread.join();
-            }
-        }
+        void addPhoto(const IPhotoInfo::Ptr& photo);
+        void stop();
 
     private:
         Database::IDatabase* m_database;
@@ -177,36 +98,8 @@ class PhotosAnalyzerImpl: public QObject
         IViewTask* m_viewTask;
         int m_maxTasks;
 
-        void setupRefresher(const ol::ThreadSafeResource <std::deque<IPhotoInfo::Ptr>>::Accessor& photos)
-        {
-            if (photos->empty() == false && m_viewTask == nullptr)         //there are tasks but no view task
-            {
-                m_maxTasks = 0;
-                m_viewTask = m_tasksView->add(tr("Loading photos data..."));
-            }
-            else
-                if (photos->empty() && m_viewTask != nullptr)
-                {
-                    m_viewTask->finished();
-                    m_viewTask = nullptr;
-                }
-        }
-
-        void refreshView()
-        {
-            auto photos = m_thread.m_photosToValidate.lock();
-            setupRefresher(photos);
-
-            if (m_viewTask != nullptr)
-            {
-                const int current_size = photos->size();
-                m_maxTasks = std::max(m_maxTasks, current_size);
-
-                IProgressBar* progressBar = m_viewTask->getProgressBar();
-                progressBar->setMaximum(m_maxTasks);
-                progressBar->setValue(m_maxTasks - current_size);
-            }
-        }
+        void setupRefresher(const ol::ThreadSafeResource <std::deque<IPhotoInfo::Ptr>>::Accessor& photos);
+        void refreshView();
 };
 
 #endif // PHOTOSANALYZER_PRIVATE_HPP
