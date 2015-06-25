@@ -35,12 +35,13 @@ namespace Database
     struct IDatabase;
 }
 
+class PhotosAnalyzerImpl;
+
 class DATABASE_EXPORT PhotosAnalyzer: QObject
 {
         Q_OBJECT
 
     public:
-        class Impl;
         
         PhotosAnalyzer();
         PhotosAnalyzer(const PhotosAnalyzer &) = delete;
@@ -55,7 +56,7 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
         void stop();
 
     private:
-        Impl* m_data;
+        PhotosAnalyzerImpl* m_data;
 
     private slots:
         void photoAdded(const IPhotoInfo::Ptr &);
