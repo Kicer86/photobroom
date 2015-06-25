@@ -21,11 +21,8 @@
 #include "photos_analyzer_p.hpp"
 
 
-#include <OpenLibrary/putils/ts_resource.hpp>
-
-
-
 ///////////////////////////////////////////////////////////////////////////////
+
 
 void IncompletePhotos::got(const IPhotoInfo::List& photos)
 {
@@ -33,7 +30,9 @@ void IncompletePhotos::got(const IPhotoInfo::List& photos)
         m_analyzerImpl->addPhoto(photo);
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
+
 
 PhotosAnalyzerThread::PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToValidate(), m_work(true), m_updater()
 {
@@ -82,6 +81,7 @@ void PhotosAnalyzerThread::process(const IPhotoInfo::Ptr& photoInfo)
     }
 }
 
+
 void PhotosAnalyzerThread::dropPendingTasks()
 {
     // drop any not processed photos
@@ -92,17 +92,21 @@ void PhotosAnalyzerThread::dropPendingTasks()
 
 }
 
+
 void PhotosAnalyzerThread::set(ITaskExecutor* taskExecutor)
 {
     m_updater.set(taskExecutor);
 }
+
 
 void PhotosAnalyzerThread::set(IConfiguration* configuration)
 {
     m_updater.set(configuration);
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
+
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl():
     m_database(nullptr),
