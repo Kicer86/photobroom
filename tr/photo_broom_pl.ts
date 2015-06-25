@@ -394,7 +394,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+225"/>
         <source>Loading photos data...</source>
-        <translation type="unfinished">Wczytywanie danych ze zdjęć...</translation>
+        <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
 </context>
 <context>
