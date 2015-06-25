@@ -72,6 +72,8 @@ struct PhotosAnalyzerThread
 
 class PhotosAnalyzerImpl: public QObject
 {
+        Q_OBJECT
+
     public:
         PhotosAnalyzerImpl();
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
