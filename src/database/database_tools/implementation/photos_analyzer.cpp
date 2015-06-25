@@ -35,6 +35,73 @@ void IncompletePhotos::got(const IPhotoInfo::List& photos)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+PhotosAnalyzerThread::PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToValidate(), m_work(true), m_updater()
+{
+}
+
+void PhotosAnalyzerThread::execute()
+{
+    std::unique_lock<std::mutex> lock(m_data_mutex);
+
+    while (m_work)
+    {
+        m_data_available.wait(lock, [&] { return m_photosToValidate.lock()->empty() == false || m_work == false; });
+
+        IPhotoInfo::Ptr photoInfo(nullptr);
+        {
+            auto photosToUpdate = m_photosToValidate.lock();
+
+            if (photosToUpdate->empty() == false)
+            {
+                photoInfo = photosToUpdate->front();
+                photosToUpdate->pop_front();
+            }
+        }
+
+        if (photoInfo.get() != nullptr)
+            process(photoInfo);
+    }
+
+    dropPendingTasks();
+}
+
+
+//TODO: use list of updaters (introduce updater interface)
+void PhotosAnalyzerThread::process(const IPhotoInfo::Ptr& photoInfo)
+{
+    if (photoInfo->isFullyInitialized() == false)
+    {
+        if (photoInfo->isSha256Loaded() == false)
+            m_updater.updateSha256(photoInfo);
+
+        if (photoInfo->isThumbnailLoaded() == false)
+            m_updater.updateThumbnail(photoInfo);
+
+        if (photoInfo->isExifDataLoaded() == false)
+            m_updater.updateTags(photoInfo);
+    }
+}
+
+void PhotosAnalyzerThread::dropPendingTasks()
+{
+    // drop any not processed photos
+    m_photosToValidate.lock()->clear();
+
+    // wait for tasks being processed
+    m_updater.waitForPendingTasks();
+
+}
+
+void PhotosAnalyzerThread::set(ITaskExecutor* taskExecutor)
+{
+    m_updater.set(taskExecutor);
+}
+
+void PhotosAnalyzerThread::set(IConfiguration* configuration)
+{
+    m_updater.set(configuration);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////

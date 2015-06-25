@@ -392,7 +392,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer_p.hpp" line="+244"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer_p.hpp" line="+185"/>
         <source>Loading photos data...</source>
         <translation type="unfinished">Wczytywanie danych ze zdjęć...</translation>
     </message>
