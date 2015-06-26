@@ -20,14 +20,24 @@
 #ifndef CONFIGURATIONPRIVATE_HPP
 #define CONFIGURATIONPRIVATE_HPP
 
+
+#include <QJsonDocument>
+
+
 class ConfigurationPrivate
 {
     public:
         ConfigurationPrivate(Configuration* q);
         virtual ~ConfigurationPrivate();
 
+        void ensureDataLoaded();
+
     private:
+        QJsonDocument m_json;
         class Configuration* const q;
+        bool m_loaded;
+
+        void loadData();
 };
 
 #endif // CONFIGURATIONPRIVATE_HPP

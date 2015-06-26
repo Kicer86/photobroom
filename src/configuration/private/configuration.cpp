@@ -20,13 +20,47 @@
 #include "configuration.hpp"
 #include "private/configuration_p.hpp"
 
-ConfigurationPrivate::ConfigurationPrivate(Configuration* q) : q(q)
+#include <QFile>
+
+#include <system/system.hpp>
+
+
+ConfigurationPrivate::ConfigurationPrivate(Configuration* q):
+    m_json(),
+    q(q),
+    m_loaded(false)
 {
 }
 
 
 ConfigurationPrivate::~ConfigurationPrivate()
 {
+}
+
+
+void ConfigurationPrivate::ensureDataLoaded()
+{
+    if (m_loaded == false)
+    {
+        loadData();
+        m_loaded = true;
+    }
+}
+
+
+void ConfigurationPrivate::loadData()
+{
+    const QString path = System::getApplicationConfigDir();
+    const QString configFile = path + "/" + "config.json";
+    QFile config(configFile);
+
+    if (QFile::exists(configFile))
+    {
+        config.open(QIODevice::ReadOnly);
+
+        const QByteArray data = config.readAll();
+        m_json = QJsonDocument::fromJson(data);
+    }
 }
 
 
