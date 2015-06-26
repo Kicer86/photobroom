@@ -184,7 +184,7 @@ QString MySqlServer::getDaemonPath() const
     {
         path = System::findProgram("mysqld").c_str();
 
-        Configuration::EntryData mysqldPath(MySQL_daemon, path);
+        Configuration2::EntryData mysqldPath(MySQL_daemon, path);
         m_configuration->addEntry(mysqldPath);
     }
 

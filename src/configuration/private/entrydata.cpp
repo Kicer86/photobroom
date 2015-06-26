@@ -25,7 +25,7 @@
 
 #include <QString>
 
-namespace Configuration
+namespace Configuration2
 {
 
     struct ConfigurationKey::Data
@@ -225,7 +225,7 @@ namespace Configuration
     }
 
 
-    Configuration::ConfigurationKey EntryData::key() const
+    Configuration2::ConfigurationKey EntryData::key() const
     {
         return m_data->m_key;
     }

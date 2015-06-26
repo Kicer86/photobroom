@@ -32,7 +32,7 @@
 
 class QString;
 
-namespace Configuration
+namespace Configuration2
 {
     class EntryData;
     class ConfigurationKey;
@@ -47,14 +47,14 @@ struct IConfiguration
     // If a value for specified entry exists in config file,
     // will be prefered.
     [[deprecated]]
-    virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
+    virtual void registerDefaultEntries(const std::vector<Configuration2::EntryData> &) = 0;
 
     // This function introduces a configuration key.
     // Before adding/loading values to configuration, each entry (Key) must be introduced.
     // Unknown (not registered) keys will be treated as deprecated,
     // and dev-warning will be printed in output.
     [[deprecated]]
-    virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
+    virtual void registerKey(const Configuration2::ConfigurationKey &) = 0;
 
     //function registers configuration key names and defaults from XML string
     [[deprecated]]
@@ -62,14 +62,14 @@ struct IConfiguration
 
     // Add entry to config
     [[deprecated]]
-    virtual void addEntry(const Configuration::EntryData &) = 0;
+    virtual void addEntry(const Configuration2::EntryData &) = 0;
 
     // loads data from initializers and disk storage
     [[deprecated]]
     virtual bool load() = 0;
 
     [[deprecated]]
-    virtual ol::Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
+    virtual ol::Optional<Configuration2::EntryData> findEntry(const Configuration2::ConfigurationKey &) const = 0;
 
     [[deprecated]]
     virtual ol::Optional<QString> findEntry(const char *) const = 0;
@@ -78,7 +78,7 @@ struct IConfiguration
     virtual QString findEntry(const char *, const QString& defaultValue) const = 0;
 
     [[deprecated]]
-    virtual const std::vector<Configuration::EntryData> getEntries() = 0;
+    virtual const std::vector<Configuration2::EntryData> getEntries() = 0;
 
     // Get top config group
     virtual QJsonValue    getTopGroup() const = 0;

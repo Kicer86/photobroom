@@ -30,7 +30,7 @@
 
 class QString;
 
-namespace Configuration
+namespace Configuration2
 {
 
     [[deprecated]]

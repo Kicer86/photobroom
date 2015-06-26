@@ -40,11 +40,11 @@ QString DefaultConfigurationPrivate::getConfigDir() const
 }
 
 
-ol::Optional<Configuration::EntryData> DefaultConfigurationPrivate::find(const Configuration::ConfigurationKey& key) const
+ol::Optional<Configuration2::EntryData> DefaultConfigurationPrivate::find(const Configuration2::ConfigurationKey& key) const
 {
     verifyKey(key);
 
-    ol::Optional<Configuration::EntryData> result;
+    ol::Optional<Configuration2::EntryData> result;
     auto it = m_data.find(key);
 
     if (it != m_data.end())
@@ -54,9 +54,9 @@ ol::Optional<Configuration::EntryData> DefaultConfigurationPrivate::find(const C
 }
 
 
-std::vector<Configuration::EntryData> DefaultConfigurationPrivate::getAll() const
+std::vector<Configuration2::EntryData> DefaultConfigurationPrivate::getAll() const
 {
-    std::vector<Configuration::EntryData> result;
+    std::vector<Configuration2::EntryData> result;
 
     for(const auto & it : m_data)
         result.push_back(it.second);
@@ -65,7 +65,7 @@ std::vector<Configuration::EntryData> DefaultConfigurationPrivate::getAll() cons
 }
 
 
-void DefaultConfigurationPrivate::addEntry(const Configuration::ConfigurationKey& key, const Configuration::EntryData& data, bool def)
+void DefaultConfigurationPrivate::addEntry(const Configuration2::ConfigurationKey& key, const Configuration2::EntryData& data, bool def)
 {
     verifyKey(key);
 
@@ -78,7 +78,7 @@ void DefaultConfigurationPrivate::addEntry(const Configuration::ConfigurationKey
 }
 
 
-void DefaultConfigurationPrivate::introduceKey(const Configuration::ConfigurationKey& key)
+void DefaultConfigurationPrivate::introduceKey(const Configuration2::ConfigurationKey& key)
 {
     m_known_keys.insert(key);
 }
@@ -149,7 +149,7 @@ bool DefaultConfigurationPrivate::parseXml_Keys(QXmlStreamReader* reader)
 
             if (name.isEmpty() == false)
             {
-                Configuration::ConfigurationKey key(name.toString());
+                Configuration2::ConfigurationKey key(name.toString());
                 introduceKey(key);
             }
             else
@@ -208,11 +208,11 @@ bool DefaultConfigurationPrivate::parseXml_DefaultKeys(QXmlStreamReader* reader)
             if (name.isEmpty() == false)
             {
                 //introduce key
-                Configuration::ConfigurationKey key(name.toString());
+                Configuration2::ConfigurationKey key(name.toString());
                 introduceKey(key);
 
                 //set default value
-                Configuration::EntryData entry(key, value.toString());
+                Configuration2::EntryData entry(key, value.toString());
                 addEntry(key, entry);
             }
             else
@@ -269,7 +269,7 @@ bool DefaultConfigurationPrivate::gotoNextUseful(QXmlStreamReader* reader)
 }
 
 
-void DefaultConfigurationPrivate::verifyKey(const Configuration::ConfigurationKey& key) const
+void DefaultConfigurationPrivate::verifyKey(const Configuration2::ConfigurationKey& key) const
 {
     if (m_known_keys.find(key) == m_known_keys.end())
         m_logger->log(ILogger::Severity::Error, "DefaultConfiguration: unknown key: " + key.getKeyRaw());

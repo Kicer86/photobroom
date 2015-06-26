@@ -23,12 +23,12 @@ struct PublicWrapper: public DefaultConfigurationPrivate
         return DefaultConfigurationPrivate::parseXml_DefaultKeys(reader);
     }
 
-    const std::unordered_set<Configuration::ConfigurationKey, hash>& getKnownKeys() const
+    const std::unordered_set<Configuration2::ConfigurationKey, hash>& getKnownKeys() const
     {
         return m_known_keys;
     }
 
-    const std::unordered_map<Configuration::ConfigurationKey, Configuration::EntryData, hash>& getData() const
+    const std::unordered_map<Configuration2::ConfigurationKey, Configuration2::EntryData, hash>& getData() const
     {
         return m_data;
     }
@@ -101,9 +101,9 @@ TEST(DefaultConfigurationPrivateShould, LoadProvidedDefaultsAndKeys)
     ASSERT_EQ(3, prv.getData().size());           //3 default entries
 
     auto data = prv.getData();
-    ASSERT_EQ(Configuration::EntryData("1", "2"), data["1"]);
-    ASSERT_EQ(Configuration::EntryData("2", "4"), data["2"]);
-    ASSERT_EQ(Configuration::EntryData("3", "6"), data["3"]);
+    ASSERT_EQ(Configuration2::EntryData("1", "2"), data["1"]);
+    ASSERT_EQ(Configuration2::EntryData("2", "4"), data["2"]);
+    ASSERT_EQ(Configuration2::EntryData("3", "6"), data["3"]);
 }
 
 /********************************************************************************/
@@ -192,7 +192,7 @@ TEST_F(DefaultConfigurationPrivateFunctionsShould, LoadProvidedDefault)
     ASSERT_EQ(1, prv.getData().size());           //no data
 
     auto data = prv.getData();
-    ASSERT_EQ(Configuration::EntryData("1", "2"), data["1"]); //data for key '1' should be equal to '1':'2'
+    ASSERT_EQ(Configuration2::EntryData("1", "2"), data["1"]); //data for key '1' should be equal to '1':'2'
 }
 
 
@@ -213,8 +213,8 @@ TEST_F(DefaultConfigurationPrivateFunctionsShould, LoadProvidedDefaults)
     ASSERT_EQ(3, prv.getData().size());           //no data
 
     auto data = prv.getData();
-    ASSERT_EQ(Configuration::EntryData("1", "2"), data["1"]);
-    ASSERT_EQ(Configuration::EntryData("2", "4"), data["2"]);
-    ASSERT_EQ(Configuration::EntryData("3", "6"), data["3"]);
+    ASSERT_EQ(Configuration2::EntryData("1", "2"), data["1"]);
+    ASSERT_EQ(Configuration2::EntryData("2", "4"), data["2"]);
+    ASSERT_EQ(Configuration2::EntryData("3", "6"), data["3"]);
 }
 

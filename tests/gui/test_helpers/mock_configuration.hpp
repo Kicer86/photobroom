@@ -12,14 +12,14 @@
 
 struct MockConfiguration: IConfiguration
 {
-    MOCK_METHOD1(addEntry, void(const Configuration::EntryData&));
+    MOCK_METHOD1(addEntry, void(const Configuration2::EntryData&));
     MOCK_CONST_METHOD2(findEntry, QString(const char*, const QString& defaultValue));
-    MOCK_CONST_METHOD1(findEntry, ol::Optional<Configuration::EntryData>(const Configuration::ConfigurationKey&));
+    MOCK_CONST_METHOD1(findEntry, ol::Optional<Configuration2::EntryData>(const Configuration2::ConfigurationKey&));
     MOCK_CONST_METHOD1(findEntry, ol::Optional<QString>(const char*));
-    MOCK_METHOD0(getEntries, const std::vector<Configuration::EntryData>());
+    MOCK_METHOD0(getEntries, const std::vector<Configuration2::EntryData>());
     MOCK_METHOD0(load, bool());
-    MOCK_METHOD1(registerDefaultEntries, void(const std::vector<Configuration::EntryData>&));
-    MOCK_METHOD1(registerKey, void(const Configuration::ConfigurationKey &));
+    MOCK_METHOD1(registerDefaultEntries, void(const std::vector<Configuration2::EntryData>&));
+    MOCK_METHOD1(registerKey, void(const Configuration2::ConfigurationKey &));
     MOCK_METHOD1(registerXml, void(const QString &));
 
     MOCK_METHOD1(getGroup, QJsonValueRef(const QString &));

@@ -6,7 +6,7 @@
 
 TEST(ConfigurationKeyShould, successfulyParseOneLevelKey)
 {
-    Configuration::ConfigurationKey key;
+    Configuration2::ConfigurationKey key;
 
     key.setKey("One");
 
@@ -19,7 +19,7 @@ TEST(ConfigurationKeyShould, successfulyParseOneLevelKey)
 
 TEST(ConfigurationKeyShould, takeKeyValueWhileBeingConstructed)
 {
-    Configuration::ConfigurationKey key("One");
+    Configuration2::ConfigurationKey key("One");
 
     std::vector<std::string> result = key.getKey();
 
@@ -31,7 +31,7 @@ TEST(ConfigurationKeyShould, takeKeyValueWhileBeingConstructed)
 TEST(ConfigurationKeyShould, takeStringWithKeyValueWhileBeingConstructed)
 {
     const std::string keyValue("One");
-    Configuration::ConfigurationKey key(keyValue);
+    Configuration2::ConfigurationKey key(keyValue);
 
     std::vector<std::string> result = key.getKey();
 
@@ -42,7 +42,7 @@ TEST(ConfigurationKeyShould, takeStringWithKeyValueWhileBeingConstructed)
 
 TEST(ConfigurationKeyShould, successfulyParseTwoLevelKey)
 {
-    Configuration::ConfigurationKey key;
+    Configuration2::ConfigurationKey key;
 
     key.setKey("One::Two");
 
@@ -56,7 +56,7 @@ TEST(ConfigurationKeyShould, successfulyParseTwoLevelKey)
 
 TEST(ConfigurationKeyShould, successfulyParseThreeLevelKey)
 {
-    Configuration::ConfigurationKey key;
+    Configuration2::ConfigurationKey key;
 
     key.setKey("One::Two::Three");
 
@@ -70,7 +70,7 @@ TEST(ConfigurationKeyShould, successfulyParseThreeLevelKey)
 
 TEST(ConfigurationKeyShould, returnResultInRawFormat)
 {
-    Configuration::ConfigurationKey key;
+    Configuration2::ConfigurationKey key;
 
     key.setKey("One::Two::Three");
 
@@ -81,7 +81,7 @@ TEST(ConfigurationKeyShould, returnResultInRawFormat)
 
 TEST(ConfigurationKeyShould, acceptFormattedInput)
 {
-    Configuration::ConfigurationKey key;
+    Configuration2::ConfigurationKey key;
 
     key.setKey( {"One", "Two", "Three"});
 
@@ -94,13 +94,13 @@ TEST(ConfigurationKeyShould, acceptFormattedInput)
 
 TEST(EntryDataShould, beConstructable)
 {
-    Configuration::EntryData entry;
+    Configuration2::EntryData entry;
 }
 
 
 TEST(EntryDataShould, returnTrueForComparisonOfTwoEmptyEntries)
 {
-    Configuration::EntryData entry1, entry2;
+    Configuration2::EntryData entry1, entry2;
 
     ASSERT_EQ(entry1, entry2);
 }

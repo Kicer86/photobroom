@@ -72,7 +72,7 @@ void DefaultConfiguration::init(ILoggerFactory* logger_factory)
 
 
 
-ol::Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Configuration::ConfigurationKey& key) const
+ol::Optional<Configuration2::EntryData> DefaultConfiguration::findEntry(const Configuration2::ConfigurationKey& key) const
 {
     return m_impl->find(key);
 }
@@ -80,7 +80,7 @@ ol::Optional<Configuration::EntryData> DefaultConfiguration::findEntry(const Con
 
 ol::Optional<QString> DefaultConfiguration::findEntry(const char* key) const
 {
-    const auto entry = findEntry(Configuration::ConfigurationKey(key));
+    const auto entry = findEntry(Configuration2::ConfigurationKey(key));
     return entry->value();
 }
 
@@ -94,26 +94,26 @@ QString DefaultConfiguration::findEntry(const char* key, const QString& defaultV
 }
 
 
-const std::vector<Configuration::EntryData> DefaultConfiguration::getEntries()
+const std::vector<Configuration2::EntryData> DefaultConfiguration::getEntries()
 {
     return m_impl->getAll();
 }
 
 
-void DefaultConfiguration::addEntry(const Configuration::EntryData& entry)
+void DefaultConfiguration::addEntry(const Configuration2::EntryData& entry)
 {
     m_impl->addEntry(entry.key(), entry);
 }
 
 
-void DefaultConfiguration::registerDefaultEntries(const std::vector<Configuration::EntryData>& entries)
+void DefaultConfiguration::registerDefaultEntries(const std::vector<Configuration2::EntryData>& entries)
 {
     for(const auto& entry: entries)
         m_impl->addEntry(entry.key(), entry, true);
 }
 
 
-void DefaultConfiguration::registerKey(const Configuration::ConfigurationKey& key)
+void DefaultConfiguration::registerKey(const Configuration2::ConfigurationKey& key)
 {
     m_impl->introduceKey(key);
 }
