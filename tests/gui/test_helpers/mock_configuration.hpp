@@ -5,6 +5,7 @@
 #include <gmock/gmock.h>
 
 #include <QString>
+#include <QJsonValue>
 
 #include <configuration/iconfiguration.hpp>
 #include <configuration/entrydata.hpp>
@@ -20,6 +21,11 @@ struct MockConfiguration: IConfiguration
     MOCK_METHOD1(registerDefaultEntries, void(const std::vector<Configuration::EntryData>&));
     MOCK_METHOD1(registerKey, void(const Configuration::ConfigurationKey &));
     MOCK_METHOD1(registerXml, void(const QString &));
+
+    MOCK_METHOD1(getGroup, QJsonValueRef(const QString &));
+    MOCK_CONST_METHOD1(getGroup, QJsonValue(const QString &));
+    MOCK_METHOD0(getTopGroup, QJsonValueRef());
+    MOCK_CONST_METHOD0(getTopGroup, QJsonValue());
 };
 
 #endif

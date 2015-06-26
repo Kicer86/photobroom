@@ -29,7 +29,6 @@
 struct ILoggerFactory;
 struct DefaultConfigurationPrivate;
 
-
 class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
 {
     public:
@@ -48,6 +47,12 @@ class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
         virtual void registerKey(const Configuration::ConfigurationKey &) override;
         virtual void registerXml(const QString &) override;
         virtual bool load() override;
+
+        virtual QJsonValueRef getTopGroup()       override;
+        virtual QJsonValue    getTopGroup() const override;
+
+        virtual QJsonValueRef getGroup(const QString&)       override;
+        virtual QJsonValue    getGroup(const QString&) const override;
 
     private:
         std::unique_ptr<DefaultConfigurationPrivate> m_impl;

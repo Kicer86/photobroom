@@ -131,6 +131,30 @@ bool DefaultConfiguration::load()
 }
 
 
+QJsonValueRef DefaultConfiguration::getTopGroup()
+{
+
+}
+
+
+QJsonValue DefaultConfiguration::getTopGroup() const
+{
+
+}
+
+
+QJsonValueRef DefaultConfiguration::getGroup(const QString&)
+{
+
+}
+
+
+QJsonValue DefaultConfiguration::getGroup(const QString&) const
+{
+
+}
+
+
 bool DefaultConfiguration::useXml(const QString& xml)
 {
     return m_impl->useXml(xml);

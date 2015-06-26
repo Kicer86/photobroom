@@ -23,7 +23,10 @@
 #include <vector>
 #include <string>
 
+#include <QJsonObject>
+
 #include <OpenLibrary/utils/optional.hpp>
+
 
 #include "configuration_export.h"
 
@@ -76,6 +79,14 @@ struct IConfiguration
 
     [[deprecated]]
     virtual const std::vector<Configuration::EntryData> getEntries() = 0;
+
+    // Get top config group
+    virtual QJsonValue    getTopGroup() const = 0;
+    virtual QJsonValueRef getTopGroup() = 0;
+
+    // Get subgroup. Name may contain "/" for hierarchical groups
+    virtual QJsonValue    getGroup(const QString &) const = 0;
+    virtual QJsonValueRef getGroup(const QString &) = 0;
 };
 
 #endif  //ICONFIGURATION_HPP
