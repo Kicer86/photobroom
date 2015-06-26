@@ -29,7 +29,7 @@
 #include <QTimer>
 
 #include <configuration/constants.hpp>
-#include <configuration/configuration.hpp>
+#include <configuration/default_configuration.hpp>
 #include <core/time_guardian.hpp>
 
 #include "view_helpers/data.hpp"

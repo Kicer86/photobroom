@@ -18,7 +18,7 @@
 */
 
 
-#include "configuration.hpp"
+#include "default_configuration.hpp"
 
 #include <iostream>
 
