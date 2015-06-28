@@ -51,14 +51,14 @@ void DefaultConfiguration::init(ILoggerFactory* logger_factory)
 
     "    <!-- introduce known configuration keys -->"
     "    <keys>"
-    "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
-    "        <key name='" + QString(Configuration::BasicKeys::thumbnailWidth) + "' />"
+    "        <key name='" + QString(Configuration2::BasicKeys::configLocation) + "' />    <!-- base path for configurations, databases etc -->"
+    "        <key name='" + QString(Configuration2::BasicKeys::thumbnailWidth) + "' />"
     "    </keys>"
 
     "    <!-- default values -->"
     "    <defaults>"
-    "        <key name='" + QString(Configuration::BasicKeys::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
-    "        <key name='" + QString(Configuration::BasicKeys::thumbnailWidth) + "' value='120'/>"
+    "        <key name='" + QString(Configuration2::BasicKeys::configLocation) + "' value='" + m_impl->getConfigDir() + "' />"
+    "        <key name='" + QString(Configuration2::BasicKeys::thumbnailWidth) + "' value='120'/>"
     "    </defaults>"
 
     "</configuration>";

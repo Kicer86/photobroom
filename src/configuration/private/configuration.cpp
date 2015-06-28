@@ -21,8 +21,11 @@
 #include "private/configuration_p.hpp"
 
 #include <QFile>
+#include <QJsonObject>
 
 #include <system/system.hpp>
+
+#include "constants.hpp"
 
 
 ConfigurationPrivate::ConfigurationPrivate(Configuration* q):
@@ -60,6 +63,15 @@ void ConfigurationPrivate::loadData()
 
         const QByteArray data = config.readAll();
         m_json = QJsonDocument::fromJson(data);
+    }
+    else
+    {
+        //load default data
+        QJsonObject data;
+        data[Configuration2::BasicKeys::configLocation] = path;
+        data[Configuration2::BasicKeys::thumbnailWidth] = 120;
+
+        m_json.setObject(data);
     }
 }
 

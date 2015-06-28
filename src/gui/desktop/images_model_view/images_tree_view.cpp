@@ -59,7 +59,7 @@ ImagesTreeView::~ImagesTreeView()
 void ImagesTreeView::set(IConfiguration* configuration)
 {
     m_data->m_configuration = configuration;
-    auto widthEntry = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+    auto widthEntry = m_data->m_configuration->findEntry(Configuration2::BasicKeys::thumbnailWidth);
 
     assert(widthEntry);
     if (widthEntry)

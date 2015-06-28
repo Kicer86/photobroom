@@ -147,7 +147,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 
 void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto widthEntry = m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+    auto widthEntry = m_configuration->findEntry(Configuration2::BasicKeys::thumbnailWidth);
     int width = 120;
 
     if (widthEntry)
