@@ -29,6 +29,7 @@
 struct ILoggerFactory;
 struct DefaultConfigurationPrivate;
 
+[[deprecated]]
 class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
 {
     public:
