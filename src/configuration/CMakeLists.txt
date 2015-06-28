@@ -12,6 +12,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CONFIG_SOURCES
     private/configuration.cpp
+    private/configuration_accessor.cpp
     private/default_configuration.cpp
     private/constants.cpp
     private/entrydata.cpp
@@ -20,6 +21,7 @@ set(CONFIG_SOURCES
 
 set(CONFIG_HEADERS
     configuration.hpp
+    configuration_accessor.hpp
     default_configuration.hpp
     constants.hpp
     entrydata.hpp

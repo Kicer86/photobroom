@@ -1,5 +1,5 @@
 /*
- * Base configuration class
+ * Configuration Accessor
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,24 +17,25 @@
  *
  */
 
-#ifndef CONFIGURATION_HPP
-#define CONFIGURATION_HPP
+#ifndef CONFIGURATIONACCESSOR_HPP
+#define CONFIGURATIONACCESSOR_HPP
 
-#include "iconfiguration.hpp"
+#include <QJsonDocument>
 
-class Configuration: public IConfiguration
+#include <OpenLibrary/putils/ts_resource.hpp>
+
+class ConfigurationAccessor
 {
     public:
-        Configuration();
-        Configuration(const Configuration &) = delete;
-        ~Configuration();
+        ConfigurationAccessor();
+        ConfigurationAccessor(const ConfigurationAccessor &) = delete;
+        ConfigurationAccessor(ConfigurationAccessor &&);
+        ~ConfigurationAccessor();
 
-        Configuration& operator=(const Configuration &) = delete;
-
-        ConfigurationAccessor get() override;
+        ConfigurationAccessor& operator=(const ConfigurationAccessor &) = delete;
 
     private:
-        class ConfigurationPrivate* const d;
+        ol::ThreadSafeResource<QJsonDocument>::Accessor m_data;
 };
 
-#endif // CONFIGURATION_HPP
+#endif // CONFIGURATIONACCESSOR_H

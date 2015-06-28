@@ -1,5 +1,5 @@
 /*
- * Base configuration class
+ * Configuration Accessor
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,24 +17,21 @@
  *
  */
 
-#ifndef CONFIGURATION_HPP
-#define CONFIGURATION_HPP
+#include "configuration_accessor.hpp"
 
-#include "iconfiguration.hpp"
-
-class Configuration: public IConfiguration
+ConfigurationAccessor::ConfigurationAccessor()
 {
-    public:
-        Configuration();
-        Configuration(const Configuration &) = delete;
-        ~Configuration();
 
-        Configuration& operator=(const Configuration &) = delete;
+}
 
-        ConfigurationAccessor get() override;
 
-    private:
-        class ConfigurationPrivate* const d;
-};
+ConfigurationAccessor::ConfigurationAccessor(ConfigurationAccessor&& other): m_data(std::move(other.m_data))
+{
 
-#endif // CONFIGURATION_HPP
+}
+
+
+ConfigurationAccessor::~ConfigurationAccessor()
+{
+
+}

@@ -23,13 +23,11 @@
 #include <vector>
 #include <string>
 
-#include <QJsonDocument>
-
 #include <OpenLibrary/utils/optional.hpp>
 #include <OpenLibrary/putils/ts_resource.hpp>
 
-
 #include "configuration_export.h"
+#include "configuration_accessor.hpp"
 
 class QString;
 
@@ -81,9 +79,7 @@ struct IConfiguration
     [[deprecated]]
     virtual const std::vector<Configuration2::EntryData> getEntries() = 0;
 
-    typedef ol::ThreadSafeResource<QJsonDocument>::Accessor Data;
-
-    virtual Data get() = 0;
+    virtual ConfigurationAccessor get() = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

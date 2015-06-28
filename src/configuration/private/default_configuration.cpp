@@ -131,7 +131,7 @@ bool DefaultConfiguration::load()
 }
 
 
-IConfiguration::Data DefaultConfiguration::get()
+ConfigurationAccessor DefaultConfiguration::get()
 {
 
 }

@@ -80,7 +80,7 @@ Configuration::~Configuration()
 }
 
 
-IConfiguration::Data Configuration::get()
+ConfigurationAccessor Configuration::get()
 {
 
 }
