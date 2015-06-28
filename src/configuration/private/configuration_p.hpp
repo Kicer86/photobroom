@@ -23,6 +23,8 @@
 
 #include <QJsonDocument>
 
+#include <OpenLibrary/putils/ts_resource.hpp>
+
 
 class ConfigurationPrivate
 {
@@ -33,7 +35,7 @@ class ConfigurationPrivate
         void ensureDataLoaded();
 
     private:
-        QJsonDocument m_json;
+        ol::ThreadSafeResource<QJsonObject> m_json;
         class Configuration* const q;
         bool m_loaded;
 

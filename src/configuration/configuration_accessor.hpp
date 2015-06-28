@@ -20,7 +20,7 @@
 #ifndef CONFIGURATIONACCESSOR_HPP
 #define CONFIGURATIONACCESSOR_HPP
 
-#include <QJsonDocument>
+#include <QJsonObject>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
@@ -34,8 +34,10 @@ class ConfigurationAccessor
 
         ConfigurationAccessor& operator=(const ConfigurationAccessor &) = delete;
 
+        QJsonValueRef getEntry(const QString &);
+
     private:
-        ol::ThreadSafeResource<QJsonDocument>::Accessor m_data;
+        ol::ThreadSafeResource<QJsonObject>::Accessor m_data;
 };
 
 #endif // CONFIGURATIONACCESSOR_H

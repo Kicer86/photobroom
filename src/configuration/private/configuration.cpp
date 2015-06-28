@@ -62,7 +62,10 @@ void ConfigurationPrivate::loadData()
         config.open(QIODevice::ReadOnly);
 
         const QByteArray data = config.readAll();
-        m_json = QJsonDocument::fromJson(data);
+        QJsonDocument doc = QJsonDocument::fromJson(data);
+
+        auto locked_config = m_json.lock();
+        *locked_config = doc.object();
     }
     else
     {
@@ -71,7 +74,8 @@ void ConfigurationPrivate::loadData()
         data[Configuration2::BasicKeys::configLocation] = path;
         data[Configuration2::BasicKeys::thumbnailWidth] = 120;
 
-        m_json.setObject(data);
+        auto locked_config = m_json.lock();
+        *locked_config = data;
     }
 }
 
