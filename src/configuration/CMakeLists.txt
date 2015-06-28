@@ -12,19 +12,15 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CONFIG_SOURCES
     private/configuration.cpp
-    private/default_configuration.cpp
     private/constants.cpp
     private/entrydata.cpp
-    private/default_configuration_private.cpp
    )
 
 set(CONFIG_HEADERS
     configuration.hpp
-    default_configuration.hpp
     constants.hpp
     entrydata.hpp
     iconfiguration.hpp
-    private/default_configuration_private.hpp
     private/configuration_p.hpp
    )
 

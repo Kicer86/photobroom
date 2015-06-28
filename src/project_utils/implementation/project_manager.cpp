@@ -192,11 +192,11 @@ bool ProjectManager::remove(const ProjectInfo& name)
 QString ProjectManager::getPrjStorage() const
 {
     QString result;
-    auto path = m_configuration->findEntry(Configuration2::BasicKeys::configLocation);
+    auto path = m_configuration->getEntry(Configuration2::BasicKeys::configLocation);
         
     if (path)
     {
-        QDir basePath(*path);
+        QDir basePath(path->toString());
         
         if (basePath.exists("projects") == false)
             basePath.mkdir("projects");

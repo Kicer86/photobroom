@@ -1,5 +1,5 @@
 
 #include <gtest/gtest.h>
 
-#include "default_configuration.hpp"
+#include "configuration.hpp"
 #include "entrydata.hpp"

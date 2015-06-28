@@ -102,3 +102,8 @@ ol::Optional<QVariant> Configuration::getEntry(const QString&)
 
 }
 
+
+void Configuration::setEntry(const QString&, const QVariant&)
+{
+
+}

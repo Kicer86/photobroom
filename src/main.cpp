@@ -6,7 +6,7 @@
 
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
-#include <configuration/default_configuration.hpp>
+#include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
 #include <plugins/plugin_loader.hpp>
@@ -21,8 +21,7 @@ int main(int argc, char **argv)
     // build objects
     LoggerFactory logger_factory(basePath);
 
-    DefaultConfiguration configuration;
-    configuration.init(&logger_factory);
+    Configuration configuration;
 
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);
@@ -37,9 +36,6 @@ int main(int argc, char **argv)
     ProjectManager prjManager;
     prjManager.set(&database_builder);
     prjManager.set(&configuration);
-
-    // init configuration
-    configuration.load();
 
     // start gui
     Gui gui;
