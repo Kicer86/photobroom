@@ -22,10 +22,7 @@ struct MockConfiguration: IConfiguration
     MOCK_METHOD1(registerKey, void(const Configuration2::ConfigurationKey &));
     MOCK_METHOD1(registerXml, void(const QString &));
 
-    MOCK_METHOD1(getGroup, QJsonValueRef(const QString &));
-    MOCK_CONST_METHOD1(getGroup, QJsonValue(const QString &));
-    MOCK_METHOD0(getTopGroup, QJsonValueRef());
-    MOCK_CONST_METHOD0(getTopGroup, QJsonValue());
+    Data get() { return Data(); }
 };
 
 #endif

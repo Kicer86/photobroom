@@ -131,25 +131,7 @@ bool DefaultConfiguration::load()
 }
 
 
-QJsonValueRef DefaultConfiguration::getTopGroup()
-{
-
-}
-
-
-QJsonValue DefaultConfiguration::getTopGroup() const
-{
-
-}
-
-
-QJsonValueRef DefaultConfiguration::getGroup(const QString&)
-{
-
-}
-
-
-QJsonValue DefaultConfiguration::getGroup(const QString&) const
+IConfiguration::Data DefaultConfiguration::get()
 {
 
 }

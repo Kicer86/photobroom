@@ -80,25 +80,7 @@ Configuration::~Configuration()
 }
 
 
-QJsonValueRef Configuration::getGroup(const QString &)
-{
-
-}
-
-
-QJsonValue Configuration::getGroup(const QString &) const
-{
-
-}
-
-
-QJsonValueRef Configuration::getTopGroup()
-{
-
-}
-
-
-QJsonValue Configuration::getTopGroup() const
+IConfiguration::Data Configuration::get()
 {
 
 }

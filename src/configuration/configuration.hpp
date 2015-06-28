@@ -31,11 +31,7 @@ class Configuration: public IConfiguration
 
         Configuration& operator=(const Configuration &) = delete;
 
-        virtual QJsonValueRef getTopGroup();
-        virtual QJsonValue    getTopGroup() const;
-
-        virtual QJsonValueRef getGroup(const QString&);
-        virtual QJsonValue    getGroup(const QString&) const;
+        Data get() override;
 
     private:
         class ConfigurationPrivate* const d;

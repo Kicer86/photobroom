@@ -48,11 +48,7 @@ class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
         virtual void registerXml(const QString &) override;
         virtual bool load() override;
 
-        virtual QJsonValueRef getTopGroup()       override;
-        virtual QJsonValue    getTopGroup() const override;
-
-        virtual QJsonValueRef getGroup(const QString&)       override;
-        virtual QJsonValue    getGroup(const QString&) const override;
+        virtual Data get() override;
 
     private:
         std::unique_ptr<DefaultConfigurationPrivate> m_impl;
