@@ -25,19 +25,6 @@ set(CONFIG_HEADERS
    )
 
 
-if(BUILD_TESTS)
-    addTestTarget(configuration SOURCES
-                                    ${CONFIG_SOURCES}
-                                    tests/entrydata_tests.cpp
-                                    tests/default_configuration_tests.cpp
-                                    tests/default_configuration_private_tests.cpp
-                                TEST_LIBRARY
-                                    GTEST
-       )
-    target_link_libraries(configuration_test PRIVATE core system Qt5::Core)
-
-endif(BUILD_TESTS)
-
 source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})

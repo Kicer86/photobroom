@@ -22,6 +22,7 @@ struct MockConfiguration: IConfiguration
     MOCK_METHOD1(registerKey, void(const Configuration2::ConfigurationKey &));
     MOCK_METHOD1(registerXml, void(const QString &));
     MOCK_METHOD1(getEntry, ol::Optional<QVariant>(const QString &));
+    MOCK_METHOD2(setEntry, void(const QString &, const QVariant &));
 };
 
 #endif
