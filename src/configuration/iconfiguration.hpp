@@ -27,9 +27,9 @@
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 #include "configuration_export.h"
-#include "configuration_accessor.hpp"
 
 class QString;
+class QVariant;
 
 namespace Configuration2
 {
@@ -79,7 +79,7 @@ struct IConfiguration
     [[deprecated]]
     virtual const std::vector<Configuration2::EntryData> getEntries() = 0;
 
-    virtual ConfigurationAccessor get() = 0;
+    virtual ol::Optional<QVariant> getEntry(const QString &) = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

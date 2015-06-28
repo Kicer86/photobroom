@@ -21,7 +21,8 @@
 #include "private/configuration_p.hpp"
 
 #include <QFile>
-#include <QJsonObject>
+#include <QJsonDocument>
+#include <QVariant>
 
 #include <system/system.hpp>
 
@@ -96,7 +97,8 @@ Configuration::~Configuration()
 }
 
 
-ConfigurationAccessor Configuration::get()
+ol::Optional<QVariant> Configuration::getEntry(const QString&)
 {
 
 }
+

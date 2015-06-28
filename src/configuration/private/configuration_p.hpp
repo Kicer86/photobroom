@@ -21,7 +21,7 @@
 #define CONFIGURATIONPRIVATE_HPP
 
 
-#include <QJsonDocument>
+#include <QJsonObject>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 

@@ -31,7 +31,7 @@ class Configuration: public IConfiguration
 
         Configuration& operator=(const Configuration &) = delete;
 
-        ConfigurationAccessor get() override;
+        ol::Optional<QVariant> getEntry(const QString &) override;
 
     private:
         class ConfigurationPrivate* const d;

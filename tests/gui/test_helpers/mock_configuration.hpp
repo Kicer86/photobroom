@@ -21,8 +21,7 @@ struct MockConfiguration: IConfiguration
     MOCK_METHOD1(registerDefaultEntries, void(const std::vector<Configuration2::EntryData>&));
     MOCK_METHOD1(registerKey, void(const Configuration2::ConfigurationKey &));
     MOCK_METHOD1(registerXml, void(const QString &));
-
-    ConfigurationAccessor get() { return ConfigurationAccessor(); }
+    MOCK_METHOD1(getEntry, ol::Optional<QVariant>(const QString &));
 };
 
 #endif

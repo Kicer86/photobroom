@@ -49,7 +49,7 @@ class CONFIGURATION_EXPORT DefaultConfiguration: public IConfiguration
         virtual void registerXml(const QString &) override;
         virtual bool load() override;
 
-        virtual ConfigurationAccessor get() override;
+        ol::Optional<QVariant> getEntry(const QString &);
 
     private:
         std::unique_ptr<DefaultConfigurationPrivate> m_impl;

@@ -23,6 +23,7 @@
 #include <iostream>
 
 #include <QString>
+#include <QVariant>
 
 #include <core/ilogger.hpp>
 #include <system/system.hpp>
@@ -131,14 +132,14 @@ bool DefaultConfiguration::load()
 }
 
 
-ConfigurationAccessor DefaultConfiguration::get()
-{
-
-}
-
-
 bool DefaultConfiguration::useXml(const QString& xml)
 {
     return m_impl->useXml(xml);
+}
+
+
+ol::Optional< QVariant > DefaultConfiguration::getEntry(const QString&)
+{
+
 }
 
