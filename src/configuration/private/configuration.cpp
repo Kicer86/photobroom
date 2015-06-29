@@ -1,5 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
+ * Configuration's private implementation
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,18 +20,22 @@
 #include "configuration.hpp"
 #include "private/configuration_p.hpp"
 
+#include <fstream>
+
 #include <QFile>
 #include <QJsonDocument>
 #include <QVariant>
+
+#include <json/reader.h>
 
 #include <system/system.hpp>
 
 #include "constants.hpp"
 
 
-ConfigurationPrivate::ConfigurationPrivate(Configuration* q):
+ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
     m_json(),
-    q(q),
+    q(_q),
     m_loaded(false)
 {
 }
@@ -39,6 +43,36 @@ ConfigurationPrivate::ConfigurationPrivate(Configuration* q):
 
 ConfigurationPrivate::~ConfigurationPrivate()
 {
+}
+
+
+ol::Optional<QVariant> ConfigurationPrivate::getEntry(const QString& entry)
+{
+    QVariant v_result;
+
+    solve(entry, [&](Json::Value& value)
+    {
+        if (value.isString())
+            v_result = value.asCString();
+        else if(value.isInt())
+            v_result = value.asInt();
+        else
+            assert(!"not implemented");
+    });
+
+    return v_result;
+}
+
+
+void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_value)
+{
+    solve(entry, [&](Json::Value& value)
+    {
+        if (value.type() == QVariant::String)
+            value = entry_value.toString().toStdString();
+        else
+            assert(!"unsupported type");
+    });
 }
 
 
@@ -56,27 +90,49 @@ void ConfigurationPrivate::loadData()
 {
     const QString path = System::getApplicationConfigDir();
     const QString configFile = path + "/" + "config.json";
-    QFile config(configFile);
 
     if (QFile::exists(configFile))
     {
-        config.open(QIODevice::ReadOnly);
-
-        const QByteArray data = config.readAll();
-        QJsonDocument doc = QJsonDocument::fromJson(data);
+        std::ifstream config(configFile.toStdString(), std::ifstream::binary);
 
         auto locked_config = m_json.lock();
-        *locked_config = doc.object();
+        config >> *locked_config;
     }
     else
     {
         //load default data
-        QJsonObject data;
-        data[Configuration2::BasicKeys::configLocation] = path;
+        Json::Value data;
+        data[Configuration2::BasicKeys::configLocation] = path.toStdString();
         data[Configuration2::BasicKeys::thumbnailWidth] = 120;
 
         auto locked_config = m_json.lock();
         *locked_config = data;
+    }
+}
+
+
+void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::Value &)> f)
+{
+    ensureDataLoaded();
+
+    if (entry.isEmpty() == false)
+    {
+        auto config = m_json.lock();
+        const QStringList levels = entry.split("/");
+
+        Json::Value& obj = config.get();
+        Json::Value* value = &obj;
+
+        for(QStringList::const_iterator it = levels.begin(); it != levels.end(); ++it)
+        {
+            const std::string level_value = it->toStdString();
+            Json::Value& value_ref = *value;
+            Json::Value& sub_value = value_ref[level_value];
+
+            value = &sub_value;
+        }
+
+        f(*value);
     }
 }
 
@@ -97,13 +153,13 @@ Configuration::~Configuration()
 }
 
 
-ol::Optional<QVariant> Configuration::getEntry(const QString&)
+ol::Optional<QVariant> Configuration::getEntry(const QString& entry)
 {
-
+    return d->getEntry(entry);
 }
 
 
-void Configuration::setEntry(const QString&, const QVariant&)
+void Configuration::setEntry(const QString& entry, const QVariant& value)
 {
-
+    d->setEntry(entry, value);
 }

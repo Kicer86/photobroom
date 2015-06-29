@@ -21,7 +21,7 @@
 #define CONFIGURATIONPRIVATE_HPP
 
 
-#include <QJsonObject>
+#include <json/value.h>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
@@ -32,14 +32,18 @@ class ConfigurationPrivate
         ConfigurationPrivate(Configuration* q);
         virtual ~ConfigurationPrivate();
 
-        void ensureDataLoaded();
+        ol::Optional<QVariant> getEntry(const QString &);
+        void setEntry(const QString &, const QVariant &);
 
     private:
-        ol::ThreadSafeResource<QJsonObject> m_json;
+        ol::ThreadSafeResource<Json::Value> m_json;
         class Configuration* const q;
         bool m_loaded;
 
+        void ensureDataLoaded();
         void loadData();
+
+        void solve(const QString &, std::function<void(Json::Value &)>);
 };
 
 #endif // CONFIGURATIONPRIVATE_HPP
