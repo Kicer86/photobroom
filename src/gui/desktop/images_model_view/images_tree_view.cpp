@@ -64,8 +64,10 @@ void ImagesTreeView::set(IConfiguration* configuration)
     assert(widthEntry);
     if (widthEntry)
     {
-        verticalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
-        horizontalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
+        const int width = widthEntry->toInt();
+        
+        verticalScrollBar()->setSingleStep(width / 2);
+        horizontalScrollBar()->setSingleStep(width / 2);
     }
 }
 
