@@ -27,6 +27,7 @@
 #include <QVariant>
 
 #include <json/reader.h>
+#include <json/writer.h>
 
 #include <system/system.hpp>
 
@@ -69,7 +70,10 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
     solve(entry, [&](Json::Value& value)
     {
         if (value.type() == QVariant::String)
+        {
             value = entry_value.toString().toStdString();
+            saveData();
+        }
         else
             assert(!"unsupported type");
     });
@@ -105,9 +109,25 @@ void ConfigurationPrivate::loadData()
         data[Configuration2::BasicKeys::configLocation] = path.toStdString();
         data[Configuration2::BasicKeys::thumbnailWidth] = 120;
 
-        auto locked_config = m_json.lock();
-        *locked_config = data;
+        {
+            auto locked_config = m_json.lock();
+            *locked_config = data;
+        }
+        
+        saveData();
     }
+}
+
+
+void ConfigurationPrivate::saveData()
+{
+    const QString path = System::getApplicationConfigDir();
+    const QString configFile = path + "/" + "config.json";
+
+    std::ofstream config(configFile.toStdString(), std::ofstream::binary);
+
+    auto locked_config = m_json.lock();
+    config << *locked_config;
 }
 
 

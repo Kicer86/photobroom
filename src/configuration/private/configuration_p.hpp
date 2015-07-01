@@ -42,6 +42,7 @@ class ConfigurationPrivate
 
         void ensureDataLoaded();
         void loadData();
+        void saveData();
 
         void solve(const QString &, std::function<void(Json::Value &)>);
 };
