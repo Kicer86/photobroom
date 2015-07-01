@@ -1,12 +1,16 @@
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(JsonCpp REQUIRED)
+
+# JsonCpp is used instead of QJson* classes die to problem with nested QJsonObjects:
+# http://stackoverflow.com/questions/17034336/how-to-change-qjsonobject-value-in-a-qjson-hierarchy-without-using-copies
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${JSONCPP_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -14,7 +18,6 @@ set(CONFIG_SOURCES
     private/configuration.cpp
     private/constants.cpp
     private/entrydata.cpp
-    private/default_configuration_private.cpp
    )
 
 set(CONFIG_HEADERS
@@ -22,29 +25,16 @@ set(CONFIG_HEADERS
     constants.hpp
     entrydata.hpp
     iconfiguration.hpp
-    private/default_configuration_private.hpp
+    private/configuration_p.hpp
    )
 
-
-if(BUILD_TESTS)
-    addTestTarget(configuration SOURCES
-                                    ${CONFIG_SOURCES}
-                                    tests/entrydata_tests.cpp
-                                    tests/default_configuration_tests.cpp
-                                    tests/default_configuration_private_tests.cpp
-                                TEST_LIBRARY
-                                    GTEST
-       )
-    target_link_libraries(configuration_test PRIVATE core system Qt5::Core)
-
-endif(BUILD_TESTS)
 
 source_group(configuration REGULAR_EXPRESSION .*configuration.* )
 
 qt5_add_resources(CONFIG_RESOURCES ${CONFIG_RESOURCE_FILES})
 
 add_library(configuration ${CONFIG_SOURCES} ${CONFIG_HEADERS})
-target_link_libraries(configuration PRIVATE core system Qt5::Core)
+target_link_libraries(configuration PRIVATE core system Qt5::Core ${JSONCPP_LIBRARIES})
 target_include_directories(configuration PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(configuration)

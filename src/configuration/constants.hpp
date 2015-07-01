@@ -6,7 +6,7 @@
 
 #include "configuration_export.h"
 
-namespace Configuration
+namespace Configuration2
 {
 
     struct CONFIGURATION_EXPORT Constraints

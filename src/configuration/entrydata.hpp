@@ -30,9 +30,10 @@
 
 class QString;
 
-namespace Configuration
+namespace Configuration2
 {
 
+    [[deprecated]]
     class CONFIGURATION_EXPORT ConfigurationKey
     {
         public:
@@ -55,6 +56,7 @@ namespace Configuration
             ol::data_ptr<Data> m_data;
     };
 
+    [[deprecated]]
     class CONFIGURATION_EXPORT EntryData
     {
         public:

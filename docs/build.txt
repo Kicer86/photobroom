@@ -4,6 +4,7 @@ Required tools and libraries:
  - Qt5 - version 5.4 or higher
  - hash-library*
  - easyexif*
+ - jsoncpp*
  - OpenMP (optional)
  - OpenLibrary
 
@@ -14,6 +15,7 @@ Required tools and libraries:
   - cd 3rd_party
   - git clone https://github.com/mayanklahiri/easyexif.git
   - git clone http://create.stephan-brumme.com/hash-library/.git 
+  - git clone https://github.com/open-source-parsers/jsoncpp.git
 
 Tested compilers:
 1. gcc  (Linux and Windows)

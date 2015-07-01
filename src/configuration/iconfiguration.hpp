@@ -24,12 +24,14 @@
 #include <string>
 
 #include <OpenLibrary/utils/optional.hpp>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include "configuration_export.h"
 
 class QString;
+class QVariant;
 
-namespace Configuration
+namespace Configuration2
 {
     class EntryData;
     class ConfigurationKey;
@@ -40,31 +42,8 @@ struct IConfiguration
     IConfiguration() {}
     virtual ~IConfiguration() {}
 
-    // This function registers a default entry with value.
-    // If a value for specified entry exists in config file,
-    // will be prefered.
-    virtual void registerDefaultEntries(const std::vector<Configuration::EntryData> &) = 0;
-
-    // This function introduces a configuration key.
-    // Before adding/loading values to configuration, each entry (Key) must be introduced.
-    // Unknown (not registered) keys will be treated as deprecated,
-    // and dev-warning will be printed in output.
-    virtual void registerKey(const Configuration::ConfigurationKey &) = 0;
-
-    //function registers configuration key names and defaults from XML string
-    virtual void registerXml(const QString &) = 0;
-
-    // Add entry to config
-    virtual void addEntry(const Configuration::EntryData &) = 0;
-
-    // loads data from initializers and disk storage
-    virtual bool load() = 0;
-
-    virtual ol::Optional<Configuration::EntryData> findEntry(const Configuration::ConfigurationKey &) const = 0;
-    virtual ol::Optional<QString> findEntry(const char *) const = 0;
-    virtual QString findEntry(const char *, const QString& defaultValue) const = 0;
-
-    virtual const std::vector<Configuration::EntryData> getEntries() = 0;
+    virtual ol::Optional<QVariant> getEntry(const QString &) = 0;
+    virtual void setEntry(const QString &, const QVariant &) = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

@@ -29,7 +29,7 @@
 #include <QTimer>
 
 #include <configuration/constants.hpp>
-#include <configuration/configuration.hpp>
+#include <configuration/iconfiguration.hpp>
 #include <core/time_guardian.hpp>
 
 #include "view_helpers/data.hpp"
@@ -59,13 +59,15 @@ ImagesTreeView::~ImagesTreeView()
 void ImagesTreeView::set(IConfiguration* configuration)
 {
     m_data->m_configuration = configuration;
-    auto widthEntry = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+    auto widthEntry = m_data->m_configuration->getEntry(Configuration2::BasicKeys::thumbnailWidth);
 
     assert(widthEntry);
     if (widthEntry)
     {
-        verticalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
-        horizontalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
+        const int width = widthEntry->toInt();
+        
+        verticalScrollBar()->setSingleStep(width / 2);
+        horizontalScrollBar()->setSingleStep(width / 2);
     }
 }
 

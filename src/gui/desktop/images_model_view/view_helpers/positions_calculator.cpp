@@ -24,7 +24,6 @@
 #include <QModelIndex>
 
 #include <configuration/constants.hpp>
-#include <configuration/configuration.hpp>
 
 #include "data.hpp"
 
