@@ -96,12 +96,8 @@ void ConfigurationPrivate::loadData()
     else
     {
         //load default data
-        Json::Value data;
         setEntry(Configuration2::BasicKeys::configLocation, path);
         setEntry(Configuration2::BasicKeys::thumbnailWidth, 120);
-
-        auto locked_config = m_json.lock();
-        *locked_config = data;
     }
 }
 
@@ -123,6 +119,7 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::
     if (entry.isEmpty() == false)
     {
         auto config = m_json.lock();
+
         const QStringList levels = entry.split("/");
 
         Json::Value& obj = config.get();
