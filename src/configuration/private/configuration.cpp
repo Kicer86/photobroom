@@ -120,7 +120,7 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::
     {
         auto config = m_json.lock();
 
-        const QStringList levels = entry.split("/");
+        const QStringList levels = entry.split("::");
 
         Json::Value& obj = config.get();
         Json::Value* value = &obj;
