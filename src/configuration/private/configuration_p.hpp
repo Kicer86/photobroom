@@ -31,7 +31,10 @@ class ConfigurationPrivate: public QObject
 {
     public:
         ConfigurationPrivate(Configuration* q);
+        ConfigurationPrivate(const ConfigurationPrivate &) = delete;
         virtual ~ConfigurationPrivate();
+
+        ConfigurationPrivate& operator=(const ConfigurationPrivate &) = delete;
 
         ol::Optional<QVariant> getEntry(const QString &);
         void setEntry(const QString &, const QVariant &);
