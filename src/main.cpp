@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include <QCoreApplication>
+
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <configuration/configuration.hpp>
@@ -16,6 +18,11 @@
 
 int main(int argc, char **argv)
 {
+    Gui gui;
+
+    std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
+    app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
+
     const QString basePath = System::getApplicationConfigDir() + "/logs";
 
     // build objects
@@ -38,13 +45,12 @@ int main(int argc, char **argv)
     prjManager.set(&configuration);
 
     // start gui
-    Gui gui;
     gui.set(&prjManager);
     gui.set(&pluginLoader);
     gui.set(&configuration);
     gui.set(&logger_factory);
     gui.set(&taskExecutor);
-    gui.run(argc, argv);
+    gui.run();
 
     return 0;
 }

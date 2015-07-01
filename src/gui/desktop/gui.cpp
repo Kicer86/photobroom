@@ -25,6 +25,12 @@ Gui::~Gui()
 }
 
 
+std::unique_ptr<QCoreApplication> Gui::init(int argc, char** argv)
+{
+    return std::make_unique<QApplication>(argc, argv);
+}
+
+
 void Gui::set(IProjectManager* prjManager)
 {
     m_prjManager = prjManager;
@@ -55,7 +61,7 @@ void Gui::set(ILoggerFactory* logger_factory)
 }
 
 
-void Gui::run(int argc, char **argv)
+void Gui::run()
 {
 #ifdef GUI_STATIC
     // see: http://doc.qt.io/qt-5/resources.html
@@ -67,14 +73,12 @@ void Gui::run(int argc, char **argv)
     QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
 #endif
 
-    QApplication app(argc, argv);
-
 	const QString tr_path = FileSystem().getTranslationsPath();
 	m_logger->log(ILogger::Severity::Info, QString("Searching for translations in: %1").arg(tr_path).toStdString());
 
     QTranslator translator;
     translator.load("photo_broom_pl", tr_path);
-    const bool status = app.installTranslator(&translator);
+    const bool status = QCoreApplication::installTranslator(&translator);
 
     if (status)
         m_logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
@@ -92,7 +96,7 @@ void Gui::run(int argc, char **argv)
     mainWindow.set(&updater);
 
     mainWindow.show();
-    app.exec();
+    QCoreApplication::exec();
 
     //stop all tasks
     m_taskExecutor->stop();

@@ -7,9 +7,7 @@
 
 QString System::getApplicationConfigDir()
 {
-    QString result = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-
-    result += "/photo_broom";
+    const QString result = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
     return result;
 }
