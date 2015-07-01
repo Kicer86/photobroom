@@ -36,9 +36,9 @@
 
 ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
     m_json(),
-    q(_q),
-    m_loaded(false)
+    q(_q)
 {
+    loadData();
 }
 
 
@@ -69,24 +69,15 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
 {
     solve(entry, [&](Json::Value& value)
     {
-        if (value.type() == QVariant::String)
-        {
+        if (entry_value.type() == QVariant::String)
             value = entry_value.toString().toStdString();
-            saveData();
-        }
+        else if(entry_value.type() == QVariant::Int)
+            value = entry_value.toInt();
         else
             assert(!"unsupported type");
     });
-}
 
-
-void ConfigurationPrivate::ensureDataLoaded()
-{
-    if (m_loaded == false)
-    {
-        loadData();
-        m_loaded = true;
-    }
+    saveData();
 }
 
 
@@ -106,15 +97,11 @@ void ConfigurationPrivate::loadData()
     {
         //load default data
         Json::Value data;
-        data[Configuration2::BasicKeys::configLocation] = path.toStdString();
-        data[Configuration2::BasicKeys::thumbnailWidth] = 120;
+        setEntry(Configuration2::BasicKeys::configLocation, path);
+        setEntry(Configuration2::BasicKeys::thumbnailWidth, 120);
 
-        {
-            auto locked_config = m_json.lock();
-            *locked_config = data;
-        }
-        
-        saveData();
+        auto locked_config = m_json.lock();
+        *locked_config = data;
     }
 }
 
@@ -133,8 +120,6 @@ void ConfigurationPrivate::saveData()
 
 void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::Value &)> f)
 {
-    ensureDataLoaded();
-
     if (entry.isEmpty() == false)
     {
         auto config = m_json.lock();

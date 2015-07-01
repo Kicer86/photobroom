@@ -38,9 +38,7 @@ class ConfigurationPrivate
     private:
         ol::ThreadSafeResource<Json::Value> m_json;
         class Configuration* const q;
-        bool m_loaded;
 
-        void ensureDataLoaded();
         void loadData();
         void saveData();
 
