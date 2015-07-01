@@ -36,8 +36,14 @@
 
 ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
     m_json(),
+    m_dumpTimer(),
     q(_q)
 {
+    m_dumpTimer.setSingleShot(true);
+    m_dumpTimer.setInterval(500);
+
+    connect(&m_dumpTimer, &QTimer::timeout, this, &ConfigurationPrivate::saveData);
+
     loadData();
 }
 
@@ -77,7 +83,7 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
             assert(!"unsupported type");
     });
 
-    saveData();
+    markDataDirty();
 }
 
 
@@ -99,6 +105,12 @@ void ConfigurationPrivate::loadData()
         setEntry(Configuration2::BasicKeys::configLocation, path);
         setEntry(Configuration2::BasicKeys::thumbnailWidth, 120);
     }
+}
+
+
+void ConfigurationPrivate::markDataDirty()
+{
+    m_dumpTimer.start();
 }
 
 

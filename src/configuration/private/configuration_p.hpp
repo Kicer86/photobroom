@@ -20,13 +20,14 @@
 #ifndef CONFIGURATIONPRIVATE_HPP
 #define CONFIGURATIONPRIVATE_HPP
 
+#include <QTimer>
 
 #include <json/value.h>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 
-class ConfigurationPrivate
+class ConfigurationPrivate: public QObject
 {
     public:
         ConfigurationPrivate(Configuration* q);
@@ -37,9 +38,11 @@ class ConfigurationPrivate
 
     private:
         ol::ThreadSafeResource<Json::Value> m_json;
+        QTimer m_dumpTimer;
         class Configuration* const q;
 
         void loadData();
+        void markDataDirty();
         void saveData();
 
         void solve(const QString &, std::function<void(Json::Value &)>);
