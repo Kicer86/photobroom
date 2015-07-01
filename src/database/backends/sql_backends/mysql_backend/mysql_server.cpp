@@ -38,7 +38,6 @@
 #include <QSqlError>
 
 #include <configuration/iconfiguration.hpp>
-#include <configuration/entrydata.hpp>
 #include <core/ilogger.hpp>
 #include <core/disk_observer.hpp>
 #include <core/ilogger_factory.hpp>
