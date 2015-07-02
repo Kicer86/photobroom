@@ -23,9 +23,6 @@
 #include <vector>
 #include <string>
 
-#include <OpenLibrary/utils/optional.hpp>
-#include <OpenLibrary/putils/ts_resource.hpp>
-
 #include "configuration_export.h"
 
 class QString;
@@ -42,7 +39,7 @@ struct IConfiguration
     IConfiguration() {}
     virtual ~IConfiguration() {}
 
-    virtual ol::Optional<QVariant> getEntry(const QString &) = 0;
+    virtual QVariant getEntry(const QString &) = 0;
     virtual void setEntry(const QString &, const QVariant &) = 0;
 };
 

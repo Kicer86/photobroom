@@ -53,7 +53,7 @@ ConfigurationPrivate::~ConfigurationPrivate()
 }
 
 
-ol::Optional<QVariant> ConfigurationPrivate::getEntry(const QString& entry)
+QVariant ConfigurationPrivate::getEntry(const QString& entry)
 {
     QVariant v_result;
 
@@ -166,7 +166,7 @@ Configuration::~Configuration()
 }
 
 
-ol::Optional<QVariant> Configuration::getEntry(const QString& entry)
+QVariant Configuration::getEntry(const QString& entry)
 {
     return d->getEntry(entry);
 }

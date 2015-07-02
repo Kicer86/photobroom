@@ -36,7 +36,7 @@ class ConfigurationPrivate: public QObject
 
         ConfigurationPrivate& operator=(const ConfigurationPrivate &) = delete;
 
-        ol::Optional<QVariant> getEntry(const QString &);
+        QVariant getEntry(const QString &);
         void setEntry(const QString &, const QVariant &);
 
     private:

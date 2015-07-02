@@ -11,7 +11,7 @@
 
 struct MockConfiguration: IConfiguration
 {
-    MOCK_METHOD1(getEntry, ol::Optional<QVariant>(const QString &));
+    MOCK_METHOD1(getEntry, QVariant(const QString &));
     MOCK_METHOD2(setEntry, void(const QString &, const QVariant &));
 };
 
