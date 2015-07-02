@@ -42,7 +42,6 @@ int main(int argc, char **argv)
 
     ProjectManager prjManager;
     prjManager.set(&database_builder);
-    prjManager.set(&configuration);
 
     // start gui
     gui.set(&prjManager);

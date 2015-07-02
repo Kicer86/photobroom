@@ -27,9 +27,9 @@ qt5_wrap_cpp(PROJECT_UTILS_MOCED ${PROJECT_UTILS_MOC})
 
 add_library(project_utils ${PROJECT_UTILS_SOURCES} ${PROJECT_UTILS_HEADERS} ${PROJECT_UTILS_MOCED})
 target_link_libraries(project_utils PRIVATE 
-                                    configuration
                                     core
                                     database
+                                    system
                                     Qt5::Core
                                     ${OPENLIBRARY_LIBRARIES}
                      )

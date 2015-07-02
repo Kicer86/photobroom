@@ -102,8 +102,7 @@ void ConfigurationPrivate::loadData()
     else
     {
         //load default data
-        setEntry(Configuration2::BasicKeys::configLocation, path);
-        setEntry(Configuration2::BasicKeys::thumbnailWidth, 120);
+        setEntry(ConfigConsts::BasicKeys::thumbnailWidth, 120);
     }
 }
 

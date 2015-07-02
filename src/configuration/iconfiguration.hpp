@@ -31,7 +31,7 @@
 class QString;
 class QVariant;
 
-namespace Configuration2
+namespace ConfigConsts
 {
     class EntryData;
     class ConfigurationKey;
