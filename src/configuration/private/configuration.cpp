@@ -50,6 +50,11 @@ ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
 
 ConfigurationPrivate::~ConfigurationPrivate()
 {
+    if (m_dumpTimer.isActive())
+    {
+        m_dumpTimer.stop();
+        saveData();
+    }
 }
 
 
@@ -63,6 +68,8 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
             v_result = value.asCString();
         else if(value.isInt())
             v_result = value.asInt();
+        else if(value.isNull())
+        {}
         else
             assert(!"not implemented");
     });
@@ -79,6 +86,8 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
             value = entry_value.toString().toStdString();
         else if(entry_value.type() == QVariant::Int)
             value = entry_value.toInt();
+        else if(entry_value.type() == QVariant::ByteArray)
+            value = entry_value.toByteArray().data();
         else
             assert(!"unsupported type");
     });
