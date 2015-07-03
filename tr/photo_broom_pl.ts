@@ -132,7 +132,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+184"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+194"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
@@ -216,7 +216,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-66"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-73"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -238,12 +238,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+71"/>
         <source>Staged photos</source>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -253,7 +253,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+152"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>

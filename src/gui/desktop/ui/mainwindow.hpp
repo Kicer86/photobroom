@@ -70,6 +70,7 @@ class MainWindow: public QMainWindow
         void updateGui();
         void updateTools();
         void viewChanged();
+        void loadGeometry();
 
     private slots:
         // album menu
