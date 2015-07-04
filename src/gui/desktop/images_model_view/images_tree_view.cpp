@@ -68,16 +68,12 @@ void ImagesTreeView::set(IConfiguration* configuration)
     configuration->setDefaultValue(ConfigConsts::BasicKeys::thumbnailWidth, 120);
 
     m_data->m_configuration = configuration;
-    QVariant widthEntry = m_data->m_configuration->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
+    
+    const QVariant widthEntry = m_data->m_configuration->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
+    const int width = widthEntry.toInt();
 
-    assert(widthEntry.isValid());
-    if (widthEntry.isValid())
-    {
-        const int width = widthEntry.toInt();
-        
-        verticalScrollBar()->setSingleStep(width / 2);
-        horizontalScrollBar()->setSingleStep(width / 2);
-    }
+    verticalScrollBar()->setSingleStep(width / 2);
+    horizontalScrollBar()->setSingleStep(width / 2);
 }
 
 
