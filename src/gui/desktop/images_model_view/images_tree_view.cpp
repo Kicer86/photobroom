@@ -65,6 +65,7 @@ ImagesTreeView::~ImagesTreeView()
 void ImagesTreeView::set(IConfiguration* configuration)
 {
     configuration->setDefaultValue(marginConfigKey, 2);
+    configuration->setDefaultValue(ConfigConsts::BasicKeys::thumbnailWidth, 120);
 
     m_data->m_configuration = configuration;
     QVariant widthEntry = m_data->m_configuration->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
