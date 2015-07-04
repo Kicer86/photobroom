@@ -40,7 +40,7 @@
 
 namespace
 {
-    const char* marginConfigKey = "View::margin";
+    const char* marginConfigKey = "view::margin";
 }
 
 

@@ -150,10 +150,10 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     // store windows state
     const QByteArray geometry = saveGeometry();
-    m_configuration->setEntry("Gui::geometry", geometry.toBase64());
+    m_configuration->setEntry("gui::geometry", geometry.toBase64());
 
     const QByteArray state = saveState();
-    m_configuration->setEntry("Gui::state", state.toBase64());
+    m_configuration->setEntry("gui::state", state.toBase64());
 }
 
 
@@ -282,7 +282,7 @@ void MainWindow::viewChanged()
 void MainWindow::loadGeometry()
 {
     // restore state
-    const QVariant geometry = m_configuration->getEntry("Gui::geometry");
+    const QVariant geometry = m_configuration->getEntry("gui::geometry");
     if (geometry.isValid())
     {
         const QByteArray base64 = geometry.toByteArray();
@@ -290,7 +290,7 @@ void MainWindow::loadGeometry()
         restoreGeometry(geometryData);
     }
 
-    const QVariant state = m_configuration->getEntry("Gui::state");
+    const QVariant state = m_configuration->getEntry("gui::state");
     if (state.isValid())
     {
         const QByteArray base64 = state.toByteArray();
