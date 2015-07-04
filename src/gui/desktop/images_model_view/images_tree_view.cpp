@@ -38,12 +38,6 @@
 #include "tree_item_delegate.hpp"
 
 
-namespace
-{
-    const char* marginConfigKey = "view::margin";
-}
-
-
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
@@ -64,12 +58,12 @@ ImagesTreeView::~ImagesTreeView()
 
 void ImagesTreeView::set(IConfiguration* configuration)
 {
-    configuration->setDefaultValue(marginConfigKey, 2);
     configuration->setDefaultValue(ConfigConsts::BasicKeys::thumbnailWidth, 120);
 
-    m_data->m_configuration = configuration;
-    
-    const QVariant widthEntry = m_data->m_configuration->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
+    m_data->set(configuration);
+
+    const QVariant widthEntry = m_data->getConfig()->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
+    assert(widthEntry.isValid());
     const int width = widthEntry.toInt();
 
     verticalScrollBar()->setSingleStep(width / 2);

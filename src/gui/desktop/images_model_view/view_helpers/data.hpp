@@ -37,9 +37,6 @@ class Data
     public:
         typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
 
-        const int indexMargin = 10;           // TODO: move to configuration
-        IConfiguration* m_configuration;
-
         Data();
         Data(const Data &) = delete;
         
@@ -47,6 +44,7 @@ class Data
         Data& operator=(const Data &) = delete;
 
         void set(QAbstractItemModel *);
+        void set(IConfiguration *);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
@@ -66,6 +64,9 @@ class Data
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
 
+        int getMargin() const;
+        IConfiguration* getConfig();
+
         //getting siblings
         QModelIndex getRightOf(const QModelIndex &) const;
         QModelIndex getLeftOf(const QModelIndex &) const;
@@ -78,6 +79,8 @@ class Data
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
+        IConfiguration* m_configuration;
+        int m_margin;
 };
 
 #endif // DATA_HPP

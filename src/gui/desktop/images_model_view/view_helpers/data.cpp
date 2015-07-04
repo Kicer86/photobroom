@@ -27,8 +27,17 @@
 #include <QDebug>
 #include <QModelIndex>
 
+#include <configuration/iconfiguration.hpp>
 
-Data::Data(): m_configuration(nullptr), m_itemData(new ModelIndexInfoSet), m_model(nullptr)
+
+namespace
+{
+    const char* marginConfigKey = "view::margin";
+}
+
+
+
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(-1)
 {
 
 }
@@ -44,6 +53,17 @@ void Data::set(QAbstractItemModel* model)
 {
     m_model = model;
     m_itemData->set(model);
+}
+
+
+void Data::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
+    configuration->setDefaultValue(marginConfigKey, 2);
+
+    const QVariant marginEntry = m_configuration->getEntry(marginConfigKey);
+    assert(marginEntry.isValid());
+    m_margin = marginEntry.toInt();
 }
 
 
@@ -234,6 +254,19 @@ const Data::ModelIndexInfoSet& Data::getModel() const
 Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
+}
+
+
+int Data::getMargin() const
+{
+    assert(m_margin != -1);
+    return m_margin;
+}
+
+
+IConfiguration* Data::getConfig()
+{
+    return m_configuration;
 }
 
 
