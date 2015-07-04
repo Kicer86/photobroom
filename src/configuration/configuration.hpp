@@ -34,6 +34,8 @@ class Configuration: public IConfiguration
         QVariant getEntry(const QString &) override;
         void setEntry(const QString &, const QVariant &) override;
 
+        void setDefaultValue(const QString &, const QVariant &) override;
+
     private:
         class ConfigurationPrivate* const d;
 };

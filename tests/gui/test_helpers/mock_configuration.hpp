@@ -13,6 +13,8 @@ struct MockConfiguration: IConfiguration
 {
     MOCK_METHOD1(getEntry, QVariant(const QString &));
     MOCK_METHOD2(setEntry, void(const QString &, const QVariant &));
+
+    MOCK_METHOD2(setDefaultValue, void(const QString &, const QVariant &));
 };
 
 #endif

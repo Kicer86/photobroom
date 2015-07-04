@@ -41,6 +41,8 @@ struct IConfiguration
 
     virtual QVariant getEntry(const QString &) = 0;
     virtual void setEntry(const QString &, const QVariant &) = 0;
+
+    virtual void setDefaultValue(const QString &, const QVariant &) = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

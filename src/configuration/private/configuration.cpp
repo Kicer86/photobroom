@@ -185,3 +185,11 @@ void Configuration::setEntry(const QString& entry, const QVariant& value)
 {
     d->setEntry(entry, value);
 }
+
+
+void Configuration::setDefaultValue(const QString& entry, const QVariant& value)
+{
+    const QVariant curren_value = getEntry(entry);
+    if (curren_value.isNull())
+        setEntry(entry, value);
+}
