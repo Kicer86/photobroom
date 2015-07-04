@@ -78,7 +78,7 @@ const Hierarchy::Level& Hierarchy::getLeafsInfo() const
 //////////////////////////////////////
 
 
-DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr)
+DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
 {
 }
 

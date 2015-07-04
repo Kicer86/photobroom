@@ -8,6 +8,8 @@
 
 #include "gui_export.h"
 
+class QCoreApplication;
+
 struct ILoggerFactory;
 struct ILogger;
 struct ITaskExecutor;
@@ -22,12 +24,13 @@ struct GUI_EXPORT Gui
     Gui(const Gui &) = delete;
     Gui& operator=(const Gui &) = delete;
 
+    std::unique_ptr<QCoreApplication> init(int argc, char **argv);
     void set(IProjectManager *);
     void set(IPluginLoader *);
     void set(ITaskExecutor *);
     void set(IConfiguration *);
     void set(ILoggerFactory *);
-    void run(int argc, char **argv);
+    void run();
 
     private:
         IProjectManager* m_prjManager;

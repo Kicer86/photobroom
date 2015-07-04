@@ -11,3 +11,5 @@ External libraries and tools used  by Photo Broom:
  * EasyExif for exif access.  
  * OpenMP (when available).
  * GMock and GTest
+ * JsonCpp
+ 

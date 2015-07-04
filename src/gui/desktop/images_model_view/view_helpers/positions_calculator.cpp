@@ -24,7 +24,6 @@
 #include <QModelIndex>
 
 #include <configuration/constants.hpp>
-#include <configuration/configuration.hpp>
 
 #include "data.hpp"
 
@@ -187,7 +186,7 @@ int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::level_iterator in
     if (m_data->isImage(infoIt))   //image
     {
         QPixmap pixmap = m_data->getImage(infoIt);
-        w = pixmap.width() + m_data->indexMargin * 2;
+        w = pixmap.width() + m_data->getMargin() * 2;
     }
     else                           //node's title
         w = m_width;
@@ -202,7 +201,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::level_iterator i
     if (m_data->isImage(infoIt))   //image
     {
         QPixmap pixmap = m_data->getImage(infoIt);
-        item_height = pixmap.height() + m_data->indexMargin * 2;
+        item_height = pixmap.height() + m_data->getMargin() * 2;
     }
     else                           //node's title
         item_height = 40;          //TODO: temporary

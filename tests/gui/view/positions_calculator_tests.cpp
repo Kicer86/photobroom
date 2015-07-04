@@ -13,14 +13,21 @@
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 
+#define SETUP_CONFIG_EXPECTATIONS()                                                     \
+    using ::testing::Return;                                                            \
+    EXPECT_CALL(config, setDefaultValue(QString("view::margin"), QVariant(2)));         \
+    EXPECT_CALL(config, getEntry(QString("view::margin"))).WillRepeatedly(Return(2))
+
 TEST(PositionsCalculatorShould, BeConstructable)
 {
     EXPECT_NO_THROW({
         MockConfiguration config;
         QStandardItemModel model;
 
+        SETUP_CONFIG_EXPECTATIONS();
+
         Data data;
-        data.m_configuration = &config;
+        data.set(&config);
         data.set(&model);
 
         PositionsCalculator calculator(&model, &data, 100);
@@ -37,8 +44,10 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     MockConfiguration config;
     QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -70,6 +79,8 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     MockConfiguration config;
     QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     // top + 1 main node + 2 children
     QStandardItem* top_idx = new QStandardItem;
     QStandardItem* top_child1_idx = new QStandardItem;
@@ -83,7 +94,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     model.appendRow(top_idx);
 
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -109,7 +120,6 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 
 TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 {
-
     // Situation:
     // One node with two children. Node is expanded and its children are visible in one row.
 
@@ -117,14 +127,13 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     using ::testing::Return;
     using ::testing::Invoke;
 
-    const int img_w = 100;
-    const int img_h = 50;
-    const int margin = 20;
-    const int canvas_w = 500;
-    const int header_h = 40;
-
     MockConfiguration config;
     QStandardItemModel model;
+
+    SETUP_CONFIG_EXPECTATIONS();
+
+    const int img_w = 100;
+    const int img_h = 50;
 
     QStandardItem* top_idx = new QStandardItem( "Empty" );
     QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
@@ -134,8 +143,12 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     model.appendRow(top_idx);
 
     Data view_data;
-    view_data.m_configuration = &config;
+    view_data.set(&config);
     view_data.set(&model);
+
+    const int margin = view_data.getMargin();
+    const int canvas_w = 500;
+    const int header_h = 40;
     
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -149,22 +162,21 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     {
         const ModelIndexInfo& info = *view_data.cfind(QModelIndex());
 
-        EXPECT_EQ(false, info.isSizeValid());                                              //invisible
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin), info.getOverallSize());      //but has overall size of all items
+        EXPECT_EQ(false, info.isSizeValid());                                              // invisible
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin * 2), info.getOverallSize());  // but has overall size of all items
     }
 
     {
         const ModelIndexInfo& info = *view_data.cfind(top_idx->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                        // its position
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin), info.getOverallSize());      // no children expanded - overall == size
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin * 2), info.getOverallSize());  // no children expanded - overall == size
     }
 }
 
 
 TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 {
-
     // Situation:
     // two nodes with two children. Second node is expanded and its children are visible in one row.
 
@@ -174,12 +186,11 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
-    const int canvas_w = 500;
-    const int header_h = 40;
 
     MockConfiguration config;
     QStandardItemModel model;
+
+    SETUP_CONFIG_EXPECTATIONS();
 
     QStandardItem* top_idx = new QStandardItem( "Empty" );
     QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
@@ -195,8 +206,12 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     model.appendRow(top_idx2);
 
     Data view_data;
-    view_data.m_configuration = &config;
+    view_data.set(&config);
     view_data.set(&model);
+
+    const int margin = view_data.getMargin();
+    const int canvas_w = 500;
+    const int header_h = 40;
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -211,7 +226,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
         const ModelIndexInfo& info = *view_data.cfind(top_idx2->index());
 
         EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                 // its position - just after first item of height `header_h`
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin), info.getOverallSize());      // no children expanded - overall == size
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + margin * 2), info.getOverallSize());  // no children expanded - overall == size
     }
 }
 
@@ -220,14 +235,13 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 {
     const int img_w = 100;
     const int img_h = 50;
-    const int margin = 20;
-    const int canvas_w = 500;
-    const int header_h = 40;
 
     QStandardItemModel model;
     MockConfiguration config;
     const QPixmap pixmap(img_w, img_h);
     const QIcon icon(pixmap);
+
+    SETUP_CONFIG_EXPECTATIONS();
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -245,8 +259,12 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     model.appendRow(top);
 
     Data view_data;
-    view_data.m_configuration = &config;
+    view_data.set(&config);
     view_data.set(&model);
+
+    const int margin = view_data.getMargin();
+    const int canvas_w = 500;
+    const int header_h = 40;
     
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -261,12 +279,12 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
         const ModelIndexInfo& info = *view_data.cfind(top->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                            // its position
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h*2 + margin*2), info.getOverallSize());      // we expect two rows
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h * 2 + margin * 4), info.getOverallSize());  // we expect two rows
     }
 
     {
         const ModelIndexInfo& info = *view_data.cfind(child5->index());
-        const QRect childSize(0, header_h + img_h + margin, img_w + margin, img_h + margin);  // should start in second row (parent's header + first row height + margin)
+        const QRect childSize(0, header_h + img_h + margin * 2, img_w + margin * 2, img_h + margin * 2);  // should start in second row (parent's header + first row height + margin)
 
         EXPECT_EQ(childSize, info.getRect());
         EXPECT_EQ(childSize.size(), info.getOverallSize());
@@ -285,8 +303,10 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     static MockConfiguration config;
     static QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);

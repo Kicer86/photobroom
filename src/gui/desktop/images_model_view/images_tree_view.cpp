@@ -29,7 +29,7 @@
 #include <QTimer>
 
 #include <configuration/constants.hpp>
-#include <configuration/configuration.hpp>
+#include <configuration/iconfiguration.hpp>
 #include <core/time_guardian.hpp>
 
 #include "view_helpers/data.hpp"
@@ -58,15 +58,16 @@ ImagesTreeView::~ImagesTreeView()
 
 void ImagesTreeView::set(IConfiguration* configuration)
 {
-    m_data->m_configuration = configuration;
-    auto widthEntry = m_data->m_configuration->findEntry(Configuration::BasicKeys::thumbnailWidth);
+    configuration->setDefaultValue(ConfigConsts::BasicKeys::thumbnailWidth, 120);
 
-    assert(widthEntry);
-    if (widthEntry)
-    {
-        verticalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
-        horizontalScrollBar()->setSingleStep(widthEntry->toInt() / 2);
-    }
+    m_data->set(configuration);
+
+    const QVariant widthEntry = m_data->getConfig()->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
+    assert(widthEntry.isValid());
+    const int width = widthEntry.toInt();
+
+    verticalScrollBar()->setSingleStep(width / 2);
+    horizontalScrollBar()->setSingleStep(width / 2);
 }
 
 
@@ -145,7 +146,7 @@ QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardMo
         case MoveUp:    result = m_data->getTopOf(current);    break;
 
         case MoveHome:  result = m_data->getFirst(current);    break;
-        case MoveEnd:   result = m_data->getLast(current);    break;
+        case MoveEnd:   result = m_data->getLast(current);     break;
     }
 
     return result;

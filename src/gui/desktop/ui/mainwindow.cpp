@@ -12,6 +12,7 @@
 #include <QPainter>
 #include <QTimer>
 
+#include <configuration/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
@@ -90,6 +91,8 @@ void MainWindow::set(IConfiguration* configuration)
 
     for(IView* view: m_views)
         view->set(configuration);
+
+    loadGeometry();
 }
 
 
@@ -133,7 +136,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             break;
     }
 }
-
+#include <QDebug>
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
@@ -144,6 +147,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
     m_photosAnalyzer->stop();
 
     e->accept();
+
+    // store windows state
+    const QByteArray geometry = saveGeometry();
+    m_configuration->setEntry("gui::geometry", geometry.toBase64());
+
+    const QByteArray state = saveState();
+    m_configuration->setEntry("gui::state", state.toBase64());
 }
 
 
@@ -201,6 +211,7 @@ void MainWindow::setupView()
 
     m_photosAnalyzer->set(ui->tasksWidget);
 
+    //
     viewChanged();
 
     QTimer::singleShot(0, m_infoGenerator.get(), &InfoGenerator::externalRefresh);
@@ -265,6 +276,27 @@ void MainWindow::viewChanged()
     IView* view = m_views[w];
     ui->tagEditor->set( view->getSelectionModel() );
     ui->tagEditor->set( view->getModel() );
+}
+
+
+void MainWindow::loadGeometry()
+{
+    // restore state
+    const QVariant geometry = m_configuration->getEntry("gui::geometry");
+    if (geometry.isValid())
+    {
+        const QByteArray base64 = geometry.toByteArray();
+        const QByteArray geometryData = QByteArray::fromBase64(base64);
+        restoreGeometry(geometryData);
+    }
+
+    const QVariant state = m_configuration->getEntry("gui::state");
+    if (state.isValid())
+    {
+        const QByteArray base64 = state.toByteArray();
+        const QByteArray stateData = QByteArray::fromBase64(base64);
+        restoreState(stateData);
+    }
 }
 
 

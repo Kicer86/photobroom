@@ -38,7 +38,6 @@
 #include <QSqlError>
 
 #include <configuration/iconfiguration.hpp>
-#include <configuration/entrydata.hpp>
 #include <core/ilogger.hpp>
 #include <core/disk_observer.hpp>
 #include <core/ilogger_factory.hpp>
@@ -173,19 +172,18 @@ void MySqlServer::set(ILoggerFactory* logger_factory)
 QString MySqlServer::getDaemonPath() const
 {
     //get path to server
-    ol::Optional<QString> daemonPath = m_configuration->findEntry(MySQL_daemon);
+    ol::Optional<QVariant> daemonPath = m_configuration->getEntry(MySQL_daemon);
 
     QString path;
 
     if (daemonPath)
-        path = *daemonPath;
+        path = daemonPath->toString();
 
     if (path.isEmpty())
     {
         path = System::findProgram("mysqld").c_str();
 
-        Configuration::EntryData mysqldPath(MySQL_daemon, path);
-        m_configuration->addEntry(mysqldPath);
+        m_configuration->setEntry(MySQL_daemon, path);
     }
 
     return path;

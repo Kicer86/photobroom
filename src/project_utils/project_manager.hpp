@@ -32,8 +32,6 @@ namespace Database
     struct IBuilder;
 }
 
-struct IConfiguration;
-
 
 class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 {
@@ -43,7 +41,6 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         virtual ~ProjectManager();
 
         void set(Database::IBuilder *);
-        void set(IConfiguration *);
 
         ProjectManager& operator=(const ProjectManager &) = delete;
 
@@ -55,7 +52,6 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
     private:
         Database::IBuilder* m_dbBuilder;
-        IConfiguration* m_configuration;
         
         QString getPrjStorage() const;
         ProjectInfo get(const QString& id) const;

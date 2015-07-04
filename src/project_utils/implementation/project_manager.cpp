@@ -26,12 +26,11 @@
 #include <QDir>
 
 #include <core/base_tags.hpp>
-#include <configuration/iconfiguration.hpp>
-#include <configuration/constants.hpp>
 #include <database/idatabase_builder.hpp>
 #include <database/project_info.hpp>
 #include <database/idatabase.hpp>
 #include <plugins/iplugin_loader.hpp>
+#include <system/system.hpp>
 
 #include "project.hpp"
 
@@ -48,7 +47,7 @@ namespace
     };
 }
 
-ProjectManager::ProjectManager(): m_dbBuilder(nullptr), m_configuration(nullptr)
+ProjectManager::ProjectManager(): m_dbBuilder(nullptr)
 {
 
 }
@@ -63,12 +62,6 @@ ProjectManager::~ProjectManager()
 void ProjectManager::set(Database::IBuilder* builder)
 {
     m_dbBuilder = builder;
-}
-
-
-void ProjectManager::set(IConfiguration* configuration)
-{
-    m_configuration = configuration;
 }
 
 
@@ -192,20 +185,15 @@ bool ProjectManager::remove(const ProjectInfo& name)
 QString ProjectManager::getPrjStorage() const
 {
     QString result;
-    auto path = m_configuration->findEntry(Configuration::BasicKeys::configLocation);
-        
-    if (path)
-    {
-        QDir basePath(*path);
-        
-        if (basePath.exists("projects") == false)
-            basePath.mkdir("projects");
-        
-        if (basePath.cd("projects"))
-            result = basePath.absolutePath();
-    }
-    else
-        assert(!"Could not get configuration path");
+    const QString path = System::getApplicationConfigDir();
+
+    QDir basePath(path);
+
+    if (basePath.exists("projects") == false)
+        basePath.mkdir("projects");
+
+    if (basePath.cd("projects"))
+        result = basePath.absolutePath();
    
     return result;
 }

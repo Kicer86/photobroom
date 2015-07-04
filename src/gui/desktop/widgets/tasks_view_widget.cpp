@@ -112,6 +112,8 @@ TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p), m_view(nullptr), m_tas
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(m_view);
+
+    setBackgroundRole(QPalette::Base);
 }
 
 

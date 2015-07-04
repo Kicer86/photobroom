@@ -10,26 +10,30 @@
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 
+#define SETUP_CONFIG_EXPECTATIONS()                                                     \
+    using ::testing::Return;                                                            \
+    EXPECT_CALL(config, setDefaultValue(QString("view::margin"), QVariant(2)));         \
+    EXPECT_CALL(config, getEntry(QString("view::margin"))).WillRepeatedly(Return(2))
 
 TEST(DataShould, BeConstructable)
 {
+    MockConfiguration config;
+    SETUP_CONFIG_EXPECTATIONS();
 
     EXPECT_NO_THROW({
-        MockConfiguration config;
-
         Data data;
-        data.m_configuration = &config;
+        data.set(&config);
     });
 }
  
 
 TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
-
     MockConfiguration config;
+    SETUP_CONFIG_EXPECTATIONS();
 
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
 
     const auto& items = data.getModel();
     EXPECT_EQ(1, items.size());
@@ -41,8 +45,10 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
     MockConfiguration config;
     QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -57,8 +63,10 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     MockConfiguration config;
     QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -78,8 +86,10 @@ TEST(DataShould, SetInitialDataForRootItem)
     MockConfiguration config;
     QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -96,8 +106,10 @@ TEST(DataShould, StoreInfoAboutItem)
     MockConfiguration config;
     QStandardItemModel model;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -116,13 +128,13 @@ TEST(DataShould, StoreInfoAboutItem)
 
 TEST(DataShould, MarkTopItemsAsVisible)
 {
-    using ::testing::Return;
-
     QStandardItemModel model;
     MockConfiguration config;
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -146,9 +158,11 @@ TEST(DataShould, NotReturnInvisibleItems)
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
     data.set(&model);
-    data.m_configuration = &config;
+    data.set(&config);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
 
@@ -200,8 +214,10 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -262,8 +278,10 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -308,8 +326,10 @@ TEST(DataShould, ReturnProperIndicesOfItems)
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
+    SETUP_CONFIG_EXPECTATIONS();
+
     Data data;
-    data.m_configuration = &config;
+    data.set(&config);
     data.set(&model);
     
     ViewDataModelObserver mo(&data.getModel(), &model);

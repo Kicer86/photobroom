@@ -6,7 +6,7 @@
 
 #include "configuration_export.h"
 
-namespace Configuration
+namespace ConfigConsts
 {
 
     struct CONFIGURATION_EXPORT Constraints
@@ -17,7 +17,6 @@ namespace Configuration
 
     struct CONFIGURATION_EXPORT BasicKeys
     {
-        static const char* const configLocation;
         static const char* const thumbnailWidth;
     };
 
