@@ -38,6 +38,12 @@
 #include "tree_item_delegate.hpp"
 
 
+namespace
+{
+    const char* marginConfigKey = "View::margin";
+}
+
+
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
@@ -58,6 +64,8 @@ ImagesTreeView::~ImagesTreeView()
 
 void ImagesTreeView::set(IConfiguration* configuration)
 {
+    configuration->setDefaultValue(marginConfigKey, 2);
+
     m_data->m_configuration = configuration;
     QVariant widthEntry = m_data->m_configuration->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
 
