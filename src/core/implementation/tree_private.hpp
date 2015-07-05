@@ -79,6 +79,11 @@ namespace tree_private
             typedef typename iterator_traits<T, iteratorType>::node_type node_type;
             typedef typename iterator_traits<T, iteratorType>::value_type value_type;
 
+            typedef typename node_iterator::difference_type   difference_type;
+            typedef typename node_iterator::pointer           pointer;
+            typedef typename node_iterator::reference         reference;
+            typedef typename node_iterator::iterator_category iterator_category;
+
             iterator(): m_nodes(nullptr), m_node() {}
 
             iterator(const iterator& other): m_nodes(other.m_nodes), m_node(other.m_node) { }
