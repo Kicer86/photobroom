@@ -107,6 +107,14 @@ namespace tree_private
                 return result;
             }
 
+            level_iterator& operator+=(long int v)
+            {
+                level_iterator new_value = *this + v;
+                *this = new_value;
+
+                return *this;
+            }
+
             size_t index() const
             {
                 const size_t result = this->current() - this->nodes_begin();
