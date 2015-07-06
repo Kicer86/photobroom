@@ -29,10 +29,11 @@ template<typename T> class tree;
 namespace tree_private
 {
 
-    template<typename node_pointer>
-    class flat_iterator final: public iterator_base<node_pointer>
+    template<IteratorType iteratorType, typename T>
+    class flat_iterator final: public iterator_base<iteratorType, T>
     {
-            typedef iterator_base<node_pointer> base;
+            typedef iterator_base<iteratorType, T> base;
+            typedef tree_private::node_pointer<iteratorType, T> node_pointer;
 
             flat_iterator(const node_pointer& b): base(b)
             {
@@ -130,17 +131,17 @@ namespace tree_private
                 return it;
             }
 
-            size_t operator-(const flat_iterator<node_pointer>& other) const
+            size_t operator-(const flat_iterator<iteratorType, T>& other) const
             {
                 size_t r = 0;
-                for(flat_iterator<node_pointer> it = *this; it != other; --it)
+                for(flat_iterator<iteratorType, T> it = *this; it != other; --it)
                     r++;
 
                 return r;
             }
  
         private:
-            template<typename T> friend class ::tree;
+            template<typename R> friend class ::tree;
 
             void jumpout()
             {

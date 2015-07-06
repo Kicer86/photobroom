@@ -29,14 +29,14 @@
 template<typename T>
 class tree final
 {
-        typedef typename tree_utils::node<T>::iterator node_iterator;
-        typedef typename tree_utils::node<T>::const_iterator const_node_iterator;
+        typedef typename tree_private::node_pointer<tree_private::IteratorType::NonConst, T> node_pointer;
+        typedef typename tree_private::node_pointer<tree_private::IteratorType::Const, T> const_node_pointer;
 
     public:
-        typedef typename tree_private::flat_iterator<node_iterator> iterator;
-        typedef typename tree_private::flat_iterator<const_node_iterator> const_iterator;
-        typedef typename tree_private::level_iterator<node_iterator> level_iterator;
-        typedef typename tree_private::level_iterator<const_node_iterator> const_level_iterator;
+        typedef typename tree_private::flat_iterator<tree_private::IteratorType::NonConst, T> iterator;
+        typedef typename tree_private::flat_iterator<tree_private::IteratorType::Const, T> const_iterator;
+        typedef typename tree_private::level_iterator<tree_private::IteratorType::NonConst, T> level_iterator;
+        typedef typename tree_private::level_iterator<tree_private::IteratorType::Const, T> const_level_iterator;
 
         typedef tree_utils::node<T> node;
 
@@ -68,25 +68,25 @@ class tree final
         //recursive iterator
         iterator begin()
         {
-            node_iterator ni(&m_roots, m_roots.begin());
+            node_pointer ni(&m_roots, m_roots.begin());
             return iterator(ni);
         }
 
         iterator end()
         {
-            node_iterator ni(&m_roots, m_roots.end());
+            node_pointer ni(&m_roots, m_roots.end());
             return iterator(ni);
         }
 
         const_iterator begin() const
         {
-            const_node_iterator ni(&m_roots, m_roots.begin());
+            const_node_pointer ni(&m_roots, m_roots.begin());
             return const_iterator(ni);
         }
 
         const_iterator end() const
         {
-            const_node_iterator ni(&m_roots, m_roots.end());
+            const_node_pointer ni(&m_roots, m_roots.end());
             return const_iterator(ni);
         }
 
@@ -118,7 +118,7 @@ class tree final
             auto r = l->insert(it, v);
 
             //update iterator
-            pos.current() = node_iterator(l, r);
+            pos.current() = node_pointer(l, r);
 
             return pos;
         }
@@ -130,7 +130,7 @@ class tree final
             auto r = l->erase(it);
 
             //update iterator
-            pos.current() = node_iterator(l, r);
+            pos.current() = node_pointer(l, r);
 
             return pos;
         }

@@ -23,15 +23,19 @@
 #include <cassert>
 #include <stack>
 
+#include "tree_private.hpp"
+
 template<typename T> class tree;
 
 
 namespace tree_private
 {
 
-    template<typename node_pointer>
+    template<tree_private::IteratorType iteratorType, typename T>
     class iterator_base
     {
+            typedef tree_private::node_pointer<iteratorType, T> node_pointer;
+
         public:
             typedef typename node_pointer::value_type RetType;
 
@@ -99,7 +103,7 @@ namespace tree_private
             }
 
         protected:
-            template<typename T> friend class tree;
+            template<typename> friend class tree;
             std::stack<node_pointer> m_iterators;
 
             node_pointer nodes_begin() const
