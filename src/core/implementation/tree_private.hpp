@@ -71,7 +71,7 @@ namespace tree_private
 
 
     template<IteratorType iteratorType, typename T>
-    class internal_iterator final
+    class node_pointer final
     {
         public:
             typedef typename iterator_traits<T, iteratorType>::nodes_list nodes_list;
@@ -84,13 +84,13 @@ namespace tree_private
             typedef typename node_iterator::reference         reference;
             typedef typename node_iterator::iterator_category iterator_category;
 
-            internal_iterator(): m_nodes(nullptr), m_node() {}
+            node_pointer(): m_nodes(nullptr), m_node() {}
 
-            internal_iterator(const internal_iterator& other): m_nodes(other.m_nodes), m_node(other.m_node) { }
+            node_pointer(const node_pointer& other): m_nodes(other.m_nodes), m_node(other.m_node) { }
 
-            ~internal_iterator() {}
+            ~node_pointer() {}
 
-            internal_iterator& operator=(const internal_iterator& other)
+            node_pointer& operator=(const node_pointer& other)
             {
                 if (this != &other)
                 {
@@ -101,58 +101,58 @@ namespace tree_private
                 return *this;
             }
 
-            bool operator==(const internal_iterator& other) const
+            bool operator==(const node_pointer& other) const
             {
                 return m_nodes == other.m_nodes &&
                        m_node == other.m_node;
             }
 
-            bool operator!=(const internal_iterator& other) const
+            bool operator!=(const node_pointer& other) const
             {
                 const bool eq = *this == other;
                 return !eq;
             }
 
-            internal_iterator& operator++()
+            node_pointer& operator++()
             {
                 ++m_node;
 
                 return *this;
             }
 
-            internal_iterator operator++(int)
+            node_pointer operator++(int)
             {
-                internal_iterator it = *this;
+                node_pointer it = *this;
                 ++(*this);
 
                 return it;
             }
 
-            internal_iterator& operator--()
+            node_pointer& operator--()
             {
                 --m_node;
 
                 return *this;
             }
 
-            int operator-(const internal_iterator& it) const
+            int operator-(const node_pointer& it) const
             {
                 return m_node - it.m_node;
             }
 
-            internal_iterator operator+(int o) const
+            node_pointer operator+(int o) const
             {
 #ifndef NDEBUG
                 const size_t cur_pos = m_node - m_nodes->begin();
                 const size_t container_size = m_nodes->size();
                 assert(container_size >= cur_pos + o);               // is there enought elements?
 #endif
-                internal_iterator r(m_nodes, m_node + o);
+                node_pointer r(m_nodes, m_node + o);
 
                 return r;
             }
 
-            internal_iterator operator+=(int o)
+            node_pointer operator+=(int o)
             {
 #ifndef NDEBUG
                 const size_t cur_pos = m_node - m_nodes->begin();
@@ -164,18 +164,18 @@ namespace tree_private
                 return *this;
             }
 
-            internal_iterator operator-(int o) const
+            node_pointer operator-(int o) const
             {
 #ifndef NDEBUG
                 const int cur_pos = m_node - m_nodes->begin();
                 assert(cur_pos >= o);
 #endif
-                internal_iterator r(m_nodes, m_node - o);
+                node_pointer r(m_nodes, m_node - o);
 
                 return r;
             }
 
-            internal_iterator operator-=(int v)
+            node_pointer operator-=(int v)
             {
 #ifndef NDEBUG
                 const int cur_pos = m_node - m_nodes->begin();
@@ -214,7 +214,7 @@ namespace tree_private
             nodes_list* m_nodes;
             node_iterator m_node;
 
-            internal_iterator(nodes_list* ns, node_iterator n): m_nodes(ns), m_node(n) { }
+            node_pointer(nodes_list* ns, node_iterator n): m_nodes(ns), m_node(n) { }
 
             nodes_list* get_nodes_list() const
             {
@@ -236,8 +236,8 @@ namespace tree_utils
     class node final
     {
         public:
-            typedef tree_private::internal_iterator<tree_private::IteratorType::NonConst, T> iterator;
-            typedef tree_private::internal_iterator<tree_private::IteratorType::Const, T> const_iterator;
+            typedef tree_private::node_pointer<tree_private::IteratorType::NonConst, T> iterator;
+            typedef tree_private::node_pointer<tree_private::IteratorType::Const, T> const_iterator;
 
             explicit node(const T& v): m_item(v), m_children(new nodes<T>) {}
 

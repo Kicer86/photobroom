@@ -29,13 +29,13 @@ template<typename T> class tree;
 namespace tree_private
 {
 
-    template<typename iterator>
+    template<typename node_pointer>
     class iterator_base
     {
         public:
-            typedef typename iterator::value_type RetType;
+            typedef typename node_pointer::value_type RetType;
 
-            iterator_base(const iterator& b): m_iterators()
+            iterator_base(const node_pointer& b): m_iterators()
             {
                 m_iterators.push(b);
             }
@@ -100,28 +100,28 @@ namespace tree_private
 
         protected:
             template<typename T> friend class tree;
-            std::stack<iterator> m_iterators;
+            std::stack<node_pointer> m_iterators;
 
-            iterator nodes_begin() const
+            node_pointer nodes_begin() const
             {
                 auto ns = current().get_nodes_list();
-                iterator result(ns, ns->begin());
+                node_pointer result(ns, ns->begin());
                 return result;
             }
 
-            const iterator& current() const
+            const node_pointer& current() const
             {
                 return m_iterators.top();
             }
 
-            iterator nodes_end() const
+            node_pointer nodes_end() const
             {
                 auto ns = current().get_nodes_list();
-                iterator result(ns, ns->end());
+                node_pointer result(ns, ns->end());
                 return result;
             }
 
-            iterator& current()
+            node_pointer& current()
             {
                 return m_iterators.top();
             }
@@ -136,8 +136,8 @@ namespace tree_private
                 else
                 {
                     //check top items (most deep ones) if they point to the same list of nodes and to the same position
-                    const iterator& t_i = m_iterators.top();
-                    const iterator& o_i = other.m_iterators.top();
+                    const node_pointer& t_i = m_iterators.top();
+                    const node_pointer& o_i = other.m_iterators.top();
 
                     status = t_i.m_nodes == o_i.m_nodes &&
                              t_i.m_node  == o_i.m_node;
