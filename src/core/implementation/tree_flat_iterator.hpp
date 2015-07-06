@@ -153,6 +153,4 @@ namespace tree_private
 }
 
 
-
 #endif // TREE_FLAT_ITERATOR_HPP
-
