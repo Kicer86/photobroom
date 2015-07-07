@@ -178,12 +178,12 @@ void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) 
 }
 
 
-QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
+QModelIndex Data::get(const ModelIndexInfoSet::const_iterator& it) const
 {
     assert(m_model != nullptr);
 
-    ModelIndexInfoSet::level_iterator level_it(it);
-    ModelIndexInfoSet::iterator parent = level_it.parent();
+    ModelIndexInfoSet::const_level_iterator level_it(it);
+    ModelIndexInfoSet::const_iterator parent = level_it.parent();
     const size_t i = level_it.index();
 
     QModelIndex result;          //top item in tree == QModelIndex()
@@ -199,35 +199,12 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 }
 
 
-bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
-{
-    assert(it.valid());
-
-    const ModelIndexInfo& info = *it;
-    return info.expanded;
-}
-
-
 bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 {
     assert(it.valid());
 
     const ModelIndexInfo& info = *it;
     return info.expanded;
-}
-
-
-bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
-{
-    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::level_iterator(it).parent();
-    bool result = false;
-
-    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
-        result = true;
-    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
-        result = true;
-
-    return result;
 }
 
 

@@ -33,14 +33,16 @@ namespace tree_private
     class flat_iterator final: public iterator_base<iteratorType, T>
     {
             typedef iterator_base<iteratorType, T> base;
-            typedef tree_private::node_pointer<iteratorType, T> node_pointer;
+            typedef tree_private::node_pointer<T> node_pointer;
 
             flat_iterator(const node_pointer& b): base(b)
             {
             }
 
         public:
-            flat_iterator(const base& other): base(other) { }
+            flat_iterator(const typename base::CopyT1& other): base(other) { }
+
+            flat_iterator(const typename base::CopyT2& other): base(other) { }
 
             ~flat_iterator() {}
 

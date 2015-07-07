@@ -29,8 +29,7 @@
 template<typename T>
 class tree final
 {
-        typedef typename tree_private::node_pointer<tree_private::IteratorType::NonConst, T> node_pointer;
-        typedef typename tree_private::node_pointer<tree_private::IteratorType::Const, T> const_node_pointer;
+        typedef typename tree_private::node_pointer<T> node_pointer;
 
     public:
         typedef typename tree_private::flat_iterator<tree_private::IteratorType::NonConst, T> iterator;
@@ -38,13 +37,11 @@ class tree final
         typedef typename tree_private::level_iterator<tree_private::IteratorType::NonConst, T> level_iterator;
         typedef typename tree_private::level_iterator<tree_private::IteratorType::Const, T> const_level_iterator;
 
-        typedef tree_utils::node<T> node;
-
-        tree(): m_roots()
+        tree(): m_roots(new tree_utils::nodes<T>)
         {
         }
 
-        tree(const tree& other): m_roots(other.m_root)
+        tree(const tree& other): m_roots(new tree_utils::nodes<T>(other.m_root) )
         {
         }
 
@@ -68,25 +65,25 @@ class tree final
         //recursive iterator
         iterator begin()
         {
-            node_pointer ni(&m_roots, m_roots.begin());
+            node_pointer ni(m_roots.get(), m_roots->begin());
             return iterator(ni);
         }
 
         iterator end()
         {
-            node_pointer ni(&m_roots, m_roots.end());
+            node_pointer ni(m_roots.get(), m_roots->end());
             return iterator(ni);
         }
 
         const_iterator begin() const
         {
-            const_node_pointer ni(&m_roots, m_roots.begin());
+            node_pointer ni(m_roots.get(), m_roots->begin());
             return const_iterator(ni);
         }
 
         const_iterator end() const
         {
-            const_node_pointer ni(&m_roots, m_roots.end());
+            node_pointer ni(m_roots.get(), m_roots->end());
             return const_iterator(ni);
         }
 
@@ -102,12 +99,12 @@ class tree final
 
         bool empty() const
         {
-            return m_roots.empty();
+            return m_roots->empty();
         }
 
         void clear()
         {
-            m_roots.clear();
+            m_roots->clear();
         }
 
         iterator insert(iterator pos, const T& value)
@@ -143,11 +140,11 @@ class tree final
         }
 
     private:
-        tree_utils::nodes<T> m_roots;
+        std::unique_ptr<tree_utils::nodes<T>> m_roots;
 
         friend std::ostream& operator<<(std::ostream& st, const tree& tr)
         {
-            st << tr.m_roots;
+            st << *(tr.m_roots.get());
 
             return st;
         }

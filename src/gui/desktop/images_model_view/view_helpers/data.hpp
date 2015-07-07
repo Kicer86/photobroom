@@ -54,11 +54,9 @@ class Data
         bool isImage(const ModelIndexInfoSet::iterator &) const;
         QPixmap getImage(Data::ModelIndexInfoSet::level_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
-        QModelIndex get(const ModelIndexInfoSet::iterator &) const;
+        QModelIndex get(const ModelIndexInfoSet::const_iterator &) const;
 
-        bool isExpanded(const ModelIndexInfoSet::iterator &) const;
         bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
-        bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
 
         const ModelIndexInfoSet& getModel() const;

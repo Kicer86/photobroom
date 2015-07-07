@@ -33,14 +33,16 @@ namespace tree_private
     class level_iterator final: public iterator_base<iteratorType, T>
     {
             typedef iterator_base<iteratorType, T> base;
-            typedef tree_private::node_pointer<iteratorType, T> node_pointer;
+            typedef tree_private::node_pointer<T> node_pointer;
 
             level_iterator(const node_pointer& b): base(b)
             {
             }
 
         public:
-            level_iterator(const base& other): base(other) { }
+            level_iterator(const typename base::CopyT1& other): base(other) { }
+
+            level_iterator(const typename base::CopyT2& other): base(other) { }
 
             ~level_iterator() {}
 
@@ -195,7 +197,7 @@ namespace std
     template<tree_private::IteratorType iteratorType, typename T>
     struct iterator_traits<tree_private::level_iterator<iteratorType, T>>
     {
-        typedef tree_private::node_pointer<iteratorType, T> iterator;
+        typedef tree_private::node_pointer<T> iterator;
 
         typedef typename iterator::difference_type   difference_type;
         typedef typename iterator::value_type        value_type;

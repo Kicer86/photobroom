@@ -70,14 +70,14 @@ namespace tree_private
     };
 
 
-    template<IteratorType iteratorType, typename T>
+    template<typename T>
     class node_pointer final
     {
         public:
-            typedef typename iterator_traits<T, iteratorType>::nodes_list    nodes_list;
-            typedef typename iterator_traits<T, iteratorType>::node_iterator node_iterator;
-            typedef typename iterator_traits<T, iteratorType>::node_type     node_type;
-            typedef typename iterator_traits<T, iteratorType>::value_type    value_type;
+            typedef typename tree_utils::nodes<T>           nodes_list;
+            typedef typename tree_utils::nodes<T>::iterator node_iterator;
+            typedef typename tree_utils::node<T>            node_type;
+            typedef T   value_type;
 
             typedef typename node_iterator::difference_type   difference_type;
             typedef typename node_iterator::pointer           pointer;
@@ -236,8 +236,7 @@ namespace tree_utils
     class node final
     {
         public:
-            typedef tree_private::node_pointer<tree_private::IteratorType::NonConst, T> iterator;
-            typedef tree_private::node_pointer<tree_private::IteratorType::Const, T> const_iterator;
+            typedef tree_private::node_pointer<T> iterator;
 
             explicit node(const T& v): m_item(v), m_children(new nodes<T>) {}
 
@@ -301,26 +300,6 @@ namespace tree_utils
             iterator end()
             {
                 return iterator(m_children, m_children->end());
-            }
-
-            const_iterator begin() const
-            {
-                return const_iterator(m_children, m_children->begin());
-            }
-
-            const_iterator end() const
-            {
-                return const_iterator(m_children, m_children->end());
-            }
-
-            const_iterator cbegin() const
-            {
-                return const_iterator(m_children, m_children->cbegin());
-            }
-
-            const_iterator cend() const
-            {
-                return const_iterator(m_children, m_children->cend());
             }
 
             bool has_children() const

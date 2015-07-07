@@ -31,10 +31,21 @@ template<typename T> class tree;
 namespace tree_private
 {
 
-    template<tree_private::IteratorType iteratorType, typename T>
+    template<IteratorType iteratorType, typename T>
     class iterator_base
     {
-            typedef tree_private::node_pointer<iteratorType, T> node_pointer;
+            typedef tree_private::node_pointer<T> node_pointer;
+
+        protected:
+            struct Empty {};
+
+            // copy constructors types:
+
+            // copy from NonConst is always ok
+            typedef iterator_base<IteratorType::NonConst, T> CopyT1;
+
+            // copy from Const is only allowed to another Const. For NonConst use Empty
+            typedef typename std::conditional<iteratorType == IteratorType::Const, iterator_base<IteratorType::Const, T>, Empty>::type CopyT2;
 
         public:
             typedef typename node_pointer::value_type RetType;
@@ -44,7 +55,10 @@ namespace tree_private
                 m_iterators.push(b);
             }
 
-            iterator_base(const iterator_base& other): m_iterators(other.m_iterators) { }
+            // copy from NonConst to NonConst and from NonConst to Const
+            iterator_base(const CopyT1& other): m_iterators(other.m_iterators) { }
+
+            iterator_base(const CopyT2& other): m_iterators(other.m_iterators) { }
 
             ~iterator_base() {}
 
@@ -104,6 +118,8 @@ namespace tree_private
 
         protected:
             template<typename> friend class tree;
+            template<IteratorType, typename> friend class iterator_base;
+
             std::stack<node_pointer> m_iterators;
 
             node_pointer nodes_begin() const
