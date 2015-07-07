@@ -48,28 +48,6 @@ namespace tree_private
 
     template<tree_private::IteratorType, typename T> class iterator_base;
 
-    template<typename T, IteratorType>
-    struct iterator_traits;
-
-    template<typename T>
-    struct iterator_traits<T, IteratorType::NonConst>
-    {
-        typedef tree_utils::nodes<T> nodes_list;
-        typedef typename tree_utils::nodes<T>::iterator node_iterator;
-        typedef tree_utils::node<T> node_type;
-        typedef T value_type;
-    };
-
-    template<typename T>
-    struct iterator_traits<T, IteratorType::Const>
-    {
-        typedef const tree_utils::nodes<T> nodes_list;
-        typedef typename tree_utils::nodes<T>::const_iterator node_iterator;
-        typedef const tree_utils::node<T> node_type;
-        typedef const T value_type;
-    };
-
-
     template<typename T>
     class node_pointer final
     {
@@ -77,12 +55,6 @@ namespace tree_private
             typedef typename tree_utils::nodes<T>           nodes_list;
             typedef typename tree_utils::nodes<T>::iterator node_iterator;
             typedef typename tree_utils::node<T>            node_type;
-            typedef T   value_type;
-
-            typedef typename node_iterator::difference_type   difference_type;
-            typedef typename node_iterator::pointer           pointer;
-            typedef typename node_iterator::reference         reference;
-            typedef typename node_iterator::iterator_category iterator_category;
 
             node_pointer(): m_nodes(nullptr), m_node() {}
 

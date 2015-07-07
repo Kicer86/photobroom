@@ -32,7 +32,7 @@ namespace tree_private
 {
 
     template<IteratorType iteratorType, typename T>
-    class iterator_base
+    class iterator_base: public std::iterator<std::bidirectional_iterator_tag, T>
     {
             typedef tree_private::node_pointer<T> node_pointer;
 
@@ -48,8 +48,6 @@ namespace tree_private
             typedef typename std::conditional<iteratorType == IteratorType::Const, iterator_base<IteratorType::Const, T>, Empty>::type CopyT2;
 
         public:
-            typedef typename node_pointer::value_type RetType;
-
             iterator_base(const node_pointer& b): m_iterators()
             {
                 m_iterators.push(b);
@@ -79,31 +77,31 @@ namespace tree_private
                 return !same(other);
             }
 
-            const RetType& operator*() const
+            const T& operator*() const
             {
                 assert(valid());
                 return **current();
             }
 
-            RetType& operator*()
+            T& operator*()
             {
                 assert(valid());
                 return **current();
             }
 
-            const RetType& operator&() const
+            const T& operator&() const
             {
                 assert(valid());
                 return **current();
             }
 
-            const RetType* operator->() const
+            const T* operator->() const
             {
                 assert(valid());
                 return &(**current());
             }
 
-            RetType* operator->()
+            T* operator->()
             {
                 assert(valid());
                 return &(**current());

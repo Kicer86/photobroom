@@ -190,21 +190,4 @@ namespace tree_private
 
 }
 
-
-// for std algorithms
-namespace std
-{
-    template<tree_private::IteratorType iteratorType, typename T>
-    struct iterator_traits<tree_private::level_iterator<iteratorType, T>>
-    {
-        typedef tree_private::node_pointer<T> iterator;
-
-        typedef typename iterator::difference_type   difference_type;
-        typedef typename iterator::value_type        value_type;
-        typedef typename iterator::pointer           pointer;
-        typedef typename iterator::reference         reference;
-        typedef typename iterator::iterator_category iterator_category;
-    };
-}
-
 #endif // TREE_LEVEL_ITERATOR_HPP
