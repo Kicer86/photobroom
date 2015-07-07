@@ -48,6 +48,8 @@ namespace tree_private
             typedef typename std::conditional<iteratorType == IteratorType::Const, iterator_base<IteratorType::Const, T>, Empty>::type CopyT2;
 
         public:
+            typedef typename std::conditional<iteratorType == IteratorType::Const, const T, T>::type ValueType;
+
             iterator_base(const node_pointer& b): m_iterators()
             {
                 m_iterators.push(b);
@@ -77,31 +79,31 @@ namespace tree_private
                 return !same(other);
             }
 
-            const T& operator*() const
+            const ValueType& operator*() const
             {
                 assert(valid());
                 return **current();
             }
 
-            T& operator*()
+            ValueType& operator*()
             {
                 assert(valid());
                 return **current();
             }
 
-            const T& operator&() const
+            const ValueType& operator&() const
             {
                 assert(valid());
                 return **current();
             }
 
-            const T* operator->() const
+            const ValueType* operator->() const
             {
                 assert(valid());
                 return &(**current());
             }
 
-            T* operator->()
+            ValueType* operator->()
             {
                 assert(valid());
                 return &(**current());
