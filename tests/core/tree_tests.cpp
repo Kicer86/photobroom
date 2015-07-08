@@ -195,6 +195,16 @@ TEST(treeTest, forwardTraversingThrouTree2)
     EXPECT_EQ(std::vector<int>({1, 3, 2, 7, 8, 4, 9, 10}), v);
 }
 
+
+TEST(treeTest, ConstIteratorAreConst)
+{
+    typedef tree<int>::const_iterator       const_flat;
+    typedef tree<int>::const_level_iterator const_level;
+
+    EXPECT_EQ(true, std::is_const<const_flat::ValueType>::value);
+    EXPECT_EQ(true, std::is_const<const_level::ValueType>::value);
+}
+
 /*
 TEST(treeTest, reverseTraversingThrouTree)
 {
