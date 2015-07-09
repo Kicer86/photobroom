@@ -420,7 +420,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
         if (bound_invalid)
             break;
 
-        if (bound.children_count() > 0)
+        if (bound.children_count() > 0 && isExpanded(bound))
         {
             const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
 
