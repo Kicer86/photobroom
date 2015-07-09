@@ -441,9 +441,9 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
         }
 
         const QRect overallRect(bound_item.getPosition(), bound_item.getOverallSize());
-        const bool nextIsVisible = overallRect.bottom() < rect.bottom();
+        const bool nextIsVisible = overallRect.top() < rect.bottom();       // as long as we are visible, our horizontal sibling can be visible too
 
-        // Current item mey be invisible (beyond top line), but its children and nex sibling may be visible
+        // Current item may be invisible (beyond top line), but its children and next sibling may be visible
         if (nextIsVisible)
             ++bound;
         else
