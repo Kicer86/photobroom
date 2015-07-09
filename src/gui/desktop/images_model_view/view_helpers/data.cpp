@@ -199,6 +199,22 @@ QModelIndex Data::get(const ModelIndexInfoSet::const_iterator& it) const
 }
 
 
+std::deque<QModelIndex> Data::findInRect(const QRect& rect) const
+{
+    const Data::ModelIndexInfoSet& model = getModel();
+
+    ViewDataSet<ModelIndexInfo>::const_level_iterator root = model.begin();
+
+    auto first = root.begin();
+    auto last = root.end();
+
+    const std::deque<QModelIndex> result = findInRect(first, last, rect);
+
+    return result;
+}
+
+
+
 bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 {
     assert(it.valid());
@@ -378,4 +394,61 @@ QModelIndex Data::getLast(const QModelIndex& item) const
     const QModelIndex resultIdx = get(result);
 
     return resultIdx;
+}
+
+
+std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator first,
+                                         ModelIndexInfoSet::const_level_iterator last,
+                                         const QRect& rect) const
+{
+    std::deque<QModelIndex> result;
+
+    auto bound = std::lower_bound(first, last, rect, [](const ModelIndexInfo& item, const QRect& value)
+    {
+        const QRect overallRect(item.getPosition(), item.getOverallSize());
+        const int p1 = overallRect.bottom();
+        const int p2 = value.top();
+
+        const bool cmp_res = p1 < p2;
+
+        return cmp_res;
+    });
+
+    while(true)
+    {
+        const bool bound_invalid = bound == last;
+        if (bound_invalid)
+            break;
+
+        if (bound.children_count() > 0)
+        {
+            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
+
+            result.insert(result.end(), children.begin(), children.end());
+        }
+
+        const ModelIndexInfo& bound_item = *bound;
+        const QRect& item_rect = bound_item.getRect();
+        const bool intersects = rect.intersects(item_rect);
+
+        // item itself is visible? Add it
+        if (intersects)
+        {
+            const QModelIndex modelIdx = get(bound);
+            assert(modelIdx.isValid());
+
+            result.push_back(modelIdx);
+        }
+
+        const QRect overallRect(bound_item.getPosition(), bound_item.getOverallSize());
+        const bool nextIsVisible = overallRect.bottom() < rect.bottom();
+
+        // Current item mey be invisible (beyond top line), but its children and nex sibling may be visible
+        if (nextIsVisible)
+            ++bound;
+        else
+            break;
+    }
+
+    return result;
 }
