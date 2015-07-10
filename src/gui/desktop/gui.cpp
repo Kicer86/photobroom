@@ -25,7 +25,7 @@ Gui::~Gui()
 }
 
 
-std::unique_ptr<QCoreApplication> Gui::init(int argc, char** argv)
+std::unique_ptr<QCoreApplication> Gui::init(int& argc, char** argv)
 {
     return std::make_unique<QApplication>(argc, argv);
 }
