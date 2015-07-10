@@ -57,7 +57,7 @@ struct PhotoCrawler::Impl
     {
         releaseThread();
         
-        m_thread = std::thread( [&]
+        m_thread = std::thread( [=]
         {
             this->thread(path, notifications);
         });
