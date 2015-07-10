@@ -6,7 +6,7 @@
 #include <QByteArray>
 
 
-EasyExifTagFeeder::EasyExifTagFeeder()
+EasyExifTagFeeder::EasyExifTagFeeder(): m_exif_data()
 {
 
 }
