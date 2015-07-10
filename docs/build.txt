@@ -4,7 +4,6 @@ Required tools and libraries:
  - Qt5 - version 5.4 or higher
  - hash-library*
  - easyexif*
- - OpenMP (optional)
  - OpenLibrary
 
 * PhotoBroom at configuration phase will additionaly search for EasyExif and hash-library in (TOP_SOURCE_DIR)/3rd_party/.
