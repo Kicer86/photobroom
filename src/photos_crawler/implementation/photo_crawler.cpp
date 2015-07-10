@@ -56,11 +56,13 @@ struct PhotoCrawler::Impl
     void run(const QString& path, IMediaNotification* notifications)
     {
         releaseThread();
-        
-        m_thread = std::thread( [=]
+
+        auto fn = [](Impl* impl, const QString& _path, IMediaNotification* _notifications)
         {
-            this->thread(path, notifications);
-        });
+            impl->thread(_path, _notifications);
+        };
+        
+        m_thread = std::thread( fn, this, path, notifications );
     }
 
     void releaseThread()
