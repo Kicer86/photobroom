@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TASKEXECUTOR_H
-#define TASKEXECUTOR_H
+#ifndef TASKEXECUTOR_HPP
+#define TASKEXECUTOR_HPP
 
 #include <thread>
 
@@ -47,4 +47,4 @@ private:
 };
 
 
-#endif // TASKEXECUTOR_H
+#endif // TASKEXECUTOR_HPP
