@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TASKEXECUTOR_H
-#define TASKEXECUTOR_H
+#ifndef TASKEXECUTOR_HPP
+#define TASKEXECUTOR_HPP
 
 #include <thread>
 
@@ -43,8 +43,7 @@ private:
     bool m_working;
 
     void execute(const std::shared_ptr<ITask>& task) const;
-    int getId() const;
 };
 
 
-#endif // TASKEXECUTOR_H
+#endif // TASKEXECUTOR_HPP
