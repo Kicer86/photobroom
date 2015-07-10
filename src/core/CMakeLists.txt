@@ -4,6 +4,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
 find_package(HashLibrary REQUIRED)
+find_package(Threads REQUIRED)
 
 
 include(${OPENLIBRARY_USE_FILE})
@@ -80,7 +81,7 @@ list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
-target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${HASHLIBRARY_LIBRARIES} ${EASYEXIF_LIBRARIES})
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${HASHLIBRARY_LIBRARIES} ${EASYEXIF_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(core)
