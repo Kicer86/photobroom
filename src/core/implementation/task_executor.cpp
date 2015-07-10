@@ -82,23 +82,26 @@ void TaskExecutor::eat()
 {
     using namespace std::chrono_literals;
     
-    const std::thread::id main_id = std::this_thread::get_id();
     const unsigned int threads = std::thread::hardware_concurrency();
     
-    std::cout << "TaskExecutor: " << threads << " detected." << std::endl;
+    std::cout << "TaskExecutor: " << threads << " threads detected." << std::endl;
     
-    std::atomic<int> running_tasks(0);
+    std::atomic<unsigned int> running_tasks(0);
+    std::condition_variable free_worker;
+    std::mutex free_worker_mutex;
     
     while(m_working)
     {       
+        //wait for any data in queue
         m_tasks.wait_for_data();
         
+        // if there are tasks and a free worker - give him a job
         if (running_tasks < threads && m_tasks.empty() == false)
         {
+            ++running_tasks;
+
             std::thread thread([&] 
             {
-                ++running_tasks;
-                
                 std::thread::id id = std::this_thread::get_id();
                 std::cout << "Starting TaskExecutor thread #" << id << std::endl;
 
@@ -118,10 +121,20 @@ void TaskExecutor::eat()
                 
                 --running_tasks;                                
                 std::cout << "Quitting TaskExecutor thread #" << id << std::endl;
+
+                // notify manager that thread is gone
+                free_worker.notify_one();
             });
-            
+
             thread.detach();
-        }         
+        }
+
+        //wait for any worker to be free
+        std::unique_lock<std::mutex> free_worker_lock(free_worker_mutex);
+        free_worker.wait(free_worker_lock, [&]
+        {
+            return running_tasks < threads;
+        });
     }
     
     std::cout << "TaskExecutor: shutting down." << std::endl;
