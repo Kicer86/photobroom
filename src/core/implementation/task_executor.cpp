@@ -19,11 +19,9 @@
 
 #include "task_executor.hpp"
 
-#ifdef USE_OPENMP
-#include <omp.h>
-#endif
-
 #include <thread>
+#include <iostream>
+#include <chrono>
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 #include <OpenLibrary/putils/ts_resource.hpp>
@@ -82,27 +80,51 @@ void TaskExecutor::stop()
 //TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
-    #pragma omp parallel
-    {
-        //const int id = getId();
-        //*ol::ThreadSafeOutput.lock().get() << "Starting TaskExecutor thread #" << id << std::endl;
-
-        while(true)
+    using namespace std::chrono_literals;
+    
+    const std::thread::id main_id = std::this_thread::get_id();
+    const unsigned int threads = std::thread::hardware_concurrency();
+    
+    std::cout << "TaskExecutor: " << threads << " detected." << std::endl;
+    
+    std::atomic<int> running_tasks(0);
+    
+    while(m_working)
+    {       
+        m_tasks.wait_for_data();
+        
+        if (running_tasks < threads && m_tasks.empty() == false)
         {
-            ol::Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_front());
-
-            if (opt_task)
+            std::thread thread([&] 
             {
-                std::unique_ptr<ITask> task = std::move(*opt_task);
+                ++running_tasks;
+                
+                std::thread::id id = std::this_thread::get_id();
+                std::cout << "Starting TaskExecutor thread #" << id << std::endl;
 
-                execute(std::move(task));
-            }
-            else
-                break;
-        }
+                while(true)
+                {
+                    ol::Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_for(2000ms));
 
-        //*ol::ThreadSafeOutput.lock().get() << "Quitting TaskExecutor thread #" << id << std::endl;
+                    if (opt_task)
+                    {
+                        std::unique_ptr<ITask> task = std::move(*opt_task);
+
+                        execute(std::move(task));
+                    }
+                    else
+                        break;
+                }
+                
+                --running_tasks;                                
+                std::cout << "Quitting TaskExecutor thread #" << id << std::endl;
+            });
+            
+            thread.detach();
+        }         
     }
+    
+    std::cout << "TaskExecutor: shutting down." << std::endl;
 }
 
 
@@ -121,16 +143,4 @@ void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
     //const auto diff = end - start;
     //const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
     //*ol::ThreadSafeOutput.lock().get() << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
-}
-
-
-int TaskExecutor::getId() const
-{
-#if USE_OPENMP
-    const int id = omp_get_thread_num();
-#else
-    const int id = 0;
-#endif
-
-    return id;
 }

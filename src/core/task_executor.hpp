@@ -43,7 +43,6 @@ private:
     bool m_working;
 
     void execute(const std::shared_ptr<ITask>& task) const;
-    int getId() const;
 };
 
 

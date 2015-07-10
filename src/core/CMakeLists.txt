@@ -1,13 +1,10 @@
 
-# openSSL for Windows: http://slproweb.com/products/Win32OpenSSL.html
-
 find_package(OpenLibrary 2.0 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
 find_package(HashLibrary REQUIRED)
-find_package(OpenMP)
-find_package(Threads)
+
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -78,28 +75,13 @@ qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 list(APPEND CORE_SOURCES implementation/easy_exif_tag_feeder.cpp)
 list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
 
-#task executor uses openmp
-if(OPENMP_FOUND)
-    addSourceFlags(implementation/task_executor.cpp COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
-    add_definitions(-DUSE_OPENMP)
-endif()
-
 #addSourceFlags(implementation/photo_info.cpp COMPILE_FLAGS -fgnu-tm)
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
-target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${HASHLIBRARY_LIBRARIES} ${EASYEXIF_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(core PRIVATE system ${OPENLIBRARY_LIBRARIES} Qt5::Core Qt5::Gui ${HASHLIBRARY_LIBRARIES} ${EASYEXIF_LIBRARIES})
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-
-if(OPENMP_FOUND)
-    if(MSVC)
-
-    else()
-        target_link_libraries(core PRIVATE ${OpenMP_CXX_FLAGS})
-    endif(MSVC)
-endif(OPENMP_FOUND)
-
 
 generate_export_header(core)
 hideSymbols(core)
