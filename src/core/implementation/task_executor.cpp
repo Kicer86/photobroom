@@ -85,7 +85,7 @@ void TaskExecutor::eat()
     const unsigned int threads = std::thread::hardware_concurrency();
     
     std::cout << "TaskExecutor: " << threads << " threads detected." << std::endl;
-    
+
     std::atomic<unsigned int> running_tasks(0);
     std::condition_variable free_worker;
     std::mutex free_worker_mutex;
@@ -136,6 +136,13 @@ void TaskExecutor::eat()
             return running_tasks < threads;
         });
     }
+
+    //wait for all workers
+    std::unique_lock<std::mutex> workers_lock(free_worker_mutex);
+    free_worker.wait(workers_lock, [&]
+    {
+        return running_tasks == 0;
+    });
     
     std::cout << "TaskExecutor: shutting down." << std::endl;
 }
