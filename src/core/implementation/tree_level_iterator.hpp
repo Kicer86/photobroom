@@ -29,17 +29,20 @@ template<typename T> class tree;
 namespace tree_private
 {
 
-    template<typename iterator>
-    class level_iterator final: public iterator_base<iterator>
+    template<IteratorType iteratorType, typename T>
+    class level_iterator final: public iterator_base<iteratorType, T>
     {
-            typedef iterator_base<iterator> base;
+            typedef iterator_base<iteratorType, T> base;
+            typedef tree_private::node_pointer<T> node_pointer;
 
-            level_iterator(const iterator& b): base(b)
+            level_iterator(const node_pointer& b): base(b)
             {
             }
 
         public:
-            level_iterator(const base& other): base(other) { }
+            level_iterator(const typename base::CopyT1& other): base(other) { }
+
+            level_iterator(const typename base::CopyT2& other): base(other) { }
 
             ~level_iterator() {}
 
@@ -52,7 +55,7 @@ namespace tree_private
 
             level_iterator& operator++()
             {
-                iterator& c = base::current();
+                node_pointer& c = base::current();
                 ++c;
 
                 return *this;
@@ -68,7 +71,7 @@ namespace tree_private
 
             level_iterator& operator--()
             {
-                iterator& c = base::current();
+                node_pointer& c = base::current();
                 --c;
 
                 return *this;
@@ -76,13 +79,13 @@ namespace tree_private
 
             level_iterator operator--(int)
             {
-                iterator it = *this;
+                node_pointer it = *this;
                 ++(*this);
 
                 return it;
             }
 
-            size_t operator-(const level_iterator<iterator>& other) const
+            size_t operator-(const level_iterator<iteratorType, T>& other) const
             {
                 const size_t result = this->current() - other.current();
 
@@ -92,7 +95,7 @@ namespace tree_private
             level_iterator operator+(int v) const
             {
                 level_iterator result = *this;
-                iterator& c = result.current();
+                node_pointer& c = result.current();
                 c += v;
 
                 return result;
@@ -101,10 +104,18 @@ namespace tree_private
             level_iterator operator-(int v) const
             {
                 level_iterator result = *this;
-                iterator& c = result.current();
+                node_pointer& c = result.current();
                 c -= v;
 
                 return result;
+            }
+
+            level_iterator& operator+=(long int v)
+            {
+                level_iterator new_value = *this + v;
+                *this = new_value;
+
+                return *this;
             }
 
             size_t index() const
@@ -142,7 +153,7 @@ namespace tree_private
             }
 
 
-            level_iterator& dive(const iterator& it)
+            level_iterator& dive(const node_pointer& it)
             {
                 base::m_iterators.push(it);
 
@@ -178,6 +189,5 @@ namespace tree_private
     };
 
 }
-
 
 #endif // TREE_LEVEL_ITERATOR_HPP

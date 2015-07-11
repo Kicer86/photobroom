@@ -29,17 +29,20 @@ template<typename T> class tree;
 namespace tree_private
 {
 
-    template<typename iterator>
-    class flat_iterator final: public iterator_base<iterator>
+    template<IteratorType iteratorType, typename T>
+    class flat_iterator final: public iterator_base<iteratorType, T>
     {
-            typedef iterator_base<iterator> base;
+            typedef iterator_base<iteratorType, T> base;
+            typedef tree_private::node_pointer<T> node_pointer;
 
-            flat_iterator(const iterator& b): base(b)
+            flat_iterator(const node_pointer& b): base(b)
             {
             }
 
         public:
-            flat_iterator(const base& other): base(other) { }
+            flat_iterator(const typename base::CopyT1& other): base(other) { }
+
+            flat_iterator(const typename base::CopyT2& other): base(other) { }
 
             ~flat_iterator() {}
 
@@ -52,7 +55,7 @@ namespace tree_private
 
             flat_iterator& operator++()
             {
-                iterator& c = base::current();
+                node_pointer& c = base::current();
                 auto& node = *c;
 
                 if (node.has_children())                          //dive
@@ -63,7 +66,7 @@ namespace tree_private
 
                     do
                     {
-                        iterator& cur = base::current();
+                        node_pointer& cur = base::current();
                         ++cur;
 
                         //last one at current level? pop out an keep going
@@ -82,7 +85,7 @@ namespace tree_private
 
             flat_iterator operator++(int)
             {
-                iterator it = *this;
+                node_pointer it = *this;
                 ++(*this);
 
                 return it;
@@ -93,7 +96,7 @@ namespace tree_private
                 //step back
 
                 //first one? go up
-                iterator& c = base::current();
+                node_pointer& c = base::current();
                 if (c == base::nodes_begin())           //first one at current level? pop out an keep going
                 {
                     if (base::m_iterators.size() > 1)   //anything to pop? (don't pop out from last)
@@ -107,7 +110,7 @@ namespace tree_private
                     bool dive = true;
                     do
                     {
-                        iterator& cur = base::current();
+                        node_pointer& cur = base::current();
                         //subnodes?
                         auto& node = *cur;
 
@@ -124,23 +127,23 @@ namespace tree_private
 
             flat_iterator operator--(int)
             {
-                iterator it = *this;
+                node_pointer it = *this;
                 ++(*this);
 
                 return it;
             }
 
-            size_t operator-(const flat_iterator<iterator>& other) const
+            size_t operator-(const flat_iterator<iteratorType, T>& other) const
             {
                 size_t r = 0;
-                for(flat_iterator<iterator> it = *this; it != other; --it)
+                for(flat_iterator<iteratorType, T> it = *this; it != other; --it)
                     r++;
 
                 return r;
             }
  
         private:
-            template<typename T> friend class ::tree;
+            template<typename R> friend class ::tree;
 
             void jumpout()
             {
@@ -153,6 +156,4 @@ namespace tree_private
 }
 
 
-
 #endif // TREE_FLAT_ITERATOR_HPP
-

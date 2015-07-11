@@ -178,12 +178,12 @@ void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) 
 }
 
 
-QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
+QModelIndex Data::get(const ModelIndexInfoSet::const_iterator& it) const
 {
     assert(m_model != nullptr);
 
-    ModelIndexInfoSet::level_iterator level_it(it);
-    ModelIndexInfoSet::iterator parent = level_it.parent();
+    ModelIndexInfoSet::const_level_iterator level_it(it);
+    ModelIndexInfoSet::const_iterator parent = level_it.parent();
     const size_t i = level_it.index();
 
     QModelIndex result;          //top item in tree == QModelIndex()
@@ -199,13 +199,20 @@ QModelIndex Data::get(const ModelIndexInfoSet::iterator& it) const
 }
 
 
-bool Data::isExpanded(const ModelIndexInfoSet::iterator& it) const
+std::deque<QModelIndex> Data::findInRect(const QRect& rect) const
 {
-    assert(it.valid());
+    const Data::ModelIndexInfoSet& model = getModel();
 
-    const ModelIndexInfo& info = *it;
-    return info.expanded;
+    ViewDataSet<ModelIndexInfo>::const_level_iterator root = model.begin();
+
+    auto first = root.begin();
+    auto last = root.end();
+
+    const std::deque<QModelIndex> result = findInRect(first, last, rect);
+
+    return result;
 }
+
 
 
 bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
@@ -214,20 +221,6 @@ bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 
     const ModelIndexInfo& info = *it;
     return info.expanded;
-}
-
-
-bool Data::isVisible(const ModelIndexInfoSet::iterator& it) const
-{
-    ModelIndexInfoSet::iterator parent = ModelIndexInfoSet::level_iterator(it).parent();
-    bool result = false;
-
-    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
-        result = true;
-    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
-        result = true;
-
-    return result;
 }
 
 
@@ -401,4 +394,61 @@ QModelIndex Data::getLast(const QModelIndex& item) const
     const QModelIndex resultIdx = get(result);
 
     return resultIdx;
+}
+
+
+std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator first,
+                                         ModelIndexInfoSet::const_level_iterator last,
+                                         const QRect& rect) const
+{
+    std::deque<QModelIndex> result;
+
+    auto bound = std::lower_bound(first, last, rect, [](const ModelIndexInfo& item, const QRect& value)
+    {
+        const QRect overallRect(item.getPosition(), item.getOverallSize());
+        const int p1 = overallRect.bottom();
+        const int p2 = value.top();
+
+        const bool cmp_res = p1 < p2;
+
+        return cmp_res;
+    });
+
+    while(true)
+    {
+        const bool bound_invalid = bound == last;
+        if (bound_invalid)
+            break;
+
+        if (bound.children_count() > 0 && isExpanded(bound))
+        {
+            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
+
+            result.insert(result.end(), children.begin(), children.end());
+        }
+
+        const ModelIndexInfo& bound_item = *bound;
+        const QRect& item_rect = bound_item.getRect();
+        const bool intersects = rect.intersects(item_rect);
+
+        // item itself is visible? Add it
+        if (intersects)
+        {
+            const QModelIndex modelIdx = get(bound);
+            assert(modelIdx.isValid());
+
+            result.push_back(modelIdx);
+        }
+
+        const QRect overallRect(bound_item.getPosition(), bound_item.getOverallSize());
+        const bool nextIsVisible = overallRect.top() < rect.bottom();       // as long as we are visible, our horizontal sibling can be visible too
+
+        // Current item may be invisible (beyond top line), but its children and next sibling may be visible
+        if (nextIsVisible)
+            ++bound;
+        else
+            break;
+    }
+
+    return result;
 }

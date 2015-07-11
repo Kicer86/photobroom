@@ -107,14 +107,9 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
 
     for (const QModelIndex& idx: indexes)
     {
-        Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+        const QRect rect = visualRect(idx);
 
-        if (infoIt.valid())
-        {
-            const ModelIndexInfo& info = *infoIt;
-
-            result += info.getRect();
-        }
+        result += rect;
     }
 
     return result;
@@ -301,25 +296,7 @@ const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 
 std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 {
-    //TODO: optimise?
-    std::deque<QModelIndex> result;
-
-    m_data->for_each_visible( [&] ( Data::ModelIndexInfoSet::iterator it)
-    {
-        const ModelIndexInfo& info = *it;
-        const QRect& item_rect = info.getRect();
-        const bool overlap = _rect.intersects(item_rect);
-
-        if (overlap)
-        {
-            QModelIndex modelIdx = m_data->get(it);
-            assert(modelIdx.isValid());
-
-            result.push_back(modelIdx);
-        }
-
-        return true;
-    });
+    const std::deque<QModelIndex> result = m_data->findInRect(_rect);
 
     return result;
 }

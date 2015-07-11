@@ -54,11 +54,10 @@ class Data
         bool isImage(const ModelIndexInfoSet::iterator &) const;
         QPixmap getImage(Data::ModelIndexInfoSet::level_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
-        QModelIndex get(const ModelIndexInfoSet::iterator &) const;
+        QModelIndex get(const ModelIndexInfoSet::const_iterator &) const;
+        std::deque<QModelIndex> findInRect(const QRect &) const;
 
-        bool isExpanded(const ModelIndexInfoSet::iterator &) const;
         bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
-        bool isVisible(const ModelIndexInfoSet::iterator &) const;
         bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
 
         const ModelIndexInfoSet& getModel() const;
@@ -81,6 +80,8 @@ class Data
         QAbstractItemModel* m_model;
         IConfiguration* m_configuration;
         int m_margin;
+
+        std::deque<QModelIndex> findInRect(ModelIndexInfoSet::const_level_iterator, ModelIndexInfoSet::const_level_iterator, const QRect &) const;
 };
 
 #endif // DATA_HPP

@@ -46,46 +46,23 @@ namespace tree_private
         NonConst,
     };
 
-    template<typename Iterator> class iterator_base;
-
-    template<typename T, IteratorType>
-    struct iterator_traits;
+    template<tree_private::IteratorType, typename T> class iterator_base;
 
     template<typename T>
-    struct iterator_traits<T, IteratorType::NonConst>
-    {
-        typedef tree_utils::nodes<T> nodes_list;
-        typedef typename tree_utils::nodes<T>::iterator node_iterator;
-        typedef tree_utils::node<T> node_type;
-        typedef T value_type;
-    };
-
-    template<typename T>
-    struct iterator_traits<T, IteratorType::Const>
-    {
-        typedef const tree_utils::nodes<T> nodes_list;
-        typedef typename tree_utils::nodes<T>::const_iterator node_iterator;
-        typedef const tree_utils::node<T> node_type;
-        typedef const T value_type;
-    };
-
-
-    template<IteratorType iteratorType, typename T>
-    class iterator final
+    class node_pointer final
     {
         public:
-            typedef typename iterator_traits<T, iteratorType>::nodes_list nodes_list;
-            typedef typename iterator_traits<T, iteratorType>::node_iterator node_iterator;
-            typedef typename iterator_traits<T, iteratorType>::node_type node_type;
-            typedef typename iterator_traits<T, iteratorType>::value_type value_type;
+            typedef typename tree_utils::nodes<T>           nodes_list;
+            typedef typename tree_utils::nodes<T>::iterator node_iterator;
+            typedef typename tree_utils::node<T>            node_type;
 
-            iterator(): m_nodes(nullptr), m_node() {}
+            node_pointer(): m_nodes(nullptr), m_node() {}
 
-            iterator(const iterator& other): m_nodes(other.m_nodes), m_node(other.m_node) { }
+            node_pointer(const node_pointer& other): m_nodes(other.m_nodes), m_node(other.m_node) { }
 
-            ~iterator() {}
+            ~node_pointer() {}
 
-            iterator& operator=(const iterator& other)
+            node_pointer& operator=(const node_pointer& other)
             {
                 if (this != &other)
                 {
@@ -96,58 +73,58 @@ namespace tree_private
                 return *this;
             }
 
-            bool operator==(const iterator& other) const
+            bool operator==(const node_pointer& other) const
             {
                 return m_nodes == other.m_nodes &&
                        m_node == other.m_node;
             }
 
-            bool operator!=(const iterator& other) const
+            bool operator!=(const node_pointer& other) const
             {
                 const bool eq = *this == other;
                 return !eq;
             }
 
-            iterator& operator++()
+            node_pointer& operator++()
             {
                 ++m_node;
 
                 return *this;
             }
 
-            iterator operator++(int)
+            node_pointer operator++(int)
             {
-                iterator it = *this;
+                node_pointer it = *this;
                 ++(*this);
 
                 return it;
             }
 
-            iterator& operator--()
+            node_pointer& operator--()
             {
                 --m_node;
 
                 return *this;
             }
 
-            int operator-(const iterator& it) const
+            int operator-(const node_pointer& it) const
             {
                 return m_node - it.m_node;
             }
 
-            iterator operator+(int o) const
+            node_pointer operator+(int o) const
             {
 #ifndef NDEBUG
                 const size_t cur_pos = m_node - m_nodes->begin();
                 const size_t container_size = m_nodes->size();
                 assert(container_size >= cur_pos + o);               // is there enought elements?
 #endif
-                iterator r(m_nodes, m_node + o);
+                node_pointer r(m_nodes, m_node + o);
 
                 return r;
             }
 
-            iterator operator+=(int o)
+            node_pointer operator+=(int o)
             {
 #ifndef NDEBUG
                 const size_t cur_pos = m_node - m_nodes->begin();
@@ -159,18 +136,18 @@ namespace tree_private
                 return *this;
             }
 
-            iterator operator-(int o) const
+            node_pointer operator-(int o) const
             {
 #ifndef NDEBUG
                 const int cur_pos = m_node - m_nodes->begin();
                 assert(cur_pos >= o);
 #endif
-                iterator r(m_nodes, m_node - o);
+                node_pointer r(m_nodes, m_node - o);
 
                 return r;
             }
 
-            iterator operator-=(int v)
+            node_pointer operator-=(int v)
             {
 #ifndef NDEBUG
                 const int cur_pos = m_node - m_nodes->begin();
@@ -204,12 +181,12 @@ namespace tree_private
         private:
             friend class tree_utils::node<T>;
             friend class tree<T>;
-            template<typename Iterator> friend class iterator_base;
+            template<IteratorType, typename> friend class iterator_base;
 
             nodes_list* m_nodes;
             node_iterator m_node;
 
-            iterator(nodes_list* ns, node_iterator n): m_nodes(ns), m_node(n) { }
+            node_pointer(nodes_list* ns, node_iterator n): m_nodes(ns), m_node(n) { }
 
             nodes_list* get_nodes_list() const
             {
@@ -231,8 +208,7 @@ namespace tree_utils
     class node final
     {
         public:
-            typedef tree_private::iterator<tree_private::IteratorType::NonConst, T> iterator;
-            typedef tree_private::iterator<tree_private::IteratorType::Const, T> const_iterator;
+            typedef tree_private::node_pointer<T> iterator;
 
             explicit node(const T& v): m_item(v), m_children(new nodes<T>) {}
 
@@ -296,26 +272,6 @@ namespace tree_utils
             iterator end()
             {
                 return iterator(m_children, m_children->end());
-            }
-
-            const_iterator begin() const
-            {
-                return const_iterator(m_children, m_children->begin());
-            }
-
-            const_iterator end() const
-            {
-                return const_iterator(m_children, m_children->end());
-            }
-
-            const_iterator cbegin() const
-            {
-                return const_iterator(m_children, m_children->cbegin());
-            }
-
-            const_iterator cend() const
-            {
-                return const_iterator(m_children, m_children->cend());
             }
 
             bool has_children() const
