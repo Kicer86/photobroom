@@ -1,5 +1,5 @@
 
-find_package(OpenLibrary 2.0 REQUIRED putils)
+find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
