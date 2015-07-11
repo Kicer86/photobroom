@@ -107,14 +107,9 @@ QRegion ImagesTreeView::visualRegionForSelection(const QItemSelection& selection
 
     for (const QModelIndex& idx: indexes)
     {
-        Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+        const QRect rect = visualRect(idx);
 
-        if (infoIt.valid())
-        {
-            const ModelIndexInfo& info = *infoIt;
-
-            result += info.getRect();
-        }
+        result += rect;
     }
 
     return result;
