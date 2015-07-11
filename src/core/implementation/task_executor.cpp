@@ -129,7 +129,7 @@ void TaskExecutor::eat()
             thread.detach();
         }
 
-        //wait for any worker to be free
+        //wait for all worker to be free
         std::unique_lock<std::mutex> free_worker_lock(free_worker_mutex);
         free_worker.wait(free_worker_lock, [&]
         {
