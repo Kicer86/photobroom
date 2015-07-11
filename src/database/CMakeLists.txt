@@ -16,11 +16,9 @@ set(DATABASE_SOURCES
     implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
-    #implementation/photo_iterator.cpp     deprecated
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
     implementation/photo_info_storekeeper.cpp
-    #implementation/query_list.cpp         deprecated
 
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp
