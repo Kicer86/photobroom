@@ -24,7 +24,7 @@ struct GUI_EXPORT Gui
     Gui(const Gui &) = delete;
     Gui& operator=(const Gui &) = delete;
 
-    std::unique_ptr<QCoreApplication> init(int argc, char **argv);
+    std::unique_ptr<QCoreApplication> init(int& argc, char **argv);
     void set(IProjectManager *);
     void set(IPluginLoader *);
     void set(ITaskExecutor *);

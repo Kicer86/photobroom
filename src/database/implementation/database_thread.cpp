@@ -373,9 +373,9 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(IBackend* backend): m_executor(backend), m_thread(beginThread, &m_executor), m_working(true)
+        Impl(IBackend* backend): m_executor(backend), m_thread(), m_working(true)
         {
-
+            m_thread = std::thread(&Executor::begin, &m_executor);
         }
 
         //store task to be executed by thread
@@ -383,11 +383,6 @@ namespace Database
         {
             assert(m_working);
             m_executor.m_tasks.push_back(std::shared_ptr<ThreadBaseTask>(task));
-        }
-
-        static void beginThread(Executor* executor)
-        {
-            executor->begin();
         }
 
         void stopExecutor()

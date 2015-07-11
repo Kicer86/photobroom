@@ -133,12 +133,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl():
 
     m_timer.start(500);
 
-    auto fn = [](PhotosAnalyzerThread* thr)
-    {
-        thr->execute();
-    };
-
-    m_analyzerThread = std::thread(fn, &m_thread);
+    m_analyzerThread = std::thread(&PhotosAnalyzerThread::execute, &m_thread);
 }
 
 
