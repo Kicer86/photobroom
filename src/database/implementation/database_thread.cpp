@@ -326,7 +326,7 @@ namespace
 
             for(;;)
             {
-                ol::Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop_front();
+                ol::Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop();
 
                 if (task)
                 {
@@ -382,7 +382,7 @@ namespace Database
         void addTask(ThreadBaseTask* task)
         {
             assert(m_working);
-            m_executor.m_tasks.push_back(std::shared_ptr<ThreadBaseTask>(task));
+            m_executor.m_tasks.push(std::shared_ptr<ThreadBaseTask>(task));
         }
 
         void stopExecutor()

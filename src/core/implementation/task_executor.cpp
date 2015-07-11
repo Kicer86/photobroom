@@ -61,7 +61,7 @@ TaskExecutor::~TaskExecutor()
 void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 {
     assert(m_working);
-    m_tasks.push_back(std::move(task));
+    m_tasks.push(std::move(task));
 }
 
 
