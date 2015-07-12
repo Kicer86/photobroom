@@ -296,7 +296,9 @@ const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 
 std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
 {
-    const std::deque<QModelIndex> result = m_data->findInRect(_rect);
+    QRect normalized_rect = _rect.normalized();
+
+    const std::deque<QModelIndex> result = m_data->findInRect(normalized_rect);
 
     return result;
 }
