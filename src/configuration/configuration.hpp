@@ -22,7 +22,9 @@
 
 #include "iconfiguration.hpp"
 
-class Configuration: public IConfiguration
+#include "configuration_export.h"
+
+class CONFIGURATION_EXPORT Configuration: public IConfiguration
 {
     public:
         Configuration();
