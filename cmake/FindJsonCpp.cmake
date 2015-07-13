@@ -11,7 +11,9 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/3rd_party/jsoncpp)
 
 else()
 
-    find_path(JSONCPP_INCLUDE_DIR json/json.h)
+    find_path(JSONCPP_INCLUDE_DIR json/json.h
+              HINTS /usr/include/jsoncpp                  #debian
+             )
     find_library(JSONCPP_LIBRARY NAMES jsoncpp)
     
 endif()
