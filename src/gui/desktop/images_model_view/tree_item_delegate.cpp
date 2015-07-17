@@ -93,9 +93,10 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     
     const QRect boundingRect = painter->boundingRect(r, Qt::AlignCenter, t);
     
+    const int margin = 5;
     const int y = r.height()/2 + r.top();
-    const QLine left_horizontal_line(10, y, boundingRect.left() - 5, y);    
-    const QLine right_horizontal_line(boundingRect.right() + 5, y, r.right() - 10, y);    
+    const QLine left_horizontal_line(10, y, boundingRect.left() - margin, y);    
+    const QLine right_horizontal_line(boundingRect.right() + margin, y, r.right() - 10, y);    
     painter->drawLine(left_horizontal_line); 
     painter->drawLine(right_horizontal_line); 
     
