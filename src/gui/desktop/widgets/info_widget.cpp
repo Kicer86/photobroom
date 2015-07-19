@@ -29,11 +29,12 @@ InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget): QLabel(parent_widget
 
     //style
     setStyleSheet(
-        "QLabel {                        "
-        "   border-radius: 10px;         "
-        "   background: CornflowerBlue;  "
-        "   color: white;                "
-        "}                               "
+        "QLabel {                           "
+        "   border-radius: 13px;            "
+        "   background:    CornflowerBlue;  "
+        "   color:         White;           "
+        "   padding:       5px;             "
+        "}                                  "
     );
 }
 
