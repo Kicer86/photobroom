@@ -471,6 +471,18 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
 </context>
 <context>
+    <name>PhotosWidget</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+32"/>
+        <source>There are no photos in your collection.
+
+Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
+        <translation type="unfinished">W twojej kolekcji nie ma żadnych zdjęć.
+
+Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
+    </message>
+</context>
+<context>
     <name>ProjectCreatorDialog</name>
     <message>
         <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+62"/>
