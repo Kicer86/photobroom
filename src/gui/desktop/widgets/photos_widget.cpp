@@ -48,12 +48,9 @@ void PhotosWidget::paintEvent(QPaintEvent* event)
     // check if model is empty
     QAbstractItemModel* m = model();
 
-    const bool children = m->hasChildren();
-    const bool loaded = m->canFetchMore(QModelIndex()) == false;
+    const bool empty = m->rowCount(QModelIndex()) == 0;
 
-    const bool empty = children == false || loaded == false;
-
-    if (empty)
+    if (empty && isEnabled())
     {
         QPixmap infoPixMap(m_info->size());
         infoPixMap.fill(QColor(0, 0, 0, 0));
