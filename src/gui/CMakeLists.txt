@@ -76,6 +76,7 @@ set(GUI_FILES_TO_MOC
 set(GUI_RESOURCE_FILES desktop/images.qrc)
 
 set(GUI_UI_FILES desktop/ui/mainwindow.ui
+                 desktop/ui/photos_add_dialog.ui
                  desktop/ui/photos_view.ui
                  desktop/ui/project_picker.ui
     )
