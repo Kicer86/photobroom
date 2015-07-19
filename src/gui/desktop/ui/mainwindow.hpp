@@ -65,6 +65,8 @@ class MainWindow: public QMainWindow
         void updateTitle();
         void updateGui();
         void updateTools();
+        void updateWidgets();
+        
         void loadGeometry();
 
     private slots:

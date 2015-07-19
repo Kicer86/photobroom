@@ -49,7 +49,6 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     ui->setupUi(this);
     setupView();
-
     updateGui();
 }
 
@@ -238,6 +237,7 @@ void MainWindow::updateGui()
     updateMenus();
     updateTitle();
     updateTools();
+    updateWidgets();
 }
 
 
@@ -249,6 +249,23 @@ void MainWindow::updateTools()
         m_photosAnalyzer->setDatabase(m_currentPrj->getDatabase());
     else
         m_photosAnalyzer->setDatabase(nullptr);
+}
+
+
+void MainWindow::updateWidgets()
+{
+    const bool prj = m_currentPrj.get() != nullptr;
+
+    if (prj)
+    {
+        ui->imagesView->setEnabled(true);
+        ui->tagEditor->setEnabled(true);
+    }
+    else
+    {
+        ui->imagesView->setDisabled(true);
+        ui->tagEditor->setDisabled(true);
+    }
 }
 
 
