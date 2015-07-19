@@ -31,7 +31,7 @@ struct ITaskExecutor;
 class StagedPhotosDataModel;
 class ImagesTreeView;
 
-class StagedPhotosWidget: public QWidget, public IView
+class __attribute__((deprecated)) StagedPhotosWidget: public QWidget, public IView
 {
         Q_OBJECT
 
