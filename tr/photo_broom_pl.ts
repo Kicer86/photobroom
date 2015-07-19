@@ -383,6 +383,19 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
 </context>
 <context>
+    <name>PhotosAddDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
+        <source>Add photos</source>
+        <translation type="unfinished">Dodaj zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Photo &amp;information</source>
+        <translation type="unfinished">&amp;Informacje o zdjęciu</translation>
+    </message>
+</context>
+<context>
     <name>PhotosAnalyzer</name>
     <message>
         <source>Loading photos data...</source>
