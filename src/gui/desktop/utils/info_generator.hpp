@@ -31,6 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
+
 class __attribute__((deprecated)) InfoGenerator: public QObject
 {
         Q_OBJECT
