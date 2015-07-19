@@ -1,7 +1,7 @@
 
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
-                    
+
 
 set(SRCS
     editor_factory.cpp

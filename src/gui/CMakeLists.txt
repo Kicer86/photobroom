@@ -10,7 +10,7 @@ include_directories(${CMAKE_BINARY_DIR}/
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
                     ${CMAKE_SOURCE_DIR}/src/gui/desktop)
-                    
+
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS})
@@ -37,6 +37,7 @@ set(GUI_SOURCES
     desktop/images_model_view/images_tree_view.cpp
     desktop/images_model_view/tree_item_delegate.cpp
     desktop/ui/mainwindow.cpp
+    desktop/ui/photos_add_dialog.cpp
     desktop/ui/photos_view.cpp
     desktop/ui/project_picker.cpp
     )
@@ -56,6 +57,7 @@ set(GUI_HEADERS
     desktop/images_model_view/images_tree_view.hpp
     desktop/images_model_view/tree_item_delegate.hpp
     desktop/ui/mainwindow.hpp
+    desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
     )
