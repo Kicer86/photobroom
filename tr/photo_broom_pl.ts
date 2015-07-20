@@ -132,7 +132,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+194"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+195"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
@@ -253,7 +253,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+163"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -377,9 +377,8 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>O Qt</translation>
     </message>
     <message>
-        <location line="-35"/>
         <source>Choose directory with photos</source>
-        <translation>Wybierz katalog ze zdjęciami</translation>
+        <translation type="vanished">Wybierz katalog ze zdjęciami</translation>
     </message>
 </context>
 <context>
@@ -395,6 +394,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
         <source>MainWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Add selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
