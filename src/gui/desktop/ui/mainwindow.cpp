@@ -342,13 +342,18 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_actionAdd_photos_triggered()
 {
     PhotosAddDialog photosAddDialog;
+    photosAddDialog.setWindowModality(Qt::ApplicationModal);
     photosAddDialog.show();
+
+    this->setDisabled(true);
 
     QEventLoop loop;
 
     connect(&photosAddDialog, &PhotosAddDialog::closing, &loop, &QEventLoop::quit);
 
     loop.exec();
+
+    this->setEnabled(true);
 
     /*
     const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
