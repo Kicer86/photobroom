@@ -112,7 +112,6 @@ void MainWindow::checkVersion()
 }
 
 
-
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
     switch (versionInfo.status)
@@ -137,7 +136,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             break;
     }
 }
-#include <QDebug>
+
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
