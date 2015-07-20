@@ -23,29 +23,30 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class PhotosAddDialog;
+namespace Ui
+{
+    class PhotosAddDialog;
 }
 
 class PhotosAddDialog: public QMainWindow
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit PhotosAddDialog(QWidget *parent = 0);
-    PhotosAddDialog(const PhotosAddDialog &) = delete;
+    public:
+        explicit PhotosAddDialog(QWidget* parent = 0);
+        PhotosAddDialog(const PhotosAddDialog&) = delete;
 
-    ~PhotosAddDialog();
+        ~PhotosAddDialog();
 
-    PhotosAddDialog& operator=(const PhotosAddDialog &) = delete;
+        PhotosAddDialog& operator=(const PhotosAddDialog&) = delete;
 
-private:
-    Ui::PhotosAddDialog *ui;
+    private:
+        Ui::PhotosAddDialog* ui;
 
-    void closeEvent(QCloseEvent*) override;
+        void closeEvent(QCloseEvent*) override;
 
-signals:
-    void closing();
+    signals:
+        void closing();
 };
 
 #endif // PHOTOSADDDIALOG_HPP
