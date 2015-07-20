@@ -33,17 +33,17 @@ class PhotosAddDialog: public QMainWindow
         Q_OBJECT
 
     public:
-        explicit PhotosAddDialog(QWidget* parent = 0);
-        PhotosAddDialog(const PhotosAddDialog&) = delete;
+        explicit PhotosAddDialog(QWidget * = 0);
+        PhotosAddDialog(const PhotosAddDialog &) = delete;
 
         ~PhotosAddDialog();
 
-        PhotosAddDialog& operator=(const PhotosAddDialog&) = delete;
+        PhotosAddDialog& operator=(const PhotosAddDialog &) = delete;
 
     private:
         Ui::PhotosAddDialog* ui;
 
-        void closeEvent(QCloseEvent*) override;
+        void closeEvent(QCloseEvent *) override;
 
     signals:
         void closing();
