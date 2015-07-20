@@ -27,7 +27,7 @@ namespace Ui {
 class PhotosAddDialog;
 }
 
-class PhotosAddDialog : public QMainWindow
+class PhotosAddDialog: public QMainWindow
 {
     Q_OBJECT
 
@@ -41,6 +41,11 @@ public:
 
 private:
     Ui::PhotosAddDialog *ui;
+
+    void closeEvent(QCloseEvent*) override;
+
+signals:
+    void closing();
 };
 
 #endif // PHOTOSADDDIALOG_HPP

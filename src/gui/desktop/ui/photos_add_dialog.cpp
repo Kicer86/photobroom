@@ -30,7 +30,16 @@ PhotosAddDialog::PhotosAddDialog(QWidget *parent):
     ui->setupUi(this);
 }
 
+
 PhotosAddDialog::~PhotosAddDialog()
 {
     delete ui;
+}
+
+
+void PhotosAddDialog::closeEvent(QCloseEvent* e)
+{
+    emit closing();
+
+    QWidget::closeEvent(e);
 }
