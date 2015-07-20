@@ -18,8 +18,10 @@
  */
 
 
-
 #include "photos_add_dialog.hpp"
+
+#include <QFileSystemModel>
+
 #include "ui_photos_add_dialog.h"
 
 
@@ -28,6 +30,12 @@ PhotosAddDialog::PhotosAddDialog(QWidget *parent):
     ui(new Ui::PhotosAddDialog)
 {
     ui->setupUi(this);
+
+    // setup photos tree browser
+    QFileSystemModel* model = new QFileSystemModel(this);
+    model->setRootPath(QDir::homePath());
+
+    ui->browseTree->setModel(model);
 }
 
 
