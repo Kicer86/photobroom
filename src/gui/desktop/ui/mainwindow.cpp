@@ -29,6 +29,7 @@
 #include "widgets/staged_photos_widget.hpp"
 #include "utils/photos_collector.hpp"
 #include "utils/info_generator.hpp"
+#include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -52,8 +53,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     ui->setupUi(this);
     setupView();
-    
-    createMenus();    
+
+    createMenus();
     updateGui();
 }
 
@@ -164,7 +165,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         closeProject();
 
         auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
-        
+
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
     }
 }
@@ -317,7 +318,7 @@ void MainWindow::on_actionOpen_collection_triggered()
     picker.set(m_pluginLoader);
     picker.set(m_prjManager);
     const int s = picker.exec();
-    
+
     if (s == QDialog::Accepted)
     {
         const ProjectInfo prjName = picker.choosenProject();
@@ -341,10 +342,21 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
+    PhotosAddDialog photosAddDialog;
+    photosAddDialog.show();
+
+    QEventLoop loop;
+
+    connect(&photosAddDialog, &PhotosAddDialog::closing, &loop, &QEventLoop::quit);
+
+    loop.exec();
+
+    /*
     const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
 
     if (path.isEmpty() == false)
         m_photosCollector->addDir(path);
+    */
 }
 
 
@@ -385,7 +397,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     switch(status.get())
     {
         case Database::StatusCodes::Ok:
-        {            
+        {
             Database::IDatabase* db = m_currentPrj->getDatabase();
 
             m_imagesModel->setDatabase(db);
@@ -403,7 +415,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                  );
             closeProject();
             break;
-            
+
         case Database::StatusCodes::OpenFailed:
             QMessageBox::critical(this,
                                   tr("Could not open collection"),
