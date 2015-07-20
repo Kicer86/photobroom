@@ -41,7 +41,12 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 
     ui->browseTree->setModel(model);
 
-    //load layout
+    // on Linux hide '/' node, it look ridiculous
+#ifdef OS_UNIX
+    ui->browseTree->setRootIndex(model->index("/"));
+#endif
+
+    // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
     if (geometry.isValid())
     {
