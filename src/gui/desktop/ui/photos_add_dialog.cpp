@@ -62,6 +62,10 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
         const QByteArray stateData = QByteArray::fromBase64(base64);
         restoreState(stateData);
     }
+
+    //expand home dir
+    for(QModelIndex item = model->index(QDir::homePath()); item.isValid(); item = item.parent())
+        ui->browseTree->expand(item);
 }
 
 
