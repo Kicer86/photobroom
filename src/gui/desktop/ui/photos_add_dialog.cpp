@@ -17,16 +17,20 @@
  *
  */
 
+
+
 #include "photos_add_dialog.hpp"
+#include "ui_photos_add_dialog.h"
 
 
-PhotosAddDialog::PhotosAddDialog()
+PhotosAddDialog::PhotosAddDialog(QWidget *parent):
+    QMainWindow(parent),
+    ui(new Ui::PhotosAddDialog)
 {
-
+    ui->setupUi(this);
 }
-
 
 PhotosAddDialog::~PhotosAddDialog()
 {
-
+    delete ui;
 }

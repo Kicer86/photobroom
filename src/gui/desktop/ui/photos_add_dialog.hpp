@@ -17,19 +17,30 @@
  *
  */
 
+
 #ifndef PHOTOSADDDIALOG_HPP
 #define PHOTOSADDDIALOG_HPP
 
-#include <qt/QtWidgets/QDialog>
+#include <QMainWindow>
 
-class PhotosAddDialog : public QDialog
+namespace Ui {
+class PhotosAddDialog;
+}
+
+class PhotosAddDialog : public QMainWindow
 {
-    public:
-        PhotosAddDialog();
-        PhotosAddDialog(const PhotosAddDialog &) = delete;
-        ~PhotosAddDialog();
+    Q_OBJECT
 
-        PhotosAddDialog& operator=(const PhotosAddDialog &) = delete;
+public:
+    explicit PhotosAddDialog(QWidget *parent = 0);
+    PhotosAddDialog(const PhotosAddDialog &) = delete;
+
+    ~PhotosAddDialog();
+
+    PhotosAddDialog& operator=(const PhotosAddDialog &) = delete;
+
+private:
+    Ui::PhotosAddDialog *ui;
 };
 
-#endif // PHOTOSADDDIALOG_H
+#endif // PHOTOSADDDIALOG_HPP
