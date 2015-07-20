@@ -401,6 +401,26 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <source>Add selected</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+32"/>
+        <source>File system &amp;view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>D&amp;irectory content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>I&amp;mages preparation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>&amp;Tags editor</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PhotosAnalyzer</name>
