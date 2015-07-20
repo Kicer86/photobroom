@@ -341,7 +341,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    PhotosAddDialog photosAddDialog;
+    PhotosAddDialog photosAddDialog(m_configuration);
     photosAddDialog.setWindowModality(Qt::ApplicationModal);
     photosAddDialog.show();
 

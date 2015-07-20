@@ -22,12 +22,15 @@
 
 #include <QFileSystemModel>
 
+#include <configuration/iconfiguration.hpp>
+
 #include "ui_photos_add_dialog.h"
 
 
-PhotosAddDialog::PhotosAddDialog(QWidget *parent):
+PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     QMainWindow(parent),
-    ui(new Ui::PhotosAddDialog)
+    ui(new Ui::PhotosAddDialog),
+    m_config(config)
 {
     ui->setupUi(this);
 
@@ -36,6 +39,23 @@ PhotosAddDialog::PhotosAddDialog(QWidget *parent):
     model->setRootPath(QDir::homePath());
 
     ui->browseTree->setModel(model);
+
+    //load layout
+    const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
+    if (geometry.isValid())
+    {
+        const QByteArray base64 = geometry.toByteArray();
+        const QByteArray geometryData = QByteArray::fromBase64(base64);
+        restoreGeometry(geometryData);
+    }
+
+    const QVariant state = m_config->getEntry("photos_add_dialog::state");
+    if (state.isValid())
+    {
+        const QByteArray base64 = state.toByteArray();
+        const QByteArray stateData = QByteArray::fromBase64(base64);
+        restoreState(stateData);
+    }
 }
 
 
@@ -47,6 +67,13 @@ PhotosAddDialog::~PhotosAddDialog()
 
 void PhotosAddDialog::closeEvent(QCloseEvent* e)
 {
+    // store windows state
+    const QByteArray geometry = saveGeometry();
+    m_config->setEntry("photos_add_dialog::geometry", geometry.toBase64());
+
+    const QByteArray state = saveState();
+    m_config->setEntry("photos_add_dialog::state", state.toBase64());
+
     emit closing();
 
     QWidget::closeEvent(e);

@@ -23,6 +23,8 @@
 
 #include <QMainWindow>
 
+class IConfiguration;
+
 namespace Ui
 {
     class PhotosAddDialog;
@@ -33,7 +35,7 @@ class PhotosAddDialog: public QMainWindow
         Q_OBJECT
 
     public:
-        explicit PhotosAddDialog(QWidget * = 0);
+        explicit PhotosAddDialog(IConfiguration *, QWidget * = 0);
         PhotosAddDialog(const PhotosAddDialog &) = delete;
 
         ~PhotosAddDialog();
@@ -42,6 +44,7 @@ class PhotosAddDialog: public QMainWindow
 
     private:
         Ui::PhotosAddDialog* ui;
+        IConfiguration* m_config;
 
         void closeEvent(QCloseEvent *) override;
 
