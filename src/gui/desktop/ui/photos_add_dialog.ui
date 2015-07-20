@@ -74,7 +74,7 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="browseTree">
+   <widget class="QTreeView" name="browseTree">
     <layout class="QHBoxLayout" name="horizontalLayout"/>
    </widget>
   </widget>
@@ -85,7 +85,7 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="browseList"/>
+   <widget class="ImagesTreeView" name="browseList"/>
   </widget>
   <widget class="QDockWidget" name="photosViewDock">
    <property name="allowedAreas">
