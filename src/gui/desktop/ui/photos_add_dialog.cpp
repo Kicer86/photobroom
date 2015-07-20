@@ -35,15 +35,15 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     ui->setupUi(this);
 
     // setup photos tree browser
-    QFileSystemModel* model = new QFileSystemModel(this);
-    model->setRootPath(QDir::homePath());
-    model->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
+    m_treeModel = new QFileSystemModel(this);
+    m_treeModel->setRootPath(QDir::homePath());
+    m_treeModel->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-    ui->browseTree->setModel(model);
+    ui->browseTree->setModel(m_treeModel);
 
     // on Linux hide '/' node, it look ridiculous
 #ifdef OS_UNIX
-    ui->browseTree->setRootIndex(model->index("/"));
+    ui->browseTree->setRootIndex(m_treeModel->index("/"));
 #endif
 
     // load layout
@@ -64,14 +64,26 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     }
 
     //expand home dir
-    for(QModelIndex item = model->index(QDir::homePath()); item.isValid(); item = item.parent())
+    for(QModelIndex item = m_treeModel->index(QDir::homePath()); item.isValid(); item = item.parent())
         ui->browseTree->expand(item);
+
+    //attach to selection updates
+    QItemSelectionModel* selection = ui->browseTree->selectionModel();
+
+    connect(selection, &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
 }
 
 
 PhotosAddDialog::~PhotosAddDialog()
 {
     delete ui;
+}
+
+
+void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    const QString path = m_treeModel->filePath(current);
+
 }
 
 

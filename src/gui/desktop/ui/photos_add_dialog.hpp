@@ -23,6 +23,8 @@
 
 #include <QMainWindow>
 
+class QFileSystemModel;
+
 class IConfiguration;
 
 namespace Ui
@@ -45,7 +47,11 @@ class PhotosAddDialog: public QMainWindow
     private:
         Ui::PhotosAddDialog* ui;
         IConfiguration* m_config;
+        QFileSystemModel* m_treeModel;
 
+        void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
+
+        //overrides
         void closeEvent(QCloseEvent *) override;
 
     signals:
