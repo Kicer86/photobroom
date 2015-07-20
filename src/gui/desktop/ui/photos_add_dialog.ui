@@ -71,6 +71,9 @@
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea</set>
    </property>
+   <property name="windowTitle">
+    <string>File system &amp;view</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
@@ -82,6 +85,9 @@
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea</set>
    </property>
+   <property name="windowTitle">
+    <string>D&amp;irectory content</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
@@ -91,6 +97,9 @@
    <property name="allowedAreas">
     <set>Qt::RightDockWidgetArea</set>
    </property>
+   <property name="windowTitle">
+    <string>I&amp;mages preparation</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
@@ -99,6 +108,9 @@
   <widget class="QDockWidget" name="tagsEditorDock">
    <property name="allowedAreas">
     <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>&amp;Tags editor</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
