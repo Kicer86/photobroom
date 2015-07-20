@@ -385,14 +385,17 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosAddDialog</name>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
         <source>Add photos</source>
-        <translation type="unfinished">Dodaj zdjęcia</translation>
+        <translation type="obsolete">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Photo &amp;information</source>
-        <translation type="unfinished">&amp;Informacje o zdjęciu</translation>
+        <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
+        <source>MainWindow</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
