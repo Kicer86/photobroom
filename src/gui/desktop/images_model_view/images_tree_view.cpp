@@ -73,10 +73,15 @@ void ImagesTreeView::set(IConfiguration* configuration)
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    const QPoint offset = getOffset();
-    const QPoint treePoint = point + offset;
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
-    const QModelIndex result = m_data->get(infoIt);
+    QModelIndex result;
+
+    if (model() != nullptr)
+    {
+        const QPoint offset = getOffset();
+        const QPoint treePoint = point + offset;
+        Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
+        result = m_data->get(infoIt);
+    }
 
     return result;
 }
@@ -206,7 +211,7 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
 
     //connect to model's signals
     connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
-    
+
     connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
     connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
@@ -374,7 +379,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
-    
+
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(sourceParent, sourceStart);
