@@ -37,6 +37,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     // setup photos tree browser
     QFileSystemModel* model = new QFileSystemModel(this);
     model->setRootPath(QDir::homePath());
+    model->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
 
     ui->browseTree->setModel(model);
 
