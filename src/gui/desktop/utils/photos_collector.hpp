@@ -36,14 +36,13 @@ class PhotosReceiver: public QObject, public IMediaNotification
 {
         Q_OBJECT
 
-        StagedPhotosDataModel* m_model;
+        std::function<void(const QString &)> m_callback;
 
     public:
-        PhotosReceiver();
+        PhotosReceiver(const std::function<void(const QString &)> &);
         PhotosReceiver(const PhotosReceiver &) = delete;
         PhotosReceiver& operator=(const PhotosReceiver &) = delete;
 
-        void setModel(StagedPhotosDataModel* model);
         virtual void found(const QString& path) override;
 
     signals:
@@ -61,11 +60,8 @@ class PhotosCollector: public QObject
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
 
-        void set(ITasksView *) [[deprecated]];
-        void set(StagedPhotosDataModel *) [[deprecated]];
-        void addDir(const QString &) [[deprecated]];          // adds dir to model. Emits finished() when ready
-
-        bool isWorking() const [[deprecated]];                // return true when work in progress
+        void collect(const QString &, const std::function<void(const QString &)> &);
+        void stop();
 
     signals:
         void finished();

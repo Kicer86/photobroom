@@ -23,28 +23,20 @@
 
 #include <QProgressBar>
 
-#include <core/itasks_view.hpp>
-#include <core/iview_task.hpp>
 #include <photos_crawler/photo_crawler_builder.hpp>
 
 #include "widgets/staged_photos_data_model.hpp"
 
 
-PhotosReceiver::PhotosReceiver(): m_model(nullptr)
+PhotosReceiver::PhotosReceiver(const std::function<void(const QString &)>& callback): m_callback(callback)
 {
 
-}
-
-
-void PhotosReceiver::setModel(StagedPhotosDataModel *model)
-{
-    m_model = model;
 }
 
 
 void PhotosReceiver::found(const QString &path)
 {
-    m_model->addPhoto(path);
+    m_callback(path);
 }
 
 
@@ -55,14 +47,12 @@ struct PhotosCollector::Data
 {
     StagedPhotosDataModel* m_model;
     ITasksView* m_tasksView;
-    IViewTask* m_task;
     std::unique_ptr<IPhotoCrawler> m_crawler;
-    PhotosReceiver m_receiver;
-    bool m_workInProgress;
+    std::unique_ptr<PhotosReceiver> m_receiver;
 
-    Data(): m_model(nullptr), m_tasksView(nullptr), m_task(nullptr), m_crawler(nullptr), m_receiver(), m_workInProgress(false)
+    Data(): m_model(nullptr), m_tasksView(nullptr), m_crawler(nullptr), m_receiver(nullptr)
     {
-        m_crawler = PhotoCrawlerBuilder().build();
+
     }
 
     Data(const Data &) = delete;
@@ -72,7 +62,6 @@ struct PhotosCollector::Data
 
 PhotosCollector::PhotosCollector(QObject* p): QObject(p), m_data(new Data)
 {
-    connect(&m_data->m_receiver, SIGNAL(finished()), this, SLOT(workIsDone()));
 }
 
 
@@ -82,50 +71,25 @@ PhotosCollector::~PhotosCollector()
 }
 
 
-void PhotosCollector::set(ITasksView* tasksView)
-{
-    m_data->m_tasksView = tasksView;
-}
-
-
-void PhotosCollector::set(StagedPhotosDataModel* model)
-{
-    m_data->m_model = model;
-    m_data->m_receiver.setModel(model);
-}
-
-
-void PhotosCollector::addDir(const QString& path)
-{
-    assert(m_data->m_model != nullptr);
-
-    m_data->m_crawler->crawl(path, &m_data->m_receiver);
-    m_data->m_workInProgress = true;
-
-    if (m_data->m_task == nullptr)
-    {
-        m_data->m_task = m_data->m_tasksView->add(tr("Looking for photos..."));
-        m_data->m_task->getProgressBar()->setMinimum(0);
-        m_data->m_task->getProgressBar()->setMaximum(0);
-    }
-}
-
-
-bool PhotosCollector::isWorking() const
-{
-    return m_data->m_workInProgress;
-}
-
-
 void PhotosCollector::workIsDone()
 {
-    m_data->m_workInProgress = false;
     emit finished();
-
-    assert(m_data->m_task != nullptr);
-    if (m_data->m_task != nullptr)
-    {
-        m_data->m_task->finished();
-        m_data->m_task = nullptr;
-    }
 }
+
+
+void PhotosCollector::collect(const QString& path, const std::function<void(const QString &)>& callback)
+{
+    m_data->m_receiver = std::make_unique<PhotosReceiver>(callback);
+
+    connect(m_data->m_receiver.get(), &PhotosReceiver::finished, this, &PhotosCollector::workIsDone);
+
+    m_data->m_crawler = PhotoCrawlerBuilder().build();
+    m_data->m_crawler->crawl(path, m_data->m_receiver.get());
+}
+
+
+void PhotosCollector::stop()
+{
+    m_data->m_crawler->stop();
+}
+
