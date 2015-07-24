@@ -19,6 +19,7 @@ struct IFileSystemScanner
     virtual ~IFileSystemScanner();
 
     virtual void getFilesFor(const QString &, IFileNotifier *) = 0;
+    virtual void stop() = 0;
 };
 
 #endif
