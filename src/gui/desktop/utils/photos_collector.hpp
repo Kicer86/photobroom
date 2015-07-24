@@ -61,11 +61,11 @@ class PhotosCollector: public QObject
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
 
-        void set(ITasksView *);
-        void set(StagedPhotosDataModel *);
-        void addDir(const QString &);          // adds dir to model. Emits finished() when ready
+        void set(ITasksView *) [[deprecated]];
+        void set(StagedPhotosDataModel *) [[deprecated]];
+        void addDir(const QString &) [[deprecated]];          // adds dir to model. Emits finished() when ready
 
-        bool isWorking() const;                // return true when work in progress
+        bool isWorking() const [[deprecated]];                // return true when work in progress
 
     signals:
         void finished();
