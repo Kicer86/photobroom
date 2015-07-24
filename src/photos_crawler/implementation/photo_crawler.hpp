@@ -18,6 +18,7 @@ class PhotoCrawler: public IPhotoCrawler
 
         virtual void crawl(const QString &, IMediaNotification *) override;
         virtual void setRules(const Rules &) override;
+        virtual void stop() override;
 
     private:
         std::unique_ptr<Impl> m_impl;
