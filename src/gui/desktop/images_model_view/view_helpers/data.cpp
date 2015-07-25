@@ -37,7 +37,7 @@ namespace
 
 
 
-Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(-1)
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(5)
 {
 
 }
@@ -64,6 +64,12 @@ void Data::set(IConfiguration* configuration)
     const QVariant marginEntry = m_configuration->getEntry(marginConfigKey);
     assert(marginEntry.isValid());
     m_margin = marginEntry.toInt();
+}
+
+
+void Data::setMargin(int margin)
+{
+    m_margin = margin;
 }
 
 

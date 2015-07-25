@@ -71,6 +71,12 @@ void ImagesTreeView::set(IConfiguration* configuration)
 }
 
 
+void ImagesTreeView::setMargin(int margin)
+{
+    m_data->setMargin(margin);
+}
+
+
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
     QModelIndex result;

@@ -46,6 +46,8 @@ class Data
         void set(QAbstractItemModel *);
         void set(IConfiguration *) [[deprecated]];
 
+        void setMargin(int);
+
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
