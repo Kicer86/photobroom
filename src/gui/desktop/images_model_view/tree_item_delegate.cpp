@@ -76,7 +76,7 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
     const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DecorationRole);
-    const QPixmap p = v.value<QPixmap>();
+    const QPixmap p = getPixmap(option, v);
     const int h_margin = (r.width()  - p.rect().width()) / 2;
     const int v_margin = (r.height() - p.rect().height()) / 2;
 
@@ -92,4 +92,55 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QString t = VariantDisplay()(v, option.locale);
 
     painter->drawText(r, Qt::AlignCenter, t);
+}
+
+
+QIcon::Mode TreeItemDelegate::iconMode(const QStyle::State& state) const
+{
+    QIcon::Mode result;
+
+    if ( state & QStyle::State_Enabled == false)
+        result = QIcon::Disabled;
+    if (state & QStyle::State_Selected == true)
+        result = QIcon::Selected;
+    else
+        result = QIcon::Normal;
+
+    return result;
+}
+
+
+QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
+{
+    return state & QStyle::State_Open ? QIcon::On : QIcon::Off;
+}
+
+
+QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem& option, const QVariant& variant) const
+{
+    QPixmap result;
+
+    switch (variant.type())
+    {
+        case QVariant::Icon:
+        {
+            const QIcon::Mode mode = iconMode(option.state);
+            const QIcon::State state = iconState(option.state);
+            result = qvariant_cast<QIcon>(variant).pixmap(option.decorationSize, mode, state);
+            break;
+        }
+
+        case QVariant::Color:
+        {
+            result = QPixmap(option.decorationSize);
+            result.fill(qvariant_cast<QColor>(variant));
+            break;
+        }
+
+        default:
+            result = qvariant_cast<QPixmap>(variant);
+            break;
+    }
+
+    return result;
 }
