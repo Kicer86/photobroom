@@ -132,7 +132,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+194"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+193"/>
         <source>Photos</source>
         <translation>Zdjęcia</translation>
     </message>
@@ -243,7 +243,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+42"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -253,7 +253,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+168"/>
+        <location line="+161"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -440,9 +440,8 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosCollector</name>
     <message>
-        <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+107"/>
         <source>Looking for photos...</source>
-        <translation>Wyszukiwanie zdjęć...</translation>
+        <translation type="vanished">Wyszukiwanie zdjęć...</translation>
     </message>
 </context>
 <context>
