@@ -79,6 +79,8 @@ void PhotosCollector::workIsDone()
 
 void PhotosCollector::collect(const QString& path, const std::function<void(const QString &)>& callback)
 {
+    stop();
+
     m_data->m_receiver = std::make_unique<PhotosReceiver>(callback);
 
     connect(m_data->m_receiver.get(), &PhotosReceiver::finished, this, &PhotosCollector::workIsDone);
@@ -90,6 +92,7 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
 
 void PhotosCollector::stop()
 {
-    m_data->m_crawler->stop();
+    if (m_data->m_crawler.get() != nullptr)
+        m_data->m_crawler->stop();
 }
 
