@@ -20,15 +20,23 @@
 #ifndef VIEW_DATA_SET_HPP
 #define VIEW_DATA_SET_HPP
 
+#include <iostream>
+
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QRect>
 
 #include <core/tree.hpp>
 
+#ifndef NDEBUG
+#define assert_dump(expr,dump)                          \
+    (expr)? static_cast<void>(0): dump(), abort()
+#else
+#define assert_dump(expr,dump) static_cast<void>(0)
+#endif
 
 struct IViewDataSet
-{  
+{
         virtual ~IViewDataSet() {}
 
         virtual void rowsInserted(const QModelIndex &, int, int) = 0;
@@ -169,7 +177,7 @@ class ViewDataSet final: public IViewDataSet
         {
             return m_model.cend() - m_model.cbegin();
         }
-        
+
         std::string dumpModel() const
         {
             const std::string dump = m_model.dump();
@@ -242,7 +250,7 @@ class ViewDataSet final: public IViewDataSet
             clear();
 
             //load all data
-            loadIndex(QModelIndex(), begin());            
+            loadIndex(QModelIndex(), begin());
         }
 
         bool validate() const
@@ -265,7 +273,10 @@ class ViewDataSet final: public IViewDataSet
                 const size_t idx_children = model->rowCount(index);
                 equal = it_children == idx_children;
 
-                assert(equal);
+                assert_dump(equal, [&]
+                {
+                    std::cerr << m_model.dump() << std::endl;
+                });
 
                 if (equal && it_children != 0)                         // still ok && has children
                     for(size_t i = 0; i < it_children; i++)
@@ -274,7 +285,7 @@ class ViewDataSet final: public IViewDataSet
 
             return equal;
         }
-        
+
         std::vector<size_t> generateHierarchy(const QModelIndex& index) const
         {
             std::vector<size_t> result;
@@ -395,7 +406,7 @@ class ViewDataSet final: public IViewDataSet
 // The only problem is that if owner of ViewDataSet (View) also connects
 // itself to model's signals and will try to access ViewDataSet in
 // for example rowsInserted, ViewDataSet may not be up to date yet.
-// In such case, do not use this class but call all ViewDataSet's functions 
+// In such case, do not use this class but call all ViewDataSet's functions
 // related to model changes manually.
 
 struct ViewDataModelObserver: public QObject
@@ -435,7 +446,7 @@ struct ViewDataModelObserver: public QObject
     private slots:
         virtual void rowsInserted(const QModelIndex& p, int f, int t) { m_viewDataSet->rowsInserted(p, f, t); }
         virtual void rowsRemoved(const QModelIndex& p, int f, int t)  { m_viewDataSet->rowsRemoved(p, f, t); }
-        virtual void rowsMoved(const QModelIndex& p, int f, int t, 
+        virtual void rowsMoved(const QModelIndex& p, int f, int t,
                                const QModelIndex& d, int dt)          { m_viewDataSet->rowsMoved(p, f, t, d, dt); }
         virtual void modelReset()                                     { m_viewDataSet->modelReset(); }
 
