@@ -9,7 +9,6 @@
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
-class StagedPhotosDataModel;
 class PhotosCollector;
 class PhotosAnalyzer;
 class InfoGenerator;
@@ -51,10 +50,8 @@ class MainWindow: public QMainWindow
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<IProject> m_currentPrj;
         DBDataModel*              m_imagesModel;
-        StagedPhotosDataModel*    m_stagedImagesModel;
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
-        std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<InfoGenerator> m_infoGenerator;
 
@@ -63,12 +60,10 @@ class MainWindow: public QMainWindow
         void openProject(const ProjectInfo &);
         void closeProject();
         void setupView();
-        void createMenus();
         void updateMenus();
         void updateTitle();
         void updateGui();
         void updateTools();
-        void viewChanged();
         void loadGeometry();
 
     private slots:
@@ -81,9 +76,6 @@ class MainWindow: public QMainWindow
         // photos menu
         void on_actionAdd_photos_triggered();
 
-        // window menu
-        void activateWindow(QAction *);
-
         // help menu
         void on_actionHelp_triggered();
         void on_actionAbout_triggered();
@@ -93,7 +85,7 @@ class MainWindow: public QMainWindow
         void projectOpened(const Database::BackendStatus &);
 
         //model observers
-        void updateInfoWidget(const QString &);
+        __attribute__((deprecated)) void updateInfoWidget(const QString &);
 
         //check version
         void checkVersion();

@@ -9,7 +9,6 @@ set(SRCS
     photos_data_model.cpp
     photos_widget.cpp
     staged_photos_data_model.cpp
-    staged_photos_widget.cpp
     tasks_view_widget.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
@@ -23,11 +22,9 @@ set(SRCS
 set(HEADERS
     editor_factory.hpp
     info_widget.hpp
-    iview.hpp
     photos_data_model.hpp
     photos_widget.hpp
     staged_photos_data_model.hpp
-    staged_photos_widget.hpp
     tasks_view_widget.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
@@ -45,7 +42,6 @@ set(TO_MOC
     filters_editor/level_editor.hpp
     photos_widget.hpp
     project_creator/project_creator_dialog.hpp
-    staged_photos_widget.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp
     )

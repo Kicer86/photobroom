@@ -132,16 +132,15 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+193"/>
         <source>Photos</source>
-        <translation>Zdjęcia</translation>
+        <translation type="vanished">Zdjęcia</translation>
     </message>
     <message>
         <source>Hint:</source>
         <translation type="vanished">Podpowiedź:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+27"/>
+        <location line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -156,12 +155,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>&amp;Windows</source>
-        <translation>&amp;Okna</translation>
+        <translation type="vanished">&amp;Okna</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+14"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -216,7 +214,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-73"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+112"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -238,12 +236,11 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+71"/>
         <source>Staged photos</source>
-        <translation>Zdjęcia do zatwierdzenia</translation>
+        <translation type="vanished">Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+88"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -253,7 +250,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+140"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -359,7 +356,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-46"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -541,14 +538,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/staged_photos_widget.cpp" line="+35"/>
         <source>Review finished</source>
-        <translation>Dodaj do kolekcji</translation>
+        <translation type="vanished">Dodaj do kolekcji</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Changed photos:</source>
-        <translation>Zmodyfikowane zdjęcia:</translation>
+        <translation type="vanished">Zmodyfikowane zdjęcia:</translation>
     </message>
 </context>
 <context>

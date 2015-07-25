@@ -38,27 +38,3 @@ void PhotosWidget::setModel(DBDataModel* dataModel)
     m_dataModel = dataModel;
     ImagesTreeView::setModel(dataModel);
 }
-
-
-QItemSelectionModel* PhotosWidget::getSelectionModel()
-{
-    return selectionModel();
-}
-
-
-DBDataModel* PhotosWidget::getModel()
-{
-    return m_dataModel;
-}
-
-
-QString PhotosWidget::getName()
-{
-    return ImagesTreeView::windowTitle();
-}
-
-
-void PhotosWidget::set(IConfiguration* configuration)
-{
-    ImagesTreeView::set(configuration);
-}
