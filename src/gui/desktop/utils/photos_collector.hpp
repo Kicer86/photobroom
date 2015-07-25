@@ -29,7 +29,6 @@
 struct ITasksView;
 
 class QString;
-class StagedPhotosDataModel;
 
 
 class PhotosReceiver: public QObject, public IMediaNotification
@@ -70,7 +69,6 @@ class PhotosCollector: public QObject
         struct Data;
         std::unique_ptr<Data> m_data;
 
-    private slots:
         void workIsDone();
 };
 
