@@ -47,6 +47,8 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
     auto update_event = std::bind(&ImagesTreeView::update, this);
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 5_fps);
+
+    setThumbnailSize(120);
 }
 
 
@@ -66,14 +68,20 @@ void ImagesTreeView::set(IConfiguration* configuration)
     assert(widthEntry.isValid());
     const int width = widthEntry.toInt();
 
-    verticalScrollBar()->setSingleStep(width / 2);
-    horizontalScrollBar()->setSingleStep(width / 2);
+    setThumbnailSize(width);
 }
 
 
 void ImagesTreeView::setMargin(int margin)
 {
     m_data->setMargin(margin);
+}
+
+
+void ImagesTreeView::setThumbnailSize(int thumbSize)
+{
+    verticalScrollBar()->setSingleStep(thumbSize / 2);
+    horizontalScrollBar()->setSingleStep(thumbSize / 2);
 }
 
 

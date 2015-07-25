@@ -44,7 +44,7 @@ class Data
         Data& operator=(const Data &) = delete;
 
         void set(QAbstractItemModel *);
-        void set(IConfiguration *) [[deprecated]];
+        [[deprecated]] void set(IConfiguration *);
 
         void setMargin(int);
 
