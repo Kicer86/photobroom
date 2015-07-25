@@ -250,8 +250,11 @@ class ViewDataSet final: public IViewDataSet
         {
             clear();
 
-            //load all data
-            loadIndex(QModelIndex(), begin());
+            if (m_db_model != nullptr)
+            {
+                //load all data
+                loadIndex(QModelIndex(), begin());
+            }
         }
 
         bool validate() const
