@@ -21,6 +21,7 @@
 #include "photos_add_dialog.hpp"
 
 #include <QFileSystemModel>
+#include <QStandardItemModel>
 
 #include <configuration/iconfiguration.hpp>
 
@@ -30,7 +31,9 @@
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::PhotosAddDialog),
-    m_config(config)
+    m_config(config),
+    m_photosCollector(),
+    m_browseModel(nullptr)
 {
     ui->setupUi(this);
 
@@ -45,6 +48,11 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 #ifdef OS_UNIX
     ui->browseTree->setRootIndex(m_treeModel->index("/"));
 #endif
+
+    //model for list view
+    m_browseModel = new QStandardItemModel(this);
+
+    connect(&m_photosCollector, &PhotosCollector::finished, this, &PhotosAddDialog::browseListFilled);
 
     // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
@@ -82,8 +90,28 @@ PhotosAddDialog::~PhotosAddDialog()
 
 void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
+    // Disconnect list model from list view.
+    // That's because model will be modified from another thread and horrible things may happen.
+    ui->browseList->setModel(nullptr);
+    m_browseModel->clear();
+
     const QString path = m_treeModel->filePath(current);
 
+    m_photosCollector.collect(path, [&](const QString& path)
+    {
+        const QPixmap pixmap (path);
+        const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        QStandardItem* item = new QStandardItem(scaled, path);
+
+        m_browseModel->appendRow(item);
+    });
+}
+
+
+void PhotosAddDialog::browseListFilled()
+{
+    ui->browseList->setModel(m_browseModel);
 }
 
 

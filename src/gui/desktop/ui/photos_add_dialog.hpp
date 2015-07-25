@@ -23,7 +23,10 @@
 
 #include <QMainWindow>
 
+#include "utils/photos_collector.hpp"
+
 class QFileSystemModel;
+class QStandardItemModel;
 
 class IConfiguration;
 
@@ -48,8 +51,11 @@ class PhotosAddDialog: public QMainWindow
         Ui::PhotosAddDialog* ui;
         IConfiguration* m_config;
         QFileSystemModel* m_treeModel;
+        PhotosCollector m_photosCollector;
+        QStandardItemModel* m_browseModel;
 
         void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
+        void browseListFilled();
 
         //overrides
         void closeEvent(QCloseEvent *) override;
