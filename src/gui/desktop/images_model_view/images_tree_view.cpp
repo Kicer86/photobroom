@@ -209,12 +209,15 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     QAbstractItemView::setModel(m);
     m_data->set(m);
 
-    //connect to model's signals
-    connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
+    if (m != nullptr)
+    {
+        //connect to model's signals
+        connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
 
-    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
+        connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
+        connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
+        connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
+    }
 }
 
 
