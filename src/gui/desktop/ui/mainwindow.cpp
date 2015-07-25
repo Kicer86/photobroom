@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_stagedImagesModel(nullptr),
     m_configuration(nullptr),
     m_updater(nullptr),
-    m_photosCollector(new PhotosCollector(this)),
     m_views(),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_infoGenerator(new InfoGenerator(this))
@@ -205,10 +204,6 @@ void MainWindow::setupView()
 
     ui->infoDockWidget->hide();
 
-    //photos collector will write to stagedPhotosArea
-    m_photosCollector->set(m_stagedImagesModel);
-    m_photosCollector->set(ui->tasksWidget);
-
     m_photosAnalyzer->set(ui->tasksWidget);
 
     //
@@ -354,13 +349,6 @@ void MainWindow::on_actionAdd_photos_triggered()
     loop.exec();
 
     this->setEnabled(true);
-
-    /*
-    const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
-
-    if (path.isEmpty() == false)
-        m_photosCollector->addDir(path);
-    */
 }
 
 

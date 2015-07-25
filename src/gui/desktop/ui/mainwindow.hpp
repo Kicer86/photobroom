@@ -54,7 +54,6 @@ class MainWindow: public QMainWindow
         StagedPhotosDataModel*    m_stagedImagesModel;
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
-        PhotosCollector*          m_photosCollector;
         std::vector<IView *>      m_views;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<InfoGenerator> m_infoGenerator;
@@ -78,13 +77,13 @@ class MainWindow: public QMainWindow
         void on_actionOpen_collection_triggered();
         void on_actionClose_triggered();
         void on_actionQuit_triggered();
-        
+
         // photos menu
         void on_actionAdd_photos_triggered();
-        
+
         // window menu
         void activateWindow(QAction *);
-        
+
         // help menu
         void on_actionHelp_triggered();
         void on_actionAbout_triggered();
