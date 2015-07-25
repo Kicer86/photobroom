@@ -30,7 +30,8 @@
 
 #ifndef NDEBUG
 #define assert_dump(expr,dump)                          \
-    (expr)? static_cast<void>(0): dump(), abort()
+    if (!expr) { dump(), abort(); }                     \
+    else static_cast<void>(0)
 #else
 #define assert_dump(expr,dump) static_cast<void>(0)
 #endif
