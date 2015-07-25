@@ -44,7 +44,7 @@ class ImagesTreeView: public QAbstractItemView
 
         ImagesTreeView& operator=(const ImagesTreeView &) = delete;
 
-        void set(IConfiguration *);
+        void set(IConfiguration *) [[deprecated]];
 
         // QAbstractItemView overrides:
         virtual QModelIndex indexAt(const QPoint& point) const override;

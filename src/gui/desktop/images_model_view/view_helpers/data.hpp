@@ -39,17 +39,17 @@ class Data
 
         Data();
         Data(const Data &) = delete;
-        
+
         ~Data();
         Data& operator=(const Data &) = delete;
 
         void set(QAbstractItemModel *);
-        void set(IConfiguration *);
+        void set(IConfiguration *) [[deprecated]];
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::iterator find(const QModelIndex &);
-        
+
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const ModelIndexInfoSet::iterator &) const;
         QPixmap getImage(Data::ModelIndexInfoSet::level_iterator) const;
