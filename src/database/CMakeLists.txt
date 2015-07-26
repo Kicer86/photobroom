@@ -4,6 +4,7 @@ add_subdirectory(backends)
 find_package(OpenLibrary 2.1 REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Threads REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM
@@ -58,7 +59,7 @@ qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
-target_link_libraries(database PRIVATE configuration core Qt5::Core Qt5::Gui)
+target_link_libraries(database PRIVATE configuration core Qt5::Core Qt5::Gui ${CMAKE_THREAD_LIBS_INIT})
 
 #define interface of database
 target_include_directories(database INTERFACE ${CMAKE_CURRENT_BINARY_DIR} ${OPENLIBRARY_INCLUDE_DIRS})
