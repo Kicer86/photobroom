@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Add photos</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../images.qrc">
+    <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
+  </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AnimatedDocks</set>
   </property>
@@ -144,6 +148,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../images.qrc"/>
+ </resources>
  <connections/>
 </ui>
