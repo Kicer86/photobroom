@@ -101,7 +101,23 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="ImagesTreeView" name="browseList"/>
+   <widget class="QWidget" name="widget">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="ImagesTreeView" name="browseList" native="true"/>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="loadProgressBar">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="value">
+        <number>-1</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="photosViewDock">
    <property name="features">
