@@ -381,40 +381,36 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosAddDialog</name>
     <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
         <source>Add photos</source>
-        <translation type="obsolete">Dodaj zdjęcia</translation>
+        <translation type="unfinished">Dodaj zdjęcia</translation>
     </message>
     <message>
         <source>Photo &amp;information</source>
         <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
-        <source>MainWindow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+29"/>
+        <location line="+33"/>
         <source>Add selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+35"/>
         <source>File system &amp;view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+17"/>
         <source>D&amp;irectory content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+15"/>
         <source>I&amp;mages preparation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+15"/>
         <source>&amp;Tags editor</source>
         <translation type="unfinished"></translation>
     </message>
