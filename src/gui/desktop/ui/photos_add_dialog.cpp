@@ -78,8 +78,6 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 
     connect(selection, &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
     connect(this, &PhotosAddDialog::updateLoadValue, ui->loadProgressValue, &QLabel::setText);
-
-    ui->loadWidget->setHidden(true);
 }
 
 
