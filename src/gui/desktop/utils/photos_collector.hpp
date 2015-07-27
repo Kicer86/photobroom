@@ -30,26 +30,7 @@ struct ITasksView;
 
 class QString;
 
-
-class PhotosReceiver: public QObject, public IMediaNotification
-{
-        Q_OBJECT
-
-        std::function<void(const QString &)> m_callback;
-
-    public:
-        PhotosReceiver(const std::function<void(const QString &)> &);
-        PhotosReceiver(const PhotosReceiver &) = delete;
-        PhotosReceiver& operator=(const PhotosReceiver &) = delete;
-
-        virtual void found(const QString& path) override;
-
-    signals:
-        void finished() override;
-};
-
-
-class PhotosCollector: public QObject
+class PhotosCollector: public QObject, public IMediaNotification
 {
         Q_OBJECT
 
@@ -63,13 +44,15 @@ class PhotosCollector: public QObject
         void stop();
 
     signals:
-        void finished();
+        // IMediaNotification:
+        void finished() override;
 
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        void workIsDone();
+        // IMediaNotification:
+        void found(const QString& path) override;
 };
 
 #endif // PHOTOSCOLLECTOR_HPP

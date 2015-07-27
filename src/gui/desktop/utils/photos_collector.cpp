@@ -28,29 +28,13 @@
 #include "widgets/staged_photos_data_model.hpp"
 
 
-PhotosReceiver::PhotosReceiver(const std::function<void(const QString &)>& callback): m_callback(callback)
-{
-
-}
-
-
-void PhotosReceiver::found(const QString &path)
-{
-    m_callback(path);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
 struct PhotosCollector::Data
 {
-    StagedPhotosDataModel* m_model;
+    std::function<void(const QString &)> m_callback;
     ITasksView* m_tasksView;
     std::unique_ptr<IPhotoCrawler> m_crawler;
-    std::unique_ptr<PhotosReceiver> m_receiver;
 
-    Data(): m_model(nullptr), m_tasksView(nullptr), m_crawler(nullptr), m_receiver(nullptr)
+    Data(): m_callback(), m_tasksView(nullptr), m_crawler(nullptr)
     {
 
     }
@@ -71,22 +55,14 @@ PhotosCollector::~PhotosCollector()
 }
 
 
-void PhotosCollector::workIsDone()
-{
-    emit finished();
-}
-
-
 void PhotosCollector::collect(const QString& path, const std::function<void(const QString &)>& callback)
 {
     stop();
 
-    m_data->m_receiver = std::make_unique<PhotosReceiver>(callback);
-
-    connect(m_data->m_receiver.get(), &PhotosReceiver::finished, this, &PhotosCollector::workIsDone);
+    m_data->m_callback = callback;
 
     m_data->m_crawler = PhotoCrawlerBuilder().build();
-    m_data->m_crawler->crawl(path, m_data->m_receiver.get());
+    m_data->m_crawler->crawl(path, this);
 }
 
 
@@ -96,3 +72,8 @@ void PhotosCollector::stop()
         m_data->m_crawler->stop();
 }
 
+
+void PhotosCollector::found(const QString& path)
+{
+    m_data->m_callback(path);
+}
