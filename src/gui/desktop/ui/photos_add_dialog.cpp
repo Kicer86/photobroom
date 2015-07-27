@@ -99,6 +99,9 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 
     const QString path = m_treeModel->filePath(current);
 
+    //init progress bar
+    ui->loadProgressBar->setEnabled(true);
+
     //connect to 'finished' notification
     connect(&m_photosCollector, &PhotosCollector::finished, this, &PhotosAddDialog::browseListFilled);
 
@@ -117,6 +120,7 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 void PhotosAddDialog::browseListFilled()
 {
     ui->browseList->setModel(m_browseModel);
+    ui->loadProgressBar->setDisabled(true);
 }
 
 
