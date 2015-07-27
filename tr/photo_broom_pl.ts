@@ -405,7 +405,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+31"/>
         <source>I&amp;mages preparation</source>
         <translation type="unfinished"></translation>
     </message>
