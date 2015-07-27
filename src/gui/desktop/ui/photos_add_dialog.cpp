@@ -77,6 +77,9 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     QItemSelectionModel* selection = ui->browseTree->selectionModel();
 
     connect(selection, &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
+    connect(this, &PhotosAddDialog::updateLoadValue, ui->loadProgressValue, &QLabel::setText);
+
+    ui->loadWidget->setHidden(true);
 }
 
 
@@ -99,8 +102,8 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 
     const QString path = m_treeModel->filePath(current);
 
-    //init progress bar
-    ui->loadProgressBar->setEnabled(true);
+    //init load info
+    ui->loadWidget->setVisible(true);
 
     //connect to 'finished' notification
     connect(&m_photosCollector, &PhotosCollector::finished, this, &PhotosAddDialog::browseListFilled);
@@ -113,6 +116,10 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
         QStandardItem* item = new QStandardItem(scaled, photo_path);
 
         m_browseModel->appendRow(item);
+
+        const QString value = QString::number(m_browseModel->rowCount());
+
+        emit updateLoadValue(value);
     });
 }
 
@@ -120,7 +127,7 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 void PhotosAddDialog::browseListFilled()
 {
     ui->browseList->setModel(m_browseModel);
-    ui->loadProgressBar->setDisabled(true);
+    ui->loadWidget->setHidden(true);
 }
 
 

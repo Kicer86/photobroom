@@ -62,6 +62,8 @@ class PhotosAddDialog: public QMainWindow
 
     signals:
         void closing();
+
+        void updateLoadValue(const QString &);
 };
 
 #endif // PHOTOSADDDIALOG_HPP
