@@ -62,6 +62,8 @@ struct PhotoCrawler::Impl
 
     void releaseThread()
     {
+        m_scanner->stop();
+
         if (m_thread.joinable())
             m_thread.join();
     }
@@ -103,5 +105,5 @@ void PhotoCrawler::setRules(const Rules &)
 
 void PhotoCrawler::stop()
 {
-    m_impl->m_scanner->stop();
+    m_impl->releaseThread();
 }
