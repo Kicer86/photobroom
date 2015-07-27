@@ -52,8 +52,6 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     //model for list view
     m_browseModel = new QStandardItemModel(this);
 
-    connect(&m_photosCollector, &PhotosCollector::finished, this, &PhotosAddDialog::browseListFilled);
-
     // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
     if (geometry.isValid())
@@ -90,6 +88,10 @@ PhotosAddDialog::~PhotosAddDialog()
 
 void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
+    // crawler may already work for another dir, disconnect from it and stop it
+    m_photosCollector.disconnect(this);
+    m_photosCollector.stop();
+
     // Disconnect list model from list view.
     // That's because model will be modified from another thread and horrible things may happen.
     ui->browseList->setModel(nullptr);
@@ -97,12 +99,15 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 
     const QString path = m_treeModel->filePath(current);
 
-    m_photosCollector.collect(path, [&](const QString& path)
+    //connect to 'finished' notification
+    connect(&m_photosCollector, &PhotosCollector::finished, this, &PhotosAddDialog::browseListFilled);
+
+    m_photosCollector.collect(path, [&](const QString& photo_path)
     {
-        const QPixmap pixmap (path);
+        const QPixmap pixmap(photo_path);
         const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-        QStandardItem* item = new QStandardItem(scaled, path);
+        QStandardItem* item = new QStandardItem(scaled, photo_path);
 
         m_browseModel->appendRow(item);
     });
