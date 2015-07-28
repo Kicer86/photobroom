@@ -21,11 +21,11 @@
 #include "photos_add_dialog.hpp"
 
 #include <QFileSystemModel>
-#include <QStandardItemModel>
 
 #include <configuration/iconfiguration.hpp>
 
 #include "ui_photos_add_dialog.h"
+#include "models/list_model.hpp"
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
@@ -50,7 +50,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 #endif
 
     //model for list view
-    m_browseModel = new QStandardItemModel(this);
+    m_browseModel = new ListModel(this);
 
     // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
@@ -108,12 +108,7 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 
     m_photosCollector.collect(path, [&](const QString& photo_path)
     {
-        const QPixmap pixmap(photo_path);
-        const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        QStandardItem* item = new QStandardItem(scaled, photo_path);
-
-        m_browseModel->appendRow(item);
+        m_browseModel->insert(photo_path);
 
         const QString value = QString::number(m_browseModel->rowCount());
 
