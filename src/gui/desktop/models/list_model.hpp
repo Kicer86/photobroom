@@ -32,11 +32,14 @@ class ListModel: public QAbstractItemModel
         ListModel& operator=(const ListModel& other);
         bool operator==(const ListModel& other) const;
 
-        virtual QVariant data(const QModelIndex& index, int role) const;
-        virtual int columnCount(const QModelIndex& parent) const;
-        virtual int rowCount(const QModelIndex& parent) const;
-        virtual QModelIndex parent(const QModelIndex& child) const;
-        virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
+        void insert(const QString &);
+
+        // QAbstractItemModel:
+        QVariant data(const QModelIndex& index, int role) const override;
+        int columnCount(const QModelIndex& parent) const override;
+        int rowCount(const QModelIndex& parent) const override;
+        QModelIndex parent(const QModelIndex& child) const override;
+        QModelIndex index(int row, int column, const QModelIndex& parent) const override;
 
     private:
         class ListModelPrivate* const d;

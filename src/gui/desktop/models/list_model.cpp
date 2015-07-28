@@ -20,8 +20,10 @@
 #include "list_model.hpp"
 #include "list_model_p.hpp"
 
+#include <QFileInfo>
 
-ListModelPrivate::ListModelPrivate(ListModel* q) : q(q)
+
+ListModelPrivate::ListModelPrivate(ListModel* q): q(q), m_data()
 {
 }
 
@@ -30,6 +32,8 @@ ListModelPrivate::~ListModelPrivate()
 {
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 ListModel::ListModel()
@@ -48,7 +52,6 @@ ListModel::ListModel(const ListModel& other)
 ListModel::~ListModel()
 {
     delete d;
-
 }
 
 
@@ -64,30 +67,72 @@ bool ListModel::operator==(const ListModel& other) const
 }
 
 
+void ListModel::insert(const QString& path)
+{
+    d->m_data.push_back(path);
+}
+
+
 QVariant ListModel::data(const QModelIndex& index, int role) const
 {
+    QVariant result;
 
+    if (index.isValid())
+    {
+        Info& info = d->m_data[index.row()];
+
+        switch(role)
+        {
+            case Qt::DisplayRole:
+            {
+                if (info.filename.isEmpty())
+                {
+                    QFileInfo file_info(info.path);
+                    info.filename = file_info.fileName();
+                }
+
+                result = info.filename;
+                break;
+            }
+
+            case Qt::DecorationRole:
+            {
+                if (info.pixmap.isNull())
+                    info.pixmap = QPixmap(info.path);
+
+                result = info.pixmap;
+            }
+
+            default:
+                break;
+        }
+    }
+
+    return result;
 }
 
 
 int ListModel::columnCount(const QModelIndex& parent) const
 {
+    const int result = parent.isValid()? 0 : 1;
 
+    return result;
 }
 
 
 int ListModel::rowCount(const QModelIndex& parent) const
 {
-
+    const int result = parent.isValid()? 0: d->m_data.size();
 }
+
 
 QModelIndex ListModel::parent(const QModelIndex& child) const
 {
-
+    return QModelIndex();
 }
 
 
 QModelIndex ListModel::index(int row, int column, const QModelIndex& parent) const
 {
-
+    createIndex(row, column, nullptr);
 }

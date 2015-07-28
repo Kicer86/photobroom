@@ -20,11 +20,29 @@
 #ifndef LISTMODELPRIVATE_HPP
 #define LISTMODELPRIVATE_HPP
 
+
+#include <deque>
+
+#include <QPixmap>
+
+
+struct Info
+{
+    QString path;
+    QPixmap pixmap;
+    QString filename;
+
+    Info(const QString& p): path(p) {}
+};
+
+
 class ListModelPrivate
 {
     public:
         ListModelPrivate(ListModel* q);
         virtual ~ListModelPrivate();
+
+        std::deque<Info> m_data;
 
     private:
         class ListModel* const q;
