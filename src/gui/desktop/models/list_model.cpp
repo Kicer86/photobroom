@@ -36,11 +36,13 @@ ListModelPrivate::~ListModelPrivate()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ListModel::ListModel()
-    : d(new ListModelPrivate(this))
+ListModel::ListModel(QObject* p):
+    QAbstractItemModel(p),
+    d(new ListModelPrivate(this))
 {
 
 }
+
 
 ListModel::ListModel(const ListModel& other)
     : d(new ListModelPrivate(this))
@@ -69,7 +71,23 @@ bool ListModel::operator==(const ListModel& other) const
 
 void ListModel::insert(const QString& path)
 {
+    const int s = d->m_data.size();
+
+    beginInsertRows(QModelIndex(), s, s);
+
     d->m_data.push_back(path);
+
+    endInsertRows();
+}
+
+
+void ListModel::clear()
+{
+    beginResetModel();
+
+    d->m_data.clear();
+
+    endResetModel();
 }
 
 
@@ -98,7 +116,10 @@ QVariant ListModel::data(const QModelIndex& index, int role) const
             case Qt::DecorationRole:
             {
                 if (info.pixmap.isNull())
-                    info.pixmap = QPixmap(info.path);
+                {
+                    QPixmap pixmap(info.path);
+                    info.pixmap = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                }
 
                 result = info.pixmap;
             }
@@ -123,6 +144,8 @@ int ListModel::columnCount(const QModelIndex& parent) const
 int ListModel::rowCount(const QModelIndex& parent) const
 {
     const int result = parent.isValid()? 0: d->m_data.size();
+
+    return result;
 }
 
 
@@ -134,5 +157,5 @@ QModelIndex ListModel::parent(const QModelIndex& child) const
 
 QModelIndex ListModel::index(int row, int column, const QModelIndex& parent) const
 {
-    createIndex(row, column, nullptr);
+    return createIndex(row, column, nullptr);
 }

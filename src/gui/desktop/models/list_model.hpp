@@ -25,7 +25,7 @@
 class ListModel: public QAbstractItemModel
 {
     public:
-        ListModel();
+        ListModel(QObject *);
         ListModel(const ListModel& other);
         ~ListModel();
 
@@ -33,11 +33,12 @@ class ListModel: public QAbstractItemModel
         bool operator==(const ListModel& other) const;
 
         void insert(const QString &);
+        void clear();
 
         // QAbstractItemModel:
         QVariant data(const QModelIndex& index, int role) const override;
         int columnCount(const QModelIndex& parent) const override;
-        int rowCount(const QModelIndex& parent) const override;
+        int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         QModelIndex parent(const QModelIndex& child) const override;
         QModelIndex index(int row, int column, const QModelIndex& parent) const override;
 
