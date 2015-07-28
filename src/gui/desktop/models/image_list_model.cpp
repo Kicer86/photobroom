@@ -17,18 +17,18 @@
  *
  */
 
-#include "list_model.hpp"
-#include "list_model_p.hpp"
+#include "image_list_model.hpp"
+#include "image_list_model_p.hpp"
 
 #include <QFileInfo>
 
 
-ListModelPrivate::ListModelPrivate(ListModel* q): q(q), m_data()
+ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q): q(q), m_data()
 {
 }
 
 
-ListModelPrivate::~ListModelPrivate()
+ImageListModelPrivate::~ImageListModelPrivate()
 {
 }
 
@@ -36,40 +36,40 @@ ListModelPrivate::~ListModelPrivate()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ListModel::ListModel(QObject* p):
+ImageListModel::ImageListModel(QObject* p):
     QAbstractItemModel(p),
-    d(new ListModelPrivate(this))
+    d(new ImageListModelPrivate(this))
 {
 
 }
 
 
-ListModel::ListModel(const ListModel& other)
-    : d(new ListModelPrivate(this))
+ImageListModel::ImageListModel(const ImageListModel& other)
+    : d(new ImageListModelPrivate(this))
 {
 
 }
 
 
-ListModel::~ListModel()
+ImageListModel::~ImageListModel()
 {
     delete d;
 }
 
 
-ListModel& ListModel::operator=(const ListModel& other)
+ImageListModel& ImageListModel::operator=(const ImageListModel& other)
 {
 
 }
 
 
-bool ListModel::operator==(const ListModel& other) const
+bool ImageListModel::operator==(const ImageListModel& other) const
 {
 
 }
 
 
-void ListModel::insert(const QString& path)
+void ImageListModel::insert(const QString& path)
 {
     const int s = d->m_data.size();
 
@@ -81,7 +81,7 @@ void ListModel::insert(const QString& path)
 }
 
 
-void ListModel::clear()
+void ImageListModel::clear()
 {
     beginResetModel();
 
@@ -91,7 +91,7 @@ void ListModel::clear()
 }
 
 
-QVariant ListModel::data(const QModelIndex& index, int role) const
+QVariant ImageListModel::data(const QModelIndex& index, int role) const
 {
     QVariant result;
 
@@ -133,7 +133,7 @@ QVariant ListModel::data(const QModelIndex& index, int role) const
 }
 
 
-int ListModel::columnCount(const QModelIndex& parent) const
+int ImageListModel::columnCount(const QModelIndex& parent) const
 {
     const int result = parent.isValid()? 0 : 1;
 
@@ -141,7 +141,7 @@ int ListModel::columnCount(const QModelIndex& parent) const
 }
 
 
-int ListModel::rowCount(const QModelIndex& parent) const
+int ImageListModel::rowCount(const QModelIndex& parent) const
 {
     const int result = parent.isValid()? 0: d->m_data.size();
 
@@ -149,13 +149,13 @@ int ListModel::rowCount(const QModelIndex& parent) const
 }
 
 
-QModelIndex ListModel::parent(const QModelIndex& child) const
+QModelIndex ImageListModel::parent(const QModelIndex& child) const
 {
     return QModelIndex();
 }
 
 
-QModelIndex ListModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex ImageListModel::index(int row, int column, const QModelIndex& parent) const
 {
     return createIndex(row, column, nullptr);
 }

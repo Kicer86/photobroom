@@ -27,7 +27,7 @@
 
 class QFileSystemModel;
 
-class ListModel;
+class ImageListModel;
 class IConfiguration;
 
 namespace Ui
@@ -52,7 +52,7 @@ class PhotosAddDialog: public QMainWindow
         IConfiguration* m_config;
         QFileSystemModel* m_treeModel;
         PhotosCollector m_photosCollector;
-        ListModel* m_browseModel;
+        ImageListModel* m_browseModel;
 
         void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
         void browseListFilled();

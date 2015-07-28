@@ -17,20 +17,20 @@
  *
  */
 
-#ifndef LISTMODEL_HPP
-#define LISTMODEL_HPP
+#ifndef IMAGELISTMODEL_HPP
+#define IMAGELISTMODEL_HPP
 
 #include <QAbstractItemModel>
 
-class ListModel: public QAbstractItemModel
+class ImageListModel: public QAbstractItemModel
 {
     public:
-        ListModel(QObject *);
-        ListModel(const ListModel& other);
-        ~ListModel();
+        ImageListModel(QObject *);
+        ImageListModel(const ImageListModel& other);
+        ~ImageListModel();
 
-        ListModel& operator=(const ListModel& other);
-        bool operator==(const ListModel& other) const;
+        ImageListModel& operator=(const ImageListModel& other);
+        bool operator==(const ImageListModel& other) const;
 
         void insert(const QString &);
         void clear();
@@ -43,7 +43,7 @@ class ListModel: public QAbstractItemModel
         QModelIndex index(int row, int column, const QModelIndex& parent) const override;
 
     private:
-        class ListModelPrivate* const d;
+        class ImageListModelPrivate* const d;
 };
 
-#endif // LISTMODEL_HPP
+#endif // IMAGELISTMODEL_HPP

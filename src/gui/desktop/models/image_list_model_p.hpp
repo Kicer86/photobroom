@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef LISTMODELPRIVATE_HPP
-#define LISTMODELPRIVATE_HPP
+#ifndef IMAGELISTMODELPRIVATE_HPP
+#define IMAGELISTMODELPRIVATE_HPP
 
 
 #include <deque>
@@ -36,16 +36,16 @@ struct Info
 };
 
 
-class ListModelPrivate
+class ImageListModelPrivate
 {
     public:
-        ListModelPrivate(ListModel* q);
-        virtual ~ListModelPrivate();
+        ImageListModelPrivate(ImageListModel* q);
+        virtual ~ImageListModelPrivate();
 
         std::deque<Info> m_data;
 
     private:
-        class ListModel* const q;
+        class ImageListModel* const q;
 };
 
-#endif // LISTMODELPRIVATE_HPP
+#endif // IMAGELISTMODELPRIVATE_HPP

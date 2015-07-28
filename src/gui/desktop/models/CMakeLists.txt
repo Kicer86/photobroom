@@ -5,11 +5,11 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                    )
 
 set(SRC
-    list_model.cpp
+    image_list_model.cpp
     )
 
 set(HEADERS
-    list_model.hpp
+    image_list_model.hpp
     )
 
 set(TO_MOC

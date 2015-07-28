@@ -25,7 +25,7 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "ui_photos_add_dialog.h"
-#include "models/list_model.hpp"
+#include "models/image_list_model.hpp"
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
@@ -50,7 +50,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 #endif
 
     //model for list view
-    m_browseModel = new ListModel(this);
+    m_browseModel = new ImageListModel(this);
 
     // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
