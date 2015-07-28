@@ -87,6 +87,12 @@ PhotosAddDialog::~PhotosAddDialog()
 }
 
 
+void PhotosAddDialog::set(ITaskExecutor* executor)
+{
+    m_browseModel->set(executor);
+}
+
+
 void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     // crawler may already work for another dir, disconnect from it and stop it

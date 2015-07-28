@@ -76,6 +76,8 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 {
     m_imagesModel->set(taskExecutor);
     m_photosAnalyzer->set(taskExecutor);
+
+    m_executor = taskExecutor;
 }
 
 
@@ -294,6 +296,8 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_actionAdd_photos_triggered()
 {
     PhotosAddDialog photosAddDialog(m_configuration);
+
+    photosAddDialog.set(m_executor);
     photosAddDialog.setWindowModality(Qt::ApplicationModal);
     photosAddDialog.show();
 

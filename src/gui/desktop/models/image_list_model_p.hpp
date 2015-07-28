@@ -25,6 +25,7 @@
 
 #include <QPixmap>
 
+class ITaskExecutor;
 
 struct Info
 {
@@ -43,6 +44,7 @@ class ImageListModelPrivate
         virtual ~ImageListModelPrivate();
 
         std::deque<Info> m_data;
+        ITaskExecutor* m_taskExecutor;
 
     private:
         class ImageListModel* const q;

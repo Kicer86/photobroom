@@ -27,6 +27,7 @@
 
 class QFileSystemModel;
 
+class ITaskExecutor;
 class ImageListModel;
 class IConfiguration;
 
@@ -46,6 +47,8 @@ class PhotosAddDialog: public QMainWindow
         ~PhotosAddDialog();
 
         PhotosAddDialog& operator=(const PhotosAddDialog &) = delete;
+
+        void set(ITaskExecutor *);
 
     private:
         Ui::PhotosAddDialog* ui;

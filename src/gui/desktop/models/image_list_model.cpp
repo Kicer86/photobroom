@@ -23,7 +23,7 @@
 #include <QFileInfo>
 
 
-ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q): q(q), m_data()
+ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q): q(q), m_data(), m_taskExecutor(nullptr)
 {
 }
 
@@ -88,6 +88,12 @@ void ImageListModel::clear()
     d->m_data.clear();
 
     endResetModel();
+}
+
+
+void ImageListModel::set(ITaskExecutor* taskExecutor)
+{
+    d->m_taskExecutor = taskExecutor;
 }
 
 

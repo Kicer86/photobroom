@@ -22,6 +22,8 @@
 
 #include <QAbstractItemModel>
 
+class ITaskExecutor;
+
 class ImageListModel: public QAbstractItemModel
 {
     public:
@@ -34,6 +36,8 @@ class ImageListModel: public QAbstractItemModel
 
         void insert(const QString &);
         void clear();
+
+        void set(ITaskExecutor *);
 
         // QAbstractItemModel:
         QVariant data(const QModelIndex& index, int role) const override;

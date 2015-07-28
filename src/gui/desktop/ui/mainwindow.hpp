@@ -52,6 +52,7 @@ class MainWindow: public QMainWindow
         DBDataModel*              m_imagesModel;
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
+        ITaskExecutor*            m_executor;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<InfoGenerator> m_infoGenerator;
 
