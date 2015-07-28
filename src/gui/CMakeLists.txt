@@ -22,6 +22,7 @@ endif()
 
 add_subdirectory(desktop/widgets)
 add_subdirectory(desktop/utils)
+add_subdirectory(desktop/models)
 
 set(GUI_SOURCES
     desktop/gui.cpp
@@ -98,8 +99,9 @@ add_library(gui
             ${GUI_HEADERS}
             ${GUI_WRAPPED_UI}
             ${GUI_RESOURCES}
-            $<TARGET_OBJECTS:gui_widgets>
+            $<TARGET_OBJECTS:gui_models>
             $<TARGET_OBJECTS:gui_utils>
+            $<TARGET_OBJECTS:gui_widgets>
            )
 
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system updater ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
