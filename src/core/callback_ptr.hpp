@@ -27,7 +27,7 @@ class callback_ptr_ctrl final
 
         void invalidate()
         {
-            reset();      // dissolve any connections
+            reset();      // dissolve all connections
             setup();      // create new one
         }
 
@@ -39,7 +39,7 @@ class callback_ptr_ctrl final
         {
             ol::ThreadSafeResource<T *> m_callback;
 
-            Data(T* callback): m_callback(callback) {};
+            Data(T* callback): m_callback(callback) {}
         };
 
         std::shared_ptr<Data> m_data;
