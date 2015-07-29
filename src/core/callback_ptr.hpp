@@ -56,7 +56,7 @@ class callback_ptr_ctrl final
                 // lock resource
                 auto callback_resource_locked = m_data->m_callback.lock();
 
-                // remove resource from Data, so no other instance of Data will not be able to access it
+                // remove resource from Data, so no other instance of Data will be able to access it
                 *callback_resource_locked = nullptr;
             }
 
