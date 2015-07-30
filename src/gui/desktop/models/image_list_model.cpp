@@ -22,14 +22,47 @@
 
 #include <QFileInfo>
 
+#include <core/itask_executor.hpp>
+#include <core/callback_ptr.hpp>
 
-ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q): q(q), m_data(), m_taskExecutor(nullptr)
+
+struct LoadPhoto: ITaskExecutor::ITask
 {
+    LoadPhoto(const Info& info): m_info(info)
+    {
+
+    }
+
+    virtual std::string name() const
+    {
+        return "LoadPhoto";
+    }
+
+    virtual void perform()
+    {
+        const QPixmap pixmap(m_info.path);
+        const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+
+    Info m_info;
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
+    q(q),
+    m_data(),
+    m_taskExecutor(nullptr)
+{
+
 }
 
 
 ImageListModelPrivate::~ImageListModelPrivate()
 {
+
 }
 
 
@@ -123,8 +156,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
             {
                 if (info.pixmap.isNull())
                 {
-                    QPixmap pixmap(info.path);
-                    info.pixmap = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                    d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info));
                 }
 
                 result = info.pixmap;

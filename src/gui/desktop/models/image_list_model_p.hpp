@@ -20,10 +20,12 @@
 #ifndef IMAGELISTMODELPRIVATE_HPP
 #define IMAGELISTMODELPRIVATE_HPP
 
-
 #include <deque>
 
 #include <QPixmap>
+
+#include <OpenLibrary/putils/ts_queue.hpp>
+
 
 class ITaskExecutor;
 
@@ -33,7 +35,7 @@ struct Info
     QPixmap pixmap;
     QString filename;
 
-    Info(const QString& p): path(p) {}
+    Info(const QString& p): path(p), pixmap(), filename() {}
 };
 
 
