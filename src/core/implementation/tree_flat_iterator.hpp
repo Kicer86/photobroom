@@ -141,9 +141,9 @@ namespace tree_private
 
                 return r;
             }
- 
+
         private:
-            template<typename R> friend class ::tree;
+            template<typename> friend class ::tree;
 
             void jumpout()
             {
