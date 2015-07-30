@@ -152,10 +152,10 @@ class TS_MultiHeadQueue
         ol::Optional<T> pop()
         {
             // lock non empty producers
-            std::unique_lock<std::mutex> lock(m_non_empty_mutex);
+            std::lock_guard<std::mutex> lock(m_non_empty_mutex);
             ol::Optional<T> result;
 
-            wait_for_data();
+            wait_for_data(lock);
 
             if (m_non_empty.empty() == false)
             {
@@ -174,7 +174,7 @@ class TS_MultiHeadQueue
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
             ol::Optional<T> result;
 
-            wait_for_data(timeout);
+            wait_for_data(lock, timeout);
 
             if (m_non_empty.empty() == false)
             {
@@ -187,33 +187,11 @@ class TS_MultiHeadQueue
             return std::move(result);
         }
 
-        //! Wait until data is available.
         void wait_for_data()
         {
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
 
-            auto precond = [&]
-            {
-                const bool condition = m_stopped == true || m_non_empty.empty() == false;
-                return !condition;
-            };
-
-            m_is_not_empty.wait(lock, precond);
-        }
-
-        bool wait_for_data(const std::chrono::milliseconds& timeout)
-        {
-            std::unique_lock<std::mutex> lock(m_non_empty_mutex);
-
-            auto precond = [&]
-            {
-                const bool condition = m_stopped == true || m_non_empty.empty() == false;
-                return condition;
-            };
-
-            const bool status = m_is_not_empty.wait_for(lock, timeout, precond);
-
-            return status;
+            wait_for_data(lock);
         }
 
         bool empty()
@@ -269,10 +247,33 @@ class TS_MultiHeadQueue
 
         void poped(Producer* producer)
         {
-            std::lock_guard<std::mutex> lock(m_non_empty_mutex);
-
             if (producer->empty())
                 m_non_empty.erase(producer);
+        }
+
+        //! Wait until data is available.
+        void wait_for_data(std::unique_lock<std::mutex>& lock)
+        {
+            auto precond = [&]
+            {
+                const bool condition = m_stopped == true || m_non_empty.empty() == false;
+                return condition;
+            };
+
+            m_is_not_empty.wait(lock, precond);
+        }
+
+        bool wait_for_data(std::unique_lock<std::mutex>& lock, const std::chrono::milliseconds& timeout)
+        {
+            auto precond = [&]
+            {
+                const bool condition = m_stopped == true || m_non_empty.empty() == false;
+                return condition;
+            };
+
+            const bool status = m_is_not_empty.wait_for(lock, timeout, precond);
+
+            return status;
         }
 };
 
