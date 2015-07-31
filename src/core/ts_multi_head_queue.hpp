@@ -47,7 +47,7 @@ class TS_MultiHeadQueue
 
                 void push(const T& item)
                 {
-                    std::lock_guard<std::recursive_mutex> lock(m_dataMutex);
+                    std::lock_guard<std::mutex> lock(m_dataMutex);
                     m_data.push_back(item);
 
                     m_queue->not_empty(this);
@@ -55,7 +55,7 @@ class TS_MultiHeadQueue
 
                 void push(T&& item)
                 {
-                    std::lock_guard<std::recursive_mutex> lock(m_dataMutex);
+                    std::lock_guard<std::mutex> lock(m_dataMutex);
                     m_data.push_back(std::move(item));
 
                     m_queue->not_empty(this);
@@ -63,13 +63,13 @@ class TS_MultiHeadQueue
 
                 void clear()
                 {
-                    std::lock_guard<std::recursive_mutex> lock(m_dataMutex);
+                    std::lock_guard<std::mutex> lock(m_dataMutex);
                     m_data.clear();
                 }
 
                 std::size_t size() const
                 {
-                    std::lock_guard<std::recursive_mutex> lock(m_dataMutex);
+                    std::lock_guard<std::mutex> lock(m_dataMutex);
                     const std::size_t s = m_data.size();
 
                     return s;
@@ -77,7 +77,7 @@ class TS_MultiHeadQueue
 
                 bool empty() const
                 {
-                    std::lock_guard<std::recursive_mutex> lock(m_dataMutex);
+                    std::lock_guard<std::mutex> lock(m_dataMutex);
                     const bool e = m_data.empty();
 
                     return e;
@@ -93,7 +93,7 @@ class TS_MultiHeadQueue
 
                 TS_MultiHeadQueue<T>* m_queue;
                 std::deque<T> m_data;
-                mutable std::recursive_mutex m_dataMutex;
+                mutable std::mutex m_dataMutex;
                 std::chrono::time_point<std::chrono::steady_clock> m_last_access_time;
 
                 Producer(TS_MultiHeadQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
@@ -101,14 +101,9 @@ class TS_MultiHeadQueue
                     update_time();
                 }
 
-                std::unique_lock<std::mutex> lock()
-                {
-                    return std::unique_lock<std::recursive_mutex>(m_dataMutex);
-                }
-
                 T pop()
                 {
-                    std::lock_guard<std::recursive_mutex> lock(m_dataMutex);
+                    std::lock_guard<std::mutex> lock(m_dataMutex);
 
                     assert(m_data.empty() == false);
 
