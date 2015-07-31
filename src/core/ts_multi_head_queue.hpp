@@ -40,10 +40,14 @@ class TS_MultiHeadQueue
         class Producer
         {
             public:
+                Producer(const Producer &) = delete;
+
                 ~Producer()
                 {
                     m_queue->release(this);
                 }
+
+                Producer& operator=(const Producer &) = delete;
 
                 void push(const T& item)
                 {
@@ -134,7 +138,13 @@ class TS_MultiHeadQueue
         };
 
 
-        TS_MultiHeadQueue(): m_stopped(false)
+        TS_MultiHeadQueue():
+            m_producers(),
+            m_producersMutex(),
+            m_non_empty(),
+            m_non_empty_mutex(),
+            m_is_not_empty(),
+            m_stopped(false)
         {
         }
 
