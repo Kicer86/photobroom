@@ -169,7 +169,7 @@ class TS_MultiHeadQueue
         ol::Optional<T> pop()
         {
             // lock non empty producers
-            std::lock_guard<std::mutex> lock(m_non_empty_mutex);
+            std::unique_lock<std::mutex> lock(m_non_empty_mutex);
             ol::Optional<T> result;
 
             wait_for_data(lock);
@@ -179,7 +179,8 @@ class TS_MultiHeadQueue
                 Producer* top = *m_non_empty.begin();
                 result = std::move( top->pop() );
 
-                poped(top);
+                if (top->empty())
+                    m_non_empty.erase(top);
             }
 
             return std::move(result);
