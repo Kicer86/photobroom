@@ -47,16 +47,28 @@ class TS_MultiHeadQueue
 
                 void push(const T& item)
                 {
-                    std::lock_guard<std::mutex> lock(m_dataMutex);
+                    std::unique_lock<std::mutex> lock(m_dataMutex);
                     m_data.push_back(item);
+
+                    // Unlock data to avoid deadlocks.
+                    // Another thread may wait for data and therefore may lock m_non_empty_mutex and wait for m_dataMutex,
+                    // while we have locked m_dataMutex and will be waiting for m_non_empty_mutex in not_empty().
+
+                    lock.unlock();
 
                     m_queue->not_empty(this);
                 }
 
                 void push(T&& item)
                 {
-                    std::lock_guard<std::mutex> lock(m_dataMutex);
+                    std::unique_lock<std::mutex> lock(m_dataMutex);
                     m_data.push_back(std::move(item));
+
+                    // Unlock data to avoid deadlocks.
+                    // Another thread may wait for data and therefore may lock m_non_empty_mutex and wait for m_dataMutex,
+                    // while we have locked m_dataMutex and will be waiting for m_non_empty_mutex in not_empty().
+
+                    lock.unlock();
 
                     m_queue->not_empty(this);
                 }
