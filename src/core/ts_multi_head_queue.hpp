@@ -188,7 +188,8 @@ class TS_MultiHeadQueue
                 Producer* top = *m_non_empty.begin();
                 result = std::move( top->pop() );
 
-                poped(top);
+                if (top->empty())
+                    m_non_empty.erase(top);
             }
 
             return std::move(result);
@@ -250,12 +251,6 @@ class TS_MultiHeadQueue
 
             m_non_empty.insert(producer);
             m_is_not_empty.notify_one();
-        }
-
-        void poped(Producer* producer)
-        {
-            if (producer->empty())
-                m_non_empty.erase(producer);
         }
 
         //! Wait until data is available.
