@@ -20,6 +20,7 @@
 #ifndef TS_MULTIHEADQUEUE_HPP
 #define TS_MULTIHEADQUEUE_HPP
 
+#include <algorithm>
 #include <atomic>
 #include <cassert>
 #include <condition_variable>
@@ -170,40 +171,18 @@ class TS_MultiHeadQueue
         {
             // lock non empty producers
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
-            ol::Optional<T> result;
-
             wait_for_data(lock);
 
-            if (m_non_empty.empty() == false)
-            {
-                Producer* top = *m_non_empty.begin();
-                result = std::move( top->pop() );
-
-                if (top->empty())
-                    m_non_empty.erase(top);
-            }
-
-            return std::move(result);
+            return internal_pop();
         }
 
         ol::Optional<T> pop_for(const std::chrono::milliseconds& timeout)
         {
             // lock non empty producers
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
-            ol::Optional<T> result;
-
             wait_for_data(lock, timeout);
 
-            if (m_non_empty.empty() == false)
-            {
-                Producer* top = *m_non_empty.begin();
-                result = std::move( top->pop() );
-
-                if (top->empty())
-                    m_non_empty.erase(top);
-            }
-
-            return std::move(result);
+            return internal_pop();
         }
 
         void wait_for_data()
@@ -243,7 +222,7 @@ class TS_MultiHeadQueue
         std::set<Producer *> m_producers;
         std::mutex m_producersMutex;
 
-        std::set<Producer *, ProducerSorter> m_non_empty;
+        std::deque<Producer *> m_non_empty;
         std::mutex m_non_empty_mutex;
 
         std::condition_variable m_is_not_empty;
@@ -260,7 +239,12 @@ class TS_MultiHeadQueue
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
-            m_non_empty.insert(producer);
+            auto f_it = std::find(m_non_empty.begin(), m_non_empty.end(), producer);
+            if (f_it == m_non_empty.end())
+                m_non_empty.push_back(producer);
+
+            sort_non_empty_producers();
+
             m_is_not_empty.notify_one();
         }
 
@@ -287,6 +271,30 @@ class TS_MultiHeadQueue
             const bool status = m_is_not_empty.wait_for(lock, timeout, precond);
 
             return status;
+        }
+
+        ol::Optional<T> internal_pop()
+        {
+            ol::Optional<T> result;
+
+            if (m_non_empty.empty() == false)
+            {
+                Producer* top = *m_non_empty.begin();
+                result = std::move( top->pop() );
+
+                if (top->empty())
+                    m_non_empty.pop_front();
+
+                sort_non_empty_producers();
+            }
+
+            return std::move(result);
+        }
+
+        void sort_non_empty_producers()
+        {
+            ProducerSorter sorter;
+            std::sort(m_non_empty.begin(), m_non_empty.end(), sorter);
         }
 };
 
