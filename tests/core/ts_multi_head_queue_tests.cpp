@@ -83,22 +83,18 @@ TEST(TS_MultiHeadQueueTest, ReturnsMixedProductionOfManyProducers)
     p4->push(403);
     p4->push(404);
 
-    std::set<int> expecting;
     int sum = 0;
 
+    // Expected order in pop is: 101, 201, 301, 401, 102, 202, 302, 402, 103, ...
+    // Outputs from producers should be mixed.
     for(int i = 0; i < 16; i++)
     {
-        if (i % 4 == 0)
-            expecting = {1, 2, 3, 4};
-
         auto r = q.pop();
 
         const int p = (*r)/100;          // producer id
-        auto it = expecting.find(p);
+        const int e_p = i % 4 + 1;       // expected producer id
 
-        EXPECT_NE(expecting.end(), it);  // we should be expecting this producer
-
-        expecting.erase(it);             // remove this producer from expecting ones
+        EXPECT_EQ(e_p, p);               // we should be expecting this producer
 
         sum += (*r);
     }
