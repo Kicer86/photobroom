@@ -102,6 +102,8 @@ TEST(TS_MultiHeadQueueTest, ReturnsMixedProductionOfManyProducers)
 
         sum += (*r);
     }
+
+    EXPECT_EQ(4040, sum);
 }
 
 
