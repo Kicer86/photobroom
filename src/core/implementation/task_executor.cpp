@@ -79,7 +79,6 @@ void TaskExecutor::stop()
 }
 
 
-//TODO: kill threads when no tasks
 void TaskExecutor::eat()
 {
     using namespace std::chrono_literals;
