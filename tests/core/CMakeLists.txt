@@ -15,6 +15,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set(SRC
         tree_tests.cpp
+        ts_multi_head_queue_tests.cpp
     )
 
 add_executable(core_tests ${SRC})
