@@ -46,6 +46,9 @@ class ImageListModel: public QAbstractItemModel
         QModelIndex parent(const QModelIndex& child) const override;
         QModelIndex index(int row, int column, const QModelIndex& parent) const override;
 
+        //
+        void imageScaled(const QPixmap &);
+
     private:
         class ImageListModelPrivate* const d;
 };

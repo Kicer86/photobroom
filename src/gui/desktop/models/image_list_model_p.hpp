@@ -26,6 +26,7 @@
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
+#include <core/callback_ptr.hpp>
 
 class ITaskExecutor;
 
@@ -47,6 +48,7 @@ class ImageListModelPrivate
 
         std::deque<Info> m_data;
         ITaskExecutor* m_taskExecutor;
+        callback_ptr_ctrl<ImageListModel> m_callback_ctrl;
 
     private:
         class ImageListModel* const q;

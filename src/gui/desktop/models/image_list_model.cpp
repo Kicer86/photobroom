@@ -28,7 +28,7 @@
 
 struct LoadPhoto: ITaskExecutor::ITask
 {
-    LoadPhoto(const Info& info): m_info(info)
+    LoadPhoto(const Info& info, const callback_ptr_ctrl<ImageListModel>& callback_ctrl): m_info(info), m_callback(callback_ctrl)
     {
 
     }
@@ -42,9 +42,15 @@ struct LoadPhoto: ITaskExecutor::ITask
     {
         const QPixmap pixmap(m_info.path);
         const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        auto callback = **m_callback;
+
+        if (callback)
+            callback->imageScaled(scaled);
     }
 
     Info m_info;
+    callback_ptr<ImageListModel> m_callback;
 };
 
 
@@ -54,7 +60,8 @@ struct LoadPhoto: ITaskExecutor::ITask
 ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
     q(q),
     m_data(),
-    m_taskExecutor(nullptr)
+    m_taskExecutor(nullptr),
+    m_callback_ctrl(q)
 {
 
 }
@@ -118,6 +125,7 @@ void ImageListModel::clear()
 {
     beginResetModel();
 
+    d->m_callback_ctrl.invalidate();
     d->m_data.clear();
 
     endResetModel();
@@ -156,7 +164,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
             {
                 if (info.pixmap.isNull())
                 {
-                    d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info));
+                    d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info, d->m_callback_ctrl));
                 }
 
                 result = info.pixmap;
@@ -196,4 +204,10 @@ QModelIndex ImageListModel::parent(const QModelIndex& child) const
 QModelIndex ImageListModel::index(int row, int column, const QModelIndex& parent) const
 {
     return createIndex(row, column, nullptr);
+}
+
+
+void ImageListModel::imageScaled(const QPixmap& pixmap)
+{
+
 }
