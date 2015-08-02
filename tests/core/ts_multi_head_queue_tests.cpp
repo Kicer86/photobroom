@@ -50,6 +50,10 @@ TEST(TS_MultiHeadQueueTest, ReturnsWhatProducerGenerated)
 
     r = q.pop();
     EXPECT_EQ(4, *r);
+
+    r = q.pop_for(1ms);
+
+    EXPECT_EQ(false, r.is_initialized());
 }
 
 
@@ -100,4 +104,8 @@ TEST(TS_MultiHeadQueueTest, ReturnsMixedProductionOfManyProducers)
     }
 
     EXPECT_EQ(4040, sum);
+
+    auto r = q.pop_for(1ms);
+
+    EXPECT_EQ(false, r.is_initialized());
 }
