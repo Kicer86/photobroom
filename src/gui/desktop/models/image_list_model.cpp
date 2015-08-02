@@ -28,7 +28,7 @@
 
 struct LoadPhoto: ITaskExecutor::ITask
 {
-    LoadPhoto(const Info& info, const callback_ptr_ctrl<ImageListModelPrivate>& callback_ctrl): m_info(info), m_callback(callback_ctrl)
+    LoadPhoto(const QString& path, const callback_ptr_ctrl<ImageListModelPrivate>& callback_ctrl): m_path(path), m_callback(callback_ctrl)
     {
 
     }
@@ -40,16 +40,17 @@ struct LoadPhoto: ITaskExecutor::ITask
 
     virtual void perform()
     {
-        const QPixmap pixmap(m_info.path);
+        // TODO: remove constants
+        const QPixmap pixmap(m_path);
         const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         auto callback = **m_callback;
 
         if (callback)
-            callback->imageScaled(scaled);
+            callback->imageScaled(m_path, scaled);
     }
 
-    Info m_info;
+    QString m_path;
     callback_ptr<ImageListModelPrivate> m_callback;
 };
 
@@ -63,7 +64,7 @@ ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
     m_taskExecutor(nullptr),
     m_callback_ctrl(this)
 {
-
+    qRegisterMetaType<QVector<int>>("QVector<int>");
 }
 
 
@@ -73,9 +74,9 @@ ImageListModelPrivate::~ImageListModelPrivate()
 }
 
 
-void ImageListModelPrivate::imageScaled(const QPixmap& pixmap)
+void ImageListModelPrivate::imageScaled(const QString& path, const QPixmap& pixmap)
 {
-    q->imageScaled(pixmap);
+    q->imageScaled(path, pixmap);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -116,6 +117,7 @@ bool ImageListModel::operator==(const ImageListModel& other) const
 
 void ImageListModel::insert(const QString& path)
 {
+    std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
     const int s = d->m_data.size();
 
     beginInsertRows(QModelIndex(), s, s);
@@ -128,6 +130,8 @@ void ImageListModel::insert(const QString& path)
 
 void ImageListModel::clear()
 {
+    std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
+
     beginResetModel();
 
     d->m_callback_ctrl.invalidate();
@@ -146,6 +150,7 @@ void ImageListModel::set(ITaskExecutor* taskExecutor)
 QVariant ImageListModel::data(const QModelIndex& index, int role) const
 {
     QVariant result;
+    std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
 
     if (index.isValid())
     {
@@ -169,7 +174,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
             {
                 if (info.pixmap.isNull())
                 {
-                    d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info, d->m_callback_ctrl));
+                    d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
                 }
 
                 result = info.pixmap;
@@ -194,6 +199,7 @@ int ImageListModel::columnCount(const QModelIndex& parent) const
 
 int ImageListModel::rowCount(const QModelIndex& parent) const
 {
+    std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
     const int result = parent.isValid()? 0: d->m_data.size();
 
     return result;
@@ -212,7 +218,26 @@ QModelIndex ImageListModel::index(int row, int column, const QModelIndex& parent
 }
 
 
-void ImageListModel::imageScaled(const QPixmap& pixmap)
+void ImageListModel::imageScaled(const QString& path, const QPixmap& pixmap)
 {
+    std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
 
+    // TODO: not so smart huh?
+    auto& data = d->m_data;
+
+    std::size_t r = -1;
+    for(std::size_t i = 0; i < data.size(); i++)
+        if (data[i].path == path)
+        {
+            r = i;
+            break;
+        }
+
+    assert(r != -1);
+
+    Info& info = data[r];
+    info.pixmap = pixmap;
+
+    const QModelIndex idx = index(r, 0, QModelIndex());
+    emit dataChanged(idx, idx, {Qt::DecorationRole});
 }

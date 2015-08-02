@@ -51,7 +51,7 @@ class ImageListModel: public QAbstractItemModel
         class ImageListModelPrivate* const d;
 
         //
-        void imageScaled(const QPixmap &);
+        void imageScaled(const QString &, const QPixmap &);
 };
 
 #endif // IMAGELISTMODEL_HPP

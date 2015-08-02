@@ -47,10 +47,12 @@ class ImageListModelPrivate
         virtual ~ImageListModelPrivate();
 
         std::deque<Info> m_data;
+        std::recursive_mutex m_data_mutex;
+
         ITaskExecutor* m_taskExecutor;
         callback_ptr_ctrl<ImageListModelPrivate> m_callback_ctrl;
 
-        void imageScaled(const QPixmap &);
+        void imageScaled(const QString &, const QPixmap &);
 
     private:
         class ImageListModel* const q;
