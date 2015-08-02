@@ -46,11 +46,12 @@ class ImageListModel: public QAbstractItemModel
         QModelIndex parent(const QModelIndex& child) const override;
         QModelIndex index(int row, int column, const QModelIndex& parent) const override;
 
+    private:
+        friend class ImageListModelPrivate;
+        class ImageListModelPrivate* const d;
+
         //
         void imageScaled(const QPixmap &);
-
-    private:
-        class ImageListModelPrivate* const d;
 };
 
 #endif // IMAGELISTMODEL_HPP

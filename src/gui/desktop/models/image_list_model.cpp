@@ -28,7 +28,7 @@
 
 struct LoadPhoto: ITaskExecutor::ITask
 {
-    LoadPhoto(const Info& info, const callback_ptr_ctrl<ImageListModel>& callback_ctrl): m_info(info), m_callback(callback_ctrl)
+    LoadPhoto(const Info& info, const callback_ptr_ctrl<ImageListModelPrivate>& callback_ctrl): m_info(info), m_callback(callback_ctrl)
     {
 
     }
@@ -50,7 +50,7 @@ struct LoadPhoto: ITaskExecutor::ITask
     }
 
     Info m_info;
-    callback_ptr<ImageListModel> m_callback;
+    callback_ptr<ImageListModelPrivate> m_callback;
 };
 
 
@@ -61,7 +61,7 @@ ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
     q(q),
     m_data(),
     m_taskExecutor(nullptr),
-    m_callback_ctrl(q)
+    m_callback_ctrl(this)
 {
 
 }
@@ -72,6 +72,11 @@ ImageListModelPrivate::~ImageListModelPrivate()
 
 }
 
+
+void ImageListModelPrivate::imageScaled(const QPixmap& pixmap)
+{
+    q->imageScaled(pixmap);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 

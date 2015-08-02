@@ -48,7 +48,9 @@ class ImageListModelPrivate
 
         std::deque<Info> m_data;
         ITaskExecutor* m_taskExecutor;
-        callback_ptr_ctrl<ImageListModel> m_callback_ctrl;
+        callback_ptr_ctrl<ImageListModelPrivate> m_callback_ctrl;
+
+        void imageScaled(const QPixmap &);
 
     private:
         class ImageListModel* const q;
