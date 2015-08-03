@@ -22,7 +22,7 @@
 
 #include <deque>
 
-#include <QPixmap>
+#include <QIcon>
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
@@ -33,10 +33,10 @@ class ITaskExecutor;
 struct Info
 {
     QString path;
-    QPixmap pixmap;
+    QIcon icon;
     QString filename;
 
-    Info(const QString& p): path(p), pixmap(), filename() {}
+    Info(const QString& p): path(p), icon(), filename() {}
 };
 
 

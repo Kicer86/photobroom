@@ -40,9 +40,17 @@ struct LoadPhoto: ITaskExecutor::ITask
 
     virtual void perform()
     {
-        // TODO: remove constants
+        // TODO: remove constants, use settings?
         const QPixmap pixmap(m_path);
-        const QPixmap scaled = pixmap.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        
+        const int w = 1920;
+        const int h = 1080;
+
+        const bool needs_resize = pixmap.width() > w || pixmap.height() > h;
+
+        const QPixmap scaled = needs_resize?
+                               pixmap.scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation):
+                               pixmap;
 
         auto callback = **m_callback;
 
@@ -172,12 +180,12 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
 
             case Qt::DecorationRole:
             {
-                if (info.pixmap.isNull())
+                if (info.icon.isNull())
                 {
                     d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
                 }
 
-                result = info.pixmap;
+                result = info.icon;
             }
 
             default:
@@ -236,7 +244,7 @@ void ImageListModel::imageScaled(const QString& path, const QPixmap& pixmap)
     assert(r != -1);
 
     Info& info = data[r];
-    info.pixmap = pixmap;
+    info.icon = pixmap;
 
     const QModelIndex idx = index(r, 0, QModelIndex());
     emit dataChanged(idx, idx, {Qt::DecorationRole});
