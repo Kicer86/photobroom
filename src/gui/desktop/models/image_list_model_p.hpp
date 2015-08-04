@@ -35,8 +35,13 @@ struct Info
     QString path;
     QIcon icon;
     QString filename;
+    bool default_icon;
 
-    Info(const QString& p): path(p), icon(), filename() {}
+    Info(const QString& p): path(p), icon(), filename(), default_icon(true)
+    {
+        const QPixmap pixmap(":/gui/clock-img.svg");
+        icon.addPixmap(pixmap);
+    }
 };
 
 
