@@ -42,7 +42,7 @@ struct LoadPhoto: ITaskExecutor::ITask
     {
         // TODO: remove constants, use settings?
         const QPixmap pixmap(m_path);
-        
+
         const int w = 1920;
         const int h = 1080;
 

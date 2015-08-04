@@ -44,7 +44,7 @@ class ImagesTreeView: public QAbstractItemView
 
         ImagesTreeView& operator=(const ImagesTreeView &) = delete;
 
-        [[deprecated]] void set(IConfiguration *);
+        [[deprecated("Set of setters should be used instead")]] void set(IConfiguration *);
         void setMargin(int);
         [[deprecated("Should be constant")]] void setThumbnailSize(int);
 
