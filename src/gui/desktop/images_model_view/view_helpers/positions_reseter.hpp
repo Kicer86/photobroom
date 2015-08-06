@@ -22,8 +22,9 @@
 
 #include "data.hpp"
 
-class QModelIndex;
 class QAbstractItemModel;
+class QModelIndex;
+class QItemSelection;
 
 class PositionsReseter
 {
@@ -36,6 +37,7 @@ public:
     void itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const;
     void invalidateAll() const;
     void itemChanged(const QModelIndex &);
+    void itemsChanged(const QItemSelection &);
     void childrenRemoved(const QModelIndex &, int pos);
 
 private:
