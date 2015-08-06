@@ -259,11 +259,14 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
+        const QSize decorationSize(info.getRect().width()  - m_data->getMargin() * 2,
+                                   info.getRect().height() - m_data->getMargin() * 2);
+
         QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
-        styleOption.decorationSize = info.getSize();
+        styleOption.decorationSize = decorationSize;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
     }
