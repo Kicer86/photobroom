@@ -83,6 +83,7 @@ class ImagesTreeView: public QAbstractItemView
         QPoint getOffset() const;
 
     private slots:
+        void dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &);
         void modelReset();
         void rowsInserted(const QModelIndex &, int, int);
         void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);

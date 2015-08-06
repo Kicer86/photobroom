@@ -226,6 +226,8 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     if (m != nullptr)
     {
         //connect to model's signals
+        connect(m, &QAbstractItemModel::dataChanged, this, &ImagesTreeView::dataChanged, Qt::UniqueConnection);
+
         connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
 
         connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
@@ -370,6 +372,15 @@ QPoint ImagesTreeView::getOffset() const
     const QPoint offset(horizontalOffset(), verticalOffset());
 
     return offset;
+}
+
+
+void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
+{
+    const QItemSelection items(topLeft, bottomRight);
+
+    PositionsReseter reseter(model(), m_data.get());
+    reseter.itemsChanged(items);
 }
 
 
