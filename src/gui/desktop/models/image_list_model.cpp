@@ -181,7 +181,10 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
             case Qt::DecorationRole:
             {
                 if (info.default_icon)
+                {
+                    info.default_icon = false;
                     d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
+                }
 
                 result = info.icon;
             }
@@ -250,7 +253,6 @@ void ImageListModel::imageScaled(const QString& path, const QPixmap& pixmap)
 
     Info& info = data[r];
     info.icon = pixmap;
-    info.default_icon = false;
 
     const QModelIndex idx = index(r, 0, QModelIndex());
     emit dataChanged(idx, idx, {Qt::DecorationRole});
