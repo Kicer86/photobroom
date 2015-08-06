@@ -220,7 +220,14 @@ QModelIndex ImageListModel::parent(const QModelIndex& child) const
 
 QModelIndex ImageListModel::index(int row, int column, const QModelIndex& parent) const
 {
-    return createIndex(row, column, nullptr);
+    QModelIndex result;
+
+    const bool valid = parent.isValid() == false && row < d->m_data.size() && column == 0;
+
+    if (valid)
+        result = createIndex(row, column, nullptr);
+
+    return result;
 }
 
 
