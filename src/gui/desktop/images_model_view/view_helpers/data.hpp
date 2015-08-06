@@ -47,6 +47,7 @@ class Data
         [[deprecated]] void set(IConfiguration *);
 
         void setMargin(int);
+        void setThumbMaxSize(int);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
@@ -55,6 +56,7 @@ class Data
         ModelIndexInfoSet::iterator get(const QPoint &) const;
         bool isImage(const ModelIndexInfoSet::iterator &) const;
         QPixmap getImage(Data::ModelIndexInfoSet::level_iterator) const;
+        QSize getThumbnailSize(Data::ModelIndexInfoSet::level_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
         QModelIndex get(const ModelIndexInfoSet::const_iterator &) const;
         std::deque<QModelIndex> findInRect(const QRect &) const;
@@ -82,6 +84,7 @@ class Data
         QAbstractItemModel* m_model;
         IConfiguration* m_configuration;
         int m_margin;
+        int m_thumbMaxSize;
 
         std::deque<QModelIndex> findInRect(ModelIndexInfoSet::const_level_iterator, ModelIndexInfoSet::const_level_iterator, const QRect &) const;
 };
