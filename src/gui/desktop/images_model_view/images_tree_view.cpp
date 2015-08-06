@@ -384,6 +384,8 @@ void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& 
 
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsChanged(items);
+
+    emit refreshView();
 }
 
 
