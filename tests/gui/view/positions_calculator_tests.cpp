@@ -49,7 +49,7 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     PositionsCalculator calculator(&model, &data, 100);
@@ -96,7 +96,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     PositionsCalculator calculator(&model, &data, canvas_w);
@@ -149,7 +149,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     const int margin = view_data.getMargin();
     const int canvas_w = 500;
     const int header_h = 40;
-    
+
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
@@ -265,7 +265,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     const int margin = view_data.getMargin();
     const int canvas_w = 500;
     const int header_h = 40;
-    
+
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
@@ -292,7 +292,6 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 }
 
 
-
 TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingOverallSize)
 {
     //preparations
@@ -308,7 +307,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     const QPixmap pixmap(img_w, img_h);
@@ -369,4 +368,62 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
         const ModelIndexInfo& info = *data.cfind(top->index());
         EXPECT_EQ(info.getSize(), info.getOverallSize());       //children are invisible, so both sizes should be equal
     }
+}
+
+
+
+TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
+{
+    //preparations
+    const int img_w = 100;
+    const int img_h = 50;
+    const int canvas_w = 500;
+
+    static MockConfiguration config;
+    static QStandardItemModel model;
+
+    SETUP_CONFIG_EXPECTATIONS();
+
+    Data data;
+    data.set(&config);
+    data.set(&model);
+
+    ViewDataModelObserver mo(&data.getModel(), &model);
+
+    const QPixmap pixmap(img_w, img_h);
+    const QIcon icon(pixmap);
+
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
+    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
+    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
+
+
+    model.appendRow(child1);
+    model.appendRow(child2);
+    model.appendRow(child3);
+    model.appendRow(child4);
+    model.appendRow(child5);
+
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+
+    //// test
+    /*
+    ModelIndexInfo& top_info = *data.get(top->index());
+    top_info.expanded = false;
+
+    PositionsReseter reseter(&model, &data);
+    reseter.itemChanged(top->index());
+
+    calculator.updateItems();
+
+    //expectations
+    {
+        const ModelIndexInfo& info = *data.cfind(top->index());
+        EXPECT_EQ(info.getSize(), info.getOverallSize());       //children are invisible, so both sizes should be equal
+    }
+
+    */
 }
