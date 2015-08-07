@@ -36,7 +36,6 @@
 #define assert_dump(expr,dump) static_cast<void>(0)
 #endif
 
-/*
 struct IViewDataSet
 {
         virtual ~IViewDataSet() {}
@@ -46,10 +45,10 @@ struct IViewDataSet
         virtual void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
         virtual void modelReset() = 0;
 };
-*/
+
 
 template<typename T>
-class ViewDataSet final //: public IViewDataSet
+class ViewDataSet final: public IViewDataSet
 {
         template<typename IT, typename M>
         IT _find(M& model, const std::vector<size_t>& hierarchy) const
@@ -187,7 +186,7 @@ class ViewDataSet final //: public IViewDataSet
         }
 
         // to be called by view:
-        void rowsInserted(const QModelIndex& parent, int from, int to) //override
+        void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
             //update model
             auto parentIt = find(parent);
@@ -205,7 +204,7 @@ class ViewDataSet final //: public IViewDataSet
             }
         }
 
-        void rowsRemoved(const QModelIndex& parent, int from , int to) //override
+        void rowsRemoved(const QModelIndex& parent, int from , int to) override
         {
             //update model
             auto parentIt = find(parent);
@@ -223,7 +222,7 @@ class ViewDataSet final //: public IViewDataSet
                 assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
         }
 
-        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) //override
+        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
         {
             const int n = src_to - src_from;
             const int dst_to = dst_from + n;
@@ -247,7 +246,7 @@ class ViewDataSet final //: public IViewDataSet
             }
         }
 
-        void modelReset() //override
+        void modelReset() override
         {
             clear();
 
@@ -352,7 +351,7 @@ class ViewDataSet final //: public IViewDataSet
                         if (last == false)                // for last level do nothing - we will instert this item later below
                         {
                             level_iterator ins = b + pos;
-                            item_it = insert(ins, T());
+                            item_it = m_model.insert(ins, T());
                         }
                     }
                     else
@@ -373,14 +372,14 @@ class ViewDataSet final //: public IViewDataSet
                         if (last)
                             item_it = ins;                // for last level of hierarchy set item_it to desired position
                             else
-                                item_it = insert(ins, T());
+                                item_it = m_model.insert(ins, T());
                     }
                     else
                         assert(!"missing siblings");
                 }
             }
 
-            auto it = insert(item_it, info);
+            auto it = m_model.insert(item_it, info);
 
             return it;
         }
@@ -406,7 +405,6 @@ class ViewDataSet final //: public IViewDataSet
         }
 };
 
-/*
 
 // A helper class which purpose is to store  in tree any model change automatically
 // The only problem is that if owner of ViewDataSet (View) also connects
@@ -461,6 +459,5 @@ struct ViewDataModelObserver: public QObject
         IViewDataSet* m_viewDataSet;
 };
 
-*/
 
 #endif // VIEW_DATA_SET_HPP
