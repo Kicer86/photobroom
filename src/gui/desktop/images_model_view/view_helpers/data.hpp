@@ -47,7 +47,7 @@ class Data
         [[deprecated]] void set(IConfiguration *);
 
         void setMargin(int);
-        void setThumbMaxSize(int);
+        void setThumbHeight(int);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
         ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
@@ -84,7 +84,7 @@ class Data
         QAbstractItemModel* m_model;
         IConfiguration* m_configuration;
         int m_margin;
-        int m_thumbMaxSize;
+        int m_thumbHeight;
 
         std::deque<QModelIndex> findInRect(ModelIndexInfoSet::const_level_iterator, ModelIndexInfoSet::const_level_iterator, const QRect &) const;
 };

@@ -37,7 +37,7 @@ namespace
 
 
 
-Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(5), m_thumbMaxSize(120)
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(5), m_thumbHeight(120)
 {
 
 }
@@ -73,9 +73,9 @@ void Data::setMargin(int margin)
 }
 
 
-void Data::setThumbMaxSize(int imgSize)
+void Data::setThumbHeight(int imgSize)
 {
-    m_thumbMaxSize = imgSize;
+    m_thumbHeight = imgSize;
 }
 
 
@@ -187,13 +187,13 @@ QSize Data::getThumbnailSize(ViewDataSet<ModelIndexInfo>::level_iterator it) con
 
     QSize result(w, h);
 
-    if (w > m_thumbMaxSize || h > m_thumbMaxSize)
+    if (w > m_thumbHeight || h > m_thumbHeight)
     {
-        const int t_w = w > h? m_thumbMaxSize:
-                            m_thumbMaxSize * r;
+        const int t_w = w > h? m_thumbHeight:
+                            m_thumbHeight * r;
 
-        const int t_h = w < h? m_thumbMaxSize:
-                            m_thumbMaxSize * r;
+        const int t_h = w < h? m_thumbHeight:
+                            m_thumbHeight * r;
 
         result = QSize(t_w, t_h);
     }
