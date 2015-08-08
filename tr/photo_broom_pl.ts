@@ -390,7 +390,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+36"/>
         <source>Add selected</source>
         <translation type="unfinished"></translation>
     </message>
