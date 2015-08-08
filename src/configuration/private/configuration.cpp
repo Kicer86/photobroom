@@ -34,6 +34,8 @@
 #include "constants.hpp"
 
 
+static_assert(sizeof(qlonglong) == sizeof(Json::Int64), "Json and Qt's sizes do not match");
+
 ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
     m_json(),
     m_dumpTimer(),
@@ -68,6 +70,8 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
             v_result = value.asCString();
         else if(value.isInt())
             v_result = value.asInt();
+        else if(value.isInt64())
+            v_result = value.asInt64();
         else if(value.isNull())
         {}
         else
@@ -88,6 +92,8 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
             value = entry_value.toInt();
         else if(entry_value.type() == QVariant::ByteArray)
             value = entry_value.toByteArray().data();
+        else if(entry_value.type() == QVariant::LongLong)
+            value = entry_value.toLongLong();
         else
             assert(!"unsupported type");
     });
