@@ -25,7 +25,7 @@ TEST(DataShould, BeConstructable)
         data.set(&config);
     });
 }
- 
+
 
 TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
@@ -50,7 +50,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     const auto& items = data.getModel();
@@ -68,7 +68,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
@@ -91,7 +91,7 @@ TEST(DataShould, SetInitialDataForRootItem)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     const ModelIndexInfo& info = *data.get(QModelIndex());
@@ -111,7 +111,7 @@ TEST(DataShould, StoreInfoAboutItem)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     ModelIndexInfo& info = *data.get(QModelIndex());
@@ -136,7 +136,7 @@ TEST(DataShould, MarkTopItemsAsVisible)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -163,7 +163,7 @@ TEST(DataShould, NotReturnInvisibleItems)
     Data data;
     data.set(&model);
     data.set(&config);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -197,7 +197,7 @@ TEST(DataShould, NotReturnInvisibleItems)
         const QModelIndex index = data.get(infoIt);
 
         EXPECT_EQ(QModelIndex(), index);
-        
+
         const QPoint c2 = rect2.center();
         auto infoIt2 = data.get(c2);
         const QModelIndex index2 = data.get(infoIt2);
@@ -219,7 +219,7 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -283,7 +283,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -331,7 +331,7 @@ TEST(DataShould, ReturnProperIndicesOfItems)
     Data data;
     data.set(&config);
     data.set(&model);
-    
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -363,5 +363,69 @@ TEST(DataShould, ReturnProperIndicesOfItems)
         EXPECT_EQ(top->index(), topIdx);
         EXPECT_EQ(child1->index(), child1Idx);
         EXPECT_EQ(child2->index(), child2Idx);
+    }
+}
+
+
+TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
+{
+    //preparations
+    const int img1_w = 200;
+    const int img1_h = 100;
+    const int img2_w = 100;
+    const int img2_h = 500;
+    const int canvas_w = 500;
+
+    static MockConfiguration config;
+    static QStandardItemModel model;
+
+    SETUP_CONFIG_EXPECTATIONS();
+
+    Data data;
+    data.set(&config);
+    data.set(&model);
+    data.setThumbHeight(50);
+
+    const int margin = data.getMargin();
+
+    ViewDataModelObserver mo(&data.getModel(), &model);
+
+    const QPixmap pixmap1(img1_w, img1_h);
+    const QIcon icon1(pixmap1);
+
+    const QPixmap pixmap2(img2_w, img2_h);
+    const QIcon icon2(pixmap2);
+
+    QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
+
+
+    model.appendRow(child1);
+    model.appendRow(child2);
+
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+
+    //// test
+    calculator.updateItems();
+
+    // Expectations:
+    // We expect both images to get resized to match height = 50px
+    {
+        const auto child1It = data.get(child1->index());
+        const QSize thumb1 = data.getThumbnailSize(child1It);
+        const QPixmap pix1 = data.getImage(child1It);
+        const QSize pix1Size = pix1.size();
+
+        EXPECT_EQ(QSize(100, 50), thumb1);              // scaled
+        EXPECT_EQ(QSize(img1_w, img1_h), pix1Size);     // original
+
+        const auto child2It = data.get(child2->index());
+        const QSize thumb2 = data.getThumbnailSize(child2It);
+        const QPixmap pix2 = data.getImage(child2It);
+        const QSize pix2Size = pix2.size();
+
+        EXPECT_EQ(QSize(10, 50), thumb2);               // scaled
+        EXPECT_EQ(QSize(img2_w, img2_h), pix2Size);     // original
     }
 }
