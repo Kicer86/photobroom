@@ -67,6 +67,12 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
+TaskExecutor::TaskQueue TaskExecutor::getCustomTaskQueue()
+{
+    return m_tasks.prepareProducer();
+}
+
+
 void TaskExecutor::stop()
 {
     if (m_working)

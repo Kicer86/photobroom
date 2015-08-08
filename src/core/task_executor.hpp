@@ -32,6 +32,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     virtual ~TaskExecutor();
 
     virtual void add(std::unique_ptr<ITask> &&);
+    virtual TaskQueue getCustomTaskQueue() override;
     virtual void stop();
 
     void eat();
