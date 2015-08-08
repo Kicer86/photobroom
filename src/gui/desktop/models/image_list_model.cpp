@@ -69,7 +69,7 @@ struct LoadPhoto: ITaskExecutor::ITask
 ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
     q(q),
     m_data(),
-    m_taskExecutor(nullptr),
+    m_taskQueue(nullptr),
     m_callback_ctrl(this)
 {
     qRegisterMetaType<QVector<int>>("QVector<int>");
@@ -142,6 +142,7 @@ void ImageListModel::clear()
 
     beginResetModel();
 
+    d->m_taskQueue->clear();
     d->m_callback_ctrl.invalidate();
     d->m_data.clear();
 
@@ -151,7 +152,7 @@ void ImageListModel::clear()
 
 void ImageListModel::set(ITaskExecutor* taskExecutor)
 {
-    d->m_taskExecutor = taskExecutor;
+    d->m_taskQueue = taskExecutor->getCustomTaskQueue();
 }
 
 
@@ -183,7 +184,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                 if (info.default_icon)
                 {
                     info.default_icon = false;
-                    d->m_taskExecutor->add(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
+                    d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
                 }
 
                 result = info.icon;
