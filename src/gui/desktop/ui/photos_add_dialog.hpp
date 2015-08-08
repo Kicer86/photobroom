@@ -26,6 +26,7 @@
 #include "utils/photos_collector.hpp"
 
 class QFileSystemModel;
+class QItemSelection;
 
 class ITaskExecutor;
 class ImageListModel;
@@ -58,6 +59,7 @@ class PhotosAddDialog: public QMainWindow
         ImageListModel* m_browseModel;
 
         void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
+        void listSelectionChanged(const QItemSelection &, const QItemSelection &);
         void browseListFilled();
 
         //overrides
@@ -67,6 +69,9 @@ class PhotosAddDialog: public QMainWindow
         void closing();
 
         void updateLoadValue(const QString &);
+
+    private slots:
+        void on_addSelectionButton_pressed();
 };
 
 #endif // PHOTOSADDDIALOG_HPP

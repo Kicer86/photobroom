@@ -74,9 +74,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
         ui->browseTree->expand(item);
 
     //attach to selection updates
-    QItemSelectionModel* selection = ui->browseTree->selectionModel();
-
-    connect(selection, &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
+    connect(ui->browseTree->selectionModel(), &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
     connect(this, &PhotosAddDialog::updateLoadValue, ui->loadProgressValue, &QLabel::setText);
 }
 
@@ -123,10 +121,20 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 }
 
 
+void PhotosAddDialog::listSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+{
+    const bool enable = selected.empty() == false;
+
+    ui->addSelectionButton->setEnabled(enable);
+}
+
+
 void PhotosAddDialog::browseListFilled()
 {
     ui->browseList->setModel(m_browseModel);
     ui->loadWidget->setHidden(true);
+
+    connect(ui->browseList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PhotosAddDialog::listSelectionChanged, Qt::UniqueConnection);
 }
 
 
@@ -142,4 +150,12 @@ void PhotosAddDialog::closeEvent(QCloseEvent* e)
     emit closing();
 
     QWidget::closeEvent(e);
+}
+
+
+void PhotosAddDialog::on_addSelectionButton_pressed()
+{
+    QItemSelectionModel* selectionModel = ui->browseList->selectionModel();
+
+    const QItemSelection selection = selectionModel->selection();
 }
