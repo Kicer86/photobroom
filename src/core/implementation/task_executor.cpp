@@ -114,7 +114,7 @@ void TaskExecutor::eat()
 
                 while(true)
                 {
-                    ol::Optional<std::unique_ptr<ITask>> opt_task (m_tasks.pop_for(2000ms));
+                    ol::Optional<std::unique_ptr<ITask>> opt_task(m_tasks.pop_for(2000ms));
 
                     if (opt_task)
                     {
