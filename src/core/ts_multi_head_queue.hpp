@@ -178,11 +178,16 @@ class TS_MultiHeadQueue
 
         ol::Optional<T> pop_for(const std::chrono::milliseconds& timeout)
         {
+            ol::Optional<T> result;
+
             // lock non empty producers
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
-            wait_for_data(lock, timeout);
+            const bool status = wait_for_data(lock, timeout);
 
-            return internal_pop();
+            if (status)
+                 result = std::move(internal_pop());
+
+            return result;
         }
 
         void wait_for_data()
