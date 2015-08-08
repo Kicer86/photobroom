@@ -371,12 +371,13 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 }
 
 
-
 TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 {
     //preparations
-    const int img_w = 100;
-    const int img_h = 50;
+    const int img1_w = 200;
+    const int img1_h = 100;
+    const int img2_w = 100;
+    const int img2_h = 500;
     const int canvas_w = 500;
 
     static MockConfiguration config;
@@ -387,43 +388,38 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     Data data;
     data.set(&config);
     data.set(&model);
+    data.setThumbHeight(50);
+
+    const int margin = data.getMargin();
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    const QPixmap pixmap(img_w, img_h);
-    const QIcon icon(pixmap);
+    const QPixmap pixmap1(img1_w, img1_h);
+    const QIcon icon1(pixmap1);
 
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
+    const QPixmap pixmap2(img2_w, img2_h);
+    const QIcon icon2(pixmap2);
+
+    QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
 
     model.appendRow(child1);
     model.appendRow(child2);
-    model.appendRow(child3);
-    model.appendRow(child4);
-    model.appendRow(child5);
 
     PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
 
     //// test
-    /*
-    ModelIndexInfo& top_info = *data.get(top->index());
-    top_info.expanded = false;
-
-    PositionsReseter reseter(&model, &data);
-    reseter.itemChanged(top->index());
-
     calculator.updateItems();
 
-    //expectations
+    // Expectations:
+    // We expect both images to get resized to match height = 50px
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_EQ(info.getSize(), info.getOverallSize());       //children are invisible, so both sizes should be equal
-    }
+        const ModelIndexInfo& info1 = *data.cfind(child1->index());
+        EXPECT_EQ(QSize(100 + 2 * margin, 50 + 2 * margin), info1.getSize());
 
-    */
+        const ModelIndexInfo& info2 = *data.cfind(child2->index());
+        EXPECT_EQ(QSize(10 + 2 * margin, 50 + 2 * margin), info2.getSize());
+    }
 }
