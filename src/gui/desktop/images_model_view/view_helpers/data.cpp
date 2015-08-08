@@ -183,17 +183,14 @@ QSize Data::getThumbnailSize(ViewDataSet<ModelIndexInfo>::level_iterator it) con
     const int w = image.width();
     const int h = image.height();
 
-    const double r = static_cast<double>(h) / w;
+    const double r = static_cast<double>(w) / h;
 
     QSize result(w, h);
 
     if (w > m_thumbHeight || h > m_thumbHeight)
     {
-        const int t_w = w > h? m_thumbHeight:
-                            m_thumbHeight * r;
-
-        const int t_h = w < h? m_thumbHeight:
-                            m_thumbHeight * r;
+        const int t_h = m_thumbHeight;
+        const int t_w = m_thumbHeight * r;
 
         result = QSize(t_w, t_h);
     }
