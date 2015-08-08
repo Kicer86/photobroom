@@ -99,8 +99,27 @@ void MainWindow::set(IConfiguration* configuration)
 void MainWindow::set(IUpdater* updater)
 {
     m_updater = updater;
+    assert(m_configuration != nullptr);
 
-    QTimer::singleShot(1000, this, &MainWindow::checkVersion);
+    const std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+
+    std::chrono::system_clock::duration last(0);
+    const QVariant last_raw = m_configuration->getEntry("updater::last_check");
+
+    if (last_raw.isValid())
+        last = std::chrono::system_clock::duration(last_raw.toLongLong());
+
+    const std::chrono::system_clock::time_point last_check(last);
+    const auto diff = std::chrono::duration_cast<std::chrono::hours>(now - last_check).count();
+
+    if (diff > 23)
+    {
+        QTimer::singleShot(10000, this, &MainWindow::checkVersion);
+
+        std::chrono::system_clock::duration now_duration = now.time_since_epoch();
+        const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
+        m_configuration->setEntry("updater::last_check", now_duration_raw);
+    }
 }
 
 
