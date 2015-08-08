@@ -80,6 +80,10 @@ class TS_MultiHeadQueue
 
                 void clear()
                 {
+                    // Inform Queue 'this' is going to be empty,
+                    // so Queue will remove 'this' from non-empty list
+                    m_queue->aboutToBeCleaned(this);
+
                     std::lock_guard<std::mutex> lock(m_dataMutex);
                     m_data.clear();
                 }
@@ -300,6 +304,18 @@ class TS_MultiHeadQueue
         {
             ProducerSorter sorter;
             std::sort(m_non_empty.begin(), m_non_empty.end(), sorter);
+        }
+
+        void aboutToBeCleaned(Producer* p)
+        {
+            std::lock_guard<std::mutex> lock(m_non_empty_mutex);
+
+            for(typename std::deque<Producer *>::iterator it = m_non_empty.begin(); it != m_non_empty.end(); ++it)
+                if (*it == p)
+                {
+                    m_non_empty.erase(it);
+                    break;
+                }
         }
 };
 
