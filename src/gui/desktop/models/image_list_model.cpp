@@ -150,6 +150,21 @@ void ImageListModel::clear()
 }
 
 
+const QString ImageListModel::get(const QModelIndex& idx) const
+{
+    QString result;
+
+    if (idx.isValid())
+    {
+        const Info& info = d->m_data[idx.row()];
+
+        result = info.path;
+    }
+
+    return result;
+}
+
+
 void ImageListModel::set(ITaskExecutor* taskExecutor)
 {
     d->m_taskQueue = taskExecutor->getCustomTaskQueue();

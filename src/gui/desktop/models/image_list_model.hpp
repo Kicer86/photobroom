@@ -36,6 +36,7 @@ class ImageListModel: public QAbstractItemModel
 
         void insert(const QString &);
         void clear();
+        const QString get(const QModelIndex &) const;
 
         void set(ITaskExecutor *);
 
