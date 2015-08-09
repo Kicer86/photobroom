@@ -386,8 +386,6 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     data.set(&model);
     data.setThumbHeight(50);
 
-    const int margin = data.getMargin();
-
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     const QPixmap pixmap1(img1_w, img1_h);
