@@ -27,11 +27,6 @@ add_subdirectory(desktop/models)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/images_model_view/db_data_model.cpp
-    desktop/images_model_view/model_helpers/idx_data_manager.cpp
-    desktop/images_model_view/model_helpers/idx_data.cpp
-    desktop/images_model_view/model_helpers/idxdata_deepfetcher.cpp
-    desktop/images_model_view/model_helpers/photos_matcher.cpp
     desktop/images_model_view/view_helpers/data.cpp
     desktop/images_model_view/view_helpers/model_index_info.cpp
     desktop/images_model_view/view_helpers/positions_calculator.cpp
@@ -46,11 +41,6 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/images_model_view/db_data_model.hpp
-    desktop/images_model_view/model_helpers/idx_data_manager.hpp
-    desktop/images_model_view/model_helpers/idx_data.hpp
-    desktop/images_model_view/model_helpers/idxdata_deepfetcher.hpp
-    desktop/images_model_view/model_helpers/photos_matcher.hpp
     desktop/images_model_view/view_helpers/data.hpp
     desktop/images_model_view/view_helpers/model_index_info.hpp
     desktop/images_model_view/view_helpers/positions_calculator.hpp
@@ -67,8 +57,6 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     desktop/images_model_view/images_tree_view.hpp
-    desktop/images_model_view/model_helpers/idx_data_manager.hpp
-    desktop/images_model_view/model_helpers/idxdata_deepfetcher.hpp
     desktop/images_model_view/view_helpers/view_data_set.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp

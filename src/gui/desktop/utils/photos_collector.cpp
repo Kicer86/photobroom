@@ -25,7 +25,7 @@
 
 #include <photos_crawler/photo_crawler_builder.hpp>
 
-#include "widgets/staged_photos_data_model.hpp"
+#include "models/staged_photos_data_model.hpp"
 
 
 struct PhotosCollector::Data

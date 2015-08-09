@@ -25,8 +25,8 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "models/image_list_model.hpp"
+#include "models/staged_photos_data_model.hpp"
 #include "ui_photos_add_dialog.h"
-#include "widgets/staged_photos_data_model.hpp"
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):

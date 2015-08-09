@@ -19,7 +19,7 @@
 
 #include "photos_widget.hpp"
 
-#include "images_model_view/db_data_model.hpp"
+#include "models/db_data_model.hpp"
 
 PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr)
 {
