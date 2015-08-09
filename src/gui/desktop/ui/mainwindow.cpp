@@ -298,6 +298,7 @@ void MainWindow::on_actionAdd_photos_triggered()
     PhotosAddDialog photosAddDialog(m_configuration);
 
     photosAddDialog.set(m_executor);
+    photosAddDialog.set(m_currentPrj->getDatabase());
     photosAddDialog.setWindowModality(Qt::ApplicationModal);
     photosAddDialog.show();
 

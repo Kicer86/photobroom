@@ -24,8 +24,9 @@
 
 #include <configuration/iconfiguration.hpp>
 
-#include "ui_photos_add_dialog.h"
 #include "models/image_list_model.hpp"
+#include "ui_photos_add_dialog.h"
+#include "widgets/staged_photos_data_model.hpp"
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
@@ -55,7 +56,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     m_browseModel = new ImageListModel(this);
 
     // model for staged photos view
-    m_stagedModel = new ImageListModel(this);
+    m_stagedModel = new StagedPhotosDataModel(this);
     ui->photosView->setModel(m_stagedModel);
 
     // load layout
@@ -95,6 +96,12 @@ void PhotosAddDialog::set(ITaskExecutor* executor)
 {
     m_browseModel->set(executor);
     m_stagedModel->set(executor);
+}
+
+
+void PhotosAddDialog::set(Database::IDatabase* database)
+{
+    m_stagedModel->setDatabase(database);
 }
 
 
@@ -169,6 +176,6 @@ void PhotosAddDialog::on_addSelectionButton_pressed()
     for(const QModelIndex& index: selection.indexes())
     {
         const QString path = m_browseModel->get(index);
-        m_stagedModel->insert(path);
+        m_stagedModel->addPhoto(path);
     }
 }

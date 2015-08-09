@@ -28,13 +28,19 @@
 class QFileSystemModel;
 class QItemSelection;
 
-class ITaskExecutor;
-class ImageListModel;
+class StagedPhotosDataModel;
 class IConfiguration;
+class ImageListModel;
+class ITaskExecutor;
 
 namespace Ui
 {
     class PhotosAddDialog;
+}
+
+namespace Database
+{
+    struct IDatabase;
 }
 
 class PhotosAddDialog: public QMainWindow
@@ -50,6 +56,7 @@ class PhotosAddDialog: public QMainWindow
         PhotosAddDialog& operator=(const PhotosAddDialog &) = delete;
 
         void set(ITaskExecutor *);
+        void set(Database::IDatabase *);
 
     private:
         Ui::PhotosAddDialog* ui;
@@ -57,7 +64,7 @@ class PhotosAddDialog: public QMainWindow
         QFileSystemModel* m_treeModel;
         PhotosCollector m_photosCollector;
         ImageListModel* m_browseModel;
-        ImageListModel* m_stagedModel;
+        StagedPhotosDataModel* m_stagedModel;
 
         void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
         void listSelectionChanged(const QItemSelection &, const QItemSelection &);
