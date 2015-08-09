@@ -57,6 +57,7 @@ class PhotosAddDialog: public QMainWindow
         QFileSystemModel* m_treeModel;
         PhotosCollector m_photosCollector;
         ImageListModel* m_browseModel;
+        ImageListModel* m_stagedModel;
 
         void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
         void listSelectionChanged(const QItemSelection &, const QItemSelection &);

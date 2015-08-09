@@ -32,8 +32,10 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::PhotosAddDialog),
     m_config(config),
+    m_treeModel(nullptr),
     m_photosCollector(),
-    m_browseModel(nullptr)
+    m_browseModel(nullptr),
+    m_stagedModel(nullptr)
 {
     ui->setupUi(this);
 
@@ -51,6 +53,10 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 
     //model for list view
     m_browseModel = new ImageListModel(this);
+
+    // model for staged photos view
+    m_stagedModel = new ImageListModel(this);
+    ui->photosView->setModel(m_stagedModel);
 
     // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
@@ -88,6 +94,7 @@ PhotosAddDialog::~PhotosAddDialog()
 void PhotosAddDialog::set(ITaskExecutor* executor)
 {
     m_browseModel->set(executor);
+    m_stagedModel->set(executor);
 }
 
 
@@ -121,7 +128,7 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 }
 
 
-void PhotosAddDialog::listSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+void PhotosAddDialog::listSelectionChanged(const QItemSelection& selected, const QItemSelection &)
 {
     const bool enable = selected.empty() == false;
 
@@ -158,4 +165,10 @@ void PhotosAddDialog::on_addSelectionButton_pressed()
     QItemSelectionModel* selectionModel = ui->browseList->selectionModel();
 
     const QItemSelection selection = selectionModel->selection();
+
+    for(const QModelIndex& index: selection.indexes())
+    {
+        const QString path = m_browseModel->get(index);
+        m_stagedModel->insert(path);
+    }
 }
