@@ -10,180 +10,176 @@
     <height>750</height>
    </rect>
   </property>
-  <widget class="QMainWindow" name="mainWindow">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1000</width>
-     <height>750</height>
-    </rect>
-   </property>
-   <property name="windowTitle">
-    <string>Add photos</string>
-   </property>
-   <property name="windowIcon">
-    <iconset resource="../images.qrc">
-     <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
-   </property>
-   <property name="dockOptions">
-    <set>QMainWindow::AllowNestedDocks|QMainWindow::AnimatedDocks</set>
-   </property>
-   <widget class="QWidget" name="centralwidget">
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>320</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="addSelectionButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Add selected</string>
-       </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QMainWindow" name="mainWindow">
+     <property name="windowTitle">
+      <string>Add photos</string>
+     </property>
+     <property name="windowIcon">
+      <iconset resource="../images.qrc">
+       <normaloff>:/gui/main-ico.svg</normaloff>:/gui/main-ico.svg</iconset>
+     </property>
+     <property name="dockOptions">
+      <set>QMainWindow::AllowNestedDocks|QMainWindow::AnimatedDocks</set>
+     </property>
+     <widget class="QWidget" name="centralwidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>320</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addSelectionButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Add selected</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>320</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QStatusBar" name="statusbar"/>
+     <widget class="QDockWidget" name="browseTreeDock">
+      <property name="features">
+       <set>QDockWidget::DockWidgetMovable</set>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::LeftDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>File system &amp;view</string>
+      </property>
+      <attribute name="dockWidgetArea">
+       <number>1</number>
+      </attribute>
+      <widget class="QTreeView" name="browseTree">
+       <layout class="QHBoxLayout" name="horizontalLayout"/>
       </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>320</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-       </property>
+     </widget>
+     <widget class="QDockWidget" name="browseListDock">
+      <property name="features">
+       <set>QDockWidget::DockWidgetMovable</set>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::LeftDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>D&amp;irectory content</string>
+      </property>
+      <attribute name="dockWidgetArea">
+       <number>1</number>
+      </attribute>
+      <widget class="QWidget" name="widget">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="ImagesTreeView" name="browseList" native="true"/>
+        </item>
+        <item>
+         <widget class="QWidget" name="loadWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="visible">
+           <bool>false</bool>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="loadText">
+             <property name="text">
+              <string>Photos found:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="loadProgressValue">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QStatusBar" name="statusbar"/>
-   <widget class="QDockWidget" name="browseTreeDock">
-    <property name="features">
-     <set>QDockWidget::DockWidgetMovable</set>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::LeftDockWidgetArea</set>
-    </property>
-    <property name="windowTitle">
-     <string>File system &amp;view</string>
-    </property>
-    <attribute name="dockWidgetArea">
-     <number>1</number>
-    </attribute>
-    <widget class="QTreeView" name="browseTree">
-     <layout class="QHBoxLayout" name="horizontalLayout"/>
+     </widget>
+     <widget class="QDockWidget" name="photosViewDock">
+      <property name="features">
+       <set>QDockWidget::DockWidgetMovable</set>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::RightDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>I&amp;mages preparation</string>
+      </property>
+      <attribute name="dockWidgetArea">
+       <number>2</number>
+      </attribute>
+      <widget class="ImagesTreeView" name="photosView"/>
+     </widget>
+     <widget class="QDockWidget" name="tagsEditorDock">
+      <property name="features">
+       <set>QDockWidget::DockWidgetMovable</set>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::RightDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>&amp;Tags editor</string>
+      </property>
+      <attribute name="dockWidgetArea">
+       <number>2</number>
+      </attribute>
+      <widget class="TagEditorWidget" name="tagsEditor"/>
+     </widget>
     </widget>
-   </widget>
-   <widget class="QDockWidget" name="browseListDock">
-    <property name="features">
-     <set>QDockWidget::DockWidgetMovable</set>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::LeftDockWidgetArea</set>
-    </property>
-    <property name="windowTitle">
-     <string>D&amp;irectory content</string>
-    </property>
-    <attribute name="dockWidgetArea">
-     <number>1</number>
-    </attribute>
-    <widget class="QWidget" name="widget">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="ImagesTreeView" name="browseList" native="true"/>
-      </item>
-      <item>
-       <widget class="QWidget" name="loadWidget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="visible">
-         <bool>false</bool>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="loadText">
-           <property name="text">
-            <string>Photos found:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="loadProgressValue">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>1</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Discard|QDialogButtonBox::Save</set>
+     </property>
     </widget>
-   </widget>
-   <widget class="QDockWidget" name="photosViewDock">
-    <property name="features">
-     <set>QDockWidget::DockWidgetMovable</set>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::RightDockWidgetArea</set>
-    </property>
-    <property name="windowTitle">
-     <string>I&amp;mages preparation</string>
-    </property>
-    <attribute name="dockWidgetArea">
-     <number>2</number>
-    </attribute>
-    <widget class="ImagesTreeView" name="photosView"/>
-   </widget>
-   <widget class="QDockWidget" name="tagsEditorDock">
-    <property name="features">
-     <set>QDockWidget::DockWidgetMovable</set>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::RightDockWidgetArea</set>
-    </property>
-    <property name="windowTitle">
-     <string>&amp;Tags editor</string>
-    </property>
-    <attribute name="dockWidgetArea">
-     <number>2</number>
-    </attribute>
-    <widget class="TagEditorWidget" name="tagsEditor"/>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>
