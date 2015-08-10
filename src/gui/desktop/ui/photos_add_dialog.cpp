@@ -196,7 +196,7 @@ void PhotosAddDialog::on_buttonBox_accepted()
 
 void PhotosAddDialog::on_buttonBox_rejected()
 {
-    const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Discard changes?"), tr("All changes will be lest, do you want to proceed?"));
+    const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Discard changes?"), tr("All changes will be lost, do you want to proceed?"));
 
     if (result == QMessageBox::Yes)
     {
