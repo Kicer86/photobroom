@@ -1,9 +1,9 @@
 
 #include <gtest/gtest.h>
 
-#include <desktop/images_model_view/model_helpers/idx_data.hpp>
-#include <desktop/images_model_view/model_helpers/idx_data_manager.hpp>
-#include <desktop/widgets/photos_data_model.hpp>
+#include <desktop/models/model_helpers/idx_data.hpp>
+#include <desktop/models/model_helpers/idx_data_manager.hpp>
+#include <desktop/models/photos_data_model.hpp>
 
 
 class IdxDataTest : public ::testing::Test

@@ -1,5 +1,5 @@
 /*
- * Small modification od DBDataModel for staging purposes.
+ * Small modification od DBDataModel for main view purposes.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,24 +17,21 @@
  *
  */
 
-#ifndef STAGEDPHOTOSDATAMODEL_HPP
-#define STAGEDPHOTOSDATAMODEL_HPP
+#ifndef STAGINGDATAMODEL_H
+#define STAGINGDATAMODEL_H
 
-#include "images_model_view/db_data_model.hpp"
+#include "models/db_data_model.hpp"
 
 class QObject;
 
-class StagedPhotosDataModel: public DBDataModel
+class PhotosDataModel: public DBDataModel
 {
     public:
-        StagedPhotosDataModel(QObject *);
-        StagedPhotosDataModel(const StagedPhotosDataModel &) = delete;
-        ~StagedPhotosDataModel();
+        PhotosDataModel(QObject * = nullptr);
+        PhotosDataModel(const PhotosDataModel &) = delete;
+        ~PhotosDataModel();
 
-        StagedPhotosDataModel& operator=(const StagedPhotosDataModel &) = delete;
-
-        void addPhoto(const QString &);
-        void storePhotos();
+        PhotosDataModel& operator=(const PhotosDataModel &) = delete;
 };
 
-#endif // STAGEDPHOTOSDATAMODEL_HPP
+#endif // STAGINGDATAMODEL_H

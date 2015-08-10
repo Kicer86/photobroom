@@ -56,12 +56,14 @@ struct PhotoCrawler::Impl
     void run(const QString& path, IMediaNotification* notifications)
     {
         releaseThread();
-        
+
         m_thread = std::thread(&Impl::thread, this, path, notifications );
     }
 
     void releaseThread()
     {
+        m_scanner->stop();
+
         if (m_thread.joinable())
             m_thread.join();
     }
@@ -98,4 +100,10 @@ void PhotoCrawler::crawl(const QString& path, IMediaNotification* notifications)
 void PhotoCrawler::setRules(const Rules &)
 {
 
+}
+
+
+void PhotoCrawler::stop()
+{
+    m_impl->releaseThread();
 }

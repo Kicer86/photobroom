@@ -21,9 +21,10 @@
 #define PHOTOSWIDGET_HPP
 
 #include "images_model_view/images_tree_view.hpp"
-#include "widgets/iview.hpp"
 
-class PhotosWidget: public ImagesTreeView, public IView
+class DBDataModel;
+
+class PhotosWidget: public ImagesTreeView
 {
         Q_OBJECT
 
@@ -34,13 +35,6 @@ class PhotosWidget: public ImagesTreeView, public IView
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void setModel(DBDataModel *);
-
-        // IView:
-        QItemSelectionModel* getSelectionModel() override;
-        DBDataModel* getModel() override;
-        QString getName() override;
-
-        void set(IConfiguration *) override;
 
     private:
         DBDataModel* m_dataModel;

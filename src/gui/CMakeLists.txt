@@ -2,6 +2,7 @@
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Svg REQUIRED)
+find_package(OpenLibrary REQUIRED putils)
 
 include(GenerateExportHeader)
 
@@ -10,7 +11,7 @@ include_directories(${CMAKE_BINARY_DIR}/
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
                     ${CMAKE_SOURCE_DIR}/src/gui/desktop)
-                    
+
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS})
@@ -22,14 +23,10 @@ endif()
 
 add_subdirectory(desktop/widgets)
 add_subdirectory(desktop/utils)
+add_subdirectory(desktop/models)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/images_model_view/db_data_model.cpp
-    desktop/images_model_view/model_helpers/idx_data_manager.cpp
-    desktop/images_model_view/model_helpers/idx_data.cpp
-    desktop/images_model_view/model_helpers/idxdata_deepfetcher.cpp
-    desktop/images_model_view/model_helpers/photos_matcher.cpp
     desktop/images_model_view/view_helpers/data.cpp
     desktop/images_model_view/view_helpers/model_index_info.cpp
     desktop/images_model_view/view_helpers/positions_calculator.cpp
@@ -37,17 +34,13 @@ set(GUI_SOURCES
     desktop/images_model_view/images_tree_view.cpp
     desktop/images_model_view/tree_item_delegate.cpp
     desktop/ui/mainwindow.cpp
+    desktop/ui/photos_add_dialog.cpp
     desktop/ui/photos_view.cpp
     desktop/ui/project_picker.cpp
     )
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/images_model_view/db_data_model.hpp
-    desktop/images_model_view/model_helpers/idx_data_manager.hpp
-    desktop/images_model_view/model_helpers/idx_data.hpp
-    desktop/images_model_view/model_helpers/idxdata_deepfetcher.hpp
-    desktop/images_model_view/model_helpers/photos_matcher.hpp
     desktop/images_model_view/view_helpers/data.hpp
     desktop/images_model_view/view_helpers/model_index_info.hpp
     desktop/images_model_view/view_helpers/positions_calculator.hpp
@@ -56,6 +49,7 @@ set(GUI_HEADERS
     desktop/images_model_view/images_tree_view.hpp
     desktop/images_model_view/tree_item_delegate.hpp
     desktop/ui/mainwindow.hpp
+    desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
     )
@@ -63,10 +57,9 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     desktop/images_model_view/images_tree_view.hpp
-    desktop/images_model_view/model_helpers/idx_data_manager.hpp
-    desktop/images_model_view/model_helpers/idxdata_deepfetcher.hpp
     desktop/images_model_view/view_helpers/view_data_set.hpp
     desktop/ui/mainwindow.hpp
+    desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
     )
@@ -74,6 +67,7 @@ set(GUI_FILES_TO_MOC
 set(GUI_RESOURCE_FILES desktop/images.qrc)
 
 set(GUI_UI_FILES desktop/ui/mainwindow.ui
+                 desktop/ui/photos_add_dialog.ui
                  desktop/ui/photos_view.ui
                  desktop/ui/project_picker.ui
     )
@@ -94,8 +88,9 @@ add_library(gui
             ${GUI_HEADERS}
             ${GUI_WRAPPED_UI}
             ${GUI_RESOURCES}
-            $<TARGET_OBJECTS:gui_widgets>
+            $<TARGET_OBJECTS:gui_models>
             $<TARGET_OBJECTS:gui_utils>
+            $<TARGET_OBJECTS:gui_widgets>
            )
 
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system updater ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)

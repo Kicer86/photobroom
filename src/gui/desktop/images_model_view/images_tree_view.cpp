@@ -47,6 +47,8 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
     auto update_event = std::bind(&ImagesTreeView::update, this);
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 5_fps);
+
+    setThumbnailSize(120);
 }
 
 
@@ -66,17 +68,34 @@ void ImagesTreeView::set(IConfiguration* configuration)
     assert(widthEntry.isValid());
     const int width = widthEntry.toInt();
 
-    verticalScrollBar()->setSingleStep(width / 2);
-    horizontalScrollBar()->setSingleStep(width / 2);
+    setThumbnailSize(width);
+}
+
+
+void ImagesTreeView::setMargin(int margin)
+{
+    m_data->setMargin(margin);
+}
+
+
+void ImagesTreeView::setThumbnailSize(int thumbSize)
+{
+    verticalScrollBar()->setSingleStep(thumbSize / 2);
+    horizontalScrollBar()->setSingleStep(thumbSize / 2);
 }
 
 
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
-    const QPoint offset = getOffset();
-    const QPoint treePoint = point + offset;
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
-    const QModelIndex result = m_data->get(infoIt);
+    QModelIndex result;
+
+    if (model() != nullptr)
+    {
+        const QPoint offset = getOffset();
+        const QPoint treePoint = point + offset;
+        Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
+        result = m_data->get(infoIt);
+    }
 
     return result;
 }
@@ -204,12 +223,19 @@ void ImagesTreeView::setModel(QAbstractItemModel* m)
     QAbstractItemView::setModel(m);
     m_data->set(m);
 
-    //connect to model's signals
-    connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
-    
-    connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
-    connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
+    if (m != nullptr)
+    {
+        //connect to model's signals
+        connect(m, &QAbstractItemModel::dataChanged, this, &ImagesTreeView::dataChanged, Qt::UniqueConnection);
+
+        connect(m, SIGNAL(modelReset()), this, SLOT(modelReset()), Qt::UniqueConnection);
+
+        connect(m, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex,int,int)), Qt::UniqueConnection);
+        connect(m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection);
+        connect(m, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection);
+    }
+
+    modelReset();
 }
 
 
@@ -233,10 +259,14 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
+        const QSize decorationSize(info.getRect().width()  - m_data->getMargin() * 2,
+                                   info.getRect().height() - m_data->getMargin() * 2);
+
         QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
+        styleOption.decorationSize = decorationSize;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
     }
@@ -348,6 +378,17 @@ QPoint ImagesTreeView::getOffset() const
 }
 
 
+void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
+{
+    const QItemSelection items(topLeft, bottomRight);
+
+    PositionsReseter reseter(model(), m_data.get());
+    reseter.itemsChanged(items);
+
+    emit refreshView();
+}
+
+
 void ImagesTreeView::modelReset()
 {
     m_data->getModel().modelReset();
@@ -374,7 +415,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
-    
+
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
     reseter.childrenRemoved(sourceParent, sourceStart);

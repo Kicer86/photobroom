@@ -27,7 +27,7 @@ class callback_ptr_ctrl final
 
         void invalidate()
         {
-            reset();      // dissolve any connections
+            reset();      // dissolve all connections
             setup();      // create new one
         }
 
@@ -39,7 +39,7 @@ class callback_ptr_ctrl final
         {
             ol::ThreadSafeResource<T *> m_callback;
 
-            Data(T* callback): m_callback(callback) {};
+            Data(T* callback): m_callback(callback) {}
         };
 
         std::shared_ptr<Data> m_data;
@@ -56,7 +56,7 @@ class callback_ptr_ctrl final
                 // lock resource
                 auto callback_resource_locked = m_data->m_callback.lock();
 
-                // remove resource from Data, so no other instance of Data will not be able to access it
+                // remove resource from Data, so no other instance of Data will be able to access it
                 *callback_resource_locked = nullptr;
             }
 

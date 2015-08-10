@@ -38,6 +38,11 @@ class TreeItemDelegate: public QAbstractItemDelegate
     private:
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
+        QIcon::Mode iconMode(const QStyle::State &) const;
+        QIcon::State iconState(const QStyle::State &) const;
+
+        QPixmap getPixmap(const QStyleOptionViewItem &, const QVariant &) const;
 };
 
 #endif // TREEITEMDELEGATE_HPP

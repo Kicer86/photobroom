@@ -44,7 +44,9 @@ class ImagesTreeView: public QAbstractItemView
 
         ImagesTreeView& operator=(const ImagesTreeView &) = delete;
 
-        void set(IConfiguration *);
+        [[deprecated("Set of setters should be used instead")]] void set(IConfiguration *);
+        void setMargin(int);
+        [[deprecated("Should be constant")]] void setThumbnailSize(int);
 
         // QAbstractItemView overrides:
         virtual QModelIndex indexAt(const QPoint& point) const override;
@@ -81,6 +83,7 @@ class ImagesTreeView: public QAbstractItemView
         QPoint getOffset() const;
 
     private slots:
+        void dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &);
         void modelReset();
         void rowsInserted(const QModelIndex &, int, int);
         void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);

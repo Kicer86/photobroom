@@ -21,14 +21,14 @@
 
 #include "config.hpp"
 
+#include "models/photos_data_model.hpp"
+#include "models//staged_photos_data_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
-#include "widgets/photos_data_model.hpp"
-#include "widgets/staged_photos_data_model.hpp"
 #include "widgets/photos_widget.hpp"
-#include "widgets/staged_photos_widget.hpp"
 #include "utils/photos_collector.hpp"
 #include "utils/info_generator.hpp"
+#include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -38,11 +38,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
-    m_stagedImagesModel(nullptr),
     m_configuration(nullptr),
     m_updater(nullptr),
-    m_photosCollector(new PhotosCollector(this)),
-    m_views(),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_infoGenerator(new InfoGenerator(this))
 {
@@ -52,8 +49,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     ui->setupUi(this);
     setupView();
-    
-    createMenus();    
+
     updateGui();
 }
 
@@ -79,8 +75,9 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 void MainWindow::set(ITaskExecutor* taskExecutor)
 {
     m_imagesModel->set(taskExecutor);
-    m_stagedImagesModel->set(taskExecutor);
     m_photosAnalyzer->set(taskExecutor);
+
+    m_executor = taskExecutor;
 }
 
 
@@ -88,9 +85,6 @@ void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
     m_photosAnalyzer->set(configuration);
-
-    for(IView* view: m_views)
-        view->set(configuration);
 
     loadGeometry();
 }
@@ -130,7 +124,6 @@ void MainWindow::checkVersion()
 }
 
 
-
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
     switch (versionInfo.status)
@@ -155,7 +148,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             break;
     }
 }
-#include <QDebug>
+
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
@@ -183,7 +176,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         closeProject();
 
         auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
-        
+
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
     }
 }
@@ -198,7 +191,6 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         m_imagesModel->setDatabase(nullptr);
-        m_stagedImagesModel->setDatabase(nullptr);
         m_infoGenerator->set(nullptr);
 
         updateGui();
@@ -209,45 +201,18 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     m_imagesModel = new PhotosDataModel(this);
-    PhotosWidget* photosWidget = new PhotosWidget(this);
-    photosWidget->setWindowTitle(tr("Photos"));
-    photosWidget->setModel(m_imagesModel);
-    m_views.push_back(photosWidget);
-    ui->viewsContainer->addWidget(photosWidget);
-
-    m_stagedImagesModel = new StagedPhotosDataModel(this);
-    StagedPhotosWidget* stagedPhotosWidget = new StagedPhotosWidget(this);
-    stagedPhotosWidget->setWindowTitle(tr("Staged photos"));
-    stagedPhotosWidget->setModel(m_stagedImagesModel);
-    m_views.push_back(stagedPhotosWidget);
-    ui->viewsContainer->addWidget(stagedPhotosWidget);
+    ui->imagesView->setModel(m_imagesModel);
 
     ui->infoDockWidget->hide();
 
-    //photos collector will write to stagedPhotosArea
-    m_photosCollector->set(m_stagedImagesModel);
-    m_photosCollector->set(ui->tasksWidget);
-
     m_photosAnalyzer->set(ui->tasksWidget);
 
+    //setup tags editor
+    ui->tagEditor->set( ui->imagesView->selectionModel() );
+    ui->tagEditor->set( m_imagesModel);
+
     //
-    viewChanged();
-
     QTimer::singleShot(0, m_infoGenerator.get(), &InfoGenerator::externalRefresh);
-}
-
-
-void MainWindow::createMenus()
-{
-    for(size_t i = 0; i < m_views.size(); i++)
-    {
-        IView* view = m_views[i];
-        const QString title = view->getName();
-        QAction* action = ui->menuWindows->addAction(title);
-
-        action->setData(static_cast<int>(i));
-        connect(ui->menuWindows, SIGNAL(triggered(QAction *)), this, SLOT(activateWindow(QAction*)));
-    }
 }
 
 
@@ -256,7 +221,6 @@ void MainWindow::updateMenus()
     const bool prj = m_currentPrj.get() != nullptr;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
-    ui->menuWindows->menuAction()->setVisible(prj);
 }
 
 
@@ -285,16 +249,6 @@ void MainWindow::updateTools()
         m_photosAnalyzer->setDatabase(m_currentPrj->getDatabase());
     else
         m_photosAnalyzer->setDatabase(nullptr);
-}
-
-
-void MainWindow::viewChanged()
-{
-    const int w = ui->viewsContainer->currentIndex();
-
-    IView* view = m_views[w];
-    ui->tagEditor->set( view->getSelectionModel() );
-    ui->tagEditor->set( view->getModel() );
 }
 
 
@@ -336,7 +290,7 @@ void MainWindow::on_actionOpen_collection_triggered()
     picker.set(m_pluginLoader);
     picker.set(m_prjManager);
     const int s = picker.exec();
-    
+
     if (s == QDialog::Accepted)
     {
         const ProjectInfo prjName = picker.choosenProject();
@@ -360,20 +314,22 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    const QString path = QFileDialog::getExistingDirectory(this, tr("Choose directory with photos"));
+    PhotosAddDialog photosAddDialog(m_configuration);
 
-    if (path.isEmpty() == false)
-        m_photosCollector->addDir(path);
-}
+    photosAddDialog.set(m_executor);
+    photosAddDialog.set(m_currentPrj->getDatabase());
+    photosAddDialog.setWindowModality(Qt::ApplicationModal);
+    photosAddDialog.show();
 
+    this->setDisabled(true);
 
-void MainWindow::activateWindow(QAction* action)
-{
-    const int w = action->data().toInt();
+    QEventLoop loop;
 
-    ui->viewsContainer->setCurrentIndex(w);
+    connect(&photosAddDialog, &PhotosAddDialog::closing, &loop, &QEventLoop::quit);
 
-    viewChanged();
+    loop.exec();
+
+    this->setEnabled(true);
 }
 
 
@@ -404,11 +360,10 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     switch(status.get())
     {
         case Database::StatusCodes::Ok:
-        {            
+        {
             Database::IDatabase* db = m_currentPrj->getDatabase();
 
             m_imagesModel->setDatabase(db);
-            m_stagedImagesModel->setDatabase(db);
             m_infoGenerator->set(db);
             break;
         }
@@ -422,7 +377,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                  );
             closeProject();
             break;
-            
+
         case Database::StatusCodes::OpenFailed:
             QMessageBox::critical(this,
                                   tr("Could not open collection"),

@@ -37,7 +37,7 @@ namespace
 
 
 
-Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(-1)
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(5), m_thumbHeight(120)
 {
 
 }
@@ -64,6 +64,18 @@ void Data::set(IConfiguration* configuration)
     const QVariant marginEntry = m_configuration->getEntry(marginConfigKey);
     assert(marginEntry.isValid());
     m_margin = marginEntry.toInt();
+}
+
+
+void Data::setMargin(int margin)
+{
+    m_margin = margin;
+}
+
+
+void Data::setThumbHeight(int imgSize)
+{
+    m_thumbHeight = imgSize;
 }
 
 
@@ -124,9 +136,9 @@ bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
 
         if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
         {
-            QPixmap pixmap = getImage(it);
+            const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
 
-            result = pixmap.isNull() == false;
+            result = decorationRole.canConvert<QPixmap>() || decorationRole.canConvert<QIcon>();
         }
         //else - has children so it is node so it is not image :)
     }
@@ -161,6 +173,28 @@ QPixmap Data::getImage(ModelIndexInfoSet::level_iterator it) const
     }
 
     return pixmap;
+}
+
+
+QSize Data::getThumbnailSize(ViewDataSet<ModelIndexInfo>::level_iterator it) const
+{
+    QPixmap image = getImage(it);
+
+    const int w = image.width();
+    const int h = image.height();
+
+    const double r = static_cast<double>(w) / h;
+
+    QSize result(w, h);
+
+    if (w > m_thumbHeight || h > m_thumbHeight)
+    {
+        const int t_h = m_thumbHeight;
+        const int t_w = m_thumbHeight * r;
+
+        result = QSize(t_w, t_h);
+    }
+    return result;
 }
 
 

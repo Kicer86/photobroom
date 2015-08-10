@@ -19,7 +19,7 @@
 
 #include "photos_widget.hpp"
 
-#include "images_model_view/db_data_model.hpp"
+#include "models/db_data_model.hpp"
 
 PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr)
 {
@@ -37,28 +37,4 @@ void PhotosWidget::setModel(DBDataModel* dataModel)
 {
     m_dataModel = dataModel;
     ImagesTreeView::setModel(dataModel);
-}
-
-
-QItemSelectionModel* PhotosWidget::getSelectionModel()
-{
-    return selectionModel();
-}
-
-
-DBDataModel* PhotosWidget::getModel()
-{
-    return m_dataModel;
-}
-
-
-QString PhotosWidget::getName()
-{
-    return ImagesTreeView::windowTitle();
-}
-
-
-void PhotosWidget::set(IConfiguration* configuration)
-{
-    ImagesTreeView::set(configuration);
 }

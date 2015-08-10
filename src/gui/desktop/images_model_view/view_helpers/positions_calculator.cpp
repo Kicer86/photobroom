@@ -185,8 +185,8 @@ int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::level_iterator in
     int w = 0;
     if (m_data->isImage(infoIt))   //image
     {
-        QPixmap pixmap = m_data->getImage(infoIt);
-        w = pixmap.width() + m_data->getMargin() * 2;
+        const QSize thumbSize = m_data->getThumbnailSize(infoIt);
+        w = thumbSize.width() + m_data->getMargin() * 2;
     }
     else                           //node's title
         w = m_width;
@@ -200,8 +200,8 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::level_iterator i
     int item_height = 0;
     if (m_data->isImage(infoIt))   //image
     {
-        QPixmap pixmap = m_data->getImage(infoIt);
-        item_height = pixmap.height() + m_data->getMargin() * 2;
+        const QSize thumbSize = m_data->getThumbnailSize(infoIt);
+        item_height = thumbSize.height() + m_data->getMargin() * 2;
     }
     else                           //node's title
         item_height = 40;          //TODO: temporary
@@ -305,7 +305,7 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
 
                 const QSize c_size(c_overall_size.width() + c_relative_position.x(),
                                    c_overall_size.height() + c_relative_position.y());
-                
+
                 rect = rect.expandedTo(c_size);
             }
         }

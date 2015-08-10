@@ -23,6 +23,8 @@
 
 #include "ifile_system_scanner.hpp"
 
+#include <atomic>
+
 
 class FileSystemScanner : public IFileSystemScanner
 {
@@ -31,9 +33,12 @@ class FileSystemScanner : public IFileSystemScanner
         FileSystemScanner();
         virtual ~FileSystemScanner();
 
-        virtual void getFilesFor(const QString &, IFileNotifier *) override;
+        void getFilesFor(const QString &, IFileNotifier *) override;
+        void stop() override;
 
     private:
+        std::atomic<bool> m_work;
+
         FileSystemScanner(const FileSystemScanner& other) = delete;
         virtual FileSystemScanner& operator=(const FileSystemScanner& other) = delete;
         virtual bool operator==(const FileSystemScanner& other) const = delete;

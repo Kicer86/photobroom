@@ -29,29 +29,8 @@
 struct ITasksView;
 
 class QString;
-class StagedPhotosDataModel;
 
-
-class PhotosReceiver: public QObject, public IMediaNotification
-{
-        Q_OBJECT
-
-        StagedPhotosDataModel* m_model;
-
-    public:
-        PhotosReceiver();
-        PhotosReceiver(const PhotosReceiver &) = delete;
-        PhotosReceiver& operator=(const PhotosReceiver &) = delete;
-
-        void setModel(StagedPhotosDataModel* model);
-        virtual void found(const QString& path) override;
-
-    signals:
-        void finished() override;
-};
-
-
-class PhotosCollector: public QObject
+class PhotosCollector: public QObject, public IMediaNotification
 {
         Q_OBJECT
 
@@ -61,21 +40,19 @@ class PhotosCollector: public QObject
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
 
-        void set(ITasksView *);
-        void set(StagedPhotosDataModel *);
-        void addDir(const QString &);          // adds dir to model. Emits finished() when ready
-
-        bool isWorking() const;                // return true when work in progress
+        void collect(const QString &, const std::function<void(const QString &)> &);
+        void stop();
 
     signals:
-        void finished();
+        // IMediaNotification:
+        void finished() override;
 
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
 
-    private slots:
-        void workIsDone();
+        // IMediaNotification:
+        void found(const QString& path) override;
 };
 
 #endif // PHOTOSCOLLECTOR_HPP

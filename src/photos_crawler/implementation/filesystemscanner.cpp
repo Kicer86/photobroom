@@ -25,20 +25,28 @@
 
 void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* notifier)
 {
+    m_work = true;
+
     QDir p(dir_path);
     QDirIterator dirIt(p, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
 
-    while(dirIt.hasNext())
+    while(m_work && dirIt.hasNext())
     {
         const QString entry = dirIt.next();
         notifier->found(entry);
     }
-    
+
     notifier->finished();
 }
 
 
-FileSystemScanner::FileSystemScanner()
+void FileSystemScanner::stop()
+{
+    m_work = false;
+}
+
+
+FileSystemScanner::FileSystemScanner(): m_work(true)
 {
 
 }

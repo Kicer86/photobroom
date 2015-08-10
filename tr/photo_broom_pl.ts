@@ -32,7 +32,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/images_model_view/model_helpers/idx_data_manager.cpp" line="+864"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+864"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -132,16 +132,15 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+213"/>
         <source>Photos</source>
-        <translation>Zdjęcia</translation>
+        <translation type="vanished">Zdjęcia</translation>
     </message>
     <message>
         <source>Hint:</source>
         <translation type="vanished">Podpowiedź:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+27"/>
+        <location line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -156,12 +155,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>&amp;Windows</source>
-        <translation>&amp;Okna</translation>
+        <translation type="vanished">&amp;Okna</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+14"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -216,7 +214,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="-73"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+133"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -238,12 +236,11 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+71"/>
         <source>Staged photos</source>
-        <translation>Zdjęcia do zatwierdzenia</translation>
+        <translation type="vanished">Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+88"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -253,7 +250,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+143"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -359,7 +356,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-46"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -377,9 +374,60 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>O Qt</translation>
     </message>
     <message>
-        <location line="-35"/>
         <source>Choose directory with photos</source>
-        <translation>Wybierz katalog ze zdjęciami</translation>
+        <translation type="vanished">Wybierz katalog ze zdjęciami</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosAddDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
+        <source>Add photos</source>
+        <translation>Dodaj zdjęcia</translation>
+    </message>
+    <message>
+        <source>Photo &amp;information</source>
+        <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>Add selected</source>
+        <translation>Dodaj zaznaczone</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>File system &amp;view</source>
+        <translation>Widok systemu &amp;plików</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>D&amp;irectory content</source>
+        <translation>Zawartość &amp;katalogu</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Photos found:</source>
+        <translation>Znaleziona zdjęcia:</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>I&amp;mages preparation</source>
+        <translation>Przy&amp;gotowywanie zdjęć</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>&amp;Tags editor</source>
+        <translation>Edytor &amp;tagów</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+199"/>
+        <source>Discard changes?</source>
+        <translation>Odrzucić zmiany?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>All changes will be lost, do you want to proceed?</source>
+        <translation>Wszystkie zmiany zostaną utracone, czy chcesz kontynuować? </translation>
     </message>
 </context>
 <context>
@@ -400,9 +448,8 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosCollector</name>
     <message>
-        <location filename="../src/gui/desktop/utils/photos_collector.cpp" line="+107"/>
         <source>Looking for photos...</source>
-        <translation>Wyszukiwanie zdjęć...</translation>
+        <translation type="vanished">Wyszukiwanie zdjęć...</translation>
     </message>
 </context>
 <context>
@@ -502,14 +549,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/staged_photos_widget.cpp" line="+35"/>
         <source>Review finished</source>
-        <translation>Dodaj do kolekcji</translation>
+        <translation type="vanished">Dodaj do kolekcji</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Changed photos:</source>
-        <translation>Zmodyfikowane zdjęcia:</translation>
+        <translation type="vanished">Zmodyfikowane zdjęcia:</translation>
     </message>
 </context>
 <context>

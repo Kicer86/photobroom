@@ -20,12 +20,8 @@
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="centralWidgetLayout">
-    <item>
-     <widget class="QStackedWidget" name="viewsContainer"/>
-    </item>
-   </layout>
+  <widget class="ImagesTreeView" name="imagesView">
+   <layout class="QVBoxLayout" name="centralWidgetLayout"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -63,14 +59,8 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
-   <widget class="QMenu" name="menuWindows">
-    <property name="title">
-     <string>&amp;Windows</string>
-    </property>
-   </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
-   <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -160,6 +150,12 @@
    <class>TasksViewWidget</class>
    <extends>QWidget</extends>
    <header>widgets/tasks_view_widget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImagesTreeView</class>
+   <extends>QWidget</extends>
+   <header>images_model_view/images_tree_view.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

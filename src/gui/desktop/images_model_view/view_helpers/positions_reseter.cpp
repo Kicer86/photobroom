@@ -23,8 +23,9 @@
     #include <iostream>
 #endif
 
-#include <QModelIndex>
 #include <QAbstractItemModel>
+#include <QItemSelection>
+#include <QModelIndex>
 
 #include "data.hpp"
 
@@ -77,8 +78,33 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 }
 
 
+void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
+{
+    const QModelIndexList items = selectedItems.indexes();
+    const int s = items.count();
+
+    if (s > 0)
+    {
+        const QModelIndex& first = items[0];
+
+        //invalidate parent
+        const QModelIndex parent = first.parent();
+        invalidateItemOverallRect(parent);
+
+        //invalidate themselves
+        for(const QModelIndex& item: items)
+            resetRect(item);
+
+        const QModelIndex& last = items[s - 1];
+
+        //invalidate all items which are after 'pos'
+        invalidateSiblingsRect(last);
+    }
+}
+
+
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
-{   
+{
     //invalidate parent if expanded
     Data::ModelIndexInfoSet::level_iterator infoIt = m_data->find(parent);
 
