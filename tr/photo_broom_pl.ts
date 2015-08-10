@@ -40,12 +40,11 @@
 <context>
     <name>InfoGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/info_generator.cpp" line="+133"/>
         <source>No photo collection is opened.
 
 Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one
 or &apos;new&apos; action and create new collection.</source>
-        <translation>Nie otwarto kolekcji zdjęć.
+        <translation type="vanished">Nie otwarto kolekcji zdjęć.
 
 Aby wybrać istniejącą kolekcję, wybierz akcję &quot;Otwórz&quot; z menu &quot;Kolekcja zdjęć&quot;,
 lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation>
@@ -72,42 +71,36 @@ Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
 Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>%1.
 
 All new photos are added to special area where they can be reviewed before they will be added to collection.
 To se those photos choose %2 and then %3.</source>
-        <translation>%1.
+        <translation type="vanished">%1.
 
 Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
 Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3.</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Photos are being loaded</source>
-        <translation>Trwa wyszukiwanie zdjęć</translation>
+        <translation type="vanished">Trwa wyszukiwanie zdjęć</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Photos waiting for review</source>
-        <translation>Zdjęcia oczekujące na przejrzenie</translation>
+        <translation type="vanished">Zdjęcia oczekujące na przejrzenie</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Windows</source>
-        <translation>Okna</translation>
+        <translation type="vanished">Okna</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Staged area</source>
-        <translation>Zdjęcia do zatwierdzenia</translation>
+        <translation type="vanished">Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation>W twojej kolekcji nie ma żadnych zdjęć.
+        <translation type="vanished">W twojej kolekcji nie ma żadnych zdjęć.
 
 Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
     </message>
@@ -145,12 +138,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>Pho&amp;tos</source>
-        <translation>&amp;Zdjęcia</translation>
+        <translation type="vanished">&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+18"/>
         <source>He&amp;lp</source>
         <translation>Po&amp;moc</translation>
     </message>
@@ -164,12 +156,16 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Hint</source>
-        <translation>Podpowiedź</translation>
+        <translation type="vanished">Podpowiedź</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-21"/>
+        <source>P&amp;hotos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&amp;Tasks</source>
         <translation>&amp;Operacje</translation>
     </message>
@@ -214,7 +210,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+132"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+129"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -240,7 +236,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="vanished">Zdjęcia do zatwierdzenia</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+82"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -250,7 +246,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+160"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -356,7 +352,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-46"/>
+        <location line="-45"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
