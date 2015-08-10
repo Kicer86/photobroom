@@ -59,6 +59,10 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     m_stagedModel = new StagedPhotosDataModel(this);
     ui->photosView->setModel(m_stagedModel);
 
+    //setup tag editor
+    ui->tagsEditor->set(ui->photosView->selectionModel());
+    ui->tagsEditor->set(m_stagedModel);
+
     // load layout
     const QVariant geometry = m_config->getEntry("photos_add_dialog::geometry");
     if (geometry.isValid())
@@ -105,7 +109,7 @@ void PhotosAddDialog::set(Database::IDatabase* database)
 }
 
 
-void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
+void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex &)
 {
     // crawler may already work for another dir, disconnect from it and stop it
     m_photosCollector.disconnect(this);
