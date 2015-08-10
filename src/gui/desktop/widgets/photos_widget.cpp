@@ -26,7 +26,7 @@
 #include "info_widget.hpp"
 
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr), m_info(nullptr)
+PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
 {
     m_info = new InfoBaloonWidget(this);
     m_info->hide();

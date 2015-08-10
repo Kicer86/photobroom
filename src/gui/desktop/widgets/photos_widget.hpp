@@ -35,10 +35,7 @@ class PhotosWidget: public ImagesTreeView
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
-        void setModel(DBDataModel *);
-
     private:
-        DBDataModel* m_dataModel;
         InfoBaloonWidget* m_info;
 
         void paintEvent(QPaintEvent*) override;

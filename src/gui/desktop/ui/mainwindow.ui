@@ -20,7 +20,7 @@
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
-  <widget class="ImagesTreeView" name="imagesView">
+  <widget class="PhotosWidget" name="imagesView">
    <layout class="QVBoxLayout" name="centralWidgetLayout"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -153,9 +153,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ImagesTreeView</class>
+   <class>PhotosWidget</class>
    <extends>QWidget</extends>
-   <header>images_model_view/images_tree_view.hpp</header>
+   <header>widgets/photos_widget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
