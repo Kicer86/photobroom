@@ -419,6 +419,16 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <source>&amp;Tags editor</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+199"/>
+        <source>Discard changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>All changes will be lest, do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PhotosAnalyzer</name>
