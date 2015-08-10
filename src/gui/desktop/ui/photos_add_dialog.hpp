@@ -80,6 +80,8 @@ class PhotosAddDialog: public QMainWindow
 
     private slots:
         void on_addSelectionButton_pressed();
+        void on_buttonBox_accepted();
+        void on_buttonBox_rejected();
 };
 
 #endif // PHOTOSADDDIALOG_HPP

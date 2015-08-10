@@ -21,6 +21,7 @@
 #include "photos_add_dialog.hpp"
 
 #include <QFileSystemModel>
+#include <QMessageBox>
 
 #include <configuration/iconfiguration.hpp>
 
@@ -181,5 +182,26 @@ void PhotosAddDialog::on_addSelectionButton_pressed()
     {
         const QString path = m_browseModel->get(index);
         m_stagedModel->addPhoto(path);
+    }
+}
+
+
+void PhotosAddDialog::on_buttonBox_accepted()
+{
+    m_stagedModel->storePhotos();
+
+    close();
+}
+
+
+void PhotosAddDialog::on_buttonBox_rejected()
+{
+    const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Discard changes?"), tr("All changes will be lest, do you want to proceed?"));
+
+    if (result == QMessageBox::Yes)
+    {
+        // clear
+
+        close();
     }
 }
