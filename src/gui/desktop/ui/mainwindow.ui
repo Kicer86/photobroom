@@ -45,7 +45,7 @@
    </widget>
    <widget class="QMenu" name="menuPhotos">
     <property name="title">
-     <string>Pho&amp;tos</string>
+     <string>P&amp;hotos</string>
     </property>
     <addaction name="actionAdd_photos"/>
     <addaction name="separator"/>
@@ -72,19 +72,6 @@
     <number>2</number>
    </attribute>
    <widget class="TagEditorWidget" name="tagEditor"/>
-  </widget>
-  <widget class="QDockWidget" name="infoDockWidget">
-   <property name="windowTitle">
-    <string>Hint</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QTextEdit" name="infoWidget">
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
@@ -156,7 +143,6 @@
    <class>PhotosWidget</class>
    <extends>QWidget</extends>
    <header>widgets/photos_widget.hpp</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

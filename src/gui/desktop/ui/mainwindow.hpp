@@ -11,7 +11,6 @@
 
 class PhotosCollector;
 class PhotosAnalyzer;
-class InfoGenerator;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -54,7 +53,6 @@ class MainWindow: public QMainWindow
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
-        std::unique_ptr<InfoGenerator> m_infoGenerator;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -66,7 +64,7 @@ class MainWindow: public QMainWindow
         void updateGui();
         void updateTools();
         void updateWidgets();
-        
+
         void loadGeometry();
 
     private slots:
@@ -86,9 +84,6 @@ class MainWindow: public QMainWindow
 
         //internal slots
         void projectOpened(const Database::BackendStatus &);
-
-        //model observers
-        __attribute__((deprecated)) void updateInfoWidget(const QString &);
 
         //check version
         void checkVersion();
