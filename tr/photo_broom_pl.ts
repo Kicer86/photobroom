@@ -383,7 +383,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
         <source>Add photos</source>
-        <translation type="unfinished">Dodaj zdjęcia</translation>
+        <translation>Dodaj zdjęcia</translation>
     </message>
     <message>
         <source>Photo &amp;information</source>
@@ -392,42 +392,42 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+36"/>
         <source>Add selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj zaznaczone</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>File system &amp;view</source>
-        <translation type="unfinished"></translation>
+        <translation>Widok systemu &amp;plików</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>D&amp;irectory content</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawartość &amp;katalogu</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Photos found:</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>I&amp;mages preparation</source>
-        <translation type="unfinished"></translation>
+        <translation>Przy&amp;gotowywanie zdjęć</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&amp;Tags editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytor &amp;tagów</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+199"/>
         <source>Discard changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odrzucić zmiany?</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>All changes will be lest, do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <source>All changes will be lost, do you want to proceed?</source>
+        <translation>Wszystkie zmiany zostaną utracone, czy chcesz kontynuować? </translation>
     </message>
 </context>
 <context>
