@@ -1,6 +1,7 @@
 
 cmake_minimum_required(VERSION 3.1)                           # due to CMAKE_CXX_STANDARD variables
 cmake_policy(SET CMP0048 NEW)
+cmake_policy(SET CMP0063 NEW)
 
 project(PhotoBroom VERSION 1.1.0)
 
