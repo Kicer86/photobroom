@@ -162,7 +162,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="-21"/>
         <source>P&amp;hotos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -473,7 +473,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="unfinished">W twojej kolekcji nie ma żadnych zdjęć.
+        <translation>W twojej kolekcji nie ma żadnych zdjęć.
 
 Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
     </message>
