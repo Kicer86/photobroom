@@ -52,6 +52,9 @@ void PhotosWidget::paintEvent(QPaintEvent* event)
 
     if (empty && isEnabled())
     {
+        // InfoWidget could be rendered directly on 'this', but it cannot due to bug:
+        // https://bugreports.qt.io/browse/QTBUG-47302
+
         QPixmap infoPixMap(m_info->size());
         infoPixMap.fill(QColor(0, 0, 0, 0));
         m_info->render(&infoPixMap, QPoint(), QRegion(), 0);
