@@ -282,10 +282,13 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
     bool status = false;
     IdxData* idxData = getParentIdxDataFor(_parent);
 
-    if (idxData->m_loaded != IdxData::FetchStatus::Fetched)
-        status = true;              //data not loaded assume there is something
-    else
-        status = !idxData->m_photo; //return true for nodes only, not for leafs
+    if (m_data->m_database)
+    {
+        if (idxData->m_loaded != IdxData::FetchStatus::Fetched)
+            status = true;              //data not loaded assume there is something
+        else
+            status = idxData->isNode(); //return true for nodes only, not for leafs
+    }
 
     return status;
 }

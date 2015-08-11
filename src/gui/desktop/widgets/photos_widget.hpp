@@ -23,6 +23,7 @@
 #include "images_model_view/images_tree_view.hpp"
 
 class DBDataModel;
+class InfoBaloonWidget;
 
 class PhotosWidget: public ImagesTreeView
 {
@@ -34,10 +35,10 @@ class PhotosWidget: public ImagesTreeView
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
-        void setModel(DBDataModel *);
-
     private:
-        DBDataModel* m_dataModel;
+        InfoBaloonWidget* m_info;
+
+        void paintEvent(QPaintEvent*) override;
 };
 
 #endif // PHOTOSWIDGET_H

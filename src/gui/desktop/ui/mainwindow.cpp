@@ -27,7 +27,6 @@
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
 #include "utils/photos_collector.hpp"
-#include "utils/info_generator.hpp"
 #include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
 
@@ -40,16 +39,13 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_imagesModel(nullptr),
     m_configuration(nullptr),
     m_updater(nullptr),
-    m_photosAnalyzer(new PhotosAnalyzer),
-    m_infoGenerator(new InfoGenerator(this))
+    m_photosAnalyzer(new PhotosAnalyzer)
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
-    connect(m_infoGenerator.get(), &InfoGenerator::infoUpdated, this, &MainWindow::updateInfoWidget);
 
     ui->setupUi(this);
     setupView();
-
     updateGui();
 }
 
@@ -191,7 +187,6 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         m_imagesModel->setDatabase(nullptr);
-        m_infoGenerator->set(nullptr);
 
         updateGui();
     }
@@ -203,16 +198,11 @@ void MainWindow::setupView()
     m_imagesModel = new PhotosDataModel(this);
     ui->imagesView->setModel(m_imagesModel);
 
-    ui->infoDockWidget->hide();
-
     m_photosAnalyzer->set(ui->tasksWidget);
 
     //setup tags editor
     ui->tagEditor->set( ui->imagesView->selectionModel() );
     ui->tagEditor->set( m_imagesModel);
-
-    //
-    QTimer::singleShot(0, m_infoGenerator.get(), &InfoGenerator::externalRefresh);
 }
 
 
@@ -238,6 +228,7 @@ void MainWindow::updateGui()
     updateMenus();
     updateTitle();
     updateTools();
+    updateWidgets();
 }
 
 
@@ -249,6 +240,23 @@ void MainWindow::updateTools()
         m_photosAnalyzer->setDatabase(m_currentPrj->getDatabase());
     else
         m_photosAnalyzer->setDatabase(nullptr);
+}
+
+
+void MainWindow::updateWidgets()
+{
+    const bool prj = m_currentPrj.get() != nullptr;
+
+    if (prj)
+    {
+        ui->imagesView->setEnabled(true);
+        ui->tagEditor->setEnabled(true);
+    }
+    else
+    {
+        ui->imagesView->setDisabled(true);
+        ui->tagEditor->setDisabled(true);
+    }
 }
 
 
@@ -364,7 +372,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
             Database::IDatabase* db = m_currentPrj->getDatabase();
 
             m_imagesModel->setDatabase(db);
-            m_infoGenerator->set(db);
             break;
         }
 
@@ -401,19 +408,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     }
 
     updateGui();
-}
-
-
-void MainWindow::updateInfoWidget(const QString& infoText)
-{
-    if (infoText.isEmpty() == false)
-        ui->infoWidget->setText(infoText);
-
-    if (infoText.isEmpty() && ui->infoDockWidget->isVisible())
-        ui->infoDockWidget->hide();
-
-    if (infoText.isEmpty() == false && ui->infoDockWidget->isHidden())
-        ui->infoDockWidget->show();
 }
 
 

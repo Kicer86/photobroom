@@ -4,10 +4,9 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
                    )
-                    
+
 
 set(UTILS_SOURCES
-    info_generator.cpp
     photos_collector.cpp
     signal_filter.cpp
     thread_multiplexer.cpp
@@ -15,16 +14,14 @@ set(UTILS_SOURCES
     )
 
 set(UTILS_HEADERS
-    info_generator.hpp
     photos_collector.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
     variant_display.hpp
     )
-    
-    
+
+
 set(UTILS_FILES_TO_MOC
-    info_generator.hpp
     photos_collector.hpp
     signal_filter.hpp
     thread_multiplexer.hpp

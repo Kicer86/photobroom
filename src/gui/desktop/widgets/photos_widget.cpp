@@ -19,11 +19,19 @@
 
 #include "photos_widget.hpp"
 
+
+#include <QPainter>
+
 #include "models/db_data_model.hpp"
+#include "info_widget.hpp"
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_dataModel(nullptr)
+
+PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
 {
-
+    m_info = new InfoBaloonWidget(this);
+    m_info->hide();
+    m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
+    m_info->adjustSize();
 }
 
 
@@ -33,8 +41,29 @@ PhotosWidget::~PhotosWidget()
 }
 
 
-void PhotosWidget::setModel(DBDataModel* dataModel)
+void PhotosWidget::paintEvent(QPaintEvent* event)
 {
-    m_dataModel = dataModel;
-    ImagesTreeView::setModel(dataModel);
+    ImagesTreeView::paintEvent(event);
+
+    // check if model is empty
+    QAbstractItemModel* m = model();
+
+    const bool empty = m->rowCount(QModelIndex()) == 0;
+
+    if (empty && isEnabled())
+    {
+        // InfoWidget could be rendered directly on 'this', but it cannot due to bug:
+        // https://bugreports.qt.io/browse/QTBUG-47302
+
+        QPixmap infoPixMap(m_info->size());
+        infoPixMap.fill(QColor(0, 0, 0, 0));
+        m_info->render(&infoPixMap, QPoint(), QRegion(), 0);
+
+        const QRect thisRect = rect();
+        QRect infoRect = m_info->rect();
+        infoRect.moveCenter(thisRect.center());
+
+        QPainter painter(viewport());
+        painter.drawPixmap(infoRect, infoPixMap);
+    }
 }
