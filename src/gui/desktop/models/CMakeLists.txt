@@ -26,6 +26,7 @@ set(HEADERS
     )
 
 set(TO_MOC
+    image_list_model_p.hpp
     model_helpers/idx_data_manager.hpp
     model_helpers/idxdata_deepfetcher.hpp
 )

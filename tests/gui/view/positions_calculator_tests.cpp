@@ -410,9 +410,6 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
 
-    //// test
-    calculator.updateItems();
-
     // Expectations:
     // We expect both images to get resized to match height = 50px
     {
@@ -421,5 +418,59 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         EXPECT_EQ(QSize(10 + 2 * margin, 50 + 2 * margin), info2.getSize());
+    }
+}
+
+
+TEST(PositionsCalculatorShould, HandleWideImages)
+{
+    //preparations
+    const int img1_w = 1000;
+    const int img1_h = 50;
+    const int img2_w = 100;
+    const int img2_h = 50;
+    const int canvas_w = 500;
+
+    static MockConfiguration config;
+    static QStandardItemModel model;
+
+    SETUP_CONFIG_EXPECTATIONS();
+
+    Data data;
+    data.set(&config);
+    data.set(&model);
+    data.setThumbHeight(50);
+
+    const int margin = data.getMargin();
+
+    ViewDataModelObserver mo(&data.getModel(), &model);
+
+    const QPixmap pixmap1(img1_w, img1_h);
+    const QIcon icon1(pixmap1);
+
+    const QPixmap pixmap2(img2_w, img2_h);
+    const QIcon icon2(pixmap2);
+
+    QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
+
+
+    model.appendRow(child1);
+    model.appendRow(child2);
+
+    PositionsCalculator calculator(&model, &data, canvas_w);
+    calculator.updateItems();
+
+    // Expectations:
+    // We expect first image to take whole row.
+    // Second image should be moved to next one
+    {
+        const ModelIndexInfo& info1 = *data.cfind(child1->index());
+        EXPECT_EQ(QSize(img1_w + 2 * margin, img1_h + 2 * margin), info1.getSize());
+        EXPECT_EQ(QPoint(0, 0), info1.getPosition());
+
+        const ModelIndexInfo& info2 = *data.cfind(child2->index());
+        EXPECT_EQ(QSize(img2_w + 2 * margin, img2_h + 2 * margin), info2.getSize());
+        EXPECT_EQ(QPoint(0, img1_h + 2 * margin), info2.getPosition());
     }
 }

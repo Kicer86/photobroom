@@ -22,12 +22,15 @@
 
 #include <deque>
 
+#include <QObject>
 #include <QIcon>
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include <core/callback_ptr.hpp>
 #include <core/itask_executor.hpp>
+
+class ImageListModel;
 
 struct Info
 {
@@ -44,8 +47,10 @@ struct Info
 };
 
 
-class ImageListModelPrivate
+class ImageListModelPrivate: public QObject
 {
+        Q_OBJECT
+
     public:
         ImageListModelPrivate(ImageListModel* q);
         virtual ~ImageListModelPrivate();
@@ -56,10 +61,11 @@ class ImageListModelPrivate
         ITaskExecutor::TaskQueue m_taskQueue;
         callback_ptr_ctrl<ImageListModelPrivate> m_callback_ctrl;
 
-        void imageScaled(const QString &, const QPixmap &);
-
     private:
         class ImageListModel* const q;
+
+    signals:
+        void imageScaled(const QString &, const QImage &);
 };
 
 #endif // IMAGELISTMODELPRIVATE_HPP
