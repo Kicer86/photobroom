@@ -410,9 +410,6 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
 
-    //// test
-    calculator.updateItems();
-
     // Expectations:
     // We expect both images to get resized to match height = 50px
     {
