@@ -41,16 +41,16 @@ struct LoadPhoto: ITaskExecutor::ITask
     virtual void perform()
     {
         // TODO: remove constants, use settings?
-        const QPixmap pixmap(m_path);
+        const QImage image(m_path);
 
         const int w = 800;
         const int h = 600;
 
-        const bool needs_resize = pixmap.width() > w || pixmap.height() > h;
+        const bool needs_resize = image.width() > w || image.height() > h;
 
-        const QPixmap scaled = needs_resize?
-                               pixmap.scaled(w, h, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation):
-                               pixmap;
+        const QImage scaled = needs_resize?
+                              image.scaled(w, h, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation):
+                              image;
 
         auto callback = **m_callback;
 
@@ -72,7 +72,7 @@ ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
     m_taskQueue(nullptr),
     m_callback_ctrl(this)
 {
-    qRegisterMetaType<QVector<int>>("QVector<int>");
+
 }
 
 
@@ -82,11 +82,6 @@ ImageListModelPrivate::~ImageListModelPrivate()
 }
 
 
-void ImageListModelPrivate::imageScaled(const QString& path, const QPixmap& pixmap)
-{
-    q->imageScaled(path, pixmap);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -94,7 +89,8 @@ ImageListModel::ImageListModel(QObject* p):
     QAbstractItemModel(p),
     d(new ImageListModelPrivate(this))
 {
-
+    // make sure ImageListModel::imageScaled is called from main thread
+    connect(d, &ImageListModelPrivate::imageScaled, this, &ImageListModel::imageScaled, Qt::QueuedConnection);
 }
 
 
@@ -250,7 +246,7 @@ QModelIndex ImageListModel::index(int row, int column, const QModelIndex& parent
 }
 
 
-void ImageListModel::imageScaled(const QString& path, const QPixmap& pixmap)
+void ImageListModel::imageScaled(const QString& path, const QImage& image)
 {
     std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
 
@@ -268,7 +264,7 @@ void ImageListModel::imageScaled(const QString& path, const QPixmap& pixmap)
     assert(r != -1);
 
     Info& info = data[r];
-    info.icon = pixmap;
+    info.icon = QPixmap::fromImage(image);
 
     const QModelIndex idx = index(r, 0, QModelIndex());
     emit dataChanged(idx, idx, {Qt::DecorationRole});
