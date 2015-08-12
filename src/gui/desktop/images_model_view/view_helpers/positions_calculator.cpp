@@ -132,7 +132,7 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::lev
         Data::ModelIndexInfoSet::level_iterator from = parentIt.begin() + selection.first;
         Data::ModelIndexInfoSet::level_iterator to = parentIt.begin() + selection.second;
 
-        for(Data::ModelIndexInfoSet::level_iterator idxInfoIt = from; idxInfoIt != to; ++idxInfoIt)
+        for(Data::ModelIndexInfoSet::level_iterator idxInfoIt = from; idxInfoIt != (to + 1); ++idxInfoIt)
         {
             const ModelIndexInfo& idxInfo = *idxInfoIt;
             const QRect& idxRect = idxInfo.getRect();
