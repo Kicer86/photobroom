@@ -92,21 +92,42 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
 
 void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QAbstractItemModel* m = index.model();
+    const auto it = m_data->get(index);
+    const QSize overall = it->getOverallSize();
+
     const QRect& r = option.rect;
+
+    //combine start point with overall size to bound all child items
+    const QRect overallRect = QRect(r.topLeft(), overall);
+
+    const QAbstractItemModel* m = index.model();
     const QVariant v = m->data(index, Qt::DisplayRole);
     const QString t = VariantDisplay()(v, option.locale);  
     
+    // title bounding box
     const QRect boundingRect = painter->boundingRect(r, Qt::AlignCenter, t);
     
     const int margin = 5;
     const int y = r.height()/2 + r.top();
     const QLine left_horizontal_line(10, y, boundingRect.left() - margin, y);    
     const QLine right_horizontal_line(boundingRect.right() + margin, y, r.right() - 10, y);    
+
+    // draw top line
     painter->drawLine(left_horizontal_line); 
     painter->drawLine(right_horizontal_line); 
     
+    // title
     painter->drawText(r, Qt::AlignCenter, t);
+
+    // overall rect
+    const QLine left_vertical_line(10, y, 10, overallRect.height());
+    const QLine right_vertical_line(r.right() - 10, y,
+                                    r.right() - 10, overallRect.height());
+    const QLine bottom(10, overallRect.height(), r.right() - 10, overallRect.height());
+
+    painter->drawLine(left_vertical_line);
+    painter->drawLine(right_vertical_line);
+    painter->drawLine(bottom);
 }
 
 

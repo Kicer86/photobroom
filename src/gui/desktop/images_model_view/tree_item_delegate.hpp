@@ -41,7 +41,7 @@ class TreeItemDelegate: public QAbstractItemDelegate
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
     private:
-        Data m_data;
+        Data* m_data;
 
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
