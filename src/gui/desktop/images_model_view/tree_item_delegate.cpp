@@ -26,7 +26,7 @@
 #include "view_helpers/data.hpp"
 
 
-TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p)
+TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_data(nullptr)
 {
 
 }
@@ -35,6 +35,12 @@ TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p)
 TreeItemDelegate::~TreeItemDelegate()
 {
 
+}
+
+
+void TreeItemDelegate::set(Data* data)
+{
+    m_data = data;
 }
 
 
