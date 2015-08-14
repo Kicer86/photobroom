@@ -77,7 +77,7 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DecorationRole);
     const QPixmap p = getPixmap(option, v);
-    const int h_margin = (r.width()  - p.rect().width()) / 2;
+    const int h_margin = (r.width()  - p.rect().width())  / 2;
     const int v_margin = (r.height() - p.rect().height()) / 2;
 
     painter->drawPixmap(r.x() + h_margin, r.y() + v_margin, p);

@@ -32,8 +32,9 @@ class TreeItemDelegate: public QAbstractItemDelegate
         ~TreeItemDelegate();
         TreeItemDelegate& operator=(const TreeItemDelegate &) = delete;
 
-        virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
-        virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+        // overrides
+        QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+        void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
     private:
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
