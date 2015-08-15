@@ -93,7 +93,6 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
 void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     const auto it = m_data->get(index);
-    const QSize overall = it->getOverallSize();
 
     const QRect& r = option.rect;
 
@@ -101,7 +100,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     if (m_data->isExpanded(it))
     {
         //combine start point with overall size to bound all child items
-        const QRect overallRect = QRect(r.topLeft(), overall);
+        const QRect overallRect = it->getOverallRect();
 
         const bool even = index.row() % 2 == 0;
         const int r = even? 212: 255;
