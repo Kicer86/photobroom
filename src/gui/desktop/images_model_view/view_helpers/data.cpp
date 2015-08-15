@@ -454,13 +454,6 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
         if (bound_invalid)
             break;
 
-        if (bound.children_count() > 0 && isExpanded(bound))
-        {
-            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
-
-            result.insert(result.end(), children.begin(), children.end());
-        }
-
         const ModelIndexInfo& bound_item = *bound;
         const QRect& item_rect = bound_item.getRect();
         const bool intersects = rect.intersects(item_rect);
@@ -472,6 +465,14 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
             assert(modelIdx.isValid());
 
             result.push_back(modelIdx);
+        }
+
+        // item's children
+        if (bound.children_count() > 0 && isExpanded(bound))
+        {
+            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
+
+            result.insert(result.end(), children.begin(), children.end());
         }
 
         const QRect overallRect(bound_item.getPosition(), bound_item.getOverallSize());
