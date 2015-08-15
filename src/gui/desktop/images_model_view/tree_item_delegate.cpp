@@ -100,6 +100,11 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     //combine start point with overall size to bound all child items
     const QRect overallRect = QRect(r.topLeft(), overall);
 
+    // draw overall rect
+    painter->setBrush(QColor(212,212,212));
+    painter->drawRect(overallRect);
+
+    // calculate title position
     const QAbstractItemModel* m = index.model();
     const QVariant v = m->data(index, Qt::DisplayRole);
     const QString t = VariantDisplay()(v, option.locale);  
@@ -118,16 +123,6 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     
     // title
     painter->drawText(r, Qt::AlignCenter, t);
-
-    // overall rect
-    const QLine left_vertical_line(10, y, 10, overallRect.height());
-    const QLine right_vertical_line(r.right() - 10, y,
-                                    r.right() - 10, overallRect.height());
-    const QLine bottom(10, overallRect.height(), r.right() - 10, overallRect.height());
-
-    painter->drawLine(left_vertical_line);
-    painter->drawLine(right_vertical_line);
-    painter->drawLine(bottom);
 }
 
 
