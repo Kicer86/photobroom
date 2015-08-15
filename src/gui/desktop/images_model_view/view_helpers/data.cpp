@@ -455,7 +455,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
             break;
 
         const ModelIndexInfo& bound_item = *bound;
-        const QRect& item_rect = bound_item.getRect();
+        const QRect item_rect = bound_item.getOverallRect();
         const bool intersects = rect.intersects(item_rect);
 
         // item itself is visible? Add it
