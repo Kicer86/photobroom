@@ -439,7 +439,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
 
     auto bound = std::lower_bound(first, last, rect, [](const ModelIndexInfo& item, const QRect& value)
     {
-        const QRect overallRect(item.getPosition(), item.getOverallSize());
+        const QRect overallRect = item.getOverallRect();
         const int p1 = overallRect.bottom();
         const int p2 = value.top();
 
