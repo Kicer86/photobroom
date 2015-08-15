@@ -78,6 +78,16 @@ void ModelIndexInfo::setOverallSize(const QSize& r)
 }
 
 
+QRect ModelIndexInfo::getOverallRect() const
+{
+    const QPoint pos    = getPosition();
+    const QSize overall = getOverallSize();
+    const QRect overallRect = QRect(pos, overall);
+
+    return overallRect;
+}
+
+
 const QRect ModelIndexInfo::getRect() const
 {
     return position.getRect();
