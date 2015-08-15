@@ -97,12 +97,18 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
 
     const QRect& r = option.rect;
 
-    //combine start point with overall size to bound all child items
-    const QRect overallRect = QRect(r.topLeft(), overall);
-
     // draw overall rect
-    painter->setBrush(QColor(212,212,212));
-    painter->drawRect(overallRect);
+    if (m_data->isExpanded(it))
+    {
+        //combine start point with overall size to bound all child items
+        const QRect overallRect = QRect(r.topLeft(), overall);
+
+        const bool even = index.row() % 2 == 0;
+        const int r = even? 212: 255;
+        const int b = even? 255: 212;
+        painter->setBrush(QColor(r,212,b));
+        painter->drawRect(overallRect);
+    }
 
     // calculate title position
     const QAbstractItemModel* m = index.model();
