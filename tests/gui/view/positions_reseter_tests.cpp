@@ -4,9 +4,9 @@
 
 #include <QStandardItemModel>
 
-#include <desktop/images_model_view/view_helpers/positions_reseter.hpp>
-#include <desktop/images_model_view/view_helpers/positions_calculator.hpp>
-#include <desktop/images_model_view/view_helpers/data.hpp>
+#include <desktop/views/view_helpers/positions_reseter.hpp>
+#include <desktop/views/view_helpers/positions_calculator.hpp>
+#include <desktop/views/view_helpers/data.hpp>
 
 #include "test_helpers/mock_configuration.hpp"
 
@@ -58,7 +58,7 @@ protected:
 
         data.set(&config);
         data.set(&model);
-        
+
         mo.reset( new ViewDataModelObserver(&data.getModel(), &model) );
 
         top = new QStandardItem("Empty");
@@ -135,7 +135,7 @@ protected:
     QStandardItem* child3_3;
     QStandardItem* child3_4;
     QStandardItem* child3_5;
-    
+
     std::unique_ptr<ViewDataModelObserver> mo;
 };
 
@@ -149,7 +149,7 @@ TEST_F(PositionsReseterShould, BeConstructable)
         PositionsReseter reseter(&model, &data);
     });
 }
- 
+
 
 TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 {
@@ -501,7 +501,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
     //prepare data
     PositionsCalculator calculator(&model, &data, canvas_w);
     calculator.updateItems();
-    
+
     // test
     model.removeRow(0, top->index());
 
