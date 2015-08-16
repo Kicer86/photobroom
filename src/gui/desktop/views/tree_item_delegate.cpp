@@ -103,29 +103,30 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
         const QRect overallRect = it->getOverallRect();
 
         const bool even = index.row() % 2 == 0;
-        const int r = even? 212: 255;
+        const int r = 212;
+        const int g = even? 212: 255;
         const int b = even? 255: 212;
-        painter->setBrush(QColor(r,212,b));
+        painter->setBrush(QColor(r, g, b));
         painter->drawRect(overallRect);
     }
 
     // calculate title position
     const QAbstractItemModel* m = index.model();
     const QVariant v = m->data(index, Qt::DisplayRole);
-    const QString t = VariantDisplay()(v, option.locale);  
-    
+    const QString t = VariantDisplay()(v, option.locale);
+
     // title bounding box
     const QRect boundingRect = painter->boundingRect(r, Qt::AlignCenter, t);
-    
+
     const int margin = 5;
     const int y = r.height()/2 + r.top();
-    const QLine left_horizontal_line(10, y, boundingRect.left() - margin, y);    
-    const QLine right_horizontal_line(boundingRect.right() + margin, y, r.right() - 10, y);    
+    const QLine left_horizontal_line(10, y, boundingRect.left() - margin, y);
+    const QLine right_horizontal_line(boundingRect.right() + margin, y, r.right() - 10, y);
 
     // draw top line
-    painter->drawLine(left_horizontal_line); 
-    painter->drawLine(right_horizontal_line); 
-    
+    painter->drawLine(left_horizontal_line);
+    painter->drawLine(right_horizontal_line);
+
     // title
     painter->drawText(r, Qt::AlignCenter, t);
 }
