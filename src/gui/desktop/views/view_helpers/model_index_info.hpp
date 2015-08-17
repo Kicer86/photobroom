@@ -33,9 +33,10 @@ struct ModelIndexInfo
         void setSize(const QSize &);
         void setRect(const QRect& r);
         void setOverallSize(const QSize& r);
+
+        QRect getOverallRect() const;
         const QRect getRect() const;
         const QSize& getOverallSize() const;
-
         const QPoint& getPosition() const;
         const QSize& getSize() const;
 

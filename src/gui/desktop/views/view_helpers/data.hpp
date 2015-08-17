@@ -46,7 +46,8 @@ class Data
         void set(QAbstractItemModel *);
         [[deprecated]] void set(IConfiguration *);
 
-        void setMargin(int);
+        void setSpacing(int);
+        void setImageMargin(int);
         void setThumbHeight(int);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
@@ -67,7 +68,9 @@ class Data
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
 
-        int getMargin() const;
+        int getSpacing() const;
+        int getImageMargin() const;
+
         IConfiguration* getConfig();
 
         //getting siblings
@@ -83,6 +86,7 @@ class Data
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
         IConfiguration* m_configuration;
+        int m_spacing;
         int m_margin;
         int m_thumbHeight;
 

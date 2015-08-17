@@ -32,12 +32,12 @@
 
 namespace
 {
-    const char* marginConfigKey = "view::margin";
+    const char* spacingConfigKey = "view::spacing";
 }
 
 
 
-Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_margin(5), m_thumbHeight(120)
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
 
 }
@@ -59,15 +59,21 @@ void Data::set(QAbstractItemModel* model)
 void Data::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
-    configuration->setDefaultValue(marginConfigKey, 2);
+    configuration->setDefaultValue(spacingConfigKey, 2);
 
-    const QVariant marginEntry = m_configuration->getEntry(marginConfigKey);
+    const QVariant marginEntry = m_configuration->getEntry(spacingConfigKey);
     assert(marginEntry.isValid());
-    m_margin = marginEntry.toInt();
+    m_spacing = marginEntry.toInt();
 }
 
 
-void Data::setMargin(int margin)
+void Data::setSpacing(int spacing)
+{
+    m_spacing = spacing;
+}
+
+
+void Data::setImageMargin(int margin)
 {
     m_margin = margin;
 }
@@ -284,9 +290,14 @@ Data::ModelIndexInfoSet& Data::getModel()
 }
 
 
-int Data::getMargin() const
+int Data::getSpacing() const
 {
-    assert(m_margin != -1);
+    return m_spacing;
+}
+
+
+int Data::getImageMargin() const
+{
     return m_margin;
 }
 
@@ -439,7 +450,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
 
     auto bound = std::lower_bound(first, last, rect, [](const ModelIndexInfo& item, const QRect& value)
     {
-        const QRect overallRect(item.getPosition(), item.getOverallSize());
+        const QRect overallRect = item.getOverallRect();
         const int p1 = overallRect.bottom();
         const int p2 = value.top();
 
@@ -454,15 +465,8 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
         if (bound_invalid)
             break;
 
-        if (bound.children_count() > 0 && isExpanded(bound))
-        {
-            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
-
-            result.insert(result.end(), children.begin(), children.end());
-        }
-
         const ModelIndexInfo& bound_item = *bound;
-        const QRect& item_rect = bound_item.getRect();
+        const QRect item_rect = bound_item.getOverallRect();
         const bool intersects = rect.intersects(item_rect);
 
         // item itself is visible? Add it
@@ -472,6 +476,14 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
             assert(modelIdx.isValid());
 
             result.push_back(modelIdx);
+        }
+
+        // item's children
+        if (bound.children_count() > 0 && isExpanded(bound))
+        {
+            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
+
+            result.insert(result.end(), children.begin(), children.end());
         }
 
         const QRect overallRect(bound_item.getPosition(), bound_item.getOverallSize());

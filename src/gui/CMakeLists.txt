@@ -27,12 +27,12 @@ add_subdirectory(desktop/models)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/images_model_view/view_helpers/data.cpp
-    desktop/images_model_view/view_helpers/model_index_info.cpp
-    desktop/images_model_view/view_helpers/positions_calculator.cpp
-    desktop/images_model_view/view_helpers/positions_reseter.cpp
-    desktop/images_model_view/images_tree_view.cpp
-    desktop/images_model_view/tree_item_delegate.cpp
+    desktop/views/view_helpers/data.cpp
+    desktop/views/view_helpers/model_index_info.cpp
+    desktop/views/view_helpers/positions_calculator.cpp
+    desktop/views/view_helpers/positions_reseter.cpp
+    desktop/views/images_tree_view.cpp
+    desktop/views/tree_item_delegate.cpp
     desktop/ui/mainwindow.cpp
     desktop/ui/photos_add_dialog.cpp
     desktop/ui/photos_view.cpp
@@ -41,13 +41,13 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/images_model_view/view_helpers/data.hpp
-    desktop/images_model_view/view_helpers/model_index_info.hpp
-    desktop/images_model_view/view_helpers/positions_calculator.hpp
-    desktop/images_model_view/view_helpers/positions_reseter.hpp
-    desktop/images_model_view/view_helpers/view_data_set.hpp
-    desktop/images_model_view/images_tree_view.hpp
-    desktop/images_model_view/tree_item_delegate.hpp
+    desktop/views/view_helpers/data.hpp
+    desktop/views/view_helpers/model_index_info.hpp
+    desktop/views/view_helpers/positions_calculator.hpp
+    desktop/views/view_helpers/positions_reseter.hpp
+    desktop/views/view_helpers/view_data_set.hpp
+    desktop/views/images_tree_view.hpp
+    desktop/views/tree_item_delegate.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp
@@ -56,8 +56,8 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
-    desktop/images_model_view/images_tree_view.hpp
-    desktop/images_model_view/view_helpers/view_data_set.hpp
+    desktop/views/images_tree_view.hpp
+    desktop/views/view_helpers/view_data_set.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp

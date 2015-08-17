@@ -77,7 +77,7 @@
   <customwidget>
    <class>ImagesTreeView</class>
    <extends>QWidget</extends>
-   <header>images_model_view/images_tree_view.hpp</header>
+   <header>views/images_tree_view.hpp</header>
   </customwidget>
   <customwidget>
    <class>TagEditorWidget</class>

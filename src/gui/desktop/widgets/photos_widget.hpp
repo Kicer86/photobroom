@@ -20,7 +20,7 @@
 #ifndef PHOTOSWIDGET_HPP
 #define PHOTOSWIDGET_HPP
 
-#include "images_model_view/images_tree_view.hpp"
+#include "views/images_tree_view.hpp"
 
 class DBDataModel;
 class InfoBaloonWidget;

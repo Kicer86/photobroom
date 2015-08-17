@@ -41,6 +41,7 @@
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
     TreeItemDelegate* delegate = new TreeItemDelegate(this);
+    delegate->set(m_data.get());
 
     setItemDelegate(delegate);
 
@@ -72,9 +73,15 @@ void ImagesTreeView::set(IConfiguration* configuration)
 }
 
 
-void ImagesTreeView::setMargin(int margin)
+void ImagesTreeView::setSpacing(int spacing)
 {
-    m_data->setMargin(margin);
+    m_data->setSpacing(spacing);
+}
+
+
+void ImagesTreeView::setImageMargin(int margin)
+{
+    m_data->setImageMargin(margin);
 }
 
 
@@ -259,8 +266,8 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
-        const QSize decorationSize(info.getRect().width()  - m_data->getMargin() * 2,
-                                   info.getRect().height() - m_data->getMargin() * 2);
+        const QSize decorationSize(info.getRect().width()  - m_data->getSpacing() * 2,
+                                   info.getRect().height() - m_data->getSpacing() * 2);
 
         QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = info.getRect();

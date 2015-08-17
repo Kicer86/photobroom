@@ -118,12 +118,13 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::lev
 {
     const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
-    Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
+    const Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
     const int nextIndexWidth = getItemWidth(next_it);
-    Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
+    const Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
+    const int max_width = m_width - m_data->getImageMargin() * 2;
 
     QPoint result;
-    if (item_pos.right() + nextIndexWidth < m_width)             //is there place for item?
+    if (item_pos.right() + nextIndexWidth < max_width)             //is there place for item?
         result = QPoint(item_pos.x() + getItemWidth(infoIt), item_pos.y());
     else                                                         //no space, add new row
     {
@@ -142,7 +143,7 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::lev
                 row_height = idxHeight;
         }
 
-        result = QPoint(0, item_pos.y() + row_height);
+        result = QPoint(m_data->getImageMargin(), item_pos.y() + row_height);
     }
 
     return result;
@@ -173,7 +174,7 @@ QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::le
     if (isRoot(infoIt) == false)           // regular item
     {
         const QRect r = calcItemRect(infoIt);
-        result = QPoint(0, r.y() + r.height());
+        result = QPoint(m_data->getImageMargin(), r.y() + r.height());
     }
 
     return result;
@@ -186,7 +187,7 @@ int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::level_iterator in
     if (m_data->isImage(infoIt))   //image
     {
         const QSize thumbSize = m_data->getThumbnailSize(infoIt);
-        w = thumbSize.width() + m_data->getMargin() * 2;
+        w = thumbSize.width() + m_data->getSpacing() * 2;
     }
     else                           //node's title
         w = m_width;
@@ -201,7 +202,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::level_iterator i
     if (m_data->isImage(infoIt))   //image
     {
         const QSize thumbSize = m_data->getThumbnailSize(infoIt);
-        item_height = thumbSize.height() + m_data->getMargin() * 2;
+        item_height = thumbSize.height() + m_data->getSpacing() * 2;
     }
     else                           //node's title
         item_height = 40;          //TODO: temporary

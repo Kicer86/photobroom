@@ -134,16 +134,16 @@ namespace tree_private
                 return m_iterators.top();
             }
 
+            node_pointer& current()
+            {
+                return m_iterators.top();
+            }
+
             node_pointer nodes_end() const
             {
                 auto ns = current().get_nodes_list();
                 node_pointer result(ns, ns->end());
                 return result;
-            }
-
-            node_pointer& current()
-            {
-                return m_iterators.top();
             }
 
             bool same(const iterator_base& other) const
