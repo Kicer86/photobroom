@@ -94,7 +94,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
 {
     const auto it = m_data->get(index);
 
-    const QRect& r = option.rect;
+    const QRect& rect = option.rect;
 
     // draw overall rect
     if (m_data->isExpanded(it))
@@ -128,19 +128,19 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QString t = VariantDisplay()(v, option.locale);
 
     // title bounding box
-    const QRect boundingRect = painter->boundingRect(r, Qt::AlignCenter, t);
+    const QRect boundingRect = painter->boundingRect(rect, Qt::AlignCenter, t);
 
     const int margin = 5;
-    const int y = r.height()/2 + r.top();
+    const int y = rect.height()/2 + rect.top();
     const QLine left_horizontal_line(10, y, boundingRect.left() - margin, y);
-    const QLine right_horizontal_line(boundingRect.right() + margin, y, r.right() - 10, y);
+    const QLine right_horizontal_line(boundingRect.right() + margin, y, rect.right() - 10, y);
 
     // draw top line
     painter->drawLine(left_horizontal_line);
     painter->drawLine(right_horizontal_line);
 
     // title
-    painter->drawText(r, Qt::AlignCenter, t);
+    painter->drawText(rect, Qt::AlignCenter, t);
 }
 
 
