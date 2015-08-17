@@ -37,7 +37,7 @@ namespace
 
 
 
-Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_thumbHeight(120)
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
 
 }
@@ -70,6 +70,12 @@ void Data::set(IConfiguration* configuration)
 void Data::setSpacing(int spacing)
 {
     m_spacing = spacing;
+}
+
+
+void Data::setMargin(int margin)
+{
+    m_margin = margin;
 }
 
 
@@ -287,6 +293,12 @@ Data::ModelIndexInfoSet& Data::getModel()
 int Data::getSpacing() const
 {
     return m_spacing;
+}
+
+
+int Data::getMargin() const
+{
+    return m_margin;
 }
 
 

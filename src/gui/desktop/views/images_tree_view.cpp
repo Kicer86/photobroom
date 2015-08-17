@@ -79,6 +79,12 @@ void ImagesTreeView::setSpacing(int spacing)
 }
 
 
+void ImagesTreeView::setMargin(int margin)
+{
+    m_data->setMargin(margin);
+}
+
+
 void ImagesTreeView::setThumbnailSize(int thumbSize)
 {
     verticalScrollBar()->setSingleStep(thumbSize / 2);
