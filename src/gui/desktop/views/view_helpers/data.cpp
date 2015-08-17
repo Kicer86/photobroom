@@ -73,7 +73,7 @@ void Data::setSpacing(int spacing)
 }
 
 
-void Data::setMargin(int margin)
+void Data::setImageMargin(int margin)
 {
     m_margin = margin;
 }
@@ -296,7 +296,7 @@ int Data::getSpacing() const
 }
 
 
-int Data::getMargin() const
+int Data::getImageMargin() const
 {
     return m_margin;
 }

@@ -47,7 +47,7 @@ class Data
         [[deprecated]] void set(IConfiguration *);
 
         void setSpacing(int);
-        void setMargin(int);
+        void setImageMargin(int);
         void setThumbHeight(int);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
@@ -69,7 +69,7 @@ class Data
         ModelIndexInfoSet& getModel();
 
         int getSpacing() const;
-        int getMargin() const;
+        int getImageMargin() const;
 
         IConfiguration* getConfig();
 

@@ -121,7 +121,7 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::lev
     Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
     const int nextIndexWidth = getItemWidth(next_it);
     Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
-    const int max_width = m_width - m_data->getMargin() * 2;
+    const int max_width = m_width - m_data->getImageMargin() * 2;
 
     QPoint result;
     if (item_pos.right() + nextIndexWidth < max_width)             //is there place for item?
@@ -143,7 +143,7 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::lev
                 row_height = idxHeight;
         }
 
-        result = QPoint(m_data->getMargin(), item_pos.y() + row_height);
+        result = QPoint(m_data->getImageMargin(), item_pos.y() + row_height);
     }
 
     return result;
@@ -174,7 +174,7 @@ QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::le
     if (isRoot(infoIt) == false)           // regular item
     {
         const QRect r = calcItemRect(infoIt);
-        result = QPoint(m_data->getMargin(), r.y() + r.height());
+        result = QPoint(m_data->getImageMargin(), r.y() + r.height());
     }
 
     return result;

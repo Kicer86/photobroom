@@ -286,7 +286,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
         const ModelIndexInfo& info = *view_data.cfind(child5->index());
 
         // should start in second row (parent's header + first row height + spacing)
-        const QRect childSize(view_data.getMargin(),
+        const QRect childSize(view_data.getImageMargin(),
                               header_h + img_h + spacing * 2, img_w + spacing * 2, img_h + spacing * 2);
 
         EXPECT_EQ(childSize, info.getRect());
