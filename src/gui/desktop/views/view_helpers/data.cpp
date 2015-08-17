@@ -286,7 +286,6 @@ Data::ModelIndexInfoSet& Data::getModel()
 
 int Data::getSpacing() const
 {
-    assert(m_spacing != -1);
     return m_spacing;
 }
 
