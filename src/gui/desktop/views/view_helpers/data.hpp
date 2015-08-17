@@ -83,7 +83,7 @@ class Data
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         QAbstractItemModel* m_model;
         IConfiguration* m_configuration;
-        int m_margin;
+        int m_spacing;
         int m_thumbHeight;
 
         std::deque<QModelIndex> findInRect(ModelIndexInfoSet::const_level_iterator, ModelIndexInfoSet::const_level_iterator, const QRect &) const;
