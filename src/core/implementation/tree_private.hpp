@@ -264,12 +264,12 @@ namespace tree_utils
                 return m_item;
             }
 
-            iterator begin()
+            iterator begin() const
             {
                 return iterator(m_children, m_children->begin());
             }
 
-            iterator end()
+            iterator end() const
             {
                 return iterator(m_children, m_children->end());
             }
@@ -278,7 +278,7 @@ namespace tree_utils
             {
                 return m_children->empty() == false;
             }
-            
+
             size_t children_count() const
             {
                 return m_children->size();

@@ -125,7 +125,7 @@ namespace tree_private
             }
 
 
-            level_iterator begin()
+            level_iterator begin() const
             {
                 level_iterator result = *this;
 
@@ -136,7 +136,7 @@ namespace tree_private
             }
 
 
-            level_iterator end()
+            level_iterator end() const
             {
                 level_iterator result = *this;
 
@@ -146,7 +146,7 @@ namespace tree_private
                 return result;
             }
 
-            
+
             size_t children_count() const
             {
                 return base::current()->children_count();
