@@ -162,14 +162,14 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     {
         const ModelIndexInfo& info = *view_data.cfind(QModelIndex());
 
-        EXPECT_EQ(false, info.isSizeValid());                                              // invisible
+        EXPECT_EQ(false, info.isSizeValid());                                               // invisible
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2), info.getOverallSize());  // but has overall size of all items
     }
 
     {
         const ModelIndexInfo& info = *view_data.cfind(top_idx->index());
 
-        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                        // its position
+        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                         // its position
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2), info.getOverallSize());  // no children expanded - overall == size
     }
 }
@@ -225,7 +225,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     {
         const ModelIndexInfo& info = *view_data.cfind(top_idx2->index());
 
-        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                 // its position - just after first item of height `header_h`
+        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                  // its position - just after first item of height `header_h`
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2), info.getOverallSize());  // no children expanded - overall == size
     }
 }
@@ -278,13 +278,16 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     {
         const ModelIndexInfo& info = *view_data.cfind(top->index());
 
-        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                            // its position
+        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                             // its position
         EXPECT_EQ(QSize(canvas_w, header_h + img_h * 2 + spacing * 4), info.getOverallSize());  // we expect two rows
     }
 
     {
         const ModelIndexInfo& info = *view_data.cfind(child5->index());
-        const QRect childSize(0, header_h + img_h + spacing * 2, img_w + spacing * 2, img_h + spacing * 2);  // should start in second row (parent's header + first row height + spacing)
+
+        // should start in second row (parent's header + first row height + spacing)
+        const QRect childSize(view_data.getMargin(),
+                              header_h + img_h + spacing * 2, img_w + spacing * 2, img_h + spacing * 2);
 
         EXPECT_EQ(childSize, info.getRect());
         EXPECT_EQ(childSize.size(), info.getOverallSize());
