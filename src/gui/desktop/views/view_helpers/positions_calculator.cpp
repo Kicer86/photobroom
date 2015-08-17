@@ -118,9 +118,9 @@ QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::lev
 {
     const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
-    Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
+    const Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
     const int nextIndexWidth = getItemWidth(next_it);
-    Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
+    const Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
     const int max_width = m_width - m_data->getImageMargin() * 2;
 
     QPoint result;
