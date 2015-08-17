@@ -67,7 +67,7 @@ class Data
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
 
-        int getMargin() const;
+        int getSpacing() const;
         IConfiguration* getConfig();
 
         //getting siblings

@@ -260,8 +260,8 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
         const ModelIndexInfo& info = *infoIt;
 
-        const QSize decorationSize(info.getRect().width()  - m_data->getMargin() * 2,
-                                   info.getRect().height() - m_data->getMargin() * 2);
+        const QSize decorationSize(info.getRect().width()  - m_data->getSpacing() * 2,
+                                   info.getRect().height() - m_data->getSpacing() * 2);
 
         QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = info.getRect();

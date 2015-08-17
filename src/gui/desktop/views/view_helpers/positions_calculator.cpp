@@ -186,7 +186,7 @@ int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::level_iterator in
     if (m_data->isImage(infoIt))   //image
     {
         const QSize thumbSize = m_data->getThumbnailSize(infoIt);
-        w = thumbSize.width() + m_data->getMargin() * 2;
+        w = thumbSize.width() + m_data->getSpacing() * 2;
     }
     else                           //node's title
         w = m_width;
@@ -201,7 +201,7 @@ int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::level_iterator i
     if (m_data->isImage(infoIt))   //image
     {
         const QSize thumbSize = m_data->getThumbnailSize(infoIt);
-        item_height = thumbSize.height() + m_data->getMargin() * 2;
+        item_height = thumbSize.height() + m_data->getSpacing() * 2;
     }
     else                           //node's title
         item_height = 40;          //TODO: temporary

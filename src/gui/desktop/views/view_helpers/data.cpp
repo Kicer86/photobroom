@@ -284,7 +284,7 @@ Data::ModelIndexInfoSet& Data::getModel()
 }
 
 
-int Data::getMargin() const
+int Data::getSpacing() const
 {
     assert(m_spacing != -1);
     return m_spacing;

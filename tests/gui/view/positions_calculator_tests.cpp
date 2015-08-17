@@ -146,7 +146,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     view_data.set(&config);
     view_data.set(&model);
 
-    const int margin = view_data.getMargin();
+    const int margin = view_data.getSpacing();
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -209,7 +209,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     view_data.set(&config);
     view_data.set(&model);
 
-    const int margin = view_data.getMargin();
+    const int margin = view_data.getSpacing();
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -262,7 +262,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     view_data.set(&config);
     view_data.set(&model);
 
-    const int margin = view_data.getMargin();
+    const int margin = view_data.getSpacing();
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -390,7 +390,7 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     data.set(&model);
     data.setThumbHeight(50);
 
-    const int margin = data.getMargin();
+    const int margin = data.getSpacing();
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
