@@ -32,7 +32,7 @@
 
 namespace
 {
-    const char* marginConfigKey = "view::margin";
+    const char* spacingConfigKey = "view::spacing";
 }
 
 
@@ -59,9 +59,9 @@ void Data::set(QAbstractItemModel* model)
 void Data::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
-    configuration->setDefaultValue(marginConfigKey, 2);
+    configuration->setDefaultValue(spacingConfigKey, 2);
 
-    const QVariant marginEntry = m_configuration->getEntry(marginConfigKey);
+    const QVariant marginEntry = m_configuration->getEntry(spacingConfigKey);
     assert(marginEntry.isValid());
     m_spacing = marginEntry.toInt();
 }

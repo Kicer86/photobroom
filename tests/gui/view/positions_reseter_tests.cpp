@@ -13,8 +13,8 @@
 
 #define SETUP_CONFIG_EXPECTATIONS()                                                     \
     using ::testing::Return;                                                            \
-    EXPECT_CALL(config, setDefaultValue(QString("view::margin"), QVariant(2)));         \
-    EXPECT_CALL(config, getEntry(QString("view::margin"))).WillRepeatedly(Return(2))
+    EXPECT_CALL(config, setDefaultValue(QString("view::spacing"), QVariant(2)));         \
+    EXPECT_CALL(config, getEntry(QString("view::spacing"))).WillRepeatedly(Return(2))
 
 
 class PositionsReseterShould: public ::testing::Test
