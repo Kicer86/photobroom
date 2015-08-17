@@ -73,9 +73,9 @@ void ImagesTreeView::set(IConfiguration* configuration)
 }
 
 
-void ImagesTreeView::setMargin(int margin)
+void ImagesTreeView::setSpacing(int margin)
 {
-    m_data->setMargin(margin);
+    m_data->setSpacing(margin);
 }
 
 

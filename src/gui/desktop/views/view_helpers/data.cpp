@@ -67,7 +67,7 @@ void Data::set(IConfiguration* configuration)
 }
 
 
-void Data::setMargin(int margin)
+void Data::setSpacing(int margin)
 {
     m_margin = margin;
 }

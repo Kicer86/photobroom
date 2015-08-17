@@ -46,7 +46,7 @@ class Data
         void set(QAbstractItemModel *);
         [[deprecated]] void set(IConfiguration *);
 
-        void setMargin(int);
+        void setSpacing(int);
         void setThumbHeight(int);
 
         ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expeted to be invalid.
