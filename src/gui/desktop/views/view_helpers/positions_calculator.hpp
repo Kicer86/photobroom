@@ -54,6 +54,7 @@ class PositionsCalculator
         int getItemHeigth(Data::ModelIndexInfoSet::level_iterator) const;
         QSize getItemSize(Data::ModelIndexInfoSet::level_iterator) const;
         std::pair<int, int> selectRowFor(Data::ModelIndexInfoSet::level_iterator) const;
+        int getFirstItemOffset(Data::ModelIndexInfoSet::level_iterator) const;
 
         bool isRoot(Data::ModelIndexInfoSet::level_iterator) const;
 
