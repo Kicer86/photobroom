@@ -444,7 +444,8 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     data.set(&model);
     data.setThumbHeight(50);
 
-    const int margin = data.getImageMargin();
+    const int spacing = data.getSpacing();
+    const int margin  = data.getImageMargin();
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
@@ -469,11 +470,11 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     // Second image should be moved to next one
     {
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        EXPECT_EQ(QSize(img1_w + 2 * margin, img1_h + 2 * margin), info1.getSize());
-        EXPECT_EQ(QPoint(0, 0), info1.getPosition());
+        EXPECT_EQ(QSize(img1_w + 2 * spacing, img1_h + 2 * spacing), info1.getSize());
+        EXPECT_EQ(QPoint(margin, 0), info1.getPosition());
 
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
-        EXPECT_EQ(QSize(img2_w + 2 * margin, img2_h + 2 * margin), info2.getSize());
-        EXPECT_EQ(QPoint(0, img1_h + 2 * margin), info2.getPosition());
+        EXPECT_EQ(QSize(img2_w + 2 * spacing, img2_h + 2 * spacing), info2.getSize());
+        EXPECT_EQ(QPoint(margin, img1_h + 2 * spacing), info2.getPosition());
     }
 }
