@@ -32,21 +32,6 @@ set(ANALYZER_HEADERS
     photo_crawler_builder.hpp
     )
 
-if(BUILD_TESTS)
-
-    addTestTarget(photos_crawler
-                            TEST_LIBRARY
-                                GMOCK
-                            SOURCES
-                                ${ANALYZER_SOURCES}
-                                tests/analyzerTests.cpp
-                                tests/photo_crawler_tests.cpp
-                                tests/photo_crawler_builder_tests.cpp
-                )
-    target_link_libraries(photos_crawler_test PRIVATE Qt5::Core)
-
-endif(BUILD_TESTS)
-
 source_group(photos_crawler REGULAR_EXPRESSION .*photos_crawler.* )
 
 add_library(photos_crawler ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
