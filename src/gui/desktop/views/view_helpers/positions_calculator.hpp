@@ -46,12 +46,15 @@ class PositionsCalculator
         QPoint calcPositionOfNext(Data::ModelIndexInfoSet::level_iterator) const;          // calculate position of next item
         QPoint calcPositionOfNextImage(Data::ModelIndexInfoSet::level_iterator) const;     // calculate position of next item (image item)
         QPoint calcPositionOfNextNode(Data::ModelIndexInfoSet::level_iterator) const;      // calculate position of next item (node item)
-        QPoint calcPositionOfFirstChild(Data::ModelIndexInfoSet::level_iterator) const;    // calculate position for first item
+        QPoint calcPositionOfFirst(Data::ModelIndexInfoSet::level_iterator) const;         // calculate position for first item
+        QPoint calcPositionOfFirstImage(Data::ModelIndexInfoSet::level_iterator) const;    // calculate position for first item (image item)
+        QPoint calcPositionOfFirstNode(Data::ModelIndexInfoSet::level_iterator) const;     // calculate position for first item (image item)
 
         int getItemWidth(Data::ModelIndexInfoSet::level_iterator) const;
         int getItemHeigth(Data::ModelIndexInfoSet::level_iterator) const;
         QSize getItemSize(Data::ModelIndexInfoSet::level_iterator) const;
         std::pair<int, int> selectRowFor(Data::ModelIndexInfoSet::level_iterator) const;
+        int getFirstItemOffset(Data::ModelIndexInfoSet::level_iterator) const;
 
         bool isRoot(Data::ModelIndexInfoSet::level_iterator) const;
 

@@ -51,7 +51,7 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::level_iterator 
 {
     QRect result;
 
-    Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
+    const Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
 
     if (it_parent.valid())              //do not enter for top item
     {
@@ -59,7 +59,7 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::level_iterator 
 
         if (it.index() == 0)  //first
         {
-            const QPoint point = calcPositionOfFirstChild(it_parent);
+            const QPoint point = calcPositionOfFirst(it);
 
             result = QRect(point, item_size);
         }
@@ -92,7 +92,7 @@ QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::level_iter
     if (it_parent.valid())              //do not enter for top item
     {
         if (it.index() == 0)  //first
-            result = calcPositionOfFirstChild(it_parent);
+            result = calcPositionOfFirst(it);
         else
         {
             Data::ModelIndexInfoSet::level_iterator it_sibling = it - 1;
@@ -167,15 +167,31 @@ QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::leve
 }
 
 
-QPoint PositionsCalculator::calcPositionOfFirstChild(Data::ModelIndexInfoSet::level_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfFirst(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    QPoint result(0, 0);
+    Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
 
-    if (isRoot(infoIt) == false)           // regular item
-    {
-        const QRect r = calcItemRect(infoIt);
-        result = QPoint(m_data->getImageMargin(), r.y() + r.height());
-    }
+    const bool image = m_data->isImage(infoIt);
+    const QPoint result = image? calcPositionOfFirstImage(parentIt):
+                                 calcPositionOfFirstNode(parentIt);
+
+    return result;
+}
+
+
+QPoint PositionsCalculator::calcPositionOfFirstNode(ViewDataSet<ModelIndexInfo>::level_iterator infoIt) const
+{
+    const int y_offset = getFirstItemOffset(infoIt);
+    const QPoint result(0, y_offset);
+
+    return result;
+}
+
+
+QPoint PositionsCalculator::calcPositionOfFirstImage(ViewDataSet<ModelIndexInfo>::level_iterator infoIt) const
+{
+    const int y_offset = getFirstItemOffset(infoIt);
+    const QPoint result(m_data->getImageMargin(), y_offset);
 
     return result;
 }
@@ -242,6 +258,22 @@ std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::l
     }
 
     return std::make_pair(firstIt.index(), lastIt.index());
+}
+
+
+int PositionsCalculator::getFirstItemOffset(ViewDataSet<ModelIndexInfo>::level_iterator infoIt) const
+{
+    int y_offset = 0;
+
+    // for all parents but very top node we need to calculate offset
+    if (isRoot(infoIt) == false)
+    {
+        // TODO: why to calculate? This should be already done
+        const QRect r = calcItemRect(infoIt);
+        y_offset = r.bottom() + 1;
+    }
+
+    return y_offset;
 }
 
 
