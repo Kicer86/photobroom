@@ -444,7 +444,7 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     data.set(&model);
     data.setThumbHeight(50);
 
-    const int margin = data.getMargin();
+    const int margin = data.getImageMargin();
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
