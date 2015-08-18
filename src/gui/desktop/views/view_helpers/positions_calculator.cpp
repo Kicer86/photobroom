@@ -268,6 +268,7 @@ int PositionsCalculator::getFirstItemOffset(ViewDataSet<ModelIndexInfo>::level_i
     // for all parents but very top node we need to calculate offset
     if (isRoot(infoIt) == false)
     {
+        // TODO: why to calculate? This should be already done
         const QRect r = calcItemRect(infoIt);
         y_offset = r.bottom() + 1;
     }
