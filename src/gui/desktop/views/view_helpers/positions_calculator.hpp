@@ -58,7 +58,6 @@ class PositionsCalculator
 
         bool isRoot(Data::ModelIndexInfoSet::level_iterator) const;
 
-        void updateItems(Data::ModelIndexInfoSet::level_iterator) const;
         void updateItem(Data::ModelIndexInfoSet::level_iterator) const;
 
         QAbstractItemModel* m_model;
