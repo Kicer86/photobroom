@@ -43,7 +43,7 @@ void PositionsCalculator::updateItems() const
 {
     assert(m_data->getModel().validate());
 
-    updateItems(m_data->getModel().begin());
+    updateItem(m_data->getModel().begin());
 }
 
 
@@ -268,8 +268,8 @@ int PositionsCalculator::getFirstItemOffset(ViewDataSet<ModelIndexInfo>::level_i
     // for all parents but very top node we need to calculate offset
     if (isRoot(infoIt) == false)
     {
-        // TODO: why to calculate? This should be already done
-        const QRect r = calcItemRect(infoIt);
+        assert(infoIt->isPositionValid());
+        const QRect r = infoIt->getRect();
         y_offset = r.bottom() + 1;
     }
 
@@ -282,23 +282,6 @@ bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::level_iterator it)
     Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
 
     return it_parent.valid() == false;
-}
-
-
-void PositionsCalculator::updateItems(Data::ModelIndexInfoSet::level_iterator item) const
-{
-    const bool invalid = item->valid() == false;
-
-    if (invalid)
-    {
-        const bool expanded = m_data->isExpanded(item);
-
-        if (expanded)
-            for(Data::ModelIndexInfoSet::level_iterator c_it = item.begin(); c_it.valid(); ++c_it)
-                updateItems(c_it);
-
-        updateItem(item);
-    }
 }
 
 
@@ -321,10 +304,18 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
 
     if (info.getOverallSize().isValid() == false)
     {
+        const bool& expanded = info.expanded;
+
+        // update children
+        if (expanded)
+            for(Data::ModelIndexInfoSet::level_iterator c_it = infoIt.begin(); c_it != infoIt.end(); ++c_it)
+                updateItem(c_it);
+
+        // calculate overall size
         QSize rect = info.getSize();
 
         //calculate overall only if node is expanded and has any children
-        if (infoIt.children_count() != 0 && m_data->isExpanded(infoIt))
+        if (infoIt.children_count() != 0 && expanded)
         {
             const QPoint offset = info.getPosition();
 
