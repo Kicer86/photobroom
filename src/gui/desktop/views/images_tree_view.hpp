@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef IMAGESTREEVIEW_H
-#define IMAGESTREEVIEW_H
+#ifndef IMAGESTREEVIEW_HPP
+#define IMAGESTREEVIEW_HPP
 
 #include <QAbstractItemView>
 
@@ -97,4 +97,4 @@ class ImagesTreeView: public QAbstractItemView
         void refreshView();
 };
 
-#endif // IMAGESTREEVIEW_H
+#endif // IMAGESTREEVIEW_HPP
