@@ -363,6 +363,13 @@ void MainWindow::on_actionAbout_Qt_triggered()
 }
 
 
+
+void MainWindow::on_actionConfiguration_triggered()
+{
+
+}
+
+
 void MainWindow::projectOpened(const Database::BackendStatus& status)
 {
     switch(status.get())

@@ -82,13 +82,15 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
+        // settings menu
+        void on_actionConfiguration_triggered();
+
         //internal slots
         void projectOpened(const Database::BackendStatus &);
 
         //check version
         void checkVersion();
 
-    private:
         void currentVersion(const IUpdater::OnlineVersion &);
         void projectOpenedNotification(const Database::BackendStatus &);
 
