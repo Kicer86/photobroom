@@ -33,6 +33,7 @@ set(GUI_SOURCES
     desktop/views/view_helpers/positions_reseter.cpp
     desktop/views/images_tree_view.cpp
     desktop/views/tree_item_delegate.cpp
+    desktop/ui/configuration_dialog.cpp
     desktop/ui/mainwindow.cpp
     desktop/ui/photos_add_dialog.cpp
     desktop/ui/photos_view.cpp
@@ -48,6 +49,7 @@ set(GUI_HEADERS
     desktop/views/view_helpers/view_data_set.hpp
     desktop/views/images_tree_view.hpp
     desktop/views/tree_item_delegate.hpp
+    desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp
@@ -58,6 +60,7 @@ set(GUI_HEADERS
 set(GUI_FILES_TO_MOC
     desktop/views/images_tree_view.hpp
     desktop/views/view_helpers/view_data_set.hpp
+    desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp
     desktop/ui/photos_view.hpp
@@ -66,7 +69,9 @@ set(GUI_FILES_TO_MOC
 
 set(GUI_RESOURCE_FILES desktop/images.qrc)
 
-set(GUI_UI_FILES desktop/ui/mainwindow.ui
+set(GUI_UI_FILES
+                 desktop/ui/configuration_dialog.ui
+                 desktop/ui/mainwindow.ui
                  desktop/ui/photos_add_dialog.ui
                  desktop/ui/photos_view.ui
                  desktop/ui/project_picker.ui

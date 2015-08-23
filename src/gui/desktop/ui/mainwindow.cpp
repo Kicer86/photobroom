@@ -28,6 +28,7 @@
 #include "widgets/photos_widget.hpp"
 #include "utils/photos_collector.hpp"
 #include "ui/photos_add_dialog.hpp"
+#include "ui/configuration_dialog.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -366,7 +367,9 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionConfiguration_triggered()
 {
+    ConfigurationDialog config(this);
 
+    config.exec();
 }
 
 
