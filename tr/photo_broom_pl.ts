@@ -30,6 +30,14 @@
     </message>
 </context>
 <context>
+    <name>ConfigurationDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IdxDataManager</name>
     <message>
         <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+867"/>
@@ -220,7 +228,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+129"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+130"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -256,7 +264,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+169"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -362,7 +370,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-52"/>
+        <location line="-54"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
