@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_imagesModel(nullptr),
     m_configuration(nullptr),
     m_updater(nullptr),
+    m_executor(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer)
 {
     qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
