@@ -21,6 +21,10 @@ public:
 
 private:
     Ui::ConfigurationDialog *ui;
+
+private slots:
+    void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
 };
 
 #endif // CONFIGURATION_DIALOG_HPP
