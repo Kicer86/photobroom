@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_executor(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer)
 {
-    qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
+    qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
 
     ui->setupUi(this);
