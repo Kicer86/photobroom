@@ -3,28 +3,29 @@
 
 #include <QDialog>
 
-namespace Ui {
-class ConfigurationDialog;
+namespace Ui
+{
+    class ConfigurationDialog;
 }
 
 class ConfigurationDialog : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit ConfigurationDialog(QWidget *parent = 0);
-    ConfigurationDialog(const ConfigurationDialog &) = delete;
+    public:
+        explicit ConfigurationDialog(QWidget *parent = 0);
+        ConfigurationDialog(const ConfigurationDialog &) = delete;
 
-    virtual ~ConfigurationDialog();
+        virtual ~ConfigurationDialog();
 
-    ConfigurationDialog& operator=(const ConfigurationDialog &) = delete;
+        ConfigurationDialog& operator=(const ConfigurationDialog &) = delete;
 
-private:
-    Ui::ConfigurationDialog *ui;
+    private:
+        Ui::ConfigurationDialog *ui;
 
-private slots:
-    void on_buttonBox_accepted();
-    void on_buttonBox_rejected();
+    private slots:
+        void on_buttonBox_accepted();
+        void on_buttonBox_rejected();
 };
 
 #endif // CONFIGURATION_DIALOG_HPP
