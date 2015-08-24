@@ -13,7 +13,11 @@ class ConfigurationDialog : public QDialog
 
 public:
     explicit ConfigurationDialog(QWidget *parent = 0);
-    ~ConfigurationDialog();
+    ConfigurationDialog(const ConfigurationDialog &) = delete;
+
+    virtual ~ConfigurationDialog();
+
+    ConfigurationDialog& operator=(const ConfigurationDialog &) = delete;
 
 private:
     Ui::ConfigurationDialog *ui;
