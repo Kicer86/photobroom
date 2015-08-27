@@ -42,6 +42,7 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
+    desktop/ithread_multiplexer.hpp
     desktop/views/view_helpers/data.hpp
     desktop/views/view_helpers/model_index_info.hpp
     desktop/views/view_helpers/positions_calculator.hpp
