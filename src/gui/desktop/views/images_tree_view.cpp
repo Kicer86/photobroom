@@ -28,8 +28,6 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-#include <configuration/constants.hpp>
-#include <configuration/iconfiguration.hpp>
 #include <core/time_guardian.hpp>
 
 #include "view_helpers/data.hpp"
@@ -56,20 +54,6 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
 ImagesTreeView::~ImagesTreeView()
 {
 
-}
-
-
-void ImagesTreeView::set(IConfiguration* configuration)
-{
-    configuration->setDefaultValue(ConfigConsts::BasicKeys::thumbnailWidth, 120);
-
-    m_data->set(configuration);
-
-    const QVariant widthEntry = m_data->getConfig()->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
-    assert(widthEntry.isValid());
-    const int width = widthEntry.toInt();
-
-    setThumbnailSize(width);
 }
 
 
