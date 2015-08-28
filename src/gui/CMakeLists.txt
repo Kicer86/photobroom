@@ -10,7 +10,8 @@ include_directories(${CMAKE_BINARY_DIR}/
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
-                    ${CMAKE_SOURCE_DIR}/src/gui/desktop)
+                    ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>)
 
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
@@ -41,6 +42,7 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
+    desktop/config_keys.hpp
     desktop/ithread_multiplexer.hpp
     desktop/views/view_helpers/data.hpp
     desktop/views/view_helpers/model_index_info.hpp
