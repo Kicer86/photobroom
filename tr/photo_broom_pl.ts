@@ -273,7 +273,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+132"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+133"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -514,25 +514,22 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_view.ui" line="+14"/>
         <source>Photos view</source>
-        <translation>Podgląd zdjęć</translation>
+        <translation type="vanished">Podgląd zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_view.cpp" line="+37"/>
         <source>Date and time</source>
-        <translation>Data i godzina</translation>
+        <translation type="vanished">Data i godzina</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>People</source>
-        <translation>Osoby</translation>
+        <translation type="vanished">Osoby</translation>
     </message>
 </context>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+33"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+35"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
