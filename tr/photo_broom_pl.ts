@@ -273,7 +273,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+131"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+132"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -309,7 +309,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+167"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -415,7 +415,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-52"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
