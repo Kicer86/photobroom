@@ -19,11 +19,13 @@
 
 #include "photos_widget.hpp"
 
-
 #include <QPainter>
+
+#include <configuration/iconfiguration.hpp>
 
 #include "models/db_data_model.hpp"
 #include "info_widget.hpp"
+#include "config_keys.hpp"
 
 
 PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
@@ -39,6 +41,19 @@ PhotosWidget::~PhotosWidget()
 {
 
 }
+
+
+void PhotosWidget::set(IConfiguration* configuration)
+{
+    configuration->setDefaultValue(ViewConfigKeys::itemsSpacing, 2);
+
+    const QVariant marginEntry = configuration->getEntry(ViewConfigKeys::itemsSpacing);
+    assert(marginEntry.isValid());
+    const int spacing = marginEntry.toInt();
+
+    setSpacing(spacing);
+}
+
 
 
 void PhotosWidget::paintEvent(QPaintEvent* event)

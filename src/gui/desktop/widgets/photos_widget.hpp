@@ -35,6 +35,8 @@ class PhotosWidget: public ImagesTreeView
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
+        void set(IConfiguration *);
+
     private:
         InfoBaloonWidget* m_info;
 
