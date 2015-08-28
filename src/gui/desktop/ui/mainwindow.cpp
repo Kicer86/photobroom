@@ -84,6 +84,7 @@ void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
     m_photosAnalyzer->set(configuration);
+    ui->imagesView->set(configuration);
 
     loadGeometry();
 }
