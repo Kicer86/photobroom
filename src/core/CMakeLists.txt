@@ -75,6 +75,7 @@ set(CORE_SOURCES
     task_executor.hpp                                       implementation/task_executor.cpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
+    thread_utils.hpp
 
     # internal implementation
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
@@ -92,6 +93,10 @@ elseif(WIN32)
     list(APPEND CORE_SOURCES implementation/file_lock_win.cpp)
 else()
     message(FATAL "No file lock implementation for your operating system.")
+endif()
+
+if(CMAKE_USE_PTHREADS_INIT)
+    set(CORE_SOURCES ${CORE_SOURCES} implementation/thread_utils_pthreads.cpp)
 endif()
 
 set(CORE_RESOURCE_FILES     images/images.qrc)
