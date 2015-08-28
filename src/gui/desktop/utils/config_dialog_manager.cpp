@@ -19,6 +19,9 @@
 
 #include "config_dialog_manager.hpp"
 
+#include "ui/configuration_dialog.hpp"
+
+
 ConfigDialogManager::ConfigDialogManager()
 {
 
@@ -29,3 +32,12 @@ ConfigDialogManager::~ConfigDialogManager()
 {
 
 }
+
+
+void ConfigDialogManager::run()
+{
+    ConfigurationDialog config;
+
+    config.exec();
+}
+

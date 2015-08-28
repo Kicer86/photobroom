@@ -26,9 +26,9 @@
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
+#include "utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
 #include "ui/photos_add_dialog.hpp"
-#include "ui/configuration_dialog.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -41,7 +41,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_updater(nullptr),
     m_executor(nullptr),
-    m_photosAnalyzer(new PhotosAnalyzer)
+    m_photosAnalyzer(new PhotosAnalyzer),
+    m_configDialogManager(new ConfigDialogManager)
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -368,9 +369,7 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionConfiguration_triggered()
 {
-    ConfigurationDialog config(this);
-
-    config.exec();
+    m_configDialogManager->run();
 }
 
 

@@ -11,6 +11,7 @@
 
 class PhotosCollector;
 class PhotosAnalyzer;
+class ConfigDialogManager;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -53,6 +54,7 @@ class MainWindow: public QMainWindow
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
+        std::unique_ptr<ConfigDialogManager> m_configDialogManager;
 
         void closeEvent(QCloseEvent *) override;
 

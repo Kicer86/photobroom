@@ -28,6 +28,10 @@ class ConfigDialogManager
         ~ConfigDialogManager();
 
         ConfigDialogManager& operator=(const ConfigDialogManager &) = delete;
+
+        void run();
+
+    private:
 };
 
 #endif // CONFIGDIALOGMANAGER_HPP
