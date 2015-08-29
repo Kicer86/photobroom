@@ -9,9 +9,10 @@
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
+class ConfigDialogManager;
+class MainTabControler;
 class PhotosCollector;
 class PhotosAnalyzer;
-class ConfigDialogManager;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProject;
@@ -55,6 +56,7 @@ class MainWindow: public QMainWindow
         ITaskExecutor*            m_executor;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
+        std::unique_ptr<MainTabControler> m_mainTabCtrl;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -66,6 +68,7 @@ class MainWindow: public QMainWindow
         void updateGui();
         void updateTools();
         void updateWidgets();
+        void registerConfigTab();
 
         void loadGeometry();
 
