@@ -96,6 +96,7 @@ add_library(gui
             $<TARGET_OBJECTS:gui_models>
             $<TARGET_OBJECTS:gui_utils>
             $<TARGET_OBJECTS:gui_widgets>
+            $<TARGET_OBJECTS:gui_config_tabs>
            )
 
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system updater ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
