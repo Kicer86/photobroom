@@ -38,6 +38,11 @@
     </message>
     <message>
         <location line="+13"/>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+52"/>
         <source>Look</source>
         <translation type="unfinished"></translation>
     </message>
@@ -62,12 +67,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+30"/>
-        <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="-101"/>
         <source>Updates</source>
         <translation type="unfinished"></translation>
     </message>
@@ -164,6 +164,37 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
         <source>Grouping:</source>
         <translation>Grupowanie:</translation>
+    </message>
+</context>
+<context>
+    <name>MainTab</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+17"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Check frequency:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainTabControler</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+41"/>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -273,7 +304,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+133"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+136"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -309,7 +340,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+173"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
