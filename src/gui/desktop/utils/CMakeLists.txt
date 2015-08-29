@@ -16,6 +16,7 @@ set(UTILS_SOURCES
 
 set(UTILS_HEADERS
     config_dialog_manager.hpp
+    iconfig_dialog_manager.hpp
     photos_collector.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
