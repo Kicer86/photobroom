@@ -22,7 +22,7 @@
 #include "ui/configuration_dialog.hpp"
 
 
-ConfigDialogManager::ConfigDialogManager()
+ConfigDialogManager::ConfigDialogManager(): m_tabs()
 {
 
 }
@@ -38,6 +38,46 @@ void ConfigDialogManager::run()
 {
     ConfigurationDialog config;
 
+    for(auto& tab: m_tabs)
+    {
+        IConfigTab* confTab = tab.second;
+
+        QWidget* w = confTab->constructTab();
+        const QString name = confTab->tabName();
+
+        config.addTab(name, w);
+    }
+
+    connect(&config, &ConfigurationDialog::saveData, this, &ConfigDialogManager::applyConfiguration);
+
     config.exec();
 }
 
+
+void ConfigDialogManager::registerTab(IConfigTab* tab)
+{
+    const QString id = tab->tabId();
+
+    m_tabs[id] = tab;
+}
+
+
+void ConfigDialogManager::unregisterTab(IConfigTab* tab)
+{
+    const QString id = tab->tabId();
+
+    m_tabs.erase(id);
+}
+
+
+void ConfigDialogManager::applyConfiguration()
+{
+    for(const auto& tab: m_tabs)
+        tab.second->applyConfiguration();
+}
+
+
+void ConfigDialogManager::initDialog()
+{
+
+}

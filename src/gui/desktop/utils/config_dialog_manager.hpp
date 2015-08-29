@@ -20,7 +20,9 @@
 #ifndef CONFIGDIALOGMANAGER_HPP
 #define CONFIGDIALOGMANAGER_HPP
 
-class ConfigDialogManager
+#include "iconfig_dialog_manager.hpp"
+
+class ConfigDialogManager: public QObject, public IConfigDialogManager
 {
     public:
         ConfigDialogManager();
@@ -31,7 +33,15 @@ class ConfigDialogManager
 
         void run();
 
+        // IConfigDialogManager:
+        virtual void registerTab(IConfigTab *) override;
+        virtual void unregisterTab(IConfigTab *) override;
+
     private:
+        std::map<QString, IConfigTab *> m_tabs;
+
+        void applyConfiguration();
+        void initDialog();
 };
 
 #endif // CONFIGDIALOGMANAGER_HPP
