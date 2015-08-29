@@ -22,9 +22,10 @@ if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
 
-add_subdirectory(desktop/widgets)
-add_subdirectory(desktop/utils)
+add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
+add_subdirectory(desktop/utils)
+add_subdirectory(desktop/widgets)
 
 set(GUI_SOURCES
     desktop/gui.cpp
