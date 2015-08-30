@@ -2,19 +2,23 @@
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(CONFIG_TABS_SOURCES
+    look_tab.cpp
     main_tab.cpp
     )
 
 set(CONFIG_TABS_HEADERS
+    look_tab.hpp
     main_tab.hpp
     )
 
 
 set(CONFIG_TABS_FILES_TO_MOC
+    look_tab.hpp
     main_tab.hpp
     )
 
 set(CONFIG_TABS_UI_FILES
+    look_tab.ui
     main_tab.ui
     )
 
