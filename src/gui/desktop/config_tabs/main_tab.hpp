@@ -2,7 +2,13 @@
 #define MAIN_TAB_HPP
 
 #include <QWidget>
+
 #include <utils/iconfig_dialog_manager.hpp>
+
+class QCheckBox;
+class QComboBox;
+
+class IConfiguration;
 
 namespace Ui
 {
@@ -20,6 +26,9 @@ class MainTab: public QWidget
 
         MainTab& operator=(const MainTab &) = delete;
 
+        QCheckBox* updateCheckBox();
+        QComboBox* updateFrequency();
+
     private:
         Ui::MainTab *ui;
 };
@@ -32,6 +41,8 @@ class MainTabControler: public QObject, public IConfigTab
         MainTabControler(const MainTabControler &) = delete;
         virtual ~MainTabControler();
 
+        void set(IConfiguration *);
+
         MainTabControler& operator=(const MainTabControler &) = delete;
 
         QString tabId() const override;
@@ -42,6 +53,7 @@ class MainTabControler: public QObject, public IConfigTab
         void rejectConfiguration() override;
 
     private:
+        IConfiguration* m_configuration;
         MainTab* m_tabWidget;
 };
 
