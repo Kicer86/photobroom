@@ -15,7 +15,7 @@ MainTab::MainTab(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    const QStringList checks = { tr("Never"), tr("Daily"), tr("Weekly")  };
+    const QStringList checks = { tr("Every day"), tr("Every 3 days"), tr("Every Week") };
     ui->freqComboBox->addItems(checks);
 }
 
