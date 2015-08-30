@@ -21,6 +21,7 @@
 
 #include "config.hpp"
 
+#include "config_keys.hpp"
 #include "config_tabs/main_tab.hpp"
 #include "models/photos_data_model.hpp"
 #include "models//staged_photos_data_model.hpp"
@@ -86,6 +87,13 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+
+    // setup defaults
+    m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
+    m_configuration->setDefaultValue(UpdateConfigKeys::updateFrequency, 1);
+
+    //
+    m_mainTabCtrl->set(configuration);
     m_photosAnalyzer->set(configuration);
     ui->imagesView->set(configuration);
 
