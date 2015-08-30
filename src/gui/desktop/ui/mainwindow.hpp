@@ -10,6 +10,7 @@
 #include <updater/iupdater.hpp>
 
 class ConfigDialogManager;
+class LookTabControler;
 class MainTabControler;
 class PhotosCollector;
 class PhotosAnalyzer;
@@ -57,6 +58,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
+        std::unique_ptr<LookTabControler> m_lookTabCtrl;
 
         void closeEvent(QCloseEvent *) override;
 

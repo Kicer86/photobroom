@@ -22,6 +22,7 @@
 #include "config.hpp"
 
 #include "config_keys.hpp"
+#include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
 #include "models/photos_data_model.hpp"
 #include "models//staged_photos_data_model.hpp"
@@ -45,7 +46,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_executor(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_configDialogManager(new ConfigDialogManager),
-    m_mainTabCtrl(new MainTabControler)
+    m_mainTabCtrl(new MainTabControler),
+    m_lookTabCtrl(new LookTabControler)
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -284,6 +286,7 @@ void MainWindow::updateWidgets()
 void MainWindow::registerConfigTab()
 {
     m_configDialogManager->registerTab(m_mainTabCtrl.get());
+    m_configDialogManager->registerTab(m_lookTabCtrl.get());
 }
 
 
