@@ -170,17 +170,17 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
-        <source>Never</source>
+        <source>Every day</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Daily</source>
+        <source>Every 3 days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Weekly</source>
+        <source>Every Week</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
