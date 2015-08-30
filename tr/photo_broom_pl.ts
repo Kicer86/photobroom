@@ -38,11 +38,6 @@
     </message>
     <message>
         <location line="+13"/>
-        <source>Main</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+52"/>
         <source>Look</source>
         <translation type="unfinished"></translation>
     </message>
@@ -64,21 +59,6 @@
     <message>
         <location line="+20"/>
         <source>Images spacing:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-101"/>
-        <source>Updates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Check for updates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Check frequency:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -319,7 +299,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+150"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
