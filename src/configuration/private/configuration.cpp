@@ -68,10 +68,12 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
     {
         if (value.isString())
             v_result = value.asCString();
-        else if(value.isInt())
+        else if (value.isInt())
             v_result = value.asInt();
-        else if(value.isInt64())
+        else if (value.isInt64())
             v_result = value.asInt64();
+        else if (value.isBool())
+            v_result = value.asBool();
         else if(value.isNull())
         {}
         else
@@ -88,12 +90,14 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
     {
         if (entry_value.type() == QVariant::String)
             value = entry_value.toString().toStdString();
-        else if(entry_value.type() == QVariant::Int)
+        else if (entry_value.type() == QVariant::Int)
             value = entry_value.toInt();
-        else if(entry_value.type() == QVariant::ByteArray)
+        else if (entry_value.type() == QVariant::ByteArray)
             value = entry_value.toByteArray().data();
-        else if(entry_value.type() == QVariant::LongLong)
+        else if (entry_value.type() == QVariant::LongLong)
             value = entry_value.toLongLong();
+        else if (entry_value.type() == QVariant::Bool)
+            value = entry_value.toBool();
         else
             assert(!"unsupported type");
     });
