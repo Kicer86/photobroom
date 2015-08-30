@@ -4,6 +4,13 @@
 
 #include <QWidget>
 
+#include <utils/iconfig_dialog_manager.hpp>
+
+class QCheckBox;
+class QComboBox;
+
+struct IConfiguration;
+
 namespace Ui
 {
     class LookTab;
@@ -22,6 +29,31 @@ class LookTab : public QWidget
 
     private:
         Ui::LookTab* ui;
+};
+
+
+
+class LookTabControler: public QObject, public IConfigTab
+{
+    public:
+        LookTabControler();
+        LookTabControler(const LookTabControler &) = delete;
+        virtual ~LookTabControler();
+
+        void set(IConfiguration *);
+
+        LookTabControler& operator=(const LookTabControler &) = delete;
+
+        QString tabId() const override;
+        QString tabName() const override;
+
+        QWidget* constructTab() override;
+        void applyConfiguration() override;
+        void rejectConfiguration() override;
+
+    private:
+        IConfiguration* m_configuration;
+        LookTab* m_tabWidget;
 };
 
 #endif // LOOK_TAB_HPP
