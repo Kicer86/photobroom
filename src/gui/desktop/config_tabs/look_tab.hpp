@@ -6,8 +6,8 @@
 
 #include <utils/iconfig_dialog_manager.hpp>
 
-class QCheckBox;
-class QComboBox;
+class QPushButton;
+class QSpinBox;
 
 struct IConfiguration;
 
@@ -24,6 +24,10 @@ class LookTab : public QWidget
         explicit LookTab(QWidget* parent = 0);
         LookTab(const LookTab &) = delete;
         ~LookTab();
+
+        QPushButton* color1Button();
+        QPushButton* color2Button();
+        QSpinBox*    spacingSpinBox();
 
         LookTab& operator=(const LookTab &) = delete;
 

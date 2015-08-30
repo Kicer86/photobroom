@@ -18,6 +18,24 @@ LookTab::~LookTab()
 }
 
 
+QPushButton* LookTab::color1Button()
+{
+    return ui->color1Button;
+}
+
+
+QPushButton* LookTab::color2Button()
+{
+    return ui->color2Button;
+}
+
+
+QSpinBox* LookTab::spacingSpinBox()
+{
+    return ui->spacingSpinBox;
+}
+
+
 
 LookTabControler::LookTabControler(): m_configuration(nullptr), m_tabWidget(nullptr)
 {
