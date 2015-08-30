@@ -124,7 +124,7 @@ void MainWindow::set(IUpdater* updater)
 
         const int freqHours[] = {23, 71, 167};
 
-        if (diff > freqHours[frequency])
+        if (diff > freqHours[frequency] || diff < 0)    // negative diff may be a result of broken config or changed clock settings
         {
             QTimer::singleShot(10000, this, &MainWindow::checkVersion);
 
