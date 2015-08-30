@@ -8,7 +8,7 @@
 class QCheckBox;
 class QComboBox;
 
-class IConfiguration;
+struct IConfiguration;
 
 namespace Ui
 {
