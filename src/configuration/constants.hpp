@@ -17,7 +17,7 @@ namespace ConfigConsts
 
     struct CONFIGURATION_EXPORT BasicKeys
     {
-        static const char* const thumbnailWidth;
+        [[deprecated("should be moved to database module")]] static const char* const thumbnailWidth;
     };
 
 }
