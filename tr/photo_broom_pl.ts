@@ -36,31 +36,6 @@
         <source>Configuration</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location line="+13"/>
-        <source>Look</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Images List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Expanded node color #1:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Expanded node color #2:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Images spacing:</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>IdxDataManager</name>
@@ -144,6 +119,37 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
         <source>Grouping:</source>
         <translation>Grupowanie:</translation>
+    </message>
+</context>
+<context>
+    <name>LookTab</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+17"/>
+        <source>Images List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Expanded node color #1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Expanded node color #2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Images spacing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LookTabControler</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+44"/>
+        <source>Look</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -299,7 +305,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+150"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+152"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -335,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+174"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
