@@ -56,7 +56,7 @@ void ConfigDialogManager::run()
 
 void ConfigDialogManager::registerTab(IConfigTab* tab)
 {
-    const QString id = tab->tabId();
+    const int id = tab->tabId();
 
     m_tabs[id] = tab;
 }
@@ -64,7 +64,7 @@ void ConfigDialogManager::registerTab(IConfigTab* tab)
 
 void ConfigDialogManager::unregisterTab(IConfigTab* tab)
 {
-    const QString id = tab->tabId();
+    const int id = tab->tabId();
 
     m_tabs.erase(id);
 }

@@ -38,7 +38,7 @@ class ConfigDialogManager: public QObject, public IConfigDialogManager
         virtual void unregisterTab(IConfigTab *) override;
 
     private:
-        std::map<QString, IConfigTab *> m_tabs;
+        std::map<int, IConfigTab *> m_tabs;
 
         void applyConfiguration();
         void initDialog();

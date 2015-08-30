@@ -44,7 +44,7 @@ class LookTabControler: public QObject, public IConfigTab
 
         LookTabControler& operator=(const LookTabControler &) = delete;
 
-        QString tabId() const override;
+        int tabId() const override;
         QString tabName() const override;
 
         QWidget* constructTab() override;

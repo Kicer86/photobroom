@@ -57,9 +57,9 @@ void MainTabControler::set(IConfiguration* configuration)
 
 
 
-QString MainTabControler::tabId() const
+int MainTabControler::tabId() const
 {
-    return "MainTab";
+    return 0;
 }
 
 

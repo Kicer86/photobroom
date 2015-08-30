@@ -45,7 +45,7 @@ class MainTabControler: public QObject, public IConfigTab
 
         MainTabControler& operator=(const MainTabControler &) = delete;
 
-        QString tabId() const override;
+        int tabId() const override;
         QString tabName() const override;
 
         QWidget* constructTab() override;

@@ -28,7 +28,7 @@ struct IConfigTab
 {
     virtual ~IConfigTab() {}
 
-    virtual QString tabId() const = 0;
+    virtual int tabId() const = 0;
     virtual QString tabName() const = 0;
 
     virtual QWidget* constructTab() = 0;
