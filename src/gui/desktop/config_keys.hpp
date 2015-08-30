@@ -4,7 +4,9 @@
 
 namespace ViewConfigKeys
 {
-    const char* const itemsSpacing = "view::spacing";
+    const char* const itemsMargin    = "view::margin";
+    const char* const itemsSpacing   = "view::spacing";
+    const char* const thumbnailWidth = "view::thumbnailWidth";
 }
 
 namespace UpdateConfigKeys
