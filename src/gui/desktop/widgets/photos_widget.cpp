@@ -45,8 +45,6 @@ PhotosWidget::~PhotosWidget()
 
 void PhotosWidget::set(IConfiguration* configuration)
 {
-    configuration->setDefaultValue(ViewConfigKeys::itemsSpacing, 2);
-
     const QVariant marginEntry = configuration->getEntry(ViewConfigKeys::itemsSpacing);
     assert(marginEntry.isValid());
     const int spacing = marginEntry.toInt();

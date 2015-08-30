@@ -94,6 +94,10 @@ void MainWindow::set(IConfiguration* configuration)
     m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
     m_configuration->setDefaultValue(UpdateConfigKeys::updateFrequency, 1);
 
+    m_configuration->setDefaultValue(ViewConfigKeys::itemsMargin,    10);
+    m_configuration->setDefaultValue(ViewConfigKeys::itemsSpacing,   2);
+    m_configuration->setDefaultValue(ViewConfigKeys::thumbnailWidth, 120);
+
     //
     m_mainTabCtrl->set(configuration);
     m_photosAnalyzer->set(configuration);
