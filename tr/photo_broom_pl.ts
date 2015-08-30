@@ -169,7 +169,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>MainTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+17"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+14"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -188,11 +188,26 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <source>Check frequency:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
+        <source>Never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Weekly</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainTabControler</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+41"/>
+        <location line="+50"/>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
@@ -304,7 +319,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+136"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
