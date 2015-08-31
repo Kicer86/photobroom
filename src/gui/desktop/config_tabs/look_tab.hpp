@@ -58,6 +58,9 @@ class LookTabControler: public QObject, public IConfigTab
     private:
         IConfiguration* m_configuration;
         LookTab* m_tabWidget;
+
+        QColor intToColor(u_int32_t) const;
+        u_int32_t colorToInt(const QColor &) const;
 };
 
 #endif // LOOK_TAB_HPP
