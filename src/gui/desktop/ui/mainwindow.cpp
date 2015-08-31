@@ -100,6 +100,7 @@ void MainWindow::set(IConfiguration* configuration)
 
     //
     m_mainTabCtrl->set(configuration);
+    m_lookTabCtrl->set(configuration);
     m_photosAnalyzer->set(configuration);
     ui->imagesView->set(configuration);
 
