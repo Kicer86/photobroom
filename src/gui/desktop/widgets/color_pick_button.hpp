@@ -39,6 +39,7 @@ class ColorPickButton: public QPushButton
         QColor m_color;
 
         void applyColor();
+        void pickColor();
 };
 
 #endif // COLORPICKBUTTON_HPP

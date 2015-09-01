@@ -19,12 +19,16 @@
 
 #include "color_pick_button.hpp"
 
+#include <QColorDialog>
+
 
 ColorPickButton::ColorPickButton(QWidget* p): QPushButton(p), m_color(QColor(255, 255, 255))
 {
     applyColor();
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::QSizePolicy::Fixed);
+
+    connect(this, &QPushButton::pressed, this, &ColorPickButton::pickColor);
 }
 
 
@@ -54,4 +58,12 @@ void ColorPickButton::applyColor()
     pixmap.fill(m_color);
 
     setIcon(pixmap);
+}
+
+
+void ColorPickButton::pickColor()
+{
+    m_color = QColorDialog::getColor();
+
+    applyColor();
 }
