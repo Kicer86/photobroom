@@ -36,6 +36,8 @@ class MainTab: public QWidget
 
 class MainTabControler: public QObject, public IConfigTab
 {
+        Q_OBJECT
+
     public:
         MainTabControler();
         MainTabControler(const MainTabControler &) = delete;

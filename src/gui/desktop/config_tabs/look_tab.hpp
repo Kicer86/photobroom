@@ -39,6 +39,8 @@ class LookTab : public QWidget
 
 class LookTabControler: public QObject, public IConfigTab
 {
+        Q_OBJECT
+
     public:
         LookTabControler();
         LookTabControler(const LookTabControler &) = delete;
