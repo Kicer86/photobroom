@@ -98,6 +98,8 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
             value = entry_value.toLongLong();
         else if (entry_value.type() == QVariant::Bool)
             value = entry_value.toBool();
+        else if (entry_value.type() == QVariant::UInt)
+            value = entry_value.toUInt();
         else
             assert(!"unsupported type");
     });
