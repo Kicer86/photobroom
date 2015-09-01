@@ -30,6 +30,15 @@ class ColorPickButton: public QPushButton
         ~ColorPickButton();
 
         ColorPickButton& operator=(const ColorPickButton &) = delete;
+
+        void setColor(const QColor &);
+
+        const QColor& getColor() const;
+
+    private:
+        QColor m_color;
+
+        void applyColor();
 };
 
 #endif // COLORPICKBUTTON_HPP
