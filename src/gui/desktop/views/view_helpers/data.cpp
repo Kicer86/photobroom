@@ -30,12 +30,6 @@
 #include <configuration/iconfiguration.hpp>
 
 
-namespace
-{
-    const char* spacingConfigKey = "view::spacing";
-}
-
-
 
 Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
@@ -53,17 +47,6 @@ void Data::set(QAbstractItemModel* model)
 {
     m_model = model;
     m_itemData->set(model);
-}
-
-
-void Data::set(IConfiguration* configuration)
-{
-    m_configuration = configuration;
-    configuration->setDefaultValue(spacingConfigKey, 2);
-
-    const QVariant marginEntry = m_configuration->getEntry(spacingConfigKey);
-    assert(marginEntry.isValid());
-    m_spacing = marginEntry.toInt();
 }
 
 

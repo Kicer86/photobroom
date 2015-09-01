@@ -30,6 +30,14 @@
     </message>
 </context>
 <context>
+    <name>ConfigurationDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IdxDataManager</name>
     <message>
         <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+867"/>
@@ -114,6 +122,83 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
 </context>
 <context>
+    <name>LookTab</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+17"/>
+        <source>Images List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Expanded node color #1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Expanded node color #2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Images spacing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LookTabControler</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+67"/>
+        <source>Look</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainTab</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Check frequency:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
+        <source>Every day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Every 3 days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Every Week</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainTabControler</name>
+    <message>
+        <location line="+50"/>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
@@ -151,7 +236,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">&amp;Okna</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -160,12 +245,17 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Podpowiedź</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-28"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+16"/>
+        <source>Settin&amp;gs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>&amp;Tasks</source>
         <translation>&amp;Operacje</translation>
     </message>
@@ -210,7 +300,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+129"/>
+        <location line="+5"/>
+        <source>&amp;Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+159"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -246,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+160"/>
+        <location line="+174"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -352,7 +447,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="-45"/>
+        <location line="-52"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -451,25 +546,22 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_view.ui" line="+14"/>
         <source>Photos view</source>
-        <translation>Podgląd zdjęć</translation>
+        <translation type="vanished">Podgląd zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_view.cpp" line="+37"/>
         <source>Date and time</source>
-        <translation>Data i godzina</translation>
+        <translation type="vanished">Data i godzina</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>People</source>
-        <translation>Osoby</translation>
+        <translation type="vanished">Osoby</translation>
     </message>
 </context>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+33"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+35"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>

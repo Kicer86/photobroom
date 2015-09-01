@@ -21,11 +21,15 @@
 
 #include "config.hpp"
 
+#include "config_keys.hpp"
+#include "config_tabs/look_tab.hpp"
+#include "config_tabs/main_tab.hpp"
 #include "models/photos_data_model.hpp"
 #include "models//staged_photos_data_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
+#include "utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
 #include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
@@ -39,14 +43,19 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_imagesModel(nullptr),
     m_configuration(nullptr),
     m_updater(nullptr),
-    m_photosAnalyzer(new PhotosAnalyzer)
+    m_executor(nullptr),
+    m_photosAnalyzer(new PhotosAnalyzer),
+    m_configDialogManager(new ConfigDialogManager),
+    m_mainTabCtrl(new MainTabControler),
+    m_lookTabCtrl(new LookTabControler)
 {
-    qRegisterMetaType<Database::BackendStatus >("Database::BackendStatus ");
+    qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus ");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
 
     ui->setupUi(this);
     setupView();
     updateGui();
+    registerConfigTab();
 }
 
 
@@ -80,7 +89,22 @@ void MainWindow::set(ITaskExecutor* taskExecutor)
 void MainWindow::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
+
+    // setup defaults
+    m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
+    m_configuration->setDefaultValue(UpdateConfigKeys::updateFrequency, 1);
+
+    m_configuration->setDefaultValue(ViewConfigKeys::itemsMargin,    10);
+    m_configuration->setDefaultValue(ViewConfigKeys::itemsSpacing,   2);
+    m_configuration->setDefaultValue(ViewConfigKeys::thumbnailWidth, 120);
+    m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
+    m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
+
+    //
+    m_mainTabCtrl->set(configuration);
+    m_lookTabCtrl->set(configuration);
     m_photosAnalyzer->set(configuration);
+    ui->imagesView->set(configuration);
 
     loadGeometry();
 }
@@ -91,24 +115,30 @@ void MainWindow::set(IUpdater* updater)
     m_updater = updater;
     assert(m_configuration != nullptr);
 
-    const std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+    const bool enabled = m_configuration->getEntry(UpdateConfigKeys::updateEnabled).toBool();
 
-    std::chrono::system_clock::duration last(0);
-    const QVariant last_raw = m_configuration->getEntry("updater::last_check");
-
-    if (last_raw.isValid())
-        last = std::chrono::system_clock::duration(last_raw.toLongLong());
-
-    const std::chrono::system_clock::time_point last_check(last);
-    const auto diff = std::chrono::duration_cast<std::chrono::hours>(now - last_check).count();
-
-    if (diff > 23)
+    if (enabled)
     {
-        QTimer::singleShot(10000, this, &MainWindow::checkVersion);
+        const int frequency = m_configuration->getEntry(UpdateConfigKeys::updateFrequency).toInt() % 3;
 
-        std::chrono::system_clock::duration now_duration = now.time_since_epoch();
-        const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
-        m_configuration->setEntry("updater::last_check", now_duration_raw);
+        const std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+
+        const QVariant last_raw = m_configuration->getEntry(UpdateConfigKeys::lastCheck);
+        const std::chrono::system_clock::duration last(last_raw.isValid()? last_raw.toLongLong() : 0);
+        const std::chrono::system_clock::time_point last_check(last);
+
+        const auto diff = std::chrono::duration_cast<std::chrono::hours>(now - last_check).count();
+
+        const int freqHours[] = {23, 71, 167};
+
+        if (diff > freqHours[frequency] || diff < 0)    // negative diff may be a result of broken config or changed clock settings
+        {
+            QTimer::singleShot(10000, this, &MainWindow::checkVersion);
+
+            std::chrono::system_clock::duration now_duration = now.time_since_epoch();
+            const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
+            m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
+        }
     }
 }
 
@@ -260,6 +290,13 @@ void MainWindow::updateWidgets()
 }
 
 
+void MainWindow::registerConfigTab()
+{
+    m_configDialogManager->registerTab(m_mainTabCtrl.get());
+    m_configDialogManager->registerTab(m_lookTabCtrl.get());
+}
+
+
 void MainWindow::loadGeometry()
 {
     // restore state
@@ -360,6 +397,13 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this, tr("About Qt"));
+}
+
+
+
+void MainWindow::on_actionConfiguration_triggered()
+{
+    m_configDialogManager->run();
 }
 
 

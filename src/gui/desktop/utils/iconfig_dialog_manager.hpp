@@ -1,6 +1,6 @@
 /*
- * Widget for Photos
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Config dialog launcher interface
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,30 +17,32 @@
  *
  */
 
-#ifndef PHOTOSWIDGET_HPP
-#define PHOTOSWIDGET_HPP
+#ifndef ICONFIGDIALOGMANAGER_HPP
+#define ICONFIGDIALOGMANAGER_HPP
 
-#include "views/images_tree_view.hpp"
 
-class DBDataModel;
-class InfoBaloonWidget;
+#include <QObject>
 
-class PhotosWidget: public ImagesTreeView
+
+struct IConfigTab
 {
-        Q_OBJECT
+    virtual ~IConfigTab() {}
 
-    public:
-        PhotosWidget(QWidget * = nullptr);
-        PhotosWidget(const PhotosWidget &) = delete;
-        ~PhotosWidget();
-        PhotosWidget& operator=(const PhotosWidget &) = delete;
+    virtual int tabId() const = 0;
+    virtual QString tabName() const = 0;
 
-        void set(IConfiguration *);
-
-    private:
-        InfoBaloonWidget* m_info;
-
-        void paintEvent(QPaintEvent*) override;
+    virtual QWidget* constructTab() = 0;
+    virtual void applyConfiguration() = 0;
+    virtual void rejectConfiguration() = 0;
 };
 
-#endif // PHOTOSWIDGET_H
+
+struct IConfigDialogManager
+{
+    virtual ~IConfigDialogManager() {}
+
+    virtual void registerTab(IConfigTab *) = 0;
+    virtual void unregisterTab(IConfigTab *) = 0;
+};
+
+#endif // ICONFIGDIALOGMANAGER_HPP

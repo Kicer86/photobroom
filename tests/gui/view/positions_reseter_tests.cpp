@@ -11,12 +11,6 @@
 #include "test_helpers/mock_configuration.hpp"
 
 
-#define SETUP_CONFIG_EXPECTATIONS()                                                     \
-    using ::testing::Return;                                                            \
-    EXPECT_CALL(config, setDefaultValue(QString("view::spacing"), QVariant(2)));         \
-    EXPECT_CALL(config, getEntry(QString("view::spacing"))).WillRepeatedly(Return(2))
-
-
 class PositionsReseterShould: public ::testing::Test
 {
 public:
@@ -54,9 +48,6 @@ protected:
         const QPixmap pixmap(img_w, img_h);
         icon = pixmap;
 
-        SETUP_CONFIG_EXPECTATIONS();
-
-        data.set(&config);
         data.set(&model);
 
         mo.reset( new ViewDataModelObserver(&data.getModel(), &model) );

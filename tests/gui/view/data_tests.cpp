@@ -10,30 +10,18 @@
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 
-#define SETUP_CONFIG_EXPECTATIONS()                                                     \
-    using ::testing::Return;                                                            \
-    EXPECT_CALL(config, setDefaultValue(QString("view::spacing"), QVariant(2)));         \
-    EXPECT_CALL(config, getEntry(QString("view::spacing"))).WillRepeatedly(Return(2))
 
 TEST(DataShould, BeConstructable)
 {
-    MockConfiguration config;
-    SETUP_CONFIG_EXPECTATIONS();
-
     EXPECT_NO_THROW({
         Data data;
-        data.set(&config);
     });
 }
 
 
 TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
-    MockConfiguration config;
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
 
     const auto& items = data.getModel();
     EXPECT_EQ(1, items.size());
@@ -42,13 +30,9 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 
 TEST(DataShould, ContainOnlyRootNodeAfterClear)
 {
-    MockConfiguration config;
     QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -60,13 +44,9 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
 
 TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
-    MockConfiguration config;
     QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -83,13 +63,9 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
 TEST(DataShould, SetInitialDataForRootItem)
 {
-    MockConfiguration config;
     QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -103,13 +79,9 @@ TEST(DataShould, SetInitialDataForRootItem)
 
 TEST(DataShould, StoreInfoAboutItem)
 {
-    MockConfiguration config;
     QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -129,12 +101,8 @@ TEST(DataShould, StoreInfoAboutItem)
 TEST(DataShould, MarkTopItemsAsVisible)
 {
     QStandardItemModel model;
-    MockConfiguration config;
-
-    SETUP_CONFIG_EXPECTATIONS();
 
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -154,15 +122,11 @@ TEST(DataShould, MarkTopItemsAsVisible)
 TEST(DataShould, NotReturnInvisibleItems)
 {
     QStandardItemModel model;
-    MockConfiguration config;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
     data.set(&model);
-    data.set(&config);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
@@ -210,14 +174,10 @@ TEST(DataShould, NotReturnInvisibleItems)
 TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 {
     QStandardItemModel model;
-    MockConfiguration config;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -278,10 +238,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -322,14 +279,10 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 TEST(DataShould, ReturnProperIndicesOfItems)
 {
     QStandardItemModel model;
-    MockConfiguration config;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -376,13 +329,9 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     const int img2_h = 500;
     const int canvas_w = 500;
 
-    static MockConfiguration config;
-    static QStandardItemModel model;
-
-    SETUP_CONFIG_EXPECTATIONS();
+    QStandardItemModel model;
 
     Data data;
-    data.set(&config);
     data.set(&model);
     data.setThumbHeight(50);
 
@@ -396,7 +345,6 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
     QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
-
 
     model.appendRow(child1);
     model.appendRow(child2);

@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef IMAGESTREEVIEW_H
-#define IMAGESTREEVIEW_H
+#ifndef IMAGESTREEVIEW_HPP
+#define IMAGESTREEVIEW_HPP
 
 #include <QAbstractItemView>
 
@@ -44,7 +44,6 @@ class ImagesTreeView: public QAbstractItemView
 
         ImagesTreeView& operator=(const ImagesTreeView &) = delete;
 
-        [[deprecated("Set of setters should be used instead")]] void set(IConfiguration *);
         void setSpacing(int);
         void setImageMargin(int);
         [[deprecated("Should be constant")]] void setThumbnailSize(int);
@@ -97,4 +96,4 @@ class ImagesTreeView: public QAbstractItemView
         void refreshView();
 };
 
-#endif // IMAGESTREEVIEW_H
+#endif // IMAGESTREEVIEW_HPP

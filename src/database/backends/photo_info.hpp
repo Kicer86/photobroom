@@ -27,30 +27,30 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         PhotoInfo& operator=(const PhotoInfo &) = delete;
 
         //data getting
-        const QString& getPath() const;
-        const Tag::TagsList& getTags() const;       // a access to tags
-        const QPixmap& getThumbnail() const;        // a temporary thumbnail may be returned when final one is not yet generated.
-        const Sha256sum& getSha256() const;         // Do not call until isSha256Loaded()
-        Id getID() const;
+        const QString& getPath() const override;
+        const Tag::TagsList& getTags() const override;       // a access to tags
+        const QPixmap& getThumbnail() const override;        // a temporary thumbnail may be returned when final one is not yet generated.
+        const Sha256sum& getSha256() const override;         // Do not call until isSha256Loaded()
+        Id getID() const override;
 
         //status checking
-        bool isFullyInitialized() const;            // returns true if photo fully loaded (all items below are loaded)
-        bool isSha256Loaded() const;                // returns true if sha256 is not null
-        bool isThumbnailLoaded() const;             // returns true if thumbnail is loaded
-        bool isExifDataLoaded() const;              // returns true is tags were loaded
+        bool isFullyInitialized() const override;            // returns true if photo fully loaded (all items below are loaded)
+        bool isSha256Loaded() const override;                // returns true if sha256 is not null
+        bool isThumbnailLoaded() const override;             // returns true if thumbnail is loaded
+        bool isExifDataLoaded() const override;              // returns true is tags were loaded
 
         //observers
-        void registerObserver(IObserver *);
-        void unregisterObserver(IObserver *);
+        void registerObserver(IObserver *) override;
+        void unregisterObserver(IObserver *) override;
 
         //data initializing
-        void initSha256(const Sha256sum &);
-        void initThumbnail(const QPixmap &);
-        void initID(const Id &);
+        void initSha256(const Sha256sum &) override;
+        void initThumbnail(const QPixmap &) override;
+        void initID(const Id &) override;
 
         //set data
-        virtual ol::ThreadSafeResource< Tag::TagsList >::Accessor accessTags();
-        virtual void setTags(const Tag::TagsList &);
+        ol::ThreadSafeResource< Tag::TagsList >::Accessor accessTags() override;
+        void setTags(const Tag::TagsList &) override;
 
         //flags
         void markFlag(FlagsE, int) override;

@@ -13,21 +13,13 @@
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 
-#define SETUP_CONFIG_EXPECTATIONS()                                                     \
-    using ::testing::Return;                                                            \
-    EXPECT_CALL(config, setDefaultValue(QString("view::spacing"), QVariant(2)));         \
-    EXPECT_CALL(config, getEntry(QString("view::spacing"))).WillRepeatedly(Return(2))
 
 TEST(PositionsCalculatorShould, BeConstructable)
 {
     EXPECT_NO_THROW({
-        MockConfiguration config;
         QStandardItemModel model;
 
-        SETUP_CONFIG_EXPECTATIONS();
-
         Data data;
-        data.set(&config);
         data.set(&model);
 
         PositionsCalculator calculator(&model, &data, 100);
@@ -41,13 +33,9 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 
     QModelIndex top;
 
-    MockConfiguration config;
     QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -76,10 +64,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     const int canvas_w = 500;
     const int header_h = 40;
 
-    MockConfiguration config;
     QStandardItemModel model;
-
-    SETUP_CONFIG_EXPECTATIONS();
 
     // top + 1 main node + 2 children
     QStandardItem* top_idx = new QStandardItem;
@@ -94,7 +79,6 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     model.appendRow(top_idx);
 
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -127,10 +111,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     using ::testing::Return;
     using ::testing::Invoke;
 
-    MockConfiguration config;
     QStandardItemModel model;
-
-    SETUP_CONFIG_EXPECTATIONS();
 
     const int img_w = 100;
     const int img_h = 50;
@@ -143,7 +124,6 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     model.appendRow(top_idx);
 
     Data view_data;
-    view_data.set(&config);
     view_data.set(&model);
 
     const int spacing = view_data.getSpacing();
@@ -187,10 +167,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     const int img_w = 100;
     const int img_h = 50;
 
-    MockConfiguration config;
     QStandardItemModel model;
-
-    SETUP_CONFIG_EXPECTATIONS();
 
     QStandardItem* top_idx = new QStandardItem( "Empty" );
     QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
@@ -206,7 +183,6 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     model.appendRow(top_idx2);
 
     Data view_data;
-    view_data.set(&config);
     view_data.set(&model);
 
     const int spacing = view_data.getSpacing();
@@ -237,11 +213,8 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     const int img_h = 50;
 
     QStandardItemModel model;
-    MockConfiguration config;
     const QPixmap pixmap(img_w, img_h);
     const QIcon icon(pixmap);
-
-    SETUP_CONFIG_EXPECTATIONS();
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -259,7 +232,6 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     model.appendRow(top);
 
     Data view_data;
-    view_data.set(&config);
     view_data.set(&model);
 
     const int spacing = view_data.getSpacing();
@@ -302,13 +274,9 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     const int img_h = 50;
     const int canvas_w = 500;
 
-    static MockConfiguration config;
     static QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
@@ -386,10 +354,7 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     static MockConfiguration config;
     static QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
     data.setThumbHeight(50);
 
@@ -434,13 +399,9 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     const int img2_h = 50;
     const int canvas_w = 500;
 
-    static MockConfiguration config;
     static QStandardItemModel model;
 
-    SETUP_CONFIG_EXPECTATIONS();
-
     Data data;
-    data.set(&config);
     data.set(&model);
     data.setThumbHeight(50);
 

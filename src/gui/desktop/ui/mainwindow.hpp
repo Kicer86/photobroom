@@ -9,6 +9,9 @@
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
+class ConfigDialogManager;
+class LookTabControler;
+class MainTabControler;
 class PhotosCollector;
 class PhotosAnalyzer;
 struct ITaskExecutor;
@@ -53,6 +56,9 @@ class MainWindow: public QMainWindow
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
+        std::unique_ptr<ConfigDialogManager> m_configDialogManager;
+        std::unique_ptr<MainTabControler> m_mainTabCtrl;
+        std::unique_ptr<LookTabControler> m_lookTabCtrl;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -64,6 +70,7 @@ class MainWindow: public QMainWindow
         void updateGui();
         void updateTools();
         void updateWidgets();
+        void registerConfigTab();
 
         void loadGeometry();
 
@@ -82,13 +89,15 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
+        // settings menu
+        void on_actionConfiguration_triggered();
+
         //internal slots
         void projectOpened(const Database::BackendStatus &);
 
         //check version
         void checkVersion();
 
-    private:
         void currentVersion(const IUpdater::OnlineVersion &);
         void projectOpenedNotification(const Database::BackendStatus &);
 

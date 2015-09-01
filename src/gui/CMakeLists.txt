@@ -10,7 +10,8 @@ include_directories(${CMAKE_BINARY_DIR}/
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
-                    ${CMAKE_SOURCE_DIR}/src/gui/desktop)
+                    ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>)
 
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
@@ -21,9 +22,10 @@ if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
 
-add_subdirectory(desktop/widgets)
-add_subdirectory(desktop/utils)
+add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
+add_subdirectory(desktop/utils)
+add_subdirectory(desktop/widgets)
 
 set(GUI_SOURCES
     desktop/gui.cpp
@@ -33,14 +35,16 @@ set(GUI_SOURCES
     desktop/views/view_helpers/positions_reseter.cpp
     desktop/views/images_tree_view.cpp
     desktop/views/tree_item_delegate.cpp
+    desktop/ui/configuration_dialog.cpp
     desktop/ui/mainwindow.cpp
     desktop/ui/photos_add_dialog.cpp
-    desktop/ui/photos_view.cpp
     desktop/ui/project_picker.cpp
     )
 
 set(GUI_HEADERS
     gui.hpp
+    desktop/config_keys.hpp
+    desktop/ithread_multiplexer.hpp
     desktop/views/view_helpers/data.hpp
     desktop/views/view_helpers/model_index_info.hpp
     desktop/views/view_helpers/positions_calculator.hpp
@@ -48,9 +52,9 @@ set(GUI_HEADERS
     desktop/views/view_helpers/view_data_set.hpp
     desktop/views/images_tree_view.hpp
     desktop/views/tree_item_delegate.hpp
+    desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp
-    desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
     )
 
@@ -58,17 +62,18 @@ set(GUI_HEADERS
 set(GUI_FILES_TO_MOC
     desktop/views/images_tree_view.hpp
     desktop/views/view_helpers/view_data_set.hpp
+    desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp
-    desktop/ui/photos_view.hpp
     desktop/ui/project_picker.hpp
     )
 
 set(GUI_RESOURCE_FILES desktop/images.qrc)
 
-set(GUI_UI_FILES desktop/ui/mainwindow.ui
+set(GUI_UI_FILES
+                 desktop/ui/configuration_dialog.ui
+                 desktop/ui/mainwindow.ui
                  desktop/ui/photos_add_dialog.ui
-                 desktop/ui/photos_view.ui
                  desktop/ui/project_picker.ui
     )
 
@@ -91,6 +96,7 @@ add_library(gui
             $<TARGET_OBJECTS:gui_models>
             $<TARGET_OBJECTS:gui_utils>
             $<TARGET_OBJECTS:gui_widgets>
+            $<TARGET_OBJECTS:gui_config_tabs>
            )
 
 target_link_libraries(gui PRIVATE photos_crawler configuration core database system updater ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)

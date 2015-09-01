@@ -1,6 +1,6 @@
 /*
- * Widget for Photos
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Color pick button
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,30 +17,29 @@
  *
  */
 
-#ifndef PHOTOSWIDGET_HPP
-#define PHOTOSWIDGET_HPP
+#ifndef COLORPICKBUTTON_HPP
+#define COLORPICKBUTTON_HPP
 
-#include "views/images_tree_view.hpp"
+#include <QPushButton>
 
-class DBDataModel;
-class InfoBaloonWidget;
-
-class PhotosWidget: public ImagesTreeView
+class ColorPickButton: public QPushButton
 {
-        Q_OBJECT
-
     public:
-        PhotosWidget(QWidget * = nullptr);
-        PhotosWidget(const PhotosWidget &) = delete;
-        ~PhotosWidget();
-        PhotosWidget& operator=(const PhotosWidget &) = delete;
+        ColorPickButton(QWidget * = nullptr);
+        ColorPickButton(const ColorPickButton &) = delete;
+        ~ColorPickButton();
 
-        void set(IConfiguration *);
+        ColorPickButton& operator=(const ColorPickButton &) = delete;
+
+        void setColor(const QColor &);
+
+        const QColor& getColor() const;
 
     private:
-        InfoBaloonWidget* m_info;
+        QColor m_color;
 
-        void paintEvent(QPaintEvent*) override;
+        void applyColor();
+        void pickColor();
 };
 
-#endif // PHOTOSWIDGET_H
+#endif // COLORPICKBUTTON_HPP

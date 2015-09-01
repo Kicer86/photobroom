@@ -7,6 +7,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 
 set(UTILS_SOURCES
+    config_dialog_manager.cpp
     photos_collector.cpp
     signal_filter.cpp
     thread_multiplexer.cpp
@@ -14,6 +15,8 @@ set(UTILS_SOURCES
     )
 
 set(UTILS_HEADERS
+    config_dialog_manager.hpp
+    iconfig_dialog_manager.hpp
     photos_collector.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
