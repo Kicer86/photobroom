@@ -6,10 +6,10 @@
 
 #include <utils/iconfig_dialog_manager.hpp>
 
-class QPushButton;
 class QSpinBox;
 
 struct IConfiguration;
+class ColorPickButton;
 
 namespace Ui
 {
@@ -25,8 +25,8 @@ class LookTab : public QWidget
         LookTab(const LookTab &) = delete;
         ~LookTab();
 
-        QPushButton* colorEvenButton();
-        QPushButton* colorOddButton();
+        ColorPickButton* colorEvenButton();
+        ColorPickButton* colorOddButton();
         QSpinBox*    spacingSpinBox();
 
         LookTab& operator=(const LookTab &) = delete;

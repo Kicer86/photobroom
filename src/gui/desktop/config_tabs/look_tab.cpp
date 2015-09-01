@@ -21,13 +21,13 @@ LookTab::~LookTab()
 }
 
 
-QPushButton* LookTab::colorEvenButton()
+ColorPickButton* LookTab::colorEvenButton()
 {
     return ui->colorEvenButton;
 }
 
 
-QPushButton* LookTab::colorOddButton()
+ColorPickButton* LookTab::colorOddButton()
 {
     return ui->colorOddButton;
 }
@@ -75,10 +75,12 @@ QWidget* LookTabControler::constructTab()
     const u_int32_t even_color = m_configuration->getEntry(ViewConfigKeys::bkg_color_even).toUInt();
     const QColor even_qcolor = intToColor(even_color);
 
-    QPixmap color1pxmap(16, 16);
-    color1pxmap.fill(even_qcolor);
+    m_tabWidget->colorEvenButton()->setColor(even_qcolor);
 
-    m_tabWidget->colorEvenButton()->setIcon(color1pxmap);
+    const u_int32_t odd_color = m_configuration->getEntry(ViewConfigKeys::bkg_color_odd).toUInt();
+    const QColor odd_qcolor = intToColor(odd_color);
+
+    m_tabWidget->colorOddButton()->setColor(odd_qcolor);
 
     return m_tabWidget;
 }
@@ -86,7 +88,13 @@ QWidget* LookTabControler::constructTab()
 
 void LookTabControler::applyConfiguration()
 {
+    const QColor& even_qcolor = m_tabWidget->colorEvenButton()->getColor();
+    const u_int32_t even_color = colorToInt(even_qcolor);
+    m_configuration->setEntry(ViewConfigKeys::bkg_color_even, even_color);
 
+    const QColor& odd_qcolor = m_tabWidget->colorOddButton()->getColor();
+    const u_int32_t odd_color = colorToInt(odd_qcolor);
+    m_configuration->setEntry(ViewConfigKeys::bkg_color_odd, odd_color);
 }
 
 
