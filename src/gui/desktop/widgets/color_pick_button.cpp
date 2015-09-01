@@ -63,7 +63,7 @@ void ColorPickButton::applyColor()
 
 void ColorPickButton::pickColor()
 {
-    m_color = QColorDialog::getColor();
+    m_color = QColorDialog::getColor(m_color);
 
     applyColor();
 }
