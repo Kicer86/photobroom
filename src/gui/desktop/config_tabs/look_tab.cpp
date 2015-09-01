@@ -21,15 +21,15 @@ LookTab::~LookTab()
 }
 
 
-QPushButton* LookTab::color1Button()
+QPushButton* LookTab::colorEvenButton()
 {
-    return ui->color1Button;
+    return ui->colorEvenButton;
 }
 
 
-QPushButton* LookTab::color2Button()
+QPushButton* LookTab::colorOddButton()
 {
-    return ui->color2Button;
+    return ui->colorOddButton;
 }
 
 
@@ -78,7 +78,7 @@ QWidget* LookTabControler::constructTab()
     QPixmap color1pxmap(16, 16);
     color1pxmap.fill(even_qcolor);
 
-    m_tabWidget->color1Button()->setIcon(color1pxmap);
+    m_tabWidget->colorEvenButton()->setIcon(color1pxmap);
 
     return m_tabWidget;
 }
@@ -86,7 +86,7 @@ QWidget* LookTabControler::constructTab()
 
 void LookTabControler::applyConfiguration()
 {
-    
+
 }
 
 

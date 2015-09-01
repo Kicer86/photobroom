@@ -25,8 +25,8 @@ class LookTab : public QWidget
         LookTab(const LookTab &) = delete;
         ~LookTab();
 
-        QPushButton* color1Button();
-        QPushButton* color2Button();
+        QPushButton* colorEvenButton();
+        QPushButton* colorOddButton();
         QSpinBox*    spacingSpinBox();
 
         LookTab& operator=(const LookTab &) = delete;

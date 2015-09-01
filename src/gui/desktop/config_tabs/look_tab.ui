@@ -28,7 +28,13 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="color1Button">
+          <widget class="ColorPickButton" name="colorEvenButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -48,7 +54,13 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="color2Button">
+          <widget class="ColorPickButton" name="colorOddButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -91,6 +103,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorPickButton</class>
+   <extends>QPushButton</extends>
+   <header>widgets/color_pick_button.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
