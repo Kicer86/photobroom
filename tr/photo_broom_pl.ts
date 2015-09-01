@@ -134,12 +134,12 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+26"/>
         <source>Expanded node color #2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+26"/>
         <source>Images spacing:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,7 +305,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+157"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+159"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
