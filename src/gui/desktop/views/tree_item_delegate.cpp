@@ -97,7 +97,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QRect& rect = option.rect;
 
     // draw overall rect
-    if (m_data->isExpanded(it))
+    if (option.state & QStyle::State_Open)
     {
         painter->save();
 
