@@ -257,6 +257,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
+        styleOption.state |= m_data->isExpanded(infoIt)? QStyle::State_Open: QStyle::State_None;
         styleOption.decorationSize = decorationSize;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
