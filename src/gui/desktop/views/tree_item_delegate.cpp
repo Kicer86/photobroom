@@ -32,6 +32,12 @@ TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_view
 }
 
 
+TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view): QAbstractItemDelegate(view), m_view(view)
+{
+
+}
+
+
 TreeItemDelegate::~TreeItemDelegate()
 {
 

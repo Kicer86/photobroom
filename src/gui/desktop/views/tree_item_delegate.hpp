@@ -30,6 +30,7 @@ class TreeItemDelegate: public QAbstractItemDelegate
 {
     public:
         TreeItemDelegate(QObject * = nullptr);
+        TreeItemDelegate(ImagesTreeView *);
         TreeItemDelegate(const TreeItemDelegate &) = delete;
         ~TreeItemDelegate();
         TreeItemDelegate& operator=(const TreeItemDelegate &) = delete;
