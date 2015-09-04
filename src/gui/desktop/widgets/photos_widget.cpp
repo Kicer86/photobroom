@@ -26,6 +26,7 @@
 #include "models/db_data_model.hpp"
 #include "info_widget.hpp"
 #include "config_keys.hpp"
+#include <views/tree_item_delegate.hpp>
 
 
 PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
@@ -34,6 +35,9 @@ PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
     m_info->hide();
     m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
     m_info->adjustSize();
+
+    TreeItemDelegate* delegate = new TreeItemDelegate(this);
+    setItemDelegate(delegate);
 }
 
 
