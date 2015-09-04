@@ -561,7 +561,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+35"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+36"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
