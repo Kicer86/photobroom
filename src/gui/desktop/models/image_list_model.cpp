@@ -66,11 +66,12 @@ struct LoadPhoto: ITaskExecutor::ITask
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ImageListModelPrivate::ImageListModelPrivate(ImageListModel* q):
-    q(q),
+ImageListModelPrivate::ImageListModelPrivate(ImageListModel* _q):
     m_data(),
+    m_data_mutex(),
     m_taskQueue(nullptr),
-    m_callback_ctrl(this)
+    m_callback_ctrl(this),
+    q(_q)
 {
 
 }
@@ -94,28 +95,9 @@ ImageListModel::ImageListModel(QObject* p):
 }
 
 
-ImageListModel::ImageListModel(const ImageListModel& other)
-    : d(new ImageListModelPrivate(this))
-{
-
-}
-
-
 ImageListModel::~ImageListModel()
 {
     delete d;
-}
-
-
-ImageListModel& ImageListModel::operator=(const ImageListModel& other)
-{
-
-}
-
-
-bool ImageListModel::operator==(const ImageListModel& other) const
-{
-
 }
 
 
@@ -227,7 +209,7 @@ int ImageListModel::rowCount(const QModelIndex& parent) const
 }
 
 
-QModelIndex ImageListModel::parent(const QModelIndex& child) const
+QModelIndex ImageListModel::parent(const QModelIndex &) const
 {
     return QModelIndex();
 }
@@ -237,7 +219,7 @@ QModelIndex ImageListModel::index(int row, int column, const QModelIndex& parent
 {
     QModelIndex result;
 
-    const bool valid = parent.isValid() == false && row < d->m_data.size() && column == 0;
+    const bool valid = parent.isValid() == false && row < static_cast<int>(d->m_data.size()) && column == 0;
 
     if (valid)
         result = createIndex(row, column, nullptr);
@@ -253,7 +235,7 @@ void ImageListModel::imageScaled(const QString& path, const QImage& image)
     // TODO: not so smart huh?
     auto& data = d->m_data;
 
-    std::size_t r = -1;
+    std::size_t r = -1u;
     for(std::size_t i = 0; i < data.size(); i++)
         if (data[i].path == path)
         {
@@ -261,7 +243,7 @@ void ImageListModel::imageScaled(const QString& path, const QImage& image)
             break;
         }
 
-    assert(r != -1);
+    assert(r != -1u);
 
     Info& info = data[r];
     info.icon = QPixmap::fromImage(image);

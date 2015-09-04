@@ -38,11 +38,6 @@
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
-    TreeItemDelegate* delegate = new TreeItemDelegate(this);
-    delegate->set(m_data.get());
-
-    setItemDelegate(delegate);
-
     auto update_event = std::bind(&ImagesTreeView::update, this);
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 5_fps);
@@ -73,6 +68,14 @@ void ImagesTreeView::setThumbnailSize(int thumbSize)
 {
     verticalScrollBar()->setSingleStep(thumbSize / 2);
     horizontalScrollBar()->setSingleStep(thumbSize / 2);
+}
+
+
+QRect ImagesTreeView::childrenSize(const QModelIndex& idx) const
+{
+    auto it = m_data->get(idx);
+
+    return it->getOverallRect();
 }
 
 
@@ -257,6 +260,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
         styleOption.rect = info.getRect();
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
+        styleOption.state |= m_data->isExpanded(infoIt)? QStyle::State_Open: QStyle::State_None;
         styleOption.decorationSize = decorationSize;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);

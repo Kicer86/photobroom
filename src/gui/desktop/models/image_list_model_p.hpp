@@ -53,7 +53,10 @@ class ImageListModelPrivate: public QObject
 
     public:
         ImageListModelPrivate(ImageListModel* q);
+        ImageListModelPrivate(const ImageListModelPrivate &) = delete;
         virtual ~ImageListModelPrivate();
+
+        ImageListModelPrivate& operator=(const ImageListModelPrivate &) = delete;
 
         std::deque<Info> m_data;
         std::recursive_mutex m_data_mutex;

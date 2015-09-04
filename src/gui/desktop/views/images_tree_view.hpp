@@ -48,6 +48,8 @@ class ImagesTreeView: public QAbstractItemView
         void setImageMargin(int);
         [[deprecated("Should be constant")]] void setThumbnailSize(int);
 
+        QRect childrenSize(const QModelIndex &) const;
+
         // QAbstractItemView overrides:
         virtual QModelIndex indexAt(const QPoint& point) const override;
         virtual bool isIndexHidden(const QModelIndex& index) const override;

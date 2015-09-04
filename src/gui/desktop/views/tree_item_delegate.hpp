@@ -24,24 +24,25 @@
 
 #include <QAbstractItemDelegate>
 
-class Data;
+class ImagesTreeView;
 
 class TreeItemDelegate: public QAbstractItemDelegate
 {
     public:
         TreeItemDelegate(QObject * = nullptr);
+        TreeItemDelegate(ImagesTreeView *);
         TreeItemDelegate(const TreeItemDelegate &) = delete;
         ~TreeItemDelegate();
         TreeItemDelegate& operator=(const TreeItemDelegate &) = delete;
 
-        void set(Data *);
+        void set(ImagesTreeView *);
 
         // overrides
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
     private:
-        Data* m_data;
+        ImagesTreeView* m_view;
 
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;

@@ -28,11 +28,10 @@ class ImageListModel: public QAbstractItemModel
 {
     public:
         ImageListModel(QObject *);
-        ImageListModel(const ImageListModel& other);
+        ImageListModel(const ImageListModel& other) = delete;
         ~ImageListModel();
 
-        ImageListModel& operator=(const ImageListModel& other);
-        bool operator==(const ImageListModel& other) const;
+        ImageListModel& operator=(const ImageListModel& other) = delete;
 
         void insert(const QString &);
         void clear();
