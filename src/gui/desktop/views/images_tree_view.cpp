@@ -76,6 +76,14 @@ void ImagesTreeView::setThumbnailSize(int thumbSize)
 }
 
 
+QRect ImagesTreeView::childrenSize(const QModelIndex& idx) const
+{
+    auto it = m_data->get(idx);
+
+    it->getOverallRect();
+}
+
+
 QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 {
     QModelIndex result;
