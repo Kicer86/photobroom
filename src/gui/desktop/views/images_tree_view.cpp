@@ -38,11 +38,6 @@
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
-    TreeItemDelegate* delegate = new TreeItemDelegate(this);
-    delegate->set(m_data.get());
-
-    setItemDelegate(delegate);
-
     auto update_event = std::bind(&ImagesTreeView::update, this);
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 5_fps);

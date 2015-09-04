@@ -22,11 +22,11 @@
 #include <QCache>
 #include <QPainter>
 
+#include "images_tree_view.hpp"
 #include "utils/variant_display.hpp"
-#include "view_helpers/data.hpp"
 
 
-TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_data(nullptr)
+TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_view(nullptr)
 {
 
 }
@@ -38,9 +38,9 @@ TreeItemDelegate::~TreeItemDelegate()
 }
 
 
-void TreeItemDelegate::set(Data* data)
+void TreeItemDelegate::set(ImagesTreeView* view)
 {
-    m_data = data;
+    m_view = view;
 }
 
 
@@ -92,19 +92,15 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
 
 void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const auto it = m_data->get(index);
-
-    const QRect& rect = option.rect;
-
     // draw overall rect
-    if (option.state & QStyle::State_Open)
+    if (option.state & QStyle::State_Open && m_view != nullptr)
     {
         painter->save();
 
         const int w = 3;
 
         //combine start point with overall size to bound all child items
-        QRect overallRect = it->getOverallRect();
+        QRect overallRect = m_view->childrenSize(index);
         overallRect.adjust(w, w, -w, -w);
 
         const bool even = index.row() % 2 == 0;
@@ -128,6 +124,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QString t = VariantDisplay()(v, option.locale);
 
     // title bounding box
+    const QRect& rect = option.rect;
     const QRect boundingRect = painter->boundingRect(rect, Qt::AlignCenter, t);
 
     const int margin = 5;
