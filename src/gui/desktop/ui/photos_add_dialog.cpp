@@ -27,6 +27,7 @@
 
 #include "models/image_list_model.hpp"
 #include "models/staged_photos_data_model.hpp"
+#include "views/tree_item_delegate.hpp"
 #include "ui_photos_add_dialog.h"
 
 
@@ -80,6 +81,8 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
         const QByteArray stateData = QByteArray::fromBase64(base64);
         restoreState(stateData);
     }
+
+    ui->browseList->setItemDelegate(new TreeItemDelegate(ui->browseList));
 
     //expand home dir
     for(QModelIndex item = m_treeModel->index(QDir::homePath()); item.isValid(); item = item.parent())
