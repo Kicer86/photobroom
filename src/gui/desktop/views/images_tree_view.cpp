@@ -75,7 +75,7 @@ QRect ImagesTreeView::childrenSize(const QModelIndex& idx) const
 {
     auto it = m_data->get(idx);
 
-    it->getOverallRect();
+    return it->getOverallRect();
 }
 
 
