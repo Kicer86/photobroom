@@ -36,8 +36,7 @@ PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
     m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
     m_info->adjustSize();
 
-    TreeItemDelegate* delegate = new TreeItemDelegate(this);
-    setItemDelegate(delegate);
+    setItemDelegate(new TreeItemDelegate(this));
 }
 
 
