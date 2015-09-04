@@ -24,9 +24,9 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "models/db_data_model.hpp"
+#include "views/tree_item_delegate.hpp"
 #include "info_widget.hpp"
 #include "config_keys.hpp"
-#include <views/tree_item_delegate.hpp>
 
 
 PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
