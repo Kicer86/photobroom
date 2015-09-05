@@ -147,7 +147,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>LookTabControler</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+67"/>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
         <translation type="unfinished"></translation>
     </message>
