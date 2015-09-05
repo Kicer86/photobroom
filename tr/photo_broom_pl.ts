@@ -511,7 +511,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Edytor &amp;tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+202"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+203"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
