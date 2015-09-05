@@ -83,6 +83,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     }
 
     ui->browseList->setItemDelegate(new TreeItemDelegate(ui->browseList));
+    ui->photosView->setItemDelegate(new TreeItemDelegate(ui->photosView));
 
     //expand home dir
     for(QModelIndex item = m_treeModel->index(QDir::homePath()); item.isValid(); item = item.parent())

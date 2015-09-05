@@ -22,6 +22,7 @@
 
 #include "views/images_tree_view.hpp"
 
+class ConfigurableTreeItemDelegate;
 class DBDataModel;
 class InfoBaloonWidget;
 
@@ -39,6 +40,7 @@ class PhotosWidget: public ImagesTreeView
 
     private:
         InfoBaloonWidget* m_info;
+        ConfigurableTreeItemDelegate* m_delegate;
 
         void paintEvent(QPaintEvent*) override;
 };

@@ -28,13 +28,15 @@
 
 TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_view(nullptr)
 {
-
+    m_backgroundEven = QColor(255, 0, 0, 64);
+    m_backgroundOdd  = QColor(0, 0, 255, 64);
 }
 
 
 TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view): QAbstractItemDelegate(view), m_view(view)
 {
-
+    m_backgroundEven = QColor(255, 0, 0, 64);
+    m_backgroundOdd  = QColor(0, 0, 255, 64);
 }
 
 
@@ -48,6 +50,14 @@ void TreeItemDelegate::set(ImagesTreeView* view)
 {
     m_view = view;
 }
+
+
+void TreeItemDelegate::setNodeBackgroundColors(const QColor& odd, const QColor& even)
+{
+    m_backgroundOdd = odd;
+    m_backgroundEven = even;
+}
+
 
 
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const
@@ -110,12 +120,12 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
         overallRect.adjust(w, w, -w, -w);
 
         const bool even = index.row() % 2 == 0;
-        const int r = even? 255 : 0;
-        const int g = 0;
-        const int b = even? 0: 255;
+        const QColor brushColor = even? m_backgroundEven: m_backgroundOdd;
+        QColor penColor = brushColor.darker();
+        penColor.setAlpha(255);
 
-        const QPen   pen(QColor(r/2, g/2, b/2), w);
-        const QBrush brush(QColor(r, g, b, 64));
+        const QPen   pen(penColor, w);
+        const QBrush brush(brushColor);
 
         painter->setPen(pen);
         painter->setBrush(brush);
