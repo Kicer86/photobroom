@@ -29,10 +29,10 @@ add_subdirectory(desktop/widgets)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/views/view_helpers/data.cpp
-    desktop/views/view_helpers/model_index_info.cpp
-    desktop/views/view_helpers/positions_calculator.cpp
-    desktop/views/view_helpers/positions_reseter.cpp
+    desktop/views/view_impl/data.cpp
+    desktop/views/view_impl/model_index_info.cpp
+    desktop/views/view_impl/positions_calculator.cpp
+    desktop/views/view_impl/positions_reseter.cpp
     desktop/views/images_tree_view.cpp
     desktop/views/tree_item_delegate.cpp
     desktop/ui/configuration_dialog.cpp
@@ -45,11 +45,11 @@ set(GUI_HEADERS
     gui.hpp
     desktop/config_keys.hpp
     desktop/ithread_multiplexer.hpp
-    desktop/views/view_helpers/data.hpp
-    desktop/views/view_helpers/model_index_info.hpp
-    desktop/views/view_helpers/positions_calculator.hpp
-    desktop/views/view_helpers/positions_reseter.hpp
-    desktop/views/view_helpers/view_data_set.hpp
+    desktop/views/view_impl/data.hpp
+    desktop/views/view_impl/model_index_info.hpp
+    desktop/views/view_impl/positions_calculator.hpp
+    desktop/views/view_impl/positions_reseter.hpp
+    desktop/views/view_impl/view_data_set.hpp
     desktop/views/images_tree_view.hpp
     desktop/views/tree_item_delegate.hpp
     desktop/ui/configuration_dialog.hpp
@@ -61,7 +61,7 @@ set(GUI_HEADERS
 #set of file to be moced
 set(GUI_FILES_TO_MOC
     desktop/views/images_tree_view.hpp
-    desktop/views/view_helpers/view_data_set.hpp
+    desktop/views/view_impl/view_data_set.hpp
     desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
     desktop/ui/photos_add_dialog.hpp

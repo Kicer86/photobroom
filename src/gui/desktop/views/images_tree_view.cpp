@@ -30,9 +30,9 @@
 
 #include <core/time_guardian.hpp>
 
-#include "view_helpers/data.hpp"
-#include "view_helpers/positions_calculator.hpp"
-#include "view_helpers/positions_reseter.hpp"
+#include "view_impl/data.hpp"
+#include "view_impl/positions_calculator.hpp"
+#include "view_impl/positions_reseter.hpp"
 #include "tree_item_delegate.hpp"
 
 
