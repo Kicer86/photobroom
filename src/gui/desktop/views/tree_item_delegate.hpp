@@ -37,12 +37,16 @@ class TreeItemDelegate: public QAbstractItemDelegate
 
         void set(ImagesTreeView *);
 
+        void setNodeBackgroundColors(const QColor& odd, const QColor& even);
+
         // overrides
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
     private:
         ImagesTreeView* m_view;
+        QColor m_backgroundEven;
+        QColor m_backgroundOdd;
 
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
