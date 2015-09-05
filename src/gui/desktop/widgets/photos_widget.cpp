@@ -24,19 +24,19 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "models/db_data_model.hpp"
-#include "views/tree_item_delegate.hpp"
+#include "components/configurable_tree_item_delegate.hpp"
 #include "info_widget.hpp"
 #include "config_keys.hpp"
 
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr)
+PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr), m_delegate(new ConfigurableTreeItemDelegate(this))
 {
     m_info = new InfoBaloonWidget(this);
     m_info->hide();
     m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
     m_info->adjustSize();
 
-    setItemDelegate(new TreeItemDelegate(this));
+    setItemDelegate(m_delegate);
 }
 
 
@@ -53,6 +53,8 @@ void PhotosWidget::set(IConfiguration* configuration)
     const int spacing = marginEntry.toInt();
 
     setSpacing(spacing);
+
+    m_delegate->set(configuration);
 }
 
 
