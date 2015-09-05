@@ -33,3 +33,9 @@ ConfigurableTreeItemDelegate::~ConfigurableTreeItemDelegate()
 {
 
 }
+
+
+void ConfigurableTreeItemDelegate::set(IConfiguration* config)
+{
+    m_config = config;
+}

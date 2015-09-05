@@ -28,11 +28,13 @@ class IConfiguration;
 class ConfigurableTreeItemDelegate : public TreeItemDelegate
 {
     public:
-        ConfigurableTreeItemDelegate(ImagesTreeView *, IConfiguration *);
+        ConfigurableTreeItemDelegate(ImagesTreeView *, IConfiguration * = nullptr);
         ConfigurableTreeItemDelegate(const ConfigurableTreeItemDelegate &) = delete;
         ~ConfigurableTreeItemDelegate();
 
         ConfigurableTreeItemDelegate& operator=(const ConfigurableTreeItemDelegate &) = delete;
+
+        void set(IConfiguration *);
 
     private:
         IConfiguration* m_config;
