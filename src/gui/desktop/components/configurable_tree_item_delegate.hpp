@@ -25,7 +25,7 @@
 
 class IConfiguration;
 
-class ConfigurableTreeItemDelegate : public TreeItemDelegate
+class ConfigurableTreeItemDelegate: public TreeItemDelegate
 {
     public:
         ConfigurableTreeItemDelegate(ImagesTreeView *, IConfiguration * = nullptr);
@@ -38,6 +38,8 @@ class ConfigurableTreeItemDelegate : public TreeItemDelegate
 
     private:
         IConfiguration* m_config;
+
+        void readConfig();
 };
 
 #endif // CONFIGURABLETREEITEMDELEGATE_H

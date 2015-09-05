@@ -18,14 +18,18 @@
  */
 
 
+#include <configuration/iconfiguration.hpp>
+
 #include "configurable_tree_item_delegate.hpp"
+#include "config_keys.hpp"
+#include "utils/config_tools.hpp"
 
 
 ConfigurableTreeItemDelegate::ConfigurableTreeItemDelegate(ImagesTreeView* view, IConfiguration* config):
     TreeItemDelegate(view),
     m_config(config)
 {
-
+    readConfig();
 }
 
 
@@ -38,4 +42,21 @@ ConfigurableTreeItemDelegate::~ConfigurableTreeItemDelegate()
 void ConfigurableTreeItemDelegate::set(IConfiguration* config)
 {
     m_config = config;
+
+    readConfig();
+}
+
+
+void ConfigurableTreeItemDelegate::readConfig()
+{
+    if (m_config != nullptr)
+    {
+        const uint32_t evenColor = m_config->getEntry(ViewConfigKeys::bkg_color_even).toUInt();
+        const uint32_t oddColor  = m_config->getEntry(ViewConfigKeys::bkg_color_odd).toUInt();
+
+        const QColor evenQColor = ConfigTools::intToColor(evenColor);
+        const QColor oddQColor  = ConfigTools::intToColor(oddColor);
+
+        setNodeBackgroundColors(oddQColor, evenQColor);
+    }
 }
