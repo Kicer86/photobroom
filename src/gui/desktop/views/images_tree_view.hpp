@@ -81,7 +81,6 @@ class ImagesTreeView: public QAbstractItemView
         // widget operations
         void updateData();
         void updateGui();
-        void update();
         QPoint getOffset() const;
 
     private slots:
