@@ -20,12 +20,16 @@
 #ifndef CONFIGURATIONPRIVATE_HPP
 #define CONFIGURATIONPRIVATE_HPP
 
+#include <set>
+
 #include <QTimer>
 
 #include <json/value.h>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
+
+class IConfigObserver;
 
 class ConfigurationPrivate: public QObject
 {
@@ -39,9 +43,12 @@ class ConfigurationPrivate: public QObject
         QVariant getEntry(const QString &);
         void setEntry(const QString &, const QVariant &);
 
+        void registerObserver(IConfigObserver *);
+
     private:
         ol::ThreadSafeResource<Json::Value> m_json;
         QTimer m_dumpTimer;
+        std::set<IConfigObserver *> m_observers;
         class Configuration* const q;
 
         void loadData();
