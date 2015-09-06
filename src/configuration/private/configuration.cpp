@@ -39,6 +39,7 @@ static_assert(sizeof(qlonglong) == sizeof(Json::Int64), "Json and Qt's sizes do 
 ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
     m_json(),
     m_dumpTimer(),
+    m_observers(),
     q(_q)
 {
     m_dumpTimer.setSingleShot(true);
@@ -104,7 +105,16 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
             assert(!"unsupported type");
     });
 
+    for(IConfigObserver* observer: m_observers)
+        observer->configChanged(entry, entry_value);
+
     markDataDirty();
+}
+
+
+void ConfigurationPrivate::registerObserver(IConfigObserver* observer)
+{
+    m_observers.insert(observer);
 }
 
 
@@ -204,4 +214,10 @@ void Configuration::setDefaultValue(const QString& entry, const QVariant& value)
     const QVariant curren_value = getEntry(entry);
     if (curren_value.isNull())
         setEntry(entry, value);
+}
+
+
+void Configuration::registerObserver(IConfigObserver* observer)
+{
+    d->registerObserver(observer);
 }

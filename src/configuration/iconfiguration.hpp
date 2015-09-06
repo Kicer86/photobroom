@@ -28,11 +28,13 @@
 class QString;
 class QVariant;
 
-namespace ConfigConsts
+
+struct IConfigObserver
 {
-    class EntryData;
-    class ConfigurationKey;
-}
+    virtual ~IConfigObserver() {}
+    virtual void configChanged(const QString &, const QVariant &) = 0;
+};
+
 
 struct IConfiguration
 {
@@ -43,6 +45,8 @@ struct IConfiguration
     virtual void setEntry(const QString &, const QVariant &) = 0;
 
     virtual void setDefaultValue(const QString &, const QVariant &) = 0;
+
+    virtual void registerObserver(IConfigObserver *) = 0;
 };
 
 #endif  //ICONFIGURATION_HPP

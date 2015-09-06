@@ -20,12 +20,11 @@
 #ifndef CONFIGURABLETREEITEMDELEGATE_HPP
 #define CONFIGURABLETREEITEMDELEGATE_HPP
 
+#include <configuration/iconfiguration.hpp>
 
 #include "desktop/views/tree_item_delegate.hpp"
 
-class IConfiguration;
-
-class ConfigurableTreeItemDelegate: public TreeItemDelegate
+class ConfigurableTreeItemDelegate: public TreeItemDelegate, private IConfigObserver
 {
     public:
         ConfigurableTreeItemDelegate(ImagesTreeView *, IConfiguration * = nullptr);
@@ -36,10 +35,17 @@ class ConfigurableTreeItemDelegate: public TreeItemDelegate
 
         void set(IConfiguration *);
 
+
     private:
         IConfiguration* m_config;
 
         void readConfig();
+
+        void setupEvenColor(const QVariant &);
+        void setupOddColor(const QVariant &);
+
+        // IConfigObserver:
+        void configChanged(const QString&, const QVariant&) override;
 };
 
 #endif // CONFIGURABLETREEITEMDELEGATE_H

@@ -34,9 +34,10 @@ class CONFIGURATION_EXPORT Configuration: public IConfiguration
         Configuration& operator=(const Configuration &) = delete;
 
         QVariant getEntry(const QString &) override;
-        void setEntry(const QString &, const QVariant &) override;
 
+        void setEntry(const QString &, const QVariant &) override;
         void setDefaultValue(const QString &, const QVariant &) override;
+        void registerObserver(IConfigObserver*) override;
 
     private:
         class ConfigurationPrivate* const d;

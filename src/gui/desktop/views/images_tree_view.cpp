@@ -38,7 +38,8 @@
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
-    auto update_event = std::bind(&ImagesTreeView::update, this);
+    void (QWidget::*update_fn)() = &QWidget::update;
+    auto update_event = std::bind(update_fn, viewport());
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 5_fps);
 
@@ -356,12 +357,6 @@ void ImagesTreeView::updateGui()
 
     verticalScrollBar()->setRange(0, treeAreaSize.height() - areaSize.height());
     horizontalScrollBar()->setRange(0, treeAreaSize.width() - areaSize.width());
-}
-
-
-void ImagesTreeView::update()
-{
-    viewport()->update();
 }
 
 
