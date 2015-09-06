@@ -41,6 +41,9 @@ class ConfigurableTreeItemDelegate: public TreeItemDelegate, private IConfigObse
 
         void readConfig();
 
+        void setupEvenColor(const QVariant &);
+        void setupOddColor(const QVariant &);
+
         // IConfigObserver:
         void configChanged(const QString&, const QVariant&) override;
 };
