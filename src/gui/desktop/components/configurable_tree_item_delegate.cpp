@@ -42,6 +42,7 @@ ConfigurableTreeItemDelegate::~ConfigurableTreeItemDelegate()
 void ConfigurableTreeItemDelegate::set(IConfiguration* config)
 {
     m_config = config;
+    m_config->registerObserver(this);
 
     readConfig();
 }
@@ -59,4 +60,10 @@ void ConfigurableTreeItemDelegate::readConfig()
 
         setNodeBackgroundColors(oddQColor, evenQColor);
     }
+}
+
+
+void ConfigurableTreeItemDelegate::configChanged(const QString& entry, const QVariant& value)
+{
+
 }
