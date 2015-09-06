@@ -28,12 +28,6 @@
 class QString;
 class QVariant;
 
-namespace ConfigConsts
-{
-    class EntryData;
-    class ConfigurationKey;
-}
-
 struct IConfiguration
 {
     IConfiguration() {}
