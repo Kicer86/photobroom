@@ -52,22 +52,19 @@ void TreeItemDelegate::set(ImagesTreeView* view)
 }
 
 
-void TreeItemDelegate::setNodeBackgroundColors(const QColor& odd, const QColor& even)
-{
-    setNodeBackgroundEvenColor(even);
-    setNodeBackgroundOddColor(odd);
-}
-
-
 void TreeItemDelegate::setNodeBackgroundEvenColor(const QColor& c)
 {
     m_backgroundEven = c;
+
+    m_view->update();
 }
 
 
 void TreeItemDelegate::setNodeBackgroundOddColor(const QColor& c)
 {
     m_backgroundOdd = c;
+
+    m_view->update();
 }
 
 
