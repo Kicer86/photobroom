@@ -38,6 +38,8 @@ class TreeItemDelegate: public QAbstractItemDelegate
         void set(ImagesTreeView *);
 
         void setNodeBackgroundColors(const QColor& odd, const QColor& even);
+        void setNodeBackgroundEvenColor(const QColor &);
+        void setNodeBackgroundOddColor(const QColor &);
 
         // overrides
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;

@@ -54,10 +54,21 @@ void TreeItemDelegate::set(ImagesTreeView* view)
 
 void TreeItemDelegate::setNodeBackgroundColors(const QColor& odd, const QColor& even)
 {
-    m_backgroundOdd = odd;
-    m_backgroundEven = even;
+    setNodeBackgroundEvenColor(even);
+    setNodeBackgroundOddColor(odd);
 }
 
+
+void TreeItemDelegate::setNodeBackgroundEvenColor(const QColor& c)
+{
+    m_backgroundEven = c;
+}
+
+
+void TreeItemDelegate::setNodeBackgroundOddColor(const QColor& c)
+{
+    m_backgroundOdd = c;
+}
 
 
 QSize TreeItemDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const
