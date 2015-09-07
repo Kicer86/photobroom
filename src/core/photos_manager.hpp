@@ -22,7 +22,6 @@
 
 #include <memory>
 
-#include <QPixmap>
 #include <QByteArray>
 
 #include <database/iphoto_info.hpp>
