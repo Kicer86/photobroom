@@ -35,14 +35,13 @@ class ImageListModel;
 struct Info
 {
     QString path;
-    QIcon icon;
+    QImage image;
     QString filename;
-    bool default_icon;
+    bool default_image;
 
-    Info(const QString& p): path(p), icon(), filename(), default_icon(true)
+    Info(const QString& p, const QImage& defaultImage): path(p), image(defaultImage), filename(), default_image(true)
     {
-        const QPixmap pixmap(":/gui/clock-img.svg");
-        icon.addPixmap(pixmap);
+
     }
 };
 
@@ -63,10 +62,10 @@ class ImageListModelPrivate: public QObject
 
         ITaskExecutor::TaskQueue m_taskQueue;
         callback_ptr_ctrl<ImageListModelPrivate> m_callback_ctrl;
+        QImage m_image;
 
     private:
         class ImageListModel* const q;
-
     signals:
         void imageScaled(const QString &, const QImage &);
 };

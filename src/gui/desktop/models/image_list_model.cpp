@@ -71,9 +71,10 @@ ImageListModelPrivate::ImageListModelPrivate(ImageListModel* _q):
     m_data_mutex(),
     m_taskQueue(nullptr),
     m_callback_ctrl(this),
+    m_image(),
     q(_q)
 {
-
+    m_image = QImage(":/gui/clock-img.svg");
 }
 
 
@@ -108,7 +109,7 @@ void ImageListModel::insert(const QString& path)
 
     beginInsertRows(QModelIndex(), s, s);
 
-    d->m_data.push_back(path);
+    d->m_data.push_back( Info(path, d->m_image) );
 
     endInsertRows();
 }
@@ -174,13 +175,13 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
 
             case Qt::DecorationRole:
             {
-                if (info.default_icon)
+                if (info.default_image)
                 {
-                    info.default_icon = false;
+                    info.default_image = false;
                     d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
                 }
 
-                result = info.icon;
+                result = QIcon(QPixmap::fromImage(info.image));
             }
 
             default:
@@ -246,7 +247,7 @@ void ImageListModel::imageScaled(const QString& path, const QImage& image)
     assert(r != -1u);
 
     Info& info = data[r];
-    info.icon = QPixmap::fromImage(image);
+    info.image = image;
 
     const QModelIndex idx = index(r, 0, QModelIndex());
     emit dataChanged(idx, idx, {Qt::DecorationRole});

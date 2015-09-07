@@ -30,7 +30,7 @@
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 class QString;
-class QPixmap;
+class QImage;
 
 class TagDataBase;
 
@@ -91,7 +91,7 @@ struct IPhotoInfo
     //data getting
     virtual const QString& getPath() const = 0;
     virtual const Tag::TagsList& getTags() const = 0;       // access to tags
-    virtual const QPixmap& getThumbnail() const = 0;        // a temporary thumbnail may be returned when final one is not yet generated.
+    virtual const QImage& getThumbnail() const = 0;        // a temporary thumbnail may be returned when final one is not yet generated.
     virtual const Sha256sum& getSha256() const = 0;         // Do not call until isSha256Loaded()
     virtual Id getID() const = 0;
 
@@ -107,7 +107,7 @@ struct IPhotoInfo
 
     //data initializing
     virtual void initSha256(const Sha256sum &) = 0;
-    virtual void initThumbnail(const QPixmap &) = 0;
+    virtual void initThumbnail(const QImage &) = 0;
     virtual void initID(const Id &) = 0;
 
     //setting data

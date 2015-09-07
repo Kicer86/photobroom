@@ -4,7 +4,7 @@
 #include <memory>
 #include <mutex>
 
-#include <QPixmap>
+#include <QImage>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
@@ -78,7 +78,7 @@ struct PhotoInfo::Data
 
     ol::ThreadSafeResource<Tag::TagsList> tags;
     ol::ThreadSafeResource<PhotoInfo::Sha256sum> sha256;
-    ol::ThreadSafeResource<QPixmap> m_thumbnail;
+    ol::ThreadSafeResource<QImage> m_thumbnail;
     ol::ThreadSafeResource<PhotoInfo::Flags> m_flags;
     ol::ThreadSafeResource<PhotoInfo::Id> m_id;
 };
@@ -89,7 +89,7 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
     m_data->path = p;
 
     //default values
-    QPixmap tmpThumbnail;
+    QImage tmpThumbnail;
     tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
     m_data->m_thumbnail.lock().get() = tmpThumbnail;
 
@@ -117,7 +117,7 @@ const Tag::TagsList& PhotoInfo::getTags() const
 }
 
 
-const QPixmap& PhotoInfo::getThumbnail() const
+const QImage& PhotoInfo::getThumbnail() const
 {
     auto result = m_data->m_thumbnail.lock();
 
@@ -189,7 +189,7 @@ void PhotoInfo::initSha256(const Sha256sum& sha256)
 }
 
 
-void PhotoInfo::initThumbnail(const QPixmap& thumbnail)
+void PhotoInfo::initThumbnail(const QImage& thumbnail)
 {
     assert(isThumbnailLoaded() == false);
 

@@ -29,7 +29,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         //data getting
         const QString& getPath() const override;
         const Tag::TagsList& getTags() const override;       // a access to tags
-        const QPixmap& getThumbnail() const override;        // a temporary thumbnail may be returned when final one is not yet generated.
+        const QImage& getThumbnail() const override;         // a temporary thumbnail may be returned when final one is not yet generated.
         const Sha256sum& getSha256() const override;         // Do not call until isSha256Loaded()
         Id getID() const override;
 
@@ -45,7 +45,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
 
         //data initializing
         void initSha256(const Sha256sum &) override;
-        void initThumbnail(const QPixmap &) override;
+        void initThumbnail(const QImage &) override;
         void initID(const Id &) override;
 
         //set data

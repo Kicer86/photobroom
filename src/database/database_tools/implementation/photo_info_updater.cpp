@@ -50,10 +50,10 @@ struct ThumbnailGenerator: BaseTask
     virtual void perform() override
     {
         const QByteArray data = PhotosManager::instance()->getPhoto(m_photoInfo);
-        QPixmap image;
+        QImage image;
         image.loadFromData(data);
 
-        const QPixmap thumbnail = image.scaled(m_photoWidth, m_photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        const QImage thumbnail = image.scaled(m_photoWidth, m_photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         m_photoInfo->initThumbnail(thumbnail);
     }
