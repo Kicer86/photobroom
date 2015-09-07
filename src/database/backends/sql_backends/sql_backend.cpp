@@ -59,30 +59,30 @@ namespace Database
 {
     namespace
     {
-        QByteArray toPrintable(const QPixmap& pixmap)
+        QByteArray toPrintable(const QImage& image)
         {
             QByteArray bytes;
             QBuffer buffer(&bytes);
             buffer.open(QIODevice::WriteOnly);
 
-            pixmap.save(&buffer, "JPEG");
+            image.save(&buffer, "JPEG");
 
             return bytes.toBase64();
         }
 
-        QPixmap fromPrintable(const QByteArray& data)
+        QImage fromPrintable(const QByteArray& data)
         {
             const QByteArray bytes = QByteArray::fromBase64(data);
-            QPixmap pixmap;
+            QImage image;
 
-            const bool status = pixmap.loadFromData(bytes, "JPEG");
+            const bool status = image.loadFromData(bytes, "JPEG");
 
             if (status == false)
             {
                 //TODO: load thumbnail from file
             }
 
-            return pixmap;
+            return image;
         }
 
 
@@ -97,7 +97,7 @@ namespace Database
             {
                 m_name = name;
             }
-            
+
             void set(ILogger* logger)
             {
                 m_logger = logger;
@@ -142,7 +142,7 @@ namespace Database
                     const auto end_t = std::chrono::steady_clock::now();
                     const auto diff = end_t - start;
                     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-                    
+
                     std::stringstream logInfo;
                     logInfo << "Transaction commit: " << diff_ms << "ms";
                     m_logger->log(ILogger::Severity::Debug, logInfo.str());
@@ -198,13 +198,13 @@ namespace Database
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
 
-            bool storeThumbnail(int photo_id, const QPixmap &) const;
+            bool storeThumbnail(int photo_id, const QImage &) const;
             bool storeSha256(int photo_id, const IPhotoInfo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
 
             Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
-            ol::Optional<QPixmap> getThumbnailFor(const IPhotoInfo::Id &);
+            ol::Optional<QImage> getThumbnailFor(const IPhotoInfo::Id &);
             ol::Optional<IPhotoInfo::Sha256sum> getSha256For(const IPhotoInfo::Id &);
             void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
             QString getPathFor(const IPhotoInfo::Id &);
@@ -477,7 +477,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeThumbnail(int photo_id, const QPixmap& pixmap) const
+    bool ASqlBackend::Data::storeThumbnail(int photo_id, const QImage& pixmap) const
     {
         InsertQueryData data(TAB_THUMBS);
 
@@ -492,8 +492,8 @@ namespace Database
 
         return status;
     }
-    
-    
+
+
     bool ASqlBackend::Data::storeSha256(int photo_id, const IPhotoInfo::Sha256sum& sha256) const
     {
         InsertQueryData data(TAB_SHA256SUMS);
@@ -618,7 +618,7 @@ namespace Database
 
         if (status && data->isThumbnailLoaded())
             status = storeThumbnail(id, data->getThumbnail());
-        
+
         if (status && data->isSha256Loaded())
             status = storeSha256(id, data->getSha256());
 
@@ -627,7 +627,7 @@ namespace Database
 
         if (status)
             status = m_transaction.end();
-        
+
         //store id in photo
         if (status && inserting)
             data->initID(id);
@@ -653,7 +653,7 @@ namespace Database
             photoInfo->setTags(tagData);
 
             //load thumbnail
-            const ol::Optional<QPixmap> thumbnail = getThumbnailFor(id);
+            const ol::Optional<QImage> thumbnail = getThumbnailFor(id);
             if (thumbnail)
                 photoInfo->initThumbnail(*thumbnail);
 
@@ -707,11 +707,11 @@ namespace Database
     }
 
 
-    ol::Optional<QPixmap> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
+    ol::Optional<QImage> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        ol::Optional<QPixmap> pixmap;
+        ol::Optional<QImage> image;
         QSqlQuery query(db);
 
         QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
@@ -725,12 +725,12 @@ namespace Database
         {
             const QVariant variant = query.value(0);
             QByteArray data(variant.toByteArray());
-            pixmap = fromPrintable(data);
+            image = fromPrintable(data);
         }
 
-        return pixmap;
+        return image;
     }
-    
+
     ol::Optional<IPhotoInfo::Sha256sum> ASqlBackend::Data::getSha256For(const IPhotoInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -746,7 +746,7 @@ namespace Database
         if(status && query.next())
         {
             const QVariant variant = query.value(0);
-            
+
             result = variant.toString().toStdString();
         }
 
@@ -855,7 +855,7 @@ namespace Database
                 m_data->m_dbOpen = false;
             }
         }
-        
+
         QSqlDatabase::removeDatabase(m_data->m_connectionName);
     }
 
@@ -1127,20 +1127,20 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 {
     QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
     QSqlQuery query(db);
-    
+
     BackendStatus status = m_data->exec("SELECT version FROM " TAB_VER ";", &query);
-    
+
     if (status)
         status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
-    
+
     if (status)
     {
         const int v = query.value(0).toInt();
-        
+
         // More than we expect? Quit with error
         if (v > 1)
             status = StatusCodes::BadVersion;
     }
-    
+
     return status;
 }
