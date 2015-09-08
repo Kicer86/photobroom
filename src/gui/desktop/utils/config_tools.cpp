@@ -3,7 +3,7 @@
 
 namespace ConfigTools
 {
-    QColor intToColor(u_int32_t c)
+    QColor intToColor(uint32_t c)
     {
         const int r = (c >> 24) & 0xff;
         const int g = (c >> 16) & 0xff;
@@ -14,9 +14,9 @@ namespace ConfigTools
     }
 
 
-    u_int32_t colorToInt(const QColor& c)
+    uint32_t colorToInt(const QColor& c)
     {
-        u_int32_t result = 0;
+        uint32_t result = 0;
 
         result |= (c.red() & 0xffu) << 24;
         result |= (c.green() & 0xff) << 16;
