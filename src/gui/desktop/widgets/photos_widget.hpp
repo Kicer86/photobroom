@@ -45,4 +45,4 @@ class PhotosWidget: public ImagesTreeView
         void paintEvent(QPaintEvent*) override;
 };
 
-#endif // PHOTOSWIDGET_H
+#endif // PHOTOSWIDGET_HPP
