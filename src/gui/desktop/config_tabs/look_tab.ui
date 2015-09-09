@@ -10,6 +10,9 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string notr="true">LookTab</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <widget class="QGroupBox" name="groupBox">

@@ -10,6 +10,9 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string notr="true">MainTab</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="groupBox">
