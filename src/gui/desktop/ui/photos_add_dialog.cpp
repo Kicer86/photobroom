@@ -183,7 +183,7 @@ void PhotosAddDialog::on_buttonBox_accepted()
 {
     m_stagedModel->storePhotos();
 
-    close();
+    accept();
 }
 
 
@@ -193,8 +193,8 @@ void PhotosAddDialog::on_buttonBox_rejected()
 
     if (result == QMessageBox::Yes)
     {
-        // clear
+        // TODO: clear
 
-        close();
+        reject();
     }
 }

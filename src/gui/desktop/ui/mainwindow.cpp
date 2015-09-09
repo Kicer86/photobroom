@@ -364,17 +364,7 @@ void MainWindow::on_actionAdd_photos_triggered()
     photosAddDialog.set(m_executor);
     photosAddDialog.set(m_currentPrj->getDatabase());
     photosAddDialog.setWindowModality(Qt::ApplicationModal);
-    photosAddDialog.show();
-
-    this->setDisabled(true);
-
-    QEventLoop loop;
-
-    connect(&photosAddDialog, &PhotosAddDialog::closing, &loop, &QEventLoop::quit);
-
-    loop.exec();
-
-    this->setEnabled(true);
+    photosAddDialog.exec();
 }
 
 
