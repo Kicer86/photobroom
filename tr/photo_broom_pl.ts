@@ -34,7 +34,7 @@
     <message>
         <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia</translation>
     </message>
 </context>
 <context>
@@ -125,23 +125,23 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <name>LookTab</name>
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+17"/>
-        <source>Images List</source>
-        <translation type="unfinished"></translation>
+        <source>Photos view</source>
+        <translation>Lista zdjęć</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Expanded node color #1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwszy kolor tła grupy zdjęć:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Expanded node color #2:</source>
-        <translation type="unfinished"></translation>
+        <translation>Drugi kolor tła grupy zdjęć:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Images spacing:</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstęp pomiędzy zdjęciami:</translation>
     </message>
 </context>
 <context>
@@ -149,45 +149,44 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygląd</translation>
     </message>
 </context>
 <context>
     <name>MainTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+17"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacje</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdzaj aktualizacje</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Check frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
         <source>Every day</source>
-        <translation type="unfinished"></translation>
+        <translation>Codziennie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Every 3 days</source>
-        <translation type="unfinished"></translation>
+        <translation>Co 3 dni</translation>
     </message>
     <message>
         <location line="+0"/>
+        <source>Every week</source>
+        <translation>Co tydzień</translation>
+    </message>
+    <message>
         <source>Every Week</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Co tydzień</translation>
     </message>
 </context>
 <context>
@@ -195,7 +194,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+50"/>
         <source>Main</source>
-        <translation type="unfinished"></translation>
+        <translation>Główne</translation>
     </message>
 </context>
 <context>
@@ -252,7 +251,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+16"/>
         <source>Settin&amp;gs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -302,7 +301,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+5"/>
         <source>&amp;Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+159"/>
