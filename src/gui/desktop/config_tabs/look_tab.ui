@@ -14,7 +14,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Images List</string>
+      <string>Photos view</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
