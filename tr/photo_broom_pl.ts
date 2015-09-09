@@ -341,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+164"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -481,37 +481,37 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+94"/>
         <source>Add selected</source>
         <translation>Dodaj zaznaczone</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="-67"/>
         <source>File system &amp;view</source>
         <translation>Widok systemu &amp;plików</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+21"/>
         <source>D&amp;irectory content</source>
         <translation>Zawartość &amp;katalogu</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+22"/>
         <source>Photos found:</source>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+39"/>
         <source>I&amp;mages preparation</source>
         <translation>Przy&amp;gotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+17"/>
         <source>&amp;Tags editor</source>
         <translation>Edytor &amp;tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+192"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
