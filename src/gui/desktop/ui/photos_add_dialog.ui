@@ -32,7 +32,7 @@
          </property>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
-           <string>File system &amp;view</string>
+           <string>File system view</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
@@ -47,7 +47,7 @@
          </widget>
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
-           <string>D&amp;irectory content</string>
+           <string>Directory content</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
@@ -80,6 +80,9 @@
                <widget class="QPushButton" name="addSelectionButton">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to 'Photos preparation' area where you can edit photo's information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
                  <string>Add selected to preparation</string>
@@ -123,7 +126,7 @@
          </property>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
-           <string>I&amp;mages preparation</string>
+           <string>Photos preparation</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
@@ -140,7 +143,7 @@
          </widget>
          <widget class="QGroupBox" name="groupBox_4">
           <property name="title">
-           <string>&amp;Tags editor</string>
+           <string>Tags editor</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
@@ -165,6 +168,9 @@
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
