@@ -68,6 +68,7 @@ QString MainTabControler::tabName() const
     return tr("Main");
 }
 
+
 QWidget* MainTabControler::constructTab()
 {
     m_tabWidget = new MainTab;
