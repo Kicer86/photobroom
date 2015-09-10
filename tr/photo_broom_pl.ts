@@ -476,38 +476,78 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Dodaj zdjęcia</translation>
     </message>
     <message>
+        <location line="+21"/>
+        <source>File system view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Directory content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to &apos;Photos preparation&apos; area where you can edit photo&apos;s information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Add selected to preparation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Photos preparation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected photos from preparation area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Remove selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tags editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Photo &amp;information</source>
         <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+71"/>
         <source>Add selected</source>
-        <translation>Dodaj zaznaczone</translation>
+        <translation type="vanished">Dodaj zaznaczone</translation>
     </message>
     <message>
-        <location line="-50"/>
         <source>File system &amp;view</source>
-        <translation>Widok systemu &amp;plików</translation>
+        <translation type="vanished">Widok systemu &amp;plików</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>D&amp;irectory content</source>
-        <translation>Zawartość &amp;katalogu</translation>
+        <translation type="vanished">Zawartość &amp;katalogu</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="-99"/>
         <source>Photos found:</source>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location line="+25"/>
         <source>I&amp;mages preparation</source>
-        <translation>Przy&amp;gotowywanie zdjęć</translation>
+        <translation type="vanished">Przy&amp;gotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>&amp;Tags editor</source>
-        <translation>Edytor &amp;tagów</translation>
+        <translation type="vanished">Edytor &amp;tagów</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+192"/>
