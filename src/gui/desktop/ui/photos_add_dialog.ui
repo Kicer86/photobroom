@@ -82,7 +82,7 @@
                  <bool>false</bool>
                 </property>
                 <property name="text">
-                 <string>Add selected</string>
+                 <string>Add selected to preparation</string>
                 </property>
                </widget>
               </item>
