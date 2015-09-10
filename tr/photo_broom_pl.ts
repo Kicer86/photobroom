@@ -124,7 +124,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>LookTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+17"/>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+20"/>
         <source>Photos view</source>
         <translation>Lista zdjęć</translation>
     </message>
@@ -155,7 +155,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>MainTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+17"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+20"/>
         <source>Updates</source>
         <translation>Aktualizacje</translation>
     </message>
