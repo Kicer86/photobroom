@@ -480,27 +480,27 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+71"/>
         <source>Add selected</source>
         <translation>Dodaj zaznaczone</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-50"/>
         <source>File system &amp;view</source>
         <translation>Widok systemu &amp;plików</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+15"/>
         <source>D&amp;irectory content</source>
         <translation>Zawartość &amp;katalogu</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+51"/>
         <source>Photos found:</source>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+25"/>
         <source>I&amp;mages preparation</source>
         <translation>Przy&amp;gotowywanie zdjęć</translation>
     </message>
