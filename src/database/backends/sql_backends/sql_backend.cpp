@@ -889,6 +889,12 @@ namespace Database
     }
 
 
+    bool ASqlBackend::dbOpened()
+    {
+        return true;
+    }
+
+
     BackendStatus ASqlBackend::assureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -977,6 +983,9 @@ namespace Database
             m_data->m_dbOpen = db.open();
             status = m_data->m_dbOpen? StatusCodes::Ok: StatusCodes::OpenFailed;
         }
+
+        if (status)
+            status = dbOpened()? StatusCodes::Ok: StatusCodes::OpenFailed;
 
         if (status)
             status = checkStructure();

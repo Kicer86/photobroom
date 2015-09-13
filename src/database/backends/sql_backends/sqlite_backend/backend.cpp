@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QStringList>
 #include <QDir>
 
@@ -59,6 +60,20 @@ namespace Database
     BackendStatus SQLiteBackend::prepareDB(const ProjectInfo& prjInfo)
     {
         return m_data->prepareDB(this, prjInfo);
+    }
+
+
+    bool SQLiteBackend::dbOpened()
+    {
+        QSqlDatabase db = QSqlDatabase::database(getConnectionName());
+        QSqlQuery query(db);
+
+        bool status = query.exec("PRAGMA journal_mode = WAL;");
+
+        if (status)
+            status = Database::ASqlBackend::dbOpened();
+
+        return status;
     }
 
 
@@ -127,8 +142,8 @@ namespace Database
     {
         return std::unique_ptr<IBackend>(new SQLiteBackend);
     }
-    
-    
+
+
     QString SQLitePlugin::backendName() const
     {
         return "SQLite";

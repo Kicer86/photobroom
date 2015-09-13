@@ -63,6 +63,9 @@ namespace Database
             //will be called from init(). Prepare QSqlDatabase object here
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
 
+            // called when db opened. Backend may perform some extra setup
+            virtual bool dbOpened();
+
             //make sure table exists. Makes sure a table maching TableDefinition exists in database
             virtual BackendStatus assureTableExists(const TableDefinition &) const;
 
