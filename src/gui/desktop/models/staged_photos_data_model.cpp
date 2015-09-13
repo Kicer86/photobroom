@@ -26,9 +26,17 @@ namespace
 {
     struct AddPhotoTask: Database::AStorePhotoTask
     {
-        virtual void got(bool status)
+        void got(bool status) override
         {
             assert(status);
+        }
+    };
+
+    struct DropPhotosTask: Database::ADropPhotosTask
+    {
+        void got(int) override
+        {
+
         }
     };
 }
@@ -52,7 +60,7 @@ StagedPhotosDataModel::~StagedPhotosDataModel()
 
 void StagedPhotosDataModel::addPhoto(const QString& path)
 {
-    std::unique_ptr<Database::AStorePhotoTask> task(new AddPhotoTask);
+    auto task = std::make_unique<AddPhotoTask>();
     getDatabase()->exec(std::move(task), path);
 }
 
@@ -65,3 +73,11 @@ void StagedPhotosDataModel::storePhotos()
     for(const IPhotoInfo::Ptr& photo: photos)
         photo->markFlag(IPhotoInfo::FlagsE::StagingArea, 0);
 }
+
+
+void StagedPhotosDataModel::dropPhotos()
+{
+    auto task = std::make_unique<DropPhotosTask>();
+    getDatabase()->exec(std::move(task), getModelSpecificFilters());
+}
+
