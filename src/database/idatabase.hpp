@@ -105,6 +105,13 @@ namespace Database
         virtual void got(int) = 0;
     };
 
+    struct ADropPhotosTask
+    {
+        virtual ~ADropPhotosTask() {}
+
+        virtual void got(int) = 0;
+    };
+
     struct AInitTask
     {
         virtual ~AInitTask() {}
@@ -120,12 +127,12 @@ namespace Database
 
         virtual ADatabaseSignals* notifier() = 0;
 
-        //store data
+        // store data
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const QString &) = 0;
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
         virtual void exec(std::unique_ptr<AStoreTagTask> &&, const TagNameInfo &) = 0;
 
-        //read data
+        // read data
         virtual void exec(std::unique_ptr<AListTagsTask> &&) = 0;                                         //list all stored tag names
         virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
         virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
@@ -133,6 +140,9 @@ namespace Database
         virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
         virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const IPhotoInfo::Id &) = 0;                 //get particulat photo
         virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
+
+        // drop data
+        virtual void exec(std::unique_ptr<ADropPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;       // drop photos matching filter
 
         //init backend - connect to database or create new one
         virtual void exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;

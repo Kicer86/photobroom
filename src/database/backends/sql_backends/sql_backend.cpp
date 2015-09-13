@@ -191,6 +191,7 @@ namespace Database
             std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
             int getPhotosCount(const std::deque<IFilter::Ptr> &);
+            int dropPhotos(const std::deque<IFilter::Ptr> &);
 
             void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
 
@@ -437,6 +438,28 @@ namespace Database
             result = query.size();
         else
             result = query.next()? 1: 0;
+
+        return result;
+    }
+
+
+    int ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
+    {
+        const QString filterQuery = generateFilterQuery(filters);
+
+        //from filtered photos, get info about tags used there
+        QString queryStr = "DELETE FROM %1 WHERE id IN (%2)";
+
+        queryStr = queryStr.arg(TAB_PHOTOS);
+        queryStr = queryStr.arg(filterQuery);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        exec(queryStr, &query);
+
+        const int result = m_dbHasSizeFeature? query.size():
+                                               ( query.next()? 1: 0 );
 
         return result;
     }
@@ -1063,6 +1086,12 @@ namespace Database
     int ASqlBackend::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotosCount(filter);
+    }
+
+
+    int ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    {
+        return m_data->dropPhotos(filter);
     }
 
 

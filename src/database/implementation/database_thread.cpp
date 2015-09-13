@@ -40,6 +40,7 @@ namespace
     struct ListTagsTask;
     struct ListTagValuesTask;
     struct AnyPhotoTask;
+    struct DropPhotosTask;
 
     struct IThreadTask
     {
@@ -67,6 +68,7 @@ namespace
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
+        virtual void visit(DropPhotosTask *) = 0;
 
     };
 
@@ -247,6 +249,22 @@ namespace
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
+    struct DropPhotosTask: ThreadBaseTask
+    {
+        DropPhotosTask(std::unique_ptr<Database::ADropPhotosTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_filter(filter)
+        {
+
+        }
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::unique_ptr<Database::ADropPhotosTask> m_task;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
         Executor(Database::IBackend* backend): m_backend(backend), m_tasks(1024) {}
@@ -316,6 +334,12 @@ namespace
         virtual void visit(AnyPhotoTask* task) override
         {
             auto result = m_backend->getPhotosCount(task->m_filter);
+            task->m_task->got(result);
+        }
+
+        virtual void visit(DropPhotosTask* task) override
+        {
+            auto result = m_backend->dropPhotos(task->m_filter);
             task->m_task->got(result);
         }
 
@@ -503,6 +527,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::exec(std::unique_ptr<ADropPhotosTask>&& db_task , const std::deque<IFilter::Ptr>& filters)
+    {
+        DropPhotosTask* task = new DropPhotosTask(std::move(db_task), filters);
         m_impl->addTask(task);
     }
 
