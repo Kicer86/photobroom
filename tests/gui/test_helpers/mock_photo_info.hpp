@@ -12,7 +12,7 @@ struct MockPhotoInfo: IPhotoInfo
 {
     MOCK_CONST_METHOD0(getPath, const QString&());
     MOCK_CONST_METHOD0(getTags, const Tag::TagsList&());
-    MOCK_CONST_METHOD0(getThumbnail, const QPixmap&());
+    MOCK_CONST_METHOD0(getThumbnail, const QImage&());
     MOCK_CONST_METHOD0(getSha256, const Sha256sum&());
     MOCK_CONST_METHOD0(getID, Id());
 
@@ -25,7 +25,7 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_METHOD1(unregisterObserver, void(IObserver *));
 
     MOCK_METHOD1(initSha256, void(const Sha256sum &));
-    MOCK_METHOD1(initThumbnail, void(const QPixmap &));
+    MOCK_METHOD1(initThumbnail, void(const QImage &));
     MOCK_METHOD1(initID, void(const Id &));
 
     ol::ThreadSafeResource<Tag::TagsList>::Accessor accessTags() override
