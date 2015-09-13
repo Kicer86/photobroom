@@ -56,10 +56,6 @@ namespace Database
 
         virtual void setPhotoInfoCache(Database::IPhotoInfoCache *) = 0;
 
-        virtual bool transactionsReady() = 0;       //transacions are ready after init()
-        virtual bool beginTransaction() = 0;
-        virtual bool endTransaction() = 0;
-
         //add photo to database
         virtual IPhotoInfo::Ptr addPath(const QString &) = 0;
 

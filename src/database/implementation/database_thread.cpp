@@ -345,40 +345,14 @@ namespace
 
         void begin()
         {
-            bool transation_opened = false;
-            auto transaction_begin_time = std::chrono::steady_clock::now();
-
             for(;;)
             {
                 ol::Optional< std::unique_ptr<ThreadBaseTask> > task = m_tasks.pop();
 
                 if (task)
                 {
-                    //check if transactions are ready
-                    const bool transactions_ready = m_backend->transactionsReady();
-
-                    //begin transaction in not started yet
-                    if (transactions_ready && transation_opened == false)
-                    {
-                        m_backend->beginTransaction();
-                        transation_opened = true;
-                        transaction_begin_time = std::chrono::steady_clock::now();
-                    }
-
                     ThreadBaseTask* baseTask = task->get();
                     baseTask->visitMe(this);
-
-                    //calculate how long transaction is active
-                    const auto current_time = std::chrono::steady_clock::now();
-                    const auto time_diff = current_time - transaction_begin_time;
-                    const auto transaction_duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_diff).count();
-
-                    //no more tasks or transaction takes too long? end transaction
-                    if ( transation_opened && (transaction_duration > 2000 || m_tasks.empty()) )
-                    {
-                        m_backend->endTransaction();
-                        transation_opened = false;
-                    }
                 }
                 else
                     break;

@@ -88,72 +88,36 @@ namespace Database
 
         struct Transaction
         {
-            Transaction(): m_level(0), m_name(), m_logger(nullptr) {}
+            Transaction(QSqlDatabase& db): m_db(db)
+            {
+
+            }
+
+            ~Transaction()
+            {
+
+            }
 
             Transaction(const Transaction &) = delete;
             Transaction& operator=(const Transaction &) = delete;
 
-            void setDBName(const QString& name)
-            {
-                m_name = name;
-            }
-
-            void set(ILogger* logger)
-            {
-                m_logger = logger;
-            }
-
             BackendStatus begin()
             {
-                assert(m_name != "");
-                BackendStatus status(StatusCodes::Ok);
-
-                if (m_level++ == 0)
-                {
-                    QSqlDatabase db = QSqlDatabase::database(m_name, false);
-
-                    if (db.isOpen())
-                        status = db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
-                }
+                const BackendStatus status = m_db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
 
                 return status;
             }
 
-
-            BackendStatus end()
+            BackendStatus commit()
             {
-                assert(m_name != "" && m_level > 0);
-                BackendStatus status = StatusCodes::Ok;
-
-                if (--m_level == 0)
-                {
-                    const auto start = std::chrono::steady_clock::now();
-
-                    QSqlDatabase db = QSqlDatabase::database(m_name, false);
-
-                    if (db.isOpen())
-                    {
-                        status = db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
-
-                        if (status == false)
-                            db.rollback();
-                    }
-
-                    const auto end_t = std::chrono::steady_clock::now();
-                    const auto diff = end_t - start;
-                    const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-
-                    std::stringstream logInfo;
-                    logInfo << "Transaction commit: " << diff_ms << "ms";
-                    m_logger->log(ILogger::Severity::Debug, logInfo.str());
-                }
+                const BackendStatus status = m_db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
 
                 return status;
             }
 
-            int m_level;
-            QString m_name;
-            ILogger* m_logger;
+        private:
+            QSqlDatabase& m_db;
+
         };
 
     }
@@ -169,7 +133,6 @@ namespace Database
             std::thread::id m_database_thread_id;
             QString m_connectionName;
             IPhotoInfoCache* m_photoInfoCache;
-            Transaction m_transaction;
             std::unique_ptr<ILogger> m_logger;
             std::set<IBackend::IEvents *> m_observers;
             bool m_dbHasSizeFeature;
@@ -217,7 +180,6 @@ namespace Database
                                                    m_database_thread_id(),
                                                    m_connectionName(""),
                                                    m_photoInfoCache(nullptr),
-                                                   m_transaction(),
                                                    m_logger(nullptr),
                                                    m_observers(),
                                                    m_dbHasSizeFeature(false),
@@ -589,7 +551,8 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        bool status = m_transaction.begin();
+        Transaction transaction(db);
+        bool status = transaction.begin();
 
         //store path and sha256
         IPhotoInfo::Id id = data->getID();
@@ -649,7 +612,7 @@ namespace Database
             status = storeFlags(id, data);
 
         if (status)
-            status = m_transaction.end();
+            status = transaction.commit();
 
         //store id in photo
         if (status && inserting)
@@ -948,30 +911,11 @@ namespace Database
     }
 
 
-    bool ASqlBackend::transactionsReady()
-    {
-        return m_data->m_connectionName != "";
-    }
-
-
-    bool ASqlBackend::beginTransaction()
-    {
-        return m_data->m_transaction.begin();
-    }
-
-
-    bool ASqlBackend::endTransaction()
-    {
-        return m_data->m_transaction.end();
-    }
-
-
     BackendStatus ASqlBackend::init(const ProjectInfo& prjInfo)
     {
         //store thread id for further validation
         m_data->m_database_thread_id = std::this_thread::get_id();
         m_data->m_connectionName = prjInfo.projectDir;
-        m_data->m_transaction.setDBName(prjInfo.projectDir);
 
         BackendStatus status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1107,7 +1051,6 @@ namespace Database
     void ASqlBackend::set(ILoggerFactory* logger_factory)
     {
         m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
-        m_data->m_transaction.set(m_data->m_logger.get());
     }
 
 
@@ -1120,7 +1063,9 @@ namespace Database
     BackendStatus ASqlBackend::checkStructure()
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        BackendStatus status = m_data->m_transaction.begin();
+        Transaction transaction(db);
+
+        BackendStatus status = transaction.begin();
 
         //check tables existance
         if (status)
@@ -1153,7 +1098,7 @@ namespace Database
                 status = checkDBVersion();
         }
 
-        status &= m_data->m_transaction.end();
+        status &= transaction.commit();
 
         return status;
     }
