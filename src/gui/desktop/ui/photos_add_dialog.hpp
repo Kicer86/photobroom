@@ -82,6 +82,7 @@ class PhotosAddDialog: public QDialog
         void on_addSelectionButton_pressed();
         void on_buttonBox_accepted();
         void on_buttonBox_rejected();
+        void on_removeSelectedButton_clicked();
 };
 
 #endif // PHOTOSADDDIALOG_HPP

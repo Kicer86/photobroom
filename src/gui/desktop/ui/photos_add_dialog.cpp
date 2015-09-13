@@ -198,3 +198,9 @@ void PhotosAddDialog::on_buttonBox_rejected()
         reject();
     }
 }
+
+
+void PhotosAddDialog::on_removeSelectedButton_clicked()
+{
+    m_stagedModel->dropPhotos();
+}
