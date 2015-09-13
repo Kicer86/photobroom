@@ -71,6 +71,9 @@ namespace Database
         bool status = query.exec("PRAGMA journal_mode = WAL;");
 
         if (status)
+            status = query.exec("PRAGMA synchronous = NORMAL;"); // TODO: dangerous, use some backups?
+
+        if (status)
             status = Database::ASqlBackend::dbOpened();
 
         return status;
