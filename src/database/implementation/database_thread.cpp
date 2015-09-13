@@ -350,7 +350,7 @@ namespace
 
             for(;;)
             {
-                ol::Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop();
+                ol::Optional< std::unique_ptr<ThreadBaseTask> > task = m_tasks.pop();
 
                 if (task)
                 {
@@ -386,7 +386,7 @@ namespace
         }
 
         Database::IBackend* m_backend;
-        ol::TS_Queue<std::shared_ptr<ThreadBaseTask>> m_tasks;
+        ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
     };
 
 }
@@ -406,7 +406,7 @@ namespace Database
         void addTask(ThreadBaseTask* task)
         {
             assert(m_working);
-            m_executor.m_tasks.push(std::shared_ptr<ThreadBaseTask>(task));
+            m_executor.m_tasks.push(std::unique_ptr<ThreadBaseTask>(task));
         }
 
         void stopExecutor()
