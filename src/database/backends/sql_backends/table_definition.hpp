@@ -16,13 +16,13 @@ namespace Database
     {
         QString name;
         QString type_definition;
-        enum class Type
+        enum class Purpose
         {
             ID,
             Regular,
-        } type;
+        } purpose;
 
-        ColDefinition(const char *, const QString& typeDefinition, Type t = Type::Regular);
+        ColDefinition(const char *, const QString& typeDefinition, Purpose t = Purpose::Regular);
     };
 
     struct SQL_BACKEND_BASE_EXPORT TableDefinition

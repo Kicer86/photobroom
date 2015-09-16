@@ -4,8 +4,8 @@
 namespace Database
 {
 
-    ColDefinition::ColDefinition(const char* n, const QString& typeDefinition, Type t):
-        name(n), type_definition(typeDefinition), type(t)
+    ColDefinition::ColDefinition(const char* n, const QString& typeDefinition, Purpose t):
+        name(n), type_definition(typeDefinition), purpose(t)
     {
 
     }
