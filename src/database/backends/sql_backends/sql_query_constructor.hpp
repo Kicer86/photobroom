@@ -7,6 +7,7 @@
 #include <QString>
 
 #include "sql_backend_base_export.h"
+#include "table_definition.hpp"
 
 namespace Database
 {
@@ -46,8 +47,8 @@ namespace Database
         //prepare query for finding table with given name
         virtual QString prepareFindTableQuery(const QString& name) const = 0;
 
-        //prepare column description for CREATE TABLE matching provided info.
-        virtual QString prepareColumnDescription(const ColDefinition &) const = 0;
+        // get type for column's purpose
+        virtual QString getTypeFor(ColDefinition::Purpose) const = 0;
 
         virtual SqlQuery insert(const InsertQueryData &) const = 0;                 // construct an insert sql query.
         virtual SqlQuery update(const UpdateQueryData &) const = 0;                 // construct an update sql query.

@@ -877,8 +877,18 @@ namespace Database
 
             for(int i = 0; i < size; i++)
             {
+                const QStringList types =
+                {
+                    getQueryConstructor()->getTypeFor(definition.columns[i].purpose),
+                    definition.columns[i].type_definition
+                };
+
+                const QString type = types.join(" ").simplified();
+
                 const bool notlast = i + 1 < size;
-                columnsDesc += getQueryConstructor()->prepareColumnDescription(definition.columns[i]) + (notlast? ", ": "");
+                columnsDesc += definition.columns[i].name + " ";
+                columnsDesc += type;
+                columnsDesc += notlast? ", ": "";
             }
 
             status = m_data->exec( getQueryConstructor()->prepareCreationQuery(definition.name, columnsDesc), &query );

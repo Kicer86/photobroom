@@ -23,13 +23,13 @@ namespace Database
         private:
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
-            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
-            virtual QString prepareColumnDescription(const ColDefinition &) const override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
             virtual void set(IConfiguration *) override;
             virtual void set(ILoggerFactory *) override;
 
             // GenericSqlQueryConstructor:
+            virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
+            virtual QString getTypeFor(ColDefinition::Purpose) const override;
             virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;

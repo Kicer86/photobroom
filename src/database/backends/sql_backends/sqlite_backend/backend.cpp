@@ -86,25 +86,6 @@ namespace Database
     }
 
 
-    QString SQLiteBackend::prepareColumnDescription(const ColDefinition& col) const
-    {
-        QString result;
-
-        switch(col.type)
-        {
-            case ColDefinition::Type::Regular:
-                result = col.name;
-                break;
-
-            case ColDefinition::Type::ID:
-                result = col.name + " " + "INTEGER PRIMARY KEY AUTOINCREMENT";
-                break;
-        }
-
-        return result;
-    }
-
-
     const ISqlQueryConstructor* SQLiteBackend::getQueryConstructor() const
     {
         return this;
@@ -114,6 +95,24 @@ namespace Database
     void SQLiteBackend::set(IConfiguration *)
     {
 
+    }
+
+
+    QString SQLiteBackend::getTypeFor(ColDefinition::Purpose type) const
+    {
+        QString result;
+
+        switch(type)
+        {
+            case ColDefinition::Purpose::ID:
+                result = "INTEGER PRIMARY KEY AUTOINCREMENT";
+                break;
+
+            default:
+                break;
+        }
+
+        return result;
     }
 
 
@@ -143,7 +142,7 @@ namespace Database
 
     std::unique_ptr<IBackend> SQLitePlugin::constructBackend()
     {
-        return std::unique_ptr<IBackend>(new SQLiteBackend);
+        return std::make_unique<SQLiteBackend>();
     }
 
 

@@ -90,25 +90,6 @@ namespace Database
     }
 
 
-    QString MySqlBackend::prepareColumnDescription(const ColDefinition& col) const
-    {
-        QString result;
-
-        switch(col.type)
-        {
-            case ColDefinition::Type::Regular:
-                result = col.name;
-                break;
-
-            case ColDefinition::Type::ID:
-                result = col.name + " " + "INT PRIMARY KEY AUTO_INCREMENT";
-                break;
-        }
-
-        return result;
-    }
-
-
     const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
     {
         return this;
@@ -129,6 +110,23 @@ namespace Database
         m_data->m_server.set(logger);
     }
 
+
+    QString MySqlBackend::getTypeFor(ColDefinition::Purpose type) const
+    {
+        QString result;
+
+        switch(type)
+        {
+            case ColDefinition::Purpose::ID:
+                result = "INT PRIMARY KEY AUTO_INCREMENT";
+                break;
+
+            default:
+                break;
+        }
+
+        return result;
+    }
 
 
     SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
@@ -157,10 +155,10 @@ namespace Database
 
     std::unique_ptr<IBackend> MySqlPlugin::constructBackend()
     {
-        return std::unique_ptr<IBackend>(new MySqlBackend);
+        return std::make_unique<MySqlBackend>();
     }
-    
-    
+
+
     QString MySqlPlugin::backendName() const
     {
         return "MySql";

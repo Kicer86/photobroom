@@ -27,12 +27,12 @@ namespace Database
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
             virtual bool dbOpened() override;
-            virtual QString prepareFindTableQuery(const QString &) const override;
-            virtual QString prepareColumnDescription(const ColDefinition&) const override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
             virtual void set(IConfiguration *);
 
             //ISqlQueryConstructor:
+            virtual QString prepareFindTableQuery(const QString &) const override;
+            virtual QString getTypeFor(ColDefinition::Purpose) const;
             virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;
