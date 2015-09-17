@@ -193,7 +193,7 @@ void PhotosAddDialog::on_buttonBox_rejected()
 
     if (result == QMessageBox::Yes)
     {
-        // TODO: clear
+        m_stagedModel->dropPhotos();
 
         reject();
     }
