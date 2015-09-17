@@ -74,6 +74,9 @@ namespace Database
             status = query.exec("PRAGMA synchronous = NORMAL;"); // TODO: dangerous, use some backups?
 
         if (status)
+            status = query.exec("PRAGMA foreign_keys = ON;");
+
+        if (status)
             status = Database::ASqlBackend::dbOpened();
 
         return status;
