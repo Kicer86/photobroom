@@ -51,8 +51,8 @@ namespace Database
                        { "value", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
                        { "name_id", "INTEGER NOT NULL"     },
                        { "photo_id", "INTEGER NOT NULL"    },
-                       { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""   },
-                       { "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)", "" }
+                       { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "ON DELETE CASCADE"   },
+                       { "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)", "ON DELETE CASCADE" }
                    }
         );
 
@@ -62,7 +62,7 @@ namespace Database
                              { "id", "", ColDefinition::Purpose::ID                      },
                              { "photo_id", "INTEGER NOT NULL"                            },
                              { "data", "BLOB"                                            },
-                             { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                             { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "ON DELETE CASCADE" }
                          },
                          {
                              { "th_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one thumbnail per photo
@@ -76,7 +76,7 @@ namespace Database
                              { "id", "", ColDefinition::Purpose::ID                      },
                              { "photo_id INTEGER NOT NULL", ""                           },
                              { "sha256 CHAR(32) NOT NULL", ""                            },
-                             { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                             { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "ON DELETE CASCADE" }
                          },
                          {
                              { "ha_photo_id", "UNIQUE INDEX", "(photo_id)" },               //one sha per photo
@@ -90,11 +90,11 @@ namespace Database
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
                         { "photo_id",  "INTEGER NOT NULL"     },
-                        { FLAG_STAGING_AREA,  " INT NOT NULL" },
-                        { FLAG_TAGS_LOADED,   " INT NOT NULL" },
-                        { FLAG_SHA256_LOADED, " INT NOT NULL" },
-                        { FLAG_THUMB_LOADED,  " INT NOT NULL" },
-                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                        { FLAG_STAGING_AREA,  "INT NOT NULL" },
+                        { FLAG_TAGS_LOADED,   "INT NOT NULL" },
+                        { FLAG_SHA256_LOADED, "INT NOT NULL" },
+                        { FLAG_THUMB_LOADED,  "INT NOT NULL" },
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "ON DELETE CASCADE" }
                     },
                     {
                         { "fl_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one set of flags per photo
