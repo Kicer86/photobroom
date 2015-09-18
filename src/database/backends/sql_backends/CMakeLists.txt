@@ -18,7 +18,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 
 set(SOURCES
         generic_sql_query_constructor.cpp
-        #sql_db_query.cpp                         deprecated
         sql_backend.cpp
         table_definition.cpp
         tables.cpp
@@ -30,7 +29,6 @@ set(SOURCES
 
 set(HEADERS
         generic_sql_query_constructor.hpp
-        sql_db_query.hpp
         sql_backend.hpp
         table_definition.hpp
         tables.hpp
