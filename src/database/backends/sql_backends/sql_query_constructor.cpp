@@ -4,31 +4,31 @@
 namespace Database
 {
 
-    SqlQuery::SqlQuery(): m_queries()
+    SqlMultiQuery::SqlMultiQuery(): m_queries()
     {
 
     }
 
 
-    SqlQuery::SqlQuery(const QString& query): m_queries()
+    SqlMultiQuery::SqlMultiQuery(const QString& query): m_queries()
     {
         addQuery(query);
     }
 
 
-    SqlQuery::~SqlQuery()
+    SqlMultiQuery::~SqlMultiQuery()
     {
 
     }
 
 
-    void SqlQuery::addQuery(const QString& query)
+    void SqlMultiQuery::addQuery(const QString& query)
     {
         m_queries.push_back(query);
     }
 
 
-    const std::vector< QString >& SqlQuery::getQueries() const
+    const std::vector< QString >& SqlMultiQuery::getQueries() const
     {
         return m_queries;
     }

@@ -428,7 +428,7 @@ namespace Database
         data.setColumns("photo_id", "data");
         data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
 
-        SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -445,7 +445,7 @@ namespace Database
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.c_str());
 
-        SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -522,7 +522,7 @@ namespace Database
         insertData.setColumns("path", "store_date");
         insertData.setValues(data->getPath(), InsertQueryData::Value::CurrentTime);
 
-        SqlQuery queryStrs;
+        SqlMultiQuery queryStrs;
 
         if (inserting)
         {

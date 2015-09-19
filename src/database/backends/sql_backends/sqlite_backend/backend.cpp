@@ -119,7 +119,7 @@ namespace Database
     }
 
 
-    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
+    SqlMultiQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
 

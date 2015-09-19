@@ -12,14 +12,14 @@ class QSqlQuery;
 
 namespace Database
 {
-    class SqlQuery;
+    class SqlMultiQuery;
 
     struct ISqlQueryExecutor
     {
         virtual ~ISqlQueryExecutor() {}
 
         virtual BackendStatus exec(const QString& query, QSqlQuery* result) const = 0;
-        virtual BackendStatus exec(const SqlQuery& query, QSqlQuery* result) const = 0;
+        virtual BackendStatus exec(const SqlMultiQuery& query, QSqlQuery* result) const = 0;
     };
 }
 

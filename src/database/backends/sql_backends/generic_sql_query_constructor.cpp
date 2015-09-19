@@ -52,7 +52,7 @@ namespace Database
     }
 
 
-    SqlQuery GenericSqlQueryConstructor::insert(const InsertQueryData& data) const
+    SqlMultiQuery GenericSqlQueryConstructor::insert(const InsertQueryData& data) const
     {
         QString result;
 
@@ -69,7 +69,7 @@ namespace Database
     }
 
 
-    SqlQuery GenericSqlQueryConstructor::update(const UpdateQueryData& data) const
+    SqlMultiQuery GenericSqlQueryConstructor::update(const UpdateQueryData& data) const
     {
         QString result;
 

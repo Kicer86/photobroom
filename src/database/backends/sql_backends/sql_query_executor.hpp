@@ -41,7 +41,7 @@ namespace Database
 
             SqlQueryExecutor& operator=(const SqlQueryExecutor &) = delete;
 
-            BackendStatus exec(const SqlQuery& query, QSqlQuery* result) const override;
+            BackendStatus exec(const SqlMultiQuery& query, QSqlQuery* result) const override;
             BackendStatus exec(const QString& query, QSqlQuery* result) const override;
 
         private:

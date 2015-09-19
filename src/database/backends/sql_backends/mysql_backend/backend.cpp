@@ -129,7 +129,7 @@ namespace Database
     }
 
 
-    SqlQuery MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
+    SqlMultiQuery MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result("REPLACE INTO %1(%2) VALUES(%3)");
 

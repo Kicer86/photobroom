@@ -85,7 +85,7 @@ namespace Database
     }
 
 
-    BackendStatus SqlQueryExecutor::exec(const SqlQuery& query, QSqlQuery* result) const
+    BackendStatus SqlQueryExecutor::exec(const SqlMultiQuery& query, QSqlQuery* result) const
     {
         auto& queries = query.getQueries();
         BackendStatus status(StatusCodes::Ok);

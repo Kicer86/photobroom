@@ -40,8 +40,8 @@ namespace Database
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareFindTableQuery(const QString& name) const override;
 
-            virtual SqlQuery insert(const InsertQueryData &) const override;
-            virtual SqlQuery update(const UpdateQueryData &) const override;
+            virtual SqlMultiQuery insert(const InsertQueryData &) const override;
+            virtual SqlMultiQuery update(const UpdateQueryData &) const override;
     };
 
 }
