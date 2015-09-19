@@ -19,13 +19,57 @@
 
 #include "database_migrator.hpp"
 
-DatabaseMigrator::DatabaseMigrator()
+#include <QSqlQuery>
+#include <QVariant>
+
+#include "database/database_status.hpp"
+
+#include "isql_query_executor.hpp"
+#include "tables.hpp"
+
+namespace Database
 {
 
-}
+    DatabaseMigrator::DatabaseMigrator(ISqlQueryExecutor* executor): m_executor(executor)
+    {
+
+    }
 
 
-DatabaseMigrator::~DatabaseMigrator()
-{
+    DatabaseMigrator::~DatabaseMigrator()
+    {
+
+    }
+
+
+    bool DatabaseMigrator::needsMigration(const QSqlDatabase& db) const
+    {
+        QSqlQuery query(db);
+
+        BackendStatus status = m_executor->exec("SELECT version FROM " TAB_VER ";", &query);
+
+        if (status)
+            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
+
+        if (status)
+        {
+            const int v = query.value(0).toInt();
+
+            //if (v == 0)
+            //convertToV1();
+
+            // More than we expect? Quit with error
+            if (v > 1)
+                status = StatusCodes::BadVersion;
+        }
+
+        return status;
+    }
+
+
+    bool DatabaseMigrator::migrate(const QSqlDatabase&)
+    {
+        return true;
+    }
 
 }

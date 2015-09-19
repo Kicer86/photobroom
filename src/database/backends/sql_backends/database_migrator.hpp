@@ -20,14 +20,29 @@
 #ifndef DATABASEMIGRATOR_HPP
 #define DATABASEMIGRATOR_HPP
 
-class DatabaseMigrator
-{
-    public:
-        DatabaseMigrator();
-        DatabaseMigrator(const DatabaseMigrator &) = delete;
-        ~DatabaseMigrator();
 
-        DatabaseMigrator& operator=(const DatabaseMigrator &) = delete;
-};
+class QSqlDatabase;
+
+namespace Database
+{
+    struct ISqlQueryExecutor;
+
+    class DatabaseMigrator
+    {
+        public:
+            DatabaseMigrator(ISqlQueryExecutor *);
+            DatabaseMigrator(const DatabaseMigrator &) = delete;
+            ~DatabaseMigrator();
+
+            DatabaseMigrator& operator=(const DatabaseMigrator &) = delete;
+
+            bool needsMigration(const QSqlDatabase &) const;
+            bool migrate(const QSqlDatabase &);
+
+        private:
+            ISqlQueryExecutor* m_executor;
+    };
+
+}
 
 #endif // DATABASEMIGRATOR_HPP
