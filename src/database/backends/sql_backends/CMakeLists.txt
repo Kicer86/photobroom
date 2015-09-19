@@ -25,18 +25,21 @@ set(SOURCES
         variant_converter.cpp
         query_structs.cpp
         sql_query_constructor.cpp
+        sql_query_executor.cpp
         sql_select_query_generator.cpp
     )
 
 set(HEADERS
         database_migrator.hpp
         generic_sql_query_constructor.hpp
+        isql_query_executor.hpp
         sql_backend.hpp
         table_definition.hpp
         tables.hpp
         variant_converter.hpp
         query_structs.hpp
         sql_query_constructor.hpp
+        sql_query_executor.hpp
         sql_select_query_generator.hpp
     )
 
