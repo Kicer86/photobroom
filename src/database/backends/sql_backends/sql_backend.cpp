@@ -180,6 +180,7 @@ namespace Database
                                                    m_photoInfoCache(nullptr),
                                                    m_logger(nullptr),
                                                    m_observers(),
+                                                   m_executor(),
                                                    m_dbHasSizeFeature(false),
                                                    m_dbOpen(false)
     {
