@@ -54,6 +54,7 @@
 #include "sql_select_query_generator.hpp"
 #include "variant_converter.hpp"
 #include "sql_query_executor.hpp"
+#include "database_migrator.hpp"
 
 
 namespace Database
@@ -1080,6 +1081,7 @@ namespace Database
 Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 {
     QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
     QSqlQuery query(db);
 
     BackendStatus status = m_data->m_executor.exec("SELECT version FROM " TAB_VER ";", &query);
@@ -1094,6 +1096,14 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         // More than we expect? Quit with error
         if (v > 1)
             status = StatusCodes::BadVersion;
+    }
+
+    if (status)
+    {
+        DatabaseMigrator migrator(db, &m_data->m_executor);
+
+        if (migrator.needsMigration())
+            status = migrator.migrate()? StatusCodes::Ok: StatusCodes::MigrationFailed;
     }
 
     return status;

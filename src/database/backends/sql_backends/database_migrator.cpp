@@ -30,7 +30,7 @@
 namespace Database
 {
 
-    DatabaseMigrator::DatabaseMigrator(ISqlQueryExecutor* executor): m_executor(executor)
+    DatabaseMigrator::DatabaseMigrator(QSqlDatabase& db, ISqlQueryExecutor* executor): m_executor(executor), m_db(db)
     {
 
     }
@@ -42,9 +42,37 @@ namespace Database
     }
 
 
-    bool DatabaseMigrator::needsMigration(const QSqlDatabase& db) const
+    bool DatabaseMigrator::needsMigration() const
     {
-        QSqlQuery query(db);
+        int v = 0;
+        bool status = fetchVersion(v);
+
+        if (status)
+            status = v < 1;
+
+        return status;
+    }
+
+
+    bool DatabaseMigrator::migrate()
+    {
+        int v = 0;
+
+        bool status = fetchVersion(v);
+
+        if (status)
+        {
+            if (v < 1)
+                status = convertToV1();
+        }
+
+        return true;
+    }
+
+
+    bool DatabaseMigrator::fetchVersion(int& v) const
+    {
+        QSqlQuery query(m_db);
 
         BackendStatus status = m_executor->exec("SELECT version FROM " TAB_VER ";", &query);
 
@@ -52,22 +80,13 @@ namespace Database
             status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
 
         if (status)
-        {
-            const int v = query.value(0).toInt();
-
-            //if (v == 0)
-            //convertToV1();
-
-            // More than we expect? Quit with error
-            if (v > 1)
-                status = StatusCodes::BadVersion;
-        }
+            v = query.value(0).toInt();
 
         return status;
     }
 
 
-    bool DatabaseMigrator::migrate(const QSqlDatabase&)
+    bool DatabaseMigrator::convertToV1()
     {
         return true;
     }

@@ -30,17 +30,21 @@ namespace Database
     class DatabaseMigrator
     {
         public:
-            DatabaseMigrator(ISqlQueryExecutor *);
+            DatabaseMigrator(QSqlDatabase &, ISqlQueryExecutor *);
             DatabaseMigrator(const DatabaseMigrator &) = delete;
             ~DatabaseMigrator();
 
             DatabaseMigrator& operator=(const DatabaseMigrator &) = delete;
 
-            bool needsMigration(const QSqlDatabase &) const;
-            bool migrate(const QSqlDatabase &);
+            bool needsMigration() const;
+            bool migrate();
 
         private:
             ISqlQueryExecutor* m_executor;
+            QSqlDatabase& m_db;
+
+            bool fetchVersion(int &) const;
+            bool convertToV1();
     };
 
 }
