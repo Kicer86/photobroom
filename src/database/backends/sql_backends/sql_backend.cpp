@@ -1098,6 +1098,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
             status = StatusCodes::BadVersion;
     }
 
+    /*
     if (status)
     {
         DatabaseMigrator migrator(db, &m_data->m_executor);
@@ -1105,6 +1106,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         if (migrator.needsMigration())
             status = migrator.migrate()? StatusCodes::Ok: StatusCodes::MigrationFailed;
     }
+    */
 
     return status;
 }

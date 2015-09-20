@@ -60,11 +60,8 @@ namespace Database
 
         bool status = fetchVersion(v);
 
-        if (status)
-        {
-            if (v < 1)
-                status = convertToV1();
-        }
+        if (status && v < 1)
+            status = convertToV1();
 
         return true;
     }
