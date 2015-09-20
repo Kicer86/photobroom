@@ -371,18 +371,33 @@ namespace Database
         const QString filterQuery = generateFilterQuery(filters);
 
         //from filtered photos, get info about tags used there
-        QString queryStr = "DELETE FROM %1 WHERE id IN (%2)";
+        SqlMultiQuery queries =
+        {
+            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (%1)").arg(filterQuery)
+        };
 
-        queryStr = queryStr.arg(TAB_PHOTOS);
-        queryStr = queryStr.arg(filterQuery);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        m_executor.exec(queryStr, &query);
+        bool status = db.transaction();
 
-        const int result = m_dbHasSizeFeature? query.size():
-                                               ( query.next()? 1: 0 );
+        if (status)
+            status = m_executor.exec(queries, &query);
+
+        if (status)
+            status = db.commit();
+        else
+            db.rollback();
+
+        int result = 0;
+
+        if (status)
+            result = m_dbHasSizeFeature? query.size(): ( query.next()? 1: 0 );
 
         return result;
     }
