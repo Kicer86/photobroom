@@ -16,6 +16,12 @@ namespace Database
     }
 
 
+    SqlMultiQuery::SqlMultiQuery(const std::initializer_list<QString>& l): m_queries(l)
+    {
+        
+    }
+
+
     SqlMultiQuery::~SqlMultiQuery()
     {
 

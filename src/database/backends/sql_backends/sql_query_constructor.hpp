@@ -21,6 +21,8 @@ namespace Database
     {
             SqlMultiQuery();
             SqlMultiQuery(const QString &);
+            SqlMultiQuery(const std::initializer_list<QString> &);
+
             ~SqlMultiQuery();
 
             void addQuery(const QString &);
