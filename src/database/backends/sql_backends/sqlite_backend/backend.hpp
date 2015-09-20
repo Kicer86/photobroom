@@ -26,13 +26,14 @@ namespace Database
         private:
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
-            virtual QString prepareFindTableQuery(const QString &) const override;
-            virtual QString prepareColumnDescription(const ColDefinition&) const override;
+            virtual bool dbOpened() override;
             virtual const ISqlQueryConstructor* getQueryConstructor() const override;
             virtual void set(IConfiguration *);
 
             //ISqlQueryConstructor:
-            virtual SqlQuery insertOrUpdate(const InsertQueryData&) const override;
+            virtual QString prepareFindTableQuery(const QString &) const override;
+            virtual QString getTypeFor(ColDefinition::Purpose) const;
+            virtual SqlMultiQuery insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

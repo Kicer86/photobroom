@@ -34,7 +34,7 @@
     <message>
         <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia</translation>
     </message>
 </context>
 <context>
@@ -124,24 +124,24 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>LookTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+17"/>
-        <source>Images List</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+20"/>
+        <source>Photos view</source>
+        <translation>Lista zdjęć</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Expanded node color #1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwszy kolor tła grupy zdjęć:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Expanded node color #2:</source>
-        <translation type="unfinished"></translation>
+        <translation>Drugi kolor tła grupy zdjęć:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Images spacing:</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstęp pomiędzy zdjęciami:</translation>
     </message>
 </context>
 <context>
@@ -149,45 +149,44 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygląd</translation>
     </message>
 </context>
 <context>
     <name>MainTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+20"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacje</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdzaj aktualizacje</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Check frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
         <source>Every day</source>
-        <translation type="unfinished"></translation>
+        <translation>Codziennie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Every 3 days</source>
-        <translation type="unfinished"></translation>
+        <translation>Co 3 dni</translation>
     </message>
     <message>
         <location line="+0"/>
+        <source>Every week</source>
+        <translation>Co tydzień</translation>
+    </message>
+    <message>
         <source>Every Week</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Co tydzień</translation>
     </message>
 </context>
 <context>
@@ -195,7 +194,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+50"/>
         <source>Main</source>
-        <translation type="unfinished"></translation>
+        <translation>Główne</translation>
     </message>
 </context>
 <context>
@@ -252,7 +251,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+16"/>
         <source>Settin&amp;gs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -302,7 +301,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+5"/>
         <source>&amp;Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+159"/>
@@ -341,7 +340,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+164"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -477,41 +476,81 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Dodaj zdjęcia</translation>
     </message>
     <message>
+        <location line="+21"/>
+        <source>File system view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Directory content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to &apos;Photos preparation&apos; area where you can edit photo&apos;s information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Add selected to preparation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Photos preparation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected photos from preparation area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Remove selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tags editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Photo &amp;information</source>
         <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+36"/>
         <source>Add selected</source>
-        <translation>Dodaj zaznaczone</translation>
+        <translation type="vanished">Dodaj zaznaczone</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>File system &amp;view</source>
-        <translation>Widok systemu &amp;plików</translation>
+        <translation type="vanished">Widok systemu &amp;plików</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>D&amp;irectory content</source>
-        <translation>Zawartość &amp;katalogu</translation>
+        <translation type="vanished">Zawartość &amp;katalogu</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="-99"/>
         <source>Photos found:</source>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location line="+28"/>
         <source>I&amp;mages preparation</source>
-        <translation>Przy&amp;gotowywanie zdjęć</translation>
+        <translation type="vanished">Przy&amp;gotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>&amp;Tags editor</source>
-        <translation>Edytor &amp;tagów</translation>
+        <translation type="vanished">Edytor &amp;tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+192"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>

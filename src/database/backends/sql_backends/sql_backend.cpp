@@ -53,6 +53,8 @@
 #include "query_structs.hpp"
 #include "sql_select_query_generator.hpp"
 #include "variant_converter.hpp"
+#include "sql_query_executor.hpp"
+#include "database_migrator.hpp"
 
 
 namespace Database
@@ -88,72 +90,36 @@ namespace Database
 
         struct Transaction
         {
-            Transaction(): m_level(0), m_name(), m_logger(nullptr) {}
+            Transaction(QSqlDatabase& db): m_db(db)
+            {
+
+            }
+
+            ~Transaction()
+            {
+
+            }
 
             Transaction(const Transaction &) = delete;
             Transaction& operator=(const Transaction &) = delete;
 
-            void setDBName(const QString& name)
-            {
-                m_name = name;
-            }
-
-            void set(ILogger* logger)
-            {
-                m_logger = logger;
-            }
-
             BackendStatus begin()
             {
-                assert(m_name != "");
-                BackendStatus status(StatusCodes::Ok);
-
-                if (m_level++ == 0)
-                {
-                    QSqlDatabase db = QSqlDatabase::database(m_name, false);
-
-                    if (db.isOpen())
-                        status = db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
-                }
+                const BackendStatus status = m_db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
 
                 return status;
             }
 
-
-            BackendStatus end()
+            BackendStatus commit()
             {
-                assert(m_name != "" && m_level > 0);
-                BackendStatus status = StatusCodes::Ok;
-
-                if (--m_level == 0)
-                {
-                    const auto start = std::chrono::steady_clock::now();
-
-                    QSqlDatabase db = QSqlDatabase::database(m_name, false);
-
-                    if (db.isOpen())
-                    {
-                        status = db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
-
-                        if (status == false)
-                            db.rollback();
-                    }
-
-                    const auto end_t = std::chrono::steady_clock::now();
-                    const auto diff = end_t - start;
-                    const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-
-                    std::stringstream logInfo;
-                    logInfo << "Transaction commit: " << diff_ms << "ms";
-                    m_logger->log(ILogger::Severity::Debug, logInfo.str());
-                }
+                const BackendStatus status = m_db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
 
                 return status;
             }
 
-            int m_level;
-            QString m_name;
-            ILogger* m_logger;
+        private:
+            QSqlDatabase& m_db;
+
         };
 
     }
@@ -166,12 +132,11 @@ namespace Database
     struct ASqlBackend::Data
     {
             ASqlBackend* m_backend;
-            std::thread::id m_database_thread_id;
             QString m_connectionName;
             IPhotoInfoCache* m_photoInfoCache;
-            Transaction m_transaction;
             std::unique_ptr<ILogger> m_logger;
             std::set<IBackend::IEvents *> m_observers;
+            SqlQueryExecutor m_executor;
             bool m_dbHasSizeFeature;
             bool m_dbOpen;
 
@@ -180,8 +145,6 @@ namespace Database
             Data(const Data &) = delete;
             Data& operator=(const Data &) = delete;
 
-            BackendStatus exec(const QString& query, QSqlQuery* result) const;
-            BackendStatus exec(const SqlQuery& query, QSqlQuery* result) const;
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const TagValue& value, int photo_id, int tag_id) const;
             bool store(const IPhotoInfo::Ptr& data);
@@ -191,6 +154,7 @@ namespace Database
             std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
             int getPhotosCount(const std::deque<IFilter::Ptr> &);
+            int dropPhotos(const std::deque<IFilter::Ptr> &);
 
             void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
 
@@ -213,12 +177,11 @@ namespace Database
 
 
     ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend),
-                                                   m_database_thread_id(),
                                                    m_connectionName(""),
                                                    m_photoInfoCache(nullptr),
-                                                   m_transaction(),
                                                    m_logger(nullptr),
                                                    m_observers(),
+                                                   m_executor(),
                                                    m_dbHasSizeFeature(false),
                                                    m_dbOpen(false)
     {
@@ -229,45 +192,6 @@ namespace Database
     ASqlBackend::Data::~Data()
     {
 
-    }
-
-
-    BackendStatus ASqlBackend::Data::exec(const QString& query, QSqlQuery* result) const
-    {
-        // threads cannot be used with sql connections:
-        // http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
-        // make sure the same thread is used as at construction time.
-        assert(std::this_thread::get_id() == m_database_thread_id);
-
-        std::string logMessage = query.toStdString();
-
-        const auto start = std::chrono::steady_clock::now();
-        const BackendStatus status = result->exec(query)? StatusCodes::Ok: StatusCodes::QueryFailed;
-        const auto end = std::chrono::steady_clock::now();
-        const auto diff = end - start;
-        const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-        logMessage = logMessage + " Exec time: " + std::to_string(diff_ms) + "ms";
-
-        m_logger->log(ILogger::Severity::Debug, logMessage);
-
-        if (status == false)
-            m_logger->log(ILogger::Severity::Error,
-                          "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
-
-        assert(status);
-        return status;
-    }
-
-
-    BackendStatus ASqlBackend::Data::exec(const SqlQuery& query, QSqlQuery* result) const
-    {
-        auto& queries = query.getQueries();
-        BackendStatus status(StatusCodes::Ok);
-
-        for(size_t i = 0; i < queries.size() && status; i++)
-            status = exec(queries[i], result);
-
-        return status;
     }
 
 
@@ -288,7 +212,7 @@ namespace Database
                                      .arg(name)
                                      .arg(type);
 
-            const bool status = exec(queryStr, &query);
+            const bool status = m_executor.exec(queryStr, &query);
 
             if (status)
                 tagId = query.lastInsertId().toUInt();
@@ -316,7 +240,7 @@ namespace Database
 
         auto query_str = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
 
-        const bool status = exec(query_str, &query);
+        const bool status = m_executor.exec(query_str, &query);
 
         return status;
     }
@@ -328,7 +252,7 @@ namespace Database
         QSqlQuery query(db);
         const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
 
-        const bool status = exec(query_str, &query);
+        const bool status = m_executor.exec(query_str, &query);
         std::deque<TagNameInfo> result;
 
         while (status && query.next())
@@ -358,7 +282,7 @@ namespace Database
             const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
                                       .arg(*tagId);
 
-            const bool status = exec(query_str, &query);
+            const bool status = m_executor.exec(query_str, &query);
 
             while (status && query.next())
             {
@@ -389,7 +313,7 @@ namespace Database
         QSqlQuery query(db);
 
         std::deque<QVariant> result;
-        const bool status = exec(queryStr, &query);
+        const bool status = m_executor.exec(queryStr, &query);
 
         if (status)
         {
@@ -415,7 +339,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        exec(queryStr, &query);
+        m_executor.exec(queryStr, &query);
         auto result = fetch(query);
 
         return result;
@@ -429,7 +353,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        exec(queryStr, &query);
+        m_executor.exec(queryStr, &query);
 
         int result = 0;
 
@@ -437,6 +361,43 @@ namespace Database
             result = query.size();
         else
             result = query.next()? 1: 0;
+
+        return result;
+    }
+
+
+    int ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
+    {
+        const QString filterQuery = generateFilterQuery(filters);
+
+        //from filtered photos, get info about tags used there
+        SqlMultiQuery queries =
+        {
+            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (%1)").arg(filterQuery),
+            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (%1)").arg(filterQuery)
+        };
+
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        bool status = db.transaction();
+
+        if (status)
+            status = m_executor.exec(queries, &query);
+
+        if (status)
+            status = db.commit();
+        else
+            db.rollback();
+
+        int result = 0;
+
+        if (status)
+            result = m_dbHasSizeFeature? query.size(): ( query.next()? 1: 0 );
 
         return result;
     }
@@ -458,7 +419,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
         const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
-        const bool status = exec(find_tag_query, &query);
+        const bool status = m_executor.exec(find_tag_query, &query);
 
         ol::Optional<unsigned int> result;
 
@@ -484,11 +445,11 @@ namespace Database
         data.setColumns("photo_id", "data");
         data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
 
-        SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        bool status = exec(queryStrs, &query);
+        bool status = m_executor.exec(queryStrs, &query);
 
         return status;
     }
@@ -501,11 +462,11 @@ namespace Database
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.c_str());
 
-        SqlQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        bool status = exec(queryStrs, &query);
+        bool status = m_executor.exec(queryStrs, &query);
 
         return status;
     }
@@ -519,7 +480,7 @@ namespace Database
 
         //remove all tags already attached to photo. TODO: maybe some inteligence here?
         const QString deleteQuery = QString("DELETE FROM " TAB_TAGS " WHERE photo_id=\"%1\"").arg(photo_id);
-        status = exec(deleteQuery, &query);
+        status = m_executor.exec(deleteQuery, &query);
 
         for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
         {
@@ -555,7 +516,7 @@ namespace Database
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        bool status = exec(queryStrs, &query);
+        bool status = m_executor.exec(queryStrs, &query);
 
         return status;
     }
@@ -566,7 +527,8 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        bool status = m_transaction.begin();
+        Transaction transaction(db);
+        bool status = transaction.begin();
 
         //store path and sha256
         IPhotoInfo::Id id = data->getID();
@@ -577,7 +539,7 @@ namespace Database
         insertData.setColumns("path", "store_date");
         insertData.setValues(data->getPath(), InsertQueryData::Value::CurrentTime);
 
-        SqlQuery queryStrs;
+        SqlMultiQuery queryStrs;
 
         if (inserting)
         {
@@ -594,7 +556,7 @@ namespace Database
 
         //execute update/insert
         if (status)
-            status = exec(queryStrs, &query);
+            status = m_executor.exec(queryStrs, &query);
 
         //update id
         if (status && inserting)                       //Get Id from database after insert
@@ -626,7 +588,7 @@ namespace Database
             status = storeFlags(id, data);
 
         if (status)
-            status = m_transaction.end();
+            status = transaction.commit();
 
         //store id in photo
         if (status && inserting)
@@ -689,7 +651,7 @@ namespace Database
                            .arg(TAB_TAG_NAMES)
                            .arg(photoId.value());
 
-        const bool status = exec(queryStr, &query);
+        const bool status = m_executor.exec(queryStr, &query);
         Tag::TagsList tagData;
         VariantConverter convert;
 
@@ -719,7 +681,7 @@ namespace Database
         queryStr = queryStr.arg(TAB_THUMBS);
         queryStr = queryStr.arg(id.value());
 
-        const bool status = exec(queryStr, &query);
+        const bool status = m_executor.exec(queryStr, &query);
 
         if(status && query.next())
         {
@@ -740,7 +702,7 @@ namespace Database
         queryStr = queryStr.arg(TAB_SHA256SUMS);
         queryStr = queryStr.arg(id.value());
 
-        const bool status = exec(queryStr, &query);
+        const bool status = m_executor.exec(queryStr, &query);
 
         ol::Optional<IPhotoInfo::Sha256sum> result;
         if(status && query.next())
@@ -763,7 +725,7 @@ namespace Database
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
 
-        const bool status = exec(queryStr, &query);
+        const bool status = m_executor.exec(queryStr, &query);
 
         if (status && query.next())
         {
@@ -792,7 +754,7 @@ namespace Database
         queryStr = queryStr.arg(TAB_PHOTOS);
         queryStr = queryStr.arg(id.value());
 
-        const bool status = exec(queryStr, &query);
+        const bool status = m_executor.exec(queryStr, &query);
 
         QString result;
         if(status && query.next())
@@ -866,6 +828,12 @@ namespace Database
     }
 
 
+    bool ASqlBackend::dbOpened()
+    {
+        return true;
+    }
+
+
     BackendStatus ASqlBackend::assureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -873,7 +841,7 @@ namespace Database
         QSqlQuery query(db);
         const QString showQuery = getQueryConstructor()->prepareFindTableQuery(definition.name);
 
-        BackendStatus status = m_data->exec(showQuery, &query);
+        BackendStatus status = m_data->m_executor.exec(showQuery, &query);
 
         //create table 'name' if doesn't exist
         bool empty = query.next() == false;
@@ -885,11 +853,21 @@ namespace Database
 
             for(int i = 0; i < size; i++)
             {
+                const QStringList types =
+                {
+                    getQueryConstructor()->getTypeFor(definition.columns[i].purpose),
+                    definition.columns[i].type_definition
+                };
+
+                const QString type = types.join(" ").simplified();
+
                 const bool notlast = i + 1 < size;
-                columnsDesc += getQueryConstructor()->prepareColumnDescription(definition.columns[i]) + (notlast? ", ": "");
+                columnsDesc += definition.columns[i].name + " ";
+                columnsDesc += type;
+                columnsDesc += notlast? ", ": "";
             }
 
-            status = m_data->exec( getQueryConstructor()->prepareCreationQuery(definition.name, columnsDesc), &query );
+            status = m_data->m_executor.exec( getQueryConstructor()->prepareCreationQuery(definition.name, columnsDesc), &query );
 
             if (status && definition.keys.empty() == false)
             {
@@ -904,7 +882,7 @@ namespace Database
                     indexDesc += " ON " + definition.name;
                     indexDesc += " " + definition.keys[i].def + ";";
 
-                    status = m_data->exec(indexDesc, &query);
+                    status = m_data->m_executor.exec(indexDesc, &query);
                 }
             }
         }
@@ -915,34 +893,15 @@ namespace Database
 
     bool ASqlBackend::exec(const QString& query, QSqlQuery* status) const
     {
-        return m_data->exec(query, status);
-    }
-
-
-    bool ASqlBackend::transactionsReady()
-    {
-        return m_data->m_connectionName != "";
-    }
-
-
-    bool ASqlBackend::beginTransaction()
-    {
-        return m_data->m_transaction.begin();
-    }
-
-
-    bool ASqlBackend::endTransaction()
-    {
-        return m_data->m_transaction.end();
+        return m_data->m_executor.exec(query, status);
     }
 
 
     BackendStatus ASqlBackend::init(const ProjectInfo& prjInfo)
     {
         //store thread id for further validation
-        m_data->m_database_thread_id = std::this_thread::get_id();
+        m_data->m_executor.set( std::this_thread::get_id() );
         m_data->m_connectionName = prjInfo.projectDir;
-        m_data->m_transaction.setDBName(prjInfo.projectDir);
 
         BackendStatus status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -954,6 +913,9 @@ namespace Database
             m_data->m_dbOpen = db.open();
             status = m_data->m_dbOpen? StatusCodes::Ok: StatusCodes::OpenFailed;
         }
+
+        if (status)
+            status = dbOpened()? StatusCodes::Ok: StatusCodes::OpenFailed;
 
         if (status)
             status = checkStructure();
@@ -1066,10 +1028,16 @@ namespace Database
     }
 
 
+    int ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    {
+        return m_data->dropPhotos(filter);
+    }
+
+
     void ASqlBackend::set(ILoggerFactory* logger_factory)
     {
         m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
-        m_data->m_transaction.set(m_data->m_logger.get());
+        m_data->m_executor.set(m_data->m_logger.get());
     }
 
 
@@ -1082,7 +1050,9 @@ namespace Database
     BackendStatus ASqlBackend::checkStructure()
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        BackendStatus status = m_data->m_transaction.begin();
+        Transaction transaction(db);
+
+        BackendStatus status = transaction.begin();
 
         //check tables existance
         if (status)
@@ -1098,7 +1068,7 @@ namespace Database
 
         // table 'version' cannot be empty
         if (status)
-            status = m_data->exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
+            status = m_data->m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
 
         if (status)
             status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
@@ -1109,13 +1079,13 @@ namespace Database
         if (status)
         {
             if (rows == 0)
-                status = m_data->exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
+                status = m_data->m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
                                       .arg(db_version), &query);
             else
                 status = checkDBVersion();
         }
 
-        status &= m_data->m_transaction.end();
+        status &= transaction.commit();
 
         return status;
     }
@@ -1126,9 +1096,10 @@ namespace Database
 Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 {
     QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
     QSqlQuery query(db);
 
-    BackendStatus status = m_data->exec("SELECT version FROM " TAB_VER ";", &query);
+    BackendStatus status = m_data->m_executor.exec("SELECT version FROM " TAB_VER ";", &query);
 
     if (status)
         status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
@@ -1141,6 +1112,16 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         if (v > 1)
             status = StatusCodes::BadVersion;
     }
+
+    /*
+    if (status)
+    {
+        DatabaseMigrator migrator(db, &m_data->m_executor);
+
+        if (migrator.needsMigration())
+            status = migrator.migrate()? StatusCodes::Ok: StatusCodes::MigrationFailed;
+    }
+    */
 
     return status;
 }

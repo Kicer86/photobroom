@@ -40,6 +40,7 @@ namespace
     struct ListTagsTask;
     struct ListTagValuesTask;
     struct AnyPhotoTask;
+    struct DropPhotosTask;
 
     struct IThreadTask
     {
@@ -67,6 +68,7 @@ namespace
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
+        virtual void visit(DropPhotosTask *) = 0;
 
     };
 
@@ -247,6 +249,22 @@ namespace
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
+    struct DropPhotosTask: ThreadBaseTask
+    {
+        DropPhotosTask(std::unique_ptr<Database::ADropPhotosTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_filter(filter)
+        {
+
+        }
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::unique_ptr<Database::ADropPhotosTask> m_task;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
         Executor(Database::IBackend* backend): m_backend(backend), m_tasks(1024) {}
@@ -319,42 +337,22 @@ namespace
             task->m_task->got(result);
         }
 
+        virtual void visit(DropPhotosTask* task) override
+        {
+            auto result = m_backend->dropPhotos(task->m_filter);
+            task->m_task->got(result);
+        }
+
         void begin()
         {
-            bool transation_opened = false;
-            auto transaction_begin_time = std::chrono::steady_clock::now();
-
             for(;;)
             {
-                ol::Optional< std::shared_ptr<ThreadBaseTask> > task = m_tasks.pop();
+                ol::Optional< std::unique_ptr<ThreadBaseTask> > task = m_tasks.pop();
 
                 if (task)
                 {
-                    //check if transactions are ready
-                    const bool transactions_ready = m_backend->transactionsReady();
-
-                    //begin transaction in not started yet
-                    if (transactions_ready && transation_opened == false)
-                    {
-                        m_backend->beginTransaction();
-                        transation_opened = true;
-                        transaction_begin_time = std::chrono::steady_clock::now();
-                    }
-
                     ThreadBaseTask* baseTask = task->get();
                     baseTask->visitMe(this);
-
-                    //calculate how long transaction is active
-                    const auto current_time = std::chrono::steady_clock::now();
-                    const auto time_diff = current_time - transaction_begin_time;
-                    const auto transaction_duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_diff).count();
-
-                    //no more tasks or transaction takes too long? end transaction
-                    if ( transation_opened && (transaction_duration > 2000 || m_tasks.empty()) )
-                    {
-                        m_backend->endTransaction();
-                        transation_opened = false;
-                    }
                 }
                 else
                     break;
@@ -362,7 +360,7 @@ namespace
         }
 
         Database::IBackend* m_backend;
-        ol::TS_Queue<std::shared_ptr<ThreadBaseTask>> m_tasks;
+        ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
     };
 
 }
@@ -382,7 +380,7 @@ namespace Database
         void addTask(ThreadBaseTask* task)
         {
             assert(m_working);
-            m_executor.m_tasks.push(std::shared_ptr<ThreadBaseTask>(task));
+            m_executor.m_tasks.push(std::unique_ptr<ThreadBaseTask>(task));
         }
 
         void stopExecutor()
@@ -503,6 +501,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::exec(std::unique_ptr<ADropPhotosTask>&& db_task , const std::deque<IFilter::Ptr>& filters)
+    {
+        DropPhotosTask* task = new DropPhotosTask(std::move(db_task), filters);
         m_impl->addTask(task);
     }
 

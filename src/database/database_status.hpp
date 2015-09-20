@@ -15,6 +15,7 @@ namespace Database
         TransactionFailed,                  // Fail at transaction begin.
         TransactionCommitFailed,            // Fail at transaction commit
         QueryFailed,
+        MigrationFailed,
     };
 
     typedef Status<StatusCodes, StatusCodes::Ok> BackendStatus;

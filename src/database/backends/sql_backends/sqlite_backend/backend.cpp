@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QStringList>
 #include <QDir>
 
@@ -62,28 +63,29 @@ namespace Database
     }
 
 
-    QString SQLiteBackend::prepareFindTableQuery(const QString& name) const
+    bool SQLiteBackend::dbOpened()
     {
-        return QString("SELECT name FROM sqlite_master WHERE name='%1';").arg(name);
+        QSqlDatabase db = QSqlDatabase::database(getConnectionName());
+        QSqlQuery query(db);
+
+        bool status = query.exec("PRAGMA journal_mode = WAL;");
+
+        if (status)
+            status = query.exec("PRAGMA synchronous = NORMAL;"); // TODO: dangerous, use some backups?
+
+        if (status)
+            status = query.exec("PRAGMA foreign_keys = ON;");
+
+        if (status)
+            status = Database::ASqlBackend::dbOpened();
+
+        return status;
     }
 
 
-    QString SQLiteBackend::prepareColumnDescription(const ColDefinition& col) const
+    QString SQLiteBackend::prepareFindTableQuery(const QString& name) const
     {
-        QString result;
-
-        switch(col.type)
-        {
-            case ColDefinition::Type::Regular:
-                result = col.name;
-                break;
-
-            case ColDefinition::Type::ID:
-                result = col.name + " " + "INTEGER PRIMARY KEY AUTOINCREMENT";
-                break;
-        }
-
-        return result;
+        return QString("SELECT name FROM sqlite_master WHERE name='%1';").arg(name);
     }
 
 
@@ -99,7 +101,25 @@ namespace Database
     }
 
 
-    SqlQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
+    QString SQLiteBackend::getTypeFor(ColDefinition::Purpose type) const
+    {
+        QString result;
+
+        switch(type)
+        {
+            case ColDefinition::Purpose::ID:
+                result = "INTEGER PRIMARY KEY AUTOINCREMENT";
+                break;
+
+            default:
+                break;
+        }
+
+        return result;
+    }
+
+
+    SqlMultiQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
 
@@ -125,10 +145,10 @@ namespace Database
 
     std::unique_ptr<IBackend> SQLitePlugin::constructBackend()
     {
-        return std::unique_ptr<IBackend>(new SQLiteBackend);
+        return std::make_unique<SQLiteBackend>();
     }
-    
-    
+
+
     QString SQLitePlugin::backendName() const
     {
         return "SQLite";

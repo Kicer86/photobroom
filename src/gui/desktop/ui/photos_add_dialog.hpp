@@ -21,7 +21,7 @@
 #ifndef PHOTOSADDDIALOG_HPP
 #define PHOTOSADDDIALOG_HPP
 
-#include <QMainWindow>
+#include <QDialog>
 
 #include "utils/photos_collector.hpp"
 
@@ -43,7 +43,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotosAddDialog: public QMainWindow
+class PhotosAddDialog: public QDialog
 {
         Q_OBJECT
 
@@ -82,6 +82,7 @@ class PhotosAddDialog: public QMainWindow
         void on_addSelectionButton_pressed();
         void on_buttonBox_accepted();
         void on_buttonBox_rejected();
+        void on_removeSelectedButton_clicked();
 };
 
 #endif // PHOTOSADDDIALOG_HPP

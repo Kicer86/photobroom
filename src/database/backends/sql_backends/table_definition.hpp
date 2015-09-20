@@ -15,14 +15,14 @@ namespace Database
     struct SQL_BACKEND_BASE_EXPORT ColDefinition
     {
         QString name;
-        enum class Type
+        QString type_definition;
+        enum class Purpose
         {
             ID,
             Regular,
-        } type;
+        } purpose;
 
-        ColDefinition(const char *, Type t = Type::Regular);
-        ColDefinition(const QString &, Type t = Type::Regular);
+        ColDefinition(const char *, const QString& typeDefinition, Purpose t = Purpose::Regular);
     };
 
     struct SQL_BACKEND_BASE_EXPORT TableDefinition

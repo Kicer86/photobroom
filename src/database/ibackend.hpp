@@ -56,10 +56,6 @@ namespace Database
 
         virtual void setPhotoInfoCache(Database::IPhotoInfoCache *) = 0;
 
-        virtual bool transactionsReady() = 0;       //transacions are ready after init()
-        virtual bool beginTransaction() = 0;
-        virtual bool endTransaction() = 0;
-
         //add photo to database
         virtual IPhotoInfo::Ptr addPath(const QString &) = 0;
 
@@ -76,6 +72,7 @@ namespace Database
         virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) = 0;                     //get particular photo
         virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) = 0;         //find all photos matching filter
         virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;                 //is there any photo matching filters?
+        virtual int dropPhotos(const std::deque<IFilter::Ptr> &) = 0;                     // drop photos matching filter
 
         //init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;

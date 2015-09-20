@@ -7,6 +7,7 @@
 #include <QString>
 
 #include "sql_backend_base_export.h"
+#include "table_definition.hpp"
 
 namespace Database
 {
@@ -16,11 +17,13 @@ namespace Database
 
     struct ColDefinition;
 
-    struct SQL_BACKEND_BASE_EXPORT SqlQuery
+    struct SQL_BACKEND_BASE_EXPORT SqlMultiQuery
     {
-            SqlQuery();
-            SqlQuery(const QString &);
-            ~SqlQuery();
+            SqlMultiQuery();
+            SqlMultiQuery(const QString &);
+            SqlMultiQuery(const std::initializer_list<QString> &);
+
+            ~SqlMultiQuery();
 
             void addQuery(const QString &);
 
@@ -46,12 +49,12 @@ namespace Database
         //prepare query for finding table with given name
         virtual QString prepareFindTableQuery(const QString& name) const = 0;
 
-        //prepare column description for CREATE TABLE matching provided info.
-        virtual QString prepareColumnDescription(const ColDefinition &) const = 0;
+        // get type for column's purpose
+        virtual QString getTypeFor(ColDefinition::Purpose) const = 0;
 
-        virtual SqlQuery insert(const InsertQueryData &) const = 0;                 // construct an insert sql query.
-        virtual SqlQuery update(const UpdateQueryData &) const = 0;                 // construct an update sql query.
-        virtual SqlQuery insertOrUpdate(const InsertQueryData &) const = 0;         // construct a query which will try to insert data. If it fails due to UNIQUE column attribute, try to update
+        virtual SqlMultiQuery insert(const InsertQueryData &) const = 0;                 // construct an insert sql query.
+        virtual SqlMultiQuery update(const UpdateQueryData &) const = 0;                 // construct an update sql query.
+        virtual SqlMultiQuery insertOrUpdate(const InsertQueryData &) const = 0;         // construct a query which will try to insert data. If it fails due to UNIQUE column attribute, try to update
     };
 }
 

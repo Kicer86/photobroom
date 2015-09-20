@@ -63,6 +63,9 @@ namespace Database
             //will be called from init(). Prepare QSqlDatabase object here
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
 
+            // called when db opened. Backend may perform some extra setup
+            virtual bool dbOpened();
+
             //make sure table exists. Makes sure a table maching TableDefinition exists in database
             virtual BackendStatus assureTableExists(const TableDefinition &) const;
 
@@ -73,13 +76,9 @@ namespace Database
 
             virtual void set(ILoggerFactory *) override;
             virtual void addEventsObserver(IEvents *) override;
-            
+
         private:
             std::unique_ptr<Data> m_data;
-
-            virtual bool transactionsReady() override;
-            virtual bool beginTransaction() override;
-            virtual bool endTransaction() override;
 
             virtual BackendStatus init(const ProjectInfo &) override final;
             virtual IPhotoInfo::Ptr addPath(const QString &) override final;
@@ -93,6 +92,7 @@ namespace Database
             virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
             virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
+            virtual int dropPhotos(const std::deque<IFilter::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

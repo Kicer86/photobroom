@@ -15,7 +15,7 @@ MainTab::MainTab(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    const QStringList checks = { tr("Every day"), tr("Every 3 days"), tr("Every Week") };
+    const QStringList checks = { tr("Every day"), tr("Every 3 days"), tr("Every week") };
     ui->freqComboBox->addItems(checks);
 }
 
@@ -67,6 +67,7 @@ QString MainTabControler::tabName() const
 {
     return tr("Main");
 }
+
 
 QWidget* MainTabControler::constructTab()
 {

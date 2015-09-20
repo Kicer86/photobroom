@@ -35,6 +35,7 @@ class StagedPhotosDataModel: public DBDataModel
 
         void addPhoto(const QString &);
         void storePhotos();
+        void dropPhotos();
 };
 
 #endif // STAGEDPHOTOSDATAMODEL_HPP

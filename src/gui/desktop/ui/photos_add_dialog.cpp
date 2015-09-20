@@ -32,7 +32,7 @@
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
-    QMainWindow(parent),
+    QDialog(parent),
     ui(new Ui::PhotosAddDialog),
     m_config(config),
     m_treeModel(nullptr),
@@ -72,14 +72,6 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
         const QByteArray base64 = geometry.toByteArray();
         const QByteArray geometryData = QByteArray::fromBase64(base64);
         restoreGeometry(geometryData);
-    }
-
-    const QVariant state = m_config->getEntry("photos_add_dialog::state");
-    if (state.isValid())
-    {
-        const QByteArray base64 = state.toByteArray();
-        const QByteArray stateData = QByteArray::fromBase64(base64);
-        restoreState(stateData);
     }
 
     ui->browseList->setItemDelegate(new TreeItemDelegate(ui->browseList));
@@ -167,9 +159,6 @@ void PhotosAddDialog::closeEvent(QCloseEvent* e)
     const QByteArray geometry = saveGeometry();
     m_config->setEntry("photos_add_dialog::geometry", geometry.toBase64());
 
-    const QByteArray state = saveState();
-    m_config->setEntry("photos_add_dialog::state", state.toBase64());
-
     emit closing();
 
     QWidget::closeEvent(e);
@@ -194,7 +183,7 @@ void PhotosAddDialog::on_buttonBox_accepted()
 {
     m_stagedModel->storePhotos();
 
-    close();
+    accept();
 }
 
 
@@ -204,8 +193,14 @@ void PhotosAddDialog::on_buttonBox_rejected()
 
     if (result == QMessageBox::Yes)
     {
-        // clear
+        m_stagedModel->dropPhotos();
 
-        close();
+        reject();
     }
+}
+
+
+void PhotosAddDialog::on_removeSelectedButton_clicked()
+{
+    m_stagedModel->dropPhotos();
 }
