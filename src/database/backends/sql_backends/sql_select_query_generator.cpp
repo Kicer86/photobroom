@@ -36,6 +36,7 @@ namespace Database
             TagNamesWithTags,
             FlagsWithPhotos,
             Sha256WithPhotos,
+            IdWithPhotos,
         };
 
         std::set<Join> joins;
@@ -171,6 +172,14 @@ namespace Database
             m_filterResult.conditions.append( QString("photos.id NOT IN (%1)").arg(internal_condition) );
         }
 
+        void visit(FilterPhotosWithId* filter) override
+        {
+            m_filterResult.joins.insert(FilterData::IdWithPhotos);
+            m_filterResult.conditions.append( QString(TAB_PHOTOS ".id = '%1'").arg(filter->filter) );
+
+            assert(!"not tested");
+        }
+
         FilterData m_filterResult;
     };
 
@@ -282,6 +291,7 @@ namespace Database
                 case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES;  break;      //TAB_TAGS must be already joined
                 case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;      break;
                 case FilterData::Sha256WithPhotos: joinWith = TAB_SHA256SUMS; break;
+                case FilterData::IdWithPhotos:     joinWith = ""; assert(!"not tested"); break;
             }
 
             joinsWith.append(joinWith);
@@ -303,6 +313,7 @@ namespace Database
                 case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
                 case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = " + getPhotoId();  break;
                 case FilterData::Sha256WithPhotos: join = TAB_SHA256SUMS ".photo_id = " + getPhotoId(); break;
+                case FilterData::IdWithPhotos:     join = ""; assert(!"not tested"); break;
             }
 
             joins.append(join);
