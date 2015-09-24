@@ -137,6 +137,7 @@ private slots:
     void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
     void photoChanged(const IPhotoInfo::Ptr &);
     void photoAdded(const IPhotoInfo::Ptr &);
+    void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
 };
 
 
