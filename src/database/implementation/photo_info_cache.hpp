@@ -42,6 +42,7 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
 
         IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const override;
         void introduce(const IPhotoInfo::Ptr &) override;
+        void forget(const IPhotoInfo::Id &) override;
 
     private:
         struct Data;

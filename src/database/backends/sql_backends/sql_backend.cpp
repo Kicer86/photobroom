@@ -407,7 +407,7 @@ namespace Database
         else
             db.rollback();
 
-        //convert ids to photo ptrs
+        //convert ids to photo ptrs and remove them from cache
         std::deque<IPhotoInfo::Ptr> photos;
         for(const IPhotoInfo::Id& id: ids)
         {
@@ -415,6 +415,8 @@ namespace Database
             assert(photo.get() != nullptr);
 
             photos.push_back(photo);
+
+            m_photoInfoCache->forget(id);
         }
 
         return photos;
