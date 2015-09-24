@@ -92,7 +92,7 @@ namespace Database
             virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
             virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
-            virtual int dropPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<IPhotoInfo::Ptr> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

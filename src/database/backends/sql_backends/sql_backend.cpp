@@ -154,7 +154,7 @@ namespace Database
             std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
             IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
             int getPhotosCount(const std::deque<IFilter::Ptr> &);
-            int dropPhotos(const std::deque<IFilter::Ptr> &);
+            std::deque<IPhotoInfo::Ptr> dropPhotos(const std::deque<IFilter::Ptr> &);
 
             void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
 
@@ -366,9 +366,26 @@ namespace Database
     }
 
 
-    int ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
+    std::deque<IPhotoInfo::Ptr> ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
     {
         const QString filterQuery = generateFilterQuery(filters);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        //collect ids of photos to be dropped
+        std::deque<IPhotoInfo::Id> ids;
+        bool status = m_executor.exec(filterQuery, &query);
+
+        if (status)
+        {
+            while(query.next())
+            {
+                IPhotoInfo::Id id( query.value(0).toUInt() );
+
+                ids.push_back(id);
+            }
+        }
 
         //from filtered photos, get info about tags used there
         SqlMultiQuery queries =
@@ -380,11 +397,7 @@ namespace Database
             QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (%1)").arg(filterQuery)
         };
 
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        bool status = db.transaction();
+        status = db.transaction();
 
         if (status)
             status = m_executor.exec(queries, &query);
@@ -394,12 +407,17 @@ namespace Database
         else
             db.rollback();
 
-        int result = 0;
+        //convert ids to photo ptrs
+        std::deque<IPhotoInfo::Ptr> photos;
+        for(const IPhotoInfo::Id& id: ids)
+        {
+            IPhotoInfo::Ptr photo = m_photoInfoCache->find(id);
+            assert(photo.get() != nullptr);
 
-        if (status)
-            result = m_dbHasSizeFeature? query.size(): ( query.next()? 1: 0 );
+            photos.push_back(photo);
+        }
 
-        return result;
+        return photos;
     }
 
 
@@ -1028,7 +1046,7 @@ namespace Database
     }
 
 
-    int ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<IPhotoInfo::Ptr> ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->dropPhotos(filter);
     }

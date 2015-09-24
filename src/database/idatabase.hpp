@@ -52,8 +52,9 @@ namespace Database
             Q_OBJECT
 
         signals:
-            void photoAdded(const IPhotoInfo::Ptr &);     //emited when new photo was added to database
-            void photoModified(const IPhotoInfo::Ptr &);  //emited when photo updated
+            void photoAdded(const IPhotoInfo::Ptr &);                // emited when new photo was added to database
+            void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
+            void photosRemoved(const std::deque<IPhotoInfo::Ptr> &); // emmited after photos removal
     };
 
     struct AStorePhotoTask
@@ -109,7 +110,7 @@ namespace Database
     {
         virtual ~ADropPhotosTask() {}
 
-        virtual void got(int) = 0;
+        virtual void got(const std::deque<IPhotoInfo::Ptr> &) = 0;
     };
 
     struct AInitTask
