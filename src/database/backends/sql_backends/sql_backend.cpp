@@ -43,7 +43,7 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <database/filter.hpp>
-#include <database/iphoto_info_manager.hpp>
+#include <database/iphoto_info_cache.hpp>
 #include <database/project_info.hpp>
 #include <database/backends/photo_info.hpp>
 
