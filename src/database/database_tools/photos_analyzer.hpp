@@ -42,7 +42,7 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
         Q_OBJECT
 
     public:
-        
+
         PhotosAnalyzer();
         PhotosAnalyzer(const PhotosAnalyzer &) = delete;
         ~PhotosAnalyzer();
@@ -60,6 +60,7 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
 
     private slots:
         void photoAdded(const IPhotoInfo::Ptr &);
+        void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_ANALYZER_HPP
