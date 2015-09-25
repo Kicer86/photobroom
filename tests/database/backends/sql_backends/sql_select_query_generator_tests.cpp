@@ -103,6 +103,22 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
 }
 
 
+TEST(SqlSelectQueryGeneratorTest, HandlesIdFilter)
+{
+    Database::SqlSelectQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithId> filter = std::make_shared<Database::FilterPhotosWithId>();
+    filters.push_back(filter);
+
+    filter->filter = IPhotoInfo::Id(1234567890);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos WHERE photos.id = '1234567890'", query);
+}
+
+
 TEST(SqlSelectQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlSelectQueryGenerator generator;
@@ -178,4 +194,28 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSimpleOrFilters)
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (flags) ON (flags.photo_id = photos.id) "
               "WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' )", query);
+}
+
+
+TEST(SqlSelectQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
+{
+    Database::SqlSelectQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();
+    flags->flags[IPhotoInfo::FlagsE::ExifLoaded] = 100;
+    flags->flags[IPhotoInfo::FlagsE::StagingArea] = 200;
+    flags->mode = Database::FilterPhotosWithFlags::Mode::Or;
+
+    auto id = std::make_shared<Database::FilterPhotosWithId>();
+    id->filter = IPhotoInfo::Id(1234567890);
+
+    filters.push_back(flags);
+    filters.push_back(id);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "JOIN (flags) ON (flags.photo_id = photos.id) "
+              "WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' ) AND photos.id = '1234567890'", query);
 }

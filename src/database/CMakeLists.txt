@@ -33,7 +33,7 @@ set(DATABASE_HEADERS
     filter.hpp
     idatabase.hpp
     iphoto_info.hpp
-    iphoto_info_manager.hpp
+    iphoto_info_cache.hpp
     ifs.hpp
     photo_iterator.hpp
     query_list.hpp
@@ -48,7 +48,7 @@ set(DATABASE_HEADERS
     database_tools/implementation/synchronous_database.hpp
     )
 
-set(DATABASE_MOC 
+set(DATABASE_MOC
     idatabase.hpp
     idatabase_plugin.hpp
     database_tools/photos_analyzer.hpp

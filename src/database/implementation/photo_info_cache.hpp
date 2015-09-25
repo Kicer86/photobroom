@@ -24,7 +24,7 @@
 
 #include <database/iphoto_info.hpp>
 
-#include "iphoto_info_manager.hpp"
+#include "iphoto_info_cache.hpp"
 
 namespace Database
 {
@@ -42,6 +42,7 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
 
         IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const override;
         void introduce(const IPhotoInfo::Ptr &) override;
+        void forget(const IPhotoInfo::Id &) override;
 
     private:
         struct Data;

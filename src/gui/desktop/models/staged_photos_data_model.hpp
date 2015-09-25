@@ -33,8 +33,12 @@ class StagedPhotosDataModel: public DBDataModel
 
         StagedPhotosDataModel& operator=(const StagedPhotosDataModel &) = delete;
 
+        bool isPhoto(const QModelIndex &) const;
+
         void addPhoto(const QString &);
         void storePhotos();
+
+        void dropPhoto(const QModelIndex &);
         void dropPhotos();
 };
 

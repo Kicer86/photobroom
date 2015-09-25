@@ -161,6 +161,7 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this)
 
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
+    qRegisterMetaType<std::deque<IPhotoInfo::Ptr>>("std::deque<IPhotoInfo::Ptr>");
 
     //used for transferring event from working thread to main one
     connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
@@ -237,6 +238,8 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
     {
         connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
         connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
+        connect(m_data->m_database->notifier(), SIGNAL(photosRemoved(const std::deque<IPhotoInfo::Ptr> &)),
+                this, SLOT(photosRemoved(const std::deque<IPhotoInfo::Ptr>& ) ) );
     }
 
     resetModel();
@@ -934,4 +937,20 @@ void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 
     if (match)
         movePhotoToRightParent(photoInfo);
+}
+
+
+void IdxDataManager::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
+{
+    PhotosMatcher matcher;
+    matcher.set(this);
+    matcher.set(m_data->m_model);
+
+    for(const IPhotoInfo::Ptr& photo: photos)
+    {
+        const bool match = matcher.doesMatchModelFilters(photo);
+
+        if (match)
+            performRemove(photo);
+    }
 }

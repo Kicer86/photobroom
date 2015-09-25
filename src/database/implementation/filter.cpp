@@ -45,4 +45,10 @@ namespace Database
 
     }
 
+
+    FilterPhotosWithId::FilterPhotosWithId(): filter()
+    {
+
+    }
+
 }

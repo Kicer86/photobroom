@@ -171,6 +171,12 @@ namespace Database
             m_filterResult.conditions.append( QString("photos.id NOT IN (%1)").arg(internal_condition) );
         }
 
+        void visit(FilterPhotosWithId* filter) override
+        {
+            // No joins required
+            m_filterResult.conditions.append( QString(TAB_PHOTOS ".id = '%1'").arg(filter->filter) );
+        }
+
         FilterData m_filterResult;
     };
 

@@ -69,7 +69,6 @@ namespace
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
-
     };
 
     struct InitTask: ThreadBaseTask
@@ -341,6 +340,8 @@ namespace
         {
             auto result = m_backend->dropPhotos(task->m_filter);
             task->m_task->got(result);
+
+            emit photosRemoved(result);
         }
 
         void begin()

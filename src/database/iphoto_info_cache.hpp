@@ -30,6 +30,7 @@ namespace Database
 
         virtual IPhotoInfo::Ptr find(const IPhotoInfo::Id &) const = 0;
         virtual void introduce(const IPhotoInfo::Ptr &) = 0;
+        virtual void forget(const IPhotoInfo::Id &) = 0;
     };
 }
 

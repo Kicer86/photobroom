@@ -42,6 +42,7 @@ namespace Database
     struct FilterPhotosWithFlags;
     struct FilterPhotosWithSha256;
     struct FilterNotMatchingFilter;
+    struct FilterPhotosWithId;
 
     struct IFilter
     {
@@ -60,6 +61,7 @@ namespace Database
         virtual void visit(FilterPhotosWithFlags *) = 0;
         virtual void visit(FilterPhotosWithSha256 *) = 0;
         virtual void visit(FilterNotMatchingFilter *) = 0;
+        virtual void visit(FilterPhotosWithId *) = 0;
     };
 
     //filters
@@ -118,6 +120,16 @@ namespace Database
         FILTER_COMMAND
 
         IFilter::Ptr filter;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithId: IFilter
+    {
+        FilterPhotosWithId();
+        virtual ~FilterPhotosWithId() {}
+
+        FILTER_COMMAND
+
+        IPhotoInfo::Id filter;
     };
 
 }

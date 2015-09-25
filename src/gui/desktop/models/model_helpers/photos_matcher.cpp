@@ -42,6 +42,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         virtual void visit(Database::FilterPhotosWithFlags *) override;
         virtual void visit(Database::FilterPhotosWithSha256 *) override;
         virtual void visit(Database::FilterNotMatchingFilter *) override;
+        virtual void visit(Database::FilterPhotosWithId*) override;
 };
 
 
@@ -157,6 +158,15 @@ void FiltersMatcher::visit(Database::FilterNotMatchingFilter* filter)
 
     m_doesMatch = !matches;
 }
+
+
+void FiltersMatcher::visit(Database::FilterPhotosWithId* filter)
+{
+    const bool status = m_photo->getID() == filter->filter;
+
+    m_doesMatch = status;
+}
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

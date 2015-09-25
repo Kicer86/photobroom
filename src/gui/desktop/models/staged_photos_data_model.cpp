@@ -34,7 +34,7 @@ namespace
 
     struct DropPhotosTask: Database::ADropPhotosTask
     {
-        void got(int) override
+        void got(const std::deque<IPhotoInfo::Ptr> &) override
         {
 
         }
@@ -58,6 +58,13 @@ StagedPhotosDataModel::~StagedPhotosDataModel()
 }
 
 
+bool StagedPhotosDataModel::isPhoto(const QModelIndex& idx) const
+{
+    const IPhotoInfo::Ptr photo = getPhoto(idx);
+    return photo.get() != nullptr;
+}
+
+
 void StagedPhotosDataModel::addPhoto(const QString& path)
 {
     auto task = std::make_unique<AddPhotoTask>();
@@ -72,6 +79,20 @@ void StagedPhotosDataModel::storePhotos()
 
     for(const IPhotoInfo::Ptr& photo: photos)
         photo->markFlag(IPhotoInfo::FlagsE::StagingArea, 0);
+}
+
+
+void StagedPhotosDataModel::dropPhoto(const QModelIndex& index)
+{
+    const auto photo = getPhoto(index);
+    const auto idFilter = std::make_shared<Database::FilterPhotosWithId>();
+    idFilter->filter = photo->getID();
+
+    std::deque<Database::IFilter::Ptr> filters = getModelSpecificFilters();
+    filters.push_back(idFilter);
+
+    auto task = std::make_unique<DropPhotosTask>();
+    getDatabase()->exec(std::move(task), filters);
 }
 
 

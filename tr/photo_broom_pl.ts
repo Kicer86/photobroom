@@ -40,7 +40,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+867"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+870"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -550,7 +550,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation type="vanished">Edytor &amp;tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+192"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+201"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
