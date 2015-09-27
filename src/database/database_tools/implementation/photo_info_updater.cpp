@@ -124,7 +124,7 @@ struct TagsCollector: public BaseTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr), m_runningTasks(), m_pendingTasksMutex(), m_pendigTasksNotifier()
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_configuration(nullptr), m_runningTasks(), m_pendingTasksMutex(), m_pendigTasksNotifier()
 {
 
 }
@@ -141,7 +141,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
     std::unique_ptr<Sha256Assigner> task(new Sha256Assigner(this, photoInfo));
 
     started(task.get());
-    m_task_executor->add(std::move(task));
+    m_taskQueue->push(std::move(task));
 }
 
 
@@ -156,7 +156,7 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(this, photoInfo, width));
 
     started(task.get());
-    m_task_executor->add(std::move(task));
+    m_taskQueue->push(std::move(task));
 }
 
 
@@ -166,13 +166,13 @@ void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
     task->set(&m_tagFeederFactory);
 
     started(task.get());
-    m_task_executor->add(std::move(task));
+    m_taskQueue->push(std::move(task));
 }
 
 
 void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
 {
-    m_task_executor = taskExecutor;
+    m_taskQueue = taskExecutor->getCustomTaskQueue();
 }
 
 

@@ -6,10 +6,10 @@
 #include <condition_variable>
 
 #include <core/tag_feeder_factory.hpp>
+#include <core/task_executor.hpp>
 #include <database/iphoto_info.hpp>
 
 struct IConfiguration;
-struct ITaskExecutor;
 
 struct BaseTask;
 
@@ -43,7 +43,7 @@ class PhotoInfoUpdater final: ITaskObserver
 
     private:
         TagFeederFactory m_tagFeederFactory;
-        ITaskExecutor* m_task_executor;
+        ITaskExecutor::TaskQueue m_taskQueue;
         IConfiguration* m_configuration;
         ol::ThreadSafeResource<std::set<BaseTask *>> m_runningTasks;
         std::mutex m_pendingTasksMutex;
