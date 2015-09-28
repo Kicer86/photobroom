@@ -115,10 +115,13 @@ void TaskExecutor::eat()
                 while(true)
                 {
                     ol::Optional<std::unique_ptr<ITask>> opt_task(m_tasks.pop_for(2000ms));
+                    assert(opt_task.is_initialized() == false || opt_task->get() != nullptr);
 
                     if (opt_task)
                     {
                         std::unique_ptr<ITask> task = std::move(*opt_task);
+
+                        assert(task.get() != nullptr);
 
                         execute(std::move(task));
                     }
@@ -157,17 +160,5 @@ void TaskExecutor::eat()
 
 void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
 {
-    /*
-    **(ThreadSafeOutput.get()) << "TaskExecutor thread #" << id
-                            << " takes " << task->name() << " task. "
-                            << m_tasks.size() << " tasks left"
-                            << std::endl;
-    */
-    //const int id = getId();
-    //const auto start = std::chrono::steady_clock::now();
     task->perform();
-    //const auto end = std::chrono::steady_clock::now();
-    //const auto diff = end - start;
-    //const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-    //*ol::ThreadSafeOutput.lock().get() << "#" << id << ": '" << task->name() <<"' execution time: " << diff_ms << "ms" << std::endl;
 }

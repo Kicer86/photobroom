@@ -288,7 +288,7 @@ class TS_MultiHeadQueue
 
             if (m_non_empty.empty() == false)
             {
-                Producer* top = *m_non_empty.begin();
+                Producer* top = m_non_empty.front();
                 result = std::move( top->pop() );
 
                 if (top->empty())
