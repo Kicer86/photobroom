@@ -18,25 +18,9 @@
 #include <database/ifs.hpp>
 
 
-struct BaseTask: ITaskExecutor::ITask
+struct ThumbnailGenerator: ITaskExecutor::ITask
 {
-    BaseTask(ITaskObserver* observer): m_observer(observer) {}
-    BaseTask(const BaseTask &) = delete;
-
-    virtual ~BaseTask()
-    {
-        m_observer->finished(this);
-    }
-
-    BaseTask& operator=(const BaseTask &) = delete;
-
-    ITaskObserver* m_observer;
-};
-
-
-struct ThumbnailGenerator: BaseTask
-{
-    ThumbnailGenerator(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo, int photoWidth): BaseTask(observer), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
+    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo, int photoWidth): ITaskExecutor::ITask(), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -63,9 +47,9 @@ struct ThumbnailGenerator: BaseTask
 };
 
 
-struct Sha256Assigner: public BaseTask
+struct Sha256Assigner: public ITaskExecutor::ITask
 {
-    Sha256Assigner(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo): BaseTask(observer), m_photoInfo(photoInfo)
+    Sha256Assigner(const IPhotoInfo::Ptr& photoInfo): ITaskExecutor::ITask(), m_photoInfo(photoInfo)
     {
     }
 
@@ -90,9 +74,9 @@ struct Sha256Assigner: public BaseTask
 };
 
 
-struct TagsCollector: public BaseTask
+struct TagsCollector: public ITaskExecutor::ITask
 {
-    TagsCollector(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo) : BaseTask(observer), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(const IPhotoInfo::Ptr& photoInfo) : ITaskExecutor::ITask(), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
     {
     }
 
@@ -124,7 +108,7 @@ struct TagsCollector: public BaseTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_configuration(nullptr), m_runningTasks(), m_pendingTasksMutex(), m_pendigTasksNotifier()
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_configuration(nullptr)
 {
 
 }
@@ -138,9 +122,8 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<Sha256Assigner> task(new Sha256Assigner(this, photoInfo));
+    std::unique_ptr<Sha256Assigner> task(new Sha256Assigner(photoInfo));
 
-    started(task.get());
     m_taskQueue->push(std::move(task));
 }
 
@@ -153,19 +136,17 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     if (widthEntry.isValid())
         width = widthEntry.toInt();
 
-    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(this, photoInfo, width));
+    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(photoInfo, width));
 
-    started(task.get());
     m_taskQueue->push(std::move(task));
 }
 
 
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<TagsCollector> task(new TagsCollector(this, photoInfo));
+    std::unique_ptr<TagsCollector> task(new TagsCollector(photoInfo));
     task->set(&m_tagFeederFactory);
 
-    started(task.get());
     m_taskQueue->push(std::move(task));
 }
 
@@ -184,37 +165,12 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 
 int PhotoInfoUpdater::tasksInProgress()
 {
-    return m_runningTasks.lock()->size();
+    return m_taskQueue != nullptr? m_taskQueue->size() : 0;
 }
 
 
-void PhotoInfoUpdater::waitForPendingTasks()
+void PhotoInfoUpdater::dropPendingTasks()
 {
-    std::unique_lock<std::mutex> tasks_lock(m_pendingTasksMutex);
-    m_pendigTasksNotifier.wait(tasks_lock, [&]
-    {
-        const int tasks = tasksInProgress();
-        std::clog << "PhotoInfoUpdater: " << tasks << " left" << std::endl;
-
-        return tasks == 0;
-    });
-}
-
-
-void PhotoInfoUpdater::started(BaseTask* task)
-{
-    m_runningTasks.lock()->insert(task);
-}
-
-
-void PhotoInfoUpdater::finished(BaseTask* task)
-{
-    auto tasks = m_runningTasks.lock();
-    auto it = tasks->find(task);
-
-    assert(it != tasks->cend());
-
-    tasks->erase(it);
-
-    m_pendigTasksNotifier.notify_one();
+    if (m_taskQueue != nullptr)
+        m_taskQueue->clear();
 }

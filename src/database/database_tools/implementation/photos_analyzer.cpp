@@ -46,84 +46,9 @@ void IncompletePhotos::got(const IPhotoInfo::List& photos)
 ///////////////////////////////////////////////////////////////////////////////
 
 
-PhotosAnalyzerThread::PhotosAnalyzerThread(): m_data_available(), m_data_mutex(), m_photosToValidate(), m_work(true), m_updater()
-{
-}
-
-void PhotosAnalyzerThread::execute()
-{
-    std::unique_lock<std::mutex> lock(m_data_mutex);
-
-    while (m_work)
-    {
-        m_data_available.wait(lock, [&] { return m_photosToValidate.lock()->empty() == false || m_work == false; });
-
-        IPhotoInfo::Ptr photoInfo(nullptr);
-        {
-            auto photosToUpdate = m_photosToValidate.lock();
-
-            if (photosToUpdate->empty() == false)
-            {
-                photoInfo = photosToUpdate->front();
-                photosToUpdate->pop_front();
-            }
-        }
-
-        if (photoInfo.get() != nullptr)
-            process(photoInfo);
-    }
-
-    dropPendingTasks();
-}
-
-
-//TODO: use list of updaters (introduce updater interface)
-void PhotosAnalyzerThread::process(const IPhotoInfo::Ptr& photoInfo)
-{
-    if (photoInfo->isFullyInitialized() == false)
-    {
-        if (photoInfo->isSha256Loaded() == false)
-            m_updater.updateSha256(photoInfo);
-
-        if (photoInfo->isThumbnailLoaded() == false)
-            m_updater.updateThumbnail(photoInfo);
-
-        if (photoInfo->isExifDataLoaded() == false)
-            m_updater.updateTags(photoInfo);
-    }
-}
-
-
-void PhotosAnalyzerThread::dropPendingTasks()
-{
-    // drop any not processed photos
-    m_photosToValidate.lock()->clear();
-
-    // wait for tasks being processed
-    m_updater.waitForPendingTasks();
-
-}
-
-
-void PhotosAnalyzerThread::set(ITaskExecutor* taskExecutor)
-{
-    m_updater.set(taskExecutor);
-}
-
-
-void PhotosAnalyzerThread::set(IConfiguration* configuration)
-{
-    m_updater.set(configuration);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
 PhotosAnalyzerImpl::PhotosAnalyzerImpl():
+    m_updater(),
     m_database(nullptr),
-    m_thread(),
-    m_analyzerThread(),
     m_timer(),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
@@ -132,8 +57,6 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl():
     connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
 
     m_timer.start(500);
-
-    m_analyzerThread = std::thread(&PhotosAnalyzerThread::execute, &m_thread);
 }
 
 
@@ -147,7 +70,7 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 {
     m_database = database;
 
-    m_thread.dropPendingTasks();
+    m_updater.dropPendingTasks();
 
     if (m_database != nullptr)
     {
@@ -171,13 +94,13 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 
 void PhotosAnalyzerImpl::set(ITaskExecutor* taskExecutor)
 {
-    m_thread.set(taskExecutor);
+    m_updater.set(taskExecutor);
 }
 
 
 void PhotosAnalyzerImpl::set(IConfiguration* configuration)
 {
-    m_thread.set(configuration);
+    m_updater.set(configuration);
 }
 
 
@@ -195,49 +118,52 @@ Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 
 void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 {
-    assert(m_analyzerThread.joinable());
-    m_thread.m_photosToValidate.lock()->push_back(photo);
-    m_thread.m_data_available.notify_one();
+    //assert(m_analyzerThread.joinable());
+    //m_thread.m_photosToValidate.lock()->push_back(photo);
+    //m_thread.m_data_available.notify_one();
+
+    if (photo->isFullyInitialized() == false)
+    {
+        if (photo->isSha256Loaded() == false)
+            m_updater.updateSha256(photo);
+
+        if (photo->isThumbnailLoaded() == false)
+            m_updater.updateThumbnail(photo);
+
+        if (photo->isExifDataLoaded() == false)
+            m_updater.updateTags(photo);
+    }
 }
 
 
 void PhotosAnalyzerImpl::stop()
 {
-    if (m_thread.m_work)
-    {
-        m_thread.m_work = false;
-        m_thread.m_data_available.notify_one();
-
-        assert(m_analyzerThread.joinable());
-        m_analyzerThread.join();
-    }
+    m_updater.dropPendingTasks();
 }
 
 
-void PhotosAnalyzerImpl::setupRefresher(const ol::ThreadSafeResource <std::deque<IPhotoInfo::Ptr>>::Accessor& photos)
+void PhotosAnalyzerImpl::setupRefresher()
 {
-    if (photos->empty() == false && m_viewTask == nullptr)         //there are tasks but no view task
+    if (m_updater.tasksInProgress() > 0 && m_viewTask == nullptr)         //there are tasks but no view task
     {
         m_maxTasks = 0;
         m_viewTask = m_tasksView->add(tr("Loading photos data..."));
     }
-    else
-        if (photos->empty() && m_viewTask != nullptr)
-        {
-            m_viewTask->finished();
-            m_viewTask = nullptr;
-        }
+    else if (m_updater.tasksInProgress() == 0 && m_viewTask != nullptr)
+    {
+        m_viewTask->finished();
+        m_viewTask = nullptr;
+    }
 }
 
 
 void PhotosAnalyzerImpl::refreshView()
 {
-    auto photos = m_thread.m_photosToValidate.lock();
-    setupRefresher(photos);
+    setupRefresher();
 
     if (m_viewTask != nullptr)
     {
-        const int current_size = photos->size();
+        const int current_size = m_updater.tasksInProgress();
         m_maxTasks = std::max(m_maxTasks, current_size);
 
         IProgressBar* progressBar = m_viewTask->getProgressBar();

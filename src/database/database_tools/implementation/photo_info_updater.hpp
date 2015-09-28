@@ -13,16 +13,9 @@ struct IConfiguration;
 
 struct BaseTask;
 
-struct ITaskObserver
-{
-    virtual ~ITaskObserver() {}
-
-    virtual void finished(BaseTask *) = 0;
-};
-
 
 //TODO: construct photo manualy. Add fillers manualy on demand
-class PhotoInfoUpdater final: ITaskObserver
+class PhotoInfoUpdater final
 {
     public:
         PhotoInfoUpdater();
@@ -39,18 +32,12 @@ class PhotoInfoUpdater final: ITaskObserver
         void set(IConfiguration *);
 
         int tasksInProgress();
-        void waitForPendingTasks();
+        void dropPendingTasks();
 
     private:
         TagFeederFactory m_tagFeederFactory;
         ITaskExecutor::TaskQueue m_taskQueue;
         IConfiguration* m_configuration;
-        ol::ThreadSafeResource<std::set<BaseTask *>> m_runningTasks;
-        std::mutex m_pendingTasksMutex;
-        std::condition_variable m_pendigTasksNotifier;
-
-        void started(BaseTask *);
-        void finished(BaseTask *) override;
 };
 
 #endif
