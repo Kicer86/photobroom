@@ -412,11 +412,14 @@ namespace Database
         for(const IPhotoInfo::Id& id: ids)
         {
             IPhotoInfo::Ptr photo = m_photoInfoCache->find(id);
-            assert(photo.get() != nullptr);
 
-            photos.push_back(photo);
+            // It is possible photo was never loaded and therefore won't be found in cache
+            if (photo.get() != nullptr)
+            {
+                photos.push_back(photo);
 
-            m_photoInfoCache->forget(id);
+                m_photoInfoCache->forget(id);
+            }
         }
 
         return photos;
