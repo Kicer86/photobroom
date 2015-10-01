@@ -30,6 +30,9 @@ struct UpdaterTask: ITaskExecutor::ITask
         m_updater->taskFinished(this);
     }
 
+    UpdaterTask(const UpdaterTask &) = delete;
+    UpdaterTask& operator=(const UpdaterTask &) = delete;
+
     PhotoInfoUpdater* m_updater;
 };
 
