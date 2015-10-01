@@ -119,10 +119,6 @@ Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 
 void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 {
-    //assert(m_analyzerThread.joinable());
-    //m_thread.m_photosToValidate.lock()->push_back(photo);
-    //m_thread.m_data_available.notify_one();
-
     if (photo->isFullyInitialized() == false)
     {
         if (photo->isSha256Loaded() == false)
@@ -248,4 +244,3 @@ void PhotosAnalyzer::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
 {
 
 }
-
