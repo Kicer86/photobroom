@@ -18,9 +18,25 @@
 #include <database/ifs.hpp>
 
 
-struct ThumbnailGenerator: ITaskExecutor::ITask
+struct UpdaterTask: ITaskExecutor::ITask
 {
-    ThumbnailGenerator(const IPhotoInfo::Ptr& photoInfo, int photoWidth): ITaskExecutor::ITask(), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
+    UpdaterTask(PhotoInfoUpdater* updater): m_updater(updater)
+    {
+        m_updater->taskAdded(this);
+    }
+
+    virtual ~UpdaterTask()
+    {
+        m_updater->taskFinished(this);
+    }
+
+    PhotoInfoUpdater* m_updater;
+};
+
+
+struct ThumbnailGenerator: UpdaterTask
+{
+    ThumbnailGenerator(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo, int photoWidth): UpdaterTask(updater), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -47,9 +63,9 @@ struct ThumbnailGenerator: ITaskExecutor::ITask
 };
 
 
-struct Sha256Assigner: public ITaskExecutor::ITask
+struct Sha256Assigner: UpdaterTask
 {
-    Sha256Assigner(const IPhotoInfo::Ptr& photoInfo): ITaskExecutor::ITask(), m_photoInfo(photoInfo)
+    Sha256Assigner(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo)
     {
     }
 
@@ -74,9 +90,9 @@ struct Sha256Assigner: public ITaskExecutor::ITask
 };
 
 
-struct TagsCollector: public ITaskExecutor::ITask
+struct TagsCollector: UpdaterTask
 {
-    TagsCollector(const IPhotoInfo::Ptr& photoInfo) : ITaskExecutor::ITask(), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
     {
     }
 
@@ -108,7 +124,7 @@ struct TagsCollector: public ITaskExecutor::ITask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_configuration(nullptr)
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_tasks(), m_tasksMutex(), m_configuration(nullptr)
 {
 
 }
@@ -122,7 +138,7 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<Sha256Assigner> task(new Sha256Assigner(photoInfo));
+    auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }
@@ -136,7 +152,7 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     if (widthEntry.isValid())
         width = widthEntry.toInt();
 
-    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(photoInfo, width));
+    auto task = std::make_unique<ThumbnailGenerator>(this, photoInfo, width);
 
     m_taskQueue->push(std::move(task));
 }
@@ -144,7 +160,7 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<TagsCollector> task(new TagsCollector(photoInfo));
+    auto task = std::make_unique<TagsCollector>(this, photoInfo);
     task->set(&m_tagFeederFactory);
 
     m_taskQueue->push(std::move(task));
@@ -165,7 +181,7 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 
 int PhotoInfoUpdater::tasksInProgress()
 {
-    return m_taskQueue != nullptr? m_taskQueue->size() : 0;
+    return m_tasks.size();
 }
 
 
@@ -173,4 +189,18 @@ void PhotoInfoUpdater::dropPendingTasks()
 {
     if (m_taskQueue != nullptr)
         m_taskQueue->clear();
+}
+
+
+void PhotoInfoUpdater::taskAdded(UpdaterTask* task)
+{
+    std::lock_guard<std::mutex> lock(m_tasksMutex);
+    m_tasks.insert(task);
+}
+
+
+void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
+{
+    std::lock_guard<std::mutex> lock(m_tasksMutex);
+    m_tasks.erase(task);
 }

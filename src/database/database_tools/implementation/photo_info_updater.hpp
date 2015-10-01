@@ -11,7 +11,7 @@
 
 struct IConfiguration;
 
-struct BaseTask;
+struct UpdaterTask;
 
 
 //TODO: construct photo manualy. Add fillers manualy on demand
@@ -35,9 +35,16 @@ class PhotoInfoUpdater final
         void dropPendingTasks();
 
     private:
+        friend struct UpdaterTask;
+
         TagFeederFactory m_tagFeederFactory;
         ITaskExecutor::TaskQueue m_taskQueue;
+        std::set<UpdaterTask *> m_tasks;
+        std::mutex m_tasksMutex;
         IConfiguration* m_configuration;
+
+        void taskAdded(UpdaterTask *);
+        void taskFinished(UpdaterTask *);
 };
 
 #endif
