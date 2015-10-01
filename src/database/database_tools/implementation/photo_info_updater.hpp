@@ -33,6 +33,7 @@ class PhotoInfoUpdater final
 
         int tasksInProgress();
         void dropPendingTasks();
+        void waitForActiveTasks();
 
     private:
         friend struct UpdaterTask;
@@ -41,6 +42,7 @@ class PhotoInfoUpdater final
         ITaskExecutor::TaskQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
+        std::condition_variable m_finishedTask;
         IConfiguration* m_configuration;
 
         void taskAdded(UpdaterTask *);

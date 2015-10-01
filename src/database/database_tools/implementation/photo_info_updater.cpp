@@ -127,7 +127,7 @@ struct TagsCollector: UpdaterTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_tasks(), m_tasksMutex(), m_configuration(nullptr)
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_tasks(), m_tasksMutex(), m_finishedTask(), m_configuration(nullptr)
 {
 
 }
@@ -195,6 +195,16 @@ void PhotoInfoUpdater::dropPendingTasks()
 }
 
 
+void PhotoInfoUpdater::waitForActiveTasks()
+{
+    std::unique_lock<std::mutex> lock(m_tasksMutex);
+    m_finishedTask.wait(lock, [&]
+    {
+        return m_tasks.empty();
+    });
+}
+
+
 void PhotoInfoUpdater::taskAdded(UpdaterTask* task)
 {
     std::lock_guard<std::mutex> lock(m_tasksMutex);
@@ -204,6 +214,10 @@ void PhotoInfoUpdater::taskAdded(UpdaterTask* task)
 
 void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
 {
-    std::lock_guard<std::mutex> lock(m_tasksMutex);
-    m_tasks.erase(task);
+    {
+        std::lock_guard<std::mutex> lock(m_tasksMutex);
+        m_tasks.erase(task);
+    }
+
+    m_finishedTask.notify_one();
 }

@@ -71,6 +71,7 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
     m_database = database;
 
     m_updater.dropPendingTasks();
+    m_updater.waitForActiveTasks();
 
     if (m_database != nullptr)
     {
