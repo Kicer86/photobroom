@@ -205,7 +205,6 @@ void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
         Database::ADatabaseSignals* notifier = new_database->notifier();
 
         connect(notifier, SIGNAL(photoAdded(IPhotoInfo::Ptr)), this, SLOT(photoAdded(IPhotoInfo::Ptr)), Qt::DirectConnection);
-        connect(notifier, SIGNAL(photosRemoved(std::deque<IPhotoInfo::Ptr>)), this, SLOT(photosRemoved(std::deque<IPhotoInfo::Ptr>)), Qt::DirectConnection);
     }
 }
 
@@ -237,10 +236,4 @@ void PhotosAnalyzer::stop()
 void PhotosAnalyzer::photoAdded(const IPhotoInfo::Ptr& photo)
 {
     m_data->addPhoto(photo);
-}
-
-
-void PhotosAnalyzer::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
-{
-
 }
