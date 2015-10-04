@@ -82,6 +82,5 @@ void PhotoInfoCache::forget(const IPhotoInfo::Id& id)
     auto it = m_data->m_photo_cache.find(id);
 
     assert(it != m_data->m_photo_cache.end() );
-
     m_data->m_photo_cache.erase(it);
 }

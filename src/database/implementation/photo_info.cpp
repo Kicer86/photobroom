@@ -66,7 +66,8 @@ struct PhotoInfo::Data
         sha256(),
         m_thumbnail(),
         m_flags(),
-        m_id()
+        m_id(),
+        m_valid(true)
     {
     }
 
@@ -81,6 +82,7 @@ struct PhotoInfo::Data
     ol::ThreadSafeResource<QImage> m_thumbnail;
     ol::ThreadSafeResource<PhotoInfo::Flags> m_flags;
     ol::ThreadSafeResource<PhotoInfo::Id> m_id;
+    bool m_valid;
 };
 
 
@@ -271,6 +273,18 @@ int PhotoInfo::getFlag(IPhotoInfo::FlagsE flag) const
     }
 
     return result;
+}
+
+
+void PhotoInfo::invalidate()
+{
+    m_data->m_valid = false;
+}
+
+
+bool PhotoInfo::isValid()
+{
+    return m_data->m_valid;
 }
 
 
