@@ -68,11 +68,9 @@ void PhotoInfoStorekeeper::setCache(Database::IPhotoInfoCache* cache)
 }
 
 
-//TODO: those conditions there don't look nice...
-//is there nicer way for direct access to IPhotoInfo::Ptr?
 void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
 {
-    //find photo in cache
+    //find photo in cache (alternative is to use std::enable_shared_from_this but is it worth it?)
     const IPhotoInfo::Id id = photoInfo->getID();
     IPhotoInfo::Ptr ptr = m_data->m_cache->find(id);
 
