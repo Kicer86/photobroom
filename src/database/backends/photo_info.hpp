@@ -56,6 +56,10 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         void markFlag(FlagsE, int) override;
         int getFlag(FlagsE) const override;
 
+        // other
+        void invalidate() override;
+        bool isValid() override;
+
     private:
         struct Data;
         std::unique_ptr<Data> m_data;

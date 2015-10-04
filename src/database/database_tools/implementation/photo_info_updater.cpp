@@ -18,25 +18,28 @@
 #include <database/ifs.hpp>
 
 
-struct BaseTask: ITaskExecutor::ITask
+struct UpdaterTask: ITaskExecutor::ITask
 {
-    BaseTask(ITaskObserver* observer): m_observer(observer) {}
-    BaseTask(const BaseTask &) = delete;
-
-    virtual ~BaseTask()
+    UpdaterTask(PhotoInfoUpdater* updater): m_updater(updater)
     {
-        m_observer->finished(this);
+        m_updater->taskAdded(this);
     }
 
-    BaseTask& operator=(const BaseTask &) = delete;
+    virtual ~UpdaterTask()
+    {
+        m_updater->taskFinished(this);
+    }
 
-    ITaskObserver* m_observer;
+    UpdaterTask(const UpdaterTask &) = delete;
+    UpdaterTask& operator=(const UpdaterTask &) = delete;
+
+    PhotoInfoUpdater* m_updater;
 };
 
 
-struct ThumbnailGenerator: BaseTask
+struct ThumbnailGenerator: UpdaterTask
 {
-    ThumbnailGenerator(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo, int photoWidth): BaseTask(observer), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
+    ThumbnailGenerator(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo, int photoWidth): UpdaterTask(updater), m_photoInfo(photoInfo), m_photoWidth(photoWidth) {}
     virtual ~ThumbnailGenerator() {}
 
     ThumbnailGenerator(const ThumbnailGenerator &) = delete;
@@ -63,9 +66,9 @@ struct ThumbnailGenerator: BaseTask
 };
 
 
-struct Sha256Assigner: public BaseTask
+struct Sha256Assigner: UpdaterTask
 {
-    Sha256Assigner(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo): BaseTask(observer), m_photoInfo(photoInfo)
+    Sha256Assigner(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo)
     {
     }
 
@@ -90,9 +93,9 @@ struct Sha256Assigner: public BaseTask
 };
 
 
-struct TagsCollector: public BaseTask
+struct TagsCollector: UpdaterTask
 {
-    TagsCollector(ITaskObserver* observer, const IPhotoInfo::Ptr& photoInfo) : BaseTask(observer), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
     {
     }
 
@@ -124,7 +127,7 @@ struct TagsCollector: public BaseTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_task_executor(nullptr), m_configuration(nullptr), m_runningTasks(), m_pendingTasksMutex(), m_pendigTasksNotifier()
+PhotoInfoUpdater::PhotoInfoUpdater(): m_tagFeederFactory(), m_taskQueue(), m_tasks(), m_tasksMutex(), m_finishedTask(), m_configuration(nullptr)
 {
 
 }
@@ -138,10 +141,9 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<Sha256Assigner> task(new Sha256Assigner(this, photoInfo));
+    auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
 
-    started(task.get());
-    m_task_executor->add(std::move(task));
+    m_taskQueue->push(std::move(task));
 }
 
 
@@ -153,26 +155,24 @@ void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
     if (widthEntry.isValid())
         width = widthEntry.toInt();
 
-    std::unique_ptr<ThumbnailGenerator> task(new ThumbnailGenerator(this, photoInfo, width));
+    auto task = std::make_unique<ThumbnailGenerator>(this, photoInfo, width);
 
-    started(task.get());
-    m_task_executor->add(std::move(task));
+    m_taskQueue->push(std::move(task));
 }
 
 
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::unique_ptr<TagsCollector> task(new TagsCollector(this, photoInfo));
+    auto task = std::make_unique<TagsCollector>(this, photoInfo);
     task->set(&m_tagFeederFactory);
 
-    started(task.get());
-    m_task_executor->add(std::move(task));
+    m_taskQueue->push(std::move(task));
 }
 
 
 void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
 {
-    m_task_executor = taskExecutor;
+    m_taskQueue = taskExecutor->getCustomTaskQueue();
 }
 
 
@@ -184,37 +184,40 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 
 int PhotoInfoUpdater::tasksInProgress()
 {
-    return m_runningTasks.lock()->size();
+    return m_tasks.size();
 }
 
 
-void PhotoInfoUpdater::waitForPendingTasks()
+void PhotoInfoUpdater::dropPendingTasks()
 {
-    std::unique_lock<std::mutex> tasks_lock(m_pendingTasksMutex);
-    m_pendigTasksNotifier.wait(tasks_lock, [&]
-    {
-        const int tasks = tasksInProgress();
-        std::clog << "PhotoInfoUpdater: " << tasks << " left" << std::endl;
+    if (m_taskQueue != nullptr)
+        m_taskQueue->clear();
+}
 
-        return tasks == 0;
+
+void PhotoInfoUpdater::waitForActiveTasks()
+{
+    std::unique_lock<std::mutex> lock(m_tasksMutex);
+    m_finishedTask.wait(lock, [&]
+    {
+        return m_tasks.empty();
     });
 }
 
 
-void PhotoInfoUpdater::started(BaseTask* task)
+void PhotoInfoUpdater::taskAdded(UpdaterTask* task)
 {
-    m_runningTasks.lock()->insert(task);
+    std::lock_guard<std::mutex> lock(m_tasksMutex);
+    m_tasks.insert(task);
 }
 
 
-void PhotoInfoUpdater::finished(BaseTask* task)
+void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
 {
-    auto tasks = m_runningTasks.lock();
-    auto it = tasks->find(task);
+    {
+        std::lock_guard<std::mutex> lock(m_tasksMutex);
+        m_tasks.erase(task);
+    }
 
-    assert(it != tasks->cend());
-
-    tasks->erase(it);
-
-    m_pendigTasksNotifier.notify_one();
+    m_finishedTask.notify_one();
 }

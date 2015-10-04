@@ -52,24 +52,6 @@ struct IncompletePhotos: Database::AGetPhotosTask
 };
 
 
-struct PhotosAnalyzerThread
-{
-    PhotosAnalyzerThread();
-
-    void execute();
-    void process(const IPhotoInfo::Ptr& photoInfo);
-    void dropPendingTasks();
-    void set(ITaskExecutor* taskExecutor);
-    void set(IConfiguration* configuration);
-
-    std::condition_variable m_data_available;
-    std::mutex m_data_mutex;
-    ol::ThreadSafeResource<std::deque<IPhotoInfo::Ptr>> m_photosToValidate;
-    bool m_work;
-    PhotoInfoUpdater m_updater;
-};
-
-
 class PhotosAnalyzerImpl: public QObject
 {
         Q_OBJECT
@@ -92,15 +74,14 @@ class PhotosAnalyzerImpl: public QObject
         void stop();
 
     private:
+        PhotoInfoUpdater m_updater;
         Database::IDatabase* m_database;
-        PhotosAnalyzerThread m_thread;
-        std::thread m_analyzerThread;
         QTimer m_timer;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxTasks;
 
-        void setupRefresher(const ol::ThreadSafeResource <std::deque<IPhotoInfo::Ptr>>::Accessor& photos);
+        void setupRefresher();
         void refreshView();
 };
 

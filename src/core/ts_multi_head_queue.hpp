@@ -240,6 +240,11 @@ class TS_MultiHeadQueue
 
         void release(Producer* producer)
         {
+            // Remove Producer from non-empty producers
+            // this ensures Producer will disaapear from both: m_non_empty and m_producers.
+            // Without this one thread may remove producer while another will access it via m_non_empty.
+            aboutToBeCleaned(producer);
+
             std::lock_guard<std::mutex> lock(m_producersMutex);
             m_producers.erase(producer);
         }
@@ -288,7 +293,7 @@ class TS_MultiHeadQueue
 
             if (m_non_empty.empty() == false)
             {
-                Producer* top = *m_non_empty.begin();
+                Producer* top = m_non_empty.front();
                 result = std::move( top->pop() );
 
                 if (top->empty())

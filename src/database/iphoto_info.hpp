@@ -117,6 +117,10 @@ struct IPhotoInfo
     //flags
     virtual void markFlag(FlagsE, int) = 0;
     virtual int  getFlag(FlagsE) const = 0;
+
+    // other
+    virtual void invalidate() = 0;                          // mark photo as dropped (with no equivalent in db)
+    virtual bool isValid() = 0;
 };
 
 

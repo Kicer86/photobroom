@@ -6,23 +6,16 @@
 #include <condition_variable>
 
 #include <core/tag_feeder_factory.hpp>
+#include <core/task_executor.hpp>
 #include <database/iphoto_info.hpp>
 
 struct IConfiguration;
-struct ITaskExecutor;
 
-struct BaseTask;
-
-struct ITaskObserver
-{
-    virtual ~ITaskObserver() {}
-
-    virtual void finished(BaseTask *) = 0;
-};
+struct UpdaterTask;
 
 
 //TODO: construct photo manualy. Add fillers manualy on demand
-class PhotoInfoUpdater final: ITaskObserver
+class PhotoInfoUpdater final
 {
     public:
         PhotoInfoUpdater();
@@ -39,18 +32,21 @@ class PhotoInfoUpdater final: ITaskObserver
         void set(IConfiguration *);
 
         int tasksInProgress();
-        void waitForPendingTasks();
+        void dropPendingTasks();
+        void waitForActiveTasks();
 
     private:
-        TagFeederFactory m_tagFeederFactory;
-        ITaskExecutor* m_task_executor;
-        IConfiguration* m_configuration;
-        ol::ThreadSafeResource<std::set<BaseTask *>> m_runningTasks;
-        std::mutex m_pendingTasksMutex;
-        std::condition_variable m_pendigTasksNotifier;
+        friend struct UpdaterTask;
 
-        void started(BaseTask *);
-        void finished(BaseTask *) override;
+        TagFeederFactory m_tagFeederFactory;
+        ITaskExecutor::TaskQueue m_taskQueue;
+        std::set<UpdaterTask *> m_tasks;
+        std::mutex m_tasksMutex;
+        std::condition_variable m_finishedTask;
+        IConfiguration* m_configuration;
+
+        void taskAdded(UpdaterTask *);
+        void taskFinished(UpdaterTask *);
 };
 
 #endif
