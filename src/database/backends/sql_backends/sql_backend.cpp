@@ -416,9 +416,9 @@ namespace Database
             // It is possible photo was never loaded and therefore won't be found in cache
             if (photo.get() != nullptr)
             {
-                photos.push_back(photo);
-
                 m_photoInfoCache->forget(id);
+                photos.push_back(photo);
+                photo->invalidate();
             }
         }
 

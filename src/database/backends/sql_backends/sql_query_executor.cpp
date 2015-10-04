@@ -80,7 +80,7 @@ namespace Database
             m_logger->log(ILogger::Severity::Error,
                           "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
 
-            assert(status);
+        assert(status);
         return status;
     }
 

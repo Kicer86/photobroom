@@ -77,7 +77,7 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
     IPhotoInfo::Ptr ptr = m_data->m_cache->find(id);
 
     //we should be aware of all exisitng photo info
-    assert(ptr.get() != nullptr);
+    assert(ptr.get() != nullptr || photoInfo->isValid() == false);
 
     //if found, update changed photo in database (but only if fully loaded)
     if (ptr.get() != nullptr && ptr->isFullyInitialized())
