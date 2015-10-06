@@ -200,7 +200,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
