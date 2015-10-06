@@ -75,8 +75,6 @@ class PhotosAddDialog: public QDialog
         void closeEvent(QCloseEvent *) override;
 
     signals:
-        void closing();
-
         void updateLoadValue(const QString &);
 
     private slots:

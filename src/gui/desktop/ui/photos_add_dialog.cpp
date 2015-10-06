@@ -168,8 +168,6 @@ void PhotosAddDialog::closeEvent(QCloseEvent* e)
     const QByteArray geometry = saveGeometry();
     m_config->setEntry("photos_add_dialog::geometry", geometry.toBase64());
 
-    emit closing();
-
     QWidget::closeEvent(e);
 }
 
