@@ -46,74 +46,6 @@
     </message>
 </context>
 <context>
-    <name>InfoGenerator</name>
-    <message>
-        <source>No photo collection is opened.
-
-Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one
-or &apos;new&apos; action and create new collection.</source>
-        <translation type="vanished">Nie otwarto kolekcji zdjęć.
-
-Aby wybrać istniejącą kolekcję, wybierz akcję &quot;Otwórz&quot; z menu &quot;Kolekcja zdjęć&quot;,
-lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation>
-    </message>
-    <message>
-        <source>%1.
-
-All new photos are added to special area where they can be reviewed before they will be added to collection.
-To se those photos choose %2 and then %3
-</source>
-        <translation type="vanished">%1.
-
-Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
-Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3.</translation>
-    </message>
-    <message>
-        <source>%1.
-
-All new photos are added to special area where they can be reviewed before they will be added to collection.
-To se those photos choose %2 and then %3</source>
-        <translation type="obsolete">%1.
-
-Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
-Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3</translation>
-    </message>
-    <message>
-        <source>%1.
-
-All new photos are added to special area where they can be reviewed before they will be added to collection.
-To se those photos choose %2 and then %3.</source>
-        <translation type="vanished">%1.
-
-Wszystkie nowe zdjęcia, zanim trafią do kolekcji, muszą zostać przejrzane.
-Aby przejrzeć zdjęcia wybierz menu %2 a następnie %3.</translation>
-    </message>
-    <message>
-        <source>Photos are being loaded</source>
-        <translation type="vanished">Trwa wyszukiwanie zdjęć</translation>
-    </message>
-    <message>
-        <source>Photos waiting for review</source>
-        <translation type="vanished">Zdjęcia oczekujące na przejrzenie</translation>
-    </message>
-    <message>
-        <source>Windows</source>
-        <translation type="vanished">Okna</translation>
-    </message>
-    <message>
-        <source>Staged area</source>
-        <translation type="vanished">Zdjęcia do zatwierdzenia</translation>
-    </message>
-    <message>
-        <source>There are no photos in your collection.
-
-Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="vanished">W twojej kolekcji nie ma żadnych zdjęć.
-
-Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
-    </message>
-</context>
-<context>
     <name>LevelEditor</name>
     <message>
         <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
@@ -184,10 +116,6 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <source>Every week</source>
         <translation>Co tydzień</translation>
     </message>
-    <message>
-        <source>Every Week</source>
-        <translation type="vanished">Co tydzień</translation>
-    </message>
 </context>
 <context>
     <name>MainTabControler</name>
@@ -205,25 +133,9 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Photo broom</translation>
     </message>
     <message>
-        <source>Photo collection</source>
-        <translation type="vanished">Kolekcja zdjęć</translation>
-    </message>
-    <message>
-        <source>Photos</source>
-        <translation type="vanished">Zdjęcia</translation>
-    </message>
-    <message>
-        <source>Hint:</source>
-        <translation type="vanished">Podpowiedź:</translation>
-    </message>
-    <message>
         <location line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
-    </message>
-    <message>
-        <source>Pho&amp;tos</source>
-        <translation type="vanished">&amp;Zdjęcia</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -231,17 +143,9 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <source>&amp;Windows</source>
-        <translation type="vanished">&amp;Okna</translation>
-    </message>
-    <message>
         <location line="+21"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
-    </message>
-    <message>
-        <source>Hint</source>
-        <translation type="vanished">Podpowiedź</translation>
     </message>
     <message>
         <location line="-28"/>
@@ -326,10 +230,6 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <source>Staged photos</source>
-        <translation type="vanished">Zdjęcia do zatwierdzenia</translation>
-    </message>
-    <message>
         <location line="+82"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
@@ -385,65 +285,9 @@ Proszę zgłosić błąd w programie.
 Kod błędu: %1</translation>
     </message>
     <message>
-        <source>An unexpected error occured while opening photo collection.
-Please report a bug.
-Error code: </source>
-        <translation type="vanished">Podczas otwierania kolekcji wystąpił niespodziewany błąd.
-Proszę zgłosić błąd w programie.
-Kod błędu: </translation>
-    </message>
-    <message>
-        <source>No photo collection is opened.
-
-Use &apos;open&apos; action form &apos;Photo collection&apos; menu to choose one
-or &apos;new&apos; action and create new collection.</source>
-        <translation type="vanished">Nie otwarto kolekcji zdjęć.
-
-Aby wybrać istniejącą kolekcję, wybierz akcję &quot;Otwórz&quot; z menu &quot;Kolekcja zdjęć&quot;,
-lub wybierz akcję &quot;Nowa&quot;, aby stworzyć nową kolekcję.</translation>
-    </message>
-    <message>
-        <source>There are no photos in your collection.
-
-Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="obsolete">W twojej kolekcji nie ma żadnych zdjęć.
-
-Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
-    </message>
-    <message>
-        <source>There are no photos in your collection.
-Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="vanished">W twojej kolekcji nie ma żadnych zdjęć.
-Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
-    </message>
-    <message>
         <location line="-1"/>
         <source>Unexpected error</source>
         <translation>Niespodziewany błąd</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">Pomoc</translation>
-    </message>
-    <message>
-        <source>Windows</source>
-        <translation type="vanished">Okna</translation>
-    </message>
-    <message>
-        <source>Photo information</source>
-        <translation type="vanished">Informacje o zdjęciu</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation type="vanished">Nowa</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="vanished">Otwórz</translation>
-    </message>
-    <message>
-        <source>Add photos</source>
-        <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
         <location line="-52"/>
@@ -451,21 +295,9 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>O programie</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="vanished">Zamknij</translation>
-    </message>
-    <message>
-        <source>Quit</source>
-        <translation type="vanished">Zakończ</translation>
-    </message>
-    <message>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
-    </message>
-    <message>
-        <source>Choose directory with photos</source>
-        <translation type="vanished">Wybierz katalog ze zdjęciami</translation>
     </message>
 </context>
 <context>
@@ -521,37 +353,9 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Photo &amp;information</source>
-        <translation type="obsolete">&amp;Informacje o zdjęciu</translation>
-    </message>
-    <message>
-        <source>Add selected</source>
-        <translation type="vanished">Dodaj zaznaczone</translation>
-    </message>
-    <message>
-        <source>File system &amp;view</source>
-        <translation type="vanished">Widok systemu &amp;plików</translation>
-    </message>
-    <message>
-        <source>D&amp;irectory content</source>
-        <translation type="vanished">Zawartość &amp;katalogu</translation>
-    </message>
-    <message>
         <location line="-99"/>
         <source>Photos found:</source>
         <translation>Znaleziona zdjęcia:</translation>
-    </message>
-    <message>
-        <source>I&amp;mages preparation</source>
-        <translation type="vanished">Przy&amp;gotowywanie zdjęć</translation>
-    </message>
-    <message>
-        <source>&amp;Tags editor</source>
-        <translation type="vanished">Edytor &amp;tagów</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+199"/>
@@ -565,40 +369,11 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
 </context>
 <context>
-    <name>PhotosAnalyzer</name>
-    <message>
-        <source>Loading photos data...</source>
-        <translation type="vanished">Wczytywanie danych ze zdjęć...</translation>
-    </message>
-</context>
-<context>
     <name>PhotosAnalyzerImpl</name>
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+147"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
-    </message>
-</context>
-<context>
-    <name>PhotosCollector</name>
-    <message>
-        <source>Looking for photos...</source>
-        <translation type="vanished">Wyszukiwanie zdjęć...</translation>
-    </message>
-</context>
-<context>
-    <name>PhotosView</name>
-    <message>
-        <source>Photos view</source>
-        <translation type="vanished">Podgląd zdjęć</translation>
-    </message>
-    <message>
-        <source>Date and time</source>
-        <translation type="vanished">Data i godzina</translation>
-    </message>
-    <message>
-        <source>People</source>
-        <translation type="vanished">Osoby</translation>
     </message>
 </context>
 <context>
@@ -659,14 +434,6 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <translation>Usuń</translation>
     </message>
     <message>
-        <source>Project deletion</source>
-        <translation type="vanished">Usunięcie projektu</translation>
-    </message>
-    <message>
-        <source>Are you sure to remove project %1?</source>
-        <translation type="vanished">Czy na pewno usunąć projekt %1?</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/project_picker.cpp" line="+83"/>
         <source>Collection deletion</source>
         <translation>Kasowanie kolekcji</translation>
@@ -683,21 +450,6 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_operator.cpp" line="+61"/>
         <source>&lt;multiple values&gt;</source>
         <translation>&lt;różne wartości&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>StagedPhotosWidget</name>
-    <message>
-        <source>Apply</source>
-        <translation type="vanished">Zastosuj</translation>
-    </message>
-    <message>
-        <source>Review finished</source>
-        <translation type="vanished">Dodaj do kolekcji</translation>
-    </message>
-    <message>
-        <source>Changed photos:</source>
-        <translation type="vanished">Zmodyfikowane zdjęcia:</translation>
     </message>
 </context>
 <context>
