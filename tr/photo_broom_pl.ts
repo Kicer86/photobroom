@@ -478,47 +478,51 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+21"/>
         <source>File system view</source>
-        <translation type="unfinished"></translation>
+        <translation>Widok systemu plików</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Directory content</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawartość katalogu</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to &apos;Photos preparation&apos; area where you can edit photo&apos;s information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj zaznaczone zdjęcia do sekcji &quot;Przygotowywanie zdjęć&quot;, gdzie będzie można je przygotować przed dodaniem do kolekcji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Add selected to preparation</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj zaznaczone zdjęcia do sekcji przygotowywania</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Photos preparation</source>
-        <translation type="unfinished"></translation>
+        <translation>Przygotowywanie zdjęć</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected photos from preparation area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Usuń zaznaczone zdjęcia z sekcji &quot;Przygotowywanie zdjęć&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Remove selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń zaznaczone</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tags editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytor tagów</translation>
     </message>
     <message>
         <location line="+27"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Photo &amp;information</source>
