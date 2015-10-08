@@ -81,6 +81,8 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     Data data;
     data.set(&model);
 
+    const int margin  = data.getImageMargin();
+
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     PositionsCalculator calculator(&model, &data, canvas_w);
@@ -89,8 +91,8 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     {
         const ModelIndexInfo& info = *data.cfind(QModelIndex());
 
-        EXPECT_EQ(false, info.isSizeValid());                           //invisible
-        EXPECT_EQ(QSize(canvas_w, header_h), info.getOverallSize());    //but has overall size of all items
+        EXPECT_EQ(false, info.isSizeValid());                                    //invisible
+        EXPECT_EQ(QSize(canvas_w, header_h + margin), info.getOverallSize());    //but has overall size of all items
     }
 
     {
@@ -127,6 +129,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     view_data.set(&model);
 
     const int spacing = view_data.getSpacing();
+    const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -142,15 +145,15 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     {
         const ModelIndexInfo& info = *view_data.cfind(QModelIndex());
 
-        EXPECT_EQ(false, info.isSizeValid());                                               // invisible
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2), info.getOverallSize());  // but has overall size of all items
+        EXPECT_EQ(false, info.isSizeValid());                                                            // invisible
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin * 2), info.getOverallSize());  // but has overall size of all items
     }
 
     {
         const ModelIndexInfo& info = *view_data.cfind(top_idx->index());
 
-        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                         // its position
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2), info.getOverallSize());  // no children expanded - overall == size
+        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                                  // its position
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info.getOverallSize());  // no children expanded - overall == size
     }
 }
 
@@ -186,6 +189,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     view_data.set(&model);
 
     const int spacing = view_data.getSpacing();
+    const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -201,8 +205,8 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     {
         const ModelIndexInfo& info = *view_data.cfind(top_idx2->index());
 
-        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                  // its position - just after first item of height `header_h`
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2), info.getOverallSize());  // no children expanded - overall == size
+        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                           // its position - just after first item of height `header_h`
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info.getOverallSize());  // no children expanded - overall == size
     }
 }
 
@@ -235,6 +239,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     view_data.set(&model);
 
     const int spacing = view_data.getSpacing();
+    const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
 
@@ -250,8 +255,8 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     {
         const ModelIndexInfo& info = *view_data.cfind(top->index());
 
-        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                             // its position
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h * 2 + spacing * 4), info.getOverallSize());  // we expect two rows
+        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                                      // its position
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h * 2 + spacing * 4 + margin), info.getOverallSize());  // we expect two rows
     }
 
     {
