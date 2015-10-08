@@ -332,6 +332,8 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
 
                 rect = rect.expandedTo(c_size);
             }
+
+            rect.setHeight( rect.height() + m_data->getImageMargin() );
         }
 
         info.setOverallSize(rect);
