@@ -70,6 +70,7 @@ class PhotosAddDialog: public QDialog
         void listSelectionChanged(const QItemSelection &, const QItemSelection &);
         void browseListFilled();
         void stagedTreeSelectionChanged(const QItemSelection &, const QItemSelection &);
+        void treeLoaded(const QString &);
 
         //overrides
         void closeEvent(QCloseEvent *) override;

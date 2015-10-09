@@ -85,6 +85,9 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     connect(ui->browseTree->selectionModel(), &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
     connect(ui->photosView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PhotosAddDialog::stagedTreeSelectionChanged);
     connect(this, &PhotosAddDialog::updateLoadValue, ui->loadProgressValue, &QLabel::setText);
+
+    //
+    connect(m_treeModel, &QFileSystemModel::directoryLoaded, this, &PhotosAddDialog::treeLoaded);
 }
 
 
@@ -159,6 +162,12 @@ void PhotosAddDialog::stagedTreeSelectionChanged(const QItemSelection& selected,
     const bool enable = selected.empty() == false;
 
     ui->removeSelectedButton->setEnabled(enable);
+}
+
+
+void PhotosAddDialog::treeLoaded(const QString &)
+{
+    ui->browseTree->resizeColumnToContents(0);
 }
 
 
