@@ -141,8 +141,13 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
     {
         int row = idx.row() + 1;
 
-        for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(row++, 0) )
+        for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
         {
+            // if 'sibling' is invalid, all after it are invalid also
+            Data::ModelIndexInfoSet::iterator siblingIt = m_data->find(sibling);
+            if (siblingIt->valid() == false)
+                break;
+
             resetRect(sibling);
 
             //reset rect for children
