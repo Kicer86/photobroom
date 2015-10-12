@@ -61,6 +61,9 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     m_stagedModel = new StagedPhotosDataModel(this);
     ui->photosView->setModel(m_stagedModel);
 
+    //
+    ui->browseList->setSelectionMode(QAbstractItemView::MultiSelection);
+
     //setup tag editor
     ui->tagsEditor->set(ui->photosView->selectionModel());
     ui->tagsEditor->set(m_stagedModel);
