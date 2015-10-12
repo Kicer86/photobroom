@@ -358,7 +358,7 @@ Kod błędu: %1</translation>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+208"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+211"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
