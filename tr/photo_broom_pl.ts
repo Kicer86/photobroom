@@ -208,7 +208,7 @@
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+159"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+165"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -371,7 +371,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+147"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+153"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
