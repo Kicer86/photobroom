@@ -47,14 +47,6 @@ PhotosManager::~PhotosManager()
 }
 
 
-PhotosManager* PhotosManager::instance()
-{
-    static PhotosManager _instance;
-
-    return &_instance;
-}
-
-
 QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
 {
     return getPhoto(photoInfo->getPath());

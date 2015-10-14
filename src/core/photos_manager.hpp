@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef PHOTOSMANAGER_H
-#define PHOTOSMANAGER_H
+#ifndef PHOTOSMANAGER_HPP
+#define PHOTOSMANAGER_HPP
 
 #include <memory>
 
@@ -27,18 +27,17 @@
 #include <database/iphoto_info.hpp>
 
 #include "core_export.h"
-
+#include "iphotos_manager.hpp"
 
 
 class QString;
 
-class CORE_EXPORT PhotosManager
+class CORE_EXPORT PhotosManager: IPhotosManager
 {
     public:
+        PhotosManager();
         PhotosManager(const PhotosManager &) = delete;
         ~PhotosManager();
-
-        static PhotosManager* instance();
 
         PhotosManager& operator=(const PhotosManager &) = delete;
 
@@ -46,9 +45,8 @@ class CORE_EXPORT PhotosManager
         QByteArray getPhoto(const QString& path);
 
     private:
-        PhotosManager();
         struct Data;
         std::unique_ptr<Data> m_data;
 };
 
-#endif // PHOTOSMANAGER_H
+#endif // PHOTOSMANAGER_HPP
