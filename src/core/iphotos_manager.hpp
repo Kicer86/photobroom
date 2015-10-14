@@ -2,6 +2,10 @@
 #ifndef IPHOTOS_MANAGER_HPP
 #define IPHOTOS_MANAGER_HPP
 
+// TODO: core should be independent
+
+#include <database/iphoto_info.hpp>
+
 struct IPhotosManager
 {
     virtual ~IPhotosManager() {}

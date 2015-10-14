@@ -24,15 +24,13 @@
 
 #include <QByteArray>
 
-#include <database/iphoto_info.hpp>
-
 #include "core_export.h"
 #include "iphotos_manager.hpp"
 
 
 class QString;
 
-class CORE_EXPORT PhotosManager: IPhotosManager
+class CORE_EXPORT PhotosManager: public IPhotosManager
 {
     public:
         PhotosManager();

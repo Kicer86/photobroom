@@ -67,6 +67,7 @@ class PhotosAnalyzerImpl: public QObject
         void set(ITaskExecutor* taskExecutor);
         void set(IConfiguration* configuration);
         void set(ITasksView* tasksView);
+        void set(IPhotosManager *);
 
         Database::IDatabase* getDatabase();
 

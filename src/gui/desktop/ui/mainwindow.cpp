@@ -143,6 +143,12 @@ void MainWindow::set(IUpdater* updater)
 }
 
 
+void MainWindow::set(IPhotosManager* manager)
+{
+    m_photosAnalyzer->set(manager);
+}
+
+
 void MainWindow::checkVersion()
 {
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);

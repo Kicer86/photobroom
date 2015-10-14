@@ -15,6 +15,7 @@ class MainTabControler;
 class PhotosCollector;
 class PhotosAnalyzer;
 struct ITaskExecutor;
+struct IPhotosManager;
 struct IPluginLoader;
 struct IProject;
 struct IProjectManager;
@@ -45,6 +46,7 @@ class MainWindow: public QMainWindow
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(IUpdater *);
+        void set(IPhotosManager *);
 
     private:
         Ui::MainWindow*           ui;
