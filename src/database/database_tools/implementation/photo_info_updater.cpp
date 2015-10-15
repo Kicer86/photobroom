@@ -210,6 +210,7 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 void PhotoInfoUpdater::set(IPhotosManager* photosManager)
 {
     m_photosManager = photosManager;
+    m_tagFeederFactory.set(photosManager);
 }
 
 
