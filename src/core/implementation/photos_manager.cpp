@@ -23,6 +23,7 @@
 
 #include <QCache>
 #include <QFile>
+#include <QImage>
 
 
 
@@ -35,7 +36,7 @@ struct PhotosManager::Data
 };
 
 
-PhotosManager::PhotosManager(): m_data(new Data)
+PhotosManager::PhotosManager(): IPhotosManager(), m_data(new Data)
 {
 
 }
@@ -70,4 +71,25 @@ QByteArray PhotosManager::getPhoto(const QString& path)
     }
 
     return *result;
+}
+
+
+QImage PhotosManager::getUniversalThumbnal(const QString& path)
+{
+    QByteArray raw = getPhoto(path);
+
+    QImage image;
+    image.loadFromData(raw);
+
+    // TODO: remove constants, use settings?
+    const int w = 800;
+    const int h = 600;
+
+    const bool needs_resize = image.width() > w || image.height() > h;
+
+    const QImage scaled = needs_resize?
+                          image.scaled(w, h, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation):
+                          image;
+
+    return scaled;
 }

@@ -11,6 +11,8 @@ struct IPhotosManager
     virtual ~IPhotosManager() {}
     virtual QByteArray getPhoto(const IPhotoInfo::Ptr &) = 0;
     virtual QByteArray getPhoto(const QString& path) = 0;
+
+    virtual QImage getUniversalThumbnal(const QString& path) = 0;   //returns big thumbnail which can be a base for smaller thumbnails
 };
 
 #endif

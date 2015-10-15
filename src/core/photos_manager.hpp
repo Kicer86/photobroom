@@ -39,8 +39,10 @@ class CORE_EXPORT PhotosManager: public IPhotosManager
 
         PhotosManager& operator=(const PhotosManager &) = delete;
 
+        // IPhotosManager:
         QByteArray getPhoto(const IPhotoInfo::Ptr &);
         QByteArray getPhoto(const QString& path);
+        QImage getUniversalThumbnal(const QString& path);
 
     private:
         struct Data;
