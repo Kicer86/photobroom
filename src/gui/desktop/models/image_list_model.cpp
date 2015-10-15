@@ -22,16 +22,26 @@
 
 #include <QFileInfo>
 
+#include <core/iphotos_manager.hpp>
 #include <core/itask_executor.hpp>
 #include <core/callback_ptr.hpp>
 
 
 struct LoadPhoto: ITaskExecutor::ITask
 {
-    LoadPhoto(const QString& path, const callback_ptr_ctrl<ImageListModelPrivate>& callback_ctrl): m_path(path), m_callback(callback_ctrl)
+    LoadPhoto(const QString& path,
+              IPhotosManager* photosManager,
+              const callback_ptr_ctrl<ImageListModelPrivate>& callback_ctrl):
+        m_path(path),
+        m_callback(callback_ctrl),
+        m_photosManager(photosManager)
     {
 
     }
+
+    LoadPhoto(const LoadPhoto &) = delete;
+    
+    LoadPhoto& operator=(const LoadPhoto &) = delete;
 
     virtual std::string name() const
     {
@@ -40,17 +50,7 @@ struct LoadPhoto: ITaskExecutor::ITask
 
     virtual void perform()
     {
-        // TODO: remove constants, use settings?
-        const QImage image(m_path);
-
-        const int w = 800;
-        const int h = 600;
-
-        const bool needs_resize = image.width() > w || image.height() > h;
-
-        const QImage scaled = needs_resize?
-                              image.scaled(w, h, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation):
-                              image;
+        QImage scaled = m_photosManager->getUniversalThumbnal(m_path);
 
         auto callback = **m_callback;
 
@@ -60,6 +60,7 @@ struct LoadPhoto: ITaskExecutor::ITask
 
     QString m_path;
     callback_ptr<ImageListModelPrivate> m_callback;
+    IPhotosManager* m_photosManager;
 };
 
 
@@ -72,6 +73,7 @@ ImageListModelPrivate::ImageListModelPrivate(ImageListModel* _q):
     m_taskQueue(nullptr),
     m_callback_ctrl(this),
     m_image(),
+    m_photosManager(nullptr),
     q(_q)
 {
     m_image = QImage(":/gui/clock-img.svg");
@@ -150,6 +152,12 @@ void ImageListModel::set(ITaskExecutor* taskExecutor)
 }
 
 
+void ImageListModel::set(IPhotosManager* photosManager)
+{
+    d->m_photosManager = photosManager;
+}
+
+
 QVariant ImageListModel::data(const QModelIndex& index, int role) const
 {
     QVariant result;
@@ -178,7 +186,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                 if (info.default_image)
                 {
                     info.default_image = false;
-                    d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_callback_ctrl));
+                    d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_photosManager, d->m_callback_ctrl));
                 }
 
                 result = QIcon(QPixmap::fromImage(info.image));

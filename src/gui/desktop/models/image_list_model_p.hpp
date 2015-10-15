@@ -30,7 +30,8 @@
 #include <core/callback_ptr.hpp>
 #include <core/itask_executor.hpp>
 
-class ImageListModel;
+struct IPhotosManager;
+struct ImageListModel;
 
 struct Info
 {
@@ -63,9 +64,11 @@ class ImageListModelPrivate: public QObject
         ITaskExecutor::TaskQueue m_taskQueue;
         callback_ptr_ctrl<ImageListModelPrivate> m_callback_ctrl;
         QImage m_image;
+        IPhotosManager* m_photosManager;
 
     private:
         class ImageListModel* const q;
+
     signals:
         void imageScaled(const QString &, const QImage &);
 };

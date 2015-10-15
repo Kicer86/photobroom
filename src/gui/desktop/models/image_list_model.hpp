@@ -22,7 +22,8 @@
 
 #include <QAbstractItemModel>
 
-class ITaskExecutor;
+struct ITaskExecutor;
+struct IPhotosManager;
 
 class ImageListModel: public QAbstractItemModel
 {
@@ -38,6 +39,7 @@ class ImageListModel: public QAbstractItemModel
         const QString get(const QModelIndex &) const;
 
         void set(ITaskExecutor *);
+        void set(IPhotosManager *);
 
         // QAbstractItemModel:
         QVariant data(const QModelIndex& index, int role) const override;
