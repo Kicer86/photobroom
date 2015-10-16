@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_updater(nullptr),
     m_executor(nullptr),
+    m_photosManager(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
@@ -146,6 +147,7 @@ void MainWindow::set(IUpdater* updater)
 void MainWindow::set(IPhotosManager* manager)
 {
     m_photosAnalyzer->set(manager);
+    m_photosManager = manager;
 }
 
 
@@ -369,6 +371,7 @@ void MainWindow::on_actionAdd_photos_triggered()
 
     photosAddDialog.set(m_executor);
     photosAddDialog.set(m_currentPrj->getDatabase());
+    photosAddDialog.set(m_photosManager);
     photosAddDialog.setWindowModality(Qt::ApplicationModal);
     photosAddDialog.exec();
 }

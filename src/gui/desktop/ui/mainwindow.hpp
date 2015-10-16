@@ -57,6 +57,7 @@ class MainWindow: public QMainWindow
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
+        IPhotosManager*           m_photosManager;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
@@ -108,3 +109,5 @@ class MainWindow: public QMainWindow
 };
 
 #endif // MAINWINDOW_HPP
+
+class IPhotosManager;
