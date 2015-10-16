@@ -208,7 +208,7 @@
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+165"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+167"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -240,7 +240,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+164"/>
+        <location line="+165"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -358,7 +358,7 @@ Kod błędu: %1</translation>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+211"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+217"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
