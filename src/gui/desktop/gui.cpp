@@ -7,6 +7,7 @@
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/photos_manager.hpp>
 #include <system/filesystem.hpp>
 #include <updater/updater.hpp>
 
@@ -86,6 +87,7 @@ void Gui::run()
         m_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
     Updater updater;
+    PhotosManager photosManager;
 
     MainWindow mainWindow;
 
@@ -94,6 +96,7 @@ void Gui::run()
     mainWindow.set(m_taskExecutor);
     mainWindow.set(m_configuration);
     mainWindow.set(&updater);
+    mainWindow.set(&photosManager);
 
     mainWindow.show();
     QCoreApplication::exec();

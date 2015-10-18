@@ -25,6 +25,7 @@
 
 #include "utils/photos_collector.hpp"
 
+class IPhotosManager;
 class QFileSystemModel;
 class QItemSelection;
 
@@ -57,6 +58,7 @@ class PhotosAddDialog: public QDialog
 
         void set(ITaskExecutor *);
         void set(Database::IDatabase *);
+        void set(IPhotosManager *);
 
     private:
         Ui::PhotosAddDialog* ui;

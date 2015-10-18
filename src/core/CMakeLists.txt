@@ -46,6 +46,7 @@ set(CORE_HEADERS
     hash_functions.hpp
     ilogger.hpp
     ilogger_factory.hpp
+    iphotos_manager.hpp
     itagfeeder.hpp
     itask_executor.hpp
     itasks_view.hpp

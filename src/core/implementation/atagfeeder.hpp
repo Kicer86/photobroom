@@ -23,13 +23,19 @@
 
 #include "itagfeeder.hpp"
 
+struct IPhotosManager;
 class QByteArray;
 
 class ATagFeeder: public ITagFeeder
 {
     public:
         ATagFeeder();
+        ATagFeeder(const ATagFeeder &) = delete;
         virtual ~ATagFeeder();
+
+        ATagFeeder& operator=(const ATagFeeder &) = delete;
+
+        void set(IPhotosManager *);
 
     protected:
         enum TagTypes
@@ -41,6 +47,8 @@ class ATagFeeder: public ITagFeeder
         virtual std::string get(TagTypes) = 0;
 
     private:
+        IPhotosManager* m_photosManager;
+
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
         //void update(Tag::TagsList *, const QString& path) override;

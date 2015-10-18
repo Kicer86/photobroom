@@ -10,10 +10,10 @@
 #include "core_export.h"
 #include "atagfeeder.hpp"
 
-class EasyExifTagFeeder : public ATagFeeder
+class EasyExifTagFeeder: public ATagFeeder
 {
     public:
-        EasyExifTagFeeder();
+        EasyExifTagFeeder(IPhotosManager *);
 
     private:
         EXIFInfo m_exif_data;

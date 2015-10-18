@@ -22,9 +22,15 @@ struct NullFeeder: public ITagFeeder
 };
 
 
-TagFeederFactory::TagFeederFactory(): m_feeders()
+TagFeederFactory::TagFeederFactory(): m_feeders(), m_photosManager(nullptr)
 {
 
+}
+
+
+void TagFeederFactory::set(IPhotosManager* photosManager)
+{
+    m_photosManager = photosManager;
 }
 
 
@@ -36,7 +42,7 @@ std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 
     if (it == m_feeders.end())
     {
-        auto feeder = std::make_shared<EasyExifTagFeeder>();
+        auto feeder = std::make_shared<EasyExifTagFeeder>(m_photosManager);
         auto data = std::make_pair(id, feeder);
         auto in = m_feeders.insert(data);
 

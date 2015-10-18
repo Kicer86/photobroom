@@ -6,9 +6,9 @@
 #include <QByteArray>
 
 
-EasyExifTagFeeder::EasyExifTagFeeder(): m_exif_data()
+EasyExifTagFeeder::EasyExifTagFeeder(IPhotosManager* photosManager): m_exif_data()
 {
-
+    ATagFeeder::set(photosManager);
 }
 
 

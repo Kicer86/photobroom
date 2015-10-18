@@ -29,7 +29,7 @@
 #include "tag.hpp"
 #include "base_tags.hpp"
 
-ATagFeeder::ATagFeeder()
+ATagFeeder::ATagFeeder(): m_photosManager(nullptr)
 {
 
 }
@@ -41,9 +41,16 @@ ATagFeeder::~ATagFeeder()
 }
 
 
+void ATagFeeder::set(IPhotosManager* photosManager)
+{
+    m_photosManager = photosManager;
+}
+
+
+
 Tag::TagsList ATagFeeder::getTagsFor(const QString& path)
 {
-    const QByteArray data = PhotosManager::instance()->getPhoto(path);
+    const QByteArray data = m_photosManager->getPhoto(path);
 
     collect(data);
 
@@ -63,7 +70,7 @@ void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
     const QStringList time_splitted = v.split(" ");
 
     if (time_splitted.size() == 2)
-    {        
+    {
         QString date = time_splitted[0];
         const QString time = time_splitted[1];
 

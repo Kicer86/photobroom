@@ -113,6 +113,12 @@ void PhotosAddDialog::set(Database::IDatabase* database)
 }
 
 
+void PhotosAddDialog::set(IPhotosManager* photosManager)
+{
+    m_browseModel->set(photosManager);
+}
+
+
 void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QModelIndex &)
 {
     // crawler may already work for another dir, disconnect from it and stop it
