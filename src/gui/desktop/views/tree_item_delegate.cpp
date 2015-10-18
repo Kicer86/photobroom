@@ -26,14 +26,14 @@
 #include "utils/variant_display.hpp"
 
 
-TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_view(nullptr)
+TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_view(nullptr), m_backgroundEven(), m_backgroundOdd()
 {
     m_backgroundEven = QColor(255, 0, 0, 64);
     m_backgroundOdd  = QColor(0, 0, 255, 64);
 }
 
 
-TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view): QAbstractItemDelegate(view), m_view(view)
+TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view): QAbstractItemDelegate(view), m_view(view), m_backgroundEven(), m_backgroundOdd()
 {
     m_backgroundEven = QColor(255, 0, 0, 64);
     m_backgroundOdd  = QColor(0, 0, 255, 64);
@@ -204,6 +204,14 @@ QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem& option, const QV
         {
             result = QPixmap(option.decorationSize);
             result.fill(qvariant_cast<QColor>(variant));
+            break;
+        }
+
+        case QVariant::Image:
+        {
+            const QImage image = qvariant_cast<QImage>(variant);
+            const QImage scaled = image.scaled(option.decorationSize);
+            result = QPixmap::fromImage(scaled);
             break;
         }
 
