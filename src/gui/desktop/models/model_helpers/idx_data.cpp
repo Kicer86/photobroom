@@ -150,7 +150,7 @@ namespace
 IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
-    
+
     init();
 }
 
