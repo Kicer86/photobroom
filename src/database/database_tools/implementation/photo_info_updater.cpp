@@ -63,11 +63,7 @@ struct ThumbnailGenerator: UpdaterTask
 
     virtual void perform() override
     {
-        const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
-        QImage image;
-        image.loadFromData(data);
-
-        const QImage thumbnail = image.scaled(m_photoWidth, m_photoWidth, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        const QImage thumbnail = m_photosManager->getUniversalThumbnal(m_photoInfo->getPath());
 
         m_photoInfo->initThumbnail(thumbnail);
     }
