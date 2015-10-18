@@ -40,7 +40,7 @@ struct LoadPhoto: ITaskExecutor::ITask
     }
 
     LoadPhoto(const LoadPhoto &) = delete;
-    
+
     LoadPhoto& operator=(const LoadPhoto &) = delete;
 
     virtual std::string name() const
@@ -189,7 +189,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                     d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_photosManager, d->m_callback_ctrl));
                 }
 
-                result = QIcon(QPixmap::fromImage(info.image));
+                result = info.image;
             }
 
             default:
