@@ -3,6 +3,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set(SRC
+    ascalable_images_model.cpp
     db_data_model.cpp
     image_list_model.cpp
     photos_data_model.cpp
@@ -14,6 +15,7 @@ set(SRC
     )
 
 set(HEADERS
+    ascalable_images_model.hpp
     db_data_model.hpp
     image_list_model.hpp
     image_list_model_p.hpp
