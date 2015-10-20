@@ -19,7 +19,54 @@
 
 #include "ascalable_images_model.hpp"
 
-AScalableImagesModel::AScalableImagesModel(QObject* p): QAbstractItemModel(p)
+#include <core/task_executor.hpp>
+
+uint qHash(const AScalableImagesModel::Key& key)
+{
+    return qHash(key.index) + qHash(key.size.height()) + qHash(key.size.width());
+}
+
+
+struct LoadPhoto: ITaskExecutor::ITask
+{
+    LoadPhoto(const AScalableImagesModel::Key& key,
+              const callback_ptr_ctrl<AScalableImagesModel>& callback_ctrl):
+    m_key(key),
+    m_callback(callback_ctrl)
+    {
+
+    }
+
+    LoadPhoto(const LoadPhoto &) = delete;
+
+    LoadPhoto& operator=(const LoadPhoto &) = delete;
+
+    virtual std::string name() const
+    {
+        return "LoadPhoto";
+    }
+
+    virtual void perform()
+    {
+        auto callback = **m_callback;
+
+        if (callback)
+        {
+            QImage scaled = callback->getImageFor(m_key.index, m_key.size);
+            callback->gotImage(m_key, scaled);
+        }
+    }
+
+    AScalableImagesModel::Key m_key;
+    callback_ptr<AScalableImagesModel> m_callback;
+};
+
+
+AScalableImagesModel::AScalableImagesModel(QObject* p):
+    QAbstractItemModel(p),
+    m_cache(100000),            // ~100kb
+    m_callback_ctrl(this),
+    m_taskExecutor(nullptr)
 {
 
 }
@@ -29,3 +76,26 @@ AScalableImagesModel::~AScalableImagesModel()
 {
 
 }
+
+
+QImage AScalableImagesModel::getDecorationRole(const QModelIndex& idx, const QSize& size)
+{
+    Key key(idx, size);
+
+    QImage* img = m_cache.object(key);
+
+    if (img == 0)
+    {
+        auto task = std::make_unique<LoadPhoto>(key, m_callback_ctrl);
+        m_taskExecutor->add(std::move(task));
+    }
+
+    return *img;
+}
+
+
+void AScalableImagesModel::set(ITaskExecutor* taskExecutor)
+{
+    m_taskExecutor = taskExecutor;
+}
+

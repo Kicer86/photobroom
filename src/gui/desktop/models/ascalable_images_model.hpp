@@ -21,15 +21,55 @@
 #define ASCALABLEIMAGESMODEL_HPP
 
 #include <QAbstractItemModel>
+#include <QCache>
+#include <QImage>
+
+#include <core/callback_ptr.hpp>
+
+struct ITaskExecutor;
+struct LoadPhoto;
 
 class AScalableImagesModel: public QAbstractItemModel
 {
     public:
+        struct Key
+        {
+            QModelIndex index;
+            QSize size;
+
+            Key(const QModelIndex& k, const QSize& s): index(k), size(s) {}
+            Key(const Key &) = default;
+
+            Key& operator=(const Key &) = default;
+            bool operator==(const Key& other) const
+            {
+                return index == other.index &&
+                       size == other.size;
+            }
+        };
+
         AScalableImagesModel(QObject * = 0);
         AScalableImagesModel(const AScalableImagesModel &) = delete;
         ~AScalableImagesModel();
 
         AScalableImagesModel& operator=(const AScalableImagesModel &) = delete;
+
+        QImage getDecorationRole(const QModelIndex &, const QSize &);
+
+        void set(ITaskExecutor *);
+
+    protected:
+        // will be called from non-main thread
+        virtual QImage getImageFor(const QModelIndex &, const QSize &) = 0;
+
+    private:
+        friend struct LoadPhoto;
+
+        QCache<Key, QImage> m_cache;
+        callback_ptr_ctrl<AScalableImagesModel> m_callback_ctrl;
+        ITaskExecutor* m_taskExecutor;
+
+        void gotImage(const Key &, const QImage &);
 };
 
 #endif // ASCALABLEIMAGESMODEL_HPP
