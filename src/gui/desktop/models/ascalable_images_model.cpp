@@ -99,3 +99,8 @@ void AScalableImagesModel::set(ITaskExecutor* taskExecutor)
     m_taskExecutor = taskExecutor;
 }
 
+
+void AScalableImagesModel::gotImage(const AScalableImagesModel::Key& key, const QImage& img)
+{
+
+}

@@ -22,9 +22,9 @@
 
 #include <memory>
 
-#include <QAbstractItemModel>
-
 #include <database/idatabase.hpp>
+
+#include "ascalable_images_model.hpp"
 
 struct ITaskExecutor;
 class IdxDataManager;
@@ -58,7 +58,7 @@ struct Hierarchy
 };
 
 
-class DBDataModel: public QAbstractItemModel
+class DBDataModel: public AScalableImagesModel
 {
         friend class IdxDataManager;
 
@@ -77,7 +77,7 @@ class DBDataModel: public QAbstractItemModel
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
         void setModelSpecificFilter(const std::deque<Database::IFilter::Ptr> &);
-        
+
         const std::deque<Database::IFilter::Ptr>& getModelSpecificFilters() const;
 
         bool isEmpty() const;
@@ -88,7 +88,10 @@ class DBDataModel: public QAbstractItemModel
         Database::IDatabase* getDatabase(); //TODO: remove
 
     private:
-        //QAbstractItemModel:
+        // AScalableImagesModel:
+        virtual QImage getImageFor(const QModelIndex&, const QSize &);
+
+        // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
         virtual void fetchMore(const QModelIndex& parent) override;
 
