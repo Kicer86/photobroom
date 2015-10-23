@@ -17,6 +17,7 @@ set(DATABASE_SOURCES
     implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
+    implementation/photo_data.cpp
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
     implementation/photo_info_storekeeper.cpp
@@ -35,6 +36,7 @@ set(DATABASE_HEADERS
     iphoto_info.hpp
     iphoto_info_cache.hpp
     ifs.hpp
+    photo_data.hpp
     photo_iterator.hpp
     query_list.hpp
     project_info.hpp
