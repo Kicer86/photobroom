@@ -24,12 +24,14 @@
 
 namespace Database
 {
+
     struct FlagValues
     {
         IPhotoInfo::FlagsE flag;
         int                value;
     };
 
+    
     struct PhotoData
     {
         IPhotoInfo::Id          id;
@@ -37,6 +39,7 @@ namespace Database
         Tag::TagsList           tags;
         std::vector<FlagValues> flags;
     };
+
 }
 
 #endif // PHOTO_DATA_HPP
