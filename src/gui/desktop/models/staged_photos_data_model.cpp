@@ -44,7 +44,7 @@ namespace
 StagedPhotosDataModel::StagedPhotosDataModel(QObject* p): DBDataModel(p)
 {
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[IPhotoInfo::FlagsE::StagingArea] = 1;
+    filter->flags[Database::FlagsE::StagingArea] = 1;
 
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 
@@ -78,7 +78,7 @@ void StagedPhotosDataModel::storePhotos()
     const std::vector<IPhotoInfo::Ptr> photos = getPhotos();
 
     for(const IPhotoInfo::Ptr& photo: photos)
-        photo->markFlag(IPhotoInfo::FlagsE::StagingArea, 0);
+        photo->markFlag(Database::FlagsE::StagingArea, 0);
 }
 
 

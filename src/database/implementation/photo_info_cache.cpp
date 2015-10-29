@@ -42,7 +42,7 @@ struct PhotoInfoCache::Data
 
     ~Data() {}
 
-    std::unordered_map<IPhotoInfo::Id, std::weak_ptr<IPhotoInfo>, PhotoInfoIdHash> m_photo_cache;
+    std::unordered_map<Database::Id, std::weak_ptr<IPhotoInfo>, Database::PhotoInfoIdHash> m_photo_cache;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ PhotoInfoCache::~PhotoInfoCache()
 }
 
 
-IPhotoInfo::Ptr PhotoInfoCache::find(const IPhotoInfo::Id& id) const
+IPhotoInfo::Ptr PhotoInfoCache::find(const Database::Id& id) const
 {
     IPhotoInfo::Ptr result;
     auto it = m_data->m_photo_cache.find(id);
@@ -77,7 +77,7 @@ void PhotoInfoCache::introduce(const IPhotoInfo::Ptr& ptr)
 }
 
 
-void PhotoInfoCache::forget(const IPhotoInfo::Id& id)
+void PhotoInfoCache::forget(const Database::Id& id)
 {
     auto it = m_data->m_photo_cache.find(id);
 

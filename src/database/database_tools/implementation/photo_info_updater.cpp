@@ -98,7 +98,7 @@ struct Sha256Assigner: UpdaterTask
         const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        const IPhotoInfo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
+        const Database::Sha256sum hash = HashFunctions::sha256(udata, data.size());
         m_photoInfo->initSha256(hash);
     }
 
@@ -133,7 +133,7 @@ struct TagsCollector: UpdaterTask
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
         m_photoInfo->setTags(p_tags);
-        m_photoInfo->markFlag(IPhotoInfo::FlagsE::ExifLoaded, 1);
+        m_photoInfo->markFlag(Database::FlagsE::ExifLoaded, 1);
     }
 
     IPhotoInfo::Ptr m_photoInfo;

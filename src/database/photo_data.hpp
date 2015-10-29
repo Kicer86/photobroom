@@ -20,24 +20,65 @@
 #ifndef PHOTO_DATA_HPP
 #define PHOTO_DATA_HPP
 
-#include "iphoto_info.hpp"
+#include <QImage>
+
+#include <core/tag.hpp>
+
+#include "database_export.h"
+
 
 namespace Database
 {
+    typedef std::string Sha256sum;
 
-    struct FlagValues
+    struct DATABASE_EXPORT Id
     {
-        IPhotoInfo::FlagsE flag;
-        int                value;
+            typedef int type;
+
+            Id();
+            explicit Id(type);
+            Id(const Id &) = default;
+
+            Id& operator=(const Id &) = default;
+            operator type() const;
+            bool operator!() const;
+            bool valid() const;
+            type value() const;
+
+        private:
+            type m_value;
+            bool m_valid;
     };
 
-    
-    struct PhotoData
+    enum class FlagsE
     {
-        IPhotoInfo::Id          id;
-        IPhotoInfo::Sha256sum   sha256Sum;
-        Tag::TagsList           tags;
-        std::vector<FlagValues> flags;
+        StagingArea,
+        ExifLoaded,
+        Sha256Loaded,
+        ThumbnailLoaded,
+    };
+
+    typedef std::map<FlagsE, int> FlagValues;
+
+    struct DATABASE_EXPORT PhotoData
+    {
+        Id            id;
+        Sha256sum     sha256Sum;
+        Tag::TagsList tags;
+        FlagValues    flags;
+        QString       path;
+        QImage        thumbnail;
+
+        int getFlag(const FlagsE& flag) const;
+    };
+
+
+    struct PhotoInfoIdHash
+    {
+        std::size_t operator()(const Database::Id& key) const
+        {
+            return std::hash<Database::Id::type>()(key.value());
+        }
     };
 
 }

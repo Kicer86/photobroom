@@ -54,7 +54,6 @@ namespace Database
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
 
-            void setPhotoInfoCache(IPhotoInfoCache *) override;
             void closeConnections();
 
             const QString& getConnectionName() const;
@@ -75,24 +74,23 @@ namespace Database
             virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
 
             virtual void set(ILoggerFactory *) override;
-            virtual void addEventsObserver(IEvents *) override;
 
         private:
             std::unique_ptr<Data> m_data;
 
             virtual BackendStatus init(const ProjectInfo &) override final;
-            virtual IPhotoInfo::Ptr addPath(const QString &) override final;
-            virtual bool update(const IPhotoInfo::Ptr &) override final;
+            virtual bool addPhoto(PhotoData &) override final;
+            virtual bool update(const PhotoData &) override final;
             virtual bool update(const TagNameInfo &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;
             virtual std::deque<QVariant> listTagValues(const TagNameInfo&) override final;
             virtual std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
-            virtual IPhotoInfo::List getAllPhotos() override final;
-            virtual IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &) override final;
-            virtual IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<Database::Id> getAllPhotos() override final;
+            virtual PhotoData getPhoto(const Database::Id &) override final;
+            virtual std::deque<Database::Id> getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
-            virtual std::deque<IPhotoInfo::Ptr> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<Database::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

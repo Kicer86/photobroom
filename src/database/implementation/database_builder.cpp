@@ -35,7 +35,7 @@
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
 #include "ibackend.hpp"
-#include "backends/photo_info.hpp"
+#include "photo_info.hpp"
 #include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
 
@@ -148,12 +148,12 @@ namespace Database
         PhotoInfoCache* cache = new PhotoInfoCache;
         std::unique_ptr<IBackend> backend = plugin->constructBackend();
         IDatabase* database = new DatabaseThread(backend.get());
+        database->set(cache);
+
         PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
 
-        backend->setPhotoInfoCache(cache);
         backend->set(m_impl->m_logger_factory);
         backend->set(m_impl->m_configuration);
-        backend->addEventsObserver(storekeeper);
         storekeeper->setDatabase(database);
         storekeeper->setCache(cache);
 

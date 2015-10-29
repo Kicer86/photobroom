@@ -45,7 +45,7 @@
 #include <database/filter.hpp>
 #include <database/iphoto_info_cache.hpp>
 #include <database/project_info.hpp>
-#include <database/backends/photo_info.hpp>
+#include <database/photo_info.hpp>
 
 #include "table_definition.hpp"
 #include "sql_query_constructor.hpp"
@@ -133,9 +133,7 @@ namespace Database
     {
             ASqlBackend* m_backend;
             QString m_connectionName;
-            IPhotoInfoCache* m_photoInfoCache;
             std::unique_ptr<ILogger> m_logger;
-            std::set<IBackend::IEvents *> m_observers;
             SqlQueryExecutor m_executor;
             bool m_dbHasSizeFeature;
             bool m_dbOpen;
@@ -147,40 +145,38 @@ namespace Database
 
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool store(const TagValue& value, int photo_id, int tag_id) const;
-            bool store(const IPhotoInfo::Ptr& data);
-            IPhotoInfo::Ptr getPhoto(const IPhotoInfo::Id &);
+            bool insert(PhotoData &);
+            bool update(const PhotoData &);
+            PhotoData getPhoto(const Database::Id &);
             std::deque<TagNameInfo> listTags() const;
             std::deque<QVariant> listTagValues(const TagNameInfo& tagName);
             std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
-            IPhotoInfo::List getPhotos(const std::deque<IFilter::Ptr> &);
+            std::deque<Database::Id> getPhotos(const std::deque<IFilter::Ptr> &);
             int getPhotosCount(const std::deque<IFilter::Ptr> &);
-            std::deque<IPhotoInfo::Ptr> dropPhotos(const std::deque<IFilter::Ptr> &);
-
-            void postPhotoInfoCreation(const IPhotoInfo::Ptr &) const;
+            std::deque<Database::Id> dropPhotos(const std::deque<IFilter::Ptr> &);
 
         private:
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
             QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
 
+            bool storeData(const PhotoData &) const;
             bool storeThumbnail(int photo_id, const QImage &) const;
-            bool storeSha256(int photo_id, const IPhotoInfo::Sha256sum &) const;
+            bool storeSha256(int photo_id, const Database::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
-            bool storeFlags(int photo_id, const IPhotoInfo::Ptr &) const;
+            bool storeFlags(const PhotoData &) const;
 
-            Tag::TagsList getTagsFor(const IPhotoInfo::Id &);
-            ol::Optional<QImage> getThumbnailFor(const IPhotoInfo::Id &);
-            ol::Optional<IPhotoInfo::Sha256sum> getSha256For(const IPhotoInfo::Id &);
-            void updateFlagsOn(IPhotoInfo*, const IPhotoInfo::Id &);
-            QString getPathFor(const IPhotoInfo::Id &);
-            IPhotoInfo::List fetch(QSqlQuery &);
+            Tag::TagsList getTagsFor(const Database::Id &);
+            ol::Optional<QImage> getThumbnailFor(const Database::Id &);
+            ol::Optional<Database::Sha256sum> getSha256For(const Database::Id &);
+            void updateFlagsOn(PhotoData &, const Database::Id &);
+            QString getPathFor(const Database::Id &);
+            std::deque<Database::Id> fetch(QSqlQuery &);
     };
 
 
     ASqlBackend::Data::Data(ASqlBackend* backend): m_backend(backend),
                                                    m_connectionName(""),
-                                                   m_photoInfoCache(nullptr),
                                                    m_logger(nullptr),
-                                                   m_observers(),
                                                    m_executor(),
                                                    m_dbHasSizeFeature(false),
                                                    m_dbOpen(false)
@@ -332,7 +328,7 @@ namespace Database
     }
 
 
-    IPhotoInfo::List ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Database::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         const QString queryStr = generateFilterQuery(filter);
 
@@ -366,7 +362,7 @@ namespace Database
     }
 
 
-    std::deque<IPhotoInfo::Ptr> ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
+    std::deque<Database::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
     {
         const QString filterQuery = generateFilterQuery(filters);
 
@@ -374,14 +370,14 @@ namespace Database
         QSqlQuery query(db);
 
         //collect ids of photos to be dropped
-        std::deque<IPhotoInfo::Id> ids;
+        std::deque<Database::Id> ids;
         bool status = m_executor.exec(filterQuery, &query);
 
         if (status)
         {
             while(query.next())
             {
-                IPhotoInfo::Id id( query.value(0).toUInt() );
+                Database::Id id( query.value(0).toUInt() );
 
                 ids.push_back(id);
             }
@@ -407,33 +403,7 @@ namespace Database
         else
             db.rollback();
 
-        //convert ids to photo ptrs and remove them from cache
-        std::deque<IPhotoInfo::Ptr> photos;
-        for(const IPhotoInfo::Id& id: ids)
-        {
-            IPhotoInfo::Ptr photo = m_photoInfoCache->find(id);
-
-            // It is possible photo was never loaded and therefore won't be found in cache
-            if (photo.get() != nullptr)
-            {
-                m_photoInfoCache->forget(id);
-                photos.push_back(photo);
-                photo->invalidate();
-            }
-        }
-
-        return photos;
-    }
-
-
-    void ASqlBackend::Data::postPhotoInfoCreation(const IPhotoInfo::Ptr& photoInfo) const
-    {
-        //introduce to cache
-        m_photoInfoCache->introduce(photoInfo);
-
-        //notifications
-        for(IBackend::IEvents* observer: m_observers)
-            observer->photoInfoConstructed(photoInfo);
+        return ids;
     }
 
 
@@ -461,6 +431,28 @@ namespace Database
     }
 
 
+    bool ASqlBackend::Data::storeData(const PhotoData& data) const
+    {
+        assert(data.id);
+
+        //store used tags
+        Tag::TagsList tags = data.tags;
+
+        bool status = storeTags(data.id, tags);
+
+        if (status && data.getFlag(Database::FlagsE::ThumbnailLoaded) > 0)
+            status = storeThumbnail(data.id, data.thumbnail);
+
+        if (status && data.getFlag(Database::FlagsE::Sha256Loaded) > 0)
+            status = storeSha256(data.id, data.sha256Sum);
+
+        if (status)
+            status = storeFlags(data);
+
+        return status;
+    }
+
+
     bool ASqlBackend::Data::storeThumbnail(int photo_id, const QImage& pixmap) const
     {
         InsertQueryData data(TAB_THUMBS);
@@ -478,7 +470,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeSha256(int photo_id, const IPhotoInfo::Sha256sum& sha256) const
+    bool ASqlBackend::Data::storeSha256(int photo_id, const Database::Sha256sum& sha256) const
     {
         InsertQueryData data(TAB_SHA256SUMS);
 
@@ -524,16 +516,16 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeFlags(int photo_id, const IPhotoInfo::Ptr& photoInfo) const
+    bool ASqlBackend::Data::storeFlags(const PhotoData& photoData) const
     {
         InsertQueryData queryData(TAB_FLAGS);
         queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded");
         queryData.setValues( InsertQueryData::Value::Null,
-                             QString::number(photo_id),
-                             photoInfo->getFlag(IPhotoInfo::FlagsE::StagingArea),
-                             photoInfo->getFlag(IPhotoInfo::FlagsE::ExifLoaded),
-                             photoInfo->getFlag(IPhotoInfo::FlagsE::Sha256Loaded),
-                             photoInfo->getFlag(IPhotoInfo::FlagsE::ThumbnailLoaded));
+                             QString::number(photoData.id),
+                             photoData.getFlag(Database::FlagsE::StagingArea),
+                             photoData.getFlag(Database::FlagsE::ExifLoaded),
+                             photoData.getFlag(Database::FlagsE::Sha256Loaded),
+                             photoData.getFlag(Database::FlagsE::ThumbnailLoaded));
 
         auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
 
@@ -545,7 +537,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const IPhotoInfo::Ptr& data)
+    bool ASqlBackend::Data::insert(PhotoData& data)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -554,110 +546,115 @@ namespace Database
         bool status = transaction.begin();
 
         //store path and sha256
-        IPhotoInfo::Id id = data->getID();
-        const bool updating = id.valid();
-        const bool inserting = !updating;
+        Database::Id id = data.id;
+        assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
         insertData.setColumns("path", "store_date");
-        insertData.setValues(data->getPath(), InsertQueryData::Value::CurrentTime);
+        insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
 
         SqlMultiQuery queryStrs;
 
-        if (inserting)
-        {
-            insertData.setColumns("id");
-            insertData.setValues(InsertQueryData::Value::Null);
-            queryStrs = m_backend->getQueryConstructor()->insert(insertData);
-        }
-        else
-        {
-            UpdateQueryData updateData(insertData);
-            updateData.setCondition( "id", QString::number(id.value()) );
-            queryStrs = m_backend->getQueryConstructor()->update(updateData);
-        }
+        insertData.setColumns("id");
+        insertData.setValues(InsertQueryData::Value::Null);
+        queryStrs = m_backend->getQueryConstructor()->insert(insertData);
 
-        //execute update/insert
         if (status)
             status = m_executor.exec(queryStrs, &query);
 
         //update id
-        if (status && inserting)                       //Get Id from database after insert
+        if (status)                                    //Get Id from database after insert
         {
             QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
             status = photo_id.isValid();
 
             if (status)
-                id = IPhotoInfo::Id(photo_id.toInt());
+                id = Database::Id(photo_id.toInt());
         }
 
         //make sure id is set
         if (status)
             status = id.valid();
 
-        //store used tags
-        Tag::TagsList tags = data->getTags();
+        if (status)
+        {
+            assert(data.id.valid() == false || data.id == id);
+            data.id = id;
+        }
 
         if (status)
-            status = storeTags(id, tags);
-
-        if (status && data->isThumbnailLoaded())
-            status = storeThumbnail(id, data->getThumbnail());
-
-        if (status && data->isSha256Loaded())
-            status = storeSha256(id, data->getSha256());
-
-        if (status)
-            status = storeFlags(id, data);
+            status = storeData(data);
 
         if (status)
             status = transaction.commit();
-
-        //store id in photo
-        if (status && inserting)
-            data->initID(id);
 
         return status;
     }
 
 
-    IPhotoInfo::Ptr ASqlBackend::Data::getPhoto(const IPhotoInfo::Id& id)
+    bool ASqlBackend::Data::update(const PhotoData& data)
     {
-        //try to find cached one
-        IPhotoInfo::Ptr photoInfo = m_photoInfoCache->find(id);
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
 
-        if (photoInfo.get() == nullptr)  // cache miss - construct new
-        {
-            //basic data
-            photoInfo = std::make_shared<PhotoInfo>(getPathFor(id));
-            photoInfo->initID(id);
+        Transaction transaction(db);
+        bool status = transaction.begin();
 
-            //load tags
-            Tag::TagsList tagData = getTagsFor(id);
+        //store path and sha256
+        Database::Id id = data.id;
 
-            photoInfo->setTags(tagData);
+        InsertQueryData insertData(TAB_PHOTOS);
+        insertData.setColumns("path", "store_date");
+        insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
 
-            //load thumbnail
-            const ol::Optional<QImage> thumbnail = getThumbnailFor(id);
-            if (thumbnail)
-                photoInfo->initThumbnail(*thumbnail);
+        SqlMultiQuery queryStrs;
 
-            //load sha256
-            const ol::Optional<IPhotoInfo::Sha256sum> sha256 = getSha256For(id);
-            if (sha256)
-                photoInfo->initSha256(*sha256);
+        UpdateQueryData updateData(insertData);
+        updateData.setCondition( "id", QString::number(id.value()) );
+        queryStrs = m_backend->getQueryConstructor()->update(updateData);
 
-            //load flags
-            updateFlagsOn(photoInfo.get(), id);
+        //execute update
+        if (status)
+            status = m_executor.exec(queryStrs, &query);
 
-            postPhotoInfoCreation(photoInfo);
-        }
+        if (status)
+            status = id.valid();
 
-        return photoInfo;
+        if (status)
+            status = storeData(data);
+
+        if (status)
+            status = transaction.commit();
+
+        return status;
     }
 
 
-    Tag::TagsList ASqlBackend::Data::getTagsFor(const IPhotoInfo::Id& photoId)
+    PhotoData ASqlBackend::Data::getPhoto(const Database::Id& id)
+    {
+        PhotoData photoData;
+        photoData.path = getPathFor(id);
+        photoData.id   = id;
+        photoData.tags = getTagsFor(id);
+
+        //load thumbnail
+        const ol::Optional<QImage> thumbnail = getThumbnailFor(id);
+        if (thumbnail)
+            photoData.thumbnail = *thumbnail;
+
+        //load sha256
+        const ol::Optional<Database::Sha256sum> sha256 = getSha256For(id);
+        if (sha256)
+            photoData.sha256Sum = *sha256;
+
+        //load flags
+        updateFlagsOn(photoData, id);
+
+        return photoData;
+    }
+
+
+    Tag::TagsList ASqlBackend::Data::getTagsFor(const Database::Id& photoId)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -692,7 +689,7 @@ namespace Database
     }
 
 
-    ol::Optional<QImage> ASqlBackend::Data::getThumbnailFor(const IPhotoInfo::Id& id)
+    ol::Optional<QImage> ASqlBackend::Data::getThumbnailFor(const Database::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -716,7 +713,7 @@ namespace Database
         return image;
     }
 
-    ol::Optional<IPhotoInfo::Sha256sum> ASqlBackend::Data::getSha256For(const IPhotoInfo::Id& id)
+    ol::Optional<Database::Sha256sum> ASqlBackend::Data::getSha256For(const Database::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -727,7 +724,7 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
 
-        ol::Optional<IPhotoInfo::Sha256sum> result;
+        ol::Optional<Database::Sha256sum> result;
         if(status && query.next())
         {
             const QVariant variant = query.value(0);
@@ -739,7 +736,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::updateFlagsOn(IPhotoInfo* photoInfo, const IPhotoInfo::Id& id)
+    void ASqlBackend::Data::updateFlagsOn(PhotoData& photoData, const Database::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -753,21 +750,21 @@ namespace Database
         if (status && query.next())
         {
             QVariant variant = query.value(0);
-            photoInfo->markFlag(IPhotoInfo::FlagsE::StagingArea, variant.toInt());
+            photoData.flags[Database::FlagsE::StagingArea] = variant.toInt();
 
             variant = query.value(1);
-            photoInfo->markFlag(IPhotoInfo::FlagsE::ExifLoaded, variant.toInt());
+            photoData.flags[Database::FlagsE::ExifLoaded] = variant.toInt();
 
             variant = query.value(2);
-            photoInfo->markFlag(IPhotoInfo::FlagsE::Sha256Loaded, variant.toInt());
+            photoData.flags[Database::FlagsE::Sha256Loaded] = variant.toInt();
 
             variant = query.value(3);
-            photoInfo->markFlag(IPhotoInfo::FlagsE::ThumbnailLoaded, variant.toInt());
+            photoData.flags[Database::FlagsE::ThumbnailLoaded] = variant.toInt();
         }
     }
 
 
-    QString ASqlBackend::Data::getPathFor(const IPhotoInfo::Id& id)
+    QString ASqlBackend::Data::getPathFor(const Database::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -791,16 +788,15 @@ namespace Database
     }
 
 
-    IPhotoInfo::List ASqlBackend::Data::fetch(QSqlQuery& query)
+    std::deque<Database::Id> ASqlBackend::Data::fetch(QSqlQuery& query)
     {
-        IPhotoInfo::List collection;
+        std::deque<Database::Id> collection;
 
         while (query.next())
         {
-            const IPhotoInfo::Id id(query.value("photos_id").toInt());
-            IPhotoInfo::Ptr photo = getPhoto(id);
+            const Database::Id id(query.value("photos_id").toInt());
 
-            collection.push_back(photo);
+            collection.push_back(id);
         }
 
         return collection;
@@ -819,12 +815,6 @@ namespace Database
     ASqlBackend::~ASqlBackend()
     {
         assert(m_data->m_dbOpen == false);
-    }
-
-
-    void ASqlBackend::setPhotoInfoCache(IPhotoInfoCache* cache)
-    {
-        m_data->m_photoInfoCache = cache;
     }
 
 
@@ -949,25 +939,22 @@ namespace Database
     }
 
 
-    IPhotoInfo::Ptr ASqlBackend::addPath(const QString& path)
+    bool ASqlBackend::addPhoto(PhotoData& data)
     {
-        auto photoInfo = std::make_shared<PhotoInfo>(path);
+        const bool status = m_data->insert(data);
 
-        m_data->store(photoInfo);
-        m_data->postPhotoInfoCreation(photoInfo);
-
-        return photoInfo;
+        return status;
     }
 
 
-    bool ASqlBackend::update(const IPhotoInfo::Ptr& entry)
+    bool ASqlBackend::update(const PhotoData& data)
     {
-        assert(entry->getID().valid());
+        assert(data.id.valid());
 
         bool status = false;
 
         if (m_data)
-            status = m_data->store(entry);
+            status = m_data->update(data);
         else
             m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
 
@@ -1024,14 +1011,14 @@ namespace Database
     }
 
 
-    IPhotoInfo::List ASqlBackend::getAllPhotos()
+    std::deque<Database::Id> ASqlBackend::getAllPhotos()
     {
         std::deque<IFilter::Ptr> emptyFilter;
         return m_data->getPhotos(emptyFilter);  //like getPhotos but without any filters
     }
 
 
-    IPhotoInfo::Ptr ASqlBackend::getPhoto(const IPhotoInfo::Id& id)
+    Database::PhotoData ASqlBackend::getPhoto(const Database::Id& id)
     {
         auto result = m_data->getPhoto(id);
 
@@ -1039,7 +1026,7 @@ namespace Database
     }
 
 
-    IPhotoInfo::List ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Database::Id> ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotos(filter);
     }
@@ -1051,7 +1038,7 @@ namespace Database
     }
 
 
-    std::deque<IPhotoInfo::Ptr> ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Database::Id> ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->dropPhotos(filter);
     }
@@ -1061,12 +1048,6 @@ namespace Database
     {
         m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
         m_data->m_executor.set(m_data->m_logger.get());
-    }
-
-
-    void ASqlBackend::addEventsObserver(IBackend::IEvents* observer)
-    {
-        m_data->m_observers.insert(observer);
     }
 
 

@@ -98,7 +98,7 @@ namespace Database
             Or,
         };
 
-        std::map<IPhotoInfo::FlagsE, int> flags;
+        std::map<Database::FlagsE, int> flags;
         Mode mode;
     };
 
@@ -109,7 +109,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        IPhotoInfo::Sha256sum sha256;
+        Database::Sha256sum sha256;
     };
 
     struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
@@ -129,7 +129,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        IPhotoInfo::Id filter;
+        Database::Id filter;
     };
 
 }

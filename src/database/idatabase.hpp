@@ -28,10 +28,8 @@
 #include <QObject>
 
 #include <core/tag.hpp>
-#include <database/iphoto_info.hpp>
 
-//#include "photo_iterator.hpp"
-//#include "query_list.hpp"
+#include "iphoto_info.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
 
@@ -128,6 +126,8 @@ namespace Database
 
         virtual ADatabaseSignals* notifier() = 0;
 
+        virtual void set(IPhotoInfoCache *) = 0;
+
         // store data
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const QString &) = 0;
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
@@ -139,7 +139,7 @@ namespace Database
         virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual void exec(std::unique_ptr<AGetPhotosTask> &&) = 0;                                        //list all photos
         virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
-        virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const IPhotoInfo::Id &) = 0;                 //get particular photo
+        virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Database::Id &) = 0;                   //get particular photo
         virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         // drop data

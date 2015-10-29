@@ -1,24 +1,27 @@
 
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(OpenLibrary REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/
                     ${CMAKE_SOURCE_DIR}/src/database/
                     ${CMAKE_BINARY_DIR}/exports)
+
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
+                           ${Qt5Gui_INCLUDE_DIRS}
                            ${Qt5Sql_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS})
-                           
+
 include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
 
-set(BACKEND_SOURCES 
-        mysql_server.cpp 
+set(BACKEND_SOURCES
+        mysql_server.cpp
         backend.cpp
 )
 
-set(BACKEND_HEADERS 
-        mysql_server.hpp 
+set(BACKEND_HEADERS
+        mysql_server.hpp
         backend.hpp
 )
 
