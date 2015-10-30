@@ -97,6 +97,8 @@ Photo::Data PhotoInfo::data() const
     d.flags[Photo::FlagsE::ThumbnailLoaded] = getFlag(Photo::FlagsE::ThumbnailLoaded);
     d.path = getPath();
     d.thumbnail = getThumbnail();
+
+    return d;
 }
 
 
