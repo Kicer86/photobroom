@@ -67,13 +67,12 @@ namespace Database
 
         struct DatabaseObjects: Database::IDBPack
         {
-            DatabaseObjects() : m_database(), m_backend(), m_cache(), m_storekeeper() {}
+            DatabaseObjects() : m_database(), m_backend(), m_cache() {}
 
             DatabaseObjects(DatabaseObjects&& other):
                 m_database(std::move(other.m_database)),
                 m_backend(std::move(other.m_backend)),
-                m_cache(std::move(other.m_cache)),
-                m_storekeeper(std::move(other.m_storekeeper))
+                m_cache(std::move(other.m_cache))
             {
 
             }
@@ -83,7 +82,6 @@ namespace Database
                 m_database->closeConnections();
 
                 //destroy objects in right order
-                m_storekeeper.reset();
                 m_cache.reset();
                 m_database.reset();
                 m_backend.reset();
@@ -92,7 +90,6 @@ namespace Database
             std::unique_ptr<IDatabase> m_database;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<IPhotoInfoCache> m_cache;
-            std::unique_ptr<PhotoInfoStorekeeper> m_storekeeper;
 
             IDatabase* get() override
             {
@@ -150,12 +147,8 @@ namespace Database
         IDatabase* database = new DatabaseThread(backend.get());
         database->set(cache);
 
-        PhotoInfoStorekeeper* storekeeper = new PhotoInfoStorekeeper;
-
         backend->set(m_impl->m_logger_factory);
         backend->set(m_impl->m_configuration);
-        storekeeper->setDatabase(database);
-        storekeeper->setCache(cache);
 
         std::unique_ptr<Database::AInitTask> task(new InitTask(openResult));
 
@@ -167,7 +160,6 @@ namespace Database
         dbObjs->m_backend = std::move(backend);
         dbObjs->m_database.reset(database);
         dbObjs->m_cache.reset(cache);
-        dbObjs->m_storekeeper.reset(storekeeper);
 
         result.reset(dbObjs);
 
