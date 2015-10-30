@@ -63,14 +63,14 @@ struct IPhotoInfo
 
     virtual ~IPhotoInfo() {}
 
-    virtual Database::PhotoData data() const = 0;
+    virtual Photo::Data data() const = 0;
 
     //data getting
     virtual const QString& getPath() const = 0;
     virtual const Tag::TagsList& getTags() const = 0;          // access to tags
     virtual const QImage& getThumbnail() const = 0;            // a temporary thumbnail may be returned when final one is not yet generated.
-    virtual const Database::Sha256sum& getSha256() const = 0;  // Do not call until isSha256Loaded()
-    virtual Database::Id getID() const = 0;
+    virtual const Photo::Sha256sum& getSha256() const = 0;  // Do not call until isSha256Loaded()
+    virtual Photo::Id getID() const = 0;
 
     //status checking
     virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)
@@ -83,17 +83,17 @@ struct IPhotoInfo
     virtual void unregisterObserver(IObserver *) = 0;
 
     //data initializing
-    virtual void initSha256(const Database::Sha256sum &) = 0;
+    virtual void initSha256(const Photo::Sha256sum &) = 0;
     virtual void initThumbnail(const QImage &) = 0;
-    virtual void initID(const Database::Id &) = 0;
+    virtual void initID(const Photo::Id &) = 0;
 
     //setting data
     virtual ol::ThreadSafeResource<Tag::TagsList>::Accessor accessTags() = 0;   // gives exclusive access to tags so they can be modified in conveniant fashion
     virtual void setTags(const Tag::TagsList &) = 0;        //set tags
 
     //flags
-    virtual void markFlag(Database::FlagsE, int) = 0;
-    virtual int  getFlag(Database::FlagsE) const = 0;
+    virtual void markFlag(Photo::FlagsE, int) = 0;
+    virtual int  getFlag(Photo::FlagsE) const = 0;
 
     // other
     virtual void invalidate() = 0;                          // mark photo as dropped (with no equivalent in db)

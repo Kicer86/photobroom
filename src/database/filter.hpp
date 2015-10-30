@@ -98,7 +98,7 @@ namespace Database
             Or,
         };
 
-        std::map<Database::FlagsE, int> flags;
+        std::map<Photo::FlagsE, int> flags;
         Mode mode;
     };
 
@@ -109,7 +109,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        Database::Sha256sum sha256;
+        Photo::Sha256sum sha256;
     };
 
     struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
@@ -129,7 +129,7 @@ namespace Database
 
         FILTER_COMMAND
 
-        Database::Id filter;
+        Photo::Id filter;
     };
 
 }

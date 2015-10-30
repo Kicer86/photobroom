@@ -26,7 +26,7 @@
 PhotosDataModel::PhotosDataModel(QObject* p): DBDataModel(p)
 {
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[Database::FlagsE::StagingArea] = 0;
+    filter->flags[Photo::FlagsE::StagingArea] = 0;
 
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 

@@ -25,60 +25,27 @@
 #include <core/tag.hpp>
 
 #include "database_export.h"
+#include "photo_types.hpp"
 
 
-namespace Database
+namespace Photo
 {
-    typedef std::string Sha256sum;
 
-    struct DATABASE_EXPORT Id
+    struct DATABASE_EXPORT Data
     {
-            typedef int type;
+        Photo::Id            id;
+        Photo::Sha256sum     sha256Sum;
+        Tag::TagsList        tags;
+        Photo::FlagValues    flags;
+        QString              path;
+        QImage               thumbnail;
 
-            Id();
-            explicit Id(type);
-            Id(const Id &) = default;
+        int getFlag(const Photo::FlagsE& flag) const;
 
-            Id& operator=(const Id &) = default;
-            operator type() const;
-            bool operator!() const;
-            bool valid() const;
-            type value() const;
+        Data();
+        Data(const Data &) = default;
 
-        private:
-            type m_value;
-            bool m_valid;
-    };
-
-    enum class FlagsE
-    {
-        StagingArea,
-        ExifLoaded,
-        Sha256Loaded,
-        ThumbnailLoaded,
-    };
-
-    typedef std::map<FlagsE, int> FlagValues;
-
-    struct DATABASE_EXPORT PhotoData
-    {
-        Id            id;
-        Sha256sum     sha256Sum;
-        Tag::TagsList tags;
-        FlagValues    flags;
-        QString       path;
-        QImage        thumbnail;
-
-        int getFlag(const FlagsE& flag) const;
-    };
-
-
-    struct PhotoInfoIdHash
-    {
-        std::size_t operator()(const Database::Id& key) const
-        {
-            return std::hash<Database::Id::type>()(key.value());
-        }
+        Data& operator = (const Data &) = default;
     };
 
 }

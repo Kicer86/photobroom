@@ -17,29 +17,29 @@ class QPixmap;
 
 struct Sha256Assigner;
 
-namespace Database
+namespace Photo
 {
-    struct PhotoData;
+    struct Data;
 }
 
 class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource<Tag::TagsList>::INotify
 {
     public:
         PhotoInfo(const QString &path);                      //load all data from provided path
-        PhotoInfo(const Database::PhotoData &);
+        PhotoInfo(const Photo::Data &);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
         PhotoInfo& operator=(const PhotoInfo &) = delete;
 
-        Database::PhotoData data() const;
+        Photo::Data data() const;
 
         //data getting
         const QString& getPath() const override;
         const Tag::TagsList& getTags() const override;          // a access to tags
         const QImage& getThumbnail() const override;            // a temporary thumbnail may be returned when final one is not yet generated.
-        const Database::Sha256sum& getSha256() const override;  // Do not call until isSha256Loaded()
-        Database::Id getID() const override;
+        const Photo::Sha256sum& getSha256() const override;  // Do not call until isSha256Loaded()
+        Photo::Id getID() const override;
 
         //status checking
         bool isFullyInitialized() const override;            // returns true if photo fully loaded (all items below are loaded)
@@ -52,17 +52,17 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         void unregisterObserver(IObserver *) override;
 
         //data initializing
-        void initSha256(const Database::Sha256sum &) override;
+        void initSha256(const Photo::Sha256sum &) override;
         void initThumbnail(const QImage &) override;
-        void initID(const Database::Id &) override;
+        void initID(const Photo::Id &) override;
 
         //set data
         ol::ThreadSafeResource< Tag::TagsList >::Accessor accessTags() override;
         void setTags(const Tag::TagsList &) override;
 
         //flags
-        void markFlag(Database::FlagsE, int) override;
-        int getFlag(Database::FlagsE) const override;
+        void markFlag(Photo::FlagsE, int) override;
+        int getFlag(Photo::FlagsE) const override;
 
         // other
         void invalidate() override;

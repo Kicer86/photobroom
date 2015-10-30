@@ -166,7 +166,7 @@ namespace
 
     struct GetPhotoTask: ThreadBaseTask
     {
-        GetPhotoTask(std::unique_ptr<Database::AGetPhotoTask>&& task, const Database::Id& id):
+        GetPhotoTask(std::unique_ptr<Database::AGetPhotoTask>&& task, const Photo::Id& id):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_id(id)
@@ -178,7 +178,7 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::unique_ptr<Database::AGetPhotoTask> m_task;
-        Database::Id m_id;
+        Photo::Id m_id;
     };
 
     struct GetPhotosTask: ThreadBaseTask
@@ -288,7 +288,7 @@ namespace
 
         virtual void visit(InsertTask* task) override
         {
-            Database::PhotoData data;
+            Photo::Data data;
             data.path = task->m_path;
 
             const bool status = m_backend->addPhoto(data);
@@ -303,7 +303,7 @@ namespace
 
         virtual void visit(UpdateTask* task) override
         {
-            Database::PhotoData data = task->m_photoInfo->data();
+            Photo::Data data = task->m_photoInfo->data();
             const bool status = m_backend->update(data);
             task->m_task->got(status);
 
@@ -321,7 +321,7 @@ namespace
             auto photos = m_backend->getAllPhotos();
             IPhotoInfo::List photosList;
 
-            for(const Database::Id& id: photos)
+            for(const Photo::Id& id: photos)
                 photosList.push_back(getPhotoFor(id));
 
             task->m_task->got(photosList);
@@ -339,7 +339,7 @@ namespace
             auto photos = m_backend->getPhotos(task->m_filter);
             IPhotoInfo::List photosList;
 
-            for(const Database::Id& id: photos)
+            for(const Photo::Id& id: photos)
                 photosList.push_back(getPhotoFor(id));
 
             task->m_task->got(photosList);
@@ -368,7 +368,7 @@ namespace
             auto photos = m_backend->dropPhotos(task->m_filter);
             IPhotoInfo::List photosList;
 
-            for(const Database::Id& id: photos)
+            for(const Photo::Id& id: photos)
                 photosList.push_back(getPhotoFor(id));
 
             task->m_task->got(photosList);
@@ -394,13 +394,13 @@ namespace
             }
         }
 
-        IPhotoInfo::Ptr getPhotoFor(const Database::Id& id)
+        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id)
         {
             IPhotoInfo::Ptr photoPtr = m_cache->find(id);
 
             if (photoPtr.get() == nullptr)
             {
-                Database::PhotoData photoData = m_backend->getPhoto(id);
+                Photo::Data photoData = m_backend->getPhoto(id);
 
                 photoPtr = std::make_shared<PhotoInfo>(photoData);
             }
@@ -520,7 +520,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Database::Id& id)
+    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);
         m_impl->addTask(task);

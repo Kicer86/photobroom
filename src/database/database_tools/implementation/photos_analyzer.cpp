@@ -82,7 +82,7 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
         std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
         flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
 
-        for (auto flag : { Database::FlagsE::ExifLoaded, Database::FlagsE::Sha256Loaded, Database::FlagsE::ThumbnailLoaded })
+        for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::ThumbnailLoaded })
             flags_filter->flags[flag] = 0;            //uninitialized
 
         IncompletePhotos* task = new IncompletePhotos(this);

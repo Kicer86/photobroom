@@ -13,8 +13,8 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_CONST_METHOD0(getPath, const QString&());
     MOCK_CONST_METHOD0(getTags, const Tag::TagsList&());
     MOCK_CONST_METHOD0(getThumbnail, const QImage&());
-    MOCK_CONST_METHOD0(getSha256, const Database::Sha256sum&());
-    MOCK_CONST_METHOD0(getID, Database::Id());
+    MOCK_CONST_METHOD0(getSha256, const Photo::Sha256sum&());
+    MOCK_CONST_METHOD0(getID, Photo::Id());
 
     MOCK_CONST_METHOD0(isFullyInitialized, bool());
     MOCK_CONST_METHOD0(isSha256Loaded, bool());
@@ -24,9 +24,9 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_METHOD1(registerObserver, void(IObserver *));
     MOCK_METHOD1(unregisterObserver, void(IObserver *));
 
-    MOCK_METHOD1(initSha256, void(const Database::Sha256sum &));
+    MOCK_METHOD1(initSha256, void(const Photo::Sha256sum &));
     MOCK_METHOD1(initThumbnail, void(const QImage &));
-    MOCK_METHOD1(initID, void(const Database::Id &));
+    MOCK_METHOD1(initID, void(const Photo::Id &));
 
     ol::ThreadSafeResource<Tag::TagsList>::Accessor accessTags() override
     {

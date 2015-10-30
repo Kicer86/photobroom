@@ -28,9 +28,9 @@ namespace Database
     {
         virtual ~IPhotoInfoCache() {}
 
-        virtual IPhotoInfo::Ptr find(const Database::Id &) const = 0;
+        virtual IPhotoInfo::Ptr find(const Photo::Id &) const = 0;
         virtual void introduce(const IPhotoInfo::Ptr &) = 0;
-        virtual void forget(const Database::Id &) = 0;
+        virtual void forget(const Photo::Id &) = 0;
     };
 }
 

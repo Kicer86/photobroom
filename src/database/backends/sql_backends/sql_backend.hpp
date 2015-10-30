@@ -79,18 +79,18 @@ namespace Database
             std::unique_ptr<Data> m_data;
 
             virtual BackendStatus init(const ProjectInfo &) override final;
-            virtual bool addPhoto(PhotoData &) override final;
-            virtual bool update(const PhotoData &) override final;
+            virtual bool addPhoto(Photo::Data &) override final;
+            virtual bool update(const Photo::Data &) override final;
             virtual bool update(const TagNameInfo &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;
             virtual std::deque<QVariant> listTagValues(const TagNameInfo&) override final;
             virtual std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
-            virtual std::deque<Database::Id> getAllPhotos() override final;
-            virtual PhotoData getPhoto(const Database::Id &) override final;
-            virtual std::deque<Database::Id> getPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<Photo::Id> getAllPhotos() override final;
+            virtual Photo::Data getPhoto(const Photo::Id &) override final;
+            virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
-            virtual std::deque<Database::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

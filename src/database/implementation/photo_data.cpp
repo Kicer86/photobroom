@@ -20,55 +20,28 @@
 
 #include "photo_data.hpp"
 
-namespace Database
+namespace Photo
 {
 
-    Id::Id(): m_value(-1), m_valid(false)
-    {
-
-    }
-
-
-    Id::Id(Id::type v): m_value(v), m_valid(true)
-    {
-
-    }
-
-
-    bool Id::operator!() const
-    {
-        return !m_valid;
-    }
-
-
-    Id::operator Id::type() const
-    {
-        return m_value;
-    }
-
-
-    bool Id::valid() const
-    {
-        return m_valid;
-    }
-
-
-    Id::type Id::value() const
-    {
-        return m_value;
-    }
-
-
-    /**************************************************************************/
-
-
-    int PhotoData::getFlag(const Database::FlagsE& flag) const
+    int Data::getFlag(const Photo::FlagsE& flag) const
     {
         auto it = flags.find(flag);
 
         const int result = it == flags.end()? 0: it->second;
 
         return result;
+    }
+
+
+    Data::Data():
+        id(),
+        sha256Sum(),
+        tags(),
+        flags(),
+        path(),
+        thumbnail()
+    {
+
     }
 
 }

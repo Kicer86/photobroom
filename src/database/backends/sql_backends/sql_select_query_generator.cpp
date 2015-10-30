@@ -85,16 +85,16 @@ namespace Database
         }
 
     private:
-        QString getFlagName(Database::FlagsE flag) const
+        QString getFlagName(Photo::FlagsE flag) const
         {
             QString result;
 
             switch(flag)
             {
-                case Database::FlagsE::StagingArea:     result = FLAG_STAGING_AREA;  break;
-                case Database::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;   break;
-                case Database::FlagsE::Sha256Loaded:    result = FLAG_SHA256_LOADED; break;
-                case Database::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
+                case Photo::FlagsE::StagingArea:     result = FLAG_STAGING_AREA;  break;
+                case Photo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;   break;
+                case Photo::FlagsE::Sha256Loaded:    result = FLAG_SHA256_LOADED; break;
+                case Photo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
             }
 
             return result;

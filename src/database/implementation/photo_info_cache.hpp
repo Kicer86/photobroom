@@ -40,9 +40,9 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
 
         PhotoInfoCache& operator=(const PhotoInfoCache& other) = delete;
 
-        IPhotoInfo::Ptr find(const Database::Id &) const override;
+        IPhotoInfo::Ptr find(const Photo::Id &) const override;
         void introduce(const IPhotoInfo::Ptr &) override;
-        void forget(const Database::Id &) override;
+        void forget(const Photo::Id &) override;
 
     private:
         struct Data;
