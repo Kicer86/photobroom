@@ -65,7 +65,7 @@ struct ThumbnailGenerator: UpdaterTask
     {
         const QImage thumbnail = m_photosManager->getUniversalThumbnal(m_photoInfo->getPath());
 
-        m_photoInfo->initThumbnail(thumbnail);
+        m_photoInfo->setThumbnail(thumbnail);
     }
 
     IPhotoInfo::Ptr m_photoInfo;
@@ -98,8 +98,8 @@ struct Sha256Assigner: UpdaterTask
         const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        const IPhotoInfo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
-        m_photoInfo->initSha256(hash);
+        const Photo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
+        m_photoInfo->setSha256(hash);
     }
 
     IPhotoInfo::Ptr m_photoInfo;
@@ -133,7 +133,7 @@ struct TagsCollector: UpdaterTask
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
         m_photoInfo->setTags(p_tags);
-        m_photoInfo->markFlag(IPhotoInfo::FlagsE::ExifLoaded, 1);
+        m_photoInfo->markFlag(Photo::FlagsE::ExifLoaded, 1);
     }
 
     IPhotoInfo::Ptr m_photoInfo;

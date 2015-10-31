@@ -15,9 +15,10 @@ add_subdirectory(updater)
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS})
+include_directories(SYSTEM ${OPENLIBRARY_INCLUDES} ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS})
 
 set(BROOM_SOURCES main.cpp
                   $<TARGET_OBJECTS:plugins>)
@@ -30,7 +31,7 @@ if(WIN32)
 
     include_directories(${CMAKE_BINARY_DIR}/tools)                                 #for PhotoBroom.rc include files
     set(BROOM_SOURCES ${BROOM_SOURCES} PhotoBroom.rc)
-    
+
 else()
     set(EXE_FLAGS)
 endif()

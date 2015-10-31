@@ -32,7 +32,7 @@ namespace Database
     struct IDatabase;
 }
 
-class PhotoInfoStorekeeper: public IPhotoInfo::IObserver, public Database::IBackend::IEvents
+class PhotoInfoStorekeeper: public IPhotoInfo::IObserver
 {
     public:
         PhotoInfoStorekeeper();
@@ -41,6 +41,7 @@ class PhotoInfoStorekeeper: public IPhotoInfo::IObserver, public Database::IBack
 
         PhotoInfoStorekeeper& operator=(const PhotoInfoStorekeeper& other) = delete;
 
+        void photoInfoConstructed(const IPhotoInfo::Ptr&);
         void setDatabase(Database::IDatabase *);
         void setCache(Database::IPhotoInfoCache *);
 
@@ -49,7 +50,6 @@ class PhotoInfoStorekeeper: public IPhotoInfo::IObserver, public Database::IBack
         std::unique_ptr<Data> m_data;
 
         virtual void photoUpdated(IPhotoInfo *) override;
-        virtual void photoInfoConstructed(const IPhotoInfo::Ptr&) override;
 };
 
 #endif // PHOTO_INFO_STOREKEEPER_HPP

@@ -49,7 +49,7 @@ namespace
         }
 
         PluginFinder& operator=(const PluginFinder &) = delete;
-        
+
         void set(ILoggerFactory* logger_factory)
         {
             m_logger = logger_factory->get("PluginLoader");
@@ -71,15 +71,15 @@ namespace
                 for(const QFileInfo& info: db_plugins)
                 {
                     const QString path = info.absoluteFilePath();
-                                    
+
                     m_logger->log(ILogger::Severity::Info, "Found database plugin: " + path.toStdString());
-                    
+
                     QObject* raw_plugin = load(path);
 
                     Database::IPlugin* plugin = static_cast<Database::IPlugin *>(raw_plugin);
 
                     assert(plugin == dynamic_cast<Database::IPlugin *>(raw_plugin));
-                    
+
                     m_db_plugins.push_back(plugin);
                 }
             }
@@ -161,7 +161,7 @@ void PluginLoader::set(ILoggerFactory* logger_factor)
 Database::IPlugin* PluginLoader::getDBPlugin(const QString& name)
 {
     Database::IPlugin* result = m_impl->m_finder.loadDBPlugin(name);
-    
+
     return result;
 }
 

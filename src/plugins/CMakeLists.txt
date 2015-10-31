@@ -1,5 +1,6 @@
 
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -10,7 +11,7 @@ include_directories(${CMAKE_BINARY_DIR}/exports
                     $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
                     )
 
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

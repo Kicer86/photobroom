@@ -25,7 +25,12 @@
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include "ibackend.hpp"
+#include "iphoto_info_cache.hpp"
+#include "photo_data.hpp"
+#include "photo_info.hpp"
+#include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
+
 
 namespace
 {
@@ -163,7 +168,7 @@ namespace
 
     struct GetPhotoTask: ThreadBaseTask
     {
-        GetPhotoTask(std::unique_ptr<Database::AGetPhotoTask>&& task, const IPhotoInfo::Id& id):
+        GetPhotoTask(std::unique_ptr<Database::AGetPhotoTask>&& task, const Photo::Id& id):
             ThreadBaseTask(),
             m_task(std::move(task)),
             m_id(id)
@@ -175,7 +180,7 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::unique_ptr<Database::AGetPhotoTask> m_task;
-        IPhotoInfo::Id m_id;
+        Photo::Id m_id;
     };
 
     struct GetPhotosTask: ThreadBaseTask
@@ -266,11 +271,16 @@ namespace
 
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
-        Executor(Database::IBackend* backend): m_backend(backend), m_tasks(1024) {}
+        Executor(Database::IBackend* backend, PhotoInfoStorekeeper* storekeeper): m_tasks(1024), m_backend(backend), m_cache(nullptr), m_storekeeper(storekeeper) {}
         Executor(const Executor &) = delete;
         Executor& operator=(const Executor &) = delete;
 
         virtual ~Executor() {}
+
+        void set(Database::IPhotoInfoCache* cache)
+        {
+            m_cache = cache;
+        }
 
         virtual void visit(InitTask* task) override
         {
@@ -280,15 +290,23 @@ namespace
 
         virtual void visit(InsertTask* task) override
         {
-            IPhotoInfo::Ptr photoInfo = m_backend->addPath(task->m_path);
-            task->m_task->got(photoInfo.get() != nullptr);
+            Photo::Data data;
+            data.path = task->m_path;
 
-            emit photoAdded(photoInfo);
+            const bool status = m_backend->addPhoto(data);
+            task->m_task->got(status);
+
+            if (status)
+            {
+                IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
+                emit photoAdded(photoInfo);
+            }
         }
 
         virtual void visit(UpdateTask* task) override
         {
-            const bool status = m_backend->update(task->m_photoInfo);
+            Photo::Data data = task->m_photoInfo->data();
+            const bool status = m_backend->update(data);
             task->m_task->got(status);
 
             emit photoModified(task->m_photoInfo);
@@ -302,20 +320,31 @@ namespace
 
         virtual void visit(GetAllPhotosTask* task) override
         {
-            auto result = m_backend->getAllPhotos();
-            task->m_task->got(result);
+            auto photos = m_backend->getAllPhotos();
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(getPhotoFor(id));
+
+            task->m_task->got(photosList);
         }
 
         virtual void visit(GetPhotoTask* task) override
         {
-            auto result = m_backend->getPhoto(task->m_id);
-            task->m_task->got(result);
+            auto photo = getPhotoFor(task->m_id);
+
+            task->m_task->got(photo);
         }
 
         virtual void visit(GetPhotosTask* task) override
         {
-            auto result = m_backend->getPhotos(task->m_filter);
-            task->m_task->got(result);
+            auto photos = m_backend->getPhotos(task->m_filter);
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(getPhotoFor(id));
+
+            task->m_task->got(photosList);
         }
 
         virtual void visit(ListTagsTask* task) override
@@ -338,10 +367,17 @@ namespace
 
         virtual void visit(DropPhotosTask* task) override
         {
-            auto result = m_backend->dropPhotos(task->m_filter);
-            task->m_task->got(result);
+            auto photos = m_backend->dropPhotos(task->m_filter);
+            IPhotoInfo::List photosList;
 
-            emit photosRemoved(result);
+            for(const Photo::Id& id: photos)
+                photosList.push_back(getPhotoFor(id));
+
+            task->m_task->got(photosList);
+
+            emit photosRemoved(photosList);
+
+
         }
 
         void begin()
@@ -360,8 +396,27 @@ namespace
             }
         }
 
-        Database::IBackend* m_backend;
+        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id)
+        {
+            IPhotoInfo::Ptr photoPtr = m_cache->find(id);
+
+            if (photoPtr.get() == nullptr)
+            {
+                Photo::Data photoData = m_backend->getPhoto(id);
+
+                photoPtr = std::make_shared<PhotoInfo>(photoData);
+
+                m_cache->introduce(photoPtr);
+                m_storekeeper->photoInfoConstructed(photoPtr);
+            }
+
+            return photoPtr;
+        }
+
         ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
+        Database::IBackend* m_backend;
+        Database::IPhotoInfoCache* m_cache;
+        PhotoInfoStorekeeper* m_storekeeper;
     };
 
 }
@@ -372,7 +427,7 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(IBackend* backend): m_executor(backend), m_thread(), m_working(true)
+        Impl(IBackend* backend): m_storekeeper(), m_executor(backend, &m_storekeeper), m_thread(), m_working(true)
         {
             m_thread = std::thread(&Executor::begin, &m_executor);
         }
@@ -398,6 +453,7 @@ namespace Database
             }
         }
 
+        PhotoInfoStorekeeper m_storekeeper;
         Executor m_executor;
         std::thread m_thread;
         bool m_working;
@@ -406,7 +462,7 @@ namespace Database
 
     DatabaseThread::DatabaseThread(IBackend* backend): m_impl(new Impl(backend))
     {
-
+        m_impl->m_storekeeper.setDatabase(this);
     }
 
 
@@ -423,16 +479,24 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+
+    void DatabaseThread::set(IPhotoInfoCache* cache)
     {
-        InitTask* task = new InitTask(std::move(db_task), prjInfo);
-        m_impl->addTask(task);
+        m_impl->m_executor.set(cache);
+        m_impl->m_storekeeper.setCache(cache);
     }
 
 
     ADatabaseSignals* DatabaseThread::notifier()
     {
         return &m_impl->m_executor;
+    }
+
+
+    void DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+    {
+        InitTask* task = new InitTask(std::move(db_task), prjInfo);
+        m_impl->addTask(task);
     }
 
 
@@ -464,7 +528,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const IPhotoInfo::Id& id)
+    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);
         m_impl->addTask(task);
