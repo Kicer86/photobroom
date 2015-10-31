@@ -144,16 +144,19 @@ namespace Database
             Data& operator=(const Data &) = delete;
 
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-            bool store(const TagValue& value, int photo_id, int tag_id) const;
+            bool                       store(const TagValue& value, int photo_id, int tag_id) const;
+
             bool insert(Photo::Data &);
             bool update(const Photo::Data &);
-            Photo::Data getPhoto(const Photo::Id &);
+
             std::deque<TagNameInfo> listTags() const;
-            std::deque<QVariant> listTagValues(const TagNameInfo& tagName);
-            std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            std::deque<QVariant>    listTagValues(const TagNameInfo& tagName);
+            std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+
             std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &);
-            int getPhotosCount(const std::deque<IFilter::Ptr> &);
             std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &);
+            Photo::Data           getPhoto(const Photo::Id &);
+            int                   getPhotosCount(const std::deque<IFilter::Ptr> &);
 
         private:
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
@@ -165,10 +168,10 @@ namespace Database
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
 
-            Tag::TagsList getTagsFor(const Photo::Id &);
+            Tag::TagsList        getTagsFor(const Photo::Id &);
             ol::Optional<QImage> getThumbnailFor(const Photo::Id &);
             ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &);
-            void updateFlagsOn(Photo::Data &, const Photo::Id &);
+            void    updateFlagsOn(Photo::Data &, const Photo::Id &);
             QString getPathFor(const Photo::Id &);
             std::deque<Photo::Id> fetch(QSqlQuery &);
     };

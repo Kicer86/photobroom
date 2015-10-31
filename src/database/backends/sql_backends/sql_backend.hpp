@@ -84,13 +84,14 @@ namespace Database
             virtual bool update(const TagNameInfo &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;
-            virtual std::deque<QVariant> listTagValues(const TagNameInfo&) override final;
-            virtual std::deque<QVariant> listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<QVariant>    listTagValues(const TagNameInfo&) override final;
+            virtual std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
+
             virtual std::deque<Photo::Id> getAllPhotos() override final;
-            virtual Photo::Data getPhoto(const Photo::Id &) override final;
             virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) override final;
-            virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
             virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual Photo::Data           getPhoto(const Photo::Id &) override final;
+            virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

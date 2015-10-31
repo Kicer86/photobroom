@@ -51,15 +51,15 @@ namespace Database
         virtual bool update(const TagNameInfo &) = 0;
 
         //read data
-        virtual std::deque<TagNameInfo> listTags() = 0;                                        //list all stored tag names
-        virtual std::deque<QVariant> listTagValues(const TagNameInfo &) = 0;                   //list all values of provided tag
+        virtual std::deque<TagNameInfo> listTags() = 0;                                        // list all stored tag names
+        virtual std::deque<QVariant> listTagValues(const TagNameInfo &) = 0;                   // list all values of provided tag
         virtual std::deque<QVariant> listTagValues(const TagNameInfo &,
-                                                   const std::deque<IFilter::Ptr> &) = 0;      //list all values for provided tag used on photos matching provided filter
-        virtual std::deque<Photo::Id> getAllPhotos() = 0;                                   //list all photos
-        virtual Photo::Data getPhoto(const Photo::Id &) = 0;                                  //get particular photo
-        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;      //find all photos matching filter
-        virtual int getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;                      //is there any photo matching filters?
-        virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) = 0;     // drop photos matching filter
+                                                   const std::deque<IFilter::Ptr> &) = 0;      // list all values for provided tag used on photos matching provided filter
+        virtual std::deque<Photo::Id> getAllPhotos() = 0;                                      // list all photos
+        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;         // find all photos matching filter
+        virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) = 0;        // drop photos matching filter
+        virtual Photo::Data           getPhoto(const Photo::Id &) = 0;                         // get particular photo
+        virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;    // is there any photo matching filters?
 
         //init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;
