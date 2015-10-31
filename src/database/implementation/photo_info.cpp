@@ -14,22 +14,12 @@
 #include "photo_data.hpp"
 
 
-PhotoInfo::Flags::Flags(): stagingArea(0), exifLoaded(0), sha256Loaded(0), thumbnailLoaded(0)
-{
-
-}
-
-
 struct PhotoInfo::Data
 {
     Data():
         path(),
         m_observers(),
-        tags(),
-        sha256(),
-        m_thumbnail(),
-        m_flags(),
-        m_id(),
+        m_data(),
         m_valid(true)
     {
     }
@@ -39,12 +29,7 @@ struct PhotoInfo::Data
 
     QString path;
     std::set<IObserver *> m_observers;
-
-    ol::ThreadSafeResource<Tag::TagsList> tags;
-    ol::ThreadSafeResource<Photo::Sha256sum> sha256;
-    ol::ThreadSafeResource<QImage> m_thumbnail;
-    ol::ThreadSafeResource<IPhotoInfo::Flags> m_flags;
-    ol::ThreadSafeResource<Photo::Id> m_id;
+    ol::ThreadSafeResource<Photo::Data> m_data;
     bool m_valid;
 };
 
@@ -56,7 +41,7 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
     //default values
     QImage tmpThumbnail;
     tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
-    m_data->m_thumbnail.lock().get() = tmpThumbnail;
+    m_data->m_data.lock()->thumbnail = tmpThumbnail;
 
     markFlag(Photo::FlagsE::StagingArea, 1);
 }
@@ -64,18 +49,7 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 
 PhotoInfo::PhotoInfo(const Photo::Data& data): m_data(new Data)
 {
-    *m_data->m_id.lock() = data.id;
-    *m_data->sha256.lock() = data.sha256Sum;
-    *m_data->tags.lock() = data.tags;
-
-    IPhotoInfo::Flags& flags = m_data->m_flags.lock().get();
-    flags.exifLoaded = data.getFlag(Photo::FlagsE::ExifLoaded);
-    flags.sha256Loaded = data.getFlag(Photo::FlagsE::Sha256Loaded);
-    flags.stagingArea = data.getFlag(Photo::FlagsE::StagingArea);
-    flags.thumbnailLoaded = data.getFlag(Photo::FlagsE::ThumbnailLoaded);
-
-    m_data->path = data.path;
-    *m_data->m_thumbnail.lock() = data.thumbnail;
+    *m_data->m_data.lock() = data;
 }
 
 
@@ -87,58 +61,40 @@ PhotoInfo::~PhotoInfo()
 
 Photo::Data PhotoInfo::data() const
 {
-    Photo::Data d;
-    d.id = getID();
-    d.sha256Sum = getSha256();
-    d.tags = getTags();
-    d.flags[Photo::FlagsE::ExifLoaded] = getFlag(Photo::FlagsE::ExifLoaded);
-    d.flags[Photo::FlagsE::Sha256Loaded] = getFlag(Photo::FlagsE::Sha256Loaded);
-    d.flags[Photo::FlagsE::StagingArea] = getFlag(Photo::FlagsE::StagingArea);
-    d.flags[Photo::FlagsE::ThumbnailLoaded] = getFlag(Photo::FlagsE::ThumbnailLoaded);
-    d.path = getPath();
-    d.thumbnail = getThumbnail();
-
-    return d;
+    return m_data->m_data.lock().get();
 }
 
 
 
-const QString& PhotoInfo::getPath() const
+const QString PhotoInfo::getPath() const
 {
-    return m_data->path;
+    return m_data->m_data.lock()->path;
 }
 
 
-const Tag::TagsList& PhotoInfo::getTags() const
+const Tag::TagsList PhotoInfo::getTags() const
 {
-    auto result = m_data->tags.lock();
-
-    return result.get();
+    return m_data->m_data.lock()->tags;
 }
 
 
-const QImage& PhotoInfo::getThumbnail() const
+const QImage PhotoInfo::getThumbnail() const
 {
-    auto result = m_data->m_thumbnail.lock();
-
-    return result.get();
+    return m_data->m_data.lock()->thumbnail;
 }
 
 
-const Photo::Sha256sum& PhotoInfo::getSha256() const
+const Photo::Sha256sum PhotoInfo::getSha256() const
 {
     assert(isSha256Loaded());
-    auto result = m_data->sha256.lock();
 
-    return result.get();
+    return m_data->m_data.lock()->sha256Sum;
 }
 
 
 Photo::Id PhotoInfo::getID() const
 {
-    Photo::Id result = m_data->m_id.lock().get();
-
-    return result;
+    return m_data->m_data.lock()->id;
 }
 
 
@@ -178,70 +134,48 @@ void PhotoInfo::unregisterObserver(IObserver* observer)
 }
 
 
-void PhotoInfo::initSha256(const Photo::Sha256sum& sha256)
+void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
 {
     assert(isSha256Loaded() == false);
 
-    m_data->sha256.lock().get() = sha256;
-    m_data->m_flags.lock().get().sha256Loaded = true;
+    m_data->m_data.lock()->sha256Sum = sha256;
+    markFlag(Photo::FlagsE::Sha256Loaded, 1);
 
     updated();
 }
 
 
-void PhotoInfo::initThumbnail(const QImage& thumbnail)
+void PhotoInfo::setThumbnail(const QImage& thumbnail)
 {
     assert(isThumbnailLoaded() == false);
 
-    m_data->m_thumbnail.lock().get() = thumbnail;
-    m_data->m_flags.lock().get().thumbnailLoaded = true;
+    m_data->m_data.lock()->thumbnail = thumbnail;
+    markFlag(Photo::FlagsE::ThumbnailLoaded, 1);
 
     updated();
-}
-
-
-void PhotoInfo::initID(const Photo::Id& id)
-{
-    *m_data->m_id.lock() = id;
-}
-
-
-ol::ThreadSafeResource<Tag::TagsList>::Accessor PhotoInfo::accessTags()
-{
-    auto result = m_data->tags.lock(this);
-
-    return std::move(result);
 }
 
 
 void PhotoInfo::setTags(const Tag::TagsList& tags)
 {
-    m_data->tags.lock().get() = tags;
+    m_data->m_data.lock()->tags = tags;
 
     updated();
 }
 
 
+void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
+{
+    m_data->m_data.lock()->tags[name] = value;
+
+    updated();
+}
+
+
+
 void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
 {
-    switch (flag)
-    {
-        case Photo::FlagsE::StagingArea:
-            m_data->m_flags.lock()->stagingArea = v;
-            break;
-
-        case Photo::FlagsE::ExifLoaded:
-            m_data->m_flags.lock()->exifLoaded = v;
-            break;
-
-        case Photo::FlagsE::Sha256Loaded:
-            m_data->m_flags.lock()->sha256Loaded = v;
-            break;
-
-        case Photo::FlagsE::ThumbnailLoaded:
-            m_data->m_flags.lock()->thumbnailLoaded = v;
-            break;
-    }
+    m_data->m_data.lock()->flags[flag] = v;
 
     updated();
 }
@@ -249,26 +183,9 @@ void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
 
 int PhotoInfo::getFlag(Photo::FlagsE flag) const
 {
-    int result = 0;
-
-    switch (flag)
-    {
-        case Photo::FlagsE::StagingArea:
-            result = m_data->m_flags.lock()->stagingArea;
-            break;
-
-        case Photo::FlagsE::ExifLoaded:
-            result = m_data->m_flags.lock()->exifLoaded;
-            break;
-
-        case Photo::FlagsE::Sha256Loaded:
-            result = m_data->m_flags.lock()->sha256Loaded;
-            break;
-
-        case Photo::FlagsE::ThumbnailLoaded:
-            result = m_data->m_flags.lock()->thumbnailLoaded;
-            break;
-    }
+    auto flags = m_data->m_data.lock()->flags;
+    auto it = flags.find(flag);
+    const int result = it == flags.end()? 0: it->second;
 
     return result;
 }

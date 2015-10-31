@@ -48,29 +48,15 @@ struct IPhotoInfo
         virtual void photoUpdated(IPhotoInfo *) = 0;
     };
 
-    struct DATABASE_EXPORT Flags
-    {
-        //information
-        bool stagingArea;
-
-        //related to data loading
-        bool exifLoaded;
-        bool sha256Loaded;
-        bool thumbnailLoaded;
-
-        Flags();
-    };
-
     virtual ~IPhotoInfo() {}
 
-    virtual Photo::Data data() const = 0;
-
     //data getting
-    virtual const QString& getPath() const = 0;
-    virtual const Tag::TagsList& getTags() const = 0;          // access to tags
-    virtual const QImage& getThumbnail() const = 0;            // a temporary thumbnail may be returned when final one is not yet generated.
-    virtual const Photo::Sha256sum& getSha256() const = 0;  // Do not call until isSha256Loaded()
-    virtual Photo::Id getID() const = 0;
+    virtual Photo::Data            data() const = 0;
+    virtual const QString          getPath() const = 0;
+    virtual const Tag::TagsList    getTags() const = 0;       // access to tags
+    virtual const QImage           getThumbnail() const = 0;  // a temporary thumbnail may be returned when final one is not yet generated.
+    virtual const Photo::Sha256sum getSha256() const = 0;     // Do not call until isSha256Loaded()
+    virtual Photo::Id              getID() const = 0;
 
     //status checking
     virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)
@@ -82,14 +68,11 @@ struct IPhotoInfo
     virtual void registerObserver(IObserver *) = 0;
     virtual void unregisterObserver(IObserver *) = 0;
 
-    //data initializing
-    virtual void initSha256(const Photo::Sha256sum &) = 0;
-    virtual void initThumbnail(const QImage &) = 0;
-    virtual void initID(const Photo::Id &) = 0;
-
     //setting data
-    virtual ol::ThreadSafeResource<Tag::TagsList>::Accessor accessTags() = 0;   // gives exclusive access to tags so they can be modified in conveniant fashion
-    virtual void setTags(const Tag::TagsList &) = 0;        //set tags
+    virtual void setSha256(const Photo::Sha256sum &) = 0;
+    virtual void setThumbnail(const QImage &) = 0;
+    virtual void setTags(const Tag::TagsList &) = 0;                  // set tags
+    virtual void setTag(const TagNameInfo &, const TagValue &) = 0;   // set tag
 
     //flags
     virtual void markFlag(Photo::FlagsE, int) = 0;

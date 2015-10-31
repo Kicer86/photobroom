@@ -65,7 +65,7 @@ struct ThumbnailGenerator: UpdaterTask
     {
         const QImage thumbnail = m_photosManager->getUniversalThumbnal(m_photoInfo->getPath());
 
-        m_photoInfo->initThumbnail(thumbnail);
+        m_photoInfo->setThumbnail(thumbnail);
     }
 
     IPhotoInfo::Ptr m_photoInfo;
@@ -99,7 +99,7 @@ struct Sha256Assigner: UpdaterTask
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
         const Photo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
-        m_photoInfo->initSha256(hash);
+        m_photoInfo->setSha256(hash);
     }
 
     IPhotoInfo::Ptr m_photoInfo;

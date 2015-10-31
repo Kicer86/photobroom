@@ -32,14 +32,13 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
 
         PhotoInfo& operator=(const PhotoInfo &) = delete;
 
-        Photo::Data data() const;
-
         //data getting
-        const QString& getPath() const override;
-        const Tag::TagsList& getTags() const override;          // a access to tags
-        const QImage& getThumbnail() const override;            // a temporary thumbnail may be returned when final one is not yet generated.
-        const Photo::Sha256sum& getSha256() const override;  // Do not call until isSha256Loaded()
-        Photo::Id getID() const override;
+        Photo::Data            data() const override;
+        const QString          getPath() const override;
+        const Tag::TagsList    getTags() const override;          // a access to tags
+        const QImage           getThumbnail() const override;            // a temporary thumbnail may be returned when final one is not yet generated.
+        const Photo::Sha256sum getSha256() const override;     // Do not call until isSha256Loaded()
+        Photo::Id              getID() const override;
 
         //status checking
         bool isFullyInitialized() const override;            // returns true if photo fully loaded (all items below are loaded)
@@ -52,13 +51,12 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         void unregisterObserver(IObserver *) override;
 
         //data initializing
-        void initSha256(const Photo::Sha256sum &) override;
-        void initThumbnail(const QImage &) override;
-        void initID(const Photo::Id &) override;
+        void setSha256(const Photo::Sha256sum &) override;
+        void setThumbnail(const QImage &) override;
 
         //set data
-        ol::ThreadSafeResource< Tag::TagsList >::Accessor accessTags() override;
         void setTags(const Tag::TagsList &) override;
+        void setTag(const TagNameInfo &, const TagValue &) override;
 
         //flags
         void markFlag(Photo::FlagsE, int) override;
