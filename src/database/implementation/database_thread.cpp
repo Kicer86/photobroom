@@ -292,6 +292,7 @@ namespace
         {
             Photo::Data data;
             data.path = task->m_path;
+            data.flags[Photo::FlagsE::StagingArea] = 1;
 
             const bool status = m_backend->addPhoto(data);
             task->m_task->got(status);
