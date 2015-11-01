@@ -50,7 +50,7 @@ struct LoadPhoto: ITaskExecutor::ITask
 
     virtual void perform()
     {
-        QImage scaled = m_photosManager->getUniversalThumbnal(m_path);
+        QImage scaled = m_photosManager->getThumbnail(m_path);
 
         auto callback = **m_callback;
 

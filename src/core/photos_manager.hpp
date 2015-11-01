@@ -42,7 +42,7 @@ class CORE_EXPORT PhotosManager: public IPhotosManager
         // IPhotosManager:
         QByteArray getPhoto(const IPhotoInfo::Ptr &);
         QByteArray getPhoto(const QString& path);
-        QImage getUniversalThumbnal(const QString& path);
+        QImage getThumbnail(const QString& path);
 
     private:
         struct Data;

@@ -63,7 +63,7 @@ struct ThumbnailGenerator: UpdaterTask
 
     virtual void perform() override
     {
-        const QImage thumbnail = m_photosManager->getUniversalThumbnal(m_photoInfo->getPath());
+        const QImage thumbnail = m_photosManager->getThumbnail(m_photoInfo->getPath());
 
         m_photoInfo->setThumbnail(thumbnail);
     }
