@@ -19,6 +19,8 @@
 
 #include "tree_item_delegate.hpp"
 
+#include <cassert>
+
 #include <QCache>
 #include <QPainter>
 
@@ -186,36 +188,21 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 }
 
 
-QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem& option, const QVariant& variant) const
+QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem &, const QVariant& variant) const
 {
     QPixmap result;
 
     switch (variant.type())
     {
-        case QVariant::Icon:
-        {
-            const QIcon::Mode mode = iconMode(option.state);
-            const QIcon::State state = iconState(option.state);
-            result = qvariant_cast<QIcon>(variant).pixmap(option.decorationSize, mode, state);
-            break;
-        }
-
-        case QVariant::Color:
-        {
-            result = QPixmap(option.decorationSize);
-            result.fill(qvariant_cast<QColor>(variant));
-            break;
-        }
-
         case QVariant::Image:
         {
             const QImage image = qvariant_cast<QImage>(variant);
-            const QImage scaled = image.scaled(option.decorationSize);
-            result = QPixmap::fromImage(scaled);
+            result = QPixmap::fromImage(image);
             break;
         }
 
         default:
+            assert(!"unhandled type");
             result = qvariant_cast<QPixmap>(variant);
             break;
     }

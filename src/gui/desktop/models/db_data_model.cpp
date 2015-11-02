@@ -78,7 +78,7 @@ const Hierarchy::Level& Hierarchy::getLeafsInfo() const
 //////////////////////////////////////
 
 
-DBDataModel::DBDataModel(QObject* p): QAbstractItemModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
+DBDataModel::DBDataModel(QObject* p): AScalableImagesModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
 {
 }
 
@@ -115,6 +115,12 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos()
     m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
 
     return result;
+}
+
+
+QImage DBDataModel::getImageFor(const QModelIndex& idx, const QSize& size)
+{
+
 }
 
 

@@ -17,10 +17,11 @@ set(DATABASE_SOURCES
     implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
+    implementation/photo_data.cpp
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
     implementation/photo_info_storekeeper.cpp
-
+    implementation/photo_types.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_duplicates_finder.cpp
@@ -35,10 +36,12 @@ set(DATABASE_HEADERS
     iphoto_info.hpp
     iphoto_info_cache.hpp
     ifs.hpp
+    photo_data.hpp
     photo_iterator.hpp
+    photo_info.hpp
+    photo_types.hpp
     query_list.hpp
     project_info.hpp
-    backends/photo_info.hpp
     implementation/database_thread.hpp
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp

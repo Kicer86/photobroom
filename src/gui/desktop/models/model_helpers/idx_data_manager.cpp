@@ -139,7 +139,7 @@ struct IdxDataManager::Data
     IdxData* m_root;
     Hierarchy m_hierarchy;
     Database::IDatabase* m_database;
-    ol::ThreadSafeResource<std::unordered_map<IPhotoInfo::Id, IdxData *, PhotoInfoIdHash>> m_photoId2IdxData;
+    ol::ThreadSafeResource<std::unordered_map<Photo::Id, IdxData *, Photo::IdHash>> m_photoId2IdxData;
     ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
@@ -676,7 +676,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
 
 IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 {
-    const IPhotoInfo::Id id = photoInfo->getID();
+    const Photo::Id id = photoInfo->getID();
     auto photosMap = m_data->m_photoId2IdxData.lock();
     auto it = photosMap->find(id);
     IdxData* result = nullptr;

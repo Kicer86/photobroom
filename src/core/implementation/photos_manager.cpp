@@ -74,7 +74,7 @@ QByteArray PhotosManager::getPhoto(const QString& path)
 }
 
 
-QImage PhotosManager::getUniversalThumbnal(const QString& path)
+QImage PhotosManager::getThumbnail(const QString& path)
 {
     QByteArray raw = getPhoto(path);
 
@@ -82,8 +82,8 @@ QImage PhotosManager::getUniversalThumbnal(const QString& path)
     image.loadFromData(raw);
 
     // TODO: remove constants, use settings?
-    const int w = 800;
-    const int h = 600;
+    const int w = 120;
+    const int h = 120;
 
     const bool needs_resize = image.width() > w || image.height() > h;
 

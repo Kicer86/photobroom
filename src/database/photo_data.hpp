@@ -1,5 +1,5 @@
 /*
- * Small modification od DBDataModel for main view purposes.
+ * Basic data about photo
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,24 +17,37 @@
  *
  */
 
-#include "photos_data_model.hpp"
+#ifndef PHOTO_DATA_HPP
+#define PHOTO_DATA_HPP
 
-#include <memory>
+#include <QImage>
 
-#include <database/filter.hpp>
+#include <core/tag.hpp>
 
-PhotosDataModel::PhotosDataModel(QObject* p): DBDataModel(p)
-{
-    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[Photo::FlagsE::StagingArea] = 0;
-
-    const std::deque<Database::IFilter::Ptr> filters( {filter});
-
-    setModelSpecificFilter(filters);
-}
+#include "database_export.h"
+#include "photo_types.hpp"
 
 
-PhotosDataModel::~PhotosDataModel()
+namespace Photo
 {
 
+    struct DATABASE_EXPORT Data
+    {
+        Photo::Id            id;
+        Photo::Sha256sum     sha256Sum;
+        Tag::TagsList        tags;
+        Photo::FlagValues    flags;
+        QString              path;
+        QImage               thumbnail;
+
+        int getFlag(const Photo::FlagsE& flag) const;
+
+        Data();
+        Data(const Data &) = default;
+
+        Data& operator = (const Data &) = default;
+    };
+
 }
+
+#endif // PHOTO_DATA_HPP
