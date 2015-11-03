@@ -133,7 +133,7 @@
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -379,7 +379,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+36"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+43"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
