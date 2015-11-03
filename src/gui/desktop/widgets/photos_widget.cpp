@@ -20,23 +20,31 @@
 #include "photos_widget.hpp"
 
 #include <QPainter>
+#include <QVBoxLayout>
 
 #include <configuration/iconfiguration.hpp>
 
-#include "models/db_data_model.hpp"
-#include "components/configurable_tree_item_delegate.hpp"
-#include "info_widget.hpp"
 #include "config_keys.hpp"
+#include "info_widget.hpp"
+#include "components/configurable_tree_item_delegate.hpp"
+#include "models/db_data_model.hpp"
+#include "views/images_tree_view.hpp"
 
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr), m_delegate(new ConfigurableTreeItemDelegate(this))
+PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_view(nullptr), m_info(nullptr), m_delegate(nullptr)
 {
+    m_view = new ImagesTreeView(this);
+    m_delegate = new ConfigurableTreeItemDelegate(m_view);
+
+    m_view->setItemDelegate(m_delegate);
+
     m_info = new InfoBaloonWidget(this);
     m_info->hide();
     m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
-    m_info->adjustSize();
 
-    setItemDelegate(m_delegate);
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(m_view);
+    l->addWidget(m_info);
 }
 
 
@@ -52,36 +60,49 @@ void PhotosWidget::set(IConfiguration* configuration)
     assert(marginEntry.isValid());
     const int spacing = marginEntry.toInt();
 
-    setSpacing(spacing);
+    m_view->setSpacing(spacing);
 
     m_delegate->set(configuration);
 }
 
 
-
-void PhotosWidget::paintEvent(QPaintEvent* event)
+void PhotosWidget::setModel(QAbstractItemModel* m)
 {
-    ImagesTreeView::paintEvent(event);
+    m_view->setModel(m);
 
+    connect(m, &QAbstractItemModel::rowsInserted, this, &PhotosWidget::modelChanged);
+    connect(m, &QAbstractItemModel::rowsRemoved, this, &PhotosWidget::modelChanged);
+
+    updateHint();
+}
+
+
+QItemSelectionModel* PhotosWidget::viewSelectionModel()
+{
+    return m_view->selectionModel();
+}
+
+
+void PhotosWidget::changeEvent(QEvent* e)
+{
+    QWidget::changeEvent(e);
+
+    updateHint();
+}
+
+
+void PhotosWidget::modelChanged(const QModelIndex &, int, int)
+{
+    updateHint();
+}
+
+
+void PhotosWidget::updateHint()
+{
     // check if model is empty
-    QAbstractItemModel* m = model();
+    QAbstractItemModel* m = m_view->model();
 
     const bool empty = m->rowCount(QModelIndex()) == 0;
 
-    if (empty && isEnabled())
-    {
-        // InfoWidget could be rendered directly on 'this', but it cannot due to bug:
-        // https://bugreports.qt.io/browse/QTBUG-47302
-
-        QPixmap infoPixMap(m_info->size());
-        infoPixMap.fill(QColor(0, 0, 0, 0));
-        m_info->render(&infoPixMap, QPoint(), QRegion(), 0);
-
-        const QRect thisRect = rect();
-        QRect infoRect = m_info->rect();
-        infoRect.moveCenter(thisRect.center());
-
-        QPainter painter(viewport());
-        painter.drawPixmap(infoRect, infoPixMap);
-    }
+    m_info->setVisible(empty && isEnabled());
 }

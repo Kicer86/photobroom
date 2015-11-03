@@ -20,16 +20,14 @@
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
-  <widget class="PhotosWidget" name="imagesView">
-   <layout class="QVBoxLayout" name="centralWidgetLayout"/>
-  </widget>
+  <widget class="PhotosWidget" name="imagesView"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCollection">

@@ -239,7 +239,7 @@ void MainWindow::setupView()
     m_photosAnalyzer->set(ui->tasksWidget);
 
     //setup tags editor
-    ui->tagEditor->set( ui->imagesView->selectionModel() );
+    ui->tagEditor->set( ui->imagesView->viewSelectionModel() );
     ui->tagEditor->set( m_imagesModel);
 }
 

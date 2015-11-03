@@ -20,13 +20,20 @@
 #ifndef PHOTOSWIDGET_HPP
 #define PHOTOSWIDGET_HPP
 
-#include "views/images_tree_view.hpp"
+#include <QWidget>
+
+class QAbstractItemModel;
+class QItemSelectionModel;
 
 class ConfigurableTreeItemDelegate;
 class DBDataModel;
 class InfoBaloonWidget;
+class ImagesTreeView;
 
-class PhotosWidget: public ImagesTreeView
+struct IConfiguration;
+
+
+class PhotosWidget: public QWidget
 {
         Q_OBJECT
 
@@ -37,12 +44,19 @@ class PhotosWidget: public ImagesTreeView
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void set(IConfiguration *);
+        void setModel(QAbstractItemModel *);
+
+        QItemSelectionModel* viewSelectionModel();
 
     private:
+        ImagesTreeView* m_view;
         InfoBaloonWidget* m_info;
         ConfigurableTreeItemDelegate* m_delegate;
 
-        void paintEvent(QPaintEvent*) override;
+        virtual void changeEvent(QEvent *) override;
+
+        void modelChanged(const QModelIndex &, int, int);
+        void updateHint();
 };
 
 #endif // PHOTOSWIDGET_HPP
