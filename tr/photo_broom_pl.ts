@@ -318,7 +318,7 @@ Kod błędu: %1</translation>
         <translation>Zawartość katalogu</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to &apos;Photos preparation&apos; area where you can edit photo&apos;s information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj zaznaczone zdjęcia do sekcji &quot;Przygotowywanie zdjęć&quot;, gdzie będzie można je przygotować przed dodaniem do kolekcji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -328,7 +328,7 @@ Kod błędu: %1</translation>
         <translation>Dodaj zaznaczone zdjęcia do sekcji przygotowywania</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+40"/>
         <source>Photos preparation</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -379,13 +379,18 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+43"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+46"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
         <translation>W twojej kolekcji nie ma żadnych zdjęć.
 
 Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Search:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
