@@ -48,7 +48,7 @@ StagedPhotosDataModel::StagedPhotosDataModel(QObject* p): DBDataModel(p)
 
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 
-    setModelSpecificFilter(filters);
+    setPermanentFilters(filters);
 }
 
 

@@ -205,7 +205,7 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 }
 
 
-void DBDataModel::setModelSpecificFilter(const std::deque<Database::IFilter::Ptr>& filters)
+void DBDataModel::setPermanentFilters(const std::deque<Database::IFilter::Ptr>& filters)
 {
     m_filters = filters;
 }
