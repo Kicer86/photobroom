@@ -19,6 +19,7 @@
 
 #include "photos_widget.hpp"
 
+#include <QLineEdit>
 #include <QPainter>
 #include <QVBoxLayout>
 
@@ -33,16 +34,28 @@
 
 PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_view(nullptr), m_info(nullptr), m_delegate(nullptr)
 {
+    // photos view
     m_view = new ImagesTreeView(this);
     m_delegate = new ConfigurableTreeItemDelegate(m_view);
 
     m_view->setItemDelegate(m_delegate);
 
+    // info baloon
     m_info = new InfoBaloonWidget(this);
     m_info->hide();
     m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
 
+    // search panel
+    QLabel* searchPrompt = new QLabel(tr("Search:"), this);
+    QLineEdit* search = new QLineEdit(this);
+
+    QHBoxLayout* searchLayout = new QHBoxLayout;
+    searchLayout->addWidget(searchPrompt);
+    searchLayout->addWidget(search);
+
+    // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
+    l->addLayout(searchLayout);
     l->addWidget(m_view);
     l->addWidget(m_info);
 }
