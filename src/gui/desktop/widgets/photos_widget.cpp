@@ -32,7 +32,7 @@
 #include "views/images_tree_view.hpp"
 
 
-PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_view(nullptr), m_info(nullptr), m_delegate(nullptr)
+PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_timer(), m_view(nullptr), m_info(nullptr), m_delegate(nullptr)
 {
     // photos view
     m_view = new ImagesTreeView(this);
@@ -58,6 +58,14 @@ PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_view(nullptr), m_info(null
     l->addLayout(searchLayout);
     l->addWidget(m_view);
     l->addWidget(m_info);
+
+    // setup timer
+    m_timer.setInterval(500);
+    m_timer.setSingleShot(true);
+    connect(&m_timer, &QTimer::timeout, this, &PhotosWidget::applySearchExpression);
+
+    //
+    connect(search, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
 }
 
 
@@ -118,4 +126,16 @@ void PhotosWidget::updateHint()
     const bool empty = m->rowCount(QModelIndex()) == 0;
 
     m_info->setVisible(empty && isEnabled());
+}
+
+
+void PhotosWidget::searchExpressionChanged(const QString &)
+{
+    m_timer.start();
+}
+
+
+void PhotosWidget::applySearchExpression()
+{
+
 }

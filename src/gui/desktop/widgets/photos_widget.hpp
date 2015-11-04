@@ -21,6 +21,7 @@
 #define PHOTOSWIDGET_HPP
 
 #include <QWidget>
+#include <QTimer>
 
 class QAbstractItemModel;
 class QItemSelectionModel;
@@ -49,6 +50,7 @@ class PhotosWidget: public QWidget
         QItemSelectionModel* viewSelectionModel();
 
     private:
+        QTimer m_timer;
         ImagesTreeView* m_view;
         InfoBaloonWidget* m_info;
         ConfigurableTreeItemDelegate* m_delegate;
@@ -57,6 +59,8 @@ class PhotosWidget: public QWidget
 
         void modelChanged(const QModelIndex &, int, int);
         void updateHint();
+        void searchExpressionChanged(const QString &);
+        void applySearchExpression();
 };
 
 #endif // PHOTOSWIDGET_HPP
