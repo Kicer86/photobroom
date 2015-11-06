@@ -147,5 +147,5 @@ void PhotosWidget::applySearchExpression()
 {
     const QString search = m_searchExpression->text();
 
-
+    m_model->applyFilters(search);
 }

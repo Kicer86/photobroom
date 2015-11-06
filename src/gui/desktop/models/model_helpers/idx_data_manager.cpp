@@ -246,6 +246,21 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 }
 
 
+void IdxDataManager::applyFilters(const QString& filters)
+{
+    IdxData* root = getRoot();
+
+    const IdxData::FetchStatus current = root->m_loaded;
+    root->m_loaded = IdxData::FetchStatus::NotFetched;
+
+    if (current != IdxData::FetchStatus::NotFetched)
+    {
+        const QModelIndex idx = getIndex(root);
+        fetchData(idx);
+    }
+}
+
+
 IdxData* IdxDataManager::getRoot()
 {
     return m_data->m_root;

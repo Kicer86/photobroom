@@ -211,6 +211,12 @@ void DBDataModel::setPermanentFilters(const std::deque<Database::IFilter::Ptr>& 
 }
 
 
+void DBDataModel::applyFilters(const QString& filters)
+{
+    m_idxDataManager->applyFilters(filters);
+}
+
+
 const std::deque<Database::IFilter::Ptr>& DBDataModel::getPermanentFilters() const
 {
     return m_filters;
