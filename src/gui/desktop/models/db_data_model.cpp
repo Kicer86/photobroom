@@ -211,7 +211,7 @@ void DBDataModel::setPermanentFilters(const std::deque<Database::IFilter::Ptr>& 
 }
 
 
-const std::deque<Database::IFilter::Ptr>& DBDataModel::getModelSpecificFilters() const
+const std::deque<Database::IFilter::Ptr>& DBDataModel::getPermanentFilters() const
 {
     return m_filters;
 }

@@ -88,7 +88,7 @@ void StagedPhotosDataModel::dropPhoto(const QModelIndex& index)
     const auto idFilter = std::make_shared<Database::FilterPhotosWithId>();
     idFilter->filter = photo->getID();
 
-    std::deque<Database::IFilter::Ptr> filters = getModelSpecificFilters();
+    std::deque<Database::IFilter::Ptr> filters = getPermanentFilters();
     filters.push_back(idFilter);
 
     auto task = std::make_unique<DropPhotosTask>();
@@ -99,6 +99,6 @@ void StagedPhotosDataModel::dropPhoto(const QModelIndex& index)
 void StagedPhotosDataModel::dropPhotos()
 {
     auto task = std::make_unique<DropPhotosTask>();
-    getDatabase()->exec(std::move(task), getModelSpecificFilters());
+    getDatabase()->exec(std::move(task), getPermanentFilters());
 }
 

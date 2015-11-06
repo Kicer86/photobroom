@@ -198,7 +198,7 @@ void PhotosMatcher::set(DBDataModel* model)
 
 bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) const
 {
-    std::deque<Database::IFilter::Ptr> filters = m_dbDataModel->getModelSpecificFilters();
+    std::deque<Database::IFilter::Ptr> filters = m_dbDataModel->getPermanentFilters();
 
     FiltersMatcher matcher;
     const bool result = matcher.doesMatch(photoInfo, filters);

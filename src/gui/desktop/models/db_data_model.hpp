@@ -78,7 +78,7 @@ class DBDataModel: public AScalableImagesModel
         void set(ITaskExecutor *);
         void setPermanentFilters(const std::deque<Database::IFilter::Ptr> &);
 
-        const std::deque<Database::IFilter::Ptr>& getModelSpecificFilters() const;
+        const std::deque<Database::IFilter::Ptr>& getPermanentFilters() const;
 
         bool isEmpty() const;
 
