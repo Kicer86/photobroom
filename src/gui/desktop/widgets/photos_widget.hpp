@@ -25,6 +25,7 @@
 
 class QAbstractItemModel;
 class QItemSelectionModel;
+class QLineEdit;
 
 class ConfigurableTreeItemDelegate;
 class DBDataModel;
@@ -45,15 +46,17 @@ class PhotosWidget: public QWidget
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void set(IConfiguration *);
-        void setModel(QAbstractItemModel *);
+        void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel();
 
     private:
         QTimer m_timer;
+        DBDataModel* m_model;
         ImagesTreeView* m_view;
         InfoBaloonWidget* m_info;
         ConfigurableTreeItemDelegate* m_delegate;
+        QLineEdit* m_searchExpression;
 
         virtual void changeEvent(QEvent *) override;
 

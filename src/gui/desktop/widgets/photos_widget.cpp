@@ -32,7 +32,14 @@
 #include "views/images_tree_view.hpp"
 
 
-PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_timer(), m_view(nullptr), m_info(nullptr), m_delegate(nullptr)
+PhotosWidget::PhotosWidget(QWidget* p):
+    QWidget(p),
+    m_timer(),
+    m_model(nullptr),
+    m_view(nullptr),
+    m_info(nullptr),
+    m_delegate(nullptr),
+    m_searchExpression(nullptr)
 {
     // photos view
     m_view = new ImagesTreeView(this);
@@ -47,11 +54,11 @@ PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_timer(), m_view(nullptr), 
 
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
-    QLineEdit* search = new QLineEdit(this);
+    m_searchExpression = new QLineEdit(this);
 
     QHBoxLayout* searchLayout = new QHBoxLayout;
     searchLayout->addWidget(searchPrompt);
-    searchLayout->addWidget(search);
+    searchLayout->addWidget(m_searchExpression);
 
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -65,7 +72,7 @@ PhotosWidget::PhotosWidget(QWidget* p): QWidget(p), m_timer(), m_view(nullptr), 
     connect(&m_timer, &QTimer::timeout, this, &PhotosWidget::applySearchExpression);
 
     //
-    connect(search, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
+    connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
 }
 
 
@@ -87,8 +94,9 @@ void PhotosWidget::set(IConfiguration* configuration)
 }
 
 
-void PhotosWidget::setModel(QAbstractItemModel* m)
+void PhotosWidget::setModel(DBDataModel* m)
 {
+    m_model = m;
     m_view->setModel(m);
 
     connect(m, &QAbstractItemModel::rowsInserted, this, &PhotosWidget::modelChanged);
@@ -137,5 +145,5 @@ void PhotosWidget::searchExpressionChanged(const QString &)
 
 void PhotosWidget::applySearchExpression()
 {
-
+    m_searchExpression->text();
 }
