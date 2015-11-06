@@ -145,5 +145,7 @@ void PhotosWidget::searchExpressionChanged(const QString &)
 
 void PhotosWidget::applySearchExpression()
 {
-    m_searchExpression->text();
+    const QString search = m_searchExpression->text();
+
+
 }
