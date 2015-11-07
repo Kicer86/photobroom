@@ -453,11 +453,11 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
     assert(level <= m_data->m_hierarchy.nodeLevels());
 
-    const bool leafs_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
+    const bool leaves_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
 
-    if (leafs_level)                  //construct leafs basing on photos
+    if (leaves_level)                  //construct leaves basing on photos
         fetchPhotosFor(_parent);
-    else                              //construct nodes basing on tags
+    else                               //construct nodes basing on tags
     {
         fetchTagValuesFor(level, _parent);
         checkForNonmatchingPhotos(level, _parent);
