@@ -250,12 +250,19 @@ void IdxDataManager::applyFilters(const QString& filters)
 {
     IdxData* root = getRoot();
 
-    const IdxData::FetchStatus current = root->m_loaded;
-    root->m_loaded = IdxData::FetchStatus::NotFetched;
+    refetchNode(root);
+}
+
+
+void IdxDataManager::refetchNode(IdxData* _parent)
+{
+    const IdxData::FetchStatus current = _parent->m_loaded;
 
     if (current != IdxData::FetchStatus::NotFetched)
     {
-        const QModelIndex idx = getIndex(root);
+        _parent->reset();
+
+        const QModelIndex idx = getIndex(_parent);
         fetchData(idx);
     }
 }

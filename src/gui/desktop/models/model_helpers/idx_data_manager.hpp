@@ -62,6 +62,7 @@ public:
     bool canFetchMore(const QModelIndex& _parent);
     void setDatabase(Database::IDatabase* database);
     void applyFilters(const QString &);
+    void refetchNode(IdxData *);
 
     IdxData* getRoot();
     IdxData* getIdxDataFor(const QModelIndex& obj) const;
