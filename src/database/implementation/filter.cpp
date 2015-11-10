@@ -51,4 +51,16 @@ namespace Database
 
     }
 
+    
+    FilterPhotosMatchingExpression::FilterPhotosMatchingExpression(): expression()
+    {
+
+    }
+
+
+    FilterPhotosMatchingExpression::~FilterPhotosMatchingExpression()
+    {
+
+    }
+
 }

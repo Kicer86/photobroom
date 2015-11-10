@@ -140,7 +140,9 @@ namespace Database
         virtual ~FilterPhotosMatchingExpression();
 
         FILTER_COMMAND
+
+        QString expression;
     };
 
 }
-#endif // FILTER_H
+#endif // FILTER_HPP
