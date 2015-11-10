@@ -113,7 +113,8 @@ struct IdxDataManager::Data
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id()),
         m_taskExecutor(nullptr),
-        m_tasksResultsCtrl(tasksResults)
+        m_tasksResultsCtrl(tasksResults),
+        filterExpression()
     {
     }
 
@@ -144,6 +145,7 @@ struct IdxDataManager::Data
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
     callback_ptr_ctrl<ITasksResults> m_tasksResultsCtrl;
+    QString filterExpression;
 };
 
 
@@ -248,8 +250,9 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
 void IdxDataManager::applyFilters(const QString& filters)
 {
-    IdxData* root = getRoot();
+    m_data->filterExpression = filters;
 
+    IdxData* root = getRoot();
     refetchNode(root);
 }
 
@@ -451,6 +454,12 @@ void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filte
 {
     const auto modelSpecificFilters = m_data->m_model->getPermanentFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
+
+    if (m_data->filterExpression.isEmpty() == false)
+    {
+        const auto searchExpressionFilter = std::make_shared<Database::FilterPhotosMatchingExpression>(m_data->filterExpression);
+        filter->push_back(searchExpressionFilter);
+    }
 }
 
 
