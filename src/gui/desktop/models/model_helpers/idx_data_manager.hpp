@@ -100,7 +100,7 @@ private:
     void setupNewNode(IdxData *, const Database::IFilter::Ptr &, const Hierarchy::Level &) const;
     void setupRootNode();
 
-    // database notifications:
+    // database tasks callbacks:
     void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) override;
     void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int) override;
     void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<QVariant>& tags) override;
@@ -121,6 +121,7 @@ private:
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
     IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo if could be created
+    void removeChildren(IdxData *);                                              // remove all children
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performMove(IdxData* item, IdxData* from, IdxData* to);
     void performRemove(const IPhotoInfo::Ptr &);
@@ -128,6 +129,7 @@ private:
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
     void performAdd(IdxData* parent, IdxData* item);
     bool sortChildrenOf(IdxData *);
+    //
 
     IdxData* prepareUniversalNodeFor(IdxData *);                                 //prepares node for photos without tag required by particular parent
 
@@ -136,10 +138,14 @@ signals:
     void nodesFetched(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
 
 private slots:
+    // threads synchronization
     void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
+
+    // database notifications
     void photoChanged(const IPhotoInfo::Ptr &);
     void photoAdded(const IPhotoInfo::Ptr &);
     void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
+    //
 };
 
 
