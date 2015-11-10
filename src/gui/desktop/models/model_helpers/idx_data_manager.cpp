@@ -441,6 +441,7 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 
     filter->push_back(idxData->m_filter);
 
+    // append parent's filters
     if (idxData->m_level > 0)
         buildFilterFor(_parent.parent(), filter);
 }
