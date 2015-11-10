@@ -37,12 +37,13 @@ struct FiltersMatcher: Database::IFilterVisitor
         bool m_doesMatch;
         IPhotoInfo::Ptr m_photo;
 
-        virtual void visit(Database::EmptyFilter *) override;
-        virtual void visit(Database::FilterPhotosWithTag *) override;
-        virtual void visit(Database::FilterPhotosWithFlags *) override;
-        virtual void visit(Database::FilterPhotosWithSha256 *) override;
-        virtual void visit(Database::FilterNotMatchingFilter *) override;
-        virtual void visit(Database::FilterPhotosWithId*) override;
+        void visit(Database::EmptyFilter *) override;
+        void visit(Database::FilterPhotosWithTag *) override;
+        void visit(Database::FilterPhotosWithFlags *) override;
+        void visit(Database::FilterPhotosWithSha256 *) override;
+        void visit(Database::FilterNotMatchingFilter *) override;
+        void visit(Database::FilterPhotosWithId *) override;
+        void visit(Database::FilterPhotosMatchingExpression *) override;
 };
 
 
@@ -167,6 +168,11 @@ void FiltersMatcher::visit(Database::FilterPhotosWithId* filter)
     m_doesMatch = status;
 }
 
+
+void FiltersMatcher::visit(Database::FilterPhotosMatchingExpression *)
+{
+    assert(!"not implemented");
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

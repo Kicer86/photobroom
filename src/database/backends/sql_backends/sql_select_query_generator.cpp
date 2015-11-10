@@ -177,6 +177,11 @@ namespace Database
             m_filterResult.conditions.append( QString(TAB_PHOTOS ".id = '%1'").arg(filter->filter) );
         }
 
+        void visit(FilterPhotosMatchingExpression* filter) override
+        {
+            assert(!"not implemented");
+        }
+
         FilterData m_filterResult;
     };
 
