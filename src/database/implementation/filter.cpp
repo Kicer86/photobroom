@@ -51,8 +51,8 @@ namespace Database
 
     }
 
-    
-    FilterPhotosMatchingExpression::FilterPhotosMatchingExpression(): expression()
+
+    FilterPhotosMatchingExpression::FilterPhotosMatchingExpression(const QString& expr): expression(expr)
     {
 
     }

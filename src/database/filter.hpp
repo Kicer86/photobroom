@@ -136,12 +136,12 @@ namespace Database
 
     struct DATABASE_EXPORT FilterPhotosMatchingExpression: IFilter
     {
-        FilterPhotosMatchingExpression();
+        FilterPhotosMatchingExpression(const QString &);
         virtual ~FilterPhotosMatchingExpression();
 
         FILTER_COMMAND
 
-        QString expression;
+        const QString expression;
     };
 
 }
