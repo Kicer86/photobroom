@@ -260,6 +260,7 @@ void IdxDataManager::refetchNode(IdxData* _parent)
 
     if (current != IdxData::FetchStatus::NotFetched)
     {
+        removeChildren(_parent);
         _parent->reset();
 
         const QModelIndex idx = getIndex(_parent);
@@ -774,6 +775,13 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
     }
 
     return universalNode;
+}
+
+
+void IdxDataManager::removeChildren(IdxData* parent)
+{
+    for(IdxData* c: parent->m_children)
+        performRemove(c);
 }
 
 
