@@ -452,7 +452,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_operator.cpp" line="+61"/>
+        <location filename="../src/gui/desktop/utils/variant_display.cpp" line="+78"/>
         <source>&lt;multiple values&gt;</source>
         <translation>&lt;różne wartości&gt;</translation>
     </message>
