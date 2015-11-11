@@ -43,6 +43,7 @@ namespace Database
     struct FilterPhotosWithSha256;
     struct FilterNotMatchingFilter;
     struct FilterPhotosWithId;
+    struct FilterPhotosMatchingExpression;
 
     struct IFilter
     {
@@ -62,6 +63,7 @@ namespace Database
         virtual void visit(FilterPhotosWithSha256 *) = 0;
         virtual void visit(FilterNotMatchingFilter *) = 0;
         virtual void visit(FilterPhotosWithId *) = 0;
+        virtual void visit(FilterPhotosMatchingExpression *) = 0;
     };
 
     //filters
@@ -132,5 +134,15 @@ namespace Database
         Photo::Id filter;
     };
 
+    struct DATABASE_EXPORT FilterPhotosMatchingExpression: IFilter
+    {
+        FilterPhotosMatchingExpression(const QString &);
+        virtual ~FilterPhotosMatchingExpression();
+
+        FILTER_COMMAND
+
+        const QString expression;
+    };
+
 }
-#endif // FILTER_H
+#endif // FILTER_HPP

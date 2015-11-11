@@ -113,7 +113,8 @@ struct IdxDataManager::Data
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id()),
         m_taskExecutor(nullptr),
-        m_tasksResultsCtrl(tasksResults)
+        m_tasksResultsCtrl(tasksResults),
+        filterExpression()
     {
     }
 
@@ -144,6 +145,7 @@ struct IdxDataManager::Data
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
     callback_ptr_ctrl<ITasksResults> m_tasksResultsCtrl;
+    QString filterExpression;
 };
 
 
@@ -243,6 +245,30 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
     }
 
     resetModel();
+}
+
+
+void IdxDataManager::applyFilters(const QString& filters)
+{
+    m_data->filterExpression = filters;
+
+    IdxData* root = getRoot();
+    refetchNode(root);
+}
+
+
+void IdxDataManager::refetchNode(IdxData* _parent)
+{
+    const IdxData::FetchStatus current = _parent->m_loaded;
+
+    if (current != IdxData::FetchStatus::NotFetched)
+    {
+        removeChildren(_parent);
+        _parent->reset();
+
+        const QModelIndex idx = getIndex(_parent);
+        fetchData(idx);
+    }
 }
 
 
@@ -418,6 +444,7 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 
     filter->push_back(idxData->m_filter);
 
+    // append parent's filters
     if (idxData->m_level > 0)
         buildFilterFor(_parent.parent(), filter);
 }
@@ -425,8 +452,14 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 
 void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
 {
-    const auto modelSpecificFilters = m_data->m_model->getModelSpecificFilters();
+    const auto modelSpecificFilters = m_data->m_model->getPermanentFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
+
+    if (m_data->filterExpression.isEmpty() == false)
+    {
+        const auto searchExpressionFilter = std::make_shared<Database::FilterPhotosMatchingExpression>(m_data->filterExpression);
+        filter->push_back(searchExpressionFilter);
+    }
 }
 
 
@@ -438,11 +471,11 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     assert(idxData->m_loaded == IdxData::FetchStatus::NotFetched);
     assert(level <= m_data->m_hierarchy.nodeLevels());
 
-    const bool leafs_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
+    const bool leaves_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
 
-    if (leafs_level)                  //construct leafs basing on photos
+    if (leaves_level)                  //construct leaves basing on photos
         fetchPhotosFor(_parent);
-    else                              //construct nodes basing on tags
+    else                               //construct nodes basing on tags
     {
         fetchTagValuesFor(level, _parent);
         checkForNonmatchingPhotos(level, _parent);
@@ -752,6 +785,13 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
     }
 
     return universalNode;
+}
+
+
+void IdxDataManager::removeChildren(IdxData* parent)
+{
+    for(IdxData* c: parent->m_children)
+        performRemove(c);
 }
 
 

@@ -205,13 +205,19 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 }
 
 
-void DBDataModel::setModelSpecificFilter(const std::deque<Database::IFilter::Ptr>& filters)
+void DBDataModel::setPermanentFilters(const std::deque<Database::IFilter::Ptr>& filters)
 {
     m_filters = filters;
 }
 
 
-const std::deque<Database::IFilter::Ptr>& DBDataModel::getModelSpecificFilters() const
+void DBDataModel::applyFilters(const QString& filters)
+{
+    m_idxDataManager->applyFilters(filters);
+}
+
+
+const std::deque<Database::IFilter::Ptr>& DBDataModel::getPermanentFilters() const
 {
     return m_filters;
 }

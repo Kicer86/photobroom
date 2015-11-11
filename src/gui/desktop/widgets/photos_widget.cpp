@@ -19,24 +19,60 @@
 
 #include "photos_widget.hpp"
 
+#include <QLineEdit>
 #include <QPainter>
+#include <QVBoxLayout>
 
 #include <configuration/iconfiguration.hpp>
 
-#include "models/db_data_model.hpp"
-#include "components/configurable_tree_item_delegate.hpp"
-#include "info_widget.hpp"
 #include "config_keys.hpp"
+#include "info_widget.hpp"
+#include "components/configurable_tree_item_delegate.hpp"
+#include "models/db_data_model.hpp"
+#include "views/images_tree_view.hpp"
 
 
-PhotosWidget::PhotosWidget(QWidget* p): ImagesTreeView(p), m_info(nullptr), m_delegate(new ConfigurableTreeItemDelegate(this))
+PhotosWidget::PhotosWidget(QWidget* p):
+    QWidget(p),
+    m_timer(),
+    m_model(nullptr),
+    m_view(nullptr),
+    m_info(nullptr),
+    m_delegate(nullptr),
+    m_searchExpression(nullptr)
 {
+    // photos view
+    m_view = new ImagesTreeView(this);
+    m_delegate = new ConfigurableTreeItemDelegate(m_view);
+
+    m_view->setItemDelegate(m_delegate);
+
+    // info baloon
     m_info = new InfoBaloonWidget(this);
     m_info->hide();
     m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
-    m_info->adjustSize();
 
-    setItemDelegate(m_delegate);
+    // search panel
+    QLabel* searchPrompt = new QLabel(tr("Search:"), this);
+    m_searchExpression = new QLineEdit(this);
+
+    QHBoxLayout* searchLayout = new QHBoxLayout;
+    searchLayout->addWidget(searchPrompt);
+    searchLayout->addWidget(m_searchExpression);
+
+    // main layout
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addLayout(searchLayout);
+    l->addWidget(m_view);
+    l->addWidget(m_info);
+
+    // setup timer
+    m_timer.setInterval(500);
+    m_timer.setSingleShot(true);
+    connect(&m_timer, &QTimer::timeout, this, &PhotosWidget::applySearchExpression);
+
+    //
+    connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
 }
 
 
@@ -52,36 +88,64 @@ void PhotosWidget::set(IConfiguration* configuration)
     assert(marginEntry.isValid());
     const int spacing = marginEntry.toInt();
 
-    setSpacing(spacing);
+    m_view->setSpacing(spacing);
 
     m_delegate->set(configuration);
 }
 
 
-
-void PhotosWidget::paintEvent(QPaintEvent* event)
+void PhotosWidget::setModel(DBDataModel* m)
 {
-    ImagesTreeView::paintEvent(event);
+    m_model = m;
+    m_view->setModel(m);
 
+    connect(m, &QAbstractItemModel::rowsInserted, this, &PhotosWidget::modelChanged);
+    connect(m, &QAbstractItemModel::rowsRemoved, this, &PhotosWidget::modelChanged);
+
+    updateHint();
+}
+
+
+QItemSelectionModel* PhotosWidget::viewSelectionModel()
+{
+    return m_view->selectionModel();
+}
+
+
+void PhotosWidget::changeEvent(QEvent* e)
+{
+    QWidget::changeEvent(e);
+
+    updateHint();
+}
+
+
+void PhotosWidget::modelChanged(const QModelIndex &, int, int)
+{
+    updateHint();
+}
+
+
+void PhotosWidget::updateHint()
+{
     // check if model is empty
-    QAbstractItemModel* m = model();
+    QAbstractItemModel* m = m_view->model();
 
     const bool empty = m->rowCount(QModelIndex()) == 0;
 
-    if (empty && isEnabled())
-    {
-        // InfoWidget could be rendered directly on 'this', but it cannot due to bug:
-        // https://bugreports.qt.io/browse/QTBUG-47302
+    m_info->setVisible(empty && isEnabled());
+}
 
-        QPixmap infoPixMap(m_info->size());
-        infoPixMap.fill(QColor(0, 0, 0, 0));
-        m_info->render(&infoPixMap, QPoint(), QRegion(), 0);
 
-        const QRect thisRect = rect();
-        QRect infoRect = m_info->rect();
-        infoRect.moveCenter(thisRect.center());
+void PhotosWidget::searchExpressionChanged(const QString &)
+{
+    m_timer.start();
+}
 
-        QPainter painter(viewport());
-        painter.drawPixmap(infoRect, infoPixMap);
-    }
+
+void PhotosWidget::applySearchExpression()
+{
+    const QString search = m_searchExpression->text();
+
+    m_model->applyFilters(search);
 }
