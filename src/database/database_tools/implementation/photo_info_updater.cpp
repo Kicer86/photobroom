@@ -41,12 +41,10 @@ struct ThumbnailGenerator: UpdaterTask
 {
     ThumbnailGenerator(PhotoInfoUpdater* updater,
                        IPhotosManager* photosManager,
-                       const IPhotoInfo::Ptr& photoInfo,
-                       int photoWidth):
+                       const IPhotoInfo::Ptr& photoInfo):
         UpdaterTask(updater),
         m_photoInfo(photoInfo),
-        m_photosManager(photosManager),
-        m_photoWidth(photoWidth)
+        m_photosManager(photosManager)
     {
 
     }
@@ -70,7 +68,6 @@ struct ThumbnailGenerator: UpdaterTask
 
     IPhotoInfo::Ptr m_photoInfo;
     IPhotosManager* m_photosManager;
-    int m_photoWidth;
 };
 
 
@@ -170,13 +167,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 
 void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
 {
-    QVariant widthEntry = m_configuration->getEntry(ConfigConsts::BasicKeys::thumbnailWidth);
-    int width = 120;
-
-    if (widthEntry.isValid())
-        width = widthEntry.toInt();
-
-    auto task = std::make_unique<ThumbnailGenerator>(this, m_photosManager, photoInfo, width);
+    auto task = std::make_unique<ThumbnailGenerator>(this, m_photosManager, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }

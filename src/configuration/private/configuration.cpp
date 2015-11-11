@@ -133,7 +133,6 @@ void ConfigurationPrivate::loadData()
     else
     {
         //load default data
-        setEntry(ConfigConsts::BasicKeys::thumbnailWidth, 120);
     }
 }
 

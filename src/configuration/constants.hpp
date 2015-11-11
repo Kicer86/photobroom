@@ -15,10 +15,5 @@ namespace ConfigConsts
         static const unsigned int database_tag_value_len;
     };
 
-    struct CONFIGURATION_EXPORT BasicKeys
-    {
-        [[deprecated("should be moved to database module")]] static const char* const thumbnailWidth;
-    };
-
 }
 #endif
