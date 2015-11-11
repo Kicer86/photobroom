@@ -56,9 +56,16 @@ Tag::TagsList TagsOperator::getTags() const
                 Tag::Info info_it(it);
                 Tag::Info info_f_it(f_it);
 
-                if (info_it.value() != info_f_it.value())
+                const TagValue& tag1 = info_it.value();
+                const TagValue& tag2 = info_f_it.value();
+
+                assert(tag1.get().userType() == tag2.get().userType());
+
+                if (tag1 != tag2)
                 {
-                    TagValue new_value( QObject::tr("<multiple values>") );
+                    MultipleValues values( tag1.get().userType() );
+                    QVariant multi = QVariant::fromValue(values);
+                    TagValue new_value( multi );
                     f_it->second = new_value;
                 }
             }
