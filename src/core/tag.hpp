@@ -14,6 +14,24 @@
 
 #include "core_export.h"
 
+
+class CORE_EXPORT MultipleValues
+{
+    public:
+        MultipleValues();
+        MultipleValues(int userType);
+        ~MultipleValues();
+
+        int userType() const;
+
+    private:
+        int m_userType;
+};
+
+
+Q_DECLARE_METATYPE(MultipleValues)
+
+
 struct CORE_EXPORT TagNameInfo
 {
         enum Type
@@ -92,7 +110,7 @@ namespace Tag
         private:
             TagNameInfo m_name;
             TagValue m_value;
-            
+
             void validate() const;
     };
 
