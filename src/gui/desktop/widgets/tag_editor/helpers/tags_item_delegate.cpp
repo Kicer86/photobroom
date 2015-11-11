@@ -19,6 +19,10 @@
 
 #include "tags_item_delegate.hpp"
 
+#include <QItemEditorFactory>
+
+#include <core/tag.hpp>
+
 #include "utils/variant_display.hpp"
 
 
@@ -36,7 +40,22 @@ TagsItemDelegate::~TagsItemDelegate()
 
 QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    return QStyledItemDelegate::createEditor(parent_widget, option, index);
+    QWidget* result = nullptr;
+    QVariant data = index.data();
+    const int multipleValuesType = qMetaTypeId<MultipleValues>();
+
+    if (data.userType() == multipleValuesType)
+    {
+        MultipleValues multi = data.value<MultipleValues>();
+
+        QItemEditorFactory* factory = itemEditorFactory();
+
+        result = factory->createEditor(multi.userType(), parent_widget);
+    }
+    else
+        result = QStyledItemDelegate::createEditor(parent_widget, option, index);
+
+    return result;
 }
 
 
