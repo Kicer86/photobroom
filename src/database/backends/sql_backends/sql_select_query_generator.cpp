@@ -179,7 +179,11 @@ namespace Database
 
         void visit(FilterPhotosMatchingExpression* filter) override
         {
-            assert(!"not implemented");
+            m_filterResult.joins.insert(FilterData::TagsWithPhotos);
+
+
+            m_filterResult.conditions.append(QString(TAB_TAGS ".value LIKE '%%1%'")
+                                             .arg(filter->expression));
         }
 
         FilterData m_filterResult;
