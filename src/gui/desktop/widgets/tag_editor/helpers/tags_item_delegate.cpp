@@ -21,8 +21,7 @@
 
 #include <QItemEditorFactory>
 
-#include <core/tag.hpp>
-
+#include "utils/multiple_values.hpp"
 #include "utils/variant_display.hpp"
 
 

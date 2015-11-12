@@ -26,8 +26,7 @@
 #include <QDate>
 #include <QTime>
 
-#include <core/tag.hpp>
-
+#include "multiple_values.hpp"
 
 VariantDisplay::VariantDisplay()
 {

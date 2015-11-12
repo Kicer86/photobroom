@@ -22,6 +22,8 @@
 
 #include <QObject>
 
+#include "utils/multiple_values.hpp"
+
 
 TagsOperator::TagsOperator(): m_tagUpdaters()
 {

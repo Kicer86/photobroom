@@ -7,30 +7,6 @@
 #include "base_tags.hpp"
 
 
-MultipleValues::MultipleValues(): m_userType(QVariant::Invalid)
-{
-    
-}
-
-
-MultipleValues::MultipleValues(int userType): m_userType(userType)
-{
-
-}
-
-
-MultipleValues::~MultipleValues()
-{
-
-}
-
-
-int MultipleValues::userType() const
-{
-    return m_userType;
-}
-
-
 TagNameInfo::TagNameInfo(): name(), displayName(), type(Invalid)
 {
 
@@ -190,26 +166,23 @@ namespace Tag
 
     Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_value(it->second)
     {
-        validate();
+
     }
 
     Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second)
     {
-        validate();
+
     }
 
     Info::Info(const TagNameInfo& n, const QVariant& v): m_name(n), m_value()
     {
         setValue(v);
-        validate();
     }
 
     Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
     {
         m_name = data.first;
         m_value = data.second;
-
-        validate();
 
         return *this;
     }
@@ -237,46 +210,6 @@ namespace Tag
     void Info::setValue(const QVariant& v)
     {
         m_value.set(v);
-        validate();
     }
-
-    void Info::validate() const
-    {
-#ifndef NDEBUG
-        bool ok = false;
-        const auto expectedValueType = m_name.getType();
-        const auto currentValueType = m_value.get().userType();
-
-        if (currentValueType == qMetaTypeId<MultipleValues>())
-            ok = true;
-        else
-            switch (expectedValueType)
-            {
-                case TagNameInfo::Invalid:
-                    ok = currentValueType == QVariant::Invalid;
-                    break;
-
-                case TagNameInfo::Text:
-                    ok = currentValueType == QVariant::String;
-                    break;
-
-                case TagNameInfo::Date:
-                    ok = currentValueType == QVariant::Date;
-                    break;
-
-                case TagNameInfo::Time:
-                    ok = currentValueType == QVariant::Time;
-                    break;
-
-                case TagNameInfo::List:
-                    ok = currentValueType == QVariant::StringList;
-                    break;
-            }
-
-        if (ok == false)
-            std::abort();
-#endif
-    }
-
 
 }
