@@ -26,7 +26,6 @@
 #include <QDate>
 #include <QTime>
 
-#include "multiple_values.hpp"
 
 VariantDisplay::VariantDisplay()
 {
@@ -68,18 +67,6 @@ QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
         case QVariant::StringList:
             result = v.toStringList().join(", ");
             break;
-
-        case QVariant::UserType:
-        {
-            int utype = v.userType();
-
-            if (utype == qMetaTypeId<MultipleValues>())
-                result = QObject::tr("<multiple values>");
-            else
-               assert(!"unexpected user type");
-
-            break;
-        }
 
         default:
             assert(!"unexpected type");

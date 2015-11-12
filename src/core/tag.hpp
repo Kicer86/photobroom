@@ -36,6 +36,7 @@ struct CORE_EXPORT TagNameInfo
         operator QString() const;
         bool operator==(const TagNameInfo& other) const;
         bool operator<(const TagNameInfo& other) const;
+        bool operator>(const TagNameInfo& other) const;
         TagNameInfo& operator=(const TagNameInfo& other);
 
         const QString& getName() const;
@@ -64,6 +65,7 @@ class CORE_EXPORT TagValue
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
+        bool operator<(const TagValue &) const;
 
     private:
         QVariant m_value;

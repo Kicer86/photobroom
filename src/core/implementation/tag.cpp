@@ -60,6 +60,14 @@ bool TagNameInfo::operator<(const TagNameInfo& other) const
 }
 
 
+bool TagNameInfo::operator>(const TagNameInfo& other) const
+{
+    const bool result = name > other.name;
+
+    return result;
+}
+
+
 TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 {
     name = other.name;
@@ -155,6 +163,12 @@ bool TagValue::operator==(const TagValue& other) const
 bool TagValue::operator!=(const TagValue& other) const
 {
     return m_value != other.m_value;
+}
+
+
+bool TagValue::operator<(const TagValue& other) const
+{
+    return m_value < other.m_value;
 }
 
 
