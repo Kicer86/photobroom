@@ -19,6 +19,8 @@
 
 #include "tags_item_delegate.hpp"
 
+#include <QItemEditorFactory>
+
 #include "utils/variant_display.hpp"
 
 

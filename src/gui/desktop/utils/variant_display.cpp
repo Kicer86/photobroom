@@ -26,6 +26,7 @@
 #include <QDate>
 #include <QTime>
 
+
 VariantDisplay::VariantDisplay()
 {
 

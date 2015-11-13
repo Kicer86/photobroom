@@ -40,34 +40,42 @@ void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
 
 Tag::TagsList TagsOperator::getTags() const
 {
-    Tag::TagsList tags;
+    struct
+    {
+        bool operator()(const std::pair<TagNameInfo, TagValue> &a,
+                        const std::pair<TagNameInfo, TagValue> &b) const
+        {
+            if (a.first < b.first)
+                return true;
+            else if (a.first > b.first)
+                return false;
+            else
+                return a.second < b.second;
+        }
+
+    } tagsComparer;
+
+    Tag::TagsList commonTags;
+    bool first = true;
 
     for (const TagUpdater& tagUpdater: m_tagUpdaters)
     {
-        const Tag::TagsList l_tags = tagUpdater.getTags();
+        const Tag::TagsList tags = tagUpdater.getTags();
 
-        for (auto it = l_tags.begin(); it != l_tags.end(); ++it)
+        if (first)
+            commonTags = tags, first = false;
+        else
         {
-            auto f_it = tags.find(it->first);      //check if this tag already exists in main set of tags
+            Tag::TagsList intersection;
+            std::set_intersection(commonTags.begin(), commonTags.end(),
+                                  tags.begin(), tags.end(),
+                                  std::inserter(intersection, intersection.end()), tagsComparer);
 
-            if (f_it != tags.end())  //it does
-            {
-                //check if values are the same
-                Tag::Info info_it(it);
-                Tag::Info info_f_it(f_it);
-
-                if (info_it.value() != info_f_it.value())
-                {
-                    TagValue new_value( QObject::tr("<multiple values>") );
-                    f_it->second = new_value;
-                }
-            }
-            else
-                tags.insert(*it);
+            commonTags = intersection;
         }
     }
 
-    return tags;
+    return commonTags;
 }
 
 

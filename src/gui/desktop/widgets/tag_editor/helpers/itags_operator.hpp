@@ -1,7 +1,7 @@
 
 
 #ifndef ITAGS_OPEARTOR_HPP
-#define TAGGS_OPEARTOR_HPP
+#define ITAGS_OPEARTOR_HPP
 
 #include <core/tag.hpp>
 #include <database/iphoto_info.hpp>
@@ -22,4 +22,4 @@ struct ITagsOperator
 };
 
 
-#endif //TAGGS_OPEARTOR_HPP
+#endif // ITAGS_OPEARTOR_HPP
