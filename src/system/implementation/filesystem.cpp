@@ -37,14 +37,14 @@ QString FileSystem::getTranslationsPath()
 
 QString FileSystem::getLibrariesPath()
 {
-	return read(Paths::libraries);
+    return read(Paths::libraries);
 }
 
 
 QString FileSystem::read(const char* d) const
 {
-	QDir dir(d);
-	dir.makeAbsolute();
+    QDir dir(d);
+    dir.makeAbsolute();
 
-	return dir.path();
+    return dir.path();
 }
