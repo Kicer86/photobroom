@@ -143,12 +143,12 @@
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-36"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -158,7 +158,12 @@
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+6"/>
+        <source>&amp;View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>&amp;Tasks</source>
         <translation>&amp;Operacje</translation>
     </message>
@@ -208,7 +213,21 @@
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+167"/>
+        <location line="+8"/>
+        <source>&amp;Tags editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>T&amp;asks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags editor</source>
+        <translation type="obsolete">Edytor tagów</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+174"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -230,7 +249,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+86"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -240,7 +259,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+180"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -290,7 +309,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-52"/>
+        <location line="-67"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
