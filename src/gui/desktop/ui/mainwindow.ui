@@ -63,8 +63,16 @@
     </property>
     <addaction name="actionConfiguration"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionTags_editor"/>
+    <addaction name="actionTasks"/>
+   </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
+   <addaction name="menuView"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -133,6 +141,22 @@
   <action name="actionConfiguration">
    <property name="text">
     <string>&amp;Configuration</string>
+   </property>
+  </action>
+  <action name="actionTags_editor">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tags editor</string>
+   </property>
+  </action>
+  <action name="actionTasks">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tasks</string>
    </property>
   </action>
  </widget>
