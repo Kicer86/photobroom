@@ -148,7 +148,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Tags editor</string>
+    <string>&amp;Tags editor</string>
    </property>
   </action>
   <action name="actionTasks">
@@ -156,7 +156,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Tasks</string>
+    <string>T&amp;asks</string>
    </property>
   </action>
  </widget>
