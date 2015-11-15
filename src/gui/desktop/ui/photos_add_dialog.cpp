@@ -49,7 +49,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 
     ui->browseTree->setModel(m_treeModel);
 
-    // on Linux hide '/' node, it look ridiculous
+    // on Linux hide '/' node, it looks ridiculous
 #ifdef OS_UNIX
     ui->browseTree->setRootIndex(m_treeModel->index("/"));
 #endif
