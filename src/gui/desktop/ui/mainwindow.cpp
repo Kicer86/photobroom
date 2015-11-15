@@ -399,6 +399,17 @@ void MainWindow::on_actionAbout_Qt_triggered()
 }
 
 
+void MainWindow::on_actionTags_editor_triggered()
+{
+    const bool state = ui->actionTags_editor->isChecked();
+}
+
+
+void MainWindow::on_actionTasks_triggered()
+{
+    const bool state = ui->actionTasks->isChecked();
+}
+
 
 void MainWindow::on_actionConfiguration_triggered()
 {

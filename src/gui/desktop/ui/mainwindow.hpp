@@ -92,6 +92,10 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
+        // view menu
+        void on_actionTags_editor_triggered();
+        void on_actionTasks_triggered();
+
         // settings menu
         void on_actionConfiguration_triggered();
 
