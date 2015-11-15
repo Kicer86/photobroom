@@ -128,7 +128,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
-            <widget class="ImagesTreeView" name="photosView" native="true">
+            <widget class="ImagesTreeView" name="stagedPhotosView" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>

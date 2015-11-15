@@ -59,13 +59,13 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 
     // model for staged photos view
     m_stagedModel = new StagedPhotosDataModel(this);
-    ui->photosView->setModel(m_stagedModel);
+    ui->stagedPhotosView->setModel(m_stagedModel);
 
     //
     ui->browseList->setSelectionMode(QAbstractItemView::MultiSelection);
 
     //setup tag editor
-    ui->tagsEditor->set(ui->photosView->selectionModel());
+    ui->tagsEditor->set(ui->stagedPhotosView->selectionModel());
     ui->tagsEditor->set(m_stagedModel);
 
     // load layout
@@ -78,7 +78,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     }
 
     ui->browseList->setItemDelegate(new TreeItemDelegate(ui->browseList));
-    ui->photosView->setItemDelegate(new TreeItemDelegate(ui->photosView));
+    ui->stagedPhotosView->setItemDelegate(new TreeItemDelegate(ui->stagedPhotosView));
 
     //expand home dir
     for(QModelIndex item = m_treeModel->index(QDir::homePath()); item.isValid(); item = item.parent())
@@ -86,7 +86,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 
     //attach to selection updates
     connect(ui->browseTree->selectionModel(), &QItemSelectionModel::currentChanged, this, &PhotosAddDialog::treeSelectionChanged);
-    connect(ui->photosView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PhotosAddDialog::stagedTreeSelectionChanged);
+    connect(ui->stagedPhotosView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PhotosAddDialog::stagedTreeSelectionChanged);
     connect(this, &PhotosAddDialog::updateLoadValue, ui->loadProgressValue, &QLabel::setText);
 
     //
@@ -227,7 +227,7 @@ void PhotosAddDialog::on_buttonBox_rejected()
 
 void PhotosAddDialog::on_removeSelectedButton_clicked()
 {
-    QItemSelectionModel* selectionModel = ui->photosView->selectionModel();
+    QItemSelectionModel* selectionModel = ui->stagedPhotosView->selectionModel();
 
     const QItemSelection selection = selectionModel->selection();
 
