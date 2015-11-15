@@ -37,7 +37,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
     m_config(config),
     m_treeModel(nullptr),
     m_photosCollector(),
-    m_browseModel(nullptr),
+    m_dirContentModel(nullptr),
     m_stagedModel(nullptr)
 {
     ui->setupUi(this);
@@ -55,7 +55,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 #endif
 
     //model for list view
-    m_browseModel = new ImageListModel(this);
+    m_dirContentModel = new ImageListModel(this);
 
     // model for staged photos view
     m_stagedModel = new StagedPhotosDataModel(this);
@@ -102,7 +102,7 @@ PhotosAddDialog::~PhotosAddDialog()
 
 void PhotosAddDialog::set(ITaskExecutor* executor)
 {
-    m_browseModel->set(executor);
+    m_dirContentModel->set(executor);
     m_stagedModel->set(executor);
 }
 
@@ -115,7 +115,7 @@ void PhotosAddDialog::set(Database::IDatabase* database)
 
 void PhotosAddDialog::set(IPhotosManager* photosManager)
 {
-    m_browseModel->set(photosManager);
+    m_dirContentModel->set(photosManager);
 }
 
 
@@ -128,7 +128,7 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
     // Disconnect list model from list view.
     // That's because model will be modified from another thread and horrible things may happen.
     ui->browseList->setModel(nullptr);
-    m_browseModel->clear();
+    m_dirContentModel->clear();
 
     const QString path = m_treeModel->filePath(current);
 
@@ -140,9 +140,9 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 
     m_photosCollector.collect(path, [&](const QString& photo_path)
     {
-        m_browseModel->insert(photo_path);
+        m_dirContentModel->insert(photo_path);
 
-        const QString value = QString::number(m_browseModel->rowCount());
+        const QString value = QString::number(m_dirContentModel->rowCount());
 
         emit updateLoadValue(value);
     });
@@ -159,7 +159,7 @@ void PhotosAddDialog::listSelectionChanged(const QItemSelection& selected, const
 
 void PhotosAddDialog::browseListFilled()
 {
-    ui->browseList->setModel(m_browseModel);
+    ui->browseList->setModel(m_dirContentModel);
     ui->loadWidget->setHidden(true);
 
     connect(ui->browseList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PhotosAddDialog::listSelectionChanged, Qt::UniqueConnection);
@@ -198,7 +198,7 @@ void PhotosAddDialog::on_addSelectionButton_pressed()
 
     for(const QModelIndex& index: selection.indexes())
     {
-        const QString path = m_browseModel->get(index);
+        const QString path = m_dirContentModel->get(index);
         m_stagedModel->addPhoto(path);
     }
 }
