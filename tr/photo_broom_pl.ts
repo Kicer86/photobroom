@@ -160,7 +160,7 @@
     <message>
         <location line="+6"/>
         <source>&amp;View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Widok</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -215,12 +215,12 @@
     <message>
         <location line="+8"/>
         <source>&amp;Tags editor</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Edytor tagów</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>T&amp;asks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zadania</translation>
     </message>
     <message>
         <source>Tags editor</source>
