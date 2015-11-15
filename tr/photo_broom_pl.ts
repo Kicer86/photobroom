@@ -409,7 +409,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+3"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj:</translation>
     </message>
 </context>
 <context>
