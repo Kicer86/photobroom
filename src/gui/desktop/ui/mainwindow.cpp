@@ -158,6 +158,13 @@ void MainWindow::checkVersion()
 }
 
 
+void MainWindow::updateViewMenu()
+{
+    ui->actionTags_editor->setChecked(ui->rightDockWidget->isVisible());
+    ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
+}
+
+
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
     switch (versionInfo.status)
@@ -241,6 +248,10 @@ void MainWindow::setupView()
     //setup tags editor
     ui->tagEditor->set( ui->imagesView->viewSelectionModel() );
     ui->tagEditor->set( m_imagesModel);
+
+    //connect to docks
+    connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateViewMenu()));
+    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateViewMenu()));
 }
 
 
@@ -402,12 +413,16 @@ void MainWindow::on_actionAbout_Qt_triggered()
 void MainWindow::on_actionTags_editor_triggered()
 {
     const bool state = ui->actionTags_editor->isChecked();
+
+    ui->rightDockWidget->setVisible(state);
 }
 
 
 void MainWindow::on_actionTasks_triggered()
 {
     const bool state = ui->actionTasks->isChecked();
+
+    ui->tasksDockWidget->setVisible(state);
 }
 
 

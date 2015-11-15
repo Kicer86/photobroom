@@ -105,6 +105,10 @@ class MainWindow: public QMainWindow
         //check version
         void checkVersion();
 
+        // update view menu
+        void updateViewMenu();
+
+        //
         void currentVersion(const IUpdater::OnlineVersion &);
         void projectOpenedNotification(const Database::BackendStatus &);
 
