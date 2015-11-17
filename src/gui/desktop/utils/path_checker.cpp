@@ -24,7 +24,7 @@
 #include <database/idatabase.hpp>
 
 
-PathChecker::PathChecker(Database::IDatabase* db): m_database(db)
+PathChecker::PathChecker(Database::IDatabase* db): m_cache(), m_database(db)
 {
 
 }
@@ -36,8 +36,14 @@ PathChecker::~PathChecker()
 }
 
 
-void PathChecker::checkFile(const QString&)
+void PathChecker::checkFile(const QString& path)
 {
+    auto it = m_cache.find(path);
 
+    if (it == m_cache.end())
+    {
+    }
+    else
+        emit fileChecked(it->first, it->second);
 }
 

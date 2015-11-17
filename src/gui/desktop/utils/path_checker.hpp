@@ -43,6 +43,7 @@ class PathChecker: public QObject
         void checkFile(const QString &);
 
     private:
+        std::map<QString, bool> m_cache;
         Database::IDatabase* m_database;
 
     signals:
