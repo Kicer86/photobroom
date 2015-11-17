@@ -25,10 +25,11 @@ set(UTILS_HEADERS
     signal_filter.hpp
     thread_multiplexer.hpp
     variant_display.hpp
-    )
+)
 
 
 set(UTILS_FILES_TO_MOC
+    path_checker.hpp
     photos_collector.hpp
     signal_filter.hpp
     thread_multiplexer.hpp

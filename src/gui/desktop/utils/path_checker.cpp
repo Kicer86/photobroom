@@ -21,7 +21,10 @@
 #include "path_checker.hpp"
 
 
-PathChecker::PathChecker()
+#include <database/idatabase.hpp>
+
+
+PathChecker::PathChecker(Database::IDatabase* db): m_database(db)
 {
 
 }
@@ -31,3 +34,10 @@ PathChecker::~PathChecker()
 {
 
 }
+
+
+void PathChecker::checkFile(const QString&)
+{
+
+}
+

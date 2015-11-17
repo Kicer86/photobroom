@@ -20,14 +20,33 @@
 #ifndef PATHCHECKER_HPP
 #define PATHCHECKER_HPP
 
-class PathChecker
+#include <QObject>
+
+class QString;
+
+namespace Database
 {
+    struct IDatabase;
+}
+
+class PathChecker: public QObject
+{
+        Q_OBJECT
+
     public:
-        PathChecker();
+        PathChecker(Database::IDatabase *);
         PathChecker(const PathChecker &) = delete;
         ~PathChecker();
 
         PathChecker& operator=(const PathChecker &) = delete;
+
+        void checkFile(const QString &);
+
+    private:
+        Database::IDatabase* m_database;
+
+    signals:
+        void fileChecked(const QString &, bool);
 };
 
 #endif // PATHCHECKER_HPP
