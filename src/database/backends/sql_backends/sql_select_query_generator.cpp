@@ -186,6 +186,11 @@ namespace Database
                                              .arg(filter->expression));
         }
 
+        void visit(FilterPhotosWithPath *) override
+        {
+            assert(!"not implemented");
+        }
+
         FilterData m_filterResult;
     };
 

@@ -63,4 +63,16 @@ namespace Database
 
     }
 
+
+    FilterPhotosWithPath::FilterPhotosWithPath(const QString& p): path(p)
+    {
+
+    }
+
+
+    FilterPhotosWithPath::~FilterPhotosWithPath()
+    {
+
+    }
+
 }
