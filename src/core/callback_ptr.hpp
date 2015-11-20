@@ -32,7 +32,7 @@ class callback_ptr_ctrl final
         }
 
     private:
-        template<typename TT>
+        template<typename>
         friend class callback_ptr;
 
         struct Data
