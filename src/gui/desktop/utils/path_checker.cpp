@@ -24,6 +24,18 @@
 #include <database/idatabase.hpp>
 
 
+namespace
+{
+    struct PathCheckTask: Database::AGetPhotosTask
+    {
+        void got(const IPhotoInfo::List& photos) override
+        {
+
+        }
+    };
+}
+
+
 PathChecker::PathChecker(Database::IDatabase* db): m_cache(), m_database(db)
 {
 
@@ -42,8 +54,13 @@ void PathChecker::checkFile(const QString& path)
 
     if (it == m_cache.end())
     {
+        std::deque<Database::IFilter::Ptr> filters;
+        auto filter = std::make_shared<Database::FilterPhotosWithPath>(path);
+        filters.push_back(filter);
+
+        auto pathCheckTask = std::make_unique<PathCheckTask>();
+        m_database->exec( std::move(pathCheckTask), filters );
     }
     else
         emit fileChecked(it->first, it->second);
 }
-
