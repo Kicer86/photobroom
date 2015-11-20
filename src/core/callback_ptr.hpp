@@ -91,4 +91,89 @@ class callback_ptr
 };
 
 
+class callback_ptr_ctrl2 final
+{
+    public:
+        callback_ptr_ctrl2(): m_data()
+        {
+            setup();
+        }
+
+        callback_ptr_ctrl2(const callback_ptr_ctrl2 &) = delete;
+
+        ~callback_ptr_ctrl2()
+        {
+            reset();
+        }
+
+        callback_ptr_ctrl2& operator=(const callback_ptr_ctrl2 &) = delete;
+
+        void invalidate()
+        {
+            reset();      // dissolve all connections
+            setup();      // create new one
+        }
+
+    private:
+        template<typename>
+        friend class callback_ptr2;
+
+        struct Data
+        {
+            ol::ThreadSafeResource<bool> m_callbackAlive;
+
+            Data(): m_callbackAlive(true) {}
+        };
+
+        std::shared_ptr<Data> m_data;
+
+        void setup()
+        {
+            m_data = std::make_shared<Data>();
+        }
+
+        void reset()
+        {
+            {
+                // lock resource
+                auto callback_resource_locked = m_data->m_callbackAlive.lock();
+
+                // mark resource as dead
+                *callback_resource_locked = false;
+            }
+
+            // detach clear assocation with others
+            m_data.reset();
+        }
+};
+
+
+template<typename T>
+class callback_ptr2
+{
+    public:
+        callback_ptr2(const callback_ptr_ctrl2& ctrl, const T& callback): m_data(ctrl.m_data), m_callback(callback) {}
+        callback_ptr2(const callback_ptr2<T> &) = default;
+
+        callback_ptr2& operator=(const callback_ptr2<T> &) = default;
+
+        virtual ~callback_ptr2()
+        {
+        }
+
+        template<typename... Args>
+        void operator() (Args... args)
+        {
+            auto access = m_data->m_callbackAlive.lock();
+
+            if (*access == true)
+                m_callback(args...);
+        }
+
+    private:
+        std::shared_ptr<callback_ptr_ctrl2::Data> m_data;
+
+        T m_callback;
+};
+
 #endif
