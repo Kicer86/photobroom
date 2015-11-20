@@ -22,6 +22,9 @@
 
 #include <QObject>
 
+#include <core/callback_ptr.hpp>
+#include <database/iphoto_info.hpp>
+
 class QString;
 
 namespace Database
@@ -34,9 +37,11 @@ class PathChecker: public QObject
         Q_OBJECT
 
     public:
-        PathChecker(Database::IDatabase *);
+        PathChecker();
         PathChecker(const PathChecker &) = delete;
         ~PathChecker();
+
+        void set(Database::IDatabase *);
 
         PathChecker& operator=(const PathChecker &) = delete;
 
@@ -45,6 +50,9 @@ class PathChecker: public QObject
     private:
         std::map<QString, bool> m_cache;
         Database::IDatabase* m_database;
+        callback_ptr_ctrl2 m_callbackCtrl;
+
+        void gotPhotos(const IPhotoInfo::List &);
 
     signals:
         void fileChecked(const QString &, bool);
