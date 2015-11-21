@@ -145,7 +145,7 @@ class callback_ptr_ctrl2 final
         }
 
         template<typename R>
-        std::function<R> get_callback(const std::function<R>& callback)
+        std::function<R> make_safe_callback(const std::function<R>& callback)
         {
             callback_ptr2<std::function<R>> callbackPtr(m_data, callback);
             std::function<R> fun(callbackPtr);

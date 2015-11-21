@@ -75,10 +75,10 @@ void PathChecker::checkFile(const QString& path)
         // prepare callback
         using namespace std::placeholders;
         auto callback = std::bind(&PathChecker::gotPhotos, this, _1);
-        auto callbackPtr = m_callbackCtrl.get_callback<void(const IPhotoInfo::List&)>(callback);
+        auto safeCallback = m_callbackCtrl.make_safe_callback<void(const IPhotoInfo::List&)>(callback);
 
         // execute task
-        auto pathCheckTask = std::make_unique<PathCheckTask>(callbackPtr);
+        auto pathCheckTask = std::make_unique<PathCheckTask>(safeCallback);
         m_database->exec( std::move(pathCheckTask), filters );
     }
     else
