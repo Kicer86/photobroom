@@ -29,7 +29,7 @@ namespace
 {
     struct PathCheckTask: Database::AGetPhotosTask
     {
-        typedef callback_ptr2<std::function<void(const IPhotoInfo::List &)>> Callback;
+        typedef std::function<void(const IPhotoInfo::List &)> Callback;
 
         PathCheckTask(const Callback& callback): m_callback(callback) {}
 
@@ -74,8 +74,8 @@ void PathChecker::checkFile(const QString& path)
 
         // prepare callback
         using namespace std::placeholders;
-        std::function<void(const IPhotoInfo::List &)> callback = std::bind(&PathChecker::gotPhotos, this, _1);
-        auto callbackPtr = m_callbackCtrl.get_callback(callback);
+        auto callback = std::bind(&PathChecker::gotPhotos, this, _1);
+        auto callbackPtr = m_callbackCtrl.get_callback<void(const IPhotoInfo::List&)>(callback);
 
         // execute task
         auto pathCheckTask = std::make_unique<PathCheckTask>(callbackPtr);

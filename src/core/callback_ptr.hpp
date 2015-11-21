@@ -144,10 +144,13 @@ class callback_ptr_ctrl2 final
             reset();
         }
 
-        template<typename F>
-        callback_ptr2<F> get_callback(const F& callback)
+        template<typename R>
+        std::function<R> get_callback(const std::function<R>& callback)
         {
-            return callback_ptr2<F>(m_data, callback);
+            callback_ptr2<std::function<R>> callbackPtr(m_data, callback);
+            std::function<R> fun(callbackPtr);
+
+            return fun;
         }
 
         callback_ptr_ctrl2& operator=(const callback_ptr_ctrl2 &) = delete;
@@ -173,10 +176,10 @@ class callback_ptr_ctrl2 final
         {
             {
                 // lock resource
-                auto callback_resource_locked = m_data->m_callbackAlive.lock();
+                auto locked = m_data->m_callbackAlive.lock();
 
                 // mark resource as dead
-                *callback_resource_locked = false;
+                *locked = false;
             }
 
             // detach clear assocation with others
