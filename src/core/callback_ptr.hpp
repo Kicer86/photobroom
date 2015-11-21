@@ -93,9 +93,10 @@ class callback_ptr
 
 struct callback_ptr_data
 {
-    ol::ThreadSafeResource<bool> m_callbackAlive;
+    std::mutex mutex;
+    bool callbackAlive;
 
-    callback_ptr_data(): m_callbackAlive(true) {}
+    callback_ptr_data(): mutex(), callbackAlive(true) {}
 };
 
 
@@ -116,9 +117,9 @@ class callback_ptr2
         template<typename... Args>
         void operator() (Args... args)
         {
-            auto access = m_data->m_callbackAlive.lock();
+            std::lock_guard<std::mutex> lock(m_data->mutex);
 
-            if (*access == true)
+            if (m_data->callbackAlive == true)
                 m_callback(args...);
         }
 
@@ -176,10 +177,10 @@ class callback_ptr_ctrl2 final
         {
             {
                 // lock resource
-                auto locked = m_data->m_callbackAlive.lock();
+                std::lock_guard<std::mutex> lock(m_data->mutex);
 
                 // mark resource as dead
-                *locked = false;
+                m_data->callbackAlive = false;
             }
 
             // detach clear assocation with others
