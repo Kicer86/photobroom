@@ -175,6 +175,7 @@ class callback_ptr_ctrl2 final
 
         void reset()
         {
+            // mark all safe callbacks as invalid
             {
                 // lock resource
                 std::lock_guard<std::mutex> lock(m_data->mutex);
@@ -183,7 +184,7 @@ class callback_ptr_ctrl2 final
                 m_data->callbackAlive = false;
             }
 
-            // detach clear assocation with others
+            // detach from existing safe callbacks
             m_data.reset();
         }
 };
