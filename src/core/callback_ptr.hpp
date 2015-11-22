@@ -91,12 +91,12 @@ class callback_ptr
 };
 
 
-struct callback_ptr_data
+struct safe_callback_data
 {
     std::mutex mutex;
     bool callbackAlive;
 
-    callback_ptr_data(): mutex(), callbackAlive(true) {}
+    safe_callback_data(): mutex(), callbackAlive(true) {}
 };
 
 
@@ -105,7 +105,7 @@ template<typename T>
 class safe_callback
 {
     public:
-        safe_callback(const std::shared_ptr<callback_ptr_data>& data, const T& callback): m_data(data), m_callback(callback) {}
+        safe_callback(const std::shared_ptr<safe_callback_data>& data, const T& callback): m_data(data), m_callback(callback) {}
         safe_callback(const safe_callback<T> &) = default;
 
         safe_callback& operator=(const safe_callback<T> &) = default;
@@ -124,7 +124,7 @@ class safe_callback
         }
 
     private:
-        std::shared_ptr<callback_ptr_data> m_data;
+        std::shared_ptr<safe_callback_data> m_data;
 
         T m_callback;
 };
@@ -166,11 +166,11 @@ class safe_callback_ctrl final
         template<typename>
         friend class safe_callback;
 
-        std::shared_ptr<callback_ptr_data> m_data;
+        std::shared_ptr<safe_callback_data> m_data;
 
         void setup()
         {
-            m_data = std::make_shared<callback_ptr_data>();
+            m_data = std::make_shared<safe_callback_data>();
         }
 
         void reset()
