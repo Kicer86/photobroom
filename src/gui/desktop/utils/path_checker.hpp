@@ -50,7 +50,7 @@ class PathChecker: public QObject
     private:
         std::map<QString, bool> m_cache;
         Database::IDatabase* m_database;
-        callback_ptr_ctrl2 m_callbackCtrl;
+        safe_callback_ctrl m_callbackCtrl;
 
         void gotPhotos(const IPhotoInfo::List &);
 

@@ -102,15 +102,15 @@ struct callback_ptr_data
 
 
 template<typename T>
-class callback_ptr2
+class safe_callback
 {
     public:
-        callback_ptr2(const std::shared_ptr<callback_ptr_data>& data, const T& callback): m_data(data), m_callback(callback) {}
-        callback_ptr2(const callback_ptr2<T> &) = default;
+        safe_callback(const std::shared_ptr<callback_ptr_data>& data, const T& callback): m_data(data), m_callback(callback) {}
+        safe_callback(const safe_callback<T> &) = default;
 
-        callback_ptr2& operator=(const callback_ptr2<T> &) = default;
+        safe_callback& operator=(const safe_callback<T> &) = default;
 
-        virtual ~callback_ptr2()
+        virtual ~safe_callback()
         {
         }
 
@@ -130,17 +130,17 @@ class callback_ptr2
 };
 
 
-class callback_ptr_ctrl2 final
+class safe_callback_ctrl final
 {
     public:
-        callback_ptr_ctrl2(): m_data()
+        safe_callback_ctrl(): m_data()
         {
             setup();
         }
 
-        callback_ptr_ctrl2(const callback_ptr_ctrl2 &) = delete;
+        safe_callback_ctrl(const safe_callback_ctrl &) = delete;
 
-        ~callback_ptr_ctrl2()
+        ~safe_callback_ctrl()
         {
             reset();
         }
@@ -148,13 +148,13 @@ class callback_ptr_ctrl2 final
         template<typename R>
         std::function<R> make_safe_callback(const std::function<R>& callback)
         {
-            callback_ptr2<std::function<R>> callbackPtr(m_data, callback);
+            safe_callback<std::function<R>> callbackPtr(m_data, callback);
             std::function<R> fun(callbackPtr);
 
             return fun;
         }
 
-        callback_ptr_ctrl2& operator=(const callback_ptr_ctrl2 &) = delete;
+        safe_callback_ctrl& operator=(const safe_callback_ctrl &) = delete;
 
         void invalidate()
         {
@@ -164,7 +164,7 @@ class callback_ptr_ctrl2 final
 
     private:
         template<typename>
-        friend class callback_ptr2;
+        friend class safe_callback;
 
         std::shared_ptr<callback_ptr_data> m_data;
 
