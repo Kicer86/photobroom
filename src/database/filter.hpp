@@ -44,6 +44,7 @@ namespace Database
     struct FilterNotMatchingFilter;
     struct FilterPhotosWithId;
     struct FilterPhotosMatchingExpression;
+    struct FilterPhotosWithPath;
 
     struct IFilter
     {
@@ -64,6 +65,7 @@ namespace Database
         virtual void visit(FilterNotMatchingFilter *) = 0;
         virtual void visit(FilterPhotosWithId *) = 0;
         virtual void visit(FilterPhotosMatchingExpression *) = 0;
+        virtual void visit(FilterPhotosWithPath *) = 0;
     };
 
     //filters
@@ -142,6 +144,16 @@ namespace Database
         FILTER_COMMAND
 
         const QString expression;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithPath: IFilter
+    {
+        FilterPhotosWithPath(const QString &);
+        virtual ~FilterPhotosWithPath();
+
+        FILTER_COMMAND
+
+        const QString path;
     };
 
 }
