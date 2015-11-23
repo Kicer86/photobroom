@@ -22,6 +22,7 @@
 
 #include <QFileSystemModel>
 #include <QMessageBox>
+#include <QPainter>
 
 #include <configuration/iconfiguration.hpp>
 
@@ -29,6 +30,34 @@
 #include "models/staged_photos_data_model.hpp"
 #include "views/tree_item_delegate.hpp"
 #include "ui_photos_add_dialog.h"
+
+
+namespace
+{
+    struct StatusDelegate: QAbstractItemDelegate
+    {
+        StatusDelegate(QAbstractItemDelegate* delegate): m_delegate(delegate)
+        {
+
+        }
+
+        // QAbstractItemDelegate interface
+        void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+        {
+            m_delegate->paint(painter, option, index);
+
+            painter->drawLine(0, 0, 100, 100);
+        }
+
+        QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+        {
+            return m_delegate->sizeHint(option, index);
+        }
+        //
+
+        QAbstractItemDelegate* m_delegate;
+    };
+}
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
@@ -77,7 +106,9 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
         restoreGeometry(geometryData);
     }
 
-    ui->browseList->setItemDelegate(new TreeItemDelegate(ui->browseList));
+    TreeItemDelegate* treeItemDelegate = new TreeItemDelegate(ui->browseList);
+    StatusDelegate* statusDelegate = new StatusDelegate(treeItemDelegate);
+    ui->browseList->setItemDelegate(statusDelegate);
     ui->stagedPhotosView->setItemDelegate(new TreeItemDelegate(ui->stagedPhotosView));
 
     //expand home dir
@@ -110,6 +141,7 @@ void PhotosAddDialog::set(ITaskExecutor* executor)
 void PhotosAddDialog::set(Database::IDatabase* database)
 {
     m_stagedModel->setDatabase(database);
+    m_pathChecker.set(database);
 }
 
 
@@ -131,6 +163,8 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
     m_dirContentModel->clear();
 
     const QString path = m_treeModel->filePath(current);
+
+    m_pathChecker.checkFile(path);
 
     //init load info
     ui->loadWidget->setVisible(true);
