@@ -21,7 +21,7 @@
 
 DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p), m_pathChecker()
 {
-
+    connect(&m_pathChecker, &PathChecker::fileChecked, this, &DecoratedImageListModel::gotPathInfo);
 }
 
 
@@ -48,4 +48,10 @@ void DecoratedImageListModel::setDatabase(Database::IDatabase* db)
 QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 {
     return ImageListModel::data(index, role);
+}
+
+
+void DecoratedImageListModel::gotPathInfo(const QString&, bool)
+{
+
 }

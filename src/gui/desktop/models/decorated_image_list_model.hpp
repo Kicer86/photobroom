@@ -40,6 +40,8 @@ class DecoratedImageListModel: public ImageListModel
 
     private:
         PathChecker m_pathChecker;
+
+        void gotPathInfo(const QString &, bool);
 };
 
 #endif // DECORATEDIMAGELISTMODEL_HPP
