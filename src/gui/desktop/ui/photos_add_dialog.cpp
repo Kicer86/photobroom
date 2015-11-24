@@ -141,6 +141,7 @@ void PhotosAddDialog::set(ITaskExecutor* executor)
 void PhotosAddDialog::set(Database::IDatabase* database)
 {
     m_stagedModel->setDatabase(database);
+    m_dirContentModel->setDatabase(database);
 }
 
 
