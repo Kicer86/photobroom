@@ -19,9 +19,11 @@
 
 #include "decorated_image_list_model.hpp"
 
-DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p), m_pathChecker()
+#include "utils/path_checker.hpp"
+
+DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p), m_pathChecker(new PathChecker), m_in_db()
 {
-    connect(&m_pathChecker, &PathChecker::fileChecked, this, &DecoratedImageListModel::gotPathInfo);
+    connect(m_pathChecker.get(), &PathChecker::fileChecked, this, &DecoratedImageListModel::gotPathInfo);
 }
 
 
@@ -35,23 +37,42 @@ void DecoratedImageListModel::insert(const QString& path)
 {
     ImageListModel::insert(path);
 
-    m_pathChecker.checkFile(path);
+    m_pathChecker->checkFile(path);
 }
 
 
 void DecoratedImageListModel::setDatabase(Database::IDatabase* db)
 {
-    m_pathChecker.set(db);
+    m_pathChecker->set(db);
 }
 
 
 QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 {
-    return ImageListModel::data(index, role);
+    QVariant result;
+
+    if (role == InDatabaseRole)
+    {
+        const QString path = get(index);
+
+        auto it = m_in_db.find(path);
+
+        if (it == m_in_db.end())
+        {
+            result = ExistsInDatabase::DontKnowYet;
+            m_pathChecker->checkFile(path);
+        }
+        else
+            result = it->second? ExistsInDatabase::Yes: ExistsInDatabase::No;
+    }
+    else
+        result = ImageListModel::data(index, role);
+
+    return result;
 }
 
 
-void DecoratedImageListModel::gotPathInfo(const QString&, bool)
+void DecoratedImageListModel::gotPathInfo(const QString& path, bool exists)
 {
-
+    m_in_db[path] = exists;
 }

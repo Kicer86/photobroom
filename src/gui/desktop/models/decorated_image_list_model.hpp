@@ -20,9 +20,17 @@
 #ifndef DECORATEDIMAGELISTMODEL_HPP
 #define DECORATEDIMAGELISTMODEL_HPP
 
+#include <memory>
+
 #include "image_list_model.hpp"
 
-#include "utils/path_checker.hpp"
+
+namespace Database
+{
+    struct IDatabase;
+}
+
+class PathChecker;
 
 class DecoratedImageListModel: public ImageListModel
 {
@@ -38,8 +46,14 @@ class DecoratedImageListModel: public ImageListModel
         // QAbstractItemModel interface:
         QVariant data(const QModelIndex& index, int role) const override;
 
+        // extra roles
+        enum ExistsInDatabase { No, Yes, DontKnowYet };
+
+        const int InDatabaseRole = Qt::UserRole + 1;
+
     private:
-        PathChecker m_pathChecker;
+        std::unique_ptr<PathChecker> m_pathChecker;
+        std::map<QString, bool> m_in_db;
 
         void gotPathInfo(const QString &, bool);
 };
