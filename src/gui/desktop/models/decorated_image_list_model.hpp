@@ -30,7 +30,10 @@ class DecoratedImageListModel: public ImageListModel
         ~DecoratedImageListModel();
         DecoratedImageListModel& operator=(const DecoratedImageListModel &) = delete;
 
+        void insert(const QString &);
 
+        // QAbstractItemModel interface:
+        QVariant data(const QModelIndex& index, int role) const override;
 };
 
 #endif // DECORATEDIMAGELISTMODEL_HPP

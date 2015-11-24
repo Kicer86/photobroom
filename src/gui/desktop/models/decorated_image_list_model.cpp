@@ -30,3 +30,14 @@ DecoratedImageListModel::~DecoratedImageListModel()
 
 }
 
+
+void DecoratedImageListModel::insert(const QString& path)
+{
+    ImageListModel::insert(path);
+}
+
+
+QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
+{
+    return ImageListModel::data(index, role);
+}
