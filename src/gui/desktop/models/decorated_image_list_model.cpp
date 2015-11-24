@@ -19,7 +19,7 @@
 
 #include "decorated_image_list_model.hpp"
 
-DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p)
+DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p), m_pathChecker()
 {
 
 }
@@ -34,6 +34,14 @@ DecoratedImageListModel::~DecoratedImageListModel()
 void DecoratedImageListModel::insert(const QString& path)
 {
     ImageListModel::insert(path);
+
+    m_pathChecker.checkFile(path);
+}
+
+
+void DecoratedImageListModel::setDatabase(Database::IDatabase* db)
+{
+    m_pathChecker.set(db);
 }
 
 

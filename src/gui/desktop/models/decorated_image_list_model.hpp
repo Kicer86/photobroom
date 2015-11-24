@@ -22,6 +22,8 @@
 
 #include "image_list_model.hpp"
 
+#include "utils/path_checker.hpp"
+
 class DecoratedImageListModel: public ImageListModel
 {
     public:
@@ -31,9 +33,13 @@ class DecoratedImageListModel: public ImageListModel
         DecoratedImageListModel& operator=(const DecoratedImageListModel &) = delete;
 
         void insert(const QString &);
+        void setDatabase(Database::IDatabase *);
 
         // QAbstractItemModel interface:
         QVariant data(const QModelIndex& index, int role) const override;
+
+    private:
+        PathChecker m_pathChecker;
 };
 
 #endif // DECORATEDIMAGELISTMODEL_HPP
