@@ -48,11 +48,10 @@ class PathChecker: public QObject
         void checkFile(const QString &);
 
     private:
-        std::map<QString, bool> m_cache;
         Database::IDatabase* m_database;
         safe_callback_ctrl m_callbackCtrl;
 
-        void gotPhotos(const IPhotoInfo::List &);
+        void gotPhotos(const QString &, const IPhotoInfo::List &);
 
     signals:
         void fileChecked(const QString &, bool);
