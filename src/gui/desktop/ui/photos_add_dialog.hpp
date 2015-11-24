@@ -24,7 +24,6 @@
 #include <QDialog>
 
 #include "utils/photos_collector.hpp"
-#include "utils/path_checker.hpp"
 
 class IPhotosManager;
 class QFileSystemModel;
@@ -32,7 +31,7 @@ class QItemSelection;
 
 class StagedPhotosDataModel;
 class IConfiguration;
-class ImageListModel;
+class DecoratedImageListModel;
 class ITaskExecutor;
 
 namespace Ui
@@ -66,9 +65,8 @@ class PhotosAddDialog: public QDialog
         IConfiguration* m_config;
         QFileSystemModel* m_treeModel;
         PhotosCollector m_photosCollector;
-        ImageListModel* m_dirContentModel;
+        DecoratedImageListModel* m_dirContentModel;
         StagedPhotosDataModel* m_stagedModel;
-        PathChecker m_pathChecker;
 
         void treeSelectionChanged(const QModelIndex &, const QModelIndex &);
         void listSelectionChanged(const QItemSelection &, const QItemSelection &);

@@ -26,7 +26,7 @@
 
 #include <configuration/iconfiguration.hpp>
 
-#include "models/image_list_model.hpp"
+#include "models/decorated_image_list_model.hpp"
 #include "models/staged_photos_data_model.hpp"
 #include "views/tree_item_delegate.hpp"
 #include "ui_photos_add_dialog.h"
@@ -84,7 +84,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 #endif
 
     //model for list view
-    m_dirContentModel = new ImageListModel(this);
+    m_dirContentModel = new DecoratedImageListModel(this);
 
     // model for staged photos view
     m_stagedModel = new StagedPhotosDataModel(this);
@@ -141,7 +141,6 @@ void PhotosAddDialog::set(ITaskExecutor* executor)
 void PhotosAddDialog::set(Database::IDatabase* database)
 {
     m_stagedModel->setDatabase(database);
-    m_pathChecker.set(database);
 }
 
 
@@ -163,8 +162,6 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
     m_dirContentModel->clear();
 
     const QString path = m_treeModel->filePath(current);
-
-    m_pathChecker.checkFile(path);
 
     //init load info
     ui->loadWidget->setVisible(true);
