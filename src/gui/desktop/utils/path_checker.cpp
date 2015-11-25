@@ -31,7 +31,7 @@ namespace
     {
         typedef std::function<void(const QString &, const IPhotoInfo::List &)> Callback;
 
-        PathCheckTask(const QString& path, const Callback& callback): m_callback(callback) {}
+        PathCheckTask(const QString& path, const Callback& callback): m_callback(callback), m_path(path) {}
 
         void got(const IPhotoInfo::List& photos) override
         {
