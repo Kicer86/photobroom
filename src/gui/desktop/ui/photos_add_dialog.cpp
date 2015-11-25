@@ -41,6 +41,9 @@ namespace
 
         }
 
+        StatusDelegate(const StatusDelegate &) = delete;
+        StatusDelegate& operator=(const StatusDelegate &) = delete;
+
         // QAbstractItemDelegate interface
         void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
         {
