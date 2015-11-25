@@ -95,12 +95,6 @@ void DecoratedImageListModel::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-void DecoratedImageListModel::photoModified(const IPhotoInfo::Ptr &)
-{
-
-}
-
-
 void DecoratedImageListModel::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
 {
     for(const IPhotoInfo::Ptr& photoInfo: photos)

@@ -62,7 +62,6 @@ class DecoratedImageListModel: public ImageListModel
         void gotPathInfo(const QString &, bool);
 
         void photoAdded(const IPhotoInfo::Ptr &);
-        void photoModified(const IPhotoInfo::Ptr &);
         void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
         void photoRemoved(const IPhotoInfo::Ptr &);
 };
