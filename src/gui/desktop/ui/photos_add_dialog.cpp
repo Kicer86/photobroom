@@ -22,13 +22,57 @@
 
 #include <QFileSystemModel>
 #include <QMessageBox>
+#include <QPainter>
 
 #include <configuration/iconfiguration.hpp>
 
-#include "models/image_list_model.hpp"
+#include "models/decorated_image_list_model.hpp"
 #include "models/staged_photos_data_model.hpp"
 #include "views/tree_item_delegate.hpp"
 #include "ui_photos_add_dialog.h"
+
+
+namespace
+{
+    struct StatusDelegate: QAbstractItemDelegate
+    {
+        StatusDelegate(QAbstractItemDelegate* delegate): m_delegate(delegate)
+        {
+
+        }
+
+        StatusDelegate(const StatusDelegate &) = delete;
+        StatusDelegate& operator=(const StatusDelegate &) = delete;
+
+        // QAbstractItemDelegate interface
+        void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+        {
+            m_delegate->paint(painter, option, index);
+
+            const QVariant data = index.data(DecoratedImageListModel::InDatabaseRole);
+
+            QColor c = Qt::gray;
+
+            if (data.toInt() == DecoratedImageListModel::Yes)
+                c = Qt::red;
+            else if (data.toInt() == DecoratedImageListModel::No)
+                c = Qt::green;
+
+            const QRect circle(option.rect.topLeft(), QSize(16, 16));
+
+            painter->setBrush(c);
+            painter->drawEllipse(circle);
+        }
+
+        QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+        {
+            return m_delegate->sizeHint(option, index);
+        }
+        //
+
+        QAbstractItemDelegate* m_delegate;
+    };
+}
 
 
 PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
@@ -55,7 +99,7 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
 #endif
 
     //model for list view
-    m_dirContentModel = new ImageListModel(this);
+    m_dirContentModel = new DecoratedImageListModel(this);
 
     // model for staged photos view
     m_stagedModel = new StagedPhotosDataModel(this);
@@ -77,7 +121,9 @@ PhotosAddDialog::PhotosAddDialog(IConfiguration* config, QWidget *parent):
         restoreGeometry(geometryData);
     }
 
-    ui->browseList->setItemDelegate(new TreeItemDelegate(ui->browseList));
+    TreeItemDelegate* treeItemDelegate = new TreeItemDelegate(ui->browseList);
+    StatusDelegate* statusDelegate = new StatusDelegate(treeItemDelegate);
+    ui->browseList->setItemDelegate(statusDelegate);
     ui->stagedPhotosView->setItemDelegate(new TreeItemDelegate(ui->stagedPhotosView));
 
     //expand home dir
@@ -110,6 +156,7 @@ void PhotosAddDialog::set(ITaskExecutor* executor)
 void PhotosAddDialog::set(Database::IDatabase* database)
 {
     m_stagedModel->setDatabase(database);
+    m_dirContentModel->setDatabase(database);
 }
 
 

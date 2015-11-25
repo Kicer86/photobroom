@@ -29,21 +29,22 @@ namespace
 {
     struct PathCheckTask: Database::AGetPhotosTask
     {
-        typedef std::function<void(const IPhotoInfo::List &)> Callback;
+        typedef std::function<void(const QString &, const IPhotoInfo::List &)> Callback;
 
-        PathCheckTask(const Callback& callback): m_callback(callback) {}
+        PathCheckTask(const QString& path, const Callback& callback): m_callback(callback), m_path(path) {}
 
         void got(const IPhotoInfo::List& photos) override
         {
-            m_callback(photos);
+            m_callback(m_path, photos);
         }
 
         Callback m_callback;
+        QString  m_path;
     };
 }
 
 
-PathChecker::PathChecker(): m_cache(), m_database(nullptr), m_callbackCtrl()
+PathChecker::PathChecker(): m_database(nullptr), m_callbackCtrl()
 {
 
 }
@@ -63,30 +64,25 @@ void PathChecker::set(Database::IDatabase* db)
 
 void PathChecker::checkFile(const QString& path)
 {
-    auto it = m_cache.find(path);
+    // prepare filters
+    std::deque<Database::IFilter::Ptr> filters;
+    auto filter = std::make_shared<Database::FilterPhotosWithPath>(path);
+    filters.push_back(filter);
 
-    if (it == m_cache.end())
-    {
-        // prepare filters
-        std::deque<Database::IFilter::Ptr> filters;
-        auto filter = std::make_shared<Database::FilterPhotosWithPath>(path);
-        filters.push_back(filter);
+    // prepare callback
+    using namespace std::placeholders;
+    auto callback = std::bind(&PathChecker::gotPhotos, this, _1, _2);
+    auto safeCallback = m_callbackCtrl.make_safe_callback<void(const QString &, const IPhotoInfo::List&)>(callback);
 
-        // prepare callback
-        using namespace std::placeholders;
-        auto callback = std::bind(&PathChecker::gotPhotos, this, _1);
-        auto safeCallback = m_callbackCtrl.make_safe_callback<void(const IPhotoInfo::List&)>(callback);
-
-        // execute task
-        auto pathCheckTask = std::make_unique<PathCheckTask>(safeCallback);
-        m_database->exec( std::move(pathCheckTask), filters );
-    }
-    else
-        emit fileChecked(it->first, it->second);
+    // execute task
+    auto pathCheckTask = std::make_unique<PathCheckTask>(path, safeCallback);
+    m_database->exec( std::move(pathCheckTask), filters );
 }
 
 
-void PathChecker::gotPhotos(const IPhotoInfo::List& photos)
+void PathChecker::gotPhotos(const QString& path, const IPhotoInfo::List& photos)
 {
+    const bool exist = photos.empty() == false;
 
+    emit fileChecked(path, exist);
 }
