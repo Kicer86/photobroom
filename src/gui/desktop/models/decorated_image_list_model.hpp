@@ -21,6 +21,7 @@
 #define DECORATEDIMAGELISTMODEL_HPP
 
 #include <memory>
+#include <mutex>
 
 #include "image_list_model.hpp"
 
@@ -49,11 +50,12 @@ class DecoratedImageListModel: public ImageListModel
         // extra roles
         enum ExistsInDatabase { No, Yes, DontKnowYet };
 
-        const int InDatabaseRole = Qt::UserRole + 1;
+        static constexpr int InDatabaseRole = Qt::UserRole + 1;
 
     private:
         std::unique_ptr<PathChecker> m_pathChecker;
         std::map<QString, bool> m_in_db;
+        mutable std::mutex m_in_db_mutex;
 
         void gotPathInfo(const QString &, bool);
 };

@@ -55,6 +55,7 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
     {
         const QString path = get(index);
 
+        std::lock_guard<std::mutex> lock(m_in_db_mutex);
         auto it = m_in_db.find(path);
 
         if (it == m_in_db.end())
@@ -74,5 +75,6 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 
 void DecoratedImageListModel::gotPathInfo(const QString& path, bool exists)
 {
+    std::lock_guard<std::mutex> lock(m_in_db_mutex);
     m_in_db[path] = exists;
 }
