@@ -33,6 +33,8 @@
 #include "database_status.hpp"
 #include "filter.hpp"
 
+#include "database_export.h"
+
 struct ILogger;
 struct IConfiguration;
 
@@ -45,7 +47,7 @@ namespace Database
     struct ProjectInfo;
 
     //set of signals emitted when database changes or when tasks are being executed
-    class ADatabaseSignals: public QObject
+    class DATABASE_EXPORT ADatabaseSignals: public QObject
     {
             Q_OBJECT
 
