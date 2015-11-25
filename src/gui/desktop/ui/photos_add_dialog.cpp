@@ -42,14 +42,26 @@ namespace
         }
 
         // QAbstractItemDelegate interface
-        void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+        void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
         {
             m_delegate->paint(painter, option, index);
 
-            painter->drawLine(0, 0, 100, 100);
+            const QVariant data = index.data(DecoratedImageListModel::InDatabaseRole);
+
+            QColor c = Qt::gray;
+
+            if (data.toInt() == DecoratedImageListModel::Yes)
+                c = Qt::red;
+            else if (data.toInt() == DecoratedImageListModel::No)
+                c = Qt::green;
+
+            const QRect circle(option.rect.topLeft(), QSize(16, 16));
+
+            painter->setBrush(c);
+            painter->drawEllipse(circle);
         }
 
-        QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+        QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
         {
             return m_delegate->sizeHint(option, index);
         }
