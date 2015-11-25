@@ -145,10 +145,10 @@ class safe_callback_ctrl final
             reset();
         }
 
-        template<typename R>
-        std::function<R> make_safe_callback(const std::function<R>& callback)
+        template<typename R, typename T>
+        auto make_safe_callback(const T& callback)
         {
-            safe_callback<std::function<R>> callbackPtr(m_data, callback);
+            safe_callback<T> callbackPtr(m_data, callback);
             std::function<R> fun(callbackPtr);
 
             return fun;
