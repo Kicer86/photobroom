@@ -157,9 +157,7 @@ const QString ImageListModel::get(const QModelIndex& idx) const
 QModelIndex ImageListModel::get(const QString& path) const
 {
     auto it = d->m_data.find(path);
-    assert(it != d->m_data.end());
-
-    return d->get(*it);
+    return it == d->m_data.end()? QModelIndex(): d->get(*it);
 }
 
 

@@ -59,7 +59,7 @@ class DecoratedImageListModel: public ImageListModel
         std::map<QString, bool> m_in_db;
         mutable std::mutex m_in_db_mutex;
 
-        void emitDataChange(const IPhotoInfo::Ptr &);
+        void photoChanged(const IPhotoInfo::Ptr &);
 
         void gotPathInfo(const QString &, bool);
 
