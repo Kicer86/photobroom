@@ -6,6 +6,7 @@ Required tools and libraries:
  - easyexif*
  - jsoncpp*
  - OpenLibrary
+ - Boost
 
 * PhotoBroom at configuration phase will additionaly search for EasyExif and hash-library in (TOP_SOURCE_DIR)/3rd_party/.
   So if it is not installed in your system you may:
@@ -18,7 +19,7 @@ Required tools and libraries:
 
 Tested compilers:
 1. gcc  (Linux and Windows)
-        At least 4.8.0 version is required (due to c++11).
+        At least 4.8.0 version is required (due to c++14).
 
 2. clang (Linux)
 
