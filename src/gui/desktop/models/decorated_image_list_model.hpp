@@ -23,6 +23,8 @@
 #include <memory>
 #include <mutex>
 
+#include <database/iphoto_info.hpp>
+
 #include "image_list_model.hpp"
 
 
@@ -57,7 +59,13 @@ class DecoratedImageListModel: public ImageListModel
         std::map<QString, bool> m_in_db;
         mutable std::mutex m_in_db_mutex;
 
+        void emitDataChange(const IPhotoInfo::Ptr &);
+
         void gotPathInfo(const QString &, bool);
+
+        void photoAdded(const IPhotoInfo::Ptr &);
+        void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
+        void photoRemoved(const IPhotoInfo::Ptr &);
 };
 
 #endif // DECORATEDIMAGELISTMODEL_HPP

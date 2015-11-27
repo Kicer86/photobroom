@@ -1,6 +1,10 @@
 
+find_package(Boost REQUIRED)
+
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
+
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 set(SRC
     ascalable_images_model.cpp

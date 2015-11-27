@@ -19,9 +19,12 @@
 
 #include "decorated_image_list_model.hpp"
 
+#include <database/idatabase.hpp>
+
 #include "utils/path_checker.hpp"
 
-DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p), m_pathChecker(new PathChecker), m_in_db()
+
+DecoratedImageListModel::DecoratedImageListModel(QObject* p): ImageListModel(p), m_pathChecker(new PathChecker), m_in_db(), m_in_db_mutex()
 {
     connect(m_pathChecker.get(), &PathChecker::fileChecked, this, &DecoratedImageListModel::gotPathInfo);
 }
@@ -44,6 +47,10 @@ void DecoratedImageListModel::insert(const QString& path)
 void DecoratedImageListModel::setDatabase(Database::IDatabase* db)
 {
     m_pathChecker->set(db);
+
+    auto notifier = db->notifier();
+    connect(notifier, &Database::ADatabaseSignals::photoAdded, this, &DecoratedImageListModel::photoAdded);
+    connect(notifier, &Database::ADatabaseSignals::photosRemoved, this, &DecoratedImageListModel::photosRemoved);
 }
 
 
@@ -73,8 +80,43 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 }
 
 
+void DecoratedImageListModel::emitDataChange(const IPhotoInfo::Ptr& photoInfo)
+{
+    const QModelIndex idx = get(photoInfo->getPath());
+
+    emit dataChanged(idx, idx, {InDatabaseRole} );
+}
+
+
 void DecoratedImageListModel::gotPathInfo(const QString& path, bool exists)
 {
     std::lock_guard<std::mutex> lock(m_in_db_mutex);
     m_in_db[path] = exists;
+}
+
+
+void DecoratedImageListModel::photoAdded(const IPhotoInfo::Ptr& photoInfo)
+{
+    const QString path = photoInfo->getPath();
+
+    m_in_db[path] = true;
+
+    emitDataChange(photoInfo);
+}
+
+
+void DecoratedImageListModel::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
+{
+    for(const IPhotoInfo::Ptr& photoInfo: photos)
+        photoRemoved(photoInfo);
+}
+
+
+void DecoratedImageListModel::photoRemoved(const IPhotoInfo::Ptr& photoInfo)
+{
+    const QString path = photoInfo->getPath();
+
+    m_in_db[path] = false;
+
+    emitDataChange(photoInfo);
 }
