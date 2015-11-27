@@ -86,6 +86,14 @@ ImageListModelPrivate::~ImageListModelPrivate()
 }
 
 
+QModelIndex ImageListModelPrivate::get(const Info& data) const
+{
+    const QModelIndex idx = q->index(data.row, 0, QModelIndex());
+
+    return idx;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -111,7 +119,7 @@ void ImageListModel::insert(const QString& path)
 
     beginInsertRows(QModelIndex(), s, s);
 
-    d->m_data.push_back( Info(path, d->m_image) );
+    d->m_data.insert( Info(path, d->m_image, s) );
 
     endInsertRows();
 }
@@ -137,12 +145,21 @@ const QString ImageListModel::get(const QModelIndex& idx) const
 
     if (idx.isValid())
     {
-        const Info& info = d->m_data[idx.row()];
+        auto infoIt = d->m_data.get<1>().find(idx.row());
 
-        result = info.path;
+        result = infoIt->path;
     }
 
     return result;
+}
+
+
+QModelIndex ImageListModel::get(const QString& path) const
+{
+    auto it = d->m_data.find(path);
+    assert(it != d->m_data.end());
+
+    return d->get(*it);
 }
 
 
@@ -165,7 +182,10 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
 
     if (index.isValid())
     {
-        Info& info = d->m_data[index.row()];
+        auto& data = d->m_data.get<1>();
+
+        auto infoIt = data.find(index.row());
+        Info info = *infoIt;
 
         switch(role)
         {
@@ -175,6 +195,8 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                 {
                     QFileInfo file_info(info.path);
                     info.filename = file_info.fileName();
+
+                    data.replace(infoIt, info);
                 }
 
                 result = info.filename;
@@ -241,22 +263,15 @@ void ImageListModel::imageScaled(const QString& path, const QImage& image)
 {
     std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
 
-    // TODO: not so smart huh?
-    auto& data = d->m_data;
+    auto& data  = d->m_data.get<0>();
+    auto it = data.find(path);
 
-    std::size_t r = -1u;
-    for(std::size_t i = 0; i < data.size(); i++)
-        if (data[i].path == path)
-        {
-            r = i;
-            break;
-        }
+    assert(it != data.end());
 
-    assert(r != -1u);
-
-    Info& info = data[r];
+    Info info = *it;
     info.image = image;
+    d->m_data.replace(it, info);
 
-    const QModelIndex idx = index(r, 0, QModelIndex());
+    const QModelIndex idx = index(info.row, 0, QModelIndex());
     emit dataChanged(idx, idx, {Qt::DecorationRole});
 }

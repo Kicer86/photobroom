@@ -80,6 +80,14 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 }
 
 
+void DecoratedImageListModel::emitDataChange(const IPhotoInfo::Ptr& photoInfo)
+{
+    const QModelIndex idx = get(photoInfo->getPath());
+
+    emit dataChanged(idx, idx, {InDatabaseRole} );
+}
+
+
 void DecoratedImageListModel::gotPathInfo(const QString& path, bool exists)
 {
     std::lock_guard<std::mutex> lock(m_in_db_mutex);
@@ -92,6 +100,8 @@ void DecoratedImageListModel::photoAdded(const IPhotoInfo::Ptr& photoInfo)
     const QString path = photoInfo->getPath();
 
     m_in_db[path] = true;
+
+    emitDataChange(photoInfo);
 }
 
 
@@ -107,4 +117,6 @@ void DecoratedImageListModel::photoRemoved(const IPhotoInfo::Ptr& photoInfo)
     const QString path = photoInfo->getPath();
 
     m_in_db[path] = false;
+
+    emitDataChange(photoInfo);
 }

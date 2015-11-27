@@ -25,6 +25,10 @@
 #include <QObject>
 #include <QIcon>
 
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/member.hpp>
+
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include <core/callback_ptr.hpp>
@@ -38,18 +42,32 @@ struct Info
     QString path;
     QImage image;
     QString filename;
+    std::size_t row;
     bool default_image;
 
-    Info(const QString& p, const QImage& defaultImage): path(p), image(defaultImage), filename(), default_image(true)
+    Info(const QString& p, const QImage& defaultImage, std::size_t r): path(p), image(defaultImage), filename(), row(r), default_image(true)
     {
 
     }
 };
 
 
+using boost::multi_index::multi_index_container;
+using boost::multi_index::indexed_by;
+using boost::multi_index::ordered_unique;
+using boost::multi_index::member;
+
 class ImageListModelPrivate: public QObject
 {
         Q_OBJECT
+
+        typedef multi_index_container<
+            Info,
+            indexed_by<
+                ordered_unique<member<Info, QString, &Info::path> >,
+                ordered_unique<member<Info, std::size_t, &Info::row> >
+            >
+        > InfoSet;
 
     public:
         ImageListModelPrivate(ImageListModel* q);
@@ -58,7 +76,9 @@ class ImageListModelPrivate: public QObject
 
         ImageListModelPrivate& operator=(const ImageListModelPrivate &) = delete;
 
-        std::deque<Info> m_data;
+        QModelIndex get(const Info &) const;
+
+        InfoSet m_data;
         std::recursive_mutex m_data_mutex;
 
         ITaskExecutor::TaskQueue m_taskQueue;
@@ -68,6 +88,7 @@ class ImageListModelPrivate: public QObject
 
     private:
         class ImageListModel* const q;
+
 
     signals:
         void imageScaled(const QString &, const QImage &);
