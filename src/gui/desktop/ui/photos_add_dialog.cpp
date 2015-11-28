@@ -196,9 +196,9 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 }
 
 
-void PhotosAddDialog::listSelectionChanged(const QItemSelection& selected, const QItemSelection &)
+void PhotosAddDialog::listSelectionChanged(const QItemSelection &, const QItemSelection &)
 {
-    const bool enable = selected.empty() == false;
+    const bool enable = ui->browseList->selectionModel()->hasSelection();
 
     ui->addSelectionButton->setEnabled(enable);
 }
