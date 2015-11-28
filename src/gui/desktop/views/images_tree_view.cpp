@@ -36,12 +36,15 @@
 #include "tree_item_delegate.hpp"
 
 
+using namespace std::literals::chrono_literals;
+
+
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
 {
     void (QWidget::*update_fn)() = &QWidget::update;
     auto update_event = std::bind(update_fn, viewport());
 
-    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 5_fps);
+    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 200ms);
 
     setThumbnailSize(120);
 }

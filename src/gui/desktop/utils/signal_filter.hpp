@@ -26,9 +26,6 @@
 #include <QObject>
 
 
-std::chrono::milliseconds operator ""_fps(unsigned long long fps);
-
-
 class Receiver: public QObject
 {
         Q_OBJECT
