@@ -388,11 +388,13 @@ namespace Database
         //from filtered photos, get info about tags used there
         SqlMultiQuery queries =
         {
-            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (%1)").arg(filterQuery),
-            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (%1)").arg(filterQuery),
-            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (%1)").arg(filterQuery),
-            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (%1)").arg(filterQuery),
-            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (%1)").arg(filterQuery)
+            QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
+            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (SELECT * FROM drop_indices)"),
+            QString("DROP TABLE drop_indices")
         };
 
         status = db.transaction();
