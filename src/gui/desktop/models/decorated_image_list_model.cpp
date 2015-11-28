@@ -80,11 +80,12 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 }
 
 
-void DecoratedImageListModel::emitDataChange(const IPhotoInfo::Ptr& photoInfo)
+void DecoratedImageListModel::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 {
     const QModelIndex idx = get(photoInfo->getPath());
 
-    emit dataChanged(idx, idx, {InDatabaseRole} );
+    if (idx.isValid())
+        emit dataChanged(idx, idx, {InDatabaseRole} );
 }
 
 
@@ -101,7 +102,7 @@ void DecoratedImageListModel::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 
     m_in_db[path] = true;
 
-    emitDataChange(photoInfo);
+    photoChanged(photoInfo);
 }
 
 
@@ -118,5 +119,5 @@ void DecoratedImageListModel::photoRemoved(const IPhotoInfo::Ptr& photoInfo)
 
     m_in_db[path] = false;
 
-    emitDataChange(photoInfo);
+    photoChanged(photoInfo);
 }
