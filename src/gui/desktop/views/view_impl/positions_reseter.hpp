@@ -28,31 +28,31 @@ class QItemSelection;
 
 class PositionsReseter
 {
-public:
-    PositionsReseter(QAbstractItemModel *, Data *);
-    PositionsReseter(const PositionsReseter &) = delete;
-    ~PositionsReseter();
-    PositionsReseter& operator=(const PositionsReseter &) = delete;
+    public:
+        PositionsReseter(QAbstractItemModel *, Data *);
+        PositionsReseter(const PositionsReseter &) = delete;
+        ~PositionsReseter();
+        PositionsReseter& operator=(const PositionsReseter &) = delete;
 
-    void itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const;
-    void invalidateAll() const;
-    void itemChanged(const QModelIndex &);
-    void itemsChanged(const QItemSelection &);
-    void childrenRemoved(const QModelIndex &, int pos);
+        void itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const;
+        void invalidateAll() const;
+        void itemChanged(const QModelIndex &);
+        void itemsChanged(const QItemSelection &);
+        void childrenRemoved(const QModelIndex &, int pos);
 
-private:
-    Data* m_data;
-    QAbstractItemModel* m_model;
+    private:
+        Data* m_data;
+        QAbstractItemModel* m_model;
 
-    void invalidateItemOverallRect(const QModelIndex &) const;
-    void invalidateSiblingsRect(const QModelIndex &) const;
-    void invalidateChildrenRect(const QModelIndex &, int from = 0) const;
+        void invalidateItemOverallRect(const QModelIndex &) const;
+        void invalidateSiblingsRect(const QModelIndex &) const;
+        void invalidateChildrenRect(const QModelIndex &, int from = 0) const;
 
-    void resetRect(const QModelIndex &) const;
-    void resetOverallRect(const QModelIndex &) const;
+        void resetRect(const QModelIndex &) const;
+        void resetOverallRect(const QModelIndex &) const;
 
-    void resetPosition(Data::ModelIndexInfoSet::level_iterator) const;
-    void resetSize(Data::ModelIndexInfoSet::level_iterator) const;
+        void resetPosition(Data::ModelIndexInfoSet::level_iterator) const;
+        void resetSize(Data::ModelIndexInfoSet::level_iterator) const;
 };
 
 #endif // POSITIONSRESETER_H
