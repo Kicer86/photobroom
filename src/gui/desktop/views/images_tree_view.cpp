@@ -39,12 +39,16 @@
 using namespace std::literals::chrono_literals;
 
 
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr)
+ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr), m_dataDirty(true)
 {
     void (QWidget::*update_fn)() = &QWidget::update;
     auto update_event = std::bind(update_fn, viewport());
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 200ms);
+    connect(this, &ImagesTreeView::refreshView, [this]()
+    {
+        m_dataDirty = true;
+    });
 
     setThumbnailSize(120);
 }
@@ -323,8 +327,10 @@ const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect) const
+std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
 {
+    updateView();
+
     QRect normalized_rect = _rect.normalized();
 
     const std::deque<QModelIndex> result = m_data->findInRect(normalized_rect);
@@ -440,6 +446,11 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 
 void ImagesTreeView::updateView()
 {
-    updateData();
-    updateGui();
+    if (m_dataDirty)
+    {
+        updateData();
+        updateGui();
+
+        m_dataDirty = false;
+    }
 }
