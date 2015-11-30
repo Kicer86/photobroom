@@ -377,7 +377,7 @@ Kod błędu: %1</translation>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+264"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+269"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
@@ -473,6 +473,19 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <source>&lt;multiple values&gt;</source>
         <translation type="vanished">&lt;różne wartości&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>StatusDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="-202"/>
+        <source>Already in database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
