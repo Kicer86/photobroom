@@ -47,21 +47,26 @@ namespace
         // QAbstractItemDelegate interface
         void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
         {
-            m_delegate->paint(painter, option, index);
-
             const QVariant data = index.data(DecoratedImageListModel::InDatabaseRole);
+            const bool inDB    = data.toInt() == DecoratedImageListModel::Yes;
+            const bool unknown = data.toInt() == DecoratedImageListModel::DontKnowYet;
 
-            QColor c = Qt::gray;
+            QStyleOptionViewItem new_options = option;
 
-            if (data.toInt() == DecoratedImageListModel::Yes)
-                c = Qt::red;
-            else if (data.toInt() == DecoratedImageListModel::No)
-                c = Qt::green;
+            // items, which already are in db mark as disabled (will be converted to gray)
+            if (inDB || unknown)
+                new_options.state &= ~QStyle::State_Enabled;
 
-            const QRect circle(option.rect.topLeft(), QSize(16, 16));
+            m_delegate->paint(painter, new_options, index);
 
-            painter->setBrush(c);
-            painter->drawEllipse(circle);
+            if (inDB || unknown)
+            {
+                painter->save();
+                painter->setPen(Qt::darkGreen);
+                painter->setBackgroundMode(Qt::OpaqueMode);
+                painter->drawText(option.rect, Qt::AlignCenter, inDB? tr("Already in database"): tr("Loading...") );
+                painter->restore();
+            }
         }
 
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const

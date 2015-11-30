@@ -188,7 +188,7 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 }
 
 
-QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem &, const QVariant& variant) const
+QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem& option, const QVariant& variant) const
 {
     QPixmap result;
 
@@ -196,7 +196,11 @@ QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem &, const QVariant
     {
         case QVariant::Image:
         {
-            const QImage image = qvariant_cast<QImage>(variant);
+            QImage image = qvariant_cast<QImage>(variant);
+
+            if ( (option.state & QStyle::State_Enabled) == 0 )
+                image = image.convertToFormat(QImage::Format_Grayscale8);
+
             result = QPixmap::fromImage(image);
             break;
         }
