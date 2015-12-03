@@ -207,6 +207,8 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                 {
                     info.default_image = false;
                     d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_photosManager, d->m_callback_ctrl));
+
+                    data.replace(infoIt, info);
                 }
 
                 result = info.image;
