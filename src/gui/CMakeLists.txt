@@ -70,7 +70,7 @@ set(GUI_FILES_TO_MOC
     desktop/ui/project_picker.hpp
     )
 
-set(GUI_RESOURCE_FILES desktop/images.qrc)
+set(GUI_RESOURCE_FILES images/images.qrc)
 
 set(GUI_UI_FILES
                  desktop/ui/configuration_dialog.ui

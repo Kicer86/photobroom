@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/gui">
-        <file alias="add-img.svg">../images/add.svg</file>
-        <file alias="clock-img.svg">../images/clock.svg</file>
-        <file alias="main-ico.svg">../../../images/main_ico.svg</file>
-    </qresource>
-</RCC>

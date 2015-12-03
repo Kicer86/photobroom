@@ -47,21 +47,26 @@ namespace
         // QAbstractItemDelegate interface
         void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
         {
-            m_delegate->paint(painter, option, index);
-
             const QVariant data = index.data(DecoratedImageListModel::InDatabaseRole);
+            const bool inDB    = data.toInt() == DecoratedImageListModel::Yes;
+            const bool unknown = data.toInt() == DecoratedImageListModel::DontKnowYet;
 
-            QColor c = Qt::gray;
+            QStyleOptionViewItem new_options = option;
 
-            if (data.toInt() == DecoratedImageListModel::Yes)
-                c = Qt::red;
-            else if (data.toInt() == DecoratedImageListModel::No)
-                c = Qt::green;
+            // items, which already are in db mark as disabled (will be converted to gray)
+            if (inDB || unknown)
+                new_options.state &= ~QStyle::State_Enabled;
 
-            const QRect circle(option.rect.topLeft(), QSize(16, 16));
+            m_delegate->paint(painter, new_options, index);
 
-            painter->setBrush(c);
-            painter->drawEllipse(circle);
+            if (inDB)
+            {
+                QImage img(":/gui/checked.svg");
+                QRect rect(0, 0, 96, 96);
+                rect.moveCenter(option.rect.center());
+
+                painter->drawImage(rect, img);
+            }
         }
 
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
@@ -196,9 +201,9 @@ void PhotosAddDialog::treeSelectionChanged(const QModelIndex& current, const QMo
 }
 
 
-void PhotosAddDialog::listSelectionChanged(const QItemSelection& selected, const QItemSelection &)
+void PhotosAddDialog::listSelectionChanged(const QItemSelection &, const QItemSelection &)
 {
-    const bool enable = selected.empty() == false;
+    const bool enable = ui->browseList->selectionModel()->hasSelection();
 
     ui->addSelectionButton->setEnabled(enable);
 }
