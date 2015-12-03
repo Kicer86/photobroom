@@ -33,7 +33,7 @@
 
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
-    QWidget(p, f),    
+    QWidget(p, f),
     m_view(nullptr),
     m_model(nullptr),
     m_tagsOperator(),
@@ -47,7 +47,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_view = new TagsView(this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
-    m_addButton = new QPushButton(QIcon(":/gui/add-img.svg"), "", this);
+    m_addButton = new QPushButton(QIcon(":/gui/add.svg"), "", this);
     m_tagValueContainer = new QWidget(this);
 
     m_view->setModel(m_model);

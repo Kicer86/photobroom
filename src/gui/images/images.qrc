@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/gui">
+        <file>add.svg</file>
+        <file>checked.svg</file>
+        <file>clock.svg</file>
+        <file>main_ico.svg</file>
+    </qresource>
+</RCC>
