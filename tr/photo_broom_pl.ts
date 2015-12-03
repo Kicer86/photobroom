@@ -476,19 +476,6 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     </message>
 </context>
 <context>
-    <name>StatusDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="-202"/>
-        <source>Already in database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Loading...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+124"/>
