@@ -59,13 +59,13 @@ namespace
 
             m_delegate->paint(painter, new_options, index);
 
-            if (inDB || unknown)
+            if (inDB)
             {
-                painter->save();
-                painter->setPen(Qt::darkGreen);
-                painter->setBackgroundMode(Qt::OpaqueMode);
-                painter->drawText(option.rect, Qt::AlignCenter, inDB? tr("Already in database"): tr("Loading...") );
-                painter->restore();
+                QImage img(":/gui/checked.svg");
+                QRect rect(0, 0, 96, 96);
+                rect.moveCenter(option.rect.center());
+
+                painter->drawImage(rect, img);
             }
         }
 
