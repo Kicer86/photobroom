@@ -48,6 +48,7 @@ class DecoratedImageListModel: public ImageListModel
 
         // QAbstractItemModel interface:
         QVariant data(const QModelIndex& index, int role) const override;
+        Qt::ItemFlags flags(const QModelIndex& index) const override;
 
         // extra roles
         enum ExistsInDatabase { No, Yes, DontKnowYet };

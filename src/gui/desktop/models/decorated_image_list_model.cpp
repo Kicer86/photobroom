@@ -80,6 +80,25 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
 }
 
 
+Qt::ItemFlags DecoratedImageListModel::flags(const QModelIndex& index) const
+{
+    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+
+    const QString path = get(index);
+
+    std::lock_guard<std::mutex> lock(m_in_db_mutex);
+    auto f_it = m_in_db.find(path);
+
+    assert(f_it != m_in_db.end());
+    const bool exists = f_it->second;
+
+    if (exists)
+        flags = flags & ~Qt::ItemIsSelectable;
+
+    return flags;
+}
+
+
 void DecoratedImageListModel::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 {
     const QModelIndex idx = get(photoInfo->getPath());
