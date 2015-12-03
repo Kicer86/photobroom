@@ -55,7 +55,7 @@ class TreeItemDelegate: public QAbstractItemDelegate
         QIcon::Mode iconMode(const QStyle::State &) const;
         QIcon::State iconState(const QStyle::State &) const;
 
-        QPixmap getPixmap(const QStyleOptionViewItem &, const QVariant &) const;
+        QImage getImage(const QVariant &) const;
 };
 
 #endif // TREEITEMDELEGATE_HPP

@@ -108,11 +108,14 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
     const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DecorationRole);
-    const QPixmap p = getPixmap(option, v);
-    const int h_margin = (r.width()  - p.rect().width())  / 2;
-    const int v_margin = (r.height() - p.rect().height()) / 2;
+    QImage image = getImage(v);
+    const int h_margin = (r.width()  - image.rect().width())  / 2;
+    const int v_margin = (r.height() - image.rect().height()) / 2;
 
-    painter->drawPixmap(r.x() + h_margin, r.y() + v_margin, p);
+    if ( (option.state & QStyle::State_Enabled) == 0 )
+        image = image.convertToFormat(QImage::Format_Grayscale8);
+
+    painter->drawImage(r.x() + h_margin, r.y() + v_margin, image);
 }
 
 
@@ -188,26 +191,21 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 }
 
 
-QPixmap TreeItemDelegate::getPixmap(const QStyleOptionViewItem& option, const QVariant& variant) const
+QImage TreeItemDelegate::getImage(const QVariant& variant) const
 {
-    QPixmap result;
+    QImage result;
 
     switch (variant.type())
     {
         case QVariant::Image:
         {
-            QImage image = qvariant_cast<QImage>(variant);
-
-            if ( (option.state & QStyle::State_Enabled) == 0 )
-                image = image.convertToFormat(QImage::Format_Grayscale8);
-
-            result = QPixmap::fromImage(image);
+            result = qvariant_cast<QImage>(variant);
             break;
         }
 
         default:
             assert(!"unhandled type");
-            result = qvariant_cast<QPixmap>(variant);
+            result = qvariant_cast<QImage>(variant);
             break;
     }
 
