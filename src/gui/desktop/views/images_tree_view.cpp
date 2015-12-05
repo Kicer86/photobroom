@@ -206,8 +206,15 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
     QItemSelection selection;
 
+    QAbstractItemModel* m = model();
+
     for (const QModelIndex& item: items)
-        selection.select(item, item);
+    {
+        Qt::ItemFlags flags = m->flags(item);
+
+        if ( (flags & Qt::ItemIsSelectable) == Qt::ItemIsSelectable )
+            selection.select(item, item);
+    }
 
     selectionModel()->select(selection, flags);
 }
