@@ -8,7 +8,7 @@
 
 
 template<typename T>
-class callback_ptr_ctrl final
+class [[deprecated]] callback_ptr_ctrl final
 {
     public:
         callback_ptr_ctrl(T* callback): m_data(), m_callback(callback)
@@ -67,7 +67,7 @@ class callback_ptr_ctrl final
 
 
 template<typename T>
-class callback_ptr
+class [[deprecated]] callback_ptr
 {
     public:
         callback_ptr(const callback_ptr_ctrl<T>& ctrl): m_data(ctrl.m_data) {}
