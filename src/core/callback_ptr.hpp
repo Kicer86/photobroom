@@ -146,7 +146,7 @@ class safe_callback_ctrl final
         }
 
         template<typename R, typename T>
-        auto make_safe_callback(const T& callback)
+        auto make_safe_callback(const T& callback) const
         {
             safe_callback<T> callbackPtr(m_data, callback);
             std::function<R> fun(callbackPtr);
