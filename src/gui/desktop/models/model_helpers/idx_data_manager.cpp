@@ -41,7 +41,7 @@ namespace
 
     struct GetPhotosTask: Database::AGetPhotosTask
     {
-        GetPhotosTask(const callback_ptr_ctrl<ITasksResults>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetPhotosTask(const std::function< void(Database::AGetPhotosTask* , const IPhotoInfo::List&)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetPhotosTask(const GetPhotosTask &) = delete;
         virtual ~GetPhotosTask() {}
 
@@ -49,19 +49,16 @@ namespace
 
         virtual void got(const IPhotoInfo::List& photos)
         {
-            auto callback = **m_tasks_result;
-
-            if (callback)
-                callback->gotPhotosForParent(this, photos);
+            m_tasks_result(this, photos);
         }
 
-        callback_ptr<ITasksResults> m_tasks_result;
+        std::function< void(Database::AGetPhotosTask* , const IPhotoInfo::List&)> m_tasks_result;
         QModelIndex m_parent;
     };
 
     struct GetNonmatchingPhotosTask: Database::AGetPhotosCount
     {
-        GetNonmatchingPhotosTask(const callback_ptr_ctrl<ITasksResults>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
+        GetNonmatchingPhotosTask(const std::function<void( Database::AGetPhotosCount *, int)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
         GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
         virtual ~GetNonmatchingPhotosTask() {}
 
@@ -69,19 +66,18 @@ namespace
 
         virtual void got(int size)
         {
-            auto callback = **m_tasks_result;
-
-            if (callback)
-                callback->gotNonmatchingPhotosForParent(this, size);
+            m_tasks_result(this, size);
         }
 
-        callback_ptr<ITasksResults> m_tasks_result;
+        std::function<void( Database::AGetPhotosCount *, int)> m_tasks_result;
         QModelIndex m_parent;
     };
 
     struct ListTagValuesTask: Database::AListTagValuesTask
     {
-        ListTagValuesTask(callback_ptr_ctrl<ITasksResults>& tr, const QModelIndex& parent, size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
+        ListTagValuesTask(const std::function<void(Database::AListTagValuesTask *, const std::deque<QVariant> &)>& tr,
+                        const QModelIndex& parent,
+                        size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
         ListTagValuesTask(const ListTagValuesTask &) = delete;
         virtual ~ListTagValuesTask() {}
 
@@ -89,13 +85,10 @@ namespace
 
         virtual void got(const std::deque<QVariant>& value)
         {
-            auto callback = **m_tasks_result;
-
-            if (callback)
-                callback->gotTagValuesForParent(this, value);
+            m_tasks_result(this, value);
         }
 
-        callback_ptr<ITasksResults> m_tasks_result;
+        std::function<void(Database::AListTagValuesTask *, const std::deque<QVariant> &)> m_tasks_result;
         QModelIndex m_parent;
         size_t m_level;
     };
@@ -104,7 +97,7 @@ namespace
 
 struct IdxDataManager::Data
 {
-    Data(DBDataModel* model, ITasksResults* tasksResults):
+    Data(DBDataModel* model):
         m_model(model),
         m_root(nullptr),
         m_hierarchy(),
@@ -113,7 +106,7 @@ struct IdxDataManager::Data
         m_notFetchedIdxData(),
         m_mainThreadId(std::this_thread::get_id()),
         m_taskExecutor(nullptr),
-        m_tasksResultsCtrl(tasksResults),
+        m_tasksResultsCtrl(),
         filterExpression()
     {
     }
@@ -144,12 +137,12 @@ struct IdxDataManager::Data
     ol::ThreadSafeResource<std::unordered_set<IdxData *>> m_notFetchedIdxData;
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
-    callback_ptr_ctrl<ITasksResults> m_tasksResultsCtrl;
+    safe_callback_ctrl m_tasksResultsCtrl;
     QString filterExpression;
 };
 
 
-IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model, this))
+IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 {
     m_data->init(this);
 
@@ -384,7 +377,12 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
-        std::unique_ptr<Database::AListTagValuesTask> task(new ListTagValuesTask(m_data->m_tasksResultsCtrl, _parent, level));
+        using namespace std::placeholders;
+        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _1, _2);
+        auto safe_callback =
+            m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AListTagValuesTask *, const std::deque<QVariant> &) >(callback);
+
+        std::unique_ptr<Database::AListTagValuesTask> task(new ListTagValuesTask(safe_callback, _parent, level));
         m_data->m_database->exec(std::move(task), tagNameInfo, filter);
     }
     else
@@ -399,7 +397,12 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(m_data->m_tasksResultsCtrl, _parent));
+    using namespace std::placeholders;
+    auto callback = std::bind(&IdxDataManager::gotPhotosForParent, this, _1, _2);
+    auto safe_callback =
+        m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AGetPhotosTask *, const IPhotoInfo::List &) >(callback);
+
+    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(safe_callback, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);
@@ -431,7 +434,12 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     buildExtraFilters(&filter);
 
     //prepare task and store it in local list
-    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(m_data->m_tasksResultsCtrl, _parent));
+    using namespace std::placeholders;
+    auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _1, _2);
+    auto safe_callback =
+        m_data->m_tasksResultsCtrl.make_safe_callback< void( Database::AGetPhotosCount * , int ) >(callback);
+
+    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(safe_callback, _parent));
 
     //send task to execution
     m_data->m_database->exec(std::move(task), filter);

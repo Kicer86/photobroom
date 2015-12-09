@@ -66,10 +66,10 @@ class AScalableImagesModel: public QAbstractItemModel
         friend struct LoadPhoto;
 
         QCache<Key, QImage> m_cache;
-        callback_ptr_ctrl<AScalableImagesModel> m_callback_ctrl;
+        safe_callback_ctrl m_callback_ctrl;
         ITaskExecutor* m_taskExecutor;
 
-        void gotImage(const Key &, const QImage &);
+        void loadImage(const Key &);
 };
 
 #endif // ASCALABLEIMAGESMODEL_HPP

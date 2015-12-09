@@ -28,17 +28,8 @@
 class DBDataModel;
 class PhotosMatcher;
 
-struct ITasksResults
-{
-    virtual ~ITasksResults() {}
 
-    virtual void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) = 0;
-    virtual void gotNonmatchingPhotosForParent(Database::AGetPhotosCount *, int size) = 0;
-    virtual void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<QVariant>& tags) = 0;
-};
-
-
-class IdxDataManager: public QObject, private ITasksResults
+class IdxDataManager: public QObject
 {
 public:
     struct INotifications
@@ -101,9 +92,9 @@ private:
     void setupRootNode();
 
     // database tasks callbacks:
-    void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos) override;
-    void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int) override;
-    void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<QVariant>& tags) override;
+    void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos);
+    void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int);
+    void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<QVariant>& tags);
     //
 
     void markIdxDataFetched(IdxData *);
