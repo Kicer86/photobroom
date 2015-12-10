@@ -55,6 +55,13 @@ QIcon IconsLoader::getIcon(QStyle::StandardPixmap icon) const
                 result = style->standardIcon(icon);
             break;
 
+        case QStyle::SP_DialogCloseButton:
+            if (QIcon::hasThemeIcon("application-exit"))
+                result = QIcon::fromTheme("application-exit");
+            else
+                result = style->standardIcon(icon);
+            break;
+
         default:
             break;
     }
