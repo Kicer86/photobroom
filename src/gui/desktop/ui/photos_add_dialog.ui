@@ -14,7 +14,7 @@
    <string>Add photos</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../images.qrc">
+   <iconset resource="../../images/images.qrc">
     <normaloff>:/gui/main_ico.svg</normaloff>:/gui/main_ico.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -226,7 +226,7 @@
   <tabstop>browseTree</tabstop>
  </tabstops>
  <resources>
-  <include location="../images.qrc"/>
+  <include location="../../images/images.qrc"/>
  </resources>
  <connections/>
 </ui>

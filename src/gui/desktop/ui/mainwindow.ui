@@ -14,7 +14,7 @@
    <string>Photo broom</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../images.qrc">
+   <iconset resource="../../images/images.qrc">
     <normaloff>:/gui/main_ico.svg</normaloff>:/gui/main_ico.svg</iconset>
   </property>
   <property name="dockOptions">
@@ -180,7 +180,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../images.qrc"/>
+  <include location="../../images/images.qrc"/>
  </resources>
  <connections/>
 </ui>
