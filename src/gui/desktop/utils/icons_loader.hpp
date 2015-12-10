@@ -46,6 +46,10 @@ class IconsLoader
             Open,
             Quit,
             Close,
+            Settings,
+            Help,
+            About,
+            AboutQt,
         };
 
         QIcon getIcon(Icon) const;
