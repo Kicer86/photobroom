@@ -31,6 +31,7 @@
 #include "widgets/photos_widget.hpp"
 #include "utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
+#include "utils/icons_loader.hpp"
 #include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
 
@@ -57,6 +58,11 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     setupView();
     updateGui();
     registerConfigTab();
+
+    IconsLoader icons;
+
+    ui->actionNew_collection->setIcon(icons.getIcon(QStyle::SP_FileIcon));
+    ui->actionOpen_collection->setIcon(icons.getIcon(QStyle::QStyle::SP_DirOpenIcon));
 }
 
 
