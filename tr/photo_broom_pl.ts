@@ -40,7 +40,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+910"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+918"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -377,7 +377,7 @@ Kod błędu: %1</translation>
         <translation>Znaleziona zdjęcia:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+273"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+269"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>

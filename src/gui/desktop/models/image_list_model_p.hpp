@@ -82,7 +82,7 @@ class ImageListModelPrivate: public QObject
         std::recursive_mutex m_data_mutex;
 
         ITaskExecutor::TaskQueue m_taskQueue;
-        callback_ptr_ctrl<ImageListModelPrivate> m_callback_ctrl;
+        safe_callback_ctrl m_callback_ctrl;
         QImage m_image;
         IPhotosManager* m_photosManager;
 

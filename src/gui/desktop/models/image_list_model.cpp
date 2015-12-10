@@ -31,9 +31,9 @@ struct LoadPhoto: ITaskExecutor::ITask
 {
     LoadPhoto(const QString& path,
               IPhotosManager* photosManager,
-              const callback_ptr_ctrl<ImageListModelPrivate>& callback_ctrl):
+              const std::function< void(const QString &, const QImage &)>& callback):
         m_path(path),
-        m_callback(callback_ctrl),
+        m_callback(callback),
         m_photosManager(photosManager)
     {
 
@@ -52,14 +52,11 @@ struct LoadPhoto: ITaskExecutor::ITask
     {
         QImage scaled = m_photosManager->getThumbnail(m_path);
 
-        auto callback = **m_callback;
-
-        if (callback)
-            callback->imageScaled(m_path, scaled);
+        m_callback(m_path, scaled);
     }
 
     QString m_path;
-    callback_ptr<ImageListModelPrivate> m_callback;
+    std::function<void(const QString &, const QImage &)> m_callback;
     IPhotosManager* m_photosManager;
 };
 
@@ -71,7 +68,7 @@ ImageListModelPrivate::ImageListModelPrivate(ImageListModel* _q):
     m_data(),
     m_data_mutex(),
     m_taskQueue(nullptr),
-    m_callback_ctrl(this),
+    m_callback_ctrl(),
     m_image(),
     m_photosManager(nullptr),
     q(_q)
@@ -206,7 +203,15 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                 if (info.default_image)
                 {
                     info.default_image = false;
-                    d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_photosManager, d->m_callback_ctrl));
+
+                    auto callback = std::bind(&ImageListModelPrivate::imageScaled,
+                                              d,
+                                              std::placeholders::_1,
+                                              std::placeholders::_2);
+
+                    auto safe_callback = d->m_callback_ctrl.make_safe_callback< void(const QString &, const QImage &) >(callback);
+
+                    d->m_taskQueue->push(std::make_unique<LoadPhoto>(info.path, d->m_photosManager, safe_callback));
 
                     data.replace(infoIt, info);
                 }

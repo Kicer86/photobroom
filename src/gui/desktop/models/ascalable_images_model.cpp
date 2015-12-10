@@ -30,9 +30,9 @@ uint qHash(const AScalableImagesModel::Key& key)
 struct LoadPhoto: ITaskExecutor::ITask
 {
     LoadPhoto(const AScalableImagesModel::Key& key,
-              const callback_ptr_ctrl<AScalableImagesModel>& callback_ctrl):
+              const std::function< void(const AScalableImagesModel::Key &) >& callback):
     m_key(key),
-    m_callback(callback_ctrl)
+    m_callback(callback)
     {
 
     }
@@ -48,24 +48,18 @@ struct LoadPhoto: ITaskExecutor::ITask
 
     virtual void perform()
     {
-        auto callback = **m_callback;
-
-        if (callback)
-        {
-            QImage scaled = callback->getImageFor(m_key.index, m_key.size);
-            callback->gotImage(m_key, scaled);
-        }
+        m_callback(m_key);
     }
 
     AScalableImagesModel::Key m_key;
-    callback_ptr<AScalableImagesModel> m_callback;
+    std::function< void(const AScalableImagesModel::Key &) > m_callback;
 };
 
 
 AScalableImagesModel::AScalableImagesModel(QObject* p):
     QAbstractItemModel(p),
     m_cache(100000),            // ~100kb
-    m_callback_ctrl(this),
+    m_callback_ctrl(),
     m_taskExecutor(nullptr)
 {
 
@@ -86,7 +80,12 @@ QImage AScalableImagesModel::getDecorationRole(const QModelIndex& idx, const QSi
 
     if (img == 0)
     {
-        auto task = std::make_unique<LoadPhoto>(key, m_callback_ctrl);
+        using namespace std::placeholders;
+
+        auto callback = std::bind(&AScalableImagesModel::loadImage, this, _1);
+        auto safe_callback = m_callback_ctrl.make_safe_callback< void(const AScalableImagesModel::Key &) >(callback);
+
+        auto task = std::make_unique<LoadPhoto>(key, safe_callback);
         m_taskExecutor->add(std::move(task));
     }
 
@@ -100,7 +99,9 @@ void AScalableImagesModel::set(ITaskExecutor* taskExecutor)
 }
 
 
-void AScalableImagesModel::gotImage(const AScalableImagesModel::Key& key, const QImage& img)
+void AScalableImagesModel::loadImage(const AScalableImagesModel::Key& key)
 {
+    const QImage scaled = getImageFor(key.index, key.size);
 
+    // TODO: finish
 }
