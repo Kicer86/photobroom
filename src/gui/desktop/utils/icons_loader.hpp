@@ -24,7 +24,7 @@
 
 
 // knowledge base:
-// 
+//
 // http://mithatkonar.com/wiki/doku.php/qt/icons
 // http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 // http://doc.qt.io/qt-5/qicon.html#fromTheme
@@ -40,7 +40,14 @@ class IconsLoader
 
         IconsLoader& operator=(const IconsLoader &) = delete;
 
-        QIcon getIcon(QStyle::StandardPixmap) const;
+        enum class Icon
+        {
+            New,
+            Open,
+            Quit,
+        };
+
+        QIcon getIcon(Icon) const;
 };
 
 #endif // ICONSLOADER_HPP

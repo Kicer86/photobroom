@@ -34,32 +34,32 @@ IconsLoader::~IconsLoader()
 }
 
 
-QIcon IconsLoader::getIcon(QStyle::StandardPixmap icon) const
+QIcon IconsLoader::getIcon(Icon icon) const
 {
     QIcon result;
     QStyle* style = QApplication::style();
 
     switch (icon)
     {
-        case QStyle::SP_FileIcon:
+        case Icon::New:
             if (QIcon::hasThemeIcon("document-new"))
                 result = QIcon::fromTheme("document-new");
             else
-                result = style->standardIcon(icon);
+                result = style->standardIcon(QStyle::SP_FileIcon);
             break;
 
-        case QStyle::SP_DirOpenIcon:
+        case Icon::Open:
             if (QIcon::hasThemeIcon("document-open"))
                 result = QIcon::fromTheme("document-open");
             else
-                result = style->standardIcon(icon);
+                result = style->standardIcon(QStyle::SP_DirOpenIcon);
             break;
 
-        case QStyle::SP_DialogCloseButton:
+        case Icon::Quit:
             if (QIcon::hasThemeIcon("application-exit"))
                 result = QIcon::fromTheme("application-exit");
             else
-                result = style->standardIcon(icon);
+                result = style->standardIcon(QStyle::SP_DialogCloseButton);
             break;
 
         default:
