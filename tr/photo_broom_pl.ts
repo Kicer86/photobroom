@@ -227,7 +227,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+180"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+181"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
