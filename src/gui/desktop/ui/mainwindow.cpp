@@ -61,9 +61,9 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     IconsLoader icons;
 
-    ui->actionNew_collection->setIcon(icons.getIcon(QStyle::SP_FileIcon));
-    ui->actionOpen_collection->setIcon(icons.getIcon(QStyle::QStyle::SP_DirOpenIcon));
-    ui->actionQuit->setIcon(icons.getIcon(QStyle::SP_DialogCloseButton));
+    ui->actionNew_collection->setIcon(icons.getIcon(IconsLoader::Icon::New));
+    ui->actionOpen_collection->setIcon(icons.getIcon(IconsLoader::Icon::Open));
+    ui->actionQuit->setIcon(icons.getIcon(IconsLoader::Icon::Quit));
 }
 
 
