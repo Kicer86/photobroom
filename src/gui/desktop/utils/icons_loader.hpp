@@ -20,6 +20,17 @@
 #ifndef ICONSLOADER_HPP
 #define ICONSLOADER_HPP
 
+#include <QStyle>
+
+
+// knowledge base:
+// 
+// http://mithatkonar.com/wiki/doku.php/qt/icons
+// http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+// http://doc.qt.io/qt-5/qicon.html#fromTheme
+// http://doc.qt.io/qt-5/qstyle.html#StandardPixmap-enum
+
+
 class IconsLoader
 {
     public:
@@ -28,6 +39,8 @@ class IconsLoader
         ~IconsLoader();
 
         IconsLoader& operator=(const IconsLoader &) = delete;
+
+        QIcon getIcon(QStyle::StandardPixmap) const;
 };
 
 #endif // ICONSLOADER_HPP

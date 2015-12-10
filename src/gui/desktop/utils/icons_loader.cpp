@@ -19,6 +19,9 @@
 
 #include "icons_loader.hpp"
 
+#include <QApplication>
+
+
 IconsLoader::IconsLoader()
 {
 
@@ -28,4 +31,33 @@ IconsLoader::IconsLoader()
 IconsLoader::~IconsLoader()
 {
 
+}
+
+
+QIcon IconsLoader::getIcon(QStyle::StandardPixmap icon) const
+{
+    QIcon result;
+    QStyle* style = QApplication::style();
+
+    switch (icon)
+    {
+        case QStyle::SP_FileIcon:
+            if (QIcon::hasThemeIcon("document-new"))
+                result = QIcon::fromTheme("document-new");
+            else
+                result = style->standardIcon(icon);
+            break;
+
+        case QStyle::SP_DirOpenIcon:
+            if (QIcon::hasThemeIcon("document-open"))
+                result = QIcon::fromTheme("document-open");
+            else
+                result = style->standardIcon(icon);
+            break;
+
+        default:
+            break;
+    }
+
+    return result;
 }
