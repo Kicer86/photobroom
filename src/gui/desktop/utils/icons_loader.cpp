@@ -19,6 +19,8 @@
 
 #include "icons_loader.hpp"
 
+#include <cassert>
+
 #include <QApplication>
 
 
@@ -36,35 +38,26 @@ IconsLoader::~IconsLoader()
 
 QIcon IconsLoader::getIcon(Icon icon) const
 {
+
+    static std::map<Icon, std::pair<const char *, QStyle::StandardPixmap>> icons =
+    {
+        { Icon::New,   {"document-new",     QStyle::SP_FileIcon}          },
+        { Icon::Open,  {"document-open",    QStyle::SP_DirOpenIcon}       },
+        { Icon::Quit,  {"application-exit", QStyle::SP_DialogCloseButton} }
+    };
+
     QIcon result;
     QStyle* style = QApplication::style();
 
-    switch (icon)
-    {
-        case Icon::New:
-            if (QIcon::hasThemeIcon("document-new"))
-                result = QIcon::fromTheme("document-new");
-            else
-                result = style->standardIcon(QStyle::SP_FileIcon);
-            break;
+    auto it = icons.find(icon);
+    assert(it != icons.end());
 
-        case Icon::Open:
-            if (QIcon::hasThemeIcon("document-open"))
-                result = QIcon::fromTheme("document-open");
-            else
-                result = style->standardIcon(QStyle::SP_DirOpenIcon);
-            break;
+    const std::pair<const char *, QStyle::StandardPixmap>& info = it->second;
 
-        case Icon::Quit:
-            if (QIcon::hasThemeIcon("application-exit"))
-                result = QIcon::fromTheme("application-exit");
-            else
-                result = style->standardIcon(QStyle::SP_DialogCloseButton);
-            break;
-
-        default:
-            break;
-    }
+    if (QIcon::hasThemeIcon(info.first))
+        result = QIcon::fromTheme(info.first);
+    else
+        result = style->standardIcon(info.second);
 
     return result;
 }
