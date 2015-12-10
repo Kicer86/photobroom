@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
 
     ui->actionNew_collection->setIcon(icons.getIcon(IconsLoader::Icon::New));
     ui->actionOpen_collection->setIcon(icons.getIcon(IconsLoader::Icon::Open));
+    ui->actionClose->setIcon(icons.getIcon(IconsLoader::Icon::Close));
     ui->actionQuit->setIcon(icons.getIcon(IconsLoader::Icon::Quit));
 }
 
