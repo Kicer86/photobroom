@@ -43,7 +43,8 @@ QIcon IconsLoader::getIcon(Icon icon) const
     {
         { Icon::New,   {"document-new",     QStyle::SP_FileIcon}          },
         { Icon::Open,  {"document-open",    QStyle::SP_DirOpenIcon}       },
-        { Icon::Quit,  {"application-exit", QStyle::SP_DialogCloseButton} }
+        { Icon::Quit,  {"application-exit", QStyle::SP_DialogCloseButton} },
+        { Icon::Close, {"window-close",     QStyle::SP_DialogCloseButton} },
     };
 
     QIcon result;

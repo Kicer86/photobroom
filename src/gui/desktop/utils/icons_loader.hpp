@@ -45,6 +45,7 @@ class IconsLoader
             New,
             Open,
             Quit,
+            Close,
         };
 
         QIcon getIcon(Icon) const;
