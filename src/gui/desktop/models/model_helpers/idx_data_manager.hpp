@@ -115,6 +115,7 @@ private:
     void removeChildren(IdxData *);                                              // remove all children
     void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
     void performMove(IdxData* item, IdxData* from, IdxData* to);
+    void performRemoveChildren(IdxData *);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);

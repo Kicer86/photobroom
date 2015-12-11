@@ -798,8 +798,7 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
 
 void IdxDataManager::removeChildren(IdxData* parent)
 {
-    for(IdxData* c: parent->m_children)
-        performRemove(c);
+    performRemoveChildren(parent);
 }
 
 
@@ -830,6 +829,34 @@ void IdxDataManager::performMove(IdxData* item, IdxData* from, IdxData* to)
     //remove empty parents
     if (from->m_children.empty())
         performRemove(from);
+}
+
+void IdxDataManager::performRemoveChildren(IdxData* parent)
+{
+    // modify IdxData only in main thread
+    assert(m_data->m_mainThreadId == std::this_thread::get_id());
+
+    // only root item can be empty
+    assert(parent == m_data->m_root || parent->m_children.empty() == false);
+
+    QModelIndex parentIdx = getIndex(parent);
+
+    // do not work on children directly as we will drop them
+    std::vector<IdxData *> children = parent->m_children;
+
+    if (children.empty() == false)
+    {
+        m_data->m_model->beginRemoveRows(parentIdx, 0, children.size() - 1);
+
+        for(IdxData* c: children)
+            parent->removeChild(c);
+
+        m_data->m_model->endRemoveRows();
+
+        //remove empty parent (exclude root item)
+        if (parent != m_data->m_root)
+            performRemove(parent);
+    }
 }
 
 
