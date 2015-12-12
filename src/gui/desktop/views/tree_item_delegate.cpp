@@ -109,8 +109,9 @@ void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem&
     const QRect& r = option.rect;
     const QVariant v = m->data(index, Qt::DecorationRole);
     QImage image = getImage(v);
-    const int h_margin = (r.width()  - image.rect().width())  / 2;
-    const int v_margin = (r.height() - image.rect().height()) / 2;
+    const QRect imageRect = image.rect();
+    const int h_margin = (r.width()  - imageRect.width())  / 2;
+    const int v_margin = (r.height() - imageRect.height()) / 2;
 
     if ( (option.state & QStyle::State_Enabled) == 0 )
         image = image.convertToFormat(QImage::Format_Grayscale8);
