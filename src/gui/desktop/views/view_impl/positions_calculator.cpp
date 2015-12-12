@@ -299,7 +299,7 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
     if (info.isSizeValid() == false)
     {
         const QSize size = calcItemSize(infoIt);
-        info.setSize(size);                       // size muse be set at this point, as children calculations may require it
+        info.setSize(size);                       // size must be set at this point, as children calculations may require it
     }
 
     if (info.getOverallSize().isValid() == false)

@@ -81,15 +81,17 @@ QImage PhotosManager::getThumbnail(const QString& path)
     QImage image;
     image.loadFromData(raw);
 
+    const int ih = image.height();
+
     // TODO: remove constants, use settings?
-    const int w = 120;
-    const int h = 120;
+    const bool needs_resize = ih > 120;
 
-    const bool needs_resize = image.width() > w || image.height() > h;
-
+    // scale image so its height == 120
     const QImage scaled = needs_resize?
-                          image.scaled(w, h, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation):
+                          image.scaledToHeight(120, Qt::SmoothTransformation):
                           image;
+
+    const QRect size = scaled.rect();
 
     return scaled;
 }
