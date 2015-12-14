@@ -8,6 +8,7 @@
 
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
+#include <core/crash_catcher.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -18,6 +19,8 @@
 
 int main(int argc, char **argv)
 {
+    CrashCatcher::init(argv[0]);
+
     Gui gui;
 
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
@@ -34,7 +37,7 @@ int main(int argc, char **argv)
     pluginLoader.set(&logger_factory);
 
     TaskExecutor taskExecutor;
-    
+
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
     database_builder.set(&logger_factory);
