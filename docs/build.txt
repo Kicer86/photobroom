@@ -4,11 +4,13 @@ Required tools and libraries:
  - Qt5 - version 5.5 or higher
  - hash-library*
  - easyexif*
+ - GMock and GTest
  - jsoncpp*
  - OpenLibrary
  - Boost
+ - libbacktrace*
 
-* PhotoBroom at configuration phase will additionaly search for EasyExif and hash-library in (TOP_SOURCE_DIR)/3rd_party/.
+* PhotoBroom at configuration phase will additionaly search for EasyExif, hash-library, jsoncpp and libbacktrace in (TOP_SOURCE_DIR)/3rd_party/.
   So if it is not installed in your system you may:
   - cd photo_broom_sources
   - mkdir 3rd_party
@@ -16,6 +18,7 @@ Required tools and libraries:
   - git clone https://github.com/mayanklahiri/easyexif.git
   - git clone http://create.stephan-brumme.com/hash-library/.git 
   - git clone https://github.com/open-source-parsers/jsoncpp.git
+  - git clone https://github.com/ErwanLegrand/libbacktrace.git
 
 Tested compilers:
 1. gcc  (Linux and Windows)

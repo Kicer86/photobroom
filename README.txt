@@ -6,9 +6,12 @@ For build instructions see build.txt file in 'docs' directory.
 
 
 External libraries and tools used  by Photo Broom:
+ * cmake
  * Qt5 for gui.
  * hash-library is used for sha functions (http://create.stephan-brumme.com/hash-library/)
  * EasyExif for exif access. 
  * GMock and GTest
  * JsonCpp
+ * OpenLibrary
  * Boost
+ * libbacktrace
