@@ -11,22 +11,17 @@ Required tools and libraries:
 
  Optional libraries (for crash catching):
  - KCrash (Linux/Windows)
- - libbacktrace (Linux)*
- - dbghelp (Windows)
- - StackWalker (Windows)*
 
-* PhotoBroom at configuration phase will additionaly search for marked libraries in (TOP_SOURCE_DIR)/3rd_party/.
-  So if it is not installed in your system you may:
-  - cd photo_broom_sources
-  - mkdir 3rd_party
-  - cd 3rd_party
-  - git clone https://github.com/mayanklahiri/easyexif.git
-  - git clone http://create.stephan-brumme.com/hash-library/.git
-  - git clone https://github.com/open-source-parsers/jsoncpp.git
-  - git clone https://github.com/ErwanLegrand/libbacktrace.git
-  - download StackWalker from https://stackwalker.codeplex.com/ and unzip it, so the StackWalker directory
-    will be the top one (skip 'Main' directory)
-
+* Marked libraries can be automatically built with PhotoBroom. 
+  To enable this feature initialize git submodules with:
+  git submodule init
+  git submodule update
+  
+  These two commands will download sources.
+  Then it is necessary to enable particular libraries with proper variable
+  in CMake's cache set to ON:
+  USE_LOCAL_EASYEXIF, USE_LOCAL_HASHLIBRARY, USE_LOCAL_JSONCPP
+  
 Tested compilers:
 1. gcc  (Linux and Windows)
         At least 4.8.0 version is required (due to c++14).
