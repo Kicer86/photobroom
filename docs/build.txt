@@ -20,7 +20,7 @@ Required tools and libraries:
   These two commands will download sources.
   Then it is necessary to enable particular libraries with proper variable
   in CMake's cache set to ON:
-  USE_LOCAL_EASYEXIF, USE_LOCAL_HASHLIBRARY, USE_LOCAL_JSONCPP
+  USE_LOCAL_EASYEXIF, USE_LOCAL_HASHLIBRARY, USE_LOCAL_JSONCPP respectively
   
 Tested compilers:
 1. gcc  (Linux and Windows)
@@ -30,8 +30,8 @@ Tested compilers:
 
 VisualStudio is not supported due to missing support for c++11/14.
 
-PhotoBroom cannot be run from compilation dir without installing.
-On Linux it will search for plugins in destination (installation) dir.
+PhotoBroom cannot be run from compilation directory without installing.
+On Linux it will search for plugins in destination (installation) directory.
 Build 'install' target to install PhotoBroom. Then you can launch it.
 On Windows operating system, PhotoBroom searches for plugins and translations,
 in location relative to exe file.
@@ -41,5 +41,7 @@ defined by CMAKE_INSTALL_PREFIX (so as it does on Linux).
 
 Extra targets available for Windows:
 'deploy' - prepares extra dir with Qt's libraries and plugins required by PhotoBroom.
-'install' target will install not only PhotoBroom's files but also Qt's libraries and translations. Other libraries will be also included.
-'package' target will create a package (Intallator) with all files required for runing PhotoBroom on other Windows machines
+'install' target will install not only PhotoBroom's files but also Qt's libraries and translations.
+          Other libraries will be also included.
+'package' target will create a package (Installator) with all files required for running 
+          PhotoBroom on other Windows machines.
