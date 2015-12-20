@@ -5,7 +5,12 @@ find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
 find_package(HashLibrary REQUIRED)
 find_package(Threads REQUIRED)
-find_package(LibBacktrace REQUIRED)
+
+if(UNIX)
+    find_package(LibBacktrace REQUIRED)
+elseif(WIN32)
+    find_package(DbgHelp REQUIRED)
+endif()
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -18,6 +23,7 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${EASYEXIF_INCLUDE_DIR}
                            ${HASHLIBRARY_INCLUDE_DIR}
                            ${LIBBACKTRACE_INCLUDE_DIRS}
+                           ${DBGHELP_INCLUDE_DIRS}
                    )
 
 # some classes in core are using interface types of database. Is it ok? - to consider
@@ -100,6 +106,7 @@ target_link_libraries(core PRIVATE system
                       ${EASYEXIF_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT}
                       ${LIBBACKTRACE_LIBRARIES}
+                      ${DBGHELP_LIBRARIES}
                      )
                      
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
