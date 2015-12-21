@@ -3,13 +3,10 @@
 
 #include <cassert>
 #include <csignal>
-#include <iostream>
 #include <sstream>
 
 #include <windows.h>
 #include <DbgHelp.h>
-
-#include "ilogger.hpp"
 
 // Links:
 // http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
@@ -45,9 +42,7 @@ namespace
 
         free( symbol );
 
-        ILogger* logger = CrashCatcher::getLogger();
-        std::cout << crashReport.str() << std::endl;
-        logger->error(crashReport.str());
+        CrashCatcher::saveOutput(crashReport);
     }
 
 

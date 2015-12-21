@@ -2,6 +2,8 @@
 #ifndef CRASH_CATCHER_HPP
 #define CRASH_CATCHER_HPP
 
+#include <sstream>
+
 struct ILogger;
 
 class CrashCatcher
@@ -13,7 +15,7 @@ class CrashCatcher
         static void init(const char *, ILogger *);
         static const char* name();
 
-        static ILogger* getLogger();
+        static void saveOutput(const std::stringstream &);
 
     private:
         static const char* app_name;

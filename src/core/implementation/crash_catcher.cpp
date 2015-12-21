@@ -1,6 +1,10 @@
 
 #include "crash_catcher.hpp"
 
+#include <iostream>
+
+#include "ilogger.hpp"
+
 const char* CrashCatcher::app_name;
 ILogger* CrashCatcher::logger;
 
@@ -19,7 +23,8 @@ const char* CrashCatcher::name()
 }
 
 
-ILogger* CrashCatcher::getLogger()
+void CrashCatcher::saveOutput(const std::stringstream& report)
 {
-    return logger;
+    std::cout << report.str();
+    logger->error(report.str());
 }
