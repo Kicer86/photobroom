@@ -17,3 +17,9 @@ const char* CrashCatcher::name()
 {
     return app_name;
 }
+
+
+ILogger* CrashCatcher::getLogger()
+{
+    return logger;
+}

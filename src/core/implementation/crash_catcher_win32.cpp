@@ -4,10 +4,12 @@
 #include <cassert>
 #include <csignal>
 #include <iostream>
+#include <sstream>
 
 #include <windows.h>
 #include <DbgHelp.h>
 
+#include "ilogger.hpp"
 
 // Links:
 // http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
@@ -16,6 +18,9 @@ namespace
 {
     void bt()
     {
+        std::stringstream crashReport;
+        crashReport << std::endl;
+
         unsigned int   i;
         void         * stack[ 100 ];
         unsigned short frames;
@@ -35,10 +40,14 @@ namespace
         {
             SymFromAddr( process, ( DWORD64 )( stack[ i ] ), 0, symbol );
 
-            printf( "%i: %s - 0x%0X\n", frames - i - 1, symbol->Name, symbol->Address );
+            crashReport << frames - i - 1 << ": " << symbol->Name << " - " << std::hex << symbol->Address << std::endl;
         }
 
         free( symbol );
+
+        ILogger* logger = CrashCatcher::getLogger();
+        std::cout << crashReport.str() << std::endl;
+        logger->error(crashReport.str());
     }
 
 
@@ -82,10 +91,4 @@ namespace
 void CrashCatcher::internal_init()
 {
     SetUnhandledExceptionFilter(sig_handler);
-
-
-    int a=0;
-    int b = 1/a;
-
-    (void) b;
 }
