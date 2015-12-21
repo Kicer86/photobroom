@@ -6,9 +6,10 @@
 
 #include <QCoreApplication>
 
+#include <core/crash_catcher.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
-#include <core/crash_catcher.hpp>
+#include <core/ilogger.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -19,8 +20,6 @@
 
 int main(int argc, char **argv)
 {
-    CrashCatcher::init(argv[0]);
-
     Gui gui;
 
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
@@ -30,6 +29,9 @@ int main(int argc, char **argv)
 
     // build objects
     LoggerFactory logger_factory(basePath);
+
+    std::unique_ptr<ILogger> crashCatcherLog(logger_factory.get("CrashCatcher"));
+    CrashCatcher::init(argv[0], crashCatcherLog.get());
 
     Configuration configuration;
 
