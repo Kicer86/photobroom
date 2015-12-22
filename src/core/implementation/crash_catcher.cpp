@@ -23,8 +23,8 @@ const char* CrashCatcher::name()
 }
 
 
-void CrashCatcher::saveOutput(const std::stringstream& report)
+void CrashCatcher::saveOutput(const std::string& report)
 {
-    std::cout << report.str();
-    logger->error(report.str());
+    std::cout << report << std::endl;
+    logger->error(report);
 }

@@ -6,6 +6,9 @@
 
 #include <cassert>
 #include <csignal>
+#include <cstdio>
+#include <cstring>
+
 #include <iostream>
 
 #include <libbacktrace/backtrace.h>
@@ -31,7 +34,16 @@ namespace
 
     void bt(struct backtrace_state *state)
     {
-        backtrace_print(state, 0, stdout);
+        char buff[10240];
+        memset(buff, 0, 10240);
+        FILE* mem_file = fmemopen(buff, 10240, "w");
+
+        backtrace_print(state, 0, mem_file);
+
+        fflush(mem_file);
+
+        const std::string data(buff);
+        CrashCatcher::saveOutput(data);
     }
 
 

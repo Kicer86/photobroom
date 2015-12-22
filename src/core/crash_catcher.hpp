@@ -15,7 +15,7 @@ class CrashCatcher
         static void init(const char *, ILogger *);
         static const char* name();
 
-        static void saveOutput(const std::stringstream &);
+        static void saveOutput(const std::string &);
 
     private:
         static const char* app_name;
