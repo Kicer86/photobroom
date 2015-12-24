@@ -40,7 +40,7 @@ namespace
 
         backtrace_print(state, 0, mem_file);
 
-        fflush(mem_file);
+        fclose(mem_file);
 
         const std::string data(buff);
         CrashCatcher::saveOutput(data);
