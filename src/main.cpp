@@ -20,13 +20,13 @@
 #include <system/system.hpp>
 
 int main(int argc, char **argv)
-{    
-    KCrash::initialize();
-
+{
     Gui gui;
 
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
+
+    KCrash::initialize();
 
     const QString basePath = System::getApplicationConfigDir() + "/logs";
 
