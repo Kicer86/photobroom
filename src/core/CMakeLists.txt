@@ -89,8 +89,6 @@ target_link_libraries(core PRIVATE system
                       ${HASHLIBRARY_LIBRARIES}
                       ${EASYEXIF_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT}
-                      ${LIBBACKTRACE_LIBRARIES}
-                      ${DBGHELP_LIBRARIES}
                      )
 
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

@@ -6,8 +6,6 @@
 
 #include <QCoreApplication>
 
-#include <KCrash/KCrash>
-
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
@@ -17,6 +15,7 @@
 #include <plugins/plugin_loader.hpp>
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
+#include <system/crash_catcher.hpp>
 
 int main(int argc, char **argv)
 {
@@ -25,12 +24,13 @@ int main(int argc, char **argv)
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
 
-    KCrash::initialize();
-
     const QString basePath = System::getApplicationConfigDir() + "/logs";
 
     // build objects
     LoggerFactory logger_factory(basePath);
+
+    std::unique_ptr<ILogger> crashCatcherLog(logger_factory.get("CrashCatcher"));
+    CrashCatcher::init(argv[0], crashCatcherLog.get());
 
     Configuration configuration;
 
@@ -46,6 +46,9 @@ int main(int argc, char **argv)
 
     ProjectManager prjManager;
     prjManager.set(&database_builder);
+
+    int * a = nullptr;
+    int b= *a;
 
     // start gui
     gui.set(&prjManager);

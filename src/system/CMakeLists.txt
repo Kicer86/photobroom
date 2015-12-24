@@ -54,8 +54,12 @@ else()
 endif()
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
-target_link_libraries(system PRIVATE Qt5::Core)
 target_include_directories(system PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(system PRIVATE
+                        Qt5::Core
+                        ${LIBBACKTRACE_LIBRARIES}
+                        ${DBGHELP_LIBRARIES}
+                     )
 
 hideSymbols(system)
 generate_export_header(system EXPORT_FILE_NAME)
