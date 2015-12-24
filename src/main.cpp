@@ -8,7 +8,6 @@
 
 #include <KCrash/KCrash>
 
-#include <core/crash_catcher.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>

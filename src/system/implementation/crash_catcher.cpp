@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "ilogger.hpp"
+#include <core/ilogger.hpp>
 
 const char* CrashCatcher::app_name;
 ILogger* CrashCatcher::logger;

@@ -3,22 +3,43 @@ include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR})
+include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+
 if (WIN32)
-    set(SYSTEM_SOURCES implementation/system_win32.cpp)
-else()
-    set(SYSTEM_SOURCES implementation/system_unix.cpp)
+
+    find_package(DbgHelp REQUIRED)
+    include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
+
+    set(SYSTEM_SOURCES implementation/system_win32.cpp
+                       implementation/crash_catcher_win32.cpp
+       )
+
+elseif(UNIX)
+
+    find_package(LibBacktrace REQUIRED)
+    include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
+
+    set(SYSTEM_SOURCES implementation/system_unix.cpp
+                       implementation/crash_catcher_unix.cpp
+       )
+
 endif(WIN32)
 
-set(SYSTEM_SOURCES ${SYSTEM_SOURCES} 
+
+set(SYSTEM_SOURCES ${SYSTEM_SOURCES}
+                   implementation/crash_catcher.cpp
                    implementation/filesystem.cpp
                    implementation/system.cpp
 )
-                   
-set(SYSTEM_HEADERS system.hpp filesystem.hpp)
+
+set(SYSTEM_HEADERS
+        system.hpp
+        filesystem.hpp
+        crash_catcher.hpp
+   )
 
 if(WIN32)
     if(DEVELOPER_BUILD)

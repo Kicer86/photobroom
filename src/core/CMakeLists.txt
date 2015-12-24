@@ -6,12 +6,6 @@ find_package(EasyExif REQUIRED)
 find_package(HashLibrary REQUIRED)
 find_package(Threads REQUIRED)
 
-if(UNIX)
-    find_package(LibBacktrace REQUIRED)
-elseif(WIN32)
-    find_package(DbgHelp REQUIRED)
-endif()
-
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
@@ -22,8 +16,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${CRYPTOGRAPHIC_INCLUDE_DIR}
                            ${EASYEXIF_INCLUDE_DIR}
                            ${HASHLIBRARY_INCLUDE_DIR}
-                           ${LIBBACKTRACE_INCLUDE_DIRS}
-                           ${DBGHELP_INCLUDE_DIRS}
                    )
 
 # some classes in core are using interface types of database. Is it ok? - to consider
@@ -34,7 +26,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
-    implementation/crash_catcher.cpp
     implementation/disk_observer.cpp
     implementation/hash_functions.cpp
     implementation/logger.cpp
@@ -48,16 +39,9 @@ set(CORE_SOURCES
 )
 
 
-if (WIN32)
-    set(CORE_SOURCES ${CORE_SOURCES} implementation/crash_catcher_win32.cpp)
-elseif (UNIX)
-    set(CORE_SOURCES ${CORE_SOURCES} implementation/crash_catcher_unix.cpp)
-endif()
-
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
-    crash_catcher.hpp
     disk_observer.hpp
     hash_functions.hpp
     ilogger.hpp
@@ -108,7 +92,7 @@ target_link_libraries(core PRIVATE system
                       ${LIBBACKTRACE_LIBRARIES}
                       ${DBGHELP_LIBRARIES}
                      )
-                     
+
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(core)
