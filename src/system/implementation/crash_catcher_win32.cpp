@@ -42,7 +42,7 @@ namespace
 
         free( symbol );
 
-        CrashCatcher::saveOutput(crashReport);
+        CrashCatcher::saveOutput(crashReport.str());
     }
 
 
