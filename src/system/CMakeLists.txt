@@ -42,23 +42,21 @@ endif()
 # system related stuff
 if (WIN32)
 
-    find_package(DbgHelp REQUIRED)
     include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
 
     set(SYSTEM_SOURCES
             ${SYSTEM_SOURCES}
             implementation/system_win32.cpp
-       )
+    )
 
 elseif(UNIX)
 
-    find_package(LibBacktrace REQUIRED)
     include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
 
     set(SYSTEM_SOURCES
             ${SYSTEM_SOURCES}
             implementation/system_unix.cpp
-       )
+    )
 
 endif(WIN32)
 
