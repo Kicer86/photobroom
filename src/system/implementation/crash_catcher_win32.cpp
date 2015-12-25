@@ -10,6 +10,9 @@
 
 // Links:
 // http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
+// http://www.drdobbs.com/tools/postmortem-debugging/185300443
+// https://oroboro.com/stack-trace-on-crash/
+// https://stackwalker.codeplex.com/
 
 namespace
 {

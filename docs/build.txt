@@ -8,17 +8,24 @@ Required tools and libraries:
  - jsoncpp*
  - OpenLibrary
  - Boost
- - libbacktrace*
 
-* PhotoBroom at configuration phase will additionaly search for EasyExif, hash-library, jsoncpp and libbacktrace in (TOP_SOURCE_DIR)/3rd_party/.
+ Optional libraries (for crash catching):
+ - KCrash (Linux/Windows)
+ - libbacktrace (Linux)*
+ - dbghelp (Windows)
+ - StackWalker (Windows)*
+
+* PhotoBroom at configuration phase will additionaly search for marked libraries in (TOP_SOURCE_DIR)/3rd_party/.
   So if it is not installed in your system you may:
   - cd photo_broom_sources
   - mkdir 3rd_party
   - cd 3rd_party
   - git clone https://github.com/mayanklahiri/easyexif.git
-  - git clone http://create.stephan-brumme.com/hash-library/.git 
+  - git clone http://create.stephan-brumme.com/hash-library/.git
   - git clone https://github.com/open-source-parsers/jsoncpp.git
   - git clone https://github.com/ErwanLegrand/libbacktrace.git
+  - download StackWalker from https://stackwalker.codeplex.com/ and unzip it, so the StackWalker directory
+    will be the top one (skip 'Main' directory)
 
 Tested compilers:
 1. gcc  (Linux and Windows)
