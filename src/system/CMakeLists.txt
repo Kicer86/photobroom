@@ -2,19 +2,52 @@
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
+find_package(KF5Crash)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
+# crash handler
+if(KF5Crash_FOUND)
+
+    include_directories(SYSTEM $<TARGET_PROPERTY:KF5::Crash,INTERFACE_INCLUDE_DIRECTORIES>)
+
+    set(SYSTEM_SOURCES implementation/crash_catcher_kde5.cpp)
+    set(KF5CRASH_LIBRARIES KF5::Crash)
+
+else()
+
+    if (WIN32)
+
+        find_package(DbgHelp REQUIRED)
+        include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
+
+        set(SYSTEM_SOURCES implementation/crash_catcher_win32.cpp)
+
+    elseif(UNIX)
+
+        find_package(LibBacktrace REQUIRED)
+        include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
+
+        set(SYSTEM_SOURCES implementation/crash_catcher_unix.cpp)
+
+    endif(WIN32)
+
+
+endif()
+
+
+# system related stuff
 if (WIN32)
 
     find_package(DbgHelp REQUIRED)
     include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
 
-    set(SYSTEM_SOURCES implementation/system_win32.cpp
-                       implementation/crash_catcher_win32.cpp
+    set(SYSTEM_SOURCES
+            ${SYSTEM_SOURCES}
+            implementation/system_win32.cpp
        )
 
 elseif(UNIX)
@@ -22,13 +55,15 @@ elseif(UNIX)
     find_package(LibBacktrace REQUIRED)
     include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
 
-    set(SYSTEM_SOURCES implementation/system_unix.cpp
-                       implementation/crash_catcher_unix.cpp
+    set(SYSTEM_SOURCES
+            ${SYSTEM_SOURCES}
+            implementation/system_unix.cpp
        )
 
 endif(WIN32)
 
 
+# common stuff
 set(SYSTEM_SOURCES ${SYSTEM_SOURCES}
                    implementation/crash_catcher.cpp
                    implementation/filesystem.cpp
@@ -39,7 +74,7 @@ set(SYSTEM_HEADERS
         system.hpp
         filesystem.hpp
         crash_catcher.hpp
-   )
+)
 
 if(WIN32)
     if(DEVELOPER_BUILD)
@@ -59,6 +94,7 @@ target_link_libraries(system PRIVATE
                         Qt5::Core
                         ${LIBBACKTRACE_LIBRARIES}
                         ${DBGHELP_LIBRARIES}
+                        ${KF5CRASH_LIBRARIES}
                      )
 
 hideSymbols(system)
