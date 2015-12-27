@@ -12,7 +12,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # crash handling
 set(CRASH_HANDLER_FOUND FALSE)
 
-if(NOT KF5Crash_FOUND)
+if(KF5Crash_FOUND)
 
     include_directories(SYSTEM $<TARGET_PROPERTY:KF5::Crash,INTERFACE_INCLUDE_DIRECTORIES>)
 
@@ -39,21 +39,25 @@ else()
 
         if(HAS_SIGACTION)
 
-            find_package(LibBacktrace REQUIRED)
-            include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
+            find_package(LibBacktrace)
 
-            set(SYSTEM_SOURCES implementation/crash_catcher_gcc_posix.cpp)
-            set(CRASH_HANDLER_FOUND TRUE)
+            if(LibBacktrace_FOUND)
 
-        endif()
+                include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
+
+                set(SYSTEM_SOURCES implementation/crash_catcher_gcc_posix.cpp)
+                set(CRASH_HANDLER_FOUND TRUE)
+
+            endif(LibBacktrace_FOUND)
+
+        endif(HAS_SIGACTION)
 
     endif(WIN32)
 
-endif()
+endif(KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)
     set(SYSTEM_SOURCES implementation/crash_catcher_null.cpp)
-    message("No crash handler")
 endif()
 
 
