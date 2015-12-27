@@ -14,9 +14,12 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/3rd_party/breakpad)
                            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/breakpad
                           )
 
-        add_custom_target(breakpad
-                          DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/breakpad/src/libbreakpad.a
-                         )
+        add_custom_target(breakpad_build
+                          DEPENDS ${CMAKE_BINARY_DIR}/3rd_party/breakpad/src/libbreakpad.a)
+
+        add_library(breakpad STATIC IMPORTED)
+        set_target_properties(breakpad PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/3rd_party/breakpad/src/libbreakpad.a)
+        add_dependencies(breakpad breakpad_build)
 
     endif()
 

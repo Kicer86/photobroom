@@ -28,6 +28,10 @@ else()
 
     if(Breakpad_FOUND)
 
+        set(CRASH_HANDLER_SOURCES implementation/crash_catcher_breakpad.cpp)
+        set(CRASH_HANDLER_LIBRARIES ${BREAKPAD_LIBRARIES})
+        set(CRASH_HANDLER_FOUND TRUE)
+
     elseif (WIN32)
 
         find_package(DbgHelp)
@@ -65,9 +69,9 @@ else()
 
         endif(HAS_SIGACTION)
 
-    endif(WIN32)
+    endif(Breakpad_FOUND)
 
-endif(KF5Crash_FOUND)
+endif(NOT KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)
     set(CRASH_HANDLER_SOURCES implementation/crash_catcher_null.cpp)
