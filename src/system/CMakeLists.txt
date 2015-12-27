@@ -9,13 +9,16 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
-# crash handler
-if(KF5Crash_FOUND)
+# crash handling
+set(CRASH_HANDLER_FOUND FALSE)
+
+if(NOT KF5Crash_FOUND)
 
     include_directories(SYSTEM $<TARGET_PROPERTY:KF5::Crash,INTERFACE_INCLUDE_DIRECTORIES>)
 
     set(SYSTEM_SOURCES implementation/crash_catcher_kde5.cpp)
     set(KF5CRASH_LIBRARIES KF5::Crash)
+    set(CRASH_HANDLER_FOUND TRUE)
 
 else()
 
@@ -25,17 +28,32 @@ else()
         include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
 
         set(SYSTEM_SOURCES implementation/crash_catcher_win32.cpp)
+        set(CRASH_HANDLER_FOUND TRUE)
 
     elseif(UNIX)
 
-        find_package(LibBacktrace REQUIRED)
-        include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
+        set(CMAKE_REQUIRED_DEFINITIONS -D__USE_POSIX)
 
-        set(SYSTEM_SOURCES implementation/crash_catcher_unix.cpp)
+        include(CheckSymbolExists)
+        check_symbol_exists(sigaction signal.h HAS_SIGACTION)
+
+        if(HAS_SIGACTION)
+
+            find_package(LibBacktrace REQUIRED)
+            include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
+
+            set(SYSTEM_SOURCES implementation/crash_catcher_gcc_posix.cpp)
+            set(CRASH_HANDLER_FOUND TRUE)
+
+        endif()
 
     endif(WIN32)
 
+endif()
 
+if(NOT CRASH_HANDLER_FOUND)
+    set(SYSTEM_SOURCES implementation/crash_catcher_null.cpp)
+    message("No crash handler")
 endif()
 
 
@@ -87,7 +105,7 @@ if(WIN32)
 else()
 
     configure_file(paths_unix.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
-    
+
 endif()
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
