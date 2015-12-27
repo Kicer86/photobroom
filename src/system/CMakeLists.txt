@@ -22,13 +22,20 @@ if(KF5Crash_FOUND)
 
 else()
 
+
+
     if (WIN32)
 
-        find_package(DbgHelp REQUIRED)
-        include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
+        find_package(DbgHelp)
 
-        set(SYSTEM_SOURCES implementation/crash_catcher_win32.cpp)
-        set(CRASH_HANDLER_FOUND TRUE)
+        if(DbgHelp_FOUND)
+
+            include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
+
+            set(SYSTEM_SOURCES implementation/crash_catcher_win32.cpp)
+            set(CRASH_HANDLER_FOUND TRUE)
+
+        endif()
 
     elseif(UNIX)
 
