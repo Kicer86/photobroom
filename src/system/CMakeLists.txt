@@ -11,20 +11,24 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # crash handling
 set(CRASH_HANDLER_FOUND FALSE)
+set(CRASH_HANDLER_SOURCES)
+set(CRASH_HANDLER_LIBRARIES)
 
-if(KF5Crash_FOUND)
+if(NOT KF5Crash_FOUND)
 
     include_directories(SYSTEM $<TARGET_PROPERTY:KF5::Crash,INTERFACE_INCLUDE_DIRECTORIES>)
 
-    set(SYSTEM_SOURCES implementation/crash_catcher_kde5.cpp)
-    set(KF5CRASH_LIBRARIES KF5::Crash)
+    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_kde5.cpp)
+    set(CRASH_HANDLER_LIBRARIES KF5::Crash)
     set(CRASH_HANDLER_FOUND TRUE)
 
 else()
 
+    find_package(Breakpad)
 
+    if(Breakpad_FOUND)
 
-    if (WIN32)
+    elseif (WIN32)
 
         find_package(DbgHelp)
 
@@ -32,7 +36,8 @@ else()
 
             include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
 
-            set(SYSTEM_SOURCES implementation/crash_catcher_win32.cpp)
+            set(CRASH_HANDLER_SOURCES implementation/crash_catcher_win32.cpp)
+            set(CRASH_HANDLER_LIBRARIES ${DBGHELP_LIBRARIES})
             set(CRASH_HANDLER_FOUND TRUE)
 
         endif()
@@ -52,7 +57,8 @@ else()
 
                 include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
 
-                set(SYSTEM_SOURCES implementation/crash_catcher_gcc_posix.cpp)
+                set(CRASH_HANDLER_SOURCES implementation/crash_catcher_gcc_posix.cpp)
+                set(CRASH_HANDLER_LIBRARIES ${LIBBACKTRACE_LIBRARIES})
                 set(CRASH_HANDLER_FOUND TRUE)
 
             endif(LibBacktrace_FOUND)
@@ -64,8 +70,11 @@ else()
 endif(KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)
-    set(SYSTEM_SOURCES implementation/crash_catcher_null.cpp)
+    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_null.cpp)
 endif()
+
+
+set(SYSTEM_SOURCES ${CRASH_HANDLER_SOURCES})
 
 
 # system related stuff
@@ -123,9 +132,7 @@ add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 target_include_directories(system PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(system PRIVATE
                         Qt5::Core
-                        ${LIBBACKTRACE_LIBRARIES}
-                        ${DBGHELP_LIBRARIES}
-                        ${KF5CRASH_LIBRARIES}
+                        ${CRASH_HANDLER_LIBRARIES}
                      )
 
 hideSymbols(system)
