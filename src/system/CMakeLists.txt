@@ -2,7 +2,7 @@
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
-find_package(KF5Crash)
+find_package(KF5Crash QUIET)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
@@ -24,7 +24,7 @@ if(KF5Crash_FOUND)
 
 else()
 
-    find_package(Breakpad)
+    find_package(Breakpad QUIET)
 
     if(BREAKPAD_FOUND)
 
@@ -36,7 +36,7 @@ else()
 
         find_package(DbgHelp)
 
-        if(DbgHelp_FOUND)
+        if(DBGHELP_FOUND)
 
             include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
 
