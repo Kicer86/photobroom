@@ -14,7 +14,7 @@ set(CRASH_HANDLER_FOUND FALSE)
 set(CRASH_HANDLER_SOURCES)
 set(CRASH_HANDLER_LIBRARIES)
 
-if(NOT KF5Crash_FOUND)
+if(KF5Crash_FOUND)
 
     include_directories(SYSTEM $<TARGET_PROPERTY:KF5::Crash,INTERFACE_INCLUDE_DIRECTORIES>)
 
@@ -26,7 +26,7 @@ else()
 
     find_package(Breakpad)
 
-    if(Breakpad_FOUND)
+    if(BREAKPAD_FOUND)
 
         set(CRASH_HANDLER_SOURCES implementation/crash_catcher_breakpad.cpp)
         set(CRASH_HANDLER_LIBRARIES ${BREAKPAD_LIBRARIES})
@@ -69,9 +69,9 @@ else()
 
         endif(HAS_SIGACTION)
 
-    endif(Breakpad_FOUND)
+    endif(BREAKPAD_FOUND)
 
-endif(NOT KF5Crash_FOUND)
+endif(KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)
     set(CRASH_HANDLER_SOURCES implementation/crash_catcher_null.cpp)

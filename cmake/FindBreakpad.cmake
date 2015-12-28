@@ -3,13 +3,16 @@
 
 if(EXISTS ${CMAKE_SOURCE_DIR}/3rd_party/breakpad)
 
-    if (NOT TARGET breakpad)
+    if (NOT TARGET breakpad_build)
+
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party)
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/breakpad)
 
         add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/3rd_party/breakpad/install/usr/lib/libbreakpad.a
 
-                           COMMAND ${CMAKE_SOURCE_DIR}/3rd_party/breakpad/configure --prefix=/usr
+                           COMMAND ${CMAKE_SOURCE_DIR}/3rd_party/breakpad/configure --prefix=${CMAKE_BINARY_DIR}/3rd_party/breakpad/install
                            COMMAND make
-                           COMMAND make install DESTDIR=${CMAKE_BINARY_DIR}/3rd_party/breakpad/install
+                           COMMAND make install
 
                            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/3rd_party/breakpad
                           )
