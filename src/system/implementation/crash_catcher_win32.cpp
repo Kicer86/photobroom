@@ -18,48 +18,81 @@
 namespace
 {
 
-    void LogStackFrames(void* FaultAddress, char* eNextBP)
+    struct stack_frame {
+            struct stack_frame *prev;
+            void *return_addr;
+    } __attribute__((packed));
+    typedef struct stack_frame stack_frame;
+
+    void backtrace_from_fp(void **buf, int size, void* rfp)
     {
-        char* p, *pBP;
-        unsigned i, x, BpPassed;
-        static int  CurrentlyInTheStackDump = 0;
+            int i;
+            stack_frame *fp = static_cast<stack_frame *>(rfp);
 
-        BpPassed = (eNextBP != nullptr);
+            for(i = 0; i < size && fp != NULL; fp = fp->prev, i++)
+                    buf[i] = fp->return_addr;
+    }
 
-        if (eNextBP != nullptr)
+    void   LogStackFrames(PCONTEXT context)
+    {
+        HANDLE process = GetCurrentProcess();
+        HANDLE thread  = GetCurrentThread();
+        DWORD64 displacement = 0;
+        char name[256];
+        STACKFRAME64 stackFrame;
+        ZeroMemory(&stackFrame, sizeof(stackFrame));
+
+        stackFrame.AddrPC.Offset    = context->Eip;
+        stackFrame.AddrPC.Mode      = AddrModeFlat;
+        stackFrame.AddrStack.Offset = context->Esp;
+        stackFrame.AddrStack.Mode   = AddrModeFlat;
+        stackFrame.AddrFrame.Offset = context->Ebp;
+        stackFrame.AddrFrame.Mode   = AddrModeFlat;
+
+        for( int frame = 0; ; frame++ )
         {
-            asm
+            BOOL result = StackWalk64
             (
-                "movl %%ebp, %0\n\t"
-                :: "q"(eNextBP)
+                IMAGE_FILE_MACHINE_I386,
+                process,
+                thread,
+                &stackFrame,
+                context,
+                nullptr,
+                SymFunctionTableAccess64,
+                SymGetModuleBase64,
+                nullptr
             );
-        }
-        else
-            printf("\n  Fault Occurred At $ADDRESS:%08LX\n", (int)FaultAddress);
 
-        // prevent infinite loops
-        for (i = 0; eNextBP && i < 100; i++)
-        {
-            pBP = eNextBP;           // keep current BasePointer
-            eNextBP = *(char**)pBP;  // dereference next BP
-            p = pBP + 8;
-            // Write 20 Bytes of potential arguments
-            printf("         with ");
+            SYMBOL_INFO* symbol = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+            symbol->MaxNameLen   = 255;
+            symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
 
-            for (x = 0; p < eNextBP && x < 20; p++, x++)
-                printf("%02X ", *(unsigned char*)p);
+            BOOL s1 = SymFromAddr( process, ( ULONG64 )stackFrame.AddrPC.Offset, &displacement, symbol );
+            DWORD err = GetLastError();
+            DWORD s2 = UnDecorateSymbolName( symbol->Name, ( PSTR )name, 256, UNDNAME_COMPLETE );
 
-            printf("\n\n");
+            printf
+            (
+                "Frame %lu:\n"
+                "    Symbol name:    %s\n"
+                "    PC address:     0x%08LX\n"
+                "    Stack address:  0x%08LX\n"
+                "    Frame address:  0x%08LX\n"
+                "\n",
+                frame,
+                symbol->Name,
+                ( ULONG64 )stackFrame.AddrPC.Offset,
+                ( ULONG64 )stackFrame.AddrStack.Offset,
+                ( ULONG64 )stackFrame.AddrFrame.Offset
+            );
 
-            if (i == 1 && ! BpPassed)
-                printf("*************************************\n"
-                       "         Fault Occurred Here:\n");
+            free(symbol);
 
-            // Write the backjump address
-            printf("*** %2d called from $ADDRESS:%08LX\n", i, *(char**)(pBP + 4));
-
-            if (*(char**)(pBP + 4) == NULL)
+            if( !result )
+            {
                 break;
+            }
         }
 
     }
@@ -95,8 +128,9 @@ namespace
 
         free(symbol);
 
-        LogStackFrames(ExInfo->ExceptionRecord->ExceptionAddress,
-                       (char*)ExInfo->ContextRecord->Ebp);
+        backtrace_from_fp(stack, 100, reinterpret_cast<void *>(ExInfo->ContextRecord->Ebp));
+
+        LogStackFrames(ExInfo->ContextRecord);
 
         CrashCatcher::saveOutput(crashReport.str());
     }
