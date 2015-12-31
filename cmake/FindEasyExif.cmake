@@ -1,7 +1,9 @@
 
 #rules for finding EasyExif
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/3rd_party/easyexif)
+option(USE_LOCAL_EASYEXIF "Use easyexif library from 3rd_party directory when ON. Otherwise try to find it.")
+
+if(USE_LOCAL_EASYEXIF)
 
     include(${PROJECT_SOURCE_DIR}/cmake/3rd_party/easyexif.cmake)
     addEasyExif()
