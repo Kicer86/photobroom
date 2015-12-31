@@ -1,7 +1,9 @@
 
 #rules for finding HashLibrary
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/3rd_party/hash-library)
+option(USE_LOCAL_HASHLIBRARY "Use hash-library library from 3rd_party directory when ON. Otherwise try to find it.")
+
+if(USE_LOCAL_HASHLIBRARY)
 
     include(${PROJECT_SOURCE_DIR}/cmake/3rd_party/hashlibrary.cmake)
     addHashLibrary()
