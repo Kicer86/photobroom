@@ -4,3 +4,6 @@
 [submodule "3rd_party/hash-library"]
 	path = 3rd_party/hash-library
 	url = http://create.stephan-brumme.com/hash-library/.git
+[submodule "3rd_party/jsoncpp"]
+	path = 3rd_party/jsoncpp
+	url = https://github.com/open-source-parsers/jsoncpp.git
