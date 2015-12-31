@@ -7,7 +7,7 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/3rd_party/jsoncpp)
     addJsonCpp()
 
     set(JSONCPP_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/3rd_party/jsoncpp/include)
-    set(JSONCPP_LIBRARY jsoncpp)
+    set(JSONCPP_LIBRARY jsoncpp_lib_static)
 
 else()
 
