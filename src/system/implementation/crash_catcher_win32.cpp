@@ -24,6 +24,7 @@ namespace
     struct FunctionInfo
     {
         void* ptr;
+        std::string source;
         std::string name;
     };
 
@@ -31,24 +32,36 @@ namespace
     std::vector<FunctionInfo> findFunctionNames(const std::vector<void *>& ptrs)
     {
         std::vector<FunctionInfo> result;
-        HANDLE process = GetCurrentProcess();
+        std::stringstream args;
 
-        SYMBOL_INFO* symbol = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
-        symbol->MaxNameLen   = 255;
-        symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+        args << "-f -e " << CrashCatcher::name() << " ";
 
         for( std::size_t i = 0; i < ptrs.size(); i++ )
-        {
-            SymFromAddr( process, DWORD64(ptrs[i]), 0, symbol );
+            args << ptrs[i] << " ";
 
+        const std::string args_str = std::string("D:\\tools\\mingw-w64\\i686-5.2.0-posix-dwarf-rt_v4-rev1\\mingw32\\bin\\addr2line.exe ") + args.str();
+
+        FILE* addr2line = popen(args_str.c_str(), "r");
+
+        char line[1024];
+        for( std::size_t i = 0; i < ptrs.size(); i++ )
+        {
+            char* status = nullptr;
             FunctionInfo info;
             info.ptr = ptrs[i];
-            info.name = symbol->Name;
+
+            status = fgets(line, sizeof(line)-1, addr2line);
+            assert(status != nullptr);
+            info.source = line;
+
+            status = fgets(line, sizeof(line)-1, addr2line);
+            assert(status != nullptr);
+            info.name = line;
 
             result.push_back(info);
         }
 
-        free(symbol);
+        pclose(addr2line);
 
         return result;
     }
@@ -133,7 +146,6 @@ namespace
 
         std::vector<void *> stack3 = LogStackFrames(ExInfo->ContextRecord);
         std::vector<FunctionInfo> info3 = findFunctionNames(stack3);
-
 
         CrashCatcher::saveOutput(crashReport.str());
     }
