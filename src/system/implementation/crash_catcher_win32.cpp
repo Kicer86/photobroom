@@ -4,6 +4,7 @@
 #include <cassert>
 #include <csignal>
 #include <sstream>
+#include <vector>
 
 #include <windows.h>
 #include <DbgHelp.h>
@@ -14,9 +15,43 @@
 // https://oroboro.com/stack-trace-on-crash/
 // https://stackwalker.codeplex.com/
 
+// http://stackoverflow.com/questions/22481126/why-isnt-symgetsymfromaddr64-working-it-returns-error-code-126
+// http://stackoverflow.com/questions/13437158/obtaining-frame-pointer-in-c
 
 namespace
 {
+
+    struct FunctionInfo
+    {
+        void* ptr;
+        std::string name;
+    };
+
+
+    std::vector<FunctionInfo> findFunctionNames(const std::vector<void *>& ptrs)
+    {
+        std::vector<FunctionInfo> result;
+        HANDLE process = GetCurrentProcess();
+
+        SYMBOL_INFO* symbol = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+        symbol->MaxNameLen   = 255;
+        symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+
+        for( std::size_t i = 0; i < ptrs.size(); i++ )
+        {
+            SymFromAddr( process, DWORD64(ptrs[i]), 0, symbol );
+
+            FunctionInfo info;
+            info.ptr = ptrs[i];
+            info.name = symbol->Name;
+
+            result.push_back(info);
+        }
+
+        free(symbol);
+
+        return result;
+    }
 
     struct stack_frame {
             struct stack_frame *prev;
@@ -24,21 +59,22 @@ namespace
     } __attribute__((packed));
     typedef struct stack_frame stack_frame;
 
-    void backtrace_from_fp(void **buf, int size, void* rfp)
+    std::vector<void *> backtrace_from_fp(void* rfp)
     {
-            int i;
-            stack_frame *fp = static_cast<stack_frame *>(rfp);
+        std::vector<void *> result;
 
-            for(i = 0; i < size && fp != NULL; fp = fp->prev, i++)
-                    buf[i] = fp->return_addr;
+        for(stack_frame *fp = static_cast<stack_frame *>(rfp); fp != nullptr; fp = fp->prev)
+            result.push_back(fp->return_addr);
+
+        return result;
     }
 
-    void   LogStackFrames(PCONTEXT context)
+    std::vector<void *> LogStackFrames(PCONTEXT context)
     {
+        std::vector<void *> result;
+
         HANDLE process = GetCurrentProcess();
         HANDLE thread  = GetCurrentThread();
-        DWORD64 displacement = 0;
-        char name[256];
         STACKFRAME64 stackFrame;
         ZeroMemory(&stackFrame, sizeof(stackFrame));
 
@@ -49,9 +85,9 @@ namespace
         stackFrame.AddrFrame.Offset = context->Ebp;
         stackFrame.AddrFrame.Mode   = AddrModeFlat;
 
-        for( int frame = 0; ; frame++ )
+        for(;;)
         {
-            BOOL result = StackWalk64
+            BOOL status = StackWalk64
             (
                 IMAGE_FILE_MACHINE_I386,
                 process,
@@ -64,37 +100,13 @@ namespace
                 nullptr
             );
 
-            SYMBOL_INFO* symbol = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
-            symbol->MaxNameLen   = 255;
-            symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+            result.push_back( reinterpret_cast<void *>(stackFrame.AddrPC.Offset) );
 
-            BOOL s1 = SymFromAddr( process, ( ULONG64 )stackFrame.AddrPC.Offset, &displacement, symbol );
-            DWORD err = GetLastError();
-            DWORD s2 = UnDecorateSymbolName( symbol->Name, ( PSTR )name, 256, UNDNAME_COMPLETE );
-
-            printf
-            (
-                "Frame %lu:\n"
-                "    Symbol name:    %s\n"
-                "    PC address:     0x%08LX\n"
-                "    Stack address:  0x%08LX\n"
-                "    Frame address:  0x%08LX\n"
-                "\n",
-                frame,
-                symbol->Name,
-                ( ULONG64 )stackFrame.AddrPC.Offset,
-                ( ULONG64 )stackFrame.AddrStack.Offset,
-                ( ULONG64 )stackFrame.AddrFrame.Offset
-            );
-
-            free(symbol);
-
-            if( !result )
-            {
+            if( !status )
                 break;
-            }
         }
 
+        return result;
     }
 
     void bt(EXCEPTION_POINTERS* ExInfo)
@@ -104,33 +116,24 @@ namespace
         std::stringstream crashReport;
         crashReport << std::endl;
 
-        unsigned int   i;
-        void*          stack[ 100 ];
-        unsigned short frames;
-        SYMBOL_INFO*   symbol;
+        void         * stack[ 100 ];
         HANDLE         process;
 
         process = GetCurrentProcess();
 
         SymInitialize(process, NULL, TRUE);
 
-        frames               = CaptureStackBackTrace(0, 100, stack, NULL);
-        symbol               = (SYMBOL_INFO*)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
-        symbol->MaxNameLen   = 255;
-        symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+        int frames = CaptureStackBackTrace( 0, 100, stack, NULL );
 
-        for (i = 0; i < frames; i++)
-        {
-            SymFromAddr(process, (DWORD64)(stack[ i ]), 0, symbol);
+        std::vector<void *> stack1(&stack[0], &stack[frames]);
+        std::vector<FunctionInfo> info1 = findFunctionNames(stack1);
 
-            crashReport << frames - i - 1 << ": " << symbol->Name << " - " << std::hex << symbol->Address << std::endl;
-        }
+        std::vector<void *> stack2 = backtrace_from_fp(reinterpret_cast<void *>(ExInfo->ContextRecord->Ebp));
+        std::vector<FunctionInfo> info2 = findFunctionNames(stack2);
 
-        free(symbol);
+        std::vector<void *> stack3 = LogStackFrames(ExInfo->ContextRecord);
+        std::vector<FunctionInfo> info3 = findFunctionNames(stack3);
 
-        backtrace_from_fp(stack, 100, reinterpret_cast<void *>(ExInfo->ContextRecord->Ebp));
-
-        LogStackFrames(ExInfo->ContextRecord);
 
         CrashCatcher::saveOutput(crashReport.str());
     }
