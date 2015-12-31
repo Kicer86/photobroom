@@ -1,3 +1,6 @@
 [submodule "3rd_party/easyexif"]
 	path = 3rd_party/easyexif
 	url = https://github.com/mayanklahiri/easyexif.git
+[submodule "3rd_party/hash-library"]
+	path = 3rd_party/hash-library
+	url = http://create.stephan-brumme.com/hash-library/.git
