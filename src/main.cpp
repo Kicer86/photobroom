@@ -24,13 +24,12 @@ int main(int argc, char **argv)
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
 
+    CrashCatcher::init(argv[0]);
+
     const QString basePath = System::getApplicationConfigDir() + "/logs";
 
     // build objects
     LoggerFactory logger_factory(basePath);
-
-    std::unique_ptr<ILogger> crashCatcherLog(logger_factory.get("CrashCatcher"));
-    CrashCatcher::init(argv[0], crashCatcherLog.get());
 
     Configuration configuration;
 
