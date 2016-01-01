@@ -2,7 +2,7 @@
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
-find_package(KF5Crash QUIET)
+find_package(KF5Crash)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
