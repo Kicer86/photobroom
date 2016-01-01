@@ -47,9 +47,6 @@ int main(int argc, char **argv)
     ProjectManager prjManager;
     prjManager.set(&database_builder);
 
-    int * a = nullptr;
-    int b= *a;
-
     // start gui
     gui.set(&prjManager);
     gui.set(&pluginLoader);
