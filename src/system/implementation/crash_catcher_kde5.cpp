@@ -1,5 +1,5 @@
 
-#include <KF5/KCrash/KCrash>
+#include <KCrash/KCrash>
 
 #include "crash_catcher.hpp"
 
