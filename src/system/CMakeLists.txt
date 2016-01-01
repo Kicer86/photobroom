@@ -22,55 +22,6 @@ if(KF5Crash_FOUND)
     set(CRASH_HANDLER_LIBRARIES KF5::Crash)
     set(CRASH_HANDLER_FOUND TRUE)
 
-else()
-
-    find_package(Breakpad QUIET)
-
-    if(BREAKPAD_FOUND)
-
-        set(CRASH_HANDLER_SOURCES implementation/crash_catcher_breakpad.cpp)
-        set(CRASH_HANDLER_LIBRARIES ${BREAKPAD_LIBRARIES})
-        set(CRASH_HANDLER_FOUND TRUE)
-
-    elseif (WIN32)
-
-        find_package(DbgHelp)
-
-        if(DBGHELP_FOUND)
-
-            include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
-
-            set(CRASH_HANDLER_SOURCES implementation/crash_catcher_win32.cpp)
-            set(CRASH_HANDLER_LIBRARIES ${DBGHELP_LIBRARIES})
-            set(CRASH_HANDLER_FOUND TRUE)
-
-        endif()
-
-    elseif(UNIX)
-
-        set(CMAKE_REQUIRED_DEFINITIONS -D__USE_POSIX)
-
-        include(CheckSymbolExists)
-        check_symbol_exists(sigaction signal.h HAS_SIGACTION)
-
-        if(HAS_SIGACTION)
-
-            find_package(LibBacktrace)
-
-            if(LibBacktrace_FOUND)
-
-                include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
-
-                set(CRASH_HANDLER_SOURCES implementation/crash_catcher_gcc_posix.cpp)
-                set(CRASH_HANDLER_LIBRARIES ${LIBBACKTRACE_LIBRARIES})
-                set(CRASH_HANDLER_FOUND TRUE)
-
-            endif(LibBacktrace_FOUND)
-
-        endif(HAS_SIGACTION)
-
-    endif(BREAKPAD_FOUND)
-
 endif(KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)
