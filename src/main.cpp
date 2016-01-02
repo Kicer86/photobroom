@@ -8,13 +8,14 @@
 
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
+#include <core/ilogger.hpp>
 #include <configuration/configuration.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
 #include <plugins/plugin_loader.hpp>
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
-
+#include <system/crash_catcher.hpp>
 
 int main(int argc, char **argv)
 {
@@ -22,6 +23,8 @@ int main(int argc, char **argv)
 
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
+
+    CrashCatcher::init(argv[0]);
 
     const QString basePath = System::getApplicationConfigDir() + "/logs";
 
@@ -34,7 +37,7 @@ int main(int argc, char **argv)
     pluginLoader.set(&logger_factory);
 
     TaskExecutor taskExecutor;
-    
+
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
     database_builder.set(&logger_factory);
