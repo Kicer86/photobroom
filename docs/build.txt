@@ -10,18 +10,18 @@ Required tools and libraries:
  - Boost
 
  Optional libraries (for crash catching):
- - KCrash (Linux/Windows)
+ - KCrash + drkonqi (Linux/Windows)
 
-* Marked libraries can be automatically built with PhotoBroom. 
+* Marked libraries can be automatically built with PhotoBroom.
   To enable this feature initialize git submodules with:
   git submodule init
   git submodule update
-  
+
   These two commands will download sources.
   Then it is necessary to enable particular libraries with proper variable
   in CMake's cache set to ON:
   USE_LOCAL_EASYEXIF, USE_LOCAL_HASHLIBRARY, USE_LOCAL_JSONCPP respectively
-  
+
 Tested compilers:
 1. gcc  (Linux and Windows)
         At least 4.8.0 version is required (due to c++14).
@@ -43,5 +43,5 @@ Extra targets available for Windows:
 'deploy' - prepares extra dir with Qt's libraries and plugins required by PhotoBroom.
 'install' target will install not only PhotoBroom's files but also Qt's libraries and translations.
           Other libraries will be also included.
-'package' target will create a package (Installator) with all files required for running 
+'package' target will create a package (Installator) with all files required for running
           PhotoBroom on other Windows machines.
