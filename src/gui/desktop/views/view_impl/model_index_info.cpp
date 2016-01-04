@@ -82,9 +82,9 @@ QRect ModelIndexInfo::getOverallRect() const
 {
     const QPoint pos    = getPosition();
     const QSize overall = getOverallSize();
-    const QRect overallRect = QRect(pos, overall);
+    const QRect result = QRect(pos, overall);
 
-    return overallRect;
+    return result;
 }
 
 
@@ -158,7 +158,7 @@ ModelIndexInfo::operator std::string() const
 {
     std::stringstream result;
     result << getRect() << ", " << getOverallSize() << ", expanded: " << expanded;
-    
+
     return result.str();
 }
 

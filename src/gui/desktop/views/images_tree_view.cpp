@@ -210,9 +210,9 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 
     for (const QModelIndex& item: items)
     {
-        Qt::ItemFlags flags = m->flags(item);
+        Qt::ItemFlags f = m->flags(item);
 
-        if ( (flags & Qt::ItemIsSelectable) == Qt::ItemIsSelectable )
+        if ( (f & Qt::ItemIsSelectable) == Qt::ItemIsSelectable )
             selection.select(item, item);
     }
 
@@ -384,7 +384,7 @@ QPoint ImagesTreeView::getOffset() const
 }
 
 
-void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
+void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& /*roles*/)
 {
     const QItemSelection items(topLeft, bottomRight);
 

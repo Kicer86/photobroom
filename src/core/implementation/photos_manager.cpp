@@ -91,7 +91,5 @@ QImage PhotosManager::getThumbnail(const QString& path)
                           image.scaledToHeight(120, Qt::SmoothTransformation):
                           image;
 
-    const QRect size = scaled.rect();
-
     return scaled;
 }
