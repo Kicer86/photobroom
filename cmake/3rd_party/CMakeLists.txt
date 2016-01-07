@@ -45,7 +45,8 @@ ExternalProject_Add(kcrash
 # EASYEXIF
 ExternalProject_Add(easyexif
     GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
-    PREFIX ${PROJECT_BINARY_DIR}
+    PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/easyexif/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/easyexif
+    PREFIX ${PROJECT_BINARY_DIR} 
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
     )
     
