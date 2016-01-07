@@ -44,14 +44,14 @@ ExternalProject_Add(kcrash
 
 # EASYEXIF
 ExternalProject_Add(easyexif
-    GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
+    GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
     PREFIX ${PROJECT_BINARY_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
     )
     
 # HASH-LIBRARY
 ExternalProject_Add(hash-library
-    GIT_REPOSITORY http://create.stephan-brumme.com/hash-library.git
+    GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
     PREFIX ${PROJECT_BINARY_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
     )
