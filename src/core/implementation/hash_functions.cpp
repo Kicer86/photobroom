@@ -24,7 +24,7 @@
 #include <sstream>
 #include <string>
 
-#include <hash-library/sha256.h>
+#include <hashlibrary/sha256.h>
 
 std::string HashFunctions::sha256(const unsigned char* str, unsigned int len)
 {

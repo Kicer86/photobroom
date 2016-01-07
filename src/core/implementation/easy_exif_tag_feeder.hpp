@@ -16,7 +16,7 @@ class EasyExifTagFeeder: public ATagFeeder
         EasyExifTagFeeder(IPhotosManager *);
 
     private:
-        EXIFInfo m_exif_data;
+        easyexif::EXIFInfo m_exif_data;
 
         void collect(const QByteArray &) override;
         std::string get(TagTypes) override;
