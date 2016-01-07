@@ -1,22 +1,7 @@
 
 #rules for finding HashLibrary
-
-option(USE_LOCAL_HASHLIBRARY "Use hash-library library from 3rd_party directory when ON. Otherwise try to find it.")
-
-if(USE_LOCAL_HASHLIBRARY)
-
-    include(${PROJECT_SOURCE_DIR}/cmake/3rd_party/hashlibrary.cmake)
-    addHashLibrary()
-
-    set(HASHLIBRARY_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/3rd_party/)
-    set(HASHLIBRARY_LIBRARY hashlibrary)
-
-else()
-
-    find_path(HASHLIBRARY_INCLUDE_DIR hash-library/sha256.h)
-    find_library(HASHLIBRARY_LIBRARY NAMES hashlibrary)
-
-endif()
+find_path(HASHLIBRARY_INCLUDE_DIR hash-library/sha256.h)
+find_library(HASHLIBRARY_LIBRARY NAMES hashlibrary)
 
 set(HASHLIBRARY_LIBRARIES ${HASHLIBRARY_LIBRARY} )
 set(HASHLIBRARY_INCLUDE_DIRS ${HASHLIBRARY_INCLUDE_DIR} )
