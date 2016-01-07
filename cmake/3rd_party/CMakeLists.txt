@@ -8,59 +8,74 @@ include(ExternalProject)
 set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install)
 
 # KDE5
-ExternalProject_Add(extra-cmake-modules
-    GIT_REPOSITORY git://anongit.kde.org/extra-cmake-modules.git
-    PREFIX ${PROJECT_BINARY_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-    )
 
-ExternalProject_Add(kcoreaddons
-    DEPENDS extra-cmake-modules
-    GIT_REPOSITORY git://anongit.kde.org/kcoreaddons.git
-    PREFIX ${PROJECT_BINARY_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-               -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-    )
+option(BUILD_KCRASH      "Build KCrash will all dependencies.")
+option(BUILD_EASYEXIF    "Build easyexif.")
+option(BUILD_HASHLIBRARY "Build hashlibrary.")
+option(BUILD_JSONCPP     "Build jsoncpp.")
 
-ExternalProject_Add(kwindowsystem
-    DEPENDS extra-cmake-modules
-    GIT_REPOSITORY git://anongit.kde.org/kwindowsystem.git
-    PREFIX ${PROJECT_BINARY_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-               -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-    )
-    
-ExternalProject_Add(kcrash
-    DEPENDS extra-cmake-modules
-            kcoreaddons
-            kwindowsystem
-    GIT_REPOSITORY git://anongit.kde.org/kcrash.git
-    PREFIX ${PROJECT_BINARY_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-               -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-               -DKF5CoreAddons_DIR=${INSTALL_LOCATION}/lib/cmake/KF5CoreAddons
-               -DKF5WindowSystem_DIR=${INSTALL_LOCATION}/lib/cmake/KF5WindowSystem
-    )
+if(BUILD_KCRASH)
 
-# EASYEXIF
-ExternalProject_Add(easyexif
-    GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
-    PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/easyexif/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/easyexif
-    PREFIX ${PROJECT_BINARY_DIR} 
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-    )
-    
-# HASH-LIBRARY
-ExternalProject_Add(hash-library
-    GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
-    PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/hash-library/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/hash-library
-    PREFIX ${PROJECT_BINARY_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-    )
-    
-# JSONCPP
-ExternalProject_Add(jsoncpp
-    GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
-    PREFIX ${PROJECT_BINARY_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-    )
+    ExternalProject_Add(extra-cmake-modules
+        GIT_REPOSITORY git://anongit.kde.org/extra-cmake-modules.git
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        )
+
+    ExternalProject_Add(kcoreaddons
+        DEPENDS extra-cmake-modules
+        GIT_REPOSITORY git://anongit.kde.org/kcoreaddons.git
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+                -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
+        )
+
+    ExternalProject_Add(kwindowsystem
+        DEPENDS extra-cmake-modules
+        GIT_REPOSITORY git://anongit.kde.org/kwindowsystem.git
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+                -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
+        )
+        
+    ExternalProject_Add(kcrash
+        DEPENDS extra-cmake-modules
+                kcoreaddons
+                kwindowsystem
+        GIT_REPOSITORY git://anongit.kde.org/kcrash.git
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+                -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
+                -DKF5CoreAddons_DIR=${INSTALL_LOCATION}/lib/cmake/KF5CoreAddons
+                -DKF5WindowSystem_DIR=${INSTALL_LOCATION}/lib/cmake/KF5WindowSystem
+        )
+endif()
+        
+if(BUILD_EASYEXIF)        
+    # EASYEXIF
+    ExternalProject_Add(easyexif
+        GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
+        PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/easyexif/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/easyexif && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/easyexif
+        PREFIX ${PROJECT_BINARY_DIR} 
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        )
+endif()
+
+if(BUILD_HASHLIBRARY)
+    # HASH-LIBRARY
+    ExternalProject_Add(hash-library
+        GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
+        PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/hash-library/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/hash-library && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/hash-library
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        )
+endif()
+       
+if(BUILD_JSONCPP)
+    # JSONCPP
+    ExternalProject_Add(jsoncpp
+        GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        )
+endif()
