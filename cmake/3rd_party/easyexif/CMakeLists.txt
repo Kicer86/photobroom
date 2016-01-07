@@ -10,4 +10,4 @@ add_library(easyexif STATIC exif.cpp)
 set_target_properties(easyexif PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 install(TARGETS easyexif DESTINATION lib)
-install(FILES exif.h DESTINATION include)
+install(FILES exif.h DESTINATION include/easyexif)
