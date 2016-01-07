@@ -1,6 +1,8 @@
 
 project(third_party_libraries)
 
+cmake_minimum_required(VERSION 3.0)
+
 include(ExternalProject)
 
 set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install)
