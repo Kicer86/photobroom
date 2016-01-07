@@ -53,6 +53,7 @@ ExternalProject_Add(easyexif
 # HASH-LIBRARY
 ExternalProject_Add(hash-library
     GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
+    PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/hash-library/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/hash-library
     PREFIX ${PROJECT_BINARY_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
     )
