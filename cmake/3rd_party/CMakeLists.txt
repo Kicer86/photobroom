@@ -55,6 +55,7 @@ if(BUILD_EASYEXIF)
     # EASYEXIF
     ExternalProject_Add(easyexif
         GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
+        GIT_TAG v1.0
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/easyexif/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/easyexif && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/easyexif
         PREFIX ${PROJECT_BINARY_DIR} 
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
@@ -65,6 +66,7 @@ if(BUILD_HASHLIBRARY)
     # HASH-LIBRARY
     ExternalProject_Add(hash-library
         GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
+        GIT_TAG 21d2fed433dcb05a9a89561ca8774ef91fe48ffc
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/hash-library/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/hash-library && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/hash-library
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
@@ -75,6 +77,7 @@ if(BUILD_JSONCPP)
     # JSONCPP
     ExternalProject_Add(jsoncpp
         GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
+        GIT_TAG 9234cbbc90d1f6c70dd5a90b4d533779e45c820c
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
         )
