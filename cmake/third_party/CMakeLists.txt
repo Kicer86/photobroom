@@ -6,7 +6,10 @@ cmake_minimum_required(VERSION 3.0)
 include(ExternalProject)
 
 set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install)
-
+set(COMMON_OPTIONS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION} 
+                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                   -DCMAKE_MAKE_PROGRAM=${CMAKE_MAKE_PROGRAM})
+                   
 option(BUILD_KCRASH      "Build KCrash will all dependencies.")
 option(BUILD_EASYEXIF    "Build easyexif.")
 option(BUILD_HASHLIBRARY "Build hashlibrary.")
@@ -19,23 +22,23 @@ if(BUILD_KCRASH)
     ExternalProject_Add(extra-cmake-modules
         GIT_REPOSITORY git://anongit.kde.org/extra-cmake-modules.git
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        CMAKE_ARGS ${COMMON_OPTIONS}
         )
 
     ExternalProject_Add(kcoreaddons
         DEPENDS extra-cmake-modules
         GIT_REPOSITORY git://anongit.kde.org/kcoreaddons.git
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-                -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
+        CMAKE_ARGS ${COMMON_OPTIONS}
+                   -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
         )
 
     ExternalProject_Add(kwindowsystem
         DEPENDS extra-cmake-modules
         GIT_REPOSITORY git://anongit.kde.org/kwindowsystem.git
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-                -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
+        CMAKE_ARGS ${COMMON_OPTIONS}
+                   -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
         )
         
     ExternalProject_Add(kcrash
@@ -44,10 +47,17 @@ if(BUILD_KCRASH)
                 kwindowsystem
         GIT_REPOSITORY git://anongit.kde.org/kcrash.git
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
-                -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-                -DKF5CoreAddons_DIR=${INSTALL_LOCATION}/lib/cmake/KF5CoreAddons
-                -DKF5WindowSystem_DIR=${INSTALL_LOCATION}/lib/cmake/KF5WindowSystem
+        CMAKE_ARGS ${COMMON_OPTIONS}
+                   -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
+                   -DKF5CoreAddons_DIR=${INSTALL_LOCATION}/lib/cmake/KF5CoreAddons
+                   -DKF5WindowSystem_DIR=${INSTALL_LOCATION}/lib/cmake/KF5WindowSystem
+        )
+        
+    ExternalProject_Add(plasma-workspace
+        GIT_REPOSITORY git://anongit.kde.org/plasma-workspace.git
+        #PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/plasma-workspace/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/plasma-workspace
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
        
@@ -59,7 +69,7 @@ if(BUILD_EASYEXIF)
         GIT_TAG v1.0
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/easyexif/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/easyexif && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/easyexif
         PREFIX ${PROJECT_BINARY_DIR} 
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
 
@@ -71,7 +81,7 @@ if(BUILD_HASHLIBRARY)
         GIT_TAG 21d2fed433dcb05a9a89561ca8774ef91fe48ffc
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/hash-library/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/hash-library && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/hash-library
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
        
@@ -82,6 +92,6 @@ if(BUILD_JSONCPP)
         GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
         GIT_TAG 9234cbbc90d1f6c70dd5a90b4d533779e45c820c
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
+        CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
