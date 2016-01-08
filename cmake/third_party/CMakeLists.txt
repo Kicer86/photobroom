@@ -10,57 +10,10 @@ set(COMMON_OPTIONS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                    -DCMAKE_MAKE_PROGRAM=${CMAKE_MAKE_PROGRAM})
                    
-option(BUILD_KCRASH      "Build KCrash will all dependencies.")
 option(BUILD_EASYEXIF    "Build easyexif.")
 option(BUILD_HASHLIBRARY "Build hashlibrary.")
 option(BUILD_JSONCPP     "Build jsoncpp.")
-
-
-# KDE5
-if(BUILD_KCRASH)
-
-    ExternalProject_Add(extra-cmake-modules
-        GIT_REPOSITORY git://anongit.kde.org/extra-cmake-modules.git
-        PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS}
-        )
-
-    ExternalProject_Add(kcoreaddons
-        DEPENDS extra-cmake-modules
-        GIT_REPOSITORY git://anongit.kde.org/kcoreaddons.git
-        PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS}
-                   -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-        )
-
-    ExternalProject_Add(kwindowsystem
-        DEPENDS extra-cmake-modules
-        GIT_REPOSITORY git://anongit.kde.org/kwindowsystem.git
-        PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS}
-                   -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-        )
-        
-    ExternalProject_Add(kcrash
-        DEPENDS extra-cmake-modules
-                kcoreaddons
-                kwindowsystem
-        GIT_REPOSITORY git://anongit.kde.org/kcrash.git
-        PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS}
-                   -DECM_DIR=${INSTALL_LOCATION}/share/ECM/cmake
-                   -DKF5CoreAddons_DIR=${INSTALL_LOCATION}/lib/cmake/KF5CoreAddons
-                   -DKF5WindowSystem_DIR=${INSTALL_LOCATION}/lib/cmake/KF5WindowSystem
-        )
-        
-    ExternalProject_Add(plasma-workspace
-        GIT_REPOSITORY git://anongit.kde.org/plasma-workspace.git
-        #PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/plasma-workspace/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/plasma-workspace
-        PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS}
-        )
-endif()
-       
+ 
        
 # EASYEXIF
 if(BUILD_EASYEXIF)  
