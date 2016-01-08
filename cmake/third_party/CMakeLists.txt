@@ -7,13 +7,13 @@ include(ExternalProject)
 
 set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install)
 
-# KDE5
-
 option(BUILD_KCRASH      "Build KCrash will all dependencies.")
 option(BUILD_EASYEXIF    "Build easyexif.")
 option(BUILD_HASHLIBRARY "Build hashlibrary.")
 option(BUILD_JSONCPP     "Build jsoncpp.")
 
+
+# KDE5
 if(BUILD_KCRASH)
 
     ExternalProject_Add(extra-cmake-modules
@@ -50,9 +50,10 @@ if(BUILD_KCRASH)
                 -DKF5WindowSystem_DIR=${INSTALL_LOCATION}/lib/cmake/KF5WindowSystem
         )
 endif()
-        
-if(BUILD_EASYEXIF)        
-    # EASYEXIF
+       
+       
+# EASYEXIF
+if(BUILD_EASYEXIF)  
     ExternalProject_Add(easyexif
         GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
         GIT_TAG v1.0
@@ -62,8 +63,9 @@ if(BUILD_EASYEXIF)
         )
 endif()
 
+
+# HASH-LIBRARY
 if(BUILD_HASHLIBRARY)
-    # HASH-LIBRARY
     ExternalProject_Add(hash-library
         GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
         GIT_TAG 21d2fed433dcb05a9a89561ca8774ef91fe48ffc
@@ -73,8 +75,9 @@ if(BUILD_HASHLIBRARY)
         )
 endif()
        
+       
+# JSONCPP
 if(BUILD_JSONCPP)
-    # JSONCPP
     ExternalProject_Add(jsoncpp
         GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
         GIT_TAG 9234cbbc90d1f6c70dd5a90b4d533779e45c820c
