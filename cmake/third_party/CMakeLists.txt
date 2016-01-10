@@ -13,6 +13,7 @@ set(COMMON_OPTIONS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION}
 option(BUILD_EASYEXIF    "Build easyexif.")
 option(BUILD_HASHLIBRARY "Build hashlibrary.")
 option(BUILD_JSONCPP     "Build jsoncpp.")
+option(BUILD_OPENLIBRARY "Build openlibrary.")
  
        
 # EASYEXIF
@@ -44,6 +45,16 @@ if(BUILD_JSONCPP)
     ExternalProject_Add(jsoncpp
         GIT_REPOSITORY https://github.com/open-source-parsers/jsoncpp.git
         GIT_TAG 9234cbbc90d1f6c70dd5a90b4d533779e45c820c
+        PREFIX ${PROJECT_BINARY_DIR}
+        CMAKE_ARGS ${COMMON_OPTIONS}
+        )
+endif()
+
+
+# OPEN LIBRARY
+if(BUILD_OPENLIBRARY)
+    ExternalProject_Add(openlibrary
+        GIT_REPOSITORY https://github.com/Kicer86/openlibrary.git
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
