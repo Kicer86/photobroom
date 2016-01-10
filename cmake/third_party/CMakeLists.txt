@@ -55,7 +55,6 @@ endif()
 if(BUILD_OPENLIBRARY)
     ExternalProject_Add(openlibrary
         GIT_REPOSITORY https://github.com/Kicer86/openlibrary.git
-        GIT_TAG v_2.0
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
