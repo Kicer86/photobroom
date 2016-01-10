@@ -6,21 +6,21 @@ Required tools and libraries:
  - easyexif*
  - GMock and GTest
  - jsoncpp*
- - OpenLibrary
+ - OpenLibrary*
  - Boost
 
  Optional libraries (for crash catching):
  - KCrash + drkonqi (Linux/Windows)
 
-* Marked libraries can be automatically built with PhotoBroom.
-  To enable this feature initialize git submodules with:
-  git submodule init
-  git submodule update
+* For convenience it is possible to use prepared CMake script
+  for download, build and install of marked libraris.
+  If you want to use this feature take cmake/third_party directory
+  as CMake source dir. Place output dir somewhere outise photo broom sources.
+  
+  By default none of the marked libraries will be build.
+  It is necessary to enable each library manually with particular CMake variable.
 
-  These two commands will download sources.
-  Then it is necessary to enable particular libraries with proper variable
-  in CMake's cache set to ON:
-  USE_LOCAL_EASYEXIF, USE_LOCAL_HASHLIBRARY, USE_LOCAL_JSONCPP respectively
+  set BUILD_* variable to ON for library you want to be downloaded.
 
 Tested compilers:
 1. gcc  (Linux and Windows)
