@@ -96,7 +96,7 @@ if(DOXYGEN)
 
     add_custom_target(documentation
                       COMMAND ${DOXYGEN} ${CMAKE_SOURCE_DIR}/Doxyfile
-                      WORKING_DIRECTORY ${CMAKE_BINARY_DIR} )
+                      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} )
 
 endif(DOXYGEN)
 
