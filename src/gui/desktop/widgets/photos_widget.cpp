@@ -27,7 +27,7 @@
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
-#include "components/configurable_tree_item_delegate.hpp"
+#include "components/photos_item_delegate.hpp"
 #include "models/db_data_model.hpp"
 #include "views/images_tree_view.hpp"
 
@@ -43,7 +43,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 {
     // photos view
     m_view = new ImagesTreeView(this);
-    m_delegate = new ConfigurableTreeItemDelegate(m_view);
+    m_delegate = new PhotosItemDelegate(m_view);
 
     m_view->setItemDelegate(m_delegate);
 

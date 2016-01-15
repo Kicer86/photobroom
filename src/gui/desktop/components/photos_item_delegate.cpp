@@ -20,12 +20,12 @@
 
 #include <configuration/iconfiguration.hpp>
 
-#include "configurable_tree_item_delegate.hpp"
+#include "photos_item_delegate.hpp"
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
 
 
-ConfigurableTreeItemDelegate::ConfigurableTreeItemDelegate(ImagesTreeView* view, IConfiguration* config):
+PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
     TreeItemDelegate(view),
     m_config(config)
 {
@@ -33,13 +33,13 @@ ConfigurableTreeItemDelegate::ConfigurableTreeItemDelegate(ImagesTreeView* view,
 }
 
 
-ConfigurableTreeItemDelegate::~ConfigurableTreeItemDelegate()
+PhotosItemDelegate::~PhotosItemDelegate()
 {
 
 }
 
 
-void ConfigurableTreeItemDelegate::set(IConfiguration* config)
+void PhotosItemDelegate::set(IConfiguration* config)
 {
     m_config = config;
     m_config->registerObserver(this);
@@ -48,7 +48,7 @@ void ConfigurableTreeItemDelegate::set(IConfiguration* config)
 }
 
 
-void ConfigurableTreeItemDelegate::readConfig()
+void PhotosItemDelegate::readConfig()
 {
     if (m_config != nullptr)
     {
@@ -58,7 +58,7 @@ void ConfigurableTreeItemDelegate::readConfig()
 }
 
 
-void ConfigurableTreeItemDelegate::setupEvenColor(const QVariant& v)
+void PhotosItemDelegate::setupEvenColor(const QVariant& v)
 {
     const uint32_t evenColor = v.toUInt();
     const QColor evenQColor = ConfigTools::intToColor(evenColor);
@@ -67,7 +67,7 @@ void ConfigurableTreeItemDelegate::setupEvenColor(const QVariant& v)
 }
 
 
-void ConfigurableTreeItemDelegate::setupOddColor(const QVariant& v)
+void PhotosItemDelegate::setupOddColor(const QVariant& v)
 {
     const uint32_t oddColor = v.toUInt();
     const QColor oddQColor = ConfigTools::intToColor(oddColor);
@@ -77,7 +77,7 @@ void ConfigurableTreeItemDelegate::setupOddColor(const QVariant& v)
 
 
 
-void ConfigurableTreeItemDelegate::configChanged(const QString& entry, const QVariant& value)
+void PhotosItemDelegate::configChanged(const QString& entry, const QVariant& value)
 {
     if (entry == ViewConfigKeys::bkg_color_even)
         setupEvenColor(value);

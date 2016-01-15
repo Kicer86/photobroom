@@ -27,7 +27,7 @@ class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
 
-class ConfigurableTreeItemDelegate;
+class PhotosItemDelegate;
 class DBDataModel;
 class InfoBaloonWidget;
 class ImagesTreeView;
@@ -55,7 +55,7 @@ class PhotosWidget: public QWidget
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         InfoBaloonWidget* m_info;
-        ConfigurableTreeItemDelegate* m_delegate;
+        PhotosItemDelegate* m_delegate;
         QLineEdit* m_searchExpression;
 
         virtual void changeEvent(QEvent *) override;

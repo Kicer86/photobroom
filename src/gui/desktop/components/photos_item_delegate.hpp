@@ -17,21 +17,21 @@
  *
  */
 
-#ifndef CONFIGURABLETREEITEMDELEGATE_HPP
-#define CONFIGURABLETREEITEMDELEGATE_HPP
+#ifndef PHOTOSITEMDELEGATE_HPP
+#define PHOTOSITEMDELEGATE_HPP
 
 #include <configuration/iconfiguration.hpp>
 
 #include "desktop/views/tree_item_delegate.hpp"
 
-class ConfigurableTreeItemDelegate: public TreeItemDelegate, private IConfigObserver
+class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 {
     public:
-        ConfigurableTreeItemDelegate(ImagesTreeView *, IConfiguration * = nullptr);
-        ConfigurableTreeItemDelegate(const ConfigurableTreeItemDelegate &) = delete;
-        ~ConfigurableTreeItemDelegate();
+        PhotosItemDelegate(ImagesTreeView *, IConfiguration * = nullptr);
+        PhotosItemDelegate(const PhotosItemDelegate &) = delete;
+        ~PhotosItemDelegate();
 
-        ConfigurableTreeItemDelegate& operator=(const ConfigurableTreeItemDelegate &) = delete;
+        PhotosItemDelegate& operator=(const PhotosItemDelegate &) = delete;
 
         void set(IConfiguration *);
 
@@ -48,4 +48,4 @@ class ConfigurableTreeItemDelegate: public TreeItemDelegate, private IConfigObse
         void configChanged(const QString&, const QVariant&) override;
 };
 
-#endif // CONFIGURABLETREEITEMDELEGATE_H
+#endif // PHOTOSITEMDELEGATE_HPP
