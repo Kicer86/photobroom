@@ -132,7 +132,7 @@ void PhotosWidget::updateHint()
     const NodeStatus status = m_model->getStatus(QModelIndex());
     const bool empty = m_model->rowCount() == 0;
 
-    m_info->setVisible(status == NodeStatus::Fetched && empty && isEnabled());
+    m_info->setVisible(status == NodeStatus::NotFetched && empty && isEnabled());
 }
 
 

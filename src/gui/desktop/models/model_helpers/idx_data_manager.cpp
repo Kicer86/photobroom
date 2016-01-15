@@ -215,7 +215,7 @@ void IdxDataManager::deepFetch(IdxData* top)
 
 bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 {
-    IdxData* idxData = getParentIdxDataFor(_parent);
+    IdxData* idxData = getIdxDataFor(_parent);
     const bool status = idxData->m_loaded == NodeStatus::NotFetched;
 
     return status;
@@ -273,18 +273,9 @@ IdxData* IdxDataManager::getRoot()
 
 IdxData* IdxDataManager::getIdxDataFor(const QModelIndex& obj) const
 {
-    IdxData* idxData = static_cast<IdxData *>(obj.internalPointer());
-
-    return idxData;
-}
-
-
-IdxData* IdxDataManager::getParentIdxDataFor(const QModelIndex& _parent)
-{
-    IdxData* idxData = getIdxDataFor(_parent);
-
-    if (idxData == nullptr)
-        idxData = m_data->m_root;
+    IdxData* idxData = obj.isValid()?
+                            static_cast<IdxData *>(obj.internalPointer()):
+                            m_data->m_root;
 
     return idxData;
 }
@@ -302,7 +293,7 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
     // This prevents view from calling rowCount() before canFetchMore()
 
     bool status = false;
-    IdxData* idxData = getParentIdxDataFor(_parent);
+    IdxData* idxData = getIdxDataFor(_parent);
 
     if (m_data->m_database)
     {
@@ -448,7 +439,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
 
 void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
 {
-    IdxData* idxData = getParentIdxDataFor(_parent);
+    IdxData* idxData = getIdxDataFor(_parent);
 
     filter->push_back(idxData->m_filter);
 
@@ -473,7 +464,7 @@ void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filte
 
 void IdxDataManager::fetchData(const QModelIndex& _parent)
 {
-    IdxData* idxData = getParentIdxDataFor(_parent);
+    IdxData* idxData = getIdxDataFor(_parent);
     const size_t level = idxData->m_level;
 
     assert(idxData->m_loaded == NodeStatus::NotFetched);
@@ -514,7 +505,7 @@ void IdxDataManager::setupRootNode()
 void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
-    IdxData* parentIdxData = getParentIdxDataFor(l_task->m_parent);
+    IdxData* parentIdxData = getIdxDataFor(l_task->m_parent);
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
@@ -538,7 +529,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* ta
 
         GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
         QModelIndex _parentIndex = l_task->m_parent;
-        IdxData* _parent = getParentIdxDataFor(_parentIndex);
+        IdxData* _parent = getIdxDataFor(_parentIndex);
         IdxData* node = prepareUniversalNodeFor(_parent);
 
         leafs->push_back(node);
@@ -555,7 +546,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
 
     const size_t level = l_task->m_level;
     const QModelIndex& _parent = l_task->m_parent;
-    IdxData* parentIdxData = getParentIdxDataFor(_parent);
+    IdxData* parentIdxData = getIdxDataFor(_parent);
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 

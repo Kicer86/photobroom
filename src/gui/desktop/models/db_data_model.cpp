@@ -97,7 +97,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 void DBDataModel::deepFetch(const QModelIndex& top)
 {
-    IdxData* idx = m_idxDataManager->getParentIdxDataFor(top);
+    IdxData* idx = m_idxDataManager->getIdxDataFor(top);
     m_idxDataManager->deepFetch(idx);
 }
 
@@ -167,7 +167,7 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
     QModelIndex idx;
-    IdxData* pData = m_idxDataManager->getParentIdxDataFor(_parent);
+    IdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
 
     if (static_cast<unsigned int>(row) < pData->m_children.size())   //row out boundary?
     {
@@ -190,7 +190,7 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
-    IdxData* idxData = m_idxDataManager->getParentIdxDataFor(_parent);
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
     const size_t count = idxData->m_children.size();
 
     return count;

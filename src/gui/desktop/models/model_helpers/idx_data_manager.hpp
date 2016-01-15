@@ -57,7 +57,6 @@ public:
 
     IdxData* getRoot();
     IdxData* getIdxDataFor(const QModelIndex& obj) const;
-    IdxData* getParentIdxDataFor(const QModelIndex& _parent);
     QModelIndex getIndex(IdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
     IdxData* parent(const QModelIndex& child);
