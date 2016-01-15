@@ -19,10 +19,13 @@
 
 
 #include <configuration/iconfiguration.hpp>
+#include <core/down_cast.hpp>
 
 #include "photos_item_delegate.hpp"
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
+#include "models/db_data_model.hpp"
+#include <QPainter>
 
 
 PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
@@ -45,6 +48,46 @@ void PhotosItemDelegate::set(IConfiguration* config)
     m_config->registerObserver(this);
 
     readConfig();
+}
+
+
+void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    TreeItemDelegate::paint(painter, option, index);
+
+    // decorate node with its status
+    const QAbstractItemModel* m = index.model();
+    const DBDataModel* model = down_cast<const DBDataModel *>(m);
+    const bool node = (option.features & QStyleOptionViewItem::HasDecoration) == 0;
+
+    if (node)
+    {
+        const NodeStatus status = model->getStatus(index);
+
+        const QRect& r = option.rect;
+        QColor color;
+
+        switch(status)
+        {
+            case NodeStatus::Fetching:
+                color = QColor(0, 0, 128);
+                break;
+
+            case NodeStatus::Fetched:
+                color = QColor(0, 128, 0);
+                break;
+
+            case NodeStatus::NotFetched:
+                color = QColor(128, 128, 128);
+                break;
+        }
+
+        painter->save();
+        painter->setBrush(color);
+        painter->setPen(color);
+        painter->drawEllipse(r.x(), r.y(), 10, 10);
+        painter->restore();
+    }
 }
 
 
