@@ -86,12 +86,6 @@ class DBDataModel: public AScalableImagesModel
 
         bool isEmpty() const;
 
-    protected:
-        IdxData* getRootIdxData();
-
-        Database::IDatabase* getDatabase(); //TODO: remove
-
-    private:
         // AScalableImagesModel:
         virtual QImage getImageFor(const QModelIndex&, const QSize &);
 
@@ -106,7 +100,11 @@ class DBDataModel: public AScalableImagesModel
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
-        //own:
+    protected:
+        IdxData* getRootIdxData();
+
+        Database::IDatabase* getDatabase(); //TODO: remove
+private:
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
 
