@@ -129,11 +129,10 @@ void PhotosWidget::modelChanged(const QModelIndex &, int, int)
 void PhotosWidget::updateHint()
 {
     // check if model is empty
-    QAbstractItemModel* m = m_view->model();
+    const NodeStatus status = m_model->getStatus(QModelIndex());
+    const bool empty = m_model->rowCount() == 0;
 
-    const bool empty = m->rowCount(QModelIndex()) == 0;
-
-    m_info->setVisible(empty && isEnabled());
+    m_info->setVisible(status == NodeStatus::Fetched && empty && isEnabled());
 }
 
 
