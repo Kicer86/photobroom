@@ -25,6 +25,7 @@
 #include <database/idatabase.hpp>
 
 #include "ascalable_images_model.hpp"
+#include "model_types.hpp"
 
 struct ITaskExecutor;
 class IdxDataManager;
@@ -71,9 +72,10 @@ class DBDataModel: public AScalableImagesModel
 
         void setHierarchy(const Hierarchy &);
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
-        
+
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
         const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
+        NodeStatus getStatus(const QModelIndex &) const;
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);

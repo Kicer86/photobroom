@@ -118,6 +118,14 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 }
 
 
+NodeStatus DBDataModel::getStatus(const QModelIndex& idx) const
+{
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+
+    return idxData->m_loaded;
+}
+
+
 QImage DBDataModel::getImageFor(const QModelIndex& idx, const QSize& size)
 {
     assert(!"not implemented");
