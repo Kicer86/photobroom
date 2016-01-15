@@ -121,8 +121,9 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 NodeStatus DBDataModel::getStatus(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+    assert(idxData != nullptr);
 
-    return idxData == nullptr? NodeStatus::NotFetched: idxData->m_loaded;
+    return idxData->m_loaded;
 }
 
 
