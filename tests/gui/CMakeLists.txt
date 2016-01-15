@@ -37,6 +37,7 @@ qt5_wrap_cpp(GUI_TESTS_MOCED ${CMAKE_SOURCE_DIR}/src/database/idatabase.hpp)
 
 set(SRC
         ${gui_srcs}
+        
         # model tests:
         model/idx_data_manager_tests.cpp
         model/idx_data_tests.cpp
@@ -55,7 +56,7 @@ set(SRC
         test_helpers/internal_task_executor.hpp
 
         ${GUI_TESTS_MOCED}
-        
+
         # main()
         main.cpp
     )
