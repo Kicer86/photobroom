@@ -122,7 +122,7 @@ NodeStatus DBDataModel::getStatus(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
 
-    return idxData->m_loaded;
+    return idxData == nullptr? NodeStatus::NotFetched: idxData->m_loaded;
 }
 
 
