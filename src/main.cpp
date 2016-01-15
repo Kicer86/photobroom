@@ -17,6 +17,7 @@
 #include <system/system.hpp>
 #include <system/crash_catcher.hpp>
 
+
 int main(int argc, char **argv)
 {
     Gui gui;
