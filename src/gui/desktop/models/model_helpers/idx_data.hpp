@@ -24,7 +24,9 @@
 
 #include <database/iphoto_info.hpp>
 #include <database/filter.hpp>
-#include <models/db_data_model.hpp>
+
+#include "models/db_data_model.hpp"
+#include "models/model_types.hpp"
 
 class QVariant;
 
@@ -33,13 +35,6 @@ class IdxDataManager;
 class IdxData: public IPhotoInfo::IObserver
 {
     public:
-        enum class FetchStatus
-        {
-            NotFetched,
-            Fetching,
-            Fetched,
-        };
-
         std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;         // define which children match
@@ -47,7 +42,7 @@ class IdxData: public IPhotoInfo::IObserver
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxDataManager* m_model;
         size_t m_level;
-        FetchStatus m_loaded;                    // true when we have loaded all children of item (if any)
+        NodeStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
         IdxData(IdxDataManager *, const QVariant& name);

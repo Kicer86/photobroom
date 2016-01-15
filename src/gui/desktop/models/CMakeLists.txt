@@ -25,6 +25,7 @@ set(HEADERS
     decorated_image_list_model.hpp
     image_list_model.hpp
     image_list_model_p.hpp
+    model_types.hpp
     photos_data_model.hpp
     staged_photos_data_model.hpp
     model_helpers/idx_data.hpp

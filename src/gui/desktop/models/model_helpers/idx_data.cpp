@@ -158,7 +158,7 @@ IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(model)
 {
     m_photo = photo;
-    m_loaded = FetchStatus::Fetched;
+    m_loaded = NodeStatus::Fetched;
 
     updateLeafData();
     photo->registerObserver(this);
@@ -245,7 +245,7 @@ void IdxData::takeChild(IdxData* child)
 void IdxData::reset()
 {
     m_model->idxDataReset(this);
-    m_loaded = FetchStatus::NotFetched;
+    m_loaded = NodeStatus::NotFetched;
     for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
 
@@ -328,7 +328,7 @@ IdxData::IdxData(IdxDataManager* model) :
     m_photo(nullptr),
     m_model(model),
     m_level(-1),
-    m_loaded(FetchStatus::NotFetched),
+    m_loaded(NodeStatus::NotFetched),
     m_parent(nullptr)
 {
 
