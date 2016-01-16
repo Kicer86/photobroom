@@ -64,29 +64,31 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
     {
         const NodeStatus status = model->getStatus(index);
 
-        const QRect& r = option.rect;
-        QColor color;
+        QString state;
 
         switch(status)
         {
             case NodeStatus::Fetching:
-                color = QColor(0, 0, 128);
+                state = tr("Loading");
                 break;
 
             case NodeStatus::Fetched:
-                color = QColor(0, 128, 0);
+            {
+                const bool children = m->hasChildren(index);
+                if (children == false)
+                    state = tr("No photos");
                 break;
+            }
 
             case NodeStatus::NotFetched:
-                color = QColor(128, 128, 128);
                 break;
         }
 
-        painter->save();
-        painter->setBrush(color);
-        painter->setPen(color);
-        painter->drawEllipse(r.x(), r.y(), 10, 10);
-        painter->restore();
+        if (state.isEmpty() == false)
+        {
+            const QRect& r = option.rect;
+            painter->drawText(r.x() + 10, r.y() + 17, state);
+        }
     }
 }
 
