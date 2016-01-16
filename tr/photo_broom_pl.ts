@@ -374,7 +374,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="-99"/>
         <source>Photos found:</source>
-        <translation>Znaleziona zdjęcia:</translation>
+        <translation>Znalezionych zdjęć:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+270"/>
