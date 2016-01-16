@@ -396,6 +396,19 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
+    <name>PhotosItemDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="+72"/>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>No photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotosWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+53"/>
