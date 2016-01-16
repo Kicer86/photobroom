@@ -24,6 +24,7 @@
 
 #include "desktop/views/tree_item_delegate.hpp"
 
+
 class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 {
     public:
