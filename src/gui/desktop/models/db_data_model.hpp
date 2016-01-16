@@ -104,7 +104,8 @@ class DBDataModel: public AScalableImagesModel
         IdxData* getRootIdxData();
 
         Database::IDatabase* getDatabase(); //TODO: remove
-private:
+
+    private:
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
 
