@@ -342,7 +342,7 @@ IdxData::IdxData(IdxDataManager* model) :
     m_level(-1),
     m_parent(nullptr)
 {
-
+    setStatus(NodeStatus::NotFetched);
 }
 
 
@@ -355,7 +355,6 @@ void IdxData::updateLeafData()
 
 void IdxData::init()
 {
-    setStatus(NodeStatus::NotFetched);
     m_model->idxDataCreated(this);
 }
 
