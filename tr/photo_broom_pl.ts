@@ -40,7 +40,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+936"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+943"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -398,7 +398,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="+72"/>
+        <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="+76"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
