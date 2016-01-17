@@ -42,7 +42,6 @@ class IdxData: public IPhotoInfo::IObserver
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxDataManager* m_model;
         size_t m_level;
-        NodeStatus m_loaded;                    // true when we have loaded all children of item (if any)
 
         // node constructor
         IdxData(IdxDataManager *, const QVariant& name);
@@ -64,12 +63,15 @@ class IdxData: public IPhotoInfo::IObserver
         void takeChild(IdxData* child);                   // function acts as removeChild but does not delete children
         void reset();
         void setParent(IdxData *);
+        void setStatus(NodeStatus);
         IdxData* parent() const;
         bool isPhoto() const;
         bool isNode() const;
 
         int getRow() const;
         int getCol() const;
+
+        NodeStatus status() const;
 
         IdxData* findChildWithBadPosition() const;        // returns first child which lies in a wrong place
         bool sortingRequired() const;

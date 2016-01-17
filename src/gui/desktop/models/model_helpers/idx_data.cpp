@@ -158,7 +158,7 @@ IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(model)
 {
     m_photo = photo;
-    m_loaded = NodeStatus::Fetched;
+    setStatus(NodeStatus::Fetched);
 
     updateLeafData();
     photo->registerObserver(this);
@@ -245,13 +245,13 @@ void IdxData::takeChild(IdxData* child)
 void IdxData::reset()
 {
     m_model->idxDataReset(this);
-    m_loaded = NodeStatus::NotFetched;
+    setStatus(NodeStatus::NotFetched);
+
     for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
 
     m_children.clear();
     m_photo.reset();
-    m_data.clear();
 }
 
 
@@ -259,6 +259,12 @@ void IdxData::setParent(IdxData* _parent)
 {
     m_parent = _parent;
     m_level = _parent ? _parent->m_level + 1 : 0;
+}
+
+
+void IdxData::setStatus(NodeStatus status)
+{
+    m_data[DBDataModel::NodeStatus] = static_cast<int>(status);
 }
 
 
@@ -290,6 +296,12 @@ int IdxData::getRow() const
 int IdxData::getCol() const
 {
     return 0;
+}
+
+
+NodeStatus IdxData::status() const
+{
+    return static_cast<NodeStatus>(m_data[DBDataModel::NodeStatus].toInt());
 }
 
 
@@ -328,7 +340,6 @@ IdxData::IdxData(IdxDataManager* model) :
     m_photo(nullptr),
     m_model(model),
     m_level(-1),
-    m_loaded(NodeStatus::NotFetched),
     m_parent(nullptr)
 {
 
@@ -344,6 +355,7 @@ void IdxData::updateLeafData()
 
 void IdxData::init()
 {
+    setStatus(NodeStatus::NotFetched);
     m_model->idxDataCreated(this);
 }
 

@@ -97,6 +97,7 @@ private:
     //
 
     void markIdxDataFetched(IdxData *);
+    void markIdxDataBeingFetched(IdxData *);
 
     void removeIdxDataFromNotFetched(IdxData *);
     void addIdxDataToNotFetched(IdxData *);
@@ -125,7 +126,7 @@ private:
     IdxData* prepareUniversalNodeFor(IdxData *);                                 //prepares node for photos without tag required by particular parent
 
 signals:
-    void idxDataLoaded(IdxData *);
+    void dataChanged(IdxData *, const QVector<int> &);
     void nodesFetched(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
 
 private slots:

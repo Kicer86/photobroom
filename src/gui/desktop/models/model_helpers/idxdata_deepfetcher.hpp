@@ -35,7 +35,7 @@ class QModelIndex;
 class IdxDataManager;
 class IdxData;
 
-class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
+class IdxDataDeepFetcher: public QObject, public ITaskExecutor::ITask
 {
         Q_OBJECT
 
@@ -59,13 +59,14 @@ class IdxDataDeepFetcher: QObject, public ITaskExecutor::ITask
 
         void process();
         void process(IdxData *);
+        void idxDataLoaded(IdxData *);
 
         //ITask:
         virtual std::string name() const override;
         virtual void perform() override;
 
     private slots:
-        void idxDataLoaded(IdxData *);
+        void dataChanged(IdxData *, const QVector<int> &);
 };
 
 #endif // IDXDATADEEPFETCHER_HPP

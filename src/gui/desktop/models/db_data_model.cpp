@@ -80,6 +80,7 @@ const Hierarchy::Level& Hierarchy::getLeafsInfo() const
 
 DBDataModel::DBDataModel(QObject* p): AScalableImagesModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
 {
+    connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }
 
 
@@ -115,15 +116,6 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
     m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
 
     return result;
-}
-
-
-NodeStatus DBDataModel::getStatus(const QModelIndex& idx) const
-{
-    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    assert(idxData != nullptr);
-
-    return idxData->m_loaded;
 }
 
 
@@ -262,3 +254,12 @@ QModelIndex DBDataModel::createIndex(IdxData* idxData) const
                                                    createIndex(idxData->getRow(), idxData->getCol(), idxData);
     return idx;
 }
+
+
+void DBDataModel::itemDataChanged(IdxData* idxData, const QVector<int>& roles)
+{
+    const QModelIndex idx = m_idxDataManager->getIndex(idxData);
+
+    emit dataChanged(idx, idx, roles);
+}
+

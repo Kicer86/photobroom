@@ -64,6 +64,11 @@ class DBDataModel: public AScalableImagesModel
         friend class IdxDataManager;
 
     public:
+        enum Roles
+        {
+            NodeStatus = Qt::UserRole + 1,
+        };
+
         DBDataModel(QObject* p);
         ~DBDataModel();
         DBDataModel(const DBDataModel& other) = delete;
@@ -75,7 +80,6 @@ class DBDataModel: public AScalableImagesModel
 
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
         const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
-        NodeStatus getStatus(const QModelIndex &) const;
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
@@ -106,12 +110,14 @@ class DBDataModel: public AScalableImagesModel
         Database::IDatabase* getDatabase(); //TODO: remove
 
     private:
-        using QAbstractItemModel::createIndex;
-        QModelIndex createIndex(IdxData *) const;
-
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
         std::deque<Database::IFilter::Ptr> m_filters;
+
+        using QAbstractItemModel::createIndex;
+        QModelIndex createIndex(IdxData *) const;
+
+        void itemDataChanged(IdxData *, const QVector<int> &);
 };
 
 #endif // DBDATAMODEL_HPP

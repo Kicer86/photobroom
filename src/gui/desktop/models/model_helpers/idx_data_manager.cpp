@@ -216,7 +216,7 @@ void IdxDataManager::deepFetch(IdxData* top)
 bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 {
     IdxData* idxData = getIdxDataFor(_parent);
-    const bool status = idxData->m_loaded == NodeStatus::NotFetched;
+    const bool status = idxData->status() == NodeStatus::NotFetched;
 
     return status;
 }
@@ -252,7 +252,7 @@ void IdxDataManager::applyFilters(const QString& filters)
 
 void IdxDataManager::refetchNode(IdxData* _parent)
 {
-    const NodeStatus current = _parent->m_loaded;
+    const NodeStatus current = _parent->status();
 
     if (current != NodeStatus::NotFetched)
     {
@@ -297,7 +297,7 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
 
     if (m_data->m_database)
     {
-        if (idxData->m_loaded != NodeStatus::Fetched)
+        if (idxData->status() != NodeStatus::Fetched)
             status = true;              //data not loaded assume there is something
         else
             status = idxData->isNode(); //return true for nodes only, not for leafs
@@ -320,7 +320,7 @@ void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<IPhotoInfo::Pt
 {
     forIndexChildren(idx, [&] (const IdxData* child)
     {
-        if (child->m_loaded == NodeStatus::Fetched)
+        if (child->status() == NodeStatus::Fetched)
         {
             if (child->m_photo.get() == nullptr)
                 getPhotosFor(child, result);
@@ -467,7 +467,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
     IdxData* idxData = getIdxDataFor(_parent);
     const size_t level = idxData->m_level;
 
-    assert(idxData->m_loaded == NodeStatus::NotFetched);
+    assert(idxData->status() == NodeStatus::NotFetched);
     assert(level <= m_data->m_hierarchy.nodeLevels());
 
     const bool leaves_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
@@ -480,7 +480,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
         checkForNonmatchingPhotos(level, _parent);
     }
 
-    idxData->m_loaded = NodeStatus::Fetching;
+    markIdxDataBeingFetched(idxData);
 }
 
 
@@ -569,9 +569,16 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
 
 void IdxDataManager::markIdxDataFetched(IdxData* idxData)
 {
-    idxData->m_loaded = NodeStatus::Fetched;
+    idxData->setStatus(NodeStatus::Fetched);
     removeIdxDataFromNotFetched(idxData);
-    emit idxDataLoaded(idxData);
+    emit dataChanged(idxData, { DBDataModel::NodeStatus } );
+}
+
+
+void IdxDataManager::markIdxDataBeingFetched(IdxData* idxData)
+{
+    idxData->setStatus(NodeStatus::Fetching);
+    emit dataChanged(idxData, { DBDataModel::NodeStatus } );
 }
 
 
@@ -607,7 +614,7 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
     assert(nodes.empty() == false);
     // We are not expecting any sub-nodes for not fetched nodes.
     // Only fully fetched and being fetched nodes may accept something.
-    assert(_parent->m_loaded != NodeStatus::NotFetched);
+    assert(_parent->status() != NodeStatus::NotFetched);
 
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
@@ -691,7 +698,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
         //parent fetched? Attach photoInfo
         if (_parent != nullptr)
         {
-            if (_parent->m_loaded != NodeStatus::Fetched)
+            if (_parent->status() != NodeStatus::Fetched)
             {
                 //Ancestor of photo isn't yet fetched. Don't fetch it. We will do it on user's demand
                 //Just make sure we will return _parent == nullptr as we didn't achieve direct parent
@@ -732,7 +739,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
     const size_t level = _parent->m_level;
 
     // found parent is not fetched? Quit with null
-    if (_parent->m_loaded == NodeStatus::Fetched)
+    if (_parent->status() == NodeStatus::Fetched)
     {
         if (level == m_data->m_hierarchy.nodeLevels())  //this parent is at the bottom of hierarchy? Just use it as result
             result = _parent;
@@ -776,7 +783,7 @@ IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const I
     IdxData* universalNode = nullptr;
 
     //closer parent is not fetched? Do no create anything for it
-    if (_parent->m_loaded == NodeStatus::Fetched)
+    if (_parent->status() == NodeStatus::Fetched)
     {
         universalNode = prepareUniversalNodeFor(_parent);
 
