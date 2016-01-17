@@ -29,7 +29,7 @@ add_subdirectory(desktop/widgets)
 
 set(GUI_SOURCES
     desktop/gui.cpp
-    desktop/components/configurable_tree_item_delegate.cpp
+    desktop/components/photos_item_delegate.cpp
     desktop/views/view_impl/data.cpp
     desktop/views/view_impl/model_index_info.cpp
     desktop/views/view_impl/positions_calculator.cpp
@@ -44,7 +44,7 @@ set(GUI_SOURCES
 
 set(GUI_HEADERS
     gui.hpp
-    desktop/components/configurable_tree_item_delegate.hpp
+    desktop/components/photos_item_delegate.hpp
     desktop/config_keys.hpp
     desktop/ithread_multiplexer.hpp
     desktop/views/view_impl/data.hpp

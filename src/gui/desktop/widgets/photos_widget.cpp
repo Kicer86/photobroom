@@ -27,7 +27,7 @@
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
-#include "components/configurable_tree_item_delegate.hpp"
+#include "components/photos_item_delegate.hpp"
 #include "models/db_data_model.hpp"
 #include "views/images_tree_view.hpp"
 
@@ -43,7 +43,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 {
     // photos view
     m_view = new ImagesTreeView(this);
-    m_delegate = new ConfigurableTreeItemDelegate(m_view);
+    m_delegate = new PhotosItemDelegate(m_view);
 
     m_view->setItemDelegate(m_delegate);
 
@@ -101,6 +101,7 @@ void PhotosWidget::setModel(DBDataModel* m)
 
     connect(m, &QAbstractItemModel::rowsInserted, this, &PhotosWidget::modelChanged);
     connect(m, &QAbstractItemModel::rowsRemoved, this, &PhotosWidget::modelChanged);
+    connect(m, &QAbstractItemModel::dataChanged, this, &PhotosWidget::dataChanged);
 
     updateHint();
 }
@@ -129,11 +130,13 @@ void PhotosWidget::modelChanged(const QModelIndex &, int, int)
 void PhotosWidget::updateHint()
 {
     // check if model is empty
-    QAbstractItemModel* m = m_view->model();
+    const QVariant statusVariant = m_model->data(QModelIndex(), DBDataModel::NodeStatus);
+    const bool empty = m_model->rowCount() == 0;
 
-    const bool empty = m->rowCount(QModelIndex()) == 0;
+    assert(statusVariant.canConvert(QMetaType::Int));
+    const NodeStatus status = static_cast<NodeStatus>(statusVariant.toInt());
 
-    m_info->setVisible(empty && isEnabled());
+    m_info->setVisible(status == NodeStatus::Fetched && empty && isEnabled());
 }
 
 
@@ -148,4 +151,10 @@ void PhotosWidget::applySearchExpression()
     const QString search = m_searchExpression->text();
 
     m_model->applyFilters(search);
+}
+
+
+void PhotosWidget::dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
+{
+    updateHint();
 }

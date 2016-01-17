@@ -25,6 +25,7 @@
 #include <database/idatabase.hpp>
 
 #include "ascalable_images_model.hpp"
+#include "model_types.hpp"
 
 struct ITaskExecutor;
 class IdxDataManager;
@@ -63,6 +64,11 @@ class DBDataModel: public AScalableImagesModel
         friend class IdxDataManager;
 
     public:
+        enum Roles
+        {
+            NodeStatus = Qt::UserRole + 1,
+        };
+
         DBDataModel(QObject* p);
         ~DBDataModel();
         DBDataModel(const DBDataModel& other) = delete;
@@ -71,8 +77,9 @@ class DBDataModel: public AScalableImagesModel
 
         void setHierarchy(const Hierarchy &);
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
+
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::vector<IPhotoInfo::Ptr> getPhotos();             //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
+        const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
 
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
@@ -83,12 +90,6 @@ class DBDataModel: public AScalableImagesModel
 
         bool isEmpty() const;
 
-    protected:
-        IdxData* getRootIdxData();
-
-        Database::IDatabase* getDatabase(); //TODO: remove
-
-    private:
         // AScalableImagesModel:
         virtual QImage getImageFor(const QModelIndex&, const QSize &);
 
@@ -103,13 +104,20 @@ class DBDataModel: public AScalableImagesModel
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
-        //own:
-        using QAbstractItemModel::createIndex;
-        QModelIndex createIndex(IdxData *) const;
+    protected:
+        IdxData* getRootIdxData();
 
+        Database::IDatabase* getDatabase(); //TODO: remove
+
+    private:
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
         std::deque<Database::IFilter::Ptr> m_filters;
+
+        using QAbstractItemModel::createIndex;
+        QModelIndex createIndex(IdxData *) const;
+
+        void itemDataChanged(IdxData *, const QVector<int> &);
 };
 
 #endif // DBDATAMODEL_HPP

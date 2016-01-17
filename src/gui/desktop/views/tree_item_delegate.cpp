@@ -28,17 +28,23 @@
 #include "utils/variant_display.hpp"
 
 
-TreeItemDelegate::TreeItemDelegate(QObject* p): QAbstractItemDelegate(p), m_view(nullptr), m_backgroundEven(), m_backgroundOdd()
+TreeItemDelegate::TreeItemDelegate(QObject* p):
+    QAbstractItemDelegate(p),
+    m_view(nullptr),
+    m_backgroundEven(QColor(0, 0, 0, 0)),
+    m_backgroundOdd(QColor(0, 0, 0, 0))
 {
-    m_backgroundEven = QColor(255, 0, 0, 64);
-    m_backgroundOdd  = QColor(0, 0, 255, 64);
+
 }
 
 
-TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view): QAbstractItemDelegate(view), m_view(view), m_backgroundEven(), m_backgroundOdd()
+TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view):
+    QAbstractItemDelegate(view),
+    m_view(view), 
+    m_backgroundEven(QColor(0, 0, 0, 0)),
+    m_backgroundOdd(QColor(0, 0, 0, 0))
 {
-    m_backgroundEven = QColor(255, 0, 0, 64);
-    m_backgroundOdd  = QColor(0, 0, 255, 64);
+
 }
 
 

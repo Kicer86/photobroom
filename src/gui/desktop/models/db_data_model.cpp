@@ -80,6 +80,7 @@ const Hierarchy::Level& Hierarchy::getLeafsInfo() const
 
 DBDataModel::DBDataModel(QObject* p): AScalableImagesModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
 {
+    connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }
 
 
@@ -97,7 +98,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 void DBDataModel::deepFetch(const QModelIndex& top)
 {
-    IdxData* idx = m_idxDataManager->getParentIdxDataFor(top);
+    IdxData* idx = m_idxDataManager->getIdxDataFor(top);
     m_idxDataManager->deepFetch(idx);
 }
 
@@ -109,7 +110,7 @@ IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 }
 
 
-const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos()
+const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 {
     std::vector<IPhotoInfo::Ptr> result;
     m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
@@ -159,7 +160,7 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
     QModelIndex idx;
-    IdxData* pData = m_idxDataManager->getParentIdxDataFor(_parent);
+    IdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
 
     if (static_cast<unsigned int>(row) < pData->m_children.size())   //row out boundary?
     {
@@ -182,7 +183,7 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
-    IdxData* idxData = m_idxDataManager->getParentIdxDataFor(_parent);
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
     const size_t count = idxData->m_children.size();
 
     return count;
@@ -253,3 +254,12 @@ QModelIndex DBDataModel::createIndex(IdxData* idxData) const
                                                    createIndex(idxData->getRow(), idxData->getCol(), idxData);
     return idx;
 }
+
+
+void DBDataModel::itemDataChanged(IdxData* idxData, const QVector<int>& roles)
+{
+    const QModelIndex idx = m_idxDataManager->getIndex(idxData);
+
+    emit dataChanged(idx, idx, roles);
+}
+

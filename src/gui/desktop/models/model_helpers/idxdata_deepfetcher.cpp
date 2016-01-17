@@ -42,7 +42,7 @@ void IdxDataDeepFetcher::setModelImpl(IdxDataManager* modelImpl)
     m_idxDataManager = modelImpl;
 
     //direct connection is required as signals will come from other threads and we don't have EventLoop here
-    connect(m_idxDataManager, SIGNAL(idxDataLoaded(IdxData*)), this, SLOT(idxDataLoaded(IdxData*)), Qt::DirectConnection);
+    connect(m_idxDataManager, &IdxDataManager::dataChanged, this, &IdxDataDeepFetcher::dataChanged, Qt::DirectConnection);
 }
 
 
@@ -75,9 +75,9 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
     // Make sure status of idxData will not change during switch
     std::unique_lock<std::mutex> lock(m_idxDataMutex);
 
-    switch(idxData->m_loaded)
+    switch(idxData->status())
     {
-        case IdxData::FetchStatus::NotFetched:
+        case NodeStatus::NotFetched:
         {
             m_inProcess.insert(idxData);
             QModelIndex idx = m_idxDataManager->getIndex(idxData);
@@ -85,18 +85,31 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
             break;
         }
 
-        case IdxData::FetchStatus::Fetched:
+        case NodeStatus::Fetched:
             lock.unlock();                                //we will go recursive now, and we do not need lock anymore in current context
             for(IdxData* child: idxData->m_children)
                 process(child);
             break;
 
-        case IdxData::FetchStatus::Fetching:
+        case NodeStatus::Fetching:
             // Push to m_inProcess queue.
             // m_inProcess is locked by us
             m_inProcess.insert(idxData);
             break;
     }
+}
+
+
+void IdxDataDeepFetcher::idxDataLoaded(IdxData* idx_data)
+{
+    // Remove idxData from set of awaiting items.
+    // Lock mutex to be sure we won't interference with process()
+    std::unique_lock<std::mutex> lock(m_idxDataMutex);
+
+    m_notLoaded.push_back(idx_data);                    //children are certainly not loaded
+    m_inProcess.erase(idx_data);
+
+    m_dataNotifier.notify_all();
 }
 
 
@@ -131,15 +144,16 @@ void IdxDataDeepFetcher::perform()
 }
 
 
-void IdxDataDeepFetcher::idxDataLoaded(IdxData* idx_data)
+void IdxDataDeepFetcher::dataChanged(IdxData* idxData, const QVector<int>& roles)
 {
-    // Remove idxData from set of awaiting items.
-    // Lock mutex to be sure we won't interference with process()
-    std::unique_lock<std::mutex> lock(m_idxDataMutex);
+    auto f = std::find(roles.begin(), roles.end(), DBDataModel::NodeStatus);
 
-    m_notLoaded.push_back(idx_data);                    //children are certainly not loaded
-    m_inProcess.erase(idx_data);
+    if (f != roles.end())
+    {
+        const QVariant statusRaw = idxData->m_data[DBDataModel::NodeStatus];
+        NodeStatus status = static_cast<NodeStatus>(statusRaw.toInt());
 
-    m_dataNotifier.notify_all();
+        if (status == NodeStatus::Fetched)
+            idxDataLoaded(idxData);
+    }
 }
-

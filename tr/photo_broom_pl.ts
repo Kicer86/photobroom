@@ -40,7 +40,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+945"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+943"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -374,10 +374,10 @@ Kod błędu: %1</translation>
     <message>
         <location line="-99"/>
         <source>Photos found:</source>
-        <translation>Znaleziona zdjęcia:</translation>
+        <translation>Znalezionych zdjęć:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+269"/>
+        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+270"/>
         <source>Discard changes?</source>
         <translation>Odrzucić zmiany?</translation>
     </message>
@@ -393,6 +393,19 @@ Kod błędu: %1</translation>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+153"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosItemDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="+76"/>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>No photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
