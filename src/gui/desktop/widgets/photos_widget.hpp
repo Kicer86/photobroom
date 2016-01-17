@@ -64,6 +64,7 @@ class PhotosWidget: public QWidget
         void updateHint();
         void searchExpressionChanged(const QString &);
         void applySearchExpression();
+        void dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 };
 
 #endif // PHOTOSWIDGET_HPP

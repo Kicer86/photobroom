@@ -101,6 +101,7 @@ void PhotosWidget::setModel(DBDataModel* m)
 
     connect(m, &QAbstractItemModel::rowsInserted, this, &PhotosWidget::modelChanged);
     connect(m, &QAbstractItemModel::rowsRemoved, this, &PhotosWidget::modelChanged);
+    connect(m, &QAbstractItemModel::dataChanged, this, &PhotosWidget::dataChanged);
 
     updateHint();
 }
@@ -129,10 +130,13 @@ void PhotosWidget::modelChanged(const QModelIndex &, int, int)
 void PhotosWidget::updateHint()
 {
     // check if model is empty
-    const NodeStatus status = m_model->getStatus(QModelIndex());
+    const QVariant statusVariant = m_model->data(QModelIndex(), DBDataModel::NodeStatus);
     const bool empty = m_model->rowCount() == 0;
 
-    m_info->setVisible(status == NodeStatus::NotFetched && empty && isEnabled());
+    assert(statusVariant.canConvert(QMetaType::Int));
+    const NodeStatus status = static_cast<NodeStatus>(statusVariant.toInt());
+
+    m_info->setVisible(status == NodeStatus::Fetched && empty && isEnabled());
 }
 
 
@@ -147,4 +151,10 @@ void PhotosWidget::applySearchExpression()
     const QString search = m_searchExpression->text();
 
     m_model->applyFilters(search);
+}
+
+
+void PhotosWidget::dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
+{
+    updateHint();
 }
