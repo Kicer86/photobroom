@@ -444,3 +444,62 @@ TEST(PositionsCalculatorShould, HandleWideImages)
         EXPECT_EQ(QPoint(margin, img1_h + 2 * spacing), info2.getPosition());
     }
 }
+
+
+
+TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
+{
+    // Situation:
+    // two nodes with two children. Children should have
+    // positions relative to parents' positions
+
+    using ::testing::_;
+    using ::testing::Return;
+    using ::testing::Invoke;
+
+    const int img_w = 100;
+    const int img_h = 50;
+
+    QStandardItemModel model;
+
+    QStandardItem* top_idx1 = new QStandardItem( "Empty" );
+    QStandardItem* top1_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+
+    top_idx1->appendRow(top1_child1_idx);
+
+    QStandardItem* top_idx2 = new QStandardItem( "Empty2" );
+    QStandardItem* top2_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+
+    top_idx2->appendRow(top2_child1_idx);
+
+    model.appendRow(top_idx1);
+    model.appendRow(top_idx2);
+
+    Data view_data;
+    view_data.set(&model);
+
+    const int spacing = view_data.getSpacing();
+    const int margin  = view_data.getImageMargin();
+    const int canvas_w = 500;
+    const int header_h = 40;
+
+    ViewDataModelObserver mo(&view_data.getModel(), &model);
+
+    //expand nodes to show children
+    ModelIndexInfo& top_info1 = *view_data.get(top_idx1->index());
+    top_info1.expanded = true;
+
+    ModelIndexInfo& top_info2 = *view_data.get(top_idx2->index());
+    top_info2.expanded = true;
+
+    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    calculator.updateItems();
+
+    {
+        const ModelIndexInfo& info1 = *view_data.cfind(top1_child1_idx->index());
+        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info1.getRect());
+
+        const ModelIndexInfo& info2 = *view_data.cfind(top2_child1_idx->index());
+        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info2.getRect());
+    }
+}
