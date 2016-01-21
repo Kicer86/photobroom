@@ -20,14 +20,26 @@
 #ifndef POSITIONSTRANSLATOR_HPP
 #define POSITIONSTRANSLATOR_HPP
 
+#include <QRect>
+
+#include "data.hpp"
+
+struct ModelIndexInfo;
+
 class PositionsTranslator
 {
     public:
-        PositionsTranslator();
+        PositionsTranslator(Data *);
         PositionsTranslator(const PositionsTranslator &) = delete;
         ~PositionsTranslator();
 
+        QRect getAbsoluteRect(const Data::ModelIndexInfoSet::const_level_iterator &) const;
+        QPoint getAbsolutePosition(const Data::ModelIndexInfoSet::const_level_iterator &) const;
+
         PositionsTranslator& operator=(const PositionsTranslator &) = delete;
+
+    private:
+        Data* m_data;
 };
 
 #endif // POSITIONSTRANSLATOR_HPP

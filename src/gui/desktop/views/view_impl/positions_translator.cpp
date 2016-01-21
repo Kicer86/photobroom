@@ -19,13 +19,49 @@
 
 #include "positions_translator.hpp"
 
+#include "model_index_info.hpp"
+#include "data.hpp"
 
-PositionsTranslator::PositionsTranslator()
+
+PositionsTranslator::PositionsTranslator(Data* data): m_data(data)
 {
 
 }
 
+
 PositionsTranslator::~PositionsTranslator()
 {
 
+}
+
+
+QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
+{
+    QRect result = mii->getRect();
+    auto parent = mii.parent();
+
+    // top items have their posistions absolute by definition, no calculations needed
+    if (parent != m_data->getModel().cend())
+    {
+        QRect parentRect = getAbsoluteRect(parent);
+        result.translate(parentRect.topLeft());
+    }
+
+    return result;
+}
+
+
+QPoint PositionsTranslator::getAbsolutePosition(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
+{
+    QPoint result = mii->getPosition();
+    auto parent = mii.parent();
+
+    // top items have their posistions absolute by definition, no calculations needed
+    if (parent != m_data->getModel().cend())
+    {
+        QPoint parentPosition = getAbsolutePosition(parent);
+        result += parentPosition;
+    }
+
+    return result;
 }
