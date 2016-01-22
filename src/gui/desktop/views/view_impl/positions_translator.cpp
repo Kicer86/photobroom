@@ -43,8 +43,8 @@ QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::const_
     // top items have their posistions absolute by definition, no calculations needed
     if (parent != m_data->getModel().cend())
     {
-        QRect parentRect = getAbsoluteRect(parent);
-        result.translate(parentRect.topLeft());
+        const QRect parentRect = getAbsoluteRect(parent);
+        result.translate(parentRect.bottomLeft());
     }
 
     return result;
@@ -59,8 +59,8 @@ QPoint PositionsTranslator::getAbsolutePosition(const Data::ModelIndexInfoSet::c
     // top items have their posistions absolute by definition, no calculations needed
     if (parent != m_data->getModel().cend())
     {
-        QPoint parentPosition = getAbsolutePosition(parent);
-        result += parentPosition;
+        const QRect parentRect = getAbsoluteRect(parent);
+        result += parentRect.bottomLeft();
     }
 
     return result;
