@@ -497,9 +497,9 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
 
     {
         const ModelIndexInfo& info1 = *view_data.cfind(top1_child1_idx->index());
-        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info1.getRect());
+        EXPECT_EQ(QRect(margin, 0, canvas_w, header_h), info1.getRect());
 
         const ModelIndexInfo& info2 = *view_data.cfind(top2_child1_idx->index());
-        EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info2.getRect());
+        EXPECT_EQ(QRect(margin, 0, canvas_w, header_h), info2.getRect());
     }
 }
