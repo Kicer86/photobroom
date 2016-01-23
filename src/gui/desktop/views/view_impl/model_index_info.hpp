@@ -49,7 +49,7 @@ struct ModelIndexInfo
         bool valid() const;
 
         ModelIndexInfo(const QModelIndex &);
-        
+
         operator std::string() const;
 
     private:
@@ -59,7 +59,7 @@ struct ModelIndexInfo
             QSize size;
             bool valid;             //'position' field is valid?
 
-            Postition(): position(), size(), valid(false) {}
+            Postition(): position(), size(0, 0), valid(false) {}
 
             QRect getRect() const;
             void setRect(const QRect &);

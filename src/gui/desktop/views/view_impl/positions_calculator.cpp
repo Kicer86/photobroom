@@ -77,7 +77,7 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::level_iterator 
 
 QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::level_iterator it) const
 {
-    const QSize result = isRoot(it)? QSize(): getItemSize(it);
+    const QSize result = isRoot(it)? QSize(0, 0): getItemSize(it);
 
     return result;
 }
@@ -305,13 +305,13 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
         //calculate overall only if node is expanded and has any children
         if (infoIt.children_count() != 0 && expanded)
         {
-            const QPoint offset = info.getPosition();
+            const QPoint offset(0, info.getSize().height());
 
             for(Data::ModelIndexInfoSet::level_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
             {
                 const ModelIndexInfo& c_info = *c_infoIt;
 
-                const QPoint c_relative_position = c_info.getPosition() - offset;
+                const QPoint c_relative_position = c_info.getPosition() + offset;
                 const QSize c_overall_size = c_info.getOverallSize();
                 assert(c_overall_size.isValid());
 

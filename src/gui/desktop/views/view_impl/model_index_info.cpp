@@ -36,7 +36,10 @@ namespace
 
 QRect ModelIndexInfo::Postition::getRect() const
 {
-    const QRect result = valid && size.isValid()? QRect(position, size): QRect();
+    const QRect result = valid && size.isValid()?
+                         QRect(position, size):
+                         QRect(0, 0, 0, 0);
+                         
     return result;
 }
 
