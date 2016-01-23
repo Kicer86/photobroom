@@ -47,8 +47,8 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     const ModelIndexInfo& info = *infoIt;
 
     EXPECT_EQ(true, info.isPositionValid());
-    EXPECT_EQ(QSize(), info.getSize());
-    EXPECT_EQ(QSize(), info.getOverallSize());
+    EXPECT_EQ(QSize(0, 0), info.getSize());
+    EXPECT_EQ(QSize(0, 0), info.getOverallSize());
 }
 
 
