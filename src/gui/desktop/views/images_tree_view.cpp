@@ -33,6 +33,7 @@
 #include "view_impl/data.hpp"
 #include "view_impl/positions_calculator.hpp"
 #include "view_impl/positions_reseter.hpp"
+#include "view_impl/positions_translator.hpp"
 #include "tree_item_delegate.hpp"
 
 
@@ -254,6 +255,8 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     updateView();
 
+    const PositionsTranslator translator(m_data.get());
+
     QPainter painter(viewport());
     const QPoint offset = getOffset();
     QRect visible_area = viewport()->rect();
@@ -266,13 +269,13 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     for (const QModelIndex& item: items)
     {
         Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
-        const ModelIndexInfo& info = *infoIt;
+        const QRect rect = translator.getAbsoluteRect(infoIt);
 
-        const QSize decorationSize(info.getRect().width()  - m_data->getSpacing() * 2,
-                                   info.getRect().height() - m_data->getSpacing() * 2);
+        const QSize decorationSize(rect.width()  - m_data->getSpacing() * 2,
+                                   rect.height() - m_data->getSpacing() * 2);
 
         QStyleOptionViewItem styleOption = viewOptions();
-        styleOption.rect = info.getRect();
+        styleOption.rect = rect;
         styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
         styleOption.state |= m_data->isExpanded(infoIt)? QStyle::State_Open: QStyle::State_None;
@@ -325,12 +328,12 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 
 const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
+    const PositionsTranslator translator(m_data.get());
     Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
 
     assert(infoIt.valid());
-    const ModelIndexInfo& info = *infoIt;
 
-    return info.getRect();
+    return translator.getAbsoluteRect(infoIt);
 }
 
 
