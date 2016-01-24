@@ -6,6 +6,7 @@
 
 #include <desktop/views/view_impl/data.hpp>
 #include <desktop/views/view_impl/positions_calculator.hpp>
+#include <desktop/views/view_impl/positions_translator.hpp>
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
@@ -143,13 +144,13 @@ TEST(DataShould, NotReturnInvisibleItems)
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
+    PositionsTranslator translator(&data);
+
     PositionsCalculator positions_calculator(&model, &data, 100);
     positions_calculator.updateItems();
 
-    const auto& info1 = *data.get(child1->index());
-    const auto& info2 = *data.get(child2->index());
-    const QRect rect1 = info1.getRect();
-    const QRect rect2 = info2.getRect();
+    const QRect rect1 = translator.getAbsoluteRect(data.get(child1->index()));
+    const QRect rect2 = translator.getAbsoluteRect(data.get(child2->index()));
 
     //collapse top
     info.expanded = false;
