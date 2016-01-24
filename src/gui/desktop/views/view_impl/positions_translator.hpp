@@ -29,17 +29,18 @@ struct ModelIndexInfo;
 class PositionsTranslator
 {
     public:
-        PositionsTranslator(Data *);
+        PositionsTranslator(const Data *);
         PositionsTranslator(const PositionsTranslator &) = delete;
         ~PositionsTranslator();
 
         QRect getAbsoluteRect(const Data::ModelIndexInfoSet::const_level_iterator &) const;
+        QRect getAbsoluteOverallRect(const Data::ModelIndexInfoSet::const_level_iterator &) const;
         QPoint getAbsolutePosition(const Data::ModelIndexInfoSet::const_level_iterator &) const;
 
         PositionsTranslator& operator=(const PositionsTranslator &) = delete;
 
     private:
-        Data* m_data;
+        const Data* m_data;
 };
 
 #endif // POSITIONSTRANSLATOR_HPP

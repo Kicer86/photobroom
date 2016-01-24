@@ -23,7 +23,7 @@
 #include "data.hpp"
 
 
-PositionsTranslator::PositionsTranslator(Data* data): m_data(data)
+PositionsTranslator::PositionsTranslator(const Data* data): m_data(data)
 {
 
 }
@@ -46,6 +46,16 @@ QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::const_
         const QRect parentRect = getAbsoluteRect(parent);
         result.translate(parentRect.bottomLeft());
     }
+
+    return result;
+}
+
+
+QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
+{
+    const QPoint position = getAbsolutePosition(mii);
+    const ModelIndexInfo& info = *mii;
+    const QRect result(position, info.getOverallSize());
 
     return result;
 }
