@@ -40,8 +40,8 @@ namespace tree_private
             }
 
         public:
+            level_iterator(): base() {}
             level_iterator(const typename base::CopyT1& other): base(other) { }
-
             level_iterator(const typename base::CopyT2& other): base(other) { }
 
             ~level_iterator() {}

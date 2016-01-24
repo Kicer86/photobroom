@@ -40,8 +40,8 @@ namespace tree_private
             }
 
         public:
+            flat_iterator(): base() {}
             flat_iterator(const typename base::CopyT1& other): base(other) { }
-
             flat_iterator(const typename base::CopyT2& other): base(other) { }
 
             ~flat_iterator() {}
