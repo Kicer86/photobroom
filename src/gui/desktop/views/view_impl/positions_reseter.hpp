@@ -46,9 +46,11 @@ class PositionsReseter
 
         void invalidateItemOverallRect(const QModelIndex &) const;
         void invalidateSiblingsRect(const QModelIndex &) const;
+        void invalidateSiblingsPosition(const QModelIndex &) const;
         void invalidateChildrenRect(const QModelIndex &, int from = 0) const;
 
         void resetRect(const QModelIndex &) const;
+        void resetPosition(const QModelIndex &) const;
         void resetOverallRect(const QModelIndex &) const;
 
         void resetPosition(Data::ModelIndexInfoSet::level_iterator) const;

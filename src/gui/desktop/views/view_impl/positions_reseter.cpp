@@ -74,7 +74,7 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
     resetRect(idx);
 
     //invalidate all items which are after 'pos'
-    invalidateSiblingsRect(idx);
+    invalidateSiblingsPosition(idx);
 }
 
 
@@ -98,7 +98,7 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
         const QModelIndex& last = items[s - 1];
 
         //invalidate all items which are after 'pos'
-        invalidateSiblingsRect(last);
+        invalidateSiblingsPosition(last);
     }
 }
 
@@ -157,6 +157,25 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
 }
 
 
+void PositionsReseter::invalidateSiblingsPosition(const QModelIndex& idx) const
+{
+    if (idx.isValid())
+    {
+        int row = idx.row() + 1;
+
+        for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
+        {
+            // if 'sibling' is invalid, all after it are invalid also
+            Data::ModelIndexInfoSet::iterator siblingIt = m_data->find(sibling);
+            if (siblingIt->valid() == false)
+                break;
+
+            resetPosition(sibling);
+        }
+    }
+}
+
+
 void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int from) const
 {
     int r = from;
@@ -178,6 +197,18 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
     {
         ModelIndexInfo& info = *infoIt;
         info.setRect(QRect());
+    }
+}
+
+
+void PositionsReseter::resetPosition(const QModelIndex& idx) const
+{
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.markPositionInvalid();
     }
 }
 
