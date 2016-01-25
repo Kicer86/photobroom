@@ -73,7 +73,7 @@ TEST(DataShould, SetInitialDataForRootItem)
 
     const ModelIndexInfo& info = *data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
-    EXPECT_EQ(QRect(), info.getRect());
+    EXPECT_EQ(QRect(-1, -1, 0, 0), info.getRect());
     EXPECT_EQ(QSize(), info.getOverallSize());
 }
 
