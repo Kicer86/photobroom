@@ -66,7 +66,7 @@ struct ModelIndexInfo
 
         } position;
 
-        QSize overallRect;
+        QSize overallSize;
 };
 
 #endif // MODELINDEXINFO_H

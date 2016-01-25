@@ -39,7 +39,7 @@ QRect ModelIndexInfo::Postition::getRect() const
     const QRect result = valid && size.isValid()?
                          QRect(position, size):
                          QRect(0, 0, 0, 0);
-                         
+
     return result;
 }
 
@@ -71,13 +71,13 @@ void ModelIndexInfo::setSize(const QSize& s)
 void ModelIndexInfo::setRect(const QRect& r)
 {
     position.setRect(r);
-    overallRect = QSize();          // not anymore valid
+    overallSize = QSize();          // not anymore valid
 }
 
 
 void ModelIndexInfo::setOverallSize(const QSize& r)
 {
-    overallRect = r;
+    overallSize = r;
 }
 
 
@@ -99,7 +99,7 @@ const QRect ModelIndexInfo::getRect() const
 
 const QSize& ModelIndexInfo::getOverallSize() const
 {
-    return overallRect;
+    return overallSize;
 }
 
 
@@ -118,7 +118,7 @@ const QSize& ModelIndexInfo::getSize() const
 void ModelIndexInfo::cleanRects()
 {
     position = Postition();
-    overallRect = QSize();
+    overallSize = QSize();
 }
 
 
@@ -142,7 +142,7 @@ bool ModelIndexInfo::isPositionValid() const
 
 bool ModelIndexInfo::valid() const
 {
-    return isPositionValid() && isSizeValid() && overallRect.isValid();
+    return isPositionValid() && isSizeValid() && overallSize.isValid();
 }
 
 
@@ -152,7 +152,7 @@ bool ModelIndexInfo::isSizeValid() const
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), position(), overallRect()
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), position(), overallSize()
 {
 }
 
