@@ -300,13 +300,21 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *data.cfind(top2->index());
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(-1, -1, 0, 0), info.getRect());
-        EXPECT_EQ(QRect(-1, -1, 0, 0), info1.getRect());
-        EXPECT_EQ(QRect(-1, -1, 0, 0), info5.getRect());
+        // top2's position should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info.getPosition());
+
+        // its children should be untouched
+        EXPECT_NE(QPoint(-1, -1), info1.getPosition());
+        EXPECT_NE(QPoint(-1, -1), info5.getPosition());
+
+        // sizes should be preserved
+        EXPECT_NE(QSize(0, 0), info.getSize());
+        EXPECT_NE(QSize(0, 0), info1.getSize());
+        EXPECT_NE(QSize(0, 0), info5.getSize());
     }
 }
 
@@ -346,13 +354,21 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *data.cfind(top2->index());
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        // top2's position should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info.getPosition());
+
+        // its children should be untouched
+        EXPECT_NE(QPoint(-1, -1), info1.getPosition());
+        EXPECT_NE(QPoint(-1, -1), info5.getPosition());
+
+        // sizes should be preserved
+        EXPECT_NE(QSize(0, 0), info.getSize());
+        EXPECT_NE(QSize(0, 0), info1.getSize());
+        EXPECT_NE(QSize(0, 0), info5.getSize());
     }
 }
 
@@ -378,27 +394,40 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_EQ(QRect(), info.getRect());            // Parent's size should be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());
+        // Parent's size should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info.getPosition());
+        EXPECT_EQ(QSize(0, 0), info.getSize());
+        EXPECT_EQ(QSize(0, 0), info.getOverallSize());
 
         const ModelIndexInfo& info2 = *data.cfind(top2->index());
-        EXPECT_EQ(QRect(), info2.getRect());
-        EXPECT_EQ(QSize(), info2.getOverallSize());
+        EXPECT_EQ(QPoint(-1, -1), info2.getPosition());
+        EXPECT_EQ(QSize(0, 0), info2.getSize());
+        EXPECT_EQ(QSize(0, 0), info2.getOverallSize());
     }
 
     {
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        EXPECT_EQ(QPoint(-1, -1), info1.getPosition());
+        EXPECT_EQ(QSize(0, 0), info1.getSize());
+        EXPECT_EQ(QSize(0, 0), info1.getOverallSize());
+
+        EXPECT_EQ(QPoint(-1, -1), info5.getPosition());
+        EXPECT_EQ(QSize(0, 0), info5.getSize());
+        EXPECT_EQ(QSize(0, 0), info5.getOverallSize());
     }
 
     {
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        EXPECT_EQ(QPoint(-1, -1), info1.getPosition());
+        EXPECT_EQ(QSize(0, 0), info1.getSize());
+        EXPECT_EQ(QSize(0, 0), info1.getOverallSize());
+
+        EXPECT_EQ(QPoint(-1, -1), info5.getPosition());
+        EXPECT_EQ(QSize(0, 0), info5.getSize());
+        EXPECT_EQ(QSize(0, 0), info5.getOverallSize());
     }
 }
 
