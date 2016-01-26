@@ -287,16 +287,16 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
 
-        EXPECT_NE(info1.getPosition(), QPoint(-1, -1));            //siblings before changed one should not be reseted
-        EXPECT_NE(info2.getPosition(), QPoint(-1, -1));
-        EXPECT_EQ(info4.getPosition(), QPoint(-1, -1));            //siblings after changed one should be reseted
-        EXPECT_EQ(info5.getPosition(), QPoint(-1, -1));
+        EXPECT_NE(QPoint(-1, -1), info1.getPosition());            //siblings before changed one should not be reseted
+        EXPECT_NE(QPoint(-1, -1), info2.getPosition());
+        EXPECT_EQ(QPoint(-1, -1), info4.getPosition());            //siblings after changed one should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info5.getPosition());
 
         //check sizes - should not be touched
-        EXPECT_NE(info1.getSize(), QSize(0, 0));
-        EXPECT_NE(info2.getSize(), QSize(0, 0));
-        EXPECT_NE(info4.getSize(), QSize(0, 0));
-        EXPECT_NE(info5.getSize(), QSize(0, 0));
+        EXPECT_NE(QSize(0, 0), info1.getSize());
+        EXPECT_NE(QSize(0, 0), info2.getSize());
+        EXPECT_NE(QSize(0, 0), info4.getSize());
+        EXPECT_NE(QSize(0, 0), info5.getSize());
     }
 
     {
@@ -462,10 +462,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_NE(QRect(), info1.getRect());            //siblings before removed one should not be reseted
-        EXPECT_NE(QRect(), info2.getRect());
-        EXPECT_EQ(QRect(), info4.getRect());            //siblings after removed one should be reseted
-        EXPECT_EQ(QRect(), info5.getRect());
+
+        EXPECT_NE(QPoint(-1, -1), info1.getPosition());            //siblings before changed one should not be reseted
+        EXPECT_NE(QPoint(-1, -1), info2.getPosition());
+        EXPECT_EQ(QPoint(-1, -1), info4.getPosition());            //siblings after changed one should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info5.getPosition());
+
+        //check sizes - should not be touched
+        EXPECT_NE(QSize(0, 0), info1.getSize());
+        EXPECT_NE(QSize(0, 0), info2.getSize());
+        EXPECT_NE(QSize(0, 0), info4.getSize());
+        EXPECT_NE(QSize(0, 0), info5.getSize());
     }
 
     {
@@ -473,9 +480,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        // top2's position should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info.getPosition());
+
+        // its children should be untouched
+        EXPECT_NE(QPoint(-1, -1), info1.getPosition());
+        EXPECT_NE(QPoint(-1, -1), info5.getPosition());
+
+        // sizes should be preserved
+        EXPECT_NE(QSize(0, 0), info.getSize());
+        EXPECT_NE(QSize(0, 0), info1.getSize());
+        EXPECT_NE(QSize(0, 0), info5.getSize());
     }
 }
 
@@ -512,10 +527,18 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
         const ModelIndexInfo& info3 = *data.cfind(child3->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_EQ(QRect(), info2.getRect());            //siblings after removed one should be reseted
-        EXPECT_EQ(QRect(), info3.getRect());
-        EXPECT_EQ(QRect(), info4.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+
+        //siblings after removed one should be reseted
+        EXPECT_EQ(QPoint(-1, -1), info2.getPosition());
+        EXPECT_EQ(QPoint(-1, -1), info3.getPosition());
+        EXPECT_EQ(QPoint(-1, -1), info4.getPosition());
+        EXPECT_EQ(QPoint(-1, -1), info5.getPosition());
+        
+        //check sizes - should not be touched
+        EXPECT_NE(QSize(0, 0), info2.getSize());
+        EXPECT_NE(QSize(0, 0), info3.getSize());
+        EXPECT_NE(QSize(0, 0), info4.getSize());
+        EXPECT_NE(QSize(0, 0), info5.getSize());
     }
 
     {
