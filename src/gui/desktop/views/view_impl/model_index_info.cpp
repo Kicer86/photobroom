@@ -158,7 +158,7 @@ bool ModelIndexInfo::isSizeValid() const
 }
 
 
-ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), rect(invalidRect), overallSize()
+ModelIndexInfo::ModelIndexInfo(const QModelIndex& index): expanded(index.isValid() == false), rect(invalidRect), overallSize(invalidSize)
 {
 }
 
