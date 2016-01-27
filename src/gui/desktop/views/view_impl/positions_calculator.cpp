@@ -159,7 +159,7 @@ QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::leve
 
     const QPoint& item_pos = info.getPosition();
     const QSize& items_size = info.getOverallSize();
-    assert(items_size.isValid());
+    assert(info.isOverallSizeValid());
 
     const QPoint result = QPoint(0, item_pos.y() + items_size.height());
 
@@ -290,7 +290,7 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
         info.setSize(size);                       // size must be set at this point, as children calculations may require it
     }
 
-    if (info.getOverallSize().isValid() == false)
+    if (info.isOverallSizeValid() == false)
     {
         const bool& expanded = info.expanded;
 
