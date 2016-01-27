@@ -73,6 +73,7 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
 
     //invalidate itself
     resetRect(idx);
+    resetOverallSize(idx);
 
     //invalidate all items which are after 'pos'
     invalidateSiblingsPosition(idx);
