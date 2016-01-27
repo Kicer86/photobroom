@@ -54,10 +54,11 @@ namespace tree_private
             {
                 m_iterators.push(b);
             }
+            
+            iterator_base(): m_iterators() {}
 
             // copy from NonConst to NonConst and from NonConst to Const
             iterator_base(const CopyT1& other): m_iterators(other.m_iterators) { }
-
             iterator_base(const CopyT2& other): m_iterators(other.m_iterators) { }
 
             ~iterator_base() {}

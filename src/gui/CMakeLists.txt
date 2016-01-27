@@ -34,6 +34,7 @@ set(GUI_SOURCES
     desktop/views/view_impl/model_index_info.cpp
     desktop/views/view_impl/positions_calculator.cpp
     desktop/views/view_impl/positions_reseter.cpp
+    desktop/views/view_impl/positions_translator.cpp
     desktop/views/images_tree_view.cpp
     desktop/views/tree_item_delegate.cpp
     desktop/ui/configuration_dialog.cpp
@@ -51,6 +52,7 @@ set(GUI_HEADERS
     desktop/views/view_impl/model_index_info.hpp
     desktop/views/view_impl/positions_calculator.hpp
     desktop/views/view_impl/positions_reseter.hpp
+    desktop/views/view_impl/positions_translator.hpp
     desktop/views/view_impl/view_data_set.hpp
     desktop/views/images_tree_view.hpp
     desktop/views/tree_item_delegate.hpp

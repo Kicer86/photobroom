@@ -77,7 +77,7 @@ QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::level_iterator 
 
 QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::level_iterator it) const
 {
-    const QSize result = isRoot(it)? QSize(): getItemSize(it);
+    const QSize result = isRoot(it)? QSize(0, 0): getItemSize(it);
 
     return result;
 }
@@ -159,7 +159,7 @@ QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::leve
 
     const QPoint& item_pos = info.getPosition();
     const QSize& items_size = info.getOverallSize();
-    assert(items_size.isValid());
+    assert(info.isOverallSizeValid());
 
     const QPoint result = QPoint(0, item_pos.y() + items_size.height());
 
@@ -169,28 +169,26 @@ QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::leve
 
 QPoint PositionsCalculator::calcPositionOfFirst(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
-
     const bool image = m_data->isImage(infoIt);
-    const QPoint result = image? calcPositionOfFirstImage(parentIt):
-                                 calcPositionOfFirstNode(parentIt);
+    const QPoint result = image? calcPositionOfFirstImage():
+                                 calcPositionOfFirstNode();
 
     return result;
 }
 
 
-QPoint PositionsCalculator::calcPositionOfFirstNode(ViewDataSet<ModelIndexInfo>::level_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfFirstNode() const
 {
-    const int y_offset = getFirstItemOffset(infoIt);
+    const int y_offset = getFirstItemOffset();
     const QPoint result(0, y_offset);
 
     return result;
 }
 
 
-QPoint PositionsCalculator::calcPositionOfFirstImage(ViewDataSet<ModelIndexInfo>::level_iterator infoIt) const
+QPoint PositionsCalculator::calcPositionOfFirstImage() const
 {
-    const int y_offset = getFirstItemOffset(infoIt);
+    const int y_offset = getFirstItemOffset();
     const QPoint result(m_data->getImageMargin(), y_offset);
 
     return result;
@@ -261,19 +259,9 @@ std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::l
 }
 
 
-int PositionsCalculator::getFirstItemOffset(ViewDataSet<ModelIndexInfo>::level_iterator infoIt) const
+int PositionsCalculator::getFirstItemOffset() const
 {
-    int y_offset = 0;
-
-    // for all parents but very top node we need to calculate offset
-    if (isRoot(infoIt) == false)
-    {
-        assert(infoIt->isPositionValid());
-        const QRect r = infoIt->getRect();
-        y_offset = r.bottom() + 1;
-    }
-
-    return y_offset;
+    return 0;
 }
 
 
@@ -302,7 +290,7 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
         info.setSize(size);                       // size must be set at this point, as children calculations may require it
     }
 
-    if (info.getOverallSize().isValid() == false)
+    if (info.isOverallSizeValid() == false)
     {
         const bool& expanded = info.expanded;
 
@@ -317,13 +305,13 @@ void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator inf
         //calculate overall only if node is expanded and has any children
         if (infoIt.children_count() != 0 && expanded)
         {
-            const QPoint offset = info.getPosition();
+            const QPoint offset(0, info.getSize().height());
 
             for(Data::ModelIndexInfoSet::level_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
             {
                 const ModelIndexInfo& c_info = *c_infoIt;
 
-                const QPoint c_relative_position = c_info.getPosition() - offset;
+                const QPoint c_relative_position = c_info.getPosition() + offset;
                 const QSize c_overall_size = c_info.getOverallSize();
                 assert(c_overall_size.isValid());
 

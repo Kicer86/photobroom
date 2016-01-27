@@ -1,5 +1,5 @@
 /*
- * View's data structure
+ * View's high level data structure
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,34 @@
 
 #include <configuration/iconfiguration.hpp>
 
+#include "positions_translator.hpp"
+
+
+namespace
+{
+    // custom std::lower_bound implementation http://en.cppreference.com/w/cpp/algorithm/lower_bound
+    // the only difference is that it passes iterator to comparator rather than value
+    template<class ForwardIt, class T, class Compare>
+    ForwardIt lower_bound_iterator(ForwardIt first, ForwardIt last, const T& value, Compare comp)
+    {
+        ForwardIt it;
+        typename std::iterator_traits<ForwardIt>::difference_type count, step;
+        count = std::distance(first,last);
+
+        while (count > 0) {
+            it = first;
+            step = count / 2;
+            std::advance(it, step);
+            if (comp(it, value)) {
+                first = ++it;
+                count -= step + 1;
+            }
+            else
+                count = step;
+        }
+        return first;
+    }
+}
 
 
 Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
@@ -96,12 +124,13 @@ Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
     ModelIndexInfoSet::iterator result = m_itemData->end();
+    PositionsTranslator translator(this);
 
     for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
     {
-        const ModelIndexInfo& info = *it;
+        const QRect rect = translator.getAbsoluteRect(it);
 
-        if (info.getRect().contains(point) && isVisible(it))
+        if (rect.contains(point) && isVisible(it))
         {
             result = it;
             break;
@@ -431,9 +460,11 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
 {
     std::deque<QModelIndex> result;
 
-    auto bound = std::lower_bound(first, last, rect, [](const ModelIndexInfo& item, const QRect& value)
+    PositionsTranslator translator(this);
+
+    auto bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::const_level_iterator& itemIt, const QRect& value)
     {
-        const QRect overallRect = item.getOverallRect();
+        const QRect overallRect = translator.getAbsoluteOverallRect(itemIt);
         const int p1 = overallRect.bottom();
         const int p2 = value.top();
 
@@ -448,8 +479,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
         if (bound_invalid)
             break;
 
-        const ModelIndexInfo& bound_item = *bound;
-        const QRect item_rect = bound_item.getOverallRect();
+        const QRect item_rect = translator.getAbsoluteOverallRect(bound);
         const bool intersects = rect.intersects(item_rect);
 
         // item itself is visible? Add it
@@ -469,8 +499,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator
             result.insert(result.end(), children.begin(), children.end());
         }
 
-        const QRect overallRect(bound_item.getPosition(), bound_item.getOverallSize());
-        const bool nextIsVisible = overallRect.top() < rect.bottom();       // as long as we are visible, our horizontal sibling can be visible too
+        const bool nextIsVisible = item_rect.top() < rect.bottom();       // as long as we are visible, our horizontal sibling can be visible too
 
         // Current item may be invisible (beyond top line), but its children and next sibling may be visible
         if (nextIsVisible)

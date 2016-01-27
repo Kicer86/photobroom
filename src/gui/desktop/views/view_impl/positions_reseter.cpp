@@ -44,11 +44,11 @@ PositionsReseter::~PositionsReseter()
 void PositionsReseter::itemsAdded(const QModelIndex& parent, int /*from_pos*/, int to_pos) const
 {
     //invalidate parent
-    invalidateItemOverallRect(parent);
+    invalidateItemOverallSize(parent);
 
     //invalidate all items which are after 'to_pos'
     const QModelIndex item = m_model->index(to_pos, 0, parent);
-    invalidateSiblingsRect(item);
+    invalidateSiblingsPosition(item);
 }
 
 
@@ -66,15 +66,17 @@ void PositionsReseter::invalidateAll() const
 
 void PositionsReseter::itemChanged(const QModelIndex& idx)
 {
-    //invalidate parent
+    //invalidate parent's overallRect + positions of parent's siblings
     const QModelIndex parent = idx.parent();
-    invalidateItemOverallRect(parent);
+    resetOverallSize(parent);
+    invalidateSiblingsPosition(parent);
 
     //invalidate itself
-    resetRect(idx);
+    resetSize(idx);
+    resetOverallSize(idx);
 
     //invalidate all items which are after 'pos'
-    invalidateSiblingsRect(idx);
+    invalidateSiblingsPosition(idx);
 }
 
 
@@ -89,7 +91,7 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
 
         //invalidate parent
         const QModelIndex parent = first.parent();
-        invalidateItemOverallRect(parent);
+        invalidateItemOverallSize(parent);
 
         //invalidate themselves
         for(const QModelIndex& item: items)
@@ -98,7 +100,7 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
         const QModelIndex& last = items[s - 1];
 
         //invalidate all items which are after 'pos'
-        invalidateSiblingsRect(last);
+        invalidateSiblingsPosition(last);
     }
 }
 
@@ -112,7 +114,7 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
     {
         const ModelIndexInfo& parentInfo = *infoIt;
         if (parentInfo.expanded)
-            invalidateItemOverallRect(parent);
+            invalidateItemOverallSize(parent);
 
         //invalidate all items which are after 'pos'
         for(Data::ModelIndexInfoSet::level_iterator it = infoIt.begin() + pos; it.valid(); ++it)
@@ -121,16 +123,16 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 }
 
 
-void PositionsReseter::invalidateItemOverallRect(const QModelIndex& idx) const
+void PositionsReseter::invalidateItemOverallSize(const QModelIndex& idx) const
 {
-    resetOverallRect(idx);
-    invalidateSiblingsRect(idx);
+    resetOverallSize(idx);
+    invalidateSiblingsPosition(idx);
 
     if (idx != QModelIndex())                           //do not invalidate root's parent if it doesn't exist
     {
         //if 'this' becomes invalid, invalidate also its parent
         const QModelIndex parent = idx.parent();
-        invalidateItemOverallRect(parent);
+        invalidateItemOverallSize(parent);
     }
 }
 
@@ -157,6 +159,25 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
 }
 
 
+void PositionsReseter::invalidateSiblingsPosition(const QModelIndex& idx) const
+{
+    if (idx.isValid())
+    {
+        int row = idx.row() + 1;
+
+        for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
+        {
+            // if 'sibling' is invalid, all after it are invalid also
+            Data::ModelIndexInfoSet::iterator siblingIt = m_data->find(sibling);
+            if (siblingIt->valid() == false)
+                break;
+
+            resetPosition(sibling);
+        }
+    }
+}
+
+
 void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int from) const
 {
     int r = from;
@@ -177,19 +198,43 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
     if (infoIt.valid())
     {
         ModelIndexInfo& info = *infoIt;
-        info.setRect(QRect());
+        info.markRectInvalid();
     }
 }
 
 
-void PositionsReseter::resetOverallRect(const QModelIndex& idx) const
+void PositionsReseter::resetPosition(const QModelIndex& idx) const
 {
     Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {
         ModelIndexInfo& info = *infoIt;
-        info.setOverallSize(QSize());
+        info.markPositionInvalid();
+    }
+}
+
+
+void PositionsReseter::resetSize(const QModelIndex& idx) const
+{
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.markSizeInvalid();
+    }
+}
+
+
+void PositionsReseter::resetOverallSize(const QModelIndex& idx) const
+{
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.markOverallSizeInvalid();
     }
 }
 

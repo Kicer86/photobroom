@@ -167,8 +167,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
     {
         Data::ModelIndexInfoSet::const_iterator top_infoIt = data.cfind(top->index());
         const ModelIndexInfo& info = *top_infoIt;
-        EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());     // But its overall rect should
+        EXPECT_EQ(true,  info.isPositionValid());          // Parent's size should not be reseted
+        EXPECT_EQ(true,  info.isSizeValid());
+        EXPECT_EQ(false, info.isOverallSizeValid());       // But its overall rect should
     }
 
     {
@@ -186,13 +187,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
         Data::ModelIndexInfoSet::const_iterator info1_It = data.cfind(child2_1->index());
         Data::ModelIndexInfoSet::const_iterator info5_It = data.cfind(child2_5->index());
 
-        const ModelIndexInfo& info  = *info_It;           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *info_It;           //top2's position should be reseted
         const ModelIndexInfo& info1 = *info1_It;
         const ModelIndexInfo& info5 = *info5_It;
 
-        EXPECT_EQ(info.getRect(), QRect());
-        EXPECT_EQ(info1.getRect(), QRect());
-        EXPECT_EQ(info5.getRect(), QRect());
+        EXPECT_EQ(false, info.isPositionValid());
+        EXPECT_EQ(true,  info.isSizeValid());
+
+        EXPECT_EQ(true, info1.isPositionValid());
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info5.isPositionValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 }
 
@@ -220,8 +225,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());     // But its overall rect should
+        EXPECT_EQ(true, info.isPositionValid());         // Parent's size should not be reseted
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(false, info.isOverallSizeValid());     // But its overall rect should
     }
 
     {
@@ -229,20 +235,30 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_NE(info1.getRect(), QRect());            //siblings before removed one should not be reseted
-        EXPECT_NE(info2.getRect(), QRect());
-        EXPECT_EQ(info4.getRect(), QRect());            //siblings after removed one should be reseted
-        EXPECT_EQ(info5.getRect(), QRect());
+
+        EXPECT_EQ(true,  info1.isPositionValid());        //siblings before removed one should not be reseted
+        EXPECT_EQ(true,  info2.isPositionValid());
+        EXPECT_EQ(false, info4.isPositionValid());        //siblings after removed one should be reseted
+        EXPECT_EQ(false, info5.isPositionValid());
+
+        //check sizes - should not be touched
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info2.isSizeValid());
+        EXPECT_EQ(true, info4.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's position should be reseted
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        EXPECT_EQ(false, info.isPositionValid());
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(true, info1.isPositionValid());
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info5.isPositionValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 }
 
@@ -270,8 +286,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());     // But its overall rect should
+        EXPECT_EQ(true,  info.isPositionValid());            // Parent's size should not be reseted
+        EXPECT_EQ(true,  info.isSizeValid());
+        EXPECT_EQ(false, info.isOverallSizeValid());         // But its overall rect should
     }
 
     {
@@ -279,20 +296,35 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_NE(QRect(), info1.getRect());            //siblings before removed one should not be reseted
-        EXPECT_NE(QRect(), info2.getRect());
-        EXPECT_EQ(QRect(), info4.getRect());            //siblings after removed one should be reseted
-        EXPECT_EQ(QRect(), info5.getRect());
+
+        EXPECT_EQ(true, info1.isPositionValid());            //siblings before changed one should not be reseted
+        EXPECT_EQ(true, info2.isPositionValid());
+        EXPECT_EQ(false, info4.isPositionValid());            //siblings after changed one should be reseted
+        EXPECT_EQ(false, info5.isPositionValid());
+
+        //check sizes - should not be touched
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info2.isSizeValid());
+        EXPECT_EQ(true, info4.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *data.cfind(top2->index());
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        // top2's position should be reseted
+        EXPECT_EQ(false, info.isPositionValid());
+
+        // its children should be untouched
+        EXPECT_EQ(true, info1.isPositionValid());
+        EXPECT_EQ(true, info5.isPositionValid());
+
+        // sizes should be preserved
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 }
 
@@ -318,8 +350,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_EQ(QRect(), info.getRect());            // Node's size should be reseted.
-        EXPECT_EQ(QSize(), info.getOverallSize());     // So overall size should.
+        EXPECT_EQ(true,  info.isPositionValid());            // Node's size should be reseted.
+        EXPECT_EQ(false, info.isSizeValid());
+        EXPECT_EQ(false, info.isOverallSizeValid());         // So overall size should.
     }
 
 
@@ -327,18 +360,28 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
         //children should not be reseted
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_NE(QRect(), info1.getRect());
-        EXPECT_NE(QRect(), info5.getRect());
+        EXPECT_EQ(true, info1.isPositionValid());
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info5.isPositionValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *data.cfind(top2->index());
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        // top2's position should be reseted
+        EXPECT_EQ(false, info.isPositionValid());
+
+        // its children should be untouched
+        EXPECT_EQ(true, info1.isPositionValid());
+        EXPECT_EQ(true, info5.isPositionValid());
+
+        // sizes should be preserved
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 }
 
@@ -364,27 +407,40 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_EQ(QRect(), info.getRect());            // Parent's size should be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());
+        // Parent's size should be reseted
+        EXPECT_EQ(false, info.isPositionValid());
+        EXPECT_EQ(false, info.isSizeValid());
+        EXPECT_EQ(false, info.isOverallSizeValid());
 
         const ModelIndexInfo& info2 = *data.cfind(top2->index());
-        EXPECT_EQ(QRect(), info2.getRect());
-        EXPECT_EQ(QSize(), info2.getOverallSize());
+        EXPECT_EQ(false, info2.isPositionValid());
+        EXPECT_EQ(false, info2.isSizeValid());
+        EXPECT_EQ(false, info2.isOverallSizeValid());
     }
 
     {
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        EXPECT_EQ(false, info1.isPositionValid());
+        EXPECT_EQ(false, info1.isSizeValid());
+        EXPECT_EQ(false, info1.isOverallSizeValid());
+
+        EXPECT_EQ(false, info5.isPositionValid());
+        EXPECT_EQ(false, info5.isSizeValid());
+        EXPECT_EQ(false, info5.isOverallSizeValid());
     }
 
     {
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        EXPECT_EQ(false, info1.isPositionValid());
+        EXPECT_EQ(false, info1.isSizeValid());
+        EXPECT_EQ(false, info1.isOverallSizeValid());
+
+        EXPECT_EQ(false, info5.isPositionValid());
+        EXPECT_EQ(false, info5.isSizeValid());
+        EXPECT_EQ(false, info5.isOverallSizeValid());
     }
 }
 
@@ -410,8 +466,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());     // But its overall rect should
+        EXPECT_EQ(true, info.isPositionValid());         // Parent's size should not be reseted
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(false, info.isOverallSizeValid());     // But its overall rect should
     }
 
     {
@@ -419,10 +476,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_NE(QRect(), info1.getRect());            //siblings before removed one should not be reseted
-        EXPECT_NE(QRect(), info2.getRect());
-        EXPECT_EQ(QRect(), info4.getRect());            //siblings after removed one should be reseted
-        EXPECT_EQ(QRect(), info5.getRect());
+
+        EXPECT_EQ(true, info1.isPositionValid());            //siblings before changed one should not be reseted
+        EXPECT_EQ(true, info2.isPositionValid());
+        EXPECT_EQ(false, info4.isPositionValid());            //siblings after changed one should be reseted
+        EXPECT_EQ(false, info5.isPositionValid());
+
+        //check sizes - should not be touched
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info2.isSizeValid());
+        EXPECT_EQ(true, info4.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 
     {
@@ -430,9 +494,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        // top2's position should be reseted
+        EXPECT_EQ(false, info.isPositionValid());
+
+        // its children should be untouched
+        EXPECT_EQ(true, info1.isPositionValid());
+        EXPECT_EQ(true, info5.isPositionValid());
+
+        // sizes should be preserved
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(true, info1.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 }
 
@@ -460,8 +532,12 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_NE(QRect(), info.getRect());            // Parent's size should not be reseted
-        EXPECT_EQ(QSize(), info.getOverallSize());     // But its overall rect should
+        // Parent's size should not be reseted
+        EXPECT_EQ(true, info.isPositionValid());
+        EXPECT_EQ(true, info.isSizeValid());
+
+        // But its overall rect should
+        EXPECT_EQ(false, info.isOverallSizeValid());
     }
 
     {
@@ -469,20 +545,31 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
         const ModelIndexInfo& info3 = *data.cfind(child3->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
         const ModelIndexInfo& info5 = *data.cfind(child5->index());
-        EXPECT_EQ(QRect(), info2.getRect());            //siblings after removed one should be reseted
-        EXPECT_EQ(QRect(), info3.getRect());
-        EXPECT_EQ(QRect(), info4.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+
+        //siblings after removed one should be reseted
+        EXPECT_EQ(false, info2.isPositionValid());
+        EXPECT_EQ(false, info3.isPositionValid());
+        EXPECT_EQ(false, info4.isPositionValid());
+        EXPECT_EQ(false, info5.isPositionValid());
+
+        //check sizes - should not be touched
+        EXPECT_EQ(true, info2.isSizeValid());
+        EXPECT_EQ(true, info3.isSizeValid());
+        EXPECT_EQ(true, info4.isSizeValid());
+        EXPECT_EQ(true, info5.isSizeValid());
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's position should be reseted
         const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
         const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
 
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QRect(), info1.getRect());
-        EXPECT_EQ(QRect(), info5.getRect());
+        EXPECT_EQ(false, info.isPositionValid());
+        EXPECT_EQ(true,  info.isSizeValid());
+        EXPECT_EQ(true,  info1.isPositionValid());
+        EXPECT_EQ(true,  info1.isSizeValid());
+        EXPECT_EQ(true,  info5.isPositionValid());
+        EXPECT_EQ(true,  info5.isSizeValid());
     }
 }
 
@@ -502,14 +589,17 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
    //expectations
     {
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_NE(QRect(), info.getRect());                        // Parent's size should not be reseted
-        EXPECT_NE(QSize(), info.getOverallSize());
+
+        EXPECT_EQ(true,  info.isPositionValid());                   // Parent's size should not be reseted
+        EXPECT_EQ(true,  info.isSizeValid());
+        EXPECT_EQ(true,  info.isOverallSizeValid());
     }
 
     {
         const ModelIndexInfo& info2 = *data.cfind(top2->index());   // Parent's siblings should not be touched
-        EXPECT_NE(QRect(), info2.getRect());
-        EXPECT_NE(QSize(), info2.getOverallSize());
+        EXPECT_EQ(true, info2.isPositionValid());
+        EXPECT_EQ(true, info2.isSizeValid());
+        EXPECT_EQ(true, info2.isOverallSizeValid());
     }
 }
 
@@ -531,16 +621,19 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
     {
         //all top items should be reseted
         const ModelIndexInfo& info = *data.cfind(top->index());
-        EXPECT_EQ(QRect(), info.getRect());
-        EXPECT_EQ(QSize(), info.getOverallSize());
+        EXPECT_EQ(false, info.isPositionValid());
+        EXPECT_EQ(true, info.isSizeValid());
+        EXPECT_EQ(true, info.isOverallSizeValid());
 
         const ModelIndexInfo& info2 = *data.cfind(top2->index());
-        EXPECT_EQ(QRect(), info2.getRect());
-        EXPECT_EQ(QSize(), info2.getOverallSize());
+        EXPECT_EQ(false, info2.isPositionValid());
+        EXPECT_EQ(true, info2.isSizeValid());
+        EXPECT_EQ(true, info2.isOverallSizeValid());
 
         const ModelIndexInfo& info3 = *data.cfind(top3->index());
-        EXPECT_EQ(QRect(), info3.getRect());
-        EXPECT_EQ(QSize(), info3.getOverallSize());
+        EXPECT_EQ(false, info3.isPositionValid());
+        EXPECT_EQ(true, info3.isSizeValid());
+        EXPECT_EQ(true, info3.isOverallSizeValid());
     }
 }
 
