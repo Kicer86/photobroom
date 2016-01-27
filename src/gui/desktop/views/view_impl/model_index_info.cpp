@@ -133,6 +133,12 @@ bool ModelIndexInfo::valid() const
 }
 
 
+bool ModelIndexInfo::isOverallSizeValid() const
+{
+    return overallSize != invalidSize;
+}
+
+
 bool ModelIndexInfo::isSizeValid() const
 {
     return rect.size() != invalidSize;

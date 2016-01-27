@@ -44,6 +44,7 @@ struct ModelIndexInfo
         void markPositionInvalid();
         void markSizeInvalid();
 
+        bool isOverallSizeValid() const;
         bool isSizeValid() const;
         bool isPositionValid() const;
         bool valid() const;
