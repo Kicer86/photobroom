@@ -48,7 +48,7 @@ void PositionsReseter::itemsAdded(const QModelIndex& parent, int /*from_pos*/, i
 
     //invalidate all items which are after 'to_pos'
     const QModelIndex item = m_model->index(to_pos, 0, parent);
-    invalidateSiblingsRect(item);
+    invalidateSiblingsPosition(item);
 }
 
 
