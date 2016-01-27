@@ -43,6 +43,8 @@ struct ModelIndexInfo
         void cleanRects();
         void markPositionInvalid();
         void markSizeInvalid();
+        void markRectInvalid();
+        void markOverallSizeInvalid();
 
         bool isOverallSizeValid() const;
         bool isSizeValid() const;

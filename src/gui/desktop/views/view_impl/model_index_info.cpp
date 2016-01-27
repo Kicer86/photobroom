@@ -121,6 +121,19 @@ void ModelIndexInfo::markSizeInvalid()
 }
 
 
+void ModelIndexInfo::markRectInvalid()
+{
+    rect = invalidRect;
+}
+
+
+void ModelIndexInfo::markOverallSizeInvalid()
+{
+    overallSize = invalidSize;
+}
+
+
+
 bool ModelIndexInfo::isPositionValid() const
 {
     return rect.topLeft() != invalidPosition;
