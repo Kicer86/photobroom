@@ -72,7 +72,7 @@ void PositionsReseter::itemChanged(const QModelIndex& idx)
     invalidateSiblingsPosition(parent);
 
     //invalidate itself
-    resetRect(idx);
+    resetSize(idx);
     resetOverallSize(idx);
 
     //invalidate all items which are after 'pos'
@@ -211,6 +211,18 @@ void PositionsReseter::resetPosition(const QModelIndex& idx) const
     {
         ModelIndexInfo& info = *infoIt;
         info.markPositionInvalid();
+    }
+}
+
+
+void PositionsReseter::resetSize(const QModelIndex& idx) const
+{
+    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+
+    if (infoIt.valid())
+    {
+        ModelIndexInfo& info = *infoIt;
+        info.markSizeInvalid();
     }
 }
 
