@@ -139,6 +139,8 @@ void PhotosWidget::updateHint()
         m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
     else if (status == NodeStatus::Fetching)
         m_info->setText(tr("Loading photos..."));
+    else
+        m_info->setText("");
 
     m_info->setVisible( (status == NodeStatus::Fetched && empty && isEnabled()) ||
                          status == NodeStatus::Fetching);
