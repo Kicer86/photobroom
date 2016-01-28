@@ -411,7 +411,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+53"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+139"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
@@ -420,7 +420,12 @@ Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.
 Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>Loading photos...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-86"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
