@@ -400,12 +400,12 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="+76"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>No photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak zdjęć</translation>
     </message>
 </context>
 <context>
@@ -422,7 +422,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
     <message>
         <location line="+2"/>
         <source>Loading photos...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie zdjęć...</translation>
     </message>
     <message>
         <location line="-86"/>
