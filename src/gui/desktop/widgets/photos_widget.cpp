@@ -50,7 +50,6 @@ PhotosWidget::PhotosWidget(QWidget* p):
     // info baloon
     m_info = new InfoBaloonWidget(this);
     m_info->hide();
-    m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
 
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
@@ -136,7 +135,15 @@ void PhotosWidget::updateHint()
     assert(statusVariant.canConvert(QMetaType::Int));
     const NodeStatus status = static_cast<NodeStatus>(statusVariant.toInt());
 
-    m_info->setVisible(status == NodeStatus::Fetched && empty && isEnabled());
+    if (status == NodeStatus::Fetched)
+        m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
+    else if (status == NodeStatus::Fetching)
+        m_info->setText(tr("Loading photos..."));
+    else
+        m_info->setText("");
+
+    m_info->setVisible( (status == NodeStatus::Fetched && empty && isEnabled()) ||
+                         status == NodeStatus::Fetching);
 }
 
 
