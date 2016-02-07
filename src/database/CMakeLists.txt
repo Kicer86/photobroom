@@ -22,6 +22,7 @@ set(DATABASE_SOURCES
     implementation/photo_info_cache.cpp
     implementation/photo_info_storekeeper.cpp
     implementation/photo_types.cpp
+    implementation/virtual_destructors.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_duplicates_finder.cpp

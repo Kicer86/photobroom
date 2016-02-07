@@ -37,7 +37,7 @@ namespace Database
 
     struct IDBPack
     {
-        virtual ~IDBPack() {}
+        virtual ~IDBPack();
 
         virtual IDatabase* get() = 0;
     };
@@ -46,7 +46,7 @@ namespace Database
     {
         typedef std::function<void(const Database::BackendStatus &)> OpenResult;
 
-        virtual ~IBuilder() {}
+        virtual ~IBuilder();
 
         virtual std::unique_ptr<IDBPack> get(const ProjectInfo &, OpenResult) = 0;
     };

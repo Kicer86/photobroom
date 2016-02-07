@@ -4,10 +4,10 @@
 
 #include <string>
 #include <vector>
- 
+
 struct ILogger
 {
-    virtual ~ILogger() {}
+    virtual ~ILogger();
 
     enum class Severity
     {

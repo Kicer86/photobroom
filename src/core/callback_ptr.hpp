@@ -16,7 +16,6 @@ struct safe_callback_data
 };
 
 
-
 template<typename T>
 class safe_callback
 {

@@ -117,5 +117,3 @@ class MainWindow: public QMainWindow
 };
 
 #endif // MAINWINDOW_HPP
-
-class IPhotosManager;

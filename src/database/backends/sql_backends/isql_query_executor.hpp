@@ -12,7 +12,7 @@ class QSqlQuery;
 
 namespace Database
 {
-    class SqlMultiQuery;
+    struct SqlMultiQuery;
 
     struct ISqlQueryExecutor
     {
