@@ -38,11 +38,10 @@ IConfigObserver::~IConfigObserver() {}
 IConfiguration::~IConfiguration()   {}
 
 
-ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
+ConfigurationPrivate::ConfigurationPrivate():
     m_json(),
     m_dumpTimer(),
-    m_observers(),
-    q(_q)
+    m_observers()
 {
     m_dumpTimer.setSingleShot(true);
     m_dumpTimer.setInterval(500);
@@ -80,7 +79,7 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
         else if(value.isNull())
         {}
         else
-            assert(!"not implemented");
+            throw std::runtime_error("unsupported type");
     });
 
     return v_result;
@@ -104,7 +103,7 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
         else if (entry_value.type() == QVariant::UInt)
             value = entry_value.toUInt();
         else
-            assert(!"unsupported type");
+            throw std::runtime_error("unsupported type");
     });
 
     for(IConfigObserver* observer: m_observers)
@@ -186,7 +185,7 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::
 
 
 Configuration::Configuration():
-    d(new ConfigurationPrivate(this))
+    d(new ConfigurationPrivate)
 {
 
 }

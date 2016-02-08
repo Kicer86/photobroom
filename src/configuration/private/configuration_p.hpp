@@ -29,12 +29,12 @@
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 
-class IConfigObserver;
+struct IConfigObserver;
 
 class ConfigurationPrivate: public QObject
 {
     public:
-        ConfigurationPrivate(Configuration* q);
+        ConfigurationPrivate();
         ConfigurationPrivate(const ConfigurationPrivate &) = delete;
         virtual ~ConfigurationPrivate();
 
@@ -49,7 +49,6 @@ class ConfigurationPrivate: public QObject
         ol::ThreadSafeResource<Json::Value> m_json;
         QTimer m_dumpTimer;
         std::set<IConfigObserver *> m_observers;
-        class Configuration* const q;
 
         void loadData();
         void markDataDirty();

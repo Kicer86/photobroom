@@ -31,15 +31,14 @@ class QVariant;
 
 struct CONFIGURATION_EXPORT IConfigObserver
 {
-    virtual ~IConfigObserver() = 0;
+    virtual ~IConfigObserver();
     virtual void configChanged(const QString &, const QVariant &) = 0;
 };
 
 
 struct CONFIGURATION_EXPORT IConfiguration
 {
-    IConfiguration() {}
-    virtual ~IConfiguration() = 0;
+    virtual ~IConfiguration();
 
     virtual QVariant getEntry(const QString &) = 0;
     virtual void setEntry(const QString &, const QVariant &) = 0;
