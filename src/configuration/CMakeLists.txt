@@ -3,6 +3,18 @@ find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(JsonCpp REQUIRED)
 
+include(CheckTypeSize)
+set(CMAKE_REQUIRED_INCLUDES   ${Qt5Core_INCLUDE_DIRS} ${JSONCPP_INCLUDE_DIRS})
+set(CMAKE_EXTRA_INCLUDE_FILES QtGlobal json/config.h)
+set(CMAKE_REQUIRED_LIBRARIES  Qt5::Core)
+
+check_type_size("qlonglong"   QLONGLONG  LANGUAGE CXX)
+check_type_size("Json::Int64" JSON_INT64 LANGUAGE CXX)
+
+if (NOT QLONGLONG EQUAL JSON_INT64)
+    message(FATAL_ERROR "qlonglong and Json::Int64 do not have same size")
+endif()
+
 # JsonCpp is used instead of QJson* classes die to problem with nested QJsonObjects:
 # http://stackoverflow.com/questions/17034336/how-to-change-qjsonobject-value-in-a-qjson-hierarchy-without-using-copies
 
