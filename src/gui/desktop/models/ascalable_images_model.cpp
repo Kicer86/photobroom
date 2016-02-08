@@ -21,39 +21,42 @@
 
 #include <core/task_executor.hpp>
 
+
 uint qHash(const AScalableImagesModel::Key& key)
 {
     return qHash(key.index) + qHash(key.size.height()) + qHash(key.size.width());
 }
 
-
-struct LoadPhoto: ITaskExecutor::ITask
+namespace
 {
-    LoadPhoto(const AScalableImagesModel::Key& key,
-              const std::function< void(const AScalableImagesModel::Key &) >& callback):
-    m_key(key),
-    m_callback(callback)
+    struct LoadPhoto: ITaskExecutor::ITask
     {
+        LoadPhoto(const AScalableImagesModel::Key& key,
+                const std::function< void(const AScalableImagesModel::Key &) >& callback):
+        m_key(key),
+        m_callback(callback)
+        {
 
-    }
+        }
 
-    LoadPhoto(const LoadPhoto &) = delete;
+        LoadPhoto(const LoadPhoto &) = delete;
 
-    LoadPhoto& operator=(const LoadPhoto &) = delete;
+        LoadPhoto& operator=(const LoadPhoto &) = delete;
 
-    virtual std::string name() const
-    {
-        return "LoadPhoto";
-    }
+        virtual std::string name() const
+        {
+            return "LoadPhoto";
+        }
 
-    virtual void perform()
-    {
-        m_callback(m_key);
-    }
+        virtual void perform()
+        {
+            m_callback(m_key);
+        }
 
-    AScalableImagesModel::Key m_key;
-    std::function< void(const AScalableImagesModel::Key &) > m_callback;
-};
+        AScalableImagesModel::Key m_key;
+        std::function< void(const AScalableImagesModel::Key &) > m_callback;
+    };
+}
 
 
 AScalableImagesModel::AScalableImagesModel(QObject* p):

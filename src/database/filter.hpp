@@ -46,17 +46,17 @@ namespace Database
     struct FilterPhotosMatchingExpression;
     struct FilterPhotosWithPath;
 
-    struct IFilter
+    struct DATABASE_EXPORT IFilter
     {
         typedef std::shared_ptr<IFilter> Ptr;
 
-        virtual ~IFilter() {}
+        virtual ~IFilter();
         virtual void visitMe(IFilterVisitor *) = 0;
     };
 
     struct DATABASE_EXPORT IFilterVisitor
     {
-        virtual ~IFilterVisitor() {}
+        virtual ~IFilterVisitor();
 
         virtual void visit(EmptyFilter *) = 0;
         virtual void visit(FilterPhotosWithTag *) = 0;
@@ -72,14 +72,14 @@ namespace Database
 
     struct DATABASE_EXPORT EmptyFilter: IFilter
     {
-        virtual ~EmptyFilter() {}
+        virtual ~EmptyFilter();
 
         FILTER_COMMAND
     };
 
     struct DATABASE_EXPORT FilterPhotosWithTag: IFilter
     {
-        virtual ~FilterPhotosWithTag() {}
+        virtual ~FilterPhotosWithTag();
 
         FILTER_COMMAND
 
@@ -92,7 +92,7 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
     {
         FilterPhotosWithFlags();
-        virtual ~FilterPhotosWithFlags() {}
+        virtual ~FilterPhotosWithFlags();
 
         FILTER_COMMAND
 
@@ -109,7 +109,7 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter
     {
         FilterPhotosWithSha256();
-        virtual ~FilterPhotosWithSha256() {}
+        virtual ~FilterPhotosWithSha256();
 
         FILTER_COMMAND
 
@@ -119,7 +119,7 @@ namespace Database
     struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
     {
         FilterNotMatchingFilter();
-        virtual ~FilterNotMatchingFilter() {}
+        virtual ~FilterNotMatchingFilter();
 
         FILTER_COMMAND
 
@@ -129,7 +129,7 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithId: IFilter
     {
         FilterPhotosWithId();
-        virtual ~FilterPhotosWithId() {}
+        virtual ~FilterPhotosWithId();
 
         FILTER_COMMAND
 

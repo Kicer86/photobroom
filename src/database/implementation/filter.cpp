@@ -22,7 +22,31 @@
 namespace Database
 {
 
+    IFilter::~IFilter()
+    {
+
+    }
+
+    
+    IFilterVisitor::~IFilterVisitor()
+    {
+
+    }
+
+
+    EmptyFilter::~EmptyFilter()
+    {
+
+    }
+
+
     FilterPhotosWithTag::FilterPhotosWithTag(): tagName(), tagValue()
+    {
+
+    }
+
+
+    FilterPhotosWithTag::~FilterPhotosWithTag()
     {
 
     }
@@ -34,7 +58,19 @@ namespace Database
     }
 
 
+    FilterPhotosWithFlags::~FilterPhotosWithFlags()
+    {
+
+    }
+
+
     FilterPhotosWithSha256::FilterPhotosWithSha256(): sha256("")
+    {
+
+    }
+
+
+    FilterPhotosWithSha256::~FilterPhotosWithSha256()
     {
 
     }
@@ -46,7 +82,19 @@ namespace Database
     }
 
 
+    FilterNotMatchingFilter::~FilterNotMatchingFilter()
+    {
+
+    }
+
+
     FilterPhotosWithId::FilterPhotosWithId(): filter()
+    {
+
+    }
+
+
+    FilterPhotosWithId::~FilterPhotosWithId()
     {
 
     }

@@ -121,10 +121,10 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 
 QImage DBDataModel::getImageFor(const QModelIndex& idx, const QSize& size)
 {
-    assert(!"not implemented");
     (void) idx;
     (void) size;
-    return QImage();
+
+    throw std::runtime_error("not implemented");
 }
 
 
@@ -159,12 +159,15 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
+    assert(row >= 0);
+    const unsigned int urow = static_cast<unsigned int>(row);
+
     QModelIndex idx;
     IdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
 
-    if (static_cast<unsigned int>(row) < pData->m_children.size())   //row out boundary?
+    if (urow < pData->m_children.size())             //row out of boundary?
     {
-        IdxData* cData = pData->m_children[row];
+        IdxData* cData = pData->m_children[urow];
         idx = createIndex(row, column, cData);
     }
 
@@ -186,7 +189,8 @@ int DBDataModel::rowCount(const QModelIndex& _parent) const
     IdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
     const size_t count = idxData->m_children.size();
 
-    return count;
+    assert(count < std::numeric_limits<int>::max());
+    return static_cast<int>(count);
 }
 
 

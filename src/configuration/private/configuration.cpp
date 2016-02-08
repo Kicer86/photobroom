@@ -34,6 +34,10 @@
 #include "constants.hpp"
 
 
+IConfigObserver::~IConfigObserver() {}
+IConfiguration::~IConfiguration()   {}
+
+
 static_assert(sizeof(qlonglong) == sizeof(Json::Int64), "Json and Qt's sizes do not match");
 
 ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):

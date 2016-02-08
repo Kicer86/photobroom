@@ -27,7 +27,6 @@
 #include <core/callback_ptr.hpp>
 
 struct ITaskExecutor;
-struct LoadPhoto;
 
 class AScalableImagesModel: public QAbstractItemModel
 {
@@ -63,13 +62,13 @@ class AScalableImagesModel: public QAbstractItemModel
         virtual QImage getImageFor(const QModelIndex &, const QSize &) = 0;
 
     private:
-        friend struct LoadPhoto;
-
         QCache<Key, QImage> m_cache;
         safe_callback_ctrl m_callback_ctrl;
         ITaskExecutor* m_taskExecutor;
 
         void loadImage(const Key &);
 };
+
+uint qHash(const AScalableImagesModel::Key& key);
 
 #endif // ASCALABLEIMAGESMODEL_HPP

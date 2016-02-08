@@ -34,7 +34,7 @@ class IdxDataManager: public QObject
 public:
     struct INotifications
     {
-        virtual ~INotifications() {}
+        virtual ~INotifications();
     };
 
     IdxDataManager(DBDataModel* model);

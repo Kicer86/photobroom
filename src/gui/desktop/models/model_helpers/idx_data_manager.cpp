@@ -142,6 +142,12 @@ struct IdxDataManager::Data
 };
 
 
+IdxDataManager::INotifications::~INotifications()
+{
+
+}
+
+
 IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 {
     m_data->init(this);
