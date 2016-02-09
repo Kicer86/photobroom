@@ -95,7 +95,7 @@ struct Sha256Assigner: UpdaterTask
         const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
 
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        const Photo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
+        const Photo::Sha256sum hash = HashFunctions::sha256(udata, static_cast<int>(data.size()));
         m_photoInfo->setSha256(hash);
     }
 

@@ -28,13 +28,16 @@
 #include <QHeaderView>
 
 
-struct TimeEditor: QTimeEdit
+namespace
 {
-    explicit TimeEditor(QWidget* parent_widget = 0): QTimeEdit(parent_widget)
+    struct TimeEditor: QTimeEdit
     {
-        setDisplayFormat("hh:mm:ss");
-    }
-};
+        explicit TimeEditor(QWidget* parent_widget = 0): QTimeEdit(parent_widget)
+        {
+            setDisplayFormat("hh:mm:ss");
+        }
+    };
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

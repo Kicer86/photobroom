@@ -112,7 +112,7 @@ ImageListModel::~ImageListModel()
 void ImageListModel::insert(const QString& path)
 {
     std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
-    const int s = d->m_data.size();
+    const int s = static_cast<int>( d->m_data.size() );
 
     beginInsertRows(QModelIndex(), s, s);
 
@@ -217,6 +217,7 @@ QVariant ImageListModel::data(const QModelIndex& index, int role) const
                 }
 
                 result = info.image;
+                break;
             }
 
             default:
@@ -239,7 +240,7 @@ int ImageListModel::columnCount(const QModelIndex& parent) const
 int ImageListModel::rowCount(const QModelIndex& parent) const
 {
     std::lock_guard<std::recursive_mutex> lock(d->m_data_mutex);
-    const int result = parent.isValid()? 0: d->m_data.size();
+    const int result = parent.isValid()? 0: static_cast<int>(d->m_data.size());
 
     return result;
 }
