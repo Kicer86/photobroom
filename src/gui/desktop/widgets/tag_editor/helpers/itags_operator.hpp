@@ -8,7 +8,7 @@
 
 struct ITagsOperator
 {
-    virtual ~ITagsOperator() {}
+    virtual ~ITagsOperator();
 
     virtual void operateOn(const std::vector<IPhotoInfo::Ptr> &) = 0;
 

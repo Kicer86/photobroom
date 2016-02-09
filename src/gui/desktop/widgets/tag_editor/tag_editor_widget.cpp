@@ -91,7 +91,7 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 }
 
 
-void TagEditorWidget::setTagValueWidget(int idx)
+void TagEditorWidget::setTagValueWidget(size_t idx)
 {
     //remove previous widget-editor (if any)
     if (m_tagValueWidget != nullptr)
@@ -101,7 +101,7 @@ void TagEditorWidget::setTagValueWidget(int idx)
     }
 
     //insert new widget-editor
-    assert(static_cast<size_t>(idx) < m_tags.size());
+    assert(idx < m_tags.size());
     const TagNameInfo& name = m_tags[idx];
 
     QVariant::Type type;
@@ -154,9 +154,8 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
 
             if (it == photos_tags.end())    //not used?
             {
-                const int idx = m_tags.size();
                 m_tags.push_back(info);
-                m_tagName->addItem(info.getDisplayName(), idx);
+                m_tagName->addItem(info.getDisplayName());
             }
         }
 
@@ -186,5 +185,5 @@ void TagEditorWidget::addButtonPressed()
 void TagEditorWidget::tagNameChanged(int idx)
 {
     if (idx >= 0)
-        setTagValueWidget(idx);
+        setTagValueWidget( static_cast<size_t>(idx) );
 }

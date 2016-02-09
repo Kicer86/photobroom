@@ -199,7 +199,8 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
                                  );
             break;
 
-        default:
+        case IUpdater::OnlineVersion::UpToDate:
+            // nothing to do
             break;
     }
 }

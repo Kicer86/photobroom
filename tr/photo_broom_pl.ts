@@ -249,7 +249,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+87"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
