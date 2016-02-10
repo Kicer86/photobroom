@@ -4,7 +4,7 @@ find_package(Qt5Gui REQUIRED)
 find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES
-    implementation/iproject.cpp
+    implementation/virtual_destructors.cpp
     implementation/project.cpp
     implementation/project_manager.cpp
     )

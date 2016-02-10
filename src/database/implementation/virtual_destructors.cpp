@@ -2,6 +2,7 @@
 #include "ibackend.hpp"
 #include "idatabase_builder.hpp"
 #include "iphoto_info.hpp"
+#include "iphoto_info_cache.hpp"
 
 namespace Database
 {
@@ -19,6 +20,7 @@ namespace Database
     ADropPhotosTask::~ADropPhotosTask()       {}
     AInitTask::~AInitTask()                   {}
     IDatabase::~IDatabase()                   {}
+    IPhotoInfoCache::~IPhotoInfoCache()       {}
 }
 
 IPhotoInfo::IObserver::~IObserver() {}

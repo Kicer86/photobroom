@@ -29,7 +29,6 @@
 #include <configuration/constants.hpp>
 #include <plugins/plugin_loader.hpp>
 
-#include "ifs.hpp"
 #include "database_thread.hpp"
 #include "photo_info_cache.hpp"
 #include "idatabase_plugin.hpp"
@@ -40,6 +39,44 @@
 #include "project_info.hpp"
 
 //TODO: cleanup this file!
+
+namespace
+{
+    using namespace Database;
+
+    struct DatabaseObjects: IDBPack
+    {
+        DatabaseObjects(): m_database(), m_backend(), m_cache() {}
+
+        DatabaseObjects(DatabaseObjects&& other):
+            m_database(std::move(other.m_database)),
+            m_backend(std::move(other.m_backend)),
+            m_cache(std::move(other.m_cache))
+        {
+
+        }
+
+        ~DatabaseObjects()
+        {
+            m_database->closeConnections();
+
+            //destroy objects in right order
+            m_cache.reset();
+            m_database.reset();
+            m_backend.reset();
+        }
+
+        std::unique_ptr<IDatabase> m_database;
+        std::unique_ptr<IBackend> m_backend;
+        std::unique_ptr<IPhotoInfoCache> m_cache;
+
+        IDatabase* get() override
+        {
+            return m_database.get();
+        }
+    };
+}
+
 
 namespace Database
 {
@@ -64,38 +101,6 @@ namespace Database
         Impl(const Impl &) = delete;
 
         Impl& operator=(const Impl &) = delete;
-
-        struct DatabaseObjects: Database::IDBPack
-        {
-            DatabaseObjects() : m_database(), m_backend(), m_cache() {}
-
-            DatabaseObjects(DatabaseObjects&& other):
-                m_database(std::move(other.m_database)),
-                m_backend(std::move(other.m_backend)),
-                m_cache(std::move(other.m_cache))
-            {
-
-            }
-
-            ~DatabaseObjects()
-            {
-                m_database->closeConnections();
-
-                //destroy objects in right order
-                m_cache.reset();
-                m_database.reset();
-                m_backend.reset();
-            }
-
-            std::unique_ptr<IDatabase> m_database;
-            std::unique_ptr<IBackend> m_backend;
-            std::unique_ptr<IPhotoInfoCache> m_cache;
-
-            IDatabase* get() override
-            {
-                return m_database.get();
-            }
-        };
 
         IPluginLoader* pluginLoader;
         ILoggerFactory* m_logger_factory;
@@ -156,7 +161,7 @@ namespace Database
 
         std::unique_ptr<IDBPack> result;
 
-        Impl::DatabaseObjects* dbObjs = new Impl::DatabaseObjects;
+        DatabaseObjects* dbObjs = new DatabaseObjects;
         dbObjs->m_backend = std::move(backend);
         dbObjs->m_database.reset(database);
         dbObjs->m_cache.reset(cache);

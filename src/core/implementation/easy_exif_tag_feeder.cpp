@@ -15,9 +15,9 @@ EasyExifTagFeeder::EasyExifTagFeeder(IPhotosManager* photosManager): m_exif_data
 void EasyExifTagFeeder::collect(const QByteArray& data)
 {
     const unsigned char* rawData = reinterpret_cast<const unsigned char *>(data.data());
-    const std::size_t rawDataSize = data.size();
+    const int rawDataSize = data.size();
 
-    m_exif_data.parseFrom(rawData, rawDataSize);
+    m_exif_data.parseFrom(rawData, static_cast<unsigned int>(rawDataSize));
 }
 
 

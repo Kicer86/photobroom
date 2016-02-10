@@ -27,38 +27,41 @@
 #include <core/callback_ptr.hpp>
 
 
-struct LoadPhoto: ITaskExecutor::ITask
+namespace
 {
-    LoadPhoto(const QString& path,
-              IPhotosManager* photosManager,
-              const std::function< void(const QString &, const QImage &)>& callback):
-        m_path(path),
-        m_callback(callback),
-        m_photosManager(photosManager)
+    struct LoadPhoto: ITaskExecutor::ITask
     {
+        LoadPhoto(const QString& path,
+                IPhotosManager* photosManager,
+                const std::function< void(const QString &, const QImage &)>& callback):
+            m_path(path),
+            m_callback(callback),
+            m_photosManager(photosManager)
+        {
 
-    }
+        }
 
-    LoadPhoto(const LoadPhoto &) = delete;
+        LoadPhoto(const LoadPhoto &) = delete;
 
-    LoadPhoto& operator=(const LoadPhoto &) = delete;
+        LoadPhoto& operator=(const LoadPhoto &) = delete;
 
-    virtual std::string name() const
-    {
-        return "LoadPhoto";
-    }
+        virtual std::string name() const
+        {
+            return "LoadPhoto";
+        }
 
-    virtual void perform()
-    {
-        QImage scaled = m_photosManager->getThumbnail(m_path);
+        virtual void perform()
+        {
+            QImage scaled = m_photosManager->getThumbnail(m_path);
 
-        m_callback(m_path, scaled);
-    }
+            m_callback(m_path, scaled);
+        }
 
-    QString m_path;
-    std::function<void(const QString &, const QImage &)> m_callback;
-    IPhotosManager* m_photosManager;
-};
+        QString m_path;
+        std::function<void(const QString &, const QImage &)> m_callback;
+        IPhotosManager* m_photosManager;
+    };
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

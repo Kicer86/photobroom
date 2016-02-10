@@ -36,7 +36,6 @@ set(DATABASE_HEADERS
     idatabase.hpp
     iphoto_info.hpp
     iphoto_info_cache.hpp
-    ifs.hpp
     photo_data.hpp
     photo_iterator.hpp
     photo_info.hpp
