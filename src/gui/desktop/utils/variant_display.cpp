@@ -69,7 +69,8 @@ QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
             break;
 
         default:
-            throw(std::runtime_error("unexpected type"));
+            assert(!"unexpected type");
+            break;
     }
 
     return result;

@@ -121,10 +121,10 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 
 QImage DBDataModel::getImageFor(const QModelIndex& idx, const QSize& size)
 {
+    assert(!"not implemented");
     (void) idx;
     (void) size;
-
-    throw std::runtime_error("not implemented");
+    return QImage();
 }
 
 

@@ -79,7 +79,7 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
         else if(value.isNull())
         {}
         else
-            throw std::runtime_error("unsupported type");
+            assert(!"not implemented");
     });
 
     return v_result;
@@ -103,7 +103,7 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
         else if (entry_value.type() == QVariant::UInt)
             value = entry_value.toUInt();
         else
-            throw std::runtime_error("unsupported type");
+            assert(!"unsupported type");
     });
 
     for(IConfigObserver* observer: m_observers)
