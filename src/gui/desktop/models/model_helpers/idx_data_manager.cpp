@@ -633,7 +633,9 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
     //to other positions than reported by beginInsertRows() and endInsertRows()
     if(_parent->m_children.empty())
     {
-        const size_t last = nodes.size() - 1;
+        const int last = static_cast<int>(nodes.size()) - 1;
+        assert(last >= 0);
+
         m_data->m_model->beginInsertRows(parentIdx, 0, last);
 
         for(IdxData* newItem: nodes)
@@ -821,7 +823,7 @@ void IdxDataManager::performMove(IdxData* item, IdxData* from, IdxData* to)
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
     const int fromPos = item->getRow();
-    const int toPos = to->findPositionFor(item);
+    const int toPos = static_cast<int>( to->findPositionFor(item) );
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
 
@@ -850,7 +852,7 @@ void IdxDataManager::performRemoveChildren(IdxData* parent)
 
     if (children.empty() == false)
     {
-        m_data->m_model->beginRemoveRows(parentIdx, 0, children.size() - 1);
+        m_data->m_model->beginRemoveRows(parentIdx, 0, static_cast<int>( children.size() ) - 1);
 
         for(IdxData* c: children)
             parent->removeChild(c);
@@ -915,7 +917,7 @@ void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
 void IdxDataManager::performAdd(IdxData* _parent, IdxData* item)
 {
     QModelIndex toIdx = getIndex(_parent);
-    const int toPos = _parent->findPositionFor(item);
+    const int toPos = static_cast<int>( _parent->findPositionFor(item) );
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
