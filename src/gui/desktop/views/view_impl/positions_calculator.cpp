@@ -27,7 +27,7 @@
 
 #include "data.hpp"
 
-PositionsCalculator::PositionsCalculator(QAbstractItemModel* model, Data* data, int width): m_model(model), m_data(data), m_width(width)
+PositionsCalculator::PositionsCalculator(Data* data, int width): m_data(data), m_width(width)
 {
 
 }

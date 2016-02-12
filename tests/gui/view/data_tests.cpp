@@ -147,7 +147,7 @@ TEST(DataShould, NotReturnInvisibleItems)
 
     PositionsTranslator translator(&data);
 
-    PositionsCalculator positions_calculator(&model, &data, 100);
+    PositionsCalculator positions_calculator(&data, 100);
     positions_calculator.updateItems();
 
     const QRect rect1 = translator.getAbsoluteRect(data.get(child1->index()));
@@ -197,7 +197,7 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
-    PositionsCalculator positions_calculator(&model, &data, 100);
+    PositionsCalculator positions_calculator(&data, 100);
     positions_calculator.updateItems();
 
     const auto& f_info1 = *data.get(child1->index());
@@ -258,7 +258,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
-    PositionsCalculator positions_calculator(&model, &data, 100);
+    PositionsCalculator positions_calculator(&data, 100);
     positions_calculator.updateItems();
 
     //collapse top
@@ -302,7 +302,7 @@ TEST(DataShould, ReturnProperIndicesOfItems)
     auto it = data.get(top->index());
     it->expanded = true;
 
-    PositionsCalculator positions_calculator(&model, &data, 100);
+    PositionsCalculator positions_calculator(&data, 100);
     positions_calculator.updateItems();
 
     {
@@ -351,7 +351,7 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     model.appendRow(child1);
     model.appendRow(child2);
 
-    PositionsCalculator calculator(&model, &data, canvas_w);
+    PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
 
     //// test

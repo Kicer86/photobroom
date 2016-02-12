@@ -119,7 +119,7 @@ class tree final
 
             return pos;
         }
-        
+
         iterator erase(iterator pos)
         {
             auto l = pos.current().get_nodes_list();          //get proper sublist from iterator
@@ -131,11 +131,11 @@ class tree final
 
             return pos;
         }
-        
+
         std::string dump() const
         {
             const std::string result = empty()? "": dumpNode( 0, const_level_iterator(begin()) );
-            
+
             return result;
         }
 
@@ -148,22 +148,22 @@ class tree final
 
             return st;
         }
-        
-        std::string dumpNode(int level, const_level_iterator it) const
+
+        std::string dumpNode(std::size_t level, const_level_iterator it) const
         {
             std::string result;
-           
+
             for(size_t i = 0; it.valid(); ++it, i++)
             {
-                result.append(level * 4, ' ');        // add indent            
+                result.append(level * 4, ' ');        // add indent
                 result += std::to_string(i) + ": ";   // index
                 result += *it;                        // value
                 result += '\n';
-                
+
                 if (it.children_count() > 0)
                     result += dumpNode(level + 1, it.begin());
             }
-            
+
             return result;
         }
 };

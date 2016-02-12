@@ -32,7 +32,7 @@ class QAbstractItemModel;
 class PositionsCalculator
 {
     public:
-        PositionsCalculator(QAbstractItemModel *, Data *, int width);
+        PositionsCalculator(Data *, int width);
         PositionsCalculator(const PositionsCalculator& other) = delete;
         ~PositionsCalculator();
         PositionsCalculator& operator=(const PositionsCalculator& other) = delete;
@@ -60,7 +60,6 @@ class PositionsCalculator
 
         void updateItem(Data::ModelIndexInfoSet::level_iterator) const;
 
-        QAbstractItemModel* m_model;
         Data* m_data;
         const int m_width;
 };

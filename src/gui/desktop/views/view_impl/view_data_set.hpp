@@ -283,7 +283,7 @@ class ViewDataSet final: public IViewDataSet
                 });
 
                 if (equal && it_children != 0)                         // still ok && has children
-                    for(size_t i = 0; i < it_children; i++)
+                    for(int i = 0; i < it_children; i++)
                         equal = validate(model, model->index(i, 0, index), it.begin() + i);
             }
 

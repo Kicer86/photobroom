@@ -22,7 +22,7 @@ TEST(PositionsCalculatorShould, BeConstructable)
         Data data;
         data.set(&model);
 
-        PositionsCalculator calculator(&model, &data, 100);
+        PositionsCalculator calculator(&data, 100);
     });
 }
 
@@ -40,7 +40,7 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    PositionsCalculator calculator(&model, &data, 100);
+    PositionsCalculator calculator(&data, 100);
     calculator.updateItems();
 
     Data::ModelIndexInfoSet::iterator infoIt = data.get(top);
@@ -85,7 +85,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    PositionsCalculator calculator(&model, &data, canvas_w);
+    PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
 
     {
@@ -139,7 +139,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     ModelIndexInfo& top_info = *view_data.get(top_idx->index());
     top_info.expanded = true;
 
-    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
@@ -199,7 +199,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     ModelIndexInfo& top_info = *view_data.get(top_idx2->index());
     top_info.expanded = true;
 
-    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
@@ -249,7 +249,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     ModelIndexInfo& top_info = *view_data.get(top->index());
     top_info.expanded = true;
 
-    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
@@ -327,7 +327,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
         top2_info.expanded = true;
     }
 
-    PositionsCalculator calculator(&model, &data, canvas_w);
+    PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
 
     //// test
@@ -380,7 +380,7 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     model.appendRow(child1);
     model.appendRow(child2);
 
-    PositionsCalculator calculator(&model, &data, canvas_w);
+    PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
 
     // Expectations:
@@ -428,7 +428,7 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     model.appendRow(child1);
     model.appendRow(child2);
 
-    PositionsCalculator calculator(&model, &data, canvas_w);
+    PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
 
     // Expectations:
@@ -492,7 +492,7 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     ModelIndexInfo& top_info2 = *view_data.get(top_idx2->index());
     top_info2.expanded = true;
 
-    PositionsCalculator calculator(&model, &view_data, canvas_w);
+    PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
