@@ -38,7 +38,7 @@
 
 struct IViewDataSet
 {
-        virtual ~IViewDataSet() {}
+        virtual ~IViewDataSet();
 
         virtual void rowsInserted(const QModelIndex &, int, int) = 0;
         virtual void rowsRemoved(const QModelIndex &, int, int) = 0;
@@ -274,7 +274,7 @@ class ViewDataSet final: public IViewDataSet
             if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
             {
                 const size_t it_children = it.children_count();
-                const size_t idx_children = model->rowCount(index);
+                const size_t idx_children = static_cast<size_t>(model->rowCount(index));
                 equal = it_children == idx_children;
 
                 assert_dump(equal, [&]
@@ -296,9 +296,11 @@ class ViewDataSet final: public IViewDataSet
 
             if (index.isValid())
             {
+                assert(index.row() >= 0);
+
                 std::vector<size_t> parents = generateHierarchy(index.parent());
                 result.insert(result.begin(), parents.cbegin(), parents.cend());
-                result.push_back(index.row());
+                result.push_back( static_cast<size_t>(index.row()) );
             }
             else
                 result.push_back(0);             //top item

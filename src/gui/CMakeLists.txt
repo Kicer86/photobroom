@@ -35,6 +35,7 @@ set(GUI_SOURCES
     desktop/views/view_impl/positions_calculator.cpp
     desktop/views/view_impl/positions_reseter.cpp
     desktop/views/view_impl/positions_translator.cpp
+    desktop/views/view_impl/view_data_set.cpp
     desktop/views/images_tree_view.cpp
     desktop/views/tree_item_delegate.cpp
     desktop/ui/configuration_dialog.cpp

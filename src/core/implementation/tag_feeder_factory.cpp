@@ -8,18 +8,21 @@
 #include "tag.hpp"
 #include "itagfeeder.hpp"
 
-struct NullFeeder: public ITagFeeder
+namespace
 {
-        virtual ~NullFeeder() {}
+    struct NullFeeder: public ITagFeeder
+    {
+            virtual ~NullFeeder() {}
 
-    private:
-        virtual Tag::TagsList getTagsFor(const QString&) override final
-        {
-            //return empty set
-            return Tag::TagsList();
-        }
+        private:
+            virtual Tag::TagsList getTagsFor(const QString&) override final
+            {
+                //return empty set
+                return Tag::TagsList();
+            }
 
-};
+    };
+}
 
 
 TagFeederFactory::TagFeederFactory(): m_feeders(), m_photosManager(nullptr)
