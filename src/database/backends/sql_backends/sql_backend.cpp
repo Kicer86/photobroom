@@ -683,7 +683,7 @@ namespace Database
         {
             const QString name  = query.value(1).toString();
             const QString value = query.value(2).toString();
-            const unsigned int tagType = query.value(3).toInt();
+            const int tagType = query.value(3).toInt();
 
             const TagNameInfo tagName(name, tagType);
             tagData[tagName] = TagValue( convert(tagName.getType(), value) );

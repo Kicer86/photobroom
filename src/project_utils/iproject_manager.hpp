@@ -29,6 +29,7 @@ class QString;
 
 struct IProject;
 
+
 struct ProjectInfo
 {
     ProjectInfo(const QString& _name, const QString& _id): name(_name), id(_id) {}
@@ -54,9 +55,10 @@ struct ProjectInfo
         QString id;
 };
 
+
 struct IProjectManager
 {
-    virtual ~IProjectManager() {}
+    virtual ~IProjectManager();
 
     virtual ProjectInfo new_prj(const QString& name, const Database::IPlugin *) = 0;
     virtual std::deque<ProjectInfo> listProjects() = 0;

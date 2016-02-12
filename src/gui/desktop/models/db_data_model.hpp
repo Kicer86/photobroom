@@ -91,7 +91,7 @@ class DBDataModel: public AScalableImagesModel
         bool isEmpty() const;
 
         // AScalableImagesModel:
-        virtual QImage getImageFor(const QModelIndex&, const QSize &);
+        virtual QImage getImageFor(const QModelIndex&, const QSize &) override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;

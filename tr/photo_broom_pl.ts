@@ -40,7 +40,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+943"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+951"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -249,7 +249,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+87"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>

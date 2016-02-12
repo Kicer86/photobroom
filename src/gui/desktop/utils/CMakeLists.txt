@@ -9,6 +9,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 set(UTILS_SOURCES
     config_dialog_manager.cpp
     config_tools.cpp
+    iconfig_dialog_manager.cpp
     icons_loader.cpp
     path_checker.cpp
     photos_collector.cpp

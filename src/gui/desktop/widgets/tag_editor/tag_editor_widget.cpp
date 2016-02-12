@@ -91,7 +91,7 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 }
 
 
-void TagEditorWidget::setTagValueWidget(int idx)
+void TagEditorWidget::setTagValueWidget(size_t idx)
 {
     //remove previous widget-editor (if any)
     if (m_tagValueWidget != nullptr)
@@ -101,7 +101,7 @@ void TagEditorWidget::setTagValueWidget(int idx)
     }
 
     //insert new widget-editor
-    assert(static_cast<size_t>(idx) < m_tags.size());
+    assert(idx < m_tags.size());
     const TagNameInfo& name = m_tags[idx];
 
     QVariant::Type type;
@@ -129,8 +129,9 @@ void TagEditorWidget::setTagValueWidget(int idx)
 
     EditorFactory factory;
 
-    m_tagValueWidget = factory.createEditor(type, m_tagValueContainer);
-    m_tagValueProp = factory.valuePropertyName(type);
+    const int userType = static_cast<int>(type);
+    m_tagValueWidget = factory.createEditor(userType, m_tagValueContainer);
+    m_tagValueProp = factory.valuePropertyName(userType);
     m_tagValueContainer->layout()->addWidget(m_tagValueWidget);
 }
 
@@ -154,9 +155,8 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
 
             if (it == photos_tags.end())    //not used?
             {
-                const int idx = m_tags.size();
                 m_tags.push_back(info);
-                m_tagName->addItem(info.getDisplayName(), idx);
+                m_tagName->addItem(info.getDisplayName());
             }
         }
 
@@ -172,12 +172,13 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
 void TagEditorWidget::addButtonPressed()
 {
     const int idx = m_tagName->currentIndex();
+    const std::size_t index = static_cast<std::size_t>(idx);
 
-    assert(idx >= 0 && static_cast<size_t>(idx) < m_tags.size());
+    assert(idx >= 0 && index < m_tags.size());
     assert(m_tagValueWidget != nullptr);
 
     const QVariant value = m_tagValueWidget->property(m_tagValueProp);
-    const TagNameInfo& name = m_tags[idx];
+    const TagNameInfo& name = m_tags[index];
 
     m_model->addTag(name, value);
 }
@@ -186,5 +187,5 @@ void TagEditorWidget::addButtonPressed()
 void TagEditorWidget::tagNameChanged(int idx)
 {
     if (idx >= 0)
-        setTagValueWidget(idx);
+        setTagValueWidget( static_cast<size_t>(idx) );
 }

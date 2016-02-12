@@ -62,7 +62,7 @@ class TagEditorWidget: public QWidget
 
         std::vector<TagNameInfo> m_tags;
 
-        void setTagValueWidget(int);
+        void setTagValueWidget(size_t);
 
     private slots:
         void refreshTagNamesList(bool);

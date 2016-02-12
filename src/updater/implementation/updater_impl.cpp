@@ -59,7 +59,7 @@ void UpdaterImpl::checkVersion(const IUpdater::StatusCallback& callback)
     IUpdater::OnlineVersion versionInfo;
 
     QJsonArray releases = doc.array();
-    for(const QJsonValueRef& release_ref: releases)
+    for(const QJsonValueRef release_ref: releases)
     {
         assert(release_ref.isObject());
         const QJsonObject release = release_ref.toObject();

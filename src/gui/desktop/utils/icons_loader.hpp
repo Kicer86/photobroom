@@ -53,6 +53,19 @@ class IconsLoader
         };
 
         QIcon getIcon(Icon) const;
+
+    private:
+        const std::map<Icon, std::pair<const char *, QStyle::StandardPixmap>> m_icons =
+        {
+            { Icon::New,      {"document-new",        QStyle::SP_FileIcon}                 },
+            { Icon::Open,     {"document-open",       QStyle::SP_DirOpenIcon}              },
+            { Icon::Quit,     {"application-exit",    QStyle::SP_DialogCloseButton}        },
+            { Icon::Close,    {"window-close",        QStyle::SP_DialogCloseButton}        },
+            { Icon::Settings, {"applications-system", QStyle::SP_CustomBase}               },
+            { Icon::Help,     {"help-contents",       QStyle::QStyle::SP_DialogHelpButton} },
+            { Icon::About,    {"help-about",          QStyle::QStyle::SP_DialogHelpButton} },
+            { Icon::AboutQt,  {"help-about",          QStyle::QStyle::SP_DialogHelpButton} },
+        };
 };
 
 #endif // ICONSLOADER_HPP

@@ -9,7 +9,7 @@
 #include <core/task_executor.hpp>
 #include <database/iphoto_info.hpp>
 
-class IPhotosManager;
+struct IPhotosManager;
 struct IConfiguration;
 
 struct UpdaterTask;

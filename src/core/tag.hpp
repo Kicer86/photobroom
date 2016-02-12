@@ -56,12 +56,17 @@ class CORE_EXPORT TagValue
 {
     public:
         TagValue();
+        TagValue(const TagValue &) = default;
         explicit TagValue(const QVariant &);
+
         ~TagValue();
+
+        TagValue& operator=(const TagValue &) = default;
 
         void set(const QVariant &);
 
         const QVariant& get() const;
+
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;

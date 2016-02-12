@@ -26,7 +26,7 @@
 
 struct IConfigTab
 {
-    virtual ~IConfigTab() {}
+    virtual ~IConfigTab();
 
     virtual int tabId() const = 0;
     virtual QString tabName() const = 0;
@@ -39,7 +39,7 @@ struct IConfigTab
 
 struct IConfigDialogManager
 {
-    virtual ~IConfigDialogManager() {}
+    virtual ~IConfigDialogManager();
 
     virtual void registerTab(IConfigTab *) = 0;
     virtual void unregisterTab(IConfigTab *) = 0;

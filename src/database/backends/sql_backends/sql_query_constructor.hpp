@@ -20,10 +20,13 @@ namespace Database
     struct SQL_BACKEND_BASE_EXPORT SqlMultiQuery
     {
             SqlMultiQuery();
+            SqlMultiQuery(const SqlMultiQuery &) = default;
             SqlMultiQuery(const QString &);
             SqlMultiQuery(const std::initializer_list<QString> &);
 
             ~SqlMultiQuery();
+
+            SqlMultiQuery& operator=(const SqlMultiQuery &) = default;
 
             void addQuery(const QString &);
 

@@ -29,6 +29,7 @@
 
 #include "database_status.hpp"
 #include "filter.hpp"
+#include "database_export.h"
 
 struct ILoggerFactory;
 struct IConfiguration;
@@ -39,9 +40,9 @@ namespace Database
 
     //Low level database interface.
     //To be used by particular database backend
-    struct IBackend
+    struct DATABASE_EXPORT IBackend
     {
-        virtual ~IBackend() {}
+        virtual ~IBackend();
 
         //add photo to database
         virtual bool addPhoto(Photo::Data &) = 0;

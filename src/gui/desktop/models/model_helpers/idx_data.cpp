@@ -190,7 +190,7 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 }
 
 
-int IdxData::findPositionFor(const IdxData* child) const
+long IdxData::findPositionFor(const IdxData* child) const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
@@ -200,7 +200,7 @@ int IdxData::findPositionFor(const IdxData* child) const
 }
 
 
-int IdxData::getPositionOf(const IdxData* child) const
+long IdxData::getPositionOf(const IdxData* child) const
 {
     const auto pos = std::find(m_children.cbegin(), m_children.cend(), child);
 
@@ -215,7 +215,7 @@ void IdxData::addChild(IdxData* child)
     assert(isNode());                        // child (leaf) cannot accept any child
     assert(child->m_parent == nullptr);      // child should not have parent
 
-    const size_t pos = findPositionFor(child);
+    const long pos = findPositionFor(child);
     m_children.insert(m_children.cbegin() + pos, child);
     child->setParent(this);
 }
@@ -234,7 +234,7 @@ void IdxData::takeChild(IdxData* child)
     assert(child->m_parent == this);
     assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
 
-    const int pos = getPositionOf(child);
+    const long pos = getPositionOf(child);
     m_children.erase(m_children.cbegin() + pos);
 
     child->setParent(nullptr);
@@ -289,7 +289,7 @@ bool IdxData::isNode() const
 int IdxData::getRow() const
 {
     assert(m_parent != nullptr);
-    return m_parent->getPositionOf(this);
+    return static_cast<int>(m_parent->getPositionOf(this));
 }
 
 
@@ -339,7 +339,7 @@ IdxData::IdxData(IdxDataManager* model) :
     m_order(),
     m_photo(nullptr),
     m_model(model),
-    m_level(-1),
+    m_level(std::numeric_limits<std::size_t>::max()),
     m_parent(nullptr)
 {
     setStatus(NodeStatus::NotFetched);

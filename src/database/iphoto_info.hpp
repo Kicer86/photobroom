@@ -37,18 +37,18 @@ class QImage;
 
 class TagDataBase;
 
-struct IPhotoInfo
+struct DATABASE_EXPORT IPhotoInfo
 {
     typedef std::shared_ptr<IPhotoInfo> Ptr;
     typedef std::deque<IPhotoInfo::Ptr> List;
 
-    struct IObserver
+    struct DATABASE_EXPORT IObserver
     {
-        virtual ~IObserver() {}
+        virtual ~IObserver();
         virtual void photoUpdated(IPhotoInfo *) = 0;
     };
 
-    virtual ~IPhotoInfo() {}
+    virtual ~IPhotoInfo();
 
     //data getting
     virtual Photo::Data            data() const = 0;

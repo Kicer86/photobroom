@@ -23,6 +23,7 @@
 
 #include <database/idatabase_builder.hpp>
 
+
 Project::Project(): m_backend(), m_location(), m_prjPath(), m_name(), m_database(nullptr)
 {
 

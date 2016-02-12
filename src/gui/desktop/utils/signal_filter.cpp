@@ -42,8 +42,8 @@ void Receiver::notification()
     else
     {
         m_blocked = true;
-        const int ms = m_block_time.count();
-        QTimer::singleShot(ms, this, &Receiver::clear);
+        const int64_t ms = m_block_time.count();
+        QTimer::singleShot(static_cast<int>(ms), this, &Receiver::clear);
 
         m_target();
     }

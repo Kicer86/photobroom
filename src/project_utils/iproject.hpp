@@ -29,7 +29,7 @@ namespace Database
 
 struct IProject
 {
-    virtual ~IProject() {}
+    virtual ~IProject();
 
     virtual QString getDBBackend() const = 0;
     virtual QString getDBLocation() const = 0;

@@ -56,11 +56,11 @@ class IdxData: public IPhotoInfo::IObserver
 
         void setNodeFilter(const Database::IFilter::Ptr& filter);
         void setNodeSorting(const Hierarchy::Level &);
-        int  findPositionFor(const IdxData* child) const; // returns position where child matches
-        int  getPositionOf(const IdxData* child) const;   // returns position of children
+        long findPositionFor(const IdxData* child) const;     // returns position where child matches
+        long getPositionOf(const IdxData* child) const;       // returns position of children
         void addChild(IdxData* child);
-        void removeChild(IdxData* child);                 // removes child (memory is released)
-        void takeChild(IdxData* child);                   // function acts as removeChild but does not delete children
+        void removeChild(IdxData* child);                     // removes child (memory is released)
+        void takeChild(IdxData* child);                       // function acts as removeChild but does not delete children
         void reset();
         void setParent(IdxData *);
         void setStatus(NodeStatus);
@@ -73,7 +73,7 @@ class IdxData: public IPhotoInfo::IObserver
 
         NodeStatus status() const;
 
-        IdxData* findChildWithBadPosition() const;        // returns first child which lies in a wrong place
+        IdxData* findChildWithBadPosition() const;            // returns first child which lies in a wrong place
         bool sortingRequired() const;
 
     private:
@@ -88,4 +88,3 @@ class IdxData: public IPhotoInfo::IObserver
 };
 
 #endif // IDXDATA_HPP
-

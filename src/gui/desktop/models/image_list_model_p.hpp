@@ -35,17 +35,17 @@
 #include <core/itask_executor.hpp>
 
 struct IPhotosManager;
-struct ImageListModel;
+class ImageListModel;
 
 struct Info
 {
     QString path;
     QImage image;
     QString filename;
-    std::size_t row;
+    int row;
     bool default_image;
 
-    Info(const QString& p, const QImage& defaultImage, std::size_t r): path(p), image(defaultImage), filename(), row(r), default_image(true)
+    Info(const QString& p, const QImage& defaultImage, int r): path(p), image(defaultImage), filename(), row(r), default_image(true)
     {
 
     }
@@ -65,7 +65,7 @@ class ImageListModelPrivate: public QObject
             Info,
             indexed_by<
                 ordered_unique<member<Info, QString, &Info::path> >,
-                ordered_unique<member<Info, std::size_t, &Info::row> >
+                ordered_unique<member<Info, int, &Info::row> >
             >
         > InfoSet;
 

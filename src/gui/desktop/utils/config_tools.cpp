@@ -18,12 +18,11 @@ namespace ConfigTools
     {
         uint32_t result = 0;
 
-        result |= (c.red() & 0xffu) << 24;
-        result |= (c.green() & 0xff) << 16;
-        result |= (c.blue() & 0xff) << 8;
-        result |= (c.alpha() & 0xff);
+        result |= ( static_cast<unsigned int>( c.red()   ) & 0xff) << 24;
+        result |= ( static_cast<unsigned int>( c.green() ) & 0xff) << 16;
+        result |= ( static_cast<unsigned int>( c.blue()  ) & 0xff) << 8;
+        result |= ( static_cast<unsigned int>( c.alpha() ) & 0xff);
 
         return result;
     }
-
 }

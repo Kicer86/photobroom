@@ -25,14 +25,14 @@
 
 #include "utils/photos_collector.hpp"
 
-class IPhotosManager;
 class QFileSystemModel;
 class QItemSelection;
 
 class StagedPhotosDataModel;
-class IConfiguration;
 class DecoratedImageListModel;
-class ITaskExecutor;
+struct IConfiguration;
+struct ITaskExecutor;
+struct IPhotosManager;
 
 namespace Ui
 {

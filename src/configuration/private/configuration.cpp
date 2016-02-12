@@ -34,13 +34,14 @@
 #include "constants.hpp"
 
 
-static_assert(sizeof(qlonglong) == sizeof(Json::Int64), "Json and Qt's sizes do not match");
+IConfigObserver::~IConfigObserver() {}
+IConfiguration::~IConfiguration()   {}
 
-ConfigurationPrivate::ConfigurationPrivate(Configuration* _q):
+
+ConfigurationPrivate::ConfigurationPrivate():
     m_json(),
     m_dumpTimer(),
-    m_observers(),
-    q(_q)
+    m_observers()
 {
     m_dumpTimer.setSingleShot(true);
     m_dumpTimer.setInterval(500);
@@ -184,7 +185,7 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::
 
 
 Configuration::Configuration():
-    d(new ConfigurationPrivate(this))
+    d(new ConfigurationPrivate)
 {
 
 }

@@ -57,74 +57,74 @@ namespace Database
             void photosRemoved(const std::deque<IPhotoInfo::Ptr> &); // emmited after photos removal
     };
 
-    struct AStorePhotoTask
+    struct DATABASE_EXPORT AStorePhotoTask
     {
-        virtual ~AStorePhotoTask() {}
+        virtual ~AStorePhotoTask();
 
         virtual void got(bool) = 0;
     };
 
-    struct AStoreTagTask
+    struct DATABASE_EXPORT AStoreTagTask
     {
-        virtual ~AStoreTagTask() {}
+        virtual ~AStoreTagTask();
 
         virtual void got(bool) = 0;
     };
 
-    struct AListTagsTask
+    struct DATABASE_EXPORT AListTagsTask
     {
-        virtual ~AListTagsTask() {}
+        virtual ~AListTagsTask();
 
         virtual void got(const std::deque<TagNameInfo> &) = 0;
     };
 
-    struct AListTagValuesTask
+    struct DATABASE_EXPORT AListTagValuesTask
     {
-        virtual ~AListTagValuesTask() {}
+        virtual ~AListTagValuesTask();
 
         virtual void got(const std::deque<QVariant> &) = 0;
     };
 
-    struct AGetPhotosTask
+    struct DATABASE_EXPORT AGetPhotosTask
     {
-        virtual ~AGetPhotosTask() {}
+        virtual ~AGetPhotosTask();
 
         virtual void got(const IPhotoInfo::List &) = 0;
     };
 
-    struct AGetPhotoTask
+    struct DATABASE_EXPORT AGetPhotoTask
     {
-        virtual ~AGetPhotoTask() {}
+        virtual ~AGetPhotoTask();
 
         virtual void got(const IPhotoInfo::Ptr &) = 0;
     };
 
-    struct AGetPhotosCount
+    struct DATABASE_EXPORT AGetPhotosCount
     {
-        virtual ~AGetPhotosCount() {}
+        virtual ~AGetPhotosCount();
 
         virtual void got(int) = 0;
     };
 
-    struct ADropPhotosTask
+    struct DATABASE_EXPORT ADropPhotosTask
     {
-        virtual ~ADropPhotosTask() {}
+        virtual ~ADropPhotosTask();
 
         virtual void got(const std::deque<IPhotoInfo::Ptr> &) = 0;
     };
 
-    struct AInitTask
+    struct DATABASE_EXPORT AInitTask
     {
-        virtual ~AInitTask() {}
+        virtual ~AInitTask();
 
         virtual void got(const Database::BackendStatus &) = 0;
     };
 
     //Database interface.
     //A bridge between clients and backend.
-    struct IDatabase
+    struct DATABASE_EXPORT IDatabase
     {
-        virtual ~IDatabase() {}
+        virtual ~IDatabase();
 
         virtual ADatabaseSignals* notifier() = 0;
 

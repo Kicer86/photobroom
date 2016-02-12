@@ -15,7 +15,6 @@
 #include <core/tag.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <configuration/constants.hpp>
-#include <database/ifs.hpp>
 
 
 struct UpdaterTask: ITaskExecutor::ITask
@@ -37,72 +36,76 @@ struct UpdaterTask: ITaskExecutor::ITask
 };
 
 
-struct ThumbnailGenerator: UpdaterTask
+namespace
 {
-    ThumbnailGenerator(PhotoInfoUpdater* updater,
-                       IPhotosManager* photosManager,
-                       const IPhotoInfo::Ptr& photoInfo):
-        UpdaterTask(updater),
-        m_photoInfo(photoInfo),
-        m_photosManager(photosManager)
+
+    struct ThumbnailGenerator: UpdaterTask
     {
+        ThumbnailGenerator(PhotoInfoUpdater* updater,
+                        IPhotosManager* photosManager,
+                        const IPhotoInfo::Ptr& photoInfo):
+            UpdaterTask(updater),
+            m_photoInfo(photoInfo),
+            m_photosManager(photosManager)
+        {
 
-    }
+        }
 
-    virtual ~ThumbnailGenerator() {}
+        virtual ~ThumbnailGenerator() {}
 
-    ThumbnailGenerator(const ThumbnailGenerator &) = delete;
-    ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
+        ThumbnailGenerator(const ThumbnailGenerator &) = delete;
+        ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
-    virtual std::string name() const override
+        virtual std::string name() const override
+        {
+            return "Photo thumbnail generation";
+        }
+
+        virtual void perform() override
+        {
+            const QImage thumbnail = m_photosManager->getThumbnail(m_photoInfo->getPath());
+
+            m_photoInfo->setThumbnail(thumbnail);
+        }
+
+        IPhotoInfo::Ptr m_photoInfo;
+        IPhotosManager* m_photosManager;
+    };
+
+
+    struct Sha256Assigner: UpdaterTask
     {
-        return "Photo thumbnail generation";
-    }
+        Sha256Assigner(PhotoInfoUpdater* updater,
+                    IPhotosManager* photosManager,
+                    const IPhotoInfo::Ptr& photoInfo):
+            UpdaterTask(updater),
+            m_photoInfo(photoInfo),
+            m_photosManager(photosManager)
+        {
+        }
 
-    virtual void perform() override
-    {
-        const QImage thumbnail = m_photosManager->getThumbnail(m_photoInfo->getPath());
+        Sha256Assigner(const Sha256Assigner &) = delete;
+        Sha256Assigner& operator=(const Sha256Assigner &) = delete;
 
-        m_photoInfo->setThumbnail(thumbnail);
-    }
+        virtual std::string name() const override
+        {
+            return "Photo hash generation";
+        }
 
-    IPhotoInfo::Ptr m_photoInfo;
-    IPhotosManager* m_photosManager;
-};
+        virtual void perform() override
+        {
+            const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
 
+            const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
+            const Photo::Sha256sum hash = HashFunctions::sha256(udata, static_cast<unsigned int>(data.size()));
+            m_photoInfo->setSha256(hash);
+        }
 
-struct Sha256Assigner: UpdaterTask
-{
-    Sha256Assigner(PhotoInfoUpdater* updater,
-                   IPhotosManager* photosManager,
-                   const IPhotoInfo::Ptr& photoInfo):
-        UpdaterTask(updater),
-        m_photoInfo(photoInfo),
-        m_photosManager(photosManager)
-    {
-    }
+        IPhotoInfo::Ptr m_photoInfo;
+        IPhotosManager* m_photosManager;
+    };
 
-    Sha256Assigner(const Sha256Assigner &) = delete;
-    Sha256Assigner& operator=(const Sha256Assigner &) = delete;
-
-    virtual std::string name() const override
-    {
-        return "Photo hash generation";
-    }
-
-    virtual void perform() override
-    {
-        const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
-
-        const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        const Photo::Sha256sum hash = HashFunctions::sha256(udata, data.size());
-        m_photoInfo->setSha256(hash);
-    }
-
-    IPhotoInfo::Ptr m_photoInfo;
-    IPhotosManager* m_photosManager;
-};
-
+}
 
 struct TagsCollector: UpdaterTask
 {

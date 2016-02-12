@@ -6,7 +6,7 @@
 
 struct IProgressBar
 {
-    virtual ~IProgressBar() {}
+    virtual ~IProgressBar();
 
     virtual void setMinimum(int) = 0;
     virtual void setMaximum(int) = 0;
@@ -16,7 +16,7 @@ struct IProgressBar
 
 struct IViewTask
 {
-    virtual ~IViewTask() {}
+    virtual ~IViewTask();
 
     virtual const QString& getName() = 0;
     virtual IProgressBar*  getProgressBar() = 0;

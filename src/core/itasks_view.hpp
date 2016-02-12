@@ -11,7 +11,7 @@ struct IViewTask;
 
 struct ITasksView
 {
-    virtual ~ITasksView() {}
+    virtual ~ITasksView();
 
     virtual IViewTask* add(const QString& name) = 0;
 };

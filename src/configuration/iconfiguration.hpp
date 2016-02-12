@@ -29,17 +29,16 @@ class QString;
 class QVariant;
 
 
-struct IConfigObserver
+struct CONFIGURATION_EXPORT IConfigObserver
 {
-    virtual ~IConfigObserver() {}
+    virtual ~IConfigObserver();
     virtual void configChanged(const QString &, const QVariant &) = 0;
 };
 
 
-struct IConfiguration
+struct CONFIGURATION_EXPORT IConfiguration
 {
-    IConfiguration() {}
-    virtual ~IConfiguration() {}
+    virtual ~IConfiguration();
 
     virtual QVariant getEntry(const QString &) = 0;
     virtual void setEntry(const QString &, const QVariant &) = 0;

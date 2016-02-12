@@ -120,8 +120,9 @@ namespace tree_private
 
             size_t index() const
             {
-                const size_t result = this->current() - this->nodes_begin();
-                return result;
+                const int result = this->current() - this->nodes_begin();
+                assert(result >= 0);
+                return static_cast<size_t>(result);
             }
 
 
