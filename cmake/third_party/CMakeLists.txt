@@ -26,18 +26,6 @@ if(BUILD_EASYEXIF)
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
-
-
-# HASH-LIBRARY
-if(BUILD_HASHLIBRARY)
-    ExternalProject_Add(hash-library
-        GIT_REPOSITORY http://create.stephan-brumme.com/hash-library/.git
-        GIT_TAG 21d2fed433dcb05a9a89561ca8774ef91fe48ffc
-        PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/hash-library/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/hash-library && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/hash-library
-        PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS}
-        )
-endif()
        
        
 # JSONCPP

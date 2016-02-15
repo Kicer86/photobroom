@@ -3,7 +3,6 @@ find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
-find_package(HashLibrary REQUIRED)
 find_package(Threads REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
@@ -15,7 +14,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
                            ${CRYPTOGRAPHIC_INCLUDE_DIR}
                            ${EASYEXIF_INCLUDE_DIR}
-                           ${HASHLIBRARY_INCLUDE_DIR}
                    )
 
 # some classes in core are using interface types of database. Is it ok? - to consider
@@ -27,7 +25,6 @@ set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
     implementation/disk_observer.cpp
-    implementation/hash_functions.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
     implementation/photos_manager.cpp
@@ -44,7 +41,6 @@ set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
     disk_observer.hpp
-    hash_functions.hpp
     ilogger.hpp
     ilogger_factory.hpp
     iphotos_manager.hpp
@@ -87,7 +83,6 @@ target_link_libraries(core PRIVATE system
                       ${OPENLIBRARY_LIBRARIES}
                       Qt5::Core
                       Qt5::Gui
-                      ${HASHLIBRARY_LIBRARIES}
                       ${EASYEXIF_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT}
                      )
