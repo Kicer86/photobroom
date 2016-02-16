@@ -54,7 +54,7 @@ namespace Database
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
 
-            void closeConnections();
+            void closeConnections() override;
 
             const QString& getConnectionName() const;
 

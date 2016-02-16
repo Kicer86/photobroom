@@ -256,7 +256,7 @@ namespace Database
         while (status && query.next())
         {
             const QString name       = query.value(0).toString();
-            const unsigned int value = query.value(1).toUInt();
+            const int value = query.value(1).toInt();
 
             TagNameInfo tagName(name, value);
             result.push_back(tagName);
