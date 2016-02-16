@@ -7,9 +7,9 @@
 
 #include <QPixmap>
 #include <QImage>
+#include <qcryptographichash.h>
 
 #include <core/task_executor.hpp>
-#include <core/hash_functions.hpp>
 #include <core/photos_manager.hpp>
 #include <core/itagfeeder.hpp>
 #include <core/tag.hpp>
@@ -95,10 +95,9 @@ namespace
         virtual void perform() override
         {
             const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
-
-            const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-            const Photo::Sha256sum hash = HashFunctions::sha256(udata, static_cast<unsigned int>(data.size()));
-            m_photoInfo->setSha256(hash);
+            const QByteArray rawHash = QCryptographicHash::hash(data, QCryptographicHash::Sha256);
+            const QByteArray hexHash = rawHash.toHex();
+            m_photoInfo->setSha256(hexHash);
         }
 
         IPhotoInfo::Ptr m_photoInfo;

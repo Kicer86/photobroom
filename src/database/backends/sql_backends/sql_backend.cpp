@@ -479,7 +479,7 @@ namespace Database
         InsertQueryData data(TAB_SHA256SUMS);
 
         data.setColumns("photo_id", "sha256");
-        data.setValues(QString::number(photo_id), sha256.c_str());
+        data.setValues(QString::number(photo_id), sha256.constData());
 
         SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
@@ -733,7 +733,7 @@ namespace Database
         {
             const QVariant variant = query.value(0);
 
-            result = variant.toString().toStdString();
+            result->append(variant.toString());
         }
 
         return result;

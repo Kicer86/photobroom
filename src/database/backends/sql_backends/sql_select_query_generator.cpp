@@ -156,10 +156,10 @@ namespace Database
 
         void visit(FilterPhotosWithSha256* sha256) override
         {
-            assert(sha256->sha256.empty() == false);
+            assert(sha256->sha256.isEmpty() == false);
 
             m_filterResult.joins.insert(FilterData::Sha256WithPhotos);
-            m_filterResult.conditions.append( QString(TAB_SHA256SUMS ".sha256 = '%1'").arg(sha256->sha256.c_str()) );
+            m_filterResult.conditions.append( QString(TAB_SHA256SUMS ".sha256 = '%1'").arg(sha256->sha256.constData()) );
         }
 
         void visit(FilterNotMatchingFilter* filter) override

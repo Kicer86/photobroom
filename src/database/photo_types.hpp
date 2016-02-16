@@ -5,11 +5,13 @@
 #include <string>
 #include <map>
 
+#include <QByteArray>
+
 #include "database_export.h"
 
 namespace Photo
 {
-    typedef std::string Sha256sum;
+    typedef QByteArray Sha256sum;
 
     struct DATABASE_EXPORT Id
     {

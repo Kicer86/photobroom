@@ -2,7 +2,6 @@
 Required tools and libraries:
  - cmake - version 3.0 or later
  - Qt5 - version 5.5 or higher
- - hash-library*
  - easyexif*
  - GMock and GTest
  - jsoncpp*
