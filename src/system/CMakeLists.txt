@@ -1,8 +1,9 @@
 
+add_subdirectory(implementation/internal_crash_catcher)
+
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
-
 find_package(KF5Crash QUIET)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
