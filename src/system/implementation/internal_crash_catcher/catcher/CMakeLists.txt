@@ -1,5 +1,8 @@
 
-set(SRCS)
+set(SRCS
+    catcher.hpp
+    stack_unwind.hpp
+)
 
 if(WIN32)
     list(APPEND SRCS catcher_win32.cpp)
@@ -17,6 +20,5 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 else()
     message(FATAL_ERROR "Unsupported compiler: '${CMAKE_CXX_COMPILER_ID}'")
 endif()
-
 
 add_library(catcher STATIC ${SRCS})
