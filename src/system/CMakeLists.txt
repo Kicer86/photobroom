@@ -36,16 +36,12 @@ set(SYSTEM_SOURCES ${CRASH_HANDLER_SOURCES})
 # system related stuff
 if (WIN32)
 
-    include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
-
     set(SYSTEM_SOURCES
             ${SYSTEM_SOURCES}
             implementation/system_win32.cpp
     )
 
 elseif(UNIX)
-
-    include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
 
     set(SYSTEM_SOURCES
             ${SYSTEM_SOURCES}
@@ -76,6 +72,7 @@ if(WIN32)
     else()
         unset(BASE_PATH)
     endif()
+
     configure_file(paths_win.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 
 else()
