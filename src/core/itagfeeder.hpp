@@ -7,11 +7,13 @@
 
 #include "tag.hpp"
 
+#include "core_export.h"
+
 class QString;
 
 class TagDataBase;
 
-struct ITagFeeder
+struct CORE_EXPORT ITagFeeder
 {
     virtual ~ITagFeeder();
 
@@ -19,7 +21,7 @@ struct ITagFeeder
     //virtual void update(TagDataBase *, const QString& path) = 0;
 };
 
-struct ITagFeederFactory
+struct CORE_EXPORT ITagFeederFactory
 {
     virtual ~ITagFeederFactory();
 

@@ -14,7 +14,7 @@ struct Rules
 };
 
 
-struct IMediaNotification
+struct PHOTOS_CRAWLER_EXPORT IMediaNotification
 {
     virtual ~IMediaNotification();
 

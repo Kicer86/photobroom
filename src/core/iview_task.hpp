@@ -4,7 +4,9 @@
 
 #include <QString>
 
-struct IProgressBar
+#include "core_export.h"
+
+struct CORE_EXPORT IProgressBar
 {
     virtual ~IProgressBar();
 
@@ -14,7 +16,7 @@ struct IProgressBar
 };
 
 
-struct IViewTask
+struct CORE_EXPORT IViewTask
 {
     virtual ~IViewTask();
 
