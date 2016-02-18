@@ -27,6 +27,8 @@
 
 class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 {
+        Q_OBJECT
+
     public:
         PhotosItemDelegate(ImagesTreeView *, IConfiguration * = nullptr);
         PhotosItemDelegate(const PhotosItemDelegate &) = delete;
