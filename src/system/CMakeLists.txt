@@ -26,8 +26,10 @@ if(KF5Crash_FOUND)
 
 endif(KF5Crash_FOUND)
 
-if(NOT CRASH_HANDLER_FOUND)
-    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_null.cpp)
+if(NOT CRASH_HANDLER_FOUND)    
+    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_internal.cpp)
+    set(CRASH_HANDLER_LIBRARIES catcher)
+    set(CRASH_HANDLER_FOUND TRUE)
 endif()
 
 

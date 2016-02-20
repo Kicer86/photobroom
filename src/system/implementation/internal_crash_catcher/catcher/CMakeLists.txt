@@ -1,24 +1,32 @@
 
 set(SRCS
     catcher.hpp
-    stack_unwind.hpp
+    crash_dialog_launcher.hpp
 )
 
-if(WIN32)
-    list(APPEND SRCS catcher_win32.cpp)
+set(EXTRA_LIBRARIES)
+
+if(WIN32)    
+
+    find_package(DbgHelp REQUIRED)
+
+    set(EXTRA_LIBRARIES ${DBGHELP_LIBRARIES})
+    include_directories(${DBGHELP_INCLUDE_DIRS})
+
+    list(APPEND SRCS catcher_win32.cpp
+                     crash_dialog_launcher_win32.cpp
+                     crash_dialog_launcher_win32.hpp)
+
 elseif(UNIX)
+
     list(APPEND SRCS catcher_posix.cpp)
+
 else()
+
     message(FATAL_ERROR "Unsupported platform")
+
 endif()
 
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    list(APPEND SRCS stack_unwind_gcc.cpp)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    list(APPEND SRCS stack_unwind_vs.cpp)
-else()
-    message(FATAL_ERROR "Unsupported compiler: '${CMAKE_CXX_COMPILER_ID}'")
-endif()
 
 add_library(catcher STATIC ${SRCS})
+target_link_libraries(catcher PRIVATE ${EXTRA_LIBRARIES})
