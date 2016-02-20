@@ -15,6 +15,7 @@ option(BUILD_HASHLIBRARY "Build hashlibrary.")
 option(BUILD_JSONCPP     "Build jsoncpp.")
 option(BUILD_OPENLIBRARY "Build openlibrary.")
  
+find_program(GIT_EXECUTABLE git)
        
 # EASYEXIF
 if(BUILD_EASYEXIF)  
