@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QWidget" name="btArea" native="true"/>
+    <widget class="QPlainTextEdit" name="plainTextEdit"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
