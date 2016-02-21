@@ -8,6 +8,7 @@ set(HEADERS
    )
 
 set(SRCS
+        idebugger.cpp
         main.cpp
     )
 

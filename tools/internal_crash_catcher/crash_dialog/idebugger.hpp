@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include <QtGlobal>
+
 struct IDebugger
 {
     virtual ~IDebugger();
@@ -14,4 +16,3 @@ struct IDebugger
 };
 
 #endif // IDEBUGGER_HPP
-
