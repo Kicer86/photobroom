@@ -4,18 +4,19 @@ find_package(Qt5Widgets REQUIRED)
 include_directories(SYSTEM ${Qt5Widgets_INCLUDE_DIRS})
 
 set(HEADERS
+        idebugger.hpp
    )
 
 set(SRCS
         main.cpp
     )
-    
+
 if(UNIX)
-    
+
     set(HEADERS ${HEADERS}
             unix/gdb_wrapper.hpp
         )
-            
+
     set(SRCS ${SRCS}
             unix/gdb_wrapper.cpp
         )
