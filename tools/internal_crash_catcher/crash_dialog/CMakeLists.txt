@@ -4,13 +4,26 @@ find_package(Qt5Widgets REQUIRED)
 include_directories(SYSTEM ${Qt5Widgets_INCLUDE_DIRS})
 
 set(HEADERS
-        gdb_wrapper.hpp
    )
 
 set(SRCS
         main.cpp
-        gdb_wrapper.cpp
     )
+    
+if(UNIX)
+    
+    set(HEADERS ${HEADERS}
+            unix/gdb_wrapper.hpp
+        )
+            
+    set(SRCS ${SRCS}
+            unix/gdb_wrapper.cpp
+        )
+
+else()
+
+endif()
+
 
 add_executable(crash_dialog ${SRCS} ${HEADERS})
 
