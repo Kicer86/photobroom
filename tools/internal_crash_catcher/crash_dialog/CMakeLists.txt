@@ -3,14 +3,27 @@ find_package(Qt5Widgets REQUIRED)
 
 include_directories(SYSTEM ${Qt5Widgets_INCLUDE_DIRS})
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(HEADERS
-        idebugger.hpp
-   )
+    ui/crash_dialog.hpp
+    idebugger.hpp
+)
 
 set(SRCS
-        idebugger.cpp
-        main.cpp
-    )
+    ui/crash_dialog.cpp
+    idebugger.cpp
+    main.cpp
+)
+
+set(UI_FILES
+    ui/crash_dialog.ui
+)
+
+set(FILES_TO_MOC
+    ui/crash_dialog.hpp
+)
+
 
 if(UNIX)
 
@@ -27,7 +40,10 @@ else()
 endif()
 
 
-add_executable(crash_dialog ${SRCS} ${HEADERS})
+qt5_wrap_cpp(WRAPPED_CPP ${FILES_TO_MOC})
+qt5_wrap_ui(WRAPPED_UI ${UI_FILES})
+
+add_executable(crash_dialog ${SRCS} ${HEADERS} ${WRAPPED_CPP} ${WRAPPED_UI})
 
 target_link_libraries(crash_dialog
                         Qt5::Widgets
