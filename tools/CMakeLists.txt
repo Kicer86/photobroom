@@ -1,4 +1,6 @@
 
+add_subdirectory(internal_crash_catcher)
+
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Svg REQUIRED)
 

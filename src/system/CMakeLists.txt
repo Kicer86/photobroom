@@ -1,6 +1,4 @@
 
-add_subdirectory(implementation/internal_crash_catcher)
-
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
@@ -27,9 +25,12 @@ if(KF5Crash_FOUND)
 endif(KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)    
+
+    include_directories(${PROJECT_SOURCE_DIR}/tools)
     set(CRASH_HANDLER_SOURCES implementation/crash_catcher_internal.cpp)
     set(CRASH_HANDLER_LIBRARIES catcher)
     set(CRASH_HANDLER_FOUND TRUE)
+
 endif()
 
 
