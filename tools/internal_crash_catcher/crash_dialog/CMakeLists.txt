@@ -7,6 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(HEADERS
     ui/crash_dialog.hpp
+    command_line_parser.hpp
     debugger_factory.hpp
     idebugger.hpp
     idebugger_factory.hpp
@@ -14,6 +15,7 @@ set(HEADERS
 
 set(SRCS
     ui/crash_dialog.cpp
+    command_line_parser.cpp
     idebugger.cpp
     idebugger_factory.cpp
     main.cpp
