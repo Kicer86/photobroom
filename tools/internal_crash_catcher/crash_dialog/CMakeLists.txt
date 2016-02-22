@@ -7,6 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(HEADERS
     ui/crash_dialog.hpp
+    debugger_factory.hpp
     idebugger.hpp
 )
 
@@ -32,6 +33,7 @@ if(UNIX)
         )
 
     set(SRCS ${SRCS}
+            unix/debugger_factory.cpp
             unix/gdb_wrapper.cpp
         )
 
