@@ -22,6 +22,9 @@
 
 #include <QDialog>
 
+
+struct IDebugger;
+
 namespace Ui
 {
     class CrashDialog;
@@ -33,7 +36,7 @@ class CrashDialog: public QDialog
         Q_OBJECT
 
     public:
-        CrashDialog();
+        CrashDialog(IDebugger *);
         CrashDialog(const CrashDialog &) = delete;
         ~CrashDialog();
 
@@ -41,6 +44,7 @@ class CrashDialog: public QDialog
 
     private:
         Ui::CrashDialog* ui;
+        IDebugger* m_debugger;
 };
 
 #endif // CRASH_DIALOG_HPP
