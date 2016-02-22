@@ -20,11 +20,10 @@
 #ifndef DEBUGGERFACTORY_HPP
 #define DEBUGGERFACTORY_HPP
 
-#include <memory>
+#include "idebugger_factory.hpp"
 
-#include "idebugger.hpp"
 
-class DebuggerFactory
+class DebuggerFactory: public IDebuggerFactory
 {
     public:
         DebuggerFactory();

@@ -9,11 +9,13 @@ set(HEADERS
     ui/crash_dialog.hpp
     debugger_factory.hpp
     idebugger.hpp
+    idebugger_factory.hpp
 )
 
 set(SRCS
     ui/crash_dialog.cpp
     idebugger.cpp
+    idebugger_factory.cpp
     main.cpp
 )
 

@@ -19,6 +19,7 @@
 
 
 #include "crash_dialog.hpp"
+
 #include "ui_crash_dialog.h"
 
 
