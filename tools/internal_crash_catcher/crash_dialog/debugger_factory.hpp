@@ -20,6 +20,10 @@
 #ifndef DEBUGGERFACTORY_HPP
 #define DEBUGGERFACTORY_HPP
 
+#include <memory>
+
+#include "idebugger.hpp"
+
 class DebuggerFactory
 {
     public:
@@ -28,6 +32,8 @@ class DebuggerFactory
         ~DebuggerFactory();
 
         DebuggerFactory& operator=(const DebuggerFactory &) = delete;
+
+        std::unique_ptr<IDebugger> get();
 };
 
 #endif // DEBUGGERFACTORY_HPP

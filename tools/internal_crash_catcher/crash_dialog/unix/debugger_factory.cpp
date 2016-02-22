@@ -19,6 +19,13 @@
 
 #include "debugger_factory.hpp"
 
+#include <iostream>
+
+#include <QStandardPaths>
+
+#include "gdb_wrapper.hpp"
+
+
 DebuggerFactory::DebuggerFactory()
 {
 
@@ -29,3 +36,18 @@ DebuggerFactory::~DebuggerFactory()
 {
 
 }
+
+
+std::unique_ptr<IDebugger> DebuggerFactory::get()
+{
+    const QString gdb = QStandardPaths::findExecutable("gdb");
+    std::unique_ptr<IDebugger> result;
+
+    if (gdb.isEmpty())
+        std::cerr << "Could not find gdb!" << std::endl;
+    else
+        result.reset(new GDBWrapper);
+
+    return result;
+}
+
