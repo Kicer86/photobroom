@@ -19,14 +19,70 @@
 
 #include "command_line_parser.hpp"
 
+#include <QCommandLineParser>
 
-CommandLineParser::CommandLineParser()
+CommandLineParser::CommandLineParser(const QCoreApplication& app): m_error(), m_pid(0), m_tid(0)
 {
+    QCommandLineParser parser;
+    parser.setApplicationDescription("CrashDialog is an application which attaches to crashed program and shows backtrace.");
+    parser.addHelpOption();
+    parser.addVersionOption();
 
+    // Pid
+    QCommandLineOption pidOption(QStringList() << "p" << "pid",
+                                 QCoreApplication::translate("CommandLineParser", "Pid of crashed program."),
+                                 QCoreApplication::translate("CommandLineParser", "pid"));
+    parser.addOption(pidOption);
+
+    // Tid
+    QCommandLineOption tidOption(QStringList() << "t" << "tid",
+                                 QCoreApplication::translate("CommandLineParser", "Id of thread causing crash."),
+                                 QCoreApplication::translate("CommandLineParser", "thread id"));
+    parser.addOption(tidOption);
+
+    // parse
+    parser.process(app);
+
+    const QString pid = parser.value(pidOption);
+    const QString tid = parser.value(tidOption);
+
+    if (pid.isEmpty())
+        m_error = "--pid option is required.";
+    else if (tid.isEmpty())
+        m_error = "--tid option is required.";
+    else
+    {
+        m_pid = pid.toLong();
+        m_tid = tid.toLong();
+    }
 }
 
 
 CommandLineParser::~CommandLineParser()
 {
 
+}
+
+
+bool CommandLineParser::error() const
+{
+    return m_error.isEmpty() == false;
+}
+
+
+const QString& CommandLineParser::errorMsg() const
+{
+    return m_error;
+}
+
+
+qint64 CommandLineParser::pid() const
+{
+    return m_pid;
+}
+
+
+qint64 CommandLineParser::tid() const
+{
+    return m_tid;
 }

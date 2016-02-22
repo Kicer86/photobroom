@@ -20,15 +20,28 @@
 #ifndef COMMANDLINEPARSER_HPP
 #define COMMANDLINEPARSER_HPP
 
+#include <QString>
+
+class QCoreApplication;
 
 class CommandLineParser
 {
     public:
-        CommandLineParser();
+        CommandLineParser(const QCoreApplication &);
         CommandLineParser(const CommandLineParser &) = delete;
         ~CommandLineParser();
 
         CommandLineParser& operator=(const CommandLineParser &) = delete;
+
+        bool error() const;
+        const QString& errorMsg() const;
+        qint64 pid() const;
+        qint64 tid() const;
+
+    private:
+        QString m_error;
+        qint64 m_pid;
+        qint64 m_tid;
 };
 
 #endif // COMMANDLINEPARSER_HPP
