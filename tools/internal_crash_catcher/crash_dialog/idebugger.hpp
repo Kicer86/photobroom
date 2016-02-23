@@ -12,6 +12,7 @@ struct IDebugger
     virtual ~IDebugger();
 
     virtual bool attach(qint64 pid, qint64 tid) = 0;
+    virtual bool ready() const = 0;
     virtual std::vector<std::string> getBackTrace() = 0;
 };
 

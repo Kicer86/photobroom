@@ -21,6 +21,7 @@
 
 #include <iostream>
 
+#include <QDebug>
 #include <QStandardPaths>
 
 #include "gdb_wrapper.hpp"
@@ -44,7 +45,7 @@ std::unique_ptr<IDebugger> DebuggerFactory::get()
     std::unique_ptr<IDebugger> result;
 
     if (gdb.isEmpty())
-        std::cerr << "Could not find gdb!" << std::endl;
+        qCritical().noquote() << "Could not find gdb!";
     else
         result.reset(new GDBWrapper(gdb));
 

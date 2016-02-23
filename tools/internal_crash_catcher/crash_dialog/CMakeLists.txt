@@ -34,12 +34,16 @@ if(UNIX)
 
     set(HEADERS ${HEADERS}
             unix/gdb_wrapper.hpp
-        )
+    )
 
     set(SRCS ${SRCS}
             unix/debugger_factory.cpp
             unix/gdb_wrapper.cpp
-        )
+    )
+
+    set(FILES_TO_MOC ${FILES_TO_MOC}
+            unix/gdb_wrapper.hpp
+    )
 
 else()
 
@@ -53,4 +57,4 @@ add_executable(crash_dialog ${SRCS} ${HEADERS} ${WRAPPED_CPP} ${WRAPPED_UI})
 
 target_link_libraries(crash_dialog
                         Qt5::Widgets
-                      )
+)
