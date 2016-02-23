@@ -2,7 +2,7 @@
 #include "gdb_wrapper.hpp"
 
 
-GDBWrapper::GDBWrapper()
+GDBWrapper::GDBWrapper(const QString& path)
 {
 
 }

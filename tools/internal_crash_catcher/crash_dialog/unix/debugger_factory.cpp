@@ -46,7 +46,7 @@ std::unique_ptr<IDebugger> DebuggerFactory::get()
     if (gdb.isEmpty())
         std::cerr << "Could not find gdb!" << std::endl;
     else
-        result.reset(new GDBWrapper);
+        result.reset(new GDBWrapper(gdb));
 
     return result;
 }
