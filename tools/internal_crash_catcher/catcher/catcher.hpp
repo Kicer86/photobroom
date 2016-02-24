@@ -2,9 +2,11 @@
 #ifndef CATCHER_HPP
 #define CATCHER_HPP
 
+#include "catcher_export.h"
+
 namespace Catcher
 {
-    void initialize();
+    CATCHER_EXPORT void initialize();
 }
 
 #endif

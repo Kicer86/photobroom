@@ -1,4 +1,6 @@
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(SRCS
     catcher.hpp
     crash_dialog_launcher.hpp
@@ -6,7 +8,7 @@ set(SRCS
 
 set(EXTRA_LIBRARIES)
 
-if(WIN32)    
+if(WIN32)
 
     find_package(DbgHelp REQUIRED)
 
@@ -29,4 +31,9 @@ endif()
 
 
 add_library(catcher STATIC ${SRCS})
+target_include_directories(catcher PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(catcher PRIVATE ${EXTRA_LIBRARIES})
+
+
+generate_export_header(catcher)
+hideSymbols(catcher)
