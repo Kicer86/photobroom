@@ -21,7 +21,7 @@
 
 #include <QCommandLineParser>
 
-CommandLineParser::CommandLineParser(const QCoreApplication& app): m_error(), m_pid(0), m_tid(0)
+CommandLineParser::CommandLineParser(const QCoreApplication& app): m_error(), m_exec(), m_pid(0), m_tid(0)
 {
     QCommandLineParser parser;
     parser.setApplicationDescription("CrashDialog is an application which attaches to crashed program and shows backtrace.");
@@ -40,20 +40,30 @@ CommandLineParser::CommandLineParser(const QCoreApplication& app): m_error(), m_
                                  QCoreApplication::translate("CommandLineParser", "thread id"));
     parser.addOption(tidOption);
 
+    // exec path
+    QCommandLineOption execOption(QStringList() << "e" << "exec",
+                                  QCoreApplication::translate("CommandLineParser", "path to executable file."),
+                                  QCoreApplication::translate("CommandLineParser", "exec path"));
+    parser.addOption(execOption);
+
     // parse
     parser.process(app);
 
     const QString pid = parser.value(pidOption);
     const QString tid = parser.value(tidOption);
+    const QString exec = parser.value(execOption);
 
     if (pid.isEmpty())
         m_error = "--pid option is required.";
     else if (tid.isEmpty())
         m_error = "--tid option is required.";
+    else if (exec.isEmpty())
+        m_error = "--exec option is required.";
     else
     {
         m_pid = pid.toLong();
         m_tid = tid.toLong();
+        m_exec = exec;
     }
 }
 
@@ -85,4 +95,10 @@ qint64 CommandLineParser::pid() const
 qint64 CommandLineParser::tid() const
 {
     return m_tid;
+}
+
+
+const QString& CommandLineParser::exec() const
+{
+    return m_exec;
 }

@@ -16,7 +16,7 @@ GDBWrapper::GDBWrapper(const QString& path): m_gdb_path(path), m_gdb(), m_tmpFil
 }
 
 
-bool GDBWrapper::attach(qint64 pid, qint64 tid)
+bool GDBWrapper::attach(qint64 pid, qint64 tid, const QString& exec)
 {
     m_tmpFile.open();
     m_tmpFile.write("set width 200\nthread\nthread apply all bt");
@@ -26,7 +26,9 @@ bool GDBWrapper::attach(qint64 pid, qint64 tid)
     QStringList args;
     args << "-p" << QString().setNum(pid);
     args << "-nw" << "-n";
-    args << "-batch" << "-x" << m_tmpFile.fileName();
+    args << "-batch";
+    args << "-x" << m_tmpFile.fileName();
+    args << exec;
 
     m_gdb.start(m_gdb_path, args);
 }

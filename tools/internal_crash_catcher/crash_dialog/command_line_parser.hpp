@@ -35,11 +35,14 @@ class CommandLineParser
 
         bool error() const;
         const QString& errorMsg() const;
+
         qint64 pid() const;
         qint64 tid() const;
+        const QString& exec() const;
 
     private:
         QString m_error;
+        QString m_exec;
         qint64 m_pid;
         qint64 m_tid;
 };
