@@ -23,6 +23,8 @@ int main(int argc, char** argv)
         DebuggerFactory dbgFactory;
         std::unique_ptr<IDebugger> debugger = dbgFactory.get();
 
+        debugger->attach(parser.pid(), parser.tid(), parser.exec());
+
         CrashDialog dialog(debugger.get());
         dialog.show();
 

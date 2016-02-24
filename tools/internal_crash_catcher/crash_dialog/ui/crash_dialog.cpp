@@ -28,8 +28,6 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
 {
     ui = new Ui::CrashDialog;
     ui->setupUi(this);
-
-    debugger->attach(4548, 0);
 }
 
 
