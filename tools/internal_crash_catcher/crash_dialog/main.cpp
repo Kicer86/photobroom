@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <QApplication>
+#include <QDebug>
 
 #include "ui/crash_dialog.hpp"
 #include "command_line_parser.hpp"
@@ -23,6 +24,7 @@ int main(int argc, char** argv)
         DebuggerFactory dbgFactory;
         std::unique_ptr<IDebugger> debugger = dbgFactory.get();
 
+        qDebug().noquote() << "Attaching to: " << parser.exec() << ", pid:" << parser.pid();
         debugger->attach(parser.pid(), parser.tid(), parser.exec());
 
         CrashDialog dialog(debugger.get());
