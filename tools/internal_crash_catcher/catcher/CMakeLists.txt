@@ -1,4 +1,7 @@
 
+find_package(Qt5Core REQUIRED)
+
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SRCS
@@ -32,7 +35,11 @@ endif()
 
 add_library(catcher STATIC ${SRCS})
 target_include_directories(catcher PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(catcher PRIVATE ${EXTRA_LIBRARIES})
+target_link_libraries(catcher
+                        PRIVATE
+                        ${EXTRA_LIBRARIES}
+                        Qt5::Core
+)
 
 
 generate_export_header(catcher)
