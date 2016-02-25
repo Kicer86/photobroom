@@ -2,6 +2,7 @@
 #include "catcher.hpp"
 
 #include <unistd.h>
+#include <sys/prctl.h>
 
 #include <cassert>
 #include <csignal>
@@ -9,6 +10,7 @@
 
 #include <QCoreApplication>
 #include <QDebug>
+#include <QFileInfo>
 #include <QProcess>
 #include <QStandardPaths>
 
@@ -26,15 +28,17 @@ namespace
             case SIGABRT:
             case SIGFPE:
             {
-                pid_t p = getpid();
+                pid_t pid = getpid();
+
+                prctl(PR_SET_PTRACER, pid, 0, 0, 0);
 
                 QStringList args;
 
-                args << "-p" << QString().number(p);
+                args << "-p" << QString().number(pid);
                 args << "-t" << "0";
                 args << "-e" << QCoreApplication::arguments().at(0);
 
-                qDebug().noquote() << "Executing" << crashDialog << args;
+                qDebug().noquote() << "Crash catcher: executing:" << crashDialog << args;
 
                 QProcess::execute(crashDialog, args);
 
@@ -59,6 +63,9 @@ namespace Catcher
             std::cerr << "Could not find crash_dialog exec" << std::endl;
         else
         {
+            QFileInfo fileInfo(crashDialog);
+            crashDialog = fileInfo.absoluteFilePath();
+
             bool status = true;
 
             struct sigaction act;
