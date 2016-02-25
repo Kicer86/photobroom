@@ -54,7 +54,8 @@ qt5_wrap_cpp(WRAPPED_CPP ${FILES_TO_MOC})
 qt5_wrap_ui(WRAPPED_UI ${UI_FILES})
 
 add_executable(crash_dialog ${SRCS} ${HEADERS} ${WRAPPED_CPP} ${WRAPPED_UI})
-
 target_link_libraries(crash_dialog
                         Qt5::Widgets
 )
+
+install(TARGETS crash_dialog RUNTIME DESTINATION ${PATH_BIN})
