@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <QtGlobal>
+#include <QString>
 
 struct IDebugger
 {
@@ -13,7 +13,7 @@ struct IDebugger
 
     virtual bool attach(qint64 pid, qint64 tid, const QString& exec) = 0;
     virtual bool ready() const = 0;
-    virtual std::vector<std::string> getBackTrace() = 0;
+    virtual std::vector<QString> getBackTrace() = 0;
 };
 
 #endif // IDEBUGGER_HPP

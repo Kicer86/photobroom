@@ -40,9 +40,9 @@ bool GDBWrapper::ready() const
 }
 
 
-std::vector<std::string> GDBWrapper::getBackTrace()
+std::vector<QString> GDBWrapper::getBackTrace()
 {
-    return std::vector<std::string>();
+    return m_backtrace;
 }
 
 
@@ -60,7 +60,5 @@ void GDBWrapper::gdbError(QProcess::ProcessError error)
 
 void GDBWrapper::gdbReadyRead()
 {
-    QByteArray output = m_gdb.readAll();
 
-    qDebug().noquote() << output;
 }
