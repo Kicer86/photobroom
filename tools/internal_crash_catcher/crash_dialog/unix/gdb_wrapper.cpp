@@ -7,10 +7,10 @@
 GDBWrapper::GDBWrapper(const QString& path): m_gdb_path(path), m_gdb(), m_tmpFile()
 {
     auto errorSignal = static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error);
+    auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
 
-    connect(&m_gdb, &QProcess::started, this, &GDBWrapper::gdbReady);
     connect(&m_gdb, errorSignal, this, &GDBWrapper::gdbError);
-    connect(&m_gdb, &QProcess::readyRead, this, &GDBWrapper::gdbReadyRead);
+    connect(&m_gdb, finishedSignal, this, &GDBWrapper::gdbFinished);
 
     m_gdb.setProcessChannelMode(QProcess::MergedChannels);
 }
@@ -34,21 +34,9 @@ bool GDBWrapper::attach(qint64 pid, qint64 tid, const QString& exec)
 }
 
 
-bool GDBWrapper::ready() const
-{
-    return m_gdb.state() == QProcess::Running;
-}
-
-
 std::vector<QString> GDBWrapper::getBackTrace()
 {
     return m_backtrace;
-}
-
-
-void GDBWrapper::gdbReady()
-{
-
 }
 
 
@@ -58,7 +46,12 @@ void GDBWrapper::gdbError(QProcess::ProcessError error)
 }
 
 
-void GDBWrapper::gdbReadyRead()
+void GDBWrapper::gdbFinished(int, QProcess::ExitStatus)
 {
+    char buffer[250];
 
+    while(m_gdb.readLine(buffer, 250) > 0)
+        m_backtrace.push_back(buffer);
+
+    emit
 }
