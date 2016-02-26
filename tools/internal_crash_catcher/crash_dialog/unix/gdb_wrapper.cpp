@@ -52,6 +52,4 @@ void GDBWrapper::gdbFinished(int, QProcess::ExitStatus)
 
     while(m_gdb.readLine(buffer, 250) > 0)
         m_backtrace.push_back(buffer);
-
-    emit
 }
