@@ -1,3 +1,2 @@
 
-
- add_executable(test_app main.cpp)
+add_executable(test_app main.cpp)
