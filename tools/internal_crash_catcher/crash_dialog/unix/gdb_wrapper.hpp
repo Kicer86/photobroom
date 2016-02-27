@@ -17,13 +17,16 @@ class GDBWrapper: public QObject, public IDebugger
         GDBWrapper(const QString &);
 
         virtual bool attach(qint64 pid, qint64 tid, const QString& exec) override;
-        virtual std::vector<QString> getBackTrace() override;
+        virtual void requestBacktrace(const std::function<void(const std::vector<QString> &)> &) override;
 
     private:
         const QString m_gdb_path;
         QProcess m_gdb;
         QTemporaryFile m_tmpFile;
-        std::vector<QString> m_backtrace;
+        std::function<void(const std::vector<QString> &)> m_callback;
+        QString m_exec;
+        qint64 m_pid;
+        qint64 m_tid;
 
         void gdbError(QProcess::ProcessError);
         void gdbFinished(int, QProcess::ExitStatus);
