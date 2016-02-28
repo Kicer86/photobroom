@@ -4,8 +4,7 @@
 
 int main()
 {
-    const pid_t pid = getpid();
-    prctl(PR_SET_PTRACER, pid, 0, 0, 0);
+    prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY, 0, 0, 0);
 
     for(;;)
         sleep(1);
