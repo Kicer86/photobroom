@@ -6,6 +6,7 @@
 
 #ifdef DEVELOPER_BUILD
 #include <QProcess>
+#include "crash_dialog_config.hpp"
 #endif
 
 #include "ui/crash_dialog.hpp"
@@ -22,7 +23,7 @@ int main(int argc, char** argv)
 
 #ifdef DEVELOPER_BUILD
     QProcess dummy_exec;
-    dummy_exec.start("test_app");
+    dummy_exec.start(test_app_path);
 #endif
 
     CommandLineParser parser(app);
