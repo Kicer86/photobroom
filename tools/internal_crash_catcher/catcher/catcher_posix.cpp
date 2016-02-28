@@ -28,7 +28,7 @@ namespace
             case SIGABRT:
             case SIGFPE:
             {
-                pid_t pid = getpid();
+                const pid_t pid = getpid();
 
                 prctl(PR_SET_PTRACER, pid, 0, 0, 0);
 
