@@ -13,6 +13,26 @@
 #include "command_line_parser.hpp"
 #include "debugger_factory.hpp"
 
+struct DummyExecInfoProvider
+{
+    DummyExecInfoProvider(const QProcess& proc):
+        m_pid(proc.pid()),
+        m_tid(0),
+        m_exec(proc.program())
+    {
+    }
+
+    bool error() const { return false; }
+    QString errorMsg() const { return QString(); }
+
+    qint64 pid() const { return m_pid; }
+    qint64 tid() const { return m_tid; }
+    const QString& exec() const { return m_exec; }
+
+    qint64 m_pid, m_tid;
+    QString m_exec;
+};
+
 int main(int argc, char** argv)
 {
     int result = 1;
@@ -24,9 +44,12 @@ int main(int argc, char** argv)
 #ifdef DEVELOPER_BUILD
     QProcess dummy_exec;
     dummy_exec.start(test_app_path);
+    dummy_exec.pid();
+    DummyExecInfoProvider parser(dummy_exec);
+#else
+    CommandLineParser parser(app);
 #endif
 
-    CommandLineParser parser(app);
     if (parser.error())
         std::cerr << parser.errorMsg().toStdString() << std::endl;
     else
