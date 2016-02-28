@@ -35,7 +35,9 @@ int main(int argc, char** argv)
         output.open(QIODevice::WriteOnly);
 
         const QFileInfo fileInfo(outputFile);
-        const QString guard = fileInfo.fileName().toUpper();
+        const QString guard = fileInfo.fileName()
+                                      .toUpper()
+                                      .replace(".", "_");
 
         QTextStream outputStream(&output);
 
@@ -57,6 +59,6 @@ int main(int argc, char** argv)
         }
 
         outputStream << '\n';
-        outputStream << "#endif //" << guard << '\n';
+        outputStream << "#endif\n";
     }
 }
