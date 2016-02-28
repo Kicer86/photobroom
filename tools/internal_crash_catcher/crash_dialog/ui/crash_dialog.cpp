@@ -20,6 +20,8 @@
 
 #include "crash_dialog.hpp"
 
+#include <functional>
+
 #include "idebugger.hpp"
 #include "ui_crash_dialog.h"
 
@@ -28,10 +30,21 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
 {
     ui = new Ui::CrashDialog;
     ui->setupUi(this);
+
+    using namespace std::placeholders;
+
+    auto bt = std::bind(&CrashDialog::backtrace, this, _1);
+    m_debugger->requestBacktrace(bt);
 }
 
 
 CrashDialog::~CrashDialog()
 {
     delete ui;
+}
+
+
+void CrashDialog::backtrace(const std::vector<QString>& bt)
+{
+
 }
