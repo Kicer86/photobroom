@@ -8,6 +8,14 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+
+if(DEVELOPER_BUILD)
+
+    add_definitions(-DDEVELOPER_BUILD)
+
+endif()
+
+
 set(HEADERS
     ui/crash_dialog.hpp
     command_line_parser.hpp

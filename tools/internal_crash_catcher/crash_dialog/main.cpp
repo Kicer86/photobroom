@@ -4,6 +4,10 @@
 #include <QApplication>
 #include <QDebug>
 
+#ifdef DEVELOPER_BUILD
+#include <QProcess>
+#endif
+
 #include "ui/crash_dialog.hpp"
 #include "command_line_parser.hpp"
 #include "debugger_factory.hpp"
@@ -15,6 +19,11 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     QApplication::setApplicationName("CrashDialog");
     QApplication::setApplicationVersion("1.0");
+
+#ifdef DEVELOPER_BUILD
+    QProcess dummy_exec;
+    dummy_exec.start("test_app");
+#endif
 
     CommandLineParser parser(app);
     if (parser.error())
