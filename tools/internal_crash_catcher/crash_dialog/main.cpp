@@ -66,5 +66,10 @@ int main(int argc, char** argv)
         result = app.exec();
     }
 
+#ifdef DEVELOPER_BUILD
+    dummy_exec.terminate();
+    dummy_exec.waitForFinished();
+#endif
+
     return result;
 }
