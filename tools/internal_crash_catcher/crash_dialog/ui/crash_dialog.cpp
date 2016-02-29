@@ -46,5 +46,6 @@ CrashDialog::~CrashDialog()
 
 void CrashDialog::backtrace(const std::vector<QString>& bt)
 {
-
+    for(const QString& line: bt)
+        ui->plainTextEdit->appendPlainText(line);
 }
