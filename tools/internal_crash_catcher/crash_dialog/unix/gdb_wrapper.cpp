@@ -68,7 +68,7 @@ void GDBWrapper::gdbFinished(int, QProcess::ExitStatus)
     std::vector<QString> backtrace;
 
     while(m_gdb.readLine(buffer, 250) > 0)
-        backtrace.push_back(buffer);
+        backtrace.push_back( QString(buffer).trimmed() );
 
     m_callback(backtrace);
 }
