@@ -13,6 +13,8 @@
 #include "command_line_parser.hpp"
 #include "debugger_factory.hpp"
 
+
+#ifdef DEVELOPER_BUILD
 struct DummyExecInfoProvider
 {
     DummyExecInfoProvider(const QProcess& proc):
@@ -32,6 +34,8 @@ struct DummyExecInfoProvider
     qint64 m_pid, m_tid;
     QString m_exec;
 };
+#endif
+
 
 int main(int argc, char** argv)
 {
