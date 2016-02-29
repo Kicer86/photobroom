@@ -64,11 +64,18 @@ void GDBWrapper::gdbError(QProcess::ProcessError error)
 
 void GDBWrapper::gdbFinished(int, QProcess::ExitStatus)
 {
-    char buffer[250];
     std::vector<QString> backtrace;
 
-    while(m_gdb.readLine(buffer, 250) > 0)
-        backtrace.push_back( QString(buffer).trimmed() );
+    for(;;)
+    {
+        const QByteArray line = m_gdb.readLine();
+
+        if (line.isEmpty())
+            break;
+
+        const QString lineStr = line.constData();
+        backtrace.push_back( lineStr.trimmed() );
+    }
 
     m_callback(backtrace);
 }
