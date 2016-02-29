@@ -34,9 +34,11 @@ On Linux it will search for plugins in destination (installation) directory.
 Build 'install' target to install PhotoBroom. Then you can launch it.
 On Windows operating system, PhotoBroom searches for plugins and translations,
 in location relative to exe file.
-To make debuging possible on Windows, set DEVELOPER_BUILD option to ON.
-This will force PhotoBroom to look for plugins and translations in location
-defined by CMAKE_INSTALL_PREFIX (so as it does on Linux).
+
+There is CMake DEVELOPER_BUILD variable available to ease debugging of some features.
+Then set to ON gui internal crash catcher will run and attach to dummy application.
+On Windows, DEVELOPER_BUILD option will force PhotoBroom to look for plugins and translations in location
+defined by CMAKE_INSTALL_PREFIX (so as it does on Linux) not in build directory.
 
 Extra targets available for Windows:
 'deploy' - prepares extra dir with Qt's libraries and plugins required by PhotoBroom.

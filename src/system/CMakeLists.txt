@@ -2,7 +2,6 @@
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
-
 find_package(KF5Crash QUIET)
 
 include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
@@ -26,7 +25,15 @@ if(KF5Crash_FOUND)
 endif(KF5Crash_FOUND)
 
 if(NOT CRASH_HANDLER_FOUND)
-    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_null.cpp)
+
+    include_directories(${PROJECT_SOURCE_DIR}/tools
+                        $<TARGET_PROPERTY:catcher,INTERFACE_INCLUDE_DIRECTORIES>
+    )
+    
+    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_internal.cpp)
+    set(CRASH_HANDLER_LIBRARIES catcher)
+    set(CRASH_HANDLER_FOUND TRUE)
+
 endif()
 
 
@@ -36,16 +43,12 @@ set(SYSTEM_SOURCES ${CRASH_HANDLER_SOURCES})
 # system related stuff
 if (WIN32)
 
-    include_directories(SYSTEM ${DBGHELP_INCLUDE_DIRS})
-
     set(SYSTEM_SOURCES
             ${SYSTEM_SOURCES}
             implementation/system_win32.cpp
     )
 
 elseif(UNIX)
-
-    include_directories(SYSTEM ${LIBBACKTRACE_INCLUDE_DIRS})
 
     set(SYSTEM_SOURCES
             ${SYSTEM_SOURCES}
@@ -76,6 +79,7 @@ if(WIN32)
     else()
         unset(BASE_PATH)
     endif()
+
     configure_file(paths_win.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 
 else()
@@ -92,7 +96,7 @@ target_link_libraries(system PRIVATE
                      )
 
 hideSymbols(system)
-generate_export_header(system EXPORT_FILE_NAME)
+generate_export_header(system)
 
 if(BUILD_SHARED_LIBS)
     install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}

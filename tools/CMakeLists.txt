@@ -1,8 +1,4 @@
 
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Svg REQUIRED)
-
-include_directories(SYSTEM ${Qt5Gui_INCLUDE_DIRS})
-
-add_executable(img_manip EXCLUDE_FROM_ALL img_manip.cpp)
-target_link_libraries(img_manip Qt5::Gui Qt5::Svg)
+add_subdirectory(config_generator)
+add_subdirectory(img_manip)
+add_subdirectory(internal_crash_catcher)
