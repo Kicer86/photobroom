@@ -40,8 +40,10 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
                                 "Below you can find more technical details.\n"
                                 "It is also possible to send a bug report")
                                 .arg(fileName)
-
     );
+
+    ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
+    ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ResetRole);
 
     using namespace std::placeholders;
 
