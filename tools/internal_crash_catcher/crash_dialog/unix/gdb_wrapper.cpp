@@ -27,14 +27,20 @@ GDBWrapper::GDBWrapper(const QString& path):
 
 bool GDBWrapper::attach(qint64 pid, qint64 tid, const QString& exec)
 {
-    m_tmpFile.open();
-    m_tmpFile.write("set width 200\nthread\nthread apply all bt");
-    m_tmpFile.write("\n", 1);
-    m_tmpFile.flush();
-
-    m_pid = pid;
-    m_tid = tid;
-    m_exec = exec;
+    const bool status = m_tmpFile.open();
+    
+    if (status)
+    {
+      m_tmpFile.write("set width 200\nthread\nthread apply all bt");
+      m_tmpFile.write("\n", 1);
+      m_tmpFile.flush();
+      
+      m_pid = pid;
+      m_tid = tid;
+      m_exec = exec;
+    }
+    
+    return status;
 }
 
 void GDBWrapper::requestBacktrace(const std::function<void(const std::vector<QString> &)>& callback)
