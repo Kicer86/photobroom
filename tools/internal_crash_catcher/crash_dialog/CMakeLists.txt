@@ -66,10 +66,12 @@ if(UNIX)
 else()
 
     set(HEADERS ${HEADERS}
+        win32/debugger.hpp
     )
 
     set(SRCS ${SRCS}
-            win32/debugger_factory.cpp
+        win32/debugger_factory.cpp
+        win32/debugger.cpp
     )
 
     set(FILES_TO_MOC ${FILES_TO_MOC}

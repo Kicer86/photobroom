@@ -1,5 +1,5 @@
 /*
- * Win32 version of factory for debugger
+ * Win32 debugger
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,35 @@
  *
  */
 
-#include "debugger_factory.hpp"
-
-#include <iostream>
-
-#include <QDebug>
-#include <QStandardPaths>
 
 #include "debugger.hpp"
 
 
-DebuggerFactory::DebuggerFactory()
+Debugger::Debugger(): m_exec()
 {
 
 }
 
 
-DebuggerFactory::~DebuggerFactory()
+Debugger::~Debugger()
 {
 
 }
 
 
-std::unique_ptr<IDebugger> DebuggerFactory::get()
+bool Debugger::attach(qint64 pid, qint64 tid, const QString &exec)
 {
-    return std::unique_ptr<IDebugger>(new Debugger);
+    return true;
+}
+
+
+void Debugger::requestBacktrace(const std::function<void (const std::vector<QString> &)> &)
+{
+
+}
+
+
+const QString& Debugger::exec() const
+{
+    return m_exec;
 }
