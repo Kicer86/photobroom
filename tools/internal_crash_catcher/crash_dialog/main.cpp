@@ -18,7 +18,7 @@
 struct DummyExecInfoProvider
 {
     DummyExecInfoProvider(const QProcess& proc):
-        m_pid(proc.pid()),
+        m_pid(proc.processId()),
         m_tid(0),
         m_exec(proc.program())
     {

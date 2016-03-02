@@ -65,6 +65,16 @@ if(UNIX)
 
 else()
 
+    set(HEADERS ${HEADERS}
+    )
+
+    set(SRCS ${SRCS}
+            win32/debugger_factory.cpp
+    )
+
+    set(FILES_TO_MOC ${FILES_TO_MOC}
+    )
+
 endif()
 
 
