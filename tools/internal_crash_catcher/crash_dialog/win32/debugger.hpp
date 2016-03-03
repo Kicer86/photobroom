@@ -33,5 +33,9 @@ class Debugger: public IDebugger
         const QString& exec() const override;
 
     private:
+        qint64 m_pid;
+        qint64 m_tid;
         QString m_exec;
+
+        bool enableDebugPrivilege();
 };
