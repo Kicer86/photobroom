@@ -25,7 +25,7 @@ GDBWrapper::GDBWrapper(const QString& path):
 }
 
 
-bool GDBWrapper::attach(qint64 pid, qint64 tid, const QString& exec)
+bool GDBWrapper::init(qint64 pid, qint64 tid, const QString& exec)
 {
     const bool status = m_tmpFile.open();
 

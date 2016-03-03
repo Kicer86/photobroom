@@ -33,7 +33,7 @@ Debugger::~Debugger()
 }
 
 
-bool Debugger::attach(qint64 pid, qint64 tid, const QString &exec)
+bool Debugger::init(qint64 pid, qint64 tid, const QString &exec)
 {
     return true;
 }

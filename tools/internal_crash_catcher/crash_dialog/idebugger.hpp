@@ -12,7 +12,7 @@ struct IDebugger
 {
     virtual ~IDebugger();
 
-    virtual bool attach(qint64 pid, qint64 tid, const QString& exec) = 0;
+    virtual bool init(qint64 pid, qint64 tid, const QString& exec) = 0;
     virtual void requestBacktrace( const std::function<void(const std::vector<QString> &)> & ) = 0;
 
     virtual const QString& exec() const = 0;

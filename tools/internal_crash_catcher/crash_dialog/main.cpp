@@ -62,7 +62,7 @@ int main(int argc, char** argv)
         std::unique_ptr<IDebugger> debugger = dbgFactory.get();
 
         qDebug().noquote() << "Attaching to: " << parser.exec() << ", pid:" << parser.pid();
-        debugger->attach(parser.pid(), parser.tid(), parser.exec());
+        debugger->init(parser.pid(), parser.tid(), parser.exec());
 
         CrashDialog dialog(debugger.get());
         dialog.show();

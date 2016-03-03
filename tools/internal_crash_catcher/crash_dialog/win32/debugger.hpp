@@ -27,7 +27,7 @@ class Debugger: public IDebugger
         Debugger();
         ~Debugger();
 
-        bool attach(qint64 pid, qint64 tid, const QString& exec) override;
+        bool init(qint64 pid, qint64 tid, const QString& exec) override;
         void requestBacktrace( const std::function<void(const std::vector<QString> &)> & ) override;
 
         const QString& exec() const override;

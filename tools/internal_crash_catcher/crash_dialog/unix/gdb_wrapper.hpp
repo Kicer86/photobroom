@@ -16,7 +16,7 @@ class GDBWrapper: public QObject, public IDebugger
     public:
         GDBWrapper(const QString &);
 
-        virtual bool attach(qint64 pid, qint64 tid, const QString& exec) override;
+        virtual bool init(qint64 pid, qint64 tid, const QString& exec) override;
         virtual void requestBacktrace(const std::function<void(const std::vector<QString> &)> &) override;
 
         virtual const QString& exec() const override;
