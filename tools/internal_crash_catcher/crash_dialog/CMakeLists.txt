@@ -71,7 +71,7 @@ else()
 
     set(SRCS ${SRCS}
         win32/debugger_factory.cpp
-        win32/debugger.cpp
+        win32/debugger_gcc.cpp
     )
 
     set(FILES_TO_MOC ${FILES_TO_MOC}
