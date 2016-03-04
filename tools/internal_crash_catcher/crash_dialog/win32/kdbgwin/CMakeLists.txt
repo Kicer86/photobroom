@@ -17,16 +17,20 @@ set(kdbgwin_SRCS
     outputters.cpp
 )
 
+qt5_wrap_cpp(WRAPPED_CPP abstract_generator.h outputters.h)
+
 set(COMMON_LIBS dbghelp psapi shlwapi)
 
 if ( MINGW )
     # FIXME this should be handled in a higher level cmake with proper find
     # scripts and configuration
-    add_executable(kdbgwin ${kdbgwin_SRCS} mingw_generator.h mingw_generator.cpp)
+    qt5_wrap_cpp(WRAPPED_CPP_EXTRA mingw_generator.h)
+    add_executable(kdbgwin ${kdbgwin_SRCS} ${WRAPPED_CPP} ${WRAPPED_CPP_EXTRA} mingw_generator.h mingw_generator.cpp)
     target_link_libraries(kdbgwin ${COMMON_LIBS} Qt5::Core bfd iberty z)
 endif ()
 if ( MSVC OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel"))
-    add_executable(kdbgwin ${kdbgwin_SRCS} msvc_generator.h msvc_generator.cpp)
+    qt5_wrap_cpp(WRAPPED_CPP_EXTRA msvc_generator.h)
+    add_executable(kdbgwin ${kdbgwin_SRCS} ${WRAPPED_CPP} ${WRAPPED_CPP_EXTRA} msvc_generator.h msvc_generator.cpp)
     target_link_libraries(kdbgwin ${COMMON_LIBS})
 endif ()
 
