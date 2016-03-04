@@ -1,3 +1,9 @@
+
+find_package(Qt5Core REQUIRED)
+
+include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} D:/tools/mingw-w64/i686-4.9.2-posix-dwarf-rt_v4-rev2/mingw32/include)
+
+
 set(kdbgwin_SRCS
     common.h
     main.cpp
@@ -17,11 +23,11 @@ if ( MINGW )
     # FIXME this should be handled in a higher level cmake with proper find
     # scripts and configuration
     add_executable(kdbgwin ${kdbgwin_SRCS} mingw_generator.h mingw_generator.cpp)
-    target_link_libraries(kdbgwin ${COMMON_LIBS} bfd iberty intl z)
+    target_link_libraries(kdbgwin ${COMMON_LIBS} Qt5::Core bfd iberty z)
 endif ()
 if ( MSVC OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel"))
     add_executable(kdbgwin ${kdbgwin_SRCS} msvc_generator.h msvc_generator.cpp)
     target_link_libraries(kdbgwin ${COMMON_LIBS})
 endif ()
 
-install(TARGETS kdbgwin DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+install(TARGETS kdbgwin DESTINATION ${PATH_BIN})

@@ -1,4 +1,6 @@
 
+add_subdirectory(win32/kdbgwin)
+
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 
