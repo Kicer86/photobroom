@@ -1,11 +1,9 @@
 
 find_package(Qt5Core REQUIRED)
-find_package(Bfd REQUIRED)
 
 include_directories(SYSTEM
                     ${Qt5Core_INCLUDE_DIRS}
-                    ${BFD_INCLUDE_DIRS})
-
+)
 
 set(kdbgwin_SRCS
     common.h
@@ -20,21 +18,31 @@ set(kdbgwin_SRCS
     outputters.cpp
 )
 
-qt5_wrap_cpp(WRAPPED_CPP abstract_generator.h outputters.h)
+set(kdbgwin_TO_MOC
+        abstract_generator.h
+        outputters.h
+)
 
-set(COMMON_LIBS dbghelp psapi shlwapi)
+set(kdbgwin_LIBS Qt5::Core dbghelp psapi shlwapi)
 
-if ( MINGW )
-    # FIXME this should be handled in a higher level cmake with proper find
-    # scripts and configuration
-    qt5_wrap_cpp(WRAPPED_CPP_EXTRA mingw_generator.h)
-    add_executable(kdbgwin ${kdbgwin_SRCS} ${WRAPPED_CPP} ${WRAPPED_CPP_EXTRA} mingw_generator.h mingw_generator.cpp)
-    target_link_libraries(kdbgwin ${COMMON_LIBS} Qt5::Core ${BFD_LIBRARIES} iberty z)
-endif ()
-if ( MSVC OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel"))
-    qt5_wrap_cpp(WRAPPED_CPP_EXTRA msvc_generator.h)
-    add_executable(kdbgwin ${kdbgwin_SRCS} ${WRAPPED_CPP} ${WRAPPED_CPP_EXTRA} msvc_generator.h msvc_generator.cpp)
-    target_link_libraries(kdbgwin ${COMMON_LIBS})
-endif ()
+if(MINGW)
 
+    find_package(Bfd REQUIRED)
+    include_directories(SYSTEM ${BFD_INCLUDE_DIRS})
+
+    list(APPEND kdbgwin_TO_MOC mingw_generator.h)
+    list(APPEND kdbgwin_SRCS   mingw_generator.h mingw_generator.cpp)
+    list(APPEND kdbgwin_LIBS   ${BFD_LIBRARIES} iberty z)
+
+elseif( MSVC OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel"))
+
+    list(APPEND kdbgwin_TO_MOC msvc_generator.h)
+    list(APPEND kdbgwin_SRCS   msvc_generator.h msvc_generator.cpp)
+
+endif()
+
+qt5_wrap_cpp(WRAPPED_CPP ${kdbgwin_TO_MOC})
+
+add_executable(kdbgwin ${kdbgwin_SRCS} ${WRAPPED_CPP})
+target_link_libraries(kdbgwin ${kdbgwin_LIBS})
 install(TARGETS kdbgwin DESTINATION ${PATH_BIN})
