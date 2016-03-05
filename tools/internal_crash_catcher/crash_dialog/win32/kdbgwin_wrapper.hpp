@@ -17,14 +17,17 @@
  *
  */
 
+#include <QProcess>
 
 #include "idebugger.hpp"
 
 
-class KDbgWinWrapper: public IDebugger
+class KDbgWinWrapper: public QObject, public IDebugger
 {
+        Q_OBJECT
+
     public:
-        KDbgWinWrapper();
+        KDbgWinWrapper(const QString &);
         ~KDbgWinWrapper();
 
         bool init(qint64 pid, qint64 tid, const QString& exec) override;
@@ -33,9 +36,13 @@ class KDbgWinWrapper: public IDebugger
         const QString& exec() const override;
 
     private:
+        const QString m_kdbgwin_path;
+        QProcess m_kdbgwin;
+        std::function<void(const std::vector<QString> &)> m_callback;
         qint64 m_pid;
         qint64 m_tid;
         QString m_exec;
 
-        bool enableDebugPrivilege();
+        void kdbgwinError(QProcess::ProcessError);
+        void kdbgwinFinished(int, QProcess::ExitStatus);
 };

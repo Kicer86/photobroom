@@ -76,7 +76,9 @@ else()
         win32/kdbgwin_wrapper.cpp
     )
 
-    set(FILES_TO_MOC ${FILES_TO_MOC})
+    set(FILES_TO_MOC ${FILES_TO_MOC}
+        win32/kdbgwin_wrapper.hpp
+    )
 
 endif()
 

@@ -21,6 +21,7 @@
 
 #include <iostream>
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QStandardPaths>
 
@@ -41,5 +42,13 @@ DebuggerFactory::~DebuggerFactory()
 
 std::unique_ptr<IDebugger> DebuggerFactory::get()
 {
-    return std::unique_ptr<IDebugger>(new KDbgWinWrapper);
+    const QString kdbgwin = QStandardPaths::findExecutable("kdbgwin", { QCoreApplication::applicationDirPath() } );
+    std::unique_ptr<IDebugger> result;
+
+    if (kdbgwin.isEmpty())
+        qCritical().noquote() << "Could not find kdbgwin!";
+    else
+        result.reset(new KDbgWinWrapper(kdbgwin));
+
+    return result;
 }

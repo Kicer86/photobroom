@@ -25,11 +25,24 @@
 
 #include <Windows.h>
 
-// based on drkonqi
+#include <QDebug>
 
-KDbgWinWrapper::KDbgWinWrapper(): m_exec()
+
+KDbgWinWrapper::KDbgWinWrapper(const QString& path):
+    m_kdbgwin_path(path),
+    m_kdbgwin(),
+    m_callback(),
+    m_pid(-1),
+    m_tid(-1),
+    m_exec()
 {
+    auto errorSignal = static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error);
+    auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
 
+    connect(&m_kdbgwin, errorSignal, this, &KDbgWinWrapper::kdbgwinError);
+    connect(&m_kdbgwin, finishedSignal, this, &KDbgWinWrapper::kdbgwinFinished);
+
+    m_kdbgwin.setProcessChannelMode(QProcess::MergedChannels);
 }
 
 
@@ -45,15 +58,22 @@ bool KDbgWinWrapper::init(qint64 pid, qint64 tid, const QString &exec)
     m_tid = tid;
     m_exec = exec;
 
-    const bool status = enableDebugPrivilege();
-
-    return status;
+    return true;
 }
 
 
-void KDbgWinWrapper::requestBacktrace(const std::function<void (const std::vector<QString> &)> &)
+void KDbgWinWrapper::requestBacktrace(const std::function<void (const std::vector<QString> &)>& callback)
 {
+    assert(m_pid > 0);
+    assert(m_tid >= 0);
 
+    m_callback = callback;
+
+    QStringList args;
+    args << QString().setNum(m_pid);
+    args << QString().setNum(m_tid);
+
+    m_kdbgwin.start(m_kdbgwin_path, args);
 }
 
 
@@ -63,55 +83,26 @@ const QString& KDbgWinWrapper::exec() const
 }
 
 
-bool KDbgWinWrapper::enableDebugPrivilege()
+void KDbgWinWrapper::kdbgwinError(QProcess::ProcessError error)
 {
-    std::cout << "Enabling debug privilege" << std::endl;
-    HANDLE hToken = NULL;
+    qCritical().noquote() << "KDbgWin error:" << error;
+}
 
-    if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == FALSE)
+
+void KDbgWinWrapper::kdbgwinFinished(int, QProcess::ExitStatus)
+{
+    std::vector<QString> backtrace;
+
+    for(;;)
     {
-       if (GetLastError() == ERROR_NO_TOKEN)
-       {
-           if (ImpersonateSelf(SecurityImpersonation) == FALSE)
-           {
-               std::cout << "ImpersonateSelf() failed: " << GetLastError() << std::endl;
-               return false;
-           }
-           if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == FALSE)
-           {
-               std::cout << "OpenThreadToken() #2 failed: " << GetLastError() << std::endl;
-               return false;
-           }
-       }
-       else
-       {
-           std::cout << "OpenThreadToken() #1 failed: " << GetLastError() << std::endl;
-           return false;
-       }
+        const QByteArray line = m_kdbgwin.readLine();
+
+        if (line.isEmpty())
+            break;
+
+        const QString lineStr = line.constData();
+        backtrace.push_back( lineStr.trimmed() );
     }
 
-    LUID luid;
-    if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &luid) == FALSE)
-    {
-       assert(false);
-       std::cout << "Cannot lookup privilege: " << GetLastError() << std::endl;
-       CloseHandle(hToken);
-       return false;
-    }
-
-    TOKEN_PRIVILEGES tp;
-    tp.PrivilegeCount = 1;
-    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-    tp.Privileges[0].Luid = luid;
-
-    if (AdjustTokenPrivileges(hToken, FALSE, &tp, 0, nullptr, nullptr) == FALSE)
-    {
-       assert(false);
-       std::cout << "Cannot adjust privilege: " << GetLastError() << std::endl;
-       CloseHandle(hToken);
-       return false;
-    }
-
-    CloseHandle(hToken);
-    return true;
+    m_callback(backtrace);
 }
