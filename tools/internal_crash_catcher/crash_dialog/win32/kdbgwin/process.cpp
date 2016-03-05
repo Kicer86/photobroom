@@ -74,7 +74,7 @@ BOOL Process::EnableDebugPrivilege()
     tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
     tp.Privileges[0].Luid = luid;
     
-    if (!AdjustTokenPrivileges(hToken, FALSE, &tp, NULL, (PTOKEN_PRIVILEGES) NULL, (PDWORD) NULL))
+    if (!AdjustTokenPrivileges(hToken, FALSE, &tp, 0, nullptr, nullptr))
     {
         assert(false);
         qCritical() << "Cannot adjust privilege: " << GetLastError();
@@ -112,7 +112,7 @@ BOOL Process::GetInfo(const char* pid, const char* threadId)
 
     // we can't get the threads for a single process, so get all system's
     // threads, and enumerate through them
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, NULL);
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (hSnapshot == INVALID_HANDLE_VALUE)
     {
         qCritical() << "CreateToolhelp32Snapshot() failed: " << GetLastError();

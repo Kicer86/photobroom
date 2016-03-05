@@ -68,7 +68,7 @@ bool Debugger::enableDebugPrivilege()
     std::cout << "Enabling debug privilege" << std::endl;
     HANDLE hToken = NULL;
 
-    if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == NULL)
+    if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == FALSE)
     {
        if (GetLastError() == ERROR_NO_TOKEN)
        {
