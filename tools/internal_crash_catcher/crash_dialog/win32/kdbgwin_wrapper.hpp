@@ -21,11 +21,11 @@
 #include "idebugger.hpp"
 
 
-class Debugger: public IDebugger
+class KDbgWinWrapper: public IDebugger
 {
     public:
-        Debugger();
-        ~Debugger();
+        KDbgWinWrapper();
+        ~KDbgWinWrapper();
 
         bool init(qint64 pid, qint64 tid, const QString& exec) override;
         void requestBacktrace( const std::function<void(const std::vector<QString> &)> & ) override;

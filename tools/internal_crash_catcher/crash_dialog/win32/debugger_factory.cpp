@@ -41,5 +41,5 @@ DebuggerFactory::~DebuggerFactory()
 
 std::unique_ptr<IDebugger> DebuggerFactory::get()
 {
-    return std::unique_ptr<IDebugger>(new Debugger);
+    return std::unique_ptr<IDebugger>(new KDbgWinWrapper);
 }

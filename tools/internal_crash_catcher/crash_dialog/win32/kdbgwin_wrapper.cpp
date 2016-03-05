@@ -27,19 +27,19 @@
 
 // based on drkonqi
 
-Debugger::Debugger(): m_exec()
+KDbgWinWrapper::KDbgWinWrapper(): m_exec()
 {
 
 }
 
 
-Debugger::~Debugger()
+KDbgWinWrapper::~KDbgWinWrapper()
 {
 
 }
 
 
-bool Debugger::init(qint64 pid, qint64 tid, const QString &exec)
+bool KDbgWinWrapper::init(qint64 pid, qint64 tid, const QString &exec)
 {
     m_pid = pid;
     m_tid = tid;
@@ -51,19 +51,19 @@ bool Debugger::init(qint64 pid, qint64 tid, const QString &exec)
 }
 
 
-void Debugger::requestBacktrace(const std::function<void (const std::vector<QString> &)> &)
+void KDbgWinWrapper::requestBacktrace(const std::function<void (const std::vector<QString> &)> &)
 {
 
 }
 
 
-const QString& Debugger::exec() const
+const QString& KDbgWinWrapper::exec() const
 {
     return m_exec;
 }
 
 
-bool Debugger::enableDebugPrivilege()
+bool KDbgWinWrapper::enableDebugPrivilege()
 {
     std::cout << "Enabling debug privilege" << std::endl;
     HANDLE hToken = NULL;
