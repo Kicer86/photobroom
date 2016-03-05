@@ -18,7 +18,7 @@
  */
 
 
-#include "debugger.hpp"
+#include "kdbgwin_wrapper.hpp"
 
 #include <cassert>
 #include <iostream>

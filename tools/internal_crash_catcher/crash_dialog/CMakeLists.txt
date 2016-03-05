@@ -68,16 +68,15 @@ if(UNIX)
 else()
 
     set(HEADERS ${HEADERS}
-        win32/debugger.hpp
+        win32/kdbgwin_wrapper.hpp
     )
 
     set(SRCS ${SRCS}
         win32/debugger_factory.cpp
-        win32/debugger_gcc.cpp
+        win32/kdbgwin_wrapper.cpp
     )
 
-    set(FILES_TO_MOC ${FILES_TO_MOC}
-    )
+    set(FILES_TO_MOC ${FILES_TO_MOC})
 
 endif()
 
