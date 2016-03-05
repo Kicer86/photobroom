@@ -65,6 +65,7 @@ set(GUI_HEADERS
 
 #set of file to be moced
 set(GUI_FILES_TO_MOC
+    desktop/components/photos_item_delegate.hpp
     desktop/views/images_tree_view.hpp
     desktop/views/view_impl/view_data_set.hpp
     desktop/ui/configuration_dialog.hpp
