@@ -1,4 +1,3 @@
 
-add_subdirectory(config_generator)
 add_subdirectory(img_manip)
 add_subdirectory(internal_crash_catcher)

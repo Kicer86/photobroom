@@ -10,21 +10,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-
-if(DEVELOPER_BUILD)
-
-    add_definitions(-DDEVELOPER_BUILD)
-    add_custom_command(OUTPUT crash_dialog_config.hpp
-                       COMMAND config_generator
-                       ARGS -o crash_dialog_config.hpp
-                            --entry test_app_path=\\"$<TARGET_FILE:test_app>\\")
-
-    add_custom_target(crash_dialog_config
-                      DEPENDS crash_dialog_config.hpp)
-
-endif()
-
-
 set(HEADERS
     ui/crash_dialog.hpp
     command_line_parser.hpp
@@ -93,8 +78,3 @@ target_link_libraries(crash_dialog
 )
 
 install(TARGETS crash_dialog RUNTIME DESTINATION ${PATH_BIN})
-
-
-if(DEVELOPER_BUILD)
-    add_dependencies(crash_dialog crash_dialog_config)
-endif()
