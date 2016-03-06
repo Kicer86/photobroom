@@ -88,7 +88,7 @@ BOOL Process::EnableDebugPrivilege()
 
 BOOL Process::GetInfo(const char* pid, const char* threadId)
 {
-    qCritical() << "Trying to get info about pid=" << pid;
+    qDebug() << "Trying to get info about pid=" << pid;
 
     DWORD dwPid = DWORD(atoi(pid));
     DWORD dwThread = DWORD(atoi(threadId));
@@ -167,13 +167,13 @@ BOOL Process::GetInfo(const char* pid, const char* threadId)
          * which is 4 bytes; so i can't use TCHAR here; better off using ushort
          * and casting when necessary
          */
-        ushort szModName[MAX_PATH];
-        if (GetModuleFileNameEx(hProcess, hMods[i], (LPTSTR) szModName, MAX_PATH))
+        char szModName[MAX_PATH];
+        if (GetModuleFileNameEx(hProcess, hMods[i], szModName, MAX_PATH))
         {
             //QString str = QString::fromUtf16(szModName);
             //kDebug() << "Got module: " << str;
             //m_modules.push_back(QString::fromUtf16(szModName));
-            m_modules[QString::fromUtf16(szModName)] = hMods[i];
+            m_modules[szModName] = hMods[i];
         }
     }
 
