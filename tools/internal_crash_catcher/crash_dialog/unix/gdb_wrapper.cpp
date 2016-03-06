@@ -25,16 +25,22 @@ GDBWrapper::GDBWrapper(const QString& path):
 }
 
 
-bool GDBWrapper::attach(qint64 pid, qint64 tid, const QString& exec)
+bool GDBWrapper::init(qint64 pid, qint64 tid, const QString& exec)
 {
-    m_tmpFile.open();
-    m_tmpFile.write("set width 200\nthread\nthread apply all bt");
-    m_tmpFile.write("\n", 1);
-    m_tmpFile.flush();
+    const bool status = m_tmpFile.open();
 
-    m_pid = pid;
-    m_tid = tid;
-    m_exec = exec;
+    if (status)
+    {
+      m_tmpFile.write("set width 200\nthread\nthread apply all bt");
+      m_tmpFile.write("\n", 1);
+      m_tmpFile.flush();
+
+      m_pid = pid;
+      m_tid = tid;
+      m_exec = exec;
+    }
+
+    return status;
 }
 
 void GDBWrapper::requestBacktrace(const std::function<void(const std::vector<QString> &)>& callback)
@@ -54,6 +60,11 @@ void GDBWrapper::requestBacktrace(const std::function<void(const std::vector<QSt
     m_gdb.start(m_gdb_path, args);
 }
 
+
+const QString& GDBWrapper::exec() const
+{
+    return m_exec;
+}
 
 
 void GDBWrapper::gdbError(QProcess::ProcessError error)

@@ -22,6 +22,8 @@
 
 #include <functional>
 
+#include <QFileInfo>
+
 #include "idebugger.hpp"
 #include "ui_crash_dialog.h"
 
@@ -30,6 +32,18 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
 {
     ui = new Ui::CrashDialog;
     ui->setupUi(this);
+
+    const QFileInfo execInfo(debugger->exec());
+    const QString fileName = execInfo.fileName();
+
+    ui->crashLabel->setText( tr("Program %1 has crashed.\n"
+                                "Below you can find more technical details.\n"
+                                "It is also possible to send a bug report")
+                                .arg(fileName)
+    );
+
+    ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
+    ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ResetRole);
 
     using namespace std::placeholders;
 

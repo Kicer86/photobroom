@@ -4,10 +4,7 @@ find_package(Qt5Core REQUIRED)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(SRCS
-    catcher.hpp
-    crash_dialog_launcher.hpp
-)
+set(SRCS catcher.hpp)
 
 set(EXTRA_LIBRARIES)
 
@@ -18,9 +15,7 @@ if(WIN32)
     set(EXTRA_LIBRARIES ${DBGHELP_LIBRARIES})
     include_directories(${DBGHELP_INCLUDE_DIRS})
 
-    list(APPEND SRCS catcher_win32.cpp
-                     crash_dialog_launcher_win32.cpp
-                     crash_dialog_launcher_win32.hpp)
+    list(APPEND SRCS catcher_win32.cpp)
 
 elseif(UNIX)
 

@@ -1,4 +1,6 @@
 
+add_subdirectory(win32/kdbgwin)
+
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 
@@ -7,21 +9,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-
-if(DEVELOPER_BUILD)
-
-    add_definitions(-DDEVELOPER_BUILD)
-    add_custom_command(OUTPUT crash_dialog_config.hpp
-                       COMMAND config_generator
-                       ARGS -o crash_dialog_config.hpp
-                            --entry test_app_path=\\"$<TARGET_FILE:test_app>\\")
-
-    add_custom_target(crash_dialog_config
-                      DEPENDS crash_dialog_config.hpp)
-
-endif()
-
 
 set(HEADERS
     ui/crash_dialog.hpp
@@ -65,6 +52,19 @@ if(UNIX)
 
 else()
 
+    set(HEADERS ${HEADERS}
+        win32/kdbgwin_wrapper.hpp
+    )
+
+    set(SRCS ${SRCS}
+        win32/debugger_factory.cpp
+        win32/kdbgwin_wrapper.cpp
+    )
+
+    set(FILES_TO_MOC ${FILES_TO_MOC}
+        win32/kdbgwin_wrapper.hpp
+    )
+
 endif()
 
 
@@ -78,8 +78,3 @@ target_link_libraries(crash_dialog
 )
 
 install(TARGETS crash_dialog RUNTIME DESTINATION ${PATH_BIN})
-
-
-if(DEVELOPER_BUILD)
-    add_dependencies(crash_dialog crash_dialog_config)
-endif()
