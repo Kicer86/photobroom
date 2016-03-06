@@ -2,17 +2,58 @@
 #include "catcher.hpp"
 
 #include <cstdio>
+#include <iostream>
 
 #include <windows.h>
 #include <DbgHelp.h>
 
-#include "crash_dialog_launcher_win32.hpp"
+#include <QCoreApplication>
+#include <QDebug>
+#include <QProcess>
+#include <QStandardPaths>
+#include <QStringList>
+
 
 namespace
 {
+    QString crashDialog;
+
     void bt(EXCEPTION_POINTERS* ExInfo)
-    {
-        Catcher::launchDialog(ExInfo->ContextRecord);
+    {        
+        HANDLE hMapFile = CreateFileMapping(
+                           INVALID_HANDLE_VALUE,
+                           NULL,
+                           PAGE_READWRITE,
+                           0,
+                           sizeof(CONTEXT),
+                           TEXT("Local\\CrashCatherSharedMemory")
+                  );
+
+        LPVOID pBuf = MapViewOfFile(
+                           hMapFile,
+                           FILE_MAP_ALL_ACCESS,
+                           0,
+                           0,
+                           sizeof(CONTEXT)
+                      );
+
+        CopyMemory(pBuf, ExInfo->ContextRecord, sizeof(CONTEXT));
+
+        // launch dialog
+        const DWORD pid = GetCurrentProcessId();
+        const DWORD tid = GetCurrentThreadId();
+
+        QStringList args;
+
+        args << "--pid" << QString().number(pid);
+        args << "--tid" << QString().number(tid);
+        args << "--exec" << QCoreApplication::arguments().at(0);
+
+        qDebug().noquote() << "Crash catcher: executing:" << crashDialog << args;
+
+        QProcess::execute(crashDialog, args);
+
+        CloseHandle(hMapFile);
     }
 
 
@@ -60,9 +101,11 @@ namespace Catcher
 {
     void initialize()
     {
-        SetUnhandledExceptionFilter(sig_handler);
+        crashDialog = QStandardPaths::findExecutable("crash_dialog", { QCoreApplication::applicationDirPath() } );
 
-        int* a = nullptr;
-        volatile int b = *a;
+        if (crashDialog.isEmpty())
+            std::cerr << "Could not find crash_dialog exec" << std::endl;
+        else
+            SetUnhandledExceptionFilter(sig_handler);
     }
 }
