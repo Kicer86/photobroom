@@ -30,7 +30,10 @@
 #include <cxxabi.h>
 
 MingwGenerator::MingwGenerator(const Process& process)
-    : AbstractBTGenerator(process), file(NULL), func(NULL), line(0) 
+    : AbstractBTGenerator(process),
+      file(NULL),
+      func(NULL),
+      line(0)
 {}
 
 struct MyBFD
@@ -38,12 +41,23 @@ struct MyBFD
     QString module;
     bfd* abfd;
     asymbol** syms;
+
     MyBFD() : abfd(0), syms(0)
-    {}
+    {
+
+    }
+
     MyBFD(const QString& module, bfd* abfd, asymbol** syms)
-    { this->module = module; this->abfd = abfd; this->syms = syms; }
+    {
+        this->module = module;
+        this->abfd = abfd;
+        this->syms = syms;
+    }
+
     bool operator==(const MyBFD& other)
-    { return module == other.module; }
+    {
+        return module == other.module;
+    }
 };
 
 typedef QList<MyBFD> TBFDList;
@@ -63,25 +77,26 @@ void MingwGenerator::UnInit()
 
 void MingwGenerator::FrameChanged()
 {
-    QString modPath = GetModulePath();
+    const QString modPath = GetModulePath();
     bool existsSymbol = false;
-    TSymbolsMap::const_iterator i = m_symbolsMap.find(modPath);
+
+    const TSymbolsMap::const_iterator i = m_symbolsMap.find(modPath);
     if (i == m_symbolsMap.end())
-    {
         return;
-    }
-    MyBFD dummy(modPath, NULL, NULL);
-    int pos = bfds.indexOf(dummy);
+
+    const MyBFD dummy(modPath, NULL, NULL);
+    const int pos = bfds.indexOf(dummy);
     if (pos == -1)
-    {
         return;
-    }
-    MyBFD bfd = bfds[pos];
+
+    const MyBFD bfd = bfds[pos];
     text = bfd_get_section_by_name(bfd.abfd, ".text");
-    long offset = m_currentFrame.AddrPC.Offset - text->vma;
+    const long offset = m_currentFrame.AddrPC.Offset - text->vma;
+
     file = DEFAULT_FILE;
     func = DEFAULT_FUNC;
     line = DEFAULT_LINE;
+
     if (offset > 0)
     {
         bfd_find_nearest_line(bfd.abfd, text, bfd.syms, offset, &file, &func, (unsigned int*) &line);
