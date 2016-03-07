@@ -137,14 +137,17 @@ void MingwGenerator::LoadSymbol(const QString& module, DWORD64 dwBaseAddr)
     {
         bfd* abfd = bfd_openr(symbolFile.toLatin1(), NULL);
         if (abfd == NULL)
+            abfd = bfd_openr(module.toLatin1(), NULL);
+
+        if (abfd == NULL)
         {
-            symbolType = QString::fromLatin1("no symbols loaded");
+            symbolType = "no symbols loaded";
             break;
         }
         bfd_check_format(abfd, bfd_object);
         unsigned storage_needed = bfd_get_symtab_upper_bound(abfd);
-        assert(storage_needed > 4);
-        if (storage_needed <= 4)
+        assert(storage_needed >= 4);
+        if (storage_needed < 4)
         {
             // i don't know why the minimum value for this var is 4...
             symbolType = QString::fromLatin1("no symbols loaded");
