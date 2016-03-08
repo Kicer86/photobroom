@@ -80,6 +80,17 @@ void AbstractBTGenerator::Run(HANDLE hThread, bool bFaultingThread)
         return;
     }
 
+    if (bFaultingThread)
+    {
+        const QString threadInfo = QString("Faulting thread (%1)").arg( reinterpret_cast<quintptr>(hThread) );
+        emit DebugLine(threadInfo);
+    }
+    else
+    {
+        const QString threadInfo = QString("Thread %1").arg( reinterpret_cast<quintptr>(hThread) );
+        emit DebugLine(threadInfo);
+    }
+
     //HANDLE hFile = CreateFile(L"C:\\test\\test.dmp", FILE_ALL_ACCESS, FILE_SHARE_WRITE|FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
     //if (!MiniDumpWriteDump(m_process.GetHandle(), m_process.GetId(), hFile,
     //    MiniDumpNormal, NULL, NULL, NULL))
@@ -196,6 +207,8 @@ void AbstractBTGenerator::Run(HANDLE hThread, bool bFaultingThread)
     ResumeThread(hThread);
 
     SymCleanup(m_process.GetHandle());
+
+    emit DebugLine(QString());
 }
 
 bool AbstractBTGenerator::IsSymbolLoaded(const QString& module)
@@ -235,6 +248,6 @@ void AbstractBTGenerator::LoadSymbols()
             emit MissingSymbol(strModule);
         }
     }
-    emit DebugLine(QString());
+
     emit DebugLine(QString());
 }

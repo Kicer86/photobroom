@@ -1,5 +1,7 @@
 
-add_subdirectory(win32/kdbgwin)
+if(WIN32)
+    add_subdirectory(win32/kdbgwin)
+endif()
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
