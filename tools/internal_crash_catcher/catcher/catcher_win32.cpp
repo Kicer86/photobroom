@@ -13,6 +13,8 @@
 #include <QStandardPaths>
 #include <QStringList>
 
+#include "crash_dialog/win32/kdbgwin/config.h"
+
 
 namespace
 {
@@ -26,7 +28,7 @@ namespace
                            PAGE_READWRITE,
                            0,
                            sizeof(CONTEXT),
-                           TEXT("Local\\CrashCatherSharedMemory")
+                           TEXT(sharedMemoryName)
                   );
 
         LPVOID pBuf = MapViewOfFile(

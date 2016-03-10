@@ -1,7 +1,9 @@
 
 find_package(Qt5Core REQUIRED)
 
+include_directories(..)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SRCS catcher.hpp)
