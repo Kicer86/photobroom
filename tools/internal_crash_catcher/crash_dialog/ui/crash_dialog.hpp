@@ -47,6 +47,8 @@ class CrashDialog: public QDialog
         IDebugger* m_debugger;
 
         void backtrace(const std::vector<QString> &);
+        void report();
+        void run();
 };
 
 #endif // CRASH_DIALOG_HPP

@@ -23,11 +23,13 @@
 #include <functional>
 
 #include <QFileInfo>
+#include <QProcess>
+#include <QPushButton>
 
 #include "idebugger.hpp"
 #include "ui_crash_dialog.h"
 
-
+#include <QDebug>
 CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
 {
     ui = new Ui::CrashDialog;
@@ -42,8 +44,13 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
                                 .arg(fileName)
     );
 
-    ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
-    ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ResetRole);
+    QPushButton* closeButton = ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::RejectRole);
+    QPushButton* reportButton = ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
+    QPushButton* runButton = ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ResetRole);
+
+    connect(closeButton, &QPushButton::clicked, this, &QDialog::reject);
+    connect(reportButton, &QPushButton::clicked, this, &CrashDialog::report);
+    connect(runButton, &QPushButton::clicked, this, &CrashDialog::run);
 
     using namespace std::placeholders;
 
@@ -62,4 +69,17 @@ void CrashDialog::backtrace(const std::vector<QString>& bt)
 {
     for(const QString& line: bt)
         ui->plainTextEdit->appendPlainText(line);
+}
+
+
+void CrashDialog::report()
+{
+
+}
+
+
+void CrashDialog::run()
+{
+    QProcess::startDetached(m_debugger->exec());
+    accept();
 }
