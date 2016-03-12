@@ -44,11 +44,11 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
                                 .arg(fileName)
     );
 
-    QPushButton* closeButton = ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::RejectRole);
+    QPushButton* closeButton = ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::AcceptRole);
     QPushButton* reportButton = ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
-    QPushButton* runButton = ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ResetRole);
+    QPushButton* runButton = ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ActionRole);
 
-    connect(closeButton, &QPushButton::clicked, this, &QDialog::reject);
+    connect(closeButton, &QPushButton::clicked, this, &QDialog::accept);
     connect(reportButton, &QPushButton::clicked, this, &CrashDialog::report);
     connect(runButton, &QPushButton::clicked, this, &CrashDialog::run);
 
