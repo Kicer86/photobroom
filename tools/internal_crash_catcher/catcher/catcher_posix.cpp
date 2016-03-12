@@ -55,8 +55,10 @@ namespace
 
 namespace Catcher
 {
-    void initialize()
+    bool initialize()
     {
+        bool status = false;
+
         crashDialog = QStandardPaths::findExecutable("crash_dialog");
 
         if (crashDialog.isEmpty())
@@ -66,7 +68,7 @@ namespace Catcher
             QFileInfo fileInfo(crashDialog);
             crashDialog = fileInfo.absoluteFilePath();
 
-            bool status = true;
+            status = true;
 
             struct sigaction act;
             sigemptyset(&act.sa_mask);
@@ -78,9 +80,9 @@ namespace Catcher
             status &= sigaction(SIGILL, &act, 0) == 0;
             status &= sigaction(SIGABRT, &act, 0) == 0;
             status &= sigaction(SIGFPE, &act, 0) == 0;
-
-            assert(status);
         }
+
+        return status;
     }
 }
 

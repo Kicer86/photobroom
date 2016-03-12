@@ -2,7 +2,7 @@
 #include "crash_catcher.hpp"
 
 
-void CrashCatcher::internal_init()
+bool CrashCatcher::internal_init()
 {
-
+    return true;
 }

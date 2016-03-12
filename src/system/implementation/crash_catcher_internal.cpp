@@ -3,7 +3,7 @@
 
 #include "internal_crash_catcher/catcher/catcher.hpp"
 
-void CrashCatcher::internal_init()
+bool CrashCatcher::internal_init()
 {
-    Catcher::initialize();
+    return Catcher::initialize();
 }

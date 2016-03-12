@@ -6,7 +6,7 @@
 
 namespace Catcher
 {
-    CATCHER_EXPORT void initialize();
+    CATCHER_EXPORT bool initialize();
 }
 
 #endif

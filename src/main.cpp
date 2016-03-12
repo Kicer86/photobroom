@@ -25,8 +25,7 @@ int main(int argc, char **argv)
     std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
 
-    CrashCatcher::init(argv[0]);
-
+    const bool status = CrashCatcher::init(argv[0]);
     const QString basePath = System::getApplicationConfigDir() + "/logs";
 
     // build objects
@@ -46,6 +45,11 @@ int main(int argc, char **argv)
 
     ProjectManager prjManager;
     prjManager.set(&database_builder);
+
+    if (status)
+        logger_factory.get("CrashCatcher")->debug("Initialization successful");
+    else
+        logger_factory.get("CrashCatcher")->error("Initialization failed");
 
     // start gui
     gui.set(&prjManager);

@@ -7,11 +7,11 @@
 
 const char* CrashCatcher::app_name;
 
-void CrashCatcher::init(const char* name)
+bool CrashCatcher::init(const char* name)
 {
     app_name = name;
 
-    internal_init();
+    return internal_init();
 }
 
 

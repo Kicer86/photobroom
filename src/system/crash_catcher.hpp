@@ -12,13 +12,13 @@ class SYSTEM_EXPORT CrashCatcher
         ~CrashCatcher();
 
     public:
-        static void init(const char *);
+        static bool init(const char *);
         static const char* name();
 
     private:
         static const char* app_name;
 
-        static void internal_init();
+        static bool internal_init();
 };
 
 #endif
