@@ -29,7 +29,7 @@
 #include "idebugger.hpp"
 #include "ui_crash_dialog.h"
 
-#include <QDebug>
+
 CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
 {
     ui = new Ui::CrashDialog;
