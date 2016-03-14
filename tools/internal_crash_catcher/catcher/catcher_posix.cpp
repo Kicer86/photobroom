@@ -3,24 +3,26 @@
 
 #include <unistd.h>
 #include <sys/prctl.h>
+#include <sys/wait.h>
 
 #include <cassert>
 #include <csignal>
 #include <iostream>
 
 #include <QCoreApplication>
-#include <QDebug>
 #include <QFileInfo>
-#include <QProcess>
 #include <QStandardPaths>
 
 
 namespace
 {
-    QString crashDialog;
+    std::string crashDialog;
+    std::string app_path;
+    std::string app_pid;
 
     void sig_handler(int signo)
     {
+
         switch(signo)
         {
             case SIGSEGV:
@@ -29,26 +31,37 @@ namespace
             case SIGFPE:
             {
                 const pid_t pid = getpid();
-
                 prctl(PR_SET_PTRACER, pid, 0, 0, 0);
 
-                QStringList args;
+                sigset_t sigs;
+                sigaddset(&sigs, signo);
+                sigprocmask(SIG_UNBLOCK, &sigs, nullptr);
 
-                args << "-p" << QString().number(pid);
-                args << "-t" << "0";
-                args << "-e" << QCoreApplication::arguments().at(0);
+                const pid_t fp = fork();
 
-                qDebug().noquote() << "Crash catcher: executing:" << crashDialog << args;
+                if (fp == 0)
+                {
+                    fprintf(stderr, "Starting crash dialog (%s) for %s (%s)...\n", crashDialog.c_str(), app_path.c_str(), app_pid.c_str());
 
-                QProcess::execute(crashDialog, args);
+                    execl(crashDialog.c_str(), crashDialog.c_str(),
+                          "-p", app_pid.c_str(),
+                          "-t", "0",
+                          "-e", app_path.c_str(),
+                          nullptr
+                         );
+                }
+
+                waitpid(fp, nullptr, 0);
 
                 exit(1);
+
                 break;
             }
 
             default:
                 break;
         }
+
     }
 }
 
@@ -59,14 +72,18 @@ namespace Catcher
     {
         bool status = false;
 
-        crashDialog = QStandardPaths::findExecutable("crash_dialog");
+        const QString crashDialogExecutable = QStandardPaths::findExecutable("crash_dialog");
 
-        if (crashDialog.isEmpty())
+        if (crashDialogExecutable.isEmpty())
             std::cerr << "Could not find crash_dialog exec" << std::endl;
         else
         {
-            QFileInfo fileInfo(crashDialog);
-            crashDialog = fileInfo.absoluteFilePath();
+            const pid_t pid = getpid();
+            const QFileInfo fileInfo(crashDialogExecutable);
+
+            app_path = QCoreApplication::arguments().at(0).toStdString();
+            app_pid = std::to_string(pid);
+            crashDialog = fileInfo.absoluteFilePath().toStdString();
 
             status = true;
 
