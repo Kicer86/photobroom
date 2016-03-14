@@ -14,6 +14,9 @@
 #include <QStandardPaths>
 
 
+// http://stackoverflow.com/questions/35976496/sigactions-signal-handler-not-called-in-child-process/35976803
+// http://man7.org/linux/man-pages/man7/signal.7.html -> Async-signal-safe functions
+
 namespace
 {
     std::string crashDialog;
@@ -40,20 +43,16 @@ namespace
                 const pid_t fp = fork();
 
                 if (fp == 0)
-                {
-                    fprintf(stderr, "Starting crash dialog (%s) for %s (%s)...\n", crashDialog.c_str(), app_path.c_str(), app_pid.c_str());
-
                     execl(crashDialog.c_str(), crashDialog.c_str(),
                           "-p", app_pid.c_str(),
                           "-t", "0",
                           "-e", app_path.c_str(),
                           nullptr
                          );
-                }
 
                 waitpid(fp, nullptr, 0);
 
-                exit(1);
+                _exit(1);
 
                 break;
             }
