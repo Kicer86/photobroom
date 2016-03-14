@@ -22,8 +22,11 @@
 
 #include <functional>
 
+#include <QDesktopServices>
+#include <QDir>
 #include <QFileInfo>
 #include <QProcess>
+#include <QTextStream>
 #include <QPushButton>
 
 #include "idebugger.hpp"
@@ -74,7 +77,28 @@ void CrashDialog::backtrace(const std::vector<QString>& bt)
 
 void CrashDialog::report()
 {
+    const QString reportPath = QDir::tempPath() + "/photo_broom_crash_report.txt";
 
+    QFile reportFile(reportPath);
+    reportFile.open(QIODevice::WriteOnly);
+
+    QTextStream reportStream(&reportFile);
+    reportStream << ui->plainTextEdit->toPlainText();
+    reportStream.flush();
+
+    reportFile.close();
+
+    const QString email = "Kicer86@gmail.com";
+    const QString subject = "PhotoBroom crash report";
+    const QString message = "Report attached";
+
+    const QString url = QString("mailto:%1?subject=%2&body=%3&attachment=%4")
+                        .arg(email)
+                        .arg(subject)
+                        .arg(message)
+                        .arg(reportPath);
+
+    QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
 }
 
 
