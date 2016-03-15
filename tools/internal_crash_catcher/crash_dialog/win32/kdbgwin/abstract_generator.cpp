@@ -25,6 +25,7 @@
 
 #include "abstract_generator.h"
 #include "callbacks.h"
+#include "config.h"
 
 #include <QStringList>
 
@@ -125,7 +126,7 @@ void AbstractBTGenerator::Run(HANDLE hThread, bool bFaultingThread)
     else
     {
         // if it is, get it from KCrash
-        HANDLE hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, "Local\\CrashCatherSharedMemory");
+        HANDLE hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, sharedMemoryName);
         if (hMapFile == NULL)
         {
             qCritical() << "OpenFileMapping() failed: " << GetLastError();

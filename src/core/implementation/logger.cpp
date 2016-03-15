@@ -65,7 +65,7 @@ void Logger::log(ILogger::Severity severity, const std::string& message)
     assert(m_path.isEmpty() == false);
 
     const QString m = QString("%1: %2").arg(currentTime()).arg(message.c_str());
-    
+
     if (severity <= m_severity)
     {
         QTextStream fileStream(m_file);
@@ -133,7 +133,7 @@ QString Logger::currentTime() const
 {
     QTime now = QTime::currentTime();
     const QString timeStr = now.toString("HH:mm:ss:zzz");
-    
+
     return timeStr;
 }
 

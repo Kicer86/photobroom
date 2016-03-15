@@ -7,6 +7,7 @@ include_directories(SYSTEM
 
 set(kdbgwin_SRCS
     common.h
+    config.h
     main.cpp
     process.h
     process.cpp

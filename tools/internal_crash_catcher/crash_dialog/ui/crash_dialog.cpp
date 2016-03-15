@@ -22,7 +22,12 @@
 
 #include <functional>
 
+#include <QDesktopServices>
+#include <QDir>
 #include <QFileInfo>
+#include <QProcess>
+#include <QTextStream>
+#include <QPushButton>
 
 #include "idebugger.hpp"
 #include "ui_crash_dialog.h"
@@ -42,8 +47,13 @@ CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
                                 .arg(fileName)
     );
 
-    ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
-    ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ResetRole);
+    QPushButton* reportButton = ui->buttonBox->addButton(tr("Report"), QDialogButtonBox::ActionRole);
+    QPushButton* runButton = ui->buttonBox->addButton(tr("Run again"), QDialogButtonBox::ActionRole);
+    QPushButton* closeButton = ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::AcceptRole);
+
+    connect(closeButton, &QPushButton::clicked, this, &QDialog::accept);
+    connect(reportButton, &QPushButton::clicked, this, &CrashDialog::report);
+    connect(runButton, &QPushButton::clicked, this, &CrashDialog::run);
 
     using namespace std::placeholders;
 
@@ -62,4 +72,38 @@ void CrashDialog::backtrace(const std::vector<QString>& bt)
 {
     for(const QString& line: bt)
         ui->plainTextEdit->appendPlainText(line);
+}
+
+
+void CrashDialog::report()
+{
+    const QString reportPath = QDir::tempPath() + "/photo_broom_crash_report.txt";
+
+    QFile reportFile(reportPath);
+    reportFile.open(QIODevice::WriteOnly);
+
+    QTextStream reportStream(&reportFile);
+    reportStream << ui->plainTextEdit->toPlainText();
+    reportStream.flush();
+
+    reportFile.close();
+
+    const QString email = "Kicer86@gmail.com";
+    const QString subject = "PhotoBroom crash report";
+    const QString message = "Report attached";
+
+    const QString url = QString("mailto:%1?subject=%2&body=%3&attachment=%4")
+                        .arg(email)
+                        .arg(subject)
+                        .arg(message)
+                        .arg(reportPath);
+
+    QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
+}
+
+
+void CrashDialog::run()
+{
+    QProcess::startDetached(m_debugger->exec());
+    accept();
 }

@@ -13,20 +13,22 @@
 #include <QStandardPaths>
 #include <QStringList>
 
+#include "crash_dialog/win32/kdbgwin/config.h"
+
 
 namespace
 {
     QString crashDialog;
 
     void bt(EXCEPTION_POINTERS* ExInfo)
-    {        
+    {
         HANDLE hMapFile = CreateFileMapping(
                            INVALID_HANDLE_VALUE,
                            NULL,
                            PAGE_READWRITE,
                            0,
                            sizeof(CONTEXT),
-                           TEXT("Local\\CrashCatherSharedMemory")
+                           TEXT(sharedMemoryName)
                   );
 
         LPVOID pBuf = MapViewOfFile(
@@ -99,13 +101,20 @@ namespace
 
 namespace Catcher
 {
-    void initialize()
+    bool initialize()
     {
+        bool status = false;
+
         crashDialog = QStandardPaths::findExecutable("crash_dialog", { QCoreApplication::applicationDirPath() } );
 
         if (crashDialog.isEmpty())
             std::cerr << "Could not find crash_dialog exec" << std::endl;
         else
+        {
             SetUnhandledExceptionFilter(sig_handler);
+            status = true;
+        }
+
+        return status;
     }
 }

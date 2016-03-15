@@ -3,24 +3,29 @@
 
 #include <unistd.h>
 #include <sys/prctl.h>
+#include <sys/wait.h>
 
 #include <cassert>
 #include <csignal>
 #include <iostream>
 
 #include <QCoreApplication>
-#include <QDebug>
 #include <QFileInfo>
-#include <QProcess>
 #include <QStandardPaths>
 
 
+// http://stackoverflow.com/questions/35976496/sigactions-signal-handler-not-called-in-child-process/35976803
+// http://man7.org/linux/man-pages/man7/signal.7.html -> Async-signal-safe functions
+
 namespace
 {
-    QString crashDialog;
+    std::string crashDialog;
+    std::string app_path;
+    std::string app_pid;
 
     void sig_handler(int signo)
     {
+
         switch(signo)
         {
             case SIGSEGV:
@@ -29,44 +34,57 @@ namespace
             case SIGFPE:
             {
                 const pid_t pid = getpid();
-
                 prctl(PR_SET_PTRACER, pid, 0, 0, 0);
 
-                QStringList args;
+                sigset_t sigs;
+                sigaddset(&sigs, signo);
+                sigprocmask(SIG_UNBLOCK, &sigs, nullptr);
 
-                args << "-p" << QString().number(pid);
-                args << "-t" << "0";
-                args << "-e" << QCoreApplication::arguments().at(0);
+                const pid_t fp = fork();
 
-                qDebug().noquote() << "Crash catcher: executing:" << crashDialog << args;
+                if (fp == 0)
+                    execl(crashDialog.c_str(), crashDialog.c_str(),
+                          "-p", app_pid.c_str(),
+                          "-t", "0",
+                          "-e", app_path.c_str(),
+                          nullptr
+                         );
 
-                QProcess::execute(crashDialog, args);
+                waitpid(fp, nullptr, 0);
 
-                exit(1);
+                _exit(1);
+
                 break;
             }
 
             default:
                 break;
         }
+
     }
 }
 
 
 namespace Catcher
 {
-    void initialize()
+    bool initialize()
     {
-        crashDialog = QStandardPaths::findExecutable("crash_dialog");
+        bool status = false;
 
-        if (crashDialog.isEmpty())
+        const QString crashDialogExecutable = QStandardPaths::findExecutable("crash_dialog");
+
+        if (crashDialogExecutable.isEmpty())
             std::cerr << "Could not find crash_dialog exec" << std::endl;
         else
         {
-            QFileInfo fileInfo(crashDialog);
-            crashDialog = fileInfo.absoluteFilePath();
+            const pid_t pid = getpid();
+            const QFileInfo fileInfo(crashDialogExecutable);
 
-            bool status = true;
+            app_path = QCoreApplication::arguments().at(0).toStdString();
+            app_pid = std::to_string(pid);
+            crashDialog = fileInfo.absoluteFilePath().toStdString();
+
+            status = true;
 
             struct sigaction act;
             sigemptyset(&act.sa_mask);
@@ -78,9 +96,9 @@ namespace Catcher
             status &= sigaction(SIGILL, &act, 0) == 0;
             status &= sigaction(SIGABRT, &act, 0) == 0;
             status &= sigaction(SIGFPE, &act, 0) == 0;
-
-            assert(status);
         }
+
+        return status;
     }
 }
 
