@@ -38,9 +38,6 @@ IconsLoader::~IconsLoader()
 
 QIcon IconsLoader::getIcon(Icon icon) const
 {
-
-
-
     QIcon result;
     QStyle* style = QApplication::style();
 

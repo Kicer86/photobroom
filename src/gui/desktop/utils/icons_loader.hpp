@@ -59,12 +59,12 @@ class IconsLoader
         {
             { Icon::New,      {"document-new",        QStyle::SP_FileIcon}                 },
             { Icon::Open,     {"document-open",       QStyle::SP_DirOpenIcon}              },
-            { Icon::Quit,     {"application-exit",    QStyle::SP_DialogCloseButton}        },
+            { Icon::Quit,     {"application-exit",    QStyle::SP_CustomBase}               },
             { Icon::Close,    {"window-close",        QStyle::SP_DialogCloseButton}        },
             { Icon::Settings, {"applications-system", QStyle::SP_CustomBase}               },
-            { Icon::Help,     {"help-contents",       QStyle::QStyle::SP_DialogHelpButton} },
-            { Icon::About,    {"help-about",          QStyle::QStyle::SP_DialogHelpButton} },
-            { Icon::AboutQt,  {"help-about",          QStyle::QStyle::SP_DialogHelpButton} },
+            { Icon::Help,     {"help-contents",       QStyle::SP_DialogHelpButton}         },
+            { Icon::About,    {"help-about",          QStyle::SP_CustomBase}               },
+            { Icon::AboutQt,  {"help-about",          QStyle::SP_CustomBase}               },
         };
 };
 

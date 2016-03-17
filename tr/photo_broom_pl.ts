@@ -143,12 +143,11 @@
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+29"/>
         <source>Photo &amp;information</source>
-        <translation>&amp;Informacje o zdjęciu</translation>
+        <translation type="vanished">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="-36"/>
+        <location line="-7"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -163,9 +162,18 @@
         <translation>&amp;Widok</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>&amp;Tasks</source>
-        <translation>&amp;Operacje</translation>
+        <translation type="vanished">&amp;Operacje</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Photo information</source>
+        <translation>Informacje o zdjęciu</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Tasks</source>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
