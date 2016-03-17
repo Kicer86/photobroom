@@ -168,12 +168,12 @@
     <message>
         <location line="+14"/>
         <source>Photo information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
