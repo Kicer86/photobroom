@@ -27,6 +27,18 @@
         <source>exec path</source>
         <translation>ścieżka pliku wykonywalnego</translation>
     </message>
+    <message>
+        <source>--pid option is required.</source>
+        <translation>opcja --pid jest wymagana.</translation>
+    </message>
+    <message>
+        <source>--tid option is required.</source>
+        <translation>opcja --tid jest wymagana.</translation>
+    </message>
+    <message>
+        <source>--exec option is required.</source>
+        <translation>opcja --exec jest wymagana.</translation>
+    </message>
 </context>
 <context>
     <name>CrashDialog</name>
