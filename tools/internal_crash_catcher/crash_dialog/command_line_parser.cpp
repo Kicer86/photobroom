@@ -54,11 +54,11 @@ CommandLineParser::CommandLineParser(const QCoreApplication& app): m_error(), m_
     const QString exec = parser.value(execOption);
 
     if (pid.isEmpty())
-        m_error = "--pid option is required.";
+        m_error = QCoreApplication::translate("CommandLineParser", "--pid option is required.");
     else if (tid.isEmpty())
-        m_error = "--tid option is required.";
+        m_error = QCoreApplication::translate("CommandLineParser", "--tid option is required.");
     else if (exec.isEmpty())
-        m_error = "--exec option is required.";
+        m_error = QCoreApplication::translate("CommandLineParser", "--exec option is required.");
     else
     {
         m_pid = pid.toLong();

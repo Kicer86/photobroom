@@ -5,6 +5,9 @@
 #include <string>
 
 #include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+#include <QTimer>
 
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
@@ -27,6 +30,25 @@ int main(int argc, char **argv)
 
     const bool status = CrashCatcher::init(argv[0]);
     const QString basePath = System::getApplicationConfigDir() + "/logs";
+
+    // perform command line parsing
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption crashTestOption("test-crash-catcher", "When specified, photo_broom will crash 3 seconds after being launch");
+    parser.addOption(crashTestOption);
+
+    parser.process(*app);
+
+    const bool enableCrashTest = parser.isSet(crashTestOption);
+    if (enableCrashTest)
+        QTimer::singleShot(3000, []
+        {
+            int* ptr = nullptr;
+            volatile int v = *ptr;
+        });
+
 
     // build objects
     LoggerFactory logger_factory(basePath);
