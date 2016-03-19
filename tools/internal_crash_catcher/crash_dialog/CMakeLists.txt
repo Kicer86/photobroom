@@ -6,6 +6,7 @@ endif()
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 
+include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
 )
@@ -75,6 +76,7 @@ qt5_wrap_ui(WRAPPED_UI ${UI_FILES})
 
 add_executable(crash_dialog ${SRCS} ${HEADERS} ${WRAPPED_CPP} ${WRAPPED_UI})
 target_link_libraries(crash_dialog
+                        system
                         Qt5::Core
                         Qt5::Widgets
 )
