@@ -33,9 +33,9 @@ namespace
         return o << "[width: " << s.width () << "; height: " << s.height() << "]";
     }
 
-    constexpr QPoint invalidPosition(-1, -1);
-    constexpr QSize  invalidSize(0, 0);
-    constexpr QRect  invalidRect(invalidPosition, invalidSize);
+    const QPoint invalidPosition(-1, -1);
+    const QSize  invalidSize(0, 0);
+    const QRect  invalidRect(invalidPosition, invalidSize);
 }
 
 

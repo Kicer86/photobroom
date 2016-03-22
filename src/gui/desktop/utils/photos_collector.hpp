@@ -20,6 +20,7 @@
 #ifndef PHOTOSCOLLECTOR_HPP
 #define PHOTOSCOLLECTOR_HPP
 
+#include <functional>
 #include <memory>
 
 #include <QObject>
