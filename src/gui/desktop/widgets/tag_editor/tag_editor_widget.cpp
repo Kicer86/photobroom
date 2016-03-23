@@ -104,7 +104,7 @@ void TagEditorWidget::setTagValueWidget(size_t idx)
     assert(idx < m_tags.size());
     const TagNameInfo& name = m_tags[idx];
 
-    QVariant::Type type;
+    QVariant::Type type = QVariant::Invalid;
     auto tagType = name.getType();
 
     switch(tagType)
