@@ -403,7 +403,7 @@ namespace
 
             if (photoPtr.get() == nullptr)
             {
-                Photo::Data photoData = m_backend->getPhoto(id);
+                const Photo::Data photoData = m_backend->getPhoto(id);
 
                 photoPtr = std::make_shared<PhotoInfo>(photoData);
 
