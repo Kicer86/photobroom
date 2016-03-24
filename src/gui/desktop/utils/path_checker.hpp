@@ -54,7 +54,7 @@ class PathChecker: public QObject
         void gotPhotos(const QString &, const IPhotoInfo::List &);
 
     signals:
-        void fileChecked(const QString &, bool);
+        void fileChecked(const QString &, Photo::Id);
 };
 
 #endif // PATHCHECKER_HPP

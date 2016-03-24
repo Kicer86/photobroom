@@ -23,6 +23,10 @@
 #include <memory>
 #include <mutex>
 
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/member.hpp>
+
 #include <database/iphoto_info.hpp>
 
 #include "image_list_model.hpp"
@@ -56,17 +60,32 @@ class DecoratedImageListModel: public ImageListModel
         static constexpr int InDatabaseRole = Qt::UserRole + 1;
 
     private:
+        struct PathInfo
+        {
+            QString   path;
+            Photo::Id id;
+        };
+
+        typedef boost::multi_index::multi_index_container<
+            PathInfo,
+            boost::multi_index::indexed_by<
+                boost::multi_index::ordered_unique<boost::multi_index::member<PathInfo, QString, &PathInfo::path> >,
+                boost::multi_index::ordered_non_unique<boost::multi_index::member<PathInfo, Photo::Id, &PathInfo::id> >
+            >
+        > PathInfoContainer;
+
         std::unique_ptr<PathChecker> m_pathChecker;
-        std::map<QString, bool> m_in_db;
+        PathInfoContainer m_in_db;
         mutable std::mutex m_in_db_mutex;
 
         void photoChanged(const IPhotoInfo::Ptr &);
+        void photoChanged(const QString &);
 
-        void gotPathInfo(const QString &, bool);
+        void gotPathInfo(const QString &, const Photo::Id &);
 
         void photoAdded(const IPhotoInfo::Ptr &);
-        void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
-        void photoRemoved(const IPhotoInfo::Ptr &);
+        void photosRemoved(const std::deque<Photo::Id> &);
+        void photoRemoved(const Photo::Id &);
 };
 
 #endif // DECORATEDIMAGELISTMODEL_HPP

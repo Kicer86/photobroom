@@ -870,7 +870,8 @@ void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
 {
     IdxData* photoIdxData = findIdxDataFor(photoInfo);
 
-    performRemove(photoIdxData);
+    if (photoIdxData)
+        performRemove(photoIdxData);
 }
 
 

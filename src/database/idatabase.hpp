@@ -54,7 +54,7 @@ namespace Database
         signals:
             void photoAdded(const IPhotoInfo::Ptr &);                // emited when new photo was added to database
             void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
-            void photosRemoved(const std::deque<IPhotoInfo::Ptr> &); // emmited after photos removal
+            void photosRemoved(const std::deque<Photo::Id> &);       // emmited after photos removal
     };
 
     struct DATABASE_EXPORT AStorePhotoTask
@@ -110,7 +110,7 @@ namespace Database
     {
         virtual ~ADropPhotosTask();
 
-        virtual void got(const std::deque<IPhotoInfo::Ptr> &) = 0;
+        virtual void got(const std::deque<Photo::Id> &) = 0;
     };
 
     struct DATABASE_EXPORT AInitTask

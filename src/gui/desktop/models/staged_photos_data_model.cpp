@@ -34,7 +34,7 @@ namespace
 
     struct DropPhotosTask: Database::ADropPhotosTask
     {
-        void got(const std::deque<IPhotoInfo::Ptr> &) override
+        void got(const std::deque<Photo::Id> &) override
         {
 
         }
