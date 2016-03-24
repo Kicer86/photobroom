@@ -47,7 +47,7 @@ void DecoratedImageListModel::insert(const QString& path)
 void DecoratedImageListModel::setDatabase(Database::IDatabase* db)
 {
     m_pathChecker->set(db);
-
+    
     auto notifier = db->notifier();
     connect(notifier, &Database::ADatabaseSignals::photoAdded, this, &DecoratedImageListModel::photoAdded);
     connect(notifier, &Database::ADatabaseSignals::photosRemoved, this, &DecoratedImageListModel::photosRemoved);
