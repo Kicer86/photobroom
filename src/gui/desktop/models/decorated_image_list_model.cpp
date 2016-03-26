@@ -89,10 +89,9 @@ Qt::ItemFlags DecoratedImageListModel::flags(const QModelIndex& index) const
     std::lock_guard<std::mutex> lock(m_in_db_mutex);
     auto f_it = m_in_db.find(path);
 
-    assert(f_it != m_in_db.end());
-    const bool exists = f_it->id.valid();
+    const bool not_selectable = f_it == m_in_db.end() || f_it->id.valid();
 
-    if (exists)
+    if (not_selectable)
         flags = flags & ~Qt::ItemIsSelectable;
 
     return flags;
