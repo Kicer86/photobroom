@@ -369,16 +369,10 @@ namespace
         virtual void visit(DropPhotosTask* task) override
         {
             auto photos = m_backend->dropPhotos(task->m_filter);
-            IPhotoInfo::List photosList;
 
-            for(const Photo::Id& id: photos)
-                photosList.push_back(getPhotoFor(id));
+            task->m_task->got(photos);
 
-            task->m_task->got(photosList);
-
-            emit photosRemoved(photosList);
-
-
+            emit photosRemoved(photos);
         }
 
         void begin()
@@ -403,7 +397,7 @@ namespace
 
             if (photoPtr.get() == nullptr)
             {
-                Photo::Data photoData = m_backend->getPhoto(id);
+                const Photo::Data photoData = m_backend->getPhoto(id);
 
                 photoPtr = std::make_shared<PhotoInfo>(photoData);
 

@@ -21,7 +21,7 @@ endif()
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports .)
+include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${JSONCPP_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

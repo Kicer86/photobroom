@@ -47,7 +47,7 @@ void DecoratedImageListModel::insert(const QString& path)
 void DecoratedImageListModel::setDatabase(Database::IDatabase* db)
 {
     m_pathChecker->set(db);
-
+    
     auto notifier = db->notifier();
     connect(notifier, &Database::ADatabaseSignals::photoAdded, this, &DecoratedImageListModel::photoAdded);
     connect(notifier, &Database::ADatabaseSignals::photosRemoved, this, &DecoratedImageListModel::photosRemoved);
@@ -71,7 +71,7 @@ QVariant DecoratedImageListModel::data(const QModelIndex& index, int role) const
             m_pathChecker->checkFile(path);
         }
         else
-            result = it->second? ExistsInDatabase::Yes: ExistsInDatabase::No;
+            result = it->id.valid()? ExistsInDatabase::Yes: ExistsInDatabase::No;
     }
     else
         result = ImageListModel::data(index, role);
@@ -89,10 +89,9 @@ Qt::ItemFlags DecoratedImageListModel::flags(const QModelIndex& index) const
     std::lock_guard<std::mutex> lock(m_in_db_mutex);
     auto f_it = m_in_db.find(path);
 
-    assert(f_it != m_in_db.end());
-    const bool exists = f_it->second;
+    const bool not_selectable = f_it == m_in_db.end() || f_it->id.valid();
 
-    if (exists)
+    if (not_selectable)
         flags = flags & ~Qt::ItemIsSelectable;
 
     return flags;
@@ -101,42 +100,55 @@ Qt::ItemFlags DecoratedImageListModel::flags(const QModelIndex& index) const
 
 void DecoratedImageListModel::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 {
-    const QModelIndex idx = get(photoInfo->getPath());
+    photoChanged(photoInfo->getPath());
+}
+
+
+void DecoratedImageListModel::photoChanged(const QString& path)
+{
+    const QModelIndex idx = get(path);
 
     if (idx.isValid())
         emit dataChanged(idx, idx, {InDatabaseRole} );
 }
 
 
-void DecoratedImageListModel::gotPathInfo(const QString& path, bool exists)
+void DecoratedImageListModel::gotPathInfo(const QString& path, const Photo::Id& id)
 {
     std::lock_guard<std::mutex> lock(m_in_db_mutex);
-    m_in_db[path] = exists;
+
+    PathInfo info = {path, id};
+
+    m_in_db.insert(info);
 }
 
 
 void DecoratedImageListModel::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 {
-    const QString path = photoInfo->getPath();
+    PathInfo info = {photoInfo->getPath(), photoInfo->getID()};
 
-    m_in_db[path] = true;
+    m_in_db_mutex.lock();
+    m_in_db.insert(info);
+    m_in_db_mutex.unlock();
 
     photoChanged(photoInfo);
 }
 
 
-void DecoratedImageListModel::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
+void DecoratedImageListModel::photosRemoved(const std::deque<Photo::Id>& photos)
 {
-    for(const IPhotoInfo::Ptr& photoInfo: photos)
-        photoRemoved(photoInfo);
+    for(const Photo::Id& photoId: photos)
+        photoRemoved(photoId);
 }
 
 
-void DecoratedImageListModel::photoRemoved(const IPhotoInfo::Ptr& photoInfo)
+void DecoratedImageListModel::photoRemoved(const Photo::Id& id)
 {
-    const QString path = photoInfo->getPath();
+    auto it = m_in_db.get<1>().find(id);
+    const QString path = it->path;
 
-    m_in_db[path] = false;
+    PathInfo info = { path, Photo::Id() };
+    m_in_db.get<1>().replace(it,info);
 
-    photoChanged(photoInfo);
+    photoChanged(path);
 }

@@ -82,7 +82,13 @@ void PathChecker::checkFile(const QString& path)
 
 void PathChecker::gotPhotos(const QString& path, const IPhotoInfo::List& photos)
 {
-    const bool exist = photos.empty() == false;
+    Photo::Id id;
 
-    emit fileChecked(path, exist);
+    if (photos.empty() == false)
+    {
+        assert(photos.size() == 1);
+        id = photos.front()->getID();
+    }
+
+    emit fileChecked(path, id);
 }

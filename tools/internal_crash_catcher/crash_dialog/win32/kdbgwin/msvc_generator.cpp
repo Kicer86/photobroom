@@ -50,7 +50,7 @@ QString MsvcGenerator::GetFunctionName()
 
     if (!SymFromAddr(m_process.GetHandle(), m_currentFrame.AddrPC.Offset, &dwDisplacement, symbol))
     {
-        kError() << "SymFromAddr() failed: " << GetLastError();
+        qCritical() << "SymFromAddr() failed: " << GetLastError();
         return QString::fromLatin1(DEFAULT_FUNC);
     }
 
@@ -58,7 +58,7 @@ QString MsvcGenerator::GetFunctionName()
     if (!UnDecorateSymbolName(symbol->Name, undecoratedName, MAX_PATH, UNDNAME_COMPLETE))
     {
         // if this fails, show the decorated name anyway, don't fail
-        kError() << "UnDecorateSymbolName() failed: " << GetLastError();
+		qCritical() << "UnDecorateSymbolName() failed: " << GetLastError();
         return QString::fromLatin1(symbol->Name);
     }
 
@@ -74,7 +74,7 @@ QString MsvcGenerator::GetFile()
 
     if (!SymGetLineFromAddr64(m_process.GetHandle(), m_currentFrame.AddrPC.Offset, &dwDisplacement, &line))
     {
-        kError() << "SymGetLineFromAddr64 failed: " << GetLastError();
+		qCritical() << "SymGetLineFromAddr64 failed: " << GetLastError();
         return QString::fromLatin1(DEFAULT_FILE);
     }
 

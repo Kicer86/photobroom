@@ -6,12 +6,14 @@ find_package(OpenLibrary REQUIRED putils)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/
+include_directories(${CMAKE_BINARY_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/gui
                     ${CMAKE_SOURCE_DIR}/src/gui/desktop
-                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>)
+                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:gui_models,INTERFACE_INCLUDE_DIRECTORIES>
+)
 
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}

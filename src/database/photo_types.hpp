@@ -2,10 +2,12 @@
 #ifndef PHOTO_TYPES_HPP
 #define PHOTO_TYPES_HPP
 
-#include <string>
+#include <deque>
 #include <map>
+#include <string>
 
 #include <QByteArray>
+#include <QMetaType>
 
 #include "database_export.h"
 
@@ -50,6 +52,10 @@ namespace Photo
             return std::hash<Id::type>()(key.value());
         }
     };
+
 }
+
+Q_DECLARE_METATYPE(Photo::Id)
+Q_DECLARE_METATYPE(std::deque<Photo::Id>)
 
 #endif
