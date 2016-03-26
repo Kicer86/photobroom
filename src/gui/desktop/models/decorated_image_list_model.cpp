@@ -126,11 +126,11 @@ void DecoratedImageListModel::gotPathInfo(const QString& path, const Photo::Id& 
 
 void DecoratedImageListModel::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 {
-    std::lock_guard<std::mutex> lock(m_in_db_mutex);
-
     PathInfo info = {photoInfo->getPath(), photoInfo->getID()};
 
+    m_in_db_mutex.lock();
     m_in_db.insert(info);
+    m_in_db_mutex.unlock();
 
     photoChanged(photoInfo);
 }
