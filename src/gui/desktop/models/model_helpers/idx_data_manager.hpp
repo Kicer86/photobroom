@@ -110,6 +110,7 @@ private:
     IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
     IdxData* createAncestry(const IPhotoInfo::Ptr &);                            //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
+    IdxData* findIdxDataFor(const Photo::Id &);
     IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo if could be created
     void removeChildren(IdxData *);                                              // remove all children
@@ -117,6 +118,7 @@ private:
     void performMove(IdxData* item, IdxData* from, IdxData* to);
     void performRemoveChildren(IdxData *);
     void performRemove(const IPhotoInfo::Ptr &);
+    void performRemove(const Photo::Id &);
     void performRemove(IdxData *);
     void performAdd(const IPhotoInfo::Ptr &, IdxData *);
     void performAdd(IdxData* parent, IdxData* item);
@@ -136,7 +138,7 @@ private slots:
     // database notifications
     void photoChanged(const IPhotoInfo::Ptr &);
     void photoAdded(const IPhotoInfo::Ptr &);
-    void photosRemoved(const std::deque<IPhotoInfo::Ptr> &);
+    void photosRemoved(const std::deque<Photo::Id> &);
     //
 };
 

@@ -239,10 +239,9 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
     if (database != nullptr)
     {
-        connect(m_data->m_database->notifier(), SIGNAL(photoModified(IPhotoInfo::Ptr)), this, SLOT(photoChanged(IPhotoInfo::Ptr)));
-        connect(m_data->m_database->notifier(), SIGNAL(photoAdded(IPhotoInfo::Ptr)),    this, SLOT(photoAdded(IPhotoInfo::Ptr)));
-        connect(m_data->m_database->notifier(), SIGNAL(photosRemoved(const std::deque<IPhotoInfo::Ptr> &)),
-                this, SLOT(photosRemoved(const std::deque<IPhotoInfo::Ptr>& ) ) );
+        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &IdxDataManager::photoChanged);
+        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photoAdded,    this, &IdxDataManager::photoAdded);
+        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photosRemoved, this, &IdxDataManager::photosRemoved);
     }
 
     resetModel();
@@ -726,6 +725,14 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
 IdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
 {
     const Photo::Id id = photoInfo->getID();
+    IdxData* result = findIdxDataFor(id);
+
+    return result;
+}
+
+
+IdxData* IdxDataManager::findIdxDataFor(const Photo::Id& id)
+{
     auto photosMap = m_data->m_photoId2IdxData.lock();
     auto it = photosMap->find(id);
     IdxData* result = nullptr;
@@ -870,7 +877,14 @@ void IdxDataManager::performRemoveChildren(IdxData* parent)
 
 void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
 {
-    IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    const Photo::Id& id = photoInfo->getID();
+    performRemove(id);
+}
+
+
+void IdxDataManager::performRemove(const Photo::Id& id)
+{
+    IdxData* photoIdxData = findIdxDataFor(id);
 
     if (photoIdxData)
         performRemove(photoIdxData);
@@ -1024,17 +1038,12 @@ void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-void IdxDataManager::photosRemoved(const std::deque<IPhotoInfo::Ptr>& photos)
+void IdxDataManager::photosRemoved(const std::deque<Photo::Id>& photos)
 {
     PhotosMatcher matcher;
     matcher.set(this);
     matcher.set(m_data->m_model);
 
-    for(const IPhotoInfo::Ptr& photo: photos)
-    {
-        const bool match = matcher.doesMatchModelFilters(photo);
-
-        if (match)
-            performRemove(photo);
-    }
+    for(const Photo::Id& id: photos)
+        performRemove(id);
 }
