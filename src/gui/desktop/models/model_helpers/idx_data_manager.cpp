@@ -163,6 +163,8 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
     qRegisterMetaType<std::deque<IPhotoInfo::Ptr>>("std::deque<IPhotoInfo::Ptr>");
+    qRegisterMetaType<Photo::Id>();
+    qRegisterMetaType<std::deque<Photo::Id>>();
 
     //used for transferring event from working thread to main one
     connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
