@@ -36,6 +36,11 @@
 #include "idxdata_deepfetcher.hpp"
 #include "photos_matcher.hpp"
 
+
+Q_DECLARE_METATYPE(std::shared_ptr<std::deque<IdxData *>>)
+Q_DECLARE_METATYPE(std::deque<IPhotoInfo::Ptr>)
+
+
 namespace
 {
 
@@ -160,9 +165,9 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 
     setHierarchy(hierarchy);
 
-    qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >("std::shared_ptr<std::deque<IdxData *>>");
+    qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >();
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
-    qRegisterMetaType<std::deque<IPhotoInfo::Ptr>>("std::deque<IPhotoInfo::Ptr>");
+    qRegisterMetaType<std::deque<IPhotoInfo::Ptr>>();
     qRegisterMetaType<Photo::Id>();
     qRegisterMetaType<std::deque<Photo::Id>>();
 

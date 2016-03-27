@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler)
 {
-    qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus ");
+    qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
 
     ui->setupUi(this);

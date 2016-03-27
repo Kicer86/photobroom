@@ -40,7 +40,7 @@
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+968"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+973"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -441,7 +441,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+62"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+61"/>
         <source>Photo collection creator</source>
         <translation>Tworzenie kolekcji zdjęć</translation>
     </message>

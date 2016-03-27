@@ -38,7 +38,6 @@
 #include <plugins/iplugin_loader.hpp>
 #include <project_utils/iproject_manager.hpp>
 
-Q_DECLARE_METATYPE(Database::IPlugin *)
 
 namespace
 {
