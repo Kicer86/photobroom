@@ -115,6 +115,11 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     connect(m_prjName, &QLineEdit::textChanged, this, &ProjectCreatorDialog::updateButtons);
 
     updateButtons();
+
+    // TODO: temporary (?) removal of some complex optios
+    dbEngine->hide();
+    m_engines->hide();
+    m_engineOptions->hide();
 }
 
 
