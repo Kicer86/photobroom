@@ -33,6 +33,7 @@
 #include <QStackedLayout>
 #include <QString>
 
+#include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
 #include <database/idatabase_plugin.hpp>
 #include <plugins/iplugin_loader.hpp>
@@ -82,6 +83,18 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     //storage options
     m_engineOptions = new QGroupBox(tr("Engine options"));
 
+    // photos location
+    QGroupBox* locationGroup = new QGroupBox(tr("Photos location"));
+    QVBoxLayout* locationLayout = new QVBoxLayout(locationGroup);
+    QLabel* locationInfo = new QLabel(tr("Photos location is place where your photos collection will be stored.\nLocation may already contain photos which will be added to collection."));
+    QtExtChooseFile* browser = new QtExtChooseFile(tr("Location"), tr("Browse"), [this]
+    {
+        return QFileDialog::getExistingDirectory(this, tr("Photos location"));
+    });
+
+    locationLayout->addWidget(locationInfo);
+    locationLayout->addWidget(browser);
+
     //default buttons
     QDialogButtonBox* defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
@@ -92,6 +105,7 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     mainLayout->addLayout(prjNameLayout);
     mainLayout->addLayout(dbEngineLayout);
     mainLayout->addWidget(m_engineOptions);
+    mainLayout->addWidget(locationGroup);
     mainLayout->addStretch();
     mainLayout->addWidget(defaultButtons);
 }
