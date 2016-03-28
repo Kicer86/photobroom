@@ -28,6 +28,9 @@ class QComboBox;
 class QtExtChooseFile;
 class QLineEdit;
 class QGroupBox;
+class QDialogButtonBox;
+
+class QtExtChooseFile;
 
 struct IPluginLoader;
 struct IProjectManager;
@@ -40,7 +43,7 @@ namespace Database
 class ProjectCreatorDialog: public QDialog
 {
         Q_OBJECT
-    
+
     public:
         ProjectCreatorDialog();
         ProjectCreatorDialog(const ProjectCreatorDialog& other) = delete;
@@ -59,10 +62,15 @@ class ProjectCreatorDialog: public QDialog
         QLineEdit* m_prjName;
         QComboBox* m_engines;
         QGroupBox* m_engineOptions;
+        QtExtChooseFile* m_location;
+        QDialogButtonBox* m_defaultButtons;
         IPluginLoader* m_pluginLoader;
 
         void initEngines();
         Database::IPlugin* getSelectedPlugin() const;
+
+        // slots:
+        void updateButtons();
 };
 
 

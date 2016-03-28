@@ -57,6 +57,8 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
                                               m_prjName(nullptr),
                                               m_engines(nullptr),
                                               m_engineOptions(nullptr),
+                                              m_location(nullptr),
+                                              m_defaultButtons(nullptr),
                                               m_pluginLoader(nullptr)
 {
     setWindowTitle(tr("Photo collection creator"));
@@ -87,18 +89,18 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     QGroupBox* locationGroup = new QGroupBox(tr("Photos location"));
     QVBoxLayout* locationLayout = new QVBoxLayout(locationGroup);
     QLabel* locationInfo = new QLabel(tr("Photos location is place where your photos collection will be stored.\nLocation may already contain photos which will be added to collection."));
-    QtExtChooseFile* browser = new QtExtChooseFile(tr("Location"), tr("Browse"), [this]
+    m_location = new QtExtChooseFile(tr("Location"), tr("Browse"), [this]
     {
         return QFileDialog::getExistingDirectory(this, tr("Photos location"));
     });
 
     locationLayout->addWidget(locationInfo);
-    locationLayout->addWidget(browser);
+    locationLayout->addWidget(m_location);
 
     //default buttons
-    QDialogButtonBox* defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(defaultButtons, SIGNAL(rejected()), this, SLOT(reject()));
+    m_defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(m_defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_defaultButtons, SIGNAL(rejected()), this, SLOT(reject()));
 
     //main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -107,7 +109,12 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     mainLayout->addWidget(m_engineOptions);
     mainLayout->addWidget(locationGroup);
     mainLayout->addStretch();
-    mainLayout->addWidget(defaultButtons);
+    mainLayout->addWidget(m_defaultButtons);
+
+    connect(m_location, &QtExtChooseFile::valueChanged, this, &ProjectCreatorDialog::updateButtons);
+    connect(m_prjName, &QLineEdit::textChanged, this, &ProjectCreatorDialog::updateButtons);
+
+    updateButtons();
 }
 
 
@@ -174,6 +181,15 @@ Database::IPlugin* ProjectCreatorDialog::getSelectedPlugin() const
 
     return plugin;
 }
+
+
+void ProjectCreatorDialog::updateButtons()
+{
+    const bool allData = m_prjName->text().isEmpty() == false && m_location->text().isEmpty() == false;
+
+    m_defaultButtons->button(QDialogButtonBox::Ok)->setEnabled(allData);
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
