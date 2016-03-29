@@ -55,10 +55,10 @@ class ProjectCreatorDialog: public QDialog
 
         // getters:
         QString getPrjName() const;
+        QString getLocation() const;
         Database::IPlugin* getEnginePlugin() const;
 
     private:
-        QtExtChooseFile* m_chooseDialog;
         QLineEdit* m_prjName;
         QComboBox* m_engines;
         QGroupBox* m_engineOptions;

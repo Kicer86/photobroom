@@ -65,18 +65,15 @@ void ProjectManager::set(Database::IBuilder* builder)
 }
 
 
-ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin)
+ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin, const QString& location)
 {
-    QDir storagePath(getPrjStorage());
-    const QString prjId = getUniqueId();
-    storagePath.mkdir(prjId);
-    storagePath.cd(prjId);
-    
+    QDir().mkpath(location);
+    const QDir storagePath(location);
     const QString prjDir = storagePath.absolutePath();
-    const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
+    const QString prjPath = storagePath.absoluteFilePath( prjName + ".bpj");
 
     //prepare database
-    Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(prjDir);
+    Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(prjDir, prjName);
 
     //prepare project file
     QSettings prjFile(prjPath, QSettings::IniFormat);
@@ -90,7 +87,7 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     prjFile.setValue("name", prjName);
     prjFile.endGroup();
 
-    const ProjectInfo prjInfo(prjName, prjId);
+    const ProjectInfo prjInfo(prjPath);
 
     return prjInfo;
 }
@@ -99,33 +96,14 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
 std::deque<ProjectInfo> ProjectManager::listProjects()
 {
     std::deque<ProjectInfo> result;
-    
-    QString path = getPrjStorage();
-    
-    if (path.isEmpty() == false)
-    {
-        const QDir basePath(path);
-        const QStringList ids = basePath.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-        for (const QString& id: ids)
-        {
-            ProjectInfo info = get(id);
-
-            result.push_back(info);
-        }
-    }
-    
     return result;
 }
 
 
 std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Database::IBuilder::OpenResult openResult)
 {
-    QDir storagePath(getPrjStorage());
-    storagePath.cd(prjInfo.getId());
-
-    const QString prjDir = storagePath.absolutePath();
-    const QString prjPath = storagePath.absoluteFilePath("broom.bpj");
+    const QString& prjPath = prjInfo.getPath();
 
     QSettings prjFile(prjPath, QSettings::IniFormat);
 
@@ -140,7 +118,7 @@ std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Datab
     result->setDBLocation(location);
     result->setName(prjInfo.getName());
 
-    Database::ProjectInfo dbPrjInfo(location, backend, prjDir);
+    Database::ProjectInfo dbPrjInfo(location, backend, prjInfo.getBaseDir());
     auto db = m_dbBuilder->get(dbPrjInfo, openResult);
 
     result->setDatabase(std::move(db));
@@ -168,17 +146,7 @@ bool ProjectManager::save(const IProject* project)
 
 bool ProjectManager::remove(const ProjectInfo& name)
 {
-    QDir storagePath(getPrjStorage());
-
-    bool status = storagePath.exists(name.getId());
-
-    if (status)
-    {
-        storagePath.cd(name.getId());
-        status = storagePath.removeRecursively();
-    }
-
-    return status;
+    return true;
 }
 
 
@@ -194,49 +162,6 @@ QString ProjectManager::getPrjStorage() const
 
     if (basePath.cd("projects"))
         result = basePath.absolutePath();
-   
-    return result;
-}
-
-
-ProjectInfo ProjectManager::get(const QString& id) const
-{
-    const QString prjs = getPrjStorage();
-    QDir storageDir(prjs);
-
-    QString name;
-
-    if (storageDir.exists(id))
-    {
-        QDir prjDir(storageDir);
-        prjDir.cd(id);
-        const QString prjPath = prjDir.absoluteFilePath("broom.bpj");
-
-        QSettings prjFile(prjPath, QSettings::IniFormat);
-
-        prjFile.beginGroup("Project");
-        name = prjFile.value("name").toString();
-        prjFile.endGroup();
-    }
-
-    return ProjectInfo(name, id);
-}
-
-
-QString ProjectManager::getUniqueId() const
-{
-    const QString prjs = getPrjStorage();
-    QDir storageDir(prjs);
-
-    QString result;
-
-    do
-    {
-        result.clear();
-
-        for (int i = 0; i < 8; i++)
-            result.append(rand() % 8 + '0');
-    } while (storageDir.exists(result) == true);
 
     return result;
 }

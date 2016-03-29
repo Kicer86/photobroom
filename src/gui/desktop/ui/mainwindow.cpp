@@ -1,6 +1,5 @@
 
 #include "mainwindow.hpp"
-#include "project_picker.hpp"
 
 #include <functional>
 
@@ -364,15 +363,11 @@ void MainWindow::on_actionNew_collection_triggered()
 
 void MainWindow::on_actionOpen_collection_triggered()
 {
-    ProjectPicker picker;
+    const QString prjPath = QFileDialog::getOpenFileName(this, tr("Open collection"), QString(), tr("Photo Broom files (*.bpj)"));
 
-    picker.set(m_pluginLoader);
-    picker.set(m_prjManager);
-    const int s = picker.exec();
-
-    if (s == QDialog::Accepted)
+    if (prjPath.isEmpty() == false)
     {
-        const ProjectInfo prjName = picker.choosenProject();
+        const ProjectInfo prjName(prjPath);
 
         openProject(prjName);
     }

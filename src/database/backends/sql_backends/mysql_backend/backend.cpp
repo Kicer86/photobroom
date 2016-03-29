@@ -165,14 +165,16 @@ namespace Database
     }
 
 
-    ProjectInfo MySqlPlugin::initPrjDir(const QString& prjPath) const
+    ProjectInfo MySqlPlugin::initPrjDir(const QString& prjPath, const QString& name) const
     {
+        const QString subdir = name + "_database_files";
+
         QDir prjPathDir(prjPath);
-        prjPathDir.mkdir("database");
+        prjPathDir.mkdir(subdir);
 
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = "./database/";
+        prjInfo.databaseLocation = "./" + subdir + "/";
 
         return prjInfo;
     }

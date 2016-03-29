@@ -53,7 +53,6 @@ namespace
 
 
 ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
-                                              m_chooseDialog(nullptr),
                                               m_prjName(nullptr),
                                               m_engines(nullptr),
                                               m_engineOptions(nullptr),
@@ -144,6 +143,14 @@ QString ProjectCreatorDialog::getPrjName() const
 }
 
 
+QString ProjectCreatorDialog::getLocation() const
+{
+    const QString location = m_location->text();
+
+    return location;
+}
+
+
 Database::IPlugin* ProjectCreatorDialog::getEnginePlugin() const
 {
     Database::IPlugin* plugin = getSelectedPlugin();
@@ -216,8 +223,9 @@ bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLo
     {
         const QString prjName   = prjCreatorDialog.getPrjName();
         const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
+        const QString location  = prjCreatorDialog.getLocation();
 
-        m_prj = prjManager->new_prj(prjName, prjPlugin);
+        m_prj = prjManager->new_prj(prjName, prjPlugin, location);
     }
 
     const bool result = m_prj.isValid();

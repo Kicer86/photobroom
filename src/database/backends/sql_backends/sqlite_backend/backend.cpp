@@ -155,11 +155,11 @@ namespace Database
     }
 
 
-    ProjectInfo SQLitePlugin::initPrjDir(const QString&) const
+    ProjectInfo SQLitePlugin::initPrjDir(const QString &, const QString& name) const
     {
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = "broom.db";
+        prjInfo.databaseLocation = name + ".db";
 
         return prjInfo;
     }
