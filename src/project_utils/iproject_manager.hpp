@@ -40,6 +40,7 @@ struct ProjectInfo
         path = fi.absoluteFilePath();
         baseDir = fi.absolutePath();
         name = fi.baseName();
+        internalLocation = QString("%1/%2_files").arg(baseDir).arg(name);
     }
 
     ProjectInfo(): path(), baseDir(), name() {}
@@ -64,10 +65,16 @@ struct ProjectInfo
         return name;
     }
 
+    const QString& getInternalLocation() const
+    {
+        return internalLocation;
+    }
+
     private:
         QString path;
         QString baseDir;
         QString name;
+        QString internalLocation;
 };
 
 

@@ -68,12 +68,16 @@ void ProjectManager::set(Database::IBuilder* builder)
 ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlugin* prjPlugin, const QString& location)
 {
     QDir().mkpath(location);
+
     const QDir storagePath(location);
-    const QString prjDir = storagePath.absolutePath();
     const QString prjPath = storagePath.absoluteFilePath( prjName + ".bpj");
+    const ProjectInfo prjInfo(prjPath);
+    const QString dbLocation = prjInfo.getInternalLocation() + "/db";
+
+    QDir().mkpath(dbLocation);
 
     //prepare database
-    Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(prjDir, prjName);
+    Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(dbLocation, prjName);
 
     //prepare project file
     QSettings prjFile(prjPath, QSettings::IniFormat);
@@ -86,8 +90,6 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     prjFile.beginGroup("Project");
     prjFile.setValue("name", prjName);
     prjFile.endGroup();
-
-    const ProjectInfo prjInfo(prjPath);
 
     return prjInfo;
 }
@@ -118,7 +120,7 @@ std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Datab
     result->setDBLocation(location);
     result->setName(prjInfo.getName());
 
-    Database::ProjectInfo dbPrjInfo(location, backend, prjInfo.getBaseDir());
+    Database::ProjectInfo dbPrjInfo(location, backend);
     auto db = m_dbBuilder->get(dbPrjInfo, openResult);
 
     result->setDatabase(std::move(db));

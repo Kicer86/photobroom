@@ -56,7 +56,7 @@ namespace Database
 
         if (m_data->m_initialized == false)
         {
-            m_data->m_dbLocation = prjInfo.projectDir +"/" + prjInfo.databaseLocation;
+            m_data->m_dbLocation = prjInfo.databaseLocation;
 
             //start mysql process
             const QString socketPath = m_data->m_server.run_server(m_data->m_dbLocation);
