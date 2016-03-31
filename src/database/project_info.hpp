@@ -9,7 +9,6 @@ namespace Database
     {
         QString databaseLocation;
         QString backendName;
-        QString projectDir;
 
         bool operator<(const ProjectInfo& other) const
         {
@@ -23,11 +22,10 @@ namespace Database
             return status;
         }
 
-        ProjectInfo(): databaseLocation(), backendName(), projectDir() {}
-        ProjectInfo(const QString& location, const QString& backend, const QString& prjDir):
-        databaseLocation(location),
-        backendName(backend),
-        projectDir(prjDir)
+        ProjectInfo(): databaseLocation(), backendName(){}
+        ProjectInfo(const QString& location, const QString& backend):
+            databaseLocation(location),
+            backendName(backend)
         {
 
         }

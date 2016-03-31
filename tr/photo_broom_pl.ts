@@ -235,7 +235,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+188"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+187"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -267,7 +267,17 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+180"/>
+        <location line="+83"/>
+        <source>Open collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Photo Broom files (*.bpj)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+93"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -441,7 +451,7 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+61"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+63"/>
         <source>Photo collection creator</source>
         <translation>Tworzenie kolekcji zdjęć</translation>
     </message>
@@ -460,38 +470,54 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <source>Engine options</source>
         <translation>Opcje silnika</translation>
     </message>
+    <message>
+        <location line="+3"/>
+        <location line="+5"/>
+        <source>Photos location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>Photos location is place where your photos collection will be stored.
+Location may already contain photos which will be added to collection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ProjectPicker</name>
     <message>
-        <location filename="../src/gui/desktop/ui/project_picker.ui" line="+14"/>
         <source>Collections browser</source>
-        <translation>Przeglądarka kolekcji</translation>
+        <translation type="vanished">Przeglądarka kolekcji</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>New</source>
-        <translation>Nowa</translation>
+        <translation type="vanished">Nowa</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Open</source>
-        <translation>Otwórz</translation>
+        <translation type="vanished">Otwórz</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="vanished">Usuń</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/project_picker.cpp" line="+83"/>
         <source>Collection deletion</source>
-        <translation>Kasowanie kolekcji</translation>
+        <translation type="vanished">Kasowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Are you sure to remove collection %1?</source>
-        <translation>Czy na pewno usunąć kolekcję %1?</translation>
+        <translation type="vanished">Czy na pewno usunąć kolekcję %1?</translation>
     </message>
 </context>
 <context>

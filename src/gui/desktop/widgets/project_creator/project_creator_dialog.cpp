@@ -33,6 +33,7 @@
 #include <QStackedLayout>
 #include <QString>
 
+#include <OpenLibrary/QtExt/qtext_choosefile.hpp>
 
 #include <database/idatabase_plugin.hpp>
 #include <plugins/iplugin_loader.hpp>
@@ -52,10 +53,11 @@ namespace
 
 
 ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
-                                              m_chooseDialog(nullptr),
                                               m_prjName(nullptr),
                                               m_engines(nullptr),
                                               m_engineOptions(nullptr),
+                                              m_location(nullptr),
+                                              m_defaultButtons(nullptr),
                                               m_pluginLoader(nullptr)
 {
     setWindowTitle(tr("Photo collection creator"));
@@ -82,18 +84,41 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     //storage options
     m_engineOptions = new QGroupBox(tr("Engine options"));
 
+    // photos location
+    QGroupBox* locationGroup = new QGroupBox(tr("Photos location"));
+    QVBoxLayout* locationLayout = new QVBoxLayout(locationGroup);
+    QLabel* locationInfo = new QLabel(tr("Photos location is place where your photos collection will be stored.\nLocation may already contain photos which will be added to collection."));
+    m_location = new QtExtChooseFile(tr("Location"), tr("Browse"), [this]
+    {
+        return QFileDialog::getExistingDirectory(this, tr("Photos location"));
+    });
+
+    locationLayout->addWidget(locationInfo);
+    locationLayout->addWidget(m_location);
+
     //default buttons
-    QDialogButtonBox* defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(defaultButtons, SIGNAL(rejected()), this, SLOT(reject()));
+    m_defaultButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(m_defaultButtons, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_defaultButtons, SIGNAL(rejected()), this, SLOT(reject()));
 
     //main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(prjNameLayout);
     mainLayout->addLayout(dbEngineLayout);
     mainLayout->addWidget(m_engineOptions);
+    mainLayout->addWidget(locationGroup);
     mainLayout->addStretch();
-    mainLayout->addWidget(defaultButtons);
+    mainLayout->addWidget(m_defaultButtons);
+
+    connect(m_location, &QtExtChooseFile::valueChanged, this, &ProjectCreatorDialog::updateButtons);
+    connect(m_prjName, &QLineEdit::textChanged, this, &ProjectCreatorDialog::updateButtons);
+
+    updateButtons();
+
+    // TODO: temporary (?) removal of some complex optios
+    dbEngine->hide();
+    m_engines->hide();
+    m_engineOptions->hide();
 }
 
 
@@ -115,6 +140,14 @@ QString ProjectCreatorDialog::getPrjName() const
     const QString prjName = m_prjName->text();
 
     return prjName;
+}
+
+
+QString ProjectCreatorDialog::getLocation() const
+{
+    const QString location = m_location->text();
+
+    return location;
 }
 
 
@@ -162,6 +195,15 @@ Database::IPlugin* ProjectCreatorDialog::getSelectedPlugin() const
 }
 
 
+void ProjectCreatorDialog::updateButtons()
+{
+    const bool allData = m_prjName->text().isEmpty() == false && m_location->text().isEmpty() == false;
+
+    m_defaultButtons->button(QDialogButtonBox::Ok)->setEnabled(allData);
+}
+
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -181,8 +223,9 @@ bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLo
     {
         const QString prjName   = prjCreatorDialog.getPrjName();
         const auto*   prjPlugin = prjCreatorDialog.getEnginePlugin();
+        const QString location  = prjCreatorDialog.getLocation();
 
-        m_prj = prjManager->new_prj(prjName, prjPlugin);
+        m_prj = prjManager->new_prj(prjName, prjPlugin, location);
     }
 
     const bool result = m_prj.isValid();

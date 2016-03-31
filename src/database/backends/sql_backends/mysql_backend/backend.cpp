@@ -56,7 +56,7 @@ namespace Database
 
         if (m_data->m_initialized == false)
         {
-            m_data->m_dbLocation = prjInfo.projectDir +"/" + prjInfo.databaseLocation;
+            m_data->m_dbLocation = prjInfo.databaseLocation;
 
             //start mysql process
             const QString socketPath = m_data->m_server.run_server(m_data->m_dbLocation);
@@ -165,14 +165,16 @@ namespace Database
     }
 
 
-    ProjectInfo MySqlPlugin::initPrjDir(const QString& prjPath) const
+    ProjectInfo MySqlPlugin::initPrjDir(const QString& prjPath, const QString& name) const
     {
+        const QString subdir = name + "_database_files";
+
         QDir prjPathDir(prjPath);
-        prjPathDir.mkdir("database");
+        prjPathDir.mkdir(subdir);
 
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = "./database/";
+        prjInfo.databaseLocation = "./" + subdir + "/";
 
         return prjInfo;
     }

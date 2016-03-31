@@ -918,7 +918,7 @@ namespace Database
     {
         //store thread id for further validation
         m_data->m_executor.set( std::this_thread::get_id() );
-        m_data->m_connectionName = prjInfo.projectDir;
+        m_data->m_connectionName = prjInfo.databaseLocation;
 
         BackendStatus status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);

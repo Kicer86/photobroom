@@ -35,7 +35,7 @@ namespace Database
                 db_obj = QSqlDatabase::addDatabase("QSQLITE", backend->getConnectionName());
 
                 /// TODO: use some nice way for setting database name here
-                db_obj.setDatabaseName(prjInfo.projectDir + QDir::separator() + prjInfo.databaseLocation );
+                db_obj.setDatabaseName(prjInfo.databaseLocation );
             }
 
             return status;
@@ -155,11 +155,11 @@ namespace Database
     }
 
 
-    ProjectInfo SQLitePlugin::initPrjDir(const QString&) const
+    ProjectInfo SQLitePlugin::initPrjDir(const QString& dir, const QString& name) const
     {
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = "broom.db";
+        prjInfo.databaseLocation = dir + QDir::separator() + "photo_broom.db";
 
         return prjInfo;
     }
