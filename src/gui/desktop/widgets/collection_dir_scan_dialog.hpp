@@ -20,16 +20,24 @@
 #ifndef COLLECTIONDIRSCANDIALOG_HPP
 #define COLLECTIONDIRSCANDIALOG_HPP
 
-#include <QWidget>
+#include <QDialog>
 
-class CollectionDirScanDialog: public QWidget
+class CollectionDirScanDialog: public QDialog
 {
     public:
-        CollectionDirScanDialog();
+        CollectionDirScanDialog(QWidget* parent = nullptr);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
-        
+
         CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
+
+    private:
+        QLabel* m_info;
+        QPushButton* m_button;
+        bool m_close;
+
+        // slots:
+        void buttonPressed();
 };
 
 #endif // COLLECTIONDIRSCANDIALOG_HPP

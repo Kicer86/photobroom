@@ -17,15 +17,45 @@
  *
  */
 
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
+
+
 #include "collection_dir_scan_dialog.hpp"
 
-CollectionDirScanDialog::CollectionDirScanDialog()
-{
 
+CollectionDirScanDialog::CollectionDirScanDialog(QWidget* p):
+    QDialog(p),
+    m_info(nullptr),
+    m_button(nullptr),
+    m_close(false)
+{
+    m_info = new QLabel(tr("Collection scan in progress"), this);
+    m_button = new QPushButton(tr("Cancel"), this);
+
+    connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
+
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(m_info);
+    l->addWidget(m_button);
 }
 
 
 CollectionDirScanDialog::~CollectionDirScanDialog()
 {
 
+}
+
+
+void CollectionDirScanDialog::buttonPressed()
+{
+    if (m_close)
+        accept();
+    else
+    {
+        m_info->setText(tr("Collection scan canceled"));
+        m_button->setText(tr("Close"));
+        m_close = true;
+    }
 }
