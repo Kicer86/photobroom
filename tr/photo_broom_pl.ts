@@ -231,6 +231,11 @@
         <translation>&amp;Zadania</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>&amp;Scan collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Tags editor</source>
         <translation type="obsolete">Edytor tagów</translation>
     </message>
@@ -277,7 +282,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+99"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
