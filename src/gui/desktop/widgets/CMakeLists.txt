@@ -4,6 +4,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 
 set(SRCS
+    collection_dir_scan_dialog.cpp
     color_pick_button.cpp
     editor_factory.cpp
     info_widget.cpp
@@ -20,6 +21,7 @@ set(SRCS
     )
 
 set(HEADERS
+    collection_dir_scan_dialog.hpp
     color_pick_button.hpp
     editor_factory.hpp
     info_widget.hpp
