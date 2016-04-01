@@ -30,6 +30,29 @@
     </message>
 </context>
 <context>
+    <name>CollectionDirScanDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+34"/>
+        <source>Collection scan in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Collection scan canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfigurationDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
@@ -240,7 +263,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+187"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+188"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
