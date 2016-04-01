@@ -28,6 +28,7 @@
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
+#include "widgets/collection_dir_scan_dialog.hpp"
 #include "utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
 #include "utils/icons_loader.hpp"
@@ -400,7 +401,7 @@ void MainWindow::on_actionAdd_photos_triggered()
 
 void MainWindow::on_actionScan_collection_triggered()
 {
-
+    CollectionDirScanDialog().exec();
 }
 
 
