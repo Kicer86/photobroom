@@ -398,6 +398,12 @@ void MainWindow::on_actionAdd_photos_triggered()
 }
 
 
+void MainWindow::on_actionScan_collection_triggered()
+{
+
+}
+
+
 void MainWindow::on_actionHelp_triggered()
 {
 

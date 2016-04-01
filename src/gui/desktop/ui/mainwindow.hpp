@@ -86,6 +86,7 @@ class MainWindow: public QMainWindow
 
         // photos menu
         void on_actionAdd_photos_triggered();
+        void on_actionScan_collection_triggered();
 
         // help menu
         void on_actionHelp_triggered();

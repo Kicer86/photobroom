@@ -46,7 +46,7 @@
      <string>P&amp;hotos</string>
     </property>
     <addaction name="actionAdd_photos"/>
-    <addaction name="separator"/>
+    <addaction name="actionScan_collection"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -107,7 +107,7 @@
   </action>
   <action name="actionAdd_photos">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>&amp;Add photos</string>
@@ -157,6 +157,11 @@
    </property>
    <property name="text">
     <string>T&amp;asks</string>
+   </property>
+  </action>
+  <action name="actionScan_collection">
+   <property name="text">
+    <string>&amp;Scan collection</string>
    </property>
   </action>
  </widget>
