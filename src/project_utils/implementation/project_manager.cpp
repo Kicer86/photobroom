@@ -129,23 +129,6 @@ std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Datab
 }
 
 
-bool ProjectManager::save(const IProject* project)
-{
-    QSettings prjFile(project->getPrjPath(), QSettings::IniFormat);
-
-    prjFile.beginGroup("Database");
-    prjFile.setValue("backend",  project->getDBBackend());
-    prjFile.setValue("location", project->getDBLocation());
-    prjFile.endGroup();
-
-    prjFile.beginGroup("Project");
-    prjFile.setValue("name",  project->getName());
-    prjFile.endGroup();
-
-    return true;
-}
-
-
 bool ProjectManager::remove(const ProjectInfo& name)
 {
     return true;

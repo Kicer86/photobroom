@@ -47,7 +47,6 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         ProjectInfo new_prj(const QString &, const Database::IPlugin *, const QString &) override;
         [[deprecated]] std::deque<ProjectInfo> listProjects() override;
         std::unique_ptr<IProject> open(const ProjectInfo &, Database::IBuilder::OpenResult) override;
-        bool save(const IProject *) override;
         bool remove(const ProjectInfo &) override;
 
     private:
