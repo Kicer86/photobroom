@@ -17,12 +17,12 @@ class PhotosAnalyzer;
 struct ITaskExecutor;
 struct IPhotosManager;
 struct IPluginLoader;
-struct IProject;
 struct IProjectManager;
 struct IConfiguration;
 struct IView;
 
 class DBDataModel;
+class Project;
 struct ProjectInfo;
 
 namespace Ui
@@ -52,7 +52,7 @@ class MainWindow: public QMainWindow
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
-        std::unique_ptr<IProject> m_currentPrj;
+        std::unique_ptr<Project>  m_currentPrj;
         DBDataModel*              m_imagesModel;
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;

@@ -16,7 +16,7 @@
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
-#include <project_utils/iproject.hpp>
+#include <project_utils/project.hpp>
 
 #include "config.hpp"
 
@@ -281,7 +281,7 @@ void MainWindow::updateMenus()
 void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No collection opened"));
+    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened"));
 
     setWindowTitle(title);
 }
@@ -477,7 +477,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                   tr("Photo collection could not be opened.\n"
                                      "It usually means that collection files are broken\n"
                                      "or you don't have rights to access them.\n\n"
-                                     "Please check collection files:\n%1").arg(m_currentPrj->getPrjPath())
+                                     "Please check collection files:\n%1").arg(m_currentPrj->getProjectInfo().getPath())
                                  );
             closeProject();
             break;

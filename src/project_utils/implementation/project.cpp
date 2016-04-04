@@ -24,7 +24,7 @@
 #include <database/idatabase_builder.hpp>
 
 
-Project::Project(): m_backend(), m_location(), m_prjPath(), m_name(), m_database(nullptr)
+Project::Project(std::unique_ptr<Database::IDBPack>&& db, const ProjectInfo& prjInfo): m_database(std::move(db)), m_prjInfo(prjInfo)
 {
 
 }
@@ -36,61 +36,13 @@ Project::~Project()
 }
 
 
-void Project::setPrjPath(const QString& prjPath)
-{
-    m_prjPath = prjPath;
-}
-
-
-void Project::setDBBackend(const QString& backend)
-{
-    m_backend = backend;
-}
-
-
-void Project::setDBLocation(const QString& location)
-{
-    m_location = location;
-}
-
-
-void Project::setDatabase(std::unique_ptr<Database::IDBPack>&& database)
-{
-    m_database = std::move(database);
-}
-
-
-void Project::setName(const QString& name)
-{
-    m_name = name;
-}
-
-
-QString Project::getDBBackend() const
-{
-    return m_backend;
-}
-
-
-QString Project::getDBLocation() const
-{
-    return m_location;
-}
-
-
-QString Project::getPrjPath() const
-{
-    return m_prjPath;
-}
-
-
 Database::IDatabase* Project::getDatabase() const
 {
     return m_database->get();
 }
 
 
-QString Project::getName() const
+const ProjectInfo& Project::getProjectInfo() const
 {
-    return m_name;
+    return m_prjInfo;
 }

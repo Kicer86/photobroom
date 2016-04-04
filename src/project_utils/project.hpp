@@ -22,43 +22,30 @@
 
 #include <memory>
 
-#include "iproject.hpp"
+#include "iproject_manager.hpp"
+
+class QString;
 
 namespace Database
 {
+    struct IDatabase;
     struct IDBPack;
 }
 
-class Project: public IProject
+class Project
 {
     public:
-        Project();
+        Project(std::unique_ptr<Database::IDBPack> &&, const ProjectInfo &);
         Project(const Project &) = delete;
         virtual ~Project();
 
         Project& operator=(const Project &) = delete;
 
-        //extra fields
-        void setPrjPath(const QString &);
-
-        //init fields
-        void setDBBackend(const QString &);
-        void setDBLocation(const QString &);
-        void setDatabase(std::unique_ptr<Database::IDBPack> &&);
-        void setName(const QString &);
-
-        // overrides
-        QString getDBBackend() const override;
-        QString getDBLocation() const override;
-        QString getPrjPath() const override;
-        Database::IDatabase* getDatabase() const override;
-        QString getName() const override;
+        Database::IDatabase* getDatabase() const;
+        const ProjectInfo& getProjectInfo() const;
 
     private:
-        QString m_backend;
-        QString m_location;
-        QString m_prjPath;
-        QString m_name;
+        ProjectInfo m_prjInfo;
         std::unique_ptr<Database::IDBPack> m_database;
 };
 
