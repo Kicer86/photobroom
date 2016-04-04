@@ -19,9 +19,59 @@
 
 #include "project.hpp"
 
+#include <QFileInfo>
 #include <QString>
 
 #include <database/idatabase_builder.hpp>
+
+
+ProjectInfo::ProjectInfo(const QString& _path): ProjectInfo()
+{
+    const QFileInfo fi(_path);
+    path = fi.absoluteFilePath();
+    baseDir = fi.absolutePath();
+    name = fi.baseName();
+    internalLocation = QString("%1/%2_files").arg(baseDir).arg(name);
+}
+
+
+ProjectInfo::ProjectInfo(): path(), baseDir(), name()
+{
+
+}
+
+
+bool ProjectInfo::isValid() const
+{
+    return path.isEmpty() == false;
+}
+
+
+const QString& ProjectInfo::getPath() const
+{
+    return path;
+}
+
+
+const QString& ProjectInfo::getBaseDir() const
+{
+    return baseDir;
+}
+
+
+const QString& ProjectInfo::getName() const
+{
+    return name;
+}
+
+
+const QString& ProjectInfo::getInternalLocation() const
+{
+    return internalLocation;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 Project::Project(std::unique_ptr<Database::IDBPack>&& db, const ProjectInfo& prjInfo): m_database(std::move(db)), m_prjInfo(prjInfo)

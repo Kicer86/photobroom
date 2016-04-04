@@ -23,60 +23,12 @@
 #include <memory>
 #include <deque>
 
-#include <QFileInfo>
-
 #include <database/idatabase_plugin.hpp>
 
 class QString;
 
 class Project;
-
-
-struct ProjectInfo
-{
-    ProjectInfo(const QString& _path): ProjectInfo()
-    {
-        const QFileInfo fi(_path);
-        path = fi.absoluteFilePath();
-        baseDir = fi.absolutePath();
-        name = fi.baseName();
-        internalLocation = QString("%1/%2_files").arg(baseDir).arg(name);
-    }
-
-    ProjectInfo(): path(), baseDir(), name() {}
-
-    bool isValid() const
-    {
-        return path.isEmpty() == false;
-    }
-
-    const QString& getPath() const
-    {
-        return path;
-    }
-
-    const QString& getBaseDir() const
-    {
-        return baseDir;
-    }
-
-    const QString& getName() const
-    {
-        return name;
-    }
-
-    const QString& getInternalLocation() const
-    {
-        return internalLocation;
-    }
-
-    private:
-        QString path;
-        QString baseDir;
-        QString name;
-        QString internalLocation;
-};
-
+struct ProjectInfo;
 
 struct IProjectManager
 {

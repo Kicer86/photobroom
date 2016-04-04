@@ -234,7 +234,7 @@ bool ProjectCreator::create(IProjectManager* prjManager, IPluginLoader* pluginLo
 }
 
 
-ProjectInfo ProjectCreator::project() const
+const ProjectInfo& ProjectCreator::project() const
 {
     return m_prj;
 }

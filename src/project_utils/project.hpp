@@ -22,15 +22,34 @@
 
 #include <memory>
 
-#include "iproject_manager.hpp"
-
-class QString;
+#include <QString>
 
 namespace Database
 {
     struct IDatabase;
     struct IDBPack;
 }
+
+
+struct ProjectInfo
+{
+        ProjectInfo(const QString& path);
+        ProjectInfo();
+
+        bool isValid() const;
+
+        const QString& getPath() const;
+        const QString& getBaseDir() const;
+        const QString& getName() const;
+        const QString& getInternalLocation() const;
+
+    private:
+        QString path;
+        QString baseDir;
+        QString name;
+        QString internalLocation;
+};
+
 
 class Project
 {
