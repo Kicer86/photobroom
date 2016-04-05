@@ -31,13 +31,13 @@ namespace Database
     class DatabaseThread: public IDatabase
     {
         public:
-            DatabaseThread(IBackend *);
+            DatabaseThread(std::unique_ptr<IBackend> &&);
             DatabaseThread(const DatabaseThread &) = delete;
             virtual ~DatabaseThread();
 
             DatabaseThread& operator=(const DatabaseThread &) = delete;
 
-            virtual void set(IPhotoInfoCache *) override;
+            void set(std::unique_ptr<IPhotoInfoCache> &&);
 
             virtual ADatabaseSignals* notifier() override;
 

@@ -74,7 +74,7 @@ const QString& ProjectInfo::getInternalLocation() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-Project::Project(std::unique_ptr<Database::IDBPack>&& db, const ProjectInfo& prjInfo): m_database(std::move(db)), m_prjInfo(prjInfo)
+Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo): m_database(std::move(db)), m_prjInfo(prjInfo)
 {
 
 }
@@ -88,7 +88,7 @@ Project::~Project()
 
 Database::IDatabase* Project::getDatabase() const
 {
-    return m_database->get();
+    return m_database.get();
 }
 
 

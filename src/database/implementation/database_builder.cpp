@@ -40,43 +40,6 @@
 
 //TODO: cleanup this file!
 
-namespace
-{
-    using namespace Database;
-
-    struct DatabaseObjects: IDBPack
-    {
-        DatabaseObjects(): m_database(), m_backend(), m_cache() {}
-
-        DatabaseObjects(DatabaseObjects&& other):
-            m_database(std::move(other.m_database)),
-            m_backend(std::move(other.m_backend)),
-            m_cache(std::move(other.m_cache))
-        {
-
-        }
-
-        ~DatabaseObjects()
-        {
-            m_database->closeConnections();
-
-            //destroy objects in right order
-            m_cache.reset();
-            m_database.reset();
-            m_backend.reset();
-        }
-
-        std::unique_ptr<IDatabase> m_database;
-        std::unique_ptr<IBackend> m_backend;
-        std::unique_ptr<IPhotoInfoCache> m_cache;
-
-        IDatabase* get() override
-        {
-            return m_database.get();
-        }
-    };
-}
-
 
 namespace Database
 {
@@ -142,33 +105,24 @@ namespace Database
     }
 
 
-    std::unique_ptr<IDBPack> Builder::get(const ProjectInfo& info, OpenResult openResult)
+    std::unique_ptr<IDatabase> Builder::get(const ProjectInfo& info, OpenResult openResult)
     {
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);
 
-        PhotoInfoCache* cache = new PhotoInfoCache;
         std::unique_ptr<IBackend> backend = plugin->constructBackend();
-        IDatabase* database = new DatabaseThread(backend.get());
-        database->set(cache);
-
         backend->set(m_impl->m_logger_factory);
         backend->set(m_impl->m_configuration);
 
-        std::unique_ptr<Database::AInitTask> task(new InitTask(openResult));
+        auto cache = std::make_unique<PhotoInfoCache>();
+        auto database = std::make_unique<DatabaseThread>( std::move(backend) );
+        database->set( std::move(cache) );
 
-        database->exec(std::move(task), info);
+        auto initTask = std::make_unique<InitTask>(openResult);
 
-        std::unique_ptr<IDBPack> result;
+        database->exec(std::move(initTask), info);
 
-        DatabaseObjects* dbObjs = new DatabaseObjects;
-        dbObjs->m_backend = std::move(backend);
-        dbObjs->m_database.reset(database);
-        dbObjs->m_cache.reset(cache);
-
-        result.reset(dbObjs);
-
-        return result;
+        return database;
     }
 
 }

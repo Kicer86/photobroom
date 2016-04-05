@@ -27,7 +27,6 @@
 namespace Database
 {
     struct IDatabase;
-    struct IDBPack;
 }
 
 
@@ -54,7 +53,7 @@ struct ProjectInfo
 class Project
 {
     public:
-        Project(std::unique_ptr<Database::IDBPack> &&, const ProjectInfo &);
+        Project(std::unique_ptr<Database::IDatabase> &&, const ProjectInfo &);
         Project(const Project &) = delete;
         virtual ~Project();
 
@@ -65,7 +64,7 @@ class Project
 
     private:
         ProjectInfo m_prjInfo;
-        std::unique_ptr<Database::IDBPack> m_database;
+        std::unique_ptr<Database::IDatabase> m_database;
 };
 
 #endif // PROJECT_HPP
