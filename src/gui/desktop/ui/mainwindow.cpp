@@ -49,7 +49,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
-    m_lookTabCtrl(new LookTabControler)
+    m_lookTabCtrl(new LookTabControler),
+    m_recentCollections()
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -122,6 +123,7 @@ void MainWindow::set(IConfiguration* configuration)
     ui->imagesView->set(configuration);
 
     loadGeometry();
+    loadRecentCollections();
 }
 
 
@@ -222,6 +224,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     const QByteArray state = saveState();
     m_configuration->setEntry("gui::state", state.toBase64());
+
+    //store recent collections
+    m_configuration->setEntry("gui::recent", m_recentCollections.join(";"));
 }
 
 
@@ -273,8 +278,22 @@ void MainWindow::setupView()
 void MainWindow::updateMenus()
 {
     const bool prj = m_currentPrj.get() != nullptr;
+    const bool valid = m_recentCollections.isEmpty() == false;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
+    ui->menuOpen_recent->menuAction()->setVisible(valid);
+    ui->menuOpen_recent->clear();
+
+    for(const QString& entry: m_recentCollections)
+    {
+        QAction* action = ui->menuOpen_recent->addAction(entry);
+        connect(action, &QAction::triggered, [=]
+        {
+            const ProjectInfo prj(entry);
+
+            openProject(prj);
+        });
+    }
 }
 
 
@@ -352,6 +371,18 @@ void MainWindow::loadGeometry()
 }
 
 
+void MainWindow::loadRecentCollections()
+{
+    // recent collections
+    const QString rawList = m_configuration->getEntry("gui::recent").toString();
+
+    if (rawList.isEmpty() == false)
+        m_recentCollections = rawList.split(";");
+
+    updateMenus();
+}
+
+
 void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
@@ -371,6 +402,11 @@ void MainWindow::on_actionOpen_collection_triggered()
         const ProjectInfo prjName(prjPath);
 
         openProject(prjName);
+
+        const bool already_has = m_recentCollections.contains(prjPath);
+
+        if (already_has == false)
+            m_recentCollections.append(prjPath);
     }
 }
 

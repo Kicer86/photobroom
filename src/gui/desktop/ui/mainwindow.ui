@@ -34,9 +34,14 @@
     <property name="title">
      <string>&amp;Photo collection</string>
     </property>
+    <widget class="QMenu" name="menuOpen_recent">
+     <property name="title">
+      <string>Open &amp;recent</string>
+     </property>
+    </widget>
     <addaction name="actionNew_collection"/>
     <addaction name="actionOpen_collection"/>
-    <addaction name="actionOpen_recent"/>
+    <addaction name="menuOpen_recent"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
@@ -163,11 +168,6 @@
   <action name="actionScan_collection">
    <property name="text">
     <string>&amp;Scan collection</string>
-   </property>
-  </action>
-  <action name="actionOpen_recent">
-   <property name="text">
-    <string>Open recent</string>
    </property>
   </action>
  </widget>

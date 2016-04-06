@@ -62,6 +62,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
+        QStringList               m_recentCollections;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -76,6 +77,7 @@ class MainWindow: public QMainWindow
         void registerConfigTab();
 
         void loadGeometry();
+        void loadRecentCollections();
 
     private slots:
         // album menu
