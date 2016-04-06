@@ -59,3 +59,9 @@ void CollectionDirScanDialog::buttonPressed()
         m_close = true;
     }
 }
+
+
+void CollectionDirScanDialog::scan()
+{
+
+}

@@ -38,6 +38,9 @@ class CollectionDirScanDialog: public QDialog
 
         // slots:
         void buttonPressed();
+        //
+
+        void scan();
 };
 
 #endif // COLLECTIONDIRSCANDIALOG_HPP
