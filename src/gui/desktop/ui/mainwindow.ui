@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCollection">
@@ -36,6 +36,7 @@
     </property>
     <addaction name="actionNew_collection"/>
     <addaction name="actionOpen_collection"/>
+    <addaction name="actionOpen_recent"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
@@ -79,7 +80,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Photo information</string>
+    <string>Photo &amp;information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -88,7 +89,7 @@
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
-    <string>Tasks</string>
+    <string>&amp;Tasks</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
@@ -162,6 +163,11 @@
   <action name="actionScan_collection">
    <property name="text">
     <string>&amp;Scan collection</string>
+   </property>
+  </action>
+  <action name="actionOpen_recent">
+   <property name="text">
+    <string>Open recent</string>
    </property>
   </action>
  </widget>
