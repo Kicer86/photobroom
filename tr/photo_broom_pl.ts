@@ -161,16 +161,22 @@
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+4"/>
+        <source>Open &amp;recent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>He&amp;lp</source>
         <translation>Po&amp;moc</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Photo &amp;information</source>
-        <translation type="vanished">&amp;Informacje o zdjęciu</translation>
+        <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-36"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -185,18 +191,17 @@
         <translation>&amp;Widok</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>&amp;Tasks</source>
-        <translation type="vanished">&amp;Operacje</translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <translation type="vanished">Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Tasks</source>
-        <translation>Operacje</translation>
+        <translation type="vanished">Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -263,7 +268,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+188"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+190"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -285,7 +290,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+104"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -295,7 +300,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+95"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,7 +310,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+104"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
