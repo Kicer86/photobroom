@@ -25,10 +25,10 @@ set(ANALYZER_HEADERS
     default_analyzers/ext_defaultanalyzer.hpp
     default_analyzers/file_analyzer.hpp
     default_filesystem_scanners/filesystemscanner.hpp
-    implementation/photo_crawler.hpp
     ianalyzer.hpp
     ifile_system_scanner.hpp
     iphoto_crawler.hpp
+    photo_crawler.hpp
     photo_crawler_builder.hpp
     )
 
