@@ -39,8 +39,14 @@ namespace
 
 struct PhotoCrawler::Impl
 {
-    Impl(std::unique_ptr<IFileSystemScanner>&& scanner,
-         std::unique_ptr<IAnalyzer>&& analyzer): m_scanner( std::move(scanner) ), m_analyzer( std::move(analyzer) ), m_thread() {}
+    Impl(std::unique_ptr<IFileSystemScanner>&& scanner, std::unique_ptr<IAnalyzer>&& analyzer):
+        m_scanner( std::move(scanner) ),
+        m_analyzer( std::move(analyzer) ),
+        m_thread()
+    {
+
+    }
+
     ~Impl()
     {
         releaseThread();

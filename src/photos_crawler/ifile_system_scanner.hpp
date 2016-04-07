@@ -4,9 +4,11 @@
 
 #include <vector>
 
+#include "photos_crawler_export.h"
+
 class QString;
 
-struct IFileNotifier
+struct PHOTOS_CRAWLER_EXPORT IFileNotifier
 {
     virtual ~IFileNotifier();
 
@@ -14,7 +16,8 @@ struct IFileNotifier
     virtual void finished() = 0;
 };
 
-struct IFileSystemScanner
+
+struct PHOTOS_CRAWLER_EXPORT IFileSystemScanner
 {
     virtual ~IFileSystemScanner();
 

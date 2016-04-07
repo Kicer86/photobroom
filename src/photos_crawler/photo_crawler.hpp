@@ -9,7 +9,7 @@
 struct IFileSystemScanner;
 struct IAnalyzer;
 
-class PhotoCrawler: public IPhotoCrawler
+class PHOTOS_CRAWLER_EXPORT PhotoCrawler: public IPhotoCrawler
 {
     public:
         struct Impl;
