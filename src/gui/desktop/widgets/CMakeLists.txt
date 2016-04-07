@@ -39,6 +39,7 @@ set(HEADERS
 
 #set of file to be moced
 set(TO_MOC
+    collection_dir_scan_dialog.hpp
     editor_factory.hpp
     filters_editor/level_editor.hpp
     photos_widget.hpp

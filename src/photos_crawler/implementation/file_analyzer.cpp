@@ -16,7 +16,7 @@ struct FileAnalyzer::Impl
     {
     }
 
-    std::vector<std::shared_ptr<IAnalyzer>> m_analyzers;
+    std::vector<std::unique_ptr<IAnalyzer>> m_analyzers;
 };
 
 
@@ -35,7 +35,7 @@ bool FileAnalyzer::isImage(const QString &path)
 {
     bool status = false;
 
-    for (auto analyzer: m_impl->m_analyzers)
+    for (std::unique_ptr<IAnalyzer>& analyzer: m_impl->m_analyzers)
     {
         status = analyzer->isImage(path);
 
@@ -47,9 +47,7 @@ bool FileAnalyzer::isImage(const QString &path)
 }
 
 
-void FileAnalyzer::registerAnalyzer(IAnalyzer *analyzer)
+void FileAnalyzer::registerAnalyzer(std::unique_ptr<IAnalyzer>&& analyzer)
 {
-    std::shared_ptr<IAnalyzer> analyzer_ptr(analyzer);
-
-    m_impl->m_analyzers.push_back(analyzer_ptr);
+    m_impl->m_analyzers.push_back( std::move(analyzer) );
 }

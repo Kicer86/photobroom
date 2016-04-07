@@ -22,8 +22,12 @@
 
 #include <QDialog>
 
+class QLabel;
+
 class CollectionDirScanDialog: public QDialog
 {
+        Q_OBJECT
+
     public:
         CollectionDirScanDialog(QWidget* parent = nullptr);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;

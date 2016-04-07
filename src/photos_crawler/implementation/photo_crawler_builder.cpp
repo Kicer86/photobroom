@@ -16,16 +16,16 @@ PhotoCrawlerBuilder::~PhotoCrawlerBuilder()
 
 std::unique_ptr<IPhotoCrawler> PhotoCrawlerBuilder::build()
 {
-    auto analyzer = std::make_shared<FileAnalyzer>();
+    auto analyzer = std::make_unique<FileAnalyzer>();
 
     //add subanalyzers
-    analyzer->registerAnalyzer(new Ext_DefaultAnalyzer);
+    analyzer->registerAnalyzer( std::make_unique<Ext_DefaultAnalyzer>() );
 
     //file system scanner
-    auto scanner = std::make_shared<FileSystemScanner>();
+    auto scanner = std::make_unique<FileSystemScanner>();
 
     //build crawler
-    IPhotoCrawler* crawler = new PhotoCrawler(scanner, analyzer);
+    auto crawler = std::make_unique<PhotoCrawler>(std::move(scanner), std::move(analyzer));
 
-    return std::unique_ptr<IPhotoCrawler>(crawler);
+    return crawler;
 }

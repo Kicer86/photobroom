@@ -13,7 +13,7 @@ class PhotoCrawler: public IPhotoCrawler
 {
     public:
         struct Impl;
-        PhotoCrawler(const std::shared_ptr<IFileSystemScanner> &, const std::shared_ptr<IAnalyzer> &);
+        PhotoCrawler(std::unique_ptr<IFileSystemScanner> &&, std::unique_ptr<IAnalyzer> &&);
         virtual ~PhotoCrawler();
 
         virtual void crawl(const QString &, IMediaNotification *) override;
