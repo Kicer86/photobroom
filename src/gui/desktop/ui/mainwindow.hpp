@@ -12,7 +12,6 @@
 class ConfigDialogManager;
 class LookTabControler;
 class MainTabControler;
-class PhotosCollector;
 class PhotosAnalyzer;
 struct ITaskExecutor;
 struct IPhotosManager;
