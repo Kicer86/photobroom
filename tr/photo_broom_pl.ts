@@ -32,7 +32,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+34"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+35"/>
         <source>Collection scan in progress</source>
         <translation type="unfinished"></translation>
     </message>
@@ -42,7 +42,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+25"/>
         <source>Collection scan canceled</source>
         <translation type="unfinished"></translation>
     </message>
@@ -310,7 +310,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+105"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
