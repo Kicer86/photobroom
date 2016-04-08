@@ -20,6 +20,8 @@
 #ifndef COLLECTIONDIRSCANDIALOG_HPP
 #define COLLECTIONDIRSCANDIALOG_HPP
 
+#include <mutex>
+
 #include <QDialog>
 
 #include "utils/photos_collector.hpp"
@@ -39,13 +41,19 @@ class CollectionDirScanDialog: public QDialog
 
     private:
         PhotosCollector m_collector;
+        QString m_curPathStr;
+        std::mutex m_mutex;
         QLabel* m_info;
+        QLabel* m_curPath;
         QPushButton* m_button;
+        QTimer* m_guiUpdater;
         bool m_close;
+        bool m_canceled;
 
         // slots:
         void buttonPressed();
         void scanDone();
+        void updateGui();
         //
 
         void scan(const QString &);

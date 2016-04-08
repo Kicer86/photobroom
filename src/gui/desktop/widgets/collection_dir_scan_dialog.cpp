@@ -17,10 +17,12 @@
  *
  */
 
+
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
-
+#include <QFileInfo>
+#include <QTimer>
 
 #include "collection_dir_scan_dialog.hpp"
 
@@ -28,9 +30,13 @@
 CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocation, QWidget* p):
     QDialog(p),
     m_collector(),
+    m_curPathStr(),
+    m_mutex(),
     m_info(nullptr),
+    m_curPath(nullptr),
     m_button(nullptr),
-    m_close(false)
+    m_close(false),
+    m_canceled(false)
 {
     m_info = new QLabel(tr("Collection scan in progress"), this);
     m_button = new QPushButton(tr("Cancel"), this);
@@ -38,10 +44,27 @@ CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocati
     connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
     connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
 
+    // path
+    QLabel* pathInfo = new QLabel(tr("Scanning:"), this);
+    m_curPath = new QLabel(this);
+
+    QHBoxLayout* pathLayout = new QHBoxLayout;
+    pathLayout->addWidget(pathInfo);
+    pathLayout->addWidget(m_curPath);
+
+    // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
+    l->addLayout(pathLayout);
+    l->addStretch();
     l->addWidget(m_info);
     l->addWidget(m_button);
 
+    // gui updater
+    m_guiUpdater = new QTimer(this);
+    connect(m_guiUpdater, &QTimer::timeout, this, &CollectionDirScanDialog::updateGui);
+    m_guiUpdater->start(1000);
+
+    //
     scan(collectionLocation);
 }
 
@@ -58,16 +81,30 @@ void CollectionDirScanDialog::buttonPressed()
         accept();
     else
     {
-        m_info->setText(tr("Collection scan canceled"));
-        m_button->setText(tr("Close"));
-        m_close = true;
+        m_canceled = true;
+        m_collector.stop();
     }
 }
 
 
 void CollectionDirScanDialog::scanDone()
 {
+    if (m_canceled)
+        m_info->setText(tr("Collection scan canceled"));
+    else
+        m_info->setText(tr("Collection scan finished"));
 
+    m_button->setText(tr("Close"));
+    m_close = true;
+    m_guiUpdater->stop();
+}
+
+
+void CollectionDirScanDialog::updateGui()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_curPath->setText(m_curPathStr);
 }
 
 
@@ -80,7 +117,10 @@ void CollectionDirScanDialog::scan(const QString& location)
 }
 
 
-void CollectionDirScanDialog::gotPhoto(const QString&)
+void CollectionDirScanDialog::gotPhoto(const QString& path)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
 
+    const QFileInfo info(path);
+    m_curPathStr = info.absolutePath();
 }
