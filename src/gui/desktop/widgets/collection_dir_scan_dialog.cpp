@@ -25,8 +25,9 @@
 #include "collection_dir_scan_dialog.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(QWidget* p):
+CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocation, QWidget* p):
     QDialog(p),
+    m_collector(),
     m_info(nullptr),
     m_button(nullptr),
     m_close(false)
@@ -35,10 +36,13 @@ CollectionDirScanDialog::CollectionDirScanDialog(QWidget* p):
     m_button = new QPushButton(tr("Cancel"), this);
 
     connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
+    connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
 
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_info);
     l->addWidget(m_button);
+
+    scan(collectionLocation);
 }
 
 
@@ -61,7 +65,22 @@ void CollectionDirScanDialog::buttonPressed()
 }
 
 
-void CollectionDirScanDialog::scan()
+void CollectionDirScanDialog::scanDone()
+{
+
+}
+
+
+void CollectionDirScanDialog::scan(const QString& location)
+{
+    using namespace std::placeholders;
+    auto callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
+
+    m_collector.collect(location, callback);
+}
+
+
+void CollectionDirScanDialog::gotPhoto(const QString&)
 {
 
 }

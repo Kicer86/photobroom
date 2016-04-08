@@ -22,6 +22,8 @@
 
 #include <QDialog>
 
+#include "utils/photos_collector.hpp"
+
 class QLabel;
 
 class CollectionDirScanDialog: public QDialog
@@ -29,22 +31,25 @@ class CollectionDirScanDialog: public QDialog
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(QWidget* parent = nullptr);
+        CollectionDirScanDialog(const QString& collectionLocation, QWidget* parent = nullptr);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
 
         CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
 
     private:
+        PhotosCollector m_collector;
         QLabel* m_info;
         QPushButton* m_button;
         bool m_close;
 
         // slots:
         void buttonPressed();
+        void scanDone();
         //
 
-        void scan();
+        void scan(const QString &);
+        void gotPhoto(const QString &);
 };
 
 #endif // COLLECTIONDIRSCANDIALOG_HPP
