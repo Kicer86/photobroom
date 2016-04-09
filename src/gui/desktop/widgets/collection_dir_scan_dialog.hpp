@@ -21,6 +21,7 @@
 #define COLLECTIONDIRSCANDIALOG_HPP
 
 #include <mutex>
+#include <set>
 
 #include <QDialog>
 
@@ -43,6 +44,8 @@ class CollectionDirScanDialog: public QDialog
         PhotosCollector m_collector;
         QString m_curPathStr;
         std::mutex m_curPathStrMutex;
+        std::set<QString> m_photosFound;
+        std::mutex m_photosFoundMutex;
         QLabel* m_info;
         QLabel* m_curPath;
         QPushButton* m_button;

@@ -18,10 +18,10 @@
  */
 
 
+#include <QFileInfo>
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QFileInfo>
 #include <QTimer>
 
 #include "collection_dir_scan_dialog.hpp"
@@ -110,6 +110,7 @@ void CollectionDirScanDialog::updateGui()
 
 void CollectionDirScanDialog::scan(const QString& location)
 {
+    // collect photos from disk
     using namespace std::placeholders;
     auto callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
 
@@ -119,8 +120,11 @@ void CollectionDirScanDialog::scan(const QString& location)
 
 void CollectionDirScanDialog::gotPhoto(const QString& path)
 {
-    std::lock_guard<std::mutex> lock(m_curPathStrMutex);
+    std::lock_guard<std::mutex> path_lock(m_curPathStrMutex);
+    std::lock_guard<std::mutex> photos_lock(m_photosFoundMutex);
 
     const QFileInfo info(path);
     m_curPathStr = info.absolutePath();
+
+    m_photosFound.insert(path);
 }
