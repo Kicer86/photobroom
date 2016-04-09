@@ -63,6 +63,8 @@ class CollectionDirScanDialog: public QDialog
         //
 
         void scan(const QString &);
+        void analyze();
+
         void gotPhoto(const QString &);
         void updateGui();
 };

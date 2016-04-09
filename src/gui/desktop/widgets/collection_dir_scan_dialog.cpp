@@ -73,8 +73,7 @@ void CollectionDirScanDialog::buttonPressed()
 
 void CollectionDirScanDialog::scanDone()
 {
-    m_state = State::Analyzing;
-    updateGui();
+    analyze();
 }
 
 
@@ -87,6 +86,13 @@ void CollectionDirScanDialog::scan(const QString& location)
 
     m_collector.collect(location, callback);
 
+    updateGui();
+}
+
+
+void CollectionDirScanDialog::analyze()
+{
+    m_state = State::Analyzing;
     updateGui();
 }
 
