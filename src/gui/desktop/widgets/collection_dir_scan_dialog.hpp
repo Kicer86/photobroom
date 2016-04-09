@@ -20,21 +20,40 @@
 #ifndef COLLECTIONDIRSCANDIALOG_HPP
 #define COLLECTIONDIRSCANDIALOG_HPP
 
-#include <mutex>
 #include <set>
 
 #include <QDialog>
 
+#include <database/idatabase.hpp>
 #include "utils/photos_collector.hpp"
 
 class QLabel;
+
+
+namespace
+{
+    struct ListExistingPhotos final: Database::AGetPhotosTask
+    {
+        ListExistingPhotos(const std::function<void(const IPhotoInfo::List& photos)>& callback): m_callback(callback)
+        {
+        }
+
+        void got(const IPhotoInfo::List& photos) override
+        {
+            m_callback(photos);
+        }
+
+        std::function<void(const IPhotoInfo::List& photos)> m_callback;
+    };
+}
+
 
 class CollectionDirScanDialog: public QDialog
 {
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const QString& collectionLocation, QWidget* parent = nullptr);
+        CollectionDirScanDialog(const QString& collectionLocation, Database::IDatabase *, QWidget* parent = nullptr);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
 
@@ -51,22 +70,30 @@ class CollectionDirScanDialog: public QDialog
 
         PhotosCollector m_collector;
         std::set<QString> m_photosFound;
-        std::mutex m_photosFoundMutex;
+        IPhotoInfo::List m_dbPhotos;
+        const QString m_collectionLocation;
         State m_state;
         QLabel* m_info;
         QPushButton* m_button;
-        QTimer* m_guiUpdater;
+        Database::IDatabase* m_database;
+        std::atomic<bool> m_gotPhotos;
+        std::atomic<bool> m_gotDBPhotos;
 
         // slots:
         void buttonPressed();
         void scanDone();
+        void performAnalysis();
         //
 
-        void scan(const QString &);
-        void analyze();
+        void scan();
+        void checkIfReady();
 
         void gotPhoto(const QString &);
+        void gotExistingPhotos(const IPhotoInfo::List &);
         void updateGui();
+
+    signals:
+        void analyze();
 };
 
 #endif // COLLECTIONDIRSCANDIALOG_HPP

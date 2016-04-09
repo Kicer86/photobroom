@@ -26,20 +26,25 @@
 #include "collection_dir_scan_dialog.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocation, QWidget* p):
+CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocation, Database::IDatabase* db, QWidget* p):
     QDialog(p),
     m_collector(),
     m_photosFound(),
-    m_photosFoundMutex(),
+    m_dbPhotos(),
+    m_collectionLocation(collectionLocation),
     m_state(State::Scanning),
     m_info(nullptr),
-    m_button(nullptr)
+    m_button(nullptr),
+    m_database(db),
+    m_gotPhotos(false),
+    m_gotDBPhotos(false)
 {
     m_info = new QLabel(this);
     m_button = new QPushButton(this);
 
     connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
     connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
+    connect(this, &CollectionDirScanDialog::analyze, this, &CollectionDirScanDialog::performAnalysis, Qt::QueuedConnection);
 
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -47,7 +52,7 @@ CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocati
     l->addWidget(m_button);
 
     //
-    scan(collectionLocation);
+    scan();
 }
 
 
@@ -73,35 +78,69 @@ void CollectionDirScanDialog::buttonPressed()
 
 void CollectionDirScanDialog::scanDone()
 {
-    analyze();
+    m_gotPhotos = true;
+
+    checkIfReady();
 }
 
 
-void CollectionDirScanDialog::scan(const QString& location)
-{
-    m_state = State::Scanning;
-    // collect photos from disk
-    using namespace std::placeholders;
-    auto callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
-
-    m_collector.collect(location, callback);
-
-    updateGui();
-}
-
-
-void CollectionDirScanDialog::analyze()
+void CollectionDirScanDialog::performAnalysis()
 {
     m_state = State::Analyzing;
     updateGui();
+
+    for(const IPhotoInfo::Ptr& photo: m_dbPhotos)
+    {
+        const QString path = photo->getPath();
+
+        auto it = m_photosFound.find(path);
+
+        if (it != m_photosFound.end())
+            m_photosFound.erase(it);
+    }
+
+    // now m_photosFound contains only photos which are not in db
+}
+
+
+void CollectionDirScanDialog::scan()
+{
+    m_state = State::Scanning;
+    updateGui();
+
+    // collect photos from disk
+    using namespace std::placeholders;
+    auto disk_callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
+
+    m_collector.collect(m_collectionLocation, disk_callback);
+
+    // collect photos from db
+    auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
+    auto task = std::make_unique<ListExistingPhotos>(db_callback);
+    
+    m_database->exec( std::move(task) );
+}
+
+
+void CollectionDirScanDialog::checkIfReady()
+{
+    if (m_gotPhotos && m_gotDBPhotos)
+        emit analyze();
 }
 
 
 void CollectionDirScanDialog::gotPhoto(const QString& path)
 {
-    std::lock_guard<std::mutex> photos_lock(m_photosFoundMutex);
-
     m_photosFound.insert(path);
+}
+
+
+void CollectionDirScanDialog::gotExistingPhotos(const IPhotoInfo::List& photos)
+{
+    m_dbPhotos = photos;
+    m_gotDBPhotos = true;
+
+    checkIfReady();
 }
 
 

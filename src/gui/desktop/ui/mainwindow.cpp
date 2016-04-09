@@ -438,7 +438,8 @@ void MainWindow::on_actionAdd_photos_triggered()
 void MainWindow::on_actionScan_collection_triggered()
 {
     const QString basePath = m_currentPrj->getProjectInfo().getBaseDir();
-    CollectionDirScanDialog(basePath).exec();
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+    CollectionDirScanDialog(basePath, db).exec();
 }
 
 
