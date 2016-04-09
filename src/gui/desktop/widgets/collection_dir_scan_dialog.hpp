@@ -42,7 +42,7 @@ class CollectionDirScanDialog: public QDialog
     private:
         PhotosCollector m_collector;
         QString m_curPathStr;
-        std::mutex m_mutex;
+        std::mutex m_curPathStrMutex;
         QLabel* m_info;
         QLabel* m_curPath;
         QPushButton* m_button;

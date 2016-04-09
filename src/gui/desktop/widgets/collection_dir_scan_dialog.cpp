@@ -31,7 +31,7 @@ CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocati
     QDialog(p),
     m_collector(),
     m_curPathStr(),
-    m_mutex(),
+    m_curPathStrMutex(),
     m_info(nullptr),
     m_curPath(nullptr),
     m_button(nullptr),
@@ -102,7 +102,7 @@ void CollectionDirScanDialog::scanDone()
 
 void CollectionDirScanDialog::updateGui()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_curPathStrMutex);
 
     m_curPath->setText(m_curPathStr);
 }
@@ -119,7 +119,7 @@ void CollectionDirScanDialog::scan(const QString& location)
 
 void CollectionDirScanDialog::gotPhoto(const QString& path)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_curPathStrMutex);
 
     const QFileInfo info(path);
     m_curPathStr = info.absolutePath();
