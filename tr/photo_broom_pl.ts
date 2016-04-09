@@ -32,7 +32,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+112"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+118"/>
         <source>Collection scan in progress</source>
         <translation type="unfinished"></translation>
     </message>
