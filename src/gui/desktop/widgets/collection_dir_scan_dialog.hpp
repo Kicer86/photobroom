@@ -41,26 +41,30 @@ class CollectionDirScanDialog: public QDialog
         CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
 
     private:
+        enum class State
+        {
+            Canceled,
+            Scanning,
+            Analyzing,
+            Done,
+        };
+
         PhotosCollector m_collector;
-        QString m_curPathStr;
-        std::mutex m_curPathStrMutex;
         std::set<QString> m_photosFound;
         std::mutex m_photosFoundMutex;
+        State m_state;
         QLabel* m_info;
-        QLabel* m_curPath;
         QPushButton* m_button;
         QTimer* m_guiUpdater;
-        bool m_close;
-        bool m_canceled;
 
         // slots:
         void buttonPressed();
         void scanDone();
-        void updateGui();
         //
 
         void scan(const QString &);
         void gotPhoto(const QString &);
+        void updateGui();
 };
 
 #endif // COLLECTIONDIRSCANDIALOG_HPP

@@ -22,7 +22,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QTimer>
 
 #include "collection_dir_scan_dialog.hpp"
 
@@ -30,39 +29,22 @@
 CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocation, QWidget* p):
     QDialog(p),
     m_collector(),
-    m_curPathStr(),
-    m_curPathStrMutex(),
+    m_photosFound(),
+    m_photosFoundMutex(),
+    m_state(State::Scanning),
     m_info(nullptr),
-    m_curPath(nullptr),
-    m_button(nullptr),
-    m_close(false),
-    m_canceled(false)
+    m_button(nullptr)
 {
-    m_info = new QLabel(tr("Collection scan in progress"), this);
-    m_button = new QPushButton(tr("Cancel"), this);
+    m_info = new QLabel(this);
+    m_button = new QPushButton(this);
 
     connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
     connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
 
-    // path
-    QLabel* pathInfo = new QLabel(tr("Scanning:"), this);
-    m_curPath = new QLabel(this);
-
-    QHBoxLayout* pathLayout = new QHBoxLayout;
-    pathLayout->addWidget(pathInfo);
-    pathLayout->addWidget(m_curPath);
-
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
-    l->addLayout(pathLayout);
-    l->addStretch();
     l->addWidget(m_info);
     l->addWidget(m_button);
-
-    // gui updater
-    m_guiUpdater = new QTimer(this);
-    connect(m_guiUpdater, &QTimer::timeout, this, &CollectionDirScanDialog::updateGui);
-    m_guiUpdater->start(1000);
 
     //
     scan(collectionLocation);
@@ -77,54 +59,68 @@ CollectionDirScanDialog::~CollectionDirScanDialog()
 
 void CollectionDirScanDialog::buttonPressed()
 {
-    if (m_close)
+    if (m_state == State::Done || m_state == State::Canceled)
         accept();
     else
     {
-        m_canceled = true;
+        m_state = State::Canceled;
         m_collector.stop();
+
+        updateGui();
     }
 }
 
 
 void CollectionDirScanDialog::scanDone()
 {
-    if (m_canceled)
-        m_info->setText(tr("Collection scan canceled"));
-    else
-        m_info->setText(tr("Collection scan finished"));
-
-    m_button->setText(tr("Close"));
-    m_close = true;
-    m_guiUpdater->stop();
-}
-
-
-void CollectionDirScanDialog::updateGui()
-{
-    std::lock_guard<std::mutex> lock(m_curPathStrMutex);
-
-    m_curPath->setText(m_curPathStr);
+    m_state = State::Analyzing;
+    updateGui();
 }
 
 
 void CollectionDirScanDialog::scan(const QString& location)
 {
+    m_state = State::Scanning;
     // collect photos from disk
     using namespace std::placeholders;
     auto callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
 
     m_collector.collect(location, callback);
+
+    updateGui();
 }
 
 
 void CollectionDirScanDialog::gotPhoto(const QString& path)
 {
-    std::lock_guard<std::mutex> path_lock(m_curPathStrMutex);
     std::lock_guard<std::mutex> photos_lock(m_photosFoundMutex);
 
-    const QFileInfo info(path);
-    m_curPathStr = info.absolutePath();
-
     m_photosFound.insert(path);
+}
+
+
+void CollectionDirScanDialog::updateGui()
+{
+    switch(m_state)
+    {
+        case State::Canceled:
+            m_info->setText(tr("Collection scan canceled"));
+            m_button->setText(tr("Close"));
+            break;
+
+        case State::Scanning:
+            m_info->setText(tr("Collection scan in progress"));
+            m_button->setText(tr("Cancel"));
+            break;
+
+        case State::Analyzing:
+            m_info->setText(tr("Searching for new photos"));
+            m_button->setText(tr("Cancel"));
+            break;
+
+        case State::Done:
+            m_info->setText(tr("Done"));
+            m_button->setText(tr("Close"));
+            break;
+    }
 }
