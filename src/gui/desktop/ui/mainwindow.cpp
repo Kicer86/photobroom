@@ -36,6 +36,15 @@
 #include "ui_mainwindow.h"
 
 
+namespace
+{
+    struct StorePhoto: Database::AStorePhotoTask
+    {
+        void got(bool) override {}
+    };
+}
+
+
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -439,7 +448,22 @@ void MainWindow::on_actionScan_collection_triggered()
 {
     const QString basePath = m_currentPrj->getProjectInfo().getBaseDir();
     Database::IDatabase* db = m_currentPrj->getDatabase();
-    CollectionDirScanDialog(basePath, db).exec();
+
+    CollectionDirScanDialog scanner(basePath, db);
+    const int status = scanner.exec();
+
+    if (status == QDialog::Accepted)
+    {
+        Database::IDatabase* db = m_currentPrj->getDatabase();
+
+        const std::set<QString>& photos = scanner.newPhotos();
+
+        for(const QString& path: photos)
+        {
+            auto task = std::make_unique<StorePhoto>();
+            db->exec( std::move(task), path);
+        }
+    }
 }
 
 
