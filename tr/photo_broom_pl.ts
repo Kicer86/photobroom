@@ -183,7 +183,12 @@
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+15"/>
+        <source>&amp;Windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -198,12 +203,11 @@
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>&amp;View</source>
-        <translation>&amp;Widok</translation>
+        <translation type="vanished">&amp;Widok</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+29"/>
         <source>&amp;Tasks</source>
         <translation>&amp;Operacje</translation>
     </message>
