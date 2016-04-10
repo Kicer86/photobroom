@@ -69,16 +69,16 @@
     </property>
     <addaction name="actionConfiguration"/>
    </widget>
-   <widget class="QMenu" name="menuView">
+   <widget class="QMenu" name="menuWindows">
     <property name="title">
-     <string>&amp;View</string>
+     <string>&amp;Windows</string>
     </property>
     <addaction name="actionTags_editor"/>
     <addaction name="actionTasks"/>
    </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
-   <addaction name="menuView"/>
+   <addaction name="menuWindows"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>

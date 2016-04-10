@@ -183,7 +183,7 @@ void MainWindow::checkVersion()
 }
 
 
-void MainWindow::updateViewMenu()
+void MainWindow::updateWindowsMenu()
 {
     ui->actionTags_editor->setChecked(ui->rightDockWidget->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
@@ -279,8 +279,8 @@ void MainWindow::setupView()
     ui->tagEditor->set( m_imagesModel);
 
     //connect to docks
-    connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateViewMenu()));
-    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateViewMenu()));
+    connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 }
 
 

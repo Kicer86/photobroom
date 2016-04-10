@@ -94,7 +94,7 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
-        // view menu
+        // windows menu
         void on_actionTags_editor_triggered();
         void on_actionTasks_triggered();
 
@@ -107,8 +107,8 @@ class MainWindow: public QMainWindow
         //check version
         void checkVersion();
 
-        // update view menu
-        void updateViewMenu();
+        // update windows menu
+        void updateWindowsMenu();
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
