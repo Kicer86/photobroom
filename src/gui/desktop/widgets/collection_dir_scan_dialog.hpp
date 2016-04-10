@@ -59,6 +59,8 @@ class CollectionDirScanDialog: public QDialog
 
         CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
 
+        const std::set<QString>& newPhotos() const;
+
     private:
         enum class State
         {

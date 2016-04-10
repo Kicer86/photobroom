@@ -62,10 +62,18 @@ CollectionDirScanDialog::~CollectionDirScanDialog()
 }
 
 
+const std::set< QString >& CollectionDirScanDialog::newPhotos() const
+{
+    return m_photosFound;
+}
+
+
 void CollectionDirScanDialog::buttonPressed()
 {
-    if (m_state == State::Done || m_state == State::Canceled)
+    if (m_state == State::Done)
         accept();
+    else if (m_state == State::Canceled)
+        rejected();
     else
     {
         m_state = State::Canceled;
@@ -100,6 +108,8 @@ void CollectionDirScanDialog::performAnalysis()
     }
 
     // now m_photosFound contains only photos which are not in db
+    m_state = State::Done;
+    updateGui();
 }
 
 
@@ -117,7 +127,7 @@ void CollectionDirScanDialog::scan()
     // collect photos from db
     auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
     auto task = std::make_unique<ListExistingPhotos>(db_callback);
-    
+
     m_database->exec( std::move(task) );
 }
 
