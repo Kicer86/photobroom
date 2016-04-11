@@ -39,8 +39,14 @@ namespace
 
 struct PhotoCrawler::Impl
 {
-    Impl(const std::shared_ptr<IFileSystemScanner>& scanner,
-         const std::shared_ptr<IAnalyzer>& analyzer): m_scanner(scanner), m_analyzer(analyzer), m_thread() {}
+    Impl(std::unique_ptr<IFileSystemScanner>&& scanner, std::unique_ptr<IAnalyzer>&& analyzer):
+        m_scanner( std::move(scanner) ),
+        m_analyzer( std::move(analyzer) ),
+        m_thread()
+    {
+
+    }
+
     ~Impl()
     {
         releaseThread();
@@ -49,8 +55,8 @@ struct PhotoCrawler::Impl
     Impl(const Impl &) = delete;
     Impl& operator=(const Impl &) = delete;
 
-    std::shared_ptr<IFileSystemScanner> m_scanner;
-    std::shared_ptr<IAnalyzer> m_analyzer;
+    std::unique_ptr<IFileSystemScanner> m_scanner;
+    std::unique_ptr<IAnalyzer> m_analyzer;
     std::thread m_thread;
 
     void run(const QString& path, IMediaNotification* notifications)
@@ -78,8 +84,8 @@ struct PhotoCrawler::Impl
 };
 
 
-PhotoCrawler::PhotoCrawler(const std::shared_ptr<IFileSystemScanner>& scanner,
-                           const std::shared_ptr<IAnalyzer>& analyzer): m_impl(new Impl(scanner, analyzer))
+PhotoCrawler::PhotoCrawler(std::unique_ptr<IFileSystemScanner>&& scanner,
+                           std::unique_ptr<IAnalyzer>&& analyzer): m_impl(new Impl( std::move(scanner), std::move(analyzer) ))
 {
 
 }

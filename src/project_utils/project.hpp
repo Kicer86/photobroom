@@ -22,44 +22,49 @@
 
 #include <memory>
 
-#include "iproject.hpp"
+#include <QString>
 
 namespace Database
 {
-    struct IDBPack;
+    struct IDatabase;
 }
 
-class Project: public IProject
+
+struct ProjectInfo
+{
+        ProjectInfo(const QString& path);
+        ProjectInfo();
+
+        bool isValid() const;
+
+        const QString& getPath() const;
+        const QString& getBaseDir() const;
+        const QString& getName() const;
+        const QString& getInternalLocation() const;
+
+    private:
+        QString path;
+        QString baseDir;
+        QString name;
+        QString internalLocation;
+};
+
+
+class Project
 {
     public:
-        Project();
+        Project(std::unique_ptr<Database::IDatabase> &&, const ProjectInfo &);
         Project(const Project &) = delete;
         virtual ~Project();
 
         Project& operator=(const Project &) = delete;
 
-        //extra fields
-        void setPrjPath(const QString &);
-
-        //init fields
-        void setDBBackend(const QString &);
-        void setDBLocation(const QString &);
-        void setDatabase(std::unique_ptr<Database::IDBPack> &&);
-        void setName(const QString &);
-
-        // overrides
-        QString getDBBackend() const override;
-        QString getDBLocation() const override;
-        QString getPrjPath() const override;
-        Database::IDatabase* getDatabase() const override;
-        QString getName() const override;
+        Database::IDatabase* getDatabase() const;
+        const ProjectInfo& getProjectInfo() const;
 
     private:
-        QString m_backend;
-        QString m_location;
-        QString m_prjPath;
-        QString m_name;
-        std::unique_ptr<Database::IDBPack> m_database;
+        ProjectInfo m_prjInfo;
+        std::unique_ptr<Database::IDatabase> m_database;
 };
 
 #endif // PROJECT_HPP

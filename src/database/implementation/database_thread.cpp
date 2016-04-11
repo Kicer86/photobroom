@@ -271,7 +271,15 @@ namespace
 
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
-        Executor(Database::IBackend* backend, PhotoInfoStorekeeper* storekeeper): m_tasks(1024), m_backend(backend), m_cache(nullptr), m_storekeeper(storekeeper) {}
+        Executor( std::unique_ptr<Database::IBackend>&& backend, PhotoInfoStorekeeper* storekeeper):
+            m_tasks(1024),
+            m_backend( std::move(backend) ),
+            m_cache(nullptr),
+            m_storekeeper(storekeeper)
+        {
+
+        }
+
         Executor(const Executor &) = delete;
         Executor& operator=(const Executor &) = delete;
 
@@ -409,7 +417,7 @@ namespace
         }
 
         ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
-        Database::IBackend* m_backend;
+        std::unique_ptr<Database::IBackend> m_backend;
         Database::IPhotoInfoCache* m_cache;
         PhotoInfoStorekeeper* m_storekeeper;
     };
@@ -422,7 +430,12 @@ namespace Database
 
     struct DatabaseThread::Impl
     {
-        Impl(IBackend* backend): m_storekeeper(), m_executor(backend, &m_storekeeper), m_thread(), m_working(true)
+        Impl( std::unique_ptr<IBackend>&& backend):
+            m_cache(nullptr),
+            m_storekeeper(),
+            m_executor( std::move(backend), &m_storekeeper),
+            m_thread(),
+            m_working(true)
         {
             m_thread = std::thread(&Executor::begin, &m_executor);
         }
@@ -448,6 +461,7 @@ namespace Database
             }
         }
 
+        std::unique_ptr<IPhotoInfoCache> m_cache;
         PhotoInfoStorekeeper m_storekeeper;
         Executor m_executor;
         std::thread m_thread;
@@ -455,8 +469,10 @@ namespace Database
     };
 
 
-    DatabaseThread::DatabaseThread(IBackend* backend): m_impl(new Impl(backend))
+    DatabaseThread::DatabaseThread( std::unique_ptr<IBackend>&& backend ):
+        m_impl(nullptr)
     {
+        m_impl = std::make_unique<Impl>( std::move(backend));
         m_impl->m_storekeeper.setDatabase(this);
     }
 
@@ -475,10 +491,11 @@ namespace Database
 
 
 
-    void DatabaseThread::set(IPhotoInfoCache* cache)
+    void DatabaseThread::set( std::unique_ptr<IPhotoInfoCache>&& cache)
     {
-        m_impl->m_executor.set(cache);
-        m_impl->m_storekeeper.setCache(cache);
+        m_impl->m_cache = std::move(cache);
+        m_impl->m_executor.set(m_impl->m_cache.get());
+        m_impl->m_storekeeper.setCache(m_impl->m_cache.get());
     }
 
 

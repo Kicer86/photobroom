@@ -22,7 +22,7 @@
 
 #include <QDialog>
 
-#include <project_utils/iproject_manager.hpp>
+#include <project_utils/project.hpp>
 
 class QComboBox;
 class QtExtChooseFile;
@@ -81,7 +81,7 @@ class ProjectCreator
         ProjectCreator();
 
         bool create(IProjectManager *, IPluginLoader *);
-        ProjectInfo project() const;
+        const ProjectInfo& project() const;
 
     private:
         ProjectInfo m_prj;

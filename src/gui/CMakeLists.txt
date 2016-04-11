@@ -42,7 +42,6 @@ set(GUI_SOURCES
     desktop/views/tree_item_delegate.cpp
     desktop/ui/configuration_dialog.cpp
     desktop/ui/mainwindow.cpp
-    desktop/ui/photos_add_dialog.cpp
 )
 
 set(GUI_HEADERS
@@ -60,7 +59,6 @@ set(GUI_HEADERS
     desktop/views/tree_item_delegate.hpp
     desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
-    desktop/ui/photos_add_dialog.hpp
 )
 
 #set of file to be moced
@@ -70,7 +68,6 @@ set(GUI_FILES_TO_MOC
     desktop/views/view_impl/view_data_set.hpp
     desktop/ui/configuration_dialog.hpp
     desktop/ui/mainwindow.hpp
-    desktop/ui/photos_add_dialog.hpp
 )
 
 set(GUI_RESOURCE_FILES images/images.qrc)
@@ -78,7 +75,6 @@ set(GUI_RESOURCE_FILES images/images.qrc)
 set(GUI_UI_FILES
                  desktop/ui/configuration_dialog.ui
                  desktop/ui/mainwindow.ui
-                 desktop/ui/photos_add_dialog.ui
 )
 
 source_group(interface FILES gui.hpp)

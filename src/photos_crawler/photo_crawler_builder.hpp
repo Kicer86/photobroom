@@ -4,16 +4,17 @@
 
 #include <memory>
 
+#include "ianalyzer.hpp"
+
 #include "photos_crawler_export.h"
 
-struct IPhotoCrawler;
 
-struct PHOTOS_CRAWLER_EXPORT PhotoCrawlerBuilder
+struct PHOTOS_CRAWLER_EXPORT PhotoCrawlerBuilder final
 {
     PhotoCrawlerBuilder();
-    virtual ~PhotoCrawlerBuilder();
+    ~PhotoCrawlerBuilder();
 
-    std::unique_ptr<IPhotoCrawler> build();
+    std::unique_ptr<IAnalyzer> buildFullFileAnalyzer();
 };
 
 #endif

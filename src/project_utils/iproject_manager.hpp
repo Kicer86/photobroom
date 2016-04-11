@@ -23,60 +23,12 @@
 #include <memory>
 #include <deque>
 
-#include <QFileInfo>
-
 #include <database/idatabase_plugin.hpp>
 
 class QString;
 
-struct IProject;
-
-
-struct ProjectInfo
-{
-    ProjectInfo(const QString& _path): ProjectInfo()
-    {
-        const QFileInfo fi(_path);
-        path = fi.absoluteFilePath();
-        baseDir = fi.absolutePath();
-        name = fi.baseName();
-        internalLocation = QString("%1/%2_files").arg(baseDir).arg(name);
-    }
-
-    ProjectInfo(): path(), baseDir(), name() {}
-
-    bool isValid() const
-    {
-        return path.isEmpty() == false;
-    }
-
-    const QString& getPath() const
-    {
-        return path;
-    }
-
-    const QString& getBaseDir() const
-    {
-        return baseDir;
-    }
-
-    const QString& getName() const
-    {
-        return name;
-    }
-
-    const QString& getInternalLocation() const
-    {
-        return internalLocation;
-    }
-
-    private:
-        QString path;
-        QString baseDir;
-        QString name;
-        QString internalLocation;
-};
-
+class Project;
+struct ProjectInfo;
 
 struct IProjectManager
 {
@@ -84,8 +36,7 @@ struct IProjectManager
 
     virtual ProjectInfo new_prj(const QString& name, const Database::IPlugin *, const QString& location) = 0;
     [[deprecated]] virtual std::deque<ProjectInfo> listProjects() = 0;
-    virtual std::unique_ptr<IProject> open(const ProjectInfo &, Database::IBuilder::OpenResult) = 0;
-    virtual bool save(const IProject *) = 0;
+    virtual std::unique_ptr<Project> open(const ProjectInfo &, Database::IBuilder::OpenResult) = 0;
     [[deprecated]] virtual bool remove(const ProjectInfo &) = 0;
 };
 

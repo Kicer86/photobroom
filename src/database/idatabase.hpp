@@ -128,8 +128,6 @@ namespace Database
 
         virtual ADatabaseSignals* notifier() = 0;
 
-        virtual void set(IPhotoInfoCache *) = 0;
-
         // store data
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const QString &) = 0;
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;

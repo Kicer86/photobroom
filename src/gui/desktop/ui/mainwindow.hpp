@@ -12,17 +12,16 @@
 class ConfigDialogManager;
 class LookTabControler;
 class MainTabControler;
-class PhotosCollector;
 class PhotosAnalyzer;
 struct ITaskExecutor;
 struct IPhotosManager;
 struct IPluginLoader;
-struct IProject;
 struct IProjectManager;
 struct IConfiguration;
 struct IView;
 
 class DBDataModel;
+class Project;
 struct ProjectInfo;
 
 namespace Ui
@@ -52,7 +51,7 @@ class MainWindow: public QMainWindow
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
-        std::unique_ptr<IProject> m_currentPrj;
+        std::unique_ptr<Project>  m_currentPrj;
         DBDataModel*              m_imagesModel;
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
@@ -62,6 +61,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
+        QStringList               m_recentCollections;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -76,6 +76,7 @@ class MainWindow: public QMainWindow
         void registerConfigTab();
 
         void loadGeometry();
+        void loadRecentCollections();
 
     private slots:
         // album menu
@@ -84,15 +85,19 @@ class MainWindow: public QMainWindow
         void on_actionClose_triggered();
         void on_actionQuit_triggered();
 
+        // view menu
+        void on_actionAll_photos_triggered();
+        void on_actionNew_photos_triggered();
+
         // photos menu
-        void on_actionAdd_photos_triggered();
+        void on_actionScan_collection_triggered();
 
         // help menu
         void on_actionHelp_triggered();
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
-        // view menu
+        // windows menu
         void on_actionTags_editor_triggered();
         void on_actionTasks_triggered();
 
@@ -105,8 +110,8 @@ class MainWindow: public QMainWindow
         //check version
         void checkVersion();
 
-        // update view menu
-        void updateViewMenu();
+        // update windows menu
+        void updateWindowsMenu();
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);

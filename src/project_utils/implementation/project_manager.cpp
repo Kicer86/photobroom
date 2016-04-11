@@ -103,7 +103,7 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 }
 
 
-std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Database::IBuilder::OpenResult openResult)
+std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, Database::IBuilder::OpenResult openResult)
 {
     const QString& prjPath = prjInfo.getPath();
 
@@ -114,35 +114,12 @@ std::unique_ptr<IProject> ProjectManager::open(const ProjectInfo& prjInfo, Datab
     QString location = prjFile.value("location").toString();
     prjFile.endGroup();
 
-    Project* result = new Project();
-    result->setPrjPath(prjPath);
-    result->setDBBackend(backend);
-    result->setDBLocation(location);
-    result->setName(prjInfo.getName());
-
     Database::ProjectInfo dbPrjInfo(location, backend);
     auto db = m_dbBuilder->get(dbPrjInfo, openResult);
 
-    result->setDatabase(std::move(db));
+    Project* result = new Project(std::move(db), prjInfo);
 
-    return std::unique_ptr<IProject>(result);
-}
-
-
-bool ProjectManager::save(const IProject* project)
-{
-    QSettings prjFile(project->getPrjPath(), QSettings::IniFormat);
-
-    prjFile.beginGroup("Database");
-    prjFile.setValue("backend",  project->getDBBackend());
-    prjFile.setValue("location", project->getDBLocation());
-    prjFile.endGroup();
-
-    prjFile.beginGroup("Project");
-    prjFile.setValue("name",  project->getName());
-    prjFile.endGroup();
-
-    return true;
+    return std::unique_ptr<Project>(result);
 }
 
 

@@ -16,23 +16,31 @@
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
-#include <project_utils/iproject.hpp>
+#include <project_utils/project.hpp>
 
 #include "config.hpp"
 
 #include "config_keys.hpp"
 #include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
-#include "models/photos_data_model.hpp"
-#include "models/staged_photos_data_model.hpp"
+#include "models/db_data_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
+#include "widgets/collection_dir_scan_dialog.hpp"
 #include "utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
 #include "utils/icons_loader.hpp"
-#include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
+
+
+namespace
+{
+    struct StorePhoto: Database::AStorePhotoTask
+    {
+        void got(bool) override {}
+    };
+}
 
 
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
@@ -48,7 +56,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
-    m_lookTabCtrl(new LookTabControler)
+    m_lookTabCtrl(new LookTabControler),
+    m_recentCollections()
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -121,6 +130,7 @@ void MainWindow::set(IConfiguration* configuration)
     ui->imagesView->set(configuration);
 
     loadGeometry();
+    loadRecentCollections();
 }
 
 
@@ -171,7 +181,7 @@ void MainWindow::checkVersion()
 }
 
 
-void MainWindow::updateViewMenu()
+void MainWindow::updateWindowsMenu()
 {
     ui->actionTags_editor->setChecked(ui->rightDockWidget->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
@@ -221,6 +231,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     const QByteArray state = saveState();
     m_configuration->setEntry("gui::state", state.toBase64());
+
+    //store recent collections
+    m_configuration->setEntry("gui::recent", m_recentCollections.join(";"));
 }
 
 
@@ -254,7 +267,7 @@ void MainWindow::closeProject()
 
 void MainWindow::setupView()
 {
-    m_imagesModel = new PhotosDataModel(this);
+    m_imagesModel = new DBDataModel(this);
     ui->imagesView->setModel(m_imagesModel);
 
     m_photosAnalyzer->set(ui->tasksWidget);
@@ -264,23 +277,43 @@ void MainWindow::setupView()
     ui->tagEditor->set( m_imagesModel);
 
     //connect to docks
-    connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateViewMenu()));
-    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateViewMenu()));
+    connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+
+    // group radio buttons
+    QActionGroup* viewGroup = new QActionGroup(this);
+    viewGroup->addAction(ui->actionAll_photos);
+    viewGroup->addAction(ui->actionNew_photos);
 }
 
 
 void MainWindow::updateMenus()
 {
     const bool prj = m_currentPrj.get() != nullptr;
+    const bool valid = m_recentCollections.isEmpty() == false;
 
+    ui->menuView->menuAction()->setVisible(prj);
     ui->menuPhotos->menuAction()->setVisible(prj);
+    ui->menuOpen_recent->menuAction()->setVisible(valid);
+    ui->menuOpen_recent->clear();
+
+    for(const QString& entry: m_recentCollections)
+    {
+        QAction* action = ui->menuOpen_recent->addAction(entry);
+        connect(action, &QAction::triggered, [=]
+        {
+            const ProjectInfo prj(entry);
+
+            openProject(prj);
+        });
+    }
 }
 
 
 void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getName(): tr("No collection opened"));
+    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened"));
 
     setWindowTitle(title);
 }
@@ -351,6 +384,18 @@ void MainWindow::loadGeometry()
 }
 
 
+void MainWindow::loadRecentCollections()
+{
+    // recent collections
+    const QString rawList = m_configuration->getEntry("gui::recent").toString();
+
+    if (rawList.isEmpty() == false)
+        m_recentCollections = rawList.split(";");
+
+    updateMenus();
+}
+
+
 void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
@@ -370,6 +415,11 @@ void MainWindow::on_actionOpen_collection_triggered()
         const ProjectInfo prjName(prjPath);
 
         openProject(prjName);
+
+        const bool already_has = m_recentCollections.contains(prjPath);
+
+        if (already_has == false)
+            m_recentCollections.append(prjPath);
     }
 }
 
@@ -386,15 +436,45 @@ void MainWindow::on_actionQuit_triggered()
 }
 
 
-void MainWindow::on_actionAdd_photos_triggered()
+void MainWindow::on_actionAll_photos_triggered()
 {
-    PhotosAddDialog photosAddDialog(m_configuration);
+    const std::deque<Database::IFilter::Ptr> filters;
 
-    photosAddDialog.set(m_executor);
-    photosAddDialog.set(m_currentPrj->getDatabase());
-    photosAddDialog.set(m_photosManager);
-    photosAddDialog.setWindowModality(Qt::ApplicationModal);
-    photosAddDialog.exec();
+    m_imagesModel->setStaticFilters(filters);
+}
+
+
+void MainWindow::on_actionNew_photos_triggered()
+{
+    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    filter->flags[Photo::FlagsE::StagingArea] = 1;
+
+    const std::deque<Database::IFilter::Ptr> filters( {filter});
+
+    m_imagesModel->setStaticFilters(filters);
+}
+
+
+void MainWindow::on_actionScan_collection_triggered()
+{
+    const QString basePath = m_currentPrj->getProjectInfo().getBaseDir();
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
+    CollectionDirScanDialog scanner(basePath, db);
+    const int status = scanner.exec();
+
+    if (status == QDialog::Accepted)
+    {
+        Database::IDatabase* db = m_currentPrj->getDatabase();
+
+        const std::set<QString>& photos = scanner.newPhotos();
+
+        for(const QString& path: photos)
+        {
+            auto task = std::make_unique<StorePhoto>();
+            db->exec( std::move(task), path);
+        }
+    }
 }
 
 
@@ -470,7 +550,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
                                   tr("Photo collection could not be opened.\n"
                                      "It usually means that collection files are broken\n"
                                      "or you don't have rights to access them.\n\n"
-                                     "Please check collection files:\n%1").arg(m_currentPrj->getPrjPath())
+                                     "Please check collection files:\n%1").arg(m_currentPrj->getProjectInfo().getPath())
                                  );
             closeProject();
             break;

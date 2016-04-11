@@ -30,6 +30,54 @@
     </message>
 </context>
 <context>
+    <name>CollectionDirScanDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+169"/>
+        <source>Collection scan in progress</source>
+        <translation>Trwa skanowanie kolekcji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+5"/>
+        <source>Done. %n new photo(s) found.</source>
+        <translation>
+            <numerusform>Zakończono. Znaleziono %n zdjęcie.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n zdjęcia.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n zdjęć.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <source>Collection scan canceled</source>
+        <translation>Skanowanie kolekcji przerwane</translation>
+    </message>
+    <message>
+        <location line="-110"/>
+        <source>Collection scan</source>
+        <translation>Skanowanie kolekcji</translation>
+    </message>
+    <message>
+        <location line="+120"/>
+        <source>Searching for new photos</source>
+        <translation>Wyszukiwanie nowych zdjęć</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation type="vanished">Zakończono</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+17"/>
+        <source>Close</source>
+        <translation>Zamknij</translation>
+    </message>
+</context>
+<context>
     <name>ConfigurationDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
@@ -138,42 +186,52 @@
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+4"/>
+        <source>Open &amp;recent</source>
+        <translation>O&amp;twórz poprzednią</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>He&amp;lp</source>
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <source>Photo &amp;information</source>
-        <translation type="vanished">&amp;Informacje o zdjęciu</translation>
+        <location line="+15"/>
+        <source>&amp;Windows</source>
+        <translation>&amp;Okna</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="+22"/>
+        <source>Photo &amp;information</source>
+        <translation>&amp;Informacje o zdjęciu</translation>
+    </message>
+    <message>
+        <location line="-43"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+15"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+13"/>
         <source>&amp;View</source>
         <translation>&amp;Widok</translation>
     </message>
     <message>
+        <location line="+24"/>
         <source>&amp;Tasks</source>
-        <translation type="vanished">&amp;Operacje</translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <translation type="vanished">Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Tasks</source>
-        <translation>Operacje</translation>
+        <translation type="vanished">Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -231,11 +289,26 @@
         <translation>&amp;Zadania</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>&amp;Scan collection</source>
+        <translation>&amp;Przeskanuj kolekcję</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>&amp;All photos</source>
+        <translation>&amp;Wszystkie zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>&amp;New photos</source>
+        <translation>&amp;Nowe zdjęcia</translation>
+    </message>
+    <message>
         <source>Tags editor</source>
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+187"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+197"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -257,7 +330,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+110"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -267,17 +340,17 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+95"/>
         <source>Open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz kolekcję</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Photo Broom files (*.bpj)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+128"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -340,69 +413,56 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAddDialog</name>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
         <source>Add photos</source>
-        <translation>Dodaj zdjęcia</translation>
+        <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>File system view</source>
-        <translation>Widok systemu plików</translation>
+        <translation type="vanished">Widok systemu plików</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>Directory content</source>
-        <translation>Zawartość katalogu</translation>
+        <translation type="vanished">Zawartość katalogu</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to &apos;Photos preparation&apos; area where you can edit photo&apos;s information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj zaznaczone zdjęcia do sekcji &quot;Przygotowywanie zdjęć&quot;, gdzie będzie można je przygotować przed dodaniem do kolekcji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj zaznaczone zdjęcia do sekcji &quot;Przygotowywanie zdjęć&quot;, gdzie będzie można je przygotować przed dodaniem do kolekcji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Add selected to preparation</source>
-        <translation>Dodaj zaznaczone zdjęcia do sekcji przygotowywania</translation>
+        <translation type="vanished">Dodaj zaznaczone zdjęcia do sekcji przygotowywania</translation>
     </message>
     <message>
-        <location line="+40"/>
         <source>Photos preparation</source>
-        <translation>Przygotowywanie zdjęć</translation>
+        <translation type="vanished">Przygotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected photos from preparation area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Usuń zaznaczone zdjęcia z sekcji &quot;Przygotowywanie zdjęć&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Usuń zaznaczone zdjęcia z sekcji &quot;Przygotowywanie zdjęć&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Remove selected</source>
-        <translation>Usuń zaznaczone</translation>
+        <translation type="vanished">Usuń zaznaczone</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Tags editor</source>
-        <translation>Edytor tagów</translation>
+        <translation type="vanished">Edytor tagów</translation>
     </message>
     <message>
-        <location line="+27"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="-99"/>
         <source>Photos found:</source>
-        <translation>Znalezionych zdjęć:</translation>
+        <translation type="vanished">Znalezionych zdjęć:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+270"/>
         <source>Discard changes?</source>
-        <translation>Odrzucić zmiany?</translation>
+        <translation type="vanished">Odrzucić zmiany?</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>All changes will be lost, do you want to proceed?</source>
-        <translation>Wszystkie zmiany zostaną utracone, czy chcesz kontynuować? </translation>
+        <translation type="vanished">Wszystkie zmiany zostaną utracone, czy chcesz kontynuować? </translation>
     </message>
 </context>
 <context>
@@ -474,23 +534,24 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location line="+3"/>
         <location line="+5"/>
         <source>Photos location</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja zdjęć</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Photos location is place where your photos collection will be stored.
 Location may already contain photos which will be added to collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja zdjęć to katalog, gdzie twoje zdjęcia będą przechowywane.
+Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekcji.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądaj</translation>
     </message>
 </context>
 <context>

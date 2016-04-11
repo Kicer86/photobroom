@@ -13,7 +13,7 @@ class FileAnalyzer: public IAnalyzer
         virtual ~FileAnalyzer();
 
         virtual bool isImage(const QString &) override;
-        void registerAnalyzer(IAnalyzer *);
+        void registerAnalyzer(std::unique_ptr<IAnalyzer> &&);
 
     private:
         struct Impl;

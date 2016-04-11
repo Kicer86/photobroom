@@ -24,15 +24,15 @@
 #include <QProgressBar>
 
 #include <photos_crawler/photo_crawler_builder.hpp>
-
-#include "models/staged_photos_data_model.hpp"
+#include <photos_crawler/photo_crawler.hpp>
+#include <photos_crawler/default_filesystem_scanners/filesystemscanner.hpp>
 
 
 struct PhotosCollector::Data
 {
     std::function<void(const QString &)> m_callback;
     ITasksView* m_tasksView;
-    std::unique_ptr<IPhotoCrawler> m_crawler;
+    std::unique_ptr<PhotoCrawler> m_crawler;
 
     Data(): m_callback(), m_tasksView(nullptr), m_crawler(nullptr)
     {
@@ -61,7 +61,10 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
 
     m_data->m_callback = callback;
 
-    m_data->m_crawler = PhotoCrawlerBuilder().build();
+    auto analyzer = PhotoCrawlerBuilder().buildFullFileAnalyzer();
+    auto scanner = std::make_unique<FileSystemScanner>();
+
+    m_data->m_crawler = std::make_unique<PhotoCrawler>( std::move(scanner), std::move(analyzer) );
     m_data->m_crawler->crawl(path, this);
 }
 
