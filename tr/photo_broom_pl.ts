@@ -295,7 +295,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+199"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+197"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -337,7 +337,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+140"/>
+        <location line="+134"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -400,69 +400,56 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAddDialog</name>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.ui" line="+14"/>
         <source>Add photos</source>
-        <translation>Dodaj zdjęcia</translation>
+        <translation type="vanished">Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>File system view</source>
-        <translation>Widok systemu plików</translation>
+        <translation type="vanished">Widok systemu plików</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>Directory content</source>
-        <translation>Zawartość katalogu</translation>
+        <translation type="vanished">Zawartość katalogu</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds selected photos to &apos;Photos preparation&apos; area where you can edit photo&apos;s information before adding it to collection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj zaznaczone zdjęcia do sekcji &quot;Przygotowywanie zdjęć&quot;, gdzie będzie można je przygotować przed dodaniem do kolekcji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj zaznaczone zdjęcia do sekcji &quot;Przygotowywanie zdjęć&quot;, gdzie będzie można je przygotować przed dodaniem do kolekcji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Add selected to preparation</source>
-        <translation>Dodaj zaznaczone zdjęcia do sekcji przygotowywania</translation>
+        <translation type="vanished">Dodaj zaznaczone zdjęcia do sekcji przygotowywania</translation>
     </message>
     <message>
-        <location line="+40"/>
         <source>Photos preparation</source>
-        <translation>Przygotowywanie zdjęć</translation>
+        <translation type="vanished">Przygotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected photos from preparation area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Usuń zaznaczone zdjęcia z sekcji &quot;Przygotowywanie zdjęć&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Usuń zaznaczone zdjęcia z sekcji &quot;Przygotowywanie zdjęć&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Remove selected</source>
-        <translation>Usuń zaznaczone</translation>
+        <translation type="vanished">Usuń zaznaczone</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Tags editor</source>
-        <translation>Edytor tagów</translation>
+        <translation type="vanished">Edytor tagów</translation>
     </message>
     <message>
-        <location line="+27"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save - saves prepared photos in collection.&lt;br/&gt;Cancel - discards all changes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zapisz - zapisuje przygotowane zdjęć w kolekcji.&lt;br/&gt;Anuluj - anuluje wszystkie zmiany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="-99"/>
         <source>Photos found:</source>
-        <translation>Znalezionych zdjęć:</translation>
+        <translation type="vanished">Znalezionych zdjęć:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_add_dialog.cpp" line="+270"/>
         <source>Discard changes?</source>
-        <translation>Odrzucić zmiany?</translation>
+        <translation type="vanished">Odrzucić zmiany?</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>All changes will be lost, do you want to proceed?</source>
-        <translation>Wszystkie zmiany zostaną utracone, czy chcesz kontynuować? </translation>
+        <translation type="vanished">Wszystkie zmiany zostaną utracone, czy chcesz kontynuować? </translation>
     </message>
 </context>
 <context>

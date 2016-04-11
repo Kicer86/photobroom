@@ -23,8 +23,7 @@
 #include "config_keys.hpp"
 #include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
-#include "models/photos_data_model.hpp"
-#include "models/staged_photos_data_model.hpp"
+#include "models/db_data_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
@@ -32,7 +31,6 @@
 #include "utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
 #include "utils/icons_loader.hpp"
-#include "ui/photos_add_dialog.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -459,13 +457,7 @@ void MainWindow::on_actionNew_photos_triggered()
 
 void MainWindow::on_actionAdd_photos_triggered()
 {
-    PhotosAddDialog photosAddDialog(m_configuration);
-
-    photosAddDialog.set(m_executor);
-    photosAddDialog.set(m_currentPrj->getDatabase());
-    photosAddDialog.set(m_photosManager);
-    photosAddDialog.setWindowModality(Qt::ApplicationModal);
-    photosAddDialog.exec();
+    // TODO: remove
 }
 
 

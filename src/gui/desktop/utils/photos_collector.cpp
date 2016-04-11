@@ -27,8 +27,6 @@
 #include <photos_crawler/photo_crawler.hpp>
 #include <photos_crawler/default_filesystem_scanners/filesystemscanner.hpp>
 
-#include "models/staged_photos_data_model.hpp"
-
 
 struct PhotosCollector::Data
 {
