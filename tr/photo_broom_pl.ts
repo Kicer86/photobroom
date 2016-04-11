@@ -42,8 +42,17 @@
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
+    <message numerus="yes">
+        <location line="+5"/>
+        <source>Done. %n new photo(s) found.</source>
+        <translation>
+            <numerusform>Zakończono. Znaleziono %n zdjęcie.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n zdjęcia.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n zdjęć.</numerusform>
+        </translation>
+    </message>
     <message>
-        <location line="-11"/>
+        <location line="-16"/>
         <source>Collection scan canceled</source>
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
@@ -53,13 +62,12 @@
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Done</source>
-        <translation>Zakończono</translation>
+        <translation type="vanished">Zakończono</translation>
     </message>
     <message>
-        <location line="-14"/>
-        <location line="+15"/>
+        <location line="-9"/>
+        <location line="+17"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
