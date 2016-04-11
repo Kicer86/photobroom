@@ -32,7 +32,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+167"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+169"/>
         <source>Collection scan in progress</source>
         <translation>Trwa skanowanie kolekcji</translation>
     </message>
@@ -57,7 +57,12 @@
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="-110"/>
+        <source>Collection scan</source>
+        <translation>Skanowanie kolekcji</translation>
+    </message>
+    <message>
+        <location line="+120"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
