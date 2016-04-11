@@ -213,7 +213,7 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 }
 
 
-void DBDataModel::setPermanentFilters(const std::deque<Database::IFilter::Ptr>& filters)
+void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& filters)
 {
     m_filters = filters;
 
@@ -228,7 +228,7 @@ void DBDataModel::applyFilters(const QString& filters)
 }
 
 
-const std::deque<Database::IFilter::Ptr>& DBDataModel::getPermanentFilters() const
+const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 {
     return m_filters;
 }

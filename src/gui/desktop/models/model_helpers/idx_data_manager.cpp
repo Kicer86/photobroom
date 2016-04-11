@@ -463,7 +463,7 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 
 void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
 {
-    const auto modelSpecificFilters = m_data->m_model->getPermanentFilters();
+    const auto modelSpecificFilters = m_data->m_model->getStaticFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
 
     if (m_data->filterExpression.isEmpty() == false)

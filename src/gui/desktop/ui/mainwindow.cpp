@@ -440,7 +440,7 @@ void MainWindow::on_actionAll_photos_triggered()
 {
     const std::deque<Database::IFilter::Ptr> filters;
 
-    m_imagesModel->setPermanentFilters(filters);
+    m_imagesModel->setStaticFilters(filters);
 }
 
 
@@ -451,7 +451,7 @@ void MainWindow::on_actionNew_photos_triggered()
 
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 
-    m_imagesModel->setPermanentFilters(filters);
+    m_imagesModel->setStaticFilters(filters);
 }
 
 
