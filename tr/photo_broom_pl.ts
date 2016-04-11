@@ -34,34 +34,34 @@
     <message>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+167"/>
         <source>Collection scan in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Trwa skanowanie kolekcji</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+5"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location line="-11"/>
         <source>Collection scan canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Searching for new photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończono</translation>
     </message>
     <message>
         <location line="-14"/>
         <location line="+15"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
 </context>
 <context>
@@ -175,7 +175,7 @@
     <message>
         <location line="+4"/>
         <source>Open &amp;recent</source>
-        <translation type="unfinished"></translation>
+        <translation>O&amp;twórz poprzednią</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -185,7 +185,7 @@
     <message>
         <location line="+15"/>
         <source>&amp;Windows</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Okna</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -278,17 +278,17 @@
     <message>
         <location line="+5"/>
         <source>&amp;Scan collection</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>&amp;All photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Wszystkie zdjęcia</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&amp;New photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
         <source>Tags editor</source>
@@ -329,12 +329,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+95"/>
         <source>Open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz kolekcję</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Photo Broom files (*.bpj)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
         <location line="+128"/>
@@ -521,23 +521,24 @@ Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdj�
         <location line="+3"/>
         <location line="+5"/>
         <source>Photos location</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja zdjęć</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Photos location is place where your photos collection will be stored.
 Location may already contain photos which will be added to collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja zdjęć to katalog, gdzie twoje zdjęcia będą przechowywane.
+Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekcji.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądaj</translation>
     </message>
 </context>
 <context>
