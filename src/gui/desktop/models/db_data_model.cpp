@@ -216,6 +216,9 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 void DBDataModel::setPermanentFilters(const std::deque<Database::IFilter::Ptr>& filters)
 {
     m_filters = filters;
+
+    IdxData* root = m_idxDataManager->getRoot();
+    m_idxDataManager->refetchNode(root);
 }
 
 
