@@ -269,7 +269,7 @@ void MainWindow::closeProject()
 
 void MainWindow::setupView()
 {
-    m_imagesModel = new PhotosDataModel(this);
+    m_imagesModel = new DBDataModel(this);
     ui->imagesView->setModel(m_imagesModel);
 
     m_photosAnalyzer->set(ui->tasksWidget);
@@ -440,13 +440,20 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionAll_photos_triggered()
 {
+    const std::deque<Database::IFilter::Ptr> filters;
 
+    m_imagesModel->setPermanentFilters(filters);
 }
 
 
 void MainWindow::on_actionNew_photos_triggered()
 {
+    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    filter->flags[Photo::FlagsE::StagingArea] = 1;
 
+    const std::deque<Database::IFilter::Ptr> filters( {filter});
+
+    m_imagesModel->setPermanentFilters(filters);
 }
 
 
