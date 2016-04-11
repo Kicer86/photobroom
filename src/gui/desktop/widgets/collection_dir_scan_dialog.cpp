@@ -51,6 +51,8 @@ CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocati
     l->addWidget(m_info);
     l->addWidget(m_button);
 
+    setWindowTitle(tr("Collection scan"));
+
     //
     scan();
 }
