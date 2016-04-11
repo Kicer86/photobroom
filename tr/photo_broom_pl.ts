@@ -188,12 +188,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="-36"/>
+        <location line="-44"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -203,11 +203,12 @@
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>&amp;View</source>
-        <translation type="vanished">&amp;Widok</translation>
+        <translation>&amp;Widok</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+24"/>
         <source>&amp;Tasks</source>
         <translation>&amp;Operacje</translation>
     </message>
@@ -280,6 +281,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+11"/>
+        <source>&amp;All photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>&amp;New photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Tags editor</source>
         <translation type="obsolete">Edytor tagów</translation>
     </message>
@@ -306,7 +317,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+110"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -326,7 +337,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+133"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
