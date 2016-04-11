@@ -455,12 +455,6 @@ void MainWindow::on_actionNew_photos_triggered()
 }
 
 
-void MainWindow::on_actionAdd_photos_triggered()
-{
-    // TODO: remove
-}
-
-
 void MainWindow::on_actionScan_collection_triggered()
 {
     const QString basePath = m_currentPrj->getProjectInfo().getBaseDir();

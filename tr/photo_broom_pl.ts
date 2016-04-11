@@ -178,7 +178,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>He&amp;lp</source>
         <translation>Po&amp;moc</translation>
     </message>
@@ -193,12 +193,12 @@
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="-44"/>
+        <location line="-43"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+15"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -337,7 +337,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+128"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>

@@ -51,7 +51,6 @@
     <property name="title">
      <string>P&amp;hotos</string>
     </property>
-    <addaction name="actionAdd_photos"/>
     <addaction name="actionScan_collection"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
