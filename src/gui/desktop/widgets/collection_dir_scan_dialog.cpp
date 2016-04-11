@@ -174,8 +174,11 @@ void CollectionDirScanDialog::updateGui()
             break;
 
         case State::Done:
-            m_info->setText(tr("Done"));
+        {
+            const QString info = tr("Done. %n new photo(s) found.", "", m_photosFound.size());
+            m_info->setText(info);
             m_button->setText(tr("Close"));
             break;
+        }
     }
 }
