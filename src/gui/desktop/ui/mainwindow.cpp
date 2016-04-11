@@ -281,6 +281,11 @@ void MainWindow::setupView()
     //connect to docks
     connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+
+    // group radio buttons
+    QActionGroup* viewGroup = new QActionGroup(this);
+    viewGroup->addAction(ui->actionAll_photos);
+    viewGroup->addAction(ui->actionNew_photos);
 }
 
 
@@ -289,6 +294,7 @@ void MainWindow::updateMenus()
     const bool prj = m_currentPrj.get() != nullptr;
     const bool valid = m_recentCollections.isEmpty() == false;
 
+    ui->menuView->menuAction()->setVisible(prj);
     ui->menuPhotos->menuAction()->setVisible(prj);
     ui->menuOpen_recent->menuAction()->setVisible(valid);
     ui->menuOpen_recent->clear();
@@ -429,6 +435,18 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionQuit_triggered()
 {
     close();
+}
+
+
+void MainWindow::on_actionAll_photos_triggered()
+{
+
+}
+
+
+void MainWindow::on_actionNew_photos_triggered()
+{
+
 }
 
 

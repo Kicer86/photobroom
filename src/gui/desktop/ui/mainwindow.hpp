@@ -85,6 +85,10 @@ class MainWindow: public QMainWindow
         void on_actionClose_triggered();
         void on_actionQuit_triggered();
 
+        // view menu
+        void on_actionAll_photos_triggered();
+        void on_actionNew_photos_triggered();
+
         // photos menu
         void on_actionAdd_photos_triggered();
         void on_actionScan_collection_triggered();
