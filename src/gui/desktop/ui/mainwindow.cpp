@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QTimer>
 
+#include <core/iphotos_manager.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -245,6 +246,8 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 
         auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
 
+        assert( QDir::searchPaths("prj").isEmpty() == true );
+        QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
     }
 }
@@ -259,6 +262,7 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         m_imagesModel->setDatabase(nullptr);
+        QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
     }
@@ -471,8 +475,10 @@ void MainWindow::on_actionScan_collection_triggered()
 
         for(const QString& path: photos)
         {
+            const QString relativePath = m_currentPrj->makePathRelative(path);
+
             auto task = std::make_unique<StorePhoto>();
-            db->exec( std::move(task), path);
+            db->exec( std::move(task), relativePath);
         }
     }
 }

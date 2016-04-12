@@ -22,9 +22,9 @@
 #include <mutex>
 
 #include <QCache>
+#include <QDir>
 #include <QFile>
 #include <QImage>
-
 
 
 struct PhotosManager::Data
@@ -56,18 +56,20 @@ QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
 
 QByteArray PhotosManager::getPhoto(const QString& path)
 {
-    std::unique_lock<std::mutex> lock(m_data->m_mutex);
+    std::lock_guard<std::mutex> lock(m_data->m_mutex);
+
+    const QString cleanPath = QDir().cleanPath(path);
 
     QByteArray* result = m_data->m_cache.object(path);
 
     if (result == nullptr)
     {
-        QFile photo(path);
+        QFile photo(cleanPath);
         photo.open(QIODevice::ReadOnly);
 
         result = new QByteArray(photo.readAll());
 
-        m_data->m_cache.insert(path, result);
+        m_data->m_cache.insert(cleanPath, result);
     }
 
     return *result;
