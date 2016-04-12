@@ -9,6 +9,9 @@
 struct IPhotosManager
 {
     virtual ~IPhotosManager();
+
+    virtual void setBasePath(const QString &) = 0;             // for relative paths
+
     virtual QByteArray getPhoto(const IPhotoInfo::Ptr &) = 0;
     virtual QByteArray getPhoto(const QString& path) = 0;
 
