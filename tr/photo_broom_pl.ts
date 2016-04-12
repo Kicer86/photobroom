@@ -308,7 +308,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+197"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+198"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -330,7 +330,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+112"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -350,7 +350,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+130"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
