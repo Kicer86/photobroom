@@ -24,17 +24,15 @@
 #include <QCache>
 #include <QDir>
 #include <QFile>
-#include <QFileInfo>
 #include <QImage>
 
 
 struct PhotosManager::Data
 {
-    Data(): m_mutex(), m_cache(16), m_basePath() {}
+    Data(): m_mutex(), m_cache(16) {}
 
     std::mutex m_mutex;
     QCache<QString, QByteArray> m_cache;
-    QString m_basePath;
 };
 
 
@@ -50,14 +48,6 @@ PhotosManager::~PhotosManager()
 }
 
 
-void PhotosManager::setBasePath(const QString& path)
-{
-    std::lock_guard<std::mutex> lock(m_data->m_mutex);
-    m_data->m_basePath = path;
-    m_data->m_cache.clear();
-}
-
-
 QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
 {
     return getPhoto(photoInfo->getPath());
@@ -67,22 +57,19 @@ QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
 QByteArray PhotosManager::getPhoto(const QString& path)
 {
     std::lock_guard<std::mutex> lock(m_data->m_mutex);
-    assert(m_data->m_basePath.isEmpty() == false);
 
-    const QFileInfo pathInfo(path);
-    QString absolutePath = pathInfo.isAbsolute()? path: QDir(m_data->m_basePath).filePath(path);
-    absolutePath = QDir().cleanPath(absolutePath);
+    const QString cleanPath = QDir().cleanPath(path);
 
     QByteArray* result = m_data->m_cache.object(path);
 
     if (result == nullptr)
     {
-        QFile photo(absolutePath);
+        QFile photo(cleanPath);
         photo.open(QIODevice::ReadOnly);
 
         result = new QByteArray(photo.readAll());
 
-        m_data->m_cache.insert(absolutePath, result);
+        m_data->m_cache.insert(cleanPath, result);
     }
 
     return *result;

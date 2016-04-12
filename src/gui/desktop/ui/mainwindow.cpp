@@ -246,7 +246,8 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
 
         auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
 
-        m_photosManager->setBasePath(prjInfo.getBaseDir());
+        assert( QDir::searchPaths("prj").isEmpty() == true );
+        QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
     }
 }
@@ -261,7 +262,7 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         m_imagesModel->setDatabase(nullptr);
-        m_photosManager->setBasePath("");
+        QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
     }

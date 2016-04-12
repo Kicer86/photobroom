@@ -107,6 +107,6 @@ QString Project::makePathRelative(const QString& path) const
 
     assert(subdir);
 
-    const QString result = "." + path.right(l);
+    const QString result = "prj:" + path.mid(l);
     return result;
 }
