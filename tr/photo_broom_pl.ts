@@ -330,7 +330,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+119"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
@@ -350,7 +350,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+125"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
