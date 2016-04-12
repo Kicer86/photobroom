@@ -249,6 +249,12 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         assert( QDir::searchPaths("prj").isEmpty() == true );
         QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
         m_currentPrj = m_prjManager->open(prjInfo, openCallback);
+
+        // add project to list of recent projects
+        const bool already_has = m_recentCollections.contains(prjInfo.getPath());
+
+        if (already_has == false)
+            m_recentCollections.append(prjInfo.getPath());
     }
 }
 
@@ -419,11 +425,6 @@ void MainWindow::on_actionOpen_collection_triggered()
         const ProjectInfo prjName(prjPath);
 
         openProject(prjName);
-
-        const bool already_has = m_recentCollections.contains(prjPath);
-
-        if (already_has == false)
-            m_recentCollections.append(prjPath);
     }
 }
 
