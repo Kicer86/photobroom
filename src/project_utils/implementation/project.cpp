@@ -31,7 +31,7 @@ ProjectInfo::ProjectInfo(const QString& _path): ProjectInfo()
     path = fi.absoluteFilePath();
     baseDir = fi.absolutePath();
     name = fi.baseName();
-    internalLocation = QString("%1/%2_files").arg(baseDir).arg(name);
+    internalLocation = QString("%1/photo_broom_%2_files").arg(baseDir).arg(name);
 }
 
 
