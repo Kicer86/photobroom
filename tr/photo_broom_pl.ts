@@ -330,7 +330,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+113"/>
         <source>Photo broom: </source>
         <translation>Photo broom: </translation>
     </message>
