@@ -66,7 +66,7 @@ QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
 
 QByteArray PhotosManager::getPhoto(const QString& path)
 {
-    std::unique_lock<std::mutex> lock(m_data->m_mutex);
+    std::lock_guard<std::mutex> lock(m_data->m_mutex);
     assert(m_data->m_basePath.isEmpty() == false);
 
     const QFileInfo pathInfo(path);
