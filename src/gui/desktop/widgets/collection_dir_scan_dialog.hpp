@@ -20,6 +20,7 @@
 #ifndef COLLECTIONDIRSCANDIALOG_HPP
 #define COLLECTIONDIRSCANDIALOG_HPP
 
+#include <atomic>
 #include <set>
 
 #include <QDialog>
