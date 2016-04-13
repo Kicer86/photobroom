@@ -92,7 +92,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Photo &amp;information</string>
+    <string>Photo information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -101,7 +101,7 @@
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
-    <string>&amp;Tasks</string>
+    <string>Tasks</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
