@@ -201,12 +201,11 @@
         <translation>&amp;Okna</translation>
     </message>
     <message>
-        <location line="+22"/>
         <source>Photo &amp;information</source>
-        <translation>&amp;Informacje o zdjęciu</translation>
+        <translation type="vanished">&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-21"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -221,17 +220,18 @@
         <translation>&amp;Widok</translation>
     </message>
     <message>
-        <location line="+24"/>
         <source>&amp;Tasks</source>
-        <translation>&amp;Operacje</translation>
+        <translation type="vanished">&amp;Operacje</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Photo information</source>
-        <translation type="vanished">Informacje o zdjęciu</translation>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Tasks</source>
-        <translation type="vanished">Operacje</translation>
+        <translation type="unfinished">Zadania</translation>
     </message>
     <message>
         <location line="+9"/>
