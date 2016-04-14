@@ -24,15 +24,16 @@
 #include <QVBoxLayout>
 
 #include "collection_dir_scan_dialog.hpp"
+#include "project_utils/project.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(const QString& collectionLocation, Database::IDatabase* db, QWidget* p):
+CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase* db, QWidget* p):
     QDialog(p),
     m_collector(),
     m_photosFound(),
     m_dbPhotos(),
-    m_collectionLocation(collectionLocation),
     m_state(State::Scanning),
+    m_project(project),
     m_info(nullptr),
     m_button(nullptr),
     m_database(db),
@@ -124,7 +125,7 @@ void CollectionDirScanDialog::scan()
     using namespace std::placeholders;
     auto disk_callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
 
-    m_collector.collect(m_collectionLocation, disk_callback);
+    m_collector.collect(m_project->getProjectInfo().getBaseDir(), disk_callback);
 
     // collect photos from db
     auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
@@ -143,7 +144,8 @@ void CollectionDirScanDialog::checkIfReady()
 
 void CollectionDirScanDialog::gotPhoto(const QString& path)
 {
-    m_photosFound.insert(path);
+    const QString relative = m_project->makePathRelative(path);
+    m_photosFound.insert(relative);
 }
 
 
