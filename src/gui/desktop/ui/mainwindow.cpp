@@ -462,10 +462,9 @@ void MainWindow::on_actionNew_photos_triggered()
 
 void MainWindow::on_actionScan_collection_triggered()
 {
-    const QString basePath = m_currentPrj->getProjectInfo().getBaseDir();
     Database::IDatabase* db = m_currentPrj->getDatabase();
 
-    CollectionDirScanDialog scanner(basePath, db);
+    CollectionDirScanDialog scanner(m_currentPrj.get(), db);
     const int status = scanner.exec();
 
     if (status == QDialog::Accepted)
@@ -476,10 +475,8 @@ void MainWindow::on_actionScan_collection_triggered()
 
         for(const QString& path: photos)
         {
-            const QString relativePath = m_currentPrj->makePathRelative(path);
-
             auto task = std::make_unique<StorePhoto>();
-            db->exec( std::move(task), relativePath);
+            db->exec( std::move(task), path);
         }
     }
 }

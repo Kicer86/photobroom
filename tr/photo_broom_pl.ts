@@ -32,7 +32,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+169"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+171"/>
         <source>Collection scan in progress</source>
         <translation>Trwa skanowanie kolekcji</translation>
     </message>
@@ -42,37 +42,46 @@
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
+    <message>
+        <source>Done. No new photos found</source>
+        <translation type="obsolete">Zakończono. Brak nowych zdjęć.</translation>
+    </message>
     <message numerus="yes">
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Done. %n new photo(s) found.</source>
         <translation>
-            <numerusform>Zakończono. Znaleziono %n zdjęcie.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n zdjęcia.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n zdjęć.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.</numerusform>
         </translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="-18"/>
         <source>Collection scan canceled</source>
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
-        <location line="-110"/>
+        <location line="-111"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+121"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Done. No new photos found.</source>
+        <translation>Zakończono. Brak nowych zdjęć.</translation>
     </message>
     <message>
         <source>Done</source>
         <translation type="vanished">Zakończono</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+17"/>
+        <location line="-16"/>
+        <location line="+20"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
@@ -231,7 +240,7 @@
     <message>
         <location line="+9"/>
         <source>Tasks</source>
-        <translation type="unfinished">Zadania</translation>
+        <translation>Zadania</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -350,7 +359,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+122"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>

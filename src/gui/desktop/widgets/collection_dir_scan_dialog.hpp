@@ -30,6 +30,7 @@
 
 class QLabel;
 
+class Project;
 
 namespace
 {
@@ -54,7 +55,7 @@ class CollectionDirScanDialog: public QDialog
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const QString& collectionLocation, Database::IDatabase *, QWidget* parent = nullptr);
+        CollectionDirScanDialog(const Project *, Database::IDatabase *, QWidget* parent = nullptr);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
 
@@ -74,8 +75,8 @@ class CollectionDirScanDialog: public QDialog
         PhotosCollector m_collector;
         std::set<QString> m_photosFound;
         IPhotoInfo::List m_dbPhotos;
-        const QString m_collectionLocation;
         State m_state;
+        const Project* m_project;
         QLabel* m_info;
         QPushButton* m_button;
         Database::IDatabase* m_database;
