@@ -231,7 +231,7 @@
     <message>
         <location line="+9"/>
         <source>Tasks</source>
-        <translation type="unfinished">Zadania</translation>
+        <translation>Zadania</translation>
     </message>
     <message>
         <location line="+9"/>
