@@ -62,7 +62,7 @@ FiltersMatcher::~FiltersMatcher()
 
 bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::deque<Database::IFilter::Ptr>& filters)
 {
-    m_doesMatch = false;
+    m_doesMatch = true;
     m_photo = photoInfo;
 
     for(const Database::IFilter::Ptr& filter: filters)
