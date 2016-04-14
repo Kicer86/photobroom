@@ -32,7 +32,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+169"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+171"/>
         <source>Collection scan in progress</source>
         <translation>Trwa skanowanie kolekcji</translation>
     </message>
@@ -57,12 +57,12 @@
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
-        <location line="-110"/>
+        <location line="-111"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+121"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
@@ -350,7 +350,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+122"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
