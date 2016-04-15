@@ -116,6 +116,7 @@ class MainWindow: public QMainWindow
         //
         void currentVersion(const IUpdater::OnlineVersion &);
         void projectOpenedNotification(const Database::BackendStatus &);
+        void markNewPhotosAsReviewed();
 
     signals:
         void projectOpenedSignal(const Database::BackendStatus &);

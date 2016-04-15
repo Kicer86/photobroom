@@ -465,6 +465,8 @@ void MainWindow::on_actionNew_photos_triggered()
     hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
     hint->setTextFormat(Qt::RichText);
     ui->imagesView->setTopHintWidget(hint);
+
+    connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
 }
 
 
@@ -587,3 +589,8 @@ void MainWindow::projectOpenedNotification(const Database::BackendStatus& status
     emit projectOpenedSignal(status);
 }
 
+
+void MainWindow::markNewPhotosAsReviewed()
+{
+
+}
