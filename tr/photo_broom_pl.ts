@@ -339,7 +339,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+122"/>
+        <location line="+130"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -389,7 +389,17 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-109"/>
+        <source>Below you can view new photos and describe them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You can click here when you are done to mark photos as reviewed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -423,12 +433,12 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+55"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+57"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
     <message>
-        <location line="+84"/>
+        <location line="+105"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
@@ -437,7 +447,7 @@ Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.
     <message>
         <location line="+2"/>
         <source>Loading photos...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie zdjęć...</translation>
     </message>
 </context>
 <context>
