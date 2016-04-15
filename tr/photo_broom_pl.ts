@@ -339,7 +339,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+132"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -389,7 +389,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-111"/>
         <source>Below you can view new photos and describe them.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -399,7 +399,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+43"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
