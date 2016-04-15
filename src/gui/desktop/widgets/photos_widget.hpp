@@ -26,6 +26,7 @@
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
+class QVBoxLayout;
 
 class PhotosItemDelegate;
 class DBDataModel;
@@ -50,6 +51,8 @@ class PhotosWidget: public QWidget
 
         QItemSelectionModel* viewSelectionModel();
 
+        void setHintWidget(QWidget *);
+
     private:
         QTimer m_timer;
         DBDataModel* m_model;
@@ -57,6 +60,7 @@ class PhotosWidget: public QWidget
         InfoBaloonWidget* m_info;
         PhotosItemDelegate* m_delegate;
         QLineEdit* m_searchExpression;
+        QVBoxLayout* m_hintLayout;
 
         virtual void changeEvent(QEvent *) override;
 

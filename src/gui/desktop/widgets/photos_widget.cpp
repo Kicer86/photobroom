@@ -39,7 +39,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_view(nullptr),
     m_info(nullptr),
     m_delegate(nullptr),
-    m_searchExpression(nullptr)
+    m_searchExpression(nullptr),
+    m_hintLayout(nullptr)
 {
     // photos view
     m_view = new ImagesTreeView(this);
@@ -59,9 +60,13 @@ PhotosWidget::PhotosWidget(QWidget* p):
     searchLayout->addWidget(searchPrompt);
     searchLayout->addWidget(m_searchExpression);
 
+    // hint layout
+    m_hintLayout = new QVBoxLayout;
+
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addLayout(searchLayout);
+    l->addLayout(m_hintLayout);
     l->addWidget(m_view);
     l->addWidget(m_info);
 
@@ -109,6 +114,20 @@ void PhotosWidget::setModel(DBDataModel* m)
 QItemSelectionModel* PhotosWidget::viewSelectionModel()
 {
     return m_view->selectionModel();
+}
+
+
+void PhotosWidget::setHintWidget(QWidget* hintWidget)
+{
+    if (m_hintLayout->count() > 0)
+    {
+        assert(m_hintLayout->count() == 1);
+        QLayoutItem* item = m_hintLayout->takeAt(0);
+        delete item;
+    }
+
+    if (hintWidget != nullptr)
+        m_hintLayout->addWidget(hintWidget);
 }
 
 
