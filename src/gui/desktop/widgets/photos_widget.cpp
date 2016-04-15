@@ -22,6 +22,7 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QVBoxLayout>
+#include <QLayoutItem>
 
 #include <configuration/iconfiguration.hpp>
 
@@ -40,7 +41,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_info(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
-    m_hintLayout(nullptr)
+    m_topHintLayout(nullptr)
 {
     // photos view
     m_view = new ImagesTreeView(this);
@@ -61,12 +62,12 @@ PhotosWidget::PhotosWidget(QWidget* p):
     searchLayout->addWidget(m_searchExpression);
 
     // hint layout
-    m_hintLayout = new QVBoxLayout;
+    m_topHintLayout = new QVBoxLayout;
 
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addLayout(searchLayout);
-    l->addLayout(m_hintLayout);
+    l->addLayout(m_topHintLayout);
     l->addWidget(m_view);
     l->addWidget(m_info);
 
@@ -117,17 +118,20 @@ QItemSelectionModel* PhotosWidget::viewSelectionModel()
 }
 
 
-void PhotosWidget::setHintWidget(QWidget* hintWidget)
+void PhotosWidget::setTopHintWidget(QWidget* hintWidget)
 {
-    if (m_hintLayout->count() > 0)
+    if (m_topHintLayout->count() > 0)
     {
-        assert(m_hintLayout->count() == 1);
-        QLayoutItem* item = m_hintLayout->takeAt(0);
-        delete item;
+        assert(m_topHintLayout->count() == 1);
+        QLayoutItem* item = m_topHintLayout->itemAt(0);
+        QWidget* widget = item->widget();
+
+        assert(widget != nullptr);
+        delete widget;
     }
 
     if (hintWidget != nullptr)
-        m_hintLayout->addWidget(hintWidget);
+        m_topHintLayout->addWidget(hintWidget);
 }
 
 
