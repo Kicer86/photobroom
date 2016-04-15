@@ -446,6 +446,7 @@ void MainWindow::on_actionAll_photos_triggered()
     const std::deque<Database::IFilter::Ptr> filters;
 
     m_imagesModel->setStaticFilters(filters);
+    ui->imagesView->setTopHintWidget(nullptr);
 }
 
 
@@ -457,6 +458,13 @@ void MainWindow::on_actionNew_photos_triggered()
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 
     m_imagesModel->setStaticFilters(filters);
+
+    InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
+    const QString message = tr("Below you can view new photos and describe them.");
+    const QString link = tr("You can click here when you are done to mark photos as reviewed.");
+    hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
+    hint->setTextFormat(Qt::RichText);
+    ui->imagesView->setTopHintWidget(hint);
 }
 
 
