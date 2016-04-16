@@ -165,7 +165,7 @@ void PhotosWidget::updateHint()
     const NodeStatus status = static_cast<NodeStatus>(statusVariant.toInt());
 
     if (status == NodeStatus::Fetched)
-        m_info->setText(tr("There are no photos in your collection.\n\nAdd some by choosing 'Add photos' action from 'Photos' menu."));
+        m_info->setText(tr("There are no photos in your collection.\n\nAdd some photos to your collection directory and use 'Scan collection' action from 'Photos' menu."));
     else if (status == NodeStatus::Fetching)
         m_info->setText(tr("Loading photos..."));
     else
