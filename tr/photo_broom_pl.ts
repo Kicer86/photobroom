@@ -297,7 +297,11 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+198"/>
+        <source>Tags editor</source>
+        <translation type="obsolete">Edytor tagów</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+213"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
