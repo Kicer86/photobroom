@@ -73,7 +73,9 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler),
-    m_recentCollections()
+    m_recentCollections(),
+    m_newPhotosFilters(),
+    m_reviewedPhotosFilters()
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -95,6 +97,15 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
+
+    // filters
+    auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
+    m_newPhotosFilters = {new_photos_filter};
+
+    auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
+    m_reviewedPhotosFilters = {reviewed_photos_filter};
 }
 
 
@@ -307,7 +318,7 @@ void MainWindow::setupView()
 
     // group radio buttons
     QActionGroup* viewGroup = new QActionGroup(this);
-    viewGroup->addAction(ui->actionAll_photos);
+    viewGroup->addAction(ui->actionReviewed_photos);
     viewGroup->addAction(ui->actionNew_photos);
 }
 
@@ -456,23 +467,16 @@ void MainWindow::on_actionQuit_triggered()
 }
 
 
-void MainWindow::on_actionAll_photos_triggered()
+void MainWindow::on_actionReviewed_photos_triggered()
 {
-    const std::deque<Database::IFilter::Ptr> filters;
-
-    m_imagesModel->setStaticFilters(filters);
+    m_imagesModel->setStaticFilters(m_reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
 }
 
 
 void MainWindow::on_actionNew_photos_triggered()
 {
-    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[Photo::FlagsE::StagingArea] = 1;
-
-    const std::deque<Database::IFilter::Ptr> filters( {filter});
-
-    m_imagesModel->setStaticFilters(filters);
+    m_imagesModel->setStaticFilters(m_newPhotosFilters);
 
     InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
     const QString message = tr("Above you can view new photos and describe them.");

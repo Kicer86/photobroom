@@ -62,6 +62,8 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
         QStringList               m_recentCollections;
+        std::deque<Database::IFilter::Ptr> m_newPhotosFilters;
+        std::deque<Database::IFilter::Ptr> m_reviewedPhotosFilters;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -86,7 +88,7 @@ class MainWindow: public QMainWindow
         void on_actionQuit_triggered();
 
         // view menu
-        void on_actionAll_photos_triggered();
+        void on_actionReviewed_photos_triggered();
         void on_actionNew_photos_triggered();
 
         // photos menu

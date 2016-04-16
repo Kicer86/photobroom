@@ -79,7 +79,7 @@
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <addaction name="actionAll_photos"/>
+    <addaction name="actionReviewed_photos"/>
     <addaction name="actionNew_photos"/>
    </widget>
    <addaction name="menuCollection"/>
@@ -177,7 +177,7 @@
     <string>&amp;Scan collection</string>
    </property>
   </action>
-  <action name="actionAll_photos">
+  <action name="actionReviewed_photos">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -185,7 +185,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;All photos</string>
+    <string>&amp;Reviewed photos</string>
    </property>
   </action>
   <action name="actionNew_photos">

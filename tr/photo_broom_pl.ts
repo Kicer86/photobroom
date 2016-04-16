@@ -288,8 +288,12 @@
     </message>
     <message>
         <location line="+11"/>
+        <source>&amp;Reviewed photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&amp;All photos</source>
-        <translation>&amp;Wszystkie zdjęcia</translation>
+        <translation type="vanished">&amp;Wszystkie zdjęcia</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -301,7 +305,7 @@
         <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+213"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -343,7 +347,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+35"/>
         <source>Above you can view new photos and describe them.</source>
         <translation type="unfinished"></translation>
     </message>
