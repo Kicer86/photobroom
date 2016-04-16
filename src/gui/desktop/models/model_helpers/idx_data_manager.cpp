@@ -1045,10 +1045,6 @@ void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
 
 void IdxDataManager::photosRemoved(const std::deque<Photo::Id>& photos)
 {
-    PhotosMatcher matcher;
-    matcher.set(this);
-    matcher.set(m_data->m_model);
-
     for(const Photo::Id& id: photos)
         performRemove(id);
 }
