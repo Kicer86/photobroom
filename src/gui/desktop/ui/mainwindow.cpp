@@ -41,6 +41,21 @@ namespace
     {
         void got(bool) override {}
     };
+
+    struct MarkPhotosReviewed: Database::AGetPhotosTask
+    {
+        MarkPhotosReviewed(Database::IDatabase* db): m_db(db)
+        {
+        }
+
+        void got(const IPhotoInfo::List& photos) override
+        {
+            for(const IPhotoInfo::Ptr& photo: photos)
+                photo->markFlag(Photo::FlagsE::StagingArea, 0);
+        }
+
+        Database::IDatabase* m_db;
+    };
 }
 
 
@@ -592,5 +607,11 @@ void MainWindow::projectOpenedNotification(const Database::BackendStatus& status
 
 void MainWindow::markNewPhotosAsReviewed()
 {
+    auto task = std::make_unique<MarkPhotosReviewed>(m_currentPrj->getDatabase());
+    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    filter->flags[Photo::FlagsE::StagingArea] = 1;
 
+    const std::deque<Database::IFilter::Ptr> filters( {filter});
+
+    m_currentPrj->getDatabase()->exec(std::move(task), filters);
 }
