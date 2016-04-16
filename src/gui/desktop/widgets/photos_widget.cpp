@@ -41,7 +41,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_info(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
-    m_topHintLayout(nullptr)
+    m_bottomHintLayout(nullptr)
 {
     // photos view
     m_view = new ImagesTreeView(this);
@@ -62,13 +62,19 @@ PhotosWidget::PhotosWidget(QWidget* p):
     searchLayout->addWidget(m_searchExpression);
 
     // hint layout
-    m_topHintLayout = new QVBoxLayout;
+    m_bottomHintLayout = new QVBoxLayout;
+
+    // view + hints layout
+    QVBoxLayout* view_hints_layout = new QVBoxLayout;
+    view_hints_layout->setContentsMargins(0, 0, 0, 0);
+    view_hints_layout->setSpacing(0);
+    view_hints_layout->addWidget(m_view);
+    view_hints_layout->addLayout(m_bottomHintLayout);
 
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addLayout(searchLayout);
-    l->addLayout(m_topHintLayout);
-    l->addWidget(m_view);
+    l->addLayout(view_hints_layout);
     l->addWidget(m_info);
 
     // setup timer
@@ -118,12 +124,12 @@ QItemSelectionModel* PhotosWidget::viewSelectionModel()
 }
 
 
-void PhotosWidget::setTopHintWidget(QWidget* hintWidget)
+void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 {
-    if (m_topHintLayout->count() > 0)
+    if (m_bottomHintLayout->count() > 0)
     {
-        assert(m_topHintLayout->count() == 1);
-        QLayoutItem* item = m_topHintLayout->itemAt(0);
+        assert(m_bottomHintLayout->count() == 1);
+        QLayoutItem* item = m_bottomHintLayout->itemAt(0);
         QWidget* widget = item->widget();
 
         assert(widget != nullptr);
@@ -131,7 +137,7 @@ void PhotosWidget::setTopHintWidget(QWidget* hintWidget)
     }
 
     if (hintWidget != nullptr)
-        m_topHintLayout->addWidget(hintWidget);
+        m_bottomHintLayout->addWidget(hintWidget);
 }
 
 

@@ -51,7 +51,7 @@ class PhotosWidget: public QWidget
 
         QItemSelectionModel* viewSelectionModel();
 
-        void setTopHintWidget(QWidget *);
+        void setBottomHintWidget(InfoBaloonWidget *);
 
     private:
         QTimer m_timer;
@@ -60,7 +60,7 @@ class PhotosWidget: public QWidget
         InfoBaloonWidget* m_info;
         PhotosItemDelegate* m_delegate;
         QLineEdit* m_searchExpression;
-        QVBoxLayout* m_topHintLayout;
+        QVBoxLayout* m_bottomHintLayout;
 
         virtual void changeEvent(QEvent *) override;
 
