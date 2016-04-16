@@ -339,7 +339,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+42"/>
+        <source>Above you can view new photos and describe them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+90"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -389,12 +394,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-111"/>
-        <source>Below you can view new photos and describe them.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-110"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -438,7 +438,7 @@ Kod błędu: %1</translation>
         <translation>Szukaj:</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+111"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
