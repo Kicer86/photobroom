@@ -129,7 +129,6 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         // store data
-        virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const QString &) = 0;
         virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
         virtual void exec(std::unique_ptr<AStoreTagTask> &&, const TagNameInfo &) = 0;
         virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;

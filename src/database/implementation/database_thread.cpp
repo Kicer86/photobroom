@@ -36,7 +36,6 @@ namespace
 {
     struct IThreadVisitor;
     struct InitTask;
-    struct InsertTask;
     struct InsertPhotosTask;
     struct InsertTagTask;
     struct UpdateTask;
@@ -65,7 +64,6 @@ namespace
         virtual ~IThreadVisitor() {}
 
         virtual void visit(InitTask *) = 0;
-        virtual void visit(InsertTask *) = 0;
         virtual void visit(InsertPhotosTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
         virtual void visit(InsertTagTask *) = 0;
@@ -94,24 +92,6 @@ namespace
 
         std::unique_ptr<Database::AInitTask> m_task;
         Database::ProjectInfo m_prjInfo;
-    };
-
-    struct InsertTask: ThreadBaseTask
-    {
-        InsertTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const QString& path):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_path(path)
-        {
-
-        }
-
-        virtual ~InsertTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AStorePhotoTask> m_task;
-        QString m_path;
     };
 
     struct InsertPhotosTask: ThreadBaseTask
@@ -313,12 +293,6 @@ namespace
         virtual void visit(InitTask* task) override
         {
             Database::BackendStatus status = m_backend->init(task->m_prjInfo);
-            task->m_task->got(status);
-        }
-
-        virtual void visit(InsertTask* task) override
-        {
-            const bool status = insertPhoto(task->m_path);
             task->m_task->got(status);
         }
 
@@ -546,13 +520,6 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
     {
         InitTask* task = new InitTask(std::move(db_task), prjInfo);
-        m_impl->addTask(task);
-    }
-
-
-    void DatabaseThread::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const QString& path)
-    {
-        InsertTask* task = new InsertTask(std::move(db_task), path);
         m_impl->addTask(task);
     }
 
