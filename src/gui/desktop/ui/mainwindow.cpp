@@ -37,10 +37,6 @@
 
 namespace
 {
-    struct StorePhoto: Database::AStorePhotoTask
-    {
-        void got(bool) override {}
-    };
 
     struct MarkPhotosReviewed: Database::AGetPhotosTask
     {
@@ -56,6 +52,7 @@ namespace
 
         Database::IDatabase* m_db;
     };
+
 }
 
 
@@ -498,15 +495,10 @@ void MainWindow::on_actionScan_collection_triggered()
 
     if (status == QDialog::Accepted)
     {
+        const std::set<QString>& photos = scanner.newPhotos();
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
-        const std::set<QString>& photos = scanner.newPhotos();
-
-        for(const QString& path: photos)
-        {
-            auto task = std::make_unique<StorePhoto>();
-            db->exec( std::move(task), path);
-        }
+        db->store(photos);
     }
 }
 
