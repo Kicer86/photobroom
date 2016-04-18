@@ -38,7 +38,6 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_timer(),
     m_model(nullptr),
     m_view(nullptr),
-    m_info(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr)
@@ -48,10 +47,6 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_delegate = new PhotosItemDelegate(m_view);
 
     m_view->setItemDelegate(m_delegate);
-
-    // info baloon
-    m_info = new InfoBaloonWidget(this);
-    m_info->hide();
 
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
@@ -75,7 +70,6 @@ PhotosWidget::PhotosWidget(QWidget* p):
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addLayout(searchLayout);
     l->addLayout(view_hints_layout);
-    l->addWidget(m_info);
 
     // setup timer
     m_timer.setInterval(500);
@@ -109,12 +103,6 @@ void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;
     m_view->setModel(m);
-
-    connect(m, &QAbstractItemModel::rowsInserted, this, &PhotosWidget::modelChanged);
-    connect(m, &QAbstractItemModel::rowsRemoved, this, &PhotosWidget::modelChanged);
-    connect(m, &QAbstractItemModel::dataChanged, this, &PhotosWidget::dataChanged);
-
-    updateHint();
 }
 
 
@@ -141,41 +129,6 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 }
 
 
-void PhotosWidget::changeEvent(QEvent* e)
-{
-    QWidget::changeEvent(e);
-
-    updateHint();
-}
-
-
-void PhotosWidget::modelChanged(const QModelIndex &, int, int)
-{
-    updateHint();
-}
-
-
-void PhotosWidget::updateHint()
-{
-    // check if model is empty
-    const QVariant statusVariant = m_model->data(QModelIndex(), DBDataModel::NodeStatus);
-    const bool empty = m_model->rowCount() == 0;
-
-    assert(statusVariant.canConvert(QMetaType::Int));
-    const NodeStatus status = static_cast<NodeStatus>(statusVariant.toInt());
-
-    if (status == NodeStatus::Fetched)
-        m_info->setText(tr("There are no photos in your collection.\n\nAdd some photos to your collection directory and use 'Scan collection' action from 'Photos' menu."));
-    else if (status == NodeStatus::Fetching)
-        m_info->setText(tr("Loading photos..."));
-    else
-        m_info->setText("");
-
-    m_info->setVisible( (status == NodeStatus::Fetched && empty && isEnabled()) ||
-                         status == NodeStatus::Fetching);
-}
-
-
 void PhotosWidget::searchExpressionChanged(const QString &)
 {
     m_timer.start();
@@ -187,10 +140,4 @@ void PhotosWidget::applySearchExpression()
     const QString search = m_searchExpression->text();
 
     m_model->applyFilters(search);
-}
-
-
-void PhotosWidget::dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
-{
-    updateHint();
 }
