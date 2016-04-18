@@ -37,6 +37,7 @@ namespace
     struct IThreadVisitor;
     struct InitTask;
     struct InsertTask;
+    struct InsertPhotosTask;
     struct InsertTagTask;
     struct UpdateTask;
     struct GetAllPhotosTask;
@@ -65,6 +66,7 @@ namespace
 
         virtual void visit(InitTask *) = 0;
         virtual void visit(InsertTask *) = 0;
+        virtual void visit(InsertPhotosTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
         virtual void visit(InsertTagTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
@@ -110,6 +112,24 @@ namespace
 
         std::unique_ptr<Database::AStorePhotoTask> m_task;
         QString m_path;
+    };
+
+    struct InsertPhotosTask: ThreadBaseTask
+    {
+        InsertPhotosTask(const std::set<QString>& paths, const std::function<void(bool)>& callback):
+            ThreadBaseTask(),
+            m_paths(paths),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~InsertPhotosTask() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::set<QString> m_paths;
+        std::function<void(bool)> m_callback;
     };
 
     struct UpdateTask: ThreadBaseTask
@@ -298,17 +318,17 @@ namespace
 
         virtual void visit(InsertTask* task) override
         {
-            Photo::Data data;
-            data.path = task->m_path;
-            data.flags[Photo::FlagsE::StagingArea] = 1;
-
-            const bool status = m_backend->addPhoto(data);
+            const bool status = insertPhoto(task->m_path);
             task->m_task->got(status);
+        }
 
-            if (status)
+        virtual void visit(InsertPhotosTask* task) override
+        {
+            for(const QString& path: task->m_paths)
             {
-                IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
-                emit photoAdded(photoInfo);
+                const bool status = insertPhoto(path);
+                if (task->m_callback)
+                    task->m_callback(status);
             }
         }
 
@@ -414,6 +434,24 @@ namespace
             }
 
             return photoPtr;
+        }
+
+
+        bool insertPhoto(const QString& path)
+        {
+            Photo::Data data;
+            data.path = path;
+            data.flags[Photo::FlagsE::StagingArea] = 1;
+
+            const bool status = m_backend->addPhoto(data);
+
+            if (status)
+            {
+                IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
+                emit photoAdded(photoInfo);
+            }
+
+            return status;
         }
 
         ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
@@ -529,6 +567,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AStoreTagTask>&& db_task, const TagNameInfo& tagNameInfo)
     {
         InsertTagTask* task = new InsertTagTask(std::move(db_task), tagNameInfo);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::store(const std::set<QString>& paths, const std::function<void(bool)>& callback)
+    {
+        InsertPhotosTask* task = new InsertPhotosTask(paths, callback);
         m_impl->addTask(task);
     }
 
