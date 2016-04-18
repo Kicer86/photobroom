@@ -292,17 +292,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;All photos</source>
-        <translation type="vanished">&amp;Wszystkie zdjęcia</translation>
-    </message>
-    <message>
         <location line="+8"/>
         <source>&amp;New photos</source>
         <translation>&amp;Nowe zdjęcia</translation>
-    </message>
-    <message>
-        <source>Tags editor</source>
-        <translation type="obsolete">Edytor tagów</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
@@ -444,18 +436,6 @@ Kod błędu: %1</translation>
         <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+52"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
-    </message>
-    <message>
-        <source>There are no photos in your collection.
-
-Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="vanished">W twojej kolekcji nie ma żadnych zdjęć.
-
-Aby dodać zdjęcia, wybierz akcję &quot;Dodaj zdjęcia&quot; z menu &quot;Zdjęcia&quot;.</translation>
-    </message>
-    <message>
-        <source>Loading photos...</source>
-        <translation type="vanished">Wczytywanie zdjęć...</translation>
     </message>
 </context>
 <context>
