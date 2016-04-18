@@ -3,7 +3,7 @@
 
 #include <desktop/models/model_helpers/idx_data.hpp>
 #include <desktop/models/model_helpers/idx_data_manager.hpp>
-#include <desktop/models/photos_data_model.hpp>
+#include <desktop/models/db_data_model.hpp>
 
 
 class IdxDataTest : public ::testing::Test
@@ -12,7 +12,7 @@ class IdxDataTest : public ::testing::Test
         IdxDataTest(): model(), manager(&model) {}
 
     protected:
-        PhotosDataModel model;
+        DBDataModel model;
         IdxDataManager manager;
 };
 

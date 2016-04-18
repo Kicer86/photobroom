@@ -5,7 +5,7 @@
 
 #include <core/base_tags.hpp>
 #include <desktop/models/model_helpers/idx_data_manager.hpp>
-#include <desktop/models/photos_data_model.hpp>
+#include <desktop/models/db_data_model.hpp>
 
 #include "test_helpers/mock_database.hpp"
 #include "test_helpers/internal_task_executor.hpp"
@@ -30,7 +30,7 @@ namespace
 TEST(IdxDataManagerShould, BeConstructable)
 {
     EXPECT_NO_THROW({
-        PhotosDataModel model;
+        DBDataModel model;
         IdxDataManager manager(&model);
     });
 }

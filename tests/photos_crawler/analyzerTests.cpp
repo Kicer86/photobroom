@@ -1,6 +1,6 @@
 
 #include "default_analyzers/ext_defaultanalyzer.hpp"
-#include "implementation/file_analyzer.hpp"
+#include "default_analyzers/file_analyzer.hpp"
 
 #include <gtest/gtest.h>
 
@@ -59,13 +59,13 @@ TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
 
     int counter = 0;
 
-    FakeAnalyzer *fake1 = new FakeAnalyzer(&counter);
-    FakeAnalyzer *fake2 = new FakeAnalyzer(&counter);
-    FakeAnalyzer *fake3 = new FakeAnalyzer(&counter);
+    auto fake1 = std::make_unique<FakeAnalyzer>(&counter);
+    auto fake2 = std::make_unique<FakeAnalyzer>(&counter);
+    auto fake3 = std::make_unique<FakeAnalyzer>(&counter);
 
-    analyzer.registerAnalyzer(fake1);
-    analyzer.registerAnalyzer(fake2);
-    analyzer.registerAnalyzer(fake3);
+    analyzer.registerAnalyzer(std::move(fake1));
+    analyzer.registerAnalyzer(std::move(fake2));
+    analyzer.registerAnalyzer(std::move(fake3));
 
     analyzer.isImage("");
 
@@ -77,13 +77,13 @@ TEST(FileAnalyzerShould, ReturnTrueIfAnyOfSubAnalyzersWasPositive)
 {
     FileAnalyzer analyzer;
 
-    FakeAnalyzer *fake1 = new FakeAnalyzer;
-    FakeAnalyzer *fake2 = new FakeAnalyzer;
-    FakeAnalyzer *fake3 = new FakeAnalyzer(true);
+    auto fake1 = std::make_unique<FakeAnalyzer>();
+    auto fake2 = std::make_unique<FakeAnalyzer>();
+    auto fake3 = std::make_unique<FakeAnalyzer>(true);
 
-    analyzer.registerAnalyzer(fake1);
-    analyzer.registerAnalyzer(fake2);
-    analyzer.registerAnalyzer(fake3);
+    analyzer.registerAnalyzer(std::move(fake1));
+    analyzer.registerAnalyzer(std::move(fake2));
+    analyzer.registerAnalyzer(std::move(fake3));
 
     const bool status = analyzer.isImage("");
 
@@ -95,13 +95,13 @@ TEST(FileAnalyzerShould, ReturnFalseWhenNoneOfSubAnalyzersWasPositive)
 {
     FileAnalyzer analyzer;
 
-    FakeAnalyzer *fake1 = new FakeAnalyzer;
-    FakeAnalyzer *fake2 = new FakeAnalyzer;
-    FakeAnalyzer *fake3 = new FakeAnalyzer;
+    auto fake1 = std::make_unique<FakeAnalyzer>();
+    auto fake2 = std::make_unique<FakeAnalyzer>();
+    auto fake3 = std::make_unique<FakeAnalyzer>();
 
-    analyzer.registerAnalyzer(fake1);
-    analyzer.registerAnalyzer(fake2);
-    analyzer.registerAnalyzer(fake3);
+    analyzer.registerAnalyzer(std::move(fake1));
+    analyzer.registerAnalyzer(std::move(fake2));
+    analyzer.registerAnalyzer(std::move(fake3));
 
     const bool status = analyzer.isImage("");
 

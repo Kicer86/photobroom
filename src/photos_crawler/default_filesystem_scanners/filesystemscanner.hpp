@@ -25,8 +25,9 @@
 
 #include <atomic>
 
+#include "photos_crawler_export.h"
 
-class FileSystemScanner : public IFileSystemScanner
+class PHOTOS_CRAWLER_EXPORT FileSystemScanner: public IFileSystemScanner
 {
 
     public:

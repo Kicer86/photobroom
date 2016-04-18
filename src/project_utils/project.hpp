@@ -24,13 +24,16 @@
 
 #include <QString>
 
+#include "project_utils_export.h"
+
+
 namespace Database
 {
     struct IDatabase;
 }
 
 
-struct ProjectInfo
+struct PROJECT_UTILS_EXPORT ProjectInfo
 {
         ProjectInfo(const QString& path);
         ProjectInfo();
@@ -50,7 +53,7 @@ struct ProjectInfo
 };
 
 
-class Project
+class PROJECT_UTILS_EXPORT Project
 {
     public:
         Project(std::unique_ptr<Database::IDatabase> &&, const ProjectInfo &);

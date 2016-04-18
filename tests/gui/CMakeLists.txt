@@ -5,6 +5,7 @@ find_package(Qt5Svg REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
+find_package(OpenLibrary REQUIRED QtExt)
 
 set(BASE_DIR ${CMAKE_SOURCE_DIR}/src/gui)
 

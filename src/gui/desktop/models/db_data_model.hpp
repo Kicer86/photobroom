@@ -69,7 +69,7 @@ class DBDataModel: public AScalableImagesModel
             NodeStatus = Qt::UserRole + 1,
         };
 
-        DBDataModel(QObject* p);
+        DBDataModel(QObject* p = nullptr);
         ~DBDataModel();
         DBDataModel(const DBDataModel& other) = delete;
         DBDataModel& operator=(const DBDataModel& other) = delete;

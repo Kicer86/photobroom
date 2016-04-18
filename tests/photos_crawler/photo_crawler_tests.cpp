@@ -6,8 +6,8 @@
 
 #include <QString>
 
-#include "implementation/ifile_system_scanner.hpp"
-#include "implementation/photo_crawler.hpp"
+#include "ifile_system_scanner.hpp"
+#include "photo_crawler.hpp"
 #include "ianalyzer.hpp"
 
 
@@ -26,15 +26,15 @@ struct AnalyzerMock: public IAnalyzer
 
 TEST(PhotoCrawlerShould, beConstructable)
 {
-    auto fileSystem = std::make_shared<FileSystemMock>();
-    auto analyzer = std::make_shared<AnalyzerMock>();
+    auto fileSystem = std::make_unique<FileSystemMock>();
+    auto analyzer = std::make_unique<AnalyzerMock>();
 
     using ::testing::_;
 
     EXPECT_CALL(*fileSystem, getFilesFor(_, _)).Times(0);
     EXPECT_CALL(*analyzer, isImage(_)).Times(0);
 
-    PhotoCrawler photo_crawler(fileSystem, analyzer);
+    PhotoCrawler photo_crawler(std::move(fileSystem), std::move(analyzer));
 }
 
 /*
@@ -60,15 +60,15 @@ TEST(PhotoCrawlerShould, returnMediaFilesForPath)
 
 TEST(PhotoCrawlerShould, allowToSetRules)
 {
-    auto fileSystem = std::make_shared<FileSystemMock>();
-    auto analyzer = std::make_shared<AnalyzerMock>();
+    auto fileSystem = std::make_unique<FileSystemMock>();
+    auto analyzer = std::make_unique<AnalyzerMock>();
 
     using ::testing::_;
 
     EXPECT_CALL(*fileSystem, getFilesFor(_, _)).Times(0);
     EXPECT_CALL(*analyzer, isImage(_)).Times(0);
 
-    PhotoCrawler photo_crawler(fileSystem, analyzer);
+    PhotoCrawler photo_crawler(std::move(fileSystem), std::move(analyzer));
 
     Rules rules;
     photo_crawler.setRules(rules);

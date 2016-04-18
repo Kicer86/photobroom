@@ -13,6 +13,7 @@ include_directories(${CMAKE_BINARY_DIR}
                     ${CMAKE_SOURCE_DIR}/src/gui/desktop
                     $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:gui_models,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
@@ -99,7 +100,7 @@ add_library(gui
             $<TARGET_OBJECTS:gui_config_tabs>
            )
 
-target_link_libraries(gui PRIVATE photos_crawler configuration core database system updater ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
+target_link_libraries(gui PRIVATE photos_crawler configuration core database project_utils system updater ${OPENLIBRARY_LIBRARIES} Qt5::Gui Qt5::Widgets Qt5::Svg)
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(gui)
