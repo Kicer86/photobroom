@@ -3,50 +3,55 @@
 #addTestTarget(`target` SOURCES source files TEST_LIBRARY gtest|gmock)
 #function will add executable with tests and will register it for ctest.
 
-function(addTestTarget target)
-
-    find_package(Threads REQUIRED)
+macro(addTestTarget target)
 
     #get sources
-    set(options OPTIONAL)
-    set(oneValueArgs TEST_LIBRARY)
-    set(multiValueArgs SOURCES)
-    cmake_parse_arguments(T "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+    set(multiValueArgs SOURCES LIBRARIES)
+    cmake_parse_arguments(T "" "" "${multiValueArgs}" ${ARGN} )
 
     #test_bin_name
-    set(test_bin ${target}_test)
+    set(test_bin ${target}_tests)
 
-    #add test executable
+    #add test executables
     add_executable(${test_bin} ${T_SOURCES})
+    add_executable(${test_bin}_ub ${T_SOURCES})
 
-    #find which library should be used
-    if("${T_TEST_LIBRARY}" STREQUAL "GTEST")
+    addFlags(${test_bin}_ub COMPILE_FLAGS "-fsanitize=undefined "
+                                          "-fno-sanitize-recover -fsanitize-undefined-trap-on-error"
+                                            "-fsanitize=shift "
+                                            "-fsanitize=integer-divide-by-zero "
+                                            "-fsanitize=unreachable "
+                                            "-fsanitize=vla-bound "
+                                            "-fsanitize=null "
+                                            "-fsanitize=return "
+                                            "-fsanitize=signed-integer-overflow "
+                                            "-fsanitize=bounds "
+                                            "-fsanitize=bounds-strict "
+                                            "-fsanitize=alignment "
+                                            "-fsanitize=object-size "
+                                            "-fsanitize=float-divide-by-zero "
+                                            "-fsanitize=float-cast-overflow "
+                                            "-fsanitize=nonnull-attribute "
+                                            "-fsanitize=returns-nonnull-attribute "
+                                            "-fsanitize=bool "
+                                            "-fsanitize=enum "
+                                            "-fsanitize=vptr"
+    )
 
-        find_package(GTest)
-        include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
-        set(link_library ${GTEST_MAIN_LIBRARY} ${GTEST_LIBRARY})
-
-    elseif("${T_TEST_LIBRARY}" STREQUAL "GMOCK")
-
-        find_package(GTest REQUIRED)
-        find_package(GMock REQUIRED)
-        include_directories(SYSTEM ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
-        set(link_library ${GMOCK_MAIN_LIBRARY} ${GMOCK_LIBRARY})
-
-    else()
-        message(FATAL_ERROR "For 'mode' argument use 'GTEST' or 'GMOCK'. Currently ${mode} was provided")
-    endif()
+    addFlags(${test_bin}_ub LINK_FLAGS "-fsanitize=undefined -fno-sanitize-recover")
 
     #link agains test library
-    target_link_libraries(${test_bin} PRIVATE ${link_library} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${test_bin} PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_ub PRIVATE ${T_LIBRARIES})
 
     #enable code coverage
-    #enableCodeCoverage(${test_bin})
+    enableCodeCoverage(${test_bin})
 
-    #add test
+    #add tests
     add_test(${target} ${test_bin})
+    add_test(${target}_ub ${test_bin}_ub)
 
-endfunction(addTestTarget)
+endmacro(addTestTarget)
 
 # will setup:
 # ${lib}_srcs            - to list of all library sources

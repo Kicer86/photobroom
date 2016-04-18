@@ -5,6 +5,7 @@ include_directories(
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:plugins,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 
