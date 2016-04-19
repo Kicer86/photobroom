@@ -14,10 +14,8 @@ notifications:
 addons:
   apt:
     packages:
-      #- qt55base-dev
+      - libboost-all-dev
     sources:
-      #- george-edison55-precise-backports
-      #- beineri-opt-qt551-trusty
     
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y
