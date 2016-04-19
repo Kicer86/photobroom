@@ -22,12 +22,12 @@ before_script:
   # third party stuff
   - mkdir -p build/third_party
   - pushd build/third_party
-  - cmake -DBUILD_OPENLIBRARY=TRUE ../../cmake/third_party/  
+  - cmake -DBUILD_OPENLIBRARY=TRUE -DINSTALL_LOCATION=/usr ../../cmake/third_party/  
   - make
   - popd
   # photo broom
   - cd build
-  - cmake .. -DCMAKE_PREFIX_PATH=${TRAVIS_BUILD_DIR}/third_party/install/lib/cmake/ -DOpenLibrary_DIR=third_party/install/lib/cmake/OpenLibrary -DEASYEXIF_LIBRARY=third_party/install/lib/libeasyexif.a -DEASYEXIF_INCLUDE_DIR=third_party/install/include
+  - cmake ..
 
 
 script: make
