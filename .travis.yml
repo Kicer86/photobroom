@@ -14,9 +14,10 @@ notifications:
 addons:
   apt:
     packages:
-      - qtbase5-dev
-      - jsoncpp
-      - easyexif
+      - qt55base-dev
+    sources:
+      #- george-edison55-precise-backports
+      - beineri-opt-qt551-trusty
     
 before_script:
   # third party stuff
