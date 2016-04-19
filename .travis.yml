@@ -5,7 +5,9 @@ branches:
     - travis_test
 
 before_install: 
-    - sudo apt-get install qtbase5-dev
+    - sudo apt-add-repository ppa:ubuntu-sdk-team/ppa -y  &&
+      sudo apt-get update                                 &&
+      sudo apt-get install qtbase5-dev
     
 before_script:
   - mkdir build
