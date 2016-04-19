@@ -4,6 +4,10 @@ branches:
   only:
     - travis_test
 
+notifications:
+    on_failure: never
+    on_success: never
+    
 before_install: 
     - sudo apt-add-repository ppa:ubuntu-sdk-team/ppa -y  &&
       sudo apt-get update                                 &&
