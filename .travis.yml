@@ -1,0 +1,15 @@
+language: cpp
+
+branches:
+  only:
+    - travis_test
+
+before_install: 
+    - sudo apt-get install qtbase5-dev
+    
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script: make
