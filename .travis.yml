@@ -25,6 +25,7 @@ before_script:
   - popd
   # photo broom
   - cd build
+  - ls third_party/install/lib/cmake/OpenLibrary
   - cmake .. -DOpenLibrary_DIR=third_party/install/lib/cmake/OpenLibrary -DEASYEXIF_LIBRARY=third_party/install/lib/libeasyexif.a -DEASYEXIF_INCLUDE_DIR=third_party/install/include
 
 
