@@ -23,7 +23,7 @@ before_script:
   - mkdir -p build/third_party
   - pushd build/third_party
   - cmake -DBUILD_OPENLIBRARY=TRUE -DINSTALL_LOCATION=/usr ../../cmake/third_party/  
-  - make
+  - sudo make
   - popd
   # photo broom
   - cd build
