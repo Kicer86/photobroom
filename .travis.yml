@@ -12,8 +12,10 @@ addons:
   apt:
     packages:
       - qtbase5-dev
+      - cmake cmake-data
     sources: &sources
-      - ubuntu-sdk-team
+      - ubuntu-sdk-team                     #qt5
+      - george-edison55-precise-backports   #cmake
     
 before_script:
   - mkdir build
