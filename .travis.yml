@@ -22,7 +22,7 @@ before_script:
   # third party stuff
   - mkdir -p build/third_party
   - pushd build/third_party
-  - cmake -DBUILD_OPENLIBRARY=TRUE -DINSTALL_LOCATION=/usr ../../cmake/third_party/  
+  - cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=/usr ../../cmake/third_party/  
   - sudo make
   - popd
   # photo broom
