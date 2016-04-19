@@ -17,8 +17,14 @@ addons:
       - qtbase5-dev
     
 before_script:
-  - mkdir build
+  # third party stuff
+  - mkdir -p build/third_party
+  - pushd build/third_party
+  - cmake -DBUILD_OPENLIBRARY=TRUE ../../cmake/third_party/  
+  - make
+  - popd
+  # photo broom
   - cd build
-  - cmake ..
+  - cmake -DOpenLibrary_DIR=third_party/install/lib/cmake/OpenLibrary ..
 
 script: make
