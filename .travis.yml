@@ -28,6 +28,7 @@ before_script:
   # third party stuff
   - mkdir -p build/third_party
   - pushd build/third_party
+  - source /opt/qt55/bin/qt55-env.sh
   - cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=/usr ../../cmake/third_party/  
   - sudo make
   - popd
