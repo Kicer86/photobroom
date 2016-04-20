@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.0)
 
 include(ExternalProject)
 
-set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install)
+set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install CACHE PATH "Installation location")
 set(COMMON_OPTIONS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION})
 set(OPTIONS_TO_INHERITE 
     CMAKE_AR
@@ -64,7 +64,6 @@ endif()
 if(BUILD_OPENLIBRARY)
     ExternalProject_Add(openlibrary
         GIT_REPOSITORY https://github.com/Kicer86/openlibrary.git
-        PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
