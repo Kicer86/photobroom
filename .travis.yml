@@ -26,10 +26,19 @@ before_install:
     
 before_script:
   # third party stuff
-  - mkdir -p build/third_party
-  - pushd build/third_party
-  - cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=/usr ../../cmake/third_party/  
+  - mkdir build_third_party
+  - pushd build_third_party
+  - cmake -DBUILD_OPENLIBRARY=OFF -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=/usr ../cmake/third_party/  
   - sudo make
+  - popd
+  # OL
+  - mkdir build_ol && pushd build_ol
+  - git clone git://github.com/Kicer86/openlibrary.git
+  - cd openlibrary
+  - mkdir build && cd build
+  - cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+  - make
+  - sudo make install
   - popd
   # photo broom
   - cd build
