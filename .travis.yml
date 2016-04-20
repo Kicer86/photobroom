@@ -47,6 +47,6 @@ before_script:
   - popd
   # photo broom
   - mkdir build && cd build
-  - cmake ..
+  - CC=gcc-5 CXX=g++-5cmake ..
 
 script: make
