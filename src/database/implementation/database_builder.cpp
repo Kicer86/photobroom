@@ -122,7 +122,8 @@ namespace Database
 
         database->exec(std::move(initTask), info);
 
-        return database;
+        // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
+        return std::move(database);
     }
 
 }
