@@ -41,8 +41,7 @@ before_script:
   - sudo make install
   - popd
   # photo broom
-  - cd build
+  - mkdir build && cd build
   - cmake ..
-
 
 script: make
