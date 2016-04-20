@@ -5,7 +5,7 @@ language: cpp
 
 branches:
   only:
-    - travis_test
+    - master
 
 notifications:
     on_failure: never
