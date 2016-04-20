@@ -3,10 +3,6 @@ dist: trusty
 
 language: cpp
 
-compiler:
-    - clang
-    - gcc
-
 branches:
   only:
     - master
@@ -16,17 +12,41 @@ notifications:
     on_failure: never
     on_success: never
 
-addons:
-  apt:
-    packages:
-      - libboost-all-dev
-      - g++-5
-      - gcc-5
-    sources:
-      - ubuntu-toolchain-r-test
+matrix:
+    include:
+        - compiler: gcc
+          addons:
+            apt:
+             packages:
+               - libboost-all-dev
+               - g++-5
+               - gcc-5
+             sources:
+               - ubuntu-toolchain-r-test
+          # use compiler which has c++14 support
+          env: COMPILER=g++-5
 
-# use compiler which has c++14 support
-env: COMPILER=g++-5
+        - compiler: clang
+          addons:
+            apt:
+             packages:
+               - libboost-all-dev
+               - clang-3.6
+             sources:
+               - ubuntu-toolchain-r-test
+               - llvm-toolchain-precise-3.6
+          # use compiler which has c++14 support
+          env: COMPILER=clang++-3.6
+
+        - compiler: clang
+          addons:
+            apt:
+              sources:
+                - ubuntu-toolchain-r-test
+                - llvm-toolchain-precise-3.7
+              packages:
+                - clang-3.7
+          env: COMPILER=clang++-3.7
 
 before_install:
     # setup Qt 5.5 which is not in Ubuntu by default. To be removed in the future.
@@ -39,7 +59,7 @@ before_script:
   # third party stuff
   - mkdir build_third_party
   - pushd build_third_party
-  - cmake -DBUILD_OPENLIBRARY=OFF -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=/usr ../cmake/third_party/
+  - CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=OFF -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=/usr ../cmake/third_party/
   - sudo make
   - popd
   # OL. For some unknown reason we cannot use script above to install OL - cmake cannot find Qt5Widgets.
@@ -53,6 +73,6 @@ before_script:
   - popd
   # photo broom
   - mkdir build && cd build
-  - CC=gcc-5 CXX=g++-5 cmake ..
+  - CXX=$COMPILER cmake ..
 
 script: make
