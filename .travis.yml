@@ -3,6 +3,8 @@ dist: trusty
 
 language: cpp
 
+cache: ccache
+
 branches:
   only:
     - master
