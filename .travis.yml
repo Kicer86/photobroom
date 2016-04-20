@@ -3,6 +3,10 @@ dist: trusty
 
 language: cpp
 
+compiler:
+    - clang
+    - gcc
+
 branches:
   only:
     - master
