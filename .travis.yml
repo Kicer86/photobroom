@@ -19,6 +19,8 @@ addons:
       - gcc-5
     sources:
       - ubuntu-toolchain-r-test
+      
+env: COMPILER=g++-5
     
 before_install:
     # setup Qt 5.5 which is not in Ubuntu by default
