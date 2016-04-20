@@ -14,13 +14,19 @@ notifications:
     on_failure: never
     on_success: never
 
+addons:
+  apt:
+    packages:
+      - libboost-all-dev
+    sources:
+      - ubuntu-toolchain-r-test
+
 matrix:
     include:
         - compiler: gcc
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - g++-5
                - gcc-5
              sources:
@@ -32,10 +38,8 @@ matrix:
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - clang-3.6
              sources:
-               - ubuntu-toolchain-r-test
                - llvm-toolchain-precise-3.6
           # use compiler which has c++14 support
           env: COMPILER=clang++-3.6
@@ -44,10 +48,8 @@ matrix:
           addons:
             apt:
               packages:
-                - libboost-all-dev
                 - clang-3.8
               sources:
-                - ubuntu-toolchain-r-test
                 - llvm-toolchain-precise-3.8
           env: COMPILER=clang++-3.8
 
