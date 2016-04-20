@@ -41,11 +41,12 @@ matrix:
         - compiler: clang
           addons:
             apt:
+              packages:
+                - libboost-all-dev
+                - clang-3.7
               sources:
                 - ubuntu-toolchain-r-test
                 - llvm-toolchain-precise-3.7
-              packages:
-                - clang-3.7
           env: COMPILER=clang++-3.7
 
 before_install:
