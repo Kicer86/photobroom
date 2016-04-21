@@ -21,6 +21,7 @@ matrix:
             apt:
              packages:
                - libboost-all-dev
+               - libgtest-dev
                - google-mock
                - g++-5
                - gcc-5
@@ -34,6 +35,7 @@ matrix:
             apt:
              packages:
                - libboost-all-dev
+               - libgtest-dev
                - google-mock
                - g++-5
                - gcc-5
@@ -47,6 +49,7 @@ matrix:
             apt:
              packages:
                - libboost-all-dev
+               - libgtest-dev
                - google-mock
                - clang-3.6
              sources:
@@ -60,6 +63,7 @@ matrix:
             apt:
              packages:
                - libboost-all-dev
+               - libgtest-dev
                - google-mock
                - clang-3.6
              sources:
