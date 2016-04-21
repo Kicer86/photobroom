@@ -23,6 +23,7 @@ matrix:
             apt:
              packages:
                - libboost-all-dev
+               - google-mock
                - g++-5
                - gcc-5
              sources:
@@ -35,6 +36,7 @@ matrix:
             apt:
              packages:
                - libboost-all-dev
+               - google-mock
                - clang-3.6
              sources:
                - ubuntu-toolchain-r-test
