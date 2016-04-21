@@ -14,6 +14,8 @@ notifications:
 
 matrix:
     include:
+        # TODO: below env could be used as additional dimension in matrix but there is a feature missing:
+        # https://github.com/travis-ci/travis-ci/issues/1519
         - compiler: gcc
           addons:
             apt:
@@ -25,9 +27,20 @@ matrix:
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++14 support
-          env: 
-            - COMPILER=g++-5 SHARED_BUILD=ON
-            - COMPILER=g++-5 SHARED_BUILD=OFF
+          env: COMPILER=g++-5 SHARED_BUILD=ON
+            
+        - compiler: gcc
+          addons:
+            apt:
+             packages:
+               - libboost-all-dev
+               - google-mock
+               - g++-5
+               - gcc-5
+             sources:
+               - ubuntu-toolchain-r-test
+          # use compiler which has c++14 support
+          env: COMPILER=g++-5 SHARED_BUILD=OFF    
 
         - compiler: clang
           addons:
@@ -40,9 +53,20 @@ matrix:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-precise-3.6
           # use compiler which has c++14 support
-          env: 
-            - COMPILER=clang++-3.6 SHARED_BUILD=ON
-            - COMPILER=clang++-3.6 SHARED_BUILD=OFF
+          env: COMPILER=clang++-3.6 SHARED_BUILD=ON
+            
+        - compiler: clang
+          addons:
+            apt:
+             packages:
+               - libboost-all-dev
+               - google-mock
+               - clang-3.6
+             sources:
+               - ubuntu-toolchain-r-test
+               - llvm-toolchain-precise-3.6
+          # use compiler which has c++14 support
+          env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
 
 before_install:
     # setup Qt 5.5 which is not in Ubuntu by default. To be removed in the future.
