@@ -89,7 +89,7 @@ before_script:
   - popd
   # setup gmock and gtest
   - git clone https://github.com/google/googletest.git
-  - set GTEST_PATH=`pwd`/googletest
+  - GTEST_PATH=`pwd`/googletest
   # photo broom
   - mkdir build && cd build
   - CXX=$COMPILER cmake -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
