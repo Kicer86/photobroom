@@ -21,6 +21,8 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS})
 
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
