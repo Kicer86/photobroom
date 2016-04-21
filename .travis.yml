@@ -91,6 +91,6 @@ before_script:
   - popd
   # photo broom
   - mkdir build && cd build
-  - CXX=$COMPILER cmake -DGTEST_DIR=./googletest -DGMOCK_DIR=./googlemock -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
+  - CXX=$COMPILER cmake -DGTEST_DIR=../googletest/googletest -DGMOCK_DIR=../googletest/googlemock -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
 
 script: make
