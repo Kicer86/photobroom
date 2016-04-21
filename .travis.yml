@@ -74,6 +74,6 @@ before_script:
   - popd
   # photo broom
   - mkdir build && cd build
-  - CXX=$COMPILER cmake ..
+  - CXX=$COMPILER cmake -DBUILD_TESTS=ON ..
 
 script: make
