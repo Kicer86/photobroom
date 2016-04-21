@@ -12,6 +12,10 @@ notifications:
     on_failure: never
     on_success: never
 
+env:
+  - SHARED_BUILD=ON
+  - SHARED_BUILD=OFF
+
 matrix:
     include:
         - compiler: gcc
@@ -63,6 +67,6 @@ before_script:
   - popd
   # photo broom
   - mkdir build && cd build
-  - CXX=$COMPILER cmake -DBUILD_TESTS=ON ..
+  - CXX=$COMPILER cmake -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
 
 script: make
