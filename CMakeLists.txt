@@ -107,7 +107,6 @@ if(BUILD_TESTS)
                       DEPENDS core_tests
                               database_tests
                               gui_tests
-                              sql_backend_base_tests
                               photos_crawler_tests
                      )
 endif()
