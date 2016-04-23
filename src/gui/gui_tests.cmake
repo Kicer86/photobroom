@@ -7,6 +7,10 @@ include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 include_directories(unit_tests)
 
+set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idx_data_manager.cpp PROPERTIES GENERATED TRUE)
+set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idxdata_deepfetcher.cpp PROPERTIES GENERATED TRUE)
+set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp PROPERTIES GENERATED TRUE)
+
 set(SRC
         desktop/models/ascalable_images_model.cpp
         desktop/models/db_data_model.cpp
