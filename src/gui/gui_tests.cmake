@@ -8,9 +8,22 @@ include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 include_directories(unit_tests)
 
 set(SRC
-        $<TARGET_OBJECTS:gui_models>
-        $<TARGET_OBJECTS:gui_views>
-        $<TARGET_OBJECTS:gui_utils>
+        desktop/models/ascalable_images_model.cpp
+        desktop/models/db_data_model.cpp
+        desktop/models/model_helpers/idx_data.cpp
+        desktop/models/model_helpers/idx_data_manager.cpp
+        desktop/models/model_helpers/idxdata_deepfetcher.cpp
+        desktop/models/model_helpers/photos_matcher.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idx_data_manager.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idxdata_deepfetcher.cpp
+
+        desktop/views/view_impl/data.cpp
+        desktop/views/view_impl/model_index_info.cpp
+        desktop/views/view_impl/positions_calculator.cpp
+        desktop/views/view_impl/positions_reseter.cpp
+        desktop/views/view_impl/positions_translator.cpp
+        desktop/views/view_impl/view_data_set.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp
 
         # model tests:
         unit_tests/model/idx_data_manager_tests.cpp
@@ -40,8 +53,8 @@ target_link_libraries(gui_tests
                             core
                             database
                             photos_crawler
-                            ${OPENLIBRARY_LIBRARIES}
                             Qt5::Core
+                            Qt5::Gui
                             ${GMOCK_LIBRARY}
                             ${CMAKE_THREAD_LIBS_INIT}
 )
