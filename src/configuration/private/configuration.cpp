@@ -34,10 +34,6 @@
 #include "constants.hpp"
 
 
-IConfigObserver::~IConfigObserver() {}
-IConfiguration::~IConfiguration()   {}
-
-
 ConfigurationPrivate::ConfigurationPrivate():
     m_json(),
     m_dumpTimer(),
