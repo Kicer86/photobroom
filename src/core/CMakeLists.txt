@@ -12,7 +12,6 @@ include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${CRYPTOGRAPHIC_INCLUDE_DIR}
                            ${EASYEXIF_INCLUDE_DIR}
                    )
 
