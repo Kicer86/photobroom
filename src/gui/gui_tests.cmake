@@ -47,7 +47,6 @@ target_link_libraries(gui_tests
                             project_utils
                             ${OPENLIBRARY_LIBRARIES}
                             Qt5::Core
-                            Qt5::Widgets
                             ${GMOCK_LIBRARY}
                             ${CMAKE_THREAD_LIBS_INIT}
 )
