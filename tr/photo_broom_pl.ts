@@ -399,12 +399,12 @@ Error code: %1</source>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="76"/>
+        <location filename="../src/gui/desktop/utils/photos_item_delegate.cpp" line="76"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/components/photos_item_delegate.cpp" line="83"/>
+        <location filename="../src/gui/desktop/utils/photos_item_delegate.cpp" line="83"/>
         <source>No photos</source>
         <translation type="unfinished"></translation>
     </message>
