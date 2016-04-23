@@ -94,4 +94,6 @@ before_script:
   - mkdir build && cd build
   - CXX=$COMPILER cmake -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
 
-script: make
+script: 
+  - make
+  - ctest -V
