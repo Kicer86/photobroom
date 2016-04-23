@@ -65,4 +65,6 @@ target_link_libraries(gui_tests
 
 enableCodeCoverage(gui_tests)
 
+add_dependencies(gui_tests gui)
+
 add_test(gui gui_tests)
