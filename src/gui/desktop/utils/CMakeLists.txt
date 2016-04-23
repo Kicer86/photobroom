@@ -13,6 +13,7 @@ set(UTILS_SOURCES
     icons_loader.cpp
     path_checker.cpp
     photos_collector.cpp
+    photos_item_delegate.cpp
     signal_filter.cpp
     thread_multiplexer.cpp
     variant_display.cpp
@@ -25,6 +26,7 @@ set(UTILS_HEADERS
     icons_loader.hpp
     path_checker.hpp
     photos_collector.hpp
+    photos_item_delegate.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
     variant_display.hpp
@@ -34,6 +36,7 @@ set(UTILS_HEADERS
 set(UTILS_FILES_TO_MOC
     path_checker.hpp
     photos_collector.hpp
+    photos_item_delegate.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
 )

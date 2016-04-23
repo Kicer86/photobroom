@@ -8,6 +8,13 @@ include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 include_directories(unit_tests)
 
 set(SRC
+        $<TARGET_OBJECTS:gui_config_tabs>
+        $<TARGET_OBJECTS:gui_models>
+        $<TARGET_OBJECTS:gui_ui>
+        $<TARGET_OBJECTS:gui_utils>
+        $<TARGET_OBJECTS:gui_views>
+        $<TARGET_OBJECTS:gui_widgets>
+
         # model tests:
         unit_tests/model/idx_data_manager_tests.cpp
         unit_tests/model/idx_data_tests.cpp
@@ -29,9 +36,22 @@ set(SRC
         unit_tests/main.cpp
     )
 
-add_executable(gui_tests ${SRC} ${GUI_WRAPPED_CPP})
+add_executable(gui_tests ${SRC})
 
-target_link_libraries(gui_tests PRIVATE core database gui Qt5::Core ${GMOCK_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(gui_tests
+                        PRIVATE
+                            configuration
+                            core
+                            database
+                            photos_crawler
+                            project_utils
+                            ${OPENLIBRARY_LIBRARIES}
+                            Qt5::Core
+                            Qt5::Widgets
+                            ${GMOCK_LIBRARY}
+                            ${CMAKE_THREAD_LIBS_INIT}
+)
+
 enableCodeCoverage(gui_tests)
 
 add_test(gui gui_tests)
