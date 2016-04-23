@@ -29,9 +29,9 @@
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
 #include "widgets/collection_dir_scan_dialog.hpp"
-#include "utils/config_dialog_manager.hpp"
+#include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
-#include "utils/icons_loader.hpp"
+#include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
 
 

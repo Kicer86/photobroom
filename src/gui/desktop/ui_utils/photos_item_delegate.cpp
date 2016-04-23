@@ -24,6 +24,7 @@
 #include "photos_item_delegate.hpp"
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
+
 #include "models/db_data_model.hpp"
 #include <QPainter>
 

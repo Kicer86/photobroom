@@ -28,8 +28,9 @@ endif()
 
 add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
-add_subdirectory(desktop/utils)
 add_subdirectory(desktop/ui)
+add_subdirectory(desktop/ui_utils)
+add_subdirectory(desktop/utils)
 add_subdirectory(desktop/views)
 add_subdirectory(desktop/widgets)
 
@@ -62,6 +63,7 @@ add_library(gui
             $<TARGET_OBJECTS:gui_models>
             $<TARGET_OBJECTS:gui_utils>
             $<TARGET_OBJECTS:gui_ui>
+            $<TARGET_OBJECTS:gui_ui_utils>
             $<TARGET_OBJECTS:gui_views>
             $<TARGET_OBJECTS:gui_widgets>
 )
@@ -94,3 +96,4 @@ endif()
 if(BUILD_TESTS)
     include(gui_tests.cmake)
 endif()
+

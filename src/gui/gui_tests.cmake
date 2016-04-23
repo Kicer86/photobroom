@@ -8,12 +8,9 @@ include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 include_directories(unit_tests)
 
 set(SRC
-        $<TARGET_OBJECTS:gui_config_tabs>
         $<TARGET_OBJECTS:gui_models>
-        $<TARGET_OBJECTS:gui_ui>
-        $<TARGET_OBJECTS:gui_utils>
         $<TARGET_OBJECTS:gui_views>
-        $<TARGET_OBJECTS:gui_widgets>
+        $<TARGET_OBJECTS:gui_utils>
 
         # model tests:
         unit_tests/model/idx_data_manager_tests.cpp

@@ -7,26 +7,18 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 
 set(UTILS_SOURCES
-    config_dialog_manager.cpp
     config_tools.cpp
-    iconfig_dialog_manager.cpp
-    icons_loader.cpp
     path_checker.cpp
     photos_collector.cpp
-    photos_item_delegate.cpp
     signal_filter.cpp
     thread_multiplexer.cpp
     variant_display.cpp
     )
 
 set(UTILS_HEADERS
-    config_dialog_manager.hpp
     config_tools.hpp
-    iconfig_dialog_manager.hpp
-    icons_loader.hpp
     path_checker.hpp
     photos_collector.hpp
-    photos_item_delegate.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
     variant_display.hpp
@@ -36,7 +28,6 @@ set(UTILS_HEADERS
 set(UTILS_FILES_TO_MOC
     path_checker.hpp
     photos_collector.hpp
-    photos_item_delegate.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
 )

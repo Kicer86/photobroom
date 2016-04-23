@@ -28,7 +28,7 @@
 #include "config_keys.hpp"
 #include "info_widget.hpp"
 #include "models/db_data_model.hpp"
-#include "utils/photos_item_delegate.hpp"
+#include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
 
 
