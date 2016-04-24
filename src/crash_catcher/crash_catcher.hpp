@@ -4,9 +4,9 @@
 
 #include <sstream>
 
-#include "system_export.h"
+#include "crash_catcher_export.h"
 
-class SYSTEM_EXPORT CrashCatcher
+class CRASH_CATCHER_EXPORT CrashCatcher
 {
         CrashCatcher();
         ~CrashCatcher();

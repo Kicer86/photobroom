@@ -9,16 +9,16 @@
 #include <QCommandLineOption>
 #include <QTimer>
 
+#include <configuration/configuration.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
-#include <configuration/configuration.hpp>
+#include <crash_catcher/crash_catcher.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
 #include <plugins/plugin_loader.hpp>
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
-#include <system/crash_catcher.hpp>
 
 
 int main(int argc, char **argv)
