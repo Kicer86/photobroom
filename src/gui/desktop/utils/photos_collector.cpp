@@ -21,8 +21,6 @@
 
 #include <cassert>
 
-#include <QProgressBar>
-
 #include <photos_crawler/photo_crawler_builder.hpp>
 #include <photos_crawler/photo_crawler.hpp>
 #include <photos_crawler/default_filesystem_scanners/filesystemscanner.hpp>

@@ -2,43 +2,12 @@
 include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
-find_package(KF5Crash QUIET)
 
-include_directories(${CMAKE_BINARY_DIR}/exports/ ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-
-# crash handling
-set(CRASH_HANDLER_FOUND FALSE)
-set(CRASH_HANDLER_SOURCES)
-set(CRASH_HANDLER_LIBRARIES)
-
-if(KF5Crash_FOUND)
-
-    include_directories(SYSTEM $<TARGET_PROPERTY:KF5::Crash,INTERFACE_INCLUDE_DIRECTORIES>)
-
-    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_kde5.cpp)
-    set(CRASH_HANDLER_LIBRARIES KF5::Crash)
-    set(CRASH_HANDLER_FOUND TRUE)
-
-endif(KF5Crash_FOUND)
-
-if(NOT CRASH_HANDLER_FOUND)
-
-    include_directories(${PROJECT_SOURCE_DIR}/tools
-                        $<TARGET_PROPERTY:catcher,INTERFACE_INCLUDE_DIRECTORIES>
-    )
-    
-    set(CRASH_HANDLER_SOURCES implementation/crash_catcher_internal.cpp)
-    set(CRASH_HANDLER_LIBRARIES catcher)
-    set(CRASH_HANDLER_FOUND TRUE)
-
-endif()
-
-
-set(SYSTEM_SOURCES ${CRASH_HANDLER_SOURCES})
-
+set(SYSTEM_SOURCES)
 
 # system related stuff
 if (WIN32)
@@ -60,7 +29,6 @@ endif(WIN32)
 
 # common stuff
 set(SYSTEM_SOURCES ${SYSTEM_SOURCES}
-                   implementation/crash_catcher.cpp
                    implementation/filesystem.cpp
                    implementation/system.cpp
 )
@@ -68,7 +36,6 @@ set(SYSTEM_SOURCES ${SYSTEM_SOURCES}
 set(SYSTEM_HEADERS
         system.hpp
         filesystem.hpp
-        crash_catcher.hpp
 )
 
 if(WIN32)
@@ -92,7 +59,6 @@ add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
 target_include_directories(system PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(system PRIVATE
                         Qt5::Core
-                        ${CRASH_HANDLER_LIBRARIES}
                      )
 
 hideSymbols(system)

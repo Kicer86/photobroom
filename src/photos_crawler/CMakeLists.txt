@@ -16,7 +16,6 @@ set(ANALYZER_SOURCES
     default_filesystem_scanners/filesystemscanner.cpp
     implementation/ianalyzer.cpp
     implementation/ifile_system_scanner.cpp
-    implementation/iphoto_crawler.cpp
     implementation/photo_crawler.cpp
     implementation/photo_crawler_builder.cpp
     )
@@ -44,4 +43,8 @@ hideSymbols(photos_crawler)
 if(BUILD_SHARED_LIBS)
     install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}
                                    LIBRARY DESTINATION ${PATH_LIBS})
+endif()
+
+if(BUILD_TESTS)
+    include(photos_crawler_test.cmake)
 endif()

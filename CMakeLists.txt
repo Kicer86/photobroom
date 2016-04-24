@@ -77,10 +77,6 @@ add_subdirectory(src)
 add_subdirectory(tr)
 add_subdirectory(tools)
 
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
-
 #system dependent stuff
 if(UNIX OR CYGWIN)
     include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
@@ -107,7 +103,6 @@ if(BUILD_TESTS)
                       DEPENDS core_tests
                               database_tests
                               gui_tests
-                              sql_backend_base_tests
                               photos_crawler_tests
                      )
 endif()

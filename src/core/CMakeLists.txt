@@ -12,7 +12,6 @@ include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${CRYPTOGRAPHIC_INCLUDE_DIR}
                            ${EASYEXIF_INCLUDE_DIR}
                    )
 
@@ -79,12 +78,14 @@ list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
-target_link_libraries(core PRIVATE system
-                      ${OPENLIBRARY_LIBRARIES}
-                      Qt5::Core
-                      Qt5::Gui
-                      ${EASYEXIF_LIBRARIES}
-                      ${CMAKE_THREAD_LIBS_INIT}
+target_link_libraries(core
+                        PRIVATE
+                            system
+                            ${OPENLIBRARY_LIBRARIES}
+                            Qt5::Core
+                            Qt5::Gui
+                            ${EASYEXIF_LIBRARIES}
+                            ${CMAKE_THREAD_LIBS_INIT}
                      )
 
 target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
@@ -96,3 +97,8 @@ if(BUILD_SHARED_LIBS)
     install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}
                          LIBRARY DESTINATION ${PATH_LIBS})
 endif()
+
+if(BUILD_TESTS)
+    include(core_test.cmake)
+endif()
+

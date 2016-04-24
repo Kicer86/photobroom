@@ -4,7 +4,7 @@
 
 #include <QWidget>
 
-#include <utils/iconfig_dialog_manager.hpp>
+#include <ui_utils/iconfig_dialog_manager.hpp>
 
 class QSpinBox;
 
