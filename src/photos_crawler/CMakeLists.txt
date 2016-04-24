@@ -44,3 +44,7 @@ if(BUILD_SHARED_LIBS)
     install(TARGETS photos_crawler RUNTIME DESTINATION ${PATH_LIBS}
                                    LIBRARY DESTINATION ${PATH_LIBS})
 endif()
+
+if(BUILD_TESTS)
+    include(photos_crawler_test.cmake)
+endif()

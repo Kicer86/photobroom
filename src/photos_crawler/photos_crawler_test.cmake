@@ -4,19 +4,21 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 find_package(Threads REQUIRED)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
-find_package(Qt5Core REQUIRED)
 
-
-set(BASE_DIR ${CMAKE_SOURCE_DIR}/src/photos_crawler)
-setupTestEnvironmentFor(photos_crawler ${BASE_DIR})
+include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 include_directories($<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set(SRC
-        ${photos_crawler_srcs}
-        analyzerTests.cpp
-        photo_crawler_tests.cpp
-        photo_crawler_builder_tests.cpp
+        default_analyzers/ext_defaultanalyzer.cpp
+        default_analyzers/file_analyzer.cpp
+        implementation/ianalyzer.cpp
+        implementation/ifile_system_scanner.cpp
+        implementation/photo_crawler.cpp
+
+        unit_tests/analyzerTests.cpp
+        unit_tests/photo_crawler_tests.cpp
+        unit_tests/photo_crawler_builder_tests.cpp
     )
 
 add_executable(photos_crawler_tests ${SRC})
