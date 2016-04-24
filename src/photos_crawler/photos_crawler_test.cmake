@@ -7,8 +7,6 @@ find_package(GTest REQUIRED)
 
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
-include_directories($<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>)
-
 set(SRC
         default_analyzers/ext_defaultanalyzer.cpp
         default_analyzers/file_analyzer.cpp

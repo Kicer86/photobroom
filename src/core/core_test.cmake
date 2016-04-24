@@ -7,8 +7,6 @@ find_package(GTest REQUIRED)
 
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
-include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>)
-
 set(SRC
         unit_tests/tree_tests.cpp
         unit_tests/ts_multi_head_queue_tests.cpp
