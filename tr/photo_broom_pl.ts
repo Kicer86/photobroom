@@ -289,7 +289,7 @@
     <message>
         <location line="+11"/>
         <source>&amp;Reviewed photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Przejrzane zdjęcia</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -341,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+35"/>
         <source>Above you can view new photos and describe them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
         <location line="+85"/>
@@ -396,7 +396,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="-105"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
         <location line="+38"/>
