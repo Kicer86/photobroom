@@ -4,427 +4,438 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="29"/>
-        <source>Event</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="30"/>
-        <source>Place</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="31"/>
-        <source>Date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="32"/>
-        <source>Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="33"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+33"/>
         <source>People</source>
-        <translation type="unfinished"></translation>
+        <translation>Osoby</translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>Place</source>
+        <translation>Miejsce</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Time</source>
+        <translation>Godzina</translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>Event</source>
+        <translation>Wydarzenie</translation>
     </message>
 </context>
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="55"/>
-        <source>Collection scan</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="166"/>
-        <source>Collection scan canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="167"/>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="187"/>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="171"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+171"/>
         <source>Collection scan in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Trwa skanowanie kolekcji</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="172"/>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
+        <location line="+1"/>
+        <location line="+5"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="176"/>
-        <source>Searching for new photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="183"/>
-        <source>Done. No new photos found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="184"/>
+        <location line="+7"/>
         <source>Done. %n new photo(s) found.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.</numerusform>
         </translation>
+    </message>
+    <message>
+        <location line="-18"/>
+        <source>Collection scan canceled</source>
+        <translation>Skanowanie kolekcji przerwane</translation>
+    </message>
+    <message>
+        <location line="-111"/>
+        <source>Collection scan</source>
+        <translation>Skanowanie kolekcji</translation>
+    </message>
+    <message>
+        <location line="+121"/>
+        <source>Searching for new photos</source>
+        <translation>Wyszukiwanie nowych zdjęć</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Done. No new photos found.</source>
+        <translation>Zakończono. Brak nowych zdjęć.</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <location line="+20"/>
+        <source>Close</source>
+        <translation>Zamknij</translation>
     </message>
 </context>
 <context>
     <name>ConfigurationDialog</name>
     <message>
-        <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="14"/>
+        <location filename="../src/gui/desktop/ui/configuration_dialog.ui" line="+14"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia</translation>
     </message>
 </context>
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="973"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+973"/>
         <source>Unlabeled</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieopisane</translation>
     </message>
 </context>
 <context>
     <name>LevelEditor</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="208"/>
+        <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
         <source>Grouping:</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupowanie:</translation>
     </message>
 </context>
 <context>
     <name>LookTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="20"/>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+20"/>
         <source>Photos view</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="29"/>
+        <location line="+9"/>
         <source>Expanded node color #1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwszy kolor tła grupy zdjęć:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="55"/>
+        <location line="+26"/>
         <source>Expanded node color #2:</source>
-        <translation type="unfinished"></translation>
+        <translation>Drugi kolor tła grupy zdjęć:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="81"/>
+        <location line="+26"/>
         <source>Images spacing:</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstęp pomiędzy zdjęciami:</translation>
     </message>
 </context>
 <context>
     <name>LookTabControler</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="68"/>
+        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygląd</translation>
     </message>
 </context>
 <context>
     <name>MainTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="20"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="+20"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="26"/>
+        <location line="+6"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdzaj aktualizacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.ui" line="36"/>
+        <location line="+10"/>
         <source>Check frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="18"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
         <source>Every day</source>
-        <translation type="unfinished"></translation>
+        <translation>Codziennie</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="18"/>
+        <location line="+0"/>
         <source>Every 3 days</source>
-        <translation type="unfinished"></translation>
+        <translation>Co 3 dni</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="18"/>
+        <location line="+0"/>
         <source>Every week</source>
-        <translation type="unfinished"></translation>
+        <translation>Co tydzień</translation>
     </message>
 </context>
 <context>
     <name>MainTabControler</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="68"/>
+        <location line="+50"/>
         <source>Main</source>
-        <translation type="unfinished"></translation>
+        <translation>Główne</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="14"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
         <source>Photo broom</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo broom</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="35"/>
+        <location line="+21"/>
         <source>&amp;Photo collection</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="39"/>
+        <location line="+4"/>
         <source>Open &amp;recent</source>
-        <translation type="unfinished"></translation>
+        <translation>O&amp;twórz poprzednią</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="52"/>
-        <source>P&amp;hotos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="58"/>
+        <location line="+19"/>
         <source>He&amp;lp</source>
-        <translation type="unfinished"></translation>
+        <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="67"/>
-        <source>Settin&amp;gs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="73"/>
+        <location line="+15"/>
         <source>&amp;Windows</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="80"/>
+        <location line="-21"/>
+        <source>P&amp;hotos</source>
+        <translation>&amp;Zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Settin&amp;gs</source>
+        <translation>Ustawie&amp;nia</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>&amp;View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Widok</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="95"/>
+        <location line="+15"/>
         <source>Photo information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="104"/>
+        <location line="+9"/>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadania</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="113"/>
+        <location line="+9"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nowa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="118"/>
+        <location line="+5"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="126"/>
+        <location line="+8"/>
         <source>&amp;Add photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dodaj zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="131"/>
+        <location line="+5"/>
         <source>&amp;About Photo Broom</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;O Photo Broom</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="136"/>
+        <location line="+5"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zamknij</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="141"/>
+        <location line="+5"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="146"/>
+        <location line="+5"/>
         <source>About &amp;Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>O &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="151"/>
+        <location line="+5"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="156"/>
+        <location line="+5"/>
         <source>&amp;Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="164"/>
+        <location line="+8"/>
         <source>&amp;Tags editor</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Edytor tagów</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="172"/>
+        <location line="+8"/>
         <source>T&amp;asks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zadania</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="177"/>
+        <location line="+5"/>
         <source>&amp;Scan collection</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="188"/>
+        <location line="+11"/>
         <source>&amp;All photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Wszystkie zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="196"/>
+        <location line="+8"/>
         <source>&amp;New photos</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="198"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+198"/>
         <source>New version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="199"/>
+        <location line="+1"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja programu PhotoBroom jest dostępna &lt;a href=&quot;%1&quot;&gt;tutaj&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="206"/>
+        <location line="+7"/>
         <source>Internet connection problem</source>
-        <translation type="unfinished"></translation>
+        <translation>Problem z połączeniem internetowym</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="207"/>
+        <location line="+1"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się sprawdzić, czy jest dostępna nowsza wersja programu.
+Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="326"/>
+        <location line="+119"/>
         <source>Photo broom: </source>
-        <translation type="unfinished"></translation>
+        <translation>Photo broom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="326"/>
+        <location line="+0"/>
         <source>No collection opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="421"/>
+        <location line="+95"/>
         <source>Open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="421"/>
+        <location line="+0"/>
         <source>Photo Broom files (*.bpj)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="497"/>
-        <source>About Photo Broom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="503"/>
-        <source>About Qt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="543"/>
+        <location line="+122"/>
         <source>Unsupported photo collection version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="544"/>
+        <location line="+1"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
 Please upgrade application to open this collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcja, którą chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
+
+Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="553"/>
+        <location line="+9"/>
         <source>Could not open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="554"/>
+        <location line="+1"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
 
 Please check collection files:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można było załadować kolekcji zdjęć.
+Zwykle oznacza to, że pliki kolekcji są uszkodzone
+lub nie posiadasz do nich praw dostępu.
+
+Sprawdź proszę pliki kolekcji:
+%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="564"/>
-        <source>Unexpected error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="565"/>
+        <location line="+11"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
+Proszę zgłosić błąd w programie.
+Kod błędu: %1</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Unexpected error</source>
+        <translation>Niespodziewany błąd</translation>
+    </message>
+    <message>
+        <location line="-67"/>
+        <source>About Photo Broom</source>
+        <translation>O programie</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>About Qt</source>
+        <translation>O Qt</translation>
     </message>
 </context>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="153"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+153"/>
         <source>Loading photos data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
 </context>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="77"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+77"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="84"/>
+        <location line="+7"/>
         <source>No photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak zdjęć</translation>
     </message>
 </context>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="55"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+55"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="139"/>
+        <location line="+84"/>
         <source>There are no photos in your collection.
 
 Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="141"/>
+        <location line="+2"/>
         <source>Loading photos...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -432,59 +443,60 @@ Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="63"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+63"/>
         <source>Photo collection creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Tworzenie kolekcji zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="67"/>
+        <location line="+4"/>
         <source>Collection name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa kolekcji:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="76"/>
+        <location line="+9"/>
         <source>Database engine:</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik bazy danych:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="85"/>
+        <location line="+9"/>
         <source>Engine options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje silnika</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="88"/>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="93"/>
+        <location line="+3"/>
+        <location line="+5"/>
         <source>Photos location</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja zdjęć</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="90"/>
+        <location line="-3"/>
         <source>Photos location is place where your photos collection will be stored.
 Location may already contain photos which will be added to collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja zdjęć to katalog, gdzie twoje zdjęcia będą przechowywane.
+Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekcji.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="91"/>
+        <location line="+1"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalizacja</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="91"/>
+        <location line="+0"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądaj</translation>
     </message>
 </context>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="124"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+124"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="124"/>
+        <location line="+0"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
 </context>
 </TS>

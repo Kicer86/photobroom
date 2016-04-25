@@ -4,79 +4,67 @@
 <context>
     <name>CommandLineParser</name>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="33"/>
         <source>Pid of crashed program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pid scrashowanego programu.</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="34"/>
         <source>pid</source>
-        <translation type="unfinished"></translation>
+        <translation>pid</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="39"/>
         <source>Id of thread causing crash.</source>
-        <translation type="unfinished"></translation>
+        <translation>Id wątku, który spowodował crash.</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="40"/>
         <source>thread id</source>
-        <translation type="unfinished"></translation>
+        <translation>id wątku</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="45"/>
         <source>path to executable file.</source>
-        <translation type="unfinished"></translation>
+        <translation>ścieżka do pliku wykonywalnego.</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="46"/>
         <source>exec path</source>
-        <translation type="unfinished"></translation>
+        <translation>ścieżka pliku wykonywalnego</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="57"/>
         <source>--pid option is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>opcja --pid jest wymagana.</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="59"/>
         <source>--tid option is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>opcja --tid jest wymagana.</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/command_line_parser.cpp" line="61"/>
         <source>--exec option is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>opcja --exec jest wymagana.</translation>
     </message>
 </context>
 <context>
     <name>CrashDialog</name>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/ui/crash_dialog.ui" line="14"/>
         <source>Crash dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Crash dialog</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/ui/crash_dialog.cpp" line="44"/>
         <source>Program %1 has crashed.
 Below you can find more technical details.
 It is also possible to send a bug report</source>
-        <translation type="unfinished"></translation>
+        <translation>Program %1 uległ awari.
+Poniżej znajdują się detale techniczne.
+Istnieje możliwość zgłoszenia raportu z błędem</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/ui/crash_dialog.cpp" line="50"/>
         <source>Report</source>
-        <translation type="unfinished"></translation>
+        <translation>Raport</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/ui/crash_dialog.cpp" line="51"/>
         <source>Run again</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchom ponownie</translation>
     </message>
     <message>
-        <location filename="../tools/internal_crash_catcher/crash_dialog/ui/crash_dialog.cpp" line="52"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
 </context>
 </TS>
