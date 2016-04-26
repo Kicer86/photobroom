@@ -48,6 +48,12 @@ class MainWindow: public QMainWindow
         void set(IPhotosManager *);
 
     private:
+        enum class ActiveView
+        {
+            ReviewedPhotos,
+            NewPhotos,
+        };
+
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
@@ -64,6 +70,7 @@ class MainWindow: public QMainWindow
         QStringList               m_recentCollections;
         std::deque<Database::IFilter::Ptr> m_newPhotosFilters;
         std::deque<Database::IFilter::Ptr> m_reviewedPhotosFilters;
+        ActiveView                m_activeView;
 
         void closeEvent(QCloseEvent *) override;
 

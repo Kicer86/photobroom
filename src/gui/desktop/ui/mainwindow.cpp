@@ -72,7 +72,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_lookTabCtrl(new LookTabControler),
     m_recentCollections(),
     m_newPhotosFilters(),
-    m_reviewedPhotosFilters()
+    m_reviewedPhotosFilters(),
+    m_activeView(ActiveView::ReviewedPhotos)
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -346,7 +347,14 @@ void MainWindow::updateMenus()
 void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened"));
+
+    const QString prjName = prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened");
+    QString view = "";
+
+    if (prj)
+        view = m_activeView == ActiveView::NewPhotos? tr("- new photos"): tr("");
+
+    const QString title = tr("Photo broom: %1 %2").arg(prjName).arg(view);
 
     setWindowTitle(title);
 }
@@ -468,6 +476,9 @@ void MainWindow::on_actionReviewed_photos_triggered()
 {
     m_imagesModel->setStaticFilters(m_reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
+
+    m_activeView = ActiveView::ReviewedPhotos;
+    updateTitle();
 }
 
 
@@ -483,6 +494,9 @@ void MainWindow::on_actionNew_photos_triggered()
     ui->imagesView->setBottomHintWidget(hint);
 
     connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
+
+    m_activeView = ActiveView::NewPhotos;
+    updateTitle();
 }
 
 

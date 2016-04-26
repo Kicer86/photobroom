@@ -297,7 +297,7 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -319,14 +319,14 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+119"/>
-        <source>Photo broom: </source>
-        <translation>Photo broom: </translation>
-    </message>
-    <message>
-        <location line="+0"/>
+        <location line="+120"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Photo broom: %1 %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+95"/>
@@ -339,12 +339,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+38"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+88"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -394,12 +394,17 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-105"/>
+        <location line="-244"/>
+        <source>- new photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+136"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+41"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
