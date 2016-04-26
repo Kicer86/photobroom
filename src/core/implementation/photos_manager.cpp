@@ -48,13 +48,13 @@ PhotosManager::~PhotosManager()
 }
 
 
-QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo)
+QByteArray PhotosManager::getPhoto(const IPhotoInfo::Ptr& photoInfo) const
 {
     return getPhoto(photoInfo->getPath());
 }
 
 
-QByteArray PhotosManager::getPhoto(const QString& path)
+QByteArray PhotosManager::getPhoto(const QString& path) const
 {
     std::lock_guard<std::mutex> lock(m_data->m_mutex);
 
@@ -76,7 +76,7 @@ QByteArray PhotosManager::getPhoto(const QString& path)
 }
 
 
-QImage PhotosManager::getThumbnail(const QString& path)
+QImage PhotosManager::getThumbnail(const QString& path) const
 {
     QByteArray raw = getPhoto(path);
 
