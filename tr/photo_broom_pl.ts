@@ -326,7 +326,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+6"/>
         <source>Photo broom: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo broom: %1 %2</translation>
     </message>
     <message>
         <location line="+95"/>
@@ -396,7 +396,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="-244"/>
         <source>- new photos</source>
-        <translation type="unfinished"></translation>
+        <translation>- nowe zdjęcia</translation>
     </message>
     <message>
         <location line="+136"/>
