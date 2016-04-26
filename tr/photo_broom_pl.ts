@@ -288,8 +288,8 @@
     </message>
     <message>
         <location line="+11"/>
-        <source>&amp;All photos</source>
-        <translation>&amp;Wszystkie zdjęcia</translation>
+        <source>&amp;Reviewed photos</source>
+        <translation>&amp;Przejrzane zdjęcia</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -297,7 +297,7 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+198"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -319,14 +319,14 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+119"/>
-        <source>Photo broom: </source>
-        <translation>Photo broom: </translation>
-    </message>
-    <message>
-        <location line="+0"/>
+        <location line="+120"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Photo broom: %1 %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+95"/>
@@ -339,7 +339,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+122"/>
+        <location line="+38"/>
+        <source>Above you can view new photos and describe them.</source>
+        <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -389,7 +394,17 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-244"/>
+        <source>- new photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+136"/>
+        <source>You can click here when you are done to mark photos as reviewed.</source>
+        <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
+    </message>
+    <message>
+        <location line="+41"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -423,21 +438,9 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+55"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+52"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
-    </message>
-    <message>
-        <location line="+84"/>
-        <source>There are no photos in your collection.
-
-Add some by choosing &apos;Add photos&apos; action from &apos;Photos&apos; menu.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Loading photos...</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -31,8 +31,8 @@ struct ILoggerFactory
 {
     virtual ~ILoggerFactory();
 
-    virtual std::unique_ptr<ILogger> get(const QString& utility) = 0;
-    virtual std::unique_ptr<ILogger> get(const std::vector<QString>& utility) = 0;
+    virtual std::unique_ptr<ILogger> get(const QString& utility) const = 0;
+    virtual std::unique_ptr<ILogger> get(const std::vector<QString>& utility) const = 0;
 };
 
 #endif // ILOGGERFACTORY_HPP

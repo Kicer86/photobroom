@@ -40,9 +40,9 @@ class CORE_EXPORT PhotosManager: public IPhotosManager
         PhotosManager& operator=(const PhotosManager &) = delete;
 
         // IPhotosManager:
-        QByteArray getPhoto(const IPhotoInfo::Ptr &) override;
-        QByteArray getPhoto(const QString& path) override;
-        QImage getThumbnail(const QString& path) override;
+        QByteArray getPhoto(const IPhotoInfo::Ptr &) const override;
+        QByteArray getPhoto(const QString& path) const override;
+        QImage getThumbnail(const QString& path) const override;
 
     private:
         struct Data;

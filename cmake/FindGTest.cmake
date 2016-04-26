@@ -9,8 +9,9 @@
 #  GTEST_MAIN_LIBRARY - GTest main library
 
 find_path(GTEST_INCLUDE_DIR gtest/gtest.h
-          HINTS ${GTEST_DIR}/include)
-                    
+          HINTS ${GTEST_DIR}/include
+                ${GMOCK_DIR}/gtest/include)
+
 find_library(GTEST_LIBRARY      libgtest.a)
 find_library(GTEST_MAIN_LIBRARY libgtest_main.a)
 
@@ -22,11 +23,17 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
 
         message("Trying to find GTest sources and register extra targets")
         find_file(GTEST_BASE_SOURCE src/gtest-all.cc
-                  HINTS /usr/src/gtest ${GTEST_DIR})
+                  HINTS /usr/src/gtest
+                        ${GTEST_DIR}
+                        ${GMOCK_DIR}/gtest
+                  )
 
         find_file(GTEST_MAIN_SOURCE src/gtest_main.cc
-                  HINTS /usr/src/gtest ${GTEST_DIR})
-                  
+                  HINTS /usr/src/gtest
+                        ${GTEST_DIR}
+                        ${GMOCK_DIR}/gtest
+                  )
+
         if(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)
             message(FATAL_ERROR "Could not find base for GTest sources. Set GTEST_DIR to proper value")
         endif(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)

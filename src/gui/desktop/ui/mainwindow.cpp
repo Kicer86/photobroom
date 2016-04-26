@@ -37,10 +37,22 @@
 
 namespace
 {
-    struct StorePhoto: Database::AStorePhotoTask
+
+    struct MarkPhotosReviewed: Database::AGetPhotosTask
     {
-        void got(bool) override {}
+        MarkPhotosReviewed(Database::IDatabase* db): m_db(db)
+        {
+        }
+
+        void got(const IPhotoInfo::List& photos) override
+        {
+            for(const IPhotoInfo::Ptr& photo: photos)
+                photo->markFlag(Photo::FlagsE::StagingArea, 0);
+        }
+
+        Database::IDatabase* m_db;
     };
+
 }
 
 
@@ -58,7 +70,10 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler),
-    m_recentCollections()
+    m_recentCollections(),
+    m_newPhotosFilters(),
+    m_reviewedPhotosFilters(),
+    m_activeView(ActiveView::ReviewedPhotos)
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -80,6 +95,15 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
+
+    // filters
+    auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
+    m_newPhotosFilters = {new_photos_filter};
+
+    auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
+    m_reviewedPhotosFilters = {reviewed_photos_filter};
 }
 
 
@@ -292,7 +316,7 @@ void MainWindow::setupView()
 
     // group radio buttons
     QActionGroup* viewGroup = new QActionGroup(this);
-    viewGroup->addAction(ui->actionAll_photos);
+    viewGroup->addAction(ui->actionReviewed_photos);
     viewGroup->addAction(ui->actionNew_photos);
 }
 
@@ -323,7 +347,14 @@ void MainWindow::updateMenus()
 void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
-    const QString title = tr("Photo broom: ") + (prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened"));
+
+    const QString prjName = prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened");
+    QString view = "";
+
+    if (prj)
+        view = m_activeView == ActiveView::NewPhotos? tr("- new photos"): tr("");
+
+    const QString title = tr("Photo broom: %1 %2").arg(prjName).arg(view);
 
     setWindowTitle(title);
 }
@@ -441,22 +472,31 @@ void MainWindow::on_actionQuit_triggered()
 }
 
 
-void MainWindow::on_actionAll_photos_triggered()
+void MainWindow::on_actionReviewed_photos_triggered()
 {
-    const std::deque<Database::IFilter::Ptr> filters;
+    m_imagesModel->setStaticFilters(m_reviewedPhotosFilters);
+    ui->imagesView->setBottomHintWidget(nullptr);
 
-    m_imagesModel->setStaticFilters(filters);
+    m_activeView = ActiveView::ReviewedPhotos;
+    updateTitle();
 }
 
 
 void MainWindow::on_actionNew_photos_triggered()
 {
-    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filter->flags[Photo::FlagsE::StagingArea] = 1;
+    m_imagesModel->setStaticFilters(m_newPhotosFilters);
 
-    const std::deque<Database::IFilter::Ptr> filters( {filter});
+    InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
+    const QString message = tr("Above you can view new photos and describe them.");
+    const QString link = tr("You can click here when you are done to mark photos as reviewed.");
+    hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
+    hint->setTextFormat(Qt::RichText);
+    ui->imagesView->setBottomHintWidget(hint);
 
-    m_imagesModel->setStaticFilters(filters);
+    connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
+
+    m_activeView = ActiveView::NewPhotos;
+    updateTitle();
 }
 
 
@@ -469,15 +509,10 @@ void MainWindow::on_actionScan_collection_triggered()
 
     if (status == QDialog::Accepted)
     {
+        const std::set<QString>& photos = scanner.newPhotos();
         Database::IDatabase* db = m_currentPrj->getDatabase();
 
-        const std::set<QString>& photos = scanner.newPhotos();
-
-        for(const QString& path: photos)
-        {
-            auto task = std::make_unique<StorePhoto>();
-            db->exec( std::move(task), path);
-        }
+        db->store(photos);
     }
 }
 
@@ -579,3 +614,14 @@ void MainWindow::projectOpenedNotification(const Database::BackendStatus& status
     emit projectOpenedSignal(status);
 }
 
+
+void MainWindow::markNewPhotosAsReviewed()
+{
+    auto task = std::make_unique<MarkPhotosReviewed>(m_currentPrj->getDatabase());
+    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    filter->flags[Photo::FlagsE::StagingArea] = 1;
+
+    const std::deque<Database::IFilter::Ptr> filters( {filter});
+
+    m_currentPrj->getDatabase()->exec(std::move(task), filters);
+}

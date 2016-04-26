@@ -26,6 +26,7 @@
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
+class QVBoxLayout;
 
 class PhotosItemDelegate;
 class DBDataModel;
@@ -50,21 +51,18 @@ class PhotosWidget: public QWidget
 
         QItemSelectionModel* viewSelectionModel();
 
+        void setBottomHintWidget(InfoBaloonWidget *);
+
     private:
         QTimer m_timer;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
-        InfoBaloonWidget* m_info;
         PhotosItemDelegate* m_delegate;
         QLineEdit* m_searchExpression;
+        QVBoxLayout* m_bottomHintLayout;
 
-        virtual void changeEvent(QEvent *) override;
-
-        void modelChanged(const QModelIndex &, int, int);
-        void updateHint();
         void searchExpressionChanged(const QString &);
         void applySearchExpression();
-        void dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 };
 
 #endif // PHOTOSWIDGET_HPP

@@ -22,8 +22,8 @@ if(LUPDATE AND LRELEASE)
         # It would be optimal to make them depend on cpp files with translations but it wouldn't
         # be as convenient as it is now.
         add_custom_target(generate_ts_files_${tr}
-                          COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/src/ -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
-                          COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/ -ts ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
+                          COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/src/ -noobsolete -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
+                          COMMAND ${LUPDATE} ${PROJECT_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/ -noobsolete -ts ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
         )
 
         list(APPEND tr_update_targets generate_ts_files_${tr})
