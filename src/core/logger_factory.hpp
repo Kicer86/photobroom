@@ -33,8 +33,8 @@ class CORE_EXPORT LoggerFactory: public ILoggerFactory
 
         LoggerFactory& operator=(const LoggerFactory &) = delete;
 
-        std::unique_ptr<ILogger> get(const QString& utility) override;
-        std::unique_ptr<ILogger> get(const std::vector<QString>& utility) override;
+        std::unique_ptr<ILogger> get(const QString& utility) const override;
+        std::unique_ptr<ILogger> get(const std::vector<QString>& utility) const override;
 
     private:
         const QString m_path;

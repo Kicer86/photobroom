@@ -33,13 +33,13 @@ LoggerFactory::~LoggerFactory()
 }
 
 
-std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility)
+std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 {
     return get( std::vector<QString>({utility}) );
 }
 
 
-std::unique_ptr<ILogger> LoggerFactory::get(const std::vector<QString>& utility)
+std::unique_ptr<ILogger> LoggerFactory::get(const std::vector<QString>& utility) const
 {
     return std::make_unique<Logger>(m_path, utility);
 }
