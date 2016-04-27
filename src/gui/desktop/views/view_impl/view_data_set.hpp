@@ -273,17 +273,17 @@ class ViewDataSet final: public IViewDataSet
 
             if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
             {
-                const size_t it_children = it.children_count();
-                const size_t idx_children = static_cast<size_t>(model->rowCount(index));
-                equal = it_children == idx_children;
+                const std::size_t  children_count = it.children_count();
+                const std::size_t  idx_children = static_cast<std::size_t >(model->rowCount(index));
+                equal = children_count == idx_children;
 
                 assert_dump(equal, [&]
                 {
                     std::cerr << m_model.dump() << std::endl;
                 });
 
-                if (equal && it_children != 0)                         // still ok && has children
-                    for(int i = 0; i < it_children; i++)
+                if (equal && children_count != 0)                         // still ok && has children
+                    for(std::size_t i = 0; i < children_count; i++)
                         equal = validate(model, model->index(i, 0, index), it.begin() + i);
             }
 

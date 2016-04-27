@@ -47,6 +47,7 @@ int main(int argc, char **argv)
         {
             int* ptr = nullptr;
             volatile int v = *ptr;
+	    (void) v;
         });
 
 
