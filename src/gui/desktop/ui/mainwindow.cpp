@@ -104,6 +104,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
     reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
     m_reviewedPhotosFilters = {reviewed_photos_filter};
+
+    setReviewedPhotosView();
 }
 
 
@@ -437,6 +439,28 @@ void MainWindow::loadRecentCollections()
 }
 
 
+void MainWindow::setReviewedPhotosView()
+{
+    m_imagesModel->setStaticFilters(m_reviewedPhotosFilters);
+    ui->imagesView->setBottomHintWidget(nullptr);
+}
+
+
+void MainWindow::setNewPhotosView()
+{
+    m_imagesModel->setStaticFilters(m_newPhotosFilters);
+
+    InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
+    const QString message = tr("Above you can view new photos and describe them.");
+    const QString link = tr("You can click here when you are done to mark photos as reviewed.");
+    hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
+    hint->setTextFormat(Qt::RichText);
+    ui->imagesView->setBottomHintWidget(hint);
+
+    connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
+}
+
+
 void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
@@ -474,8 +498,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionReviewed_photos_triggered()
 {
-    m_imagesModel->setStaticFilters(m_reviewedPhotosFilters);
-    ui->imagesView->setBottomHintWidget(nullptr);
+    setReviewedPhotosView();
 
     m_activeView = ActiveView::ReviewedPhotos;
     updateTitle();
@@ -484,16 +507,7 @@ void MainWindow::on_actionReviewed_photos_triggered()
 
 void MainWindow::on_actionNew_photos_triggered()
 {
-    m_imagesModel->setStaticFilters(m_newPhotosFilters);
-
-    InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
-    const QString message = tr("Above you can view new photos and describe them.");
-    const QString link = tr("You can click here when you are done to mark photos as reviewed.");
-    hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
-    hint->setTextFormat(Qt::RichText);
-    ui->imagesView->setBottomHintWidget(hint);
-
-    connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
+    setNewPhotosView();
 
     m_activeView = ActiveView::NewPhotos;
     updateTitle();

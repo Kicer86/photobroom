@@ -87,6 +87,9 @@ class MainWindow: public QMainWindow
         void loadGeometry();
         void loadRecentCollections();
 
+        void setReviewedPhotosView();
+        void setNewPhotosView();
+
     private slots:
         // album menu
         void on_actionNew_collection_triggered();
