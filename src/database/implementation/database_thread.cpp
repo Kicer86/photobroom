@@ -594,6 +594,12 @@ namespace Database
     }
 
 
+    void DatabaseThread::perform(const std::deque< IFilter::Ptr >&, const std::deque< IAction::Ptr >&)
+    {
+        // TODO: implement
+    }
+
+
     void DatabaseThread::exec(std::unique_ptr<ADropPhotosTask>&& db_task , const std::deque<IFilter::Ptr>& filters)
     {
         DropPhotosTask* task = new DropPhotosTask(std::move(db_task), filters);
