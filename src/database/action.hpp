@@ -24,13 +24,38 @@
 
 #include "database_export.h"
 
+#define ACTION_COMMAND virtual void visitMe(IActionVisitor* visitor) override { visitor->visit(this); }
+
 namespace Database
 {
+
+    struct IActionVisitor;
+    struct ModifyFlagAction;
+
+
     struct DATABASE_EXPORT IAction
     {
         typedef std::shared_ptr<IAction> Ptr;
 
         virtual ~IAction();
+        virtual void visitMe(IActionVisitor *) = 0;
+    };
+
+
+    struct DATABASE_EXPORT IActionVisitor
+    {
+        virtual ~IActionVisitor();
+
+        virtual void visit(ModifyFlagAction *) = 0;
+    };
+    
+
+    struct DATABASE_EXPORT ModifyFlagAction: IAction
+    {
+        ModifyFlagAction();
+        virtual ~ModifyFlagAction();
+
+        ACTION_COMMAND
     };
 }
 

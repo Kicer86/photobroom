@@ -22,8 +22,28 @@
 
 namespace Database
 {
+    
     IAction::~IAction()
     {
 
     }
+
+
+    IActionVisitor::~IActionVisitor()
+    {
+
+    }
+
+
+    ModifyFlagAction::ModifyFlagAction()
+    {
+
+    }
+
+
+    ModifyFlagAction::~ModifyFlagAction()
+    {
+
+    }
+
 }
