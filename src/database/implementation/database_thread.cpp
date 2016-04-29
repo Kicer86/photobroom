@@ -46,6 +46,7 @@ namespace
     struct ListTagValuesTask;
     struct AnyPhotoTask;
     struct DropPhotosTask;
+    struct PerformActionTask;
 
     struct IThreadTask
     {
@@ -74,6 +75,7 @@ namespace
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
+        virtual void visit(PerformActionTask *) = 0;
     };
 
     struct InitTask: ThreadBaseTask
@@ -268,6 +270,21 @@ namespace
         std::unique_ptr<Database::ADropPhotosTask> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
+    
+    struct PerformActionTask: ThreadBaseTask
+    {
+        PerformActionTask(const std::deque<Database::IFilter::Ptr>& filter, const std::deque<Database::IAction::Ptr>& action):
+            ThreadBaseTask(),
+            m_filter(filter),
+            m_action(action)
+        {
+        }
+        
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+        
+        std::deque<Database::IFilter::Ptr> m_filter; 
+        std::deque<Database::IAction::Ptr> m_action;
+    };
 
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
@@ -375,6 +392,11 @@ namespace
             task->m_task->got(photos);
 
             emit photosRemoved(photos);
+        }
+        
+        virtual void visit(PerformActionTask* task) override
+        {
+            m_backend->perform(task->m_filter, task->m_action);
         }
 
         void begin()

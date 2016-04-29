@@ -27,8 +27,10 @@
 #include <core/tag.hpp>
 #include <database/photo_data.hpp>
 
+#include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
+
 #include "database_export.h"
 
 struct ILoggerFactory;
@@ -61,6 +63,9 @@ namespace Database
         virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) = 0;        // drop photos matching filter
         virtual Photo::Data           getPhoto(const Photo::Id &) = 0;                         // get particular photo
         virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;    // is there any photo matching filters?
+        
+        // modify data
+        virtual void perform(const std::deque<Database::IFilter::Ptr> &, const std::deque<Database::IAction::Ptr> &) = 0;
 
         //init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;

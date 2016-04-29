@@ -92,6 +92,8 @@ namespace Database
             virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual Photo::Data           getPhoto(const Photo::Id &) override final;
             virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
+            
+            virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

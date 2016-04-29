@@ -42,6 +42,7 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <database/action.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_cache.hpp>
 #include <database/project_info.hpp>
@@ -51,6 +52,7 @@
 #include "table_definition.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
+#include "sql_action_query_generator.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "variant_converter.hpp"
 #include "sql_query_executor.hpp"
@@ -152,6 +154,8 @@ namespace Database
             std::deque<QVariant>    listTagValues(const TagNameInfo& tagName);
             std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
 
+            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &);
+
             std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &);
             std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &);
             Photo::Data           getPhoto(const Photo::Id &);
@@ -159,7 +163,6 @@ namespace Database
 
         private:
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
-            QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
 
             bool storeData(const Photo::Data &) const;
             bool storeThumbnail(int photo_id, const QImage &) const;
@@ -297,7 +300,7 @@ namespace Database
 
     std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        const QString filterQuery = generateFilterQuery(filter);
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
         //from filtered photos, get info about tags used there
         QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) AS distinct_select JOIN (%2, %3) ON (photos_id=%2.photo_id AND %3.id=%2.name_id) WHERE name='%4'";
@@ -330,9 +333,24 @@ namespace Database
     }
 
 
+    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& action)
+    {
+        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
+        const QString actionStr = SqlActionQueryGenerator().generate(action);
+
+        // TODO: implement me!
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor.exec(queryStr, &query);
+        auto result = fetch(query);
+    }
+
+
     std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
-        const QString queryStr = generateFilterQuery(filter);
+        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -346,7 +364,7 @@ namespace Database
 
     int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
     {
-        const QString queryStr = generateFilterQuery(filter);
+        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -364,9 +382,9 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
+    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter)
     {
-        const QString filterQuery = generateFilterQuery(filters);
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -422,14 +440,6 @@ namespace Database
 
         if (status && query.next())
             result = query.value(0).toInt();
-
-        return result;
-    }
-
-
-    QString ASqlBackend::Data::generateFilterQuery(const std::deque<IFilter::Ptr>& filters)
-    {
-        const QString result = SqlFilterQueryGenerator().generate(filters);
 
         return result;
     }
@@ -1036,6 +1046,12 @@ namespace Database
     int ASqlBackend::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotosCount(filter);
+    }
+
+
+    void ASqlBackend::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& action)
+    {
+        return m_data->perform(filter, action);
     }
 
 
