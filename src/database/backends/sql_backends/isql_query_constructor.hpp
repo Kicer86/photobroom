@@ -1,6 +1,6 @@
 
-#ifndef DATABASE_ISQL_QUERY_CONSTRUCTOR
-#define DATABASE_ISQL_QUERY_CONSTRUCTOR
+#ifndef DATABASE_IGENERIC_SQL_QUERY_GENERATOR
+#define DATABASE_IGENERIC_SQL_QUERY_GENERATOR
 
 #include <vector>
 
@@ -17,9 +17,9 @@ namespace Database
 
     struct ColDefinition;
 
-    struct ISqlQueryConstructor
+    struct IGenericSqlQueryGenerator
     {
-        virtual ~ISqlQueryConstructor() {}
+        virtual ~IGenericSqlQueryGenerator() {}
 
         // Create table with given name and columns decription.
         // It may be necessary for table to meet features:
@@ -42,4 +42,3 @@ namespace Database
 }
 
 #endif
-

@@ -6,7 +6,7 @@
 
 #include <database/idatabase.hpp>
 #include <database/backends/sql_backends/sql_backend.hpp>
-#include <database/backends/sql_backends/generic_sql_query_constructor.hpp>
+#include <database/backends/sql_backends/generic_sql_query_generator.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
 #include "database_mysql_backend_export.h"
@@ -23,7 +23,7 @@ namespace Database
         private:
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
-            virtual const ISqlQueryConstructor* getQueryConstructor() const override;
+            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const override;
             virtual void set(IConfiguration *) override;
             virtual void set(ILoggerFactory *) override;
 

@@ -27,7 +27,7 @@
 namespace Database
 {
 
-    class SQL_BACKEND_BASE_EXPORT GenericSqlQueryConstructor: public ISqlQueryConstructor
+    class SQL_BACKEND_BASE_EXPORT GenericSqlQueryConstructor: public IGenericSqlQueryGenerator
     {
         public:
             GenericSqlQueryConstructor();

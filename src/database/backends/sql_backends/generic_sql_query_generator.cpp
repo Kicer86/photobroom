@@ -17,7 +17,7 @@
  *
  */
 
-#include "generic_sql_query_constructor.hpp"
+#include "generic_sql_query_generator.hpp"
 
 #include <assert.h>
 

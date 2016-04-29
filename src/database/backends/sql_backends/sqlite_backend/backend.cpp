@@ -89,7 +89,7 @@ namespace Database
     }
 
 
-    const ISqlQueryConstructor* SQLiteBackend::getQueryConstructor() const
+    const IGenericSqlQueryGenerator* SQLiteBackend::getGenericQueryGenerator() const
     {
         return this;
     }

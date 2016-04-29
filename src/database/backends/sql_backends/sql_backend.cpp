@@ -236,7 +236,7 @@ namespace Database
                             photo_id,
                             tag_id);
 
-        auto query_str = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
+        auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
 
         const bool status = m_executor.exec(query_str, &query);
 
@@ -464,7 +464,7 @@ namespace Database
         data.setColumns("photo_id", "data");
         data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
 
-        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -481,7 +481,7 @@ namespace Database
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.constData());
 
-        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -531,7 +531,7 @@ namespace Database
                              photoData.getFlag(Photo::FlagsE::Sha256Loaded),
                              photoData.getFlag(Photo::FlagsE::ThumbnailLoaded));
 
-        auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
+        auto queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -560,7 +560,7 @@ namespace Database
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
-        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insert(insertData);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insert(insertData);
 
         if (status)
             status = m_executor.exec(queryStrs, &query);
@@ -612,7 +612,7 @@ namespace Database
 
         UpdateQueryData updateData(insertData);
         updateData.setCondition( "id", QString::number(id.value()) );
-        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->update(updateData);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->update(updateData);
 
         //execute update
         if (status)
@@ -853,7 +853,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
         QSqlQuery query(db);
-        const QString showQuery = getQueryConstructor()->prepareFindTableQuery(definition.name);
+        const QString showQuery = getGenericQueryGenerator()->prepareFindTableQuery(definition.name);
 
         BackendStatus status = m_data->m_executor.exec(showQuery, &query);
 
@@ -869,7 +869,7 @@ namespace Database
             {
                 const QStringList types =
                 {
-                    getQueryConstructor()->getTypeFor(definition.columns[i].purpose),
+                    getGenericQueryGenerator()->getTypeFor(definition.columns[i].purpose),
                     definition.columns[i].type_definition
                 };
 
@@ -881,7 +881,7 @@ namespace Database
                 columnsDesc += notlast? ", ": "";
             }
 
-            status = m_data->m_executor.exec( getQueryConstructor()->prepareCreationQuery(definition.name, columnsDesc), &query );
+            status = m_data->m_executor.exec( getGenericQueryGenerator()->prepareCreationQuery(definition.name, columnsDesc), &query );
 
             if (status && definition.keys.empty() == false)
             {

@@ -90,7 +90,7 @@ namespace Database
     }
 
 
-    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
+    const IGenericSqlQueryGenerator* MySqlBackend::getGenericQueryGenerator() const
     {
         return this;
     }

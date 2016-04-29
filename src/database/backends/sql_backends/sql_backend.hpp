@@ -39,7 +39,7 @@ namespace Database
 
     class Entry;
     class InsertQueryData;
-    struct ISqlQueryConstructor;
+    struct IGenericSqlQueryGenerator;
     struct TableDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
@@ -71,7 +71,7 @@ namespace Database
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
 
-            virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
+            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
 
             virtual void set(ILoggerFactory *) override;
 
