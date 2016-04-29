@@ -22,6 +22,8 @@
 
 #include <memory>
 
+#include "iphoto_info.hpp"
+
 #include "database_export.h"
 
 #define ACTION_COMMAND virtual void visitMe(IActionVisitor* visitor) override { visitor->visit(this); }
@@ -56,6 +58,8 @@ namespace Database
         virtual ~ModifyFlagAction();
 
         ACTION_COMMAND
+        
+        std::map<Photo::FlagsE, int> flags;
     };
 }
 
