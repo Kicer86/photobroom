@@ -47,8 +47,8 @@
 #include <database/project_info.hpp>
 #include <database/photo_info.hpp>
 
+#include "isql_query_constructor.hpp"
 #include "table_definition.hpp"
-#include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
 #include "sql_select_query_generator.hpp"
@@ -554,12 +554,12 @@ namespace Database
         assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
-        
+
         insertData.setColumns("path", "store_date");
         insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
-        
+
         const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insert(insertData);
 
         if (status)

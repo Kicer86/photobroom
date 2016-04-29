@@ -20,7 +20,7 @@
 #ifndef GENERICSQLQUERYCONSTRUCTOR_H
 #define GENERICSQLQUERYCONSTRUCTOR_H
 
-#include "sql_query_constructor.hpp"
+#include "isql_query_constructor.hpp"
 
 #include "sql_backend_base_export.h"
 

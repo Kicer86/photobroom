@@ -19,7 +19,7 @@ namespace Database
 
     struct ISqlQueryConstructor
     {
-        virtual ~ISqlQueryConstructor();
+        virtual ~ISqlQueryConstructor() {}
 
         // Create table with given name and columns decription.
         // It may be necessary for table to meet features:

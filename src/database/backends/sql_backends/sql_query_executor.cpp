@@ -29,7 +29,7 @@
 
 #include <core/ilogger.hpp>
 
-#include "sql_query_constructor.hpp"
+#include "isql_query_constructor.hpp"
 
 namespace Database
 {
