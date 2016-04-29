@@ -17,7 +17,7 @@
  *
  */
 
-#include "sql_select_query_generator.hpp"
+#include "sql_filter_query_generator.hpp"
 
 #include <QStringList>
 
@@ -350,19 +350,19 @@ namespace Database
     }
 
 
-    SqlSelectQueryGenerator::SqlSelectQueryGenerator()
+    SqlFilterQueryGenerator::SqlFilterQueryGenerator()
     {
 
     }
 
 
-    SqlSelectQueryGenerator::~SqlSelectQueryGenerator()
+    SqlFilterQueryGenerator::~SqlFilterQueryGenerator()
     {
 
     }
 
 
-    QString SqlSelectQueryGenerator::generate(const std::deque<IFilter::Ptr>& filters)
+    QString SqlFilterQueryGenerator::generate(const std::deque<IFilter::Ptr>& filters)
     {
         return Generator().parse(filters);
     }

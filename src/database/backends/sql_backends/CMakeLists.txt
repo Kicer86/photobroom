@@ -25,7 +25,7 @@ set(SOURCES
         variant_converter.cpp
         query_structs.cpp
         sql_query_executor.cpp
-        sql_select_query_generator.cpp
+        sql_filter_query_generator.cpp
     )
 
 set(HEADERS
@@ -39,7 +39,7 @@ set(HEADERS
         variant_converter.hpp
         query_structs.hpp
         sql_query_executor.hpp
-        sql_select_query_generator.hpp
+        sql_filter_query_generator.hpp
     )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})

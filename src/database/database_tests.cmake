@@ -8,7 +8,7 @@ include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 include_directories(backends/sql_backends)
 
 set(SRC
-        backends/sql_backends/sql_select_query_generator.cpp
+        backends/sql_backends/sql_filter_query_generator.cpp
         backends/sql_backends/variant_converter.cpp
         implementation/filter.cpp
         implementation/photo_data.cpp
@@ -17,7 +17,7 @@ set(SRC
         implementation/virtual_destructors.cpp
 
         # sql tests:
-        unit_tests/sql_select_query_generator_tests.cpp
+        unit_tests/sql_filter_query_generator_tests.cpp
 
         # main()
         unit_tests/main.cpp

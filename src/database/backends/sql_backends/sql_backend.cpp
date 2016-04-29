@@ -51,7 +51,7 @@
 #include "table_definition.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
-#include "sql_select_query_generator.hpp"
+#include "sql_filter_query_generator.hpp"
 #include "variant_converter.hpp"
 #include "sql_query_executor.hpp"
 #include "database_migrator.hpp"
@@ -429,7 +429,7 @@ namespace Database
 
     QString ASqlBackend::Data::generateFilterQuery(const std::deque<IFilter::Ptr>& filters)
     {
-        const QString result = SqlSelectQueryGenerator().generate(filters);
+        const QString result = SqlFilterQueryGenerator().generate(filters);
 
         return result;
     }
