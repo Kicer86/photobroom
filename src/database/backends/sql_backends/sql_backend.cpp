@@ -386,7 +386,7 @@ namespace Database
         }
 
         //from filtered photos, get info about tags used there
-        SqlMultiQuery queries =
+        std::vector<QString> queries =
         {
             QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
             QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
@@ -464,7 +464,7 @@ namespace Database
         data.setColumns("photo_id", "data");
         data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
 
-        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -481,7 +481,7 @@ namespace Database
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.constData());
 
-        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -554,14 +554,13 @@ namespace Database
         assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
+        
         insertData.setColumns("path", "store_date");
         insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
-
-        SqlMultiQuery queryStrs;
-
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
-        queryStrs = m_backend->getQueryConstructor()->insert(insertData);
+        
+        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->insert(insertData);
 
         if (status)
             status = m_executor.exec(queryStrs, &query);
@@ -611,11 +610,9 @@ namespace Database
         insertData.setColumns("path", "store_date");
         insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
 
-        SqlMultiQuery queryStrs;
-
         UpdateQueryData updateData(insertData);
         updateData.setCondition( "id", QString::number(id.value()) );
-        queryStrs = m_backend->getQueryConstructor()->update(updateData);
+        const std::vector<QString> queryStrs = m_backend->getQueryConstructor()->update(updateData);
 
         //execute update
         if (status)

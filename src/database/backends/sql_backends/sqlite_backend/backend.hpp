@@ -33,7 +33,7 @@ namespace Database
             //ISqlQueryConstructor:
             virtual QString prepareFindTableQuery(const QString &) const override;
             virtual QString getTypeFor(ColDefinition::Purpose) const;
-            virtual SqlMultiQuery insertOrUpdate(const InsertQueryData&) const override;
+            virtual std::vector<QString> insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

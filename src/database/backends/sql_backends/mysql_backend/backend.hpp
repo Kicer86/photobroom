@@ -30,7 +30,7 @@ namespace Database
             // GenericSqlQueryConstructor:
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString getTypeFor(ColDefinition::Purpose) const override;
-            virtual SqlMultiQuery insertOrUpdate(const InsertQueryData&) const override;
+            virtual std::vector<QString> insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

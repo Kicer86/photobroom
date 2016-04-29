@@ -17,26 +17,6 @@ namespace Database
 
     struct ColDefinition;
 
-    struct SQL_BACKEND_BASE_EXPORT SqlMultiQuery
-    {
-            SqlMultiQuery();
-            SqlMultiQuery(const SqlMultiQuery &) = default;
-            SqlMultiQuery(const QString &);
-            SqlMultiQuery(const std::initializer_list<QString> &);
-
-            ~SqlMultiQuery();
-
-            SqlMultiQuery& operator=(const SqlMultiQuery &) = default;
-
-            void addQuery(const QString &);
-
-            const std::vector<QString>& getQueries() const;
-
-        private:
-            std::vector<QString> m_queries;
-    };
-
-
     struct ISqlQueryConstructor
     {
         virtual ~ISqlQueryConstructor();
@@ -55,9 +35,9 @@ namespace Database
         // get type for column's purpose
         virtual QString getTypeFor(ColDefinition::Purpose) const = 0;
 
-        virtual SqlMultiQuery insert(const InsertQueryData &) const = 0;                 // construct an insert sql query.
-        virtual SqlMultiQuery update(const UpdateQueryData &) const = 0;                 // construct an update sql query.
-        virtual SqlMultiQuery insertOrUpdate(const InsertQueryData &) const = 0;         // construct a query which will try to insert data. If it fails due to UNIQUE column attribute, try to update
+        virtual std::vector<QString> insert(const InsertQueryData &) const = 0;             // construct an insert sql query.
+        virtual std::vector<QString> update(const UpdateQueryData &) const = 0;             // construct an update sql query.
+        virtual std::vector<QString> insertOrUpdate(const InsertQueryData &) const = 0;     // construct a query which will try to insert data. If it fails due to UNIQUE column attribute, try to update
     };
 }
 

@@ -119,7 +119,7 @@ namespace Database
     }
 
 
-    SqlMultiQuery SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
+    std::vector<QString> SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
 
@@ -127,7 +127,7 @@ namespace Database
         result = result.arg(data.getColumns().join(", "));
         result = result.arg(data.getValues().join(", "));
 
-        return result;
+        return { result };
     }
 
 
