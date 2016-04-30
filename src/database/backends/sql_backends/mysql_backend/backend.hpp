@@ -6,7 +6,7 @@
 
 #include <database/idatabase.hpp>
 #include <database/backends/sql_backends/sql_backend.hpp>
-#include <database/backends/sql_backends/generic_sql_query_constructor.hpp>
+#include <database/backends/sql_backends/generic_sql_query_generator.hpp>
 #include <database/implementation/ibackend_qt_interface.hpp>
 
 #include "database_mysql_backend_export.h"
@@ -23,14 +23,14 @@ namespace Database
         private:
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
-            virtual const ISqlQueryConstructor* getQueryConstructor() const override;
+            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const override;
             virtual void set(IConfiguration *) override;
             virtual void set(ILoggerFactory *) override;
 
             // GenericSqlQueryConstructor:
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString getTypeFor(ColDefinition::Purpose) const override;
-            virtual SqlMultiQuery insertOrUpdate(const InsertQueryData&) const override;
+            virtual std::vector<QString> insertOrUpdate(const InsertQueryData&) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

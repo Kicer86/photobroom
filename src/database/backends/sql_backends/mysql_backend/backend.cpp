@@ -90,7 +90,7 @@ namespace Database
     }
 
 
-    const ISqlQueryConstructor* MySqlBackend::getQueryConstructor() const
+    const IGenericSqlQueryGenerator* MySqlBackend::getGenericQueryGenerator() const
     {
         return this;
     }
@@ -129,7 +129,7 @@ namespace Database
     }
 
 
-    SqlMultiQuery MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
+    std::vector<QString> MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
     {
         QString result("REPLACE INTO %1(%2) VALUES(%3)");
 
@@ -137,7 +137,7 @@ namespace Database
         result = result.arg(data.getColumns().join(", "));
         result = result.arg(data.getValues().join(", "));
 
-        return result;
+        return { result };
     }
 
 

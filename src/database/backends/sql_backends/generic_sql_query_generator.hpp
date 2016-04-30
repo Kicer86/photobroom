@@ -20,14 +20,14 @@
 #ifndef GENERICSQLQUERYCONSTRUCTOR_H
 #define GENERICSQLQUERYCONSTRUCTOR_H
 
-#include "sql_query_constructor.hpp"
+#include "isql_query_constructor.hpp"
 
 #include "sql_backend_base_export.h"
 
 namespace Database
 {
 
-    class SQL_BACKEND_BASE_EXPORT GenericSqlQueryConstructor: public ISqlQueryConstructor
+    class SQL_BACKEND_BASE_EXPORT GenericSqlQueryConstructor: public IGenericSqlQueryGenerator
     {
         public:
             GenericSqlQueryConstructor();
@@ -40,8 +40,8 @@ namespace Database
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareFindTableQuery(const QString& name) const override;
 
-            virtual SqlMultiQuery insert(const InsertQueryData &) const override;
-            virtual SqlMultiQuery update(const UpdateQueryData &) const override;
+            virtual std::vector<QString> insert(const InsertQueryData &) const override;
+            virtual std::vector<QString> update(const UpdateQueryData &) const override;
     };
 
 }

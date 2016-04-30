@@ -46,6 +46,7 @@ namespace
     struct ListTagValuesTask;
     struct AnyPhotoTask;
     struct DropPhotosTask;
+    struct PerformActionTask;
 
     struct IThreadTask
     {
@@ -74,6 +75,7 @@ namespace
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
+        virtual void visit(PerformActionTask *) = 0;
     };
 
     struct InitTask: ThreadBaseTask
@@ -269,6 +271,21 @@ namespace
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
+    struct PerformActionTask: ThreadBaseTask
+    {
+        PerformActionTask(const std::deque<Database::IFilter::Ptr>& filter, const std::deque<Database::IAction::Ptr>& action):
+            ThreadBaseTask(),
+            m_filter(filter),
+            m_action(action)
+        {
+        }
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::deque<Database::IFilter::Ptr> m_filter;
+        std::deque<Database::IAction::Ptr> m_action;
+    };
+
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, PhotoInfoStorekeeper* storekeeper):
@@ -375,6 +392,11 @@ namespace
             task->m_task->got(photos);
 
             emit photosRemoved(photos);
+        }
+
+        virtual void visit(PerformActionTask* task) override
+        {
+            m_backend->perform(task->m_filter, task->m_action);
         }
 
         void begin()
@@ -590,6 +612,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
+    {
+        PerformActionTask* task = new PerformActionTask(filters, actions);
         m_impl->addTask(task);
     }
 

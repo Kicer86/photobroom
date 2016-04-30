@@ -29,7 +29,7 @@
 
 #include <core/ilogger.hpp>
 
-#include "sql_query_constructor.hpp"
+#include "isql_query_constructor.hpp"
 
 namespace Database
 {
@@ -85,9 +85,8 @@ namespace Database
     }
 
 
-    BackendStatus SqlQueryExecutor::exec(const SqlMultiQuery& query, QSqlQuery* result) const
+    BackendStatus SqlQueryExecutor::exec(const std::vector<QString>& queries, QSqlQuery* result) const
     {
-        auto& queries = query.getQueries();
         BackendStatus status(StatusCodes::Ok);
 
         for(size_t i = 0; i < queries.size() && status; i++)

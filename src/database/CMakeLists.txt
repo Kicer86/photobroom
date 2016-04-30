@@ -16,6 +16,7 @@ include_directories(SYSTEM
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(DATABASE_SOURCES
+    implementation/action.cpp
     implementation/database_builder.cpp
     implementation/database_thread.cpp
     implementation/filter.cpp
@@ -29,9 +30,10 @@ set(DATABASE_SOURCES
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_duplicates_finder.cpp
     database_tools/implementation/synchronous_database.cpp
-    )
+)
 
 set(DATABASE_HEADERS
+    action.hpp
     database_builder.hpp
     database_status.hpp
     filter.hpp
@@ -51,7 +53,7 @@ set(DATABASE_HEADERS
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photo_duplicates_finder.hpp
     database_tools/implementation/synchronous_database.hpp
-    )
+)
 
 set(DATABASE_MOC
     idatabase.hpp

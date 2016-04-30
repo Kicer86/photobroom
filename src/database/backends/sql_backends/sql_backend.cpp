@@ -42,16 +42,18 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <database/action.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_cache.hpp>
 #include <database/project_info.hpp>
 #include <database/photo_info.hpp>
 
+#include "isql_query_constructor.hpp"
 #include "table_definition.hpp"
-#include "sql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
-#include "sql_select_query_generator.hpp"
+#include "sql_action_query_generator.hpp"
+#include "sql_filter_query_generator.hpp"
 #include "variant_converter.hpp"
 #include "sql_query_executor.hpp"
 #include "database_migrator.hpp"
@@ -152,6 +154,8 @@ namespace Database
             std::deque<QVariant>    listTagValues(const TagNameInfo& tagName);
             std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
 
+            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &);
+
             std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &);
             std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &);
             Photo::Data           getPhoto(const Photo::Id &);
@@ -159,7 +163,6 @@ namespace Database
 
         private:
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
-            QString generateFilterQuery(const std::deque<IFilter::Ptr>& filter);
 
             bool storeData(const Photo::Data &) const;
             bool storeThumbnail(int photo_id, const QImage &) const;
@@ -236,7 +239,7 @@ namespace Database
                             photo_id,
                             tag_id);
 
-        auto query_str = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
+        auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
 
         const bool status = m_executor.exec(query_str, &query);
 
@@ -297,7 +300,7 @@ namespace Database
 
     std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
     {
-        const QString filterQuery = generateFilterQuery(filter);
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
         //from filtered photos, get info about tags used there
         QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) AS distinct_select JOIN (%2, %3) ON (photos_id=%2.photo_id AND %3.id=%2.name_id) WHERE name='%4'";
@@ -330,9 +333,25 @@ namespace Database
     }
 
 
+    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions)
+    {
+        for(auto action: actions)
+        {
+            const QString queryStr = SqlFilterQueryGenerator().generate(filter);
+            const QString actionStr = SqlActionQueryGenerator().generate(action);
+            const QString finalQuery = actionStr.arg(queryStr);
+
+            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+            QSqlQuery query(db);
+
+            m_executor.exec(finalQuery, &query);
+        }
+    }
+
+
     std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
     {
-        const QString queryStr = generateFilterQuery(filter);
+        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -346,7 +365,7 @@ namespace Database
 
     int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
     {
-        const QString queryStr = generateFilterQuery(filter);
+        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -364,9 +383,9 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filters)
+    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter)
     {
-        const QString filterQuery = generateFilterQuery(filters);
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -386,7 +405,7 @@ namespace Database
         }
 
         //from filtered photos, get info about tags used there
-        SqlMultiQuery queries =
+        std::vector<QString> queries =
         {
             QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
             QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
@@ -427,14 +446,6 @@ namespace Database
     }
 
 
-    QString ASqlBackend::Data::generateFilterQuery(const std::deque<IFilter::Ptr>& filters)
-    {
-        const QString result = SqlSelectQueryGenerator().generate(filters);
-
-        return result;
-    }
-
-
     bool ASqlBackend::Data::storeData(const Photo::Data& data) const
     {
         assert(data.id);
@@ -464,7 +475,7 @@ namespace Database
         data.setColumns("photo_id", "data");
         data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
 
-        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -481,7 +492,7 @@ namespace Database
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.constData());
 
-        SqlMultiQuery queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(data);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -531,7 +542,7 @@ namespace Database
                              photoData.getFlag(Photo::FlagsE::Sha256Loaded),
                              photoData.getFlag(Photo::FlagsE::ThumbnailLoaded));
 
-        auto queryStrs = m_backend->getQueryConstructor()->insertOrUpdate(queryData);
+        auto queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -554,14 +565,13 @@ namespace Database
         assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
+
         insertData.setColumns("path", "store_date");
         insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
-
-        SqlMultiQuery queryStrs;
-
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
-        queryStrs = m_backend->getQueryConstructor()->insert(insertData);
+
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insert(insertData);
 
         if (status)
             status = m_executor.exec(queryStrs, &query);
@@ -611,11 +621,9 @@ namespace Database
         insertData.setColumns("path", "store_date");
         insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
 
-        SqlMultiQuery queryStrs;
-
         UpdateQueryData updateData(insertData);
         updateData.setCondition( "id", QString::number(id.value()) );
-        queryStrs = m_backend->getQueryConstructor()->update(updateData);
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->update(updateData);
 
         //execute update
         if (status)
@@ -856,7 +864,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
         QSqlQuery query(db);
-        const QString showQuery = getQueryConstructor()->prepareFindTableQuery(definition.name);
+        const QString showQuery = getGenericQueryGenerator()->prepareFindTableQuery(definition.name);
 
         BackendStatus status = m_data->m_executor.exec(showQuery, &query);
 
@@ -872,7 +880,7 @@ namespace Database
             {
                 const QStringList types =
                 {
-                    getQueryConstructor()->getTypeFor(definition.columns[i].purpose),
+                    getGenericQueryGenerator()->getTypeFor(definition.columns[i].purpose),
                     definition.columns[i].type_definition
                 };
 
@@ -884,7 +892,7 @@ namespace Database
                 columnsDesc += notlast? ", ": "";
             }
 
-            status = m_data->m_executor.exec( getQueryConstructor()->prepareCreationQuery(definition.name, columnsDesc), &query );
+            status = m_data->m_executor.exec( getGenericQueryGenerator()->prepareCreationQuery(definition.name, columnsDesc), &query );
 
             if (status && definition.keys.empty() == false)
             {
@@ -1039,6 +1047,12 @@ namespace Database
     int ASqlBackend::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
     {
         return m_data->getPhotosCount(filter);
+    }
+
+
+    void ASqlBackend::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& action)
+    {
+        return m_data->perform(filter, action);
     }
 
 

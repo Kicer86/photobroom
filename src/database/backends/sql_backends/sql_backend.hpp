@@ -39,7 +39,7 @@ namespace Database
 
     class Entry;
     class InsertQueryData;
-    struct ISqlQueryConstructor;
+    struct IGenericSqlQueryGenerator;
     struct TableDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
@@ -71,7 +71,7 @@ namespace Database
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
 
-            virtual const ISqlQueryConstructor* getQueryConstructor() const = 0;
+            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
 
             virtual void set(ILoggerFactory *) override;
 
@@ -92,6 +92,8 @@ namespace Database
             virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual Photo::Data           getPhoto(const Photo::Id &) override final;
             virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
+            
+            virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) override final;
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();

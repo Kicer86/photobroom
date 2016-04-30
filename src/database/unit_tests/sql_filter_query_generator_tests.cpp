@@ -1,11 +1,11 @@
 
 #include <gtest/gtest.h>
 
-#include "sql_select_query_generator.hpp"
+#include "sql_filter_query_generator.hpp"
 
-TEST(SqlSelectQueryGeneratorTest, HandlesEmptyList)
+TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
 
     std::deque<Database::IFilter::Ptr> filters;
     const QString query = generator.generate(filters);
@@ -14,9 +14,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesEmptyList)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesFlagsFilter)
+TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithFlags> filter = std::make_shared<Database::FilterPhotosWithFlags>();
@@ -43,9 +43,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesFlagsFilter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesTagsFilter)
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter = std::make_shared<Database::FilterPhotosWithTag>();
@@ -63,9 +63,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesTagsFilter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesFilterNotMatchingFilter)
+TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterNotMatchingFilter> filter = std::make_shared<Database::FilterNotMatchingFilter>();
@@ -85,9 +85,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
+TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithSha256> filter = std::make_shared<Database::FilterPhotosWithSha256>();
@@ -103,9 +103,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSha256Filter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesIdFilter)
+TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithId> filter = std::make_shared<Database::FilterPhotosWithId>();
@@ -119,9 +119,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesIdFilter)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesSimpleMergesWell)
+TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     // sha256
@@ -149,9 +149,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSimpleMergesWell)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesTagFiltersMergingWell)
+TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     // #1 tag
@@ -177,9 +177,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesTagFiltersMergingWell)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesSimpleOrFilters)
+TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();
@@ -197,9 +197,9 @@ TEST(SqlSelectQueryGeneratorTest, HandlesSimpleOrFilters)
 }
 
 
-TEST(SqlSelectQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
+TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 {
-    Database::SqlSelectQueryGenerator generator;
+    Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();

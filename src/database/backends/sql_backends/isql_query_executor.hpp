@@ -2,6 +2,7 @@
 #ifndef ISQLQUERYEXECUTOR_HPP
 #define ISQLQUERYEXECUTOR_HPP
 
+#include <vector>
 
 #include "database/database_status.hpp"
 
@@ -12,15 +13,15 @@ class QSqlQuery;
 
 namespace Database
 {
-    struct SqlMultiQuery;
-
+    
     struct ISqlQueryExecutor
     {
         virtual ~ISqlQueryExecutor() {}
 
         virtual BackendStatus exec(const QString& query, QSqlQuery* result) const = 0;
-        virtual BackendStatus exec(const SqlMultiQuery& query, QSqlQuery* result) const = 0;
+        virtual BackendStatus exec(const std::vector<QString>& query, QSqlQuery* result) const = 0;
     };
+    
 }
 
 

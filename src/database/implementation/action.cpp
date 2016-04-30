@@ -1,6 +1,6 @@
 /*
- * Generator of SELECT queries.
- * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Actions to be performed on set of photos.
+ * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,30 +17,33 @@
  *
  */
 
-#ifndef SQLSELECTQUERYGENERATOR_HPP
-#define SQLSELECTQUERYGENERATOR_HPP
+#include "action.hpp"
 
-#include <deque>
-
-#include <QString>
-
-#include <database/filter.hpp>
 
 namespace Database
 {
-
-    class SqlSelectQueryGenerator
+    
+    IAction::~IAction()
     {
-        public:
-            SqlSelectQueryGenerator();
-            SqlSelectQueryGenerator(const SqlSelectQueryGenerator &) = delete;
-            ~SqlSelectQueryGenerator();
 
-            SqlSelectQueryGenerator& operator=(const SqlSelectQueryGenerator &) = delete;
+    }
 
-            QString generate(const std::deque<IFilter::Ptr> &);
-    };
+
+    IActionVisitor::~IActionVisitor()
+    {
+
+    }
+
+
+    ModifyFlagAction::ModifyFlagAction()
+    {
+
+    }
+
+
+    ModifyFlagAction::~ModifyFlagAction()
+    {
+
+    }
 
 }
-
-#endif // SQLSELECTQUERYGENERATOR_HPP

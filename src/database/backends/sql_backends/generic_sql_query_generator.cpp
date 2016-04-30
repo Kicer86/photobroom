@@ -17,7 +17,7 @@
  *
  */
 
-#include "generic_sql_query_constructor.hpp"
+#include "generic_sql_query_generator.hpp"
 
 #include <assert.h>
 
@@ -52,7 +52,7 @@ namespace Database
     }
 
 
-    SqlMultiQuery GenericSqlQueryConstructor::insert(const InsertQueryData& data) const
+    std::vector<QString> GenericSqlQueryConstructor::insert(const InsertQueryData& data) const
     {
         QString result;
 
@@ -65,11 +65,11 @@ namespace Database
         result = result.arg(columns.join(", "));
         result = result.arg(values.join(", "));
 
-        return result;
+        return { result };
     }
 
 
-    SqlMultiQuery GenericSqlQueryConstructor::update(const UpdateQueryData& data) const
+    std::vector<QString> GenericSqlQueryConstructor::update(const UpdateQueryData& data) const
     {
         QString result;
 
@@ -97,7 +97,7 @@ namespace Database
         result = result.arg(assigments);
         result = result.arg(condition);
 
-        return result;
+        return { result };
     }
 
 }

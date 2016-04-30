@@ -18,29 +18,30 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 
 set(SOURCES
         database_migrator.cpp
-        generic_sql_query_constructor.cpp
+        generic_sql_query_generator.cpp
         sql_backend.cpp
         table_definition.cpp
         tables.cpp
         variant_converter.cpp
         query_structs.cpp
-        sql_query_constructor.cpp
+        sql_action_query_generator.cpp
+        sql_filter_query_generator.cpp
         sql_query_executor.cpp
-        sql_select_query_generator.cpp
     )
 
 set(HEADERS
         database_migrator.hpp
-        generic_sql_query_constructor.hpp
+        generic_sql_query_generator.hpp
+        isql_query_constructor.hpp
         isql_query_executor.hpp
         sql_backend.hpp
         table_definition.hpp
         tables.hpp
         variant_converter.hpp
         query_structs.hpp
-        sql_query_constructor.hpp
+        sql_action_query_generator.hpp
+        sql_filter_query_generator.hpp
         sql_query_executor.hpp
-        sql_select_query_generator.hpp
     )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})

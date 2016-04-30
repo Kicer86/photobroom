@@ -29,9 +29,10 @@
 
 #include <core/tag.hpp>
 
-#include "iphoto_info.hpp"
+#include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
+#include "iphoto_info.hpp"
 
 #include "database_export.h"
 
@@ -141,6 +142,9 @@ namespace Database
         virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
         virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
         virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
+
+        // modify data
+        virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos
 
         // drop data
         virtual void exec(std::unique_ptr<ADropPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;     // drop photos matching filter
