@@ -333,18 +333,19 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& action)
+    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions)
     {
-        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
-        const QString actionStr = SqlActionQueryGenerator().generate(action);
+        for(auto action: actions)
+        {
+            const QString queryStr = SqlFilterQueryGenerator().generate(filter);
+            const QString actionStr = SqlActionQueryGenerator().generate(action);
+            const QString finalQuery = actionStr.arg(queryStr);
 
-        // TODO: implement me!
+            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+            QSqlQuery query(db);
 
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        m_executor.exec(queryStr, &query);
-        auto result = fetch(query);
+            m_executor.exec(finalQuery, &query);
+        }
     }
 
 

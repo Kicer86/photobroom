@@ -38,7 +38,7 @@ namespace Database
 
             SqlActionQueryGenerator& operator=(const SqlActionQueryGenerator &) = delete;
 
-            QString generate(const std::deque<IAction::Ptr> &);
+            QString generate(const IAction::Ptr &);
     };
 
 }
