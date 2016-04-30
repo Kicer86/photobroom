@@ -270,7 +270,7 @@ namespace
         std::unique_ptr<Database::ADropPhotosTask> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
-    
+
     struct PerformActionTask: ThreadBaseTask
     {
         PerformActionTask(const std::deque<Database::IFilter::Ptr>& filter, const std::deque<Database::IAction::Ptr>& action):
@@ -279,10 +279,10 @@ namespace
             m_action(action)
         {
         }
-        
+
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-        
-        std::deque<Database::IFilter::Ptr> m_filter; 
+
+        std::deque<Database::IFilter::Ptr> m_filter;
         std::deque<Database::IAction::Ptr> m_action;
     };
 
@@ -393,7 +393,7 @@ namespace
 
             emit photosRemoved(photos);
         }
-        
+
         virtual void visit(PerformActionTask* task) override
         {
             m_backend->perform(task->m_filter, task->m_action);
@@ -616,9 +616,10 @@ namespace Database
     }
 
 
-    void DatabaseThread::perform(const std::deque< IFilter::Ptr >&, const std::deque< IAction::Ptr >&)
+    void DatabaseThread::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
     {
-        // TODO: implement
+        PerformActionTask* task = new PerformActionTask(filters, actions);
+        m_impl->addTask(task);
     }
 
 
