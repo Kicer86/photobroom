@@ -35,27 +35,6 @@
 #include "ui_mainwindow.h"
 
 
-namespace
-{
-
-    struct MarkPhotosReviewed: Database::AGetPhotosTask
-    {
-        MarkPhotosReviewed(Database::IDatabase* db): m_db(db)
-        {
-        }
-
-        void got(const IPhotoInfo::List& photos) override
-        {
-            for(const IPhotoInfo::Ptr& photo: photos)
-                photo->markFlag(Photo::FlagsE::StagingArea, 0);
-        }
-
-        Database::IDatabase* m_db;
-    };
-
-}
-
-
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -631,11 +610,14 @@ void MainWindow::projectOpenedNotification(const Database::BackendStatus& status
 
 void MainWindow::markNewPhotosAsReviewed()
 {
-    auto task = std::make_unique<MarkPhotosReviewed>(m_currentPrj->getDatabase());
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
     filter->flags[Photo::FlagsE::StagingArea] = 1;
 
-    const std::deque<Database::IFilter::Ptr> filters( {filter});
+    auto action = std::make_shared<Database::ModifyFlagAction>();
+    action->flags[Photo::FlagsE::StagingArea] = 0;
 
-    m_currentPrj->getDatabase()->exec(std::move(task), filters);
+    const std::deque<Database::IFilter::Ptr> filters( {filter} );
+    const std::deque<Database::IAction::Ptr> actions( {action} );
+
+    m_currentPrj->getDatabase()->perform(filters, actions);
 }
