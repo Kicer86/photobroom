@@ -28,6 +28,7 @@
 
 #include "database/ibackend.hpp"
 #include "sql_backend_base_export.h"
+#include "table_definition.hpp"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -66,7 +67,7 @@ namespace Database
             virtual bool dbOpened();
 
             //make sure table exists. Makes sure a table maching TableDefinition exists in database
-            virtual BackendStatus assureTableExists(const TableDefinition &) const;
+            BackendStatus assureTableExists(const TableDefinition &) const;
 
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;
@@ -78,6 +79,7 @@ namespace Database
         private:
             std::unique_ptr<Data> m_data;
 
+            // Database::IBackend:
             virtual BackendStatus init(const ProjectInfo &) override final;
             virtual bool addPhoto(Photo::Data &) override final;
             virtual bool update(const Photo::Data &) override final;
@@ -92,11 +94,14 @@ namespace Database
             virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
             virtual Photo::Data           getPhoto(const Photo::Id &) override final;
             virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
-            
+
             virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) override final;
+            //
 
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
+
+            bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
     };
 
 }

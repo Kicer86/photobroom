@@ -49,7 +49,6 @@
 #include <database/photo_info.hpp>
 
 #include "isql_query_constructor.hpp"
-#include "table_definition.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
 #include "sql_action_query_generator.hpp"
@@ -671,17 +670,17 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        QString queryStr = QString("SELECT "
-                                   "%1.id, %2.name, %1.value, %2.type "
-                                   "FROM "
-                                   "%1 "
-                                   "JOIN "
-                                   "%2 "
-                                   "ON %2.id = %1.name_id "
-                                   "WHERE %1.photo_id = '%3';")
-                           .arg(TAB_TAGS)
-                           .arg(TAB_TAG_NAMES)
-                           .arg(photoId.value());
+        const QString queryStr = QString("SELECT "
+                                         "%1.id, %2.name, %1.value, %2.type "
+                                         "FROM "
+                                         "%1 "
+                                         "JOIN "
+                                         "%2 "
+                                         "ON %2.id = %1.name_id "
+                                         "WHERE %1.photo_id = '%3';")
+                                 .arg(TAB_TAGS)
+                                 .arg(TAB_TAG_NAMES)
+                                 .arg(photoId.value());
 
         const bool status = m_executor.exec(queryStr, &query);
         Tag::TagsList tagData;
@@ -899,16 +898,7 @@ namespace Database
                 const int keys = definition.keys.size();
 
                 for(int i = 0; status && i < keys; i++)
-                {
-                    QString indexDesc;
-
-                    indexDesc += "CREATE " + definition.keys[i].type;
-                    indexDesc += " " + definition.keys[i].name + "_idx";
-                    indexDesc += " ON " + definition.name;
-                    indexDesc += " " + definition.keys[i].def + ";";
-
-                    status = m_data->m_executor.exec(indexDesc, &query);
-                }
+                    createKey(definition.keys[i], definition.name, query);
             }
         }
 
@@ -1147,3 +1137,19 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
     return status;
 }
+
+
+bool Database::ASqlBackend::createKey(const Database::TableDefinition::KeyDefinition& key, const QString& tableName, QSqlQuery& query) const
+{
+    QString indexDesc;
+
+    indexDesc += "CREATE " + key.type;
+    indexDesc += " " + key.name + "_idx";
+    indexDesc += " ON " + tableName;
+    indexDesc += " " + key.def + ";";
+
+    const bool status = m_data->m_executor.exec(indexDesc, &query);
+
+    return status;
+}
+
