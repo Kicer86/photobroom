@@ -1068,9 +1068,9 @@ namespace Database
 
         //check tables existance
         if (status)
-            for (TableDefinition& table: tables)
+            for (const auto& table: tables)
             {
-                status = assureTableExists(table);
+                status = assureTableExists(table.second);
 
                 if (!status)
                     break;
@@ -1125,15 +1125,53 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
             status = StatusCodes::BadVersion;
     }
 
-    /*
+    // TODO: too complex
     if (status)
     {
-        DatabaseMigrator migrator(db, &m_data->m_executor);
+        status = m_data->m_executor.exec("SELECT version FROM " TAB_VER ";", &query);
 
-        if (migrator.needsMigration())
-            status = migrator.migrate()? StatusCodes::Ok: StatusCodes::MigrationFailed;
+        if (status)
+            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
+
+        int v = 0;
+
+        if (status)
+            v = query.value(0).toInt();
+
+        if (status)
+        {
+            if (v < 1)
+            {
+                // add keys for table TAGS
+                const auto it = tables.find(TAB_TAGS);
+                assert(it != tables.end());
+
+                const auto& tab = it->second;
+                const auto& keys = tab.keys;
+
+                for(const auto& key: keys)
+                {
+                    status = createKey(key, tab.name, query)? StatusCodes::Ok: StatusCodes::QueryFailed;
+
+                    if (status == false)
+                    {
+                        status = StatusCodes::MigrationFailed;
+                        break;
+                    }
+                }
+
+                InsertQueryData insertData(TAB_VER);
+                insertData.setColumns("version");
+                insertData.setValues("1");
+
+                UpdateQueryData updateData(insertData);
+                updateData.setCondition( "version", "0" );
+                const std::vector<QString> queryStrs = getGenericQueryGenerator()->update(updateData);
+
+                status = m_data->m_executor.exec(queryStrs, &query);
+            }
+        }
     }
-    */
 
     return status;
 }

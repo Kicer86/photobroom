@@ -2,6 +2,8 @@
 #ifndef DATABASE_TABLES_HPP
 #define DATABASE_TABLES_HPP
 
+#include <map>
+
 #define TAB_TAG_NAMES  "tag_names"
 #define TAB_VER        "version"
 #define TAB_PHOTOS     "photos"
@@ -18,7 +20,7 @@
 namespace Database
 {
     struct TableDefinition;
-    extern TableDefinition tables[7];
+    extern std::map<std::string, TableDefinition> tables;
     extern const char db_version[];
 }
 
