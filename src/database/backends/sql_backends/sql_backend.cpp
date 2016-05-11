@@ -164,6 +164,7 @@ namespace Database
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
 
             bool storeData(const Photo::Data &) const;
+            bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeThumbnail(int photo_id, const QImage &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
@@ -455,6 +456,9 @@ namespace Database
 
         bool status = storeTags(data.id, tags);
 
+        if (status && data.getFlag(Photo::FlagsE::GeometryLoaded) > 0)
+            status = storeGeometryFor(data.id, data.geometry);
+
         if (status && data.getFlag(Photo::FlagsE::ThumbnailLoaded) > 0)
             status = storeThumbnail(data.id, data.thumbnail);
 
@@ -463,6 +467,23 @@ namespace Database
 
         if (status)
             status = storeFlags(data);
+
+        return status;
+    }
+
+
+    bool ASqlBackend::Data::storeGeometryFor(const Photo::Id& photo_id, const QSize& geometry) const
+    {
+        InsertQueryData data(TAB_GEOMETRY);
+
+        data.setColumns("photo_id", "width", "height");
+        data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
+
+        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+        bool status = m_executor.exec(queryStrs, &query);
 
         return status;
     }
