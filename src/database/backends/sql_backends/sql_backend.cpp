@@ -745,7 +745,7 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
 
-        if(status && query.next())
+        if (status && query.next())
         {
             const QVariant widthRaw = query.value(0);
             const QVariant heightRaw = query.value(1);
