@@ -1142,7 +1142,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         {
             if (v < 1)
             {
-                // add keys for table TAGS
+                // add keys for table TAGS - it gives ~11,5x speedup when quering photos
                 const auto it = tables.find(TAB_TAGS);
                 assert(it != tables.end());
 
