@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const char db_version[] = "0";
+        const char db_version[] = "1";
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -53,6 +53,10 @@ namespace Database
                        { "photo_id", "INTEGER NOT NULL"    },
                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""   },
                        { "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)", "" }
+                   },
+                   {
+                       { "tg_id", "UNIQUE INDEX", "(id)" },
+                       { "tg_photo_id", "INDEX", "(photo_id)" }
                    }
         );
 
@@ -103,11 +107,14 @@ namespace Database
 
 
         //all tables
-        TableDefinition tables[7] = {table_versionHistory,
-                                     table_photos,
-                                     table_tag_names,
-                                     table_tags,
-                                     table_thumbnails,
-                                     table_sha256sums,
-                                     table_flags};
+        std::map<std::string, TableDefinition> tables =
+        {
+            { TAB_VER,        table_versionHistory },
+            { TAB_PHOTOS,     table_photos },
+            { TAB_TAG_NAMES,  table_tag_names },
+            { TAB_TAGS,       table_tags },
+            { TAB_THUMBS,     table_thumbnails },
+            { TAB_SHA256SUMS, table_sha256sums },
+            { TAB_FLAGS,      table_flags }
+        };
 }
