@@ -170,6 +170,7 @@ namespace Database
             bool storeFlags(const Photo::Data &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &);
+            QSize                getGeometryFor(const Photo::Id &);
             ol::Optional<QImage> getThumbnailFor(const Photo::Id &);
             ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &);
             void    updateFlagsOn(Photo::Data &, const Photo::Id &);
@@ -648,6 +649,16 @@ namespace Database
         photoData.id   = id;
         photoData.tags = getTagsFor(id);
 
+        //load geometry
+        const QSize geometry = getGeometryFor(id);
+        if (geometry.isValid())
+        {
+            photoData.geometry = geometry;
+            photoData.flags[Photo::FlagsE::GeometryLoaded] = true;
+        }
+        else
+            photoData.flags[Photo::FlagsE::GeometryLoaded] = false;
+
         //load thumbnail
         const ol::Optional<QImage> thumbnail = getThumbnailFor(id);
         if (thumbnail)
@@ -697,6 +708,34 @@ namespace Database
         }
 
         return tagData;
+    }
+
+
+    QSize ASqlBackend::Data::getGeometryFor(const Photo::Id& id)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        QSize geoemtry;
+        QSqlQuery query(db);
+
+        const QString queryStr = QString("SELECT width,height FROM %1 WHERE %1.photo_id = '%2'")
+                                 .arg(TAB_GEOMETRY)
+                                 .arg(id.value());
+
+        const bool status = m_executor.exec(queryStr, &query);
+
+        if(status && query.next())
+        {
+            const QVariant widthRaw = query.value(0);
+            const QVariant heightRaw = query.value(1);
+
+            const int width = widthRaw.toInt();
+            const int height = heightRaw.toInt();
+
+            geoemtry = QSize(width, height);
+        }
+
+        return geoemtry;
     }
 
 

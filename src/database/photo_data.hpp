@@ -39,6 +39,7 @@ namespace Photo
         Photo::FlagValues    flags;
         QString              path;
         QImage               thumbnail;
+        QSize                geometry;
 
         int getFlag(const Photo::FlagsE& flag) const;
 
