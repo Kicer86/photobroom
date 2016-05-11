@@ -88,6 +88,21 @@ namespace Database
                          }
         );
 
+        TableDefinition
+        table_geometry(TAB_GEOMETRY,
+                       {
+                           { "id", "", ColDefinition::Purpose::ID   },
+                           { "photo_id INTEGER NOT NULL", ""        },
+                           { "width", "INT NOT NULL"                },
+                           { "height", "INT NOT NULL"               },
+                           { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                       },
+                       {
+                           { "g_id", "UNIQUE INDEX", "(id)"             },
+                           { "g_photo_id", "UNIQUE INDEX", "(photo_id)" },
+                       }
+        );
+
         //set of flags used internally
         TableDefinition
         table_flags(TAB_FLAGS,
@@ -115,6 +130,7 @@ namespace Database
             { TAB_TAGS,       table_tags },
             { TAB_THUMBS,     table_thumbnails },
             { TAB_SHA256SUMS, table_sha256sums },
-            { TAB_FLAGS,      table_flags }
+            { TAB_FLAGS,      table_flags },
+            { TAB_GEOMETRY,   table_geometry },
         };
 }
