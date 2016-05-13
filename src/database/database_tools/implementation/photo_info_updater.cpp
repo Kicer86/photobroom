@@ -39,40 +39,6 @@ struct UpdaterTask: ITaskExecutor::ITask
 namespace
 {
 
-    struct ThumbnailGenerator: UpdaterTask
-    {
-        ThumbnailGenerator(PhotoInfoUpdater* updater,
-                        IPhotosManager* photosManager,
-                        const IPhotoInfo::Ptr& photoInfo):
-            UpdaterTask(updater),
-            m_photoInfo(photoInfo),
-            m_photosManager(photosManager)
-        {
-
-        }
-
-        virtual ~ThumbnailGenerator() {}
-
-        ThumbnailGenerator(const ThumbnailGenerator &) = delete;
-        ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
-
-        virtual std::string name() const override
-        {
-            return "Photo thumbnail generation";
-        }
-
-        virtual void perform() override
-        {
-            const QImage thumbnail = m_photosManager->getThumbnail(m_photoInfo->getPath());
-
-            m_photoInfo->setThumbnail(thumbnail);
-        }
-
-        IPhotoInfo::Ptr m_photoInfo;
-        IPhotosManager* m_photosManager;
-    };
-
-
     struct Sha256Assigner: UpdaterTask
     {
         Sha256Assigner(PhotoInfoUpdater* updater,
@@ -162,14 +128,6 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_unique<Sha256Assigner>(this, m_photosManager, photoInfo);
-
-    m_taskQueue->push(std::move(task));
-}
-
-
-void PhotoInfoUpdater::updateThumbnail(const IPhotoInfo::Ptr& photoInfo)
-{
-    auto task = std::make_unique<ThumbnailGenerator>(this, m_photosManager, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }

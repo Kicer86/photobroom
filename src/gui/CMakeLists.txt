@@ -70,10 +70,10 @@ add_library(gui
 
 target_link_libraries(gui
                         PRIVATE
-                            photos_crawler
                             configuration
                             core
                             database
+                            photos_crawler
                             project_utils
                             system
                             updater

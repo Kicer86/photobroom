@@ -23,6 +23,8 @@
 
 #include <QPixmap>
 #include <QVariant>
+#include <QDirIterator>
+#include <QDebug>
 
 #include <database/iphoto_info.hpp>
 
@@ -348,8 +350,11 @@ IdxData::IdxData(IdxDataManager* model) :
 
 void IdxData::updateLeafData()
 {
+    QImage img;
+    img.load(":/gui/clock.svg");
+
     m_data[Qt::DisplayRole] = m_photo->getPath();
-    m_data[Qt::DecorationRole] = m_photo->getThumbnail();
+    m_data[Qt::DecorationRole] = img;
 }
 
 

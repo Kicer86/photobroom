@@ -165,14 +165,12 @@ namespace Database
 
             bool storeData(const Photo::Data &) const;
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
-            bool storeThumbnail(int photo_id, const QImage &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &);
             QSize                getGeometryFor(const Photo::Id &);
-            ol::Optional<QImage> getThumbnailFor(const Photo::Id &);
             ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &);
             void    updateFlagsOn(Photo::Data &, const Photo::Id &);
             QString getPathFor(const Photo::Id &);
@@ -459,9 +457,6 @@ namespace Database
         if (status && data.getFlag(Photo::FlagsE::GeometryLoaded) > 0)
             status = storeGeometryFor(data.id, data.geometry);
 
-        if (status && data.getFlag(Photo::FlagsE::ThumbnailLoaded) > 0)
-            status = storeThumbnail(data.id, data.thumbnail);
-
         if (status && data.getFlag(Photo::FlagsE::Sha256Loaded) > 0)
             status = storeSha256(data.id, data.sha256Sum);
 
@@ -478,23 +473,6 @@ namespace Database
 
         data.setColumns("photo_id", "width", "height");
         data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
-
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
-
-        return status;
-    }
-
-
-    bool ASqlBackend::Data::storeThumbnail(int photo_id, const QImage& pixmap) const
-    {
-        InsertQueryData data(TAB_THUMBS);
-
-        data.setColumns("photo_id", "data");
-        data.setValues(QString::number(photo_id), QString(toPrintable(pixmap)) );
 
         const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
 
@@ -680,11 +658,6 @@ namespace Database
         else
             photoData.flags[Photo::FlagsE::GeometryLoaded] = false;
 
-        //load thumbnail
-        const ol::Optional<QImage> thumbnail = getThumbnailFor(id);
-        if (thumbnail)
-            photoData.thumbnail = *thumbnail;
-
         //load sha256
         const ol::Optional<Photo::Sha256sum> sha256 = getSha256For(id);
         if (sha256)
@@ -759,30 +732,6 @@ namespace Database
         return geoemtry;
     }
 
-
-    ol::Optional<QImage> ASqlBackend::Data::getThumbnailFor(const Photo::Id& id)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        ol::Optional<QImage> image;
-        QSqlQuery query(db);
-
-        QString queryStr = QString("SELECT data FROM %1 WHERE %1.photo_id = '%2'");
-
-        queryStr = queryStr.arg(TAB_THUMBS);
-        queryStr = queryStr.arg(id.value());
-
-        const bool status = m_executor.exec(queryStr, &query);
-
-        if(status && query.next())
-        {
-            const QVariant variant = query.value(0);
-            QByteArray data(variant.toByteArray());
-            image = fromPrintable(data);
-        }
-
-        return image;
-    }
 
     ol::Optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id)
     {

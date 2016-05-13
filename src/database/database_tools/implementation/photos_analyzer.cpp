@@ -130,9 +130,6 @@ void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
         if (photo->isSha256Loaded() == false)
             m_updater.updateSha256(photo);
 
-        if (photo->isThumbnailLoaded() == false)
-            m_updater.updateThumbnail(photo);
-
         if (photo->isExifDataLoaded() == false)
             m_updater.updateTags(photo);
     }

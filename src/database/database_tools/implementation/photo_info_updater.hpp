@@ -26,7 +26,6 @@ class PhotoInfoUpdater final
         PhotoInfoUpdater& operator=(const PhotoInfoUpdater &) = delete;
 
         void updateSha256(const IPhotoInfo::Ptr &);
-        void updateThumbnail(const IPhotoInfo::Ptr &);
         void updateTags(const IPhotoInfo::Ptr &);
 
         void set(ITaskExecutor *);
