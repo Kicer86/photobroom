@@ -259,7 +259,7 @@ namespace Database
 
         while (status && query.next())
         {
-            const QString name       = query.value(0).toString();
+            const QString name = query.value(0).toString();
             const int value = query.value(1).toInt();
 
             TagNameInfo tagName(name, value);
