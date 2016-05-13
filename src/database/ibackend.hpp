@@ -63,9 +63,15 @@ namespace Database
         virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) = 0;        // drop photos matching filter
         virtual Photo::Data           getPhoto(const Photo::Id &) = 0;                         // get particular photo
         virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;    // is there any photo matching filters?
-        
+
+        // reading extra data
+        //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                                // get thumbnail for photo
+
         // modify data
         virtual void perform(const std::deque<Database::IFilter::Ptr> &, const std::deque<Database::IAction::Ptr> &) = 0;
+
+        // write extra data
+        //virtual bool setThumbnail(const Photo::Id &, const QByteArray &) = 0;                  // set thumbnail for photo
 
         //init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;
