@@ -313,7 +313,7 @@ IdxData* IdxData::findChildWithBadPosition() const
     IdxData* result = nullptr;
 
     for(size_t i = 1; i < m_children.size(); i++)
-        if (comparer(m_children[i -1], m_children[i]) == false)
+        if (comparer(m_children[i - 1], m_children[i]) == false)
         {
             result = m_children[i - 1];
             break;
