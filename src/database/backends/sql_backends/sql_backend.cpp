@@ -533,13 +533,15 @@ namespace Database
     bool ASqlBackend::Data::storeFlags(const Photo::Data& photoData) const
     {
         InsertQueryData queryData(TAB_FLAGS);
-        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded");
+        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
         queryData.setValues( InsertQueryData::Value::Null,
                              QString::number(photoData.id),
                              photoData.getFlag(Photo::FlagsE::StagingArea),
                              photoData.getFlag(Photo::FlagsE::ExifLoaded),
                              photoData.getFlag(Photo::FlagsE::Sha256Loaded),
-                             photoData.getFlag(Photo::FlagsE::ThumbnailLoaded));
+                             photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
+                             photoData.getFlag(Photo::FlagsE::GeometryLoaded)
+                           );
 
         auto queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
 
@@ -651,12 +653,7 @@ namespace Database
         //load geometry
         const QSize geometry = getGeometryFor(id);
         if (geometry.isValid())
-        {
             photoData.geometry = geometry;
-            photoData.flags[Photo::FlagsE::GeometryLoaded] = true;
-        }
-        else
-            photoData.flags[Photo::FlagsE::GeometryLoaded] = false;
 
         //load sha256
         const ol::Optional<Photo::Sha256sum> sha256 = getSha256For(id);
@@ -760,7 +757,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -780,6 +777,9 @@ namespace Database
 
             variant = query.value(3);
             photoData.flags[Photo::FlagsE::ThumbnailLoaded] = variant.toInt();
+
+            variant = query.value(4);
+            photoData.flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
         }
     }
 
@@ -1130,7 +1130,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         const int v = query.value(0).toInt();
 
         // More than we expect? Quit with error
-        if (v > 1)
+        if (v > 2)
             status = StatusCodes::BadVersion;
     }
 
@@ -1169,15 +1169,45 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                     }
                 }
 
-                InsertQueryData insertData(TAB_VER);
-                insertData.setColumns("version");
-                insertData.setValues("1");
+                if (status)
+                {
+                    InsertQueryData insertData(TAB_VER);
+                    insertData.setColumns("version");
+                    insertData.setValues("1");
 
-                UpdateQueryData updateData(insertData);
-                updateData.setCondition( "version", "0" );
-                const std::vector<QString> queryStrs = getGenericQueryGenerator()->update(updateData);
+                    UpdateQueryData updateData(insertData);
+                    updateData.setCondition( "version", "0" );
+                    const std::vector<QString> queryStrs = getGenericQueryGenerator()->update(updateData);
 
-                status = m_data->m_executor.exec(queryStrs, &query);
+                    status = m_data->m_executor.exec(queryStrs, &query);
+                }
+            }
+
+            if (v < 2)
+            {
+                if (status)
+                {
+                    // Insert column in flags table
+                    const QString queryStr = QString("ALTER TABLE %1 ADD %2 %3")
+                                            .arg(TAB_FLAGS)
+                                            .arg(FLAG_GEOM_LOADED)
+                                            .arg("INT NOT NULL DEFAULT '0'");
+
+                    status = m_data->m_executor.exec(queryStr, &query);
+                }
+
+                if (status)
+                {
+                    InsertQueryData insertData(TAB_VER);
+                    insertData.setColumns("version");
+                    insertData.setValues("2");
+
+                    UpdateQueryData updateData(insertData);
+                    updateData.setCondition( "version", "1" );
+                    const std::vector<QString> queryStrs = getGenericQueryGenerator()->update(updateData);
+
+                    status = m_data->m_executor.exec(queryStrs, &query);
+                }
             }
         }
     }
