@@ -415,6 +415,16 @@ namespace
             }
         }
 
+        void stop()
+        {
+            m_tasks.stop();
+        }
+
+        void closeConnections()
+        {
+            m_backend->closeConnections();
+        }
+
         IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id)
         {
             IPhotoInfo::Ptr photoPtr = m_cache->find(id);
@@ -431,7 +441,6 @@ namespace
 
             return photoPtr;
         }
-
 
         bool insertPhoto(const QString& path)
         {
@@ -450,10 +459,16 @@ namespace
             return status;
         }
 
-        ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
-        std::unique_ptr<Database::IBackend> m_backend;
-        Database::IPhotoInfoCache* m_cache;
-        PhotoInfoStorekeeper* m_storekeeper;
+        void addTask(std::unique_ptr<ThreadBaseTask>&& task)
+        {
+            m_tasks.push(std::move(task));
+        }
+
+        private:
+            ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
+            std::unique_ptr<Database::IBackend> m_backend;
+            Database::IPhotoInfoCache* m_cache;
+            PhotoInfoStorekeeper* m_storekeeper;
     };
 
 }
@@ -478,7 +493,7 @@ namespace Database
         void addTask(ThreadBaseTask* task)
         {
             assert(m_working);
-            m_executor.m_tasks.push(std::unique_ptr<ThreadBaseTask>(task));
+            m_executor.addTask( std::move(std::unique_ptr<ThreadBaseTask>(task)) );
         }
 
         void stopExecutor()
@@ -486,12 +501,12 @@ namespace Database
             if (m_working)
             {
                 m_working = false;
-                m_executor.m_tasks.stop();
+                m_executor.stop();
 
                 assert(m_thread.joinable());
                 m_thread.join();
 
-                m_executor.m_backend->closeConnections();
+                m_executor.closeConnections();
             }
         }
 
