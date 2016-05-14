@@ -7,6 +7,7 @@
 
 #include <QPixmap>
 #include <QImage>
+#include <QImageReader>
 #include <qcryptographichash.h>
 
 #include <core/task_executor.hpp>
@@ -42,8 +43,8 @@ namespace
     struct Sha256Assigner: UpdaterTask
     {
         Sha256Assigner(PhotoInfoUpdater* updater,
-                    IPhotosManager* photosManager,
-                    const IPhotoInfo::Ptr& photoInfo):
+                       IPhotosManager* photosManager,
+                       const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo),
             m_photosManager(photosManager)
@@ -63,11 +64,42 @@ namespace
             const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
             const QByteArray rawHash = QCryptographicHash::hash(data, QCryptographicHash::Sha256);
             const QByteArray hexHash = rawHash.toHex();
+
             m_photoInfo->setSha256(hexHash);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
         IPhotosManager* m_photosManager;
+    };
+
+
+    struct GeometryAssigner: UpdaterTask
+    {
+        GeometryAssigner(PhotoInfoUpdater* updater,
+                       const IPhotoInfo::Ptr& photoInfo):
+            UpdaterTask(updater),
+            m_photoInfo(photoInfo)
+        {
+        }
+
+        GeometryAssigner(const GeometryAssigner &) = delete;
+        GeometryAssigner& operator=(const GeometryAssigner &) = delete;
+
+        virtual std::string name() const override
+        {
+            return "Photo geometry setter";
+        }
+
+        virtual void perform() override
+        {
+            const QString path = m_photoInfo->getPath();
+            const QImageReader reader(path);
+            const QSize size = reader.size();
+
+            m_photoInfo->setGeometry(size);
+        }
+
+        IPhotoInfo::Ptr m_photoInfo;
     };
 
 }
@@ -128,6 +160,14 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_unique<Sha256Assigner>(this, m_photosManager, photoInfo);
+
+    m_taskQueue->push(std::move(task));
+}
+
+
+void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
+{
+    auto task = std::make_unique<GeometryAssigner>(this, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }
