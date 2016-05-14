@@ -99,13 +99,19 @@ Photo::Id PhotoInfo::getID() const
 
 bool PhotoInfo::isFullyInitialized() const
 {
-    return isSha256Loaded() && isExifDataLoaded();
+    return isSha256Loaded() && isExifDataLoaded() && isGeometryLoaded();
 }
 
 
 bool PhotoInfo::isSha256Loaded() const
 {
     return getFlag(Photo::FlagsE::Sha256Loaded) > 0;
+}
+
+
+bool PhotoInfo::isGeometryLoaded() const
+{
+    return getFlag(Photo::FlagsE::GeometryLoaded) > 0;
 }
 
 
@@ -133,6 +139,17 @@ void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
 
     m_data->m_data.lock()->sha256Sum = sha256;
     markFlag(Photo::FlagsE::Sha256Loaded, 1);
+
+    updated();
+}
+
+
+void PhotoInfo::setGeometry(const QSize& geometry)
+{
+    assert(isGeometryLoaded() == false);
+
+    m_data->m_data.lock()->geometry = geometry;
+    markFlag(Photo::FlagsE::GeometryLoaded, 1);
 
     updated();
 }

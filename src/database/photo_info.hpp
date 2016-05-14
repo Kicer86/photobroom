@@ -43,6 +43,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         //status checking
         bool isFullyInitialized() const override;            // returns true if photo fully loaded (all items below are loaded)
         bool isSha256Loaded() const override;                // returns true if sha256 is not null
+        bool isGeometryLoaded() const override;
         bool isExifDataLoaded() const override;              // returns true is tags were loaded
 
         //observers
@@ -51,6 +52,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
 
         //data initializing
         void setSha256(const Photo::Sha256sum &) override;
+        void setGeometry(const QSize &) override;
 
         //set data
         void setTags(const Tag::TagsList &) override;

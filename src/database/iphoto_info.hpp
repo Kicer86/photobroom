@@ -61,6 +61,7 @@ struct DATABASE_EXPORT IPhotoInfo
     //status checking
     virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)
     virtual bool isSha256Loaded() const = 0;                // returns true if sha256 is not null
+    virtual bool isGeometryLoaded() const = 0;              // returns true if geometry is not null
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
     //observers
@@ -71,6 +72,7 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual void setSha256(const Photo::Sha256sum &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags
     virtual void setTag(const TagNameInfo &, const TagValue &) = 0;   // set tag
+    virtual void setGeometry(const QSize &) = 0;
 
     //flags
     virtual void markFlag(Photo::FlagsE, int) = 0;
