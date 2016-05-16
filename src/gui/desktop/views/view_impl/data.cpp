@@ -123,7 +123,11 @@ Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 
 Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
+    assert(!"implement");
+
     ModelIndexInfoSet::iterator result = m_itemData->end();
+
+    /*
     PositionsTranslator translator(this);
 
     for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
@@ -136,25 +140,23 @@ Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
             break;
         }
     }
+    */
 
     return result;
 }
 
 
-bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
+bool Data::isImage(const QModelIndex& idx) const
 {
-    QModelIndex index = get(it);
-
     bool result = false;
 
-    if (index.isValid())
+    if (idx.isValid())
     {
-        const QAbstractItemModel* model = index.model();
-        const bool has_children = model->hasChildren(index);
+        const bool has_children = m_model->hasChildren(idx);
 
         if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
         {
-            const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
+            const QVariant decorationRole = m_model->data(idx, Qt::DecorationRole);  //get display role
 
             result = decorationRole.canConvert<QPixmap>() || decorationRole.canConvert<QIcon>();
         }
@@ -165,12 +167,9 @@ bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
 }
 
 
-QPixmap Data::getImage(ModelIndexInfoSet::level_iterator it) const
+QPixmap Data::getImage(const QModelIndex& idx) const
 {
-    QModelIndex index = get(it);
-
-    const QAbstractItemModel* model = index.model();
-    const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
+    const QVariant decorationRole = m_model->data(idx, Qt::DecorationRole);  //get display role
     const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
     QPixmap pixmap;
 
@@ -194,9 +193,9 @@ QPixmap Data::getImage(ModelIndexInfoSet::level_iterator it) const
 }
 
 
-QSize Data::getThumbnailSize(ViewDataSet<ModelIndexInfo>::level_iterator it) const
+QSize Data::getThumbnailSize(const QModelIndex& idx) const
 {
-    QPixmap image = getImage(it);
+    QPixmap image = getImage(idx);
 
     const int w = image.width();
     const int h = image.height();
@@ -230,8 +229,9 @@ void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) 
 }
 
 
-QModelIndex Data::get(const ModelIndexInfoSet::const_iterator& it) const
+QModelIndex Data::get_(const ModelIndexInfoSet::const_iterator& it) const
 {
+    /*
     assert(m_model != nullptr);
 
     ModelIndexInfoSet::const_level_iterator level_it(it);
@@ -248,6 +248,7 @@ QModelIndex Data::get(const ModelIndexInfoSet::const_iterator& it) const
     }
 
     return result;
+    */
 }
 
 
@@ -290,6 +291,12 @@ bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 }
 
 
+bool Data::isValid(ModelIndexInfoSet::iterator it) const
+{
+    return it != m_itemData->end();
+}
+
+
 const Data::ModelIndexInfoSet& Data::getModel() const
 {
     return *m_itemData;
@@ -299,6 +306,12 @@ const Data::ModelIndexInfoSet& Data::getModel() const
 Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
+}
+
+
+QAbstractItemModel* Data::getItemModel() const
+{
+    return m_model;
 }
 
 
