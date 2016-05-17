@@ -169,7 +169,7 @@ class ViewDataSet final: public IViewDataSet
 
         size_t size() const
         {
-            return m_model.cend() - m_model.cbegin();
+            return m_model.size();
         }
 
         std::string dumpModel() const
@@ -181,20 +181,7 @@ class ViewDataSet final: public IViewDataSet
         // to be called by view:
         void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
-            //update model
-            auto parentIt = find(parent);
-            iterator childIt = level_iterator(parentIt).begin() + from;
 
-            for( int i = from; i <= to; i++)
-            {
-                QModelIndex child_idx = m_db_model->index(i, 0, parent);
-                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position
-
-                //check if inserted item has children, and add them if any
-                const int children = m_db_model->rowCount(child_idx);
-                if (children)
-                    rowsInserted(child_idx, 0, children - 1);
-            }
         }
 
         void rowsRemoved(const QModelIndex& parent, int from , int to) override
@@ -236,17 +223,6 @@ class ViewDataSet final: public IViewDataSet
         void modelReset() override
         {
             clear();
-
-            if (m_db_model != nullptr)
-            {
-                //load all data
-                loadIndex(QModelIndex(), begin());
-            }
-        }
-
-        bool validate() const
-        {
-            return validate(m_db_model, QModelIndex(), begin());
         }
 
     private:
@@ -261,9 +237,6 @@ class ViewDataSet final: public IViewDataSet
         void clear()
         {
             m_model.clear();
-
-            //add item for QModelIndex() which is always present
-            insert( begin(), T(QModelIndex()) );
         }
 
         iterator insert(const QModelIndex& index, const T& info)

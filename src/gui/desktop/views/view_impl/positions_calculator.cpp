@@ -41,8 +41,6 @@ PositionsCalculator::~PositionsCalculator()
 
 void PositionsCalculator::updateItems() const
 {
-    assert(m_data->getModel().validate());
-
     const QModelIndex first = m_data->getItemModel()->index(0, 0);
 
     updateItem(first);
@@ -278,33 +276,38 @@ void PositionsCalculator::updateItem(const QModelIndex& idx) const
     if (info.isOverallSizeValid() == false)
     {
         const bool& expanded = info.expanded;
+        int children = 0;
 
         // update children
         if (expanded)
-            for(Data::ModelIndexInfoSet::level_iterator c_it = infoIt.begin(); c_it != infoIt.end(); ++c_it)
-                updateItem(c_it);
+            for_each_child(idx, [&](const QModelIndex& child)
+            {
+                children++;
+                updateItem(child);
+            });
 
         // calculate overall size
         QSize rect = info.getSize();
 
         //calculate overall only if node is expanded and has any children
-        if (infoIt.children_count() != 0 && expanded)
+        if (children > 0)
         {
             const QPoint offset(0, info.getSize().height());
 
-            for(Data::ModelIndexInfoSet::level_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
+            for_each_child(idx, [&](const QModelIndex& child)
             {
-                const ModelIndexInfo& c_info = *c_infoIt;
+                auto it = m_data->get(child);
+                const ModelIndexInfo& c_info = it->second;
 
                 const QPoint c_relative_position = c_info.getPosition() + offset;
                 const QSize c_overall_size = c_info.getOverallSize();
                 assert(c_overall_size.isValid());
 
                 const QSize c_size(c_overall_size.width() + c_relative_position.x(),
-                                   c_overall_size.height() + c_relative_position.y());
+                                c_overall_size.height() + c_relative_position.y());
 
                 rect = rect.expandedTo(c_size);
-            }
+            });
 
             rect.setHeight( rect.height() + m_data->getImageMargin() );
         }
