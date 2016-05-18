@@ -41,9 +41,7 @@ PositionsCalculator::~PositionsCalculator()
 
 void PositionsCalculator::updateItems() const
 {
-    const QModelIndex first = m_data->getItemModel()->index(0, 0);
-
-    updateItem(first);
+    updateItem(QModelIndex());
 }
 
 
@@ -280,7 +278,7 @@ void PositionsCalculator::updateItem(const QModelIndex& idx) const
 
         // update children
         if (expanded)
-            for_each_child(idx, [&](const QModelIndex& child)
+            for_each_child(m_data->getItemModel(), idx, [&](const QModelIndex& child)
             {
                 children++;
                 updateItem(child);
@@ -294,7 +292,7 @@ void PositionsCalculator::updateItem(const QModelIndex& idx) const
         {
             const QPoint offset(0, info.getSize().height());
 
-            for_each_child(idx, [&](const QModelIndex& child)
+            for_each_child(m_data->getItemModel(), idx, [&](const QModelIndex& child)
             {
                 auto it = m_data->get(child);
                 const ModelIndexInfo& c_info = it->second;

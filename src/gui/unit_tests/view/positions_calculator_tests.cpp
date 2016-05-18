@@ -81,7 +81,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     Data data;
     data.set(&model);
 
-    const int margin  = data.getImageMargin();
+    const int margin = data.getImageMargin();
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 

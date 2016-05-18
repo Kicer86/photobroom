@@ -59,14 +59,6 @@ namespace
 }
 
 
-void for_each_child(const QModelIndex& parent, std::function<void(const QModelIndex &)> function)
-{
-    int i = 0;
-    for(QModelIndex c_idx = parent.child(i, 0); c_idx.isValid(); c_idx = parent.child(++i, 0))
-        function(c_idx);
-}
-
-
 Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
 
@@ -131,24 +123,26 @@ Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 
 QModelIndex Data::get(const QPoint& point) const
 {
-    assert(!"implement");
-
     QModelIndex result;
 
-    /*
     PositionsTranslator translator(this);
 
-    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
+    try
     {
-        const QRect rect = translator.getAbsoluteRect(it);
-
-        if (rect.contains(point) && isVisible(it))
+        for_each_child_deep(m_model, QModelIndex(), [&](const QModelIndex& idx)
         {
-            result = it;
-            break;
-        }
+            const QRect rect = translator.getAbsoluteRect(idx);
+
+            if (rect.contains(point) && isVisible(idx))
+            {
+                result = idx;
+                throw true;
+            }
+        });
     }
-    */
+    catch(bool)
+    {
+    }
 
     return result;
 }

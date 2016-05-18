@@ -20,13 +20,13 @@
 #ifndef VIEW_DATA_SET_HPP
 #define VIEW_DATA_SET_HPP
 
+#include <cassert>
+#include <functional>
 #include <iostream>
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QRect>
-
-#include <core/tree.hpp>
 
 #ifndef NDEBUG
 #define assert_dump(expr,dump)                          \
@@ -35,6 +35,11 @@
 #else
 #define assert_dump(expr,dump) static_cast<void>(0)
 #endif
+
+
+void for_each_child(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &)>);
+void for_each_child_deep(QAbstractItemModel *, const QModelIndex &, std::function<void(const QModelIndex &)>);
+
 
 struct IViewDataSet
 {
@@ -181,7 +186,17 @@ class ViewDataSet final: public IViewDataSet
         // to be called by view:
         void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
+            //update model
+            for( int i = from; i <= to; i++)
+            {
+                const QModelIndex child_idx = m_db_model->index(i, 0, parent);
+                insert(child_idx, T(child_idx));
 
+                //check if inserted item has children, and add them if any
+                const int children = m_db_model->rowCount(child_idx);
+                if (children > 0)
+                    rowsInserted(child_idx, 0, children - 1);
+            }
         }
 
         void rowsRemoved(const QModelIndex& parent, int from , int to) override
@@ -223,6 +238,11 @@ class ViewDataSet final: public IViewDataSet
         void modelReset() override
         {
             clear();
+
+            for_each_child_deep(m_db_model, QModelIndex(), [&](const QModelIndex& idx)
+            {
+                insert(idx, T(idx));
+            });
         }
 
     private:
@@ -237,6 +257,9 @@ class ViewDataSet final: public IViewDataSet
         void clear()
         {
             m_model.clear();
+
+            //add item for QModelIndex() which is always present
+            insert( QModelIndex(), T(QModelIndex()) );
         }
 
         iterator insert(const QModelIndex& index, const T& info)

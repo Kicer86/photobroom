@@ -31,8 +31,6 @@
 
 struct IConfiguration;
 
-void for_each_child(const QModelIndex &, std::function<void(const QModelIndex &)>);
-
 
 class Data
 {

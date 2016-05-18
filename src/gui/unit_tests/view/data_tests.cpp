@@ -43,24 +43,6 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
 }
 
 
-TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNonExistingItem)
-{
-    QStandardItemModel model;
-
-    Data data;
-    data.set(&model);
-
-    ViewDataModelObserver mo(&data.getModel(), &model);
-
-    Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
-
-    EXPECT_EQ(false, data.isValid(infoIt));
-
-    const auto& items = data.getModel();
-    EXPECT_EQ(false, items.empty());
-}
-
-
 TEST(DataShould, SetInitialDataForRootItem)
 {
     QStandardItemModel model;
