@@ -1,8 +1,8 @@
 
 #include <gtest/gtest.h>
 
-#include <QStandardItemModel>
 #include <QIcon>
+#include <QStandardItemModel>
 
 #include <configuration/constants.hpp>
 
@@ -196,17 +196,17 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand second node to show children
-    ModelIndexInfo& top_info = view_data.get(top_idx2->index())->second;
-    top_info.expanded = true;
+    ModelIndexInfo& top_info2 = view_data.get(top_idx2->index())->second;
+    top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = view_data.cfind(top_idx2->index())->second;
+        const ModelIndexInfo& info2 = view_data.cfind(top_idx2->index())->second;
 
-        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                           // its position - just after first item of height `header_h`
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info.getOverallSize());  // no children expanded - overall == size
+        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info2.getRect());                           // its position - just after first item of height `header_h`
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info2.getOverallSize());  // no children expanded - overall == size
     }
 }
 
