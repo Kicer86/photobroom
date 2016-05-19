@@ -302,7 +302,7 @@ void PositionsCalculator::updateItem(const QModelIndex& idx) const
                 assert(c_overall_size.isValid());
 
                 const QSize c_size(c_overall_size.width() + c_relative_position.x(),
-                                c_overall_size.height() + c_relative_position.y());
+                                   c_overall_size.height() + c_relative_position.y());
 
                 rect = rect.expandedTo(c_size);
             });
