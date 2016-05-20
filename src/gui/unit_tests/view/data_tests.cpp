@@ -52,7 +52,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
+    Data::ModelIndexInfoSet::Model::iterator infoIt = data.get(QModelIndex());
     QModelIndex idx = data.get(infoIt);
 
     EXPECT_EQ(QModelIndex(), idx);

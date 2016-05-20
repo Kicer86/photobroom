@@ -54,8 +54,8 @@ class PositionsReseter
         void resetSize(const QModelIndex &) const;
         void resetOverallSize(const QModelIndex &) const;
 
-        void resetPosition(Data::ModelIndexInfoSet::level_iterator) const;
-        void resetSize(Data::ModelIndexInfoSet::level_iterator) const;
+        void resetPosition(Data::ModelIndexInfoSet::Model::iterator) const;
+        void resetSize(Data::ModelIndexInfoSet::Model::iterator) const;
 };
 
 #endif // POSITIONSRESETER_H
