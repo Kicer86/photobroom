@@ -41,32 +41,62 @@ PositionsCalculator::~PositionsCalculator()
 
 void PositionsCalculator::updateItems() const
 {
-    updateItem(QModelIndex());
+    assert(m_data->getModel().validate());
+
+    updateItem(m_data->getModel().begin());
 }
 
 
-QSize PositionsCalculator::calcItemSize(const QModelIndex& idx) const
+QRect PositionsCalculator::calcItemRect(Data::ModelIndexInfoSet::level_iterator it) const
 {
-    const QSize result = idx.isValid()? getItemSize(idx): QSize(0, 0);
+    QRect result;
+
+    const Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
+
+    if (it_parent.valid())              //do not enter for top item
+    {
+        const QSize item_size = getItemSize(it);
+
+        if (it.index() == 0)  //first
+        {
+            const QPoint point = calcPositionOfFirst(it);
+
+            result = QRect(point, item_size);
+        }
+        else
+        {
+            Data::ModelIndexInfoSet::level_iterator it_sibling = it - 1;
+            const QPoint point = calcPositionOfNext(it_sibling);
+
+            result = QRect(point, item_size);
+        }
+    }
+
+    return result;
+}
+
+QSize PositionsCalculator::calcItemSize(Data::ModelIndexInfoSet::level_iterator it) const
+{
+    const QSize result = isRoot(it)? QSize(0, 0): getItemSize(it);
 
     return result;
 }
 
 
-QPoint PositionsCalculator::calcItemPosition(const QModelIndex& idx) const
+QPoint PositionsCalculator::calcItemPosition(Data::ModelIndexInfoSet::level_iterator it) const
 {
     QPoint result;
 
-    const QModelIndex parent = idx.parent();
+    Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
 
-    if (parent.isValid())              //do not enter for top item
+    if (it_parent.valid())              //do not enter for top item
     {
-        if (idx.row() == 0)  //first
-            result = calcPositionOfFirst(idx);
+        if (it.index() == 0)  //first
+            result = calcPositionOfFirst(it);
         else
         {
-            const QModelIndex sibling = parent.child(idx.row() - 1, 0);
-            result = calcPositionOfNext(sibling);
+            Data::ModelIndexInfoSet::level_iterator it_sibling = it - 1;
+            result = calcPositionOfNext(it_sibling);
         }
     }
 
@@ -74,45 +104,38 @@ QPoint PositionsCalculator::calcItemPosition(const QModelIndex& idx) const
 }
 
 
-QPoint PositionsCalculator::calcPositionOfNext(const QModelIndex& idx) const
+QPoint PositionsCalculator::calcPositionOfNext(Data::ModelIndexInfoSet::level_iterator it) const
 {
-    const bool image = m_data->isImage(idx);
-    const QPoint result = image? calcPositionOfNextImage(idx):
-                                 calcPositionOfNextNode(idx);
+    const bool image = m_data->isImage(it);
+    const QPoint result = image? calcPositionOfNextImage(it):
+                                 calcPositionOfNextNode(it);
 
     return result;
 }
 
 
-QPoint PositionsCalculator::calcPositionOfNextImage(const QModelIndex& idx) const
+QPoint PositionsCalculator::calcPositionOfNextImage(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    auto infoIt = m_data->get(idx);
-
-    const ModelIndexInfo& info = infoIt->second;
+    const ModelIndexInfo& info = *infoIt;
     const QRect& item_pos = info.getRect();
-
-    const QModelIndex next = idx.sibling(idx.row() + 1, 0);
-    const int nextIndexWidth = getItemWidth(next);
-
-    const QModelIndex parent = idx.parent();
+    const Data::ModelIndexInfoSet::level_iterator next_it = infoIt + 1;
+    const int nextIndexWidth = getItemWidth(next_it);
+    const Data::ModelIndexInfoSet::level_iterator parentIt = infoIt.parent();
     const int max_width = m_width - m_data->getImageMargin() * 2;
 
     QPoint result;
     if (item_pos.right() + nextIndexWidth < max_width)             //is there place for item?
-        result = QPoint(item_pos.x() + getItemWidth(idx), item_pos.y());
+        result = QPoint(item_pos.x() + getItemWidth(infoIt), item_pos.y());
     else                                                         //no space, add new row
     {
         int row_height = 0;
-        const std::pair<int, int> selection = selectRowFor(idx);
-        int from = selection.first;
-        int to = selection.second;
+        const std::pair<int, int> selection = selectRowFor(infoIt);
+        Data::ModelIndexInfoSet::level_iterator from = parentIt.begin() + selection.first;
+        Data::ModelIndexInfoSet::level_iterator to = parentIt.begin() + selection.second;
 
-        for(int i = from; i <= to; i++)
+        for(Data::ModelIndexInfoSet::level_iterator idxInfoIt = from; idxInfoIt != (to + 1); ++idxInfoIt)
         {
-            const QModelIndex item = parent.child(i, 0);
-            auto it = m_data->get(item);
-
-            const ModelIndexInfo& idxInfo = it->second;
+            const ModelIndexInfo& idxInfo = *idxInfoIt;
             const QRect& idxRect = idxInfo.getRect();
             const int idxHeight = idxRect.height();
 
@@ -127,13 +150,11 @@ QPoint PositionsCalculator::calcPositionOfNextImage(const QModelIndex& idx) cons
 }
 
 
-QPoint PositionsCalculator::calcPositionOfNextNode(const QModelIndex& idx) const
+QPoint PositionsCalculator::calcPositionOfNextNode(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    assert(idx.isValid());
+    assert(isRoot(infoIt) == false);
 
-    auto infoIt = m_data->get(idx);
-
-    const ModelIndexInfo& info = infoIt->second;
+    const ModelIndexInfo& info = *infoIt;
     assert(info.isPositionValid());
 
     const QPoint& item_pos = info.getPosition();
@@ -146,9 +167,9 @@ QPoint PositionsCalculator::calcPositionOfNextNode(const QModelIndex& idx) const
 }
 
 
-QPoint PositionsCalculator::calcPositionOfFirst(const QModelIndex& idx) const
+QPoint PositionsCalculator::calcPositionOfFirst(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    const bool image = m_data->isImage(idx);
+    const bool image = m_data->isImage(infoIt);
     const QPoint result = image? calcPositionOfFirstImage():
                                  calcPositionOfFirstNode();
 
@@ -174,12 +195,12 @@ QPoint PositionsCalculator::calcPositionOfFirstImage() const
 }
 
 
-int PositionsCalculator::getItemWidth(const QModelIndex& idx) const
+int PositionsCalculator::getItemWidth(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     int w = 0;
-    if (m_data->isImage(idx))   //image
+    if (m_data->isImage(infoIt))   //image
     {
-        const QSize thumbSize = m_data->getThumbnailSize(idx);
+        const QSize thumbSize = m_data->getThumbnailSize(infoIt);
         w = thumbSize.width() + m_data->getSpacing() * 2;
     }
     else                           //node's title
@@ -189,12 +210,12 @@ int PositionsCalculator::getItemWidth(const QModelIndex& idx) const
 }
 
 
-int PositionsCalculator::getItemHeigth(const QModelIndex& idx) const
+int PositionsCalculator::getItemHeigth(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
     int item_height = 0;
-    if (m_data->isImage(idx))   //image
+    if (m_data->isImage(infoIt))   //image
     {
-        const QSize thumbSize = m_data->getThumbnailSize(idx);
+        const QSize thumbSize = m_data->getThumbnailSize(infoIt);
         item_height = thumbSize.height() + m_data->getSpacing() * 2;
     }
     else                           //node's title
@@ -204,40 +225,37 @@ int PositionsCalculator::getItemHeigth(const QModelIndex& idx) const
 }
 
 
-QSize PositionsCalculator::getItemSize(const QModelIndex& idx) const
+QSize PositionsCalculator::getItemSize(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    const QSize item_size(getItemWidth(idx), getItemHeigth(idx));
+    const QSize item_size(getItemWidth(infoIt), getItemHeigth(infoIt));
 
     return item_size;
 }
 
 
-std::pair<int, int> PositionsCalculator::selectRowFor(const QModelIndex& last) const
+std::pair<int, int> PositionsCalculator::selectRowFor(Data::ModelIndexInfoSet::level_iterator lastIt) const
 {
-    std::pair<int, int> result(0, 0);
+    std::pair<int, int> result;
+    Data::ModelIndexInfoSet::level_iterator searchIt = lastIt;
+    Data::ModelIndexInfoSet::level_iterator firstIt = lastIt;
 
-    QModelIndex first = last;
-    QModelIndex search = first;
-
-    auto it = m_data->get(first);
-    const ModelIndexInfo& indexInfo = it->second;
+    const ModelIndexInfo& indexInfo = *lastIt;
     const QPoint& index_pos = indexInfo.getPosition();
 
-    while(search.row() > 0)
+    while(searchIt.index() > 0)
     {
         //go to previous item
-        search = search.sibling(search.row() - 1, 0);
+        --searchIt;
 
-        it = m_data->get(search);
-        const QPoint& s_pos = it->second.getPosition();
+        const QPoint& s_pos = searchIt->getPosition();
 
         if (s_pos.y() == index_pos.y())   //items are at the same y-position? If no - we are no longer in the same row
-            first = search;
+            firstIt = searchIt;
         else
             break;
     }
 
-    return std::make_pair(first.row(), last.row());
+    return std::make_pair(firstIt.index(), lastIt.index());
 }
 
 
@@ -247,55 +265,51 @@ int PositionsCalculator::getFirstItemOffset() const
 }
 
 
-bool PositionsCalculator::isRoot(const QModelIndex& idx) const
+bool PositionsCalculator::isRoot(ViewDataSet<ModelIndexInfo>::level_iterator it) const
 {
-    return idx.isValid() == false;
+    Data::ModelIndexInfoSet::level_iterator it_parent = it.parent();
+
+    return it_parent.valid() == false;
 }
 
 
-void PositionsCalculator::updateItem(const QModelIndex& idx) const
+void PositionsCalculator::updateItem(Data::ModelIndexInfoSet::level_iterator infoIt) const
 {
-    auto it = m_data->get(idx);
-    ModelIndexInfo& info = it->second;
+    ModelIndexInfo& info = *infoIt;
 
     // calculations only for dirty ones
     if (info.isPositionValid() == false)
     {
-        const QPoint pos = calcItemPosition(idx);
+        const QPoint pos = calcItemPosition(infoIt);
         info.setPosition(pos);
     }
 
     if (info.isSizeValid() == false)
     {
-        const QSize size = calcItemSize(idx);
+        const QSize size = calcItemSize(infoIt);
         info.setSize(size);                       // size must be set at this point, as children calculations may require it
     }
 
     if (info.isOverallSizeValid() == false)
     {
         const bool& expanded = info.expanded;
-        int children = 0;
 
         // update children
         if (expanded)
-            for_each_child(m_data->getItemModel(), idx, [&](const QModelIndex& child)
-            {
-                children++;
-                updateItem(child);
-            });
+            for(Data::ModelIndexInfoSet::level_iterator c_it = infoIt.begin(); c_it != infoIt.end(); ++c_it)
+                updateItem(c_it);
 
         // calculate overall size
         QSize rect = info.getSize();
 
         //calculate overall only if node is expanded and has any children
-        if (children > 0)
+        if (infoIt.children_count() != 0 && expanded)
         {
             const QPoint offset(0, info.getSize().height());
 
-            for_each_child(m_data->getItemModel(), idx, [&](const QModelIndex& child)
+            for(Data::ModelIndexInfoSet::level_iterator c_infoIt = infoIt.begin(); c_infoIt.valid(); ++c_infoIt)
             {
-                auto it = m_data->get(child);
-                const ModelIndexInfo& c_info = it->second;
+                const ModelIndexInfo& c_info = *c_infoIt;
 
                 const QPoint c_relative_position = c_info.getPosition() + offset;
                 const QSize c_overall_size = c_info.getOverallSize();
@@ -305,7 +319,7 @@ void PositionsCalculator::updateItem(const QModelIndex& idx) const
                                    c_overall_size.height() + c_relative_position.y());
 
                 rect = rect.expandedTo(c_size);
-            });
+            }
 
             rect.setHeight( rect.height() + m_data->getImageMargin() );
         }

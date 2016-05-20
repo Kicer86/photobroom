@@ -35,15 +35,13 @@ PositionsTranslator::~PositionsTranslator()
 }
 
 
-QRect PositionsTranslator::getAbsoluteRect(const QModelIndex& idx) const
+QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
 {
-    auto mii = m_data->get(idx);
-
-    QRect result = mii->second.getRect();
-    QModelIndex parent = idx.parent();
+    QRect result = mii->getRect();
+    auto parent = mii.parent();
 
     // top items have their posistions absolute by definition, no calculations needed
-    if (parent.isValid())
+    if (parent != m_data->getModel().cend())
     {
         const QRect parentRect = getAbsoluteRect(parent);
         result.translate(parentRect.bottomLeft());
@@ -53,27 +51,23 @@ QRect PositionsTranslator::getAbsoluteRect(const QModelIndex& idx) const
 }
 
 
-QRect PositionsTranslator::getAbsoluteOverallRect(const QModelIndex& idx) const
+QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
 {
-    auto idxIt = m_data->get(idx);
-
-    const QPoint position = getAbsolutePosition(idx);
-    const ModelIndexInfo& info = idxIt->second;
+    const QPoint position = getAbsolutePosition(mii);
+    const ModelIndexInfo& info = *mii;
     const QRect result(position, info.getOverallSize());
 
     return result;
 }
 
 
-QPoint PositionsTranslator::getAbsolutePosition(const QModelIndex& idx) const
+QPoint PositionsTranslator::getAbsolutePosition(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
 {
-    auto mii = m_data->get(idx);
-
-    QPoint result = mii->second.getPosition();
-    QModelIndex parent = idx.parent();
+    QPoint result = mii->getPosition();
+    auto parent = mii.parent();
 
     // top items have their posistions absolute by definition, no calculations needed
-    if (parent.isValid())
+    if (parent != m_data->getModel().cend())
     {
         const QRect parentRect = getAbsoluteRect(parent);
         result += parentRect.bottomLeft();

@@ -1,8 +1,8 @@
 
 #include <gtest/gtest.h>
 
-#include <QIcon>
 #include <QStandardItemModel>
+#include <QIcon>
 
 #include <configuration/constants.hpp>
 
@@ -44,7 +44,7 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     calculator.updateItems();
 
     Data::ModelIndexInfoSet::iterator infoIt = data.get(top);
-    const ModelIndexInfo& info = infoIt->second;
+    const ModelIndexInfo& info = *infoIt;
 
     EXPECT_EQ(true, info.isPositionValid());
     EXPECT_EQ(QSize(0, 0), info.getSize());
@@ -81,7 +81,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     Data data;
     data.set(&model);
 
-    const int margin = data.getImageMargin();
+    const int margin  = data.getImageMargin();
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
@@ -89,14 +89,14 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = data.cfind(QModelIndex())->second;
+        const ModelIndexInfo& info = *data.cfind(QModelIndex());
 
         EXPECT_EQ(false, info.isSizeValid());                                    //invisible
         EXPECT_EQ(QSize(canvas_w, header_h + margin), info.getOverallSize());    //but has overall size of all items
     }
 
     {
-        const ModelIndexInfo& info = data.cfind(top_idx->index())->second;
+        const ModelIndexInfo& info = *data.cfind(top_idx->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());     // its position
         EXPECT_EQ(QSize(canvas_w, header_h), info.getOverallSize());    // no children expanded - overall == size
@@ -136,21 +136,21 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
-    ModelIndexInfo& top_info = view_data.get(top_idx->index())->second;
+    ModelIndexInfo& top_info = *view_data.get(top_idx->index());
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = view_data.cfind(QModelIndex())->second;
+        const ModelIndexInfo& info = *view_data.cfind(QModelIndex());
 
         EXPECT_EQ(false, info.isSizeValid());                                                            // invisible
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin * 2), info.getOverallSize());  // but has overall size of all items
     }
 
     {
-        const ModelIndexInfo& info = view_data.cfind(top_idx->index())->second;
+        const ModelIndexInfo& info = *view_data.cfind(top_idx->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                                  // its position
         EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info.getOverallSize());  // no children expanded - overall == size
@@ -196,17 +196,17 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand second node to show children
-    ModelIndexInfo& top_info2 = view_data.get(top_idx2->index())->second;
-    top_info2.expanded = true;
+    ModelIndexInfo& top_info = *view_data.get(top_idx2->index());
+    top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info2 = view_data.cfind(top_idx2->index())->second;
+        const ModelIndexInfo& info = *view_data.cfind(top_idx2->index());
 
-        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info2.getRect());                           // its position - just after first item of height `header_h`
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info2.getOverallSize());  // no children expanded - overall == size
+        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info.getRect());                           // its position - just after first item of height `header_h`
+        EXPECT_EQ(QSize(canvas_w, header_h + img_h + spacing * 2 + margin), info.getOverallSize());  // no children expanded - overall == size
     }
 }
 
@@ -246,21 +246,21 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
-    ModelIndexInfo& top_info = view_data.get(top->index())->second;
+    ModelIndexInfo& top_info = *view_data.get(top->index());
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info = view_data.cfind(top->index())->second;
+        const ModelIndexInfo& info = *view_data.cfind(top->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                                      // its position
         EXPECT_EQ(QSize(canvas_w, header_h + img_h * 2 + spacing * 4 + margin), info.getOverallSize());  // we expect two rows
     }
 
     {
-        const ModelIndexInfo& info = view_data.cfind(child5->index())->second;
+        const ModelIndexInfo& info = *view_data.cfind(child5->index());
 
         // should start in second row (first row height + spacing)
         const QRect childRect(view_data.getImageMargin(),
@@ -320,10 +320,10 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = data.get(top->index())->second;
+        ModelIndexInfo& top_info = *data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = data.get(top2->index())->second;
+        ModelIndexInfo& top2_info = *data.get(top2->index());
         top2_info.expanded = true;
     }
 
@@ -331,7 +331,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     calculator.updateItems();
 
     //// test
-    ModelIndexInfo& top_info = data.get(top->index())->second;
+    ModelIndexInfo& top_info = *data.get(top->index());
     top_info.expanded = false;
 
     PositionsReseter reseter(&model, &data);
@@ -341,7 +341,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 
     //expectations
     {
-        const ModelIndexInfo& info = data.cfind(top->index())->second;
+        const ModelIndexInfo& info = *data.cfind(top->index());
         EXPECT_EQ(info.getSize(), info.getOverallSize());       //children are invisible, so both sizes should be equal
     }
 }
@@ -386,10 +386,10 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     // Expectations:
     // We expect both images to get resized to match height = 50px
     {
-        const ModelIndexInfo& info1 = data.cfind(child1->index())->second;
+        const ModelIndexInfo& info1 = *data.cfind(child1->index());
         EXPECT_EQ(QSize(100 + 2 * spacing, 50 + 2 * spacing), info1.getSize());
 
-        const ModelIndexInfo& info2 = data.cfind(child2->index())->second;
+        const ModelIndexInfo& info2 = *data.cfind(child2->index());
         EXPECT_EQ(QSize(10 + 2 * spacing, 50 + 2 * spacing), info2.getSize());
     }
 }
@@ -435,11 +435,11 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     // We expect first image to take whole row.
     // Second image should be moved to next one
     {
-        const ModelIndexInfo& info1 = data.cfind(child1->index())->second;
+        const ModelIndexInfo& info1 = *data.cfind(child1->index());
         EXPECT_EQ(QSize(img1_w + 2 * spacing, img1_h + 2 * spacing), info1.getSize());
         EXPECT_EQ(QPoint(margin, 0), info1.getPosition());
 
-        const ModelIndexInfo& info2 = data.cfind(child2->index())->second;
+        const ModelIndexInfo& info2 = *data.cfind(child2->index());
         EXPECT_EQ(QSize(img2_w + 2 * spacing, img2_h + 2 * spacing), info2.getSize());
         EXPECT_EQ(QPoint(margin, img1_h + 2 * spacing), info2.getPosition());
     }
@@ -486,20 +486,20 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand nodes to show children
-    ModelIndexInfo& top_info1 = view_data.get(top_idx1->index())->second;
+    ModelIndexInfo& top_info1 = *view_data.get(top_idx1->index());
     top_info1.expanded = true;
 
-    ModelIndexInfo& top_info2 = view_data.get(top_idx2->index())->second;
+    ModelIndexInfo& top_info2 = *view_data.get(top_idx2->index());
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
     calculator.updateItems();
 
     {
-        const ModelIndexInfo& info1 = view_data.cfind(top1_child1_idx->index())->second;
+        const ModelIndexInfo& info1 = *view_data.cfind(top1_child1_idx->index());
         EXPECT_EQ(QRect(margin, 0, img_w + 2 * spacing, img_h + 2 * spacing), info1.getRect());
 
-        const ModelIndexInfo& info2 = view_data.cfind(top2_child1_idx->index())->second;
+        const ModelIndexInfo& info2 = *view_data.cfind(top2_child1_idx->index());
         EXPECT_EQ(QRect(margin, 0, img_w + 2 * spacing, img_h + 2 * spacing), info2.getRect());
     }
 }

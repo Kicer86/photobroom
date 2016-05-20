@@ -121,44 +121,40 @@ Data::ModelIndexInfoSet::iterator Data::find(const QModelIndex& index)
 }
 
 
-QModelIndex Data::get(const QPoint& point) const
+Data::ModelIndexInfoSet::iterator Data::get(const QPoint& point) const
 {
-    QModelIndex result;
-
+    ModelIndexInfoSet::iterator result = m_itemData->end();
     PositionsTranslator translator(this);
 
-    try
+    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
     {
-        for_each_child_deep(m_model, QModelIndex(), [&](const QModelIndex& idx)
-        {
-            const QRect rect = translator.getAbsoluteRect(idx);
+        const QRect rect = translator.getAbsoluteRect(it);
 
-            if (rect.contains(point) && isVisible(idx))
-            {
-                result = idx;
-                throw true;
-            }
-        });
-    }
-    catch(bool)
-    {
+        if (rect.contains(point) && isVisible(it))
+        {
+            result = it;
+            break;
+        }
     }
 
     return result;
 }
 
 
-bool Data::isImage(const QModelIndex& idx) const
+bool Data::isImage(const ModelIndexInfoSet::iterator& it) const
 {
+    QModelIndex index = get(it);
+
     bool result = false;
 
-    if (idx.isValid())
+    if (index.isValid())
     {
-        const bool has_children = m_model->hasChildren(idx);
+        const QAbstractItemModel* model = index.model();
+        const bool has_children = model->hasChildren(index);
 
         if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
         {
-            const QVariant decorationRole = m_model->data(idx, Qt::DecorationRole);  //get display role
+            const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
 
             result = decorationRole.canConvert<QPixmap>() || decorationRole.canConvert<QIcon>();
         }
@@ -169,9 +165,12 @@ bool Data::isImage(const QModelIndex& idx) const
 }
 
 
-QPixmap Data::getImage(const QModelIndex& idx) const
+QPixmap Data::getImage(ModelIndexInfoSet::level_iterator it) const
 {
-    const QVariant decorationRole = m_model->data(idx, Qt::DecorationRole);  //get display role
+    QModelIndex index = get(it);
+
+    const QAbstractItemModel* model = index.model();
+    const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
     const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
     QPixmap pixmap;
 
@@ -195,9 +194,9 @@ QPixmap Data::getImage(const QModelIndex& idx) const
 }
 
 
-QSize Data::getThumbnailSize(const QModelIndex& idx) const
+QSize Data::getThumbnailSize(ViewDataSet<ModelIndexInfo>::level_iterator it) const
 {
-    QPixmap image = getImage(idx);
+    QPixmap image = getImage(it);
 
     const int w = image.width();
     const int h = image.height();
@@ -217,9 +216,22 @@ QSize Data::getThumbnailSize(const QModelIndex& idx) const
 }
 
 
-QModelIndex Data::get_(const ModelIndexInfoSet::const_iterator& it) const
+void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)> f) const
 {
-    /*
+    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
+    {
+        bool cont = true;
+        if (isVisible(it))
+            cont = f(it);
+
+        if (cont == false)
+            break;
+    }
+}
+
+
+QModelIndex Data::get(const ModelIndexInfoSet::const_iterator& it) const
+{
     assert(m_model != nullptr);
 
     ModelIndexInfoSet::const_level_iterator level_it(it);
@@ -236,54 +248,46 @@ QModelIndex Data::get_(const ModelIndexInfoSet::const_iterator& it) const
     }
 
     return result;
-    */
 }
 
 
 std::deque<QModelIndex> Data::findInRect(const QRect& rect) const
 {
-    const std::deque<QModelIndex> result = findInRect(QModelIndex(), rect);
+    const Data::ModelIndexInfoSet& model = getModel();
+
+    ViewDataSet<ModelIndexInfo>::const_level_iterator root = model.begin();
+
+    auto first = root.begin();
+    auto last = root.end();
+
+    const std::deque<QModelIndex> result = findInRect(first, last, rect);
 
     return result;
 }
 
 
 
-bool Data::isExpanded(const QModelIndex& idx) const
+bool Data::isExpanded(const ModelIndexInfoSet::const_iterator& it) const
 {
-    assert( idx.isValid() );
-    auto it = get(idx);
+    assert(it.valid());
 
-    const ModelIndexInfo& info = it->second;
+    const ModelIndexInfo& info = *it;
     return info.expanded;
 }
 
 
-bool Data::isVisible(const QModelIndex& idx) const
+bool Data::isVisible(const ModelIndexInfoSet::const_iterator& it) const
 {
-    const QModelIndex parent = idx.parent();
+    ModelIndexInfoSet::const_iterator parent = ModelIndexInfoSet::const_level_iterator(it).parent();
     bool result = false;
 
-    if (parent.isValid() == false)                       //parent is on the top of hierarchy? Always visible
+    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
         result = true;
     else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
         result = true;
 
     return result;
 }
-
-
-bool Data::isValid(ModelIndexInfoSet::iterator it) const
-{
-    return it != m_itemData->end();
-}
-
-
-bool Data::isValid(ModelIndexInfoSet::const_iterator it) const
-{
-    return it != m_itemData->cend();
-}
-
 
 
 const Data::ModelIndexInfoSet& Data::getModel() const
@@ -295,12 +299,6 @@ const Data::ModelIndexInfoSet& Data::getModel() const
 Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
-}
-
-
-QAbstractItemModel* Data::getItemModel() const
-{
-    return m_model;
 }
 
 
@@ -326,17 +324,18 @@ QModelIndex Data::getRightOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
 
-    const ModelIndexInfoSet::iterator item_it = get(item);
-    const QModelIndex right = item.sibling(item.row() + 1, 0);
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
 
-    if (right.isValid())
+    const ModelIndexInfoSet::level_iterator right_it = item_it + 1;
+
+    if (right_it.valid())
     {
-        const ModelIndexInfoSet::iterator right_it = get(right);
-        const ModelIndexInfo& item_info = item_it->second;
-        const ModelIndexInfo& right_item = right_it->second;
+        const ModelIndexInfo& item_info = *item_it;
+        const ModelIndexInfo& right_item = *right_it;
 
         if (item_info.getPosition().y() == right_item.getPosition().y())  // both at the same y?
-            result = right;
+            result = get(right_it);
     }
 
     return result;
@@ -347,18 +346,21 @@ QModelIndex Data::getLeftOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
 
-    const ModelIndexInfoSet::iterator item_it = get(item);
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
+    assert(item_it.valid());
 
-    if (item.row() > 0)
+    if (item_it.is_first() == false)
     {
-        const QModelIndex left = item.sibling(item.row() - 1, 0);
-        const ModelIndexInfoSet::iterator left_it = get(left);
+        const ModelIndexInfoSet::level_iterator left_it = item_it - 1;
 
-        const ModelIndexInfo& item_info = item_it->second;
-        const ModelIndexInfo& left_item = left_it->second;
+        if (left_it.valid())
+        {
+            const ModelIndexInfo& item_info = *item_it;
+            const ModelIndexInfo& left_item = *left_it;
 
-        if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
-            result = left;
+            if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
+                result = get(left_it);
+        }
     }
 
     return result;
@@ -369,14 +371,12 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
 
-    assert(!"implement");
-    /*
-    const ModelIndexInfoSet::iterator item_it = get(item);
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
     assert(item_it.valid());
 
     const ModelIndexInfo& item_info = *item_it;
 
-    ModelIndexInfoSet::iterator it = item_it;
+    ModelIndexInfoSet::level_iterator it = item_it;
 
     while (true)
     {
@@ -394,7 +394,6 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
         else
             --it;
     }
-    */
 
     return result;
 }
@@ -404,8 +403,6 @@ QModelIndex Data::getBottomOf(const QModelIndex& item) const
 {
     QModelIndex result = item;
 
-    assert(!"implement");
-    /*
     const ModelIndexInfoSet::level_iterator item_it = get(item);
     assert(item_it.valid());
 
@@ -422,7 +419,6 @@ QModelIndex Data::getBottomOf(const QModelIndex& item) const
                 break;
             }
     }
-    */
 
     return result;
 }
@@ -430,10 +426,7 @@ QModelIndex Data::getBottomOf(const QModelIndex& item) const
 
 QModelIndex Data::getFirst(const QModelIndex& item) const
 {
-    assert(!"implement");
-
-    /*
-    const ModelIndexInfoSet::iterator item_it = get(item);
+    const ModelIndexInfoSet::level_iterator item_it = get(item);
     assert(item_it.valid());
 
     ModelIndexInfoSet::level_iterator result = item_it;
@@ -443,16 +436,11 @@ QModelIndex Data::getFirst(const QModelIndex& item) const
     const QModelIndex resultIdx = get(result);
 
     return resultIdx;
-    */
-    return QModelIndex();
 }
 
 
 QModelIndex Data::getLast(const QModelIndex& item) const
 {
-    assert(!"implement");
-
-    /*
     const ModelIndexInfoSet::level_iterator item_it = get(item);
     assert(item_it.valid());
 
@@ -463,21 +451,18 @@ QModelIndex Data::getLast(const QModelIndex& item) const
     const QModelIndex resultIdx = get(result);
 
     return resultIdx;
-    */
-
-    return QModelIndex();
 }
 
 
-std::deque<QModelIndex> Data::findInRect(const QModelIndex& parent, const QRect& rect) const
+std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::const_level_iterator first,
+                                         ModelIndexInfoSet::const_level_iterator last,
+                                         const QRect& rect) const
 {
     std::deque<QModelIndex> result;
 
-    assert(!"implement");
-    /*
     PositionsTranslator translator(this);
 
-    auto bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::const_iterator& itemIt, const QRect& value)
+    auto bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::const_level_iterator& itemIt, const QRect& value)
     {
         const QRect overallRect = translator.getAbsoluteOverallRect(itemIt);
         const int p1 = overallRect.bottom();
@@ -522,7 +507,6 @@ std::deque<QModelIndex> Data::findInRect(const QModelIndex& parent, const QRect&
         else
             break;
     }
-    */
 
     return result;
 }

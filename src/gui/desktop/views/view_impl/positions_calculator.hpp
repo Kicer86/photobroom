@@ -40,24 +40,25 @@ class PositionsCalculator
         void updateItems() const;
 
     private:
-        QSize calcItemSize(const QModelIndex &) const;
-        QPoint calcItemPosition(const QModelIndex &) const;
-        QPoint calcPositionOfNext(const QModelIndex &) const;         // calculate position of next item
-        QPoint calcPositionOfNextImage(const QModelIndex &) const;    // calculate position of next item (image item)
-        QPoint calcPositionOfNextNode(const QModelIndex &) const;     // calculate position of next item (node item)
-        QPoint calcPositionOfFirst(const QModelIndex &) const;        // calculate position for first item
-        QPoint calcPositionOfFirstImage() const;                      // calculate position for first item (image item)
-        QPoint calcPositionOfFirstNode() const;                       // calculate position for first item (image item)
+        QRect calcItemRect(Data::ModelIndexInfoSet::level_iterator) const;
+        QSize calcItemSize(Data::ModelIndexInfoSet::level_iterator) const;
+        QPoint calcItemPosition(Data::ModelIndexInfoSet::level_iterator) const;
+        QPoint calcPositionOfNext(Data::ModelIndexInfoSet::level_iterator) const;        // calculate position of next item
+        QPoint calcPositionOfNextImage(Data::ModelIndexInfoSet::level_iterator) const;   // calculate position of next item (image item)
+        QPoint calcPositionOfNextNode(Data::ModelIndexInfoSet::level_iterator) const;    // calculate position of next item (node item)
+        QPoint calcPositionOfFirst(Data::ModelIndexInfoSet::level_iterator) const;       // calculate position for first item
+        QPoint calcPositionOfFirstImage() const;                                         // calculate position for first item (image item)
+        QPoint calcPositionOfFirstNode() const;                                          // calculate position for first item (image item)
 
-        int getItemWidth(const QModelIndex &) const;
-        int getItemHeigth(const QModelIndex &) const;
-        QSize getItemSize(const QModelIndex &) const;
-        std::pair<int, int> selectRowFor(const QModelIndex &) const;
+        int getItemWidth(Data::ModelIndexInfoSet::level_iterator) const;
+        int getItemHeigth(Data::ModelIndexInfoSet::level_iterator) const;
+        QSize getItemSize(Data::ModelIndexInfoSet::level_iterator) const;
+        std::pair<int, int> selectRowFor(Data::ModelIndexInfoSet::level_iterator) const;
         int getFirstItemOffset() const;
 
-        bool isRoot(const QModelIndex &) const;
+        bool isRoot(Data::ModelIndexInfoSet::level_iterator) const;
 
-        void updateItem(const QModelIndex &) const;
+        void updateItem(Data::ModelIndexInfoSet::level_iterator) const;
 
         Data* m_data;
         const int m_width;

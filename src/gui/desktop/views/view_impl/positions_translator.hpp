@@ -33,9 +33,9 @@ class PositionsTranslator
         PositionsTranslator(const PositionsTranslator &) = delete;
         ~PositionsTranslator();
 
-        QRect getAbsoluteRect(const QModelIndex &) const;
-        QRect getAbsoluteOverallRect(const QModelIndex &) const;
-        QPoint getAbsolutePosition(const QModelIndex &) const;
+        QRect getAbsoluteRect(const Data::ModelIndexInfoSet::const_level_iterator &) const;
+        QRect getAbsoluteOverallRect(const Data::ModelIndexInfoSet::const_level_iterator &) const;
+        QPoint getAbsolutePosition(const Data::ModelIndexInfoSet::const_level_iterator &) const;
 
         PositionsTranslator& operator=(const PositionsTranslator &) = delete;
 
