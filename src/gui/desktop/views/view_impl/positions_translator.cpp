@@ -35,7 +35,7 @@ PositionsTranslator::~PositionsTranslator()
 }
 
 
-QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
+QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::Model::const_level_iterator& mii) const
 {
     QRect result = mii->getRect();
     auto parent = mii.parent();
@@ -51,7 +51,7 @@ QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::const_
 }
 
 
-QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
+QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet::Model::const_iterator& mii) const
 {
     const QPoint position = getAbsolutePosition(mii);
     const ModelIndexInfo& info = *mii;
@@ -61,7 +61,7 @@ QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet:
 }
 
 
-QPoint PositionsTranslator::getAbsolutePosition(const Data::ModelIndexInfoSet::const_level_iterator& mii) const
+QPoint PositionsTranslator::getAbsolutePosition(const Data::ModelIndexInfoSet::Model::const_level_iterator& mii) const
 {
     QPoint result = mii->getPosition();
     auto parent = mii.parent();

@@ -43,7 +43,7 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     PositionsCalculator calculator(&data, 100);
     calculator.updateItems();
 
-    Data::ModelIndexInfoSet::iterator infoIt = data.get(top);
+    Data::ModelIndexInfoSet::Model::iterator infoIt = data.get(top);
     const ModelIndexInfo& info = *infoIt;
 
     EXPECT_EQ(true, info.isPositionValid());
