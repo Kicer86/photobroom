@@ -123,7 +123,7 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, Databa
 }
 
 
-bool ProjectManager::remove(const ProjectInfo& name)
+bool ProjectManager::remove(const ProjectInfo &)
 {
     return true;
 }

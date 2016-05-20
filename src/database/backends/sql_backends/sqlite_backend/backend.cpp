@@ -155,7 +155,7 @@ namespace Database
     }
 
 
-    ProjectInfo SQLitePlugin::initPrjDir(const QString& dir, const QString& name) const
+    ProjectInfo SQLitePlugin::initPrjDir(const QString& dir, const QString &) const
     {
         ProjectInfo prjInfo;
         prjInfo.backendName = backendName();

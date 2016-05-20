@@ -317,9 +317,9 @@ void MainWindow::updateMenus()
         QAction* action = ui->menuOpen_recent->addAction(entry);
         connect(action, &QAction::triggered, [=]
         {
-            const ProjectInfo prj(entry);
+            const ProjectInfo prjInfo(entry);
 
-            openProject(prj);
+            openProject(prjInfo);
         });
     }
 }
@@ -503,7 +503,6 @@ void MainWindow::on_actionScan_collection_triggered()
     if (status == QDialog::Accepted)
     {
         const std::set<QString>& photos = scanner.newPhotos();
-        Database::IDatabase* db = m_currentPrj->getDatabase();
 
         db->store(photos);
     }

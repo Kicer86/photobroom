@@ -22,7 +22,7 @@
 
 namespace Database
 {
-    
+
     IAction::~IAction()
     {
 
@@ -35,7 +35,7 @@ namespace Database
     }
 
 
-    ModifyFlagAction::ModifyFlagAction()
+    ModifyFlagAction::ModifyFlagAction(): flags()
     {
 
     }

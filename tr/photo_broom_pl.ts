@@ -344,7 +344,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+137"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -394,7 +394,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-255"/>
         <source>- new photos</source>
         <translation>- nowe zdjęcia</translation>
     </message>
@@ -404,7 +404,7 @@ Kod błędu: %1</translation>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+90"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>

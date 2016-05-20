@@ -35,7 +35,7 @@ ProjectInfo::ProjectInfo(const QString& _path): ProjectInfo()
 }
 
 
-ProjectInfo::ProjectInfo(): path(), baseDir(), name()
+ProjectInfo::ProjectInfo(): path(), baseDir(), name(), internalLocation()
 {
 
 }
@@ -74,7 +74,7 @@ const QString& ProjectInfo::getInternalLocation() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo): m_database(std::move(db)), m_prjInfo(prjInfo)
+Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo): m_prjInfo(prjInfo), m_database(std::move(db))
 {
 
 }

@@ -33,7 +33,7 @@
 #include "ui_crash_dialog.h"
 
 
-CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), m_debugger(debugger)
+CrashDialog::CrashDialog(IDebugger* debugger): QDialog(), ui(nullptr), m_debugger(debugger)
 {
     ui = new Ui::CrashDialog;
     ui->setupUi(this);
