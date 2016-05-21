@@ -83,5 +83,6 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual bool isValid() = 0;
 };
 
+Q_DECLARE_METATYPE(IPhotoInfo::Ptr)
 
 #endif // IPHOTO_INFO_HPP

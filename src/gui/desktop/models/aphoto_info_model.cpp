@@ -1,5 +1,5 @@
 /*
- * Base for models offering scalable decoration role.
+ * Base for models providing PhotoInfo.
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,51 +19,8 @@
 
 #include "aphoto_info_model.hpp"
 
-#include <core/task_executor.hpp>
 
-
-uint qHash(const APhotoInfoModel::Key& key)
-{
-    return qHash(key.index) + qHash(key.size.height()) + qHash(key.size.width());
-}
-
-namespace
-{
-    struct LoadPhoto: ITaskExecutor::ITask
-    {
-        LoadPhoto(const APhotoInfoModel::Key& key,
-                  const std::function< void(const APhotoInfoModel::Key &) >& callback):
-        m_key(key),
-        m_callback(callback)
-        {
-
-        }
-
-        LoadPhoto(const LoadPhoto &) = delete;
-
-        LoadPhoto& operator=(const LoadPhoto &) = delete;
-
-        virtual std::string name() const
-        {
-            return "LoadPhoto";
-        }
-
-        virtual void perform()
-        {
-            m_callback(m_key);
-        }
-
-        APhotoInfoModel::Key m_key;
-        std::function< void(const APhotoInfoModel::Key &) > m_callback;
-    };
-}
-
-
-APhotoInfoModel::APhotoInfoModel(QObject* p):
-    QAbstractItemModel(p),
-    m_cache(100000),            // ~100kb
-    m_callback_ctrl(),
-    m_taskExecutor(nullptr)
+APhotoInfoModel::APhotoInfoModel(QObject* p): QAbstractItemModel(p)
 {
 
 }
@@ -74,37 +31,15 @@ APhotoInfoModel::~APhotoInfoModel()
 
 }
 
-
-QImage APhotoInfoModel::getDecorationRole(const QModelIndex& idx, const QSize& size)
+QVariant APhotoInfoModel::data(const QModelIndex& idx, int role) const
 {
-    Key key(idx, size);
+    QVariant result;
 
-    QImage* img = m_cache.object(key);
-
-    if (img == 0)
+    if (role == PhotoInfoRole)
     {
-        using namespace std::placeholders;
-
-        auto callback = std::bind(&APhotoInfoModel::loadImage, this, _1);
-        auto safe_callback = m_callback_ctrl.make_safe_callback< void(const APhotoInfoModel::Key &) >(callback);
-
-        auto task = std::make_unique<LoadPhoto>(key, safe_callback);
-        m_taskExecutor->add(std::move(task));
+        IPhotoInfo::Ptr photoInfo = getPhotoInfo(idx);
+        result.setValue(photoInfo);
     }
 
-    return *img;
-}
-
-
-void APhotoInfoModel::set(ITaskExecutor* taskExecutor)
-{
-    m_taskExecutor = taskExecutor;
-}
-
-
-void APhotoInfoModel::loadImage(const APhotoInfoModel::Key& key)
-{
-    const QImage scaled = getImageFor(key.index, key.size);
-
-    // TODO: finish
+    return result;
 }

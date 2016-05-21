@@ -119,12 +119,10 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 }
 
 
-QImage DBDataModel::getImageFor(const QModelIndex& idx, const QSize& size)
+IPhotoInfo::Ptr DBDataModel::getPhotoInfo(const QModelIndex& idx) const
 {
-    assert(!"not implemented");
-    (void) idx;
-    (void) size;
-    return QImage();
+    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+    return idxData->m_photo;
 }
 
 

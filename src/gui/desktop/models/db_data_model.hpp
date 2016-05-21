@@ -90,8 +90,8 @@ class DBDataModel: public APhotoInfoModel
 
         bool isEmpty() const;
 
-        // AScalableImagesModel:
-        virtual QImage getImageFor(const QModelIndex&, const QSize &) override;
+        // APhotoInfoModel:
+        virtual IPhotoInfo::Ptr getPhotoInfo(const QModelIndex&) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;

@@ -1,5 +1,5 @@
 /*
- * Base for models offering scalable decoration role.
+ * Base for models providing PhotoInfo.
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,31 +21,15 @@
 #define ASCALABLEIMAGESMODEL_HPP
 
 #include <QAbstractItemModel>
-#include <QCache>
-#include <QImage>
+#include <database/iphoto_info.hpp>
 
-#include <core/callback_ptr.hpp>
 
 struct ITaskExecutor;
 
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        struct Key
-        {
-            QModelIndex index;
-            QSize size;
-
-            Key(const QModelIndex& k, const QSize& s): index(k), size(s) {}
-            Key(const Key &) = default;
-
-            Key& operator=(const Key &) = default;
-            bool operator==(const Key& other) const
-            {
-                return index == other.index &&
-                       size == other.size;
-            }
-        };
+        const int PhotoInfoRole = Qt::UserRole;
 
         APhotoInfoModel(QObject * = 0);
         APhotoInfoModel(const APhotoInfoModel &) = delete;
@@ -53,22 +37,11 @@ class APhotoInfoModel: public QAbstractItemModel
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
-        QImage getDecorationRole(const QModelIndex &, const QSize &);
-
-        void set(ITaskExecutor *);
-
-    protected:
-        // will be called from non-main thread
-        virtual QImage getImageFor(const QModelIndex &, const QSize &) = 0;
+        QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
 
     private:
-        QCache<Key, QImage> m_cache;
-        safe_callback_ctrl m_callback_ctrl;
-        ITaskExecutor* m_taskExecutor;
-
-        void loadImage(const Key &);
+        virtual IPhotoInfo::Ptr getPhotoInfo(const QModelIndex &) const = 0;
 };
 
-uint qHash(const APhotoInfoModel::Key& key);
 
 #endif // ASCALABLEIMAGESMODEL_HPP
