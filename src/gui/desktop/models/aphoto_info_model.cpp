@@ -17,12 +17,12 @@
  *
  */
 
-#include "ascalable_images_model.hpp"
+#include "aphoto_info_model.hpp"
 
 #include <core/task_executor.hpp>
 
 
-uint qHash(const AScalableImagesModel::Key& key)
+uint qHash(const APhotoInfoModel::Key& key)
 {
     return qHash(key.index) + qHash(key.size.height()) + qHash(key.size.width());
 }
@@ -31,8 +31,8 @@ namespace
 {
     struct LoadPhoto: ITaskExecutor::ITask
     {
-        LoadPhoto(const AScalableImagesModel::Key& key,
-                const std::function< void(const AScalableImagesModel::Key &) >& callback):
+        LoadPhoto(const APhotoInfoModel::Key& key,
+                  const std::function< void(const APhotoInfoModel::Key &) >& callback):
         m_key(key),
         m_callback(callback)
         {
@@ -53,13 +53,13 @@ namespace
             m_callback(m_key);
         }
 
-        AScalableImagesModel::Key m_key;
-        std::function< void(const AScalableImagesModel::Key &) > m_callback;
+        APhotoInfoModel::Key m_key;
+        std::function< void(const APhotoInfoModel::Key &) > m_callback;
     };
 }
 
 
-AScalableImagesModel::AScalableImagesModel(QObject* p):
+APhotoInfoModel::APhotoInfoModel(QObject* p):
     QAbstractItemModel(p),
     m_cache(100000),            // ~100kb
     m_callback_ctrl(),
@@ -69,13 +69,13 @@ AScalableImagesModel::AScalableImagesModel(QObject* p):
 }
 
 
-AScalableImagesModel::~AScalableImagesModel()
+APhotoInfoModel::~APhotoInfoModel()
 {
 
 }
 
 
-QImage AScalableImagesModel::getDecorationRole(const QModelIndex& idx, const QSize& size)
+QImage APhotoInfoModel::getDecorationRole(const QModelIndex& idx, const QSize& size)
 {
     Key key(idx, size);
 
@@ -85,8 +85,8 @@ QImage AScalableImagesModel::getDecorationRole(const QModelIndex& idx, const QSi
     {
         using namespace std::placeholders;
 
-        auto callback = std::bind(&AScalableImagesModel::loadImage, this, _1);
-        auto safe_callback = m_callback_ctrl.make_safe_callback< void(const AScalableImagesModel::Key &) >(callback);
+        auto callback = std::bind(&APhotoInfoModel::loadImage, this, _1);
+        auto safe_callback = m_callback_ctrl.make_safe_callback< void(const APhotoInfoModel::Key &) >(callback);
 
         auto task = std::make_unique<LoadPhoto>(key, safe_callback);
         m_taskExecutor->add(std::move(task));
@@ -96,13 +96,13 @@ QImage AScalableImagesModel::getDecorationRole(const QModelIndex& idx, const QSi
 }
 
 
-void AScalableImagesModel::set(ITaskExecutor* taskExecutor)
+void APhotoInfoModel::set(ITaskExecutor* taskExecutor)
 {
     m_taskExecutor = taskExecutor;
 }
 
 
-void AScalableImagesModel::loadImage(const AScalableImagesModel::Key& key)
+void APhotoInfoModel::loadImage(const APhotoInfoModel::Key& key)
 {
     const QImage scaled = getImageFor(key.index, key.size);
 

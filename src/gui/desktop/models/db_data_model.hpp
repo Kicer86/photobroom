@@ -24,7 +24,7 @@
 
 #include <database/idatabase.hpp>
 
-#include "ascalable_images_model.hpp"
+#include "aphoto_info_model.hpp"
 #include "model_types.hpp"
 
 struct ITaskExecutor;
@@ -59,7 +59,7 @@ struct Hierarchy
 };
 
 
-class DBDataModel: public AScalableImagesModel
+class DBDataModel: public APhotoInfoModel
 {
         friend class IdxDataManager;
 

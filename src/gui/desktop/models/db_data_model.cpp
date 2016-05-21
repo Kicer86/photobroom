@@ -78,7 +78,7 @@ const Hierarchy::Level& Hierarchy::getLeafsInfo() const
 //////////////////////////////////////
 
 
-DBDataModel::DBDataModel(QObject* p): AScalableImagesModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
+DBDataModel::DBDataModel(QObject* p): APhotoInfoModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
 {
     connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }

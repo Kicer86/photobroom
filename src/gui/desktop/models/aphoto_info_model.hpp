@@ -28,7 +28,7 @@
 
 struct ITaskExecutor;
 
-class AScalableImagesModel: public QAbstractItemModel
+class APhotoInfoModel: public QAbstractItemModel
 {
     public:
         struct Key
@@ -47,11 +47,11 @@ class AScalableImagesModel: public QAbstractItemModel
             }
         };
 
-        AScalableImagesModel(QObject * = 0);
-        AScalableImagesModel(const AScalableImagesModel &) = delete;
-        ~AScalableImagesModel();
+        APhotoInfoModel(QObject * = 0);
+        APhotoInfoModel(const APhotoInfoModel &) = delete;
+        ~APhotoInfoModel();
 
-        AScalableImagesModel& operator=(const AScalableImagesModel &) = delete;
+        APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
         QImage getDecorationRole(const QModelIndex &, const QSize &);
 
@@ -69,6 +69,6 @@ class AScalableImagesModel: public QAbstractItemModel
         void loadImage(const Key &);
 };
 
-uint qHash(const AScalableImagesModel::Key& key);
+uint qHash(const APhotoInfoModel::Key& key);
 
 #endif // ASCALABLEIMAGESMODEL_HPP
