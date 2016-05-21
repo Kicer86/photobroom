@@ -119,10 +119,10 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 }
 
 
-IPhotoInfo::Ptr DBDataModel::getPhotoInfo(const QModelIndex& idx) const
+IPhotoInfo* DBDataModel::getPhotoInfo(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    return idxData->m_photo;
+    return idxData->m_photo.get();
 }
 
 

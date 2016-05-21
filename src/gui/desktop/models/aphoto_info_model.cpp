@@ -37,8 +37,8 @@ QVariant APhotoInfoModel::data(const QModelIndex& idx, int role) const
 
     if (role == PhotoInfoRole)
     {
-        IPhotoInfo::Ptr photoInfo = getPhotoInfo(idx);
-        result.setValue(photoInfo);
+        IPhotoInfo* photoInfo = getPhotoInfo(idx);
+        result.setValue<void *>(photoInfo);
     }
 
     return result;

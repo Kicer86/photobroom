@@ -40,7 +40,7 @@ class APhotoInfoModel: public QAbstractItemModel
         QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
 
     private:
-        virtual IPhotoInfo::Ptr getPhotoInfo(const QModelIndex &) const = 0;
+        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const = 0;
 };
 
 

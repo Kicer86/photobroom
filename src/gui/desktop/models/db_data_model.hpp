@@ -91,7 +91,7 @@ class DBDataModel: public APhotoInfoModel
         bool isEmpty() const;
 
         // APhotoInfoModel:
-        virtual IPhotoInfo::Ptr getPhotoInfo(const QModelIndex&) const override;
+        virtual IPhotoInfo* getPhotoInfo(const QModelIndex&) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
