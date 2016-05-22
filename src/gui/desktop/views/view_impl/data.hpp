@@ -47,7 +47,7 @@ class Data
 
         void setSpacing(int);
         void setImageMargin(int);
-        void setThumbHeight(int);
+        void setThumbnailDesiredHeight(int);
 
         ModelIndexInfoSet::Model::iterator get(const QModelIndex &) const;            // Same as find(), but has assert inside. Use when result is not expected to be invalid.
         ModelIndexInfoSet::Model::const_iterator cfind(const QModelIndex &) const;
@@ -69,7 +69,7 @@ class Data
 
         int getSpacing() const;
         int getImageMargin() const;
-        int getThumbnailHeight() const;
+        int getThumbnailDesiredHeight() const;
 
         IConfiguration* getConfig();
 

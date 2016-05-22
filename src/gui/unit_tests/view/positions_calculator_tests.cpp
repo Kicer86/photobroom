@@ -127,12 +127,12 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 
     Data view_data;
     view_data.set(&model);
-    
+
     const int spacing = view_data.getSpacing();
     const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
-    const int thumb_h = view_data.getThumbnailHeight();
+    const int thumb_h = view_data.getThumbnailDesiredHeight();
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -193,7 +193,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
-    const int thumb_h = view_data.getThumbnailHeight();
+    const int thumb_h = view_data.getThumbnailDesiredHeight();
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -239,7 +239,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 
     Data view_data;
     view_data.set(&model);
-    view_data.setThumbHeight(img_h);
+    view_data.setThumbnailDesiredHeight(img_h);
 
     const int spacing = view_data.getSpacing();
     const int margin  = view_data.getImageMargin();
@@ -364,7 +364,7 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 
     Data data;
     data.set(&model);
-    data.setThumbHeight(50);
+    data.setThumbnailDesiredHeight(50);
 
     const int spacing = data.getSpacing();
 
@@ -411,7 +411,7 @@ TEST(PositionsCalculatorShould, HandleWideImages)
 
     Data data;
     data.set(&model);
-    data.setThumbHeight(50);
+    data.setThumbnailDesiredHeight(50);
 
     const int spacing = data.getSpacing();
     const int margin  = data.getImageMargin();
@@ -485,7 +485,7 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
-    const int thumb_h = view_data.getThumbnailHeight();
+    const int thumb_h = view_data.getThumbnailDesiredHeight();
     const int thumb_w = img_w * thumb_h/img_h;
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);

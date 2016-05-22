@@ -335,7 +335,7 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
     Data data;
     data.set(&model);
-    data.setThumbHeight(50);
+    data.setThumbnailDesiredHeight(50);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 

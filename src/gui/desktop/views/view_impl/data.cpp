@@ -90,7 +90,7 @@ void Data::setImageMargin(int margin)
 }
 
 
-void Data::setThumbHeight(int imgSize)
+void Data::setThumbnailDesiredHeight(int imgSize)
 {
     m_thumbHeight = imgSize;
 }
@@ -313,7 +313,7 @@ int Data::getImageMargin() const
 }
 
 
-int Data::getThumbnailHeight() const
+int Data::getThumbnailDesiredHeight() const
 {
     return m_thumbHeight;
 }
