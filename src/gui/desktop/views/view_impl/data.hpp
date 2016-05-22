@@ -69,6 +69,7 @@ class Data
 
         int getSpacing() const;
         int getImageMargin() const;
+        int getThumbnailHeight() const;
 
         IConfiguration* getConfig();
 

@@ -205,7 +205,7 @@ QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
 
     QSize result(w, h);
 
-    if (w > m_thumbHeight || h > m_thumbHeight)
+    if (w > m_thumbHeight || h > m_thumbHeight || h < m_thumbHeight)
     {
         const int t_h = m_thumbHeight;
         const int t_w = m_thumbHeight * r;
@@ -310,6 +310,12 @@ int Data::getSpacing() const
 int Data::getImageMargin() const
 {
     return m_margin;
+}
+
+
+int Data::getThumbnailHeight() const
+{
+    return m_thumbHeight;
 }
 
 
