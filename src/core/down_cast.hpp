@@ -12,5 +12,4 @@ T down_cast(R* base)
     return static_cast<T>(base);
 }
 
-
 #endif
