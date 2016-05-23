@@ -216,7 +216,7 @@ QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
 
     QSize result(w, h);
 
-    if (w > m_thumbHeight || h > m_thumbHeight || h < m_thumbHeight)
+    if (h != m_thumbHeight)
     {
         const int t_h = m_thumbHeight;
         const int t_w = m_thumbHeight * r;
