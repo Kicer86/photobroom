@@ -29,7 +29,11 @@ struct ITaskExecutor;
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        const int PhotoInfoRole = Qt::UserRole;
+        enum Roles
+        {
+            PhotoGeometry = Qt::UserRole,
+            LastRole = PhotoGeometry
+        };
 
         APhotoInfoModel(QObject * = 0);
         APhotoInfoModel(const APhotoInfoModel &) = delete;

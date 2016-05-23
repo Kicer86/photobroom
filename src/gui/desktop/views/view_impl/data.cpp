@@ -30,6 +30,7 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "positions_translator.hpp"
+#include "models/aphoto_info_model.hpp"
 
 
 namespace
@@ -71,7 +72,7 @@ Data::~Data()
 }
 
 
-void Data::set(QAbstractItemModel* model)
+void Data::set(APhotoInfoModel* model)
 {
     m_model = model;
     m_itemData->set(model);
@@ -194,12 +195,22 @@ QPixmap Data::getImage(typename ModelIndexInfoSet::Model::const_iterator it) con
 }
 
 
+QSize Data::getImageSize(ModelIndexInfoSet::Model::const_iterator it) const
+{
+    const QModelIndex idx = get(it);
+    const QVariant geometryRaw = m_model->data(idx, APhotoInfoModel::PhotoGeometry);
+    const QSize result = geometryRaw.toSize();
+
+    return result;
+}
+
+
 QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
 {
-    QPixmap image = getImage(it);
+    const QSize size = getImageSize(it);
 
-    const int w = image.width();
-    const int h = image.height();
+    const int w = size.width();
+    const int h = size.height();
 
     const double r = static_cast<double>(w) / h;
 

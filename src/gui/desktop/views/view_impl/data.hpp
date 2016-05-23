@@ -30,6 +30,7 @@
 #include "view_data_set.hpp"
 
 struct IConfiguration;
+class APhotoInfoModel;
 
 
 class Data
@@ -43,7 +44,7 @@ class Data
         ~Data();
         Data& operator=(const Data &) = delete;
 
-        void set(QAbstractItemModel *);
+        void set(APhotoInfoModel *);
 
         void setSpacing(int);
         void setImageMargin(int);
@@ -55,7 +56,8 @@ class Data
 
         ModelIndexInfoSet::Model::iterator get(const QPoint &) const;
         bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;
-        QPixmap getImage(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        [[deprecated]] QPixmap getImage(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        QSize getImageSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
         QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)>) const;
         QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
@@ -84,7 +86,7 @@ class Data
 
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
-        QAbstractItemModel* m_model;
+        APhotoInfoModel* m_model;
         IConfiguration* m_configuration;
         int m_spacing;
         int m_margin;

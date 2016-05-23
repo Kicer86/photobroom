@@ -35,10 +35,10 @@ QVariant APhotoInfoModel::data(const QModelIndex& idx, int role) const
 {
     QVariant result;
 
-    if (role == PhotoInfoRole)
+    if (role == PhotoGeometry)
     {
         IPhotoInfo* photoInfo = getPhotoInfo(idx);
-        result.setValue<void *>(photoInfo);
+        result = photoInfo->getGeometry();
     }
 
     return result;

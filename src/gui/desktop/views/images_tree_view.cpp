@@ -28,8 +28,10 @@
 #include <QMouseEvent>
 #include <QTimer>
 
+#include <core/down_cast.hpp>
 #include <core/time_guardian.hpp>
 
+#include "models/aphoto_info_model.hpp"
 #include "view_impl/data.hpp"
 #include "view_impl/positions_calculator.hpp"
 #include "view_impl/positions_reseter.hpp"
@@ -221,8 +223,10 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 }
 
 
-void ImagesTreeView::setModel(QAbstractItemModel* m)
+void ImagesTreeView::setModel(QAbstractItemModel* abstract_model)
 {
+    APhotoInfoModel* m = down_cast<APhotoInfoModel *>(abstract_model);
+
     //disconnect current model
     QAbstractItemModel* current_model = QAbstractItemView::model();
 
