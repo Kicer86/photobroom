@@ -63,7 +63,6 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 
     if (node)
     {
-
         const QVariant statusVariant = model->data(index, DBDataModel::NodeStatus);
 
         assert(statusVariant.canConvert<int>());
