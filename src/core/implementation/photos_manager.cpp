@@ -116,12 +116,12 @@ QImage PhotosManager::getThumbnail(const QString& path, int height) const
 
     const QString cleanPath = QDir().cleanPath(path);
 
-    const auto thumbnailKey = std::make_pair(path, height);
+    const auto thumbnailKey = std::make_pair(cleanPath, height);
     QImage* result = m_data->m_thumbnails.object(thumbnailKey);
 
     if (result == nullptr)
     {
-        QByteArray raw = getPhoto(path);
+        QByteArray raw = getPhoto(cleanPath);
 
         QImage* image = new QImage;
         image->loadFromData(raw);
