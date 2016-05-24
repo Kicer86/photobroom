@@ -76,27 +76,6 @@ QByteArray PhotosManager::getPhoto(const QString& path) const
 }
 
 
-QImage PhotosManager::getThumbnail(const QString& path) const
-{
-    QByteArray raw = getPhoto(path);
-
-    QImage image;
-    image.loadFromData(raw);
-
-    const int ih = image.height();
-
-    // TODO: remove constants, use settings?
-    const bool needs_resize = ih > 120;
-
-    // scale image so its height == 120
-    const QImage scaled = needs_resize?
-                          image.scaledToHeight(120, Qt::SmoothTransformation):
-                          image;
-
-    return scaled;
-}
-
-
 QImage PhotosManager::getThumbnail(const QString& path, int height) const
 {
     QByteArray raw = getPhoto(path);
