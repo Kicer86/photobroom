@@ -31,6 +31,7 @@ struct PhotosManager::Data
 {
     Data():
         m_mutex(),
+        m_thumbnails_mutex(),
         m_cache(64),
         m_thumbnails(256)
     {
@@ -38,6 +39,7 @@ struct PhotosManager::Data
     }
 
     std::mutex m_mutex;
+    std::mutex m_thumbnails_mutex;
     QCache<QString, QByteArray> m_cache;
     QCache< std::pair<QString, int>, QImage> m_thumbnails;
 };
@@ -112,7 +114,7 @@ QImage PhotosManager::getThumbnail(const QString& path) const
 
 QImage PhotosManager::getThumbnail(const QString& path, int height) const
 {
-    std::lock_guard<std::mutex> lock(m_data->m_mutex);
+    std::lock_guard<std::mutex> lock(m_data->m_thumbnails_mutex);
 
     const QString cleanPath = QDir().cleanPath(path);
 
