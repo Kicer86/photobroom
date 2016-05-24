@@ -125,13 +125,13 @@ QImage PhotosManager::getThumbnail(const QString& path, int height) const
     {
         QByteArray raw = getPhoto(cleanPath);
 
-        QImage* image = new QImage;
-        image->loadFromData(raw);
+        result = new QImage;
+        result->loadFromData(raw);
 
-        if (image->height() != height)
-            *image = image->scaledToHeight(height, Qt::SmoothTransformation);
+        if (result->height() != height)
+            *result = result->scaledToHeight(height, Qt::SmoothTransformation);
 
-        m_data->m_thumbnails.insert(thumbnailKey, image);
+        m_data->m_thumbnails.insert(thumbnailKey, result);
     }
 
     return *result;
