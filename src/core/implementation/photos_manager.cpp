@@ -95,3 +95,17 @@ QImage PhotosManager::getThumbnail(const QString& path) const
 
     return scaled;
 }
+
+
+QImage PhotosManager::getThumbnail(const QString& path, int height) const
+{
+    QByteArray raw = getPhoto(path);
+
+    QImage image;
+    image.loadFromData(raw);
+
+    if (image.height() != height)
+        image = image.scaledToHeight(height, Qt::SmoothTransformation);
+
+    return image;
+}
