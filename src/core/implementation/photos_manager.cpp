@@ -48,6 +48,7 @@ uint qHash(const std::pair<QString, int>& key, uint seed = 0)
     return qHash(key.first) ^ qHash(key.second) ^ seed;
 }
 
+
 PhotosManager::PhotosManager(): IPhotosManager(), m_data(new Data)
 {
 
@@ -72,7 +73,7 @@ QByteArray PhotosManager::getPhoto(const QString& path) const
 
     const QString cleanPath = QDir().cleanPath(path);
 
-    QByteArray* result = m_data->m_cache.object(path);
+    QByteArray* result = m_data->m_cache.object(cleanPath);
 
     if (result == nullptr)
     {
