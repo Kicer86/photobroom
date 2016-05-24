@@ -25,6 +25,7 @@
 #include <QAbstractItemDelegate>
 
 class ImagesTreeView;
+class IPhotosManager;
 
 class TreeItemDelegate: public QAbstractItemDelegate
 {
@@ -36,6 +37,7 @@ class TreeItemDelegate: public QAbstractItemDelegate
         TreeItemDelegate& operator=(const TreeItemDelegate &) = delete;
 
         void set(ImagesTreeView *);
+        void set(IPhotosManager *);
 
         void setNodeBackgroundEvenColor(const QColor &);
         void setNodeBackgroundOddColor(const QColor &);
@@ -45,9 +47,10 @@ class TreeItemDelegate: public QAbstractItemDelegate
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
     private:
-        ImagesTreeView* m_view;
         QColor m_backgroundEven;
         QColor m_backgroundOdd;
+        ImagesTreeView* m_view;
+        IPhotosManager* m_photosManager;
 
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
@@ -55,7 +58,7 @@ class TreeItemDelegate: public QAbstractItemDelegate
         QIcon::Mode iconMode(const QStyle::State &) const;
         QIcon::State iconState(const QStyle::State &) const;
 
-        QImage getImage(const QVariant &) const;
+        QImage getImage(const QString &, int) const;
 };
 
 #endif // TREEITEMDELEGATE_HPP

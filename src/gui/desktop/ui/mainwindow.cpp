@@ -175,6 +175,7 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::set(IPhotosManager* manager)
 {
+    ui->imagesView->set(manager);
     m_photosAnalyzer->set(manager);
     m_photosManager = manager;
 }

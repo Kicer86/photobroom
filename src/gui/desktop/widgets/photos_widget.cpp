@@ -99,6 +99,12 @@ void PhotosWidget::set(IConfiguration* configuration)
 }
 
 
+void PhotosWidget::set(IPhotosManager* photosManager)
+{
+    m_delegate->set(photosManager);
+}
+
+
 void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;

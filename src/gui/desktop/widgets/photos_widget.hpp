@@ -30,8 +30,9 @@ class QVBoxLayout;
 
 class PhotosItemDelegate;
 class DBDataModel;
-class InfoBaloonWidget;
-class ImagesTreeView;
+struct InfoBaloonWidget;
+struct ImagesTreeView;
+struct IPhotosManager;
 
 struct IConfiguration;
 
@@ -47,6 +48,7 @@ class PhotosWidget: public QWidget
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void set(IConfiguration *);
+        void set(IPhotosManager *);
         void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel();
