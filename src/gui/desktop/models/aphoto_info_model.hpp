@@ -32,7 +32,8 @@ class APhotoInfoModel: public QAbstractItemModel
         enum Roles
         {
             PhotoGeometry = Qt::UserRole,
-            LastRole = PhotoGeometry
+            PhotoPath = Qt::UserRole + 1,
+            LastRole = PhotoPath
         };
 
         APhotoInfoModel(QObject * = 0);
