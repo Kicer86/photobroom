@@ -31,7 +31,7 @@ struct PhotosManager::Data
 {
     Data():
         m_mutex(),
-        m_cache(16),
+        m_cache(64),
         m_thumbnails(256)
     {
 
