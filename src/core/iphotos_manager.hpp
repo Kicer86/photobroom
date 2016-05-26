@@ -14,7 +14,7 @@ struct IPhotosManager
     virtual QByteArray getPhoto(const QString& path) const = 0;
 
     [[deprecated]] virtual QImage getThumbnail(const QString& path) const = 0;
-    virtual QImage getThumbnail(const QString& path, int height) const = 0;
+    [[deprecated]] virtual QImage getThumbnail(const QString& path, int height) const = 0;
 };
 
 #endif
