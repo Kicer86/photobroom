@@ -24,7 +24,6 @@
 #include <QPainter>
 
 #include "images_tree_view.hpp"
-#include "models/aphoto_info_model.hpp"
 #include "utils/variant_display.hpp"
 #include <core/iphotos_manager.hpp>
 
@@ -112,10 +111,8 @@ void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
 
 void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
-    const QVariant photoPath = m->data(index, APhotoInfoModel::PhotoPath);
-    QImage image = getImage(photoPath.toString(), option.decorationSize.height());
+    QImage image = getImage(index, option.decorationSize);
     const QRect imageRect = image.rect();
     const int h_margin = (r.width()  - imageRect.width())  / 2;
     const int v_margin = (r.height() - imageRect.height()) / 2;
@@ -199,9 +196,24 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 }
 
 
-QImage TreeItemDelegate::getImage(const QString& path, int height) const
+QImage TreeItemDelegate::getImage(const QModelIndex& idx, const QSize &) const
 {
-    const QImage result; // = m_photosManager->getThumbnail(path, height);
+    QImage result;
+
+    const QAbstractItemModel* model = idx.model();
+    const QVariant variant = model->data(idx, Qt::DecorationRole);
+
+    switch (variant.type())
+    {
+        case QVariant::Image:
+            result = qvariant_cast<QImage>(variant);
+            break;
+
+        default:
+            assert(!"unhandled type");
+            result = qvariant_cast<QImage>(variant);
+            break;
+    }
 
     return result;
 }

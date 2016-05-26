@@ -44,6 +44,9 @@ class TreeItemDelegate: public QAbstractItemDelegate
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
+    protected:
+        virtual QImage getImage(const QModelIndex &, const QSize &) const;
+
     private:
         QColor m_backgroundEven;
         QColor m_backgroundOdd;
@@ -54,8 +57,6 @@ class TreeItemDelegate: public QAbstractItemDelegate
 
         QIcon::Mode iconMode(const QStyle::State &) const;
         QIcon::State iconState(const QStyle::State &) const;
-
-        QImage getImage(const QString &, int) const;
 };
 
 #endif // TREEITEMDELEGATE_HPP
