@@ -20,7 +20,12 @@
 #ifndef THUMBNAILGENERATOR_HPP
 #define THUMBNAILGENERATOR_HPP
 
+#include <mutex>
+
+#include <QCache>
+
 #include "ithumbnail_generator.hpp"
+
 
 class ThumbnailGenerator: public IThumbnailGenerator
 {
@@ -46,6 +51,10 @@ class ThumbnailCache: public IThumbnailCache
 
         void add(const ThumbnailInfo &, const QImage &) override;
         boost::optional<QImage> get(const ThumbnailInfo &) const override;
+
+    private:
+        mutable std::mutex m_cacheMutex;
+        QCache<ThumbnailInfo, QImage> m_cache;
 };
 
 #endif // THUMBNAILGENERATOR_HPP

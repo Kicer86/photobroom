@@ -32,6 +32,12 @@ struct ThumbnailInfo
 {
     QString path;
     int height;
+
+    bool operator==(const ThumbnailInfo& other) const
+    {
+        return path == other.path &&
+               height == other.height;
+    }
 };
 
 

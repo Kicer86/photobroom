@@ -20,6 +20,13 @@
 #include "thumbnail_generator.hpp"
 
 
+uint qHash(const ThumbnailInfo& key, uint seed = 0)
+{
+    return qHash(key.path) ^ qHash(key.height) ^ seed;
+}
+
+
+
 ThumbnailGenerator::ThumbnailGenerator()
 {
 
@@ -39,7 +46,9 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
 
 
 
-ThumbnailCache::ThumbnailCache()
+ThumbnailCache::ThumbnailCache():
+    m_cacheMutex(),
+    m_cache(256)
 {
 
 }
@@ -53,12 +62,23 @@ ThumbnailCache::~ThumbnailCache()
 
 void ThumbnailCache::add(const ThumbnailInfo& info, const QImage& img)
 {
+    std::lock_guard<std::mutex> lock(m_cacheMutex);
 
+    QImage* new_img = new QImage(img);
+
+    m_cache.insert(info, new_img);
 }
 
 
 boost::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
 {
+    boost::optional<QImage> result;
 
+    std::lock_guard<std::mutex> lock(m_cacheMutex);
+
+    if (m_cache.contains(info))
+        result = *m_cache[info];
+
+    return result;
 }
 
