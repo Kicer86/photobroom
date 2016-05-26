@@ -225,6 +225,7 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 
 void ImagesTreeView::setModel(QAbstractItemModel* abstract_model)
 {
+    // TODO: not nice. But what else can I do without writing own MVC?
     APhotoInfoModel* m = down_cast<APhotoInfoModel *>(abstract_model);
 
     //disconnect current model
