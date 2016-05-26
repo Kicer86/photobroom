@@ -17,16 +17,17 @@
  *
  */
 
+#include "photos_item_delegate.hpp"
+
+#include <QPainter>
 
 #include <configuration/iconfiguration.hpp>
 #include <core/down_cast.hpp>
 
-#include "photos_item_delegate.hpp"
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
 
 #include "models/db_data_model.hpp"
-#include <QPainter>
 
 
 PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
