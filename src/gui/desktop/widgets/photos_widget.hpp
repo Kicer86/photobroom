@@ -32,7 +32,6 @@ class PhotosItemDelegate;
 class DBDataModel;
 struct InfoBaloonWidget;
 struct ImagesTreeView;
-struct IPhotosManager;
 
 struct IConfiguration;
 
@@ -48,7 +47,6 @@ class PhotosWidget: public QWidget
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void set(IConfiguration *);
-        void set(IPhotosManager *);
         void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel();

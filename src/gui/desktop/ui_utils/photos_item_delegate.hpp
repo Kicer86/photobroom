@@ -37,7 +37,6 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
         PhotosItemDelegate& operator=(const PhotosItemDelegate &) = delete;
 
         void set(IConfiguration *);
-        using TreeItemDelegate::set;
 
         // TreeItemDelegate:
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;

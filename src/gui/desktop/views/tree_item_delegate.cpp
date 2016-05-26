@@ -33,8 +33,7 @@ TreeItemDelegate::TreeItemDelegate(QObject* p):
     QAbstractItemDelegate(p),
     m_backgroundEven(QColor(0, 0, 0, 0)),
     m_backgroundOdd(QColor(0, 0, 0, 0)),
-    m_view(nullptr),
-    m_photosManager(nullptr)
+    m_view(nullptr)
 {
 
 }
@@ -44,8 +43,7 @@ TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view):
     QAbstractItemDelegate(view),
     m_backgroundEven(QColor(0, 0, 0, 0)),
     m_backgroundOdd(QColor(0, 0, 0, 0)),
-    m_view(view),
-    m_photosManager(nullptr)
+    m_view(view)
 {
 
 }
@@ -60,12 +58,6 @@ TreeItemDelegate::~TreeItemDelegate()
 void TreeItemDelegate::set(ImagesTreeView* view)
 {
     m_view = view;
-}
-
-
-void TreeItemDelegate::set(IPhotosManager* manager)
-{
-    m_photosManager = manager;
 }
 
 
@@ -209,7 +201,7 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 
 QImage TreeItemDelegate::getImage(const QString& path, int height) const
 {
-    const QImage result = m_photosManager->getThumbnail(path, height);
+    const QImage result; // = m_photosManager->getThumbnail(path, height);
 
     return result;
 }
