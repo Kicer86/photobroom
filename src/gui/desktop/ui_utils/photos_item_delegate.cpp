@@ -58,6 +58,8 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 
     // decorate node with its status
     const QAbstractItemModel* m = index.model();
+
+    //TODO: ugly casting !
     const DBDataModel* model = down_cast<const DBDataModel *>(m);
     const bool node = (option.features & QStyleOptionViewItem::HasDecoration) == 0;
 
