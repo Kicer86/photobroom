@@ -30,6 +30,8 @@ class ThumbnailGenerator: public IThumbnailGenerator
         ~ThumbnailGenerator();
 
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
+
+        void generateThumbnail(const ThumbnailInfo &, const Callback &) override;
 };
 
 
@@ -41,6 +43,9 @@ class ThumbnailCache: public IThumbnailCache
         ~ThumbnailCache();
 
         ThumbnailCache& operator=(const ThumbnailCache &) = delete;
+
+        void add(const ThumbnailInfo &, const QImage &) override;
+        boost::optional<QImage> get(const ThumbnailInfo &) const override;
 };
 
 #endif // THUMBNAILGENERATOR_HPP

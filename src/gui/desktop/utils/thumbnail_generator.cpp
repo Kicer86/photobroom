@@ -19,6 +19,7 @@
 
 #include "thumbnail_generator.hpp"
 
+
 ThumbnailGenerator::ThumbnailGenerator()
 {
 
@@ -29,3 +30,35 @@ ThumbnailGenerator::~ThumbnailGenerator()
 {
 
 }
+
+
+void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback)
+{
+
+}
+
+
+
+ThumbnailCache::ThumbnailCache()
+{
+
+}
+
+
+ThumbnailCache::~ThumbnailCache()
+{
+
+}
+
+
+void ThumbnailCache::add(const ThumbnailInfo& info, const QImage& img)
+{
+
+}
+
+
+boost::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
+{
+
+}
+
