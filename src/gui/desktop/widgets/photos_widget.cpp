@@ -35,6 +35,8 @@
 
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
+    m_thumbnailGenerator(),
+    m_thumbnailCache(),
     m_timer(),
     m_model(nullptr),
     m_view(nullptr),

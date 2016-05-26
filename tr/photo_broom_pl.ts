@@ -438,7 +438,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+52"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+54"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>

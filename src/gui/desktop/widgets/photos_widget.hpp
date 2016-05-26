@@ -23,6 +23,9 @@
 #include <QWidget>
 #include <QTimer>
 
+#include "utils/thumbnail_generator.hpp"
+
+
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
@@ -55,6 +58,8 @@ class PhotosWidget: public QWidget
 
     private:
         QTimer m_timer;
+        ThumbnailGenerator m_thumbnailGenerator;
+        ThumbnailCache m_thumbnailCache;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
