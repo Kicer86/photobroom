@@ -100,6 +100,12 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 }
 
 
+QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
+{
+    return TreeItemDelegate::getImage(idx, size);
+}
+
+
 void PhotosItemDelegate::readConfig()
 {
     if (m_config != nullptr)

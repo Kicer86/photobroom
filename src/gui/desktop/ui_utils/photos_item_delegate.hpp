@@ -40,6 +40,7 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 
         // TreeItemDelegate:
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+        QImage getImage(const QModelIndex &, const QSize &) const override;
 
     private:
         IConfiguration* m_config;
