@@ -20,8 +20,12 @@
 #ifndef ITHUMBNAILSGENERATOR_HPP
 #define ITHUMBNAILSGENERATOR_HPP
 
+#include <functional>
+
 #include <QImage>
 #include <QString>
+
+#include <boost/optional.hpp>
 
 
 struct ThumbnailInfo
@@ -30,11 +34,14 @@ struct ThumbnailInfo
     int height;
 };
 
+
 struct IThumbnailGenerator
 {
+    typedef std::function<void(const ThumbnailInfo &, const QImage &)> Callback;
+
     virtual ~IThumbnailGenerator() {}
 
-    virtual void generateThumbnail(const ThumbnailInfo &) = 0;
+    virtual void generateThumbnail(const ThumbnailInfo &, const Callback &) = 0;
 };
 
 
@@ -42,9 +49,8 @@ struct IThumbnailCache
 {
     virtual ~IThumbnailCache() {}
 
-    virtual void has(const ThumbnailInfo &) const = 0;
+    virtual boost::optional<QImage> get(const ThumbnailInfo &) const = 0;
     virtual void add(const ThumbnailInfo &, const QImage &) = 0;
-    virtual QImage get(const ThumbnailInfo &) const = 0;
 };
 
 #endif // ITHUMBNAILSGENERATOR_HPP
