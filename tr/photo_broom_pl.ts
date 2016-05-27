@@ -425,7 +425,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+79"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+81"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>
@@ -438,7 +438,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+54"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+52"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>

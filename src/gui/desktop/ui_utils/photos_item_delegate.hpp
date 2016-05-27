@@ -23,6 +23,7 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "desktop/views/tree_item_delegate.hpp"
+#include "utils/thumbnail_generator.hpp"
 
 
 class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
@@ -43,6 +44,8 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
         QImage getImage(const QModelIndex &, const QSize &) const override;
 
     private:
+        ThumbnailGenerator m_thumbnailGenerator;
+        ThumbnailCache m_thumbnailCache;
         IConfiguration* m_config;
 
         void readConfig();

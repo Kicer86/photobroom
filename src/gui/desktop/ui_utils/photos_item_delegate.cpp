@@ -32,6 +32,8 @@
 
 PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
     TreeItemDelegate(view),
+    m_thumbnailGenerator(),
+    m_thumbnailCache(),
     m_config(config)
 {
     readConfig();
@@ -102,6 +104,12 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 
 QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
 {
+    const QAbstractItemModel* model = idx.model();
+    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);
+
+    QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
+
+
     return TreeItemDelegate::getImage(idx, size);
 }
 
