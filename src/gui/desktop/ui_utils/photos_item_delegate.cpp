@@ -142,7 +142,6 @@ void PhotosItemDelegate::setupOddColor(const QVariant& v)
 }
 
 
-
 void PhotosItemDelegate::configChanged(const QString& entry, const QVariant& value)
 {
     if (entry == ViewConfigKeys::bkg_color_even)
