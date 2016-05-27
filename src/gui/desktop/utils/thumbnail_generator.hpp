@@ -1,5 +1,5 @@
 /*
- * Thumbnails generator and catcher.
+ * Low level thumbnails generator and catcher.
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
