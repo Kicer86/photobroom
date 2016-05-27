@@ -24,6 +24,7 @@
 
 #include "desktop/views/tree_item_delegate.hpp"
 #include "utils/thumbnail_generator.hpp"
+#include "utils/thumbnail_acquisitor.hpp"
 
 
 class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
@@ -46,6 +47,7 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
     private:
         ThumbnailGenerator m_thumbnailGenerator;
         ThumbnailCache m_thumbnailCache;
+        ThumbnailAcquisitor m_thumbnailAcquisitor;
         IConfiguration* m_config;
 
         void readConfig();

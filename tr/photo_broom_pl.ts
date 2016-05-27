@@ -425,7 +425,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+81"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+85"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>

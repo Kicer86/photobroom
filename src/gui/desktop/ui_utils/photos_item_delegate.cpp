@@ -34,9 +34,13 @@ PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* con
     TreeItemDelegate(view),
     m_thumbnailGenerator(),
     m_thumbnailCache(),
+    m_thumbnailAcquisitor(&m_thumbnailGenerator, &m_thumbnailCache),
     m_config(config)
 {
     readConfig();
+
+    const QImage image = QImage(":/gui/clock-img.svg");
+    m_thumbnailAcquisitor.setInProgressThumbnail(image);
 }
 
 
@@ -106,11 +110,13 @@ QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) c
 {
     const QAbstractItemModel* model = idx.model();
     const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);
+    const QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
+    const QString photoPath = photoPathRaw.toString();
 
-    QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
+    const ThumbnailInfo info = {photoPath, size.height()};
+    const QImage image = m_thumbnailAcquisitor.getThumbnail(info);
 
-
-    return TreeItemDelegate::getImage(idx, size);
+    return image;
 }
 
 
