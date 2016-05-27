@@ -24,25 +24,33 @@
 
 #include <QImage>
 
-struct IThumbnailCache;
-struct IThumbnailGenerator;
+#include "ithumbnail_generator.hpp"
 
 
 class ThumbnailAcquisitor
 {
     public:
+        typedef std::function<void(const ThumbnailInfo &, const QImage &)> Observer;
+
         ThumbnailAcquisitor(IThumbnailGenerator *, IThumbnailCache *);
         ThumbnailAcquisitor(const ThumbnailAcquisitor &) = delete;
         ~ThumbnailAcquisitor();
         ThumbnailAcquisitor& operator=(const ThumbnailAcquisitor &) = delete;
 
         void setInProgressThumbnail(const QImage &);
+        void setObserver(const Observer &);
+
+        QImage getThumbnail(const ThumbnailInfo &) const;
 
     private:
+        std::vector<Observer> m_observers;
+        IThumbnailGenerator::Callback m_callback;
         QImage m_inProgress;
-        std::mutex m_cacheAccessMutex;
+        mutable std::mutex m_cacheAccessMutex;
         IThumbnailGenerator* m_generator;
         IThumbnailCache* m_cache;
+
+        void gotThumbnail(const ThumbnailInfo &, const QImage &);
 };
 
 #endif // THUMBNAILACQUISITOR_HPP
