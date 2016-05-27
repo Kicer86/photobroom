@@ -44,13 +44,12 @@ class ThumbnailAcquisitor
 
     private:
         std::vector<Observer> m_observers;
-        IThumbnailGenerator::Callback m_callback;
         QImage m_inProgress;
         mutable std::mutex m_cacheAccessMutex;
         IThumbnailGenerator* m_generator;
         IThumbnailCache* m_cache;
 
-        void gotThumbnail(const ThumbnailInfo &, const QImage &);
+        void gotThumbnail(const ThumbnailInfo &, const QImage &) const;
 };
 
 #endif // THUMBNAILACQUISITOR_HPP

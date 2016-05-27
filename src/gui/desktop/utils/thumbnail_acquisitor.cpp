@@ -22,13 +22,12 @@
 
 ThumbnailAcquisitor::ThumbnailAcquisitor(IThumbnailGenerator* generator, IThumbnailCache* cache):
     m_observers(),
-    m_callback(),
     m_inProgress(),
     m_cacheAccessMutex(),
     m_generator(generator),
     m_cache(cache)
 {
-    m_callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
+
 }
 
 
@@ -66,14 +65,15 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
         // so new requsts for it will not call generation
         m_cache->add(info, m_inProgress);
 
-        m_generator->generateThumbnail(info, m_callback);
+        auto callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
+        m_generator->generateThumbnail(info, callback);
     }
 
     return result;
 }
 
 
-void ThumbnailAcquisitor::gotThumbnail(const ThumbnailInfo& info, const QImage& image)
+void ThumbnailAcquisitor::gotThumbnail(const ThumbnailInfo& info, const QImage& image) const
 {
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
