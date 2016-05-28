@@ -109,7 +109,7 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
 {
     const QAbstractItemModel* model = idx.model();
-    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);
+    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
     const QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
     const QString photoPath = photoPathRaw.toString();
 
