@@ -21,18 +21,18 @@
 
 #include <cassert>
 
-#include <QCache>
 #include <QPainter>
 
 #include "images_tree_view.hpp"
 #include "utils/variant_display.hpp"
+#include <core/iphotos_manager.hpp>
 
 
 TreeItemDelegate::TreeItemDelegate(QObject* p):
     QAbstractItemDelegate(p),
-    m_view(nullptr),
     m_backgroundEven(QColor(0, 0, 0, 0)),
-    m_backgroundOdd(QColor(0, 0, 0, 0))
+    m_backgroundOdd(QColor(0, 0, 0, 0)),
+    m_view(nullptr)
 {
 
 }
@@ -40,9 +40,9 @@ TreeItemDelegate::TreeItemDelegate(QObject* p):
 
 TreeItemDelegate::TreeItemDelegate(ImagesTreeView* view):
     QAbstractItemDelegate(view),
-    m_view(view), 
     m_backgroundEven(QColor(0, 0, 0, 0)),
-    m_backgroundOdd(QColor(0, 0, 0, 0))
+    m_backgroundOdd(QColor(0, 0, 0, 0)),
+    m_view(view)
 {
 
 }
@@ -111,10 +111,8 @@ void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
 
 void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QAbstractItemModel* m = index.model();
     const QRect& r = option.rect;
-    const QVariant v = m->data(index, Qt::DecorationRole);
-    QImage image = getImage(v);
+    QImage image = getImage(index, option.decorationSize);
     const QRect imageRect = image.rect();
     const int h_margin = (r.width()  - imageRect.width())  / 2;
     const int v_margin = (r.height() - imageRect.height()) / 2;
@@ -198,17 +196,18 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 }
 
 
-QImage TreeItemDelegate::getImage(const QVariant& variant) const
+QImage TreeItemDelegate::getImage(const QModelIndex& idx, const QSize &) const
 {
     QImage result;
+
+    const QAbstractItemModel* model = idx.model();
+    const QVariant variant = model->data(idx, Qt::DecorationRole);
 
     switch (variant.type())
     {
         case QVariant::Image:
-        {
             result = qvariant_cast<QImage>(variant);
             break;
-        }
 
         default:
             assert(!"unhandled type");

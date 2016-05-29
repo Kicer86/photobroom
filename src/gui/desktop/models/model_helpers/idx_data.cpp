@@ -23,6 +23,8 @@
 
 #include <QPixmap>
 #include <QVariant>
+#include <QDirIterator>
+#include <QDebug>
 
 #include <database/iphoto_info.hpp>
 
@@ -311,7 +313,7 @@ IdxData* IdxData::findChildWithBadPosition() const
     IdxData* result = nullptr;
 
     for(size_t i = 1; i < m_children.size(); i++)
-        if (comparer(m_children[i -1], m_children[i]) == false)
+        if (comparer(m_children[i - 1], m_children[i]) == false)
         {
             result = m_children[i - 1];
             break;
@@ -348,8 +350,11 @@ IdxData::IdxData(IdxDataManager* model) :
 
 void IdxData::updateLeafData()
 {
+    QImage img;
+    img.load(":/gui/clock.svg");
+
     m_data[Qt::DisplayRole] = m_photo->getPath();
-    m_data[Qt::DecorationRole] = m_photo->getThumbnail();
+    m_data[Qt::DecorationRole] = img;
 }
 
 

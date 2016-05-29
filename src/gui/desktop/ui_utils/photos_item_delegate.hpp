@@ -24,6 +24,7 @@
 
 #include "desktop/views/tree_item_delegate.hpp"
 
+struct IThumbnailAcquisitor;
 
 class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 {
@@ -36,12 +37,15 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 
         PhotosItemDelegate& operator=(const PhotosItemDelegate &) = delete;
 
+        void set(IThumbnailAcquisitor *);
         void set(IConfiguration *);
 
         // TreeItemDelegate:
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+        QImage getImage(const QModelIndex &, const QSize &) const override;
 
     private:
+        IThumbnailAcquisitor* m_thumbnailAcquisitor;
         IConfiguration* m_config;
 
         void readConfig();

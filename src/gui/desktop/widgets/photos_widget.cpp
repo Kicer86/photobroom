@@ -36,16 +36,23 @@
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
+    m_thumbnailAcquisitor(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr)
 {
+    auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, std::placeholders::_1, std::placeholders::_2);
+    const QImage image(":/gui/clock.svg");
+    m_thumbnailAcquisitor.setInProgressThumbnail(image);
+    m_thumbnailAcquisitor.setObserver(thumbUpdate);
+
     // photos view
     m_view = new ImagesTreeView(this);
     m_delegate = new PhotosItemDelegate(m_view);
 
+    m_delegate->set(&m_thumbnailAcquisitor);
     m_view->setItemDelegate(m_delegate);
 
     // search panel
@@ -78,12 +85,26 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
+
+    connect(this, &PhotosWidget::performUpdate, m_view, &ImagesTreeView::refreshView, Qt::QueuedConnection);
 }
 
 
 PhotosWidget::~PhotosWidget()
 {
 
+}
+
+
+void PhotosWidget::set(ITaskExecutor* executor)
+{
+    m_thumbnailAcquisitor.set(executor);
+}
+
+
+void PhotosWidget::set(IPhotosManager* manager)
+{
+    m_thumbnailAcquisitor.set(manager);
 }
 
 
@@ -140,4 +161,11 @@ void PhotosWidget::applySearchExpression()
     const QString search = m_searchExpression->text();
 
     m_model->applyFilters(search);
+}
+
+
+void PhotosWidget::thumbnailUpdated(const ThumbnailInfo &, const QImage &)
+{
+    // TODO: do it smarter (find QModelIndex for provided info)
+    emit performUpdate();
 }

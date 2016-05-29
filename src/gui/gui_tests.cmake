@@ -12,7 +12,7 @@ set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_hel
 set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp PROPERTIES GENERATED TRUE)
 
 set(SRC
-        desktop/models/ascalable_images_model.cpp
+        desktop/models/aphoto_info_model.cpp
         desktop/models/db_data_model.cpp
         desktop/models/model_helpers/idx_data.cpp
         desktop/models/model_helpers/idx_data_manager.cpp

@@ -108,7 +108,7 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
 void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
 {
     //invalidate parent if expanded
-    Data::ModelIndexInfoSet::level_iterator infoIt = m_data->find(parent);
+    Data::ModelIndexInfoSet::Model::level_iterator infoIt = m_data->find(parent);
 
     if (infoIt.valid())
     {
@@ -117,7 +117,7 @@ void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
             invalidateItemOverallSize(parent);
 
         //invalidate all items which are after 'pos'
-        for(Data::ModelIndexInfoSet::level_iterator it = infoIt.begin() + pos; it.valid(); ++it)
+        for(Data::ModelIndexInfoSet::Model::level_iterator it = infoIt.begin() + pos; it.valid(); ++it)
             resetPosition(it);
     }
 }
@@ -146,7 +146,7 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
         for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
         {
             // if 'sibling' is invalid, all after it are invalid also
-            Data::ModelIndexInfoSet::iterator siblingIt = m_data->find(sibling);
+            Data::ModelIndexInfoSet::Model::iterator siblingIt = m_data->find(sibling);
             if (siblingIt->valid() == false)
                 break;
 
@@ -168,7 +168,7 @@ void PositionsReseter::invalidateSiblingsPosition(const QModelIndex& idx) const
         for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
         {
             // if 'sibling' is invalid, all after it are invalid also
-            Data::ModelIndexInfoSet::iterator siblingIt = m_data->find(sibling);
+            Data::ModelIndexInfoSet::Model::iterator siblingIt = m_data->find(sibling);
             if (siblingIt->valid() == false)
                 break;
 
@@ -193,7 +193,7 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int fro
 
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {
@@ -205,7 +205,7 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
 
 void PositionsReseter::resetPosition(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {
@@ -217,7 +217,7 @@ void PositionsReseter::resetPosition(const QModelIndex& idx) const
 
 void PositionsReseter::resetSize(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {
@@ -229,7 +229,7 @@ void PositionsReseter::resetSize(const QModelIndex& idx) const
 
 void PositionsReseter::resetOverallSize(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(idx);
+    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
 
     if (infoIt.valid())
     {
@@ -239,13 +239,13 @@ void PositionsReseter::resetOverallSize(const QModelIndex& idx) const
 }
 
 
-void PositionsReseter::resetPosition(Data::ModelIndexInfoSet::level_iterator it) const
+void PositionsReseter::resetPosition(Data::ModelIndexInfoSet::Model::iterator it) const
 {
     it->markPositionInvalid();
 }
 
 
-void PositionsReseter::resetSize(Data::ModelIndexInfoSet::level_iterator it) const
+void PositionsReseter::resetSize(Data::ModelIndexInfoSet::Model::iterator it) const
 {
     it->markSizeInvalid();
 }

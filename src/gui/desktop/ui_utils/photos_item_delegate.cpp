@@ -17,20 +17,23 @@
  *
  */
 
+#include "photos_item_delegate.hpp"
+
+#include <QPainter>
 
 #include <configuration/iconfiguration.hpp>
 #include <core/down_cast.hpp>
 
-#include "photos_item_delegate.hpp"
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
+#include "utils/ithumbnail_acquisitor.hpp"
 
 #include "models/db_data_model.hpp"
-#include <QPainter>
 
 
 PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
     TreeItemDelegate(view),
+    m_thumbnailAcquisitor(),
     m_config(config)
 {
     readConfig();
@@ -40,6 +43,12 @@ PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* con
 PhotosItemDelegate::~PhotosItemDelegate()
 {
 
+}
+
+
+void PhotosItemDelegate::set(IThumbnailAcquisitor* acquisitor)
+{
+    m_thumbnailAcquisitor = acquisitor;
 }
 
 
@@ -58,12 +67,13 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 
     // decorate node with its status
     const QAbstractItemModel* m = index.model();
+
+    //TODO: ugly casting ! Issue #177 on github
     const DBDataModel* model = down_cast<const DBDataModel *>(m);
     const bool node = (option.features & QStyleOptionViewItem::HasDecoration) == 0;
 
     if (node)
     {
-
         const QVariant statusVariant = model->data(index, DBDataModel::NodeStatus);
 
         assert(statusVariant.canConvert<int>());
@@ -98,6 +108,20 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 }
 
 
+QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
+{
+    const QAbstractItemModel* model = idx.model();
+    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
+    const QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
+    const QString photoPath = photoPathRaw.toString();
+
+    const ThumbnailInfo info = {photoPath, size.height()};
+    const QImage image = m_thumbnailAcquisitor->getThumbnail(info);
+
+    return image;
+}
+
+
 void PhotosItemDelegate::readConfig()
 {
     if (m_config != nullptr)
@@ -124,7 +148,6 @@ void PhotosItemDelegate::setupOddColor(const QVariant& v)
 
     setNodeBackgroundOddColor(oddQColor);
 }
-
 
 
 void PhotosItemDelegate::configChanged(const QString& entry, const QVariant& value)

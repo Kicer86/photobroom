@@ -108,6 +108,7 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::set(ITaskExecutor* taskExecutor)
 {
+    ui->imagesView->set(taskExecutor);
     m_imagesModel->set(taskExecutor);
     m_photosAnalyzer->set(taskExecutor);
 
@@ -175,7 +176,9 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::set(IPhotosManager* manager)
 {
+    ui->imagesView->set(manager);
     m_photosAnalyzer->set(manager);
+    
     m_photosManager = manager;
 }
 
@@ -317,9 +320,9 @@ void MainWindow::updateMenus()
         QAction* action = ui->menuOpen_recent->addAction(entry);
         connect(action, &QAction::triggered, [=]
         {
-            const ProjectInfo prj(entry);
+            const ProjectInfo prjInfo(entry);
 
-            openProject(prj);
+            openProject(prjInfo);
         });
     }
 }
@@ -503,7 +506,6 @@ void MainWindow::on_actionScan_collection_triggered()
     if (status == QDialog::Accepted)
     {
         const std::set<QString>& photos = scanner.newPhotos();
-        Database::IDatabase* db = m_currentPrj->getDatabase();
 
         db->store(photos);
     }

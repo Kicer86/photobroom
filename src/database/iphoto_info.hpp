@@ -54,14 +54,14 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual Photo::Data            data() const = 0;
     virtual const QString          getPath() const = 0;
     virtual const Tag::TagsList    getTags() const = 0;       // access to tags
-    virtual const QImage           getThumbnail() const = 0;  // a temporary thumbnail may be returned when final one is not yet generated.
+    virtual const QSize            getGeometry() const = 0;   // get photo geometry
     virtual const Photo::Sha256sum getSha256() const = 0;     // Do not call until isSha256Loaded()
     virtual Photo::Id              getID() const = 0;
 
     //status checking
     virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)
     virtual bool isSha256Loaded() const = 0;                // returns true if sha256 is not null
-    virtual bool isThumbnailLoaded() const = 0;             // returns true if thumbnail is loaded
+    virtual bool isGeometryLoaded() const = 0;              // returns true if geometry is not null
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
     //observers
@@ -70,9 +70,9 @@ struct DATABASE_EXPORT IPhotoInfo
 
     //setting data
     virtual void setSha256(const Photo::Sha256sum &) = 0;
-    virtual void setThumbnail(const QImage &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags
     virtual void setTag(const TagNameInfo &, const TagValue &) = 0;   // set tag
+    virtual void setGeometry(const QSize &) = 0;
 
     //flags
     virtual void markFlag(Photo::FlagsE, int) = 0;
@@ -82,6 +82,5 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual void invalidate() = 0;                          // mark photo as dropped (with no equivalent in db)
     virtual bool isValid() = 0;
 };
-
 
 #endif // IPHOTO_INFO_HPP

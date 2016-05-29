@@ -1,6 +1,6 @@
 /*
- * Actions to be performed on set of photos.
- * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Base for models providing PhotoInfo.
+ * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +17,34 @@
  *
  */
 
-#include "action.hpp"
+#include "aphoto_info_model.hpp"
 
 
-namespace Database
+APhotoInfoModel::APhotoInfoModel(QObject* p): QAbstractItemModel(p)
 {
 
-    IAction::~IAction()
-    {
+}
 
+
+APhotoInfoModel::~APhotoInfoModel()
+{
+
+}
+
+QVariant APhotoInfoModel::data(const QModelIndex& idx, int role) const
+{
+    QVariant result;
+
+    if (role == PhotoPath)
+    {
+        IPhotoInfo* photoInfo = getPhotoInfo(idx);
+        result = photoInfo->getPath();
+    }
+    else if (role == PhotoGeometry)
+    {
+        IPhotoInfo* photoInfo = getPhotoInfo(idx);
+        result = photoInfo->getGeometry();
     }
 
-
-    IActionVisitor::~IActionVisitor()
-    {
-
-    }
-
-
-    ModifyFlagAction::ModifyFlagAction(): flags()
-    {
-
-    }
-
-
-    ModifyFlagAction::~ModifyFlagAction()
-    {
-
-    }
-
+    return result;
 }

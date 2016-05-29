@@ -39,7 +39,7 @@ namespace Photo
         tags(),
         flags(),
         path(),
-        thumbnail()
+        geometry()
     {
 
     }

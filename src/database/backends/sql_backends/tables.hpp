@@ -11,11 +11,13 @@
 #define TAB_THUMBS     "thumbnails"
 #define TAB_SHA256SUMS "sha256sums"
 #define TAB_FLAGS      "flags"
+#define TAB_GEOMETRY   "geometry"
 
 #define FLAG_STAGING_AREA  "staging_area"
 #define FLAG_TAGS_LOADED   "tags_loaded"
 #define FLAG_SHA256_LOADED "sha256_loaded"
 #define FLAG_THUMB_LOADED  "thumbnail_loaded"
+#define FLAG_GEOM_LOADED   "geometry_loaded"
 
 namespace Database
 {

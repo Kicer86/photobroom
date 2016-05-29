@@ -4,7 +4,7 @@
 #include <memory>
 #include <mutex>
 
-#include <QImage>
+#include <QImageReader>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
@@ -38,10 +38,9 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 {
     m_data->path = p;
 
-    //default values
-    QImage tmpThumbnail;
-    tmpThumbnail.load(":/core/images/clock.svg");             //use temporary thumbnail until final one is ready
-    m_data->m_data.lock()->thumbnail = tmpThumbnail;
+    const QImageReader reader(p);
+    m_data->m_data.lock()->geometry = reader.size();
+    markFlag(Photo::FlagsE::GeometryLoaded, 1);
 
     markFlag(Photo::FlagsE::StagingArea, 1);
 }
@@ -78,9 +77,9 @@ const Tag::TagsList PhotoInfo::getTags() const
 }
 
 
-const QImage PhotoInfo::getThumbnail() const
+const QSize PhotoInfo::getGeometry() const
 {
-    return m_data->m_data.lock()->thumbnail;
+    return m_data->m_data.lock()->geometry;
 }
 
 
@@ -100,7 +99,7 @@ Photo::Id PhotoInfo::getID() const
 
 bool PhotoInfo::isFullyInitialized() const
 {
-    return isSha256Loaded() && isThumbnailLoaded() && isExifDataLoaded();
+    return isSha256Loaded() && isExifDataLoaded() && isGeometryLoaded();
 }
 
 
@@ -110,9 +109,9 @@ bool PhotoInfo::isSha256Loaded() const
 }
 
 
-bool PhotoInfo::isThumbnailLoaded() const
+bool PhotoInfo::isGeometryLoaded() const
 {
-    return getFlag(Photo::FlagsE::ThumbnailLoaded) > 0;
+    return getFlag(Photo::FlagsE::GeometryLoaded) > 0;
 }
 
 
@@ -145,12 +144,12 @@ void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
 }
 
 
-void PhotoInfo::setThumbnail(const QImage& thumbnail)
+void PhotoInfo::setGeometry(const QSize& geometry)
 {
-    assert(isThumbnailLoaded() == false);
+    assert(isGeometryLoaded() == false);
 
-    m_data->m_data.lock()->thumbnail = thumbnail;
-    markFlag(Photo::FlagsE::ThumbnailLoaded, 1);
+    m_data->m_data.lock()->geometry = geometry;
+    markFlag(Photo::FlagsE::GeometryLoaded, 1);
 
     updated();
 }

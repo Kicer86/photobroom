@@ -29,11 +29,26 @@
 
 struct PhotosManager::Data
 {
-    Data(): m_mutex(), m_cache(16) {}
+    Data():
+        m_mutex(),
+        m_thumbnails_mutex(),
+        m_cache(64),
+        m_thumbnails(256)
+    {
+
+    }
 
     std::mutex m_mutex;
+    std::mutex m_thumbnails_mutex;
     QCache<QString, QByteArray> m_cache;
+    QCache< std::pair<QString, int>, QImage> m_thumbnails;
 };
+
+
+uint qHash(const std::pair<QString, int>& key, uint seed = 0)
+{
+    return qHash(key.first) ^ qHash(key.second) ^ seed;
+}
 
 
 PhotosManager::PhotosManager(): IPhotosManager(), m_data(new Data)
@@ -60,7 +75,7 @@ QByteArray PhotosManager::getPhoto(const QString& path) const
 
     const QString cleanPath = QDir().cleanPath(path);
 
-    QByteArray* result = m_data->m_cache.object(path);
+    QByteArray* result = m_data->m_cache.object(cleanPath);
 
     if (result == nullptr)
     {
@@ -94,4 +109,30 @@ QImage PhotosManager::getThumbnail(const QString& path) const
                           image;
 
     return scaled;
+}
+
+
+QImage PhotosManager::getThumbnail(const QString& path, int height) const
+{
+    std::lock_guard<std::mutex> lock(m_data->m_thumbnails_mutex);
+
+    const QString cleanPath = QDir().cleanPath(path);
+
+    const auto thumbnailKey = std::make_pair(cleanPath, height);
+    QImage* result = m_data->m_thumbnails.object(thumbnailKey);
+
+    if (result == nullptr)
+    {
+        QByteArray raw = getPhoto(cleanPath);
+
+        result = new QImage;
+        result->loadFromData(raw);
+
+        if (result->height() != height)
+            *result = result->scaledToHeight(height, Qt::SmoothTransformation);
+
+        m_data->m_thumbnails.insert(thumbnailKey, result);
+    }
+
+    return *result;
 }

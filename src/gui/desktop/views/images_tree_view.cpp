@@ -28,8 +28,10 @@
 #include <QMouseEvent>
 #include <QTimer>
 
+#include <core/down_cast.hpp>
 #include <core/time_guardian.hpp>
 
+#include "models/aphoto_info_model.hpp"
 #include "view_impl/data.hpp"
 #include "view_impl/positions_calculator.hpp"
 #include "view_impl/positions_reseter.hpp"
@@ -96,7 +98,7 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
     {
         const QPoint offset = getOffset();
         const QPoint treePoint = point + offset;
-        Data::ModelIndexInfoSet::iterator infoIt = m_data->get(treePoint);
+        Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->get(treePoint);
         result = m_data->get(infoIt);
     }
 
@@ -221,8 +223,11 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 }
 
 
-void ImagesTreeView::setModel(QAbstractItemModel* m)
+void ImagesTreeView::setModel(QAbstractItemModel* abstract_model)
 {
+    // TODO: not nice. But what else can I do without writing own MVC? Issue #177 on github
+    APhotoInfoModel* m = down_cast<APhotoInfoModel *>(abstract_model);
+
     //disconnect current model
     QAbstractItemModel* current_model = QAbstractItemView::model();
 
@@ -268,7 +273,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        Data::ModelIndexInfoSet::iterator infoIt = m_data->get(item);
+        Data::ModelIndexInfoSet::Model::const_iterator infoIt = m_data->get(item);
         const QRect rect = translator.getAbsoluteRect(infoIt);
 
         const QSize decorationSize(rect.width()  - m_data->getSpacing() * 2,
@@ -291,7 +296,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     QAbstractItemView::mouseReleaseEvent(e);
 
     QModelIndex item = indexAt(e->pos());
-    Data::ModelIndexInfoSet::iterator infoIt = m_data->find(item);
+    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(item);
 
     if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
     {
@@ -329,7 +334,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
     const PositionsTranslator translator(m_data.get());
-    Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(index);
+    auto infoIt = m_data->cfind(index);
 
     assert(infoIt.valid());
 
@@ -364,7 +369,7 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    Data::ModelIndexInfoSet::const_iterator infoIt = m_data->cfind(QModelIndex());
+    auto infoIt = m_data->cfind(QModelIndex());
     assert(infoIt.valid());
 
     const ModelIndexInfo& info = *infoIt;

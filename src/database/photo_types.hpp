@@ -40,6 +40,7 @@ namespace Photo
         ExifLoaded,
         Sha256Loaded,
         ThumbnailLoaded,
+        GeometryLoaded,
     };
 
     typedef std::map<FlagsE, int> FlagValues;

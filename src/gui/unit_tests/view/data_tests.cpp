@@ -52,7 +52,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    Data::ModelIndexInfoSet::iterator infoIt = data.get(QModelIndex());
+    Data::ModelIndexInfoSet::Model::iterator infoIt = data.get(QModelIndex());
     QModelIndex idx = data.get(infoIt);
 
     EXPECT_EQ(QModelIndex(), idx);
@@ -335,7 +335,7 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
     Data data;
     data.set(&model);
-    data.setThumbHeight(50);
+    data.setThumbnailDesiredHeight(50);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 

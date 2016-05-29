@@ -1,5 +1,5 @@
 /*
- * Actions to be performed on set of photos.
+ * Interface for thumbnail acquisitor.
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,18 @@
  *
  */
 
-#include "action.hpp"
+#ifndef ITHUMBNAIL_ACQUISITOR_HPP
+#define ITHUMBNAIL_ACQUISITOR_HPP
 
 
-namespace Database
+#include "ithumbnail_generator.hpp"
+
+
+struct IThumbnailAcquisitor
 {
+    virtual ~IThumbnailAcquisitor() {}
 
-    IAction::~IAction()
-    {
+    virtual QImage getThumbnail(const ThumbnailInfo &) const = 0;
+};
 
-    }
-
-
-    IActionVisitor::~IActionVisitor()
-    {
-
-    }
-
-
-    ModifyFlagAction::ModifyFlagAction(): flags()
-    {
-
-    }
-
-
-    ModifyFlagAction::~ModifyFlagAction()
-    {
-
-    }
-
-}
+#endif // ITHUMBNAIL_ACQUISITOR_HPP

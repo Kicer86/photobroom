@@ -12,15 +12,21 @@ set(UTILS_SOURCES
     photos_collector.cpp
     signal_filter.cpp
     thread_multiplexer.cpp
+    thumbnail_acquisitor.cpp
+    thumbnail_generator.cpp
     variant_display.cpp
     )
 
 set(UTILS_HEADERS
     config_tools.hpp
+    ithumbnail_acquisitor.hpp
+    ithumbnail_generator.hpp
     path_checker.hpp
     photos_collector.hpp
     signal_filter.hpp
     thread_multiplexer.hpp
+    thumbnail_acquisitor.hpp
+    thumbnail_generator.hpp
     variant_display.hpp
 )
 

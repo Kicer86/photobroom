@@ -297,7 +297,7 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -344,7 +344,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+137"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -394,7 +394,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-255"/>
         <source>- new photos</source>
         <translation>- nowe zdjęcia</translation>
     </message>
@@ -404,7 +404,7 @@ Kod błędu: %1</translation>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+90"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -425,7 +425,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+77"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+87"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>
@@ -438,7 +438,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+52"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+59"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>

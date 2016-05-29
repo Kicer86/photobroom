@@ -44,18 +44,19 @@ class TreeItemDelegate: public QAbstractItemDelegate
         QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
+    protected:
+        virtual QImage getImage(const QModelIndex &, const QSize &) const;
+
     private:
-        ImagesTreeView* m_view;
         QColor m_backgroundEven;
         QColor m_backgroundOdd;
+        ImagesTreeView* m_view;
 
         void paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
         void paintNode(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
         QIcon::Mode iconMode(const QStyle::State &) const;
         QIcon::State iconState(const QStyle::State &) const;
-
-        QImage getImage(const QVariant &) const;
 };
 
 #endif // TREEITEMDELEGATE_HPP

@@ -23,6 +23,8 @@
 #include <QWidget>
 #include <QTimer>
 
+#include "utils/thumbnail_acquisitor.hpp"
+
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
@@ -30,11 +32,12 @@ class QVBoxLayout;
 
 class PhotosItemDelegate;
 class DBDataModel;
-class InfoBaloonWidget;
-class ImagesTreeView;
+struct InfoBaloonWidget;
+struct ImagesTreeView;
 
 struct IConfiguration;
-
+struct IPhotosManager;
+struct ITaskExecutor;
 
 class PhotosWidget: public QWidget
 {
@@ -46,6 +49,8 @@ class PhotosWidget: public QWidget
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
+        void set(ITaskExecutor *);
+        void set(IPhotosManager *);
         void set(IConfiguration *);
         void setModel(DBDataModel *);
 
@@ -55,6 +60,7 @@ class PhotosWidget: public QWidget
 
     private:
         QTimer m_timer;
+        ThumbnailAcquisitor m_thumbnailAcquisitor;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
@@ -63,6 +69,10 @@ class PhotosWidget: public QWidget
 
         void searchExpressionChanged(const QString &);
         void applySearchExpression();
+        void thumbnailUpdated(const ThumbnailInfo &, const QImage &);
+
+    signals:
+        void performUpdate();
 };
 
 #endif // PHOTOSWIDGET_HPP

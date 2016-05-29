@@ -24,7 +24,7 @@
 
 #include <database/idatabase.hpp>
 
-#include "ascalable_images_model.hpp"
+#include "aphoto_info_model.hpp"
 #include "model_types.hpp"
 
 struct ITaskExecutor;
@@ -59,14 +59,14 @@ struct Hierarchy
 };
 
 
-class DBDataModel: public AScalableImagesModel
+class DBDataModel: public APhotoInfoModel
 {
         friend class IdxDataManager;
 
     public:
         enum Roles
         {
-            NodeStatus = Qt::UserRole + 1,
+            NodeStatus = APhotoInfoModel::LastRole + 1,
         };
 
         DBDataModel(QObject* p = nullptr);
@@ -90,8 +90,8 @@ class DBDataModel: public AScalableImagesModel
 
         bool isEmpty() const;
 
-        // AScalableImagesModel:
-        virtual QImage getImageFor(const QModelIndex&, const QSize &) override;
+        // APhotoInfoModel:
+        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;

@@ -30,6 +30,7 @@
 #include "view_data_set.hpp"
 
 struct IConfiguration;
+class APhotoInfoModel;
 
 
 class Data
@@ -43,32 +44,34 @@ class Data
         ~Data();
         Data& operator=(const Data &) = delete;
 
-        void set(QAbstractItemModel *);
+        void set(APhotoInfoModel *);
 
         void setSpacing(int);
         void setImageMargin(int);
-        void setThumbHeight(int);
+        void setThumbnailDesiredHeight(int);
 
-        ModelIndexInfoSet::iterator get(const QModelIndex &) const;                 // Same as find(), but has assert inside. Use when result is not expected to be invalid.
-        ModelIndexInfoSet::const_iterator cfind(const QModelIndex &) const;
-        ModelIndexInfoSet::iterator find(const QModelIndex &);
+        ModelIndexInfoSet::Model::iterator get(const QModelIndex &) const;            // Same as find(), but has assert inside. Use when result is not expected to be invalid.
+        ModelIndexInfoSet::Model::const_iterator cfind(const QModelIndex &) const;
+        ModelIndexInfoSet::Model::iterator find(const QModelIndex &);
 
-        ModelIndexInfoSet::iterator get(const QPoint &) const;
-        bool isImage(const ModelIndexInfoSet::iterator &) const;
-        QPixmap getImage(Data::ModelIndexInfoSet::level_iterator) const;
-        QSize getThumbnailSize(Data::ModelIndexInfoSet::level_iterator) const;
-        void for_each_visible(std::function<bool(ModelIndexInfoSet::iterator)>) const;
-        QModelIndex get(const ModelIndexInfoSet::const_iterator &) const;
+        ModelIndexInfoSet::Model::iterator get(const QPoint &) const;
+        bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;
+        [[deprecated]] QPixmap getImage(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        QSize getImageSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        void for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)>) const;
+        QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
         std::deque<QModelIndex> findInRect(const QRect &) const;
 
-        bool isExpanded(const ModelIndexInfoSet::const_iterator &) const;
-        bool isVisible(const ModelIndexInfoSet::const_iterator &) const;
+        bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
+        bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
 
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
 
         int getSpacing() const;
         int getImageMargin() const;
+        int getThumbnailDesiredHeight() const;
 
         IConfiguration* getConfig();
 
@@ -83,13 +86,13 @@ class Data
 
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
-        QAbstractItemModel* m_model;
+        APhotoInfoModel* m_model;
         IConfiguration* m_configuration;
         int m_spacing;
         int m_margin;
         int m_thumbHeight;
 
-        std::deque<QModelIndex> findInRect(ModelIndexInfoSet::const_level_iterator, ModelIndexInfoSet::const_level_iterator, const QRect &) const;
+        std::deque<QModelIndex> findInRect(ModelIndexInfoSet::Model::const_level_iterator, ModelIndexInfoSet::Model::const_level_iterator, const QRect &) const;
 };
 
 #endif // DATA_HPP

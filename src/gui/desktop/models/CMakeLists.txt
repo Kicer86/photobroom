@@ -7,7 +7,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 set(SRC
-    ascalable_images_model.cpp
+    aphoto_info_model.cpp
     db_data_model.cpp
     decorated_image_list_model.cpp
     image_list_model.cpp
@@ -18,7 +18,7 @@ set(SRC
     )
 
 set(HEADERS
-    ascalable_images_model.hpp
+    aphoto_info_model.hpp
     db_data_model.hpp
     decorated_image_list_model.hpp
     image_list_model.hpp
