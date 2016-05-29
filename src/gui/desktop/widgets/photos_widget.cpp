@@ -36,16 +36,21 @@
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
+    m_thumbnailAcquisitor(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr)
 {
+    const QImage image(":/gui/clock.svg");
+    m_thumbnailAcquisitor.setInProgressThumbnail(image);
+
     // photos view
     m_view = new ImagesTreeView(this);
     m_delegate = new PhotosItemDelegate(m_view);
 
+    m_delegate->set(&m_thumbnailAcquisitor);
     m_view->setItemDelegate(m_delegate);
 
     // search panel
@@ -89,13 +94,13 @@ PhotosWidget::~PhotosWidget()
 
 void PhotosWidget::set(ITaskExecutor* executor)
 {
-    m_delegate->set(executor);
+    m_thumbnailAcquisitor.set(executor);
 }
 
 
 void PhotosWidget::set(IPhotosManager* manager)
 {
-    m_delegate->set(manager);
+    m_thumbnailAcquisitor.set(manager);
 }
 
 

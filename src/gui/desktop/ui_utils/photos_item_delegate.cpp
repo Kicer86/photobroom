@@ -26,6 +26,7 @@
 
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
+#include "utils/ithumbnail_acquisitor.hpp"
 
 #include "models/db_data_model.hpp"
 
@@ -36,9 +37,6 @@ PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* con
     m_config(config)
 {
     readConfig();
-
-    const QImage image(":/gui/clock.svg");
-    m_thumbnailAcquisitor.setInProgressThumbnail(image);
 }
 
 
@@ -48,15 +46,9 @@ PhotosItemDelegate::~PhotosItemDelegate()
 }
 
 
-void PhotosItemDelegate::set(ITaskExecutor* executor)
+void PhotosItemDelegate::set(IThumbnailAcquisitor* acquisitor)
 {
-    m_thumbnailAcquisitor.set(executor);
-}
-
-
-void PhotosItemDelegate::set(IPhotosManager* photosManager)
-{
-    m_thumbnailAcquisitor.set(photosManager);
+    m_thumbnailAcquisitor = acquisitor;
 }
 
 
@@ -124,7 +116,7 @@ QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) c
     const QString photoPath = photoPathRaw.toString();
 
     const ThumbnailInfo info = {photoPath, size.height()};
-    const QImage image = m_thumbnailAcquisitor.getThumbnail(info);
+    const QImage image = m_thumbnailAcquisitor->getThumbnail(info);
 
     return image;
 }

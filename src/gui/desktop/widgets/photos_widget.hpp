@@ -23,6 +23,8 @@
 #include <QWidget>
 #include <QTimer>
 
+#include "utils/thumbnail_acquisitor.hpp"
+
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
@@ -58,6 +60,7 @@ class PhotosWidget: public QWidget
 
     private:
         QTimer m_timer;
+        ThumbnailAcquisitor m_thumbnailAcquisitor;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;

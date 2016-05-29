@@ -23,8 +23,8 @@
 #include <configuration/iconfiguration.hpp>
 
 #include "desktop/views/tree_item_delegate.hpp"
-#include "utils/thumbnail_acquisitor.hpp"
 
+struct IThumbnailAcquisitor;
 
 class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 {
@@ -37,8 +37,7 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 
         PhotosItemDelegate& operator=(const PhotosItemDelegate &) = delete;
 
-        void set(ITaskExecutor *);
-        void set(IPhotosManager *);
+        void set(IThumbnailAcquisitor *);
         void set(IConfiguration *);
 
         // TreeItemDelegate:
@@ -46,7 +45,7 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
         QImage getImage(const QModelIndex &, const QSize &) const override;
 
     private:
-        ThumbnailAcquisitor m_thumbnailAcquisitor;
+        IThumbnailAcquisitor* m_thumbnailAcquisitor;
         IConfiguration* m_config;
 
         void readConfig();
