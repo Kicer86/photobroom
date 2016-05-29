@@ -19,6 +19,7 @@ set(UTILS_SOURCES
 
 set(UTILS_HEADERS
     config_tools.hpp
+    ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
     path_checker.hpp
     photos_collector.hpp

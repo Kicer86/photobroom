@@ -25,9 +25,10 @@
 #include <QImage>
 
 #include "thumbnail_generator.hpp"
+#include "ithumbnail_acquisitor.hpp"
 
 
-class ThumbnailAcquisitor
+class ThumbnailAcquisitor: public IThumbnailAcquisitor
 {
     public:
         typedef std::function<void(const ThumbnailInfo &, const QImage &)> Observer;
@@ -43,7 +44,7 @@ class ThumbnailAcquisitor
         void setInProgressThumbnail(const QImage &);
         void setObserver(const Observer &);
 
-        QImage getThumbnail(const ThumbnailInfo &) const;
+        QImage getThumbnail(const ThumbnailInfo &) const override;
 
     private:
         std::vector<Observer> m_observers;
