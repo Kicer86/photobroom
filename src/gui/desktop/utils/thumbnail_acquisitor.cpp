@@ -62,8 +62,9 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
     else
     {
         // store temporary image in cache,
-        // so new requsts for it will not call generation
+        // so new requests for it will not call generation again
         m_cache->add(info, m_inProgress);
+        result = m_inProgress;
 
         auto callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
         m_generator->generateThumbnail(info, callback);
