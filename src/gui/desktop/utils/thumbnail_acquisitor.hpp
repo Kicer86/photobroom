@@ -24,7 +24,7 @@
 
 #include <QImage>
 
-#include "ithumbnail_generator.hpp"
+#include "thumbnail_generator.hpp"
 
 
 class ThumbnailAcquisitor
@@ -32,10 +32,13 @@ class ThumbnailAcquisitor
     public:
         typedef std::function<void(const ThumbnailInfo &, const QImage &)> Observer;
 
-        ThumbnailAcquisitor(IThumbnailGenerator *, IThumbnailCache *);
+        ThumbnailAcquisitor();
         ThumbnailAcquisitor(const ThumbnailAcquisitor &) = delete;
         ~ThumbnailAcquisitor();
         ThumbnailAcquisitor& operator=(const ThumbnailAcquisitor &) = delete;
+
+        void set(ITaskExecutor *);
+        void set(IPhotosManager *);
 
         void setInProgressThumbnail(const QImage &);
         void setObserver(const Observer &);
@@ -46,8 +49,8 @@ class ThumbnailAcquisitor
         std::vector<Observer> m_observers;
         QImage m_inProgress;
         mutable std::mutex m_cacheAccessMutex;
-        IThumbnailGenerator* m_generator;
-        IThumbnailCache* m_cache;
+        ThumbnailGenerator m_generator;
+        mutable ThumbnailCache m_cache;
 
         void gotThumbnail(const ThumbnailInfo &, const QImage &) const;
 };

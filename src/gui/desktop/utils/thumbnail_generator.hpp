@@ -40,7 +40,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
-        void generateThumbnail(const ThumbnailInfo &, const Callback &) override;
+        void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
 
     private:
         ITaskExecutor* m_executor;

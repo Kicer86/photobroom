@@ -97,7 +97,7 @@ void ThumbnailGenerator::set(IPhotosManager* photosManager)
 }
 
 
-void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback)
+void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
     auto task = std::make_unique<ThumbnailGeneratorTask>(info, callback, m_photosManager);
     m_executor->add(std::move(task));

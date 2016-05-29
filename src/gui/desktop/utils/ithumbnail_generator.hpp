@@ -47,7 +47,7 @@ struct IThumbnailGenerator
 
     virtual ~IThumbnailGenerator() {}
 
-    virtual void generateThumbnail(const ThumbnailInfo &, const Callback &) = 0;
+    virtual void generateThumbnail(const ThumbnailInfo &, const Callback &) const = 0;
 };
 
 

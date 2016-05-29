@@ -32,9 +32,7 @@
 
 PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
     TreeItemDelegate(view),
-    m_thumbnailGenerator(),
-    m_thumbnailCache(),
-    m_thumbnailAcquisitor(&m_thumbnailGenerator, &m_thumbnailCache),
+    m_thumbnailAcquisitor(),
     m_config(config)
 {
     readConfig();
@@ -52,13 +50,13 @@ PhotosItemDelegate::~PhotosItemDelegate()
 
 void PhotosItemDelegate::set(ITaskExecutor* executor)
 {
-    m_thumbnailGenerator.set(executor);
+    m_thumbnailAcquisitor.set(executor);
 }
 
 
 void PhotosItemDelegate::set(IPhotosManager* photosManager)
 {
-    m_thumbnailGenerator.set(photosManager);
+    m_thumbnailAcquisitor.set(photosManager);
 }
 
 

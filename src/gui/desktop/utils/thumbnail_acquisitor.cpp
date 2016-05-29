@@ -20,12 +20,12 @@
 
 #include "thumbnail_acquisitor.hpp"
 
-ThumbnailAcquisitor::ThumbnailAcquisitor(IThumbnailGenerator* generator, IThumbnailCache* cache):
+ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_observers(),
     m_inProgress(),
     m_cacheAccessMutex(),
-    m_generator(generator),
-    m_cache(cache)
+    m_generator(),
+    m_cache()
 {
 
 }
@@ -34,6 +34,18 @@ ThumbnailAcquisitor::ThumbnailAcquisitor(IThumbnailGenerator* generator, IThumbn
 ThumbnailAcquisitor::~ThumbnailAcquisitor()
 {
 
+}
+
+
+void ThumbnailAcquisitor::set(ITaskExecutor* executor)
+{
+    m_generator.set(executor);
+}
+
+
+void ThumbnailAcquisitor::set(IPhotosManager* manager)
+{
+    m_generator.set(manager);
 }
 
 
@@ -55,7 +67,7 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
-    auto image = m_cache->get(info);
+    auto image = m_cache.get(info);
 
     if (image)
         result = *image;
@@ -63,11 +75,11 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
     {
         // store temporary image in cache,
         // so new requests for it will not call generation again
-        m_cache->add(info, m_inProgress);
+        m_cache.add(info, m_inProgress);
         result = m_inProgress;
 
         auto callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
-        m_generator->generateThumbnail(info, callback);
+        m_generator.generateThumbnail(info, callback);
     }
 
     return result;
@@ -78,7 +90,7 @@ void ThumbnailAcquisitor::gotThumbnail(const ThumbnailInfo& info, const QImage& 
 {
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
-    m_cache->add(info, image);
+    m_cache.add(info, image);
 
     for(const Observer& obs: m_observers)
         obs(info, image);
