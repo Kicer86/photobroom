@@ -69,6 +69,10 @@ class PhotosWidget: public QWidget
 
         void searchExpressionChanged(const QString &);
         void applySearchExpression();
+        void thumbnailUpdated(const ThumbnailInfo &, const QImage &);
+
+    signals:
+        void performUpdate();
 };
 
 #endif // PHOTOSWIDGET_HPP

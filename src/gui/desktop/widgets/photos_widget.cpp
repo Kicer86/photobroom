@@ -43,8 +43,10 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr)
 {
+    auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, std::placeholders::_1, std::placeholders::_2);
     const QImage image(":/gui/clock.svg");
     m_thumbnailAcquisitor.setInProgressThumbnail(image);
+    m_thumbnailAcquisitor.setObserver(thumbUpdate);
 
     // photos view
     m_view = new ImagesTreeView(this);
@@ -83,6 +85,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
+
+    connect(this, &PhotosWidget::performUpdate, m_view, &ImagesTreeView::refreshView, Qt::QueuedConnection);
 }
 
 
@@ -157,4 +161,11 @@ void PhotosWidget::applySearchExpression()
     const QString search = m_searchExpression->text();
 
     m_model->applyFilters(search);
+}
+
+
+void PhotosWidget::thumbnailUpdated(const ThumbnailInfo &, const QImage &)
+{
+    // TODO: do it smarter (find QModelIndex for provided info)
+    emit performUpdate();
 }
