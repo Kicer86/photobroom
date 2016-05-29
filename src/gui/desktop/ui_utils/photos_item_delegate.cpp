@@ -39,7 +39,7 @@ PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* con
 {
     readConfig();
 
-    const QImage image = QImage(":/gui/clock-img.svg");
+    const QImage image(":/gui/clock.svg");
     m_thumbnailAcquisitor.setInProgressThumbnail(image);
 }
 
