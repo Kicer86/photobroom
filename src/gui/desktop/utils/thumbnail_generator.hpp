@@ -26,6 +26,8 @@
 
 #include "ithumbnail_generator.hpp"
 
+struct IPhotosManager;
+struct ITaskExecutor;
 
 class ThumbnailGenerator: public IThumbnailGenerator
 {
@@ -36,7 +38,13 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
+        void set(ITaskExecutor *);
+        void set(IPhotosManager *);
         void generateThumbnail(const ThumbnailInfo &, const Callback &) override;
+
+    private:
+        ITaskExecutor* m_executor;
+        IPhotosManager* m_photosManager;
 };
 
 

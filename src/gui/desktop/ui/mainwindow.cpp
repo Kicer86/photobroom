@@ -108,6 +108,7 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::set(ITaskExecutor* taskExecutor)
 {
+    ui->imagesView->set(taskExecutor);
     m_imagesModel->set(taskExecutor);
     m_photosAnalyzer->set(taskExecutor);
 
@@ -175,7 +176,9 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::set(IPhotosManager* manager)
 {
+    ui->imagesView->set(manager);
     m_photosAnalyzer->set(manager);
+    
     m_photosManager = manager;
 }
 

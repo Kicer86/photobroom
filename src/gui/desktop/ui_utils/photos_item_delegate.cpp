@@ -50,6 +50,18 @@ PhotosItemDelegate::~PhotosItemDelegate()
 }
 
 
+void PhotosItemDelegate::set(ITaskExecutor* executor)
+{
+    m_thumbnailGenerator.set(executor);
+}
+
+
+void PhotosItemDelegate::set(IPhotosManager* photosManager)
+{
+    m_thumbnailGenerator.set(photosManager);
+}
+
+
 void PhotosItemDelegate::set(IConfiguration* config)
 {
     m_config = config;

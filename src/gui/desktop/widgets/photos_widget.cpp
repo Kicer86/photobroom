@@ -87,6 +87,18 @@ PhotosWidget::~PhotosWidget()
 }
 
 
+void PhotosWidget::set(ITaskExecutor* executor)
+{
+    m_delegate->set(executor);
+}
+
+
+void PhotosWidget::set(IPhotosManager* manager)
+{
+    m_delegate->set(manager);
+}
+
+
 void PhotosWidget::set(IConfiguration* configuration)
 {
     const QVariant marginEntry = configuration->getEntry(ViewConfigKeys::itemsSpacing);

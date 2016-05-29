@@ -19,6 +19,53 @@
 
 #include "thumbnail_generator.hpp"
 
+#include <core/task_executor.hpp>
+#include <core/iphotos_manager.hpp>
+
+namespace
+{
+
+    struct ThumbnailGeneratorTask: TaskExecutor::ITask
+    {
+        ThumbnailGeneratorTask(const ThumbnailInfo& info,
+                               const ThumbnailGenerator::Callback& callback,
+                               IPhotosManager* photosManager):
+            m_info(info),
+            m_callback(callback),
+            m_photosManager(photosManager)
+        {
+
+        }
+
+        virtual ~ThumbnailGeneratorTask() {}
+
+        ThumbnailGeneratorTask(const ThumbnailGeneratorTask &) = delete;
+        ThumbnailGeneratorTask& operator=(const ThumbnailGeneratorTask &) = delete;
+
+        virtual std::string name() const override
+        {
+            return "Photo thumbnail generation";
+        }
+
+        virtual void perform() override
+        {
+            QByteArray raw = m_photosManager->getPhoto(m_info.path);
+
+            QImage result;
+            result.loadFromData(raw);
+
+            if (result.height() != m_info.height)
+                result = result.scaledToHeight(m_info.height, Qt::SmoothTransformation);
+
+            m_callback(m_info, result);
+        }
+
+        ThumbnailInfo m_info;
+        ThumbnailGenerator::Callback m_callback;
+        IPhotosManager* m_photosManager;
+    };
+
+}
 
 uint qHash(const ThumbnailInfo& key, uint seed = 0)
 {
@@ -26,8 +73,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 }
 
 
-
-ThumbnailGenerator::ThumbnailGenerator()
+ThumbnailGenerator::ThumbnailGenerator(): m_executor(nullptr), m_photosManager(nullptr)
 {
 
 }
@@ -39,9 +85,22 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
+void ThumbnailGenerator::set(ITaskExecutor* executor)
+{
+    m_executor = executor;
+}
+
+
+void ThumbnailGenerator::set(IPhotosManager* photosManager)
+{
+    m_photosManager = photosManager;
+}
+
+
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback)
 {
-
+    auto task = std::make_unique<ThumbnailGeneratorTask>(info, callback, m_photosManager);
+    m_executor->add(std::move(task));
 }
 
 

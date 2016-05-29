@@ -34,7 +34,8 @@ struct InfoBaloonWidget;
 struct ImagesTreeView;
 
 struct IConfiguration;
-
+struct IPhotosManager;
+struct ITaskExecutor;
 
 class PhotosWidget: public QWidget
 {
@@ -46,6 +47,8 @@ class PhotosWidget: public QWidget
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
+        void set(ITaskExecutor *);
+        void set(IPhotosManager *);
         void set(IConfiguration *);
         void setModel(DBDataModel *);
 

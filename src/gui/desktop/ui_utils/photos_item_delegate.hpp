@@ -38,6 +38,8 @@ class PhotosItemDelegate: public TreeItemDelegate, private IConfigObserver
 
         PhotosItemDelegate& operator=(const PhotosItemDelegate &) = delete;
 
+        void set(ITaskExecutor *);
+        void set(IPhotosManager *);
         void set(IConfiguration *);
 
         // TreeItemDelegate:

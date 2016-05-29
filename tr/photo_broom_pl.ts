@@ -297,7 +297,7 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -425,7 +425,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+85"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+97"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>
