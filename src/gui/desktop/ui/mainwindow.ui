@@ -74,6 +74,7 @@
     </property>
     <addaction name="actionTags_editor"/>
     <addaction name="actionTasks"/>
+    <addaction name="actionPreview"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -194,6 +195,14 @@
    </property>
    <property name="text">
     <string>&amp;New photos</string>
+   </property>
+  </action>
+  <action name="actionPreview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Preview</string>
    </property>
   </action>
  </widget>
