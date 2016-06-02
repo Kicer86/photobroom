@@ -212,7 +212,7 @@
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>&amp;View</source>
         <translation>&amp;Widok</translation>
     </message>
@@ -227,7 +227,7 @@
         <translation>Zadania</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+18"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -297,7 +297,12 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
+        <location line="+8"/>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+207"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -319,7 +324,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+121"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -344,7 +349,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+145"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -394,7 +399,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-255"/>
+        <location line="-263"/>
         <source>- new photos</source>
         <translation>- nowe zdjęcia</translation>
     </message>

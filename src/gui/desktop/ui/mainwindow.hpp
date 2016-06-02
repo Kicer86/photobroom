@@ -112,6 +112,7 @@ class MainWindow: public QMainWindow
         // windows menu
         void on_actionTags_editor_triggered();
         void on_actionTasks_triggered();
+        void on_actionPreview_triggered();
 
         // settings menu
         void on_actionConfiguration_triggered();
