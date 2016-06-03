@@ -11,6 +11,7 @@ set(SRCS
     color_pick_button.cpp
     editor_factory.cpp
     info_widget.cpp
+    photo_preview_widget.cpp
     photos_widget.cpp
     tasks_view_widget.cpp
     filters_editor/level_editor.cpp
@@ -28,6 +29,7 @@ set(HEADERS
     color_pick_button.hpp
     editor_factory.hpp
     info_widget.hpp
+    photo_preview_widget.hpp
     photos_widget.hpp
     tasks_view_widget.hpp
     filters_editor/level_editor.hpp
