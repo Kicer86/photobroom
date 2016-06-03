@@ -9,6 +9,7 @@
 #include <desktop/views/view_impl/data.hpp>
 
 #include "test_helpers/mock_configuration.hpp"
+#include "test_helpers/photo_info_model.hpp"
 
 
 class PositionsReseterShould: public ::testing::Test
@@ -19,7 +20,8 @@ public:
             icon(),
             data(),
             config(),
-            model(),
+            submodel(),
+            model(&submodel),
             top(),
             child1(),
             child2(),
@@ -91,9 +93,9 @@ protected:
         top3->appendRow(child3_4);
         top3->appendRow(child3_5);
 
-        model.appendRow(top);
-        model.appendRow(top2);
-        model.appendRow(top3);
+        submodel.appendRow(top);
+        submodel.appendRow(top2);
+        submodel.appendRow(top3);
     }
 
     const int img_w = 100;
@@ -104,7 +106,8 @@ protected:
 
     Data data;
     MockConfiguration config;
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model;
 
     QStandardItem* top;
     QStandardItem* child1;
@@ -612,7 +615,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
 
     // test
     QStandardItem* new_top0 = new QStandardItem("Empty");
-    model.insertRow(0, new_top0);
+    submodel.insertRow(0, new_top0);
 
     PositionsReseter reseter(&model, &data);
     reseter.itemsAdded(QModelIndex(), 0, 0);

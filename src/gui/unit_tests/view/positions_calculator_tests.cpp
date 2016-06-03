@@ -12,12 +12,14 @@
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
+#include "test_helpers/photo_info_model.hpp"
 
 
 TEST(PositionsCalculatorShould, BeConstructable)
 {
     EXPECT_NO_THROW({
-        QStandardItemModel model;
+        QStandardItemModel submodel;
+        PhotoInfoModel model(&submodel);
 
         Data data;
         data.set(&model);
@@ -33,7 +35,8 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 
     QModelIndex top;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -64,7 +67,8 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     const int canvas_w = 500;
     const int header_h = 40;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     // top + 1 main node + 2 children
     QStandardItem* top_idx = new QStandardItem;
@@ -76,7 +80,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     top_child1_idx->appendRow(top_child1_child1_idx);
     top_child1_idx->appendRow(top_child1_child2_idx);
 
-    model.appendRow(top_idx);
+    submodel.appendRow(top_idx);
 
     Data data;
     data.set(&model);
@@ -113,7 +117,8 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     using ::testing::Return;
     using ::testing::Invoke;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     const int img_w = 100;
     const int img_h = 50;
@@ -123,7 +128,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 
     top_idx->appendRow(top_child1_idx);
 
-    model.appendRow(top_idx);
+    submodel.appendRow(top_idx);
 
     Data view_data;
     view_data.set(&model);
@@ -171,7 +176,8 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     const int img_w = 100;
     const int img_h = 50;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     QStandardItem* top_idx = new QStandardItem( "Empty" );
     QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
@@ -183,8 +189,8 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 
     top_idx2->appendRow(top2_child1_idx);
 
-    model.appendRow(top_idx);
-    model.appendRow(top_idx2);
+    submodel.appendRow(top_idx);
+    submodel.appendRow(top_idx2);
 
     Data view_data;
     view_data.set(&model);
@@ -218,7 +224,9 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     const int img_w = 100;
     const int img_h = 50;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
+
     const QPixmap pixmap(img_w, img_h);
     const QIcon icon(pixmap);
 
@@ -235,7 +243,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     top->appendRow(child4);
     top->appendRow(child5);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     Data view_data;
     view_data.set(&model);
@@ -282,7 +290,8 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     const int img_h = 50;
     const int canvas_w = 500;
 
-    static QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -318,8 +327,8 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     top2->appendRow(child2_4);
     top2->appendRow(child2_5);
 
-    model.appendRow(top);
-    model.appendRow(top2);
+    submodel.appendRow(top);
+    submodel.appendRow(top2);
 
     //expand main node to show children
     {
@@ -359,8 +368,10 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     const int img2_h = 500;
     const int canvas_w = 500;
 
-    static MockConfiguration config;
-    static QStandardItemModel model;
+    MockConfiguration config;
+
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -380,8 +391,8 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
 
-    model.appendRow(child1);
-    model.appendRow(child2);
+    submodel.appendRow(child1);
+    submodel.appendRow(child2);
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
@@ -407,7 +418,8 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     const int img2_h = 50;
     const int canvas_w = 500;
 
-    static QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -428,8 +440,8 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
 
-    model.appendRow(child1);
-    model.appendRow(child2);
+    submodel.appendRow(child1);
+    submodel.appendRow(child2);
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
@@ -463,7 +475,8 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     const int img_w = 100;
     const int img_h = 50;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     QStandardItem* top_idx1 = new QStandardItem( "Empty" );
     QStandardItem* top1_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
@@ -475,8 +488,8 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
 
     top_idx2->appendRow(top2_child1_idx);
 
-    model.appendRow(top_idx1);
-    model.appendRow(top_idx2);
+    submodel.appendRow(top_idx1);
+    submodel.appendRow(top_idx2);
 
     Data view_data;
     view_data.set(&model);

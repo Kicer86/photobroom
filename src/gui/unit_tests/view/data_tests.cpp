@@ -10,6 +10,7 @@
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
+#include "test_helpers/photo_info_model.hpp"
 
 
 TEST(DataShould, BeConstructable)
@@ -31,7 +32,8 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 
 TEST(DataShould, ContainOnlyRootNodeAfterClear)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -45,7 +47,8 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
 
 TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -64,7 +67,8 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
 TEST(DataShould, SetInitialDataForRootItem)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -81,7 +85,8 @@ TEST(DataShould, SetInitialDataForRootItem)
 
 TEST(DataShould, StoreInfoAboutItem)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -102,7 +107,8 @@ TEST(DataShould, StoreInfoAboutItem)
 
 TEST(DataShould, MarkTopItemsAsVisible)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -110,7 +116,7 @@ TEST(DataShould, MarkTopItemsAsVisible)
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     QModelIndex top_idx = top->index();
 
@@ -123,7 +129,9 @@ TEST(DataShould, MarkTopItemsAsVisible)
 
 TEST(DataShould, NotReturnInvisibleItems)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
+
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
@@ -139,7 +147,7 @@ TEST(DataShould, NotReturnInvisibleItems)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
@@ -175,7 +183,9 @@ TEST(DataShould, NotReturnInvisibleItems)
 
 TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
+
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
@@ -191,7 +201,7 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
@@ -235,7 +245,9 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 
 TEST(DataShould, HideChildrenOfCollapsedNode)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
+
     MockConfiguration config;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
@@ -252,7 +264,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
@@ -280,7 +292,9 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 
 TEST(DataShould, ReturnProperIndicesOfItems)
 {
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
+
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
@@ -296,7 +310,7 @@ TEST(DataShould, ReturnProperIndicesOfItems)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     //expand top so children will be stored in 'data' when calculating positions
     auto it = data.get(top->index());
@@ -331,7 +345,8 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     const int img2_h = 500;
     const int canvas_w = 500;
 
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    PhotoInfoModel model(&submodel);
 
     Data data;
     data.set(&model);
@@ -348,8 +363,8 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
-    model.appendRow(child1);
-    model.appendRow(child2);
+    submodel.appendRow(child1);
+    submodel.appendRow(child2);
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
