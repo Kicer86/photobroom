@@ -45,7 +45,8 @@ int PhotoInfoModel::rowCount(const QModelIndex& parent) const
 }
 
 
-IPhotoInfo* PhotoInfoModel::getPhotoInfo(const QModelIndex&) const
+MockPhotoInfoModel::MockPhotoInfoModel(QAbstractItemModel* m, IPhotoInfo* pi, QObject* p): PhotoInfoModel(m, pi, p)
 {
-    return m_photoInfo;
+
 }
+

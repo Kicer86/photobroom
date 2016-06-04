@@ -110,7 +110,7 @@ protected:
     MockPhotoInfo photoInfo;
     MockConfiguration config;
     QStandardItemModel submodel;
-    PhotoInfoModel model;
+    MockPhotoInfoModel model;
 
     QStandardItem* top;
     QStandardItem* child1;

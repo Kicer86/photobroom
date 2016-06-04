@@ -33,7 +33,7 @@ class DataShould: public ::testing::Test
 
         MockPhotoInfo photoInfo;
         QStandardItemModel submodel;
-        PhotoInfoModel model;
+        MockPhotoInfoModel model;
 };
 
 TEST_F(DataShould, BeConstructable)
