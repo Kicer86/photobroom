@@ -158,6 +158,11 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
+    // setup expectations
+    using ::testing::Return;
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+
+    //
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 100);
@@ -204,6 +209,12 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     top->appendRow(child2);
 
     submodel.appendRow(top);
+
+    // setup expectations
+    using ::testing::Return;
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+
+    //
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
@@ -265,6 +276,12 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
 
     submodel.appendRow(top);
 
+    // setup expectations
+    using ::testing::Return;
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+
+    //
+
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
@@ -307,6 +324,12 @@ TEST_F(DataShould, ReturnProperIndicesOfItems)
     top->appendRow(child2);
 
     submodel.appendRow(top);
+
+    // setup expectations
+    using ::testing::Return;
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+
+    //
 
     //expand top so children will be stored in 'data' when calculating positions
     auto it = data.get(top->index());
@@ -358,6 +381,12 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
     submodel.appendRow(child1);
     submodel.appendRow(child2);
+
+    // setup expectations
+    using ::testing::Return;
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+
+    //
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
