@@ -4,10 +4,12 @@
 
 #include "models/aphoto_info_model.hpp"
 
+struct IPhotoInfo;
+
 class PhotoInfoModel: public APhotoInfoModel
 {
     public:
-        PhotoInfoModel(QAbstractItemModel *, QObject* = 0);
+        PhotoInfoModel(QAbstractItemModel *, IPhotoInfo *, QObject* = 0);
         virtual ~PhotoInfoModel();
 
         // QAbstractItemModel:
@@ -21,6 +23,7 @@ class PhotoInfoModel: public APhotoInfoModel
 
     private:
         QAbstractItemModel* m_model;
+        IPhotoInfo* m_photoInfo;
 };
 
 #endif
