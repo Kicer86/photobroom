@@ -13,9 +13,32 @@
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 #include "test_helpers/photo_info_model.hpp"
+#include "test_helpers/mock_photo_info.hpp"
 
 
-TEST(PositionsCalculatorShould, BeConstructable)
+class PositionsCalculatorShould: public ::testing::Test
+{
+    public:
+        PositionsCalculatorShould():
+            testing::Test(),
+            photoInfo(),
+            submodel(),
+            model(&submodel, &photoInfo)
+        {
+        }
+
+    protected:
+        virtual void SetUp() override
+        {
+
+        }
+
+        MockPhotoInfo photoInfo;
+        QStandardItemModel submodel;
+        PhotoInfoModel model;
+};
+
+TEST_F(PositionsCalculatorShould, BeConstructable)
 {
     EXPECT_NO_THROW({
         QStandardItemModel submodel;
@@ -29,7 +52,7 @@ TEST(PositionsCalculatorShould, BeConstructable)
 }
 
 
-TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
+TEST_F(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 {
     using ::testing::Return;
 
@@ -55,7 +78,7 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 }
 
 
-TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
+TEST_F(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 {
     // Situation:
     // One node with two children. Node is not expanded and is only one visible item.
@@ -108,7 +131,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 }
 
 
-TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
+TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 {
     // Situation:
     // One node with two children. Node is expanded and its children are visible in one row.
@@ -164,7 +187,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 }
 
 
-TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
+TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 {
     // Situation:
     // two nodes with two children. Second node is expanded and its children are visible in one row.
@@ -219,7 +242,7 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 }
 
 
-TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
+TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 {
     const int img_w = 100;
     const int img_h = 50;
@@ -283,7 +306,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 }
 
 
-TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingOverallSize)
+TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingOverallSize)
 {
     //preparations
     const int img_w = 100;
@@ -359,7 +382,7 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 }
 
 
-TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
+TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 {
     //preparations
     const int img1_w = 200;
@@ -409,7 +432,7 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 }
 
 
-TEST(PositionsCalculatorShould, HandleWideImages)
+TEST_F(PositionsCalculatorShould, HandleWideImages)
 {
     //preparations
     const int img1_w = 1000;
@@ -462,7 +485,7 @@ TEST(PositionsCalculatorShould, HandleWideImages)
 
 
 
-TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
+TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
 {
     // Situation:
     // two nodes with two children. Children should have
