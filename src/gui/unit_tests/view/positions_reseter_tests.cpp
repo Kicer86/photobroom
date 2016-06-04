@@ -10,6 +10,7 @@
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/photo_info_model.hpp"
+#include "test_helpers/mock_photo_info.hpp"
 
 
 class PositionsReseterShould: public ::testing::Test
@@ -19,9 +20,10 @@ public:
             testing::Test(),
             icon(),
             data(),
+            photoInfo(),
             config(),
             submodel(),
-            model(&submodel),
+            model(&submodel, &photoInfo),
             top(),
             child1(),
             child2(),
@@ -105,6 +107,7 @@ protected:
     QIcon icon;
 
     Data data;
+    MockPhotoInfo photoInfo;
     MockConfiguration config;
     QStandardItemModel submodel;
     PhotoInfoModel model;
