@@ -12,8 +12,22 @@
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 #include "test_helpers/photo_info_model.hpp"
 
+class DataShould: public ::testing::Test
+{
+    public:
+        DataShould():
+        testing::Test()
+        {
+        }
 
-TEST(DataShould, BeConstructable)
+    protected:
+        virtual void SetUp() override
+        {
+
+        }
+};
+
+TEST_F(DataShould, BeConstructable)
 {
     EXPECT_NO_THROW({
         Data data;
@@ -21,7 +35,7 @@ TEST(DataShould, BeConstructable)
 }
 
 
-TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
+TEST_F(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
     Data data;
 
@@ -30,7 +44,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 }
 
 
-TEST(DataShould, ContainOnlyRootNodeAfterClear)
+TEST_F(DataShould, ContainOnlyRootNodeAfterClear)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -45,7 +59,7 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
 }
 
 
-TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
+TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -65,7 +79,7 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 }
 
 
-TEST(DataShould, SetInitialDataForRootItem)
+TEST_F(DataShould, SetInitialDataForRootItem)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -83,7 +97,7 @@ TEST(DataShould, SetInitialDataForRootItem)
 }
 
 
-TEST(DataShould, StoreInfoAboutItem)
+TEST_F(DataShould, StoreInfoAboutItem)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -105,7 +119,7 @@ TEST(DataShould, StoreInfoAboutItem)
 }
 
 
-TEST(DataShould, MarkTopItemsAsVisible)
+TEST_F(DataShould, MarkTopItemsAsVisible)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -127,7 +141,7 @@ TEST(DataShould, MarkTopItemsAsVisible)
 }
 
 
-TEST(DataShould, NotReturnInvisibleItems)
+TEST_F(DataShould, NotReturnInvisibleItems)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -181,7 +195,7 @@ TEST(DataShould, NotReturnInvisibleItems)
 }
 
 
-TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
+TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -243,7 +257,7 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 }
 
 
-TEST(DataShould, HideChildrenOfCollapsedNode)
+TEST_F(DataShould, HideChildrenOfCollapsedNode)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -290,7 +304,7 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 }
 
 
-TEST(DataShould, ReturnProperIndicesOfItems)
+TEST_F(DataShould, ReturnProperIndicesOfItems)
 {
     QStandardItemModel submodel;
     PhotoInfoModel model(&submodel);
@@ -336,7 +350,7 @@ TEST(DataShould, ReturnProperIndicesOfItems)
 }
 
 
-TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
+TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 {
     //preparations
     const int img1_w = 200;
