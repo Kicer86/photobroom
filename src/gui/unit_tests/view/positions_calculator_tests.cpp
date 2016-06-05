@@ -32,7 +32,6 @@ class PositionsCalculatorShould: public ::testing::Test
 
         }
 
-        MockPhotoInfo photoInfo;
         QStandardItemModel submodel;
         MockPhotoInfoModel model;
 };
