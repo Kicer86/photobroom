@@ -10,9 +10,30 @@
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
+#include "test_helpers/photo_info_model.hpp"
+#include "test_helpers/mock_photo_info.hpp"
 
 
-TEST(DataShould, BeConstructable)
+class DataShould: public ::testing::Test
+{
+    public:
+        DataShould():
+            testing::Test(),
+            submodel(),
+            model(&submodel)
+        {
+        }
+
+    protected:
+        virtual void SetUp() override
+        {
+
+        }
+        QStandardItemModel submodel;
+        MockPhotoInfoModel model;
+};
+
+TEST_F(DataShould, BeConstructable)
 {
     EXPECT_NO_THROW({
         Data data;
@@ -20,7 +41,7 @@ TEST(DataShould, BeConstructable)
 }
 
 
-TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
+TEST_F(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
     Data data;
 
@@ -29,10 +50,8 @@ TEST(DataShould, ContainOnlyRootNodeAfterConstruction)
 }
 
 
-TEST(DataShould, ContainOnlyRootNodeAfterClear)
+TEST_F(DataShould, ContainOnlyRootNodeAfterClear)
 {
-    QStandardItemModel model;
-
     Data data;
     data.set(&model);
 
@@ -43,10 +62,8 @@ TEST(DataShould, ContainOnlyRootNodeAfterClear)
 }
 
 
-TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
+TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
-    QStandardItemModel model;
-
     Data data;
     data.set(&model);
 
@@ -62,10 +79,8 @@ TEST(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 }
 
 
-TEST(DataShould, SetInitialDataForRootItem)
+TEST_F(DataShould, SetInitialDataForRootItem)
 {
-    QStandardItemModel model;
-
     Data data;
     data.set(&model);
 
@@ -79,10 +94,8 @@ TEST(DataShould, SetInitialDataForRootItem)
 }
 
 
-TEST(DataShould, StoreInfoAboutItem)
+TEST_F(DataShould, StoreInfoAboutItem)
 {
-    QStandardItemModel model;
-
     Data data;
     data.set(&model);
 
@@ -100,17 +113,15 @@ TEST(DataShould, StoreInfoAboutItem)
 }
 
 
-TEST(DataShould, MarkTopItemsAsVisible)
+TEST_F(DataShould, MarkTopItemsAsVisible)
 {
-    QStandardItemModel model;
-
     Data data;
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     QModelIndex top_idx = top->index();
 
@@ -121,9 +132,8 @@ TEST(DataShould, MarkTopItemsAsVisible)
 }
 
 
-TEST(DataShould, NotReturnInvisibleItems)
+TEST_F(DataShould, NotReturnInvisibleItems)
 {
-    QStandardItemModel model;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
@@ -139,12 +149,21 @@ TEST(DataShould, NotReturnInvisibleItems)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
     info.expanded = true;
 
+    // setup expectations
+    MockPhotoInfo photoInfo;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+
+    //
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 100);
@@ -173,9 +192,8 @@ TEST(DataShould, NotReturnInvisibleItems)
 }
 
 
-TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
+TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 {
-    QStandardItemModel model;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
@@ -191,7 +209,16 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    //
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
@@ -233,9 +260,8 @@ TEST(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 }
 
 
-TEST(DataShould, HideChildrenOfCollapsedNode)
+TEST_F(DataShould, HideChildrenOfCollapsedNode)
 {
-    QStandardItemModel model;
     MockConfiguration config;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
@@ -252,7 +278,16 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    //
 
     //expand top and update items positions
     ModelIndexInfo& info = *data.get(top->index());
@@ -278,9 +313,8 @@ TEST(DataShould, HideChildrenOfCollapsedNode)
 }
 
 
-TEST(DataShould, ReturnProperIndicesOfItems)
+TEST_F(DataShould, ReturnProperIndicesOfItems)
 {
-    QStandardItemModel model;
     const QPixmap pixmap(10, 10);
     const QIcon icon(pixmap);
 
@@ -296,7 +330,16 @@ TEST(DataShould, ReturnProperIndicesOfItems)
     top->appendRow(child1);
     top->appendRow(child2);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    //
 
     //expand top so children will be stored in 'data' when calculating positions
     auto it = data.get(top->index());
@@ -322,16 +365,12 @@ TEST(DataShould, ReturnProperIndicesOfItems)
 }
 
 
-TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
+TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 {
     //preparations
-    const int img1_w = 200;
-    const int img1_h = 100;
-    const int img2_w = 100;
-    const int img2_h = 500;
+    const QSize img1(200, 100);
+    const QSize img2(100, 500);
     const int canvas_w = 500;
-
-    QStandardItemModel model;
 
     Data data;
     data.set(&model);
@@ -339,17 +378,32 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    const QPixmap pixmap1(img1_w, img1_h);
+    const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
 
-    const QPixmap pixmap2(img2_w, img2_h);
+    const QPixmap pixmap2(img2);
     const QIcon icon2(pixmap2);
 
     QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
-    model.appendRow(child1);
-    model.appendRow(child2);
+    submodel.appendRow(child1);
+    submodel.appendRow(child2);
+
+    const QModelIndex idx1 = child1->index();
+    const QModelIndex idx2 = child2->index();
+
+    // setup expectations
+    MockPhotoInfo photoInfo1;
+    MockPhotoInfo photoInfo2;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(idx1)).WillRepeatedly(Return(&photoInfo1));
+    EXPECT_CALL(model, getPhotoInfo(idx2)).WillRepeatedly(Return(&photoInfo2));
+    EXPECT_CALL(photoInfo1, getGeometry()).WillRepeatedly(Return(img1));
+    EXPECT_CALL(photoInfo2, getGeometry()).WillRepeatedly(Return(img2));
+    //
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
@@ -366,7 +420,7 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
         const QSize pix1Size = pix1.size();
 
         EXPECT_EQ(QSize(100, 50), thumb1);              // scaled
-        EXPECT_EQ(QSize(img1_w, img1_h), pix1Size);     // original
+        EXPECT_EQ(img1, pix1Size);                      // original
 
         const auto child2It = data.get(child2->index());
         const QSize thumb2 = data.getThumbnailSize(child2It);
@@ -374,6 +428,6 @@ TEST(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
         const QSize pix2Size = pix2.size();
 
         EXPECT_EQ(QSize(10, 50), thumb2);               // scaled
-        EXPECT_EQ(QSize(img2_w, img2_h), pix2Size);     // original
+        EXPECT_EQ(img2, pix2Size);                      // original
     }
 }

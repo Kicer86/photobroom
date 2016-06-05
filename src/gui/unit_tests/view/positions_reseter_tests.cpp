@@ -9,6 +9,8 @@
 #include <desktop/views/view_impl/data.hpp>
 
 #include "test_helpers/mock_configuration.hpp"
+#include "test_helpers/photo_info_model.hpp"
+#include "test_helpers/mock_photo_info.hpp"
 
 
 class PositionsReseterShould: public ::testing::Test
@@ -18,8 +20,10 @@ public:
             testing::Test(),
             icon(),
             data(),
+            photoInfo(),
             config(),
-            model(),
+            submodel(),
+            model(&submodel),
             top(),
             child1(),
             child2(),
@@ -45,7 +49,8 @@ public:
 protected:
     virtual void SetUp()
     {
-        const QPixmap pixmap(img_w, img_h);
+        const QSize img(img_w, img_h);
+        const QPixmap pixmap(img);
         icon = pixmap;
 
         data.set(&model);
@@ -91,9 +96,16 @@ protected:
         top3->appendRow(child3_4);
         top3->appendRow(child3_5);
 
-        model.appendRow(top);
-        model.appendRow(top2);
-        model.appendRow(top3);
+        submodel.appendRow(top);
+        submodel.appendRow(top2);
+        submodel.appendRow(top3);
+
+        // setup base expectations
+        using ::testing::Return;
+        using ::testing::_;
+        EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+        EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return(img));
+        //
     }
 
     const int img_w = 100;
@@ -103,8 +115,10 @@ protected:
     QIcon icon;
 
     Data data;
+    MockPhotoInfo photoInfo;
     MockConfiguration config;
-    QStandardItemModel model;
+    QStandardItemModel submodel;
+    MockPhotoInfoModel model;
 
     QStandardItem* top;
     QStandardItem* child1;
@@ -612,7 +626,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
 
     // test
     QStandardItem* new_top0 = new QStandardItem("Empty");
-    model.insertRow(0, new_top0);
+    submodel.insertRow(0, new_top0);
 
     PositionsReseter reseter(&model, &data);
     reseter.itemsAdded(QModelIndex(), 0, 0);

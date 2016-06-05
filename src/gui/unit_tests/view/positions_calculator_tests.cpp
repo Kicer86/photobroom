@@ -12,13 +12,34 @@
 
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
+#include "test_helpers/photo_info_model.hpp"
+#include "test_helpers/mock_photo_info.hpp"
 
 
-TEST(PositionsCalculatorShould, BeConstructable)
+class PositionsCalculatorShould: public ::testing::Test
+{
+    public:
+        PositionsCalculatorShould():
+            testing::Test(),
+            submodel(),
+            model(&submodel)
+        {
+        }
+
+    protected:
+        virtual void SetUp() override
+        {
+
+        }
+
+        MockPhotoInfo photoInfo;
+        QStandardItemModel submodel;
+        MockPhotoInfoModel model;
+};
+
+TEST_F(PositionsCalculatorShould, BeConstructable)
 {
     EXPECT_NO_THROW({
-        QStandardItemModel model;
-
         Data data;
         data.set(&model);
 
@@ -27,13 +48,9 @@ TEST(PositionsCalculatorShould, BeConstructable)
 }
 
 
-TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
+TEST_F(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 {
-    using ::testing::Return;
-
     QModelIndex top;
-
-    QStandardItemModel model;
 
     Data data;
     data.set(&model);
@@ -52,19 +69,16 @@ TEST(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
 }
 
 
-TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
+TEST_F(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 {
     // Situation:
     // One node with two children. Node is not expanded and is only one visible item.
 
     using ::testing::_;
     using ::testing::Return;
-    using ::testing::Invoke;
 
     const int canvas_w = 500;
     const int header_h = 40;
-
-    QStandardItemModel model;
 
     // top + 1 main node + 2 children
     QStandardItem* top_idx = new QStandardItem;
@@ -76,7 +90,7 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     top_child1_idx->appendRow(top_child1_child1_idx);
     top_child1_idx->appendRow(top_child1_child2_idx);
 
-    model.appendRow(top_idx);
+    submodel.appendRow(top_idx);
 
     Data data;
     data.set(&model);
@@ -104,16 +118,13 @@ TEST(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 }
 
 
-TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
+TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 {
     // Situation:
     // One node with two children. Node is expanded and its children are visible in one row.
 
     using ::testing::_;
     using ::testing::Return;
-    using ::testing::Invoke;
-
-    QStandardItemModel model;
 
     const int img_w = 100;
     const int img_h = 50;
@@ -123,7 +134,7 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 
     top_idx->appendRow(top_child1_idx);
 
-    model.appendRow(top_idx);
+    submodel.appendRow(top_idx);
 
     Data view_data;
     view_data.set(&model);
@@ -135,6 +146,12 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     const int thumb_h = view_data.getThumbnailDesiredHeight();
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(100, 50) ));
+    //
 
     //expand main node to show children
     ModelIndexInfo& top_info = *view_data.get(top_idx->index());
@@ -159,32 +176,28 @@ TEST(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
 }
 
 
-TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
+TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 {
     // Situation:
     // two nodes with two children. Second node is expanded and its children are visible in one row.
 
     using ::testing::_;
     using ::testing::Return;
-    using ::testing::Invoke;
 
-    const int img_w = 100;
-    const int img_h = 50;
-
-    QStandardItemModel model;
+    const QSize img(100, 50);
 
     QStandardItem* top_idx = new QStandardItem( "Empty" );
-    QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+    QStandardItem* top_child1_idx = new QStandardItem( QIcon(QPixmap(img)), "Empty" );
 
     top_idx->appendRow(top_child1_idx);
 
     QStandardItem* top_idx2 = new QStandardItem( "Empty2" );
-    QStandardItem* top2_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+    QStandardItem* top2_child1_idx = new QStandardItem( QIcon(QPixmap(img)), "Empty" );
 
     top_idx2->appendRow(top2_child1_idx);
 
-    model.appendRow(top_idx);
-    model.appendRow(top_idx2);
+    submodel.appendRow(top_idx);
+    submodel.appendRow(top_idx2);
 
     Data view_data;
     view_data.set(&model);
@@ -194,6 +207,12 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     const int canvas_w = 500;
     const int header_h = 40;
     const int thumb_h = view_data.getThumbnailDesiredHeight();
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( img ));
+    //
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -213,13 +232,11 @@ TEST(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
 }
 
 
-TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
+TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 {
-    const int img_w = 100;
-    const int img_h = 50;
+    const QSize img(100, 50);
 
-    QStandardItemModel model;
-    const QPixmap pixmap(img_w, img_h);
+    const QPixmap pixmap(img);
     const QIcon icon(pixmap);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -235,16 +252,25 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     top->appendRow(child4);
     top->appendRow(child5);
 
-    model.appendRow(top);
+    submodel.appendRow(top);
 
     Data view_data;
     view_data.set(&model);
-    view_data.setThumbnailDesiredHeight(img_h);
+    view_data.setThumbnailDesiredHeight(img.height());
 
     const int spacing = view_data.getSpacing();
     const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
     const int header_h = 40;
+
+    // setup expectations
+    using ::testing::_;
+    using ::testing::Return;
+
+    MockPhotoInfo photoInfo;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( img ));
+    //
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
@@ -259,7 +285,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
         const ModelIndexInfo& info = *view_data.cfind(top->index());
 
         EXPECT_EQ(QRect(0, 0, canvas_w, header_h), info.getRect());                                        // its position
-        EXPECT_EQ(QSize(canvas_w, header_h + img_h * 2 + spacing * 4 + margin), info.getOverallSize());  // we expect two rows
+        EXPECT_EQ(QSize(canvas_w, header_h + img.height() * 2 + spacing * 4 + margin), info.getOverallSize());  // we expect two rows
     }
 
     {
@@ -267,7 +293,7 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 
         // should start in second row (first row height + spacing)
         const QRect childRect(view_data.getImageMargin(),
-                              img_h + spacing * 2, img_w + spacing * 2, img_h + spacing * 2);
+                              img.height() + spacing * 2, img.width() + spacing * 2, img.height() + spacing * 2);
 
         EXPECT_EQ(childRect, info.getRect());
         EXPECT_EQ(childRect.size(), info.getOverallSize());
@@ -275,21 +301,18 @@ TEST(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
 }
 
 
-TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingOverallSize)
+TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingOverallSize)
 {
     //preparations
-    const int img_w = 100;
-    const int img_h = 50;
+    const QSize img(100, 50);
     const int canvas_w = 500;
-
-    static QStandardItemModel model;
 
     Data data;
     data.set(&model);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    const QPixmap pixmap(img_w, img_h);
+    const QPixmap pixmap(img);
     const QIcon icon(pixmap);
 
     QStandardItem* top = new QStandardItem("Empty");
@@ -318,8 +341,17 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
     top2->appendRow(child2_4);
     top2->appendRow(child2_5);
 
-    model.appendRow(top);
-    model.appendRow(top2);
+    submodel.appendRow(top);
+    submodel.appendRow(top2);
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return(img));
+    //
 
     //expand main node to show children
     {
@@ -350,17 +382,14 @@ TEST(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatingO
 }
 
 
-TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
+TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 {
     //preparations
-    const int img1_w = 200;
-    const int img1_h = 100;
-    const int img2_w = 100;
-    const int img2_h = 500;
+    const QSize img1(200, 100);
+    const QSize img2(100, 500);
     const int canvas_w = 500;
 
-    static MockConfiguration config;
-    static QStandardItemModel model;
+    MockConfiguration config;
 
     Data data;
     data.set(&model);
@@ -370,18 +399,31 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    const QPixmap pixmap1(img1_w, img1_h);
+    const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
 
-    const QPixmap pixmap2(img2_w, img2_h);
+    const QPixmap pixmap2(img2);
     const QIcon icon2(pixmap2);
 
     QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
+    submodel.appendRow(child1);
+    submodel.appendRow(child2);
 
-    model.appendRow(child1);
-    model.appendRow(child2);
+    // setup expectations
+    const QModelIndex idx1 = child1->index();
+    const QModelIndex idx2 = child2->index();
+
+    MockPhotoInfo photoInfo1;
+    MockPhotoInfo photoInfo2;
+
+    using ::testing::Return;
+    EXPECT_CALL(model, getPhotoInfo(idx1)).WillRepeatedly(Return(&photoInfo1));
+    EXPECT_CALL(model, getPhotoInfo(idx2)).WillRepeatedly(Return(&photoInfo2));
+    EXPECT_CALL(photoInfo1, getGeometry()).WillRepeatedly(Return(img1));
+    EXPECT_CALL(photoInfo2, getGeometry()).WillRepeatedly(Return(img2));
+    //
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
@@ -398,16 +440,12 @@ TEST(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 }
 
 
-TEST(PositionsCalculatorShould, HandleWideImages)
+TEST_F(PositionsCalculatorShould, HandleWideImages)
 {
     //preparations
-    const int img1_w = 1000;
-    const int img1_h = 50;
-    const int img2_w = 100;
-    const int img2_h = 50;
+    const QSize img1(1000, 50);
+    const QSize img2(100, 50);
     const int canvas_w = 500;
-
-    static QStandardItemModel model;
 
     Data data;
     data.set(&model);
@@ -418,18 +456,31 @@ TEST(PositionsCalculatorShould, HandleWideImages)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    const QPixmap pixmap1(img1_w, img1_h);
+    const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
 
-    const QPixmap pixmap2(img2_w, img2_h);
+    const QPixmap pixmap2(img2);
     const QIcon icon2(pixmap2);
 
     QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
     QStandardItem* child2 = new QStandardItem(icon2, "Empty2");
 
+    submodel.appendRow(child1);
+    submodel.appendRow(child2);
 
-    model.appendRow(child1);
-    model.appendRow(child2);
+    // setup expectations
+    const QModelIndex idx1 = child1->index();
+    const QModelIndex idx2 = child2->index();
+
+    MockPhotoInfo photoInfo1;
+    MockPhotoInfo photoInfo2;
+
+    using ::testing::Return;
+    EXPECT_CALL(model, getPhotoInfo(idx1)).WillRepeatedly(Return(&photoInfo1));
+    EXPECT_CALL(model, getPhotoInfo(idx2)).WillRepeatedly(Return(&photoInfo2));
+    EXPECT_CALL(photoInfo1, getGeometry()).WillRepeatedly(Return(img1));
+    EXPECT_CALL(photoInfo2, getGeometry()).WillRepeatedly(Return(img2));
+    //
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
@@ -439,44 +490,37 @@ TEST(PositionsCalculatorShould, HandleWideImages)
     // Second image should be moved to next one
     {
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        EXPECT_EQ(QSize(img1_w + 2 * spacing, img1_h + 2 * spacing), info1.getSize());
+        EXPECT_EQ(QSize(img1.width() + 2 * spacing, img1.height() + 2 * spacing), info1.getSize());
         EXPECT_EQ(QPoint(margin, 0), info1.getPosition());
 
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
-        EXPECT_EQ(QSize(img2_w + 2 * spacing, img2_h + 2 * spacing), info2.getSize());
-        EXPECT_EQ(QPoint(margin, img1_h + 2 * spacing), info2.getPosition());
+        EXPECT_EQ(QSize(img2.width() + 2 * spacing, img2.height() + 2 * spacing), info2.getSize());
+        EXPECT_EQ(QPoint(margin, img1.height() + 2 * spacing), info2.getPosition());
     }
 }
 
 
 
-TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
+TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
 {
     // Situation:
     // two nodes with two children. Children should have
     // positions relative to parents' positions
 
-    using ::testing::_;
-    using ::testing::Return;
-    using ::testing::Invoke;
-
-    const int img_w = 100;
-    const int img_h = 50;
-
-    QStandardItemModel model;
+    const QSize img(100, 50);
 
     QStandardItem* top_idx1 = new QStandardItem( "Empty" );
-    QStandardItem* top1_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+    QStandardItem* top1_child1_idx = new QStandardItem( QIcon(QPixmap(img)), "Empty" );
 
     top_idx1->appendRow(top1_child1_idx);
 
     QStandardItem* top_idx2 = new QStandardItem( "Empty2" );
-    QStandardItem* top2_child1_idx = new QStandardItem( QIcon(QPixmap(img_w, img_h)), "Empty" );
+    QStandardItem* top2_child1_idx = new QStandardItem( QIcon(QPixmap(img)), "Empty" );
 
     top_idx2->appendRow(top2_child1_idx);
 
-    model.appendRow(top_idx1);
-    model.appendRow(top_idx2);
+    submodel.appendRow(top_idx1);
+    submodel.appendRow(top_idx2);
 
     Data view_data;
     view_data.set(&model);
@@ -486,7 +530,16 @@ TEST(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     const int canvas_w = 500;
     const int header_h = 40;
     const int thumb_h = view_data.getThumbnailDesiredHeight();
-    const int thumb_w = img_w * thumb_h/img_h;
+    const int thumb_w = img.width() * thumb_h/img.height();
+
+    // setup expectations
+    MockPhotoInfo photoInfo;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return(img));
+    //
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
