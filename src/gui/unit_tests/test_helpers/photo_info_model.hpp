@@ -11,8 +11,11 @@ struct IPhotoInfo;
 class PhotoInfoModel: public APhotoInfoModel
 {
     public:
-        PhotoInfoModel(QAbstractItemModel *, IPhotoInfo *, QObject* = 0);
+        PhotoInfoModel(QAbstractItemModel *, QObject* = 0);
+        PhotoInfoModel(const PhotoInfoModel &) = delete;
         virtual ~PhotoInfoModel();
+
+        PhotoInfoModel& operator=(const PhotoInfoModel &) = delete;
 
         // QAbstractItemModel:
         virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -22,13 +25,12 @@ class PhotoInfoModel: public APhotoInfoModel
 
     private:
         QAbstractItemModel* m_model;
-        IPhotoInfo* m_photoInfo;
 };
 
 
 struct MockPhotoInfoModel: PhotoInfoModel
 {
-    MockPhotoInfoModel(QAbstractItemModel*, IPhotoInfo*, QObject* = 0);
+    MockPhotoInfoModel(QAbstractItemModel*, QObject* = 0);
 
     MOCK_CONST_METHOD1(getPhotoInfo, IPhotoInfo*(const QModelIndex &));
 };

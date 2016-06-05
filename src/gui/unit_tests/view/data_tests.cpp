@@ -19,9 +19,8 @@ class DataShould: public ::testing::Test
     public:
         DataShould():
             testing::Test(),
-            photoInfo(),
             submodel(),
-            model(&submodel, &photoInfo)
+            model(&submodel)
         {
         }
 
@@ -30,8 +29,6 @@ class DataShould: public ::testing::Test
         {
 
         }
-
-        MockPhotoInfo photoInfo;
         QStandardItemModel submodel;
         MockPhotoInfoModel model;
 };
@@ -159,7 +156,11 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     info.expanded = true;
 
     // setup expectations
+    MockPhotoInfo photoInfo;
+
     using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
     EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
 
     //
@@ -211,9 +212,12 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     submodel.appendRow(top);
 
     // setup expectations
-    using ::testing::Return;
-    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    MockPhotoInfo photoInfo;
 
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
     //
 
     //expand top and update items positions
@@ -277,9 +281,12 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     submodel.appendRow(top);
 
     // setup expectations
-    using ::testing::Return;
-    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    MockPhotoInfo photoInfo;
 
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
     //
 
     //expand top and update items positions
@@ -326,9 +333,12 @@ TEST_F(DataShould, ReturnProperIndicesOfItems)
     submodel.appendRow(top);
 
     // setup expectations
-    using ::testing::Return;
-    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    MockPhotoInfo photoInfo;
 
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
     //
 
     //expand top so children will be stored in 'data' when calculating positions
@@ -358,10 +368,8 @@ TEST_F(DataShould, ReturnProperIndicesOfItems)
 TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 {
     //preparations
-    const int img1_w = 200;
-    const int img1_h = 100;
-    const int img2_w = 100;
-    const int img2_h = 500;
+    const QSize img1(200, 100);
+    const QSize img2(100, 500);
     const int canvas_w = 500;
 
     Data data;
@@ -370,10 +378,10 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    const QPixmap pixmap1(img1_w, img1_h);
+    const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
 
-    const QPixmap pixmap2(img2_w, img2_h);
+    const QPixmap pixmap2(img2);
     const QIcon icon2(pixmap2);
 
     QStandardItem* child1 = new QStandardItem(icon1, "Empty1");
@@ -382,10 +390,19 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     submodel.appendRow(child1);
     submodel.appendRow(child2);
 
-    // setup expectations
-    using ::testing::Return;
-    EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return( QSize(10, 10) ));
+    const QModelIndex idx1 = child1->index();
+    const QModelIndex idx2 = child2->index();
 
+    // setup expectations
+    MockPhotoInfo photoInfo1;
+    MockPhotoInfo photoInfo2;
+
+    using ::testing::Return;
+    using ::testing::_;
+    EXPECT_CALL(model, getPhotoInfo(idx1)).WillRepeatedly(Return(&photoInfo1));
+    EXPECT_CALL(model, getPhotoInfo(idx2)).WillRepeatedly(Return(&photoInfo2));
+    EXPECT_CALL(photoInfo1, getGeometry()).WillRepeatedly(Return(img1));
+    EXPECT_CALL(photoInfo2, getGeometry()).WillRepeatedly(Return(img2));
     //
 
     PositionsCalculator calculator(&data, canvas_w);
@@ -403,7 +420,7 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
         const QSize pix1Size = pix1.size();
 
         EXPECT_EQ(QSize(100, 50), thumb1);              // scaled
-        EXPECT_EQ(QSize(img1_w, img1_h), pix1Size);     // original
+        EXPECT_EQ(img1, pix1Size);                      // original
 
         const auto child2It = data.get(child2->index());
         const QSize thumb2 = data.getThumbnailSize(child2It);
@@ -411,6 +428,6 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
         const QSize pix2Size = pix2.size();
 
         EXPECT_EQ(QSize(10, 50), thumb2);               // scaled
-        EXPECT_EQ(QSize(img2_w, img2_h), pix2Size);     // original
+        EXPECT_EQ(img2, pix2Size);                      // original
     }
 }

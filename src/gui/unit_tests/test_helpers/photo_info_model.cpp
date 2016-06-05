@@ -2,7 +2,7 @@
 #include "photo_info_model.hpp"
 
 
-PhotoInfoModel::PhotoInfoModel(QAbstractItemModel* m, IPhotoInfo* pi, QObject* p): APhotoInfoModel(p), m_model(m), m_photoInfo(pi)
+PhotoInfoModel::PhotoInfoModel(QAbstractItemModel* m, QObject* p): APhotoInfoModel(p), m_model(m)
 {
     connect(m_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SIGNAL(rowsInserted(QModelIndex, int, int)));
     connect(m_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SIGNAL(rowsRemoved(QModelIndex, int, int)));
@@ -45,7 +45,7 @@ int PhotoInfoModel::rowCount(const QModelIndex& parent) const
 }
 
 
-MockPhotoInfoModel::MockPhotoInfoModel(QAbstractItemModel* m, IPhotoInfo* pi, QObject* p): PhotoInfoModel(m, pi, p)
+MockPhotoInfoModel::MockPhotoInfoModel(QAbstractItemModel* m, QObject* p): PhotoInfoModel(m, p)
 {
 
 }

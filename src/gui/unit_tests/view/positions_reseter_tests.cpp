@@ -23,7 +23,7 @@ public:
             photoInfo(),
             config(),
             submodel(),
-            model(&submodel, &photoInfo),
+            model(&submodel),
             top(),
             child1(),
             child2(),
@@ -49,7 +49,8 @@ public:
 protected:
     virtual void SetUp()
     {
-        const QPixmap pixmap(img_w, img_h);
+        const QSize img(img_w, img_h);
+        const QPixmap pixmap(img);
         icon = pixmap;
 
         data.set(&model);
@@ -98,6 +99,13 @@ protected:
         submodel.appendRow(top);
         submodel.appendRow(top2);
         submodel.appendRow(top3);
+
+        // setup base expectations
+        using ::testing::Return;
+        using ::testing::_;
+        EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
+        EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return(img));
+        //
     }
 
     const int img_w = 100;
