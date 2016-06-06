@@ -22,15 +22,26 @@
 
 #include <QScrollArea>
 
+class QLabel;
+
+class IPhotosManager;
+class IPhotoInfo;
+
 class PhotoPreviewWidget: public QScrollArea
 {
     public:
         explicit PhotoPreviewWidget(QWidget* parent = 0);
         PhotoPreviewWidget(const PhotoPreviewWidget &) = delete;
-        
-        PhotoPreviewWidget& operator=(const PhotoPreviewWidget &) = delete;
-        
         virtual ~PhotoPreviewWidget();
+
+        PhotoPreviewWidget& operator=(const PhotoPreviewWidget &) = delete;
+
+        void set(IPhotosManager *);
+        void show(IPhotoInfo *);
+
+    private:
+        QLabel* m_label;
+        IPhotosManager* m_manager;
 };
 
 #endif // PHOTOPREVIEWWIDGET_HPP

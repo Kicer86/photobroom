@@ -20,14 +20,36 @@
 
 #include "photo_preview_widget.hpp"
 
+#include <QLabel>
 
-PhotoPreviewWidget::PhotoPreviewWidget(QWidget* parent): QScrollArea(parent)
+#include <core/iphotos_manager.hpp>
+
+
+PhotoPreviewWidget::PhotoPreviewWidget(QWidget* parent): QScrollArea(parent), m_label(nullptr)
 {
-
+    m_label = new QLabel(this);
+    setWidget(m_label);
 }
 
 
 PhotoPreviewWidget::~PhotoPreviewWidget()
 {
 
+}
+
+
+void PhotoPreviewWidget::set(IPhotosManager* manager)
+{
+    m_manager = manager;
+}
+
+
+void PhotoPreviewWidget::show(IPhotoInfo* photoInfo)
+{
+    const QString path = photoInfo->getPath();
+    const QByteArray img_raw = m_manager->getPhoto(path);
+    const QImage img(img_raw);
+    const QPixmap pixmap = QPixmap::fromImage(img);
+
+    m_label->setPixmap(pixmap);
 }
