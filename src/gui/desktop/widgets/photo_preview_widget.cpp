@@ -25,10 +25,11 @@
 #include <core/iphotos_manager.hpp>
 
 
-PhotoPreviewWidget::PhotoPreviewWidget(QWidget* parent): QScrollArea(parent), m_label(nullptr)
+PhotoPreviewWidget::PhotoPreviewWidget(QWidget* parent): QScrollArea(parent), m_label(nullptr), m_manager(nullptr)
 {
     m_label = new QLabel(this);
     setWidget(m_label);
+    setWidgetResizable(true);
 }
 
 
@@ -48,7 +49,7 @@ void PhotoPreviewWidget::show(IPhotoInfo* photoInfo)
 {
     const QString path = photoInfo->getPath();
     const QByteArray img_raw = m_manager->getPhoto(path);
-    const QImage img(img_raw);
+    const QImage img = QImage::fromData(img_raw);
     const QPixmap pixmap = QPixmap::fromImage(img);
 
     m_label->setPixmap(pixmap);

@@ -291,10 +291,20 @@ void MainWindow::setupView()
     ui->imagesView->setModel(m_imagesModel);
 
     m_photosAnalyzer->set(ui->tasksWidget);
+    QItemSelectionModel* selectionModel = ui->imagesView->viewSelectionModel();
 
     //setup tags editor
-    ui->tagEditor->set( ui->imagesView->viewSelectionModel() );
+    ui->tagEditor->set( selectionModel );
     ui->tagEditor->set( m_imagesModel);
+
+    //setup photo preview
+    connect(selectionModel, &QItemSelectionModel::currentChanged, [this](const QModelIndex& current, const QModelIndex &)
+    {
+        IPhotoInfo* pi = m_imagesModel->getPhotoInfo(current);
+
+        if (pi != nullptr)
+            ui->previewWidget->show(pi);
+    });
 
     //connect to docks
     connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
