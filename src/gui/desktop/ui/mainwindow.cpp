@@ -176,6 +176,7 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::set(IPhotosManager* manager)
 {
+    ui->previewWidget->set(manager);
     ui->imagesView->set(manager);
     m_photosAnalyzer->set(manager);
 

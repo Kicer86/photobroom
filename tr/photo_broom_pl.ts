@@ -302,7 +302,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+207"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+208"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

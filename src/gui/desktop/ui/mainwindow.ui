@@ -111,12 +111,12 @@
   </widget>
   <widget class="QDockWidget" name="previewDockWidget">
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>
-   <widget class="QWidget" name="previewWidget"/>
+   <widget class="PhotoPreviewWidget" name="previewWidget"/>
   </widget>
   <action name="actionNew_collection">
    <property name="text">
@@ -232,6 +232,12 @@
    <class>PhotosWidget</class>
    <extends>QWidget</extends>
    <header>widgets/photos_widget.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>PhotoPreviewWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/photo_preview_widget.hpp</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
