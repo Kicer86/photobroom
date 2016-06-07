@@ -61,6 +61,12 @@ void ThumbnailAcquisitor::setObserver(const Observer& observer)
 }
 
 
+void ThumbnailAcquisitor::dismissPedingTasks()
+{
+    m_generator.dismissPedingTasks();
+}
+
+
 QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 {
     QImage result;

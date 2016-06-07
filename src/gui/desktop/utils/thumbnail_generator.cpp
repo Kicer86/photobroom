@@ -73,7 +73,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 }
 
 
-ThumbnailGenerator::ThumbnailGenerator(): m_executor(nullptr), m_photosManager(nullptr)
+ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_executor(nullptr), m_photosManager(nullptr)
 {
 
 }
@@ -85,9 +85,17 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
+void ThumbnailGenerator::dismissPedingTasks()
+{
+    m_tasks->clear();
+}
+
+
 void ThumbnailGenerator::set(ITaskExecutor* executor)
 {
     m_executor = executor;
+
+    m_tasks = std::move( m_executor->getCustomTaskQueue() );
 }
 
 
@@ -100,7 +108,7 @@ void ThumbnailGenerator::set(IPhotosManager* photosManager)
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
     auto task = std::make_unique<ThumbnailGeneratorTask>(info, callback, m_photosManager);
-    m_executor->add(std::move(task));
+    m_tasks->push(std::move(task));
 }
 
 
