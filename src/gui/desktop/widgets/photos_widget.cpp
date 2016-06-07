@@ -85,7 +85,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
-
+    connect(m_view, &ImagesTreeView::contentScrolled, this, &PhotosWidget::viewScrolled);
     connect(this, &PhotosWidget::performUpdate, m_view, &ImagesTreeView::refreshView, Qt::QueuedConnection);
 }
 
@@ -153,6 +153,12 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 void PhotosWidget::searchExpressionChanged(const QString &)
 {
     m_timer.start();
+}
+
+
+void PhotosWidget::viewScrolled()
+{
+    m_thumbnailAcquisitor.dismissPendingTasks();
 }
 
 

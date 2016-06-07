@@ -68,6 +68,7 @@ class PhotosWidget: public QWidget
         QVBoxLayout* m_bottomHintLayout;
 
         void searchExpressionChanged(const QString &);
+        void viewScrolled();
         void applySearchExpression();
         void thumbnailUpdated(const ThumbnailInfo &, const QImage &);
 
