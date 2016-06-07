@@ -172,6 +172,14 @@ QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardMo
 }
 
 
+void ImagesTreeView::scrollContentsBy(int dx, int dy)
+{
+    QAbstractScrollArea::scrollContentsBy(dx, dy);
+
+    emit contentScrolled();
+}
+
+
 void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint hint)
 {
     QPoint offset;
