@@ -43,7 +43,7 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
 
         void setInProgressThumbnail(const QImage &);
         void setObserver(const Observer &);
-        void dismissPedingTasks();
+        void dismissPendingTasks();
 
         QImage getThumbnail(const ThumbnailInfo &) const override;
 

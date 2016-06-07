@@ -42,7 +42,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
-        void dismissPedingTasks();
+        void dismissPendingTasks();
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;

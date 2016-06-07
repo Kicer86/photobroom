@@ -61,9 +61,9 @@ void ThumbnailAcquisitor::setObserver(const Observer& observer)
 }
 
 
-void ThumbnailAcquisitor::dismissPedingTasks()
+void ThumbnailAcquisitor::dismissPendingTasks()
 {
-    m_generator.dismissPedingTasks();
+    m_generator.dismissPendingTasks();
 }
 
 

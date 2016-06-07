@@ -85,7 +85,7 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
-void ThumbnailGenerator::dismissPedingTasks()
+void ThumbnailGenerator::dismissPendingTasks()
 {
     m_tasks->clear();
 }
