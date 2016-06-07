@@ -38,6 +38,16 @@ struct ThumbnailInfo
         return path == other.path &&
                height == other.height;
     }
+
+    bool operator<(const ThumbnailInfo& other) const
+    {
+        if (path < other.path)
+            return true;
+        else if (path == other.path)
+            return height < other.height;
+        else
+            return false;
+    }
 };
 
 
