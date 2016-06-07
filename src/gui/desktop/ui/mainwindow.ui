@@ -113,6 +113,9 @@
    <property name="visible">
     <bool>true</bool>
    </property>
+   <property name="windowTitle">
+    <string>Photo preview</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>

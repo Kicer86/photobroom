@@ -227,7 +227,12 @@
         <translation>Zadania</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+12"/>
+        <source>Photo preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
