@@ -115,7 +115,7 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
 
 ThumbnailCache::ThumbnailCache():
     m_cacheMutex(),
-    m_cache(256)
+    m_cache(2048)
 {
 
 }
