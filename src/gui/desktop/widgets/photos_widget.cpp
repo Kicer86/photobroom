@@ -71,18 +71,18 @@ PhotosWidget::PhotosWidget(QWidget* p):
     QLabel* zoomSizeLabel = new QLabel(this);
 
     zoomSlider->setOrientation(Qt::Horizontal);
-    zoomSlider->setMinimum(50);
-    zoomSlider->setMaximum(200);
+    zoomSlider->setMinimum(40);
+    zoomSlider->setMaximum(400);
     zoomSlider->setSingleStep(10);
-    zoomSlider->setTickInterval(10);
+    zoomSlider->setTickInterval(20);
     zoomSlider->setPageStep(30);
     zoomSlider->setValue(thumbnailSize);
     zoomSlider->setTickPosition(QSlider::TicksBelow);
 
     QHBoxLayout* bottomTools = new QHBoxLayout;
-    bottomTools->addStretch(1);
+    bottomTools->addStretch(3);
     bottomTools->addWidget(zoomLabel);
-    bottomTools->addWidget(zoomSlider);
+    bottomTools->addWidget(zoomSlider, 1);
     bottomTools->addWidget(zoomSizeLabel);
 
     auto updateZoomSizeLabel = [zoomSizeLabel](int size)
