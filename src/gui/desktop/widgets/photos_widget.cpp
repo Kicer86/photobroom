@@ -64,21 +64,34 @@ PhotosWidget::PhotosWidget(QWidget* p):
     searchLayout->addWidget(m_searchExpression);
 
     // bottom tools
+    const int thumbnailSize = m_view->getThumbnailHeight();
+
     QLabel* zoomLabel = new QLabel(tr("Thumbnail size:"), this);
     QSlider* zoomSlider = new QSlider(this);
+    QLabel* zoomSizeLabel = new QLabel(this);
+
     zoomSlider->setOrientation(Qt::Horizontal);
     zoomSlider->setMinimum(50);
     zoomSlider->setMaximum(200);
     zoomSlider->setSingleStep(10);
     zoomSlider->setTickInterval(10);
     zoomSlider->setPageStep(30);
-    zoomSlider->setValue(120);
+    zoomSlider->setValue(thumbnailSize);
     zoomSlider->setTickPosition(QSlider::TicksBelow);
 
     QHBoxLayout* bottomTools = new QHBoxLayout;
-    bottomTools->addStretch();
+    bottomTools->addStretch(1);
     bottomTools->addWidget(zoomLabel);
     bottomTools->addWidget(zoomSlider);
+    bottomTools->addWidget(zoomSizeLabel);
+
+    auto updateZoomSizeLabel = [zoomSizeLabel](int size)
+    {
+        const QString t = QString("%1 px").arg(size);
+        zoomSizeLabel->setText(t);
+    };
+
+    updateZoomSizeLabel(thumbnailSize);
 
     // hint layout
     m_bottomHintLayout = new QVBoxLayout;
@@ -105,7 +118,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
     connect(m_view, &ImagesTreeView::contentScrolled, this, &PhotosWidget::viewScrolled);
     connect(this, &PhotosWidget::performUpdate, m_view, &ImagesTreeView::refreshView, Qt::QueuedConnection);
-    connect(zoomSlider, &QAbstractSlider::sliderMoved, m_view, &ImagesTreeView::setThumbnailHeight);
+    connect(zoomSlider, &QAbstractSlider::valueChanged, m_view, &ImagesTreeView::setThumbnailHeight);
+    connect(zoomSlider, &QAbstractSlider::valueChanged, updateZoomSizeLabel);
 }
 
 

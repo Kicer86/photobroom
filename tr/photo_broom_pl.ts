@@ -453,7 +453,7 @@ Kod błędu: %1</translation>
         <translation>Szukaj:</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Thumbnail size:</source>
         <translation type="unfinished"></translation>
     </message>
