@@ -452,6 +452,11 @@ Kod błędu: %1</translation>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
+    <message>
+        <location line="+8"/>
+        <source>Thumbnail size:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ProjectCreatorDialog</name>
