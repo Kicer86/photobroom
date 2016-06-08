@@ -54,6 +54,9 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
     });
 
     setThumbnailHeight(120);
+
+    verticalScrollBar()->setSingleStep(60);
+    horizontalScrollBar()->setSingleStep(60);
 }
 
 
@@ -77,9 +80,6 @@ void ImagesTreeView::setImageMargin(int margin)
 
 void ImagesTreeView::setThumbnailHeight(int thumbSize)
 {
-    verticalScrollBar()->setSingleStep(thumbSize / 2);
-    horizontalScrollBar()->setSingleStep(thumbSize / 2);
-
     m_data->setThumbnailDesiredHeight(thumbSize);
 
     //reset all positions
