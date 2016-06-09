@@ -63,6 +63,36 @@ PhotosWidget::PhotosWidget(QWidget* p):
     searchLayout->addWidget(searchPrompt);
     searchLayout->addWidget(m_searchExpression);
 
+    // bottom tools
+    const int thumbnailSize = m_view->getThumbnailHeight();
+
+    QLabel* zoomLabel = new QLabel(tr("Thumbnail size:"), this);
+    QSlider* zoomSlider = new QSlider(this);
+    QLabel* zoomSizeLabel = new QLabel(this);
+
+    zoomSlider->setOrientation(Qt::Horizontal);
+    zoomSlider->setMinimum(40);
+    zoomSlider->setMaximum(400);
+    zoomSlider->setSingleStep(10);
+    zoomSlider->setTickInterval(20);
+    zoomSlider->setPageStep(30);
+    zoomSlider->setValue(thumbnailSize);
+    zoomSlider->setTickPosition(QSlider::TicksBelow);
+
+    QHBoxLayout* bottomTools = new QHBoxLayout;
+    bottomTools->addStretch(3);
+    bottomTools->addWidget(zoomLabel);
+    bottomTools->addWidget(zoomSlider, 1);
+    bottomTools->addWidget(zoomSizeLabel);
+
+    auto updateZoomSizeLabel = [zoomSizeLabel](int size)
+    {
+        const QString t = QString("%1 px").arg(size);
+        zoomSizeLabel->setText(t);
+    };
+
+    updateZoomSizeLabel(thumbnailSize);
+
     // hint layout
     m_bottomHintLayout = new QVBoxLayout;
 
@@ -71,6 +101,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     view_hints_layout->setContentsMargins(0, 0, 0, 0);
     view_hints_layout->setSpacing(0);
     view_hints_layout->addWidget(m_view);
+    view_hints_layout->addLayout(bottomTools);
     view_hints_layout->addLayout(m_bottomHintLayout);
 
     // main layout
@@ -85,8 +116,14 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
-
+    connect(m_view, &ImagesTreeView::contentScrolled, this, &PhotosWidget::viewScrolled);
     connect(this, &PhotosWidget::performUpdate, m_view, &ImagesTreeView::refreshView, Qt::QueuedConnection);
+    connect(zoomSlider, &QAbstractSlider::valueChanged, [this, updateZoomSizeLabel](int thumbnailHeight)
+    {
+        updateZoomSizeLabel(thumbnailHeight);
+        m_view->setThumbnailHeight(thumbnailHeight);
+        m_thumbnailAcquisitor.dismissPendingTasks();
+    });
 }
 
 
@@ -153,6 +190,12 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 void PhotosWidget::searchExpressionChanged(const QString &)
 {
     m_timer.start();
+}
+
+
+void PhotosWidget::viewScrolled()
+{
+    m_thumbnailAcquisitor.dismissPendingTasks();
 }
 
 

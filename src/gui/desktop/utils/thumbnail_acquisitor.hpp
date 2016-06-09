@@ -43,6 +43,7 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
 
         void setInProgressThumbnail(const QImage &);
         void setObserver(const Observer &);
+        void dismissPendingTasks();
 
         QImage getThumbnail(const ThumbnailInfo &) const override;
 
@@ -52,6 +53,7 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
         mutable std::mutex m_cacheAccessMutex;
         ThumbnailGenerator m_generator;
         mutable ThumbnailCache m_cache;
+        mutable std::set<ThumbnailInfo> m_awaitingTasks;
 
         void gotThumbnail(const ThumbnailInfo &, const QImage &) const;
 };

@@ -53,7 +53,10 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_
         m_dataDirty = true;
     });
 
-    setThumbnailSize(120);
+    setThumbnailHeight(120);
+
+    verticalScrollBar()->setSingleStep(60);
+    horizontalScrollBar()->setSingleStep(60);
 }
 
 
@@ -75,10 +78,21 @@ void ImagesTreeView::setImageMargin(int margin)
 }
 
 
-void ImagesTreeView::setThumbnailSize(int thumbSize)
+void ImagesTreeView::setThumbnailHeight(int thumbSize)
 {
-    verticalScrollBar()->setSingleStep(thumbSize / 2);
-    horizontalScrollBar()->setSingleStep(thumbSize / 2);
+    m_data->setThumbnailDesiredHeight(thumbSize);
+
+    //reset all positions
+    PositionsReseter reseter(model(), m_data.get());
+    reseter.invalidateAll();
+
+    emit refreshView();
+}
+
+
+int ImagesTreeView::getThumbnailHeight() const
+{
+    return m_data->getThumbnailDesiredHeight();
 }
 
 
@@ -169,6 +183,14 @@ QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardMo
     }
 
     return result;
+}
+
+
+void ImagesTreeView::scrollContentsBy(int dx, int dy)
+{
+    QAbstractScrollArea::scrollContentsBy(dx, dy);
+
+    emit contentScrolled();
 }
 
 

@@ -218,13 +218,13 @@
     </message>
     <message>
         <location line="+15"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <source>Photo &amp;information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tasks</source>
-        <translation>Zadania</translation>
+        <source>&amp;Tasks</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
@@ -297,6 +297,11 @@
         <translation>&amp;Nowe zdjęcia</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <source>&amp;Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -319,7 +324,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+121"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -441,6 +446,11 @@ Kod błędu: %1</translation>
         <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+59"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Thumbnail size:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

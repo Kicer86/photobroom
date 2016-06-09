@@ -24,10 +24,14 @@
 
 #include <QCache>
 
+#include <core/ts_multi_head_queue.hpp>
+#include <core/task_executor.hpp>
+
 #include "ithumbnail_generator.hpp"
 
+
 struct IPhotosManager;
-struct ITaskExecutor;
+
 
 class ThumbnailGenerator: public IThumbnailGenerator
 {
@@ -38,11 +42,13 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
+        void dismissPendingTasks();
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
 
     private:
+        ITaskExecutor::TaskQueue m_tasks;
         ITaskExecutor* m_executor;
         IPhotosManager* m_photosManager;
 };

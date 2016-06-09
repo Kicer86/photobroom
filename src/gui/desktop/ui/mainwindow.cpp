@@ -178,7 +178,7 @@ void MainWindow::set(IPhotosManager* manager)
 {
     ui->imagesView->set(manager);
     m_photosAnalyzer->set(manager);
-    
+
     m_photosManager = manager;
 }
 
@@ -289,9 +289,10 @@ void MainWindow::setupView()
     ui->imagesView->setModel(m_imagesModel);
 
     m_photosAnalyzer->set(ui->tasksWidget);
+    QItemSelectionModel* selectionModel = ui->imagesView->viewSelectionModel();
 
     //setup tags editor
-    ui->tagEditor->set( ui->imagesView->viewSelectionModel() );
+    ui->tagEditor->set( selectionModel );
     ui->tagEditor->set( m_imagesModel);
 
     //connect to docks

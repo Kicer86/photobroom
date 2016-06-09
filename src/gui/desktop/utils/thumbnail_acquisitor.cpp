@@ -25,7 +25,8 @@ ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_inProgress(),
     m_cacheAccessMutex(),
     m_generator(),
-    m_cache()
+    m_cache(),
+    m_awaitingTasks()
 {
 
 }
@@ -61,25 +62,39 @@ void ThumbnailAcquisitor::setObserver(const Observer& observer)
 }
 
 
+void ThumbnailAcquisitor::dismissPendingTasks()
+{
+    std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
+
+    m_awaitingTasks.clear();
+    m_generator.dismissPendingTasks();
+}
+
+
 QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 {
     QImage result;
 
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
-    auto image = m_cache.get(info);
+    auto awaiting = m_awaitingTasks.find(info);
 
-    if (image)
-        result = *image;
+    if (awaiting != m_awaitingTasks.end())
+        result = m_inProgress;
     else
     {
-        // store temporary image in cache,
-        // so new requests for it will not call generation again
-        m_cache.add(info, m_inProgress);
-        result = m_inProgress;
+        auto image = m_cache.get(info);
 
-        auto callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
-        m_generator.generateThumbnail(info, callback);
+        if (image)
+            result = *image;
+        else
+        {
+            m_awaitingTasks.insert(info);
+            result = m_inProgress;
+
+            auto callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
+            m_generator.generateThumbnail(info, callback);
+        }
     }
 
     return result;
@@ -89,6 +104,10 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 void ThumbnailAcquisitor::gotThumbnail(const ThumbnailInfo& info, const QImage& image) const
 {
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
+
+    // It is possible to get thumbnail which was not awaited.
+    // m_awaitingTasks could be cleared when generation task was being executed.
+    m_awaitingTasks.erase(info);
 
     m_cache.add(info, image);
 

@@ -47,8 +47,9 @@ class ImagesTreeView: public QAbstractItemView
 
         void setSpacing(int);
         void setImageMargin(int);
-        [[deprecated("Should be constant")]] void setThumbnailSize(int);
+        void setThumbnailHeight(int);
 
+        int getThumbnailHeight() const;
         QRect childrenSize(const QModelIndex &) const;
 
         // QAbstractItemView overrides:
@@ -60,6 +61,7 @@ class ImagesTreeView: public QAbstractItemView
         virtual int verticalOffset() const override;
 
         virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers) override;
+        virtual void scrollContentsBy(int dx, int dy) override;
         virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible) override;
         virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command) override;
 
@@ -97,6 +99,7 @@ class ImagesTreeView: public QAbstractItemView
 
     signals:
         void refreshView();
+        void contentScrolled();
 };
 
 #endif // IMAGESTREEVIEW_HPP

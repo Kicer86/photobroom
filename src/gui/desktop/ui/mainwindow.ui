@@ -92,7 +92,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Photo information</string>
+    <string>Photo &amp;information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -101,7 +101,7 @@
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
-    <string>Tasks</string>
+    <string>&amp;Tasks</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
@@ -194,6 +194,14 @@
    </property>
    <property name="text">
     <string>&amp;New photos</string>
+   </property>
+  </action>
+  <action name="actionPreview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Preview</string>
    </property>
   </action>
  </widget>
