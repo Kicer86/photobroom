@@ -74,7 +74,6 @@
     </property>
     <addaction name="actionTags_editor"/>
     <addaction name="actionTasks"/>
-    <addaction name="actionPreview"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -93,7 +92,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Photo information</string>
+    <string>Photo &amp;information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -102,24 +101,12 @@
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
-    <string>Tasks</string>
+    <string>&amp;Tasks</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
    <widget class="TasksViewWidget" name="tasksWidget"/>
-  </widget>
-  <widget class="QDockWidget" name="previewDockWidget">
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-   <property name="windowTitle">
-    <string>Photo preview</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="PhotoPreviewWidget" name="previewWidget"/>
   </widget>
   <action name="actionNew_collection">
    <property name="text">
@@ -214,7 +201,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Preview</string>
+    <string>&amp;Preview</string>
    </property>
   </action>
  </widget>
@@ -235,12 +222,6 @@
    <class>PhotosWidget</class>
    <extends>QWidget</extends>
    <header>widgets/photos_widget.hpp</header>
-  </customwidget>
-  <customwidget>
-   <class>PhotoPreviewWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/photo_preview_widget.hpp</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

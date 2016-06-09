@@ -176,7 +176,6 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::set(IPhotosManager* manager)
 {
-    ui->previewWidget->set(manager);
     ui->imagesView->set(manager);
     m_photosAnalyzer->set(manager);
 
@@ -195,7 +194,6 @@ void MainWindow::updateWindowsMenu()
 {
     ui->actionTags_editor->setChecked(ui->rightDockWidget->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
-    ui->actionPreview->setChecked(ui->previewDockWidget->isVisible());
 }
 
 
@@ -297,19 +295,9 @@ void MainWindow::setupView()
     ui->tagEditor->set( selectionModel );
     ui->tagEditor->set( m_imagesModel);
 
-    //setup photo preview
-    connect(selectionModel, &QItemSelectionModel::currentChanged, [this](const QModelIndex& current, const QModelIndex &)
-    {
-        IPhotoInfo* pi = m_imagesModel->getPhotoInfo(current);
-
-        if (pi != nullptr)
-            ui->previewWidget->show(pi);
-    });
-
     //connect to docks
     connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-    connect(ui->previewDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 
     // group radio buttons
     QActionGroup* viewGroup = new QActionGroup(this);
@@ -560,14 +548,6 @@ void MainWindow::on_actionTasks_triggered()
     const bool state = ui->actionTasks->isChecked();
 
     ui->tasksDockWidget->setVisible(state);
-}
-
-
-void MainWindow::on_actionPreview_triggered()
-{
-    const bool state = ui->actionPreview->isChecked();
-
-    ui->previewDockWidget->setVisible(state);
 }
 
 

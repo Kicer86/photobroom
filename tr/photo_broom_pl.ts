@@ -212,23 +212,18 @@
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
         <source>&amp;View</source>
         <translation>&amp;Widok</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <source>Photo &amp;information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tasks</source>
-        <translation>Zadania</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Photo preview</source>
+        <source>&amp;Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -303,11 +298,11 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>Preview</source>
+        <source>&amp;Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+208"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -329,7 +324,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+121"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -354,7 +349,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+137"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -404,7 +399,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-263"/>
+        <location line="-255"/>
         <source>- new photos</source>
         <translation>- nowe zdjęcia</translation>
     </message>
