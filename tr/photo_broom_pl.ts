@@ -320,12 +320,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Photo broom: %1 %2</source>
-        <translation>Photo broom: %1 %2</translation>
-    </message>
-    <message>
-        <location line="+117"/>
+        <location line="+118"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -340,7 +335,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="-95"/>
+        <source>Photo broom: %1</source>
+        <translation>Photo broom: %1</translation>
+    </message>
+    <message>
+        <location line="+232"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -390,12 +390,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-255"/>
-        <source>- new photos</source>
-        <translation>- nowe zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+98"/>
+        <location line="-157"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
