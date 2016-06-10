@@ -347,12 +347,7 @@ void MainWindow::updateTitle()
     const bool prj = m_currentPrj.get() != nullptr;
 
     const QString prjName = prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened");
-    QString view = "";
-
-    if (prj)
-        view = m_activeView == ActiveView::NewPhotos? tr("- new photos"): tr("");
-
-    const QString title = tr("Photo broom: %1 %2").arg(prjName).arg(view);
+    const QString title = tr("Photo broom: %1").arg(prjName);
 
     setWindowTitle(title);
 }
