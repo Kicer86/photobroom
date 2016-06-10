@@ -299,10 +299,24 @@ void MainWindow::setupView()
     connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 
-    // group radio buttons
-    QActionGroup* viewGroup = new QActionGroup(this);
-    viewGroup->addAction(ui->actionReviewed_photos);
-    viewGroup->addAction(ui->actionNew_photos);
+    // construct tabs
+    QTabBar* tabBar = ui->imagesView->getBottomTabBar();
+    tabBar->addTab(tr("Reviewed photos"));
+    tabBar->addTab(tr("New photos"));
+
+    connect(tabBar, &QTabBar::currentChanged, [this](int idx)
+    {
+        switch(idx)
+        {
+            case 0:
+                activateReviewedPhotosTab();
+                break;
+
+            case 1:
+                activateNewPhotosTab();
+                break;
+        }
+    });
 }
 
 
@@ -311,7 +325,6 @@ void MainWindow::updateMenus()
     const bool prj = m_currentPrj.get() != nullptr;
     const bool valid = m_recentCollections.isEmpty() == false;
 
-    ui->menuView->menuAction()->setVisible(prj);
     ui->menuPhotos->menuAction()->setVisible(prj);
     ui->menuOpen_recent->menuAction()->setVisible(valid);
     ui->menuOpen_recent->clear();
@@ -334,12 +347,7 @@ void MainWindow::updateTitle()
     const bool prj = m_currentPrj.get() != nullptr;
 
     const QString prjName = prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened");
-    QString view = "";
-
-    if (prj)
-        view = m_activeView == ActiveView::NewPhotos? tr("- new photos"): tr("");
-
-    const QString title = tr("Photo broom: %1 %2").arg(prjName).arg(view);
+    const QString title = tr("Photo broom: %1").arg(prjName);
 
     setWindowTitle(title);
 }
@@ -479,7 +487,7 @@ void MainWindow::on_actionQuit_triggered()
 }
 
 
-void MainWindow::on_actionReviewed_photos_triggered()
+void MainWindow::activateReviewedPhotosTab()
 {
     setReviewedPhotosView();
 
@@ -488,7 +496,7 @@ void MainWindow::on_actionReviewed_photos_triggered()
 }
 
 
-void MainWindow::on_actionNew_photos_triggered()
+void MainWindow::activateNewPhotosTab()
 {
     setNewPhotosView();
 

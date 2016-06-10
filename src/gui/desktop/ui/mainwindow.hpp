@@ -90,16 +90,16 @@ class MainWindow: public QMainWindow
         void setReviewedPhotosView();
         void setNewPhotosView();
 
+        // view menu
+        void activateReviewedPhotosTab();
+        void activateNewPhotosTab();
+
     private slots:
         // album menu
         void on_actionNew_collection_triggered();
         void on_actionOpen_collection_triggered();
         void on_actionClose_triggered();
         void on_actionQuit_triggered();
-
-        // view menu
-        void on_actionReviewed_photos_triggered();
-        void on_actionNew_photos_triggered();
 
         // photos menu
         void on_actionScan_collection_triggered();

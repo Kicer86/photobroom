@@ -42,17 +42,8 @@
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
-    <message numerus="yes">
-        <location line="+7"/>
-        <source>Done. %n new photo(s) found.</source>
-        <translation>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="-18"/>
+        <location line="-11"/>
         <source>Collection scan canceled</source>
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
@@ -71,9 +62,19 @@
         <source>Done. No new photos found.</source>
         <translation>Zakończono. Brak nowych zdjęć.</translation>
     </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>Done. %n new photo(s) found.
+You can review them by clicking &apos;New photos&apos; tab at the bottom of window.</source>
+        <translation>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowych zdjęć. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+        </translation>
+    </message>
     <message>
-        <location line="-16"/>
-        <location line="+20"/>
+        <location line="-17"/>
+        <location line="+22"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
@@ -212,19 +213,14 @@
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>&amp;View</source>
-        <translation>&amp;Widok</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+20"/>
         <source>Photo &amp;information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -287,21 +283,6 @@
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>&amp;Reviewed photos</source>
-        <translation>&amp;Przejrzane zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&amp;New photos</source>
-        <translation>&amp;Nowe zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&amp;Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -324,17 +305,22 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+89"/>
+        <source>Reviewed photos</source>
+        <translation>Przejrzane zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New photos</source>
+        <translation>Nowe zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+44"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Photo broom: %1 %2</source>
-        <translation>Photo broom: %1 %2</translation>
-    </message>
-    <message>
-        <location line="+117"/>
+        <location line="+118"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -349,7 +335,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="-95"/>
+        <source>Photo broom: %1</source>
+        <translation>Photo broom: %1</translation>
+    </message>
+    <message>
+        <location line="+232"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -399,12 +390,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-255"/>
-        <source>- new photos</source>
-        <translation>- nowe zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+98"/>
+        <location line="-157"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
@@ -443,14 +429,14 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+59"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+60"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Thumbnail size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar miniaturki:</translation>
     </message>
 </context>
 <context>

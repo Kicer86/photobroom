@@ -27,8 +27,8 @@ struct PhotoInfo::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    QString path;
-    std::set<IObserver *> m_observers;
+    ol::ThreadSafeResource<QString> path;
+    ol::ThreadSafeResource<std::set<IObserver *>> m_observers;
     ol::ThreadSafeResource<Photo::Data> m_data;
     bool m_valid;
 };
@@ -36,7 +36,7 @@ struct PhotoInfo::Data
 
 PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 {
-    m_data->path = p;
+    *m_data->path.lock() = p;
 
     const QImageReader reader(p);
     m_data->m_data.lock()->geometry = reader.size();
@@ -123,13 +123,13 @@ bool PhotoInfo::isExifDataLoaded() const
 
 void PhotoInfo::registerObserver(IObserver* observer)
 {
-    m_data->m_observers.insert(observer);
+    m_data->m_observers.lock()->insert(observer);
 }
 
 
 void PhotoInfo::unregisterObserver(IObserver* observer)
 {
-    m_data->m_observers.erase(observer);
+    m_data->m_observers.lock()->erase(observer);
 }
 
 
@@ -204,7 +204,9 @@ bool PhotoInfo::isValid()
 
 void PhotoInfo::updated()
 {
-    for(IObserver* observer: m_data->m_observers)
+    auto observers = m_data->m_observers.lock();
+
+    for(IObserver* observer: observers.get())
         observer->photoUpdated(this);
 }
 
