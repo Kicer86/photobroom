@@ -90,7 +90,6 @@ class MainWindow: public QMainWindow
         void setReviewedPhotosView();
         void setNewPhotosView();
 
-
         // view menu
         void activateReviewedPhotosTab();
         void activateNewPhotosTab();
