@@ -64,7 +64,8 @@
     </message>
     <message numerus="yes">
         <location line="+1"/>
-        <source>Done. %n new photo(s) found. You can review them by clicking &apos;View&apos; menu and then &apos;New photos&apos; action.</source>
+        <source>Done. %n new photo(s) found.
+You can review them by clicking &apos;View&apos; menu and then &apos;New photos&apos; action.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>

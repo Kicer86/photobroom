@@ -181,7 +181,7 @@ void CollectionDirScanDialog::updateGui()
         {
             const QString info = m_photosFound.empty()?
                 tr("Done. No new photos found."):
-                tr("Done. %n new photo(s) found. You can review them by clicking 'View' menu and then 'New photos' action.",
+                tr("Done. %n new photo(s) found.\nYou can review them by clicking 'View' menu and then 'New photos' action.",
                    "",
                    m_photosFound.size());
 
