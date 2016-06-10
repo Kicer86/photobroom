@@ -65,7 +65,7 @@
     <message numerus="yes">
         <location line="+1"/>
         <source>Done. %n new photo(s) found.
-You can review them by clicking &apos;View&apos; menu and then &apos;New photos&apos; action.</source>
+You can review them by clicking &apos;New photos&apos; tab at the bottom of window.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
@@ -213,12 +213,7 @@ You can review them by clicking &apos;View&apos; menu and then &apos;New photos&
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>&amp;View</source>
-        <translation>&amp;Widok</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+20"/>
         <source>Photo &amp;information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -288,16 +283,6 @@ You can review them by clicking &apos;View&apos; menu and then &apos;New photos&
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>&amp;Reviewed photos</source>
-        <translation>&amp;Przejrzane zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&amp;New photos</source>
-        <translation>&amp;Nowe zdjęcia</translation>
-    </message>
-    <message>
         <location line="+8"/>
         <source>&amp;Preview</source>
         <translation type="unfinished"></translation>
@@ -325,7 +310,17 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+89"/>
+        <source>Reviewed photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>New photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+44"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -444,7 +439,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+59"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+60"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
