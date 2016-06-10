@@ -303,6 +303,27 @@ void MainWindow::setupView()
     QActionGroup* viewGroup = new QActionGroup(this);
     viewGroup->addAction(ui->actionReviewed_photos);
     viewGroup->addAction(ui->actionNew_photos);
+
+    // construct tabs
+    QTabBar* tabBar = ui->imagesView->getBottomTabBar();
+    tabBar->addTab(ui->actionReviewed_photos->text());
+    tabBar->addTab(ui->actionNew_photos->text());
+
+    connect(tabBar, &QTabBar::currentChanged, [this](int idx)
+    {
+        switch(idx)
+        {
+            case 0:
+                on_actionReviewed_photos_triggered();
+                ui->actionReviewed_photos->setChecked(true);
+                break;
+
+            case 1:
+                on_actionNew_photos_triggered();
+                ui->actionNew_photos->setChecked(true);
+                break;
+        }
+    });
 }
 
 
