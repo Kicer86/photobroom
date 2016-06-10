@@ -75,15 +75,7 @@
     <addaction name="actionTags_editor"/>
     <addaction name="actionTasks"/>
    </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>&amp;View</string>
-    </property>
-    <addaction name="actionReviewed_photos"/>
-    <addaction name="actionNew_photos"/>
-   </widget>
    <addaction name="menuCollection"/>
-   <addaction name="menuView"/>
    <addaction name="menuPhotos"/>
    <addaction name="menuWindows"/>
    <addaction name="menuTools"/>
@@ -175,25 +167,6 @@
   <action name="actionScan_collection">
    <property name="text">
     <string>&amp;Scan collection</string>
-   </property>
-  </action>
-  <action name="actionReviewed_photos">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Reviewed photos</string>
-   </property>
-  </action>
-  <action name="actionNew_photos">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;New photos</string>
    </property>
   </action>
   <action name="actionPreview">
