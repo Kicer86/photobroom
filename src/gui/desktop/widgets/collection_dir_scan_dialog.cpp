@@ -181,7 +181,9 @@ void CollectionDirScanDialog::updateGui()
         {
             const QString info = m_photosFound.empty()?
                 tr("Done. No new photos found."):
-                tr("Done. %n new photo(s) found.", "", m_photosFound.size());
+                tr("Done. %n new photo(s) found. You can review them by clicking 'View' menu and then 'New photos' action.",
+                   "",
+                   m_photosFound.size());
 
             m_info->setText(info);
             m_button->setText(tr("Close"));

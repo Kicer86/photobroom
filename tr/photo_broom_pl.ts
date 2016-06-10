@@ -42,17 +42,8 @@
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
-    <message numerus="yes">
-        <location line="+7"/>
-        <source>Done. %n new photo(s) found.</source>
-        <translation>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="-18"/>
+        <location line="-11"/>
         <source>Collection scan canceled</source>
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
@@ -71,9 +62,18 @@
         <source>Done. No new photos found.</source>
         <translation>Zakończono. Brak nowych zdjęć.</translation>
     </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>Done. %n new photo(s) found. You can review them by clicking &apos;View&apos; menu and then &apos;New photos&apos; action.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
     <message>
-        <location line="-16"/>
-        <location line="+20"/>
+        <location line="-17"/>
+        <location line="+22"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
