@@ -107,8 +107,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     view_hints_layout->setContentsMargins(0, 0, 0, 0);
     view_hints_layout->setSpacing(0);
     view_hints_layout->addWidget(m_view);
-    view_hints_layout->addLayout(bottomTools);
     view_hints_layout->addLayout(m_bottomHintLayout);
+    view_hints_layout->addLayout(bottomTools);
 
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
