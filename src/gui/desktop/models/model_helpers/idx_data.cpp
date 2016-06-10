@@ -243,7 +243,6 @@ void IdxData::takeChild(IdxData* child)
 }
 
 
-
 void IdxData::reset()
 {
     m_model->idxDataReset(this);
@@ -252,6 +251,9 @@ void IdxData::reset()
     for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
 
+    if (isPhoto())
+        m_photo->unregisterObserver(this);
+    
     m_children.clear();
     m_photo.reset();
 }
@@ -366,5 +368,6 @@ void IdxData::init()
 
 void IdxData::photoUpdated(IPhotoInfo *)  //parameter not used as we have only one photo
 {
+    assert(isPhoto());
     updateLeafData();
 }
