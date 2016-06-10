@@ -66,10 +66,10 @@
         <location line="+1"/>
         <source>Done. %n new photo(s) found.
 You can review them by clicking &apos;New photos&apos; tab at the bottom of window.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowych zdjęć. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
         </translation>
     </message>
     <message>
@@ -215,12 +215,12 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
     <message>
         <location line="+20"/>
         <source>Photo &amp;information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -283,11 +283,6 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>&amp;Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -312,12 +307,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+89"/>
         <source>Reviewed photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejrzane zdjęcia</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>New photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowe zdjęcia</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -446,7 +441,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+10"/>
         <source>Thumbnail size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar miniaturki:</translation>
     </message>
 </context>
 <context>
