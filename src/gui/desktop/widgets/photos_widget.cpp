@@ -41,7 +41,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
-    m_bottomHintLayout(nullptr)
+    m_bottomHintLayout(nullptr),
+    m_bottomTabBar(nullptr)
 {
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, std::placeholders::_1, std::placeholders::_2);
     const QImage image(":/gui/clock.svg");
@@ -79,11 +80,16 @@ PhotosWidget::PhotosWidget(QWidget* p):
     zoomSlider->setValue(thumbnailSize);
     zoomSlider->setTickPosition(QSlider::TicksBelow);
 
+    m_bottomTabBar = new QTabBar(this);
+    m_bottomTabBar->setShape(QTabBar::RoundedSouth);
+
     QHBoxLayout* bottomTools = new QHBoxLayout;
+    bottomTools->addWidget(m_bottomTabBar);
     bottomTools->addStretch(3);
     bottomTools->addWidget(zoomLabel);
     bottomTools->addWidget(zoomSlider, 1);
     bottomTools->addWidget(zoomSizeLabel);
+    bottomTools->setSpacing(0);
 
     auto updateZoomSizeLabel = [zoomSizeLabel](int size)
     {
@@ -184,6 +190,12 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 
     if (hintWidget != nullptr)
         m_bottomHintLayout->addWidget(hintWidget);
+}
+
+
+QTabBar* PhotosWidget::getBottomTabBar() const
+{
+    return m_bottomTabBar;
 }
 
 
