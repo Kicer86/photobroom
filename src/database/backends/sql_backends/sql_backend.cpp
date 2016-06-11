@@ -1130,11 +1130,11 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         const int v = query.value(0).toInt();
 
         // More than we expect? Quit with error
-        if (v > 2)
+        if (v > 1)
             status = StatusCodes::BadVersion;
     }
 
-    // TODO: too complex
+    // database update
     if (status)
     {
         status = m_data->m_executor.exec("SELECT version FROM " TAB_VER ";", &query);
@@ -1147,69 +1147,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         if (status)
             v = query.value(0).toInt();
 
-        if (status)
-        {
-            if (v < 1)
-            {
-                // add keys for table TAGS - it gives ~11,5x speedup when quering photos
-                const auto it = tables.find(TAB_TAGS);
-                assert(it != tables.end());
-
-                const auto& tab = it->second;
-                const auto& keys = tab.keys;
-
-                for(const auto& key: keys)
-                {
-                    status = createKey(key, tab.name, query)? StatusCodes::Ok: StatusCodes::QueryFailed;
-
-                    if (status == false)
-                    {
-                        status = StatusCodes::MigrationFailed;
-                        break;
-                    }
-                }
-
-                if (status)
-                {
-                    InsertQueryData insertData(TAB_VER);
-                    insertData.setColumns("version");
-                    insertData.setValues("1");
-
-                    UpdateQueryData updateData(insertData);
-                    updateData.setCondition( "version", "0" );
-                    const std::vector<QString> queryStrs = getGenericQueryGenerator()->update(updateData);
-
-                    status = m_data->m_executor.exec(queryStrs, &query);
-                }
-            }
-
-            if (v < 2)
-            {
-                if (status)
-                {
-                    // Insert column in flags table
-                    const QString queryStr = QString("ALTER TABLE %1 ADD %2 %3")
-                                            .arg(TAB_FLAGS)
-                                            .arg(FLAG_GEOM_LOADED)
-                                            .arg("INT NOT NULL DEFAULT '0'");
-
-                    status = m_data->m_executor.exec(queryStr, &query);
-                }
-
-                if (status)
-                {
-                    InsertQueryData insertData(TAB_VER);
-                    insertData.setColumns("version");
-                    insertData.setValues("2");
-
-                    UpdateQueryData updateData(insertData);
-                    updateData.setCondition( "version", "1" );
-                    const std::vector<QString> queryStrs = getGenericQueryGenerator()->update(updateData);
-
-                    status = m_data->m_executor.exec(queryStrs, &query);
-                }
-            }
-        }
+        (void) v;
     }
 
     return status;
