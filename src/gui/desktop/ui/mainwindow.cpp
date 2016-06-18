@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
+    m_newImagesModel(nullptr),
     m_configuration(nullptr),
     m_updater(nullptr),
     m_executor(nullptr),
@@ -49,10 +50,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler),
-    m_recentCollections(),
-    m_newPhotosFilters(),
-    m_reviewedPhotosFilters(),
-    m_activeView(ActiveView::ReviewedPhotos)
+    m_recentCollections()
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -74,17 +72,6 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
-
-    // filters
-    auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
-    m_newPhotosFilters = {new_photos_filter};
-
-    auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
-    m_reviewedPhotosFilters = {reviewed_photos_filter};
-
-    setReviewedPhotosView();
 }
 
 
@@ -288,35 +275,22 @@ void MainWindow::setupView()
     m_imagesModel = new DBDataModel(this);
     ui->imagesView->setModel(m_imagesModel);
 
+    m_newImagesModel = new DBDataModel(this);
+    ui->newImagesView->setModel(m_newImagesModel);
+
+    setupReviewedPhotosView();
+    setupNewPhotosView();
+
     m_photosAnalyzer->set(ui->tasksWidget);
     QItemSelectionModel* selectionModel = ui->imagesView->viewSelectionModel();
 
     //setup tags editor
     ui->tagEditor->set( selectionModel );
-    ui->tagEditor->set( m_imagesModel);
+    ui->tagEditor->set( m_imagesModel );
 
     //connect to docks
     connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-
-    // construct tabs
-    QTabBar* tabBar = ui->imagesView->getBottomTabBar();
-    tabBar->addTab(tr("Reviewed photos"));
-    tabBar->addTab(tr("New photos"));
-
-    connect(tabBar, &QTabBar::currentChanged, [this](int idx)
-    {
-        switch(idx)
-        {
-            case 0:
-                activateReviewedPhotosTab();
-                break;
-
-            case 1:
-                activateNewPhotosTab();
-                break;
-        }
-    });
 }
 
 
@@ -377,16 +351,8 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    if (prj)
-    {
-        ui->imagesView->setEnabled(true);
-        ui->tagEditor->setEnabled(true);
-    }
-    else
-    {
-        ui->imagesView->setDisabled(true);
-        ui->tagEditor->setDisabled(true);
-    }
+    ui->viewsStack->setEnabled(prj);
+    ui->tagEditor->setEnabled(prj);
 }
 
 
@@ -430,23 +396,31 @@ void MainWindow::loadRecentCollections()
 }
 
 
-void MainWindow::setReviewedPhotosView()
+void MainWindow::setupReviewedPhotosView()
 {
-    m_imagesModel->setStaticFilters(m_reviewedPhotosFilters);
+    auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
+    std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter};
+
+    m_imagesModel->setStaticFilters(reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
 }
 
 
-void MainWindow::setNewPhotosView()
+void MainWindow::setupNewPhotosView()
 {
-    m_imagesModel->setStaticFilters(m_newPhotosFilters);
+    auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
+    std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter};
+
+    m_newImagesModel->setStaticFilters(newPhotosFilters);
 
     InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
     const QString message = tr("Above you can view new photos and describe them.");
     const QString link = tr("You can click here when you are done to mark photos as reviewed.");
     hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
     hint->setTextFormat(Qt::RichText);
-    ui->imagesView->setBottomHintWidget(hint);
+    ui->newImagesView->setBottomHintWidget(hint);
 
     connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
 }
@@ -484,24 +458,6 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionQuit_triggered()
 {
     close();
-}
-
-
-void MainWindow::activateReviewedPhotosTab()
-{
-    setReviewedPhotosView();
-
-    m_activeView = ActiveView::ReviewedPhotos;
-    updateTitle();
-}
-
-
-void MainWindow::activateNewPhotosTab()
-{
-    setNewPhotosView();
-
-    m_activeView = ActiveView::NewPhotos;
-    updateTitle();
 }
 
 

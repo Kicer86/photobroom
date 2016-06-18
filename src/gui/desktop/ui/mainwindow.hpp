@@ -48,17 +48,12 @@ class MainWindow: public QMainWindow
         void set(IPhotosManager *);
 
     private:
-        enum class ActiveView
-        {
-            ReviewedPhotos,
-            NewPhotos,
-        };
-
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
         DBDataModel*              m_imagesModel;
+        DBDataModel*              m_newImagesModel;
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
@@ -68,9 +63,6 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
         QStringList               m_recentCollections;
-        std::deque<Database::IFilter::Ptr> m_newPhotosFilters;
-        std::deque<Database::IFilter::Ptr> m_reviewedPhotosFilters;
-        ActiveView                m_activeView;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -87,12 +79,8 @@ class MainWindow: public QMainWindow
         void loadGeometry();
         void loadRecentCollections();
 
-        void setReviewedPhotosView();
-        void setNewPhotosView();
-
-        // view menu
-        void activateReviewedPhotosTab();
-        void activateNewPhotosTab();
+        void setupReviewedPhotosView();
+        void setupNewPhotosView();
 
     private slots:
         // album menu
