@@ -5,6 +5,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 set(UTILS_SOURCES
     config_dialog_manager.cpp
+    editor_factory.cpp
     iconfig_dialog_manager.cpp
     icons_loader.cpp
     photos_item_delegate.cpp
@@ -12,6 +13,7 @@ set(UTILS_SOURCES
 
 set(UTILS_HEADERS
     config_dialog_manager.hpp
+    editor_factory.hpp
     iconfig_dialog_manager.hpp
     icons_loader.hpp
     photos_item_delegate.hpp
@@ -19,6 +21,7 @@ set(UTILS_HEADERS
 
 
 set(UTILS_FILES_TO_MOC
+    editor_factory.hpp
     photos_item_delegate.hpp
 )
 

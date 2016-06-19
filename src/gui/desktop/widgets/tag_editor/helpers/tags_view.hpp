@@ -22,7 +22,7 @@
 
 #include <QTableView>
 
-#include "widgets/editor_factory.hpp"
+#include "ui_utils/editor_factory.hpp"
 
 class TagsView: public QTableView
 {

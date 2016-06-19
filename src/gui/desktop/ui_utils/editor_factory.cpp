@@ -27,6 +27,7 @@
 #include <QTableWidget>
 #include <QHeaderView>
 
+#include <core/down_cast.hpp>
 
 namespace
 {
@@ -96,8 +97,7 @@ void ListEditor::addRow(int p)
 QString ListEditor::value(int r) const
 {
     QWidget* w = cellWidget(r, 0);
-    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
-    QLineEdit* l = static_cast<QLineEdit *>(w);
+    QLineEdit* l = down_cast<QLineEdit *>(w);
 
     return l->text();
 }
@@ -106,8 +106,7 @@ QString ListEditor::value(int r) const
 void ListEditor::setValue(int r, const QString& v)
 {
     QWidget* w = cellWidget(r, 0);
-    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
-    QLineEdit* l = static_cast<QLineEdit *>(w);
+    QLineEdit* l = down_cast<QLineEdit *>(w);
 
     l->setText(v);
 }
