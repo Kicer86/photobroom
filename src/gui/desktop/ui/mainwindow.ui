@@ -20,7 +20,30 @@
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
-  <widget class="PhotosWidget" name="imagesView"/>
+  <widget class="QWidget" name="mainWidget">
+   <layout class="QVBoxLayout">
+    <item>
+     <widget class="QTabWidget" name="viewsStack">
+      <property name="tabPosition">
+       <enum>QTabWidget::South</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="PhotosWidget" name="imagesView">
+       <attribute name="title">
+        <string>Reviewed photos</string>
+       </attribute>
+      </widget>
+      <widget class="PhotosWidget" name="newImagesView">
+       <attribute name="title">
+        <string>New photos</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>

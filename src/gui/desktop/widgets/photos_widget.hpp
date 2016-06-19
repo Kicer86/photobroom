@@ -28,7 +28,6 @@
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
-class QTabBar;
 class QVBoxLayout;
 
 class PhotosItemDelegate;
@@ -58,7 +57,6 @@ class PhotosWidget: public QWidget
         QItemSelectionModel* viewSelectionModel();
 
         void setBottomHintWidget(InfoBaloonWidget *);
-        QTabBar* getBottomTabBar() const;
 
     private:
         QTimer m_timer;
@@ -68,7 +66,6 @@ class PhotosWidget: public QWidget
         PhotosItemDelegate* m_delegate;
         QLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
-        QTabBar* m_bottomTabBar;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();
