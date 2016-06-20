@@ -67,7 +67,6 @@ class CORE_EXPORT TagValue
 
         const QVariant& get() const;
 
-
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
         bool operator<(const TagValue &) const;
