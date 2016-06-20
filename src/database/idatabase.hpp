@@ -123,6 +123,7 @@ namespace Database
 
     //Database interface.
     //A bridge between clients and backend.
+    // TODO: all exec functions should be dropped and dedicated functions should be introduced
     struct DATABASE_EXPORT IDatabase
     {
         virtual ~IDatabase() = default;
@@ -135,13 +136,15 @@ namespace Database
         virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;
 
         // read data
-        virtual void exec(std::unique_ptr<AListTagsTask> &&) = 0;                                         //list all stored tag names
+        [[deprecated]] virtual void exec(std::unique_ptr<AListTagsTask> &&) = 0;                          //list all stored tag names
         virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
         virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         virtual void exec(std::unique_ptr<AGetPhotosTask> &&) = 0;                                        //list all photos
         virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
         virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
         virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
+
+        virtual void listTagNames( const std::function< void(const std::deque<TagNameInfo> &) > & ) = 0;  // list all stored tag names
 
         // modify data
         virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos

@@ -43,6 +43,7 @@ namespace
     struct GetPhotoTask;
     struct GetPhotosTask;
     struct ListTagsTask;
+    struct ListTagsTask2;
     struct ListTagValuesTask;
     struct AnyPhotoTask;
     struct DropPhotosTask;
@@ -72,6 +73,7 @@ namespace
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(ListTagsTask *) = 0;
+        virtual void visit(ListTagsTask2 *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
@@ -217,6 +219,22 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::unique_ptr<Database::AListTagsTask> m_task;
+    };
+
+    struct ListTagsTask2: ThreadBaseTask
+    {
+        ListTagsTask2(const std::function< void(const std::deque<TagNameInfo> &) > & callback):
+            ThreadBaseTask(),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~ListTagsTask2() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::function< void(const std::deque<TagNameInfo> &) > m_callback;
     };
 
     struct ListTagValuesTask: ThreadBaseTask
@@ -371,6 +389,12 @@ namespace
         {
             auto result = m_backend->listTags();
             task->m_task->got(result);
+        }
+
+        virtual void visit(ListTagsTask2* task) override
+        {
+            auto result = m_backend->listTags();
+            task->m_callback(result);
         }
 
         virtual void visit(ListTagValuesTask* task) override
@@ -627,6 +651,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::listTagNames( const std::function< void(const std::deque<TagNameInfo> &) > & callback)
+    {
+        ListTagsTask2* task = new ListTagsTask2(callback);
         m_impl->addTask(task);
     }
 
