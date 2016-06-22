@@ -20,14 +20,18 @@
 #ifndef TAGINFOCOLLECTOR_HPP
 #define TAGINFOCOLLECTOR_HPP
 
+#include <mutex>
+
 #include <core/tag.hpp>
+
+#include "database_export.h"
 
 namespace Database
 {
     struct IDatabase;
 }
 
-class TagInfoCollector
+class DATABASE_EXPORT TagInfoCollector
 {
     public:
         TagInfoCollector();
@@ -41,9 +45,11 @@ class TagInfoCollector
 
     private:
         mutable std::map<TagNameInfo, std::set<TagValue>> m_tags;
+        mutable std::mutex m_tags_mutex;
         Database::IDatabase* m_database;
 
         void gotTagNames(const std::deque<TagNameInfo> &);
+        void gotTagValues(const TagNameInfo &, const std::deque<QVariant> &);
 
     signals:
         void valuesChanged(const TagNameInfo &);
