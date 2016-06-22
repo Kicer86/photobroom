@@ -267,6 +267,7 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         m_imagesModel->setDatabase(nullptr);
+        m_newImagesModel->setDatabase(nullptr);
         QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
