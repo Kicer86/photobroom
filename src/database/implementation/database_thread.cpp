@@ -225,7 +225,7 @@ namespace
 
     struct ListTagsTask2: ThreadBaseTask
     {
-        ListTagsTask2(const std::function< void(const std::deque<TagNameInfo> &) > & callback):
+        ListTagsTask2(const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
             ThreadBaseTask(),
             m_callback(callback)
         {
@@ -236,7 +236,7 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::function< void(const std::deque<TagNameInfo> &) > m_callback;
+        Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
     };
 
     struct ListTagValuesTask: ThreadBaseTask
@@ -685,7 +685,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::listTagNames( const std::function< void(const std::deque<TagNameInfo> &) >& callback)
+    void DatabaseThread::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
     {
         ListTagsTask2* task = new ListTagsTask2(callback);
         m_impl->addTask(task);
