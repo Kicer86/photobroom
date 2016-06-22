@@ -50,7 +50,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler),
-    m_recentCollections()
+    m_recentCollections(),
+    m_tagInfoCollector()
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -534,6 +535,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
+            m_tagInfoCollector.set(db);
             break;
         }
 

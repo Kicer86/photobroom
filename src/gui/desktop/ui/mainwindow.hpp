@@ -7,6 +7,7 @@
 #include <QMainWindow>
 
 #include <database/idatabase.hpp>
+#include <database/database_tools/tag_info_collector.hpp>
 #include <updater/iupdater.hpp>
 
 class ConfigDialogManager;
@@ -63,6 +64,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
         QStringList               m_recentCollections;
+        TagInfoCollector          m_tagInfoCollector;
 
         void closeEvent(QCloseEvent *) override;
 

@@ -283,7 +283,7 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+196"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+197"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -340,7 +340,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+215"/>
+        <location line="+219"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -390,7 +390,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-140"/>
+        <location line="-144"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
