@@ -126,6 +126,9 @@ namespace Database
     // TODO: all exec functions should be dropped and dedicated functions should be introduced
     struct DATABASE_EXPORT IDatabase
     {
+        template <typename... Args>
+        using Callback = std::function<void(Args...)>;
+
         virtual ~IDatabase() = default;
 
         virtual ADatabaseSignals* notifier() = 0;
@@ -144,7 +147,8 @@ namespace Database
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
-        virtual void listTagNames( const std::function< void(const std::deque<TagNameInfo> &) > & ) = 0;  // list all stored tag names
+        virtual void listTagNames( const std::function< void(const std::deque<TagNameInfo> &) > & ) = 0;                     // list all stored tag names
+        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<QVariant> &> & ) = 0;  // list all values of provided tag
 
         // modify data
         virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos

@@ -45,6 +45,7 @@ namespace
     struct ListTagsTask;
     struct ListTagsTask2;
     struct ListTagValuesTask;
+    struct ListTagValuesTask2;
     struct AnyPhotoTask;
     struct DropPhotosTask;
     struct PerformActionTask;
@@ -75,6 +76,7 @@ namespace
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagsTask2 *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
+        virtual void visit(ListTagValuesTask2 *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
@@ -257,6 +259,28 @@ namespace
         std::deque<Database::IFilter::Ptr> m_filter;
     };
 
+    struct ListTagValuesTask2: ThreadBaseTask
+    {
+        ListTagValuesTask2(const TagNameInfo& info,
+                           const std::deque<Database::IFilter::Ptr>& filter,
+                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<QVariant> &> & callback):
+        ThreadBaseTask(),
+        m_callback(callback),
+        m_info(info),
+        m_filter(filter)
+        {
+
+        }
+
+        virtual ~ListTagValuesTask2() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<QVariant> &> m_callback;
+        TagNameInfo m_info;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
     struct AnyPhotoTask: ThreadBaseTask
     {
         AnyPhotoTask(std::unique_ptr<Database::AGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
@@ -401,6 +425,12 @@ namespace
         {
             auto result = m_backend->listTagValues(task->m_info, task->m_filter);
             task->m_task->got(result);
+        }
+
+        virtual void visit(ListTagValuesTask2* task) override
+        {
+            auto result = m_backend->listTagValues(task->m_info, task->m_filter);
+            task->m_callback(task->m_info, result);
         }
 
         virtual void visit(AnyPhotoTask* task) override
@@ -655,9 +685,16 @@ namespace Database
     }
 
 
-    void DatabaseThread::listTagNames( const std::function< void(const std::deque<TagNameInfo> &) > & callback)
+    void DatabaseThread::listTagNames( const std::function< void(const std::deque<TagNameInfo> &) >& callback)
     {
         ListTagsTask2* task = new ListTagsTask2(callback);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<QVariant> &> & callback)
+    {
+        ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 
