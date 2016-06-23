@@ -22,8 +22,7 @@
 
 #include <mutex>
 
-#include <core/tag.hpp>
-
+#include "itag_info_collector.hpp"
 #include "database_export.h"
 
 namespace Database
@@ -31,7 +30,7 @@ namespace Database
     struct IDatabase;
 }
 
-class DATABASE_EXPORT TagInfoCollector
+class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 {
     public:
         TagInfoCollector();
@@ -41,7 +40,7 @@ class DATABASE_EXPORT TagInfoCollector
         TagInfoCollector& operator=(const TagInfoCollector &) = delete;
 
         void set(Database::IDatabase *);
-        const std::set<TagValue>& get(const TagNameInfo &) const;
+        const std::set<TagValue>& get(const TagNameInfo &) const override;
 
     private:
         mutable std::map<TagNameInfo, std::set<TagValue>> m_tags;
