@@ -11,6 +11,7 @@ set(UTILS_SOURCES
     path_checker.cpp
     photos_collector.cpp
     signal_filter.cpp
+    tag_value_model.cpp
     thread_multiplexer.cpp
     thumbnail_acquisitor.cpp
     thumbnail_generator.cpp
@@ -24,6 +25,7 @@ set(UTILS_HEADERS
     path_checker.hpp
     photos_collector.hpp
     signal_filter.hpp
+    tag_value_model.hpp
     thread_multiplexer.hpp
     thumbnail_acquisitor.hpp
     thumbnail_generator.hpp
