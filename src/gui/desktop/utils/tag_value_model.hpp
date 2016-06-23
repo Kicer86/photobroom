@@ -20,15 +20,15 @@
 #ifndef TAGVALUEMODEL_HPP
 #define TAGVALUEMODEL_HPP
 
-#include <QAbstractItemModel>
+#include <QAbstractListModel>
 
-class TagValueModel: public QAbstractItemModel
+class TagValueModel: public QAbstractListModel
 {
-public:
-    TagValueModel();
-    TagValueModel(const TagValueModel &) = delete;
-    ~TagValueModel();
-    TagValueModel& operator=(const TagValueModel &) = delete;
+    public:
+        TagValueModel();
+        TagValueModel(const TagValueModel &) = delete;
+        ~TagValueModel();
+        TagValueModel& operator=(const TagValueModel &) = delete;
 };
 
 #endif // TAGVALUEMODEL_HPP
