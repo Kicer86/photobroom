@@ -1,5 +1,5 @@
 /*
- * Model for particular tag info values
+ * Model for particular TagNameInfo values
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,24 @@
 
 #include <QAbstractListModel>
 
+#include <core/tag.hpp>
+
+struct ITagInfoCollector;
+
 class TagValueModel: public QAbstractListModel
 {
     public:
-        TagValueModel();
+        TagValueModel(const TagNameInfo &);
         TagValueModel(const TagValueModel &) = delete;
         ~TagValueModel();
         TagValueModel& operator=(const TagValueModel &) = delete;
+
+        void set(ITagInfoCollector *);
+
+    private:
+        std::vector<TagValue> m_values;
+        TagNameInfo m_tagInfo;
+        ITagInfoCollector* m_tagInfoCollector;
 };
 
 #endif // TAGVALUEMODEL_HPP

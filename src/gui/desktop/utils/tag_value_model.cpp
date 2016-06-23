@@ -1,5 +1,5 @@
 /*
- * Model for particular tag info values
+ * Model for particular TagNameInfo values
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,13 @@
 
 #include "tag_value_model.hpp"
 
+#include <database/database_tools/itag_info_collector.hpp>
 
-TagValueModel::TagValueModel()
+
+TagValueModel::TagValueModel(const TagNameInfo& info):
+    m_values(),
+    m_tagInfo(info),
+    m_tagInfoCollector(nullptr)
 {
 
 }
@@ -30,3 +35,14 @@ TagValueModel::~TagValueModel()
 {
 
 }
+
+
+void TagValueModel::set(ITagInfoCollector* collector)
+{
+    m_tagInfoCollector = collector;
+
+    const auto& values = collector->get(m_tagInfo);
+
+    std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
+}
+
