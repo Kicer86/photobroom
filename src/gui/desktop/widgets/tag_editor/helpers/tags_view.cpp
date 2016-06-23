@@ -27,9 +27,9 @@
 #include "tags_item_delegate.hpp"
 
 
-TagsView::TagsView(QWidget* p): QTableView(p), m_editorFactory()
+TagsView::TagsView(QWidget* p): QTableView(p), m_tagValueModels(), m_editorFactory()
 {
-    TagsItemDelegate* delegate = new TagsItemDelegate;
+    TagsItemDelegate* delegate = new TagsItemDelegate(m_tagValueModels);
     delegate->setItemEditorFactory(&m_editorFactory);
 
     verticalHeader()->hide();

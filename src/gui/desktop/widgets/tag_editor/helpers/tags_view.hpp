@@ -22,7 +22,10 @@
 
 #include <QTableView>
 
+#include <core/tag.hpp>
 #include "ui_utils/editor_factory.hpp"
+
+class TagValueModel;
 
 class TagsView: public QTableView
 {
@@ -34,6 +37,7 @@ class TagsView: public QTableView
         TagsView& operator=(const TagsView &) = delete;
 
     private:
+        std::map<TagNameInfo, std::unique_ptr<TagValueModel>> m_tagValueModels;
         EditorFactory m_editorFactory;
 
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;

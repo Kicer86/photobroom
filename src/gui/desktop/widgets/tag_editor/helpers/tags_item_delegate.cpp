@@ -24,7 +24,8 @@
 #include "utils/variant_display.hpp"
 
 
-TagsItemDelegate::TagsItemDelegate()
+TagsItemDelegate::TagsItemDelegate(const std::map<TagNameInfo, std::unique_ptr<TagValueModel>>& tagValueModels):
+    m_tagValueModels(tagValueModels)
 {
 
 }
