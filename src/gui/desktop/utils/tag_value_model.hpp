@@ -36,6 +36,10 @@ class TagValueModel: public QAbstractListModel
 
         void set(ITagInfoCollector *);
 
+        // QAbstractListModel:
+        virtual int rowCount(const QModelIndex &) const override;
+        virtual QVariant data(const QModelIndex &, int) const override;
+
     private:
         std::vector<TagValue> m_values;
         TagNameInfo m_tagInfo;

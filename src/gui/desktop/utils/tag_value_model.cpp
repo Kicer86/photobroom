@@ -46,3 +46,25 @@ void TagValueModel::set(ITagInfoCollector* collector)
     std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
 }
 
+
+int TagValueModel::rowCount(const QModelIndex& index) const
+{
+    const int result = index.isValid()? 0: m_values.size();
+
+    return result;
+}
+
+
+QVariant TagValueModel::data(const QModelIndex& index, int role) const
+{
+    assert(index.isValid());
+    assert(index.column() == 0);
+    assert(index.row() < m_values.size());
+
+    QVariant result;
+
+    if (role == Qt::DisplayRole)
+        result = m_values[index.row()].get();
+
+    return result;
+}
