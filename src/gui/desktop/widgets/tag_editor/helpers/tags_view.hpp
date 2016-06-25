@@ -25,19 +25,19 @@
 #include <core/tag.hpp>
 #include "ui_utils/editor_factory.hpp"
 
+struct IEditorFactory;
 class TagValueModel;
 
 class TagsView: public QTableView
 {
     public:
-        TagsView(QWidget * = 0);
+        TagsView(IEditorFactory *, QWidget * = 0);
         TagsView(const TagsView &) = delete;
         ~TagsView();
 
         TagsView& operator=(const TagsView &) = delete;
 
     private:
-        std::map<TagNameInfo, std::unique_ptr<TagValueModel>> m_tagValueModels;
         EditorFactory m_editorFactory;
 
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;

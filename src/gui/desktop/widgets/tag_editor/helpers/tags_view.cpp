@@ -27,10 +27,10 @@
 #include "tags_item_delegate.hpp"
 
 
-TagsView::TagsView(QWidget* p): QTableView(p), m_tagValueModels(), m_editorFactory()
+TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p): QTableView(p), m_editorFactory()
 {
-    TagsItemDelegate* delegate = new TagsItemDelegate(m_tagValueModels);
-    delegate->setItemEditorFactory(&m_editorFactory);
+    TagsItemDelegate* delegate = new TagsItemDelegate;
+    delegate->setEditorFactory(editorFactory);
 
     verticalHeader()->hide();
     setItemDelegate(delegate);
