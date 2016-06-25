@@ -103,4 +103,6 @@ namespace Tag
 
 }
 
+Q_DECLARE_METATYPE(TagNameInfo::Type)
+
 #endif
