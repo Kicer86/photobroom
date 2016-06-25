@@ -1,0 +1,44 @@
+/*
+ * Factory for QCompleter for particular tag type
+ * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#ifndef COMPLETERFACTORY_HPP
+#define COMPLETERFACTORY_HPP
+
+#include <map>
+
+#include <core/tag.hpp>
+#include "icompleter_factory.hpp"
+
+class TagValueModel;
+
+class CompleterFactory: public ICompleterFactory
+{
+    public:
+        CompleterFactory();
+        CompleterFactory(const CompleterFactory &) = delete;
+        ~CompleterFactory();
+        CompleterFactory& operator=(const CompleterFactory &) = delete;
+
+        QCompleter* createCompleter(const TagNameInfo &) override;
+
+    private:
+        std::map<TagNameInfo::Type, std::unique_ptr<TagValueModel>> m_tagValueModels;
+};
+
+#endif // COMPLETERFACTORY_HPP

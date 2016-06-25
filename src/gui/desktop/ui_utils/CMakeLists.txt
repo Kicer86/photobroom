@@ -4,6 +4,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 set(UTILS_SOURCES
+    completer_factory.cpp
     config_dialog_manager.cpp
     editor_factory.cpp
     iconfig_dialog_manager.cpp
@@ -12,10 +13,13 @@ set(UTILS_SOURCES
     )
 
 set(UTILS_HEADERS
+    completer_factory.hpp
     config_dialog_manager.hpp
     editor_factory.hpp
+    icompleter_factory.hpp
     iconfig_dialog_manager.hpp
     icons_loader.hpp
+    ieditor_factory.hpp
     photos_item_delegate.hpp
 )
 
