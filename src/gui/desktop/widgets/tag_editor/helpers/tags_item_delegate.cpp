@@ -49,8 +49,6 @@ void TagsItemDelegate::setEditorFactory(IEditorFactory* editorFactory)
 
 QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagNameInfo::Type tagInfoRole = tagInfoRoleRaw.value<TagNameInfo::Type>();
     QWidget* const result = m_editorFactory->createEditor(index, parent_widget);
 
     return result;
