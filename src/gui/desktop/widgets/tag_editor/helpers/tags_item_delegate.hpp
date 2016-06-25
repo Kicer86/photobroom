@@ -25,18 +25,21 @@
 #include <core/tag.hpp>
 #include "utils/tag_value_model.hpp"
 
+struct IEditorFactory;
 
 class TagsItemDelegate : public QStyledItemDelegate
 {
     public:
-        TagsItemDelegate(const std::map<TagNameInfo, std::unique_ptr<TagValueModel>> &);
+        TagsItemDelegate();
         TagsItemDelegate(const TagsItemDelegate &) = delete;
         ~TagsItemDelegate();
 
         TagsItemDelegate& operator=(const TagsItemDelegate &) = delete;
 
+        void setEditorFactory(IEditorFactory *);
+
     private:
-        const std::map<TagNameInfo, std::unique_ptr<TagValueModel>>& m_tagValueModels;
+        IEditorFactory* m_editorFactory;
 
         QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         QString displayText(const QVariant& value, const QLocale& locale) const override;
