@@ -28,6 +28,7 @@
 #include <QHeaderView>
 
 #include <core/down_cast.hpp>
+#include "widgets/tag_editor/helpers/tags_model.hpp"
 
 namespace
 {
@@ -149,17 +150,84 @@ void ListEditor::review()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-EditorFactory::EditorFactory(): QItemEditorFactory()
+EditorFactory::EditorFactory()
 {
-    QItemEditorCreatorBase *time_creator = new QStandardItemEditorCreator<TimeEditor>();
-    registerEditor(QVariant::Time, time_creator);
 
-    QItemEditorCreatorBase *list_creator = new QStandardItemEditorCreator<ListEditor>();
-    registerEditor(QVariant::StringList, list_creator);
 }
 
 
 EditorFactory::~EditorFactory()
 {
 
+}
+
+
+QWidget* EditorFactory::createEditor(const QModelIndex& index, QWidget* parent)
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagNameInfo::Type tagInfoRole = tagInfoRoleRaw.value<TagNameInfo::Type>();
+
+    return createEditor(tagInfoRole, parent);
+}
+
+
+QWidget* EditorFactory::createEditor(const TagNameInfo::Type& type, QWidget* parent)
+{
+    QWidget* result = nullptr;
+
+    switch(type)
+    {
+        case TagNameInfo::Text:
+            result = new QLineEdit(parent);
+            break;
+
+        case TagNameInfo::Date:
+            result = new QDateEdit(parent);
+            break;
+
+        case TagNameInfo::Time:
+            result = new TimeEditor(parent);
+            break;
+
+        case TagNameInfo::List:
+            result = new ListEditor(parent);
+            break;
+
+        case TagNameInfo::Invalid:
+            assert(!"Unknown type");
+            break;
+    }
+
+    return result;
+}
+
+
+QByteArray EditorFactory::valuePropertyName(const TagNameInfo::Type& type) const
+{
+    QByteArray result;
+
+    switch(type)
+    {
+        case TagNameInfo::Text:
+            result = "text";
+            break;
+
+        case TagNameInfo::Date:
+            result = "date";
+            break;
+
+        case TagNameInfo::Time:
+            result = "time";
+            break;
+
+        case TagNameInfo::List:
+            result = "value";
+            break;
+
+        case TagNameInfo::Invalid:
+            assert(!"Unknown type");
+            break;
+    }
+
+    return result;
 }
