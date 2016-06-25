@@ -34,6 +34,7 @@
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QWidget(p, f),
+    m_completerFactory(),
     m_editorFactory(),
     m_view(nullptr),
     m_model(nullptr),
@@ -45,6 +46,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagValueProp(),
     m_tags()
 {
+    m_editorFactory.set(&m_completerFactory);
     m_view = new TagsView(&m_editorFactory, this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
@@ -92,6 +94,12 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 }
 
 
+void TagEditorWidget::set(Database::IDatabase* db)
+{
+    m_completerFactory.set(db);
+}
+
+
 void TagEditorWidget::setTagValueWidget(size_t idx)
 {
     //remove previous widget-editor (if any)
@@ -106,10 +114,8 @@ void TagEditorWidget::setTagValueWidget(size_t idx)
     const TagNameInfo& name = m_tags[idx];
     const TagNameInfo::Type tagType = name.getType();
 
-    EditorFactory factory;
-
-    m_tagValueWidget = factory.createEditor(tagType, m_tagValueContainer);
-    m_tagValueProp = factory.valuePropertyName(tagType);
+    m_tagValueWidget = m_editorFactory.createEditor(name, m_tagValueContainer);
+    m_tagValueProp = m_editorFactory.valuePropertyName(tagType);
     m_tagValueContainer->layout()->addWidget(m_tagValueWidget);
 }
 
