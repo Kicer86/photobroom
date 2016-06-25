@@ -10,7 +10,7 @@ struct ICompleterFactory
 {
     virtual ~ICompleterFactory() {}
 
-    virtual QCompleter* createCompleter(const TagNameInfo &);
+    virtual QCompleter* createCompleter(const TagNameInfo &) = 0;
 };
 
 #endif
