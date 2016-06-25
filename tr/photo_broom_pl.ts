@@ -283,7 +283,7 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+197"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+196"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
