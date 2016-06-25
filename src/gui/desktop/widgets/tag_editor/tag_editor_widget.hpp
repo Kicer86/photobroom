@@ -23,6 +23,7 @@
 
 #include <QWidget>
 
+#include "ui_utils/editor_factory.hpp"
 #include "helpers/tags_operator.hpp"
 
 class QItemSelectionModel;
@@ -51,6 +52,7 @@ class TagEditorWidget: public QWidget
         void set(DBDataModel *);
 
     private:
+        EditorFactory m_editorFactory;
         TagsView* m_view;
         TagsModel* m_model;
         TagsOperator m_tagsOperator;
