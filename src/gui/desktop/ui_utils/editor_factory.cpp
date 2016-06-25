@@ -21,14 +21,16 @@
 
 #include <cassert>
 
-#include <QTimeEdit>
+#include <QCompleter>
 #include <QDateEdit>
+#include <QHeaderView>
 #include <QLineEdit>
 #include <QTableWidget>
-#include <QHeaderView>
+#include <QTimeEdit>
 
 #include <core/down_cast.hpp>
 #include "widgets/tag_editor/helpers/tags_model.hpp"
+#include "icompleter_factory.hpp"
 
 namespace
 {
@@ -150,7 +152,7 @@ void ListEditor::review()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-EditorFactory::EditorFactory()
+EditorFactory::EditorFactory(): m_completerFactory(nullptr)
 {
 
 }
@@ -162,24 +164,37 @@ EditorFactory::~EditorFactory()
 }
 
 
+void EditorFactory::set(ICompleterFactory* completerFactory)
+{
+    m_completerFactory = completerFactory;
+}
+
+
 QWidget* EditorFactory::createEditor(const QModelIndex& index, QWidget* parent)
 {
     const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagNameInfo::Type tagInfoRole = tagInfoRoleRaw.value<TagNameInfo::Type>();
+    const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
 
     return createEditor(tagInfoRole, parent);
 }
 
 
-QWidget* EditorFactory::createEditor(const TagNameInfo::Type& type, QWidget* parent)
+QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 {
     QWidget* result = nullptr;
 
-    switch(type)
+    switch(info.getType())
     {
         case TagNameInfo::Text:
-            result = new QLineEdit(parent);
+        {
+            QLineEdit* le = new QLineEdit(parent);
+            QCompleter* completer = m_completerFactory->createCompleter(info);
+            completer->setParent(le);
+            le->setCompleter(completer);
+
+            result = le;
             break;
+        }
 
         case TagNameInfo::Date:
             result = new QDateEdit(parent);

@@ -23,8 +23,10 @@
 #include <QItemEditorFactory>
 #include <QTableWidget>
 
+#include <core/tag.hpp>
 #include "ieditor_factory.hpp"
 
+struct ICompleterFactory;
 
 class EditorFactory: public IEditorFactory
 {
@@ -35,10 +37,15 @@ class EditorFactory: public IEditorFactory
 
         EditorFactory& operator=(const EditorFactory &) = delete;
 
+        void set(ICompleterFactory *);
+
         QWidget* createEditor(const QModelIndex &, QWidget* parent) override;
-        QWidget* createEditor(const TagNameInfo::Type &, QWidget* parent) override;
+        QWidget* createEditor(const TagNameInfo &, QWidget* parent) override;
 
         QByteArray valuePropertyName(const TagNameInfo::Type &) const;
+
+    private:
+        ICompleterFactory* m_completerFactory;
 };
 
 
