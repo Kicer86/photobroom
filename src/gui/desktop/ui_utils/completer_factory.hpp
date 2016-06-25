@@ -26,6 +26,12 @@
 #include "icompleter_factory.hpp"
 
 class TagValueModel;
+struct ITagInfoCollector;
+
+namespace Database
+{
+    struct IDatabase;
+}
 
 class CompleterFactory: public ICompleterFactory
 {
@@ -35,10 +41,13 @@ class CompleterFactory: public ICompleterFactory
         ~CompleterFactory();
         CompleterFactory& operator=(const CompleterFactory &) = delete;
 
+        void set(Database::IDatabase *);
         QCompleter* createCompleter(const TagNameInfo &) override;
 
     private:
         std::map<TagNameInfo::Type, std::unique_ptr<TagValueModel>> m_tagValueModels;
+        std::map<TagNameInfo::Type, std::unique_ptr<ITagInfoCollector>> m_tagInfoCollectors;
+        Database::IDatabase* m_db;
 };
 
 #endif // COMPLETERFACTORY_HPP

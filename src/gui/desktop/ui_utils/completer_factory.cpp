@@ -21,10 +21,11 @@
 
 #include <QCompleter>
 
+#include <database/database_tools/tag_info_collector.hpp>
 #include <utils/tag_value_model.hpp>
 
 
-CompleterFactory::CompleterFactory(): m_tagValueModels()
+CompleterFactory::CompleterFactory(): m_tagValueModels(), m_tagInfoCollectors(), m_db(nullptr)
 {
 
 }
@@ -36,15 +37,28 @@ CompleterFactory::~CompleterFactory()
 }
 
 
+void CompleterFactory::set(Database::IDatabase* db)
+{
+    m_db = db;
+}
+
+
 QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 {
-    auto it = m_tagValueModels.find(info.getType());
+    const TagNameInfo::Type type = info.getType();
+    auto it = m_tagValueModels.find(type);
 
     if (it == m_tagValueModels.end())
     {
         auto model = std::make_unique<TagValueModel>(info);
+        auto collector = std::make_unique<TagInfoCollector>();
 
-        auto iit = m_tagValueModels.insert( std::make_pair(info.getType(), std::move(model)) );
+        assert(m_db != nullptr);
+        collector->set(m_db);
+        model->set(collector.get());
+
+        m_tagInfoCollectors[type] = std::move(collector);
+        auto iit = m_tagValueModels.insert( std::make_pair(type, std::move(model)) );
 
         it = iit.first;
     }
