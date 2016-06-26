@@ -25,7 +25,7 @@
 #include <utils/tag_value_model.hpp>
 
 
-CompleterFactory::CompleterFactory(): m_tagValueModels(), m_tagInfoCollectors(), m_db(nullptr)
+CompleterFactory::CompleterFactory(): m_tagValueModels(), m_tagInfoCollector()
 {
 
 }
@@ -39,7 +39,7 @@ CompleterFactory::~CompleterFactory()
 
 void CompleterFactory::set(Database::IDatabase* db)
 {
-    m_db = db;
+    m_tagInfoCollector.set(db);
 }
 
 
@@ -51,13 +51,8 @@ QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
     if (it == m_tagValueModels.end())
     {
         auto model = std::make_unique<TagValueModel>(info);
-        auto collector = std::make_unique<TagInfoCollector>();
+        model->set(&m_tagInfoCollector);
 
-        assert(m_db != nullptr);
-        collector->set(m_db);
-        model->set(collector.get());
-
-        m_tagInfoCollectors[type] = std::move(collector);
         auto iit = m_tagValueModels.insert( std::make_pair(type, std::move(model)) );
 
         it = iit.first;

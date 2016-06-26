@@ -23,10 +23,10 @@
 #include <map>
 
 #include <core/tag.hpp>
+#include <database/database_tools/tag_info_collector.hpp>
 #include "icompleter_factory.hpp"
 
 class TagValueModel;
-struct ITagInfoCollector;
 
 namespace Database
 {
@@ -46,8 +46,7 @@ class CompleterFactory: public ICompleterFactory
 
     private:
         std::map<TagNameInfo::Type, std::unique_ptr<TagValueModel>> m_tagValueModels;
-        std::map<TagNameInfo::Type, std::unique_ptr<ITagInfoCollector>> m_tagInfoCollectors;
-        Database::IDatabase* m_db;
+        TagInfoCollector m_tagInfoCollector;
 };
 
 #endif // COMPLETERFACTORY_HPP
