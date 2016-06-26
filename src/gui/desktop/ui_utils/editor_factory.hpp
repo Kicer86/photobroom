@@ -26,6 +26,8 @@
 #include <core/tag.hpp>
 #include "ieditor_factory.hpp"
 
+class QCompleter;
+
 struct ICompleterFactory;
 
 class EditorFactory: public IEditorFactory
@@ -60,7 +62,11 @@ struct ListEditor: QTableWidget
         QStringList getValues() const;
         void setValues(const QStringList &);
 
+        void setCompleter(QCompleter *);
+
     private:
+        QCompleter* m_completer;
+
         void addRow(int);
         QString value(int) const;
 

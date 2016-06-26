@@ -47,7 +47,7 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
+ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_completer(nullptr)
 {
     setColumnCount(1);
     horizontalHeader()->hide();
@@ -86,9 +86,16 @@ void ListEditor::setValues(const QStringList& values)
 }
 
 
+void ListEditor::setCompleter(QCompleter* completer)
+{
+    m_completer = completer;
+}
+
+
 void ListEditor::addRow(int p)
 {
     QLineEdit* e = new QLineEdit;
+    e->setCompleter(m_completer);
 
     insertRow(p);
     setCellWidget(p, 0, e);
@@ -205,9 +212,15 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
             break;
 
         case TagNameInfo::List:
-            result = new ListEditor(parent);
-            break;
+        {
+            ListEditor* le = new ListEditor(parent);
+            QCompleter* completer = m_completerFactory->createCompleter(info);
+            completer->setParent(le);
+            le->setCompleter(completer);
 
+            result = le;
+            break;
+        }
         case TagNameInfo::Invalid:
             assert(!"Unknown type");
             break;
