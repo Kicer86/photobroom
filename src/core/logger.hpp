@@ -43,12 +43,12 @@ class CORE_EXPORT Logger: public ILogger
 
         void setLevel(Severity);
 
-        void log(Severity, const std::string& message) override;
+        void log(Scope, Severity, const std::string& message) override;
 
-        void info(const std::string &) override;
-        void warning(const std::string &) override;
-        void error(const std::string &) override;
-        void debug(const std::string &) override;
+        void info(Scope, const std::string &) override;
+        void warning(Scope, const std::string &) override;
+        void error(Scope, const std::string &) override;
+        void debug(Scope, const std::string &) override;
 
     private:
         const std::vector<QString> m_utility;
