@@ -60,7 +60,7 @@ void Logger::setLevel(ILogger::Severity severity)
 }
 
 
-void Logger::log(Scope, ILogger::Severity severity, const std::string& message)
+void Logger::log(ILogger::Severity severity, const std::string& message)
 {
     assert(m_path.isEmpty() == false);
 
@@ -77,27 +77,27 @@ void Logger::log(Scope, ILogger::Severity severity, const std::string& message)
 }
 
 
-void Logger::info(Scope scope, const std::string& msg)
+void Logger::info(const std::string& msg)
 {
-    log(scope, Severity::Info, msg);
+    log(Severity::Info, msg);
 }
 
 
-void Logger::warning(Scope scope, const std::string& msg)
+void Logger::warning(const std::string& msg)
 {
-    log(scope, Severity::Warning, msg);
+    log(Severity::Warning, msg);
 }
 
 
-void Logger::error(Scope scope, const std::string& msg)
+void Logger::error(const std::string& msg)
 {
-    log(scope, Severity::Error, msg);
+    log(Severity::Error, msg);
 }
 
 
-void Logger::debug(Scope scope, const std::string& msg)
+void Logger::debug(const std::string& msg)
 {
-    log(scope, Severity::Debug, msg);
+    log(Severity::Debug, msg);
 }
 
 

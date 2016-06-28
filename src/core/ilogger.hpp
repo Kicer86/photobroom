@@ -17,18 +17,12 @@ struct ILogger
         Debug,
     };
 
-    enum Scope
-    {
-        Project = 1,
-        Global  = 2,
-    };
+    virtual void log(Severity, const std::string& message) = 0;
 
-    virtual void log(Scope, Severity, const std::string& message) = 0;
-
-    virtual void info(Scope, const std::string &) = 0;
-    virtual void warning(Scope, const std::string &) = 0;
-    virtual void error(Scope, const std::string &) = 0;
-    virtual void debug(Scope, const std::string &) = 0;
+    virtual void info(const std::string &) = 0;
+    virtual void warning(const std::string &) = 0;
+    virtual void error(const std::string &) = 0;
+    virtual void debug(const std::string &) = 0;
 };
 
 #endif
