@@ -15,7 +15,7 @@ add_subdirectory(system)
 add_subdirectory(updater)
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5Core REQUIRED)
+find_package(Qt5Core REQUIRED 5.6)
 find_package(Qt5Gui REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
