@@ -64,7 +64,7 @@ namespace
                 pluginsDir.cd("database");
                 QFileInfoList db_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
 
-                m_logger->log( ILogger::Severity::Info, "Searching for plugins in: " + pluginsDir.path().toStdString() );
+                m_logger->info( "Searching for plugins in: " + pluginsDir.path().toStdString() );
 
                 m_found = true;
 
@@ -72,7 +72,7 @@ namespace
                 {
                     const QString path = info.absoluteFilePath();
 
-                    m_logger->log(ILogger::Severity::Info, "Found database plugin: " + path.toStdString());
+                    m_logger->info( "Found database plugin: " + path.toStdString() );
 
                     QObject* raw_plugin = load(path);
 

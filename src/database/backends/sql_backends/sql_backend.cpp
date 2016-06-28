@@ -944,7 +944,7 @@ namespace Database
         if (status)
             status = checkStructure();
         else
-            m_data->m_logger->log(ILogger::Severity::Error, std::string("Error opening database: ") + db.lastError().text().toStdString());
+            m_data->m_logger->error(std::string("Error opening database: ") + db.lastError().text().toStdString());
 
         return status;
     }
@@ -967,7 +967,7 @@ namespace Database
         if (m_data)
             status = m_data->update(data);
         else
-            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->error("Database object does not exist.");
 
         return status;
     }
@@ -982,7 +982,7 @@ namespace Database
         if (m_data)
             status = m_data->store(tagInfo);
         else
-            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->error("Database object does not exist.");
 
         return status;
     }
@@ -995,7 +995,7 @@ namespace Database
         if (m_data)
             result = m_data->listTags();
         else
-            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->error("Database object does not exist.");
 
         return result;
     }
@@ -1008,7 +1008,7 @@ namespace Database
         if (m_data)
             result = m_data->listTagValues(tagName);
         else
-            m_data->m_logger->log(ILogger::Severity::Error, "Database object does not exist.");
+            m_data->m_logger->error("Database object does not exist.");
 
         return result;
     }
