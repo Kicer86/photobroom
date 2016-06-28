@@ -21,6 +21,7 @@
 #define LOGGERFACTORY_HPP
 
 #include "ilogger_factory.hpp"
+#include "ilogger.hpp"
 
 #include "core_export.h"
 
@@ -32,12 +33,14 @@ class CORE_EXPORT LoggerFactory: public ILoggerFactory
         virtual ~LoggerFactory() = default;
 
         LoggerFactory& operator=(const LoggerFactory &) = delete;
+        void setLogingLevel(ILogger::Severity);
 
         std::unique_ptr<ILogger> get(const QString& utility) const override;
         std::unique_ptr<ILogger> get(const std::vector<QString>& utility) const override;
 
     private:
         const QString m_path;
+        ILogger::Severity m_logingLevel;
 };
 
 #endif // LOGGERFACTORY_HPP

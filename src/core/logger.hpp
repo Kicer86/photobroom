@@ -41,7 +41,7 @@ class CORE_EXPORT Logger: public ILogger
 
         Logger& operator=(const Logger& other) = delete;
 
-        void setLevel(Severity);
+        void setLogingLevel(Severity);
 
         void log(Severity, const std::string& message) override;
 

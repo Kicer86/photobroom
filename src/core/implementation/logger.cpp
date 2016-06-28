@@ -54,7 +54,7 @@ Logger::~Logger()
 }
 
 
-void Logger::setLevel(ILogger::Severity severity)
+void Logger::setLogingLevel(ILogger::Severity severity)
 {
     m_severity = severity;
 }
