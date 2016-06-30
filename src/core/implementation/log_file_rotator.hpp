@@ -25,10 +25,11 @@
 class LogFileRotator
 {
     public:
-        LogFileRotator(const QString &);
+        LogFileRotator(const QString& base_path);
         LogFileRotator(const LogFileRotator &) = delete;
         ~LogFileRotator();
 
+        QString getFilePath(const QString& logPath) const;
         LogFileRotator& operator=(const LogFileRotator &) = delete;
 
     private:

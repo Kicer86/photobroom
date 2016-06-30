@@ -31,3 +31,9 @@ LogFileRotator::~LogFileRotator()
 {
 
 }
+
+
+QString LogFileRotator::getFilePath(const QString& logPath) const
+{
+    return logPath;
+}
