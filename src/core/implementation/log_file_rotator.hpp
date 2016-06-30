@@ -20,14 +20,19 @@
 #ifndef LOGFILEROTATOR_HPP
 #define LOGFILEROTATOR_HPP
 
+#include <QString>
+
 class LogFileRotator
 {
     public:
-        LogFileRotator();
+        LogFileRotator(const QString &);
         LogFileRotator(const LogFileRotator &) = delete;
         ~LogFileRotator();
 
         LogFileRotator& operator=(const LogFileRotator &) = delete;
+
+    private:
+        const QString m_path;
 };
 
 #endif // LOGFILEROTATOR_HPP

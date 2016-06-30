@@ -17,9 +17,11 @@
  *
  */
 
+
 #include "log_file_rotator.hpp"
 
-LogFileRotator::LogFileRotator()
+
+LogFileRotator::LogFileRotator(const QString& path): m_path(path)
 {
 
 }
