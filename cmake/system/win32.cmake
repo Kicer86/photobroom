@@ -6,10 +6,10 @@ function(install_external_lib)
 
   set(options)
   set(oneValueArgs NAME LOCATION)
-  set(multiValueArgs DLLFILES)
+  set(multiValueArgs DLLFILES HINTS)
   cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
   
-  set(hint)
+  set(hints EXTERNAL_LIB_HINTS)
 
   if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
     set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
@@ -18,14 +18,14 @@ function(install_external_lib)
   foreach(lib ${EXTERNAL_LIB_DLLFILES})
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
   
-    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll HINTS ${hint} DOC "DLL file location for package build")
+    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll HINTS ${hints} DOC "DLL file location for package build")
     if(${LIB_PATH_VAR})
         install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
         
         #add path of current dll file to hints
         get_filename_component(lib_path ${${LIB_PATH_VAR}} DIRECTORY)
-        list(APPEND hint ${lib_path})
-        list(REMOVE_DUPLICATES hint)
+        list(APPEND hints ${lib_path})
+        list(REMOVE_DUPLICATES hints)
     else()
         message(FATAL_ERROR "Could not find location for ${lib}.dll file. Set path manuly in CMake's cache file in ${LIB_PATH_VAR} variable.")
     endif()
