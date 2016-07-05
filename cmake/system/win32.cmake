@@ -9,7 +9,7 @@ function(install_external_lib)
   set(multiValueArgs DLLFILES HINTS)
   cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
   
-  set(hints EXTERNAL_LIB_HINTS)
+  set(hints ${EXTERNAL_LIB_HINTS})
 
   if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
     set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
@@ -64,7 +64,7 @@ macro(addDeploymentActions)
 
     endif()
             
-    install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL})
+    install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${OpenLibrary_DIR}/../lib)
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
     
     #Qt5
