@@ -38,7 +38,8 @@ int main(int argc, char **argv)
 
     QCommandLineOption logingLevelOption("loging-level",
                                          QCoreApplication::translate("main", "Defines loging level. Possible options are: Debug, Info, Warning (default), Error"),
-                                         QCoreApplication::translate("main", "loging level")
+                                         QCoreApplication::translate("main", "loging level"),
+                                         "Warning"
                        );
 
     QCommandLineOption crashTestOption("test-crash-catcher", "When specified, photo_broom will crash 3 seconds after being launch");
