@@ -33,6 +33,16 @@ LogFileRotator::~LogFileRotator()
 }
 
 
+void LogFileRotator::rotate(const QString &logPath) const
+{
+    const QFileInfo info(logPath);
+    const QDir dir = info.absoluteDir();
+    const QString name = info.fileName();
+
+    dir.entryList(name, QDir::Files);
+}
+
+
 QString LogFileRotator::getFilePath(const QString& logPath) const
 {
     return logPath;

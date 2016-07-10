@@ -34,8 +34,8 @@ class QString;
 class CORE_EXPORT Logger: public ILogger
 {
     public:
-        Logger(const QString &, const QString& utility);
-        Logger(const QString &, const std::vector<QString>& utility);
+        Logger(const std::ostream &, const QString& utility);
+        Logger(const std::ostream &, const std::vector<QString>& utility);
         Logger(const Logger& other) = delete;
         ~Logger();
 
