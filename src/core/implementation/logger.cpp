@@ -56,7 +56,8 @@ Logger::~Logger()
 void Logger::log(ILogger::Severity sev, const std::string& message)
 {
     const QString s = severity(sev);
-    const QString m = QString("%1 [%2][%3]: %4")
+    const QString m = QString("%1 %2 [%3][%4]: %5")
+                        .arg(currentDate())
                         .arg(currentTime())
                         .arg(s)
                         .arg(m_utility)
@@ -99,6 +100,15 @@ QString Logger::currentTime() const
     const QString timeStr = now.toString("HH:mm:ss:zzz");
 
     return timeStr;
+}
+
+
+QString Logger::currentDate() const
+{
+    QDate now = QDate::currentDate();
+    const QString dateStr = now.toString("yyyy-MM-dd");
+
+    return dateStr;
 }
 
 

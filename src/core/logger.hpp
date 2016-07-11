@@ -55,6 +55,7 @@ class CORE_EXPORT Logger: public ILogger
         std::ostream& m_file;
 
         QString currentTime() const;
+        QString currentDate() const;
         QString severity(Severity) const;
 };
 
