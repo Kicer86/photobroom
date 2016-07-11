@@ -32,17 +32,16 @@
 #include <QDebug>
 
 
-Logger::Logger(const QString& path, const std::vector<QString>& utility):
+Logger::Logger(std::ostream& stream, const std::vector<QString>& utility, Severity severity):
     m_utility(utility),
-    m_path(getPath(path)),
-    m_severity(Severity::Warning),
-    m_file(nullptr)
+    m_severity(severity),
+    m_file(stream)
 {
-    prepareFile();
+
 }
 
 
-Logger::Logger(const QString& path, const QString& utility): Logger(path, std::vector<QString>({ utility}) )
+Logger::Logger(std::ostream& stream, const QString& utility, Severity severity): Logger(stream, std::vector<QString>({ utility}), severity)
 {
 
 }
@@ -50,27 +49,17 @@ Logger::Logger(const QString& path, const QString& utility): Logger(path, std::v
 
 Logger::~Logger()
 {
-    delete m_file;
-}
 
-
-void Logger::setLogingLevel(ILogger::Severity severity)
-{
-    m_severity = severity;
 }
 
 
 void Logger::log(ILogger::Severity severity, const std::string& message)
 {
-    assert(m_path.isEmpty() == false);
-
     const QString m = QString("%1: %2").arg(currentTime()).arg(message.c_str());
 
     if (severity <= m_severity)
     {
-        QTextStream fileStream(m_file);
-
-        fileStream << m << "\n";
+        m_file << m.toStdString() << "\n";
     }
 
     qDebug() << m;
@@ -101,46 +90,10 @@ void Logger::debug(const std::string& msg)
 }
 
 
-QString Logger::getPath(const QString& path) const
-{
-    QString result(path);
-
-    if (m_utility.empty() == false)
-    {
-        for(size_t i = 0; i < m_utility.size(); i++)
-            result = result + "/" + m_utility[i];
-
-        result += ".log";
-    }
-
-    return result;
-}
-
-
-void Logger::prepareFile()
-{
-    assert(m_file == nullptr);
-
-    createPath(m_path);
-    m_file = new QFile(m_path);
-
-    m_file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
-    m_file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
-}
-
-
 QString Logger::currentTime() const
 {
     QTime now = QTime::currentTime();
     const QString timeStr = now.toString("HH:mm:ss:zzz");
 
     return timeStr;
-}
-
-
-void Logger::createPath(const QString& path) const
-{
-    const QFileInfo fileInfo(path);
-    const QString absPath = fileInfo.absolutePath();
-    QDir().mkpath(absPath);
 }

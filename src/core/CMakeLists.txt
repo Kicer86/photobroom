@@ -24,7 +24,6 @@ set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
     implementation/disk_observer.cpp
-    implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
     implementation/photos_manager.cpp
@@ -58,7 +57,6 @@ set(CORE_HEADERS
     time_guardian.hpp
     tree.hpp
     implementation/atagfeeder.hpp
-    implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
     implementation/tree_private.hpp

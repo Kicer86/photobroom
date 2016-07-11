@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
 
     const bool status = CrashCatcher::init(argv[0]);
-    const QString basePath = System::getApplicationConfigDir() + "/logs";
+    const QString basePath = System::getApplicationConfigDir();
 
     // perform command line parsing
     QCommandLineParser parser;

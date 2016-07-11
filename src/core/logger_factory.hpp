@@ -20,6 +20,8 @@
 #ifndef LOGGERFACTORY_HPP
 #define LOGGERFACTORY_HPP
 
+#include <fstream>
+
 #include "ilogger_factory.hpp"
 #include "ilogger.hpp"
 
@@ -39,7 +41,7 @@ class CORE_EXPORT LoggerFactory: public ILoggerFactory
         std::unique_ptr<ILogger> get(const std::vector<QString>& utility) const override;
 
     private:
-        const QString m_path;
+        mutable std::ofstream m_logFile;
         ILogger::Severity m_logingLevel;
 };
 

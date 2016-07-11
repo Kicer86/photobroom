@@ -21,9 +21,11 @@
 
 #include "logger.hpp"
 
-LoggerFactory::LoggerFactory(const QString& path): m_path(path), m_logingLevel(ILogger::Severity::Warning)
+LoggerFactory::LoggerFactory(const QString& path): m_logingLevel(ILogger::Severity::Warning)
 {
+    const std::string str_path = path.toStdString();
 
+    m_logFile.open(str_path + "/photo_broom.log", std::ofstream::out | std::ofstream::ate );
 }
 
 
@@ -41,8 +43,7 @@ std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 
 std::unique_ptr<ILogger> LoggerFactory::get(const std::vector<QString>& utility) const
 {
-    auto logger = std::make_unique<Logger>(m_path, utility);
-    logger->setLogingLevel(m_logingLevel);
+    auto logger = std::make_unique<Logger>(m_logFile, utility, m_logingLevel);
 
     return logger;
 }
