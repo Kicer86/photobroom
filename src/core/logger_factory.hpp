@@ -38,7 +38,7 @@ class CORE_EXPORT LoggerFactory: public ILoggerFactory
         void setLogingLevel(ILogger::Severity);
 
         std::unique_ptr<ILogger> get(const QString& utility) const override;
-        std::unique_ptr<ILogger> get(const std::vector<QString>& utility) const override;
+        std::unique_ptr<ILogger> get(const QStringList& utility) const override;
 
     private:
         mutable std::ofstream m_logFile;

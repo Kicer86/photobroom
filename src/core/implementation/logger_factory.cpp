@@ -21,7 +21,7 @@
 
 #include "logger.hpp"
 
-LoggerFactory::LoggerFactory(const QString& path): m_logingLevel(ILogger::Severity::Warning)
+LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(ILogger::Severity::Warning)
 {
     const std::string str_path = path.toStdString();
 
@@ -37,11 +37,11 @@ void LoggerFactory::setLogingLevel(ILogger::Severity logingLevel)
 
 std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 {
-    return get( std::vector<QString>({utility}) );
+    return get( QStringList({utility}) );
 }
 
 
-std::unique_ptr<ILogger> LoggerFactory::get(const std::vector<QString>& utility) const
+std::unique_ptr<ILogger> LoggerFactory::get(const QStringList& utility) const
 {
     auto logger = std::make_unique<Logger>(m_logFile, utility, m_logingLevel);
 

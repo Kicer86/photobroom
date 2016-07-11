@@ -32,8 +32,8 @@
 #include <QDebug>
 
 
-Logger::Logger(std::ostream& stream, const std::vector<QString>& utility, Severity severity):
-    m_utility(utility),
+Logger::Logger(std::ostream& stream, const QStringList& utility, Severity severity):
+    m_utility(utility.join(":")),
     m_severity(severity),
     m_file(stream)
 {
@@ -41,7 +41,7 @@ Logger::Logger(std::ostream& stream, const std::vector<QString>& utility, Severi
 }
 
 
-Logger::Logger(std::ostream& stream, const QString& utility, Severity severity): Logger(stream, std::vector<QString>({ utility}), severity)
+Logger::Logger(std::ostream& stream, const QString& utility, Severity severity): Logger(stream, QStringList({utility}), severity)
 {
 
 }
@@ -53,14 +53,17 @@ Logger::~Logger()
 }
 
 
-void Logger::log(ILogger::Severity severity, const std::string& message)
+void Logger::log(ILogger::Severity sev, const std::string& message)
 {
-    const QString m = QString("%1: %2").arg(currentTime()).arg(message.c_str());
+    const QString s = severity(sev);
+    const QString m = QString("%1 [%2][%3]: %4")
+                        .arg(currentTime())
+                        .arg(s)
+                        .arg(m_utility)
+                        .arg(message.c_str());
 
-    if (severity <= m_severity)
-    {
+    if (sev <= m_severity)
         m_file << m.toStdString() << "\n";
-    }
 
     qDebug() << m;
 }
@@ -96,4 +99,20 @@ QString Logger::currentTime() const
     const QString timeStr = now.toString("HH:mm:ss:zzz");
 
     return timeStr;
+}
+
+
+QString Logger::severity(ILogger::Severity s) const
+{
+    QString result;
+
+    switch(s)
+    {
+        case Severity::Error:   result = "E"; break;
+        case Severity::Warning: result = "W"; break;
+        case Severity::Info:    result = "I"; break;
+        case Severity::Debug:   result = "D"; break;
+    }
+
+    return result;
 }

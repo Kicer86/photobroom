@@ -22,7 +22,8 @@
 
 #include <string>
 #include <map>
-#include <QString>
+
+#include <QStringList>
 
 #include "ilogger.hpp"
 
@@ -35,7 +36,7 @@ class CORE_EXPORT Logger: public ILogger
 {
     public:
         Logger(std::ostream &, const QString& utility, Severity = Severity::Warning);
-        Logger(std::ostream &, const std::vector<QString>& utility, Severity = Severity::Warning);
+        Logger(std::ostream &, const QStringList& utility, Severity = Severity::Warning);
         Logger(const Logger& other) = delete;
         ~Logger();
 
@@ -49,11 +50,12 @@ class CORE_EXPORT Logger: public ILogger
         void debug(const std::string &) override;
 
     private:
-        const std::vector<QString> m_utility;
+        const QString m_utility;
         Severity m_severity;
         std::ostream& m_file;
 
         QString currentTime() const;
+        QString severity(Severity) const;
 };
 
 #endif // LOGGER_HPP
