@@ -25,7 +25,7 @@ LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(IL
 {
     const std::string str_path = path.toStdString();
 
-    m_logFile.open(str_path + "/photo_broom.log", std::ofstream::out | std::ofstream::ate );
+    m_logFile.open(str_path + "/photo_broom.log", std::ofstream::out | std::ofstream::app );
 }
 
 
