@@ -20,12 +20,16 @@
 #include "logger_factory.hpp"
 
 #include "logger.hpp"
+#include "log_file_rotator.hpp"
 
 LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(ILogger::Severity::Warning)
 {
-    const std::string str_path = path.toStdString();
+    const QString log_path = path + "/photo_broom.log";
+    LogFileRotator().rotate(log_path);
 
-    m_logFile.open(str_path + "/photo_broom.log", std::ofstream::out | std::ofstream::app );
+    const std::string str_path = log_path.toStdString();
+
+    m_logFile.open(str_path, std::ofstream::out | std::ofstream::app );
 }
 
 
