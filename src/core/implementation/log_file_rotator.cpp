@@ -55,6 +55,8 @@ void LogFileRotator::rotate(const QString &logPath) const
         {
             const QString version = ext == "log"? 0: ext;      // 0 for ".log"
             const QString newName = name + "." + increaseVersion(version);
+
+            QFile::remove(path + "/" + newName);                      // delete file to be overwritten
             QFile::rename(path + "/" + entry, path + "/" + newName);
         }
     }
