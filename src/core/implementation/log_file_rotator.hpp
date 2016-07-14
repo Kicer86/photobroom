@@ -31,6 +31,9 @@ class LogFileRotator
 
         void rotate(const QString& logPath) const;
         LogFileRotator& operator=(const LogFileRotator &) = delete;
+
+    private:
+        QString increaseVersion(const QString &) const;
 };
 
 #endif // LOGFILEROTATOR_HPP
