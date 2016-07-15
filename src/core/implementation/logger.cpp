@@ -47,13 +47,7 @@ Logger::Logger(std::ostream& stream, const QString& utility, Severity severity):
 }
 
 
-Logger::~Logger()
-{
-
-}
-
-
-void Logger::log(ILogger::Severity sev, const std::string& message)
+void Logger::log(ILogger::Severity sev, const QString& message)
 {
     const QString s = severity(sev);
     const QString m = QString("%1 %2 [%3][%4]: %5")
@@ -61,7 +55,7 @@ void Logger::log(ILogger::Severity sev, const std::string& message)
                         .arg(currentTime())
                         .arg(s)
                         .arg(m_utility)
-                        .arg(message.c_str());
+                        .arg(message);
 
     if (sev <= m_severity)
         m_file << m.toStdString() << "\n";
@@ -70,25 +64,25 @@ void Logger::log(ILogger::Severity sev, const std::string& message)
 }
 
 
-void Logger::info(const std::string& msg)
+void Logger::info(const QString& msg)
 {
     log(Severity::Info, msg);
 }
 
 
-void Logger::warning(const std::string& msg)
+void Logger::warning(const QString& msg)
 {
     log(Severity::Warning, msg);
 }
 
 
-void Logger::error(const std::string& msg)
+void Logger::error(const QString& msg)
 {
     log(Severity::Error, msg);
 }
 
 
-void Logger::debug(const std::string& msg)
+void Logger::debug(const QString& msg)
 {
     log(Severity::Debug, msg);
 }
