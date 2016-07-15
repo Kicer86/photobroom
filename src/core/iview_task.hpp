@@ -8,7 +8,7 @@
 
 struct CORE_EXPORT IProgressBar
 {
-    virtual ~IProgressBar();
+    virtual ~IProgressBar() = default;
 
     virtual void setMinimum(int) = 0;
     virtual void setMaximum(int) = 0;
@@ -18,7 +18,7 @@ struct CORE_EXPORT IProgressBar
 
 struct CORE_EXPORT IViewTask
 {
-    virtual ~IViewTask();
+    virtual ~IViewTask() = default;
 
     virtual const QString& getName() = 0;
     virtual IProgressBar*  getProgressBar() = 0;

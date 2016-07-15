@@ -32,7 +32,7 @@ struct ProjectInfo;
 
 struct IProjectManager
 {
-    virtual ~IProjectManager();
+    virtual ~IProjectManager() = default;
 
     virtual ProjectInfo new_prj(const QString& name, const Database::IPlugin *, const QString& location) = 0;
     [[deprecated]] virtual std::deque<ProjectInfo> listProjects() = 0;

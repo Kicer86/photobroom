@@ -29,7 +29,7 @@ class CORE_EXPORT LoggerFactory: public ILoggerFactory
     public:
         LoggerFactory(const QString &);
         LoggerFactory(const LoggerFactory &) = delete;
-        virtual ~LoggerFactory();
+        virtual ~LoggerFactory() = default;
 
         LoggerFactory& operator=(const LoggerFactory &) = delete;
 

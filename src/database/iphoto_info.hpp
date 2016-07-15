@@ -44,11 +44,11 @@ struct DATABASE_EXPORT IPhotoInfo
 
     struct DATABASE_EXPORT IObserver
     {
-        virtual ~IObserver();
+        virtual ~IObserver() = default;
         virtual void photoUpdated(IPhotoInfo *) = 0;
     };
 
-    virtual ~IPhotoInfo();
+    virtual ~IPhotoInfo() = default;
 
     //data getting
     virtual Photo::Data            data() const = 0;

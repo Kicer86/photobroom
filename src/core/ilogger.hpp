@@ -7,7 +7,7 @@
 
 struct ILogger
 {
-    virtual ~ILogger();
+    virtual ~ILogger() = default;
 
     enum class Severity
     {

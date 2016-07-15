@@ -44,7 +44,7 @@ namespace Database
     //To be used by particular database backend
     struct DATABASE_EXPORT IBackend
     {
-        virtual ~IBackend();
+        virtual ~IBackend() = default;
 
         //add photo to database
         virtual bool addPhoto(Photo::Data &) = 0;
