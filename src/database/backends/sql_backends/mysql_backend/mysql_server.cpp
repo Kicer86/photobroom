@@ -326,7 +326,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
 
         if (status)
         {
-            QStringList args = { mysql_config, mysql_datadir, mysql_socket};
+            const QStringList args = { mysql_config, mysql_datadir, mysql_socket};
 
             m_serverProcess = std::make_unique<QProcess>();
             m_serverProcess->setProgram(daemonPath);
