@@ -1,5 +1,5 @@
 /*
- * Tool for QVariant conversions for database storage purposes.
+ * Tool for TagValue to QString conversion.
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,14 +22,11 @@
 
 #include <QVariant>
 
-#include <core/tag.hpp>
+#include "tag.hpp"
 
-namespace Tag
-{
-    struct Info;
-}
+#include "core_export.h"
 
-class VariantConverter
+class CORE_EXPORT VariantConverter
 {
     public:
         VariantConverter();
