@@ -159,6 +159,21 @@ void ListEditor::review()
 ///////////////////////////////////////////////////////////////////////////////
 
 
+namespace
+{
+    template<typename T>
+    T* make_editor(ICompleterFactory* completerFactory, const TagNameInfo& info, QWidget* parent)
+    {
+        T* editor = new T(parent);
+        QCompleter* completer = completerFactory->createCompleter(info);
+        completer->setParent(editor);
+        editor->setCompleter(completer);
+
+        return editor;
+    }
+}
+
+
 EditorFactory::EditorFactory(): m_completerFactory(nullptr)
 {
 
@@ -193,15 +208,8 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
     switch(info.getType())
     {
         case TagNameInfo::Text:
-        {
-            QLineEdit* le = new QLineEdit(parent);
-            QCompleter* completer = m_completerFactory->createCompleter(info);
-            completer->setParent(le);
-            le->setCompleter(completer);
-
-            result = le;
+            result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
-        }
 
         case TagNameInfo::Date:
             result = new QDateEdit(parent);
@@ -212,15 +220,9 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
             break;
 
         case TagNameInfo::List:
-        {
-            ListEditor* le = new ListEditor(parent);
-            QCompleter* completer = m_completerFactory->createCompleter(info);
-            completer->setParent(le);
-            le->setCompleter(completer);
-
-            result = le;
+            result = make_editor<ListEditor>(m_completerFactory, info, parent);
             break;
-        }
+
         case TagNameInfo::Invalid:
             assert(!"Unknown type");
             break;
