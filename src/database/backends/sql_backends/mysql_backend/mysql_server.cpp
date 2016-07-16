@@ -18,7 +18,7 @@
  */
 
 /// TODO: remove
-#if defined _MSC_VER 
+#if defined _MSC_VER
 	#if _MSC_VER >= 1800
 		#define Q_COMPILER_INITIALIZER_LISTS
 	#else
@@ -218,7 +218,7 @@ bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) cons
         if (!status)
         {
             m_logger->log(ILogger::Severity::Error,
-                          "MySQL Database Backend: database initialization failed:" + QString(init.readAll()).toStdString() );
+                          "MySQL Database Backend: database initialization failed:" + QString(init.readAll()) );
 
             status = QDir().rmdir(dbDir);
         }
@@ -249,7 +249,7 @@ bool MySqlServer::createConfig(const QString& configFile) const
 bool MySqlServer::waitForServerToStart(const QString& socketPath) const
 {
     //wait for socket to appear
-    std::string logMsg = "Waiting for MySQL server to get up: ";
+    QString logMsg = "Waiting for MySQL server to get up: ";
 
     DiskObserver observer;
     const bool status = observer.waitForFileToAppear(socketPath);
@@ -334,7 +334,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             m_serverProcess->closeWriteChannel();
 
             m_logger->log(ILogger::Severity::Debug,
-                          "MySQL Database Backend: " + daemonPath.toStdString() + " " + args.join(" ").toStdString());
+                          "MySQL Database Backend: " + daemonPath + " " + args.join(" "));
 
             m_serverProcess->start();
             status = m_serverProcess->waitForStarted();
