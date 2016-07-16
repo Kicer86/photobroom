@@ -34,6 +34,8 @@
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QWidget(p, f),
+    m_completerFactory(),
+    m_editorFactory(),
     m_view(nullptr),
     m_model(nullptr),
     m_tagsOperator(),
@@ -44,7 +46,8 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagValueProp(),
     m_tags()
 {
-    m_view = new TagsView(this);
+    m_editorFactory.set(&m_completerFactory);
+    m_view = new TagsView(&m_editorFactory, this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
     m_addButton = new QPushButton(QIcon(":/gui/add.svg"), "", this);
@@ -91,6 +94,18 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 }
 
 
+void TagEditorWidget::set(Database::IDatabase* db)
+{
+    m_completerFactory.set(db);
+}
+
+
+void TagEditorWidget::set(ILoggerFactory* lf)
+{
+    m_completerFactory.set(lf);
+}
+
+
 void TagEditorWidget::setTagValueWidget(size_t idx)
 {
     //remove previous widget-editor (if any)
@@ -103,35 +118,10 @@ void TagEditorWidget::setTagValueWidget(size_t idx)
     //insert new widget-editor
     assert(idx < m_tags.size());
     const TagNameInfo& name = m_tags[idx];
+    const TagNameInfo::Type tagType = name.getType();
 
-    QVariant::Type type = QVariant::Invalid;
-    auto tagType = name.getType();
-
-    switch(tagType)
-    {
-        case TagNameInfo::Invalid:
-        case TagNameInfo::Text:
-            type = QVariant::String;
-            break;
-
-        case TagNameInfo::Date:
-            type = QVariant::Date;
-            break;
-
-        case TagNameInfo::Time:
-            type = QVariant::Time;
-            break;
-
-        case TagNameInfo::List:
-            type = QVariant::StringList;
-            break;
-    }
-
-    EditorFactory factory;
-
-    const int userType = static_cast<int>(type);
-    m_tagValueWidget = factory.createEditor(userType, m_tagValueContainer);
-    m_tagValueProp = factory.valuePropertyName(userType);
+    m_tagValueWidget = m_editorFactory.createEditor(name, m_tagValueContainer);
+    m_tagValueProp = m_editorFactory.valuePropertyName(tagType);
     m_tagValueContainer->layout()->addWidget(m_tagValueWidget);
 }
 

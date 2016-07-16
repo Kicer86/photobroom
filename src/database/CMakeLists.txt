@@ -29,6 +29,7 @@ set(DATABASE_SOURCES
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_duplicates_finder.cpp
     database_tools/implementation/synchronous_database.cpp
+    database_tools/implementation/tag_info_collector.cpp
 )
 
 set(DATABASE_HEADERS
@@ -49,6 +50,7 @@ set(DATABASE_HEADERS
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp
+    database_tools/tag_info_collector.hpp
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photo_duplicates_finder.hpp
     database_tools/implementation/synchronous_database.hpp

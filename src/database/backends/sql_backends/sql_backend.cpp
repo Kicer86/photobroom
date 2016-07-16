@@ -42,6 +42,7 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/variant_converter.hpp>
 #include <database/action.hpp>
 #include <database/filter.hpp>
 #include <database/iphoto_info_cache.hpp>
@@ -53,7 +54,6 @@
 #include "query_structs.hpp"
 #include "sql_action_query_generator.hpp"
 #include "sql_filter_query_generator.hpp"
-#include "variant_converter.hpp"
 #include "sql_query_executor.hpp"
 #include "database_migrator.hpp"
 

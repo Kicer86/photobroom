@@ -33,6 +33,7 @@ set(CORE_SOURCES
     implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
+    implementation/variant_converter.cpp
 )
 
 
@@ -57,6 +58,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
+    variant_converter.hpp
     implementation/atagfeeder.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp

@@ -43,7 +43,9 @@ namespace
     struct GetPhotoTask;
     struct GetPhotosTask;
     struct ListTagsTask;
+    struct ListTagsTask2;
     struct ListTagValuesTask;
+    struct ListTagValuesTask2;
     struct AnyPhotoTask;
     struct DropPhotosTask;
     struct PerformActionTask;
@@ -72,7 +74,9 @@ namespace
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(ListTagsTask *) = 0;
+        virtual void visit(ListTagsTask2 *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
+        virtual void visit(ListTagValuesTask2 *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
@@ -219,6 +223,22 @@ namespace
         std::unique_ptr<Database::AListTagsTask> m_task;
     };
 
+    struct ListTagsTask2: ThreadBaseTask
+    {
+        ListTagsTask2(const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
+            ThreadBaseTask(),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~ListTagsTask2() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
+    };
+
     struct ListTagValuesTask: ThreadBaseTask
     {
         ListTagValuesTask(std::unique_ptr<Database::AListTagValuesTask>&& task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter):
@@ -235,6 +255,28 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::unique_ptr<Database::AListTagValuesTask> m_task;
+        TagNameInfo m_info;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
+    struct ListTagValuesTask2: ThreadBaseTask
+    {
+        ListTagValuesTask2(const TagNameInfo& info,
+                           const std::deque<Database::IFilter::Ptr>& filter,
+                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<QVariant> &> & callback):
+        ThreadBaseTask(),
+        m_callback(callback),
+        m_info(info),
+        m_filter(filter)
+        {
+
+        }
+
+        virtual ~ListTagValuesTask2() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<QVariant> &> m_callback;
         TagNameInfo m_info;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
@@ -373,10 +415,22 @@ namespace
             task->m_task->got(result);
         }
 
+        virtual void visit(ListTagsTask2* task) override
+        {
+            auto result = m_backend->listTags();
+            task->m_callback(result);
+        }
+
         virtual void visit(ListTagValuesTask* task) override
         {
             auto result = m_backend->listTagValues(task->m_info, task->m_filter);
             task->m_task->got(result);
+        }
+
+        virtual void visit(ListTagValuesTask2* task) override
+        {
+            auto result = m_backend->listTagValues(task->m_info, task->m_filter);
+            task->m_callback(task->m_info, result);
         }
 
         virtual void visit(AnyPhotoTask* task) override
@@ -627,6 +681,20 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
+    {
+        ListTagsTask2* task = new ListTagsTask2(callback);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<QVariant> &> & callback)
+    {
+        ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 

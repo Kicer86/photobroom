@@ -27,10 +27,10 @@
 #include "tags_item_delegate.hpp"
 
 
-TagsView::TagsView(QWidget* p): QTableView(p), m_editorFactory()
+TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p): QTableView(p), m_editorFactory()
 {
     TagsItemDelegate* delegate = new TagsItemDelegate;
-    delegate->setItemEditorFactory(&m_editorFactory);
+    delegate->setEditorFactory(editorFactory);
 
     verticalHeader()->hide();
     setItemDelegate(delegate);
@@ -63,6 +63,7 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
             updateRow(i);
 }
 
+
 int TagsView::sizeHintForRow(int row) const
 {
     const int default3 = verticalHeader()->defaultSectionSize() * 3;
@@ -72,6 +73,7 @@ int TagsView::sizeHintForRow(int row) const
 
     return result;
 }
+
 
 void TagsView::updateRow(int row)
 {

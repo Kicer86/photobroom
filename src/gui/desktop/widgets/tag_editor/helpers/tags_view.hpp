@@ -22,12 +22,16 @@
 
 #include <QTableView>
 
-#include "widgets/editor_factory.hpp"
+#include <core/tag.hpp>
+#include "ui_utils/editor_factory.hpp"
+
+struct IEditorFactory;
+class TagValueModel;
 
 class TagsView: public QTableView
 {
     public:
-        TagsView(QWidget * = 0);
+        TagsView(IEditorFactory *, QWidget * = 0);
         TagsView(const TagsView &) = delete;
         ~TagsView();
 

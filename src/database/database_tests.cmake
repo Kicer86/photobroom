@@ -10,7 +10,6 @@ include_directories(backends/sql_backends)
 set(SRC
         backends/sql_backends/sql_action_query_generator.cpp
         backends/sql_backends/sql_filter_query_generator.cpp
-        backends/sql_backends/variant_converter.cpp
         implementation/action.cpp
         implementation/filter.cpp
         implementation/photo_data.cpp

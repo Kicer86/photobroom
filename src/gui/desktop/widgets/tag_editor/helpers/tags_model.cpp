@@ -106,8 +106,12 @@ void TagsModel::refreshModel()
             Tag::Info info(tag);
             QStandardItem* name = new QStandardItem(info.displayName());
             QStandardItem* value = new QStandardItem;
-            const QVariant v_value = info.value().get();
-            value->setData(v_value, Qt::DisplayRole);
+
+            const QVariant dispRole = info.value().get();
+            const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+
+            value->setData(dispRole, Qt::DisplayRole);
+            value->setData(tagInfoRole, TagInfoRole);
 
             const QList<QStandardItem *> items( { name, value });
             appendRow(items);

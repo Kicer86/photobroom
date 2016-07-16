@@ -22,6 +22,11 @@
 
 #include <QStyledItemDelegate>
 
+#include <core/tag.hpp>
+#include "utils/tag_value_model.hpp"
+
+struct IEditorFactory;
+
 class TagsItemDelegate : public QStyledItemDelegate
 {
     public:
@@ -31,7 +36,11 @@ class TagsItemDelegate : public QStyledItemDelegate
 
         TagsItemDelegate& operator=(const TagsItemDelegate &) = delete;
 
+        void setEditorFactory(IEditorFactory *);
+
     private:
+        IEditorFactory* m_editorFactory;
+
         QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         QString displayText(const QVariant& value, const QLocale& locale) const override;
 };

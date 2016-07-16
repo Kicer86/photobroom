@@ -35,6 +35,11 @@ class TagsModel: public QStandardItemModel
         Q_OBJECT
 
     public:
+        enum Roles
+        {
+            TagInfoRole = Qt::UserRole,
+        };
+
         TagsModel(QObject * = 0);
         TagsModel(const TagsModel &) = delete;
         ~TagsModel();
@@ -56,7 +61,7 @@ class TagsModel: public QStandardItemModel
         void refreshModel();
         void clearModel();
         std::vector<IPhotoInfo::Ptr> getPhotosForSelection();
-        
+
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
         void updateData(const QModelIndex &, const QModelIndex &);

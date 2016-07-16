@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+#include "ui_utils/editor_factory.hpp"
+#include "ui_utils/completer_factory.hpp"
 #include "helpers/tags_operator.hpp"
 
 class QItemSelectionModel;
@@ -34,6 +36,12 @@ class TagsView;
 class TagsModel;
 class DBDataModel;
 
+namespace Database
+{
+    struct IDatabase;
+}
+
+struct ILoggerFactory;
 struct ITagValueWidget;
 
 class TagEditorWidget: public QWidget
@@ -49,8 +57,12 @@ class TagEditorWidget: public QWidget
 
         void set(QItemSelectionModel *);
         void set(DBDataModel *);
+        void set(Database::IDatabase *);
+        void set(ILoggerFactory *);
 
     private:
+        CompleterFactory m_completerFactory;
+        EditorFactory m_editorFactory;
         TagsView* m_view;
         TagsModel* m_model;
         TagsOperator m_tagsOperator;

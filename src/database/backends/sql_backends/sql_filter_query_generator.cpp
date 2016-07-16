@@ -21,8 +21,8 @@
 
 #include <QStringList>
 
+#include <core/variant_converter.hpp>
 #include "tables.hpp"
-#include "variant_converter.hpp"
 
 
 namespace Database

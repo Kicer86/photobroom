@@ -20,11 +20,16 @@
 #include "tags_item_delegate.hpp"
 
 #include <QItemEditorFactory>
+#include <QLineEdit>
+#include <QCompleter>
 
+#include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
+#include "tags_model.hpp"
 
 
-TagsItemDelegate::TagsItemDelegate()
+TagsItemDelegate::TagsItemDelegate():
+    m_editorFactory(nullptr)
 {
 
 }
@@ -36,9 +41,17 @@ TagsItemDelegate::~TagsItemDelegate()
 }
 
 
+void TagsItemDelegate::setEditorFactory(IEditorFactory* editorFactory)
+{
+    m_editorFactory = editorFactory;
+}
+
+
 QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    return QStyledItemDelegate::createEditor(parent_widget, option, index);
+    QWidget* const result = m_editorFactory->createEditor(index, parent_widget);
+
+    return result;
 }
 
 

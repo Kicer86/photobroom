@@ -21,12 +21,17 @@
 
 #include <cassert>
 
-#include <QTimeEdit>
+#include <QCompleter>
 #include <QDateEdit>
+#include <QHeaderView>
 #include <QLineEdit>
 #include <QTableWidget>
-#include <QHeaderView>
+#include <QTimeEdit>
+#include <QTimer>
 
+#include <core/down_cast.hpp>
+#include "widgets/tag_editor/helpers/tags_model.hpp"
+#include "icompleter_factory.hpp"
 
 namespace
 {
@@ -43,7 +48,7 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
+ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_completer(nullptr)
 {
     setColumnCount(1);
     horizontalHeader()->hide();
@@ -54,7 +59,8 @@ ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget)
     setFrameShape(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-    review();
+    // Workaround: do not review widget imediately, wait for possible setCompleter()
+    QTimer::singleShot(0, this, &ListEditor::review);
 }
 
 
@@ -82,9 +88,16 @@ void ListEditor::setValues(const QStringList& values)
 }
 
 
+void ListEditor::setCompleter(QCompleter* completer)
+{
+    m_completer = completer;
+}
+
+
 void ListEditor::addRow(int p)
 {
     QLineEdit* e = new QLineEdit;
+    e->setCompleter(m_completer);
 
     insertRow(p);
     setCellWidget(p, 0, e);
@@ -96,8 +109,7 @@ void ListEditor::addRow(int p)
 QString ListEditor::value(int r) const
 {
     QWidget* w = cellWidget(r, 0);
-    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
-    QLineEdit* l = static_cast<QLineEdit *>(w);
+    QLineEdit* l = down_cast<QLineEdit *>(w);
 
     return l->text();
 }
@@ -106,8 +118,7 @@ QString ListEditor::value(int r) const
 void ListEditor::setValue(int r, const QString& v)
 {
     QWidget* w = cellWidget(r, 0);
-    assert(dynamic_cast<QLineEdit *>(w) != nullptr);
-    QLineEdit* l = static_cast<QLineEdit *>(w);
+    QLineEdit* l = down_cast<QLineEdit *>(w);
 
     l->setText(v);
 }
@@ -150,17 +161,105 @@ void ListEditor::review()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-EditorFactory::EditorFactory(): QItemEditorFactory()
+namespace
 {
-    QItemEditorCreatorBase *time_creator = new QStandardItemEditorCreator<TimeEditor>();
-    registerEditor(QVariant::Time, time_creator);
+    template<typename T>
+    T* make_editor(ICompleterFactory* completerFactory, const TagNameInfo& info, QWidget* parent)
+    {
+        T* editor = new T(parent);
+        QCompleter* completer = completerFactory->createCompleter(info);
+        completer->setParent(editor);
+        editor->setCompleter(completer);
 
-    QItemEditorCreatorBase *list_creator = new QStandardItemEditorCreator<ListEditor>();
-    registerEditor(QVariant::StringList, list_creator);
+        return editor;
+    }
+}
+
+
+EditorFactory::EditorFactory(): m_completerFactory(nullptr)
+{
+
 }
 
 
 EditorFactory::~EditorFactory()
 {
 
+}
+
+
+void EditorFactory::set(ICompleterFactory* completerFactory)
+{
+    m_completerFactory = completerFactory;
+}
+
+
+QWidget* EditorFactory::createEditor(const QModelIndex& index, QWidget* parent)
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
+
+    return createEditor(tagInfoRole, parent);
+}
+
+
+QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
+{
+    QWidget* result = nullptr;
+
+    switch(info.getType())
+    {
+        case TagNameInfo::Text:
+            result = make_editor<QLineEdit>(m_completerFactory, info, parent);
+            break;
+
+        case TagNameInfo::Date:
+            result = new QDateEdit(parent);
+            break;
+
+        case TagNameInfo::Time:
+            result = new TimeEditor(parent);
+            break;
+
+        case TagNameInfo::List:
+            result = make_editor<ListEditor>(m_completerFactory, info, parent);
+            break;
+
+        case TagNameInfo::Invalid:
+            assert(!"Unknown type");
+            break;
+    }
+
+    return result;
+}
+
+
+QByteArray EditorFactory::valuePropertyName(const TagNameInfo::Type& type) const
+{
+    QByteArray result;
+
+    switch(type)
+    {
+        case TagNameInfo::Text:
+            result = "text";
+            break;
+
+        case TagNameInfo::Date:
+            result = "date";
+            break;
+
+        case TagNameInfo::Time:
+            result = "time";
+            break;
+
+        case TagNameInfo::List:
+            result = "value";
+            break;
+
+        case TagNameInfo::Invalid:
+            assert(!"Unknown type");
+            break;
+    }
+
+    return result;
 }

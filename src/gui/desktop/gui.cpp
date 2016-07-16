@@ -14,7 +14,7 @@
 #include "ui/mainwindow.hpp"
 
 
-Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr), m_logger(nullptr)
+Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr), m_loggerFactory(nullptr)
 {
 
 }
@@ -58,12 +58,18 @@ void Gui::set(IConfiguration* configuration)
 
 void Gui::set(ILoggerFactory* logger_factory)
 {
-    m_logger = logger_factory->get("gui");
+    m_loggerFactory = logger_factory;
 }
 
 
 void Gui::run()
 {
+    assert(m_prjManager != nullptr);
+    assert(m_pluginLoader != nullptr);
+    assert(m_taskExecutor != nullptr);
+    assert(m_configuration != nullptr);
+    assert(m_loggerFactory != nullptr);
+
 #ifdef GUI_STATIC
     // see: http://doc.qt.io/qt-5/resources.html
     Q_INIT_RESOURCE(images);
@@ -74,17 +80,19 @@ void Gui::run()
     QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
 #endif
 
-	const QString tr_path = FileSystem().getTranslationsPath();
-    m_logger->log(ILogger::Severity::Info, QString("Searching for translations in: %1").arg(tr_path));
+    auto logger = m_loggerFactory->get("gui");
+
+    const QString tr_path = FileSystem().getTranslationsPath();
+    logger->log(ILogger::Severity::Info, QString("Searching for translations in: %1").arg(tr_path));
 
     QTranslator translator;
     translator.load("photo_broom_pl", tr_path);
     const bool status = QCoreApplication::installTranslator(&translator);
 
     if (status)
-        m_logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
+        logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
     else
-        m_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
+        logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
     Updater updater;
     PhotosManager photosManager;
@@ -97,6 +105,7 @@ void Gui::run()
     mainWindow.set(m_configuration);
     mainWindow.set(&updater);
     mainWindow.set(&photosManager);
+    mainWindow.set(m_loggerFactory);
 
     mainWindow.show();
     QCoreApplication::exec();

@@ -173,6 +173,12 @@ void MainWindow::set(IPhotosManager* manager)
 }
 
 
+void MainWindow::set(ILoggerFactory* lf)
+{
+    ui->tagEditor->set(lf);
+}
+
+
 void MainWindow::checkVersion()
 {
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
@@ -266,6 +272,7 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         m_imagesModel->setDatabase(nullptr);
+        m_newImagesModel->setDatabase(nullptr);
         QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
@@ -534,6 +541,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
+            ui->tagEditor->set(db);
             break;
         }
 

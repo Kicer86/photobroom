@@ -13,6 +13,7 @@ class ConfigDialogManager;
 class LookTabControler;
 class MainTabControler;
 class PhotosAnalyzer;
+struct ILoggerFactory;
 struct ITaskExecutor;
 struct IPhotosManager;
 struct IPluginLoader;
@@ -46,6 +47,7 @@ class MainWindow: public QMainWindow
         void set(IConfiguration *);
         void set(IUpdater *);
         void set(IPhotosManager *);
+        void set(ILoggerFactory *);
 
     private:
         Ui::MainWindow*           ui;
