@@ -19,13 +19,43 @@
 
 #include "tag_value_model.hpp"
 
+#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
+
+
+namespace
+{
+    template<typename T>
+    QString limited_join(T first, T last, int limit, const QString& splitter)
+    {
+        QString result;
+
+        for(; limit > 0 && first != last;)
+        {
+            result += *first++;
+
+            limit--;
+
+            if (first != last)
+            {
+                result += splitter;
+
+                if (limit == 0)
+                    result += "...";
+            }
+        }
+
+        return result;
+    }
+}
 
 
 TagValueModel::TagValueModel(const TagNameInfo& info):
     m_values(),
     m_tagInfo(info),
-    m_tagInfoCollector(nullptr)
+    m_tagInfoCollector(nullptr),
+    m_loggerFactory(nullptr)
 {
 
 }
@@ -44,6 +74,21 @@ void TagValueModel::set(ITagInfoCollector* collector)
     const auto& values = collector->get(m_tagInfo);
 
     std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
+
+    const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
+    const QString logMessage = QString("Got %1 values for %2: %3")
+        .arg(m_values.size())
+        .arg(m_tagInfo.getName())
+        .arg(values_joined);
+
+    auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
+    logger->debug(values_joined);
+}
+
+
+void TagValueModel::set(ILoggerFactory* loggerFactory)
+{
+    m_loggerFactory = loggerFactory;
 }
 
 

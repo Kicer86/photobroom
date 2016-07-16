@@ -24,6 +24,7 @@
 
 #include <core/tag.hpp>
 
+struct ILoggerFactory;
 struct ITagInfoCollector;
 
 class TagValueModel: public QAbstractListModel
@@ -35,6 +36,7 @@ class TagValueModel: public QAbstractListModel
         TagValueModel& operator=(const TagValueModel &) = delete;
 
         void set(ITagInfoCollector *);
+        void set(ILoggerFactory *);
 
         // QAbstractListModel:
         virtual int rowCount(const QModelIndex &) const override;
@@ -44,6 +46,7 @@ class TagValueModel: public QAbstractListModel
         std::vector<TagValue> m_values;
         TagNameInfo m_tagInfo;
         ITagInfoCollector* m_tagInfoCollector;
+        ILoggerFactory* m_loggerFactory;
 };
 
 #endif // TAGVALUEMODEL_HPP
