@@ -32,7 +32,6 @@ set(CORE_SOURCES
     implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
-    implementation/virtual_destructors.cpp
 )
 
 

@@ -39,7 +39,7 @@ namespace Database
     {
         typedef std::function<void(const Database::BackendStatus &)> OpenResult;
 
-        virtual ~IBuilder();
+        virtual ~IBuilder() = default;
 
         virtual std::unique_ptr<IDatabase> get(const ProjectInfo &, OpenResult) = 0;
     };

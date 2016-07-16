@@ -15,7 +15,7 @@ class TagDataBase;
 
 struct CORE_EXPORT ITagFeeder
 {
-    virtual ~ITagFeeder();
+    virtual ~ITagFeeder() = default;
 
     virtual Tag::TagsList getTagsFor(const QString& path) = 0;
     //virtual void update(TagDataBase *, const QString& path) = 0;
@@ -23,7 +23,7 @@ struct CORE_EXPORT ITagFeeder
 
 struct CORE_EXPORT ITagFeederFactory
 {
-    virtual ~ITagFeederFactory();
+    virtual ~ITagFeederFactory() = default;
 
     virtual std::shared_ptr<ITagFeeder> get() = 0;
 };

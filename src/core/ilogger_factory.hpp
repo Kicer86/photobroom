@@ -29,7 +29,7 @@ struct ILogger;
 
 struct ILoggerFactory
 {
-    virtual ~ILoggerFactory();
+    virtual ~ILoggerFactory() = default;
 
     virtual std::unique_ptr<ILogger> get(const QString& utility) const = 0;
     virtual std::unique_ptr<ILogger> get(const std::vector<QString>& utility) const = 0;

@@ -8,7 +8,7 @@
 
 struct IPhotosManager
 {
-    virtual ~IPhotosManager();
+    virtual ~IPhotosManager() = default;
 
     virtual QByteArray getPhoto(const IPhotoInfo::Ptr &) const = 0;
     virtual QByteArray getPhoto(const QString& path) const = 0;

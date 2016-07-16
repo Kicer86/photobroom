@@ -27,12 +27,6 @@ LoggerFactory::LoggerFactory(const QString& path): m_path(path)
 }
 
 
-LoggerFactory::~LoggerFactory()
-{
-
-}
-
-
 std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 {
     return get( std::vector<QString>({utility}) );

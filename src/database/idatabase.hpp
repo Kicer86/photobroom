@@ -60,63 +60,63 @@ namespace Database
 
     struct DATABASE_EXPORT AStorePhotoTask
     {
-        virtual ~AStorePhotoTask();
+        virtual ~AStorePhotoTask() = default;
 
         virtual void got(bool) = 0;
     };
 
     struct DATABASE_EXPORT AStoreTagTask
     {
-        virtual ~AStoreTagTask();
+        virtual ~AStoreTagTask() = default;
 
         virtual void got(bool) = 0;
     };
 
     struct DATABASE_EXPORT AListTagsTask
     {
-        virtual ~AListTagsTask();
+        virtual ~AListTagsTask() = default;
 
         virtual void got(const std::deque<TagNameInfo> &) = 0;
     };
 
     struct DATABASE_EXPORT AListTagValuesTask
     {
-        virtual ~AListTagValuesTask();
+        virtual ~AListTagValuesTask() = default;
 
         virtual void got(const std::deque<QVariant> &) = 0;
     };
 
     struct DATABASE_EXPORT AGetPhotosTask
     {
-        virtual ~AGetPhotosTask();
+        virtual ~AGetPhotosTask() = default;
 
         virtual void got(const IPhotoInfo::List &) = 0;
     };
 
     struct DATABASE_EXPORT AGetPhotoTask
     {
-        virtual ~AGetPhotoTask();
+        virtual ~AGetPhotoTask() = default;
 
         virtual void got(const IPhotoInfo::Ptr &) = 0;
     };
 
     struct DATABASE_EXPORT AGetPhotosCount
     {
-        virtual ~AGetPhotosCount();
+        virtual ~AGetPhotosCount() = default;
 
         virtual void got(int) = 0;
     };
 
     struct DATABASE_EXPORT ADropPhotosTask
     {
-        virtual ~ADropPhotosTask();
+        virtual ~ADropPhotosTask() = default;
 
         virtual void got(const std::deque<Photo::Id> &) = 0;
     };
 
     struct DATABASE_EXPORT AInitTask
     {
-        virtual ~AInitTask();
+        virtual ~AInitTask() = default;
 
         virtual void got(const Database::BackendStatus &) = 0;
     };
@@ -125,7 +125,7 @@ namespace Database
     //A bridge between clients and backend.
     struct DATABASE_EXPORT IDatabase
     {
-        virtual ~IDatabase();
+        virtual ~IDatabase() = default;
 
         virtual ADatabaseSignals* notifier() = 0;
 

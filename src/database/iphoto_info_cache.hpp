@@ -26,7 +26,7 @@ namespace Database
 {
     struct IPhotoInfoCache
     {
-        virtual ~IPhotoInfoCache();
+        virtual ~IPhotoInfoCache() = default;
 
         virtual IPhotoInfo::Ptr find(const Photo::Id &) const = 0;
         virtual void introduce(const IPhotoInfo::Ptr &) = 0;

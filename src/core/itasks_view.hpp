@@ -13,7 +13,7 @@ struct IViewTask;
 
 struct CORE_EXPORT ITasksView
 {
-    virtual ~ITasksView();
+    virtual ~ITasksView() = default;
 
     virtual IViewTask* add(const QString& name) = 0;
 };
