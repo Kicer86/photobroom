@@ -16,7 +16,6 @@ set(SRC
         implementation/photo_data.cpp
         implementation/photo_info.cpp
         implementation/photo_types.cpp
-        implementation/virtual_destructors.cpp
 
         # sql tests:
         unit_tests/sql_filter_query_generator_tests.cpp
