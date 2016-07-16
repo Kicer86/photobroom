@@ -63,6 +63,7 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
             updateRow(i);
 }
 
+
 int TagsView::sizeHintForRow(int row) const
 {
     const int default3 = verticalHeader()->defaultSectionSize() * 3;
@@ -72,6 +73,7 @@ int TagsView::sizeHintForRow(int row) const
 
     return result;
 }
+
 
 void TagsView::updateRow(int row)
 {
