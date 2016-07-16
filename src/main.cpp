@@ -106,6 +106,7 @@ int main(int argc, char **argv)
     gui.set(&configuration);
     gui.set(&logger_factory);
     gui.set(&taskExecutor);
+    gui.set(&logger_factory);
     gui.run();
 
     return 0;

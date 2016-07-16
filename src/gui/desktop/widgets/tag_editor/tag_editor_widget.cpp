@@ -100,6 +100,12 @@ void TagEditorWidget::set(Database::IDatabase* db)
 }
 
 
+void TagEditorWidget::set(ILoggerFactory* lf)
+{
+    m_completerFactory.set(lf);
+}
+
+
 void TagEditorWidget::setTagValueWidget(size_t idx)
 {
     //remove previous widget-editor (if any)

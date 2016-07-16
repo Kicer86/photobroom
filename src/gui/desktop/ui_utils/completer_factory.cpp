@@ -43,13 +43,22 @@ void CompleterFactory::set(Database::IDatabase* db)
 }
 
 
+void CompleterFactory::set(ILoggerFactory* lf)
+{
+    m_loggerFactory = lf;
+}
+
+
 QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 {
     auto it = m_tagValueModels.find(info);
 
     if (it == m_tagValueModels.end())
     {
+        assert(m_loggerFactory != nullptr);
+
         auto model = std::make_unique<TagValueModel>(info);
+        model->set(m_loggerFactory);
         model->set(&m_tagInfoCollector);
 
         auto iit = m_tagValueModels.insert( std::make_pair(info, std::move(model)) );

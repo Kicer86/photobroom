@@ -41,6 +41,7 @@ namespace Database
     struct IDatabase;
 }
 
+struct ILoggerFactory;
 struct ITagValueWidget;
 
 class TagEditorWidget: public QWidget
@@ -57,6 +58,7 @@ class TagEditorWidget: public QWidget
         void set(QItemSelectionModel *);
         void set(DBDataModel *);
         void set(Database::IDatabase *);
+        void set(ILoggerFactory *);
 
     private:
         CompleterFactory m_completerFactory;

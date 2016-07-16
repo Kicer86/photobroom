@@ -11,7 +11,6 @@
 class QCoreApplication;
 
 struct ILoggerFactory;
-struct ILogger;
 struct ITaskExecutor;
 struct IPluginLoader;
 struct IProjectManager;
@@ -37,7 +36,7 @@ struct GUI_EXPORT Gui
         IPluginLoader* m_pluginLoader;
         ITaskExecutor* m_taskExecutor;
         IConfiguration* m_configuration;
-        std::unique_ptr<ILogger> m_logger;
+        ILoggerFactory* m_loggerFactory;
 };
 
 #endif

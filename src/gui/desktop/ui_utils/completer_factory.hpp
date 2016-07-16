@@ -33,6 +33,8 @@ namespace Database
     struct IDatabase;
 }
 
+struct ILoggerFactory;
+
 class CompleterFactory: public ICompleterFactory
 {
     public:
@@ -42,11 +44,14 @@ class CompleterFactory: public ICompleterFactory
         CompleterFactory& operator=(const CompleterFactory &) = delete;
 
         void set(Database::IDatabase *);
+        void set(ILoggerFactory *);
+
         QCompleter* createCompleter(const TagNameInfo &) override;
 
     private:
         std::map<TagNameInfo, std::unique_ptr<TagValueModel>> m_tagValueModels;
         TagInfoCollector m_tagInfoCollector;
+        ILoggerFactory* m_loggerFactory;
 };
 
 #endif // COMPLETERFACTORY_HPP

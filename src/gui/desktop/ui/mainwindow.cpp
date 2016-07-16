@@ -173,6 +173,12 @@ void MainWindow::set(IPhotosManager* manager)
 }
 
 
+void MainWindow::set(ILoggerFactory* lf)
+{
+    ui->tagEditor->set(lf);
+}
+
+
 void MainWindow::checkVersion()
 {
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
