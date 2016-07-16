@@ -22,6 +22,7 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
+#include <core/variant_converter.hpp>
 
 
 namespace
@@ -30,10 +31,12 @@ namespace
     QString limited_join(T first, T last, int limit, const QString& splitter)
     {
         QString result;
+        const VariantConverter converter;
 
         for(; limit > 0 && first != last;)
         {
-            result += *first++;
+            const TagValue& v = *first++;
+            result += converter(v.get());
 
             limit--;
 
@@ -82,7 +85,7 @@ void TagValueModel::set(ITagInfoCollector* collector)
         .arg(values_joined);
 
     auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
-    logger->debug(values_joined);
+    logger->debug(logMessage);
 }
 
 
