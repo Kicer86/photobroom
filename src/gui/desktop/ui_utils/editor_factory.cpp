@@ -27,6 +27,7 @@
 #include <QLineEdit>
 #include <QTableWidget>
 #include <QTimeEdit>
+#include <QTimer>
 
 #include <core/down_cast.hpp>
 #include "widgets/tag_editor/helpers/tags_model.hpp"
@@ -58,7 +59,8 @@ ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_c
     setFrameShape(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-    review();
+    // Workaround: do not review widget imediately, wait for possible setCompleter()
+    QTimer::singleShot(0, this, &ListEditor::review);
 }
 
 
