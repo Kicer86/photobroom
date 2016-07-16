@@ -498,4 +498,17 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation>Wartość</translation>
     </message>
 </context>
+<context>
+    <name>main</name>
+    <message>
+        <location filename="../src/main.cpp" line="+40"/>
+        <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>loging level</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

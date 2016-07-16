@@ -32,100 +32,59 @@
 #include <QDebug>
 
 
-Logger::Logger(const QString& path, const std::vector<QString>& utility):
-    m_utility(utility),
-    m_path(getPath(path)),
-    m_severity(Severity::Warning),
-    m_file(nullptr)
-{
-    prepareFile();
-}
-
-
-Logger::Logger(const QString& path, const QString& utility): Logger(path, std::vector<QString>({ utility}) )
+Logger::Logger(std::ostream& stream, const QStringList& utility, Severity severity):
+    m_utility(utility.join(":")),
+    m_severity(severity),
+    m_file(stream)
 {
 
 }
 
 
-Logger::~Logger()
+Logger::Logger(std::ostream& stream, const QString& utility, Severity severity): Logger(stream, QStringList({utility}), severity)
 {
-    delete m_file;
+
 }
 
 
-void Logger::setLevel(ILogger::Severity severity)
+void Logger::log(ILogger::Severity sev, const QString& message)
 {
-    m_severity = severity;
-}
+    const QString s = severity(sev);
+    const QString m = QString("%1 %2 [%3][%4]: %5")
+                        .arg(currentDate())
+                        .arg(currentTime())
+                        .arg(s)
+                        .arg(m_utility)
+                        .arg(message);
 
-
-void Logger::log(ILogger::Severity severity, const std::string& message)
-{
-    assert(m_path.isEmpty() == false);
-
-    const QString m = QString("%1: %2").arg(currentTime()).arg(message.c_str());
-
-    if (severity <= m_severity)
-    {
-        QTextStream fileStream(m_file);
-
-        fileStream << m << "\n";
-    }
+    if (sev <= m_severity)
+        m_file << m.toStdString() << "\n";
 
     qDebug() << m;
 }
 
 
-void Logger::info(const std::string& msg)
+void Logger::info(const QString& msg)
 {
     log(Severity::Info, msg);
 }
 
 
-void Logger::warning(const std::string& msg)
+void Logger::warning(const QString& msg)
 {
     log(Severity::Warning, msg);
 }
 
 
-void Logger::error(const std::string& msg)
+void Logger::error(const QString& msg)
 {
     log(Severity::Error, msg);
 }
 
 
-void Logger::debug(const std::string& msg)
+void Logger::debug(const QString& msg)
 {
     log(Severity::Debug, msg);
-}
-
-
-QString Logger::getPath(const QString& path) const
-{
-    QString result(path);
-
-    if (m_utility.empty() == false)
-    {
-        for(size_t i = 0; i < m_utility.size(); i++)
-            result = result + "/" + m_utility[i];
-
-        result += ".log";
-    }
-
-    return result;
-}
-
-
-void Logger::prepareFile()
-{
-    assert(m_file == nullptr);
-
-    createPath(m_path);
-    m_file = new QFile(m_path);
-
-    m_file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text);
-    m_file->write("\n");                                                        //Add new line everytime we open the file. Just making log files more clean.
 }
 
 
@@ -138,9 +97,26 @@ QString Logger::currentTime() const
 }
 
 
-void Logger::createPath(const QString& path) const
+QString Logger::currentDate() const
 {
-    const QFileInfo fileInfo(path);
-    const QString absPath = fileInfo.absolutePath();
-    QDir().mkpath(absPath);
+    QDate now = QDate::currentDate();
+    const QString dateStr = now.toString("yyyy-MM-dd");
+
+    return dateStr;
+}
+
+
+QString Logger::severity(ILogger::Severity s) const
+{
+    QString result;
+
+    switch(s)
+    {
+        case Severity::Error:   result = "E"; break;
+        case Severity::Warning: result = "W"; break;
+        case Severity::Info:    result = "I"; break;
+        case Severity::Debug:   result = "D"; break;
+    }
+
+    return result;
 }

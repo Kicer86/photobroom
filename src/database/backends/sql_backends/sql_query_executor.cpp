@@ -65,20 +65,18 @@ namespace Database
         // make sure the same thread is used as at construction time.
         assert(std::this_thread::get_id() == m_database_thread_id);
 
-        std::string logMessage = query.toStdString();
-
         const auto start = std::chrono::steady_clock::now();
         const BackendStatus status = result->exec(query)? StatusCodes::Ok: StatusCodes::QueryFailed;
         const auto end = std::chrono::steady_clock::now();
         const auto diff = end - start;
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-        logMessage = logMessage + " Exec time: " + std::to_string(diff_ms) + "ms";
+        const QString logMessage = QString("%1 Execution time: %2ms").arg(query).arg(diff_ms);
 
         m_logger->log(ILogger::Severity::Debug, logMessage);
 
         if (status == false)
             m_logger->log(ILogger::Severity::Error,
-                          "Error: " + result->lastError().text().toStdString() + " while performing query: " + query.toStdString());
+                          "Error: " + result->lastError().text() + " while performing query: " + query);
 
         assert(status);
         return status;
@@ -94,6 +92,5 @@ namespace Database
 
         return status;
     }
-
 
 }

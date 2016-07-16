@@ -20,20 +20,34 @@
 #include "logger_factory.hpp"
 
 #include "logger.hpp"
+#include "log_file_rotator.hpp"
 
-LoggerFactory::LoggerFactory(const QString& path): m_path(path)
+LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(ILogger::Severity::Warning)
 {
+    const QString log_path = path + "/photo_broom.log";
+    LogFileRotator().rotate(log_path);
 
+    const std::string str_path = log_path.toStdString();
+
+    m_logFile.open(str_path, std::ofstream::out | std::ofstream::app );
+}
+
+
+void LoggerFactory::setLogingLevel(ILogger::Severity logingLevel)
+{
+    m_logingLevel = logingLevel;
 }
 
 
 std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 {
-    return get( std::vector<QString>({utility}) );
+    return get( QStringList({utility}) );
 }
 
 
-std::unique_ptr<ILogger> LoggerFactory::get(const std::vector<QString>& utility) const
+std::unique_ptr<ILogger> LoggerFactory::get(const QStringList& utility) const
 {
-    return std::make_unique<Logger>(m_path, utility);
+    auto logger = std::make_unique<Logger>(m_logFile, utility, m_logingLevel);
+
+    return logger;
 }

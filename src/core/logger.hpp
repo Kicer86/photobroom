@@ -22,7 +22,8 @@
 
 #include <string>
 #include <map>
-#include <QString>
+
+#include <QStringList>
 
 #include "ilogger.hpp"
 
@@ -34,33 +35,28 @@ class QString;
 class CORE_EXPORT Logger: public ILogger
 {
     public:
-        Logger(const QString &, const QString& utility);
-        Logger(const QString &, const std::vector<QString>& utility);
+        Logger(std::ostream &, const QString& utility, Severity = Severity::Warning);
+        Logger(std::ostream &, const QStringList& utility, Severity = Severity::Warning);
         Logger(const Logger& other) = delete;
-        ~Logger();
+        ~Logger() = default;
 
         Logger& operator=(const Logger& other) = delete;
 
-        void setLevel(Severity);
+        void log(Severity, const QString& message) override;
 
-        void log(Severity, const std::string& message) override;
-
-        void info(const std::string &) override;
-        void warning(const std::string &) override;
-        void error(const std::string &) override;
-        void debug(const std::string &) override;
+        void info(const QString &) override;
+        void warning(const QString &) override;
+        void error(const QString &) override;
+        void debug(const QString &) override;
 
     private:
-        const std::vector<QString> m_utility;
-        const QString m_path;
+        const QString m_utility;
         Severity m_severity;
-        QIODevice* m_file;
-
-        QString getPath(const QString &) const;
-        void prepareFile();
+        std::ostream& m_file;
 
         QString currentTime() const;
-        void createPath(const QString &) const;
+        QString currentDate() const;
+        QString severity(Severity) const;
 };
 
 #endif // LOGGER_HPP

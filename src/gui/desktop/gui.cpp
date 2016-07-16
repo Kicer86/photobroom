@@ -75,7 +75,7 @@ void Gui::run()
 #endif
 
 	const QString tr_path = FileSystem().getTranslationsPath();
-	m_logger->log(ILogger::Severity::Info, QString("Searching for translations in: %1").arg(tr_path).toStdString());
+    m_logger->log(ILogger::Severity::Info, QString("Searching for translations in: %1").arg(tr_path));
 
     QTranslator translator;
     translator.load("photo_broom_pl", tr_path);

@@ -1,6 +1,6 @@
 /*
- * Interface for LoggerFactory
- * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Utility for log files management.
+ * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,23 +17,23 @@
  *
  */
 
-#ifndef ILOGGERFACTORY_HPP
-#define ILOGGERFACTORY_HPP
+#ifndef LOGFILEROTATOR_HPP
+#define LOGFILEROTATOR_HPP
 
-#include <memory>
-#include <vector>
+#include <QString>
 
-class QString;
-class QStringList;
-
-struct ILogger;
-
-struct ILoggerFactory
+class LogFileRotator
 {
-    virtual ~ILoggerFactory() = default;
+    public:
+        LogFileRotator();
+        LogFileRotator(const LogFileRotator &) = delete;
+        ~LogFileRotator();
 
-    virtual std::unique_ptr<ILogger> get(const QString& utility) const = 0;
-    virtual std::unique_ptr<ILogger> get(const QStringList& utility) const = 0;
+        void rotate(const QString& logPath) const;
+        LogFileRotator& operator=(const LogFileRotator &) = delete;
+
+    private:
+        QString increaseVersion(const QString &) const;
 };
 
-#endif // ILOGGERFACTORY_HPP
+#endif // LOGFILEROTATOR_HPP

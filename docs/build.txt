@@ -1,7 +1,7 @@
 
 Required tools and libraries:
  - cmake - version 3.0 or later
- - Qt5 - version 5.5 or higher
+ - Qt5 - version 5.6 or higher
  - easyexif*
  - GMock and GTest
  - jsoncpp*
