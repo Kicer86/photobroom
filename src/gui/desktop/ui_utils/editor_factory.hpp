@@ -58,6 +58,9 @@ struct ListEditor: QTableWidget
 
     public:
         explicit ListEditor(QWidget* parent = 0);
+        ListEditor(const ListEditor &) = delete;
+
+        ListEditor& operator=(const ListEditor &) = delete;
 
         QStringList getValues() const;
         void setValues(const QStringList &);
