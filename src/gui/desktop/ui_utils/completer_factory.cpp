@@ -45,15 +45,14 @@ void CompleterFactory::set(Database::IDatabase* db)
 
 QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 {
-    const TagNameInfo::Type type = info.getType();
-    auto it = m_tagValueModels.find(type);
+    auto it = m_tagValueModels.find(info);
 
     if (it == m_tagValueModels.end())
     {
         auto model = std::make_unique<TagValueModel>(info);
         model->set(&m_tagInfoCollector);
 
-        auto iit = m_tagValueModels.insert( std::make_pair(type, std::move(model)) );
+        auto iit = m_tagValueModels.insert( std::make_pair(info, std::move(model)) );
 
         it = iit.first;
     }

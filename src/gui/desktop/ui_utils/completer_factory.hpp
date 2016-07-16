@@ -45,7 +45,7 @@ class CompleterFactory: public ICompleterFactory
         QCompleter* createCompleter(const TagNameInfo &) override;
 
     private:
-        std::map<TagNameInfo::Type, std::unique_ptr<TagValueModel>> m_tagValueModels;
+        std::map<TagNameInfo, std::unique_ptr<TagValueModel>> m_tagValueModels;
         TagInfoCollector m_tagInfoCollector;
 };
 
