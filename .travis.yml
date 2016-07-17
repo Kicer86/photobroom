@@ -66,7 +66,7 @@ matrix:
 
 before_install:
     # setup Qt 5.6 which is not in Ubuntu by default. To be removed in the future.
-  - sudo add-apt-repository ppa:beineri/opt-qt56-trusty -y
+  - sudo add-apt-repository ppa:beineri/opt-qt561-trusty -y
   - sudo apt-get -qq update
   - sudo sudo apt-get install -qq qt56base qt56svg
   - source /opt/qt56/bin/qt56-env.sh
