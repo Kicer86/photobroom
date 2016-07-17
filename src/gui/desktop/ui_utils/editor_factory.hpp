@@ -68,6 +68,7 @@ struct ListEditor: QTableWidget
         void setCompleter(QCompleter *);
 
     private:
+        std::set<QLineEdit *> m_editors;
         QCompleter* m_completer;
 
         void addRow(int);
@@ -78,8 +79,9 @@ struct ListEditor: QTableWidget
         // QWidget overrides
         QSize minimumSizeHint() const override;
 
-    private slots:
+        //
         void review();
+        void editorDestroyed(QObject *);
 };
 
 #endif // EDITORFACTORY_HPP
