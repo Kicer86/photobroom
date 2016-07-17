@@ -3,16 +3,16 @@ Required tools and libraries:
  - cmake - version 3.0 or later
  - Qt5 - version 5.6 or higher
  - easyexif*
- - GMock and GTest
  - jsoncpp*
  - OpenLibrary*
  - Boost
 
- Optional libraries (for crash catching):
- - KCrash + drkonqi (Linux/Windows)
+ Optional libraries:
+ - KCrash + drkonqi (for crash catching)
+ - GMock and GTest  (unit tests)
 
 * For convenience it is possible to use prepared CMake script
-  for download, build and install of marked libraris.
+  for download, build and install all marked libraries.
   If you want to use this feature take cmake/third_party directory
   as CMake source dir. Place output dir somewhere outise photo broom sources.
   
@@ -36,7 +36,6 @@ On Windows operating system, PhotoBroom searches for plugins and translations,
 in location relative to exe file.
 
 There is CMake DEVELOPER_BUILD variable available to ease debugging of some features.
-Then set to ON gui internal crash catcher will run and attach to dummy application.
 On Windows, DEVELOPER_BUILD option will force PhotoBroom to look for plugins and translations in location
 defined by CMAKE_INSTALL_PREFIX (so as it does on Linux) not in build directory.
 
