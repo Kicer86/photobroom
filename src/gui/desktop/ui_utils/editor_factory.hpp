@@ -59,6 +59,7 @@ struct ListEditor: QTableWidget
     public:
         explicit ListEditor(QWidget* parent = 0);
         ListEditor(const ListEditor &) = delete;
+        virtual ~ListEditor();
 
         ListEditor& operator=(const ListEditor &) = delete;
 

@@ -63,6 +63,14 @@ ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_e
 }
 
 
+ListEditor::~ListEditor()
+{
+    for(QLineEdit* editor: m_editors)
+        disconnect(editor, &QObject::destroyed, this, &ListEditor::editorDestroyed);
+}
+
+
+
 QStringList ListEditor::getValues() const
 {
     QStringList result;
