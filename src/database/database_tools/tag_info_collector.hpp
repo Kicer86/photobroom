@@ -33,6 +33,8 @@ namespace Database
 
 class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
 {
+        Q_OBJECT
+
     public:
         TagInfoCollector();
         TagInfoCollector(const TagInfoCollector &) = delete;
