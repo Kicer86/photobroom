@@ -55,7 +55,7 @@ namespace Database
         signals:
             void photoAdded(const IPhotoInfo::Ptr &);                // emited when new photo was added to database
             void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
-            void photosRemoved(const std::deque<Photo::Id> &);       // emmited after photos removal
+            void photosRemoved(const std::deque<Photo::Id> &);       // emited after photos removal
     };
 
     struct DATABASE_EXPORT AStorePhotoTask

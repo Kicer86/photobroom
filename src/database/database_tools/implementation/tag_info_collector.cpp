@@ -40,6 +40,11 @@ void TagInfoCollector::set(Database::IDatabase* db)
 {
     m_database = db;
 
+    // TODO: ADatabaseSignals doesn't emit signal when tags are changed.
+    // It would require improvements in backend (#10 and maybe #180), so for now listen for photo modifications.
+    // Github issue: #183
+    connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &TagInfoCollector::photoModified);
+
     using namespace std::placeholders;
     auto result = std::bind(&TagInfoCollector::gotTagNames, this, _1);
     m_database->listTagNames(result);
@@ -73,4 +78,13 @@ void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<QV
 
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     m_tags[name].swap(tagValues);
+}
+
+
+void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
+{
+    const Tag::TagsList tags = photoInfo->getTags();
+
+    for(const auto& tag: tags)
+    {}
 }
