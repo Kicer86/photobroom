@@ -80,7 +80,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     const Tag::TagsList tags = photoInfo->getTags();
 
     for(const auto& tag: tags)
-    {}
+        updateValuesFor(tag.first);
 }
 
 
