@@ -45,9 +45,7 @@ void TagInfoCollector::set(Database::IDatabase* db)
     // Github issue: #183
     connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &TagInfoCollector::photoModified);
 
-    using namespace std::placeholders;
-    auto result = std::bind(&TagInfoCollector::gotTagNames, this, _1);
-    m_database->listTagNames(result);
+    updateAllTags();
 }
 
 
@@ -61,11 +59,7 @@ const std::set<TagValue>& TagInfoCollector::get(const TagNameInfo& info) const
 void TagInfoCollector::gotTagNames(const std::deque<TagNameInfo>& names)
 {
     for( const auto& name: names)
-    {
-        using namespace std::placeholders;
-        auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
-        m_database->listTagValues(name, result);
-    }
+        updateValuesFor(name);
 }
 
 
@@ -87,4 +81,20 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
     for(const auto& tag: tags)
     {}
+}
+
+
+void TagInfoCollector::updateAllTags()
+{
+    using namespace std::placeholders;
+    auto result = std::bind(&TagInfoCollector::gotTagNames, this, _1);
+    m_database->listTagNames(result);
+}
+
+
+void TagInfoCollector::updateValuesFor(const TagNameInfo& name)
+{
+    using namespace std::placeholders;
+    auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
+    m_database->listTagValues(name, result);
 }
