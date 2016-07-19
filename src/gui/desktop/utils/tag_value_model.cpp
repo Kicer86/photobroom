@@ -60,7 +60,7 @@ TagValueModel::TagValueModel(const TagNameInfo& info):
     m_tagInfoCollector(nullptr),
     m_loggerFactory(nullptr)
 {
-
+    connect(this, &TagValueModel::postUpdateData, this, &TagValueModel::updateData);
 }
 
 
@@ -74,18 +74,11 @@ void TagValueModel::set(ITagInfoCollector* collector)
 {
     m_tagInfoCollector = collector;
 
-    const auto& values = collector->get(m_tagInfo);
+    using namespace std::placeholders;
+    auto callback = std::bind(&TagValueModel::refreshTagValues, this, _1);
+    m_tagInfoCollector->registerChangeObserver(callback);
 
-    std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
-
-    const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
-    const QString logMessage = QString("Got %1 values for %2: %3")
-        .arg(m_values.size())
-        .arg(m_tagInfo.getName())
-        .arg(values_joined);
-
-    auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
-    logger->debug(logMessage);
+    updateData();
 }
 
 
@@ -115,4 +108,29 @@ QVariant TagValueModel::data(const QModelIndex& index, int role) const
         result = m_values[index.row()].get();
 
     return result;
+}
+
+
+void TagValueModel::updateData()
+{
+    const auto& values = m_tagInfoCollector->get(m_tagInfo);
+
+    m_values.clear();
+    std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
+
+    const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
+    const QString logMessage = QString("Got %1 values for %2: %3")
+    .arg(m_values.size())
+    .arg(m_tagInfo.getName())
+    .arg(values_joined);
+
+    auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
+    logger->debug(logMessage);
+}
+
+
+void TagValueModel::refreshTagValues(const TagNameInfo& tagInfo)
+{
+    if (m_tagInfo == tagInfo)
+        emit postUpdateData();   // make sure we won't have problems with threads
 }

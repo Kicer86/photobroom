@@ -29,6 +29,8 @@ struct ITagInfoCollector;
 
 class TagValueModel: public QAbstractListModel
 {
+        Q_OBJECT
+
     public:
         TagValueModel(const TagNameInfo &);
         TagValueModel(const TagValueModel &) = delete;
@@ -47,6 +49,12 @@ class TagValueModel: public QAbstractListModel
         TagNameInfo m_tagInfo;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;
+
+        void updateData();
+        void refreshTagValues(const TagNameInfo &);
+
+    signals:
+        void postUpdateData();
 };
 
 #endif // TAGVALUEMODEL_HPP
