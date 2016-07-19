@@ -33,8 +33,6 @@ namespace Database
 
 class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
 {
-        Q_OBJECT
-
     public:
         TagInfoCollector();
         TagInfoCollector(const TagInfoCollector &) = delete;
@@ -43,11 +41,14 @@ class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
         TagInfoCollector& operator=(const TagInfoCollector &) = delete;
 
         void set(Database::IDatabase *);
+
         const std::set<TagValue>& get(const TagNameInfo &) const override;
+        void registerChangeObserver( const std::function< void(const TagNameInfo &) > & ) override;
 
     private:
         mutable std::map<TagNameInfo, std::set<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
+        std::deque< std::function<void(const TagNameInfo &)> > m_observers;
         Database::IDatabase* m_database;
 
         void gotTagNames(const std::deque<TagNameInfo> &);
@@ -56,9 +57,6 @@ class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
 
         void updateAllTags();
         void updateValuesFor(const TagNameInfo &);
-
-    signals:
-        void valuesChanged(const TagNameInfo &);
 };
 
 #endif // TAGINFOCOLLECTOR_H

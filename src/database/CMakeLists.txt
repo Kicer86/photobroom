@@ -60,7 +60,6 @@ set(DATABASE_MOC
     idatabase.hpp
     idatabase_plugin.hpp
     database_tools/photos_analyzer.hpp
-    database_tools/tag_info_collector.hpp
     database_tools/implementation/photos_analyzer_p.hpp)
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
