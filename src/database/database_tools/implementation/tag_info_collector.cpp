@@ -24,7 +24,7 @@
 #include "idatabase.hpp"
 
 
-TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_observers(), m_database(nullptr)
+TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_observers(), m_database(nullptr), m_observerId(0)
 {
 
 }
@@ -56,9 +56,22 @@ const std::set<TagValue>& TagInfoCollector::get(const TagNameInfo& info) const
 }
 
 
-void TagInfoCollector::registerChangeObserver(const std::function<void(const TagNameInfo &)>& observer)
+int TagInfoCollector::registerChangeObserver(const std::function<void(const TagNameInfo &)>& observer)
 {
-    m_observers.push_back(observer);
+    const int id = m_observerId++;
+
+    m_observers[id] = observer;
+
+    return id;
+}
+
+
+void TagInfoCollector::unregisterChangeObserver(int id)
+{
+    auto it = m_observers.find(id);
+    assert(it != m_observers.end());
+
+    m_observers.erase(it);
 }
 
 
@@ -80,7 +93,7 @@ void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<QV
     m_tags[name].swap(tagValues);
 
     for(auto& observer: m_observers)
-        observer(name);
+        observer.second(name);
 }
 
 
