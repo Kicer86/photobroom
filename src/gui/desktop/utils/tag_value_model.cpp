@@ -113,6 +113,8 @@ QVariant TagValueModel::data(const QModelIndex& index, int role) const
 
 void TagValueModel::updateData()
 {
+    beginResetModel();
+
     const auto& values = m_tagInfoCollector->get(m_tagInfo);
 
     m_values.clear();
@@ -120,12 +122,14 @@ void TagValueModel::updateData()
 
     const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
     const QString logMessage = QString("Got %1 values for %2: %3")
-    .arg(m_values.size())
-    .arg(m_tagInfo.getName())
-    .arg(values_joined);
+                                    .arg(m_values.size())
+                                    .arg(m_tagInfo.getName())
+                                    .arg(values_joined);
 
     auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
     logger->debug(logMessage);
+    
+    endResetModel();
 }
 
 
