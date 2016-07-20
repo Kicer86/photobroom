@@ -49,6 +49,7 @@ class TagValueModel: public QAbstractListModel
         TagNameInfo m_tagInfo;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;
+        int m_observerId;
 
         void updateData();
         void refreshTagValues(const TagNameInfo &);

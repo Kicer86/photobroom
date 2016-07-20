@@ -58,7 +58,8 @@ TagValueModel::TagValueModel(const TagNameInfo& info):
     m_values(),
     m_tagInfo(info),
     m_tagInfoCollector(nullptr),
-    m_loggerFactory(nullptr)
+    m_loggerFactory(nullptr),
+    m_observerId(0)
 {
     connect(this, &TagValueModel::postUpdateData, this, &TagValueModel::updateData);
 }
@@ -66,7 +67,8 @@ TagValueModel::TagValueModel(const TagNameInfo& info):
 
 TagValueModel::~TagValueModel()
 {
-
+    if (m_tagInfoCollector)
+        m_tagInfoCollector->unregisterChangeObserver(m_observerId);
 }
 
 
@@ -76,7 +78,7 @@ void TagValueModel::set(ITagInfoCollector* collector)
 
     using namespace std::placeholders;
     auto callback = std::bind(&TagValueModel::refreshTagValues, this, _1);
-    m_tagInfoCollector->registerChangeObserver(callback);
+    m_observerId = m_tagInfoCollector->registerChangeObserver(callback);
 
     updateData();
 }
@@ -128,7 +130,7 @@ void TagValueModel::updateData()
 
     auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
     logger->debug(logMessage);
-    
+
     endResetModel();
 }
 
