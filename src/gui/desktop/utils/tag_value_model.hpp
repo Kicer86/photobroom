@@ -52,7 +52,7 @@ class TagValueModel: public QAbstractListModel
         int m_observerId;
 
         void updateData();
-        void refreshTagValues(const TagNameInfo &);
+        void collectorNotification(const TagNameInfo &);
 
     signals:
         void postUpdateData();

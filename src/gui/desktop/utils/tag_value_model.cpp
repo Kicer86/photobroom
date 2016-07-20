@@ -77,7 +77,7 @@ void TagValueModel::set(ITagInfoCollector* collector)
     m_tagInfoCollector = collector;
 
     using namespace std::placeholders;
-    auto callback = std::bind(&TagValueModel::refreshTagValues, this, _1);
+    auto callback = std::bind(&TagValueModel::collectorNotification, this, _1);
     m_observerId = m_tagInfoCollector->registerChangeObserver(callback);
 
     updateData();
@@ -135,7 +135,7 @@ void TagValueModel::updateData()
 }
 
 
-void TagValueModel::refreshTagValues(const TagNameInfo& tagInfo)
+void TagValueModel::collectorNotification(const TagNameInfo& tagInfo)
 {
     if (m_tagInfo == tagInfo)
         emit postUpdateData();   // make sure we won't have problems with threads
