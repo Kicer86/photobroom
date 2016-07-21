@@ -5,6 +5,7 @@
 #include <QStringList>
 
 #include "base_tags.hpp"
+#include <variant_converter.hpp>
 
 
 TagNameInfo::TagNameInfo(): name(), displayName(), type(Invalid)
@@ -156,19 +157,31 @@ const QVariant& TagValue::get() const
 
 bool TagValue::operator==(const TagValue& other) const
 {
-    return m_value == other.m_value;
+    VariantConverter converter;
+    const QString thisString = converter(m_value);
+    const QString otherString = converter(other.m_value);
+
+    return thisString == otherString;
 }
 
 
 bool TagValue::operator!=(const TagValue& other) const
 {
-    return m_value != other.m_value;
+    VariantConverter converter;
+    const QString thisString = converter(m_value);
+    const QString otherString = converter(other.m_value);
+
+    return thisString != otherString;
 }
 
 
 bool TagValue::operator<(const TagValue& other) const
 {
-    return m_value < other.m_value;
+    VariantConverter converter;
+    const QString thisString = converter(m_value);
+    const QString otherString = converter(other.m_value);
+
+    return thisString < otherString;
 }
 
 
