@@ -87,7 +87,12 @@ void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<QV
     std::set<TagValue> tagValues;
 
     for(const QVariant& v: values)
-        tagValues.insert( TagValue(v) );
+    {
+        const TagValue tv(v);
+        tagValues.insert( tv );
+    }
+
+    assert(values.size() == tagValues.size());
 
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     m_tags[name].swap(tagValues);
