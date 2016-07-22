@@ -55,24 +55,60 @@ struct CORE_EXPORT TagNameInfo
 class CORE_EXPORT TagValue
 {
     public:
+        enum class Type
+        {
+            Empty,
+            Date,
+            List,          // List of TagValue
+            String,
+            Time,
+        };
+
         TagValue();
-        TagValue(const TagValue &) = default;
+        TagValue(const TagValue &);
         explicit TagValue(const QVariant &);
 
         ~TagValue();
 
-        TagValue& operator=(const TagValue &) = default;
+        TagValue& operator=(const TagValue &);
 
-        void set(const QVariant &);
+        [[deprecated]] void set(const QVariant &);
+        void set(const QDate &);
+        void set(const QTime &);
+        void set(const std::deque<TagValue> &);
+        void set(const QString &);
 
-        const QVariant& get() const;
+        [[deprecated]] QVariant get() const;
+        QDate getDate() const;
+        QDate getTime() const;
+        QDate getString() const;
+        std::deque<TagValue> getList() const;
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
         bool operator<(const TagValue &) const;
 
     private:
-        QVariant m_value;
+        Type m_type;
+        void* m_value;
+
+        void destroyValue();
+        void copy(const TagValue &);
+
+        template<typename T>
+        bool validate() const;
+
+        template<typename T>
+        T* get() const
+        {
+            assert( validate<T>() );
+
+            T* v = static_cast<T *>(m_value);
+
+            return v;
+        }
+
+        QString string() const;
 };
 
 

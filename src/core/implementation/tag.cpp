@@ -1,8 +1,10 @@
 
 #include "tag.hpp"
 
+#include <QDate>
 #include <QString>
 #include <QStringList>
+#include <QTime>
 
 #include "base_tags.hpp"
 #include <variant_converter.hpp>
@@ -125,41 +127,161 @@ QString TagNameInfo::dn(const QString& n) const
 //////////////////////////////////////////////////////////////
 
 
-TagValue::TagValue(): m_value()
+TagValue::TagValue(): m_type(Type::Empty), m_value(nullptr)
 {
 
 }
 
 
-TagValue::TagValue(const QVariant& value): m_value(value)
+TagValue::TagValue(const TagValue& other): TagValue()
 {
+    copy(other);
+}
 
+
+TagValue::TagValue(const QVariant& value): TagValue()
+{
+    set(value);
 }
 
 
 TagValue::~TagValue()
 {
-
+    destroyValue();
 }
 
 
-void TagValue::set(const QVariant& value)
+TagValue& TagValue::operator=(const TagValue& other)
 {
-   m_value = value;
+    copy(other);
+
+    return *this;
 }
 
 
-const QVariant& TagValue::get() const
+void TagValue::set(const QVariant& v)
 {
-    return m_value;
+    const QVariant::Type type = v.type();
+
+    switch(type)
+    {
+        default:
+            assert(!"unknown type");
+
+        case QVariant::String:
+            set(v.toString());
+            break;
+
+        case QVariant::Date:
+            set(v.toDate());
+            break;
+
+        case QVariant::Time:
+            set(v.toTime());
+            break;
+
+        case QVariant::StringList:
+        {
+            const QStringList l = v.toStringList();
+
+            std::deque<TagValue> values;
+
+            for(const QString& str: l)
+            {
+                const TagValue tagValue(str);
+
+                values.push_back(tagValue);
+            }
+
+            set(values);
+            break;
+        }
+    }
+}
+
+
+void TagValue::set(const QDate& date)
+{
+    destroyValue();
+
+    QDate* v = new QDate(date);
+    m_value = v;
+    m_type = Type::Date;
+}
+
+
+void TagValue::set(const QTime& time)
+{
+    destroyValue();
+
+    QTime* v = new QTime(time);
+    m_value = v;
+    m_type = Type::Time;
+}
+
+
+void TagValue::set(const std::deque<TagValue>& values)
+{
+    destroyValue();
+
+    std::deque<TagValue>* v = new std::deque<TagValue>(values);
+    m_value = v;
+    m_type = Type::List;
+}
+
+
+void TagValue::set(const QString& string)
+{
+    destroyValue();
+
+    QString* v = new QString(string);
+    m_value = v;
+    m_type = Type::String;
+}
+
+
+QVariant TagValue::get() const
+{
+    QVariant result;
+
+    switch (m_type)
+    {
+        case Type::Empty:
+            break;
+
+        case Type::Date:
+            result = * get<QDate>();
+            break;
+
+        case Type::List:
+        {
+            QStringList localResult;
+            std::deque<TagValue>* v = get<std::deque<TagValue>>();
+
+            for(const TagValue& tagValue: *v)
+                localResult.append(tagValue.string());
+
+            result = localResult;
+            break;
+        }
+
+        case Type::String:
+            result = * get<QString>();
+            break;
+
+        case Type::Time:
+            result = * get<QTime>();
+            break;
+    }
+
+    return result;
 }
 
 
 bool TagValue::operator==(const TagValue& other) const
 {
-    VariantConverter converter;
-    const QString thisString = converter(m_value);
-    const QString otherString = converter(other.m_value);
+    const QString thisString = string();
+    const QString otherString = other.string();
 
     return thisString == otherString;
 }
@@ -167,9 +289,8 @@ bool TagValue::operator==(const TagValue& other) const
 
 bool TagValue::operator!=(const TagValue& other) const
 {
-    VariantConverter converter;
-    const QString thisString = converter(m_value);
-    const QString otherString = converter(other.m_value);
+    const QString thisString = string();
+    const QString otherString = other.string();
 
     return thisString != otherString;
 }
@@ -177,11 +298,149 @@ bool TagValue::operator!=(const TagValue& other) const
 
 bool TagValue::operator<(const TagValue& other) const
 {
-    VariantConverter converter;
-    const QString thisString = converter(m_value);
-    const QString otherString = converter(other.m_value);
+    const QString thisString = string();
+    const QString otherString = other.string();
 
     return thisString < otherString;
+}
+
+
+void TagValue::destroyValue()
+{
+    switch (m_type)
+    {
+        case Type::Empty:
+            break;
+
+        case Type::Date:
+            delete get<QDate>();
+            break;
+
+        case Type::List:
+        {
+            std::deque<TagValue>* v = get<std::deque<TagValue>>();
+
+            for(TagValue& tagValue: *v)
+                tagValue.destroyValue();
+
+            delete v;
+            break;
+        }
+
+        case Type::String:
+            delete get<QString>();
+            break;
+
+        case Type::Time:
+            delete get<QTime>();
+            break;
+    }
+
+    m_type = Type::Empty;
+    m_value = nullptr;
+}
+
+
+void TagValue::copy(const TagValue& other)
+{
+    switch (other.m_type)
+    {
+        case Type::Empty:
+            break;
+
+        case Type::Date:
+            set(* other.get<QDate>() );
+            break;
+
+        case Type::List:
+            set(* other.get<std::deque<TagValue>>() );
+            break;
+
+        case Type::String:
+            set(* other.get<QString>() );
+            break;
+
+        case Type::Time:
+            set(* other.get<QTime>() );
+            break;
+    }
+
+    m_type = other.m_type;
+}
+
+
+template<>
+bool TagValue::validate<QDate>() const
+{
+    return m_type == Type::Date && m_value != nullptr;
+}
+
+
+template<>
+bool TagValue::validate<QTime>() const
+{
+    return m_type == Type::Time && m_value != nullptr;
+}
+
+
+template<>
+bool TagValue::validate<QString>() const
+{
+    return m_type == Type::String && m_value != nullptr;
+}
+
+
+template<>
+bool TagValue::validate<std::deque<TagValue>>() const
+{
+    return m_type == Type::List && m_value != nullptr;
+}
+
+
+QString TagValue::string() const
+{
+    QString result;
+
+    switch(m_type)
+    {
+        case Type::Empty:
+            break;
+
+        case Type::Date:
+        {
+            QDate* v = get<QDate>();
+            result = v->toString("yyyy.MM.dd");;
+            break;
+        }
+
+        case Type::List:
+        {
+            QString localResult;
+            std::deque<TagValue>* v = get<std::deque<TagValue>>();
+
+            for(const TagValue& tagValue: *v)
+                localResult += tagValue.string() + '\0';
+
+            result = localResult;
+            break;
+        }
+
+        case Type::String:
+        {
+            QString* v = get<QString>();
+            result = *v;
+            break;
+        }
+
+        case Type::Time:
+        {
+            QTime* v = get<QTime>();
+            result = v->toString("HH:mm:ss");
+            break;
+        }
+    }
+
+    return result;
 }
 
 
