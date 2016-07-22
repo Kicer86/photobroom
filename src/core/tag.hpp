@@ -111,6 +111,33 @@ class CORE_EXPORT TagValue
         QString string() const;
 };
 
+template<TagValue::Type T>
+struct TagValueTraits {};
+
+template<>
+struct TagValueTraits<TagValue::Type::Date>
+{
+    typedef QDate StorageType;
+};
+
+template<>
+struct TagValueTraits<TagValue::Type::List>
+{
+    typedef std::deque<TagValue> StorageType;
+};
+
+template<>
+struct TagValueTraits<TagValue::Type::String>
+{
+    typedef QString StorageType;
+};
+
+template<>
+struct TagValueTraits<TagValue::Type::Time>
+{
+    typedef QTime StorageType;
+};
+
 
 namespace Tag
 {

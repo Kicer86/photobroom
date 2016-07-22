@@ -250,13 +250,13 @@ QVariant TagValue::get() const
             break;
 
         case Type::Date:
-            result = * get<QDate>();
+            result = * get<TagValueTraits<Type::Date>::StorageType>();
             break;
 
         case Type::List:
         {
             QStringList localResult;
-            std::deque<TagValue>* v = get<std::deque<TagValue>>();
+            std::deque<TagValue>* v = get<TagValueTraits<Type::List>::StorageType>();
 
             for(const TagValue& tagValue: *v)
                 localResult.append(tagValue.string());
@@ -266,11 +266,11 @@ QVariant TagValue::get() const
         }
 
         case Type::String:
-            result = * get<QString>();
+            result = * get<TagValueTraits<Type::String>::StorageType>();
             break;
 
         case Type::Time:
-            result = * get<QTime>();
+            result = * get<TagValueTraits<Type::Time>::StorageType>();
             break;
     }
 
@@ -313,12 +313,12 @@ void TagValue::destroyValue()
             break;
 
         case Type::Date:
-            delete get<QDate>();
+            delete get<TagValueTraits<Type::Date>::StorageType>();
             break;
 
         case Type::List:
         {
-            std::deque<TagValue>* v = get<std::deque<TagValue>>();
+            auto* v = get<TagValueTraits<Type::List>::StorageType>();
 
             for(TagValue& tagValue: *v)
                 tagValue.destroyValue();
@@ -328,11 +328,11 @@ void TagValue::destroyValue()
         }
 
         case Type::String:
-            delete get<QString>();
+            delete get<TagValueTraits<Type::String>::StorageType>();
             break;
 
         case Type::Time:
-            delete get<QTime>();
+            delete get<TagValueTraits<Type::Time>::StorageType>();
             break;
     }
 
@@ -349,19 +349,19 @@ void TagValue::copy(const TagValue& other)
             break;
 
         case Type::Date:
-            set(* other.get<QDate>() );
+            set(* other.get<TagValueTraits<Type::Date>::StorageType>() );
             break;
 
         case Type::List:
-            set(* other.get<std::deque<TagValue>>() );
+            set(* other.get<TagValueTraits<Type::List>::StorageType>() );
             break;
 
         case Type::String:
-            set(* other.get<QString>() );
+            set(* other.get<TagValueTraits<Type::String>::StorageType>() );
             break;
 
         case Type::Time:
-            set(* other.get<QTime>() );
+            set(* other.get<TagValueTraits<Type::Time>::StorageType>() );
             break;
     }
 
@@ -408,7 +408,7 @@ QString TagValue::string() const
 
         case Type::Date:
         {
-            QDate* v = get<QDate>();
+            QDate* v = get<TagValueTraits<Type::Date>::StorageType>();
             result = v->toString("yyyy.MM.dd");;
             break;
         }
@@ -416,7 +416,7 @@ QString TagValue::string() const
         case Type::List:
         {
             QString localResult;
-            std::deque<TagValue>* v = get<std::deque<TagValue>>();
+            auto* v = get<TagValueTraits<Type::List>::StorageType>();
 
             for(const TagValue& tagValue: *v)
                 localResult += tagValue.string() + '\0';
@@ -427,14 +427,14 @@ QString TagValue::string() const
 
         case Type::String:
         {
-            QString* v = get<QString>();
+            QString* v = get<TagValueTraits<Type::String>::StorageType>();
             result = *v;
             break;
         }
 
         case Type::Time:
         {
-            QTime* v = get<QTime>();
+            QTime* v = get<TagValueTraits<Type::Time>::StorageType>();
             result = v->toString("HH:mm:ss");
             break;
         }
