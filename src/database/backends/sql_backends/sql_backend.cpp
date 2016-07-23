@@ -222,25 +222,51 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const TagValue& value, int photo_id, int tag_id) const
+    bool ASqlBackend::Data::store(const TagValue& tagValue, int photo_id, int tag_id) const
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
         //store tag values
-        const VariantConverter convert;
-        const QString tag_value = convert(value.get());
+        bool status = true;
+        const TagValue::Type type = tagValue.type();
 
-        InsertQueryData queryData(TAB_TAGS);
-        queryData.setColumns("id", "value", "photo_id", "name_id");
-        queryData.setValues(InsertQueryData::Value::Null,
-                            tag_value,
-                            photo_id,
-                            tag_id);
+        switch (type)
+        {
+            case TagValue::Type::Empty:
+                assert(!"empty tag value!");
+                break;
 
-        auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+            case TagValue::Type::Date:
+            case TagValue::Type::String:
+            case TagValue::Type::Time:
+            {
+                QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+                QSqlQuery query(db);
 
-        const bool status = m_executor.exec(query_str, &query);
+                const QString value = tagValue.formattedValue();
+
+                InsertQueryData queryData(TAB_TAGS);
+                queryData.setColumns("id", "value", "photo_id", "name_id");
+                queryData.setValues(InsertQueryData::Value::Null,
+                                    value,
+                                    photo_id,
+                                    tag_id);
+
+                auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+
+                status = m_executor.exec(query_str, &query);
+
+                break;
+            }
+
+            case TagValue::Type::List:
+            {
+                auto list = tagValue.getList();
+
+                for (const TagValue& subitem: list)
+                    status &= store(subitem, photo_id, tag_id);
+
+                break;
+            }
+        }
 
         return status;
     }
