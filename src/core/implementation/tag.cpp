@@ -316,6 +316,12 @@ TagValue::Type TagValue::type() const
 }
 
 
+QString TagValue::formattedValue() const
+{
+    return string();
+}
+
+
 bool TagValue::operator==(const TagValue& other) const
 {
     const QString thisString = string();

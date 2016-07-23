@@ -85,6 +85,7 @@ class CORE_EXPORT TagValue
         QTime getTime() const;
 
         Type type() const;
+        QString formattedValue() const;
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
