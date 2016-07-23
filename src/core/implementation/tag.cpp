@@ -278,6 +278,44 @@ QVariant TagValue::get() const
 }
 
 
+QDate TagValue::getDate() const
+{
+    auto* v = get<TagValueTraits<Type::Date>::StorageType>();
+
+    return *v;
+}
+
+
+std::deque<TagValue> TagValue::getList() const
+{
+    auto* v = get<TagValueTraits<Type::List>::StorageType>();
+
+    return *v;
+}
+
+
+QString TagValue::getString() const
+{
+    auto* v = get<TagValueTraits<Type::String>::StorageType>();
+
+    return *v;
+}
+
+
+QTime TagValue::getTime() const
+{
+    auto* v = get<TagValueTraits<Type::Time>::StorageType>();
+
+    return *v;
+}
+
+
+TagValue::Type TagValue::type() const
+{
+    return m_type;
+}
+
+
 bool TagValue::operator==(const TagValue& other) const
 {
     const QString thisString = string();

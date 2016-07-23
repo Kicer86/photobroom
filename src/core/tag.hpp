@@ -80,9 +80,11 @@ class CORE_EXPORT TagValue
 
         [[deprecated]] QVariant get() const;
         QDate getDate() const;
-        QDate getTime() const;
-        QDate getString() const;
         std::deque<TagValue> getList() const;
+        QString getString() const;
+        QTime getTime() const;
+
+        Type type() const;
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
