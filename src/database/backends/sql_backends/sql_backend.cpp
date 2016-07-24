@@ -230,12 +230,12 @@ namespace Database
 
         switch (type)
         {
-            case TagType::Invalid:
+            case TagType::Empty:
                 assert(!"empty tag value!");
                 break;
 
             case TagType::Date:
-            case TagType::Text:
+            case TagType::String:
             case TagType::Time:
             {
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1001,7 +1001,7 @@ namespace Database
 
     bool ASqlBackend::update(const TagNameInfo& tagInfo)
     {
-        assert(tagInfo.getType() != TagType::Invalid);
+        assert(tagInfo.getType() != TagType::Empty);
 
         bool status = false;
 

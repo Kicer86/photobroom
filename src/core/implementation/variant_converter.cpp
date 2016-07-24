@@ -76,8 +76,8 @@ QVariant VariantConverter::operator()(const TagType& type, const QString& tag_va
 
     switch(type)
     {
-        case TagType::Invalid:
-        case TagType::Text:
+        case TagType::Empty:
+        case TagType::String:
             result = tag_value;
             break;
 

@@ -17,8 +17,8 @@
 enum class TagType
 {
     //indexed, as those values will be stored in db.
-    Invalid = 0,
-    Text    = 1,
+    Empty   = 0,
+    String  = 1,
     Date    = 2,
     Time    = 3,
     List    = 4,
@@ -121,7 +121,7 @@ struct TagValueTraits<TagType::List>
 };
 
 template<>
-struct TagValueTraits<TagType::Text>
+struct TagValueTraits<TagType::String>
 {
     typedef QString StorageType;
 };

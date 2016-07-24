@@ -232,7 +232,7 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 
     switch(info.getType())
     {
-        case TagType::Text:
+        case TagType::String:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
 
@@ -248,7 +248,7 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
             result = make_editor<ListEditor>(m_completerFactory, info, parent);
             break;
 
-        case TagType::Invalid:
+        case TagType::Empty:
             assert(!"Unknown type");
             break;
     }
@@ -263,7 +263,7 @@ QByteArray EditorFactory::valuePropertyName(const TagType& type) const
 
     switch(type)
     {
-        case TagType::Text:
+        case TagType::String:
             result = "text";
             break;
 
@@ -279,7 +279,7 @@ QByteArray EditorFactory::valuePropertyName(const TagType& type) const
             result = "value";
             break;
 
-        case TagType::Invalid:
+        case TagType::Empty:
             assert(!"Unknown type");
             break;
     }
