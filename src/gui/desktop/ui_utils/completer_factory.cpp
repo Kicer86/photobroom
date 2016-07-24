@@ -25,7 +25,7 @@
 #include <utils/tag_value_model.hpp>
 
 
-CompleterFactory::CompleterFactory(): m_tagValueModels(), m_tagInfoCollector(), m_loggerFactory(nullptr)
+CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_loggerFactory(nullptr)
 {
 
 }
