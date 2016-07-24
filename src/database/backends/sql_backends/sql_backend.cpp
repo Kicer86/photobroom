@@ -198,7 +198,7 @@ namespace Database
     ol::Optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
     {
         const QString& name = nameInfo.getName();
-        const int type = nameInfo.getType();
+        const int type = static_cast<int>( nameInfo.getType() );
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
@@ -226,17 +226,17 @@ namespace Database
     {
         //store tag values
         bool status = true;
-        const TagValue::Type type = tagValue.type();
+        const TagType type = tagValue.type();
 
         switch (type)
         {
-            case TagValue::Type::Empty:
+            case TagType::Invalid:
                 assert(!"empty tag value!");
                 break;
 
-            case TagValue::Type::Date:
-            case TagValue::Type::String:
-            case TagValue::Type::Time:
+            case TagType::Date:
+            case TagType::Text:
+            case TagType::Time:
             {
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
@@ -257,7 +257,7 @@ namespace Database
                 break;
             }
 
-            case TagValue::Type::List:
+            case TagType::List:
             {
                 auto list = tagValue.getList();
 
@@ -1001,7 +1001,7 @@ namespace Database
 
     bool ASqlBackend::update(const TagNameInfo& tagInfo)
     {
-        assert(tagInfo.getType() != TagNameInfo::Invalid);
+        assert(tagInfo.getType() != TagType::Invalid);
 
         bool status = false;
 

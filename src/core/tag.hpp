@@ -14,22 +14,22 @@
 
 #include "core_export.h"
 
+enum class TagType
+{
+    //indexed, as those values will be stored in db.
+    Invalid = 0,
+    Text    = 1,
+    Date    = 2,
+    Time    = 3,
+    List    = 4,
+};
+
 
 struct CORE_EXPORT TagNameInfo
 {
-        enum Type
-        {
-            //indexed, as those values will be stored in db.
-            Invalid = 0,
-            Text    = 1,
-            Date    = 2,
-            Time    = 3,
-            List    = 4,
-        };
-
         TagNameInfo();
-        TagNameInfo(const QString& name, const Type, const QString& displayName);
-        TagNameInfo(const QString& name, const Type);
+        TagNameInfo(const QString& name, const TagType, const QString& displayName);
+        TagNameInfo(const QString& name, const TagType);
         TagNameInfo(const QString& name, int type);
         TagNameInfo(const TagNameInfo& other);
 
@@ -41,12 +41,12 @@ struct CORE_EXPORT TagNameInfo
 
         const QString& getName() const;
         const QString& getDisplayName() const;
-        Type getType() const;
+        TagType getType() const;
 
     private:
         QString name;
         QString displayName;
-        Type type;
+        TagType type;
 
         QString dn(const QString &) const;
 };
@@ -55,15 +55,6 @@ struct CORE_EXPORT TagNameInfo
 class CORE_EXPORT TagValue
 {
     public:
-        enum class Type
-        {
-            Empty,
-            Date,
-            List,          // List of TagValue
-            String,
-            Time,
-        };
-
         TagValue();
         TagValue(const TagValue &);
         explicit TagValue(const QVariant &);
@@ -84,7 +75,7 @@ class CORE_EXPORT TagValue
         QString getString() const;
         QTime getTime() const;
 
-        Type type() const;
+        TagType type() const;
         QString formattedValue() const;
 
         bool operator==(const TagValue &) const;
@@ -92,7 +83,7 @@ class CORE_EXPORT TagValue
         bool operator<(const TagValue &) const;
 
     private:
-        Type m_type;
+        TagType m_type;
         void* m_value;
 
         void destroyValue();
@@ -114,29 +105,29 @@ class CORE_EXPORT TagValue
         QString string() const;
 };
 
-template<TagValue::Type T>
+template<TagType T>
 struct TagValueTraits {};
 
 template<>
-struct TagValueTraits<TagValue::Type::Date>
+struct TagValueTraits<TagType::Date>
 {
     typedef QDate StorageType;
 };
 
 template<>
-struct TagValueTraits<TagValue::Type::List>
+struct TagValueTraits<TagType::List>
 {
     typedef std::deque<TagValue> StorageType;
 };
 
 template<>
-struct TagValueTraits<TagValue::Type::String>
+struct TagValueTraits<TagType::Text>
 {
     typedef QString StorageType;
 };
 
 template<>
-struct TagValueTraits<TagValue::Type::Time>
+struct TagValueTraits<TagType::Time>
 {
     typedef QTime StorageType;
 };

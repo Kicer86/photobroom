@@ -51,7 +51,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     std::shared_ptr<Database::FilterPhotosWithTag> filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(filter);
 
-    filter->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    filter->tagName = TagNameInfo("test_name", TagType::Text);
     filter->tagValue = "test_value";
 
     const QString query = generator.generate(filters);
@@ -72,7 +72,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     filters.push_back(filter);
 
     std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>();
-    sub_filter1->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    sub_filter1->tagName = TagNameInfo("test_name", TagType::Text);
     filter->filter = sub_filter1;
 
     const QString query = generator.generate(filters);
@@ -132,7 +132,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     //tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag_filter);
-    tag_filter->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    tag_filter->tagName = TagNameInfo("test_name", TagType::Text);
     tag_filter->tagValue = "test_value";
 
     //flags
@@ -157,13 +157,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     // #1 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag1_filter);
-    tag1_filter->tagName = TagNameInfo("test_name", TagNameInfo::Text);
+    tag1_filter->tagName = TagNameInfo("test_name", TagType::Text);
     tag1_filter->tagValue = "test_value";
 
     // #2 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag2_filter);
-    tag2_filter->tagName = TagNameInfo("test_name2", TagNameInfo::Text);
+    tag2_filter->tagName = TagNameInfo("test_name2", TagType::Text);
     tag2_filter->tagValue = "test_value2";
 
     const QString query = generator.generate(filters);

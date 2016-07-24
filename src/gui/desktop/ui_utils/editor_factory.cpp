@@ -232,23 +232,23 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 
     switch(info.getType())
     {
-        case TagNameInfo::Text:
+        case TagType::Text:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
 
-        case TagNameInfo::Date:
+        case TagType::Date:
             result = new QDateEdit(parent);
             break;
 
-        case TagNameInfo::Time:
+        case TagType::Time:
             result = new TimeEditor(parent);
             break;
 
-        case TagNameInfo::List:
+        case TagType::List:
             result = make_editor<ListEditor>(m_completerFactory, info, parent);
             break;
 
-        case TagNameInfo::Invalid:
+        case TagType::Invalid:
             assert(!"Unknown type");
             break;
     }
@@ -257,29 +257,29 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 }
 
 
-QByteArray EditorFactory::valuePropertyName(const TagNameInfo::Type& type) const
+QByteArray EditorFactory::valuePropertyName(const TagType& type) const
 {
     QByteArray result;
 
     switch(type)
     {
-        case TagNameInfo::Text:
+        case TagType::Text:
             result = "text";
             break;
 
-        case TagNameInfo::Date:
+        case TagType::Date:
             result = "date";
             break;
 
-        case TagNameInfo::Time:
+        case TagType::Time:
             result = "time";
             break;
 
-        case TagNameInfo::List:
+        case TagType::List:
             result = "value";
             break;
 
-        case TagNameInfo::Invalid:
+        case TagType::Invalid:
             assert(!"Unknown type");
             break;
     }

@@ -26,11 +26,11 @@ const std::map< BaseTagsList, TagNameInfo >& BaseTags::getBaseList()
 {
     static std::map<BaseTagsList, TagNameInfo> base_tags(
     {
-        { BaseTagsList::Event,  TagNameInfo("Event",  TagNameInfo::Text, tr("Event")) },
-        { BaseTagsList::Place,  TagNameInfo("Place",  TagNameInfo::Text, tr("Place")) },
-        { BaseTagsList::Date,   TagNameInfo("Date",   TagNameInfo::Date, tr("Date")) },
-        { BaseTagsList::Time,   TagNameInfo("Time",   TagNameInfo::Time, tr("Time")) },
-        { BaseTagsList::People, TagNameInfo("People", TagNameInfo::List, tr("People")) },
+        { BaseTagsList::Event,  TagNameInfo("Event",  TagType::Text, tr("Event")) },
+        { BaseTagsList::Place,  TagNameInfo("Place",  TagType::Text, tr("Place")) },
+        { BaseTagsList::Date,   TagNameInfo("Date",   TagType::Date, tr("Date")) },
+        { BaseTagsList::Time,   TagNameInfo("Time",   TagType::Time, tr("Time")) },
+        { BaseTagsList::People, TagNameInfo("People", TagType::List, tr("People")) },
     });
 
     return base_tags;
