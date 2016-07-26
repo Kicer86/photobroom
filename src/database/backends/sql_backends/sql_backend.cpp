@@ -714,7 +714,6 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
         Tag::TagsList tagData;
-        VariantConverter convert;
 
         while(status && query.next())
         {
