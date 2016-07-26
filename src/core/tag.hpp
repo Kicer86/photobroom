@@ -58,6 +58,11 @@ class CORE_EXPORT TagValue
         TagValue(const TagValue &);
         TagValue(TagValue &&);
 
+        TagValue(const QDate &);
+        TagValue(const QTime &);
+        TagValue(const std::deque<TagValue> &);
+        TagValue(const QString &);
+
         explicit TagValue(const QVariant &);
 
         ~TagValue();
@@ -72,10 +77,15 @@ class CORE_EXPORT TagValue
         void set(const QString &);
 
         [[deprecated]] QVariant get() const;
-        QDate getDate() const;
-        std::deque<TagValue> getList() const;
-        QString getString() const;
-        QTime getTime() const;
+        const QDate& getDate() const;
+        const std::deque<TagValue>& getList() const;
+        const QString& getString() const;
+        const QTime& getTime() const;
+
+        QDate& getDate();
+        std::deque<TagValue>& getList();
+        QString& getString();
+        QTime& getTime();
 
         TagType type() const;
         QString formattedValue() const;

@@ -133,13 +133,37 @@ TagValue::TagValue(const TagValue& other): TagValue()
 }
 
 
-TagValue::TagValue(TagValue&& other)
+TagValue::TagValue(TagValue&& other): TagValue()
 {
     m_type = other.m_type;
     m_value = other.m_value;
 
     other.m_type = TagType::Empty;
     other.m_value = nullptr;
+}
+
+
+TagValue::TagValue(const QDate& date): TagValue()
+{
+    set(date);
+}
+
+
+TagValue::TagValue(const QTime& time): TagValue()
+{
+    set(time);
+}
+
+
+TagValue::TagValue(const std::deque<TagValue>& list): TagValue()
+{
+    set(list);
+}
+
+
+TagValue::TagValue(const QString& string): TagValue()
+{
+    set(string);
 }
 
 
@@ -170,6 +194,8 @@ TagValue& TagValue::operator=(TagValue&& other)
 
     other.m_type = TagType::Empty;
     other.m_value = nullptr;
+
+    return *this;
 }
 
 
@@ -292,7 +318,7 @@ QVariant TagValue::get() const
 }
 
 
-QDate TagValue::getDate() const
+const QDate& TagValue::getDate() const
 {
     auto* v = get<TagValueTraits<TagType::Date>::StorageType>();
 
@@ -300,7 +326,7 @@ QDate TagValue::getDate() const
 }
 
 
-std::deque<TagValue> TagValue::getList() const
+const std::deque<TagValue>& TagValue::getList() const
 {
     auto* v = get<TagValueTraits<TagType::List>::StorageType>();
 
@@ -308,7 +334,7 @@ std::deque<TagValue> TagValue::getList() const
 }
 
 
-QString TagValue::getString() const
+const QString& TagValue::getString() const
 {
     auto* v = get<TagValueTraits<TagType::String>::StorageType>();
 
@@ -316,7 +342,39 @@ QString TagValue::getString() const
 }
 
 
-QTime TagValue::getTime() const
+const QTime& TagValue::getTime() const
+{
+    auto* v = get<TagValueTraits<TagType::Time>::StorageType>();
+
+    return *v;
+}
+
+
+QDate& TagValue::getDate()
+{
+    auto* v = get<TagValueTraits<TagType::Date>::StorageType>();
+
+    return *v;
+}
+
+
+std::deque< TagValue >& TagValue::getList()
+{
+    auto* v = get<TagValueTraits<TagType::List>::StorageType>();
+
+    return *v;
+}
+
+
+QString& TagValue::getString()
+{
+    auto* v = get<TagValueTraits<TagType::String>::StorageType>();
+
+    return *v;
+}
+
+
+QTime& TagValue::getTime()
 {
     auto* v = get<TagValueTraits<TagType::Time>::StorageType>();
 
