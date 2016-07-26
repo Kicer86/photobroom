@@ -26,7 +26,7 @@
 
 #include "core_export.h"
 
-class CORE_EXPORT VariantConverter
+class CORE_DEPRECATED_EXPORT VariantConverter
 {
     public:
         VariantConverter();
@@ -35,7 +35,7 @@ class CORE_EXPORT VariantConverter
 
         QString operator()(const QVariant &) const;
         QString operator()(const QString &) const = delete;
-        QVariant operator()(const TagNameInfo::Type &, const QString &) const;
+        QVariant operator()(const TagType &, const QString &) const;
 
         VariantConverter& operator=(const VariantConverter &) = delete;
 };

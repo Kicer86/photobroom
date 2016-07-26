@@ -23,6 +23,7 @@
 #include <mutex>
 
 #include "itag_info_collector.hpp"
+#include "../iphoto_info.hpp"
 #include "database_export.h"
 
 namespace Database
@@ -30,7 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
-class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
+class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
 {
     public:
         TagInfoCollector();
@@ -40,18 +41,24 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
         TagInfoCollector& operator=(const TagInfoCollector &) = delete;
 
         void set(Database::IDatabase *);
+
         const std::set<TagValue>& get(const TagNameInfo &) const override;
+        int registerChangeObserver( const std::function< void(const TagNameInfo &) > & ) override;
+        void unregisterChangeObserver(int) override;
 
     private:
         mutable std::map<TagNameInfo, std::set<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
+        std::map< int, std::function<void(const TagNameInfo &)> > m_observers;
         Database::IDatabase* m_database;
+        int m_observerId;
 
         void gotTagNames(const std::deque<TagNameInfo> &);
         void gotTagValues(const TagNameInfo &, const std::deque<QVariant> &);
+        void photoModified(const IPhotoInfo::Ptr &);
 
-    signals:
-        void valuesChanged(const TagNameInfo &);
+        void updateAllTags();
+        void updateValuesFor(const TagNameInfo &);
 };
 
 #endif // TAGINFOCOLLECTOR_H

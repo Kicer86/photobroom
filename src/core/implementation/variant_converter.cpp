@@ -70,26 +70,26 @@ QString VariantConverter::operator()(const QVariant& v) const
 }
 
 
-QVariant VariantConverter::operator()(const TagNameInfo::Type& type, const QString& tag_value) const
+QVariant VariantConverter::operator()(const TagType& type, const QString& tag_value) const
 {
     QVariant result;
 
     switch(type)
     {
-        case TagNameInfo::Invalid:
-        case TagNameInfo::Text:
+        case TagType::Empty:
+        case TagType::String:
             result = tag_value;
             break;
 
-        case TagNameInfo::Date:
+        case TagType::Date:
             result = QDate::fromString(tag_value, "yyyy.MM.dd");
             break;
 
-        case TagNameInfo::Time:
+        case TagType::Time:
             result = QTime::fromString(tag_value, "HH:mm:ss");
             break;
 
-        case TagNameInfo::List:
+        case TagType::List:
         {
             const QStringList list = tag_value.split(";");
             result = list;

@@ -24,7 +24,7 @@
 #include "idatabase.hpp"
 
 
-TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_database(nullptr)
+TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_observers(), m_database(nullptr), m_observerId(0)
 {
 
 }
@@ -40,9 +40,12 @@ void TagInfoCollector::set(Database::IDatabase* db)
 {
     m_database = db;
 
-    using namespace std::placeholders;
-    auto result = std::bind(&TagInfoCollector::gotTagNames, this, _1);
-    m_database->listTagNames(result);
+    // TODO: ADatabaseSignals doesn't emit signal when tags are changed.
+    // It would require improvements in backend (#10 and maybe #180), so for now listen for photo modifications.
+    // Github issue: #183
+    connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &TagInfoCollector::photoModified);
+
+    updateAllTags();
 }
 
 
@@ -53,14 +56,29 @@ const std::set<TagValue>& TagInfoCollector::get(const TagNameInfo& info) const
 }
 
 
+int TagInfoCollector::registerChangeObserver(const std::function<void(const TagNameInfo &)>& observer)
+{
+    const int id = m_observerId++;
+
+    m_observers[id] = observer;
+
+    return id;
+}
+
+
+void TagInfoCollector::unregisterChangeObserver(int id)
+{
+    auto it = m_observers.find(id);
+    assert(it != m_observers.end());
+
+    m_observers.erase(it);
+}
+
+
 void TagInfoCollector::gotTagNames(const std::deque<TagNameInfo>& names)
 {
     for( const auto& name: names)
-    {
-        using namespace std::placeholders;
-        auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
-        m_database->listTagValues(name, result);
-    }
+        updateValuesFor(name);
 }
 
 
@@ -69,8 +87,41 @@ void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<QV
     std::set<TagValue> tagValues;
 
     for(const QVariant& v: values)
-        tagValues.insert( TagValue(v) );
+    {
+        const TagValue tv(v);
+        tagValues.insert( tv );
+    }
+
+    assert(values.size() == tagValues.size());
 
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     m_tags[name].swap(tagValues);
+
+    for(auto& observer: m_observers)
+        observer.second(name);
+}
+
+
+void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
+{
+    const Tag::TagsList tags = photoInfo->getTags();
+
+    for(const auto& tag: tags)
+        updateValuesFor(tag.first);
+}
+
+
+void TagInfoCollector::updateAllTags()
+{
+    using namespace std::placeholders;
+    auto result = std::bind(&TagInfoCollector::gotTagNames, this, _1);
+    m_database->listTagNames(result);
+}
+
+
+void TagInfoCollector::updateValuesFor(const TagNameInfo& name)
+{
+    using namespace std::placeholders;
+    auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
+    m_database->listTagValues(name, result);
 }

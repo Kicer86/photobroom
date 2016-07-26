@@ -10,6 +10,8 @@ struct ITagInfoCollector
     virtual ~ITagInfoCollector() {}
 
     virtual const std::set<TagValue>& get(const TagNameInfo &) const = 0;
+    virtual int registerChangeObserver( const std::function< void(const TagNameInfo &) > & ) = 0;
+    virtual void unregisterChangeObserver(int) = 0;
 };
 
 #endif

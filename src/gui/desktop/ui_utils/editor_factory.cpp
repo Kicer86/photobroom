@@ -48,7 +48,7 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_completer(nullptr)
+ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_editors(), m_completer(nullptr)
 {
     setColumnCount(1);
     horizontalHeader()->hide();
@@ -59,9 +59,16 @@ ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_c
     setFrameShape(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-    // Workaround: do not review widget imediately, wait for possible setCompleter()
-    QTimer::singleShot(0, this, &ListEditor::review);
+    review();
 }
+
+
+ListEditor::~ListEditor()
+{
+    for(QLineEdit* editor: m_editors)
+        disconnect(editor, &QObject::destroyed, this, &ListEditor::editorDestroyed);
+}
+
 
 
 QStringList ListEditor::getValues() const
@@ -91,18 +98,24 @@ void ListEditor::setValues(const QStringList& values)
 void ListEditor::setCompleter(QCompleter* completer)
 {
     m_completer = completer;
+
+    for(QLineEdit* editor: m_editors)
+        editor->setCompleter(m_completer);
 }
 
 
 void ListEditor::addRow(int p)
 {
-    QLineEdit* e = new QLineEdit;
-    e->setCompleter(m_completer);
+    QLineEdit* editor = new QLineEdit;
+    editor->setCompleter(m_completer);
+
+    m_editors.insert(editor);
+    connect(editor, &QObject::destroyed, this, &ListEditor::editorDestroyed);
 
     insertRow(p);
-    setCellWidget(p, 0, e);
+    setCellWidget(p, 0, editor);
 
-    connect(e, SIGNAL(textChanged(QString)), this, SLOT(review()));
+    connect(editor, &QLineEdit::textChanged, this, &ListEditor::review);
 }
 
 
@@ -158,6 +171,16 @@ void ListEditor::review()
     }
 }
 
+
+void ListEditor::editorDestroyed(QObject* obj)
+{
+    QLineEdit* e = static_cast<QLineEdit *>(obj);
+    const int erased = m_editors.erase(e);
+
+    assert(erased == 1);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -209,23 +232,23 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 
     switch(info.getType())
     {
-        case TagNameInfo::Text:
+        case TagType::String:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
 
-        case TagNameInfo::Date:
+        case TagType::Date:
             result = new QDateEdit(parent);
             break;
 
-        case TagNameInfo::Time:
+        case TagType::Time:
             result = new TimeEditor(parent);
             break;
 
-        case TagNameInfo::List:
+        case TagType::List:
             result = make_editor<ListEditor>(m_completerFactory, info, parent);
             break;
 
-        case TagNameInfo::Invalid:
+        case TagType::Empty:
             assert(!"Unknown type");
             break;
     }
@@ -234,29 +257,29 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 }
 
 
-QByteArray EditorFactory::valuePropertyName(const TagNameInfo::Type& type) const
+QByteArray EditorFactory::valuePropertyName(const TagType& type) const
 {
     QByteArray result;
 
     switch(type)
     {
-        case TagNameInfo::Text:
+        case TagType::String:
             result = "text";
             break;
 
-        case TagNameInfo::Date:
+        case TagType::Date:
             result = "date";
             break;
 
-        case TagNameInfo::Time:
+        case TagType::Time:
             result = "time";
             break;
 
-        case TagNameInfo::List:
+        case TagType::List:
             result = "value";
             break;
 
-        case TagNameInfo::Invalid:
+        case TagType::Empty:
             assert(!"Unknown type");
             break;
     }

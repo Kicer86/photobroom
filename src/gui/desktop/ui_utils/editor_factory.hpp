@@ -44,7 +44,7 @@ class EditorFactory: public IEditorFactory
         QWidget* createEditor(const QModelIndex &, QWidget* parent) override;
         QWidget* createEditor(const TagNameInfo &, QWidget* parent) override;
 
-        QByteArray valuePropertyName(const TagNameInfo::Type &) const;
+        QByteArray valuePropertyName(const TagType &) const;
 
     private:
         ICompleterFactory* m_completerFactory;
@@ -59,6 +59,7 @@ struct ListEditor: QTableWidget
     public:
         explicit ListEditor(QWidget* parent = 0);
         ListEditor(const ListEditor &) = delete;
+        virtual ~ListEditor();
 
         ListEditor& operator=(const ListEditor &) = delete;
 
@@ -68,6 +69,7 @@ struct ListEditor: QTableWidget
         void setCompleter(QCompleter *);
 
     private:
+        std::set<QLineEdit *> m_editors;
         QCompleter* m_completer;
 
         void addRow(int);
@@ -78,8 +80,9 @@ struct ListEditor: QTableWidget
         // QWidget overrides
         QSize minimumSizeHint() const override;
 
-    private slots:
+        //
         void review();
+        void editorDestroyed(QObject *);
 };
 
 #endif // EDITORFACTORY_HPP

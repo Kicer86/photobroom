@@ -14,23 +14,22 @@
 
 #include "core_export.h"
 
+enum class TagType
+{
+    //indexed, as those values will be stored in db.
+    Empty   = 0,
+    String  = 1,
+    Date    = 2,
+    Time    = 3,
+    List    = 4,
+};
+
 
 struct CORE_EXPORT TagNameInfo
 {
-        enum Type
-        {
-            //indexed, as those values will be stored in db.
-            Invalid = 0,
-            Text    = 1,
-            Date    = 2,
-            Time    = 3,
-            List    = 4,
-        };
-
         TagNameInfo();
-        TagNameInfo(const QString& name, const Type, const QString& displayName);
-        TagNameInfo(const QString& name, const Type);
-        TagNameInfo(const QString& name, int type);
+        TagNameInfo(const QString& name, const TagType, const QString& displayName);
+        TagNameInfo(const QString& name, const TagType);
         TagNameInfo(const TagNameInfo& other);
 
         operator QString() const;
@@ -41,12 +40,12 @@ struct CORE_EXPORT TagNameInfo
 
         const QString& getName() const;
         const QString& getDisplayName() const;
-        Type getType() const;
+        TagType getType() const;
 
     private:
         QString name;
         QString displayName;
-        Type type;
+        TagType type;
 
         QString dn(const QString &) const;
 };
@@ -56,23 +55,93 @@ class CORE_EXPORT TagValue
 {
     public:
         TagValue();
-        TagValue(const TagValue &) = default;
+        TagValue(const TagValue &);
+        TagValue(TagValue &&);
+
+        TagValue(const QDate &);
+        TagValue(const QTime &);
+        TagValue(const std::deque<TagValue> &);
+        TagValue(const QString &);
+
         explicit TagValue(const QVariant &);
 
         ~TagValue();
 
-        TagValue& operator=(const TagValue &) = default;
+        TagValue& operator=(const TagValue &);
+        TagValue& operator=(TagValue &&);
 
-        void set(const QVariant &);
+        [[deprecated]] void set(const QVariant &);
+        void set(const QDate &);
+        void set(const QTime &);
+        void set(const std::deque<TagValue> &);
+        void set(const QString &);
 
-        const QVariant& get() const;
+        [[deprecated]] QVariant get() const;
+        const QDate& getDate() const;
+        const std::deque<TagValue>& getList() const;
+        const QString& getString() const;
+        const QTime& getTime() const;
+
+        QDate& getDate();
+        std::deque<TagValue>& getList();
+        QString& getString();
+        QTime& getTime();
+
+        TagType type() const;
+        QString formattedValue() const;
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;
         bool operator<(const TagValue &) const;
 
     private:
-        QVariant m_value;
+        TagType m_type;
+        void* m_value;
+
+        void destroyValue();
+        void copy(const TagValue &);
+
+        template<typename T>
+        bool validate() const;
+
+        template<typename T>
+        T* get() const
+        {
+            assert( validate<T>() );
+
+            T* v = static_cast<T *>(m_value);
+
+            return v;
+        }
+
+        QString string() const;
+};
+
+template<TagType T>
+struct TagValueTraits {};
+
+template<>
+struct TagValueTraits<TagType::Date>
+{
+    typedef QDate StorageType;
+};
+
+template<>
+struct TagValueTraits<TagType::List>
+{
+    typedef std::deque<TagValue> StorageType;
+};
+
+template<>
+struct TagValueTraits<TagType::String>
+{
+    typedef QString StorageType;
+};
+
+template<>
+struct TagValueTraits<TagType::Time>
+{
+    typedef QTime StorageType;
 };
 
 

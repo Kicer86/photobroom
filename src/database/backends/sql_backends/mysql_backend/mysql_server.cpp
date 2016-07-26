@@ -317,6 +317,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             status = createConfig(configFile);
 
         bool freshDatabase = false;
+
         if (status)
             if (QDir(baseDataPath).exists() == false)
             {

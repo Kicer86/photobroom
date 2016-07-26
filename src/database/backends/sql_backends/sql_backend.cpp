@@ -27,13 +27,14 @@
 #include <chrono>
 #include <sstream>
 
+#include <QBuffer>
+#include <QDate>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlDriver>
 #include <QVariant>
 #include <QPixmap>
-#include <QBuffer>
 #include <QString>
 
 #include <OpenLibrary/utils/optional.hpp>
@@ -198,7 +199,7 @@ namespace Database
     ol::Optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
     {
         const QString& name = nameInfo.getName();
-        const int type = nameInfo.getType();
+        const int type = static_cast<int>( nameInfo.getType() );
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
@@ -222,25 +223,51 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const TagValue& value, int photo_id, int tag_id) const
+    bool ASqlBackend::Data::store(const TagValue& tagValue, int photo_id, int tag_id) const
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
         //store tag values
-        const VariantConverter convert;
-        const QString tag_value = convert(value.get());
+        bool status = true;
+        const TagType type = tagValue.type();
 
-        InsertQueryData queryData(TAB_TAGS);
-        queryData.setColumns("id", "value", "photo_id", "name_id");
-        queryData.setValues(InsertQueryData::Value::Null,
-                            tag_value,
-                            photo_id,
-                            tag_id);
+        switch (type)
+        {
+            case TagType::Empty:
+                assert(!"empty tag value!");
+                break;
 
-        auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+            case TagType::Date:
+            case TagType::String:
+            case TagType::Time:
+            {
+                QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+                QSqlQuery query(db);
 
-        const bool status = m_executor.exec(query_str, &query);
+                const QString value = tagValue.formattedValue();
+
+                InsertQueryData queryData(TAB_TAGS);
+                queryData.setColumns("id", "value", "photo_id", "name_id");
+                queryData.setValues(InsertQueryData::Value::Null,
+                                    value,
+                                    photo_id,
+                                    tag_id);
+
+                auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+
+                status = m_executor.exec(query_str, &query);
+
+                break;
+            }
+
+            case TagType::List:
+            {
+                auto list = tagValue.getList();
+
+                for (const TagValue& subitem: list)
+                    status &= store(subitem, photo_id, tag_id);
+
+                break;
+            }
+        }
 
         return status;
     }
@@ -258,9 +285,10 @@ namespace Database
         while (status && query.next())
         {
             const QString name = query.value(0).toString();
-            const int value = query.value(1).toInt();
+            const int typeRaw = query.value(1).toInt();
+            const TagType type = static_cast<TagType>(typeRaw);
+            const TagNameInfo tagName(name, type);
 
-            TagNameInfo tagName(name, value);
             result.push_back(tagName);
         }
 
@@ -686,16 +714,46 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
         Tag::TagsList tagData;
-        VariantConverter convert;
 
         while(status && query.next())
         {
             const QString name  = query.value(1).toString();
-            const QString value = query.value(2).toString();
-            const int tagType = query.value(3).toInt();
-
+            const QVariant value = query.value(2);
+            const int tagTypeRaw = query.value(3).toInt();
+            const TagType tagType = static_cast<TagType>(tagTypeRaw);
             const TagNameInfo tagName(name, tagType);
-            tagData[tagName] = TagValue( convert(tagName.getType(), value) );
+
+            switch(tagType)
+            {
+                case TagType::Date:
+                    tagData[tagName] = TagValue(value.toDate());
+                    break;
+
+                case TagType::List:
+                {
+                    // insert() will add empty List if there is no entry for given key.
+                    // otherwise will do nothing.
+                    auto insert_it = tagData.insert( std::make_pair(tagName, TagValueTraits<TagType::List>::StorageType()) );
+                    auto it = insert_it.first;   // get regular map iterator
+                    TagValue& tagValue = it->second;
+                    TagValueTraits<TagType::List>::StorageType& values = tagValue.getList();
+
+                    values.push_back( TagValue(value.toString()) );
+                    break;
+                }
+
+                case TagType::Time:
+                    tagData[tagName] = TagValue(value.toTime());
+                    break;
+
+                case TagType::String:
+                    tagData[tagName] = TagValue(value.toString());
+                    break;
+
+                case TagType::Empty:
+                    assert(!"invalid tag type");
+                    break;
+            }
         }
 
         return tagData;
@@ -975,7 +1033,7 @@ namespace Database
 
     bool ASqlBackend::update(const TagNameInfo& tagInfo)
     {
-        assert(tagInfo.getType() != TagNameInfo::Invalid);
+        assert(tagInfo.getType() != TagType::Empty);
 
         bool status = false;
 

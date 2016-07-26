@@ -118,7 +118,7 @@ void TagEditorWidget::setTagValueWidget(size_t idx)
     //insert new widget-editor
     assert(idx < m_tags.size());
     const TagNameInfo& name = m_tags[idx];
-    const TagNameInfo::Type tagType = name.getType();
+    const TagType tagType = name.getType();
 
     m_tagValueWidget = m_editorFactory.createEditor(name, m_tagValueContainer);
     m_tagValueProp = m_editorFactory.valuePropertyName(tagType);
