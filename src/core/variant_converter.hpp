@@ -26,7 +26,7 @@
 
 #include "core_export.h"
 
-class CORE_EXPORT [[deprecated]] VariantConverter
+class CORE_DEPRECATED_EXPORT VariantConverter
 {
     public:
         VariantConverter();
