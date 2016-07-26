@@ -30,7 +30,6 @@ struct CORE_EXPORT TagNameInfo
         TagNameInfo();
         TagNameInfo(const QString& name, const TagType, const QString& displayName);
         TagNameInfo(const QString& name, const TagType);
-        TagNameInfo(const QString& name, int type);
         TagNameInfo(const TagNameInfo& other);
 
         operator QString() const;

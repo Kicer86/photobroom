@@ -284,9 +284,10 @@ namespace Database
         while (status && query.next())
         {
             const QString name = query.value(0).toString();
-            const int value = query.value(1).toInt();
+            const int typeRaw = query.value(1).toInt();
+            const TagType type = static_cast<TagType>(typeRaw);
 
-            TagNameInfo tagName(name, value);
+            TagNameInfo tagName(name, type);
             result.push_back(tagName);
         }
 
@@ -718,7 +719,8 @@ namespace Database
         {
             const QString name  = query.value(1).toString();
             const QString value = query.value(2).toString();
-            const int tagType = query.value(3).toInt();
+            const int tagTypeRaw = query.value(3).toInt();
+            const TagType tagType = static_cast<TagType>(tagTypeRaw);
 
             const TagNameInfo tagName(name, tagType);
             tagData[tagName] = TagValue( convert(tagName.getType(), value) );

@@ -29,12 +29,6 @@ TagNameInfo::TagNameInfo(const QString& n, const TagType t): name(n), displayNam
 }
 
 
-TagNameInfo::TagNameInfo(const QString& n, int t): TagNameInfo(n, TagType(t))
-{
-
-}
-
-
 TagNameInfo::TagNameInfo(const TagNameInfo& other): name(other.name), displayName(other.displayName), type(other.type)
 {
 
