@@ -286,8 +286,8 @@ namespace Database
             const QString name = query.value(0).toString();
             const int typeRaw = query.value(1).toInt();
             const TagType type = static_cast<TagType>(typeRaw);
+            const TagNameInfo tagName(name, type);
 
-            TagNameInfo tagName(name, type);
             result.push_back(tagName);
         }
 

@@ -56,11 +56,14 @@ class CORE_EXPORT TagValue
     public:
         TagValue();
         TagValue(const TagValue &);
+        TagValue(TagValue &&);
+
         explicit TagValue(const QVariant &);
 
         ~TagValue();
 
         TagValue& operator=(const TagValue &);
+        TagValue& operator=(TagValue &&);
 
         [[deprecated]] void set(const QVariant &);
         void set(const QDate &);

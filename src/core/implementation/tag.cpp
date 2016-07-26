@@ -133,6 +133,16 @@ TagValue::TagValue(const TagValue& other): TagValue()
 }
 
 
+TagValue::TagValue(TagValue&& other)
+{
+    m_type = other.m_type;
+    m_value = other.m_value;
+
+    other.m_type = TagType::Empty;
+    other.m_value = nullptr;
+}
+
+
 TagValue::TagValue(const QVariant& value): TagValue()
 {
     set(value);
@@ -150,6 +160,16 @@ TagValue& TagValue::operator=(const TagValue& other)
     copy(other);
 
     return *this;
+}
+
+
+TagValue& TagValue::operator=(TagValue&& other)
+{
+    m_type = other.m_type;
+    m_value = other.m_value;
+
+    other.m_type = TagType::Empty;
+    other.m_value = nullptr;
 }
 
 
