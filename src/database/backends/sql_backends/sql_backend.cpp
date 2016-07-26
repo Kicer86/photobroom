@@ -27,13 +27,14 @@
 #include <chrono>
 #include <sstream>
 
+#include <QBuffer>
+#include <QDate>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlDriver>
 #include <QVariant>
 #include <QPixmap>
-#include <QBuffer>
 #include <QString>
 
 #include <OpenLibrary/utils/optional.hpp>
@@ -718,12 +719,42 @@ namespace Database
         while(status && query.next())
         {
             const QString name  = query.value(1).toString();
-            const QString value = query.value(2).toString();
+            const QVariant value = query.value(2);
             const int tagTypeRaw = query.value(3).toInt();
             const TagType tagType = static_cast<TagType>(tagTypeRaw);
-
             const TagNameInfo tagName(name, tagType);
-            tagData[tagName] = TagValue( convert(tagName.getType(), value) );
+
+            switch(tagType)
+            {
+                case TagType::Date:
+                    tagData[tagName] = TagValue(value.toDate());
+                    break;
+
+                case TagType::List:
+                {
+                    // insert() will add empty List if there is no entry for given key.
+                    // otherwise will do nothing.
+                    auto insert_it = tagData.insert( std::make_pair(tagName, TagValueTraits<TagType::List>::StorageType()) );
+                    auto it = insert_it.first;   // get regular map iterator
+                    TagValue& tagValue = it->second;
+                    TagValueTraits<TagType::List>::StorageType& values = tagValue.getList();
+
+                    values.push_back( TagValue(value.toString()) );
+                    break;
+                }
+
+                case TagType::Time:
+                    tagData[tagName] = TagValue(value.toTime());
+                    break;
+
+                case TagType::String:
+                    tagData[tagName] = TagValue(value.toString());
+                    break;
+
+                case TagType::Empty:
+                    assert(!"invalid tag type");
+                    break;
+            }
         }
 
         return tagData;
