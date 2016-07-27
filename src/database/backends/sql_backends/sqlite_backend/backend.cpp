@@ -108,7 +108,10 @@ namespace Database
         switch(type)
         {
             case ColDefinition::Purpose::ID:
-                result = "INTEGER PRIMARY KEY AUTOINCREMENT";
+                // Do not use AUTOINCREMENT keyword:
+                // http://www.sqlite.org/autoinc.html
+                // http://stackoverflow.com/questions/10727541/running-out-of-unique-ids-in-sqlite-database
+                result = "INTEGER PRIMARY KEY";
                 break;
 
             default:
