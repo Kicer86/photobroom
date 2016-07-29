@@ -124,6 +124,63 @@ namespace Database
 
         };
 
+
+        std::deque<TagValue> flatten(const TagValue& tagValue)
+        {
+            const TagType type = tagValue.type();
+
+            std::deque<TagValue> result;
+
+            switch (type)
+            {
+                case TagType::Empty:
+                    assert(!"empty tag value!");
+                    break;
+
+                case TagType::Date:
+                case TagType::String:
+                case TagType::Time:
+                    result.push_back(tagValue);
+                    break;
+
+                case TagType::List:
+                {
+                    auto list = tagValue.getList();
+
+                    for (const TagValue& subitem: list)
+                    {
+                        const std::deque<TagValue> local_result = flatten(subitem);
+
+                        result.insert(result.end(), local_result.begin(), local_result.end());
+                    }
+
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+
+        std::deque<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
+        {
+            std::deque<std::pair<TagNameInfo, TagValue>> result;
+
+            for(const auto& tag: tagsList)
+            {
+                const TagValue& tagValue = tag.second;
+                const std::deque<TagValue> flatList = flatten(tagValue);
+
+                for(const TagValue& flat: flatList)
+                {
+                    const auto p = std::make_pair(tag.first, flat);
+                    result.push_back(p);
+                }
+            }
+
+            return result;
+        }
+
     }
 
 
@@ -145,7 +202,7 @@ namespace Database
             Data& operator=(const Data &) = delete;
 
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-            bool                       store(const TagValue& value, int photo_id, int tag_id) const;
+            bool                       store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
             bool insert(Photo::Data &);
             bool update(const Photo::Data &);
@@ -223,7 +280,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const TagValue& tagValue, int photo_id, int tag_id) const
+    bool ASqlBackend::Data::store(const TagValue& tagValue, int photo_id, int name_id, int tag_id) const
     {
         //store tag values
         bool status = true;
@@ -232,7 +289,11 @@ namespace Database
         switch (type)
         {
             case TagType::Empty:
-                assert(!"empty tag value!");
+                assert(!"Empty tag value!");
+                break;
+
+            case TagType::List:
+                assert(!"TagValue should be flat");
                 break;
 
             case TagType::Date:
@@ -246,24 +307,21 @@ namespace Database
 
                 InsertQueryData queryData(TAB_TAGS);
                 queryData.setColumns("id", "value", "photo_id", "name_id");
-                queryData.setValues(InsertQueryData::Value::Null,
-                                    value,
-                                    photo_id,
-                                    tag_id);
+
+                if (tag_id == -1)
+                    queryData.setValues(InsertQueryData::Value::Null,
+                                        value,
+                                        photo_id,
+                                        name_id);
+                else
+                    queryData.setValues(tag_id,
+                                        value,
+                                        photo_id,
+                                        name_id);
 
                 auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
 
                 status = m_executor.exec(query_str, &query);
-
-                break;
-            }
-
-            case TagType::List:
-            {
-                auto list = tagValue.getList();
-
-                for (const TagValue& subitem: list)
-                    status &= store(subitem, photo_id, tag_id);
 
                 break;
             }
@@ -535,23 +593,70 @@ namespace Database
         QSqlQuery query(db);
         bool status = true;
 
-        //remove all tags already attached to photo. TODO: maybe some inteligence here?
-        const QString deleteQuery = QString("DELETE FROM " TAB_TAGS " WHERE photo_id=\"%1\"").arg(photo_id);
-        status = m_executor.exec(deleteQuery, &query);
+        // gather ids for current set of tag for photo_id
+        const QString tagIdsQuery = QString("SELECT id FROM %1 WHERE photo_id=\"%2\"")
+                                    .arg(TAB_TAGS)
+                                    .arg(photo_id);
 
-        for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
+        status = m_executor.exec(tagIdsQuery, &query);
+
+        if (status)
         {
-            //store tag name
-            const ol::Optional<unsigned int> tag_id = store(it->first);
+            // read tag ids from query
+            std::deque<int> currentIds;
 
-            if (tag_id)
+            while (query.next())
             {
-                const TagValue& value = it->second;
-                const int tagid = *tag_id;
-                status = store(value, photo_id, tagid);
+                const QVariant idRaw = query.value(0);
+                const int id = idRaw.toInt();
+
+                currentIds.push_back(id);
             }
-            else
-                status = false;
+
+            // convert map with possible lists into flat list of pairs
+            const std::deque<std::pair<TagNameInfo, TagValue>> tagsFlatList = flatten(tagsList);
+
+            // difference between current set in db and new set of tags
+            const int currentIdsSize = static_cast<int>( currentIds.size() );
+            const int tagsListSize   = static_cast<int>( tagsFlatList.size() );
+            const int diff = currentIds.size() - tagsListSize;
+
+            // more tags in db?, delete surplus
+            if (diff > 0)
+            {
+                QStringList idsToDelete;
+                for(auto it = currentIds.end() - diff; it != currentIds.end(); ++it)
+                    idsToDelete.append( QString::number(*it) );
+
+                const QString idsToDeleteStr = idsToDelete.join(", ");
+
+                const QString deleteQuery = QString("DELETE FROM %1 WHERE id IN (%2)")
+                                                .arg(TAB_TAGS)
+                                                .arg(idsToDeleteStr);
+
+                status = m_executor.exec(deleteQuery, &query);
+            }
+
+            // override existing tags and then insert (if nothing left to override)
+            std::size_t counter = 0;
+
+            for (auto it = tagsFlatList.begin(); status && it != tagsFlatList.end(); ++it, counter++)
+            {
+                //store tag name
+                const ol::Optional<unsigned int> name_id = store(it->first);
+
+                if (name_id)
+                {
+                    const TagValue& value = it->second;
+                    const int nameid = *name_id;
+                    const int tag_id = counter < currentIds.size()? currentIds[counter]: -1;  // try to override ids of tags already stored
+
+                    status = store(value, photo_id, nameid, tag_id);
+                }
+                else
+                    status = false;
+            }
+
         }
 
         return status;
