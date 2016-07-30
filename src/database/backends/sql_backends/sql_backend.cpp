@@ -560,16 +560,12 @@ namespace Database
 
     bool ASqlBackend::Data::storeGeometryFor(const Photo::Id& photo_id, const QSize& geometry) const
     {
-        InsertQueryData data(TAB_GEOMETRY);
-
+        UpdateQueryData data(TAB_GEOMETRY);
+        data.setCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "width", "height");
         data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
 
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
+        const bool status = updateOrInsert(data);
 
         return status;
     }
@@ -577,16 +573,12 @@ namespace Database
 
     bool ASqlBackend::Data::storeSha256(int photo_id, const Photo::Sha256sum& sha256) const
     {
-        InsertQueryData data(TAB_SHA256SUMS);
-
+        UpdateQueryData data(TAB_SHA256SUMS);
+        data.setCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.constData());
 
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
+        const bool status = updateOrInsert(data);
 
         return status;
     }
@@ -680,23 +672,7 @@ namespace Database
                              photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
                              photoData.getFlag(Photo::FlagsE::GeometryLoaded));
 
-        auto queries = m_backend->getGenericQueryGenerator()->update(queryInfo);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        bool status = m_executor.exec(queries, &query);
-
-        if (status)
-        {
-            const int affected_rows = query.numRowsAffected();
-
-            if (affected_rows == 0)
-            {
-                queries = m_backend->getGenericQueryGenerator()->insert(queryInfo);
-                status = m_executor.exec(queries, &query);
-            }
-        }
+        const bool status = updateOrInsert(queryInfo);
 
         return status;
     }
