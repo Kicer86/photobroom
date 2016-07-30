@@ -236,6 +236,8 @@ namespace Database
             void    updateFlagsOn(Photo::Data &, const Photo::Id &);
             QString getPathFor(const Photo::Id &);
             std::deque<Photo::Id> fetch(QSqlQuery &);
+
+            bool updateOrInsert(const UpdateQueryData &) const;
     };
 
 
@@ -979,6 +981,30 @@ namespace Database
         }
 
         return collection;
+    }
+
+
+    bool ASqlBackend::Data::updateOrInsert(const UpdateQueryData& queryInfo) const
+    {
+        auto queries = m_backend->getGenericQueryGenerator()->update(queryInfo);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        bool status = m_executor.exec(queries, &query);
+
+        if (status)
+        {
+            const int affected_rows = query.numRowsAffected();
+
+            if (affected_rows == 0)
+            {
+                queries = m_backend->getGenericQueryGenerator()->insert(queryInfo);
+                status = m_executor.exec(queries, &query);
+            }
+        }
+
+        return status;
     }
 
 
