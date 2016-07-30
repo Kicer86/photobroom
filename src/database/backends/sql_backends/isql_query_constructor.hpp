@@ -37,7 +37,6 @@ namespace Database
 
         virtual std::vector<QString> insert(const InsertQueryData &) const = 0;             // construct an insert sql query.
         virtual std::vector<QString> update(const UpdateQueryData &) const = 0;             // construct an update sql query.
-        [[deprecated]] virtual std::vector<QString> insertOrUpdate(const InsertQueryData &) const = 0;     // construct a query which will try to insert data. If it fails due to UNIQUE column attribute, try to update
     };
 }
 

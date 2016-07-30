@@ -129,18 +129,6 @@ namespace Database
     }
 
 
-    std::vector<QString> MySqlBackend::insertOrUpdate(const InsertQueryData& data) const
-    {
-        QString result("REPLACE INTO %1(%2) VALUES(%3)");
-
-        result = result.arg(data.getName());
-        result = result.arg(data.getColumns().join(", "));
-        result = result.arg(data.getValues().join(", "));
-
-        return { result };
-    }
-
-
     MySqlPlugin::MySqlPlugin(): IPlugin()
     {
 
