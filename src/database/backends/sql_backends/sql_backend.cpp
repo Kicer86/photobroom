@@ -35,7 +35,6 @@
 #include <QSqlDriver>
 #include <QVariant>
 #include <QPixmap>
-#include <QString>
 
 #include <OpenLibrary/utils/optional.hpp>
 
@@ -57,6 +56,10 @@
 #include "sql_filter_query_generator.hpp"
 #include "sql_query_executor.hpp"
 #include "database_migrator.hpp"
+
+
+// usefull links
+// about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
 
 namespace Database
@@ -665,22 +668,33 @@ namespace Database
 
     bool ASqlBackend::Data::storeFlags(const Photo::Data& photoData) const
     {
-        InsertQueryData queryData(TAB_FLAGS);
-        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
-        queryData.setValues( InsertQueryData::Value::Null,
-                             QString::number(photoData.id),
+        UpdateQueryData queryInfo(TAB_FLAGS);
+        queryInfo.setCondition("photo_id", QString::number(photoData.id));
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setValues(QString::number(photoData.id),
                              photoData.getFlag(Photo::FlagsE::StagingArea),
                              photoData.getFlag(Photo::FlagsE::ExifLoaded),
                              photoData.getFlag(Photo::FlagsE::Sha256Loaded),
                              photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                             photoData.getFlag(Photo::FlagsE::GeometryLoaded)
-                           );
+                             photoData.getFlag(Photo::FlagsE::GeometryLoaded));
 
-        auto queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+        auto queries = m_backend->getGenericQueryGenerator()->update(queryInfo);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
+
+        bool status = m_executor.exec(queries, &query);
+
+        if (status)
+        {
+            const int affected_rows = query.numRowsAffected();
+
+            if (affected_rows == 0)
+            {
+                queries = m_backend->getGenericQueryGenerator()->insert(queryInfo);
+                status = m_executor.exec(queries, &query);
+            }
+        }
 
         return status;
     }
