@@ -708,7 +708,7 @@ namespace Database
         Transaction transaction(db);
         bool status = transaction.begin();
 
-        //store path and sha256
+        //store path and date
         Photo::Id id = data.id;
         assert(id.valid() == false);
 
@@ -761,24 +761,6 @@ namespace Database
 
         Transaction transaction(db);
         bool status = transaction.begin();
-
-        //store path and sha256
-        Photo::Id id = data.id;
-
-        InsertQueryData insertData(TAB_PHOTOS);
-        insertData.setColumns("path", "store_date");
-        insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
-
-        UpdateQueryData updateData(insertData);
-        updateData.setCondition( "id", QString::number(id.value()) );
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->update(updateData);
-
-        //execute update
-        if (status)
-            status = m_executor.exec(queryStrs, &query);
-
-        if (status)
-            status = id.valid();
 
         if (status)
             status = storeData(data);
