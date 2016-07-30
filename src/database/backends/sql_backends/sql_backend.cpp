@@ -622,7 +622,7 @@ namespace Database
             // difference between current set in db and new set of tags
             const int currentIdsSize = static_cast<int>( currentIds.size() );
             const int tagsListSize   = static_cast<int>( tagsFlatList.size() );
-            const int diff = currentIds.size() - tagsListSize;
+            const int diff = currentIdsSize - tagsListSize;
 
             // more tags in db?, delete surplus
             if (diff > 0)
