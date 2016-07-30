@@ -310,21 +310,19 @@ namespace Database
 
                 const QString value = tagValue.formattedValue();
 
+                std::vector<QString> query_str;
                 InsertQueryData queryData(TAB_TAGS);
-                queryData.setColumns("id", "value", "photo_id", "name_id");
+                queryData.setColumns("value", "photo_id", "name_id");
+                queryData.setValues(value, photo_id, name_id);
 
                 if (tag_id == -1)
-                    queryData.setValues(InsertQueryData::Value::Null,
-                                        value,
-                                        photo_id,
-                                        name_id);
+                    query_str = m_backend->getGenericQueryGenerator()->insert(queryData);
                 else
-                    queryData.setValues(tag_id,
-                                        value,
-                                        photo_id,
-                                        name_id);
-
-                auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+                {
+                    UpdateQueryData updateQueryData(queryData);
+                    updateQueryData.setCondition("id", QString::number(tag_id));
+                    query_str = m_backend->getGenericQueryGenerator()->update(updateQueryData);
+                }
 
                 status = m_executor.exec(query_str, &query);
 
