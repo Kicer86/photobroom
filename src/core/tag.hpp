@@ -9,6 +9,8 @@
 #include <set>
 #include <memory>
 
+#include <boost/any.hpp>
+
 #include <QString>
 #include <QVariant>
 
@@ -96,20 +98,27 @@ class CORE_EXPORT TagValue
 
     private:
         TagType m_type;
-        void* m_value;
-
-        void destroyValue();
-        void copy(const TagValue &);
+        boost::any m_value;
 
         template<typename T>
         bool validate() const;
 
         template<typename T>
-        T* get() const
+        const T* get() const
         {
             assert( validate<T>() );
 
-            T* v = static_cast<T *>(m_value);
+            const T* v = boost::any_cast<T>(&m_value);
+
+            return v;
+        }
+
+        template<typename T>
+        T* get()
+        {
+            assert( validate<T>() );
+
+            T* v = boost::any_cast<T>(&m_value);
 
             return v;
         }
