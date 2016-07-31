@@ -67,7 +67,7 @@ namespace Database
             virtual bool dbOpened();
 
             //make sure table exists. Makes sure a table maching TableDefinition exists in database
-            BackendStatus assureTableExists(const TableDefinition &) const;
+            BackendStatus ensureTableExists(const TableDefinition &) const;
 
             //execute query. Function for inheriting classes
             virtual bool exec(const QString &, QSqlQuery *) const;

@@ -108,7 +108,10 @@ namespace Database
         switch(type)
         {
             case ColDefinition::Purpose::ID:
-                result = "INTEGER PRIMARY KEY AUTOINCREMENT";
+                // Do not use AUTOINCREMENT keyword:
+                // http://www.sqlite.org/autoinc.html
+                // http://stackoverflow.com/questions/10727541/running-out-of-unique-ids-in-sqlite-database
+                result = "INTEGER PRIMARY KEY";
                 break;
 
             default:
@@ -116,18 +119,6 @@ namespace Database
         }
 
         return result;
-    }
-
-
-    std::vector<QString> SQLiteBackend::insertOrUpdate(const InsertQueryData& data) const
-    {
-        QString result("INSERT OR REPLACE INTO %1(%2) VALUES(%3)");
-
-        result = result.arg(data.getName());
-        result = result.arg(data.getColumns().join(", "));
-        result = result.arg(data.getValues().join(", "));
-
-        return { result };
     }
 
 

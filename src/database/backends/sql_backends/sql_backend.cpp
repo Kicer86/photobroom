@@ -35,7 +35,6 @@
 #include <QSqlDriver>
 #include <QVariant>
 #include <QPixmap>
-#include <QString>
 
 #include <OpenLibrary/utils/optional.hpp>
 
@@ -43,6 +42,7 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/map_iterator.hpp>
 #include <core/variant_converter.hpp>
 #include <database/action.hpp>
 #include <database/filter.hpp>
@@ -57,6 +57,10 @@
 #include "sql_filter_query_generator.hpp"
 #include "sql_query_executor.hpp"
 #include "database_migrator.hpp"
+
+
+// usefull links
+// about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
 
 namespace Database
@@ -124,6 +128,63 @@ namespace Database
 
         };
 
+
+        std::deque<TagValue> flatten(const TagValue& tagValue)
+        {
+            const TagType type = tagValue.type();
+
+            std::deque<TagValue> result;
+
+            switch (type)
+            {
+                case TagType::Empty:
+                    assert(!"empty tag value!");
+                    break;
+
+                case TagType::Date:
+                case TagType::String:
+                case TagType::Time:
+                    result.push_back(tagValue);
+                    break;
+
+                case TagType::List:
+                {
+                    auto list = tagValue.getList();
+
+                    for (const TagValue& subitem: list)
+                    {
+                        const std::deque<TagValue> local_result = flatten(subitem);
+
+                        result.insert(result.end(), local_result.begin(), local_result.end());
+                    }
+
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+
+        std::deque<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
+        {
+            std::deque<std::pair<TagNameInfo, TagValue>> result;
+
+            for(const auto& tag: tagsList)
+            {
+                const TagValue& tagValue = tag.second;
+                const std::deque<TagValue> flatList = flatten(tagValue);
+
+                for(const TagValue& flat: flatList)
+                {
+                    const auto p = std::make_pair(tag.first, flat);
+                    result.push_back(p);
+                }
+            }
+
+            return result;
+        }
+
     }
 
 
@@ -145,21 +206,21 @@ namespace Database
             Data& operator=(const Data &) = delete;
 
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-            bool                       store(const TagValue& value, int photo_id, int tag_id) const;
+            bool                       store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
-            bool insert(Photo::Data &);
-            bool update(const Photo::Data &);
+            bool insert(Photo::Data &) const;
+            bool update(const Photo::Data &) const;
 
             std::deque<TagNameInfo> listTags() const;
-            std::deque<QVariant>    listTagValues(const TagNameInfo& tagName);
-            std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            std::deque<QVariant>    listTagValues(const TagNameInfo& tagName) const;
+            std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) const;
 
-            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &);
+            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) const;
 
-            std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &);
-            std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &);
-            Photo::Data           getPhoto(const Photo::Id &);
-            int                   getPhotosCount(const std::deque<IFilter::Ptr> &);
+            std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) const;
+            std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) const;
+            Photo::Data           getPhoto(const Photo::Id &) const;
+            int                   getPhotosCount(const std::deque<IFilter::Ptr> &) const;
 
         private:
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
@@ -170,12 +231,17 @@ namespace Database
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
 
-            Tag::TagsList        getTagsFor(const Photo::Id &);
-            QSize                getGeometryFor(const Photo::Id &);
-            ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &);
-            void    updateFlagsOn(Photo::Data &, const Photo::Id &);
-            QString getPathFor(const Photo::Id &);
-            std::deque<Photo::Id> fetch(QSqlQuery &);
+            template<typename T>
+            std::map<TagNameInfo, ol::Optional<unsigned int>> storeTagNames(T first, T last) const;
+
+            Tag::TagsList        getTagsFor(const Photo::Id &) const;
+            QSize                getGeometryFor(const Photo::Id &) const;
+            ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
+            void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
+            QString getPathFor(const Photo::Id &) const;
+            std::deque<Photo::Id> fetch(QSqlQuery &) const;
+
+            bool updateOrInsert(const UpdateQueryData &) const;
     };
 
 
@@ -223,7 +289,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::store(const TagValue& tagValue, int photo_id, int tag_id) const
+    bool ASqlBackend::Data::store(const TagValue& tagValue, int photo_id, int name_id, int tag_id) const
     {
         //store tag values
         bool status = true;
@@ -232,7 +298,11 @@ namespace Database
         switch (type)
         {
             case TagType::Empty:
-                assert(!"empty tag value!");
+                assert(!"Empty tag value!");
+                break;
+
+            case TagType::List:
+                assert(!"TagValue should be flat");
                 break;
 
             case TagType::Date:
@@ -244,26 +314,21 @@ namespace Database
 
                 const QString value = tagValue.formattedValue();
 
+                std::vector<QString> query_str;
                 InsertQueryData queryData(TAB_TAGS);
-                queryData.setColumns("id", "value", "photo_id", "name_id");
-                queryData.setValues(InsertQueryData::Value::Null,
-                                    value,
-                                    photo_id,
-                                    tag_id);
+                queryData.setColumns("value", "photo_id", "name_id");
+                queryData.setValues(value, photo_id, name_id);
 
-                auto query_str = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
+                if (tag_id == -1)
+                    query_str = m_backend->getGenericQueryGenerator()->insert(queryData);
+                else
+                {
+                    UpdateQueryData updateQueryData(queryData);
+                    updateQueryData.setCondition("id", QString::number(tag_id));
+                    query_str = m_backend->getGenericQueryGenerator()->update(updateQueryData);
+                }
 
                 status = m_executor.exec(query_str, &query);
-
-                break;
-            }
-
-            case TagType::List:
-            {
-                auto list = tagValue.getList();
-
-                for (const TagValue& subitem: list)
-                    status &= store(subitem, photo_id, tag_id);
 
                 break;
             }
@@ -296,7 +361,7 @@ namespace Database
     }
 
 
-    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
+    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName) const
     {
         const ol::Optional<unsigned int> tagId = findTagByName(tagName);
 
@@ -325,7 +390,7 @@ namespace Database
     }
 
 
-    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -360,7 +425,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions)
+    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions) const
     {
         for(auto action: actions)
         {
@@ -376,7 +441,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter) const
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -390,7 +455,7 @@ namespace Database
     }
 
 
-    int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
+    int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter) const
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -410,7 +475,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -497,16 +562,12 @@ namespace Database
 
     bool ASqlBackend::Data::storeGeometryFor(const Photo::Id& photo_id, const QSize& geometry) const
     {
-        InsertQueryData data(TAB_GEOMETRY);
-
+        UpdateQueryData data(TAB_GEOMETRY);
+        data.setCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "width", "height");
         data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
 
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
+        const bool status = updateOrInsert(data);
 
         return status;
     }
@@ -514,16 +575,12 @@ namespace Database
 
     bool ASqlBackend::Data::storeSha256(int photo_id, const Photo::Sha256sum& sha256) const
     {
-        InsertQueryData data(TAB_SHA256SUMS);
-
+        UpdateQueryData data(TAB_SHA256SUMS);
+        data.setCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.constData());
 
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(data);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
+        const bool status = updateOrInsert(data);
 
         return status;
     }
@@ -535,23 +592,77 @@ namespace Database
         QSqlQuery query(db);
         bool status = true;
 
-        //remove all tags already attached to photo. TODO: maybe some inteligence here?
-        const QString deleteQuery = QString("DELETE FROM " TAB_TAGS " WHERE photo_id=\"%1\"").arg(photo_id);
-        status = m_executor.exec(deleteQuery, &query);
+        // gather ids for current set of tag for photo_id
+        const QString tagIdsQuery = QString("SELECT id FROM %1 WHERE photo_id=\"%2\"")
+                                    .arg(TAB_TAGS)
+                                    .arg(photo_id);
 
-        for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it)
+        status = m_executor.exec(tagIdsQuery, &query);
+
+        // store tag names
+        typedef std::map<TagNameInfo, ol::Optional<unsigned int>> TagNameIds;
+
+        TagNameIds tagNameIds =
+            storeTagNames( key_map_iterator<Tag::TagsList>(tagsList.begin()),
+                           key_map_iterator<Tag::TagsList>(tagsList.end()) );
+
+        if (status)
         {
-            //store tag name
-            const ol::Optional<unsigned int> tag_id = store(it->first);
+            // read tag ids from query
+            std::deque<int> currentIds;
 
-            if (tag_id)
+            while (query.next())
             {
-                const TagValue& value = it->second;
-                const int tagid = *tag_id;
-                status = store(value, photo_id, tagid);
+                const QVariant idRaw = query.value(0);
+                const int id = idRaw.toInt();
+
+                currentIds.push_back(id);
             }
-            else
-                status = false;
+
+            // convert map with possible lists into flat list of pairs
+            const std::deque<std::pair<TagNameInfo, TagValue>> tagsFlatList = flatten(tagsList);
+
+            // difference between current set in db and new set of tags
+            const int currentIdsSize = static_cast<int>( currentIds.size() );
+            const int tagsListSize   = static_cast<int>( tagsFlatList.size() );
+            const int diff = currentIdsSize - tagsListSize;
+
+            // more tags in db?, delete surplus
+            if (diff > 0)
+            {
+                QStringList idsToDelete;
+                for(auto it = currentIds.end() - diff; it != currentIds.end(); ++it)
+                    idsToDelete.append( QString::number(*it) );
+
+                const QString idsToDeleteStr = idsToDelete.join(", ");
+
+                const QString deleteQuery = QString("DELETE FROM %1 WHERE id IN (%2)")
+                                                .arg(TAB_TAGS)
+                                                .arg(idsToDeleteStr);
+
+                status = m_executor.exec(deleteQuery, &query);
+            }
+
+            // override existing tags and then insert (if nothing left to override)
+            std::size_t counter = 0;
+
+            for (auto it = tagsFlatList.begin(); status && it != tagsFlatList.end(); ++it, counter++)
+            {
+                //store tag name
+                const ol::Optional<unsigned int>& name_id = tagNameIds[it->first];
+
+                if (name_id)
+                {
+                    const TagValue& value = it->second;
+                    const int nameid = *name_id;
+                    const int tag_id = counter < currentIds.size()? currentIds[counter]: -1;  // try to override ids of tags already stored
+
+                    status = store(value, photo_id, nameid, tag_id);
+                }
+                else
+                    status = false;
+            }
+
         }
 
         return status;
@@ -560,28 +671,23 @@ namespace Database
 
     bool ASqlBackend::Data::storeFlags(const Photo::Data& photoData) const
     {
-        InsertQueryData queryData(TAB_FLAGS);
-        queryData.setColumns("id", "photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
-        queryData.setValues( InsertQueryData::Value::Null,
-                             QString::number(photoData.id),
+        UpdateQueryData queryInfo(TAB_FLAGS);
+        queryInfo.setCondition("photo_id", QString::number(photoData.id));
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setValues(QString::number(photoData.id),
                              photoData.getFlag(Photo::FlagsE::StagingArea),
                              photoData.getFlag(Photo::FlagsE::ExifLoaded),
                              photoData.getFlag(Photo::FlagsE::Sha256Loaded),
                              photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                             photoData.getFlag(Photo::FlagsE::GeometryLoaded)
-                           );
+                             photoData.getFlag(Photo::FlagsE::GeometryLoaded));
 
-        auto queryStrs = m_backend->getGenericQueryGenerator()->insertOrUpdate(queryData);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        bool status = m_executor.exec(queryStrs, &query);
+        const bool status = updateOrInsert(queryInfo);
 
         return status;
     }
 
 
-    bool ASqlBackend::Data::insert(Photo::Data& data)
+    bool ASqlBackend::Data::insert(Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -589,7 +695,7 @@ namespace Database
         Transaction transaction(db);
         bool status = transaction.begin();
 
-        //store path and sha256
+        //store path and date
         Photo::Id id = data.id;
         assert(id.valid() == false);
 
@@ -635,31 +741,13 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::update(const Photo::Data& data)
+    bool ASqlBackend::Data::update(const Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
         Transaction transaction(db);
         bool status = transaction.begin();
-
-        //store path and sha256
-        Photo::Id id = data.id;
-
-        InsertQueryData insertData(TAB_PHOTOS);
-        insertData.setColumns("path", "store_date");
-        insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
-
-        UpdateQueryData updateData(insertData);
-        updateData.setCondition( "id", QString::number(id.value()) );
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->update(updateData);
-
-        //execute update
-        if (status)
-            status = m_executor.exec(queryStrs, &query);
-
-        if (status)
-            status = id.valid();
 
         if (status)
             status = storeData(data);
@@ -671,7 +759,7 @@ namespace Database
     }
 
 
-    Photo::Data ASqlBackend::Data::getPhoto(const Photo::Id& id)
+    Photo::Data ASqlBackend::Data::getPhoto(const Photo::Id& id) const
     {
         Photo::Data photoData;
         photoData.path = getPathFor(id);
@@ -694,8 +782,24 @@ namespace Database
         return photoData;
     }
 
+    template<typename T>
+    std::map<TagNameInfo, ol::Optional<unsigned int>> ASqlBackend::Data::storeTagNames(T first, T last) const
+    {
+        std::map<TagNameInfo, ol::Optional<unsigned int>> result;
 
-    Tag::TagsList ASqlBackend::Data::getTagsFor(const Photo::Id& photoId)
+        for(; first != last; ++first)
+        {
+            const TagNameInfo& nameInfo = *first;
+            ol::Optional<unsigned int> local_result = store(nameInfo);
+
+            result[nameInfo] = local_result;
+        }
+
+        return result;
+    }
+
+
+    Tag::TagsList ASqlBackend::Data::getTagsFor(const Photo::Id& photoId) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -760,7 +864,7 @@ namespace Database
     }
 
 
-    QSize ASqlBackend::Data::getGeometryFor(const Photo::Id& id)
+    QSize ASqlBackend::Data::getGeometryFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -788,7 +892,7 @@ namespace Database
     }
 
 
-    ol::Optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id)
+    ol::Optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -811,7 +915,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::updateFlagsOn(Photo::Data& photoData, const Photo::Id& id)
+    void ASqlBackend::Data::updateFlagsOn(Photo::Data& photoData, const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -842,7 +946,7 @@ namespace Database
     }
 
 
-    QString ASqlBackend::Data::getPathFor(const Photo::Id& id)
+    QString ASqlBackend::Data::getPathFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -866,7 +970,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::Data::fetch(QSqlQuery& query)
+    std::deque<Photo::Id> ASqlBackend::Data::fetch(QSqlQuery& query) const
     {
         std::deque<Photo::Id> collection;
 
@@ -878,6 +982,30 @@ namespace Database
         }
 
         return collection;
+    }
+
+
+    bool ASqlBackend::Data::updateOrInsert(const UpdateQueryData& queryInfo) const
+    {
+        auto queries = m_backend->getGenericQueryGenerator()->update(queryInfo);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        bool status = m_executor.exec(queries, &query);
+
+        if (status)
+        {
+            const int affected_rows = query.numRowsAffected();
+
+            if (affected_rows == 0)
+            {
+                queries = m_backend->getGenericQueryGenerator()->insert(queryInfo);
+                status = m_executor.exec(queries, &query);
+            }
+        }
+
+        return status;
     }
 
 
@@ -925,7 +1053,7 @@ namespace Database
     }
 
 
-    BackendStatus ASqlBackend::assureTableExists(const TableDefinition& definition) const
+    BackendStatus ASqlBackend::ensureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
@@ -1137,7 +1265,7 @@ namespace Database
         if (status)
             for (const auto& table: tables)
             {
-                status = assureTableExists(table.second);
+                status = ensureTableExists(table.second);
 
                 if (!status)
                     break;

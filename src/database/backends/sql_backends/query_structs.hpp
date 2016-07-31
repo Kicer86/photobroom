@@ -67,7 +67,7 @@ namespace Database
     {
         public:
             UpdateQueryData(const char* name);
-            UpdateQueryData(const InsertQueryData &);
+            explicit UpdateQueryData(const InsertQueryData &);
 
             //update where c == v
             void setCondition(const QString& c, const QString& v);

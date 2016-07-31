@@ -50,6 +50,7 @@ set(CORE_HEADERS
     iview_task.hpp
     logger.hpp
     logger_factory.hpp
+    map_iterator.hpp
     photos_manager.hpp
     status.hpp
     tag.hpp
