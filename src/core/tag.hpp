@@ -78,7 +78,7 @@ class CORE_EXPORT TagValue
         void set(const std::deque<TagValue> &);
         void set(const QString &);
 
-        [[deprecated]] QVariant get() const;
+        QVariant get() const;
         const QDate& getDate() const;
         const std::deque<TagValue>& getList() const;
         const QString& getString() const;
