@@ -103,11 +103,11 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
     auto it = tagsList.find(filter->tagName);
     bool result = it != tagsList.end();
 
-    if (result && filter->tagValue.is_initialized())
+    if (result && filter->tagValue.type() != TagType::Empty)
     {
-        const QVariant& val = it->second.get();
+        const TagValue& val = it->second;
 
-        result = *filter->tagValue == val;
+        result = filter->tagValue == val;
     }
 
     m_doesMatch = result;

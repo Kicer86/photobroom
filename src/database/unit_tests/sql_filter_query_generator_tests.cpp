@@ -52,7 +52,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     filters.push_back(filter);
 
     filter->tagName = TagNameInfo("test_name", TagType::String);
-    filter->tagValue = "test_value";
+    filter->tagValue = QString("test_value");
 
     const QString query = generator.generate(filters);
 
@@ -133,7 +133,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag_filter);
     tag_filter->tagName = TagNameInfo("test_name", TagType::String);
-    tag_filter->tagValue = "test_value";
+    tag_filter->tagValue = QString("test_value");
 
     //flags
     std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
@@ -158,13 +158,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag1_filter);
     tag1_filter->tagName = TagNameInfo("test_name", TagType::String);
-    tag1_filter->tagValue = "test_value";
+    tag1_filter->tagValue = QString("test_value");
 
     // #2 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag2_filter);
     tag2_filter->tagName = TagNameInfo("test_name2", TagType::String);
-    tag2_filter->tagValue = "test_value2";
+    tag2_filter->tagValue = QString("test_value2");
 
     const QString query = generator.generate(filters);
 

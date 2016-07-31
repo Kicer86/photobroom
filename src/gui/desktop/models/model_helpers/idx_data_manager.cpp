@@ -566,7 +566,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>();
         filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
-        filter->tagValue = tag;
+        filter->tagValue = TagValue(tag);
 
         IdxData* newItem = new IdxData(m_data->m_root->m_model, tag);
         setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
@@ -773,8 +773,8 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
             if (photoTagIt != photoTags.end())
             {
-                const auto tagValue = photoTagIt->second.get();
-                IdxData* node = new IdxData(this, tagValue);
+                const TagValue& tagValue = photoTagIt->second;
+                IdxData* node = new IdxData(this, tagValue.get());
 
                 auto filter = std::make_shared<Database::FilterPhotosWithTag>();
                 filter->tagName = tagName;

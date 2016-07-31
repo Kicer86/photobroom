@@ -7,7 +7,6 @@
 #include <QTime>
 
 #include "base_tags.hpp"
-#include <variant_converter.hpp>
 
 
 TagNameInfo::TagNameInfo(): name(), displayName(), type(TagType::Empty)
