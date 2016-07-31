@@ -42,6 +42,7 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/map_iterator.hpp>
 #include <core/variant_converter.hpp>
 #include <database/action.hpp>
 #include <database/filter.hpp>
@@ -598,6 +599,13 @@ namespace Database
 
         status = m_executor.exec(tagIdsQuery, &query);
 
+        // store tag names
+        typedef std::map<TagNameInfo, ol::Optional<unsigned int>> TagNameIds;
+
+        TagNameIds tagNameIds =
+            storeTagNames( key_map_iterator<Tag::TagsList>(tagsList.begin()),
+                           key_map_iterator<Tag::TagsList>(tagsList.end()) );
+
         if (status)
         {
             // read tag ids from query
@@ -641,7 +649,7 @@ namespace Database
             for (auto it = tagsFlatList.begin(); status && it != tagsFlatList.end(); ++it, counter++)
             {
                 //store tag name
-                const ol::Optional<unsigned int> name_id = store(it->first);
+                const ol::Optional<unsigned int>& name_id = tagNameIds[it->first];
 
                 if (name_id)
                 {
