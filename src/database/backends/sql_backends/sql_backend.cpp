@@ -207,19 +207,19 @@ namespace Database
             ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
             bool                       store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
-            bool insert(Photo::Data &);
-            bool update(const Photo::Data &);
+            bool insert(Photo::Data &) const;
+            bool update(const Photo::Data &) const;
 
             std::deque<TagNameInfo> listTags() const;
-            std::deque<QVariant>    listTagValues(const TagNameInfo& tagName);
-            std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &);
+            std::deque<QVariant>    listTagValues(const TagNameInfo& tagName) const;
+            std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) const;
 
-            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &);
+            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) const;
 
-            std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &);
-            std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &);
-            Photo::Data           getPhoto(const Photo::Id &);
-            int                   getPhotosCount(const std::deque<IFilter::Ptr> &);
+            std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) const;
+            std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) const;
+            Photo::Data           getPhoto(const Photo::Id &) const;
+            int                   getPhotosCount(const std::deque<IFilter::Ptr> &) const;
 
         private:
             ol::Optional<unsigned int> findTagByName(const QString& name) const;
@@ -230,12 +230,12 @@ namespace Database
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
 
-            Tag::TagsList        getTagsFor(const Photo::Id &);
-            QSize                getGeometryFor(const Photo::Id &);
-            ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &);
-            void    updateFlagsOn(Photo::Data &, const Photo::Id &);
-            QString getPathFor(const Photo::Id &);
-            std::deque<Photo::Id> fetch(QSqlQuery &);
+            Tag::TagsList        getTagsFor(const Photo::Id &) const;
+            QSize                getGeometryFor(const Photo::Id &) const;
+            ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
+            void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
+            QString getPathFor(const Photo::Id &) const;
+            std::deque<Photo::Id> fetch(QSqlQuery &) const;
 
             bool updateOrInsert(const UpdateQueryData &) const;
     };
@@ -357,7 +357,7 @@ namespace Database
     }
 
 
-    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName)
+    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName) const
     {
         const ol::Optional<unsigned int> tagId = findTagByName(tagName);
 
@@ -386,7 +386,7 @@ namespace Database
     }
 
 
-    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    std::deque<QVariant> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -421,7 +421,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions)
+    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions) const
     {
         for(auto action: actions)
         {
@@ -437,7 +437,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter) const
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -451,7 +451,7 @@ namespace Database
     }
 
 
-    int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
+    int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter) const
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -471,7 +471,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -676,7 +676,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::insert(Photo::Data& data)
+    bool ASqlBackend::Data::insert(Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -730,7 +730,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::update(const Photo::Data& data)
+    bool ASqlBackend::Data::update(const Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -748,7 +748,7 @@ namespace Database
     }
 
 
-    Photo::Data ASqlBackend::Data::getPhoto(const Photo::Id& id)
+    Photo::Data ASqlBackend::Data::getPhoto(const Photo::Id& id) const
     {
         Photo::Data photoData;
         photoData.path = getPathFor(id);
@@ -772,7 +772,7 @@ namespace Database
     }
 
 
-    Tag::TagsList ASqlBackend::Data::getTagsFor(const Photo::Id& photoId)
+    Tag::TagsList ASqlBackend::Data::getTagsFor(const Photo::Id& photoId) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -837,7 +837,7 @@ namespace Database
     }
 
 
-    QSize ASqlBackend::Data::getGeometryFor(const Photo::Id& id)
+    QSize ASqlBackend::Data::getGeometryFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -865,7 +865,7 @@ namespace Database
     }
 
 
-    ol::Optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id)
+    ol::Optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -888,7 +888,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::updateFlagsOn(Photo::Data& photoData, const Photo::Id& id)
+    void ASqlBackend::Data::updateFlagsOn(Photo::Data& photoData, const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -919,7 +919,7 @@ namespace Database
     }
 
 
-    QString ASqlBackend::Data::getPathFor(const Photo::Id& id)
+    QString ASqlBackend::Data::getPathFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -943,7 +943,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::Data::fetch(QSqlQuery& query)
+    std::deque<Photo::Id> ASqlBackend::Data::fetch(QSqlQuery& query) const
     {
         std::deque<Photo::Id> collection;
 
