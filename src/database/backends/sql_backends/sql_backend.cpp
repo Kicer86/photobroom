@@ -230,6 +230,9 @@ namespace Database
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
 
+            template<typename T>
+            std::map<TagNameInfo, ol::Optional<unsigned int>> storeTagNames(T first, T last) const;
+
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
             ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
@@ -769,6 +772,22 @@ namespace Database
         updateFlagsOn(photoData, id);
 
         return photoData;
+    }
+
+    template<typename T>
+    std::map<TagNameInfo, ol::Optional<unsigned int>> ASqlBackend::Data::storeTagNames(T first, T last) const
+    {
+        std::map<TagNameInfo, ol::Optional<unsigned int>> result;
+
+        for(; first != last; ++first)
+        {
+            const TagNameInfo& nameInfo = *first;
+            ol::Optional<unsigned int> local_result = store(nameInfo);
+
+            result[nameInfo] = local_result;
+        }
+
+        return result;
     }
 
 
