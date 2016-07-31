@@ -1026,7 +1026,7 @@ namespace Database
     }
 
 
-    BackendStatus ASqlBackend::assureTableExists(const TableDefinition& definition) const
+    BackendStatus ASqlBackend::ensureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
@@ -1238,7 +1238,7 @@ namespace Database
         if (status)
             for (const auto& table: tables)
             {
-                status = assureTableExists(table.second);
+                status = ensureTableExists(table.second);
 
                 if (!status)
                     break;
