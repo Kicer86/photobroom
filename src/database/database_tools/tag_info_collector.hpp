@@ -54,7 +54,7 @@ class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
         int m_observerId;
 
         void gotTagNames(const std::deque<TagNameInfo> &);
-        void gotTagValues(const TagNameInfo &, const std::deque<QVariant> &);
+        void gotTagValues(const TagNameInfo &, const std::deque<TagValue> &);
         void photoModified(const IPhotoInfo::Ptr &);
 
         void updateAllTags();

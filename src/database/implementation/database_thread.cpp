@@ -263,7 +263,7 @@ namespace
     {
         ListTagValuesTask2(const TagNameInfo& info,
                            const std::deque<Database::IFilter::Ptr>& filter,
-                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<QVariant> &> & callback):
+                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback):
         ThreadBaseTask(),
         m_callback(callback),
         m_info(info),
@@ -276,7 +276,7 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<QVariant> &> m_callback;
+        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> m_callback;
         TagNameInfo m_info;
         std::deque<Database::IFilter::Ptr> m_filter;
     };
@@ -692,7 +692,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<QVariant> &> & callback)
+    void DatabaseThread::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
         ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
         m_impl->addTask(task);

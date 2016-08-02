@@ -84,7 +84,7 @@ namespace Database
         FILTER_COMMAND
 
         TagNameInfo tagName;
-        ol::Optional<QVariant> tagValue;
+        TagValue tagValue;
 
         FilterPhotosWithTag();
     };

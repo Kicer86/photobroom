@@ -22,7 +22,6 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
-#include <core/variant_converter.hpp>
 
 
 namespace
@@ -31,12 +30,11 @@ namespace
     QString limited_join(T first, T last, int limit, const QString& splitter)
     {
         QString result;
-        const VariantConverter converter;
 
         for(; limit > 0 && first != last;)
         {
             const TagValue& v = *first++;
-            result += converter(v.get());
+            result += v.formattedValue();
 
             limit--;
 
@@ -102,7 +100,7 @@ QVariant TagValueModel::data(const QModelIndex& index, int role) const
 {
     assert(index.isValid());
     assert(index.column() == 0);
-    assert(index.row() < m_values.size());
+    assert(static_cast<std::size_t>(index.row()) < m_values.size());
 
     QVariant result;
 

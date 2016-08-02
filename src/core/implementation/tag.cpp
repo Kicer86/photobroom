@@ -7,7 +7,6 @@
 #include <QTime>
 
 #include "base_tags.hpp"
-#include <variant_converter.hpp>
 
 
 TagNameInfo::TagNameInfo(): name(), displayName(), type(TagType::Empty)
@@ -121,7 +120,7 @@ QString TagNameInfo::dn(const QString& n) const
 //////////////////////////////////////////////////////////////
 
 
-TagValue::TagValue(): m_type(TagType::Empty), m_value(nullptr)
+TagValue::TagValue(): m_type(TagType::Empty), m_value()
 {
 
 }
@@ -129,17 +128,17 @@ TagValue::TagValue(): m_type(TagType::Empty), m_value(nullptr)
 
 TagValue::TagValue(const TagValue& other): TagValue()
 {
-    copy(other);
+    m_type = other.m_type;
+    m_value = other.m_value;
 }
 
 
 TagValue::TagValue(TagValue&& other): TagValue()
 {
     m_type = other.m_type;
-    m_value = other.m_value;
-
     other.m_type = TagType::Empty;
-    other.m_value = nullptr;
+
+    boost::swap(m_value, other.m_value);
 }
 
 
@@ -167,21 +166,62 @@ TagValue::TagValue(const QString& string): TagValue()
 }
 
 
-TagValue::TagValue(const QVariant& value): TagValue()
+TagValue TagValue::fromRaw(const QString& raw, const TagType& type)
 {
-    set(value);
+    return TagValue().fromString(raw, type);
+}
+
+
+TagValue TagValue::fromQVariant(const QVariant& variant)
+{
+    TagValue result;
+
+    const QVariant::Type type = variant.type();
+
+    switch(type)
+    {
+        default:
+            assert(!"unknown type");
+            break;
+
+        case QVariant::StringList:
+        {
+            std::deque<TagValue> list;
+            QStringList stringList = variant.toStringList();
+
+            list.insert(list.end(), stringList.begin(), stringList.end());
+
+            result = TagValue(list);
+            break;
+        }
+
+        case QVariant::String:
+            result = TagValue( variant.toString() );
+            break;
+
+        case QVariant::Date:
+            result = TagValue( variant.toDate() );
+            break;
+
+        case QVariant::Time:
+            result = TagValue( variant.toTime() );
+            break;
+    }
+
+    return result;
 }
 
 
 TagValue::~TagValue()
 {
-    destroyValue();
+
 }
 
 
 TagValue& TagValue::operator=(const TagValue& other)
 {
-    copy(other);
+    m_type = other.m_type;
+    m_value = other.m_value;
 
     return *this;
 }
@@ -190,92 +230,38 @@ TagValue& TagValue::operator=(const TagValue& other)
 TagValue& TagValue::operator=(TagValue&& other)
 {
     m_type = other.m_type;
-    m_value = other.m_value;
-
     other.m_type = TagType::Empty;
-    other.m_value = nullptr;
+
+    boost::swap(m_value, other.m_value);
 
     return *this;
 }
 
 
-void TagValue::set(const QVariant& v)
-{
-    const QVariant::Type type = v.type();
-
-    switch(type)
-    {
-        default:
-            assert(!"unknown type");
-
-        case QVariant::String:
-            set(v.toString());
-            break;
-
-        case QVariant::Date:
-            set(v.toDate());
-            break;
-
-        case QVariant::Time:
-            set(v.toTime());
-            break;
-
-        case QVariant::StringList:
-        {
-            const QStringList l = v.toStringList();
-
-            std::deque<TagValue> values;
-
-            for(const QString& str: l)
-            {
-                const TagValue tagValue(str);
-
-                values.push_back(tagValue);
-            }
-
-            set(values);
-            break;
-        }
-    }
-}
-
-
 void TagValue::set(const QDate& date)
 {
-    destroyValue();
-
-    QDate* v = new QDate(date);
-    m_value = v;
+    m_value = date;
     m_type = TagType::Date;
 }
 
 
 void TagValue::set(const QTime& time)
 {
-    destroyValue();
-
-    QTime* v = new QTime(time);
-    m_value = v;
+    m_value = time;
     m_type = TagType::Time;
 }
 
 
 void TagValue::set(const std::deque<TagValue>& values)
 {
-    destroyValue();
-
-    std::deque<TagValue>* v = new std::deque<TagValue>(values);
-    m_value = v;
+    m_value = values;
     m_type = TagType::List;
 }
 
 
 void TagValue::set(const QString& string)
 {
-    destroyValue();
-
-    QString* v = new QString(string);
-    m_value = v;
+    m_value = string;
     m_type = TagType::String;
 }
 
@@ -296,7 +282,7 @@ QVariant TagValue::get() const
         case TagType::List:
         {
             QStringList localResult;
-            std::deque<TagValue>* v = get<TagValueTraits<TagType::List>::StorageType>();
+            const std::deque<TagValue>* v = get<TagValueTraits<TagType::List>::StorageType>();
 
             for(const TagValue& tagValue: *v)
                 localResult.append(tagValue.string());
@@ -421,95 +407,31 @@ bool TagValue::operator<(const TagValue& other) const
 }
 
 
-void TagValue::destroyValue()
-{
-    switch (m_type)
-    {
-        case TagType::Empty:
-            break;
-
-        case TagType::Date:
-            delete get<TagValueTraits<TagType::Date>::StorageType>();
-            break;
-
-        case TagType::List:
-        {
-            auto* v = get<TagValueTraits<TagType::List>::StorageType>();
-
-            for(TagValue& tagValue: *v)
-                tagValue.destroyValue();
-
-            delete v;
-            break;
-        }
-
-        case TagType::String:
-            delete get<TagValueTraits<TagType::String>::StorageType>();
-            break;
-
-        case TagType::Time:
-            delete get<TagValueTraits<TagType::Time>::StorageType>();
-            break;
-    }
-
-    m_type = TagType::Empty;
-    m_value = nullptr;
-}
-
-
-void TagValue::copy(const TagValue& other)
-{
-    switch (other.m_type)
-    {
-        case TagType::Empty:
-            break;
-
-        case TagType::Date:
-            set(* other.get<TagValueTraits<TagType::Date>::StorageType>() );
-            break;
-
-        case TagType::List:
-            set(* other.get<TagValueTraits<TagType::List>::StorageType>() );
-            break;
-
-        case TagType::String:
-            set(* other.get<TagValueTraits<TagType::String>::StorageType>() );
-            break;
-
-        case TagType::Time:
-            set(* other.get<TagValueTraits<TagType::Time>::StorageType>() );
-            break;
-    }
-
-    m_type = other.m_type;
-}
-
-
 template<>
 bool TagValue::validate<QDate>() const
 {
-    return m_type == TagType::Date && m_value != nullptr;
+    return m_type == TagType::Date && m_value.empty() == false && m_value.type() == typeid(QDate);
 }
 
 
 template<>
 bool TagValue::validate<QTime>() const
 {
-    return m_type == TagType::Time && m_value != nullptr;
+    return m_type == TagType::Time && m_value.empty() == false && m_value.type() == typeid(QTime);
 }
 
 
 template<>
 bool TagValue::validate<QString>() const
 {
-    return m_type == TagType::String && m_value != nullptr;
+    return m_type == TagType::String && m_value.empty() == false && m_value.type() == typeid(QString);
 }
 
 
 template<>
 bool TagValue::validate<std::deque<TagValue>>() const
 {
-    return m_type == TagType::List && m_value != nullptr;
+    return m_type == TagType::List && m_value.empty() == false && m_value.type() == typeid(std::deque<TagValue>);
 }
 
 
@@ -524,7 +446,7 @@ QString TagValue::string() const
 
         case TagType::Date:
         {
-            QDate* v = get<TagValueTraits<TagType::Date>::StorageType>();
+            const QDate* v = get<TagValueTraits<TagType::Date>::StorageType>();
             result = v->toString("yyyy.MM.dd");;
             break;
         }
@@ -535,7 +457,7 @@ QString TagValue::string() const
             auto* v = get<TagValueTraits<TagType::List>::StorageType>();
 
             for(const TagValue& tagValue: *v)
-                localResult += tagValue.string() + '\0';
+                localResult += tagValue.string() + '\n';
 
             result = localResult;
             break;
@@ -543,20 +465,48 @@ QString TagValue::string() const
 
         case TagType::String:
         {
-            QString* v = get<TagValueTraits<TagType::String>::StorageType>();
+            const QString* v = get<TagValueTraits<TagType::String>::StorageType>();
             result = *v;
             break;
         }
 
         case TagType::Time:
         {
-            QTime* v = get<TagValueTraits<TagType::Time>::StorageType>();
+            const QTime* v = get<TagValueTraits<TagType::Time>::StorageType>();
             result = v->toString("HH:mm:ss");
             break;
         }
     }
 
     return result;
+}
+
+
+TagValue& TagValue::fromString(const QString& value, const TagType& type)
+{
+    m_type = type;
+
+    switch(type)
+    {
+        case TagType::Empty:
+        case TagType::String:
+            set( value );
+            break;
+
+        case TagType::Date:
+            set( QDate::fromString(value, "yyyy.MM.dd") );
+            break;
+
+        case TagType::Time:
+            set( QTime::fromString(value, "HH:mm:ss") );
+            break;
+
+        case TagType::List:
+            set( { value} );
+            break;
+    }
+
+    return *this;
 }
 
 
@@ -576,9 +526,9 @@ namespace Tag
 
     }
 
-    Info::Info(const TagNameInfo& n, const QVariant& v): m_name(n), m_value()
+    Info::Info(const TagNameInfo& n, const TagValue& v): m_name(n), m_value(v)
     {
-        setValue(v);
+
     }
 
     Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
@@ -609,9 +559,9 @@ namespace Tag
         return m_value;
     }
 
-    void Info::setValue(const QVariant& v)
+    void Info::setValue(const TagValue& v)
     {
-        m_value.set(v);
+        m_value = v;
     }
 
 }

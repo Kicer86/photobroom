@@ -83,7 +83,7 @@ namespace Database
     {
         virtual ~AListTagValuesTask() = default;
 
-        virtual void got(const std::deque<QVariant> &) = 0;
+        virtual void got(const std::deque<TagValue> &) = 0;
     };
 
     struct DATABASE_EXPORT AGetPhotosTask
@@ -148,7 +148,7 @@ namespace Database
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) = 0;                              // list all stored tag names
-        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<QVariant> &> & ) = 0;  // list all values of provided tag
+        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) = 0;  // list all values of provided tag
 
         // modify data
         virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos

@@ -51,7 +51,7 @@ class TagsModel: public QStandardItemModel
         TagsModel& operator=(const TagsModel &) = delete;
 
         Tag::TagsList getTags() const;
-        void addTag(const TagNameInfo &, const QVariant &);
+        void addTag(const TagNameInfo &, const TagValue &);
 
     private:
         QItemSelectionModel* m_selectionModel;

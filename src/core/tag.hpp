@@ -9,10 +9,13 @@
 #include <set>
 #include <memory>
 
+#include <boost/any.hpp>
+
 #include <QString>
 #include <QVariant>
 
 #include "core_export.h"
+
 
 enum class TagType
 {
@@ -63,20 +66,20 @@ class CORE_EXPORT TagValue
         TagValue(const std::deque<TagValue> &);
         TagValue(const QString &);
 
-        explicit TagValue(const QVariant &);
+        static TagValue fromRaw(const QString &, const TagType &);
+        static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
 
         TagValue& operator=(const TagValue &);
         TagValue& operator=(TagValue &&);
 
-        [[deprecated]] void set(const QVariant &);
         void set(const QDate &);
         void set(const QTime &);
         void set(const std::deque<TagValue> &);
         void set(const QString &);
 
-        [[deprecated]] QVariant get() const;
+        QVariant get() const;
         const QDate& getDate() const;
         const std::deque<TagValue>& getList() const;
         const QString& getString() const;
@@ -96,25 +99,33 @@ class CORE_EXPORT TagValue
 
     private:
         TagType m_type;
-        void* m_value;
-
-        void destroyValue();
-        void copy(const TagValue &);
+        boost::any m_value;
 
         template<typename T>
         bool validate() const;
 
         template<typename T>
-        T* get() const
+        const T* get() const
         {
             assert( validate<T>() );
 
-            T* v = static_cast<T *>(m_value);
+            const T* v = boost::any_cast<T>(&m_value);
+
+            return v;
+        }
+
+        template<typename T>
+        T* get()
+        {
+            assert( validate<T>() );
+
+            T* v = boost::any_cast<T>(&m_value);
 
             return v;
         }
 
         QString string() const;
+        TagValue& fromString(const QString &, const TagType &);
 };
 
 template<TagType T>
@@ -153,7 +164,7 @@ namespace Tag
     {
             Info(const TagsList::const_iterator &);
             Info(const std::pair<const TagNameInfo, TagValue> &data);
-            Info(const TagNameInfo &, const QVariant &);
+            Info(const TagNameInfo &, const TagValue &);
 
             Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
@@ -163,7 +174,7 @@ namespace Tag
             const TagNameInfo& getTypeInfo() const;
             const TagValue& value() const;
 
-            void setValue(const QVariant &);
+            void setValue(const TagValue &);
 
         private:
             TagNameInfo m_name;
