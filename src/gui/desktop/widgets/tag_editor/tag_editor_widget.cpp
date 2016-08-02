@@ -167,7 +167,8 @@ void TagEditorWidget::addButtonPressed()
     assert(idx >= 0 && index < m_tags.size());
     assert(m_tagValueWidget != nullptr);
 
-    const QVariant value = m_tagValueWidget->property(m_tagValueProp);
+    const QVariant valueRaw = m_tagValueWidget->property(m_tagValueProp);
+    const TagValue value = TagValue::fromQVariant(valueRaw);
     const TagNameInfo& name = m_tags[index];
 
     m_model->addTag(name, value);

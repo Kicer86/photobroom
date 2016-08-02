@@ -67,14 +67,13 @@ class CORE_EXPORT TagValue
         TagValue(const QString &);
 
         static TagValue fromRaw(const QString &, const TagType &);
-        //explicit TagValue(const QVariant &);
+        static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
 
         TagValue& operator=(const TagValue &);
         TagValue& operator=(TagValue &&);
 
-        [[deprecated]] void set(const QVariant &);
         void set(const QDate &);
         void set(const QTime &);
         void set(const std::deque<TagValue> &);
@@ -165,7 +164,7 @@ namespace Tag
     {
             Info(const TagsList::const_iterator &);
             Info(const std::pair<const TagNameInfo, TagValue> &data);
-            Info(const TagNameInfo &, const QVariant &);
+            Info(const TagNameInfo &, const TagValue &);
 
             Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
@@ -175,7 +174,7 @@ namespace Tag
             const TagNameInfo& getTypeInfo() const;
             const TagValue& value() const;
 
-            void setValue(const QVariant &);
+            void setValue(const TagValue &);
 
         private:
             TagNameInfo m_name;

@@ -172,6 +172,46 @@ TagValue TagValue::fromRaw(const QString& raw, const TagType& type)
 }
 
 
+TagValue TagValue::fromQVariant(const QVariant& variant)
+{
+    TagValue result;
+
+    const QVariant::Type type = variant.type();
+
+    switch(type)
+    {
+        default:
+            assert(!"unknown type");
+            break;
+
+        case QVariant::StringList:
+        {
+            std::deque<TagValue> list;
+            QStringList stringList = variant.toStringList();
+
+            list.insert(list.end(), stringList.begin(), stringList.end());
+
+            result = TagValue(list);
+            break;
+        }
+
+        case QVariant::String:
+            result = TagValue( variant.toString() );
+            break;
+
+        case QVariant::Date:
+            result = TagValue( variant.toDate() );
+            break;
+
+        case QVariant::Time:
+            result = TagValue( variant.toTime() );
+            break;
+    }
+
+    return result;
+}
+
+
 TagValue::~TagValue()
 {
 
@@ -195,47 +235,6 @@ TagValue& TagValue::operator=(TagValue&& other)
     boost::swap(m_value, other.m_value);
 
     return *this;
-}
-
-
-void TagValue::set(const QVariant& v)
-{
-    const QVariant::Type type = v.type();
-
-    switch(type)
-    {
-        default:
-            assert(!"unknown type");
-
-        case QVariant::String:
-            set(v.toString());
-            break;
-
-        case QVariant::Date:
-            set(v.toDate());
-            break;
-
-        case QVariant::Time:
-            set(v.toTime());
-            break;
-
-        case QVariant::StringList:
-        {
-            const QStringList l = v.toStringList();
-
-            std::deque<TagValue> values;
-
-            for(const QString& str: l)
-            {
-                const TagValue tagValue(str);
-
-                values.push_back(tagValue);
-            }
-
-            set(values);
-            break;
-        }
-    }
 }
 
 
@@ -454,7 +453,13 @@ QString TagValue::string() const
 
         case TagType::List:
         {
-            assert(!"Implement");
+            QString localResult;
+            auto* v = get<TagValueTraits<TagType::List>::StorageType>();
+
+            for(const TagValue& tagValue: *v)
+                localResult += tagValue.string() + '\n';
+
+            result = localResult;
             break;
         }
 
@@ -521,9 +526,9 @@ namespace Tag
 
     }
 
-    Info::Info(const TagNameInfo& n, const QVariant& v): m_name(n), m_value()
+    Info::Info(const TagNameInfo& n, const TagValue& v): m_name(n), m_value(v)
     {
-        setValue(v);
+
     }
 
     Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
@@ -554,9 +559,9 @@ namespace Tag
         return m_value;
     }
 
-    void Info::setValue(const QVariant& v)
+    void Info::setValue(const TagValue& v)
     {
-        m_value.set(v);
+        m_value = v;
     }
 
 }

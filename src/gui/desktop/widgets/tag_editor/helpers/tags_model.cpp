@@ -82,7 +82,7 @@ Tag::TagsList TagsModel::getTags() const
 }
 
 
-void TagsModel::addTag(const TagNameInfo& info, const QVariant& value)
+void TagsModel::addTag(const TagNameInfo& info, const TagValue& value)
 {
     m_tagsOperator->setTag(info, value);
 
@@ -171,7 +171,8 @@ void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottom
         {
             const QModelIndex tagNameIndex = itemIndex.sibling(itemIndex.row(), 0);
             const QString tagName = tagNameIndex.data().toString();
-            const QVariant value = itemIndex.data();
+            const QVariant valueRaw = itemIndex.data();
+            const TagValue value = TagValue::fromQVariant(valueRaw);
 
             m_tagsOperator->updateTag(tagName, value);
         }
