@@ -166,9 +166,9 @@ TagValue::TagValue(const QString& string): TagValue()
 }
 
 
-TagValue::TagValue(const QVariant& value): TagValue()
+TagValue TagValue::fromRaw(const QString& raw, const TagType& type)
 {
-    set(value);
+    return TagValue().fromString(raw, type);
 }
 
 
@@ -454,13 +454,7 @@ QString TagValue::string() const
 
         case TagType::List:
         {
-            QString localResult;
-            auto* v = get<TagValueTraits<TagType::List>::StorageType>();
-
-            for(const TagValue& tagValue: *v)
-                localResult += tagValue.string() + '\0';
-
-            result = localResult;
+            assert(!"Implement");
             break;
         }
 
@@ -480,6 +474,34 @@ QString TagValue::string() const
     }
 
     return result;
+}
+
+
+TagValue& TagValue::fromString(const QString& value, const TagType& type)
+{
+    m_type = type;
+
+    switch(type)
+    {
+        case TagType::Empty:
+        case TagType::String:
+            set( value );
+            break;
+
+        case TagType::Date:
+            set( QDate::fromString(value, "yyyy.MM.dd") );
+            break;
+
+        case TagType::Time:
+            set( QTime::fromString(value, "HH:mm:ss") );
+            break;
+
+        case TagType::List:
+            set( { value} );
+            break;
+    }
+
+    return *this;
 }
 
 

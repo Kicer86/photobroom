@@ -82,15 +82,12 @@ void TagInfoCollector::gotTagNames(const std::deque<TagNameInfo>& names)
 }
 
 
-void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<QVariant>& values)
+void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<TagValue>& values)
 {
     std::set<TagValue> tagValues;
 
-    for(const QVariant& v: values)
-    {
-        const TagValue tv(v);
-        tagValues.insert( tv );
-    }
+    for(const TagValue& v: values)
+        tagValues.insert(v);
 
     assert(values.size() == tagValues.size());
 

@@ -21,7 +21,6 @@
 
 #include <QStringList>
 
-#include <core/variant_converter.hpp>
 #include "tables.hpp"
 
 
@@ -112,13 +111,9 @@ namespace Database
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
 
             if (desciption->tagValue.type() != TagType::Empty)
-            {
-                VariantConverter convert;
-
                 m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'")
                                                  .arg(desciption->tagName)
                                                  .arg(desciption->tagValue.formattedValue()) );
-            }
             else
                 m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1'").arg(desciption->tagName));
         }

@@ -149,7 +149,7 @@ namespace
 }
 
 
-IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
+IdxData::IdxData(IdxDataManager* model, const QString& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
 
@@ -253,7 +253,7 @@ void IdxData::reset()
 
     if (isPhoto())
         m_photo->unregisterObserver(this);
-    
+
     m_children.clear();
     m_photo.reset();
 }

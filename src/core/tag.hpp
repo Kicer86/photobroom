@@ -16,6 +16,7 @@
 
 #include "core_export.h"
 
+
 enum class TagType
 {
     //indexed, as those values will be stored in db.
@@ -65,7 +66,8 @@ class CORE_EXPORT TagValue
         TagValue(const std::deque<TagValue> &);
         TagValue(const QString &);
 
-        explicit TagValue(const QVariant &);
+        static TagValue fromRaw(const QString &, const TagType &);
+        //explicit TagValue(const QVariant &);
 
         ~TagValue();
 
@@ -124,6 +126,7 @@ class CORE_EXPORT TagValue
         }
 
         QString string() const;
+        TagValue& fromString(const QString &, const TagType &);
 };
 
 template<TagType T>

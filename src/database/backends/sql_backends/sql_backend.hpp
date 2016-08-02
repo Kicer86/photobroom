@@ -86,8 +86,8 @@ namespace Database
             virtual bool update(const TagNameInfo &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;
-            virtual std::deque<QVariant>    listTagValues(const TagNameInfo&) override final;
-            virtual std::deque<QVariant>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
+            virtual std::deque<TagValue>    listTagValues(const TagNameInfo&) override final;
+            virtual std::deque<TagValue>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
 
             virtual std::deque<Photo::Id> getAllPhotos() override final;
             virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) override final;

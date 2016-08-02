@@ -47,7 +47,7 @@ void TagsItemDelegate::setEditorFactory(IEditorFactory* editorFactory)
 }
 
 
-QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option, const QModelIndex& index) const
+QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem &, const QModelIndex& index) const
 {
     QWidget* const result = m_editorFactory->createEditor(index, parent_widget);
 

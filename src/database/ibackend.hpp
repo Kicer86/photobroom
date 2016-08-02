@@ -55,8 +55,8 @@ namespace Database
 
         //read data
         virtual std::deque<TagNameInfo> listTags() = 0;                                        // list all stored tag names
-        virtual std::deque<QVariant> listTagValues(const TagNameInfo &) = 0;                   // list all values of provided tag
-        virtual std::deque<QVariant> listTagValues(const TagNameInfo &,
+        virtual std::deque<TagValue> listTagValues(const TagNameInfo &) = 0;                   // list all values of provided tag
+        virtual std::deque<TagValue> listTagValues(const TagNameInfo &,
                                                    const std::deque<IFilter::Ptr> &) = 0;      // list all values for provided tag used on photos matching provided filter
         virtual std::deque<Photo::Id> getAllPhotos() = 0;                                      // list all photos
         virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;         // find all photos matching filter

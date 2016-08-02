@@ -80,7 +80,7 @@ namespace
 
     struct ListTagValuesTask: Database::AListTagValuesTask
     {
-        ListTagValuesTask(const std::function<void(Database::AListTagValuesTask *, const std::deque<QVariant> &)>& tr,
+        ListTagValuesTask(const std::function<void(Database::AListTagValuesTask *, const std::deque<TagValue> &)>& tr,
                         const QModelIndex& parent,
                         size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
         ListTagValuesTask(const ListTagValuesTask &) = delete;
@@ -88,12 +88,12 @@ namespace
 
         ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
 
-        virtual void got(const std::deque<QVariant>& value)
+        virtual void got(const std::deque<TagValue>& value)
         {
             m_tasks_result(this, value);
         }
 
-        std::function<void(Database::AListTagValuesTask *, const std::deque<QVariant> &)> m_tasks_result;
+        std::function<void(Database::AListTagValuesTask *, const std::deque<TagValue> &)> m_tasks_result;
         QModelIndex m_parent;
         size_t m_level;
     };
@@ -383,9 +383,9 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         using namespace std::placeholders;
         auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _1, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AListTagValuesTask *, const std::deque<QVariant> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AListTagValuesTask *, const std::deque<TagValue> &) >(callback);
 
-        std::unique_ptr<Database::AListTagValuesTask> task(new ListTagValuesTask(safe_callback, _parent, level));
+        std::unique_ptr<Database::AListTagValuesTask> task = std::make_unique<ListTagValuesTask>(safe_callback, _parent, level);
         m_data->m_database->exec(std::move(task), tagNameInfo, filter);
     }
     else
@@ -552,7 +552,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* ta
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const std::deque<QVariant>& tags)
+void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const std::deque<TagValue>& tags)
 {
     ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
 
@@ -562,13 +562,13 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-    for(const QVariant& tag: tags)
+    for(const TagValue& tag: tags)
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>();
         filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
-        filter->tagValue = TagValue(tag);
+        filter->tagValue = tag;
 
-        IdxData* newItem = new IdxData(m_data->m_root->m_model, tag);
+        IdxData* newItem = new IdxData(m_data->m_root->m_model, tag.formattedValue());
         setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
         leafs->push_back(newItem);
@@ -774,7 +774,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             if (photoTagIt != photoTags.end())
             {
                 const TagValue& tagValue = photoTagIt->second;
-                IdxData* node = new IdxData(this, tagValue.get());
+                IdxData* node = new IdxData(this, tagValue.formattedValue());
 
                 auto filter = std::make_shared<Database::FilterPhotosWithTag>();
                 filter->tagName = tagName;
