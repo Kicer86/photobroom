@@ -517,9 +517,7 @@ namespace Database
 
         status = m_executor.exec(tagIdsQuery, &query);
 
-        // store tag names
-        typedef std::map<TagNameInfo, ol::Optional<unsigned int>> TagNameIds;
-
+        // store tags
         if (status)
         {
             // read tag ids from query
