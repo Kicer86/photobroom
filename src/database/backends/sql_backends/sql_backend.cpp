@@ -281,7 +281,7 @@ namespace Database
 
                 std::vector<QString> query_str;
                 InsertQueryData queryData(TAB_TAGS);
-                queryData.setColumns("value", "photo_id", "name_id");
+                queryData.setColumns("value", "photo_id", "name");
                 queryData.setValues(value, photo_id, name_id);
 
                 if (tag_id == -1)
