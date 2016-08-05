@@ -22,50 +22,16 @@
 #include <QObject>
 
 
-const std::map< BaseTagsList, TagNameInfo >& BaseTags::getBaseList()
+std::vector<BaseTagsList> BaseTags::getAll()
 {
-    static std::map<BaseTagsList, TagNameInfo> base_tags(
+    const std::vector<BaseTagsList> tags =
     {
-        { BaseTagsList::Event,  TagNameInfo(BaseTagsList::Event)    },
-        { BaseTagsList::Place,  TagNameInfo(BaseTagsList::Place)    },
-        { BaseTagsList::Date,   TagNameInfo(BaseTagsList::Date)     },
-        { BaseTagsList::Time,   TagNameInfo(BaseTagsList::Time)     },
-        { BaseTagsList::People, TagNameInfo(BaseTagsList::People)   },
-    });
-
-    return base_tags;
-}
-
-
-
-std::vector<TagNameInfo> BaseTags::collectTags()
-{
-    std::vector<TagNameInfo> result;
-
-    const std::map<BaseTagsList, TagNameInfo>& tags = getBaseList();
-    for (const auto & it: tags)
-        result.push_back(it.second);
-
-    return result;
-}
-
-
-TagNameInfo BaseTags::get(const BaseTagsList& item)
-{
-    const std::map<BaseTagsList, TagNameInfo>& tags = getBaseList();
-    auto p = tags.find(item);
-    TagNameInfo result;
-
-    if (p != tags.end())
-        result = p->second;
-
-    return result;
-}
-
-
-const std::vector<TagNameInfo>& BaseTags::getAll()
-{
-    static std::vector<TagNameInfo> tags = collectTags();
+        BaseTagsList::Event,
+        BaseTagsList::Place,
+        BaseTagsList::Date,
+        BaseTagsList::Time,
+        BaseTagsList::People,
+    };
 
     return tags;
 }

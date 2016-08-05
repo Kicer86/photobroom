@@ -33,14 +33,10 @@ class CORE_EXPORT BaseTags
 {
         Q_DECLARE_TR_FUNCTIONS(BaseTags)
 
-        static const std::map<BaseTagsList, TagNameInfo>& getBaseList();
-        static std::vector<TagNameInfo> collectTags();
-
     public:
         BaseTags() = delete;
 
-        static TagNameInfo get(const BaseTagsList &);
-        static const std::vector<TagNameInfo>& getAll();
+        static std::vector<BaseTagsList> getAll();
         static QString getTr(BaseTagsList);
         static QString getName(BaseTagsList);
         static TagType getType(BaseTagsList);

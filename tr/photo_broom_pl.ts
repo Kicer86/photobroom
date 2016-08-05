@@ -4,7 +4,7 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+100"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+66"/>
         <source>People</source>
         <translation>Osoby</translation>
     </message>

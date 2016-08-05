@@ -159,8 +159,8 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 
     //default hierarchy
     const Hierarchy hierarchy = {
-                                  { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending },
-                                  { BaseTags::get(BaseTagsList::Time), Hierarchy::Level::Order::ascending }
+                                  { TagNameInfo(BaseTagsList::Date), Hierarchy::Level::Order::ascending },
+                                  { TagNameInfo(BaseTagsList::Time), Hierarchy::Level::Order::ascending }
                                 };
 
     setHierarchy(hierarchy);

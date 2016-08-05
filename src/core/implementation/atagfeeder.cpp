@@ -74,7 +74,7 @@ void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
         QString date = time_splitted[0];
         const QString time = time_splitted[1];
 
-        tagData[BaseTags::get(BaseTagsList::Date)] = TagValue(QDate::fromString(date, "yyyy:MM:dd"));
-        tagData[BaseTags::get(BaseTagsList::Time)] = TagValue(QTime::fromString(time, "hh:mm:ss"));
+        tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(QDate::fromString(date, "yyyy:MM:dd"));
+        tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(QTime::fromString(time, "hh:mm:ss"));
     }
 }
