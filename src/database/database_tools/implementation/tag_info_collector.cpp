@@ -78,9 +78,7 @@ void TagInfoCollector::unregisterChangeObserver(int id)
 
 void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<TagValue>& values)
 {
-    std::set<TagValue> tagValues;
-
-    std::copy(values.begin(), values.end(), std::inserter(tagValues, tagValues.end()));
+    std::set<TagValue> tagValues(values.begin(), values.end());
 
     assert(values.size() == tagValues.size());
 
