@@ -37,7 +37,6 @@ namespace
     struct IThreadVisitor;
     struct InitTask;
     struct InsertPhotosTask;
-    struct InsertTagTask;
     struct UpdateTask;
     struct GetAllPhotosTask;
     struct GetPhotoTask;
@@ -69,7 +68,6 @@ namespace
         virtual void visit(InitTask *) = 0;
         virtual void visit(InsertPhotosTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
-        virtual void visit(InsertTagTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
@@ -134,24 +132,6 @@ namespace
 
         std::unique_ptr<Database::AStorePhotoTask> m_task;
         IPhotoInfo::Ptr m_photoInfo;
-    };
-
-
-    struct InsertTagTask: ThreadBaseTask
-    {
-        InsertTagTask(std::unique_ptr<Database::AStoreTagTask>&& task, const TagNameInfo& tagInfo):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_tagInfo(tagInfo)
-        {
-        }
-
-        virtual ~InsertTagTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AStoreTagTask> m_task;
-        TagNameInfo m_tagInfo;
     };
 
 
@@ -372,12 +352,6 @@ namespace
             task->m_task->got(status);
 
             emit photoModified(task->m_photoInfo);
-        }
-
-        virtual void visit(InsertTagTask* task) override
-        {
-            const bool status = m_backend->update(task->m_tagInfo);
-            task->m_task->got(status);
         }
 
         virtual void visit(GetAllPhotosTask* task) override
@@ -622,27 +596,13 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<AStoreTagTask>&& db_task, const TagNameInfo& tagNameInfo)
-    {
-        InsertTagTask* task = new InsertTagTask(std::move(db_task), tagNameInfo);
-        m_impl->addTask(task);
-    }
-
-
     void DatabaseThread::store(const std::set<QString>& paths, const std::function<void(bool)>& callback)
     {
         InsertPhotosTask* task = new InsertPhotosTask(paths, callback);
         m_impl->addTask(task);
     }
 
-
-    void DatabaseThread::exec(std::unique_ptr<Database::AListTagsTask>&& db_task)
-    {
-        ListTagsTask* task = new ListTagsTask(std::move(db_task));
-        m_impl->addTask(task);
-    }
-
-
+    
     void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);

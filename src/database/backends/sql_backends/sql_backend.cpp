@@ -204,13 +204,11 @@ namespace Database
             Data(const Data &) = delete;
             Data& operator=(const Data &) = delete;
 
-            ol::Optional<unsigned int> store(const TagNameInfo& nameInfo) const;
-            bool                       store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
+            bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
             bool insert(Photo::Data &) const;
             bool update(const Photo::Data &) const;
 
-            std::deque<TagNameInfo> listTags() const;
             std::deque<TagValue>    listTagValues(const TagNameInfo& tagName) const;
             std::deque<TagValue>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) const;
 
@@ -222,16 +220,11 @@ namespace Database
             int                   getPhotosCount(const std::deque<IFilter::Ptr> &) const;
 
         private:
-            ol::Optional<unsigned int> findTagByName(const QString& name) const;
-
             bool storeData(const Photo::Data &) const;
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
-
-            template<typename T>
-            std::map<TagNameInfo, ol::Optional<unsigned int>> storeTagNames(T first, T last) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
@@ -258,33 +251,6 @@ namespace Database
     ASqlBackend::Data::~Data()
     {
 
-    }
-
-
-    ol::Optional<unsigned int> ASqlBackend::Data::store(const TagNameInfo& nameInfo) const
-    {
-        const QString& name = nameInfo.getName();
-        const int type = static_cast<int>( nameInfo.getType() );
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        //check if tag exists
-        ol::Optional<unsigned int> tagId = findTagByName(name);
-
-        if (! tagId)  //tag not yet in database
-        {
-            const QString queryStr = QString("INSERT INTO %1 (id, name, type) VALUES (NULL, '%2', '%3');")
-                                     .arg(TAB_TAG_NAMES)
-                                     .arg(name)
-                                     .arg(type);
-
-            const bool status = m_executor.exec(queryStr, &query);
-
-            if (status)
-                tagId = query.lastInsertId().toUInt();
-        }
-
-        return tagId;
     }
 
 
@@ -315,7 +281,7 @@ namespace Database
 
                 std::vector<QString> query_str;
                 InsertQueryData queryData(TAB_TAGS);
-                queryData.setColumns("value", "photo_id", "name_id");
+                queryData.setColumns("value", "photo_id", "name");
                 queryData.setValues(value, photo_id, name_id);
 
                 if (tag_id == -1)
@@ -337,51 +303,24 @@ namespace Database
     }
 
 
-    std::deque<TagNameInfo> ASqlBackend::Data::listTags() const
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        const QString query_str("SELECT name, type FROM " TAB_TAG_NAMES ";");
-
-        const bool status = m_executor.exec(query_str, &query);
-        std::deque<TagNameInfo> result;
-
-        while (status && query.next())
-        {
-            const QString name = query.value(0).toString();
-            const int typeRaw = query.value(1).toInt();
-            const TagType type = static_cast<TagType>(typeRaw);
-            const TagNameInfo tagName(name, type);
-
-            result.push_back(tagName);
-        }
-
-        return result;
-    }
-
-
     std::deque<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName) const
     {
-        const ol::Optional<unsigned int> tagId = findTagByName(tagName);
+        const int tagId = tagName.getTag();
 
         std::deque<TagValue> result;
 
-        if (tagId)
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+        const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name=\"%1\";").arg(tagId);
+
+        const bool status = m_executor.exec(query_str, &query);
+
+        while (status && query.next())
         {
-            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-            QSqlQuery query(db);
-            const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name_id=\"%1\";")
-                                      .arg(*tagId);
+            const QString raw_value = query.value(0).toString();
+            const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
 
-            const bool status = m_executor.exec(query_str, &query);
-
-            while (status && query.next())
-            {
-                const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
-
-                result.push_back(value);
-            }
+            result.push_back(value);
         }
 
         return result;
@@ -393,12 +332,11 @@ namespace Database
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
         //from filtered photos, get info about tags used there
-        QString queryStr = "SELECT DISTINCT %2.value FROM ( %1 ) AS distinct_select JOIN (%2, %3) ON (photos_id=%2.photo_id AND %3.id=%2.name_id) WHERE name='%4'";
+        QString queryStr = "SELECT DISTINCT %2.value FROM (%1) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%3'";
 
         queryStr = queryStr.arg(filterQuery);
         queryStr = queryStr.arg(TAB_TAGS);
-        queryStr = queryStr.arg(TAB_TAG_NAMES);
-        queryStr = queryStr.arg(tagName.getName());
+        queryStr = queryStr.arg(tagName.getTag());
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -518,22 +456,6 @@ namespace Database
     }
 
 
-    ol::Optional<unsigned int> ASqlBackend::Data::findTagByName(const QString& name) const
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        const QString find_tag_query = QString("SELECT id FROM " TAB_TAG_NAMES " WHERE name =\"%1\";").arg(name);
-        const bool status = m_executor.exec(find_tag_query, &query);
-
-        ol::Optional<unsigned int> result;
-
-        if (status && query.next())
-            result = query.value(0).toInt();
-
-        return result;
-    }
-
-
     bool ASqlBackend::Data::storeData(const Photo::Data& data) const
     {
         assert(data.id);
@@ -598,10 +520,6 @@ namespace Database
         // store tag names
         typedef std::map<TagNameInfo, ol::Optional<unsigned int>> TagNameIds;
 
-        TagNameIds tagNameIds =
-            storeTagNames( key_map_iterator<Tag::TagsList>(tagsList.begin()),
-                           key_map_iterator<Tag::TagsList>(tagsList.end()) );
-
         if (status)
         {
             // read tag ids from query
@@ -644,19 +562,11 @@ namespace Database
 
             for (auto it = tagsFlatList.begin(); status && it != tagsFlatList.end(); ++it, counter++)
             {
-                //store tag name
-                const ol::Optional<unsigned int>& name_id = tagNameIds[it->first];
+                const TagValue& value = it->second;
+                const int name = it->first.getTag();
+                const int tag_id = counter < currentIds.size()? currentIds[counter]: -1;  // try to override ids of tags already stored
 
-                if (name_id)
-                {
-                    const TagValue& value = it->second;
-                    const int nameid = *name_id;
-                    const int tag_id = counter < currentIds.size()? currentIds[counter]: -1;  // try to override ids of tags already stored
-
-                    status = store(value, photo_id, nameid, tag_id);
-                }
-                else
-                    status = false;
+                status = store(value, photo_id, name, tag_id);
             }
 
         }
@@ -778,22 +688,6 @@ namespace Database
         return photoData;
     }
 
-    template<typename T>
-    std::map<TagNameInfo, ol::Optional<unsigned int>> ASqlBackend::Data::storeTagNames(T first, T last) const
-    {
-        std::map<TagNameInfo, ol::Optional<unsigned int>> result;
-
-        for(; first != last; ++first)
-        {
-            const TagNameInfo& nameInfo = *first;
-            ol::Optional<unsigned int> local_result = store(nameInfo);
-
-            result[nameInfo] = local_result;
-        }
-
-        return result;
-    }
-
 
     Tag::TagsList ASqlBackend::Data::getTagsFor(const Photo::Id& photoId) const
     {
@@ -801,15 +695,11 @@ namespace Database
         QSqlQuery query(db);
 
         const QString queryStr = QString("SELECT "
-                                         "%1.id, %2.name, %1.value, %2.type "
+                                         "%1.id, %1.name, %1.value "
                                          "FROM "
                                          "%1 "
-                                         "JOIN "
-                                         "%2 "
-                                         "ON %2.id = %1.name_id "
-                                         "WHERE %1.photo_id = '%3';")
+                                         "WHERE %1.photo_id = '%2'")
                                  .arg(TAB_TAGS)
-                                 .arg(TAB_TAG_NAMES)
                                  .arg(photoId.value());
 
         const bool status = m_executor.exec(queryStr, &query);
@@ -817,11 +707,10 @@ namespace Database
 
         while(status && query.next())
         {
-            const QString name  = query.value(1).toString();
+            const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
             const QVariant value = query.value(2);
-            const int tagTypeRaw = query.value(3).toInt();
-            const TagType tagType = static_cast<TagType>(tagTypeRaw);
-            const TagNameInfo tagName(name, tagType);
+            const TagNameInfo tagName(tagNameType);
+            const TagType tagType = tagName.getType();
 
             switch(tagType)
             {
@@ -1155,31 +1044,9 @@ namespace Database
     }
 
 
-    bool ASqlBackend::update(const TagNameInfo& tagInfo)
-    {
-        assert(tagInfo.getType() != TagType::Empty);
-
-        bool status = false;
-
-        if (m_data)
-            status = m_data->store(tagInfo);
-        else
-            m_data->m_logger->error("Database object does not exist.");
-
-        return status;
-    }
-
-
     std::deque<TagNameInfo> ASqlBackend::listTags()
     {
-        std::deque<TagNameInfo> result;
-
-        if (m_data)
-            result = m_data->listTags();
-        else
-            m_data->m_logger->error("Database object does not exist.");
-
-        return result;
+        assert(!"Not implemented");
     }
 
 

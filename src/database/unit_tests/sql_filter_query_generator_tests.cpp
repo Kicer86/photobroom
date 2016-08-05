@@ -51,15 +51,15 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     std::shared_ptr<Database::FilterPhotosWithTag> filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(filter);
 
-    filter->tagName = TagNameInfo("test_name", TagType::String);
+    filter->tagName = TagNameInfo(BaseTagsList::Date);
     filter->tagValue = QString("test_value");
 
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags, tag_names) "
-              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id) "
-              "WHERE tag_names.name = 'test_name' AND tags.value = 'test_value'", query);
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '3' AND tags.value = 'test_value'", query);
 }
 
 
@@ -72,7 +72,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     filters.push_back(filter);
 
     std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>();
-    sub_filter1->tagName = TagNameInfo("test_name", TagType::String);
+    sub_filter1->tagName = TagNameInfo(BaseTagsList::Time);
     filter->filter = sub_filter1;
 
     const QString query = generator.generate(filters);
@@ -80,8 +80,8 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos.id NOT IN "
               "(SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags, tag_names) ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id) "
-              "WHERE tag_names.name = 'test_name')", query);
+              "JOIN (tags) ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4')", query);
 }
 
 
@@ -132,7 +132,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     //tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag_filter);
-    tag_filter->tagName = TagNameInfo("test_name", TagType::String);
+    tag_filter->tagName = TagNameInfo(BaseTagsList::People);
     tag_filter->tagValue = QString("test_value");
 
     //flags
@@ -143,9 +143,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags, tag_names, flags, sha256sums) "
-              "ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id AND flags.photo_id = photos.id AND sha256sums.photo_id = photos.id) "
-              "WHERE sha256sums.sha256 = '1234567890' AND tag_names.name = 'test_name' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
+              "JOIN (tags, flags, sha256sums) "
+              "ON (tags.photo_id = photos.id AND flags.photo_id = photos.id AND sha256sums.photo_id = photos.id) "
+              "WHERE sha256sums.sha256 = '1234567890' AND tags.name = '5' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
 }
 
 
@@ -157,23 +157,23 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     // #1 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag1_filter);
-    tag1_filter->tagName = TagNameInfo("test_name", TagType::String);
+    tag1_filter->tagName = TagNameInfo(BaseTagsList::Place);
     tag1_filter->tagValue = QString("test_value");
 
     // #2 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter = std::make_shared<Database::FilterPhotosWithTag>();
     filters.push_back(tag2_filter);
-    tag2_filter->tagName = TagNameInfo("test_name2", TagType::String);
+    tag2_filter->tagName = TagNameInfo(BaseTagsList::Event);
     tag2_filter->tagValue = QString("test_value2");
 
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos_id FROM "
               "( SELECT photos.id AS photos_id FROM photos "
-                "JOIN (tags, tag_names) ON (tags.photo_id = photos.id AND tags.name_id = tag_names.id) "
-                "WHERE tag_names.name = 'test_name' AND tags.value = 'test_value') AS level_1_query "
-              "JOIN (tags, tag_names) ON (tags.photo_id = photos_id AND tags.name_id = tag_names.id) "
-              "WHERE tag_names.name = 'test_name2' AND tags.value = 'test_value2'", query);
+                "JOIN (tags) ON (tags.photo_id = photos.id) "
+                "WHERE tags.name = '2' AND tags.value = 'test_value') AS level_1_query "
+              "JOIN (tags) ON (tags.photo_id = photos_id) "
+              "WHERE tags.name = '1' AND tags.value = 'test_value2'", query);
 }
 
 

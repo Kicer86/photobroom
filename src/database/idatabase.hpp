@@ -65,13 +65,6 @@ namespace Database
         virtual void got(bool) = 0;
     };
 
-    struct DATABASE_EXPORT AStoreTagTask
-    {
-        virtual ~AStoreTagTask() = default;
-
-        virtual void got(bool) = 0;
-    };
-
     struct DATABASE_EXPORT AListTagsTask
     {
         virtual ~AListTagsTask() = default;
@@ -135,11 +128,9 @@ namespace Database
 
         // store data
         [[deprecated]] virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
-        [[deprecated]] virtual void exec(std::unique_ptr<AStoreTagTask> &&, const TagNameInfo &) = 0;
         virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;
 
         // read data
-        [[deprecated]] virtual void exec(std::unique_ptr<AListTagsTask> &&) = 0;                          //list all stored tag names
         [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
         [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosTask> &&) = 0;                                        //list all photos
