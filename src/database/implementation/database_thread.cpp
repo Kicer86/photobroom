@@ -602,14 +602,7 @@ namespace Database
         m_impl->addTask(task);
     }
 
-
-    void DatabaseThread::exec(std::unique_ptr<Database::AListTagsTask>&& db_task)
-    {
-        ListTagsTask* task = new ListTagsTask(std::move(db_task));
-        m_impl->addTask(task);
-    }
-
-
+    
     void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);

@@ -131,7 +131,6 @@ namespace Database
         virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;
 
         // read data
-        [[deprecated]] virtual void exec(std::unique_ptr<AListTagsTask> &&) = 0;                          //list all stored tag names
         [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
         [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosTask> &&) = 0;                                        //list all photos
