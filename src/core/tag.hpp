@@ -16,10 +16,20 @@
 
 #include "core_export.h"
 
+enum BaseTagsList
+{
+    //indexed, as those values will be stored in db and should not change without a reason.
+    Invalid = 0,
+    Event   = 1,
+    Place   = 2,
+    Date    = 3,
+    Time    = 4,
+    People  = 5,
+};
 
 enum class TagType
 {
-    //indexed, as those values will be stored in db.
+    //indexed, as those values will be stored in db and should not change without a reason.
     Empty   = 0,
     String  = 1,
     Date    = 2,
@@ -31,26 +41,22 @@ enum class TagType
 struct CORE_EXPORT TagNameInfo
 {
         TagNameInfo();
-        TagNameInfo(const QString& name, const TagType, const QString& displayName);
-        TagNameInfo(const QString& name, const TagType);
+        TagNameInfo(const BaseTagsList &);
         TagNameInfo(const TagNameInfo& other);
 
-        operator QString() const;
+        //operator QString() const;
         bool operator==(const TagNameInfo& other) const;
         bool operator<(const TagNameInfo& other) const;
         bool operator>(const TagNameInfo& other) const;
         TagNameInfo& operator=(const TagNameInfo& other);
 
-        const QString& getName() const;
-        const QString& getDisplayName() const;
+        QString getName() const;
+        QString getDisplayName() const;
         TagType getType() const;
+        BaseTagsList getTag() const;
 
     private:
-        QString name;
-        QString displayName;
-        TagType type;
-
-        QString dn(const QString &) const;
+        BaseTagsList m_tag;
 };
 
 
@@ -168,8 +174,8 @@ namespace Tag
 
             Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
-            const QString& name() const;
-            const QString& displayName() const;
+            QString name() const;
+            QString displayName() const;
 
             const TagNameInfo& getTypeInfo() const;
             const TagValue& value() const;

@@ -9,40 +9,34 @@
 #include "base_tags.hpp"
 
 
-TagNameInfo::TagNameInfo(): name(), displayName(), type(TagType::Empty)
-{
-
-}
-
-
-TagNameInfo::TagNameInfo(const QString& n, const TagType t, const QString& d): name(n), displayName(d), type(t)
+TagNameInfo::TagNameInfo(): m_tag(BaseTagsList::Invalid)
 {
 
 }
 
 
 
-TagNameInfo::TagNameInfo(const QString& n, const TagType t): name(n), displayName(dn(n)), type(t)
+TagNameInfo::TagNameInfo(const BaseTagsList& tag): m_tag(tag)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const TagNameInfo& other): name(other.name), displayName(other.displayName), type(other.type)
+TagNameInfo::TagNameInfo(const TagNameInfo& other): m_tag(other.m_tag)
 {
 
 }
 
-
+/*
 TagNameInfo::operator QString() const
 {
-    return name;
+    return getName();
 }
-
+*/
 
 bool TagNameInfo::operator==(const TagNameInfo& other) const
 {
-    const bool result = name == other.name;
+    const bool result = getName() == other.getName();
 
     return result;
 }
@@ -50,7 +44,7 @@ bool TagNameInfo::operator==(const TagNameInfo& other) const
 
 bool TagNameInfo::operator<(const TagNameInfo& other) const
 {
-    const bool result = name < other.name;
+    const bool result = getName() < other.getName();
 
     return result;
 }
@@ -58,7 +52,7 @@ bool TagNameInfo::operator<(const TagNameInfo& other) const
 
 bool TagNameInfo::operator>(const TagNameInfo& other) const
 {
-    const bool result = name > other.name;
+    const bool result = getName() > other.getName();
 
     return result;
 }
@@ -66,55 +60,35 @@ bool TagNameInfo::operator>(const TagNameInfo& other) const
 
 TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 {
-    name = other.name;
-    type = other.type;
-    displayName = other.displayName;
+    m_tag = other.m_tag;
 
     return *this;
 }
 
 
-const QString& TagNameInfo::getName() const
+QString TagNameInfo::getName() const
 {
-    return name;
+    return BaseTags::getName(m_tag);
 }
 
 
-const QString& TagNameInfo::getDisplayName() const
+QString TagNameInfo::getDisplayName() const
 {
-    return displayName;
+    return BaseTags::getTr(m_tag);
 }
-
 
 
 TagType TagNameInfo::getType() const
 {
-    return type;
+    return BaseTags::getType(m_tag);
 }
 
 
-QString TagNameInfo::dn(const QString& n) const
+BaseTagsList TagNameInfo::getTag() const
 {
-    // If name is base name, then we have translation.
-    // Otherwise we are working with user defined tag
-
-    const TagNameInfo* baseTag = nullptr;
-    const auto& all = BaseTags::getAll();
-
-    for(const auto& tag: all)
-    {
-        if (n == tag)
-        {
-            baseTag = &tag;
-            break;
-        }
-    }
-
-    //use translation for base. For user's tags use name directly
-    const QString result = baseTag == nullptr? n: baseTag->displayName;
-
-    return result;
+    return m_tag;
 }
+
 
 
 //////////////////////////////////////////////////////////////
@@ -539,12 +513,12 @@ namespace Tag
         return *this;
     }
 
-    const QString& Info::name() const
+    QString Info::name() const
     {
         return m_name.getName();
     }
 
-    const QString& Info::displayName() const
+    QString Info::displayName() const
     {
         return m_name.getDisplayName();
     }

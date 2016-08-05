@@ -32,7 +32,6 @@ namespace Database
         enum Join
         {
             TagsWithPhotos,
-            TagNamesWithTags,
             FlagsWithPhotos,
             Sha256WithPhotos,
         };
@@ -107,15 +106,15 @@ namespace Database
 
         void visit(FilterPhotosWithTag* desciption) override
         {
-            m_filterResult.joins.insert(FilterData::TagNamesWithTags);
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
 
             if (desciption->tagValue.type() != TagType::Empty)
-                m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1' AND " TAB_TAGS ".value = '%2'")
-                                                 .arg(desciption->tagName)
-                                                 .arg(desciption->tagValue.formattedValue()) );
+                m_filterResult.conditions.append(QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value = '%2'")
+                                                 .arg(desciption->tagName.getTag() )
+                                                 .arg(desciption->tagValue.formattedValue())
+                                                );
             else
-                m_filterResult.conditions.append(QString(TAB_TAG_NAMES ".name = '%1'").arg(desciption->tagName));
+                m_filterResult.conditions.append(QString(TAB_TAGS ".name = '%1'").arg(desciption->tagName.getTag()));
         }
 
         void visit(FilterPhotosWithFlags* flags) override
@@ -295,7 +294,6 @@ namespace Database
             switch(item)
             {
                 case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;       break;
-                case FilterData::TagNamesWithTags: joinWith = TAB_TAG_NAMES;  break;      //TAB_TAGS must be already joined
                 case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;      break;
                 case FilterData::Sha256WithPhotos: joinWith = TAB_SHA256SUMS; break;
             }
@@ -316,7 +314,6 @@ namespace Database
             switch(item)
             {
                 case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = " + getPhotoId();   break;
-                case FilterData::TagNamesWithTags: join = TAB_TAGS ".name_id = " TAB_TAG_NAMES ".id"; break;
                 case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = " + getPhotoId();  break;
                 case FilterData::Sha256WithPhotos: join = TAB_SHA256SUMS ".photo_id = " + getPhotoId(); break;
             }

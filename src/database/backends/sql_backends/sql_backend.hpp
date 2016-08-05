@@ -83,7 +83,6 @@ namespace Database
             virtual BackendStatus init(const ProjectInfo &) override final;
             virtual bool addPhoto(Photo::Data &) override final;
             virtual bool update(const Photo::Data &) override final;
-            virtual bool update(const TagNameInfo &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;
             virtual std::deque<TagValue>    listTagValues(const TagNameInfo&) override final;

@@ -17,26 +17,17 @@
  *
  */
 
-#ifndef BASETAGS_H
-#define BASETAGS_H
+#ifndef BASETAGS_HPP
+#define BASETAGS_HPP
 
 #include <map>
 #include <vector>
 
 #include <QCoreApplication>
 
+#include "core_export.h"
 #include "tag.hpp"
 
-#include "core_export.h"
-
-enum class BaseTagsList
-{
-    Event,
-    Place,
-    Date,
-    Time,
-    People,
-};
 
 class CORE_EXPORT BaseTags
 {
@@ -50,6 +41,9 @@ class CORE_EXPORT BaseTags
 
         static TagNameInfo get(const BaseTagsList &);
         static const std::vector<TagNameInfo>& getAll();
+        static QString getTr(BaseTagsList);
+        static QString getName(BaseTagsList);
+        static TagType getType(BaseTagsList);
 };
 
-#endif // BASETAGS_H
+#endif // BASETAGS_HPP

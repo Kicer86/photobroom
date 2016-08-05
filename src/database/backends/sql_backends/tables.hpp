@@ -4,7 +4,6 @@
 
 #include <map>
 
-#define TAB_TAG_NAMES  "tag_names"
 #define TAB_VER        "version"
 #define TAB_PHOTOS     "photos"
 #define TAB_TAGS       "tags"

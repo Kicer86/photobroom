@@ -34,18 +34,6 @@
 
 #include "project.hpp"
 
-namespace
-{
-    struct StoreTag: Database::AStoreTagTask
-    {
-        virtual ~StoreTag() {}
-
-        virtual void got(bool status)
-        {
-            assert(status);
-        }
-    };
-}
 
 ProjectManager::ProjectManager(): m_dbBuilder(nullptr)
 {

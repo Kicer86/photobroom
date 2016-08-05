@@ -4,27 +4,27 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+33"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+100"/>
         <source>People</source>
         <translation>Osoby</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-12"/>
         <source>Place</source>
         <translation>Miejsce</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+4"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+4"/>
         <source>Time</source>
         <translation>Godzina</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-12"/>
         <source>Event</source>
         <translation>Wydarzenie</translation>
     </message>

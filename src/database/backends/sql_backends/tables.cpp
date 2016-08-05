@@ -19,6 +19,7 @@ namespace Database
                              }
         );
 
+
         TableDefinition
         table_photos(TAB_PHOTOS,
                      {
@@ -33,32 +34,20 @@ namespace Database
 
 
         TableDefinition
-        table_tag_names(TAB_TAG_NAMES,
-                        {
-                            { "id", "", ColDefinition::Purpose::ID },
-                            { "name", QString("VARCHAR(%1) NOT NULL").arg(ConfigConsts::Constraints::database_tag_name_len) },
-                            { "type", "INT NOT NULL" }
-                        },
-                        {
-                            { "tn_name", "UNIQUE INDEX", "(name)" }    //.arg(Consts::Constraints::database_tag_name_len)} required by MySQL
-                        }
-        );
-
-        TableDefinition
         table_tags(TAB_TAGS,
                    {
                        { "id", "", ColDefinition::Purpose::ID },
                        { "value", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
-                       { "name_id", "INTEGER NOT NULL"     },
+                       { "name", "INTEGER NOT NULL"     },
                        { "photo_id", "INTEGER NOT NULL"    },
                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""   },
-                       { "FOREIGN KEY(name_id) REFERENCES " TAB_TAG_NAMES "(id)", "" }
                    },
                    {
                        { "tg_id", "UNIQUE INDEX", "(id)" },
                        { "tg_photo_id", "INDEX", "(photo_id)" }
                    }
         );
+
 
         TableDefinition
         table_thumbnails(TAB_THUMBS,
@@ -88,6 +77,7 @@ namespace Database
                          }
         );
 
+
         TableDefinition
         table_geometry(TAB_GEOMETRY,
                        {
@@ -102,6 +92,7 @@ namespace Database
                            { "g_photo_id", "UNIQUE INDEX", "(photo_id)" },
                        }
         );
+
 
         //set of flags used internally
         TableDefinition
@@ -127,7 +118,6 @@ namespace Database
         {
             { TAB_VER,        table_versionHistory },
             { TAB_PHOTOS,     table_photos },
-            { TAB_TAG_NAMES,  table_tag_names },
             { TAB_TAGS,       table_tags },
             { TAB_THUMBS,     table_thumbnails },
             { TAB_SHA256SUMS, table_sha256sums },
