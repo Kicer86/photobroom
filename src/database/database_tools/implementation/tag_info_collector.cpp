@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include <core/base_tags.hpp>
 #include "idatabase.hpp"
 
 
@@ -75,19 +76,11 @@ void TagInfoCollector::unregisterChangeObserver(int id)
 }
 
 
-void TagInfoCollector::gotTagNames(const std::deque<TagNameInfo>& names)
-{
-    for( const auto& name: names)
-        updateValuesFor(name);
-}
-
-
 void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<TagValue>& values)
 {
     std::set<TagValue> tagValues;
 
-    for(const TagValue& v: values)
-        tagValues.insert(v);
+    std::copy(values.begin(), values.end(), std::inserter(tagValues, tagValues.end()));
 
     assert(values.size() == tagValues.size());
 
@@ -110,9 +103,10 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
 void TagInfoCollector::updateAllTags()
 {
-    using namespace std::placeholders;
-    auto result = std::bind(&TagInfoCollector::gotTagNames, this, _1);
-    m_database->listTagNames(result);
+    auto tagNames = BaseTags::getAll();
+
+    for(const TagNameInfo& tagName: tagNames)
+        updateValuesFor(tagName);
 }
 
 
