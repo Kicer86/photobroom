@@ -298,9 +298,12 @@ void MainWindow::setupView()
     ui->tagEditor->set( selectionModel );
     ui->tagEditor->set( m_imagesModel );
 
-    //connect to docks
+    // connect to docks
     connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+
+    // connect to tabs
+    connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
 }
 
 
@@ -599,4 +602,32 @@ void MainWindow::markNewPhotosAsReviewed()
     const std::deque<Database::IAction::Ptr> actions( {action} );
 
     m_currentPrj->getDatabase()->perform(filters, actions);
+}
+
+
+void MainWindow::viewChanged(int current)
+{
+    QItemSelectionModel* selectionModel = nullptr;
+    DBDataModel* dataModel = nullptr;
+    //setup tags editor
+
+    switch(current)
+    {
+        case 0:
+            selectionModel = ui->imagesView->viewSelectionModel();
+            dataModel = m_imagesModel;
+            break;
+
+        case 1:
+            selectionModel = ui->newImagesView->viewSelectionModel();
+            dataModel = m_newImagesModel;
+            break;
+
+        default:
+            assert(!"Unexpected tab index");
+            break;
+    }
+
+    ui->tagEditor->set( selectionModel );
+    ui->tagEditor->set( dataModel );
 }
