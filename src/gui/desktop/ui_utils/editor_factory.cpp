@@ -230,59 +230,65 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 {
     QWidget* result = nullptr;
 
-    switch(info.getType())
-    {
-        case TagType::String:
-            result = make_editor<QLineEdit>(m_completerFactory, info, parent);
-            break;
+    if (info.isMultiValue())
+        result = make_editor<ListEditor>(m_completerFactory, info, parent);
+    else
+        switch(info.getType())
+        {
+            case TagType::String:
+                result = make_editor<QLineEdit>(m_completerFactory, info, parent);
+                break;
 
-        case TagType::Date:
-            result = new QDateEdit(parent);
-            break;
+            case TagType::Date:
+                result = new QDateEdit(parent);
+                break;
 
-        case TagType::Time:
-            result = new TimeEditor(parent);
-            break;
+            case TagType::Time:
+                result = new TimeEditor(parent);
+                break;
 
-        case TagType::List:
-            result = make_editor<ListEditor>(m_completerFactory, info, parent);
-            break;
+            case TagType::List:
+                result = make_editor<ListEditor>(m_completerFactory, info, parent);
+                break;
 
-        case TagType::Empty:
-            assert(!"Unknown type");
-            break;
-    }
+            case TagType::Empty:
+                assert(!"Unknown type");
+                break;
+        }
 
     return result;
 }
 
 
-QByteArray EditorFactory::valuePropertyName(const TagType& type) const
+QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
 {
     QByteArray result;
 
-    switch(type)
-    {
-        case TagType::String:
-            result = "text";
-            break;
+    if (info.isMultiValue())
+        result = "value";
+    else
+        switch(info.getType())
+        {
+            case TagType::String:
+                result = "text";
+                break;
 
-        case TagType::Date:
-            result = "date";
-            break;
+            case TagType::Date:
+                result = "date";
+                break;
 
-        case TagType::Time:
-            result = "time";
-            break;
+            case TagType::Time:
+                result = "time";
+                break;
 
-        case TagType::List:
-            result = "value";
-            break;
+            case TagType::List:
+                result = "value";
+                break;
 
-        case TagType::Empty:
-            assert(!"Unknown type");
-            break;
-    }
+            case TagType::Empty:
+                assert(!"Unknown type");
+                break;
+        }
 
     return result;
 }

@@ -54,6 +54,7 @@ struct CORE_EXPORT TagNameInfo
         QString getDisplayName() const;
         TagType getType() const;
         BaseTagsList getTag() const;
+        bool isMultiValue() const;
 
     private:
         BaseTagsList m_tag;
@@ -63,6 +64,16 @@ struct CORE_EXPORT TagNameInfo
 class CORE_EXPORT TagValue
 {
     public:
+        enum class Type
+        {
+            //indexed, as those values will be stored in db and should not change without a reason.
+            Empty   = 0,
+            String  = 1,
+            Date    = 2,
+            Time    = 3,
+            List    = 4,
+        };
+
         TagValue();
         TagValue(const TagValue &);
         TagValue(TagValue &&);
@@ -96,7 +107,7 @@ class CORE_EXPORT TagValue
         QString& getString();
         QTime& getTime();
 
-        TagType type() const;
+        Type type() const;
         QString formattedValue() const;
 
         bool operator==(const TagValue &) const;
@@ -104,7 +115,7 @@ class CORE_EXPORT TagValue
         bool operator<(const TagValue &) const;
 
     private:
-        TagType m_type;
+        Type m_type;
         boost::any m_value;
 
         template<typename T>
@@ -134,29 +145,29 @@ class CORE_EXPORT TagValue
         TagValue& fromString(const QString &, const TagType &);
 };
 
-template<TagType T>
+template<TagValue::Type T>
 struct TagValueTraits {};
 
 template<>
-struct TagValueTraits<TagType::Date>
+struct TagValueTraits<TagValue::Type::Date>
 {
     typedef QDate StorageType;
 };
 
 template<>
-struct TagValueTraits<TagType::List>
+struct TagValueTraits<TagValue::Type::List>
 {
     typedef std::deque<TagValue> StorageType;
 };
 
 template<>
-struct TagValueTraits<TagType::String>
+struct TagValueTraits<TagValue::Type::String>
 {
     typedef QString StorageType;
 };
 
 template<>
-struct TagValueTraits<TagType::Time>
+struct TagValueTraits<TagValue::Type::Time>
 {
     typedef QTime StorageType;
 };

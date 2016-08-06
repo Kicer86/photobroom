@@ -132,7 +132,7 @@ TagType BaseTags::getType(BaseTagsList tag)
             break;
 
         case BaseTagsList::People:
-            result = TagType::List;
+            result = TagType::String;
             break;
     }
 

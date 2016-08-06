@@ -108,7 +108,7 @@ namespace Database
         {
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
 
-            if (desciption->tagValue.type() != TagType::Empty)
+            if (desciption->tagValue.type() != TagValue::Type::Empty)
                 m_filterResult.conditions.append(QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value = '%2'")
                                                  .arg(desciption->tagName.getTag() )
                                                  .arg(desciption->tagValue.formattedValue())
