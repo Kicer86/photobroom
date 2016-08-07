@@ -27,7 +27,7 @@ namespace Database
 
     }
 
-    
+
     IFilterVisitor::~IFilterVisitor()
     {
 
@@ -40,7 +40,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithTag::FilterPhotosWithTag(): tagName(), tagValue()
+    FilterPhotosWithTag::FilterPhotosWithTag(const TagNameInfo& name, const TagValue& value): tagName(name), tagValue(value)
     {
 
     }

@@ -39,7 +39,7 @@ class CORE_EXPORT BaseTags
         static std::vector<BaseTagsList> getAll();
         static QString getTr(BaseTagsList);
         static QString getName(BaseTagsList);
-        static TagType getType(BaseTagsList);
+        static TagNameInfo::Type getType(BaseTagsList);
 };
 
 #endif // BASETAGS_HPP

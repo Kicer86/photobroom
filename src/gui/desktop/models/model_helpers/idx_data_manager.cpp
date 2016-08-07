@@ -427,8 +427,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
 
     //add anti-filter for last node
     auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>();
-    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
-    tag_filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
+    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName);
 
     node_filter->filter = tag_filter;
     filter.push_back(node_filter);
@@ -564,9 +563,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
 
     for(const TagValue& tag: tags)
     {
-        auto filter = std::make_shared<Database::FilterPhotosWithTag>();
-        filter->tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
-        filter->tagValue = tag;
+        auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
 
         IdxData* newItem = new IdxData(m_data->m_root->m_model, tag.formattedValue());
         setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
@@ -776,9 +773,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
                 const TagValue& tagValue = photoTagIt->second;
                 IdxData* node = new IdxData(this, tagValue.formattedValue());
 
-                auto filter = std::make_shared<Database::FilterPhotosWithTag>();
-                filter->tagName = tagName;
-                filter->tagValue = tagValue;
+                auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName, tagValue);
 
                 setupNewNode(node, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
                 performAdd(_parent, node);
@@ -975,9 +970,7 @@ IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
     const size_t level = _parent->m_level;
     const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
-    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>();
-    filterTag->tagName = tagName;
-
+    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName);
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
     filter->filter = filterTag;
 

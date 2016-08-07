@@ -130,23 +130,23 @@ namespace Database
 
         std::deque<TagValue> flatten(const TagValue& tagValue)
         {
-            const TagType type = tagValue.type();
+            const TagValue::Type type = tagValue.type();
 
             std::deque<TagValue> result;
 
             switch (type)
             {
-                case TagType::Empty:
+                case TagValue::Type::Empty:
                     assert(!"empty tag value!");
                     break;
 
-                case TagType::Date:
-                case TagType::String:
-                case TagType::Time:
+                case TagValue::Type::Date:
+                case TagValue::Type::String:
+                case TagValue::Type::Time:
                     result.push_back(tagValue);
                     break;
 
-                case TagType::List:
+                case TagValue::Type::List:
                 {
                     auto list = tagValue.getList();
 
@@ -258,21 +258,21 @@ namespace Database
     {
         //store tag values
         bool status = true;
-        const TagType type = tagValue.type();
+        const TagValue::Type type = tagValue.type();
 
         switch (type)
         {
-            case TagType::Empty:
+            case TagValue::Type::Empty:
                 assert(!"Empty tag value!");
                 break;
 
-            case TagType::List:
+            case TagValue::Type::List:
                 assert(!"TagValue should be flat");
                 break;
 
-            case TagType::Date:
-            case TagType::String:
-            case TagType::Time:
+            case TagValue::Type::Date:
+            case TagValue::Type::String:
+            case TagValue::Type::Time:
             {
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
@@ -708,39 +708,41 @@ namespace Database
             const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
             const QVariant value = query.value(2);
             const TagNameInfo tagName(tagNameType);
-            const TagType tagType = tagName.getType();
+            const TagNameInfo::Type tagType = tagName.getType();
 
+            TagValue tagValue;
+            
             switch(tagType)
             {
-                case TagType::Date:
-                    tagData[tagName] = TagValue(value.toDate());
+                case TagNameInfo::Type::Date:
+                    tagValue = TagValue(value.toDate());
                     break;
 
-                case TagType::List:
-                {
-                    // insert() will add empty List if there is no entry for given key.
-                    // otherwise will do nothing.
-                    auto insert_it = tagData.insert( std::make_pair(tagName, TagValueTraits<TagType::List>::StorageType()) );
-                    auto it = insert_it.first;   // get regular map iterator
-                    TagValue& tagValue = it->second;
-                    TagValueTraits<TagType::List>::StorageType& values = tagValue.getList();
-
-                    values.push_back( TagValue(value.toString()) );
-                    break;
-                }
-
-                case TagType::Time:
-                    tagData[tagName] = TagValue(value.toTime());
+                case TagNameInfo::Type::Time:
+                    tagValue = TagValue(value.toTime());
                     break;
 
-                case TagType::String:
-                    tagData[tagName] = TagValue(value.toString());
-                    break;
-
-                case TagType::Empty:
-                    assert(!"invalid tag type");
+                case TagNameInfo::Type::String:
+                    tagValue = TagValue(value.toString());
                     break;
             }
+
+            const bool multivalue = tagName.isMultiValue();
+
+            if (multivalue)   // accumulate vs override
+            {
+                // insert() will add empty List if there is no entry for given key.
+                // otherwise will do nothing.
+                auto insert_it = tagData.insert( std::make_pair(tagName, TagValueTraits<TagValue::Type::List>::StorageType()) );
+                auto it = insert_it.first;   // get regular map iterator
+                TagValue& listTagValue = it->second;
+                TagValueTraits<TagValue::Type::List>::StorageType& values = listTagValue.getList();
+
+                values.push_back(tagValue);
+            }
+            else
+                tagData[tagName] = tagValue;
+
         }
 
         return tagData;
