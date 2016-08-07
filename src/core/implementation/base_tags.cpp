@@ -44,6 +44,7 @@ QString BaseTags::getTr(BaseTagsList tag)
     switch (tag)
     {
         case BaseTagsList::Invalid:
+            assert(!"Invalid tag type");
             break;
 
         case BaseTagsList::Event:
@@ -79,8 +80,9 @@ QString BaseTags::getName(BaseTagsList tag)
     switch (tag)
     {
         case BaseTagsList::Invalid:
+            assert(!"Invalid tag type");
             break;
-
+            
         case BaseTagsList::Event:
             result = "Event";
             break;
@@ -106,33 +108,28 @@ QString BaseTags::getName(BaseTagsList tag)
 }
 
 
-TagType BaseTags::getType(BaseTagsList tag)
+TagNameInfo::Type BaseTags::getType(BaseTagsList tag)
 {
-    TagType result = TagType::Empty;
+    TagNameInfo::Type result = TagNameInfo::Type::String;
 
     switch (tag)
     {
         case BaseTagsList::Invalid:
+            assert(!"Invalid tag type");
             break;
 
         case BaseTagsList::Event:
-            result = TagType::String;
-            break;
-
+        case BaseTagsList::People:
         case BaseTagsList::Place:
-            result = TagType::String;
+            result = TagNameInfo::Type::String;
             break;
 
         case BaseTagsList::Date:
-            result = TagType::Date;
+            result = TagNameInfo::Type::Date;
             break;
 
         case BaseTagsList::Time:
-            result = TagType::Time;
-            break;
-
-        case BaseTagsList::People:
-            result = TagType::String;
+            result = TagNameInfo::Type::Time;
             break;
     }
 

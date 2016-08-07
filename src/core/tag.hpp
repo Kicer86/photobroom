@@ -27,19 +27,17 @@ enum BaseTagsList
     People  = 5,
 };
 
-enum class TagType
-{
-    //indexed, as those values will be stored in db and should not change without a reason.
-    Empty   = 0,
-    String  = 1,
-    Date    = 2,
-    Time    = 3,
-    List    = 4,
-};
-
 
 struct CORE_EXPORT TagNameInfo
 {
+        enum class Type
+        {
+            Invalid,
+            String,
+            Date,
+            Time,
+        };
+
         TagNameInfo();
         TagNameInfo(const BaseTagsList &);
         TagNameInfo(const TagNameInfo& other);
@@ -52,7 +50,7 @@ struct CORE_EXPORT TagNameInfo
 
         QString getName() const;
         QString getDisplayName() const;
-        TagType getType() const;
+        Type getType() const;
         BaseTagsList getTag() const;
         bool isMultiValue() const;
 
@@ -66,12 +64,11 @@ class CORE_EXPORT TagValue
     public:
         enum class Type
         {
-            //indexed, as those values will be stored in db and should not change without a reason.
-            Empty   = 0,
-            String  = 1,
-            Date    = 2,
-            Time    = 3,
-            List    = 4,
+            Empty,
+            String,
+            Date,
+            Time,
+            List,
         };
 
         TagValue();
@@ -83,7 +80,7 @@ class CORE_EXPORT TagValue
         TagValue(const std::deque<TagValue> &);
         TagValue(const QString &);
 
-        static TagValue fromRaw(const QString &, const TagType &);
+        static TagValue fromRaw(const QString &, const TagNameInfo::Type &);
         static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
@@ -142,7 +139,7 @@ class CORE_EXPORT TagValue
         }
 
         QString string() const;
-        TagValue& fromString(const QString &, const TagType &);
+        TagValue& fromString(const QString &, const TagNameInfo::Type &);
 };
 
 template<TagValue::Type T>

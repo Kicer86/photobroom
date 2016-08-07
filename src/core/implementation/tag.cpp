@@ -15,7 +15,6 @@ TagNameInfo::TagNameInfo(): m_tag(BaseTagsList::Invalid)
 }
 
 
-
 TagNameInfo::TagNameInfo(const BaseTagsList& tag): m_tag(tag)
 {
 
@@ -78,7 +77,7 @@ QString TagNameInfo::getDisplayName() const
 }
 
 
-TagType TagNameInfo::getType() const
+TagNameInfo::Type TagNameInfo::getType() const
 {
     return BaseTags::getType(m_tag);
 }
@@ -96,7 +95,6 @@ bool TagNameInfo::isMultiValue() const
 
     switch (m_tag)
     {
-        case BaseTagsList::Invalid:
         case BaseTagsList::Event:
         case BaseTagsList::Place:
         case BaseTagsList::Date:
@@ -161,7 +159,7 @@ TagValue::TagValue(const QString& string): TagValue()
 }
 
 
-TagValue TagValue::fromRaw(const QString& raw, const TagType& type)
+TagValue TagValue::fromRaw(const QString& raw, const TagNameInfo::Type& type)
 {
     return TagValue().fromString(raw, type);
 }
@@ -477,25 +475,20 @@ QString TagValue::string() const
 }
 
 
-TagValue& TagValue::fromString(const QString& value, const TagType& type)
+TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& type)
 {
     switch(type)
     {
-        case TagType::Empty:
-        case TagType::String:
+        case TagNameInfo::Type::String:
             set( value );
             break;
 
-        case TagType::Date:
+        case TagNameInfo::Type::Date:
             set( QDate::fromString(value, "yyyy.MM.dd") );
             break;
 
-        case TagType::Time:
+        case TagNameInfo::Type::Time:
             set( QTime::fromString(value, "HH:mm:ss") );
-            break;
-
-        case TagType::List:
-            set( { value} );
             break;
     }
 

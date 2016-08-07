@@ -4,7 +4,7 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+66"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+67"/>
         <source>People</source>
         <translation>Osoby</translation>
     </message>
@@ -90,7 +90,7 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+973"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+968"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>

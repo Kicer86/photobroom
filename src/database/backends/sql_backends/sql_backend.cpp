@@ -708,31 +708,26 @@ namespace Database
             const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
             const QVariant value = query.value(2);
             const TagNameInfo tagName(tagNameType);
-            const TagType tagType = tagName.getType();
-            const bool multivalue = tagName.isMultiValue();
+            const TagNameInfo::Type tagType = tagName.getType();
 
             TagValue tagValue;
+            
             switch(tagType)
             {
-                case TagType::Date:
+                case TagNameInfo::Type::Date:
                     tagValue = TagValue(value.toDate());
                     break;
 
-                case TagType::List:
-                    break;
-
-                case TagType::Time:
+                case TagNameInfo::Type::Time:
                     tagValue = TagValue(value.toTime());
                     break;
 
-                case TagType::String:
+                case TagNameInfo::Type::String:
                     tagValue = TagValue(value.toString());
                     break;
-
-                case TagType::Empty:
-                    assert(!"invalid tag type");
-                    break;
             }
+
+            const bool multivalue = tagName.isMultiValue();
 
             if (multivalue)   // accumulate vs override
             {

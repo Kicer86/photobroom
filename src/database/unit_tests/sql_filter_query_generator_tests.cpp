@@ -48,11 +48,10 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter = std::make_shared<Database::FilterPhotosWithTag>();
-    filters.push_back(filter);
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Date), QString("test_value"));
 
-    filter->tagName = TagNameInfo(BaseTagsList::Date);
-    filter->tagValue = QString("test_value");
+    filters.push_back(filter);
 
     const QString query = generator.generate(filters);
 
@@ -71,8 +70,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     std::shared_ptr<Database::FilterNotMatchingFilter> filter = std::make_shared<Database::FilterNotMatchingFilter>();
     filters.push_back(filter);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>();
-    sub_filter1->tagName = TagNameInfo(BaseTagsList::Time);
+    std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 =
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Time));
+
     filter->filter = sub_filter1;
 
     const QString query = generator.generate(filters);
@@ -130,10 +130,10 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     sha_filter->sha256 = "1234567890";
 
     //tag
-    std::shared_ptr<Database::FilterPhotosWithTag> tag_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    std::shared_ptr<Database::FilterPhotosWithTag> tag_filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::People), QString("test_value"));
+
     filters.push_back(tag_filter);
-    tag_filter->tagName = TagNameInfo(BaseTagsList::People);
-    tag_filter->tagValue = QString("test_value");
 
     //flags
     std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
@@ -155,16 +155,16 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     std::deque<Database::IFilter::Ptr> filters;
 
     // #1 tag
-    std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Place), QString("test_value"));
+
     filters.push_back(tag1_filter);
-    tag1_filter->tagName = TagNameInfo(BaseTagsList::Place);
-    tag1_filter->tagValue = QString("test_value");
 
     // #2 tag
-    std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter = std::make_shared<Database::FilterPhotosWithTag>();
+    std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Event), QString("test_value2"));
+
     filters.push_back(tag2_filter);
-    tag2_filter->tagName = TagNameInfo(BaseTagsList::Event);
-    tag2_filter->tagValue = QString("test_value2");
 
     const QString query = generator.generate(filters);
 

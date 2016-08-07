@@ -83,10 +83,10 @@ namespace Database
 
         FILTER_COMMAND
 
-        TagNameInfo tagName;
-        TagValue tagValue;
+        const TagNameInfo tagName;
+        const TagValue tagValue;
 
-        FilterPhotosWithTag();
+        FilterPhotosWithTag(const TagNameInfo &, const TagValue & = TagValue());
     };
 
     struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
