@@ -106,7 +106,7 @@ void ListEditor::setCompleter(QCompleter* completer)
 
 void ListEditor::addRow(int p)
 {
-    QLineEdit* editor = new QLineEdit;
+    QLineEdit* editor = new QLineEdit(this);
     editor->setCompleter(m_completer);
     editor->setStyleSheet("border: 1px solid grey;"
                           "border-radius: 7px;");
@@ -150,17 +150,17 @@ QSize ListEditor::minimumSizeHint() const
 void ListEditor::review()
 {
     int r = rowCount();
+
     if (r == 0)
         addRow(0);
-
-    if (r > 0)
+    else
     {
         const QString v1 = value(r - 1);
         if (v1.isEmpty() == false)                   // last row not empty? add new one
             addRow(r);
     }
 
-    for(; r > 1; r--)
+    for(r = rowCount(); r > 1; r--)
     {
         const QString v1 = value(r - 1);
         const QString v2 = value(r - 2);
