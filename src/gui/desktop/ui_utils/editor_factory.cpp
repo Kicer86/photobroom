@@ -123,8 +123,8 @@ void ListEditor::addRow(int p)
 
 QString ListEditor::value(int r) const
 {
-    QWidget* w = cellWidget(r, 0);
-    QLineEdit* l = down_cast<QLineEdit *>(w);
+    const QWidget* w = cellWidget(r, 0);
+    const QLineEdit* l = down_cast<const QLineEdit *>(w);
 
     return l->text();
 }
