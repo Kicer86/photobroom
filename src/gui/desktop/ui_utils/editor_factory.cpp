@@ -108,6 +108,8 @@ void ListEditor::addRow(int p)
 {
     QLineEdit* editor = new QLineEdit;
     editor->setCompleter(m_completer);
+    editor->setStyleSheet("border: 1px solid grey;"
+                          "border-radius: 7px;");
 
     m_editors.insert(editor);
     connect(editor, &QObject::destroyed, this, &ListEditor::editorDestroyed);
