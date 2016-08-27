@@ -47,6 +47,8 @@ namespace
 
 ///////////////////////////////////////////////////////////////////////////////
 
+// TODO: review this code and issue #186
+// when https://bugreports.qt.io/browse/QTBUG-55514 is fixed
 
 ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_editors(), m_completer(nullptr)
 {
@@ -68,7 +70,6 @@ ListEditor::~ListEditor()
     for(QLineEdit* editor: m_editors)
         disconnect(editor, &QObject::destroyed, this, &ListEditor::editorDestroyed);
 }
-
 
 
 QStringList ListEditor::getValues() const
@@ -106,8 +107,10 @@ void ListEditor::setCompleter(QCompleter* completer)
 
 void ListEditor::addRow(int p)
 {
-    QLineEdit* editor = new QLineEdit;
+    QLineEdit* editor = new QLineEdit(this);
     editor->setCompleter(m_completer);
+    editor->setStyleSheet("border: 1px solid grey;"
+                          "border-radius: 7px;");
 
     m_editors.insert(editor);
     connect(editor, &QObject::destroyed, this, &ListEditor::editorDestroyed);
@@ -121,8 +124,8 @@ void ListEditor::addRow(int p)
 
 QString ListEditor::value(int r) const
 {
-    QWidget* w = cellWidget(r, 0);
-    QLineEdit* l = down_cast<QLineEdit *>(w);
+    const QWidget* w = cellWidget(r, 0);
+    const QLineEdit* l = down_cast<const QLineEdit *>(w);
 
     return l->text();
 }
@@ -148,17 +151,17 @@ QSize ListEditor::minimumSizeHint() const
 void ListEditor::review()
 {
     int r = rowCount();
+
     if (r == 0)
         addRow(0);
-
-    if (r > 0)
+    else
     {
         const QString v1 = value(r - 1);
         if (v1.isEmpty() == false)                   // last row not empty? add new one
             addRow(r);
     }
 
-    for(; r > 1; r--)
+    for(r = rowCount(); r > 1; r--)
     {
         const QString v1 = value(r - 1);
         const QString v2 = value(r - 2);
