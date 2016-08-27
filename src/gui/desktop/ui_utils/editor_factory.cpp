@@ -47,8 +47,6 @@ namespace
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// TODO: review this code and issue #186
-// when https://bugreports.qt.io/browse/QTBUG-55514 is fixed
 
 ListEditor::ListEditor(QWidget* parent_widget): QTableWidget(parent_widget), m_editors(), m_completer(nullptr)
 {

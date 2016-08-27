@@ -66,6 +66,7 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
 
 int TagsView::sizeHintForRow(int row) const
 {
+    // TODO: remove .05 when https://bugreports.qt.io/browse/QTBUG-55514 is fixed
     const int default3 = verticalHeader()->defaultSectionSize() * 3.05;
     const int sizeHint = QTableView::sizeHintForRow(row);
 
