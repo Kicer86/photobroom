@@ -66,7 +66,7 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
 
 int TagsView::sizeHintForRow(int row) const
 {
-    const int default3 = verticalHeader()->defaultSectionSize() * 3;
+    const int default3 = verticalHeader()->defaultSectionSize() * 3.05;
     const int sizeHint = QTableView::sizeHintForRow(row);
 
     const int result = std::max(default3, sizeHint);
