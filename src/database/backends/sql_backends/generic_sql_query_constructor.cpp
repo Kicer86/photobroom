@@ -28,6 +28,23 @@
 
 namespace Database
 {
+    QString join(const std::deque<QString>& strs, const QString& spl)
+    {
+        QString result;
+
+        for(auto it = strs.begin(); it != strs.end();)
+        {
+            auto current = it++;
+
+            result += *current;
+
+            if (it != strs.end())
+                result += spl;
+        }
+
+        return result;
+    }
+
 
     GenericSqlQueryConstructor::GenericSqlQueryConstructor()
     {
@@ -45,17 +62,17 @@ namespace Database
     {
         QString result;
 
-        const QStringList& columns = data.getColumns();
+        const std::deque<QString>& columns = data.getColumns();
 
-        QStringList valuePlaceholders = columns;
+        std::deque<QString> valuePlaceholders = columns;
         for(QString& str: valuePlaceholders)
             str.prepend(":");
 
         result = "INSERT INTO %1(%2) VALUES(%3)";
 
         result = result.arg(data.getName());
-        result = result.arg(columns.join(", "));
-        result = result.arg(valuePlaceholders.join(", "));
+        result = result.arg(join(columns, ", "));
+        result = result.arg(join(valuePlaceholders,", "));
 
         return result;
     }
@@ -65,8 +82,8 @@ namespace Database
     {
         QString result;
 
-        const QStringList& columns = data.getColumns();
-        QStringList valuePlaceholders = columns;
+        const std::deque<QString>& columns = data.getColumns();
+        std::deque<QString> valuePlaceholders = columns;
         for(QString& str: valuePlaceholders)
             str.prepend(":");
 
@@ -111,8 +128,8 @@ namespace Database
     QSqlQuery GenericSqlQueryConstructor::insert(const QSqlDatabase& db, const InsertQueryData& data) const
     {
         const QString insertQuery = prepareInsertQuery(data);
-        const QStringList& columns = data.getColumns();
-        const QStringList& values = data.getValues();
+        const std::deque<QString>& columns = data.getColumns();
+        const std::deque<QVariant>& values = data.getValues();
         const std::size_t count = std::min(columns.size(), values.size());
 
         QSqlQuery query(db);
@@ -128,8 +145,8 @@ namespace Database
     QSqlQuery GenericSqlQueryConstructor::update(const QSqlDatabase& db, const UpdateQueryData& data) const
     {
         const QString updateQuery = prepareUpdateQuery(data);
-        const QStringList& columns = data.getColumns();
-        const QStringList& values = data.getValues();
+        const std::deque<QString>& columns = data.getColumns();
+        const std::deque<QVariant>& values = data.getValues();
         const std::size_t count = std::min(columns.size(), values.size());
 
         QSqlQuery query(db);

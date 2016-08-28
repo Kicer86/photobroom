@@ -11,8 +11,8 @@ namespace Database
     struct InsertQueryData::Data
     {
         QString m_table;
-        QStringList m_columns;
-        QStringList m_values;
+        std::deque<QString> m_columns;
+        std::deque<QVariant> m_values;
         int m_args;
 
         Data(): m_table(""), m_columns(), m_values(), m_args(0) {}
@@ -39,7 +39,7 @@ namespace Database
     }
 
 
-    const QStringList& InsertQueryData::getColumns() const
+    const std::deque<QString>& InsertQueryData::getColumns() const
     {
         assert(m_data->m_args == 0);
 
@@ -47,7 +47,7 @@ namespace Database
     }
 
 
-    const QStringList& InsertQueryData::getValues() const
+    const std::deque<QVariant>& InsertQueryData::getValues() const
     {
         assert(m_data->m_args == 0);
 
@@ -71,7 +71,8 @@ namespace Database
 
     void InsertQueryData::addValue(int value)
     {
-        addValue(QString::number(value));
+        m_data->m_args--;
+        m_data->m_values.push_back(value);
     }
 
 
@@ -89,8 +90,7 @@ namespace Database
                 v = "NULL";
                 break;
 
-            default
-                    :
+            default:
                 assert(!"???");
         }
 

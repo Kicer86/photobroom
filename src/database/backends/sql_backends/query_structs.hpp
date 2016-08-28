@@ -6,6 +6,7 @@
 #include <deque>
 
 #include <QString>
+#include <QVariant>
 
 #include <utils/data_ptr.hpp>
 
@@ -45,8 +46,8 @@ namespace Database
             }
 
             const QString& getName() const;
-            const QStringList& getColumns() const;
-            const QStringList& getValues() const;
+            const std::deque<QString>& getColumns() const;
+            const std::deque<QVariant>& getValues() const;
 
         private:
             struct Data;
