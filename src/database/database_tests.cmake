@@ -38,7 +38,16 @@ set(SRC
 
 add_executable(database_tests ${SRC})
 
-target_link_libraries(database_tests PRIVATE core Qt5::Core Qt5::Gui ${GMOCK_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(database_tests
+                        PRIVATE
+                            core
+                            Qt5::Core
+                            Qt5::Gui
+                            Qt5::Sql
+                            ${GMOCK_LIBRARY}
+                            ${CMAKE_THREAD_LIBS_INIT}
+)
+
 enableCodeCoverage(database_tests)
 
 add_test(database database_tests)
