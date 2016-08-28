@@ -5,11 +5,17 @@ find_package(Threads REQUIRED)
 
 include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
-include_directories(backends/sql_backends)
+include_directories(
+    backends/sql_backends
+    ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
+)
+
 
 set(SRC
+        backends/sql_backends/generic_sql_query_generator.cpp
         backends/sql_backends/sql_action_query_generator.cpp
         backends/sql_backends/sql_filter_query_generator.cpp
+        backends/sql_backends/query_structs.cpp
         implementation/action.cpp
         implementation/filter.cpp
         implementation/photo_data.cpp
@@ -17,6 +23,7 @@ set(SRC
         implementation/photo_types.cpp
 
         # sql tests:
+        unit_tests/generic_sql_query_constructor_tests.cpp
         unit_tests/sql_filter_query_generator_tests.cpp
         unit_tests/sql_action_query_generator_tests.cpp
 
