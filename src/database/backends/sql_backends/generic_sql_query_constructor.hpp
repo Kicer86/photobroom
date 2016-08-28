@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef GENERICSQLQUERYCONSTRUCTOR_H
-#define GENERICSQLQUERYCONSTRUCTOR_H
+#ifndef GENERICSQLQUERYCONSTRUCTOR_HPP
+#define GENERICSQLQUERYCONSTRUCTOR_HPP
 
 #include "isql_query_constructor.hpp"
 
@@ -36,14 +36,17 @@ namespace Database
 
             GenericSqlQueryConstructor& operator=(const GenericSqlQueryConstructor &) = delete;
 
+            QString prepareInsertQuery(const InsertQueryData &) const;
+            QString prepareUpdateQuery(const UpdateQueryData &) const;
+
         protected:
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
             virtual QString prepareFindTableQuery(const QString& name) const override;
 
-            virtual std::vector<QString> insert(const InsertQueryData &) const override;
-            virtual std::vector<QString> update(const UpdateQueryData &) const override;
+            virtual QSqlQuery insert(const QSqlDatabase &, const InsertQueryData &) const override;
+            virtual QSqlQuery update(const QSqlDatabase &, const UpdateQueryData &) const override;
     };
 
 }
 
-#endif // GENERICSQLQUERYCONSTRUCTOR_H
+#endif // GENERICSQLQUERYCONSTRUCTOR_HPP

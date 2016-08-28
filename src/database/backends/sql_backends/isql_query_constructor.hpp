@@ -5,9 +5,12 @@
 #include <vector>
 
 #include <QString>
+#include <QSqlQuery>
 
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
+
+class QSqlDatabase;
 
 namespace Database
 {
@@ -35,8 +38,8 @@ namespace Database
         // get type for column's purpose
         virtual QString getTypeFor(ColDefinition::Purpose) const = 0;
 
-        virtual std::vector<QString> insert(const InsertQueryData &) const = 0;             // construct an insert sql query.
-        virtual std::vector<QString> update(const UpdateQueryData &) const = 0;             // construct an update sql query.
+        virtual QSqlQuery insert(const QSqlDatabase &, const InsertQueryData &) const = 0;             // construct an insert sql query.
+        virtual QSqlQuery update(const QSqlDatabase &, const UpdateQueryData &) const = 0;             // construct an update sql query.
     };
 }
 

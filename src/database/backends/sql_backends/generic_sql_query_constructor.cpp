@@ -22,6 +22,7 @@
 #include <assert.h>
 
 #include <QStringList>
+#include <QVariant>
 
 #include "query_structs.hpp"
 
@@ -40,6 +41,61 @@ namespace Database
     }
 
 
+    QString GenericSqlQueryConstructor::prepareInsertQuery(const InsertQueryData& data) const
+    {
+        QString result;
+
+        const QStringList& columns = data.getColumns();
+
+        QStringList valuePlaceholders = columns;
+        for(QString& str: valuePlaceholders)
+            str.prepend(":");
+
+        result = "INSERT INTO %1(%2) VALUES(%3)";
+
+        result = result.arg(data.getName());
+        result = result.arg(columns.join(", "));
+        result = result.arg(valuePlaceholders.join(", "));
+
+        return result;
+    }
+
+
+    QString GenericSqlQueryConstructor::prepareUpdateQuery(const UpdateQueryData& data) const
+    {
+        QString result;
+
+        const QStringList& columns = data.getColumns();
+        QStringList valuePlaceholders = columns;
+        for(QString& str: valuePlaceholders)
+            str.prepend(":");
+
+        const std::pair<QString, QString>& key = data.getCondition();
+
+        result = "UPDATE %1 SET %2 WHERE %3";
+        result = result.arg(data.getName());
+
+        QString assigments;
+        assert(columns.size() == valuePlaceholders.size());
+        const int s = std::min(columns.size(), valuePlaceholders.size());
+
+        for(int i = 0; i < s; i++)
+        {
+            assigments += columns[i] + "=" + valuePlaceholders[i];
+
+            if (i + 1 < s)
+                assigments += ", ";
+        }
+
+        const QString condition(key.first + "=:" + key.first);
+
+        result = result.arg(assigments);
+        result = result.arg(condition);
+
+        return result;
+    }
+
+
     QString GenericSqlQueryConstructor::prepareCreationQuery(const QString& name, const QString& columns) const
     {
         return QString("CREATE TABLE %1(%2);").arg(name).arg(columns);
@@ -52,52 +108,39 @@ namespace Database
     }
 
 
-    std::vector<QString> GenericSqlQueryConstructor::insert(const InsertQueryData& data) const
+    QSqlQuery GenericSqlQueryConstructor::insert(const QSqlDatabase& db, const InsertQueryData& data) const
     {
-        QString result;
-
+        const QString insertQuery = prepareInsertQuery(data);
         const QStringList& columns = data.getColumns();
         const QStringList& values = data.getValues();
+        const std::size_t count = std::min(columns.size(), values.size());
 
-        result = "INSERT INTO %1(%2) VALUES(%3)";
+        QSqlQuery query(db);
+        query.prepare(insertQuery);
 
-        result = result.arg(data.getName());
-        result = result.arg(columns.join(", "));
-        result = result.arg(values.join(", "));
+        for(std::size_t i = 0; i < count; i++)
+            query.bindValue(":" + columns[i], values[i]);
 
-        return { result };
+        return query;
     }
 
 
-    std::vector<QString> GenericSqlQueryConstructor::update(const UpdateQueryData& data) const
+    QSqlQuery GenericSqlQueryConstructor::update(const QSqlDatabase& db, const UpdateQueryData& data) const
     {
-        QString result;
+        const QString updateQuery = prepareUpdateQuery(data);
+        const QStringList& columns = data.getColumns();
+        const QStringList& values = data.getValues();
+        const std::size_t count = std::min(columns.size(), values.size());
 
-        QStringList columns = data.getColumns();
-        QStringList values = data.getValues();
-        const std::pair<QString, QString>& key = data.getCondition();
+        QSqlQuery query(db);
+        query.prepare(updateQuery);
 
-        result = "UPDATE %1 SET %2 WHERE %3";
-        result = result.arg(data.getName());
+        for(std::size_t i = 0; i < count; i++)
+            query.bindValue(":" + columns[i], values[i]);
 
-        QString assigments;
-        assert(columns.size() == values.size());
-        const int s = std::min(columns.size(), values.size());
+        query.bindValue(":" + data.getCondition().first, data.getCondition().second);
 
-        for(int i = 0; i < s; i++)
-        {
-            assigments += columns[i] + "=" + values[i];
-
-            if (i + 1 < s)
-                assigments += ", ";
-        }
-
-        const QString condition(key.first + "=" + key.second);
-
-        result = result.arg(assigments);
-        result = result.arg(condition);
-
-        return { result };
+        return query;
     }
 
 }

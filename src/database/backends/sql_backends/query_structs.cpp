@@ -16,11 +16,6 @@ namespace Database
         int m_args;
 
         Data(): m_table(""), m_columns(), m_values(), m_args(0) {}
-
-        QString quote(const QString& v) const
-        {
-            return QString("\"%1\"").arg(v);
-        }
     };
 
 
@@ -70,7 +65,7 @@ namespace Database
     void InsertQueryData::addValue(const QString& value)
     {
         m_data->m_args--;
-        m_data->m_values.push_back(m_data->quote(value));
+        m_data->m_values.push_back(value);
     }
 
 
