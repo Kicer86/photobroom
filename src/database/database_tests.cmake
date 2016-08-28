@@ -2,8 +2,13 @@
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
+find_package(Qt5Sql REQUIRED)
 
-include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
+include_directories(SYSTEM
+                        ${GMOCK_INCLUDE_DIRS}
+                        ${GTEST_INCLUDE_DIRS}
+                        ${Qt5Sql_INCLUDE_DIRS}
+)
 
 include_directories(
     backends/sql_backends
