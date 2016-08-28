@@ -1,7 +1,7 @@
 
 #include <gtest/gtest.h>
 
-#include "generic_sql_query_generator.hpp"
+#include "generic_sql_query_constructor.hpp"
 
 
 // Database::GenericSqlQueryConstructor is abstract class,
