@@ -14,6 +14,7 @@ namespace Database
         OpenFailed,
         TransactionFailed,                  // Fail at transaction begin.
         TransactionCommitFailed,            // Fail at transaction commit
+        QueryPreparationFailed,
         QueryFailed,
         MigrationFailed,
     };

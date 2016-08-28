@@ -43,6 +43,7 @@ namespace Database
 
             BackendStatus exec(const std::vector<QString>& query, QSqlQuery* result) const override;
             BackendStatus exec(const QString& query, QSqlQuery* result) const override;
+            BackendStatus exec(QSqlQuery& query) const override;
 
         private:
             std::thread::id m_database_thread_id;

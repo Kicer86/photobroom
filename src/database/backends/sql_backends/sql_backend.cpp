@@ -279,21 +279,20 @@ namespace Database
 
                 const QString value = tagValue.formattedValue();
 
-                std::vector<QString> query_str;
                 InsertQueryData queryData(TAB_TAGS);
                 queryData.setColumns("value", "photo_id", "name");
                 queryData.setValues(value, photo_id, name_id);
 
                 if (tag_id == -1)
-                    query_str = m_backend->getGenericQueryGenerator()->insert(queryData);
+                    query = m_backend->getGenericQueryGenerator()->insert(db, queryData);
                 else
                 {
                     UpdateQueryData updateQueryData(queryData);
                     updateQueryData.setCondition("id", QString::number(tag_id));
-                    query_str = m_backend->getGenericQueryGenerator()->update(updateQueryData);
+                    query = m_backend->getGenericQueryGenerator()->update(db, updateQueryData);
                 }
 
-                status = m_executor.exec(query_str, &query);
+                status = m_executor.exec(query);
 
                 break;
             }
@@ -594,7 +593,6 @@ namespace Database
     bool ASqlBackend::Data::insert(Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
 
         Transaction transaction(db);
         bool status = transaction.begin();
@@ -610,10 +608,10 @@ namespace Database
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
-        const std::vector<QString> queryStrs = m_backend->getGenericQueryGenerator()->insert(insertData);
+        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
 
         if (status)
-            status = m_executor.exec(queryStrs, &query);
+            status = m_executor.exec(query);
 
         //update id
         if (status)                                    //Get Id from database after insert
@@ -711,7 +709,7 @@ namespace Database
             const TagNameInfo::Type tagType = tagName.getType();
 
             TagValue tagValue;
-            
+
             switch(tagType)
             {
                 case TagNameInfo::Type::Date:
@@ -872,12 +870,11 @@ namespace Database
 
     bool ASqlBackend::Data::updateOrInsert(const UpdateQueryData& queryInfo) const
     {
-        auto queries = m_backend->getGenericQueryGenerator()->update(queryInfo);
-
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
 
-        bool status = m_executor.exec(queries, &query);
+        QSqlQuery query = m_backend->getGenericQueryGenerator()->update(db, queryInfo);
+
+        bool status = m_executor.exec(query);
 
         if (status)
         {
@@ -885,8 +882,8 @@ namespace Database
 
             if (affected_rows == 0)
             {
-                queries = m_backend->getGenericQueryGenerator()->insert(queryInfo);
-                status = m_executor.exec(queries, &query);
+                query = m_backend->getGenericQueryGenerator()->insert(db, queryInfo);
+                status = m_executor.exec(query);
             }
         }
 

@@ -23,9 +23,11 @@
 #include <cassert>
 #include <thread>
 
+#include <QMap>
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QVariant>
 
 #include <core/ilogger.hpp>
 
@@ -58,7 +60,7 @@ namespace Database
     }
 
 
-    BackendStatus SqlQueryExecutor::exec(const QString& query, QSqlQuery* result) const
+    BackendStatus SqlQueryExecutor::exec(QSqlQuery& query) const
     {
         // threads cannot be used with sql connections:
         // http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
@@ -66,19 +68,42 @@ namespace Database
         assert(std::this_thread::get_id() == m_database_thread_id);
 
         const auto start = std::chrono::steady_clock::now();
-        const BackendStatus status = result->exec(query)? StatusCodes::Ok: StatusCodes::QueryFailed;
+        const BackendStatus status = query.exec()? StatusCodes::Ok: StatusCodes::QueryFailed;
         const auto end = std::chrono::steady_clock::now();
         const auto diff = end - start;
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
-        const QString logMessage = QString("%1 Execution time: %2ms").arg(query).arg(diff_ms);
+        const QString logMessage = QString("%1 Execution time: %2ms").arg(query.lastQuery()).arg(diff_ms);
 
         m_logger->log(ILogger::Severity::Debug, logMessage);
 
         if (status == false)
-            m_logger->log(ILogger::Severity::Error,
-                          "Error: " + result->lastError().text() + " while performing query: " + query);
+        {
+            auto bound = query.boundValues();
+
+            QString message = "Error: " + query.lastError().text() + " while performing query: " + query.lastQuery();
+
+            if (bound.empty() == false)
+            {
+                message += " bound values:";
+                for (auto it = bound.begin(); it != bound.end(); ++it)
+                    message += " " + it.key() + " -> " + it.value().toString();
+            }
+
+            m_logger->log(ILogger::Severity::Error, message);
+        }
 
         assert(status);
+        return status;
+    }
+
+
+    BackendStatus SqlQueryExecutor::exec(const QString& query, QSqlQuery* result) const
+    {
+        BackendStatus status = result->prepare(query)? StatusCodes::Ok: StatusCodes::QueryPreparationFailed;
+
+        if (status)
+            status = exec(*result);
+
         return status;
     }
 
