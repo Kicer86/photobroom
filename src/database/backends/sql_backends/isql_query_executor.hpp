@@ -13,15 +13,16 @@ class QSqlQuery;
 
 namespace Database
 {
-    
+
     struct ISqlQueryExecutor
     {
         virtual ~ISqlQueryExecutor() {}
 
         virtual BackendStatus exec(const QString& query, QSqlQuery* result) const = 0;
         virtual BackendStatus exec(const std::vector<QString>& query, QSqlQuery* result) const = 0;
+        virtual BackendStatus exec(QSqlQuery& query) const = 0;
     };
-    
+
 }
 
 

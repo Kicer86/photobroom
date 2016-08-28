@@ -58,7 +58,7 @@ namespace Database
     }
 
 
-    BackendStatus SqlQueryExecutor::exec(const QString& query, QSqlQuery* result) const
+    BackendStatus SqlQueryExecutor::exec(QSqlQuery& query) const
     {
         // threads cannot be used with sql connections:
         // http://qt-project.org/doc/qt-5/threads-modules.html#threads-and-the-sql-module
@@ -79,6 +79,17 @@ namespace Database
                           "Error: " + result->lastError().text() + " while performing query: " + query);
 
         assert(status);
+        return status;
+    }
+
+
+    BackendStatus SqlQueryExecutor::exec(const QString& query, QSqlQuery* result) const
+    {
+        BackendStatus status = result->prepare(query);
+
+        if (status)
+            status = exec(*result);
+
         return status;
     }
 
