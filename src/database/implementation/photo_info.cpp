@@ -208,9 +208,3 @@ void PhotoInfo::updated(ChangeReason reason)
     for(IObserver* observer: observers.get())
         observer->photoUpdated(this, reason);
 }
-
-
-void PhotoInfo::unlocked()
-{
-    updated(ChangeReason::TagsUpdated);
-}
