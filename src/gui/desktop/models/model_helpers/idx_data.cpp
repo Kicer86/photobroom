@@ -163,7 +163,6 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
     setStatus(NodeStatus::Fetched);
 
     updateLeafData();
-    photo->registerObserver(this);
 
     init();
 }
@@ -172,9 +171,6 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
 IdxData::~IdxData()
 {
     m_model->idxDataDeleted(this);
-
-    if (m_photo.get() != nullptr)
-        m_photo->unregisterObserver(this);
 
     reset();
 }
@@ -250,9 +246,6 @@ void IdxData::reset()
 
     for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
         delete child;
-
-    if (isPhoto())
-        m_photo->unregisterObserver(this);
 
     m_children.clear();
     m_photo.reset();
@@ -363,11 +356,4 @@ void IdxData::updateLeafData()
 void IdxData::init()
 {
     m_model->idxDataCreated(this);
-}
-
-
-void IdxData::photoUpdated(IPhotoInfo *, IPhotoInfo::ChangeReason reason)  //parameter not used as we have only one photo
-{
-    assert(isPhoto());
-    updateLeafData();
 }

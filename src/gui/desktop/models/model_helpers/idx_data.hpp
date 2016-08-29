@@ -32,7 +32,7 @@ class QVariant;
 
 class IdxDataManager;
 
-class IdxData: public IPhotoInfo::IObserver
+class IdxData
 {
     public:
         std::vector<IdxData *> m_children;
@@ -82,9 +82,6 @@ class IdxData: public IPhotoInfo::IObserver
         IdxData(IdxDataManager *);
         void updateLeafData();
         void init();
-
-        //IObserver:
-        void photoUpdated(IPhotoInfo *, IPhotoInfo::ChangeReason) override;
 };
 
 #endif // IDXDATA_HPP
