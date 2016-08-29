@@ -70,7 +70,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        void updated();
+        void updated(ChangeReason);
 
         //INotify:
         void unlocked() override;

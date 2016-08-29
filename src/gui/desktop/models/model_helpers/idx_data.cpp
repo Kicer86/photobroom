@@ -366,7 +366,7 @@ void IdxData::init()
 }
 
 
-void IdxData::photoUpdated(IPhotoInfo *)  //parameter not used as we have only one photo
+void IdxData::photoUpdated(IPhotoInfo *, IPhotoInfo::ChangeReason reason)  //parameter not used as we have only one photo
 {
     assert(isPhoto());
     updateLeafData();

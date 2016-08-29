@@ -139,7 +139,7 @@ void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
     m_data->m_data.lock()->sha256Sum = sha256;
     markFlag(Photo::FlagsE::Sha256Loaded, 1);
 
-    updated();
+    updated(IPhotoInfo::ChangeReason::Sha256Updated);
 }
 
 
@@ -150,7 +150,7 @@ void PhotoInfo::setGeometry(const QSize& geometry)
     m_data->m_data.lock()->geometry = geometry;
     markFlag(Photo::FlagsE::GeometryLoaded, 1);
 
-    updated();
+    updated(IPhotoInfo::ChangeReason::GeometryUpdated);
 }
 
 
@@ -158,7 +158,7 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
 {
     m_data->m_data.lock()->tags = tags;
 
-    updated();
+    updated(ChangeReason::TagsUpdated);
 }
 
 
@@ -166,7 +166,7 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 {
     m_data->m_data.lock()->tags[name] = value;
 
-    updated();
+    updated(ChangeReason::TagsUpdated);
 }
 
 
@@ -175,7 +175,7 @@ void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
 {
     m_data->m_data.lock()->flags[flag] = v;
 
-    updated();
+    updated(ChangeReason::FlagsUpdated);
 }
 
 
@@ -201,16 +201,16 @@ bool PhotoInfo::isValid()
 }
 
 
-void PhotoInfo::updated()
+void PhotoInfo::updated(ChangeReason reason)
 {
     auto observers = m_data->m_observers.lock();
 
     for(IObserver* observer: observers.get())
-        observer->photoUpdated(this);
+        observer->photoUpdated(this, reason);
 }
 
 
 void PhotoInfo::unlocked()
 {
-    updated();
+    updated(ChangeReason::TagsUpdated);
 }

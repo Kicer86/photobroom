@@ -68,7 +68,7 @@ void PhotoInfoStorekeeper::setCache(Database::IPhotoInfoCache* cache)
 }
 
 
-void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
+void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, IPhotoInfo::ChangeReason)
 {
     //find photo in cache (alternative is to use std::enable_shared_from_this but is it worth it?)
     const Photo::Id id = photoInfo->getID();

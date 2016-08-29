@@ -84,7 +84,7 @@ class IdxData: public IPhotoInfo::IObserver
         void init();
 
         //IObserver:
-        void photoUpdated(IPhotoInfo *) override;
+        void photoUpdated(IPhotoInfo *, IPhotoInfo::ChangeReason) override;
 };
 
 #endif // IDXDATA_HPP
