@@ -40,8 +40,8 @@ PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
 
     const QImageReader reader(p);
     m_data->m_data.lock()->geometry = reader.size();
-    markFlag(Photo::FlagsE::GeometryLoaded, 1);
 
+    markFlag(Photo::FlagsE::GeometryLoaded, 1);
     markFlag(Photo::FlagsE::StagingArea, 1);
 }
 
@@ -62,7 +62,6 @@ Photo::Data PhotoInfo::data() const
 {
     return m_data->m_data.lock().get();
 }
-
 
 
 const QString PhotoInfo::getPath() const
