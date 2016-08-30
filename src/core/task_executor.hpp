@@ -26,10 +26,15 @@
 #include "itask_executor.hpp"
 #include "ts_multi_head_queue.hpp"
 
+class ILogger;
+
 struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 {
-    TaskExecutor();
+    TaskExecutor(ILogger *);
+    TaskExecutor(const TaskExecutor &) = delete;
     virtual ~TaskExecutor();
+
+    TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
     TaskQueue getCustomTaskQueue() override;
@@ -42,6 +47,7 @@ private:
     QueueT m_tasks;
     std::unique_ptr<QueueT::Producer> m_producer;
     std::thread m_taskEater;
+    ILogger* m_logger;
     bool m_working;
 
     void execute(const std::shared_ptr<ITask>& task) const;

@@ -56,7 +56,7 @@ int main(int argc, char **argv)
         {
             int* ptr = nullptr;
             volatile int v = *ptr;
-	    (void) v;
+            (void) v;
         });
 
     const QString logingLevelStr = parser.value(logingLevelOption);
@@ -85,7 +85,8 @@ int main(int argc, char **argv)
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);
 
-    TaskExecutor taskExecutor;
+    auto taskExecutorLogger = logger_factory.get("TaskExecutor");
+    TaskExecutor taskExecutor(taskExecutorLogger.get());
 
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
