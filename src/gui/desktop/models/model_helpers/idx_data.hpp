@@ -80,7 +80,7 @@ class IdxData
         IdxData* m_parent;
 
         IdxData(IdxDataManager *);
-        void updateLeafData();
+        void initLeafData();
         void init();
 };
 

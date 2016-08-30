@@ -118,4 +118,3 @@ void TagsOperator::updateTag(const QString& name, const TagValue& value)
 
     assert(updated);
 }
-

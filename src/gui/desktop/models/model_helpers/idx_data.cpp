@@ -162,7 +162,7 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
     m_photo = photo;
     setStatus(NodeStatus::Fetched);
 
-    updateLeafData();
+    initLeafData();
 
     init();
 }
@@ -343,7 +343,7 @@ IdxData::IdxData(IdxDataManager* model) :
 }
 
 
-void IdxData::updateLeafData()
+void IdxData::initLeafData()
 {
     QImage img;
     img.load(":/gui/clock.svg");
