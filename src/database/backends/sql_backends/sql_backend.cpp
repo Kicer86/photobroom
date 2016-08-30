@@ -66,32 +66,6 @@ namespace Database
 {
     namespace
     {
-        QByteArray toPrintable(const QImage& image)
-        {
-            QByteArray bytes;
-            QBuffer buffer(&bytes);
-            buffer.open(QIODevice::WriteOnly);
-
-            image.save(&buffer, "JPEG");
-
-            return bytes.toBase64();
-        }
-
-        QImage fromPrintable(const QByteArray& data)
-        {
-            const QByteArray bytes = QByteArray::fromBase64(data);
-            QImage image;
-
-            const bool status = image.loadFromData(bytes, "JPEG");
-
-            if (status == false)
-            {
-                //TODO: load thumbnail from file
-            }
-
-            return image;
-        }
-
 
         struct Transaction
         {
