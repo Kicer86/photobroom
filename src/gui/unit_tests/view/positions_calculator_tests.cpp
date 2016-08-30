@@ -527,7 +527,6 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     const int spacing = view_data.getSpacing();
     const int margin  = view_data.getImageMargin();
     const int canvas_w = 500;
-    const int header_h = 40;
     const int thumb_h = view_data.getThumbnailDesiredHeight();
     const int thumb_w = img.width() * thumb_h/img.height();
 

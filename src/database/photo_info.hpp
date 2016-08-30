@@ -11,7 +11,6 @@
 #include "iphoto_info.hpp"
 
 #include "database_export.h"
-#include <OpenLibrary/putils/ts_resource.hpp>
 
 class QPixmap;
 
@@ -22,7 +21,7 @@ namespace Photo
     struct Data;
 }
 
-class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource<Tag::TagsList>::INotify
+class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
 {
     public:
         PhotoInfo(const QString &path);                      //load all data from provided path
@@ -70,10 +69,7 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo, ol::ThreadSafeResource
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        void updated();
-
-        //INotify:
-        void unlocked() override;
+        void updated(ChangeReason);
 };
 
 #endif

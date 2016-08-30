@@ -68,7 +68,7 @@ void PhotoInfoStorekeeper::setCache(Database::IPhotoInfoCache* cache)
 }
 
 
-void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
+void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, IPhotoInfo::ChangeReason)
 {
     //find photo in cache (alternative is to use std::enable_shared_from_this but is it worth it?)
     const Photo::Id id = photoInfo->getID();
@@ -80,7 +80,7 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo)
     //if found, update changed photo in database (but only if fully loaded)
     if (ptr.get() != nullptr && ptr->isFullyInitialized())
     {
-        std::unique_ptr<Database::AStorePhotoTask> task(new Update);
+        std::unique_ptr<Database::AStorePhotoTask> task = std::make_unique<Update>();
 
         m_data->m_database->exec(std::move(task), ptr);
     }

@@ -49,7 +49,7 @@ class PhotoInfoStorekeeper: public IPhotoInfo::IObserver
         struct Data;
         std::unique_ptr<Data> m_data;
 
-        virtual void photoUpdated(IPhotoInfo *) override;
+        virtual void photoUpdated(IPhotoInfo *, IPhotoInfo::ChangeReason) override;
 };
 
 #endif // PHOTO_INFO_STOREKEEPER_HPP
