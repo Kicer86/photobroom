@@ -80,7 +80,7 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, IPhotoInfo::Chang
     //if found, update changed photo in database (but only if fully loaded)
     if (ptr.get() != nullptr && ptr->isFullyInitialized())
     {
-        std::unique_ptr<Database::AStorePhotoTask> task(new Update);
+        std::unique_ptr<Database::AStorePhotoTask> task = std::make_unique<Update>();
 
         m_data->m_database->exec(std::move(task), ptr);
     }
