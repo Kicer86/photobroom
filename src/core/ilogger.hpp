@@ -41,12 +41,32 @@ class LoggerStream: std::stringbuf, public std::ostream
 
         ~LoggerStream()
         {
-            std::string str = std::stringbuf::str();
+            const std::string str = std::stringbuf::str();
             m_logger->log(severity, str.c_str());
         }
 
     private:
         ILogger* m_logger;
+};
+
+struct InfoStream: LoggerStream<ILogger::Severity::Info>
+{
+    InfoStream(ILogger* logger): LoggerStream(logger) {}
+};
+
+struct WarningStream: LoggerStream<ILogger::Severity::Warning>
+{
+    WarningStream(ILogger* logger): LoggerStream(logger) {}
+};
+
+struct ErrorStream: LoggerStream<ILogger::Severity::Error>
+{
+    ErrorStream(ILogger* logger): LoggerStream(logger) {}
+};
+
+struct DebugStream: LoggerStream<ILogger::Severity::Debug>
+{
+    DebugStream(ILogger* logger): LoggerStream(logger) {}
 };
 
 #endif
