@@ -18,12 +18,12 @@ struct ILogger
         Debug,
     };
 
-    virtual void log(Severity, const QString& message) = 0;
+    virtual void log(Severity, const std::string& message) = 0;
 
-    virtual void info(const QString &) = 0;
-    virtual void warning(const QString &) = 0;
-    virtual void error(const QString &) = 0;
-    virtual void debug(const QString &) = 0;
+    virtual void info(const std::string &) = 0;
+    virtual void warning(const std::string &) = 0;
+    virtual void error(const std::string &) = 0;
+    virtual void debug(const std::string &) = 0;
 };
 
 
@@ -42,7 +42,7 @@ class LoggerStream: std::stringbuf, public std::ostream
         ~LoggerStream()
         {
             const std::string str = std::stringbuf::str();
-            m_logger->log(severity, str.c_str());
+            m_logger->log(severity, str);
         }
 
     private:
@@ -68,5 +68,12 @@ struct DebugStream: LoggerStream<ILogger::Severity::Debug>
 {
     DebugStream(ILogger* logger): LoggerStream(logger) {}
 };
+
+inline std::ostream& operator<<(std::ostream& os, const QString& str)
+{
+    os << str.toStdString();
+
+    return os;
+}
 
 #endif

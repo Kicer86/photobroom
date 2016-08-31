@@ -986,7 +986,7 @@ namespace Database
         if (status)
             status = checkStructure();
         else
-            m_data->m_logger->error("Error opening database: " + db.lastError().text());
+            ErrorStream(m_data->m_logger.get()) << "Error opening database: " << db.lastError().text();
 
         return status;
     }

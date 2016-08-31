@@ -27,6 +27,7 @@
 
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/down_cast.hpp>
 #include <system/filesystem.hpp>
 #include <database/idatabase_plugin.hpp>
 
@@ -64,7 +65,7 @@ namespace
                 pluginsDir.cd("database");
                 QFileInfoList db_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
 
-                m_logger->info( "Searching for plugins in: " + pluginsDir.path() );
+                InfoStream(m_logger.get()) << "Searching for plugins in: " << pluginsDir.path();
 
                 m_found = true;
 
@@ -72,13 +73,11 @@ namespace
                 {
                     const QString path = info.absoluteFilePath();
 
-                    m_logger->info( "Found database plugin: " + path );
+                    InfoStream(m_logger.get()) << "Found database plugin: " << path;
 
                     QObject* raw_plugin = load(path);
 
-                    Database::IPlugin* plugin = static_cast<Database::IPlugin *>(raw_plugin);
-
-                    assert(plugin == dynamic_cast<Database::IPlugin *>(raw_plugin));
+                    Database::IPlugin* plugin = down_cast<Database::IPlugin *>(raw_plugin);
 
                     m_db_plugins.push_back(plugin);
                 }
@@ -114,12 +113,12 @@ namespace
     private:
         QObject* load(const QString& path)
         {
-            m_logger->log(ILogger::Severity::Info, "Loading database plugin: " + path);
+            InfoStream(m_logger.get()) << "Loading database plugin: " << path;
             QPluginLoader loader(path);
             QObject* plugin = loader.instance();
 
             if (plugin == nullptr)
-                m_logger->log(ILogger::Severity::Error, "\tError: " + loader.errorString());
+                ErrorStream(m_logger.get()) << "\tError: " << loader.errorString();
 
             return plugin;
         }
