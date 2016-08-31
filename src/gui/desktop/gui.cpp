@@ -83,7 +83,7 @@ void Gui::run()
     auto logger = m_loggerFactory->get("gui");
 
     const QString tr_path = FileSystem().getTranslationsPath();
-    logger->log(ILogger::Severity::Info, QString("Searching for translations in: %1").arg(tr_path));
+    InfoStream(logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
 
     QTranslator translator;
     translator.load("photo_broom_pl", tr_path);

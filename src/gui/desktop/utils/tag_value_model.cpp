@@ -127,7 +127,7 @@ void TagValueModel::updateData()
                                     .arg(values_joined);
 
     auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
-    logger->debug(logMessage);
+    DebugStream(logger.get()) << logMessage;
 
     endResetModel();
 }

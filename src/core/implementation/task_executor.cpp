@@ -18,10 +18,13 @@
  */
 
 #include "task_executor.hpp"
+#include <ilogger.hpp>
 
-#include <thread>
-#include <iostream>
 #include <chrono>
+#include <iostream>
+#include <thread>
+
+#include <QString>
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 #include <OpenLibrary/putils/ts_resource.hpp>
@@ -43,7 +46,7 @@ ITaskExecutor::~ITaskExecutor()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-TaskExecutor::TaskExecutor(): m_tasks(), m_producer(), m_taskEater(), m_working(true)
+TaskExecutor::TaskExecutor(ILogger* logger): m_tasks(), m_producer(), m_taskEater(), m_logger(logger), m_working(true)
 {
     m_producer = m_tasks.prepareProducer();
 
@@ -91,7 +94,7 @@ void TaskExecutor::eat()
 
     const unsigned int threads = std::thread::hardware_concurrency();
 
-    std::cout << "TaskExecutor: " << threads << " threads detected." << std::endl;
+    DebugStream(m_logger) << "TaskExecutor: " << threads << " threads detected.";
 
     std::atomic<unsigned int> running_tasks(0);
     std::condition_variable free_worker;
@@ -110,7 +113,7 @@ void TaskExecutor::eat()
             std::thread thread([&]
             {
                 std::thread::id id = std::this_thread::get_id();
-                std::cout << "Starting TaskExecutor thread #" << id << std::endl;
+                LoggerStream<ILogger::Severity::Debug>(m_logger) << "Starting TaskExecutor thread #" << id;
 
                 while(true)
                 {
@@ -130,7 +133,7 @@ void TaskExecutor::eat()
                 }
 
                 --running_tasks;
-                std::cout << "Quitting TaskExecutor thread #" << id << std::endl;
+                DebugStream(m_logger) << "Quitting TaskExecutor thread #" << id;
 
                 // notify manager that thread is gone
                 free_worker.notify_one();
@@ -154,7 +157,7 @@ void TaskExecutor::eat()
         return running_tasks == 0;
     });
 
-    std::cout << "TaskExecutor: shutting down." << std::endl;
+    DebugStream(m_logger) << "TaskExecutor: shutting down." << std::endl;
 }
 
 
