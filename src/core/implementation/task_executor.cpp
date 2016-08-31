@@ -94,7 +94,7 @@ void TaskExecutor::eat()
 
     const unsigned int threads = std::thread::hardware_concurrency();
 
-    LoggerStream<ILogger::Severity::Debug>(m_logger) << "TaskExecutor: " << threads << " threads detected.";
+    DebugStream(m_logger) << "TaskExecutor: " << threads << " threads detected.";
 
     std::atomic<unsigned int> running_tasks(0);
     std::condition_variable free_worker;
@@ -133,7 +133,7 @@ void TaskExecutor::eat()
                 }
 
                 --running_tasks;
-                LoggerStream<ILogger::Severity::Debug>(m_logger) << "Quitting TaskExecutor thread #" << id;
+                DebugStream(m_logger) << "Quitting TaskExecutor thread #" << id;
 
                 // notify manager that thread is gone
                 free_worker.notify_one();
@@ -157,7 +157,7 @@ void TaskExecutor::eat()
         return running_tasks == 0;
     });
 
-    std::cout << "TaskExecutor: shutting down." << std::endl;
+    DebugStream(m_logger) << "TaskExecutor: shutting down." << std::endl;
 }
 
 
