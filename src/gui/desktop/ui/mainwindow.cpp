@@ -12,6 +12,7 @@
 #include <QTimer>
 
 #include <core/iphotos_manager.hpp>
+#include <core/cross_thread_callback.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -248,11 +249,12 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
     {
         closeProject();
 
-        auto openCallback = std::bind(&MainWindow::projectOpenedNotification, this, std::placeholders::_1);
+        std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
+        std::function<void(const Database::BackendStatus &)> threadCallback = cross_thread_function(this, openCallback);
 
         assert( QDir::searchPaths("prj").isEmpty() == true );
         QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
-        m_currentPrj = m_prjManager->open(prjInfo, openCallback);
+        m_currentPrj = m_prjManager->open(prjInfo, threadCallback);
 
         // add project to list of recent projects
         const bool already_has = m_recentCollections.contains(prjInfo.getPath());
@@ -581,12 +583,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
     }
 
     updateGui();
-}
-
-
-void MainWindow::projectOpenedNotification(const Database::BackendStatus& status)
-{
-    emit projectOpenedSignal(status);
 }
 
 
