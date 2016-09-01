@@ -23,6 +23,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
+    implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
@@ -39,6 +40,7 @@ set(CORE_SOURCES
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
+    cross_thread_callback.hpp
     disk_observer.hpp
     ilogger.hpp
     ilogger_factory.hpp
