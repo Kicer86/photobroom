@@ -252,6 +252,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
         auto threadCallback = cross_thread_function(this, openCallback);      //make sure openCallback will be called from main thread
 
+        // setup search path prefix
         assert( QDir::searchPaths("prj").isEmpty() == true );
         QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
         m_currentPrj = m_prjManager->open(prjInfo, threadCallback);
