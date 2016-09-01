@@ -3,9 +3,7 @@ include(GenerateExportHeader)
 
 find_package(KF5Crash QUIET)
 
-include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src
-                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-)
+include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
