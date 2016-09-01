@@ -24,6 +24,7 @@ set(CORE_SOURCES
     implementation/atagfeeder.cpp
     implementation/base_tags.cpp
     implementation/disk_observer.cpp
+    implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
