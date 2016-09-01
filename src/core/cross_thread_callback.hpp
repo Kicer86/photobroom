@@ -33,13 +33,13 @@ namespace FunctorCallConsumer
 }
 
 template<typename... Args>
-std::function<void(Args...)> cross_thread_function(QObject* object, const std::function<void(Args...)>& function)
+std::function<void(Args...)> cross_thread_function(QObject* object, const std::function<void(Args...)>& function, Qt::ConnectionType type = Qt::AutoConnection)
 {
     std::function<void(Args...)> result = [=](Args... args)
     {
         QObject signalSource;
         QObject::connect(&signalSource, &QObject::destroyed,
-                         FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); });
+                         FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); }, type);
     };
 
     return result;
