@@ -3,8 +3,10 @@ include(GenerateExportHeader)
 
 find_package(KF5Crash QUIET)
 
-include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
-#include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
+include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src
+                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
@@ -39,7 +41,7 @@ set(SOURCES ${CRASH_HANDLER_SOURCES})
 
 # common stuff
 set(SOURCES ${SOURCES}
-                   crash_catcher.cpp
+            crash_catcher.cpp
 )
 
 set(HEADERS
@@ -50,7 +52,7 @@ add_library(crash_catcher ${SOURCES} ${HEADERS})
 target_include_directories(crash_catcher PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(crash_catcher PRIVATE
                         ${CRASH_HANDLER_LIBRARIES}
-                     )
+)
 
 hideSymbols(crash_catcher)
 generate_export_header(crash_catcher)
