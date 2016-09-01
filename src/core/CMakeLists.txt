@@ -90,7 +90,10 @@ target_link_libraries(core
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(core PUBLIC 
+                                    ${CMAKE_CURRENT_BINARY_DIR}
+                                    ${Qt5Core_INCLUDE_DIRS}
+)
 
 generate_export_header(core)
 hideSymbols(core)
