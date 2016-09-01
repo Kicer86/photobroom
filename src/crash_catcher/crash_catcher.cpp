@@ -5,6 +5,7 @@
 
 #include <core/ilogger.hpp>
 
+
 const char* CrashCatcher::app_name;
 
 bool CrashCatcher::init(const char* name)
