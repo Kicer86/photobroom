@@ -250,7 +250,11 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         closeProject();
 
         std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
-        auto threadCallback = cross_thread_function(this, openCallback);      //make sure openCallback will be called from main thread
+
+        // make sure openCallback will be called from main thread and will be postponed
+        // it is crucial to have m_currentPrj initialised so no direct calls to projectOpened()
+        // from ProjectManager::open are allowed
+        auto threadCallback = cross_thread_function(this, openCallback, Qt::QueuedConnection);
 
         // setup search path prefix
         assert( QDir::searchPaths("prj").isEmpty() == true );
