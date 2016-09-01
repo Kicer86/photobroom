@@ -4,7 +4,9 @@
 
 #include <sstream>
 
-#include <QString>
+#include "core_export.h"
+
+class QString;
 
 struct ILogger
 {
@@ -49,31 +51,26 @@ class LoggerStream: std::stringbuf, public std::ostream
         ILogger* m_logger;
 };
 
-struct InfoStream: LoggerStream<ILogger::Severity::Info>
+struct CORE_EXPORT InfoStream: LoggerStream<ILogger::Severity::Info>
 {
-    InfoStream(ILogger* logger): LoggerStream(logger) {}
+    InfoStream(ILogger *);
 };
 
-struct WarningStream: LoggerStream<ILogger::Severity::Warning>
+struct CORE_EXPORT WarningStream: LoggerStream<ILogger::Severity::Warning>
 {
-    WarningStream(ILogger* logger): LoggerStream(logger) {}
+    WarningStream(ILogger *);
 };
 
-struct ErrorStream: LoggerStream<ILogger::Severity::Error>
+struct CORE_EXPORT ErrorStream: LoggerStream<ILogger::Severity::Error>
 {
-    ErrorStream(ILogger* logger): LoggerStream(logger) {}
+    ErrorStream(ILogger *);
 };
 
-struct DebugStream: LoggerStream<ILogger::Severity::Debug>
+struct CORE_EXPORT DebugStream: LoggerStream<ILogger::Severity::Debug>
 {
-    DebugStream(ILogger* logger): LoggerStream(logger) {}
+    DebugStream(ILogger *);
 };
 
-inline std::ostream& operator<<(std::ostream& os, const QString& str)
-{
-    os << str.toStdString();
-
-    return os;
-}
+CORE_EXPORT std::ostream& operator<<(std::ostream& os, const QString& str);
 
 #endif

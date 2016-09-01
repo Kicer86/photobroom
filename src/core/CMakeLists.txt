@@ -25,6 +25,7 @@ set(CORE_SOURCES
     implementation/base_tags.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
+    implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
@@ -92,7 +93,10 @@ target_link_libraries(core
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(core PUBLIC 
+                                    ${CMAKE_CURRENT_BINARY_DIR}
+                                    ${Qt5Core_INCLUDE_DIRS}
+)
 
 generate_export_header(core)
 hideSymbols(core)

@@ -25,7 +25,8 @@ include_directories(SYSTEM ${OPENLIBRARY_INCLUDES}
                    )
 
 set(BROOM_SOURCES main.cpp
-                  $<TARGET_OBJECTS:plugins>)
+                  $<TARGET_OBJECTS:plugins>
+)
 
 if(WIN32)
 
