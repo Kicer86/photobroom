@@ -91,22 +91,34 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 }
 
 
-std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, Database::IBuilder::OpenResult openResult)
+std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const Database::IBuilder::OpenResult& openResult)
 {
+    Project* result = nullptr;
+
     const QString& prjPath = prjInfo.getPath();
+    const bool prjFileExists = QFile::exists(prjPath);
 
-    QSettings prjFile(prjPath, QSettings::IniFormat);
+    if (prjFileExists)
+    {
+        QSettings prjFile(prjPath, QSettings::IniFormat);
 
-    prjFile.beginGroup("Database");
-    QString backend  = prjFile.value("backend").toString();
-    QString location = prjFile.value("location").toString();
-    prjFile.endGroup();
+        prjFile.beginGroup("Database");
+        QString backend  = prjFile.value("backend").toString();
+        QString location = prjFile.value("location").toString();
+        prjFile.endGroup();
 
-    Database::ProjectInfo dbPrjInfo(location, backend);
-    auto db = m_dbBuilder->get(dbPrjInfo, openResult);
+        Database::ProjectInfo dbPrjInfo(location, backend);
+        auto db = m_dbBuilder->get(dbPrjInfo, openResult);
 
-    Project* result = new Project(std::move(db), prjInfo);
-
+        result = new Project(std::move(db), prjInfo);
+    }
+    else
+    {
+        openResult(Database::StatusCodes::OpenFailed);
+        result = new Project(nullptr, prjInfo);
+    }
+    
+    assert(result != nullptr);
     return std::unique_ptr<Project>(result);
 }
 

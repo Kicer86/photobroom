@@ -41,7 +41,6 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     gui.hpp
     desktop/config_keys.hpp
-    desktop/ithread_multiplexer.hpp
 )
 
 set(GUI_RESOURCE_FILES images/images.qrc)
