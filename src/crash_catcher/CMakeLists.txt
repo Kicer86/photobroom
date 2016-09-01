@@ -50,6 +50,7 @@ add_library(crash_catcher ${SOURCES} ${HEADERS})
 target_include_directories(crash_catcher PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(crash_catcher PRIVATE
                         ${CRASH_HANDLER_LIBRARIES}
+                        core
 )
 
 hideSymbols(crash_catcher)
