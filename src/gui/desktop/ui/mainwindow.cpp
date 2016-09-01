@@ -250,7 +250,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         closeProject();
 
         std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
-        std::function<void(const Database::BackendStatus &)> threadCallback = cross_thread_function(this, openCallback);
+        auto threadCallback = cross_thread_function(this, openCallback);
 
         assert( QDir::searchPaths("prj").isEmpty() == true );
         QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
