@@ -183,8 +183,8 @@ namespace Database
             bool insert(Photo::Data &) const;
             bool update(const Photo::Data &) const;
 
-            std::deque<TagValue>    listTagValues(const TagNameInfo& tagName) const;
-            std::deque<TagValue>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) const;
+            std::deque<TagValue>  listTagValues(const TagNameInfo& tagName) const;
+            std::deque<TagValue>  listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) const;
 
             void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) const;
 
