@@ -27,9 +27,12 @@
 
 #include <QObject>
 
+#include "core_export.h"
+
+
 namespace FunctorCallConsumer
 {
-    QObject * forThread(QThread*);
+    CORE_EXPORT QObject * forThread(QThread*);
 }
 
 template<typename... Args>
