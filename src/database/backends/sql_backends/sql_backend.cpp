@@ -206,6 +206,7 @@ namespace Database
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
             std::deque<Photo::Id> fetch(QSqlQuery &) const;
+            bool doesPhotoExist(const Photo::Id &) const;
 
             bool updateOrInsert(const UpdateQueryData &) const;
     };
@@ -637,23 +638,30 @@ namespace Database
 
     Photo::Data ASqlBackend::Data::getPhoto(const Photo::Id& id) const
     {
+        const bool valid_id = doesPhotoExist(id);
+        assert(valid_id);
+
         Photo::Data photoData;
-        photoData.path = getPathFor(id);
-        photoData.id   = id;
-        photoData.tags = getTagsFor(id);
 
-        //load geometry
-        const QSize geometry = getGeometryFor(id);
-        if (geometry.isValid())
-            photoData.geometry = geometry;
+        if (valid_id)
+        {
+            photoData.path = getPathFor(id);
+            photoData.id   = id;
+            photoData.tags = getTagsFor(id);
 
-        //load sha256
-        const ol::Optional<Photo::Sha256sum> sha256 = getSha256For(id);
-        if (sha256)
-            photoData.sha256Sum = *sha256;
+            //load geometry
+            const QSize geometry = getGeometryFor(id);
+            if (geometry.isValid())
+                photoData.geometry = geometry;
 
-        //load flags
-        updateFlagsOn(photoData, id);
+            //load sha256
+            const ol::Optional<Photo::Sha256sum> sha256 = getSha256For(id);
+            if (sha256)
+                photoData.sha256Sum = *sha256;
+
+            //load flags
+            updateFlagsOn(photoData, id);
+        }
 
         return photoData;
     }
@@ -839,6 +847,31 @@ namespace Database
         }
 
         return collection;
+    }
+
+
+    bool ASqlBackend::Data::doesPhotoExist(const Photo::Id& id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        QString queryStr = QString("SELECT id FROM %1 WHERE %1.id = '%2'");
+
+        queryStr = queryStr.arg(TAB_PHOTOS);
+        queryStr = queryStr.arg(id.value());
+
+        const bool status = m_executor.exec(queryStr, &query);
+
+        Photo::Id result;
+        if(status && query.next())
+        {
+            const QVariant id = query.value(0);
+
+            static_assert(sizeof(decltype(id.toInt())) == sizeof(Photo::Id::type), "Incompatible types for id");
+            result = Photo::Id(id.toInt());
+        }
+
+        return result == id;
     }
 
 
