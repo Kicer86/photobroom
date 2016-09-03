@@ -44,9 +44,13 @@ void TagInfoCollector::set(Database::IDatabase* db)
     // TODO: ADatabaseSignals doesn't emit signal when tags are changed.
     // It would require improvements in backend (#10 and maybe #180), so for now listen for photo modifications.
     // Github issue: #183
-    connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &TagInfoCollector::photoModified);
 
-    updateAllTags();
+    if (m_database != nullptr)
+    {
+        connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &TagInfoCollector::photoModified);
+
+        updateAllTags();
+    }
 }
 
 
@@ -110,7 +114,10 @@ void TagInfoCollector::updateAllTags()
 
 void TagInfoCollector::updateValuesFor(const TagNameInfo& name)
 {
-    using namespace std::placeholders;
-    auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
-    m_database->listTagValues(name, result);
+    if (m_database != nullptr)
+    {
+        using namespace std::placeholders;
+        auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
+        m_database->listTagValues(name, result);
+    }
 }

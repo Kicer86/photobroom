@@ -280,6 +280,7 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_newImagesModel->setDatabase(nullptr);
+        ui->tagEditor->setDatabase(nullptr);
         QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
@@ -551,7 +552,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
-            ui->tagEditor->set(db);
+            ui->tagEditor->setDatabase(db);
             break;
         }
 

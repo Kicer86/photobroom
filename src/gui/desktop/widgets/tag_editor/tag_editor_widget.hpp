@@ -57,7 +57,7 @@ class TagEditorWidget: public QWidget
 
         void set(QItemSelectionModel *);
         void set(DBDataModel *);
-        void set(Database::IDatabase *);
+        void setDatabase(Database::IDatabase *);
         void set(ILoggerFactory *);
 
     private:

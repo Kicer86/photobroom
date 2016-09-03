@@ -94,7 +94,7 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 }
 
 
-void TagEditorWidget::set(Database::IDatabase* db)
+void TagEditorWidget::setDatabase(Database::IDatabase* db)
 {
     m_completerFactory.set(db);
 }
