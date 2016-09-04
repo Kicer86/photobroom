@@ -79,5 +79,6 @@ namespace Database
     };
 }
 
-#endif
+Q_DECLARE_METATYPE(Database::InsertQueryData::Value)
 
+#endif
