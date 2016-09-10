@@ -69,7 +69,7 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
         else if (value.isInt())
             v_result = value.asInt();
         else if (value.isInt64())
-            v_result = value.asInt64();
+            v_result = static_cast<qint64>( value.asInt64() );
         else if (value.isBool())
             v_result = value.asBool();
         else if(value.isNull())
@@ -93,7 +93,7 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
         else if (entry_value.type() == QVariant::ByteArray)
             value = entry_value.toByteArray().data();
         else if (entry_value.type() == QVariant::LongLong)
-            value = entry_value.toLongLong();
+            value = static_cast<Json::Value::Int64>( entry_value.toLongLong() );
         else if (entry_value.type() == QVariant::Bool)
             value = entry_value.toBool();
         else if (entry_value.type() == QVariant::UInt)
