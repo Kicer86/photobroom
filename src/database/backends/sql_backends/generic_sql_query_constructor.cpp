@@ -54,7 +54,7 @@ namespace Database
         switch (v)
         {
             case InsertQueryData::Value::CurrentTime:
-                result = "CURRENT_TIME";
+                result = "CURRENT_TIMESTAMP";
                 break;
 
             case InsertQueryData::Value::Null:
