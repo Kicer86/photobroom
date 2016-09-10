@@ -179,7 +179,8 @@ namespace Database
         query.prepare(insertQuery);
 
         for(std::size_t i = 0; i < count; i++)
-            query.bindValue(":" + columns[i], values[i]);
+            if (values[i].userType() != qMetaTypeId<InsertQueryData::Value>())
+                query.bindValue(":" + columns[i], values[i]);
 
         return query;
     }
@@ -196,7 +197,8 @@ namespace Database
         query.prepare(updateQuery);
 
         for(std::size_t i = 0; i < count; i++)
-            query.bindValue(":" + columns[i], values[i]);
+            if (values[i].userType() != qMetaTypeId<InsertQueryData::Value>())
+                query.bindValue(":" + columns[i], values[i]);
 
         query.bindValue(":" + data.getCondition().first, data.getCondition().second);
 
