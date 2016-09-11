@@ -45,6 +45,9 @@ namespace Database
 
             virtual QSqlQuery insert(const QSqlDatabase &, const InsertQueryData &) const override;
             virtual QSqlQuery update(const QSqlDatabase &, const UpdateQueryData &) const override;
+            
+        private:
+            std::vector<QString> preparePlaceholders(const InsertQueryData &) const;
     };
 
 }

@@ -83,21 +83,7 @@ namespace Database
         QString result;
 
         const std::deque<QString>& columns = data.getColumns();
-        const std::deque<QVariant>& values = data.getValues();
-        const std::size_t count = std::min(columns.size(), values.size());
-
-        std::vector<QString> valuePlaceholders;
-        valuePlaceholders.resize(count);
-
-        for(std::size_t i = 0; i < count; i++)
-        {
-            const QVariant& value = values[i];
-
-            if (value.userType() == qMetaTypeId<InsertQueryData::Value>())
-                valuePlaceholders[i] = convert( value.value<InsertQueryData::Value>() );
-            else
-                valuePlaceholders[i] = ":" + columns[i];
-        }
+        const std::vector<QString> valuePlaceholders = preparePlaceholders(data);
 
         result = "INSERT INTO %1(%2) VALUES(%3)";
 
@@ -114,22 +100,7 @@ namespace Database
         QString result;
 
         const std::deque<QString>& columns = data.getColumns();
-        const std::deque<QVariant>& values = data.getValues();
-        const std::size_t count = std::min(columns.size(), values.size());
-
-        std::vector<QString> valuePlaceholders;
-        valuePlaceholders.resize(count);
-
-        for(std::size_t i = 0; i < count; i++)
-        {
-            const QVariant& value = values[i];
-
-            if (value.userType() == qMetaTypeId<InsertQueryData::Value>())
-                valuePlaceholders[i] = convert( value.value<InsertQueryData::Value>() );
-            else
-                valuePlaceholders[i] = ":" + columns[i];
-        }
-
+        const std::vector<QString> valuePlaceholders = preparePlaceholders(data);        
         const std::pair<QString, QString>& key = data.getCondition();
 
         result = "UPDATE %1 SET %2 WHERE %3";
@@ -203,6 +174,29 @@ namespace Database
         query.bindValue(":" + data.getCondition().first, data.getCondition().second);
 
         return query;
+    }
+    
+    
+    std::vector<QString> GenericSqlQueryConstructor::preparePlaceholders(const InsertQueryData& data) const
+    {
+        const std::deque<QString>& columns = data.getColumns();
+        const std::deque<QVariant>& values = data.getValues();
+        const std::size_t count = std::min(columns.size(), values.size());
+
+        std::vector<QString> valuePlaceholders;
+        valuePlaceholders.resize(count);
+
+        for(std::size_t i = 0; i < count; i++)
+        {
+            const QVariant& value = values[i];
+
+            if (value.userType() == qMetaTypeId<InsertQueryData::Value>())
+                valuePlaceholders[i] = convert( value.value<InsertQueryData::Value>() );
+            else
+                valuePlaceholders[i] = ":" + columns[i];
+        }
+     
+        return valuePlaceholders;
     }
 
 }
