@@ -300,7 +300,7 @@ class ViewDataSet final: public IViewDataSet
             else
                 result.push_back(0);             //top item
 
-                return result;
+            return result;
         }
 
         void erase(const typename Model::iterator& it)

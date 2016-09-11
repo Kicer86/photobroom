@@ -28,18 +28,38 @@
 
 namespace Database
 {
-    QString join(const std::deque<QString>& strs, const QString& spl)
+    template<typename T>
+    QString join(T first, T last, const QString& spl)
     {
         QString result;
 
-        for(auto it = strs.begin(); it != strs.end();)
+        for(; first != last;)
         {
-            auto current = it++;
+            T current = first++;
 
             result += *current;
 
-            if (it != strs.end())
+            if (first != last)
                 result += spl;
+        }
+
+        return result;
+    }
+
+
+    QString convert(const InsertQueryData::Value& v)
+    {
+        QString result;
+
+        switch (v)
+        {
+            case InsertQueryData::Value::CurrentTime:
+                result = "CURRENT_TIMESTAMP";
+                break;
+
+            case InsertQueryData::Value::Null:
+                result = "NULL";
+                break;
         }
 
         return result;
@@ -63,16 +83,13 @@ namespace Database
         QString result;
 
         const std::deque<QString>& columns = data.getColumns();
-
-        std::deque<QString> valuePlaceholders = columns;
-        for(QString& str: valuePlaceholders)
-            str.prepend(":");
+        const std::vector<QString> valuePlaceholders = preparePlaceholders(data);
 
         result = "INSERT INTO %1(%2) VALUES(%3)";
 
         result = result.arg(data.getName());
-        result = result.arg(join(columns, ", "));
-        result = result.arg(join(valuePlaceholders,", "));
+        result = result.arg(join(columns.begin(), columns.end(), ", "));
+        result = result.arg(join(valuePlaceholders.begin(), valuePlaceholders.end(), ", "));
 
         return result;
     }
@@ -83,10 +100,7 @@ namespace Database
         QString result;
 
         const std::deque<QString>& columns = data.getColumns();
-        std::deque<QString> valuePlaceholders = columns;
-        for(QString& str: valuePlaceholders)
-            str.prepend(":");
-
+        const std::vector<QString> valuePlaceholders = preparePlaceholders(data);        
         const std::pair<QString, QString>& key = data.getCondition();
 
         result = "UPDATE %1 SET %2 WHERE %3";
@@ -136,7 +150,8 @@ namespace Database
         query.prepare(insertQuery);
 
         for(std::size_t i = 0; i < count; i++)
-            query.bindValue(":" + columns[i], values[i]);
+            if (values[i].userType() != qMetaTypeId<InsertQueryData::Value>())
+                query.bindValue(":" + columns[i], values[i]);
 
         return query;
     }
@@ -153,11 +168,35 @@ namespace Database
         query.prepare(updateQuery);
 
         for(std::size_t i = 0; i < count; i++)
-            query.bindValue(":" + columns[i], values[i]);
+            if (values[i].userType() != qMetaTypeId<InsertQueryData::Value>())
+                query.bindValue(":" + columns[i], values[i]);
 
         query.bindValue(":" + data.getCondition().first, data.getCondition().second);
 
         return query;
+    }
+    
+    
+    std::vector<QString> GenericSqlQueryConstructor::preparePlaceholders(const InsertQueryData& data) const
+    {
+        const std::deque<QString>& columns = data.getColumns();
+        const std::deque<QVariant>& values = data.getValues();
+        const std::size_t count = std::min(columns.size(), values.size());
+
+        std::vector<QString> valuePlaceholders;
+        valuePlaceholders.resize(count);
+
+        for(std::size_t i = 0; i < count; i++)
+        {
+            const QVariant& value = values[i];
+
+            if (value.userType() == qMetaTypeId<InsertQueryData::Value>())
+                valuePlaceholders[i] = convert( value.value<InsertQueryData::Value>() );
+            else
+                valuePlaceholders[i] = ":" + columns[i];
+        }
+     
+        return valuePlaceholders;
     }
 
 }

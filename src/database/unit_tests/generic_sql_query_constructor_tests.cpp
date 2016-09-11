@@ -53,3 +53,16 @@ TEST(GenericSqlQueryConstructorTest, simpleUpdateQuery)
 
     EXPECT_EQ(queryStr, "UPDATE table SET id=:id, name=:name WHERE pkg=:pkg");
 }
+
+
+TEST(GenericSqlQueryConstructorTest, timestampInsertQuery)
+{
+    const GenericSqlQueryConstructorImpl constructor;
+
+    Database::InsertQueryData data("table");
+    data.setColumns("id", "time");
+    data.setValues("id_value", Database::UpdateQueryData::Value::CurrentTime);
+    const QString queryStr = constructor.prepareInsertQuery(data);
+
+    EXPECT_EQ(queryStr, "INSERT INTO table(id, time) VALUES(:id, CURRENT_TIMESTAMP)");
+}
