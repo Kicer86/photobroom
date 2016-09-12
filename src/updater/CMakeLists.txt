@@ -37,3 +37,9 @@ target_include_directories(updater PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 generate_export_header(updater)
 hideSymbols(updater)
 
+if(BUILD_SHARED_LIBS)
+    install(TARGETS updater RUNTIME DESTINATION ${PATH_LIBS}
+                            LIBRARY DESTINATION ${PATH_LIBS})
+endif()
+
+
