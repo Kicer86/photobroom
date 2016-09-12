@@ -9,15 +9,6 @@ find_package(Threads REQUIRED)
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM 
-                           ${Boost_INCLUDE_DIRS}
-                           ${Qt5Core_INCLUDE_DIRS}
-                           ${Qt5Gui_INCLUDE_DIRS}
-                           ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${EASYEXIF_INCLUDE_DIR}
-                   )
-
 # some classes in core are using interface types of database. Is it ok? - to consider
 include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
 
@@ -99,6 +90,13 @@ target_link_libraries(core
 target_include_directories(core PUBLIC 
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${Qt5Core_INCLUDE_DIRS}
+                                    ${Boost_INCLUDE_DIRS}
+                                PRIVATE
+                                    ${Qt5Gui_INCLUDE_DIRS}
+                                    ${OPENLIBRARY_INCLUDE_DIRS}
+                                    ${EASYEXIF_INCLUDE_DIR}
+                                    ${CMAKE_BINARY_DIR}/exports 
+                                    ${CMAKE_SOURCE_DIR}/src
 )
 
 generate_export_header(core)
