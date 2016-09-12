@@ -95,6 +95,13 @@ macro(addDeploymentActions)
                                        --no-compiler-runtime 
                                        --release
                                        $<TARGET_FILE:sql_backend_base>
+                                       
+                               COMMAND ${WINDEPLOY} 
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr 
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime 
+                                       --release
+                                       $<TARGET_FILE:updater>
                                    
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
                                DEPENDS ${OUTPUT_PATH}/deploy_main
