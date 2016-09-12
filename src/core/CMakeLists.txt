@@ -1,4 +1,5 @@
 
+find_package(Boost REQUIRED)
 find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core 5.6 REQUIRED)
 find_package(Qt5Gui REQUIRED)
@@ -9,7 +10,9 @@ include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
+include_directories(SYSTEM 
+                           ${Boost_INCLUDE_DIRS}
+                           ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS}
                            ${EASYEXIF_INCLUDE_DIR}
