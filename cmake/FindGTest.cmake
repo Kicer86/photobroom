@@ -42,9 +42,18 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
         add_library(gtest-main STATIC ${GTEST_MAIN_SOURCE})
 
         get_filename_component(gtest_base_dir ${GTEST_BASE_SOURCE} PATH)
-        target_include_directories(gtest      SYSTEM PRIVATE ${gtest_base_dir}/../)
-        target_include_directories(gtest-main SYSTEM PRIVATE ${gtest_base_dir}/../)
+        target_include_directories(gtest      
+                                    PRIVATE 
+                                        ${gtest_base_dir}/..
+                                        ${gtest_base_dir}/../include 
+        )
 
+        target_include_directories(gtest-main 
+                                    PRIVATE 
+                                        ${gtest_base_dir}/..
+                                        ${gtest_base_dir}/../include 
+        )
+                        
     endif(NOT TARGET gtest)
 
     set(GTEST_LIBRARY gtest)
