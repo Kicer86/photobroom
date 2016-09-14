@@ -87,14 +87,16 @@ target_link_libraries(core
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
-target_include_directories(core PUBLIC 
-                                    ${CMAKE_CURRENT_BINARY_DIR}
+target_include_directories(core SYSTEM PUBLIC 
                                     ${Qt5Core_INCLUDE_DIRS}
                                     ${Boost_INCLUDE_DIRS}
-                                PRIVATE
+                                PUBLIC 
+                                    ${CMAKE_CURRENT_BINARY_DIR}
+                                SYSTEM PRIVATE
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
-                                    ${EASYEXIF_INCLUDE_DIR}
+                                    ${EASYEXIF_INCLUDE_DIR}                                    
+                                PRIVATE
                                     ${CMAKE_BINARY_DIR}/exports 
                                     ${CMAKE_SOURCE_DIR}/src
 )

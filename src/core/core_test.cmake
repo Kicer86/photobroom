@@ -5,8 +5,6 @@ find_package(Threads REQUIRED)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
 
-include_directories(SYSTEM ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
-
 set(SRC
         unit_tests/tree_tests.cpp
         unit_tests/ts_multi_head_queue_tests.cpp
@@ -19,6 +17,14 @@ target_link_libraries(core_tests
                             ${GMOCK_MAIN_LIBRARY} 
                             ${GMOCK_LIBRARY} 
                             ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_include_directories(core_tests
+                            SYSTEM PRIVATE
+                                ${GMOCK_INCLUDE_DIRS} 
+                                ${GTEST_INCLUDE_DIRS}
+                            PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src
 )
 
 
