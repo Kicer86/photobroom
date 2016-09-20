@@ -181,6 +181,7 @@ namespace Database
             bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
             bool insert(Photo::Data &) const;
+            bool insert(std::deque<Photo::Data> &) const;
             bool update(const Photo::Data &) const;
 
             std::deque<TagValue>  listTagValues(const TagNameInfo& tagName) const;
@@ -569,8 +570,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        Transaction transaction(db);
-        bool status = transaction.begin();
+        bool status = true;
 
         //store path and date
         Photo::Id id = data.id;
@@ -610,6 +610,26 @@ namespace Database
 
         if (status)
             status = storeData(data);
+
+        return status;
+    }
+
+
+    bool ASqlBackend::Data::insert(std::deque<Photo::Data>& data_set) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        Transaction transaction(db);
+        bool status = transaction.begin();
+
+        for(Photo::Data& data: data_set)
+        {
+            if (status)
+                status = insert(data);
+
+            if (status == false)
+                break;
+        }
 
         if (status)
             status = transaction.commit();
@@ -1025,7 +1045,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::addPhoto(Photo::Data& data)
+    bool ASqlBackend::addPhotos(std::deque<Photo::Data>& data)
     {
         const bool status = m_data->insert(data);
 

@@ -337,12 +337,10 @@ namespace
 
         virtual void visit(InsertPhotosTask* task) override
         {
-            for(const QString& path: task->m_paths)
-            {
-                const bool status = insertPhoto(path);
-                if (task->m_callback)
-                    task->m_callback(status);
-            }
+            const bool status = insertPhotos(task->m_paths);
+            
+            if (task->m_callback)
+                task->m_callback(status);
         }
 
         virtual void visit(UpdateTask* task) override
@@ -470,18 +468,33 @@ namespace
             return photoPtr;
         }
 
-        bool insertPhoto(const QString& path)
+        bool insertPhotos(const std::set<QString>& paths)
         {
-            Photo::Data data;
-            data.path = path;
-            data.flags[Photo::FlagsE::StagingArea] = 1;
-
-            const bool status = m_backend->addPhoto(data);
-
+            std::deque<Photo::Data> data_set;
+            
+            for(const QString& path: paths)
+            {            
+                Photo::Data data;
+                data.path = path;
+                data.flags[Photo::FlagsE::StagingArea] = 1;
+                
+                data_set.push_back(data);
+            }
+            
+            const bool status = m_backend->addPhotos(data_set);
+            
             if (status)
             {
-                IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
-                emit photoAdded(photoInfo);
+                std::deque<IPhotoInfo::Ptr> photos;
+                
+                for(std::size_t i = 0; i < data_set.size(); i++)
+                {
+                    const Photo::Data& data = data_set[i];
+                    IPhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+                    photos.push_back(photoInfo);
+                }
+                
+                emit photosAdded(photos);
             }
 
             return status;
