@@ -98,8 +98,13 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 {
     const Tag::TagsList tags = photoInfo->getTags();
 
+    // TODO: it would be nice to ask database about current set of values for all photos
+    // but it is very noisy when many photos are being updated (newly added for example).
+    // For now we just read all tags from changed photos and append their values.
+
+    std::lock_guard<std::mutex> lock(m_tags_mutex);
     for(const auto& tag: tags)
-        updateValuesFor(tag.first);
+        m_tags[tag.first].insert(tag.second);
 }
 
 
