@@ -338,7 +338,7 @@ namespace
         virtual void visit(InsertPhotosTask* task) override
         {
             const bool status = insertPhotos(task->m_paths);
-            
+
             if (task->m_callback)
                 task->m_callback(status);
         }
@@ -451,6 +451,16 @@ namespace
             m_backend->closeConnections();
         }
 
+        IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data& data)
+        {
+            IPhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+
+            m_cache->introduce(photoInfo);
+            m_storekeeper->photoInfoConstructed(photoInfo);
+
+            return photoInfo;
+        }
+
         IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id)
         {
             IPhotoInfo::Ptr photoPtr = m_cache->find(id);
@@ -459,10 +469,7 @@ namespace
             {
                 const Photo::Data photoData = m_backend->getPhoto(id);
 
-                photoPtr = std::make_shared<PhotoInfo>(photoData);
-
-                m_cache->introduce(photoPtr);
-                m_storekeeper->photoInfoConstructed(photoPtr);
+                photoPtr = constructPhotoInfo(photoData);
             }
 
             return photoPtr;
@@ -471,29 +478,29 @@ namespace
         bool insertPhotos(const std::set<QString>& paths)
         {
             std::deque<Photo::Data> data_set;
-            
+
             for(const QString& path: paths)
-            {            
+            {
                 Photo::Data data;
                 data.path = path;
                 data.flags[Photo::FlagsE::StagingArea] = 1;
-                
+
                 data_set.push_back(data);
             }
-            
+
             const bool status = m_backend->addPhotos(data_set);
-            
+
             if (status)
             {
                 std::deque<IPhotoInfo::Ptr> photos;
-                
+
                 for(std::size_t i = 0; i < data_set.size(); i++)
                 {
                     const Photo::Data& data = data_set[i];
-                    IPhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+                    IPhotoInfo::Ptr photoInfo = constructPhotoInfo(data);
                     photos.push_back(photoInfo);
                 }
-                
+
                 emit photosAdded(photos);
             }
 
@@ -615,7 +622,7 @@ namespace Database
         m_impl->addTask(task);
     }
 
-    
+
     void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
         GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);
