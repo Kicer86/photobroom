@@ -81,7 +81,7 @@ namespace Database
 
             // Database::IBackend:
             virtual BackendStatus init(const ProjectInfo &) override final;
-            virtual bool addPhoto(Photo::Data &) override final;
+            virtual bool addPhotos(std::deque<Photo::Data> &) override final;
             virtual bool update(const Photo::Data &) override final;
 
             virtual std::deque<TagNameInfo> listTags() override final;

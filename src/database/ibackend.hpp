@@ -47,7 +47,7 @@ namespace Database
         virtual ~IBackend() = default;
 
         //add photo to database
-        virtual bool addPhoto(Photo::Data &) = 0;
+        virtual bool addPhotos(std::deque<Photo::Data> &) = 0;
 
         //update data
         virtual bool update(const Photo::Data &) = 0;

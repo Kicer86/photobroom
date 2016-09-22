@@ -38,7 +38,7 @@ namespace Database
 
 class PhotosAnalyzerImpl;
 
-class DATABASE_EXPORT PhotosAnalyzer: QObject
+class DATABASE_EXPORT PhotosAnalyzer: public QObject
 {
         Q_OBJECT
 
@@ -61,7 +61,7 @@ class DATABASE_EXPORT PhotosAnalyzer: QObject
         PhotosAnalyzerImpl* m_data;
 
     private slots:
-        void photoAdded(const IPhotoInfo::Ptr &);
+        void photosAdded(const std::deque<IPhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_ANALYZER_HPP

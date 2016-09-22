@@ -245,7 +245,7 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
     if (database != nullptr)
     {
         connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &IdxDataManager::photoChanged);
-        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photoAdded,    this, &IdxDataManager::photoAdded);
+        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photosAdded,   this, &IdxDataManager::photosAdded);
         connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photosRemoved, this, &IdxDataManager::photosRemoved);
     }
 
@@ -1023,16 +1023,19 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-void IdxDataManager::photoAdded(const IPhotoInfo::Ptr& photoInfo)
+void IdxDataManager::photosAdded(const std::deque<IPhotoInfo::Ptr>& photoInfos)
 {
     PhotosMatcher matcher;
     matcher.set(this);
     matcher.set(m_data->m_model);
 
-    const bool match = matcher.doesMatchModelFilters(photoInfo);
+    for(const IPhotoInfo::Ptr& ptr: photoInfos)
+    {
+        const bool match = matcher.doesMatchModelFilters(ptr);
 
-    if (match)
-        movePhotoToRightParent(photoInfo);
+        if (match)
+            movePhotoToRightParent(ptr);
+    }
 }
 
 

@@ -137,7 +137,7 @@ private slots:
 
     // database notifications
     void photoChanged(const IPhotoInfo::Ptr &);
-    void photoAdded(const IPhotoInfo::Ptr &);
+    void photosAdded(const std::deque<IPhotoInfo::Ptr> &);
     void photosRemoved(const std::deque<Photo::Id> &);
     //
 };
