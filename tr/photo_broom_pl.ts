@@ -65,19 +65,27 @@
     <message numerus="yes">
         <location line="+1"/>
         <source>Done. %n new photo(s) found.
-You can review them by clicking &apos;New photos&apos; tab at the bottom of window.</source>
+Photo broom will now collect data from photos.
+You can watch progress in &apos;Operations&apos; panel.
+When it is done you can review photos by clicking &apos;New photos&apos; tab at the bottom of window.
+</source>
         <translation>
             <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.
-Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.
+</numerusform>
             <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.
-Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+Photo broom rozpocznie teraz proces odczytywania z nich informacji.
+Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.
+Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna. </numerusform>
             <numerusform>Zakończono. Znaleziono %n nowych zdjęć.
-Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+Photo broom rozpocznie teraz proces odczytywania z nich informacji.
+Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.
+Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
         </translation>
     </message>
     <message>
         <location line="-17"/>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
