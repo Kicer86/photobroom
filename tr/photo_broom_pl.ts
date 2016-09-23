@@ -67,9 +67,12 @@
         <source>Done. %n new photo(s) found.
 You can review them by clicking &apos;New photos&apos; tab at the bottom of window.</source>
         <translation>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowych zdjęć. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.
+Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.
+Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.
+Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
         </translation>
     </message>
     <message>
@@ -503,12 +506,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/main.cpp" line="+40"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>loging level</source>
-        <translation type="unfinished"></translation>
+        <translation>poziom logowania</translation>
     </message>
 </context>
 </TS>
