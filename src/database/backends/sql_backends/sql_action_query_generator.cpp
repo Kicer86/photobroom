@@ -92,7 +92,7 @@ namespace Database
     }
 
 
-    QString SqlActionQueryGenerator::generate(const IAction::Ptr& action)
+    QString SqlActionQueryGenerator::generate(const IAction::Ptr& action) const
     {
         ActionsVisitor visitor;
         const QString actionQuery = visitor.visit(action);

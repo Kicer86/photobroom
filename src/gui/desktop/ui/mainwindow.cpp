@@ -156,7 +156,7 @@ void MainWindow::set(IUpdater* updater)
         {
             QTimer::singleShot(10000, this, &MainWindow::checkVersion);
 
-            std::chrono::system_clock::duration now_duration = now.time_since_epoch();
+            const std::chrono::system_clock::duration now_duration = now.time_since_epoch();
             const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
             m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
         }
