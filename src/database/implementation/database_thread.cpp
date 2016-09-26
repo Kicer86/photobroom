@@ -118,10 +118,10 @@ namespace
 
     struct UpdateTask: ThreadBaseTask
     {
-        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const IPhotoInfo::Ptr& photo):
+        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
             ThreadBaseTask(),
             m_task(std::move(task)),
-            m_photoInfo(photo)
+            m_photoData(photoData)
         {
 
         }
@@ -131,7 +131,7 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::unique_ptr<Database::AStorePhotoTask> m_task;
-        IPhotoInfo::Ptr m_photoInfo;
+        Photo::Data m_photoData;
     };
 
 
@@ -345,11 +345,12 @@ namespace
 
         virtual void visit(UpdateTask* task) override
         {
-            Photo::Data data = task->m_photoInfo->data();
+            const Photo::Data& data = task->m_photoData;
             const bool status = m_backend->update(data);
             task->m_task->got(status);
 
-            emit photoModified(task->m_photoInfo);
+            IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
+            emit photoModified(photoInfo);
         }
 
         virtual void visit(GetAllPhotosTask* task) override
@@ -611,7 +612,7 @@ namespace Database
 
     void DatabaseThread::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
     {
-        UpdateTask* task = new UpdateTask(std::move(db_task), photo);
+        UpdateTask* task = new UpdateTask(std::move(db_task), photo->data());
         m_impl->addTask(task);
     }
 
