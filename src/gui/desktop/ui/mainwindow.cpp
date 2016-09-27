@@ -615,6 +615,10 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 
 void MainWindow::markNewPhotosAsReviewed()
 {
+    // TODO: use batch operations here (IDatabase::perform)
+    // Current implementation is buggy and cannot be used.
+    // Check commit 722821802d2af576f0d97fc4bc5a898033a87970
+    // and issue #203
     auto task = std::make_unique<MarkPhotosReviewed>(m_currentPrj->getDatabase());
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
     filter->flags[Photo::FlagsE::StagingArea] = 1;
