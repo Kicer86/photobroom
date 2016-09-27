@@ -286,7 +286,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+8"/>
         <source>T&amp;asks</source>
-        <translation>&amp;Zadania</translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+5"/>
