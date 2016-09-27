@@ -682,6 +682,7 @@ namespace Database
 
     void DatabaseThread::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
     {
+        assert(!"bad implementation");
         PerformActionTask* task = new PerformActionTask(filters, actions);
         m_impl->addTask(task);
     }
