@@ -576,6 +576,13 @@ namespace Database
             m_executor.addTask( std::move(std::unique_ptr<ThreadBaseTask>(task)) );
         }
 
+        //store task to be executed by thread
+        void addTask(std::unique_ptr<ThreadBaseTask>&& task)
+        {
+            assert(m_working);
+            m_executor.addTask(std::move(task));
+        }
+
         void stopExecutor()
         {
             if (m_working)
@@ -713,8 +720,8 @@ namespace Database
 
     void DatabaseThread::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
-        GetPhotosTask2* task = new GetPhotosTask2(filter, callback);
-        m_impl->addTask(task);
+        auto task = std::make_unique<GetPhotosTask2>(filter, callback);
+        m_impl->addTask(std::move(task));
     }
 
 
