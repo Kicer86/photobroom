@@ -41,6 +41,7 @@ namespace
     struct GetAllPhotosTask;
     struct GetPhotoTask;
     struct GetPhotosTask;
+    struct GetPhotosTask2;
     struct ListTagsTask;
     struct ListTagsTask2;
     struct ListTagValuesTask;
@@ -71,6 +72,7 @@ namespace
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
+        virtual void visit(GetPhotosTask2 *) = 0;
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagsTask2 *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
@@ -185,6 +187,24 @@ namespace
 
         std::unique_ptr<Database::AGetPhotosTask> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
+    struct GetPhotosTask2: ThreadBaseTask
+    {
+        GetPhotosTask2(const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
+            ThreadBaseTask(),
+            m_filter(filter),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~GetPhotosTask2() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::deque<Database::IFilter::Ptr> m_filter;
+        Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
     struct ListTagsTask: ThreadBaseTask
@@ -380,6 +400,17 @@ namespace
                 photosList.push_back(getPhotoFor(id));
 
             task->m_task->got(photosList);
+        }
+
+        virtual void visit(GetPhotosTask2* task) override
+        {
+            auto photos = m_backend->getPhotos(task->m_filter);
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(getPhotoFor(id));
+
+            task->m_callback(photosList);
         }
 
         virtual void visit(ListTagsTask* task) override
@@ -676,6 +707,13 @@ namespace Database
     void DatabaseThread::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
         ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
+    {
+        GetPhotosTask2* task = new GetPhotosTask2(filter, callback);
         m_impl->addTask(task);
     }
 
