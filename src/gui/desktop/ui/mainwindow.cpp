@@ -36,27 +36,6 @@
 #include "ui_mainwindow.h"
 
 
-namespace
-{
-
-    struct MarkPhotosReviewed: Database::AGetPhotosTask
-    {
-        MarkPhotosReviewed(Database::IDatabase* db): m_db(db)
-        {
-        }
-
-        void got(const IPhotoInfo::List& photos) override
-        {
-            for(const IPhotoInfo::Ptr& photo: photos)
-                photo->markFlag(Photo::FlagsE::StagingArea, 0);
-        }
-
-        Database::IDatabase* m_db;
-    };
-
-}
-
-
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -468,6 +447,13 @@ void MainWindow::setupNewPhotosView()
 }
 
 
+void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
+{
+    for(const IPhotoInfo::Ptr& photo: photos)
+        photo->markFlag(Photo::FlagsE::StagingArea, 0);
+}
+
+
 void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
@@ -619,13 +605,16 @@ void MainWindow::markNewPhotosAsReviewed()
     // Current implementation is buggy and cannot be used.
     // Check commit 722821802d2af576f0d97fc4bc5a898033a87970
     // and issue #203
-    auto task = std::make_unique<MarkPhotosReviewed>(m_currentPrj->getDatabase());
+    using namespace std::placeholders;
+    std::function<void(const IPhotoInfo::List &)> markPhotos = std::bind(&MainWindow::markPhotosReviewed, this, _1);
+    auto callback = cross_thread_function(this, markPhotos);
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+
     filter->flags[Photo::FlagsE::StagingArea] = 1;
 
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 
-    m_currentPrj->getDatabase()->exec(std::move(task), filters);
+    m_currentPrj->getDatabase()->listPhotos(filters, callback);
 }
 
 

@@ -294,7 +294,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -331,7 +331,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+125"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -341,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-22"/>
+        <location line="-29"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -351,7 +351,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+223"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -401,12 +401,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location line="-148"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+79"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
