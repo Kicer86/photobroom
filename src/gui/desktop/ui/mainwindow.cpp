@@ -36,6 +36,31 @@
 #include "ui_mainwindow.h"
 
 
+namespace
+{
+
+    struct StagePhotosTask final: ITaskExecutor::ITask
+    {
+        StagePhotosTask(const IPhotoInfo::List& photos): m_photos(photos) {}
+
+        std::string name() const override
+        {
+            return "Store photos";
+        }
+
+        void perform() override
+        {
+            for(const IPhotoInfo::Ptr& photo: m_photos)
+                photo->markFlag(Photo::FlagsE::StagingArea, 0);
+        }
+
+        private:
+            IPhotoInfo::List m_photos;
+    };
+
+}
+
+
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -449,8 +474,9 @@ void MainWindow::setupNewPhotosView()
 
 void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
 {
-    for(const IPhotoInfo::Ptr& photo: photos)
-        photo->markFlag(Photo::FlagsE::StagingArea, 0);
+    // add task for photos modification, so main thread will not be slowed down
+    auto task = std::make_unique<StagePhotosTask>(photos);
+    m_executor->add(std::move(task));
 }
 
 
@@ -606,15 +632,14 @@ void MainWindow::markNewPhotosAsReviewed()
     // Check commit 722821802d2af576f0d97fc4bc5a898033a87970
     // and issue #203
     using namespace std::placeholders;
-    std::function<void(const IPhotoInfo::List &)> markPhotos = std::bind(&MainWindow::markPhotosReviewed, this, _1);
-    auto callback = cross_thread_function(this, markPhotos);
+    auto markPhotos = std::bind(&MainWindow::markPhotosReviewed, this, _1);
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
 
     filter->flags[Photo::FlagsE::StagingArea] = 1;
 
     const std::deque<Database::IFilter::Ptr> filters( {filter});
 
-    m_currentPrj->getDatabase()->listPhotos(filters, callback);
+    m_currentPrj->getDatabase()->listPhotos(filters, markPhotos);
 }
 
 
