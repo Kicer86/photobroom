@@ -355,7 +355,7 @@ namespace Database
     }
 
 
-    QString SqlFilterQueryGenerator::generate(const std::deque<IFilter::Ptr>& filters)
+    QString SqlFilterQueryGenerator::generate(const std::deque<IFilter::Ptr>& filters) const
     {
         return Generator().parse(filters);
     }

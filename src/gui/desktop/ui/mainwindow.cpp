@@ -36,6 +36,31 @@
 #include "ui_mainwindow.h"
 
 
+namespace
+{
+
+    struct StagePhotosTask final: ITaskExecutor::ITask
+    {
+        StagePhotosTask(const IPhotoInfo::List& photos): m_photos(photos) {}
+
+        std::string name() const override
+        {
+            return "Store photos";
+        }
+
+        void perform() override
+        {
+            for(const IPhotoInfo::Ptr& photo: m_photos)
+                photo->markFlag(Photo::FlagsE::StagingArea, 0);
+        }
+
+        private:
+            IPhotoInfo::List m_photos;
+    };
+
+}
+
+
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -156,7 +181,7 @@ void MainWindow::set(IUpdater* updater)
         {
             QTimer::singleShot(10000, this, &MainWindow::checkVersion);
 
-            std::chrono::system_clock::duration now_duration = now.time_since_epoch();
+            const std::chrono::system_clock::duration now_duration = now.time_since_epoch();
             const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
             m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
         }
@@ -447,6 +472,14 @@ void MainWindow::setupNewPhotosView()
 }
 
 
+void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
+{
+    // add task for photos modification, so main thread will not be slowed down
+    auto task = std::make_unique<StagePhotosTask>(photos);
+    m_executor->add(std::move(task));
+}
+
+
 void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;
@@ -594,16 +627,19 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 
 void MainWindow::markNewPhotosAsReviewed()
 {
+    // TODO: use batch operations here (IDatabase::perform)
+    // Current implementation is buggy and cannot be used.
+    // Check commit 722821802d2af576f0d97fc4bc5a898033a87970
+    // and issue #203
+    using namespace std::placeholders;
+    auto markPhotos = std::bind(&MainWindow::markPhotosReviewed, this, _1);
     auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+
     filter->flags[Photo::FlagsE::StagingArea] = 1;
 
-    auto action = std::make_shared<Database::ModifyFlagAction>();
-    action->flags[Photo::FlagsE::StagingArea] = 0;
+    const std::deque<Database::IFilter::Ptr> filters( {filter});
 
-    const std::deque<Database::IFilter::Ptr> filters( {filter} );
-    const std::deque<Database::IAction::Ptr> actions( {action} );
-
-    m_currentPrj->getDatabase()->perform(filters, actions);
+    m_currentPrj->getDatabase()->listPhotos(filters, markPhotos);
 }
 
 

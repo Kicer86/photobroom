@@ -41,6 +41,7 @@ namespace
     struct GetAllPhotosTask;
     struct GetPhotoTask;
     struct GetPhotosTask;
+    struct GetPhotosTask2;
     struct ListTagsTask;
     struct ListTagsTask2;
     struct ListTagValuesTask;
@@ -71,6 +72,7 @@ namespace
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
+        virtual void visit(GetPhotosTask2 *) = 0;
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagsTask2 *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
@@ -118,10 +120,10 @@ namespace
 
     struct UpdateTask: ThreadBaseTask
     {
-        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const IPhotoInfo::Ptr& photo):
+        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
             ThreadBaseTask(),
             m_task(std::move(task)),
-            m_photoInfo(photo)
+            m_photoData(photoData)
         {
 
         }
@@ -131,7 +133,7 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         std::unique_ptr<Database::AStorePhotoTask> m_task;
-        IPhotoInfo::Ptr m_photoInfo;
+        Photo::Data m_photoData;
     };
 
 
@@ -185,6 +187,24 @@ namespace
 
         std::unique_ptr<Database::AGetPhotosTask> m_task;
         std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
+    struct GetPhotosTask2: ThreadBaseTask
+    {
+        GetPhotosTask2(const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
+            ThreadBaseTask(),
+            m_filter(filter),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~GetPhotosTask2() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        std::deque<Database::IFilter::Ptr> m_filter;
+        Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
     struct ListTagsTask: ThreadBaseTask
@@ -345,11 +365,12 @@ namespace
 
         virtual void visit(UpdateTask* task) override
         {
-            Photo::Data data = task->m_photoInfo->data();
+            const Photo::Data& data = task->m_photoData;
             const bool status = m_backend->update(data);
             task->m_task->got(status);
 
-            emit photoModified(task->m_photoInfo);
+            IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
+            emit photoModified(photoInfo);
         }
 
         virtual void visit(GetAllPhotosTask* task) override
@@ -379,6 +400,17 @@ namespace
                 photosList.push_back(getPhotoFor(id));
 
             task->m_task->got(photosList);
+        }
+
+        virtual void visit(GetPhotosTask2* task) override
+        {
+            auto photos = m_backend->getPhotos(task->m_filter);
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(getPhotoFor(id));
+
+            task->m_callback(photosList);
         }
 
         virtual void visit(ListTagsTask* task) override
@@ -530,7 +562,7 @@ namespace Database
         Impl( std::unique_ptr<IBackend>&& backend):
             m_cache(nullptr),
             m_storekeeper(),
-            m_executor( std::move(backend), &m_storekeeper),
+            m_executor(std::move(backend), &m_storekeeper),
             m_thread(),
             m_working(true)
         {
@@ -542,6 +574,13 @@ namespace Database
         {
             assert(m_working);
             m_executor.addTask( std::move(std::unique_ptr<ThreadBaseTask>(task)) );
+        }
+
+        //store task to be executed by thread
+        void addTask(std::unique_ptr<ThreadBaseTask>&& task)
+        {
+            assert(m_working);
+            m_executor.addTask(std::move(task));
         }
 
         void stopExecutor()
@@ -611,7 +650,7 @@ namespace Database
 
     void DatabaseThread::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
     {
-        UpdateTask* task = new UpdateTask(std::move(db_task), photo);
+        UpdateTask* task = new UpdateTask(std::move(db_task), photo->data());
         m_impl->addTask(task);
     }
 
@@ -679,8 +718,16 @@ namespace Database
     }
 
 
+    void DatabaseThread::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
+    {
+        auto task = std::make_unique<GetPhotosTask2>(filter, callback);
+        m_impl->addTask(std::move(task));
+    }
+
+
     void DatabaseThread::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
     {
+        assert(!"bad implementation");
         PerformActionTask* task = new PerformActionTask(filters, actions);
         m_impl->addTask(task);
     }

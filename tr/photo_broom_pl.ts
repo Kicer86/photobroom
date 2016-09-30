@@ -65,16 +65,27 @@
     <message numerus="yes">
         <location line="+1"/>
         <source>Done. %n new photo(s) found.
-You can review them by clicking &apos;New photos&apos; tab at the bottom of window.</source>
+Photo broom will now collect data from photos.
+You can watch progress in &apos;Operations&apos; panel.
+When it is done you can review photos by clicking &apos;New photos&apos; tab at the bottom of window.
+</source>
         <translation>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowych zdjęć. Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.
+Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.
+</numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.
+Photo broom rozpocznie teraz proces odczytywania z nich informacji.
+Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.
+Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna. </numerusform>
+            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.
+Photo broom rozpocznie teraz proces odczytywania z nich informacji.
+Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.
+Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
         </translation>
     </message>
     <message>
         <location line="-17"/>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
@@ -208,7 +219,12 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-40"/>
+        <source>Collection</source>
+        <translation>Kolekcja</translation>
+    </message>
+    <message>
+        <location line="+55"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -275,7 +291,7 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
     <message>
         <location line="+8"/>
         <source>T&amp;asks</source>
-        <translation>&amp;Zadania</translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -283,7 +299,7 @@ You can review them by clicking &apos;New photos&apos; tab at the bottom of wind
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+228"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -305,12 +321,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-157"/>
-        <source>Reviewed photos</source>
-        <translation>Przejrzane zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+5"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-152"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
@@ -320,7 +331,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+126"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -330,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-22"/>
+        <location line="-30"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -340,7 +351,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+224"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -390,12 +401,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location line="-149"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+80"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -503,12 +514,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/main.cpp" line="+40"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>loging level</source>
-        <translation type="unfinished"></translation>
+        <translation>poziom logowania</translation>
     </message>
 </context>
 </TS>

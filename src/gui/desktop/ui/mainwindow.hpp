@@ -84,6 +84,8 @@ class MainWindow: public QMainWindow
         void setupReviewedPhotosView();
         void setupNewPhotosView();
 
+        void markPhotosReviewed(const IPhotoInfo::List &);
+
     private slots:
         // album menu
         void on_actionNew_collection_triggered();
