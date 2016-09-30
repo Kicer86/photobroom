@@ -32,7 +32,7 @@
       </property>
       <widget class="PhotosWidget" name="imagesView">
        <attribute name="title">
-        <string>Reviewed photos</string>
+        <string>Collection</string>
        </attribute>
       </widget>
       <widget class="PhotosWidget" name="newImagesView">
