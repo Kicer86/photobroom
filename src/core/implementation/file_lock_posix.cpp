@@ -18,3 +18,67 @@
  */
 
 #include "file_lock.hpp"
+
+#include <cassert>
+#include <fcntl.h>
+#include <unistd.h>
+
+
+namespace
+{
+    struct Impl
+    {
+        int m_fd;
+
+        Impl(int fd): m_fd(fd)
+        {
+
+        }
+    };
+}
+
+
+bool FileLock::tryLock()
+{
+    assert(m_impl == nullptr);
+
+    const int fd = open(m_path.c_str(), O_CREAT | O_RDWR);
+
+    if (fd != -1)
+    {
+        flock fl;
+
+        fl.l_type = F_WRLCK;
+        fl.l_whence = SEEK_SET;
+        fl.l_start = 0;
+        fl.l_len = 0;
+
+        const int lock_result = fcntl(fd, F_SETFL, &fl);
+
+        if (lock_result != -1)
+            m_impl = new Impl(fd);
+    }
+
+    return m_impl != nullptr;
+}
+
+
+void FileLock::unlock()
+{
+    if (m_impl != nullptr)
+    {
+        Impl* impl = static_cast<Impl *>(m_impl);
+
+        flock fl;
+
+        fl.l_type = F_UNLCK;
+        fl.l_whence = SEEK_SET;
+        fl.l_start = 0;
+        fl.l_len = 0;
+
+        fcntl(impl->m_fd, F_SETFL, &fl);
+        close(impl->m_fd);
+
+        delete impl;
+    }
+}

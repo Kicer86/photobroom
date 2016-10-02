@@ -28,11 +28,15 @@ class FileLock
         FileLock(const std::string& file_path);
         ~FileLock();
 
+        FileLock(const FileLock &) = delete;
+        FileLock& operator=(const FileLock &) = delete;
+
         bool tryLock();
         void unlock();
 
     private:
         std::string m_path;
+        void* m_impl;
 };
 
 #endif // FILELOCK_HPP
