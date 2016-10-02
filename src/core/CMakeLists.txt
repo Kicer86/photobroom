@@ -32,11 +32,21 @@ set(CORE_SOURCES
 )
 
 
+if(UNIX)
+    list(APPEND CORE_SOURCES implementation/file_lock_posix.cpp)
+elseif(WIN32)
+    list(APPEND CORE_SOURCES implementation/file_lock_win.cpp)
+else()
+    message(FATAL "No file lock implementation for your operating system.")
+endif()
+
+
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
     cross_thread_callback.hpp
     disk_observer.hpp
+    file_lock.hpp
     ilogger.hpp
     ilogger_factory.hpp
     iphotos_manager.hpp
@@ -87,17 +97,17 @@ target_link_libraries(core
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
-target_include_directories(core SYSTEM PUBLIC 
+target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
                                     ${Boost_INCLUDE_DIRS}
-                                PUBLIC 
+                                PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 SYSTEM PRIVATE
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
-                                    ${EASYEXIF_INCLUDE_DIR}                                    
+                                    ${EASYEXIF_INCLUDE_DIR}
                                 PRIVATE
-                                    ${CMAKE_BINARY_DIR}/exports 
+                                    ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src
 )
 
