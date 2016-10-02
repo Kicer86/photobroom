@@ -1,5 +1,5 @@
 /*
- * File lock mechanism
+ * File lock - generic part
  * Copyright (C) 2016  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,22 +17,15 @@
  *
  */
 
-#ifndef FILELOCK_HPP
-#define FILELOCK_HPP
+#include "file_lock.hpp"
 
-#include <string>
-
-class FileLock
+FileLock::FileLock(const std::string& path): m_path(path)
 {
-    public:
-        FileLock(const std::string& file_path);
-        ~FileLock();
 
-        bool tryLock();
-        void unlock();
+}
 
-    private:
-        std::string m_path;
-};
 
-#endif // FILELOCK_HPP
+FileLock::~FileLock()
+{
+    unlock();
+}

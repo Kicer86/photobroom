@@ -19,6 +19,7 @@ set(CORE_SOURCES
     implementation/base_tags.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
+    implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
