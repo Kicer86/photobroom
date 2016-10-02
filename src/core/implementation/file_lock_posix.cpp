@@ -79,6 +79,6 @@ void FileLock::unlock()
         fcntl(impl->m_fd, F_SETFL, &fl);
         close(impl->m_fd);
 
-        delete impl;
+        delete impl, m_impl = nullptr;
     }
 }
