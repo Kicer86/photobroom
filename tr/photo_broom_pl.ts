@@ -387,7 +387,18 @@ Sprawdź proszę pliki kolekcji:
 %1</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>Collection locked</source>
+        <translation>Kolekcja w użyciu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Photo collection could not be opened.
+It is already opened by another Photo Broom instance.</source>
+        <translation>Kolekcja zdjęć nie mogła zostać otwarta ponieważ jest już używana.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -401,7 +412,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-149"/>
+        <location line="-158"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
