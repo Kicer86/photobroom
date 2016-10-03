@@ -42,18 +42,19 @@ bool FileLock::tryLock()
 {
     assert(m_impl == nullptr);
 
-    const int fd = open(m_path.c_str(), O_CREAT | O_RDWR);
+    const int fd = open(m_path.c_str(), O_CREAT | O_WRONLY);
 
     if (fd != -1)
     {
         flock fl;
 
-        fl.l_type = F_WRLCK;
+        fl.l_type   = F_WRLCK;
         fl.l_whence = SEEK_SET;
-        fl.l_start = 0;
-        fl.l_len = 0;
+        fl.l_start  = 0;
+        fl.l_len    = 0;
+        fl.l_pid    = getpid();
 
-        const int lock_result = fcntl(fd, F_SETFL, &fl);
+        const int lock_result = fcntl(fd, F_SETLK, &fl);
 
         if (lock_result == -1)
             close(fd);
@@ -73,13 +74,15 @@ void FileLock::unlock()
 
         flock fl;
 
-        fl.l_type = F_UNLCK;
+        fl.l_type   = F_UNLCK;
         fl.l_whence = SEEK_SET;
-        fl.l_start = 0;
-        fl.l_len = 0;
+        fl.l_start  = 0;
+        fl.l_len    = 0;
+        fl.l_pid    = getpid();
 
-        fcntl(impl->m_fd, F_SETFL, &fl);
+        fcntl(impl->m_fd, F_SETLK, &fl);
         close(impl->m_fd);
+        unlink(m_path.c_str());
 
         delete impl, m_impl = nullptr;
     }
