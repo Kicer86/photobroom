@@ -610,6 +610,15 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
             closeProject();
             break;
 
+        case Database::StatusCodes::ProjectLocked:
+            QMessageBox::critical(this,
+                                  tr("Collection locked"),
+                                  tr("Photo collection could not be opened.\n"
+                                     "It is already opened by another Photo Broom instance.")
+                                  );
+            closeProject();
+            break;
+
         default:
             QMessageBox::critical(this,
                                   tr("Unexpected error"),

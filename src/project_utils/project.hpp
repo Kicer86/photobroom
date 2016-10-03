@@ -24,6 +24,8 @@
 
 #include <QString>
 
+#include <core/file_lock.hpp>
+
 #include "project_utils_export.h"
 
 
@@ -64,12 +66,14 @@ class PROJECT_UTILS_EXPORT Project
 
         Database::IDatabase* getDatabase() const;
         const ProjectInfo& getProjectInfo() const;
+        bool lockProject();
 
         QString makePathRelative(const QString &) const;
 
     private:
         ProjectInfo m_prjInfo;
         std::unique_ptr<Database::IDatabase> m_database;
+        FileLock m_lock;
 };
 
 #endif // PROJECT_HPP

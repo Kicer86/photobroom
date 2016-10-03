@@ -12,6 +12,7 @@ namespace Database
         Ok,
         BadVersion,                         // db format is unknown (newer that supported)
         OpenFailed,
+        ProjectLocked,
         TransactionFailed,                  // Fail at transaction begin.
         TransactionCommitFailed,            // Fail at transaction commit
         QueryPreparationFailed,

@@ -74,7 +74,10 @@ const QString& ProjectInfo::getInternalLocation() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo): m_prjInfo(prjInfo), m_database(std::move(db))
+Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo):
+    m_prjInfo(prjInfo),
+    m_database(std::move(db)),
+    m_lock(prjInfo.getPath().toStdString() + ".lock")
 {
 
 }
@@ -82,7 +85,7 @@ Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& p
 
 Project::~Project()
 {
-
+    m_lock.unlock();
 }
 
 
@@ -95,6 +98,12 @@ Database::IDatabase* Project::getDatabase() const
 const ProjectInfo& Project::getProjectInfo() const
 {
     return m_prjInfo;
+}
+
+
+bool Project::lockProject()
+{
+    return m_lock.tryLock();
 }
 
 

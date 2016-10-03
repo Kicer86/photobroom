@@ -93,7 +93,7 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 
 std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const Database::IBuilder::OpenResult& openResult)
 {
-    Project* result = nullptr;
+    std::unique_ptr<Project> result = std::make_unique<Project>(nullptr, prjInfo);
 
     const QString& prjPath = prjInfo.getPath();
     const bool prjFileExists = QFile::exists(prjPath);
@@ -110,16 +110,20 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
         Database::ProjectInfo dbPrjInfo(location, backend);
         auto db = m_dbBuilder->get(dbPrjInfo, openResult);
 
-        result = new Project(std::move(db), prjInfo);
+        result = std::make_unique<Project>(std::move(db), prjInfo);
+
+        const bool lock_status = result->lockProject();
+
+        if (lock_status == false)
+        {
+            openResult(Database::StatusCodes::ProjectLocked);
+            result = std::make_unique<Project>(nullptr, prjInfo);
+        }
     }
     else
-    {
         openResult(Database::StatusCodes::OpenFailed);
-        result = new Project(nullptr, prjInfo);
-    }
-    
-    assert(result != nullptr);
-    return std::unique_ptr<Project>(result);
+
+    return result;
 }
 
 
