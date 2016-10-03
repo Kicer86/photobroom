@@ -55,7 +55,9 @@ bool FileLock::tryLock()
 
         const int lock_result = fcntl(fd, F_SETFL, &fl);
 
-        if (lock_result != -1)
+        if (lock_result == -1)
+            close(fd);
+        else
             m_impl = new Impl(fd);
     }
 
