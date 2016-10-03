@@ -116,7 +116,7 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
 
         if (lock_status == false)
         {
-            openResult(Database::StatusCodes::OpenFailed);
+            openResult(Database::StatusCodes::ProjectLocked);
             result = std::make_unique<Project>(nullptr, prjInfo);
         }
     }
