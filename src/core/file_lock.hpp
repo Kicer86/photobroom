@@ -22,7 +22,10 @@
 
 #include <string>
 
-class FileLock
+#include "core_export.h"
+
+
+class CORE_EXPORT FileLock
 {
     public:
         FileLock(const std::string& file_path);
