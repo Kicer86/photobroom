@@ -58,21 +58,25 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     QDir().mkpath(location);
 
     const QDir storagePath(location);
-    const QString prjPath = storagePath.absoluteFilePath( prjName + ".bpj");
+    const QString prjPath = storagePath.absoluteFilePath(prjName + ".bpj");
     const ProjectInfo prjInfo(prjPath);
-    const QString dbLocation = prjInfo.getInternalLocation() + "/db";
+    const QString dbDir = prjInfo.getInternalLocation() + "/db";
 
-    QDir().mkpath(dbLocation);
+    QDir().mkpath(dbDir);
 
     //prepare database
-    Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(dbLocation, prjName);
+    const Database::ProjectInfo dbPrjInfo = prjPlugin->initPrjDir(dbDir, prjName);
+
+    // construct relative path to database location
+    const QDir baseDir(prjInfo.getBaseDir());
+    const QString databaseLocation = baseDir.relativeFilePath(dbPrjInfo.databaseLocation);
 
     //prepare project file
     QSettings prjFile(prjPath, QSettings::IniFormat);
 
     prjFile.beginGroup("Database");
     prjFile.setValue("backend", dbPrjInfo.backendName);
-    prjFile.setValue("location", dbPrjInfo.databaseLocation);
+    prjFile.setValue("location", databaseLocation);
     prjFile.endGroup();
 
     prjFile.beginGroup("Project");
@@ -100,11 +104,13 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
 
     if (prjFileExists)
     {
+        const QString basePath = prjInfo.getBaseDir();
+
         QSettings prjFile(prjPath, QSettings::IniFormat);
 
         prjFile.beginGroup("Database");
-        QString backend  = prjFile.value("backend").toString();
-        QString location = prjFile.value("location").toString();
+        const QString backend  = prjFile.value("backend").toString();
+        const QString location = basePath + "/" + prjFile.value("location").toString();
         prjFile.endGroup();
 
         Database::ProjectInfo dbPrjInfo(location, backend);
