@@ -18,3 +18,54 @@
  */
 
 #include "file_lock.hpp"
+
+#include <cassert>
+
+#include <Windows.h>
+
+namespace
+{
+    struct Impl
+    {
+        HANDLE m_file;
+
+        Impl(HANDLE file): m_file(file)
+        {
+
+        }
+    };
+}
+
+
+bool FileLock::tryLock()
+{
+    assert(m_impl == nullptr);
+
+    LPCWSTR wideName = reinterpret_cast<LPCWSTR>( m_path.utf16() );
+    HANDLE file = CreateFileW(wideName,
+                              GENERIC_WRITE,
+                              0,
+                              nullptr,
+                              CREATE_NEW,
+                              FILE_FLAG_DELETE_ON_CLOSE,
+                              0
+                             );
+
+    if (file != INVALID_HANDLE_VALUE)
+        m_impl = new Impl(file);
+
+    return m_impl != nullptr;
+}
+
+
+void FileLock::unlock()
+{
+    if (m_impl != nullptr)
+    {
+        Impl* impl = static_cast<Impl *>(m_impl);
+
+        CloseHandle(impl->m_file);
+
+        delete impl, m_impl = nullptr;
+    }
+}

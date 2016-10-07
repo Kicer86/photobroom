@@ -19,7 +19,7 @@
 
 #include "file_lock.hpp"
 
-FileLock::FileLock(const std::string& path): m_path(path), m_impl(nullptr)
+FileLock::FileLock(const QString& path): m_path(path), m_impl(nullptr)
 {
 
 }

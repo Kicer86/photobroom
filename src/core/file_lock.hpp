@@ -20,7 +20,7 @@
 #ifndef FILELOCK_HPP
 #define FILELOCK_HPP
 
-#include <string>
+#include <QString>
 
 #include "core_export.h"
 
@@ -28,7 +28,7 @@
 class CORE_EXPORT FileLock
 {
     public:
-        FileLock(const std::string& file_path);
+        FileLock(const QString& file_path);
         ~FileLock();
 
         FileLock(const FileLock &) = delete;
@@ -38,7 +38,7 @@ class CORE_EXPORT FileLock
         void unlock();
 
     private:
-        std::string m_path;
+        QString m_path;
         void* m_impl;
 };
 

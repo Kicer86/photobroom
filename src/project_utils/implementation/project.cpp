@@ -77,7 +77,7 @@ const QString& ProjectInfo::getInternalLocation() const
 Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo):
     m_prjInfo(prjInfo),
     m_database(std::move(db)),
-    m_lock(prjInfo.getPath().toStdString() + ".lock")
+    m_lock(prjInfo.getPath() + ".lock")
 {
 
 }
