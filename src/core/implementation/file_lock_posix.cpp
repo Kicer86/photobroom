@@ -42,7 +42,7 @@ bool FileLock::tryLock()
 {
     assert(m_impl == nullptr);
 
-    const int fd = open(m_path.c_str(), O_CREAT | O_WRONLY);
+    const int fd = open(m_path.toStdString().c_str(), O_CREAT | O_WRONLY);
 
     if (fd != -1)
     {
@@ -82,7 +82,7 @@ void FileLock::unlock()
 
         fcntl(impl->m_fd, F_SETLK, &fl);
         close(impl->m_fd);
-        unlink(m_path.c_str());
+        unlink(m_path.toStdString().c_str());
 
         delete impl, m_impl = nullptr;
     }
