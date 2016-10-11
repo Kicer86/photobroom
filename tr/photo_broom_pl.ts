@@ -230,13 +230,13 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
     <message>
         <location line="+20"/>
-        <source>Photo &amp;information</source>
-        <translation>&amp;Informacje o zdjęciu</translation>
+        <source>Photo information</source>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>&amp;Tasks</source>
-        <translation>&amp;Operacje</translation>
+        <source>Tasks</source>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
