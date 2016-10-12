@@ -9,7 +9,6 @@
 
 
 // depends on: https://github.com/google/googletest/issues/395
-/*
 struct MockDatabase: Database::IDatabase
 {
     MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
@@ -36,7 +35,6 @@ struct MockDatabase: Database::IDatabase
 
     MOCK_METHOD0(closeConnections, void() );
 };
-*/
 
 #endif
 
