@@ -31,12 +31,17 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
             message(FATAL_ERROR "Could not find base for GMock sources. Set GMOCK_DIR to proper value")
         endif(NOT GMOCK_BASE_SOURCE OR NOT GMOCK_MAIN_SOURCE)
 
+        find_package(GTest REQUIRED)
+
         add_library(gmock STATIC ${GMOCK_BASE_SOURCE})
         add_library(gmock-main STATIC ${GMOCK_MAIN_SOURCE})
 
         get_filename_component(gmock_base_dir ${GMOCK_BASE_SOURCE} PATH)
         target_include_directories(gmock
                                     PRIVATE
+                                        # master branch
+                                        ${GTEST_INCLUDE_DIRS}
+                                        # v 1.7.0
                                         ${gmock_base_dir}/..
                                         ${gmock_base_dir}/../include
                                         ${gmock_base_dir}/../gtest/include
@@ -44,6 +49,9 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
 
         target_include_directories(gmock-main
                                     PRIVATE
+                                        # master branch
+                                        ${GTEST_INCLUDE_DIRS}
+                                        # v 1.7.0
                                         ${gmock_base_dir}/..
                                         ${gmock_base_dir}/../include
                                         ${gmock_base_dir}/../gtest/include
