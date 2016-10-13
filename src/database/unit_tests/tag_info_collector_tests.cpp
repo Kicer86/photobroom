@@ -43,7 +43,6 @@ TEST(TagInfoCollectorTest, returnsValuesFromDatabase)
     MockDatabase database;
 
     EXPECT_CALL(database, notifier())
-        .Times(1)
         .WillOnce(Return(&db_signals));
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
@@ -60,7 +59,6 @@ TEST(TagInfoCollectorTest, returnsValuesFromDatabase)
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::deque<TagValue>({QString("12"), QString("23")})) );
-
 
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
