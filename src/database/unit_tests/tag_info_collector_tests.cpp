@@ -26,7 +26,7 @@ TEST(TagInfoCollectorTest, getsWithoutDatabase)
 
     for(const BaseTagsList& tag: tags)
     {
-        const std::set<TagValue>& values = tagInfoCollector.get(tag);
+        const std::deque<TagValue>& values = tagInfoCollector.get(tag);
 
         EXPECT_EQ(values.empty(), true);
     }
@@ -63,6 +63,6 @@ TEST(TagInfoCollectorTest, returnsValuesFromDatabase)
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    const std::set<TagValue>& events = tagInfoCollector.get( TagNameInfo(BaseTagsList::Event) );
+    const std::deque<TagValue>& events = tagInfoCollector.get( TagNameInfo(BaseTagsList::Event) );
     ASSERT_EQ(events.size(), 2);
 }
