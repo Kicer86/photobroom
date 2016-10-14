@@ -82,8 +82,9 @@ void TagInfoCollector::unregisterChangeObserver(int id)
 
 void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<TagValue>& values)
 {
-    std::lock_guard<std::mutex> lock(m_tags_mutex);
+    std::unique_lock<std::mutex> lock(m_tags_mutex);
     m_tags[name] = values;
+    lock.unlock();
 
     notifyObserversAbout(name);
 }
@@ -97,7 +98,8 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     // but it is very noisy when many photos are being updated (newly added for example).
     // For now we just read all tags from changed photos and append their values.
 
-    std::lock_guard<std::mutex> lock(m_tags_mutex);
+    std::unique_lock<std::mutex> lock(m_tags_mutex);
+
     for(const auto& tag: tags)
     {
         const TagNameInfo& tagNameInfo = tag.first;
@@ -107,9 +109,19 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
         if (found == values.end())
             values.emplace_back(tag.second);
+    }
+
+    lock.unlock();
+
+    // send notifications
+
+    for(const auto& tag: tags)
+    {
+        const TagNameInfo& tagNameInfo = tag.first;
 
         notifyObserversAbout(tagNameInfo);
     }
+
 }
 
 
