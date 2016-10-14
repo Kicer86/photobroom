@@ -54,7 +54,7 @@ void TagInfoCollector::set(Database::IDatabase* db)
 }
 
 
-const std::set<TagValue>& TagInfoCollector::get(const TagNameInfo& info) const
+const std::deque<TagValue>& TagInfoCollector::get(const TagNameInfo& info) const
 {
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     return m_tags[info];
@@ -82,15 +82,11 @@ void TagInfoCollector::unregisterChangeObserver(int id)
 
 void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<TagValue>& values)
 {
-    std::set<TagValue> tagValues(values.begin(), values.end());
+    std::unique_lock<std::mutex> lock(m_tags_mutex);
+    m_tags[name] = values;
+    lock.unlock();
 
-    assert(values.size() == tagValues.size());
-
-    std::lock_guard<std::mutex> lock(m_tags_mutex);
-    m_tags[name].swap(tagValues);
-
-    for(auto& observer: m_observers)
-        observer.second(name);
+    notifyObserversAbout(name);
 }
 
 
@@ -102,9 +98,30 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     // but it is very noisy when many photos are being updated (newly added for example).
     // For now we just read all tags from changed photos and append their values.
 
-    std::lock_guard<std::mutex> lock(m_tags_mutex);
+    std::unique_lock<std::mutex> lock(m_tags_mutex);
+
     for(const auto& tag: tags)
-        m_tags[tag.first].insert(tag.second);
+    {
+        const TagNameInfo& tagNameInfo = tag.first;
+
+        std::deque<TagValue>& values = m_tags[tagNameInfo];
+        auto found = std::find(values.begin(), values.end(), tag.second);
+
+        if (found == values.end())
+            values.emplace_back(tag.second);
+    }
+
+    lock.unlock();
+
+    // send notifications
+
+    for(const auto& tag: tags)
+    {
+        const TagNameInfo& tagNameInfo = tag.first;
+
+        notifyObserversAbout(tagNameInfo);
+    }
+
 }
 
 
@@ -125,4 +142,11 @@ void TagInfoCollector::updateValuesFor(const TagNameInfo& name)
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
         m_database->listTagValues(name, result);
     }
+}
+
+
+void TagInfoCollector::notifyObserversAbout(const TagNameInfo& tagNameInfo) const
+{
+    for(auto& observer: m_observers)
+        observer.second(tagNameInfo);
 }

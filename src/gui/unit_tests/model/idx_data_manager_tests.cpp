@@ -7,9 +7,9 @@
 #include <desktop/models/model_helpers/idx_data_manager.hpp>
 #include <desktop/models/db_data_model.hpp>
 
-#include "test_helpers/mock_database.hpp"
+#include "unit_tests_utils/mock_database.hpp"
+#include "unit_tests_utils/mock_photo_info.hpp"
 #include "test_helpers/internal_task_executor.hpp"
-#include "test_helpers/mock_photo_info.hpp"
 
 
 // TODO: tests for IdxDataManager are requiring changes in IdxDataManager (remove dependency to DBDataModel)

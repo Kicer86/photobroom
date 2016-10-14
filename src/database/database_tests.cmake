@@ -32,6 +32,10 @@ set(SRC
         unit_tests/sql_filter_query_generator_tests.cpp
         unit_tests/sql_action_query_generator_tests.cpp
 
+        # tools tests:
+
+        unit_tests/tag_info_collector_tests.cpp
+
         # main()
         unit_tests/main.cpp
     )
@@ -41,6 +45,7 @@ add_executable(database_tests ${SRC})
 target_link_libraries(database_tests
                         PRIVATE
                             core
+                            database
                             Qt5::Core
                             Qt5::Gui
                             Qt5::Sql
