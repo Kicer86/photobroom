@@ -157,7 +157,7 @@ void TaskExecutor::eat()
         return running_tasks == 0;
     });
 
-    DebugStream(m_logger) << "TaskExecutor: shutting down." << std::endl;
+    DebugStream(m_logger) << "TaskExecutor: shutting down.";
 }
 
 
