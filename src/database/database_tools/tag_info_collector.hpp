@@ -58,6 +58,8 @@ class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
 
         void updateAllTags();
         void updateValuesFor(const TagNameInfo &);
+
+        void notifyObserversAbout(const TagNameInfo &) const;
 };
 
 #endif // TAGINFOCOLLECTOR_H

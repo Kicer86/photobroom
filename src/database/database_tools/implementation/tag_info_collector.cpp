@@ -85,8 +85,7 @@ void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::deque<Ta
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     m_tags[name] = values;
 
-    for(auto& observer: m_observers)
-        observer.second(name);
+    notifyObserversAbout(name);
 }
 
 
@@ -101,11 +100,15 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     for(const auto& tag: tags)
     {
-        std::deque<TagValue>& values = m_tags[tag.first];
+        const TagNameInfo& tagNameInfo = tag.first;
+
+        std::deque<TagValue>& values = m_tags[tagNameInfo];
         auto found = std::find(values.begin(), values.end(), tag.second);
 
         if (found == values.end())
             values.emplace_back(tag.second);
+
+        notifyObserversAbout(tagNameInfo);
     }
 }
 
@@ -127,4 +130,11 @@ void TagInfoCollector::updateValuesFor(const TagNameInfo& name)
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
         m_database->listTagValues(name, result);
     }
+}
+
+
+void TagInfoCollector::notifyObserversAbout(const TagNameInfo& tagNameInfo) const
+{
+    for(auto& observer: m_observers)
+        observer.second(tagNameInfo);
 }
