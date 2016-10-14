@@ -9,7 +9,7 @@
 #include "database_tools/tag_info_collector.hpp"
 #include "unit_tests_utils/mock_database.hpp"
 
-TEST(TagInfoCollectorTest, isConstructible)
+TEST(TagInfoCollectorTest, Constructor)
 {
     EXPECT_NO_THROW(
     {
@@ -18,7 +18,7 @@ TEST(TagInfoCollectorTest, isConstructible)
 }
 
 
-TEST(TagInfoCollectorTest, getsWithoutDatabase)
+TEST(TagInfoCollectorTest, GetWithoutDatabase)
 {
     TagInfoCollector tagInfoCollector;
 
@@ -33,7 +33,7 @@ TEST(TagInfoCollectorTest, getsWithoutDatabase)
 }
 
 
-TEST(TagInfoCollectorTest, returnsValuesFromDatabase)
+TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
 {
     using ::testing::InvokeArgument;
     using ::testing::Return;
