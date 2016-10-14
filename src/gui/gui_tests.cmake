@@ -40,7 +40,6 @@ set(SRC
 
         # helpers:
         unit_tests/test_helpers/mock_configuration.hpp
-        unit_tests/test_helpers/mock_database.hpp
         unit_tests/test_helpers/mock_qabstractitemmodel.hpp
 
         unit_tests/test_helpers/internal_task_executor.cpp
