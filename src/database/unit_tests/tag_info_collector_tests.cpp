@@ -89,3 +89,50 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     EXPECT_EQ(places[0].getString(), "12");
     EXPECT_EQ(places[1].getString(), "23");
 }
+
+
+TEST(TagInfoCollectorTest, EmptyDatabase)
+{
+    using ::testing::InvokeArgument;
+    using ::testing::Return;
+    using ::testing::_;
+
+    Database::ADatabaseSignals db_signals;
+    MockDatabase database;
+
+    EXPECT_CALL(database, notifier())
+        .WillOnce(Return(&db_signals));
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Event), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Event), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::People), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::People), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::deque<TagValue>()) );
+
+    TagInfoCollector tagInfoCollector;
+    tagInfoCollector.set(&database);
+
+    const std::deque<TagValue>& dates = tagInfoCollector.get( TagNameInfo(BaseTagsList::Date) );
+    EXPECT_TRUE(dates.empty());
+
+    const std::deque<TagValue>& events = tagInfoCollector.get( TagNameInfo(BaseTagsList::Event) );
+    EXPECT_TRUE(events.empty());
+
+    const std::deque<TagValue>& times = tagInfoCollector.get( TagNameInfo(BaseTagsList::Time) );
+    EXPECT_TRUE(times.empty());
+
+    const std::deque<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::People) );
+    EXPECT_TRUE(people.empty());
+
+    const std::deque<TagValue>& places = tagInfoCollector.get( TagNameInfo(BaseTagsList::Place) );
+    EXPECT_TRUE(places.empty());
+}
