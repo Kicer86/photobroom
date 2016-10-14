@@ -10,10 +10,10 @@
 #include <desktop/views/view_impl/positions_reseter.hpp>
 #include <desktop/views/view_impl/data.hpp>
 
+#include "unit_tests_utils/mock_photo_info.hpp"
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 #include "test_helpers/photo_info_model.hpp"
-#include "test_helpers/mock_photo_info.hpp"
 
 
 class PositionsCalculatorShould: public ::testing::Test
