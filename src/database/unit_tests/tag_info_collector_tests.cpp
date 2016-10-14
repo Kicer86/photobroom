@@ -224,9 +224,9 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     auto observerCallback = std::bind(&Observer::event, &observer, _1);
 
     // called 5 times by TagInfoCollector for each of TagName after database is set
-    // + 1 time after photo modification
+    //      + 2 times after photo modification (for each tag name)
     EXPECT_CALL(observer, event(_))
-        .Times(6);
+        .Times(7);
 
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.registerChangeObserver(observerCallback);
@@ -234,7 +234,8 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     auto photoInfo = std::make_shared<MockPhotoInfo>();
     Tag::TagsList tags = {
-                            { TagNameInfo(BaseTagsList::People), TagValue("person123") }
+                            { TagNameInfo(BaseTagsList::People), TagValue("person123") },
+                            { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
     };
 
     EXPECT_CALL(*photoInfo.get(), getTags())
