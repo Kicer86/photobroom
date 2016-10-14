@@ -8,6 +8,7 @@
 
 #include "database_tools/tag_info_collector.hpp"
 #include "unit_tests_utils/mock_database.hpp"
+#include "unit_tests_utils/mock_photo_info.hpp"
 
 TEST(TagInfoCollectorTest, Constructor)
 {
@@ -135,4 +136,50 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
 
     const std::deque<TagValue>& places = tagInfoCollector.get( TagNameInfo(BaseTagsList::Place) );
     EXPECT_TRUE(places.empty());
+}
+
+
+TEST(TagInfoCollectorTest, ReactionOnDBChange)
+{
+    using ::testing::InvokeArgument;
+    using ::testing::Return;
+    using ::testing::_;
+
+    Database::ADatabaseSignals db_signals;
+    MockDatabase database;
+
+    EXPECT_CALL(database, notifier())
+        .WillOnce(Return(&db_signals));
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Event), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Event), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::People), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::People), std::deque<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::deque<TagValue>()) );
+
+    TagInfoCollector tagInfoCollector;
+    tagInfoCollector.set(&database);
+
+    auto photoInfo = std::make_shared<MockPhotoInfo>();
+    Tag::TagsList tags = {
+                            { TagNameInfo(BaseTagsList::People), TagValue("person123") }
+    };
+
+    EXPECT_CALL(*photoInfo.get(), getTags())
+        .WillOnce(Return(tags));
+
+    emit db_signals.photoModified(photoInfo);
+
+    const std::deque<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::People) );
+    ASSERT_EQ(people.size(), 1);
+    EXPECT_EQ(people[0].getString(), "person123");
 }
