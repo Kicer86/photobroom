@@ -10,6 +10,7 @@
 #include "unit_tests_utils/mock_database.hpp"
 #include "unit_tests_utils/mock_photo_info.hpp"
 
+
 TEST(TagInfoCollectorTest, Constructor)
 {
     EXPECT_NO_THROW(
