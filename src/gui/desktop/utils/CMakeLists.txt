@@ -35,7 +35,6 @@ set(UTILS_FILES_TO_MOC
     path_checker.hpp
     photos_collector.hpp
     signal_filter.hpp
-    tag_value_model.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )

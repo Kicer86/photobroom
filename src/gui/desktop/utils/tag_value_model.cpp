@@ -19,6 +19,7 @@
 
 #include "tag_value_model.hpp"
 
+#include <core/cross_thread_callback.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
@@ -59,7 +60,7 @@ TagValueModel::TagValueModel(const TagNameInfo& info):
     m_loggerFactory(nullptr),
     m_observerId(0)
 {
-    connect(this, &TagValueModel::postUpdateData, this, &TagValueModel::updateData);
+
 }
 
 
@@ -75,8 +76,10 @@ void TagValueModel::set(ITagInfoCollector* collector)
     m_tagInfoCollector = collector;
 
     using namespace std::placeholders;
-    auto callback = std::bind(&TagValueModel::collectorNotification, this, _1);
-    m_observerId = m_tagInfoCollector->registerChangeObserver(callback);
+    std::function<void(const TagNameInfo &)> callback = std::bind(&TagValueModel::collectorNotification, this, _1);
+    auto mainThreadCallback = cross_thread_function(this, callback);                  // make sure we won't have problems with calls from other threads
+
+    m_observerId = m_tagInfoCollector->registerChangeObserver(mainThreadCallback);
 
     updateData();
 }
@@ -136,5 +139,5 @@ void TagValueModel::updateData()
 void TagValueModel::collectorNotification(const TagNameInfo& tagInfo)
 {
     if (m_tagInfo == tagInfo)
-        emit postUpdateData();   // make sure we won't have problems with threads
+        updateData();
 }
