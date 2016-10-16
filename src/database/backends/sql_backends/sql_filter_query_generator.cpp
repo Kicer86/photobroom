@@ -174,10 +174,25 @@ namespace Database
 
         void visit(FilterPhotosMatchingExpression* filter) override
         {
-            m_filterResult.joins.insert(FilterData::TagsWithPhotos);
+            const QStringList conditions = filter->expression.split(";");
+            QString final_condition;
 
-            m_filterResult.conditions.append(QString(TAB_TAGS ".value LIKE '%%1%'")
-                                             .arg(filter->expression));
+            final_condition += "(";
+            const std::size_t s = conditions.size();
+
+            for(std::size_t i = 0; i < s; i++)
+            {
+                const QString condition = conditions[i].trimmed();
+                final_condition += QString(TAB_TAGS ".value LIKE '%%1%'").arg(condition);
+
+                if (i + 1 < s)
+                    final_condition += " OR ";
+            }
+
+            final_condition += ")";
+
+            m_filterResult.joins.insert(FilterData::TagsWithPhotos);
+            m_filterResult.conditions.append(final_condition);
         }
 
         void visit(FilterPhotosWithPath* filter) override
