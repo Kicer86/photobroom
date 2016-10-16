@@ -25,6 +25,7 @@ set(CORE_SOURCES
     implementation/logger.cpp
     implementation/logger_factory.cpp
     implementation/photos_manager.cpp
+    implementation/search_expression_evaluator.cpp
     implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
     implementation/tag_updater.cpp
@@ -59,6 +60,7 @@ set(CORE_HEADERS
     logger_factory.hpp
     map_iterator.hpp
     photos_manager.hpp
+    search_expression_evaluator.hpp
     status.hpp
     tag.hpp
     tag_feeder_factory.hpp
