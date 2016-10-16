@@ -18,3 +18,9 @@
  */
 
 #include "search_expression_evaluator.hpp"
+
+
+SearchExpressionEvaluator::SearchExpressionEvaluator()
+{
+
+}

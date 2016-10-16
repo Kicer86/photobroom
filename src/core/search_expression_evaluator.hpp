@@ -26,6 +26,15 @@
 
 class CORE_EXPORT SearchExpressionEvaluator
 {
+    public:
+        SearchExpressionEvaluator();
+        SearchExpressionEvaluator(const SearchExpressionEvaluator &) = delete;
+
+        SearchExpressionEvaluator& operator=(const SearchExpressionEvaluator &) = delete;
+
+
+
+    private:
 };
 
 #endif // SEARCHEXPRESSIONEVALUATOR_HPP
