@@ -32,7 +32,7 @@
 #include "database_export.h"
 #include "iphoto_info.hpp"
 
-#define FILTER_COMMAND virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); }
+#define FILTER_COMMAND() virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); } //
 
 namespace Database
 {
@@ -74,14 +74,14 @@ namespace Database
     {
         virtual ~EmptyFilter();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
     };
 
     struct DATABASE_EXPORT FilterPhotosWithTag: IFilter
     {
         virtual ~FilterPhotosWithTag();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         const TagNameInfo tagName;
         const TagValue tagValue;
@@ -94,7 +94,7 @@ namespace Database
         FilterPhotosWithFlags();
         virtual ~FilterPhotosWithFlags();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         enum class Mode
         {
@@ -111,7 +111,7 @@ namespace Database
         FilterPhotosWithSha256();
         virtual ~FilterPhotosWithSha256();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         Photo::Sha256sum sha256;
     };
@@ -121,7 +121,7 @@ namespace Database
         FilterNotMatchingFilter();
         virtual ~FilterNotMatchingFilter();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         IFilter::Ptr filter;
     };
@@ -131,7 +131,7 @@ namespace Database
         FilterPhotosWithId();
         virtual ~FilterPhotosWithId();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         Photo::Id filter;
     };
@@ -141,7 +141,7 @@ namespace Database
         FilterPhotosMatchingExpression(const QString &);
         virtual ~FilterPhotosMatchingExpression();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         const QString expression;
     };
@@ -151,7 +151,7 @@ namespace Database
         FilterPhotosWithPath(const QString &);
         virtual ~FilterPhotosWithPath();
 
-        FILTER_COMMAND
+        FILTER_COMMAND();
 
         const QString path;
     };
