@@ -219,3 +219,37 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
               "JOIN (flags) ON (flags.photo_id = photos.id) "
               "WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' ) AND photos.id = '1234567890'", query);
 }
+
+
+TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>("Person 1");
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "JOIN (tags) ON (tags.photo_id = photos.id) "
+              "WHERE (tags.value LIKE '%Person 1%')", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>("Person 1; Person 2");
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "JOIN (tags) ON (tags.photo_id = photos.id) "
+              "WHERE (tags.value LIKE '%Person 1%' OR tags.value LIKE '%Person 2%')", query);
+}
