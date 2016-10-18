@@ -20,6 +20,9 @@
 #ifndef SEARCHEXPRESSIONEVALUATOR_HPP
 #define SEARCHEXPRESSIONEVALUATOR_HPP
 
+#include <vector>
+
+#include <QString>
 
 #include "core_export.h"
 
@@ -27,12 +30,18 @@
 class CORE_EXPORT SearchExpressionEvaluator
 {
     public:
+        struct Filter
+        {
+            QString m_value;
+            bool m_exact;
+        };
+
         SearchExpressionEvaluator();
         SearchExpressionEvaluator(const SearchExpressionEvaluator &) = delete;
 
         SearchExpressionEvaluator& operator=(const SearchExpressionEvaluator &) = delete;
 
-
+        std::vector<Filter> evaluate(const QString& input);
 
     private:
 };

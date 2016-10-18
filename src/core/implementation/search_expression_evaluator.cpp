@@ -19,8 +19,27 @@
 
 #include "search_expression_evaluator.hpp"
 
+#include <QStringList>
 
 SearchExpressionEvaluator::SearchExpressionEvaluator()
 {
 
+}
+
+
+std::vector<SearchExpressionEvaluator::Filter> SearchExpressionEvaluator::evaluate(const QString& input)
+{
+    std::vector<Filter> result;
+
+    const QStringList expressions = input.split(",");
+
+    for(const QString& rawExpression: expressions)
+    {
+        const QString expression = rawExpression.trimmed();
+        const Filter filter = {expression, false};
+
+        result.push_back(filter);
+    }
+
+    return result;
 }
