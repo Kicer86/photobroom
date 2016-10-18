@@ -27,7 +27,7 @@ SearchExpressionEvaluator::SearchExpressionEvaluator()
 }
 
 
-std::vector<SearchExpressionEvaluator::Filter> SearchExpressionEvaluator::evaluate(const QString& input)
+std::vector<SearchExpressionEvaluator::Filter> SearchExpressionEvaluator::evaluate(const QString& input) const
 {
     std::vector<Filter> result;
 
