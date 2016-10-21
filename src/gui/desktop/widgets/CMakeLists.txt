@@ -10,6 +10,7 @@ set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
     info_widget.cpp
+    multi_value_line_edit.cpp
     photos_widget.cpp
     tasks_view_widget.cpp
     filters_editor/level_editor.cpp
@@ -26,6 +27,7 @@ set(HEADERS
     collection_dir_scan_dialog.hpp
     color_pick_button.hpp
     info_widget.hpp
+    multi_value_line_edit.hpp
     photos_widget.hpp
     tasks_view_widget.hpp
     filters_editor/level_editor.hpp
