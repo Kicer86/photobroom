@@ -28,6 +28,12 @@ class MultiValueLineEdit: public QLineEdit
     public:
         MultiValueLineEdit(QWidget* parent);
         MultiValueLineEdit(const QString&, QWidget* parent);
+
+    protected:
+        void keyPressEvent(QKeyEvent *e) override;
+
+    private:
+        std::pair<int, int> currentWordPos() const;
 };
 
 #endif // MULTIVALUELINEEDIT_HPP

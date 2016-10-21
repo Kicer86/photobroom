@@ -19,6 +19,8 @@
 
 #include "multi_value_line_edit.hpp"
 
+#include <QCompleter>
+
 
 MultiValueLineEdit::MultiValueLineEdit(QWidget* parent): QLineEdit(parent)
 {
@@ -29,4 +31,28 @@ MultiValueLineEdit::MultiValueLineEdit(QWidget* parent): QLineEdit(parent)
 MultiValueLineEdit::MultiValueLineEdit(const QString& text, QWidget* parent): QLineEdit(text, parent)
 {
 
+}
+
+
+void MultiValueLineEdit::keyPressEvent(QKeyEvent* e)
+{
+    QLineEdit::keyPressEvent(e);
+
+    const QString v = text();
+    const std::pair<int, int> wordPos = currentWordPos();
+    const QString word = v.mid(wordPos.first, wordPos.second);
+
+    QCompleter* c = completer();
+    c->setCompletionPrefix(word);
+}
+
+
+std::pair<int, int> MultiValueLineEdit::currentWordPos() const
+{
+    const int cp = cursorPosition();
+    const QString v = text();
+    const QString l = v.left(cp);
+    const int wb = l.lastIndexOf(",") + 1;
+
+    return std::make_pair(wb, cp);
 }
