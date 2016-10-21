@@ -21,6 +21,7 @@
 
 #include <QStringList>
 
+
 SearchExpressionEvaluator::SearchExpressionEvaluator()
 {
 
