@@ -95,6 +95,10 @@ bool TagNameInfo::isMultiValue() const
 
     switch (m_tag)
     {
+        case BaseTagsList::Invalid:
+            assert(!"Unexpected");
+            break;
+
         case BaseTagsList::Event:
         case BaseTagsList::Place:
         case BaseTagsList::Date:
