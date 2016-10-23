@@ -51,6 +51,21 @@ void CompleterFactory::set(ILoggerFactory* lf)
 
 QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 {
+    TagValueModel* model = getModelFor(info);
+
+    QCompleter* result = new QCompleter(model);
+    return result;
+}
+
+
+QCompleter* CompleterFactory::createCompleter(const std::vector<TagNameInfo>& infos)
+{
+    return nullptr;
+}
+
+
+TagValueModel * CompleterFactory::getModelFor(const TagNameInfo& info)
+{
     auto it = m_tagValueModels.find(info);
 
     if (it == m_tagValueModels.end())
@@ -61,11 +76,11 @@ QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
         model->set(m_loggerFactory);
         model->set(&m_tagInfoCollector);
 
-        auto iit = m_tagValueModels.insert( std::make_pair(info, std::move(model)) );
+        auto insert_it = m_tagValueModels.insert( std::make_pair(info, std::move(model)) );
 
-        it = iit.first;
+        it = insert_it.first;
     }
 
-    QCompleter* result = new QCompleter(it->second.get());
-    return result;
+    return it->second.get();
 }
+
