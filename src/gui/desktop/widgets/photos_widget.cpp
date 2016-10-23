@@ -25,10 +25,13 @@
 #include <QLayoutItem>
 
 #include <configuration/iconfiguration.hpp>
+#include <core/base_tags.hpp>
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
+#include "multi_value_line_edit.hpp"
 #include "models/db_data_model.hpp"
+#include "ui_utils/icompleter_factory.hpp"
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
 
@@ -43,7 +46,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr)
 {
-    auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, std::placeholders::_1, std::placeholders::_2);
+    using namespace std::placeholders;
+    auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
     const QImage image(":/gui/clock.svg");
     m_thumbnailAcquisitor.setInProgressThumbnail(image);
     m_thumbnailAcquisitor.setObserver(thumbUpdate);
@@ -57,7 +61,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
-    m_searchExpression = new QLineEdit(this);
+    m_searchExpression = new MultiValueLineEdit(this);
 
     QHBoxLayout* searchLayout = new QHBoxLayout;
     searchLayout->addWidget(searchPrompt);
@@ -155,6 +159,18 @@ void PhotosWidget::set(IConfiguration* configuration)
     m_view->setSpacing(spacing);
 
     m_delegate->set(configuration);
+}
+
+
+void PhotosWidget::set(ICompleterFactory* completerFactory)
+{
+    auto allTagTypes = BaseTags::getAll();
+    std::vector<TagNameInfo> allTags;
+
+    std::copy(allTagTypes.begin(), allTagTypes.end(), std::back_inserter(allTags));
+
+    QCompleter* completer = completerFactory->createCompleter(allTags);
+    m_searchExpression->setCompleter(completer);
 }
 
 

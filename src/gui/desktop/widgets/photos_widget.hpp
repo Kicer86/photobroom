@@ -30,11 +30,13 @@ class QItemSelectionModel;
 class QLineEdit;
 class QVBoxLayout;
 
-class PhotosItemDelegate;
 class DBDataModel;
-struct InfoBaloonWidget;
+class PhotosItemDelegate;
+class MultiValueLineEdit;
+class InfoBaloonWidget;
 struct ImagesTreeView;
 
+struct ICompleterFactory;
 struct IConfiguration;
 struct IPhotosManager;
 struct ITaskExecutor;
@@ -52,6 +54,7 @@ class PhotosWidget: public QWidget
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
         void set(IConfiguration *);
+        void set(ICompleterFactory *);
         void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel();
@@ -64,7 +67,7 @@ class PhotosWidget: public QWidget
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
-        QLineEdit* m_searchExpression;
+        MultiValueLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
 
         void searchExpressionChanged(const QString &);
