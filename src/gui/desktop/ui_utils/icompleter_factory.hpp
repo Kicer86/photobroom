@@ -11,6 +11,7 @@ struct ICompleterFactory
     virtual ~ICompleterFactory() {}
 
     virtual QCompleter* createCompleter(const TagNameInfo &) = 0;
+    virtual QCompleter* createCompleter(const std::vector<TagNameInfo> &) = 0;
 };
 
 #endif
