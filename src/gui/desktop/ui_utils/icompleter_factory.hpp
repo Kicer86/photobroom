@@ -4,7 +4,7 @@
 
 class QCompleter;
 
-class TagNameInfo;
+struct TagNameInfo;
 
 struct ICompleterFactory
 {
