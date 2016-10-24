@@ -18,3 +18,66 @@
  */
 
 #include "model_union.hpp"
+
+ModelUnion::ModelUnion():
+    QAbstractItemModel(),
+    m_subModels()
+{
+
+}
+
+
+ModelUnion::~ModelUnion()
+{
+
+}
+
+
+void ModelUnion::append(QAbstractItemModel* model)
+{
+    m_subModels.push_back(model);
+}
+
+
+QModelIndex ModelUnion::index(int row, int column, const QModelIndex& parent) const
+{
+
+}
+
+
+QModelIndex ModelUnion::parent(const QModelIndex& child) const
+{
+
+}
+
+
+int ModelUnion::rowCount(const QModelIndex& parent) const
+{
+    const int count = std::accumulate(m_subModels.begin(), m_subModels.end(), 0, [this, parent](int current_row_count, const QAbstractItemModel* model)
+    {
+        return current_row_count + model->rowCount(parent);
+    });
+
+    return count;
+}
+
+
+int ModelUnion::columnCount(const QModelIndex& parent) const
+{
+    int count = 0;
+
+    for(const QAbstractItemModel* model: m_subModels)
+    {
+        const int c = model->columnCount();
+        if (count < c)
+            count = c;
+    };
+
+    return count;
+}
+
+
+QVariant ModelUnion::data(const QModelIndex& index, int role) const
+{
+
+}

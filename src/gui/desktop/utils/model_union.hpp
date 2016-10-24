@@ -20,10 +20,28 @@
 #ifndef MODELUNION_HPP
 #define MODELUNION_HPP
 
+#include <deque>
+
 #include <QAbstractItemModel>
 
 class ModelUnion: public QAbstractItemModel
 {
+    public:
+        ModelUnion();
+        virtual ~ModelUnion();
+
+        void append(QAbstractItemModel *);
+
+        QModelIndex index(int row, int column, const QModelIndex & parent) const override;
+        QModelIndex parent(const QModelIndex & child) const override;
+
+        int rowCount(const QModelIndex & parent) const override;
+        int columnCount(const QModelIndex & parent) const override;
+
+        QVariant data(const QModelIndex & index, int role) const override;
+
+    private:
+        std::deque<QAbstractItemModel *> m_subModels;
 };
 
 #endif // MODELUNION_HPP
