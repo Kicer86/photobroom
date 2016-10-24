@@ -8,6 +8,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 set(UTILS_SOURCES
     config_tools.cpp
+    model_union.cpp
     photos_collector.cpp
     signal_filter.cpp
     tag_value_model.cpp
@@ -20,6 +21,7 @@ set(UTILS_HEADERS
     config_tools.hpp
     ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
+    model_union.hpp
     photos_collector.hpp
     signal_filter.hpp
     tag_value_model.hpp
