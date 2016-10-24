@@ -23,6 +23,7 @@
 
 #include <database/database_tools/tag_info_collector.hpp>
 #include <utils/tag_value_model.hpp>
+#include <utils/model_union.hpp>
 
 
 CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_loggerFactory(nullptr)
@@ -58,9 +59,9 @@ QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const std::vector<TagNameInfo>& infos)
+QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos)
 {
-    return nullptr;
+
 }
 
 
@@ -84,3 +85,27 @@ TagValueModel * CompleterFactory::getModelFor(const TagNameInfo& info)
     return it->second.get();
 }
 
+
+ModelUnion* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
+{
+    auto it = m_unionModels.find(infos);
+
+    if (it == m_unionModels.end())
+    {
+        assert(m_loggerFactory != nullptr);
+
+        auto modelUnion = std::make_unique<ModelUnion>();
+
+        for(const auto& info: infos)
+        {
+            TagValueModel* model = getModelFor(info);
+            modelUnion->append(model);
+        }
+
+        auto insert_it = m_unionModels.insert( std::make_pair(infos, std::move(modelUnion)) );
+
+        it = insert_it.first;
+    }
+
+    return it->second.get();
+}
