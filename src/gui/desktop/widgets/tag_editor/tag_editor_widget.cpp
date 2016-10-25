@@ -34,7 +34,6 @@
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     QWidget(p, f),
-    m_completerFactory(),
     m_editorFactory(),
     m_view(nullptr),
     m_model(nullptr),
@@ -46,7 +45,6 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagValueProp(),
     m_tags()
 {
-    m_editorFactory.set(&m_completerFactory);
     m_view = new TagsView(&m_editorFactory, this);
     m_model = new TagsModel(this);
     m_tagName = new QComboBox(this);
@@ -94,15 +92,9 @@ void TagEditorWidget::set(DBDataModel* dbDataModel)
 }
 
 
-void TagEditorWidget::setDatabase(Database::IDatabase* db)
+void TagEditorWidget::set(ICompleterFactory* completerFactory)
 {
-    m_completerFactory.set(db);
-}
-
-
-void TagEditorWidget::set(ILoggerFactory* lf)
-{
-    m_completerFactory.set(lf);
+    m_editorFactory.set(completerFactory);
 }
 
 
