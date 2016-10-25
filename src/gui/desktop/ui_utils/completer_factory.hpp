@@ -27,7 +27,6 @@
 #include "icompleter_factory.hpp"
 
 
-class ModelUnion;
 class TagValueModel;
 
 namespace Database
@@ -53,12 +52,10 @@ class CompleterFactory: public ICompleterFactory
 
     private:
         TagInfoCollector m_tagInfoCollector;
-        std::map<TagNameInfo, std::unique_ptr<TagValueModel>> m_tagValueModels;
-        std::map<std::set<TagNameInfo>, std::unique_ptr<ModelUnion>> m_unionModels;
+        std::map<std::set<TagNameInfo>, std::unique_ptr<TagValueModel>> m_tagValueModels;
         ILoggerFactory* m_loggerFactory;
 
-        TagValueModel* getModelFor(const TagNameInfo &);
-        ModelUnion* getModelFor(const std::set<TagNameInfo> &);
+        TagValueModel* getModelFor(const std::set<TagNameInfo> &);
 };
 
 #endif // COMPLETERFACTORY_HPP

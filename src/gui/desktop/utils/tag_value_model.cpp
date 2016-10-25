@@ -52,9 +52,9 @@ namespace
 }
 
 
-TagValueModel::TagValueModel(const TagNameInfo& info):
+TagValueModel::TagValueModel(const std::set<TagNameInfo>& infos):
     m_values(),
-    m_tagInfo(info),
+    m_tagInfos (infos),
     m_tagInfoCollector(nullptr),
     m_loggerFactory(nullptr),
     m_observerId(0)
@@ -115,15 +115,24 @@ void TagValueModel::updateData()
 {
     beginResetModel();
 
-    const auto& values = m_tagInfoCollector->get(m_tagInfo);
-
     m_values.clear();
-    std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
+
+    QString combined_name;
+
+    for(const TagNameInfo& info: m_tagInfos )
+    {
+        const auto& values = m_tagInfoCollector->get(info);
+        std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
+
+        combined_name += combined_name.isEmpty()?
+            info.getName() :
+            ", " + info.getName();
+    }
 
     const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
     const QString logMessage = QString("Got %1 values for %2: %3")
                                     .arg(m_values.size())
-                                    .arg(m_tagInfo.getName())
+                                    .arg(combined_name)
                                     .arg(values_joined);
 
     auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
@@ -135,6 +144,6 @@ void TagValueModel::updateData()
 
 void TagValueModel::collectorNotification(const TagNameInfo& tagInfo)
 {
-    if (m_tagInfo == tagInfo)
+    if ( m_tagInfos.find(tagInfo) != m_tagInfos.end())
         emit postUpdateData();   // make sure we won't have problems with threads
 }

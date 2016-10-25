@@ -23,7 +23,6 @@
 
 #include <database/database_tools/tag_info_collector.hpp>
 #include <utils/tag_value_model.hpp>
-#include <utils/model_union.hpp>
 
 
 CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_loggerFactory(nullptr)
@@ -52,57 +51,32 @@ void CompleterFactory::set(ILoggerFactory* lf)
 
 QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 {
-    TagValueModel* model = getModelFor(info);
+    return createCompleter( std::set<TagNameInfo>({info}) );
+}
+
+
+QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos)
+{
+    TagValueModel* model = getModelFor(infos);
 
     QCompleter* result = new QCompleter(model);
     return result;
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos)
+TagValueModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
 {
-
-}
-
-
-TagValueModel * CompleterFactory::getModelFor(const TagNameInfo& info)
-{
-    auto it = m_tagValueModels.find(info);
+    auto it = m_tagValueModels.find(infos);
 
     if (it == m_tagValueModels.end())
     {
         assert(m_loggerFactory != nullptr);
 
-        auto model = std::make_unique<TagValueModel>(info);
+        auto model = std::make_unique<TagValueModel>(infos);
         model->set(m_loggerFactory);
         model->set(&m_tagInfoCollector);
 
-        auto insert_it = m_tagValueModels.insert( std::make_pair(info, std::move(model)) );
-
-        it = insert_it.first;
-    }
-
-    return it->second.get();
-}
-
-
-ModelUnion* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
-{
-    auto it = m_unionModels.find(infos);
-
-    if (it == m_unionModels.end())
-    {
-        assert(m_loggerFactory != nullptr);
-
-        auto modelUnion = std::make_unique<ModelUnion>();
-
-        for(const auto& info: infos)
-        {
-            TagValueModel* model = getModelFor(info);
-            modelUnion->append(model);
-        }
-
-        auto insert_it = m_unionModels.insert( std::make_pair(infos, std::move(modelUnion)) );
+        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(model)) );
 
         it = insert_it.first;
     }

@@ -32,7 +32,7 @@ class TagValueModel: public QAbstractListModel
         Q_OBJECT
 
     public:
-        TagValueModel(const TagNameInfo &);
+        TagValueModel(const std::set<TagNameInfo> &);
         TagValueModel(const TagValueModel &) = delete;
         ~TagValueModel();
         TagValueModel& operator=(const TagValueModel &) = delete;
@@ -46,7 +46,7 @@ class TagValueModel: public QAbstractListModel
 
     private:
         std::vector<TagValue> m_values;
-        TagNameInfo m_tagInfo;
+        std::set<TagNameInfo> m_tagInfos;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;
         int m_observerId;
