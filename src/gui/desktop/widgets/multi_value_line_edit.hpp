@@ -29,11 +29,16 @@ class MultiValueLineEdit: public QLineEdit
         MultiValueLineEdit(QWidget* parent);
         MultiValueLineEdit(const QString&, QWidget* parent);
 
+        void setCompleter(QCompleter *);
+
     protected:
         void keyPressEvent(QKeyEvent *e) override;
 
     private:
+        QCompleter* m_completer;
+
         std::pair<int, int> currentWordPos() const;
+        void insertCompletion(const QString &);
 };
 
 #endif // MULTIVALUELINEEDIT_HPP
