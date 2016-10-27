@@ -226,7 +226,8 @@ TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
     Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
-    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>("Person 1");
+    const SearchExpressionEvaluator::Expression expression = { {"Person 1", false} };
+    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>( expression );
 
     filters.push_back(filter);
 
@@ -243,7 +244,8 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
     Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
-    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>("Person 1; Person 2");
+    const SearchExpressionEvaluator::Expression expression = { {"Person 1", false}, {"Person 2", false} };
+    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>(expression);
 
     filters.push_back(filter);
 

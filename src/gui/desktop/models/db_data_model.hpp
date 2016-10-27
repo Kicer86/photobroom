@@ -84,7 +84,7 @@ class DBDataModel: public APhotoInfoModel
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
         void setStaticFilters(const std::deque<Database::IFilter::Ptr> &);
-        void applyFilters(const QString &);
+        void applyFilters(const SearchExpressionEvaluator::Expression &);
 
         const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
 

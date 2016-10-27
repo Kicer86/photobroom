@@ -174,7 +174,7 @@ namespace Database
 
         void visit(FilterPhotosMatchingExpression* filter) override
         {
-            const QStringList conditions = filter->expression.split(";");
+            const SearchExpressionEvaluator::Expression conditions = filter->expression;
             QString final_condition;
 
             final_condition += "(";
@@ -182,7 +182,7 @@ namespace Database
 
             for(std::size_t i = 0; i < s; i++)
             {
-                const QString condition = conditions[i].trimmed();
+                const QString condition = conditions[i].m_value.trimmed();
                 final_condition += QString(TAB_TAGS ".value LIKE '%%1%'").arg(condition);
 
                 if (i + 1 < s)

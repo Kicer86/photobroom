@@ -35,6 +35,10 @@
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
 
+namespace
+{
+    const char* expressions_separator = ",";
+}
 
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
@@ -61,7 +65,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
-    m_searchExpression = new MultiValueLineEdit(",", this);
+    m_searchExpression = new MultiValueLineEdit(expressions_separator, this);
 
     QHBoxLayout* searchLayout = new QHBoxLayout;
     searchLayout->addWidget(searchPrompt);
@@ -219,8 +223,9 @@ void PhotosWidget::viewScrolled()
 void PhotosWidget::applySearchExpression()
 {
     const QString search = m_searchExpression->text();
+    const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(search);
 
-    m_model->applyFilters(search);
+    m_model->applyFilters(expression);
 }
 
 

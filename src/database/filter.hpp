@@ -28,6 +28,7 @@
 #include <OpenLibrary/utils/optional.hpp>
 
 #include <core/tag.hpp>
+#include <core/search_expression_evaluator.hpp>
 
 #include "database_export.h"
 #include "iphoto_info.hpp"
@@ -138,12 +139,12 @@ namespace Database
 
     struct DATABASE_EXPORT FilterPhotosMatchingExpression: IFilter
     {
-        FilterPhotosMatchingExpression(const QString &);
+        FilterPhotosMatchingExpression(const SearchExpressionEvaluator::Expression &);
         virtual ~FilterPhotosMatchingExpression();
 
         FILTER_COMMAND();
 
-        const QString expression;
+        const SearchExpressionEvaluator::Expression expression;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithPath: IFilter

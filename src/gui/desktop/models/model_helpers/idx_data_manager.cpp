@@ -143,7 +143,7 @@ struct IdxDataManager::Data
     std::thread::id m_mainThreadId;
     ITaskExecutor* m_taskExecutor;
     safe_callback_ctrl m_tasksResultsCtrl;
-    QString filterExpression;
+    SearchExpressionEvaluator::Expression filterExpression;
 };
 
 
@@ -253,7 +253,7 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 }
 
 
-void IdxDataManager::applyFilters(const QString& filters)
+void IdxDataManager::applyFilters(const SearchExpressionEvaluator::Expression& filters)
 {
     m_data->filterExpression = filters;
 
@@ -465,7 +465,7 @@ void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filte
     const auto modelSpecificFilters = m_data->m_model->getStaticFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
 
-    if (m_data->filterExpression.isEmpty() == false)
+    if (m_data->filterExpression.empty() == false)
     {
         const auto searchExpressionFilter = std::make_shared<Database::FilterPhotosMatchingExpression>(m_data->filterExpression);
         filter->push_back(searchExpressionFilter);
