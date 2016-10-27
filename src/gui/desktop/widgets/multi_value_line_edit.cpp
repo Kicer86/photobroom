@@ -74,7 +74,7 @@ std::pair<int, int> MultiValueLineEdit::currentWordPos() const
 
 void MultiValueLineEdit::insertCompletion(const QString& completion)
 {
-    const auto wordPos = currentWordPos();
+    const std::pair<int, int> wordPos = currentWordPos();
 
     QString content = text();
     content.replace(wordPos.first, wordPos.second - wordPos.first, completion);
