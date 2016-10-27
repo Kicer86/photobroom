@@ -34,9 +34,14 @@ class CORE_EXPORT SearchExpressionEvaluator
         {
             QString m_value;
             bool m_exact;
+
+            Filter(): m_value(), m_exact(false) {}
+            Filter(const QString& value, bool exact = false): m_value(value), m_exact(exact) {}
         };
 
-        SearchExpressionEvaluator();
+        typedef std::vector<Filter> Expression;
+
+        SearchExpressionEvaluator(const QString& separator);
         SearchExpressionEvaluator(const SearchExpressionEvaluator &) = delete;
 
         SearchExpressionEvaluator& operator=(const SearchExpressionEvaluator &) = delete;
@@ -44,6 +49,7 @@ class CORE_EXPORT SearchExpressionEvaluator
         std::vector<Filter> evaluate(const QString& input) const;
 
     private:
+        QString m_separator;
 };
 
 #endif // SEARCHEXPRESSIONEVALUATOR_HPP

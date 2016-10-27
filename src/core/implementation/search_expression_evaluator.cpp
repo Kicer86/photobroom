@@ -22,7 +22,8 @@
 #include <QStringList>
 
 
-SearchExpressionEvaluator::SearchExpressionEvaluator()
+SearchExpressionEvaluator::SearchExpressionEvaluator(const QString& separator):
+    m_separator(separator)
 {
 
 }
@@ -32,12 +33,12 @@ std::vector<SearchExpressionEvaluator::Filter> SearchExpressionEvaluator::evalua
 {
     std::vector<Filter> result;
 
-    const QStringList expressions = input.split(",");
+    const QStringList expressions = input.split(m_separator);
 
     for(const QString& rawExpression: expressions)
     {
         const QString expression = rawExpression.trimmed();
-        const Filter filter = {expression, false};
+        const Filter filter(expression, false);
 
         result.push_back(filter);
     }
