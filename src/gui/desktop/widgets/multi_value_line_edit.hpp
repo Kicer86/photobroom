@@ -26,8 +26,10 @@
 class MultiValueLineEdit: public QLineEdit
 {
     public:
-        MultiValueLineEdit(QWidget* parent);
-        MultiValueLineEdit(const QString&, QWidget* parent);
+        MultiValueLineEdit(const QString& separator, QWidget* parent);
+        MultiValueLineEdit(const MultiValueLineEdit &) = delete;
+
+        MultiValueLineEdit& operator=(const MultiValueLineEdit &) = delete;
 
         void setCompleter(QCompleter *);
 
@@ -35,6 +37,7 @@ class MultiValueLineEdit: public QLineEdit
         void keyPressEvent(QKeyEvent *e) override;
 
     private:
+        QString m_separator;
         QCompleter* m_completer;
 
         std::pair<int, int> currentWordPos() const;

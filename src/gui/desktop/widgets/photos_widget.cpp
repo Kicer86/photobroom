@@ -61,7 +61,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
-    m_searchExpression = new MultiValueLineEdit(this);
+    m_searchExpression = new MultiValueLineEdit(",", this);
 
     QHBoxLayout* searchLayout = new QHBoxLayout;
     searchLayout->addWidget(searchPrompt);

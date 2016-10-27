@@ -24,15 +24,10 @@
 #include <QCompleter>
 
 
-MultiValueLineEdit::MultiValueLineEdit(QWidget* parent):
+MultiValueLineEdit::MultiValueLineEdit(const QString& separator, QWidget* parent):
     QLineEdit(parent),
+    m_separator(separator),
     m_completer(nullptr)
-{
-
-}
-
-
-MultiValueLineEdit::MultiValueLineEdit(const QString& text, QWidget* parent): QLineEdit(text, parent)
 {
 
 }
@@ -57,7 +52,7 @@ void MultiValueLineEdit::keyPressEvent(QKeyEvent* e)
 
     const QString v = text();
     const std::pair<int, int> wordPos = currentWordPos();
-    const QString word = v.mid(wordPos.first, wordPos.second);
+    const QString word = v.mid(wordPos.first, wordPos.second - wordPos.first);
     const QString wordToComplete = word.trimmed();
 
     m_completer->setCompletionPrefix(wordToComplete);
@@ -70,13 +65,20 @@ std::pair<int, int> MultiValueLineEdit::currentWordPos() const
     const int cp = cursorPosition();
     const QString v = text();
     const QString l = v.left(cp);
-    const int wb = l.lastIndexOf(",") + 1;
+    const int wb = l.lastIndexOf(m_separator) + 1;
+    const int ep = v.indexOf(m_separator, wb);
+    const int we = ep == -1? v.length(): ep;
 
-    return std::make_pair(wb, cp);
+    return std::make_pair(wb, we);
 }
 
 
 void MultiValueLineEdit::insertCompletion(const QString& completion)
 {
+    const auto wordPos = currentWordPos();
 
+    QString content = text();
+    content.replace(wordPos.first, wordPos.second - wordPos.first, completion);
+
+    setText(content);
 }
