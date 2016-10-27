@@ -247,6 +247,10 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
             case TagNameInfo::Type::Time:
                 result = new TimeEditor(parent);
                 break;
+
+            case TagNameInfo::Type::Invalid:
+                assert(!"Unexpected call");
+                break;
         }
 
     return result;
@@ -272,6 +276,10 @@ QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
 
             case TagNameInfo::Type::Time:
                 result = "time";
+                break;
+
+            case TagNameInfo::Type::Invalid:
+                assert(!"Unexpected call");
                 break;
         }
 
