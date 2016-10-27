@@ -45,7 +45,6 @@ void MultiValueLineEdit::setCompleter(QCompleter* completer)
 }
 
 
-
 void MultiValueLineEdit::keyPressEvent(QKeyEvent* e)
 {
     QLineEdit::keyPressEvent(e);
