@@ -726,6 +726,10 @@ namespace Database
                 case TagNameInfo::Type::String:
                     tagValue = TagValue(value.toString());
                     break;
+
+                case TagNameInfo::Type::Invalid:
+                    assert(!"Invalid case");
+                    break;
             }
 
             const bool multivalue = tagName.isMultiValue();
@@ -886,10 +890,10 @@ namespace Database
         Photo::Id result;
         if(status && query.next())
         {
-            const QVariant id = query.value(0);
+            const QVariant p_id = query.value(0);
 
-            static_assert(sizeof(decltype(id.toInt())) == sizeof(Photo::Id::type), "Incompatible types for id");
-            result = Photo::Id(id.toInt());
+            static_assert(sizeof(decltype(p_id.toInt())) == sizeof(Photo::Id::type), "Incompatible types for id");
+            result = Photo::Id(p_id.toInt());
         }
 
         return result == id;
