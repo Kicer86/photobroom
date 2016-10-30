@@ -4,7 +4,7 @@ branches:
   - master
   - appveyor
 configuration: Release
-platform: Any CPU
+platform: Win32
 environment:
   qt_ver: msvc2015
 before_build:
