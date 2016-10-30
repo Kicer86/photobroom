@@ -28,6 +28,7 @@ function(install_external_lib)
         list(REMOVE_DUPLICATES hints)
     else()
         message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+
     endif()
   endforeach()
 
@@ -37,7 +38,7 @@ endfunction(install_external_lib)
 macro(addDeploymentActions)
 
     # install required dll files
-    set(libs_OL libQtExt)
+    set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
