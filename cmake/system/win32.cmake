@@ -27,7 +27,7 @@ function(install_external_lib)
         list(APPEND hints ${lib_path})
         list(REMOVE_DUPLICATES hints)
     else()
-        message(FATAL_ERROR "Could not find location for ${lib}.dll file. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+        message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
     endif()
   endforeach()
 
@@ -66,7 +66,7 @@ macro(addDeploymentActions)
 
     endif()
 
-    install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX})
+    install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
 
     #Qt5
