@@ -1,0 +1,44 @@
+version: 1.0.{build}
+branches:
+  only:
+  - master
+  - appveyor
+configuration: Release
+platform: Any CPU
+environment:
+  qt_ver: msvc2015
+before_build:
+- cmd: >-
+    set PATH=C:\Qt\5.6\%qt_ver%\bin;%PATH%
+
+    set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_ver%;C:\Libraries\boost;c:/projects/install
+
+    rem third party stuff
+
+    mkdir build_third_party
+
+    cd build_third_party
+
+    cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=c:/projects/install/ ../cmake/third_party/
+
+    cmake --build . --config %Configuration%
+
+    cd ..
+
+    rem setup gmock and gtest
+
+    git clone https://github.com/google/googletest.git
+
+    set GTEST_PATH=%cd%/googletest
+
+    rem photo broom
+
+    mkdir build
+
+    cd build
+
+    cmake -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=c:/projects/install/ ..
+build:
+  project: build/PhotoBroom.sln
+  parallel: true
+  verbosity: minimal
