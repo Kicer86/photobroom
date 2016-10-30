@@ -49,18 +49,18 @@ macro(addDeploymentActions)
                      vcredist_x86
                      DOC "Visual Studio redistributable package installer"
                      HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 12.0/VC/redist/"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 13.0/VC/redist/"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 14.0/VC/redist/"
+                           "$ENV{PROGRAMFILES}/Microsoft Visual Studio 13.0/VC/redist/"
+                           "$ENV{PROGRAMFILES}/Microsoft Visual Studio 14.0/VC/redist/"
                     )
 
-        if(NOT VS_REDIST)
-            message(FATAL_ERROR "Could not find Visual Studio redistributable package installer")
+        if(VS_REDIST)
+            #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
+            install(PROGRAMS ${VS_REDIST} DESTINATION tmp)
+
+            set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\vcredist_x86.exe\\\"'")
+        else()
+            message(WARNING "Could not find Visual Studio redistributable package installer")
         endif()
-
-        #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
-        install(PROGRAMS ${VS_REDIST} DESTINATION tmp)
-
-        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\vcredist_x86.exe\\\"'")
 
         set(libs_Compiler )
 
