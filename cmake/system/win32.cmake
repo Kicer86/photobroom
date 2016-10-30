@@ -27,7 +27,7 @@ function(install_external_lib)
         list(APPEND hints ${lib_path})
         list(REMOVE_DUPLICATES hints)
     else()
-        message(FATAL_ERROR "Could not find location for ${lib}.dll file. Set path manuly in CMake's cache file in ${LIB_PATH_VAR} variable.")
+        message(FATAL_ERROR "Could not find location for ${lib}.dll file. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
     endif()
   endforeach()
 
