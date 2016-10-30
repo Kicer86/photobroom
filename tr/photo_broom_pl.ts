@@ -299,7 +299,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+228"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+235"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -326,7 +326,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+132"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+131"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -451,7 +451,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+59"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+67"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>

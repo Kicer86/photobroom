@@ -8,6 +8,7 @@
 
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
+#include <ui_utils/completer_factory.hpp>
 
 class ConfigDialogManager;
 class LookTabControler;
@@ -65,6 +66,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
         QStringList               m_recentCollections;
+        CompleterFactory          m_completerFactory;
 
         void closeEvent(QCloseEvent *) override;
 

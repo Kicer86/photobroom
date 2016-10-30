@@ -12,6 +12,8 @@
 
 struct GenericSqlQueryConstructorImpl: public Database::GenericSqlQueryConstructor
 {
+    GenericSqlQueryConstructorImpl() {}
+
     virtual QString getTypeFor(Database::ColDefinition::Purpose) const
     {
         return "_ID_";

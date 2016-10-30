@@ -8,7 +8,6 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 set(UTILS_SOURCES
     config_tools.cpp
-    path_checker.cpp
     photos_collector.cpp
     signal_filter.cpp
     tag_value_model.cpp
@@ -21,7 +20,6 @@ set(UTILS_HEADERS
     config_tools.hpp
     ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
-    path_checker.hpp
     photos_collector.hpp
     signal_filter.hpp
     tag_value_model.hpp
@@ -32,7 +30,6 @@ set(UTILS_HEADERS
 
 
 set(UTILS_FILES_TO_MOC
-    path_checker.hpp
     photos_collector.hpp
     signal_filter.hpp
 )

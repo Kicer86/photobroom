@@ -225,7 +225,7 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 }
 
 
-void DBDataModel::applyFilters(const QString& filters)
+void DBDataModel::applyFilters(const SearchExpressionEvaluator::Expression& filters)
 {
     m_idxDataManager->applyFilters(filters);
 }

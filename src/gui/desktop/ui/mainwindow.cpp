@@ -76,7 +76,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler),
-    m_recentCollections()
+    m_recentCollections(),
+    m_completerFactory()
 {
     qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
     connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
@@ -201,7 +202,13 @@ void MainWindow::set(IPhotosManager* manager)
 
 void MainWindow::set(ILoggerFactory* lf)
 {
-    ui->tagEditor->set(lf);
+    m_completerFactory.set(lf);
+
+    // Not nice to have setters for views here :/ views will use completer factories immediately after set.
+    // So factories need log factory before it.
+    ui->imagesView->set(&m_completerFactory);
+    ui->newImagesView->set(&m_completerFactory);
+    ui->tagEditor->set(&m_completerFactory);
 }
 
 
@@ -305,7 +312,6 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_newImagesModel->setDatabase(nullptr);
-        ui->tagEditor->setDatabase(nullptr);
         QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
@@ -585,7 +591,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
 
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
-            ui->tagEditor->setDatabase(db);
+            m_completerFactory.set(db);
             break;
         }
 

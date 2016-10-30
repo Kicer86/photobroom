@@ -26,6 +26,7 @@
 #include <database/database_tools/tag_info_collector.hpp>
 #include "icompleter_factory.hpp"
 
+
 class TagValueModel;
 
 namespace Database
@@ -47,11 +48,14 @@ class CompleterFactory: public ICompleterFactory
         void set(ILoggerFactory *);
 
         QCompleter* createCompleter(const TagNameInfo &) override;
+        QCompleter* createCompleter(const std::set<TagNameInfo> &) override;
 
     private:
         TagInfoCollector m_tagInfoCollector;
-        std::map<TagNameInfo, std::unique_ptr<TagValueModel>> m_tagValueModels;
+        std::map<std::set<TagNameInfo>, std::unique_ptr<TagValueModel>> m_tagValueModels;
         ILoggerFactory* m_loggerFactory;
+
+        TagValueModel* getModelFor(const std::set<TagNameInfo> &);
 };
 
 #endif // COMPLETERFACTORY_HPP

@@ -306,12 +306,13 @@ namespace Database
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
-        //from filtered photos, get info about tags used there
-        QString queryStr = "SELECT DISTINCT %2.value FROM (%1) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%3'";
+        // from filtered photos, get info about tags used there
+        // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
+        QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
 
-        queryStr = queryStr.arg(filterQuery);
-        queryStr = queryStr.arg(TAB_TAGS);
         queryStr = queryStr.arg(tagName.getTag());
+        queryStr = queryStr.arg(TAB_TAGS);
+        queryStr = queryStr.arg(filterQuery);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -725,6 +726,10 @@ namespace Database
                 case TagNameInfo::Type::String:
                     tagValue = TagValue(value.toString());
                     break;
+
+                case TagNameInfo::Type::Invalid:
+                    assert(!"Invalid case");
+                    break;
             }
 
             const bool multivalue = tagName.isMultiValue();
@@ -885,10 +890,10 @@ namespace Database
         Photo::Id result;
         if(status && query.next())
         {
-            const QVariant id = query.value(0);
+            const QVariant p_id = query.value(0);
 
-            static_assert(sizeof(decltype(id.toInt())) == sizeof(Photo::Id::type), "Incompatible types for id");
-            result = Photo::Id(id.toInt());
+            static_assert(sizeof(decltype(p_id.toInt())) == sizeof(Photo::Id::type), "Incompatible types for id");
+            result = Photo::Id(p_id.toInt());
         }
 
         return result == id;

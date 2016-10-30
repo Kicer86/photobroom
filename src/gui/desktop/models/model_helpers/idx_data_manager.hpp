@@ -52,7 +52,7 @@ public:
     void deepFetch(IdxData* top);
     bool canFetchMore(const QModelIndex& _parent);
     void setDatabase(Database::IDatabase* database);
-    void applyFilters(const QString &);
+    void applyFilters(const SearchExpressionEvaluator::Expression &);
     void refetchNode(IdxData *);
 
     IdxData* getRoot();
