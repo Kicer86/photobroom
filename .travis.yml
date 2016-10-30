@@ -40,29 +40,29 @@ matrix:
           # use compiler which has c++14 support
           env: COMPILER=g++-5 SHARED_BUILD=OFF
 
-#        - compiler: clang
-#          addons:
-#            apt:
-#             packages:
-#               - libboost-all-dev
-#               - clang-3.6
-#             sources:
-#               - ubuntu-toolchain-r-test
-#               - llvm-toolchain-precise-3.6
-#          # use compiler which has c++14 support
-#          env: COMPILER=clang++-3.6 SHARED_BUILD=ON
+        - compiler: clang
+          addons:
+            apt:
+             packages:
+               - libboost-all-dev
+               - clang-3.6
+             sources:
+               - ubuntu-toolchain-r-test
+               - llvm-toolchain-precise-3.6
+          # use compiler which has c++14 support
+          env: COMPILER=clang++-3.6 SHARED_BUILD=ON
 
-#        - compiler: clang
-#          addons:
-#            apt:
-#             packages:
-#               - libboost-all-dev
-#               - clang-3.6
-#             sources:
-#               - ubuntu-toolchain-r-test
-#               - llvm-toolchain-precise-3.6
-#          # use compiler which has c++14 support
-#          env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
+        - compiler: clang
+          addons:
+            apt:
+             packages:
+               - libboost-all-dev
+               - clang-3.6
+             sources:
+               - ubuntu-toolchain-r-test
+               - llvm-toolchain-precise-3.6
+          # use compiler which has c++14 support
+          env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
 
 before_install:
     # setup Qt 5.6 which is not in Ubuntu by default. To be removed in the future.
