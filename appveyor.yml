@@ -16,6 +16,7 @@ platform:
 
 cache:
     - c:\projects\install
+    - c:\projects\googletest
 
 before_build:
     - call appveyor.bat
