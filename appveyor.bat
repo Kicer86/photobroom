@@ -23,7 +23,7 @@ cd ..
 
 rem setup gmock and gtest
 :gtest
-if EXIST c:/projects/install goto :photo_broom
+if EXIST c:/projects/googletest goto :photo_broom
 set GTEST_PATH=c:\projects\googletest
 git clone https://github.com/google/googletest.git %GTEST_PATH%
 
