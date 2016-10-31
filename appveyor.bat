@@ -1,12 +1,8 @@
 
-echo "starting"
-
-if "%platform%"=="Win32"
-(
+if "%platform%"=="Win32" (
     set generator="Visual Studio 14"
-    set qt_arch=msvc2015)
-else
-(
+    set qt_arch=msvc2015
+) else (
     set generator="Visual Studio 14 Win64"
     set qt_arch=msvc2015_64
 )
