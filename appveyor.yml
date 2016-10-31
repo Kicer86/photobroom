@@ -21,7 +21,9 @@ before_build:
 - cmd: >-
 
     if "%platform%"=="Win32" (set generator="Visual Studio 14" & set qt_arch=msvc2015) else (set generator="Visual Studio 14 Win64" & set qt_arch=msvc2015_64)
+
     set PATH=C:\Qt\5.6\%qt_arch%\bin;%PATH%
+
     set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_arch%;C:\Libraries\boost;c:/projects/install
 
     if EXIST c:/projects/install goto :gtest
