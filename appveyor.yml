@@ -18,7 +18,8 @@ cache:
     - c:\projects\install
 
 before_build:
-    - appveyor.bat
+    - cmd: >-
+        call appveyor.bat
 
 
 build:
