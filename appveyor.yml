@@ -17,9 +17,8 @@ platform:
 cache:
     - c:\projects\install
 
-before_build:
-    - cmd: >-
-        call appveyor.bat
+before_build_script:
+    - call appveyor.bat
 
 
 build:
