@@ -42,7 +42,7 @@ before_build:
 
     rem setup gmock and gtest
 
-    gtest:
+    :gtest
 
     git clone https://github.com/google/googletest.git
 
