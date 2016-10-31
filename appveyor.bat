@@ -1,4 +1,6 @@
 
+echo ON
+
 if "%platform%"=="Win32" (
     set generator="Visual Studio 14"
     set qt_arch=msvc2015
