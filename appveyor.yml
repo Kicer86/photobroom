@@ -27,6 +27,7 @@ before_build:
     set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_arch%;C:\Libraries\boost;c:/projects/install
 
     if EXIST c:/projects/install goto gtest
+
     rem third party stuff
 
     mkdir build_third_party
