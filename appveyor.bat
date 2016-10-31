@@ -1,4 +1,6 @@
 
+echo "starting"
+
 if "%platform%"=="Win32"
 (
     set generator="Visual Studio 14"
