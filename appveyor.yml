@@ -6,17 +6,29 @@ branches:
   - master
   - appveyor
 
-configuration: Release
-platform: Win32
-
-environment:
-  qt_ver: msvc2015
+configuration: 
+  - Release
+  - Debug
+  
+platform: 
+  - Win32
+  - x64
 
 before_build:
 - cmd: >-
-    set PATH=C:\Qt\5.6\%qt_ver%\bin;%PATH%
+
+    if "%platform%"=="Win32" (
+      set generator="Visual Studio 14"
+      set qt_arch=msvc2015
+    )
+    else (
+      set generator="Visual Studio 14 Win64"
+      set qt_arch=msvc2015_64
+    )
+
+    set PATH=C:\Qt\5.6\%qt_arch%\bin;%PATH%
     
-    set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_ver%;C:\Libraries\boost;c:/projects/install
+    set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_arch%;C:\Libraries\boost;c:/projects/install
 
     rem third party stuff
 
@@ -24,7 +36,7 @@ before_build:
 
     cd build_third_party
 
-    cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=c:/projects/install/ ../cmake/third_party/
+    cmake -G%generator% -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=c:/projects/install/ ../cmake/third_party/
 
     cmake --build . --config %Configuration%
 
@@ -42,7 +54,7 @@ before_build:
 
     cd build
 
-    cmake -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=c:/projects/install/ ..
+    cmake -G%generator% -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=c:/projects/install/ ..
 
 build:
   project: build/PhotoBroom.sln
