@@ -1076,6 +1076,7 @@ namespace Database
     std::deque<TagNameInfo> ASqlBackend::listTags()
     {
         assert(!"Not implemented");
+        return std::deque<TagNameInfo>();
     }
 
 
