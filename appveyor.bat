@@ -11,6 +11,7 @@ if "%platform%"=="Win32" (
 
 set PATH=C:\Qt\5.6\%qt_arch%\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_arch%;C:\Libraries\boost;c:/projects/install
+set GTEST_PATH=c:\projects\googletest
 
 if EXIST c:/projects/install goto :gtest
 
@@ -24,7 +25,6 @@ cd ..
 rem setup gmock and gtest
 :gtest
 if EXIST c:/projects/googletest goto :photo_broom
-set GTEST_PATH=c:\projects\googletest
 git clone https://github.com/google/googletest.git %GTEST_PATH%
 
 rem photo broom
