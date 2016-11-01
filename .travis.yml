@@ -64,6 +64,10 @@ matrix:
           # use compiler which has c++14 support
           env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
 
+cache:
+  directories:
+  - $TRAVIS_BUILD_DIR/usr
+
 before_install:
     # setup Qt 5.6 which is not in Ubuntu by default. To be removed in the future.
   - sudo add-apt-repository ppa:beineri/opt-qt561-trusty -y
@@ -73,11 +77,13 @@ before_install:
 
 before_script:
   # third party stuff
-  - mkdir build_third_party
-  - pushd build_third_party
-  - CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/
-  - make
-  - popd
+  - if [ ! -e $TRAVIS_BUILD_DIR/usr ]; then
+  -     mkdir build_third_party
+  -     pushd build_third_party
+  -     CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/
+  -     make
+  -     popd
+  - fi
   # setup gmock and gtest
   - git clone https://github.com/google/googletest.git
   - GTEST_PATH=`pwd`/googletest
