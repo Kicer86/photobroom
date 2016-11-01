@@ -75,7 +75,7 @@ before_script:
   # third party stuff
   - mkdir build_third_party
   - pushd build_third_party
-  - CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=OFF -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/
+  - CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/
   - make
   - popd
   # OL. For some unknown reason we cannot use script above to install OL - cmake cannot find Qt5Widgets.
