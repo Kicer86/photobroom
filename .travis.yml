@@ -87,7 +87,7 @@ before_script:
     fi
   # setup gmock and gtest
   - if [ ! -e $GTEST_PATH ]; then
-        git clone https://github.com/google/googletest.git;
+        git clone https://github.com/google/googletest.git $GTEST_PATH;
     fi
   # photo broom
   - mkdir build && cd build
