@@ -77,10 +77,7 @@ before_install:
 
 before_script:
   # third party stuff
-  - echo $TRAVIS_BUILD_DIR
-  - ls $TRAVIS_BUILD_DIR
-  - ls $TRAVIS_BUILD_DIR/usr
-  - if [ ! -e $TRAVIS_BUILD_DIR/usr ]; then
+  - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         mkdir build_third_party;
         pushd build_third_party;
         CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/;
