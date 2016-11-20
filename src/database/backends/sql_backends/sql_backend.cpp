@@ -253,7 +253,7 @@ namespace Database
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
 
-                const QString value = tagValue.formattedValue();
+                const QString value = tagValue.rawValue();
 
                 InsertQueryData queryData(TAB_TAGS);
                 queryData.setColumns("value", "photo_id", "name");
