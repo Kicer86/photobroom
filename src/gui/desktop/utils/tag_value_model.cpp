@@ -35,7 +35,7 @@ namespace
         for(; limit > 0 && first != last;)
         {
             const TagValue& v = *first++;
-            result += v.formattedValue();
+            result += v.rawValue();
 
             limit--;
 
@@ -108,7 +108,7 @@ QVariant TagValueModel::data(const QModelIndex& index, int role) const
     QVariant result;
 
     if (role == Qt::EditRole || role == Qt::DisplayRole)
-        result = m_values[index.row()].formattedValue();
+        result = m_values[index.row()].get();
 
     return result;
 }

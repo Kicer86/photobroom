@@ -44,7 +44,7 @@ class IdxData
         size_t m_level;
 
         // node constructor
-        IdxData(IdxDataManager *, const QString& name);
+        IdxData(IdxDataManager *, const QVariant& name);
 
         //leaf constructor
         IdxData(IdxDataManager *, const IPhotoInfo::Ptr &);

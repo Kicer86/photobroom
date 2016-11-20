@@ -80,7 +80,7 @@ class CORE_EXPORT TagValue
         TagValue(const std::deque<TagValue> &);
         TagValue(const QString &);
 
-        static TagValue fromRaw(const QString &, const TagNameInfo::Type &);
+        static TagValue fromRaw(const QString &, const TagNameInfo::Type &);    // tag's value as stored in db
         static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
@@ -105,7 +105,7 @@ class CORE_EXPORT TagValue
         QTime& getTime();
 
         Type type() const;
-        QString formattedValue() const;
+        QString rawValue() const;                                               // tag's value as stored in db
 
         bool operator==(const TagValue &) const;
         bool operator!=(const TagValue &) const;

@@ -371,7 +371,7 @@ TagValue::Type TagValue::type() const
 }
 
 
-QString TagValue::formattedValue() const
+QString TagValue::rawValue() const
 {
     return string();
 }
@@ -444,7 +444,7 @@ QString TagValue::string() const
         case Type::Date:
         {
             const QDate* v = get<TagValueTraits<Type::Date>::StorageType>();
-            result = v->toString("yyyy.MM.dd");;
+            result = v->toString("yyyy.MM.dd");
             break;
         }
 
@@ -493,6 +493,10 @@ TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& ty
 
         case TagNameInfo::Type::Time:
             set( QTime::fromString(value, "HH:mm:ss") );
+            break;
+
+        case TagNameInfo::Type::Invalid:
+            assert(!"Unexpected switch");
             break;
     }
 
