@@ -565,7 +565,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
 
-        IdxData* newItem = new IdxData(m_data->m_root->m_model, tag.formattedValue());
+        IdxData* newItem = new IdxData(m_data->m_root->m_model, tag.get());
         setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
         leafs->push_back(newItem);
@@ -771,7 +771,7 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             if (photoTagIt != photoTags.end())
             {
                 const TagValue& tagValue = photoTagIt->second;
-                IdxData* node = new IdxData(this, tagValue.formattedValue());
+                IdxData* node = new IdxData(this, tagValue.get());
 
                 auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName, tagValue);
 
