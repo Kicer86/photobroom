@@ -182,8 +182,12 @@ namespace Database
 
             for(std::size_t i = 0; i < s; i++)
             {
-                const QString condition = conditions[i].m_value.trimmed();
-                final_condition += QString(TAB_TAGS ".value LIKE '%%1%'").arg(condition);
+                const QString condition = conditions[i].m_value;
+
+                if (conditions[i].m_exact)
+                    final_condition += QString(TAB_TAGS ".value = '%1'").arg(condition);
+                else
+                    final_condition += QString(TAB_TAGS ".value LIKE '%%1%'").arg(condition);
 
                 if (i + 1 < s)
                     final_condition += " OR ";
