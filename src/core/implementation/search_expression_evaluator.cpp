@@ -38,9 +38,12 @@ std::vector<SearchExpressionEvaluator::Filter> SearchExpressionEvaluator::evalua
     for(const QString& rawExpression: expressions)
     {
         const QString expression = rawExpression.trimmed();
-        const Filter filter(expression, false);
 
-        result.push_back(filter);
+        if (expression.isEmpty() == false)
+        {
+            const Filter filter(expression, false);
+            result.push_back(filter);
+        }
     }
 
     return result;
