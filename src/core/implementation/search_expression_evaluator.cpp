@@ -37,11 +37,19 @@ std::vector<SearchExpressionEvaluator::Filter> SearchExpressionEvaluator::evalua
 
     for(const QString& rawExpression: expressions)
     {
-        const QString expression = rawExpression.trimmed();
+        QString expression = rawExpression.trimmed();
 
         if (expression.isEmpty() == false)
         {
-            const Filter filter(expression, false);
+            const bool exact = expression.left(1) == "\"" && expression.right(1) == "\"";
+
+            if (exact)
+            {
+                expression.chop(1);          // remove last character
+                expression.remove(0, 1);     // remove first character
+            }
+
+            const Filter filter(expression, exact);
             result.push_back(filter);
         }
     }
