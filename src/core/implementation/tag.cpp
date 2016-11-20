@@ -444,7 +444,7 @@ QString TagValue::string() const
         case Type::Date:
         {
             const QDate* v = get<TagValueTraits<Type::Date>::StorageType>();
-            result = v->toString("yyyy.MM.dd");;
+            result = v->toString("yyyy.MM.dd");
             break;
         }
 
