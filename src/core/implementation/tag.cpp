@@ -371,7 +371,7 @@ TagValue::Type TagValue::type() const
 }
 
 
-QString TagValue::formattedValue() const
+QString TagValue::rawValue() const
 {
     return string();
 }

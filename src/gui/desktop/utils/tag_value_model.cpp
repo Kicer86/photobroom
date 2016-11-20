@@ -35,7 +35,7 @@ namespace
         for(; limit > 0 && first != last;)
         {
             const TagValue& v = *first++;
-            result += v.formattedValue();
+            result += v.rawValue();
 
             limit--;
 

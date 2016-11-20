@@ -111,7 +111,7 @@ namespace Database
             if (desciption->tagValue.type() != TagValue::Type::Empty)
                 m_filterResult.conditions.append(QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value = '%2'")
                                                  .arg(desciption->tagName.getTag() )
-                                                 .arg(desciption->tagValue.formattedValue())
+                                                 .arg(desciption->tagValue.rawValue())
                                                 );
             else
                 m_filterResult.conditions.append(QString(TAB_TAGS ".name = '%1'").arg(desciption->tagName.getTag()));
