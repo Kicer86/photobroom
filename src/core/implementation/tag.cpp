@@ -494,6 +494,10 @@ TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& ty
         case TagNameInfo::Type::Time:
             set( QTime::fromString(value, "HH:mm:ss") );
             break;
+
+        case TagNameInfo::Type::Invalid:
+            assert(!"Unexpected switch");
+            break;
     }
 
     return *this;
