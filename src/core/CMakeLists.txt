@@ -25,7 +25,6 @@ set(CORE_SOURCES
     implementation/search_expression_evaluator.cpp
     implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
-    implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
 )
@@ -61,7 +60,6 @@ set(CORE_HEADERS
     status.hpp
     tag.hpp
     tag_feeder_factory.hpp
-    tag_updater.hpp
     task_executor.hpp
     time_guardian.hpp
     tree.hpp

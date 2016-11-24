@@ -61,7 +61,8 @@ namespace
 
         virtual void perform() override
         {
-            const QByteArray data = m_photosManager->getPhoto(m_photoInfo);
+            const QString path = m_photoInfo->getPath();
+            const QByteArray data = m_photosManager->getPhoto(path);
             const QByteArray rawHash = QCryptographicHash::hash(data, QCryptographicHash::Sha256);
             const QByteArray hexHash = rawHash.toHex();
 

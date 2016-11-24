@@ -23,7 +23,7 @@
 #include <QObject>
 
 
-TagsOperator::TagsOperator(): m_tagUpdaters()
+TagsOperator::TagsOperator(): m_photos()
 {
 
 }
@@ -31,10 +31,7 @@ TagsOperator::TagsOperator(): m_tagUpdaters()
 
 void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
 {
-    m_tagUpdaters.clear();
-
-    for (const IPhotoInfo::Ptr& photo: photos)
-        m_tagUpdaters.emplace_back(photo);
+    m_photos = photos;
 }
 
 
@@ -58,9 +55,9 @@ Tag::TagsList TagsOperator::getTags() const
     Tag::TagsList commonTags;
     bool first = true;
 
-    for (const TagUpdater& tagUpdater: m_tagUpdaters)
+    for (const auto& photo: m_photos)
     {
-        const Tag::TagsList tags = tagUpdater.getTags();
+        const Tag::TagsList tags = photo->getTags();
 
         if (first)
             commonTags = tags, first = false;
@@ -81,15 +78,15 @@ Tag::TagsList TagsOperator::getTags() const
 
 void TagsOperator::setTag(const TagNameInfo& name, const TagValue& values)
 {
-    for (TagUpdater& updater: m_tagUpdaters)
-        updater.setTag(name, values);
+    for (auto& photo: m_photos)
+        photo->setTag(name, values);
 }
 
 
 void TagsOperator::setTags(const Tag::TagsList& tags)
 {
-    for (TagUpdater& updater: m_tagUpdaters)
-        updater.setTags(tags);
+    for (auto& photo: m_photos)
+        photo->setTags(tags);
 }
 
 

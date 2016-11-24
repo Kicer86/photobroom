@@ -4,18 +4,6 @@ find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 find_package(Qt5Sql REQUIRED)
 
-include_directories(SYSTEM
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${GTEST_INCLUDE_DIRS}
-                        ${Qt5Sql_INCLUDE_DIRS}
-)
-
-include_directories(
-    backends/sql_backends
-    ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
-)
-
-
 set(SRC
         backends/sql_backends/generic_sql_query_constructor.cpp
         backends/sql_backends/sql_action_query_generator.cpp
@@ -52,6 +40,20 @@ target_link_libraries(database_tests
                             ${GMOCK_LIBRARY}
                             ${CMAKE_THREAD_LIBS_INIT}
 )
+
+target_include_directories(database_tests
+                           SYSTEM PRIVATE
+                                ${GMOCK_INCLUDE_DIRS}
+                                ${GTEST_INCLUDE_DIRS}
+                                ${Qt5Sql_INCLUDE_DIRS}
+
+                           PRIVATE
+                                backends/sql_backends
+                                ${CMAKE_SOURCE_DIR}/src
+                                ${CMAKE_CURRENT_SOURCE_DIR}
+                                ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
+)
+
 
 enableCodeCoverage(database_tests)
 

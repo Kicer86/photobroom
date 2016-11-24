@@ -22,7 +22,6 @@
 
 #include <vector>
 
-#include <core/tag_updater.hpp>
 #include <database/iphoto_info.hpp>
 
 #include "itags_operator.hpp"
@@ -41,7 +40,7 @@ class TagsOperator: public ITagsOperator
         void updateTag(const QString &, const TagValue& value) override;
 
     private:
-        std::deque<TagUpdater> m_tagUpdaters;
+        std::vector<IPhotoInfo::Ptr> m_photos;
 };
 
 #endif // TAGS_OPERATOR_HPP
