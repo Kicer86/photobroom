@@ -1,5 +1,8 @@
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
 
 set(CONFIG_TABS_SOURCES
     look_tab.cpp

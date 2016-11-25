@@ -23,8 +23,6 @@
 
 #include <QModelIndex>
 
-#include <configuration/constants.hpp>
-
 #include "data.hpp"
 
 
