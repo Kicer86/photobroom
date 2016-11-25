@@ -56,6 +56,7 @@ add_executable(gui_tests ${SRC})
 
 target_link_libraries(gui_tests
                         PRIVATE
+                            configuration
                             core
                             database
                             photos_crawler

@@ -9,9 +9,6 @@ find_package(Threads REQUIRED)
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
-# some classes in core are using interface types of database. Is it ok? - to consider
-include_directories($<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
@@ -28,7 +25,6 @@ set(CORE_SOURCES
     implementation/search_expression_evaluator.cpp
     implementation/tag.cpp
     implementation/tag_feeder_factory.cpp
-    implementation/tag_updater.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
 )
@@ -64,7 +60,6 @@ set(CORE_HEADERS
     status.hpp
     tag.hpp
     tag_feeder_factory.hpp
-    tag_updater.hpp
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
@@ -84,8 +79,6 @@ qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
 list(APPEND CORE_SOURCES implementation/easy_exif_tag_feeder.cpp)
 list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
-
-#addSourceFlags(implementation/photo_info.cpp COMPILE_FLAGS -fgnu-tm)
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 

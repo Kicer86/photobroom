@@ -6,15 +6,6 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Threads REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM
-                    ${OPENLIBRARY_INCLUDE_DIRS}
-                    ${Qt5Core_INCLUDE_DIRS}
-                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(DATABASE_SOURCES
     implementation/action.cpp
     implementation/database_builder.cpp
@@ -69,8 +60,17 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database PRIVATE core Qt5::Core Qt5::Gui ${CMAKE_THREAD_LIBS_INIT})
 
-#define interface of database
-target_include_directories(database INTERFACE ${CMAKE_CURRENT_BINARY_DIR} ${OPENLIBRARY_INCLUDE_DIRS})
+target_include_directories(database
+                            SYSTEM PRIVATE
+                                ${OPENLIBRARY_INCLUDE_DIRS}
+                                ${Qt5Core_INCLUDE_DIRS}
+                            PUBLIC
+                                ${CMAKE_CURRENT_BINARY_DIR}
+                                ${OPENLIBRARY_INCLUDE_DIRS}
+                            PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src
+                                ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 generate_export_header(database)
 hideSymbols(database)
