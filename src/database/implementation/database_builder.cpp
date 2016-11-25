@@ -25,8 +25,6 @@
 #include <map>
 #include <memory>
 
-#include <configuration/iconfiguration.hpp>
-#include <configuration/constants.hpp>
 #include <plugins/plugin_loader.hpp>
 
 #include "database_thread.hpp"

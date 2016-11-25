@@ -14,8 +14,6 @@
 #include <core/photos_manager.hpp>
 #include <core/itagfeeder.hpp>
 #include <core/tag.hpp>
-#include <configuration/iconfiguration.hpp>
-#include <configuration/constants.hpp>
 
 
 struct UpdaterTask: ITaskExecutor::ITask

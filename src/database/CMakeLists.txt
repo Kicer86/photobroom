@@ -70,7 +70,6 @@ target_include_directories(database
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
-                                $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 generate_export_header(database)
