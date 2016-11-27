@@ -61,6 +61,9 @@ class PhotosWidget: public QWidget
 
         void setBottomHintWidget(InfoBaloonWidget *);
 
+    protected:
+        void contextMenuEvent(QContextMenuEvent *) override;
+
     private:
         QTimer m_timer;
         ThumbnailAcquisitor m_thumbnailAcquisitor;
