@@ -208,6 +208,12 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 }
 
 
+void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
+{
+
+}
+
+
 void PhotosWidget::searchExpressionChanged(const QString &)
 {
     m_timer.start();
