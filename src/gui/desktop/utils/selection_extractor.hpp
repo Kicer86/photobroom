@@ -20,11 +20,31 @@
 #ifndef SELECTIONEXTRACTOR_HPP
 #define SELECTIONEXTRACTOR_HPP
 
+#include <deque>
+
+#include <database/iphoto_info.hpp>
+
+class QItemSelectionModel;
+
+class DBDataModel;
+
 class SelectionExtractor final
 {
     public:
         SelectionExtractor();
         ~SelectionExtractor();
+
+        SelectionExtractor(const SelectionExtractor &) = delete;
+        SelectionExtractor& operator=(const SelectionExtractor &) = delete;
+
+        void set(QItemSelectionModel *);
+        void set(DBDataModel *);
+
+        std::vector<IPhotoInfo::Ptr> getSelection() const;
+
+    private:
+        QItemSelectionModel* m_selectionModel;
+        DBDataModel* m_photosModel;
 };
 
 #endif // SELECTIONEXTRACTOR_HPP

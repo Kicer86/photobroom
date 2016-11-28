@@ -18,3 +18,56 @@
  */
 
 #include "selection_extractor.hpp"
+
+#include <cassert>
+
+#include <QItemSelectionModel>
+
+#include "models/db_data_model.hpp"
+
+
+SelectionExtractor::SelectionExtractor():
+    m_selectionModel (nullptr),
+    m_photosModel (nullptr)
+{
+}
+
+
+SelectionExtractor::~SelectionExtractor()
+{
+}
+
+
+void SelectionExtractor::set(QItemSelectionModel* selection)
+{
+    m_selectionModel = selection;
+}
+
+
+void SelectionExtractor::set(DBDataModel* model)
+{
+    m_photosModel = model;
+}
+
+
+std::vector<IPhotoInfo::Ptr> SelectionExtractor::getSelection() const
+{
+    std::vector<IPhotoInfo::Ptr> result;
+
+    QItemSelection selection = m_selectionModel->selection();
+
+    for (const QItemSelectionRange& range : selection)
+    {
+        QModelIndexList idxList = range.indexes();
+
+        for (const QModelIndex& idx : idxList)
+        {
+            IPhotoInfo::Ptr photo = m_photosModel->getPhoto(idx);
+
+            if (photo.get() != nullptr)
+                result.push_back(photo);
+        }
+    }
+
+    return result;
+}
