@@ -451,7 +451,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+67"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+70"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -510,7 +510,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+128"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+132"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>

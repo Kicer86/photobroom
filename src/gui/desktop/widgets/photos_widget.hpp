@@ -24,6 +24,7 @@
 #include <QTimer>
 
 #include "utils/thumbnail_acquisitor.hpp"
+#include "utils/selection_extractor.hpp"
 
 class QAbstractItemModel;
 class QItemSelectionModel;
@@ -67,6 +68,7 @@ class PhotosWidget: public QWidget
     private:
         QTimer m_timer;
         ThumbnailAcquisitor m_thumbnailAcquisitor;
+        SelectionExtractor m_selectionExtractor;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
