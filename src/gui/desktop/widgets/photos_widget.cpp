@@ -19,10 +19,12 @@
 
 #include "photos_widget.hpp"
 
+#include <QMenu>
 #include <QLineEdit>
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QLayoutItem>
+#include <QContextMenuEvent>
 
 #include <configuration/iconfiguration.hpp>
 #include <core/base_tags.hpp>
@@ -44,6 +46,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
     m_thumbnailAcquisitor(),
+    m_selectionExtractor(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
@@ -180,6 +183,9 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 
 void PhotosWidget::setModel(DBDataModel* m)
 {
+    m_selectionExtractor.set(m);
+    m_selectionExtractor.set(viewSelectionModel());
+
     m_model = m;
     m_view->setModel(m);
 }
