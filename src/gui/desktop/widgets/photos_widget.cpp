@@ -184,11 +184,11 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 
 void PhotosWidget::setModel(DBDataModel* m)
 {
-    m_selectionExtractor.set(m);
-    m_selectionExtractor.set(viewSelectionModel());
-
     m_model = m;
     m_view->setModel(m);
+
+    m_selectionExtractor.set(m);
+    m_selectionExtractor.set(viewSelectionModel());
 }
 
 
