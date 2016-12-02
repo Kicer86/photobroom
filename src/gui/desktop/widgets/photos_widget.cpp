@@ -33,6 +33,7 @@
 #include "info_widget.hpp"
 #include "multi_value_line_edit.hpp"
 #include "models/db_data_model.hpp"
+#include "ui/photos_grouping_dialog.hpp"
 #include "ui_utils/icompleter_factory.hpp"
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
@@ -216,7 +217,18 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 
 void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
 {
+    const std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
 
+    QMenu contextMenu;
+    QAction* groupPhotos = contextMenu.addAction(tr("Group"));
+
+    QAction* chosenAction = contextMenu.exec(e->globalPos());
+
+    if (chosenAction == groupPhotos)
+    {
+        PhotosGroupingDialog dialog;
+        dialog.exec();
+    }
 }
 
 

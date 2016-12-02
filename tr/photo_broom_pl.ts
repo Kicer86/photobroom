@@ -436,6 +436,29 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
+    <name>PhotosGroupingDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+14"/>
+        <source>Photos grouping tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Grouping type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Animation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotosItemDelegate</name>
     <message>
         <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+87"/>
@@ -451,7 +474,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+70"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+71"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -459,6 +482,11 @@ Kod błędu: %1</translation>
         <location line="+10"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
+    </message>
+    <message>
+        <location line="+142"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
