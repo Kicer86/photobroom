@@ -10,21 +10,25 @@ include_directories(
 set(SRC
     configuration_dialog.cpp
     mainwindow.cpp
-    )
+    photos_grouping_dialog.cpp
+)
 
 set(HEADERS
     configuration_dialog.hpp
     mainwindow.hpp
-    )
+    photos_grouping_dialog.hpp
+)
 
 set(TO_MOC
     configuration_dialog.hpp
     mainwindow.hpp
+    photos_grouping_dialog.hpp
 )
 
 set(UI_FILES
     configuration_dialog.ui
     mainwindow.ui
+    photos_grouping_dialog.ui
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
