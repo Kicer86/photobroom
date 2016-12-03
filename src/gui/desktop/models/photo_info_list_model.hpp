@@ -49,6 +49,7 @@ class PhotoInfoListModel: public APhotoInfoModel
 
     private:
         std::vector<IPhotoInfo::Ptr> m_photos;
+        QImage m_img;
 };
 
 #endif // PHOTOINFOLISTMODEL_HPP

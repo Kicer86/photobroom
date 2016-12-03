@@ -24,9 +24,10 @@
 
 PhotoInfoListModel::PhotoInfoListModel(QObject* p):
     APhotoInfoModel(p),
-    m_photos()
+    m_photos(),
+    m_img()
 {
-
+    m_img.load(":/gui/clock.svg");
 }
 
 
@@ -90,6 +91,12 @@ QVariant PhotoInfoListModel::data(const QModelIndex& _index, int role) const
                 IPhotoInfo* photo = getPhotoInfo(_index);
 
                 result = photo->getPath();
+                break;
+            }
+
+            case Qt::DecorationRole:
+            {
+                result = m_img;
                 break;
             }
         }
