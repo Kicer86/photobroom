@@ -44,6 +44,7 @@ class PhotoInfoListModel: public APhotoInfoModel
 
     protected:
         // APhotoInfoModel overrides:
+        virtual QVariant data(const QModelIndex& _index, int role) const override;
         virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
 
     private:

@@ -78,6 +78,26 @@ int PhotoInfoListModel::rowCount(const QModelIndex& parent) const
 }
 
 
+QVariant PhotoInfoListModel::data(const QModelIndex& _index, int role) const
+{
+    QVariant result = APhotoInfoModel::data(_index, role);
+
+    if (result.isNull())
+        switch(role)
+        {
+            case Qt::DisplayRole:
+            {
+                IPhotoInfo* photo = getPhotoInfo(_index);
+
+                result = photo->getPath();
+                break;
+            }
+        }
+
+    return result;
+}
+
+
 IPhotoInfo* PhotoInfoListModel::getPhotoInfo(const QModelIndex& index) const
 {
     IPhotoInfo* result = nullptr;
