@@ -2,10 +2,10 @@
 #include "photos_grouping_dialog.hpp"
 
 #include "ui_photos_grouping_dialog.h"
-#include "ui_utils/photos_item_delegate.hpp"
+#include "ui_utils/lazy_tree_item_delegate.hpp"
 
 
-PhotosGroupingDialog::PhotosGroupingDialog(IThumbnailAcquisitor* th_acq, IConfiguration* config, QWidget *parent):
+PhotosGroupingDialog::PhotosGroupingDialog(IThumbnailAcquisitor* th_acq, QWidget *parent):
     QDialog(parent),
     m_model(),
     ui(new Ui::PhotosGroupingDialog)
@@ -13,9 +13,8 @@ PhotosGroupingDialog::PhotosGroupingDialog(IThumbnailAcquisitor* th_acq, IConfig
     ui->setupUi(this);
     ui->photosView->setModel(&m_model);
 
-    PhotosItemDelegate* delegate = new PhotosItemDelegate(ui->photosView);
+    LazyTreeItemDelegate* delegate = new LazyTreeItemDelegate(ui->photosView);
     delegate->set(th_acq);
-    delegate->set(config);
 
     ui->photosView->setItemDelegate(delegate);
 }

@@ -9,7 +9,6 @@
 #include "models/photo_info_list_model.hpp"
 
 
-struct IConfiguration;
 struct IThumbnailAcquisitor;
 
 namespace Ui {
@@ -21,7 +20,7 @@ class PhotosGroupingDialog : public QDialog
         Q_OBJECT
 
     public:
-        explicit PhotosGroupingDialog(IThumbnailAcquisitor *, IConfiguration *, QWidget *parent = 0);
+        explicit PhotosGroupingDialog(IThumbnailAcquisitor *, QWidget *parent = 0);
         PhotosGroupingDialog(const PhotosGroupingDialog &) = delete;
         ~PhotosGroupingDialog();
 
