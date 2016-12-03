@@ -52,7 +52,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
-    m_bottomHintLayout(nullptr)
+    m_bottomHintLayout(nullptr),
+    m_config(nullptr)
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
@@ -165,8 +166,9 @@ void PhotosWidget::set(IConfiguration* configuration)
     const int spacing = marginEntry.toInt();
 
     m_view->setSpacing(spacing);
-
     m_delegate->set(configuration);
+
+    m_config = configuration;
 }
 
 
@@ -226,7 +228,7 @@ void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
 
     if (chosenAction == groupPhotos)
     {
-        PhotosGroupingDialog dialog;
+        PhotosGroupingDialog dialog(&m_thumbnailAcquisitor, m_config);
         dialog.set(photos);
         dialog.exec();
     }

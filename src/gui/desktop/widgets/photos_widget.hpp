@@ -74,6 +74,7 @@ class PhotosWidget: public QWidget
         PhotosItemDelegate* m_delegate;
         MultiValueLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
+        IConfiguration* m_config;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();
