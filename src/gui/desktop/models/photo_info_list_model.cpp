@@ -56,7 +56,7 @@ int PhotoInfoListModel::columnCount(const QModelIndex& parent) const
 
 QModelIndex PhotoInfoListModel::index(int row, int column, const QModelIndex& parent) const
 {
-    const QModelIndex result = parent.isValid()?
+    const QModelIndex result = parent.isValid() || column != 0 || row < 0 || row >= static_cast<int>(m_photos.size())?
         QModelIndex():
         QAbstractItemModel::createIndex(row, column, nullptr);
 
