@@ -38,7 +38,11 @@ PhotoInfoListModel::~PhotoInfoListModel()
 
 void PhotoInfoListModel::set(const std::vector<IPhotoInfo::Ptr>& photos)
 {
+    QAbstractItemModel::beginResetModel();
+
     m_photos = photos;
+
+    QAbstractItemModel::endResetModel();
 }
 
 
