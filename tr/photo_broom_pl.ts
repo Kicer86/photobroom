@@ -461,7 +461,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+88"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+81"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>
@@ -474,7 +474,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+72"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+71"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -484,7 +484,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar miniaturki:</translation>
     </message>
     <message>
-        <location line="+143"/>
+        <location line="+141"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
