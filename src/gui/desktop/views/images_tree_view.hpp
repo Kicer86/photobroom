@@ -30,7 +30,6 @@
 class QTimer;
 
 struct IConfiguration;
-class APhotoInfoModel;
 class Data;
 
 
