@@ -26,8 +26,6 @@ struct IThumbnailAcquisitor;
 
 class LazyTreeItemDelegate: public TreeItemDelegate
 {
-        Q_OBJECT
-
     public:
         LazyTreeItemDelegate(ImagesTreeView *);
         LazyTreeItemDelegate(const LazyTreeItemDelegate &) = delete;
