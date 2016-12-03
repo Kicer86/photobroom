@@ -23,6 +23,8 @@
 
 #include "aphoto_info_model.hpp"
 
+
+// TODO: unit test me!
 class PhotoInfoListModel: public APhotoInfoModel
 {
     public:
@@ -34,7 +36,15 @@ class PhotoInfoListModel: public APhotoInfoModel
 
         void set(const std::vector<IPhotoInfo::Ptr> &);
 
-        IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
+        // QAbstractItemModel overrides:
+        virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+        virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+        virtual QModelIndex parent(const QModelIndex& child) const override;
+        virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    protected:
+        // APhotoInfoModel overrides:
+        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
 
     private:
         std::vector<IPhotoInfo::Ptr> m_photos;

@@ -36,6 +36,44 @@ PhotoInfoListModel::~PhotoInfoListModel()
 }
 
 
+void PhotoInfoListModel::set(const std::vector<IPhotoInfo::Ptr>& photos)
+{
+    m_photos = photos;
+}
+
+
+int PhotoInfoListModel::columnCount(const QModelIndex& parent) const
+{
+    const int count = parent.isValid()? 0: 1;
+
+    return count;
+}
+
+
+QModelIndex PhotoInfoListModel::index(int row, int column, const QModelIndex& parent) const
+{
+    const QModelIndex result = parent.isValid()?
+        QModelIndex():
+        QAbstractItemModel::createIndex(row, column, nullptr);
+
+    return result;
+}
+
+
+QModelIndex PhotoInfoListModel::parent(const QModelIndex &) const
+{
+    return QModelIndex();       // plain list doesn't have any hierarchy
+}
+
+
+int PhotoInfoListModel::rowCount(const QModelIndex& parent) const
+{
+    const int count = parent.isValid()? 0: m_photos.size();
+
+    return count;
+}
+
+
 IPhotoInfo* PhotoInfoListModel::getPhotoInfo(const QModelIndex& index) const
 {
     IPhotoInfo* result = nullptr;
@@ -51,10 +89,4 @@ IPhotoInfo* PhotoInfoListModel::getPhotoInfo(const QModelIndex& index) const
     }
 
     return result;
-}
-
-
-void PhotoInfoListModel::set(const std::vector<IPhotoInfo::Ptr>& photos)
-{
-    m_photos = photos;
 }
