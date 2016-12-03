@@ -22,7 +22,9 @@
 #include "photo_info_list_model.hpp"
 
 
-PhotoInfoListModel::PhotoInfoListModel( )
+PhotoInfoListModel::PhotoInfoListModel(QObject* p):
+    APhotoInfoModel(p),
+    m_photos()
 {
 
 }
@@ -43,7 +45,7 @@ IPhotoInfo* PhotoInfoListModel::getPhotoInfo(const QModelIndex& index) const
     if (parent.isValid() == false)
     {
         assert(index.column() == 0);
-        assert(index.row() < m_photos.size());
+        assert(index.row() < static_cast<int>(m_photos.size()));
 
         result = m_photos[index.row()].get();
     }

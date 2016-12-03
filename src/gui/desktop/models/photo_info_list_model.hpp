@@ -26,7 +26,7 @@
 class PhotoInfoListModel: public APhotoInfoModel
 {
     public:
-        PhotoInfoListModel();
+        PhotoInfoListModel(QObject * = 0);
         PhotoInfoListModel(const PhotoInfoListModel &) = delete;
         virtual ~PhotoInfoListModel();
 
