@@ -11,8 +11,9 @@ set(UTILS_SOURCES
     editor_factory.cpp
     iconfig_dialog_manager.cpp
     icons_loader.cpp
+    lazy_tree_item_delegate.cpp
     photos_item_delegate.cpp
-    )
+)
 
 set(UTILS_HEADERS
     completer_factory.hpp
@@ -22,6 +23,7 @@ set(UTILS_HEADERS
     iconfig_dialog_manager.hpp
     icons_loader.hpp
     ieditor_factory.hpp
+    lazy_tree_item_delegate.hpp
     photos_item_delegate.hpp
 )
 
