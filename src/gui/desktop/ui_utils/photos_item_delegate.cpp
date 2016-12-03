@@ -65,15 +65,16 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 {
     TreeItemDelegate::paint(painter, option, index);
 
-    // decorate node with its status
-    const QAbstractItemModel* m = index.model();
-
-    //TODO: ugly casting ! Issue #177 on github
-    const DBDataModel* model = down_cast<const DBDataModel *>(m);
     const bool node = (option.features & QStyleOptionViewItem::HasDecoration) == 0;
 
     if (node)
     {
+        // decorate node with its status
+        const QAbstractItemModel* m = index.model();
+
+        //TODO: ugly casting ! Issue #177 on github
+        const DBDataModel* model = down_cast<const DBDataModel *>(m);
+
         const QVariant statusVariant = model->data(index, DBDataModel::NodeStatus);
 
         assert(statusVariant.canConvert<int>());
