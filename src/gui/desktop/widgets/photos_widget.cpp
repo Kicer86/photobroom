@@ -225,8 +225,7 @@ void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
 
     if (chosenAction == groupPhotos)
     {
-        PhotosGroupingDialog dialog(&m_thumbnailAcquisitor);
-        dialog.set(photos);
+        PhotosGroupingDialog dialog(photos, &m_thumbnailAcquisitor);
         dialog.exec();
     }
 }
