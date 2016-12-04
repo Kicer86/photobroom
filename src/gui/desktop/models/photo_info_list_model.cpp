@@ -47,6 +47,12 @@ void PhotoInfoListModel::set(const std::vector<IPhotoInfo::Ptr>& photos)
 }
 
 
+const std::vector<IPhotoInfo::Ptr> & PhotoInfoListModel::getPhotos() const
+{
+    return m_photos;
+}
+
+
 int PhotoInfoListModel::columnCount(const QModelIndex& parent) const
 {
     const int count = parent.isValid()? 0: 1;

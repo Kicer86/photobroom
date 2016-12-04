@@ -36,6 +36,8 @@ class PhotoInfoListModel: public APhotoInfoModel
 
         void set(const std::vector<IPhotoInfo::Ptr> &);
 
+        const std::vector<IPhotoInfo::Ptr>& getPhotos() const;
+
         // QAbstractItemModel overrides:
         virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
