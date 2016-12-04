@@ -3,6 +3,7 @@
 #define PHOTOS_GROUPING_DIALOG_HPP
 
 #include <QDialog>
+#include <QTemporaryDir>
 
 #include <database/iphoto_info.hpp>
 
@@ -11,16 +12,23 @@
 
 struct IThumbnailAcquisitor;
 
-namespace Ui {
-class PhotosGroupingDialog;
+namespace Ui
+{
+    class PhotosGroupingDialog;
 }
 
-class PhotosGroupingDialog : public QDialog
+struct IGroupingGenerator
+{
+    virtual ~IGroupingGenerator() = default;
+};
+
+
+class PhotosGroupingDialog: public QDialog
 {
         Q_OBJECT
 
     public:
-        explicit PhotosGroupingDialog(IThumbnailAcquisitor *, QWidget *parent = 0);
+        explicit PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr> &, IThumbnailAcquisitor *, QWidget *parent = 0);
         PhotosGroupingDialog(const PhotosGroupingDialog &) = delete;
         ~PhotosGroupingDialog();
 
@@ -30,7 +38,12 @@ class PhotosGroupingDialog : public QDialog
 
     private:
         PhotoInfoListModel m_model;
+        std::unique_ptr<IGroupingGenerator> m_generator;
+        QTemporaryDir m_tmpLocation;
         Ui::PhotosGroupingDialog *ui;
+
+        void updatePreview(QWidget *);
+        void typeChanged();
 };
 
 #endif // PHOTOS_GROUPING_DIALOG_HPP
