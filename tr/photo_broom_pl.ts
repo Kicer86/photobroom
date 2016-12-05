@@ -443,7 +443,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+25"/>
         <source>Grouping type:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -453,7 +453,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Animation speed:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -478,7 +478,12 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+37"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
