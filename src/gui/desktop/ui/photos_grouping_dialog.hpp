@@ -17,11 +17,7 @@ namespace Ui
     class PhotosGroupingDialog;
 }
 
-struct IGroupingGenerator
-{
-    virtual ~IGroupingGenerator() = default;
-};
-
+struct AnimationGenerator;
 
 class PhotosGroupingDialog: public QDialog
 {
@@ -38,12 +34,13 @@ class PhotosGroupingDialog: public QDialog
 
     private:
         PhotoInfoListModel m_model;
-        std::unique_ptr<IGroupingGenerator> m_generator;
         QTemporaryDir m_tmpLocation;
+        std::unique_ptr<AnimationGenerator> m_animationGenerator;
         Ui::PhotosGroupingDialog *ui;
 
         void updatePreview(QWidget *);
         void typeChanged();
+        void makeAnimation();
 };
 
 #endif // PHOTOS_GROUPING_DIALOG_HPP
