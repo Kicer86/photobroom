@@ -103,7 +103,7 @@ target_include_directories(core SYSTEM PUBLIC
                                 SYSTEM PRIVATE
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
-                                    ${EASYEXIF_INCLUDE_DIR}
+                                    ${EASYEXIF_INCLUDE_DIRS}
                                     ${EXIV_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_BINARY_DIR}/exports
