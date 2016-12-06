@@ -18,8 +18,8 @@ struct CORE_EXPORT ITagFeeder
     virtual ~ITagFeeder() = default;
 
     virtual Tag::TagsList getTagsFor(const QString& path) = 0;
-    //virtual void update(TagDataBase *, const QString& path) = 0;
 };
+
 
 struct CORE_EXPORT ITagFeederFactory
 {
