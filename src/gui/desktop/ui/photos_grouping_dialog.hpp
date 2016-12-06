@@ -3,11 +3,10 @@
 #define PHOTOS_GROUPING_DIALOG_HPP
 
 #include <QDialog>
+#include <QStandardItemModel>
 #include <QTemporaryDir>
 
 #include <database/iphoto_info.hpp>
-
-#include "models/photo_info_list_model.hpp"
 
 
 struct IThumbnailAcquisitor;
@@ -33,7 +32,7 @@ class PhotosGroupingDialog: public QDialog
         void set(const std::vector<IPhotoInfo::Ptr> &);
 
     private:
-        PhotoInfoListModel m_model;
+        QStandardItemModel m_model;
         QTemporaryDir m_tmpLocation;
         std::unique_ptr<AnimationGenerator> m_animationGenerator;
         Ui::PhotosGroupingDialog *ui;
@@ -41,6 +40,9 @@ class PhotosGroupingDialog: public QDialog
         void updatePreview(QWidget *);
         void typeChanged();
         void makeAnimation();
+        void fillModel(const std::vector<IPhotoInfo::Ptr> &);
+
+        QStringList getPhotos() const;
 };
 
 #endif // PHOTOS_GROUPING_DIALOG_HPP

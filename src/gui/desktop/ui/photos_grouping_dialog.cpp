@@ -7,7 +7,6 @@
 #include <QTemporaryFile>
 
 #include "ui_photos_grouping_dialog.h"
-#include "ui_utils/lazy_tree_item_delegate.hpp"
 
 
 struct AnimationGenerator: QObject
@@ -17,7 +16,7 @@ struct AnimationGenerator: QObject
         double fps;
         double delay;
         double scale;
-        std::vector<IPhotoInfo::Ptr> photos;
+        QStringList photos;
     };
 
     AnimationGenerator(const std::function<void(QWidget *)>& callback, const QString& location):
@@ -36,10 +35,9 @@ struct AnimationGenerator: QObject
 
         QStringList images;
 
-        for(const IPhotoInfo::Ptr& photo: data.photos)
-        {
-            const QString path = photo->getPath();
-            const QFileInfo fileInfo(path);
+        for(const QString& photo: data.photos)
+        {;
+            const QFileInfo fileInfo(photo);
             const QString absoluteFilePath = fileInfo.absoluteFilePath();
 
             images.append(absoluteFilePath);
@@ -78,15 +76,10 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_animationGenerator(),
     ui(new Ui::PhotosGroupingDialog)
 {
-    m_model.set(photos);
+    fillModel(photos);
 
     ui->setupUi(this);
     ui->photosView->setModel(&m_model);
-
-    LazyTreeItemDelegate* delegate = new LazyTreeItemDelegate(ui->photosView);
-    delegate->set(th_acq);
-
-    ui->photosView->setItemDelegate(delegate);
 
     using namespace std::placeholders;
     auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1);
@@ -124,9 +117,39 @@ void PhotosGroupingDialog::makeAnimation()
 {
     AnimationGenerator::Data generator_data;
 
-    generator_data.photos = m_model.getPhotos();
+    generator_data.photos = getPhotos();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
 
     m_animationGenerator->generatePreviewWidget(generator_data);
+}
+
+
+void PhotosGroupingDialog::fillModel(const std::vector<IPhotoInfo::Ptr>& photos)
+{
+    m_model.clear();
+
+    for(const IPhotoInfo::Ptr& photo: photos)
+    {
+        QStandardItem* pathItem = new QStandardItem(photo->getPath());
+
+        m_model.appendRow({pathItem});
+    }
+}
+
+
+QStringList PhotosGroupingDialog::getPhotos() const
+{
+    QStringList result;
+
+    for(int r = 0; r < m_model.rowCount(); r++)
+    {
+        QStandardItem* pathItem = m_model.item(r, 0);
+        const QVariant pathRaw = pathItem->data(Qt::DisplayRole);
+        const QString path = pathRaw.toString();
+
+        result.append(path);
+    }
+
+    return result;
 }

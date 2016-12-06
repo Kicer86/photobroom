@@ -443,7 +443,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+18"/>
         <source>Grouping type:</source>
         <translation type="unfinished"></translation>
     </message>
