@@ -4,6 +4,7 @@ find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core 5.6 REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
+find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
@@ -90,6 +91,7 @@ target_link_libraries(core
                             Qt5::Core
                             Qt5::Gui
                             ${EASYEXIF_LIBRARIES}
+                            ${EXIV_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
@@ -102,6 +104,7 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EASYEXIF_INCLUDE_DIR}
+                                    ${EXIV_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src
