@@ -18,7 +18,7 @@ set(CORE_SOURCES
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
-    implementation/exiv2_tag_feeder.cpp
+    implementation/exiv2_exif_reader.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
@@ -66,7 +66,7 @@ set(CORE_HEADERS
     time_guardian.hpp
     tree.hpp
     implementation/aexif_reader.hpp
-    implementation/exiv2_tag_feeder.hpp
+    implementation/exiv2_exif_reader.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp

@@ -1,12 +1,12 @@
 
-#include "exiv2_tag_feeder.hpp"
+#include "exiv2_exif_reader.hpp"
 
 #include <assert.h>
 
 #include "base_tags.hpp"
 
 
-Exiv2TagFeeder::Exiv2TagFeeder(IPhotosManager* photosManager):
+Exiv2ExifReader::Exiv2ExifReader (IPhotosManager* photosManager):
     AExifReader(photosManager),
     m_exif_data()
 {
@@ -14,7 +14,7 @@ Exiv2TagFeeder::Exiv2TagFeeder(IPhotosManager* photosManager):
 }
 
 
-void Exiv2TagFeeder::collect(const QByteArray& data)
+void Exiv2ExifReader::collect(const QByteArray& data)
 {
     try
     {
@@ -31,7 +31,7 @@ void Exiv2TagFeeder::collect(const QByteArray& data)
 }
 
 
-std::string Exiv2TagFeeder::read(AExifReader::TagTypes type)
+std::string Exiv2ExifReader::read(AExifReader::TagTypes type)
 {
     std::string result;
     const Exiv2::ExifData &exifData = m_exif_data->exifData();

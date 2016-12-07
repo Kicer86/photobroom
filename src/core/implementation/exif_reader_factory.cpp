@@ -3,7 +3,7 @@
 
 #include <thread>
 
-#include "exiv2_tag_feeder.hpp"
+#include "exiv2_exif_reader.hpp"
 
 #include "tag.hpp"
 #include "iexif_reader.hpp"
@@ -45,7 +45,7 @@ std::shared_ptr<IExifReader> ExifReaderFactory::get()
 
     if (it == m_feeders.end())
     {
-        auto feeder = std::make_shared<Exiv2TagFeeder>(m_photosManager);
+        auto feeder = std::make_shared<Exiv2ExifReader>(m_photosManager);
         auto data = std::make_pair(id, feeder);
         auto in = m_feeders.insert(data);
 

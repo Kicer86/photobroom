@@ -1,6 +1,6 @@
 
-#ifndef TAG_FEEDER_HPP
-#define TAG_FEEDER_HPP
+#ifndef EXIV2_EXIF_READER_HPP
+#define EXIV2_EXIF_READER_HPP
 
 #include <memory>
 #include <string>
@@ -9,10 +9,10 @@
 
 #include "aexif_reader.hpp"
 
-class Exiv2TagFeeder: public AExifReader
+class Exiv2ExifReader: public AExifReader
 {
     public:
-        Exiv2TagFeeder(IPhotosManager *);
+        Exiv2ExifReader (IPhotosManager *);
 
     private:
         virtual void collect(const QByteArray&);
