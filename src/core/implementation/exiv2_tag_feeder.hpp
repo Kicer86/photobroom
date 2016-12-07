@@ -16,7 +16,7 @@ class Exiv2TagFeeder: public AExifReader
 
     private:
         virtual void collect(const QByteArray&);
-        virtual std::string get(TagTypes);
+        virtual std::string read(TagTypes);
 
         Exiv2::Image::AutoPtr m_exif_data;
 };

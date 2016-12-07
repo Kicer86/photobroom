@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include <boost/any.hpp>
+
 #include "tag.hpp"
 
 #include "core_export.h"
@@ -13,11 +15,18 @@ class QString;
 
 class TagDataBase;
 
+
 struct CORE_EXPORT IExifReader
 {
+    enum class ExtraData
+    {
+        SequenceNumber,            // int
+    };
+
     virtual ~IExifReader() = default;
 
-    virtual Tag::TagsList getTagsFor(const QString& path) = 0;
+    virtual Tag::TagsList getTagsFor(const QString& path) = 0;            // returns default set of tags
+    virtual boost::any get(const QString& path, const ExtraData &) = 0;   // access to optional data
 };
 
 

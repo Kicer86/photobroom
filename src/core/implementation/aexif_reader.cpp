@@ -62,9 +62,35 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 }
 
 
+boost::any AExifReader::get(const QString& path, const IExifReader::ExtraData& type)
+{
+    const QByteArray data = m_photosManager->getPhoto(path);
+
+    collect(data);
+
+    boost::any result;
+
+    switch(type)
+    {
+        case ExtraData::SequenceNumber:
+        {
+            const std::string valueRaw = read(SequenceNumber);
+            const int value = stoi(valueRaw);
+
+            if (value > 0)
+                result = value;
+
+            break;
+        }
+    }
+
+    return result;
+}
+
+
 void AExifReader::feedDateAndTime(Tag::TagsList& tagData)
 {
-    const std::string dateTimeOrirignal = get(DateTimeOriginal);
+    const std::string dateTimeOrirignal = read(DateTimeOriginal);
 
     const QString v(dateTimeOrirignal.c_str());
     const QStringList time_splitted = v.split(" ");

@@ -40,18 +40,20 @@ class AExifReader: public IExifReader
     protected:
         enum TagTypes
         {
+            SequenceNumber,
+
             DateTimeOriginal,
         };
 
         virtual void collect(const QByteArray &) = 0;
-        virtual std::string get(TagTypes) = 0;
+        virtual std::string read (TagTypes) = 0;
 
     private:
         IPhotosManager* m_photosManager;
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
-        //void update(Tag::TagsList *, const QString& path) override;
+        boost::any get(const QString& path, const ExtraData &) override;
         //
 
         void feedDateAndTime(Tag::TagsList &);
