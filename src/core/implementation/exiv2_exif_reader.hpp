@@ -15,8 +15,8 @@ class Exiv2ExifReader: public AExifReader
         Exiv2ExifReader (IPhotosManager *);
 
     private:
-        virtual void collect(const QByteArray&);
-        virtual std::string read(TagTypes);
+        virtual void collect(const QByteArray&) override;
+        virtual std::string read(TagTypes) const override;
 
         Exiv2::Image::AutoPtr m_exif_data;
 };

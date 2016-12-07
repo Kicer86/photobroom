@@ -44,12 +44,9 @@ AExifReader::~AExifReader()
 Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
     const QByteArray data = m_photosManager->getPhoto(path);
-
     collect(data);
 
-    Tag::TagsList tagData;
-
-    feedDateAndTime(tagData);
+    const Tag::TagsList tagData = feedDateAndTime();
 
     return tagData;
 }
@@ -81,8 +78,10 @@ boost::any AExifReader::get(const QString& path, const IExifReader::ExtraData& t
 }
 
 
-void AExifReader::feedDateAndTime(Tag::TagsList& tagData)
+Tag::TagsList AExifReader::feedDateAndTime() const
 {
+    Tag::TagsList tagData;
+
     const std::string dateTimeOrirignal = read(DateTimeOriginal);
 
     const QString v(dateTimeOrirignal.c_str());
@@ -96,4 +95,6 @@ void AExifReader::feedDateAndTime(Tag::TagsList& tagData)
         tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(QDate::fromString(date, "yyyy:MM:dd"));
         tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(QTime::fromString(time, "hh:mm:ss"));
     }
+
+    return tagData;
 }

@@ -31,7 +31,7 @@ void Exiv2ExifReader::collect(const QByteArray& data)
 }
 
 
-std::string Exiv2ExifReader::read(AExifReader::TagTypes type)
+std::string Exiv2ExifReader::read(AExifReader::TagTypes type) const
 {
     std::string result;
     const Exiv2::ExifData &exifData = m_exif_data->exifData();

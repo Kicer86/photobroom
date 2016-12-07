@@ -44,7 +44,7 @@ class AExifReader: public IExifReader
         };
 
         virtual void collect(const QByteArray &) = 0;
-        virtual std::string read (TagTypes) = 0;
+        virtual std::string read (TagTypes) const = 0;
 
     private:
         IPhotosManager* m_photosManager;
@@ -54,7 +54,7 @@ class AExifReader: public IExifReader
         boost::any get(const QString& path, const ExtraData &) override;
         //
 
-        void feedDateAndTime(Tag::TagsList &);
+        Tag::TagsList feedDateAndTime() const;
 };
 
 #endif // A_EXIF_READER_HPP
