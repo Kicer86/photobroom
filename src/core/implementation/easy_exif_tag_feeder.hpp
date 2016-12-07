@@ -8,9 +8,9 @@
 #include <easyexif/exif.h>
 
 #include "core_export.h"
-#include "atagfeeder.hpp"
+#include "aexif_reader.hpp"
 
-class EasyExifTagFeeder: public ATagFeeder
+class EasyExifTagFeeder: public AExifReader
 {
     public:
         EasyExifTagFeeder(IPhotosManager *);

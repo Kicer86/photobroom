@@ -9,7 +9,7 @@
 
 #include "atagfeeder.hpp"
 
-class Exiv2TagFeeder: public ATagFeeder
+class Exiv2TagFeeder: public AExifReader
 {
     public:
         Exiv2TagFeeder();

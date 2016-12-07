@@ -13,19 +13,19 @@ class QString;
 
 class TagDataBase;
 
-struct CORE_EXPORT ITagFeeder
+struct CORE_EXPORT IExifReader
 {
-    virtual ~ITagFeeder() = default;
+    virtual ~IExifReader() = default;
 
     virtual Tag::TagsList getTagsFor(const QString& path) = 0;
 };
 
 
-struct CORE_EXPORT ITagFeederFactory
+struct CORE_EXPORT IExifReaderFactory
 {
-    virtual ~ITagFeederFactory() = default;
+    virtual ~IExifReaderFactory() = default;
 
-    virtual std::shared_ptr<ITagFeeder> get() = 0;
+    virtual std::shared_ptr<IExifReader> get() = 0;
 };
 
 #endif

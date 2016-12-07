@@ -13,10 +13,11 @@ include(GenerateExportHeader)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
-    implementation/atagfeeder.cpp
+    implementation/aexif_reader.cpp
     implementation/base_tags.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
+    implementation/exif_reader_factory.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
@@ -25,7 +26,6 @@ set(CORE_SOURCES
     implementation/photos_manager.cpp
     implementation/search_expression_evaluator.cpp
     implementation/tag.cpp
-    implementation/tag_feeder_factory.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
 )
@@ -49,7 +49,7 @@ set(CORE_HEADERS
     ilogger.hpp
     ilogger_factory.hpp
     iphotos_manager.hpp
-    itagfeeder.hpp
+    iexif_reader.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
@@ -60,11 +60,11 @@ set(CORE_HEADERS
     search_expression_evaluator.hpp
     status.hpp
     tag.hpp
-    tag_feeder_factory.hpp
+    exif_reader_factory.hpp
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
-    implementation/atagfeeder.hpp
+    implementation/aexif_reader.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp

@@ -8,7 +8,7 @@
 
 EasyExifTagFeeder::EasyExifTagFeeder(IPhotosManager* photosManager): m_exif_data()
 {
-    ATagFeeder::set(photosManager);
+    AExifReader::set(photosManager);
 }
 
 

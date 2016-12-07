@@ -18,7 +18,7 @@
 *
 */
 
-#include "atagfeeder.hpp"
+#include "aexif_reader.hpp"
 
 #include <QByteArray>
 #include <QStringList>
@@ -29,26 +29,26 @@
 #include "tag.hpp"
 #include "base_tags.hpp"
 
-ATagFeeder::ATagFeeder(): m_photosManager(nullptr)
+AExifReader::AExifReader(): m_photosManager(nullptr)
 {
 
 }
 
 
-ATagFeeder::~ATagFeeder()
+AExifReader::~AExifReader()
 {
 
 }
 
 
-void ATagFeeder::set(IPhotosManager* photosManager)
+void AExifReader::set(IPhotosManager* photosManager)
 {
     m_photosManager = photosManager;
 }
 
 
 
-Tag::TagsList ATagFeeder::getTagsFor(const QString& path)
+Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
     const QByteArray data = m_photosManager->getPhoto(path);
 
@@ -62,7 +62,7 @@ Tag::TagsList ATagFeeder::getTagsFor(const QString& path)
 }
 
 
-void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
+void AExifReader::feedDateAndTime(Tag::TagsList& tagData)
 {
     const std::string dateTimeOrirignal = get(DateTimeOriginal);
 

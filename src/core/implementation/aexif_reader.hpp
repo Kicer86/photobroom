@@ -1,6 +1,6 @@
 
 /*
-* Base for tag feeders
+* Base for exif readers
 * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
 *
 * This program is free software: you can redistribute it and/or modify
@@ -18,22 +18,22 @@
 *
 */
 
-#ifndef A_TAG_FEEDER_HPP
-#define A_TAG_FEEDER_HPP
+#ifndef A_EXIF_READER_HPP
+#define A_EXIF_READER_HPP
 
-#include "itagfeeder.hpp"
+#include "iexif_reader.hpp"
 
 struct IPhotosManager;
 class QByteArray;
 
-class ATagFeeder: public ITagFeeder
+class AExifReader: public IExifReader
 {
     public:
-        ATagFeeder();
-        ATagFeeder(const ATagFeeder &) = delete;
-        virtual ~ATagFeeder();
+        AExifReader();
+        AExifReader (const AExifReader &) = delete;
+        virtual ~AExifReader();
 
-        ATagFeeder& operator=(const ATagFeeder &) = delete;
+        AExifReader& operator=(const AExifReader &) = delete;
 
         void set(IPhotosManager *);
 
@@ -57,4 +57,4 @@ class ATagFeeder: public ITagFeeder
         void feedDateAndTime(Tag::TagsList &);
 };
 
-#endif // A_TAG_FEEDER_HPP
+#endif // A_EXIF_READER_HPP

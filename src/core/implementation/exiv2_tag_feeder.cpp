@@ -29,7 +29,7 @@ void Exiv2TagFeeder::collect(const QByteArray& data)
 }
 
 
-std::string Exiv2TagFeeder::get(ATagFeeder::TagTypes type)
+std::string Exiv2TagFeeder::get( AExifReader::TagTypes type)
 {
     std::string result;
     const Exiv2::ExifData &exifData = m_exif_data->exifData();

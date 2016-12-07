@@ -12,7 +12,7 @@
 
 #include <core/task_executor.hpp>
 #include <core/photos_manager.hpp>
-#include <core/itagfeeder.hpp>
+#include <core/iexif_reader.hpp>
 #include <core/tag.hpp>
 
 
@@ -105,16 +105,16 @@ namespace
 
 struct TagsCollector: UpdaterTask
 {
-    TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_tagFeederFactory(nullptr)
+    TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_exifReaderFactory (nullptr)
     {
     }
 
     TagsCollector(const TagsCollector &) = delete;
     TagsCollector& operator=(const TagsCollector &) = delete;
 
-    void set(ITagFeederFactory* tagFeederFactory)
+    void set(IExifReaderFactory* exifReaderFactory)
     {
-        m_tagFeederFactory = tagFeederFactory;
+        m_exifReaderFactory = exifReaderFactory;
     }
 
     virtual std::string name() const override
@@ -125,7 +125,7 @@ struct TagsCollector: UpdaterTask
     virtual void perform() override
     {
         const QString& path = m_photoInfo->getPath();
-        std::shared_ptr<ITagFeeder> feeder = m_tagFeederFactory->get();
+        std::shared_ptr<IExifReader> feeder = m_exifReaderFactory->get();
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
         m_photoInfo->setTags(p_tags);
@@ -133,12 +133,12 @@ struct TagsCollector: UpdaterTask
     }
 
     IPhotoInfo::Ptr m_photoInfo;
-    ITagFeederFactory* m_tagFeederFactory;
+    IExifReaderFactory* m_exifReaderFactory;
 };
 
 
 PhotoInfoUpdater::PhotoInfoUpdater():
-    m_tagFeederFactory(),
+    m_exifReaderFactory(),
     m_taskQueue(),
     m_tasks(),
     m_tasksMutex(),
@@ -175,7 +175,7 @@ void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_unique<TagsCollector>(this, photoInfo);
-    task->set(&m_tagFeederFactory);
+    task->set(&m_exifReaderFactory);
 
     m_taskQueue->push(std::move(task));
 }
@@ -196,7 +196,7 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 void PhotoInfoUpdater::set(IPhotosManager* photosManager)
 {
     m_photosManager = photosManager;
-    m_tagFeederFactory.set(photosManager);
+    m_exifReaderFactory.set(photosManager);
 }
 
 
