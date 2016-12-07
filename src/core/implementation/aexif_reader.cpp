@@ -29,7 +29,7 @@
 #include "tag.hpp"
 #include "base_tags.hpp"
 
-AExifReader::AExifReader(): m_photosManager(nullptr)
+AExifReader::AExifReader(IPhotosManager* photosManager): m_photosManager(photosManager)
 {
 
 }
@@ -39,13 +39,6 @@ AExifReader::~AExifReader()
 {
 
 }
-
-
-void AExifReader::set(IPhotosManager* photosManager)
-{
-    m_photosManager = photosManager;
-}
-
 
 
 Tag::TagsList AExifReader::getTagsFor(const QString& path)

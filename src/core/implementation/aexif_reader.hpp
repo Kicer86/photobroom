@@ -29,13 +29,11 @@ class QByteArray;
 class AExifReader: public IExifReader
 {
     public:
-        AExifReader();
+        AExifReader(IPhotosManager *);
         AExifReader (const AExifReader &) = delete;
         virtual ~AExifReader();
 
         AExifReader& operator=(const AExifReader &) = delete;
-
-        void set(IPhotosManager *);
 
     protected:
         enum TagTypes

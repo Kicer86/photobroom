@@ -7,12 +7,12 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include "atagfeeder.hpp"
+#include "aexif_reader.hpp"
 
 class Exiv2TagFeeder: public AExifReader
 {
     public:
-        Exiv2TagFeeder();
+        Exiv2TagFeeder(IPhotosManager *);
 
     private:
         virtual void collect(const QByteArray&);

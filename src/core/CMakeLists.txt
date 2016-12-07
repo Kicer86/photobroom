@@ -18,6 +18,7 @@ set(CORE_SOURCES
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
+    implementation/exiv2_tag_feeder.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
@@ -65,6 +66,7 @@ set(CORE_HEADERS
     time_guardian.hpp
     tree.hpp
     implementation/aexif_reader.hpp
+    implementation/exiv2_tag_feeder.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
@@ -78,9 +80,6 @@ set(CORE_MOC_FILES disk_observer.hpp)
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
-list(APPEND CORE_SOURCES implementation/easy_exif_tag_feeder.cpp)
-list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
-
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
@@ -91,7 +90,7 @@ target_link_libraries(core
                             Qt5::Core
                             Qt5::Gui
                             ${EASYEXIF_LIBRARIES}
-                            ${EXIV_LIBRARIES}
+                            ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
@@ -104,7 +103,7 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EASYEXIF_INCLUDE_DIRS}
-                                    ${EXIV_INCLUDE_DIRS}
+                                    ${EXIV2_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src

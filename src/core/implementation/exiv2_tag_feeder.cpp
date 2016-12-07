@@ -6,7 +6,9 @@
 #include "base_tags.hpp"
 
 
-Exiv2TagFeeder::Exiv2TagFeeder(): m_exif_data()
+Exiv2TagFeeder::Exiv2TagFeeder(IPhotosManager* photosManager):
+    AExifReader(photosManager),
+    m_exif_data()
 {
 
 }
