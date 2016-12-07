@@ -42,6 +42,10 @@ std::string Exiv2ExifReader::read(AExifReader::TagTypes type)
 
         switch (type)
         {
+            case SequenceNumber:
+                tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Sony1.SequenceNumber"));
+                break;
+
             case DateTimeOriginal:
                 tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
                 break;
