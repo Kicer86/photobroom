@@ -85,6 +85,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
 
     ui->setupUi(this);
     ui->photosView->setModel(&m_model);
+    ui->photosView->setSortingEnabled(true);
 
     using namespace std::placeholders;
     auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1);
