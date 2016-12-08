@@ -64,6 +64,18 @@
          </property>
          <widget class="QWidget" name="animationOptions">
           <layout class="QHBoxLayout" name="formLayout2" stretch="1,0">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <layout class="QFormLayout" name="formLayout">
              <item row="0" column="0">
