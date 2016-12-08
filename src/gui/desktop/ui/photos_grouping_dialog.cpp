@@ -145,6 +145,8 @@ void PhotosGroupingDialog::fillModel(const std::vector<IPhotoInfo::Ptr>& photos)
         QStandardItem* sequenceItem = new QStandardItem(sequence_str);
 
         m_model.appendRow({pathItem, sequenceItem});
+        m_model.setHeaderData(0, Qt::Horizontal, tr("photo path"));
+        m_model.setHeaderData(1, Qt::Horizontal, tr("sequence number"));
     }
 }
 

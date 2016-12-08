@@ -453,7 +453,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+44"/>
         <source>Animation speed:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -485,6 +485,16 @@ Kod błędu: %1</translation>
     <message>
         <location line="+17"/>
         <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+148"/>
+        <source>photo path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
