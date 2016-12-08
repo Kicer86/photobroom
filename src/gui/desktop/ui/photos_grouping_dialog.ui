@@ -20,7 +20,7 @@
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QWidget" name="sourcePart" native="true">
-      <layout class="QVBoxLayout" name="horizontalLayout">
+      <layout class="QVBoxLayout" name="horizontalLayout" stretch="255,0,0">
        <item>
         <widget class="QTableView" name="photosView"/>
        </item>
@@ -59,6 +59,12 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="optionsWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="currentIndex">
           <number>0</number>
          </property>

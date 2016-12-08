@@ -453,7 +453,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+50"/>
         <source>Animation speed:</source>
         <translation type="unfinished"></translation>
     </message>
