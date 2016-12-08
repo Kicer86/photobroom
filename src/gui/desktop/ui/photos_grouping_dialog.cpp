@@ -78,13 +78,17 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_model(),
     m_tmpLocation(),
     m_animationGenerator(),
+    m_sortProxy(),
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader)
 {
     fillModel(photos);
 
     ui->setupUi(this);
-    ui->photosView->setModel(&m_model);
+
+    m_sortProxy.setSourceModel(&m_model);
+
+    ui->photosView->setModel(&m_sortProxy);
     ui->photosView->setSortingEnabled(true);
     ui->photosView->sortByColumn(0, Qt::AscendingOrder);
     ui->photosView->resizeColumnsToContents();

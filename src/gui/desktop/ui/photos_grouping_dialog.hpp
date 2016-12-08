@@ -4,6 +4,7 @@
 
 #include <QDialog>
 #include <QStandardItemModel>
+#include <QSortFilterProxyModel>
 #include <QTemporaryDir>
 
 #include <database/iphoto_info.hpp>
@@ -18,6 +19,30 @@ namespace Ui
 }
 
 struct AnimationGenerator;
+
+class SortingProxy: public QSortFilterProxyModel
+{
+    public:
+        SortingProxy(QObject* p = nullptr): QSortFilterProxyModel(p) {}
+
+    protected:
+        bool lessThan(const QModelIndex& left, const QModelIndex& right) const
+        {
+            if (left.column() == 1)
+            {
+                const QVariant lhs = left.data(Qt::DisplayRole);
+                const QVariant rhs = right.data(Qt::DisplayRole);
+
+                const int left_value = lhs.toInt();
+                const int right_value = rhs.toInt();
+
+                return left_value < right_value;
+            }
+            else
+                return QSortFilterProxyModel::lessThan(left, right);
+        }
+};
+
 
 class PhotosGroupingDialog: public QDialog
 {
@@ -34,6 +59,7 @@ class PhotosGroupingDialog: public QDialog
         QStandardItemModel m_model;
         QTemporaryDir m_tmpLocation;
         std::unique_ptr<AnimationGenerator> m_animationGenerator;
+        SortingProxy m_sortProxy;
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
 
