@@ -28,6 +28,7 @@
 
 #include <configuration/iconfiguration.hpp>
 #include <core/base_tags.hpp>
+#include <core/exif_reader_factory.hpp>
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
@@ -52,7 +53,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
-    m_bottomHintLayout(nullptr)
+    m_bottomHintLayout(nullptr),
+    m_manager(nullptr)
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
@@ -154,6 +156,7 @@ void PhotosWidget::set(ITaskExecutor* executor)
 
 void PhotosWidget::set(IPhotosManager* manager)
 {
+    m_manager = manager;
     m_thumbnailAcquisitor.set(manager);
 }
 
@@ -225,7 +228,12 @@ void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
 
     if (chosenAction == groupPhotos)
     {
-        PhotosGroupingDialog dialog(photos, &m_thumbnailAcquisitor);
+        ExifReaderFactory factory;
+        factory.set(m_manager);
+
+        std::shared_ptr<IExifReader> reader = factory.get();
+
+        PhotosGroupingDialog dialog(photos, reader.get());
         dialog.exec();
     }
 }

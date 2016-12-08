@@ -504,7 +504,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+71"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+73"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -514,7 +514,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar miniaturki:</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+142"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>

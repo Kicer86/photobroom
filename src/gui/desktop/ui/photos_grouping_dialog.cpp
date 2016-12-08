@@ -6,6 +6,8 @@
 #include <QMovie>
 #include <QTemporaryFile>
 
+#include <core/iexif_reader.hpp>
+
 #include "ui_photos_grouping_dialog.h"
 
 
@@ -17,6 +19,8 @@ struct AnimationGenerator: QObject
         double delay;
         double scale;
         QStringList photos;
+
+        Data(): fps(0.0), delay(0.0), scale(0.0), photos() {}
     };
 
     AnimationGenerator(const std::function<void(QWidget *)>& callback, const QString& location):
@@ -69,12 +73,13 @@ struct AnimationGenerator: QObject
 };
 
 
-PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IThumbnailAcquisitor* th_acq, QWidget *parent):
+PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, QWidget *parent):
     QDialog(parent),
     m_model(),
     m_tmpLocation(),
     m_animationGenerator(),
-    ui(new Ui::PhotosGroupingDialog)
+    ui(new Ui::PhotosGroupingDialog),
+    m_exifReader(exifReader)
 {
     fillModel(photos);
 
@@ -131,9 +136,15 @@ void PhotosGroupingDialog::fillModel(const std::vector<IPhotoInfo::Ptr>& photos)
 
     for(const IPhotoInfo::Ptr& photo: photos)
     {
-        QStandardItem* pathItem = new QStandardItem(photo->getPath());
+        const QString path = photo->getPath();
+        const boost::any sequence_number = m_exifReader->get(path, IExifReader::ExtraData::SequenceNumber);
 
-        m_model.appendRow({pathItem});
+        const QString sequence_str = sequence_number.empty()? "-" : QString::number( boost::any_cast<int>(sequence_number));
+
+        QStandardItem* pathItem = new QStandardItem(path);
+        QStandardItem* sequenceItem = new QStandardItem(sequence_str);
+
+        m_model.appendRow({pathItem, sequenceItem});
     }
 }
 

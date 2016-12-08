@@ -9,7 +9,8 @@
 #include <database/iphoto_info.hpp>
 
 
-struct IThumbnailAcquisitor;
+struct IPhotosManager;
+struct IExifReader;
 
 namespace Ui
 {
@@ -23,19 +24,18 @@ class PhotosGroupingDialog: public QDialog
         Q_OBJECT
 
     public:
-        explicit PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr> &, IThumbnailAcquisitor *, QWidget *parent = 0);
+        explicit PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr> &, IExifReader *, QWidget *parent = 0);
         PhotosGroupingDialog(const PhotosGroupingDialog &) = delete;
         ~PhotosGroupingDialog();
 
         PhotosGroupingDialog& operator=(const PhotosGroupingDialog &) = delete;
-
-        void set(const std::vector<IPhotoInfo::Ptr> &);
 
     private:
         QStandardItemModel m_model;
         QTemporaryDir m_tmpLocation;
         std::unique_ptr<AnimationGenerator> m_animationGenerator;
         Ui::PhotosGroupingDialog *ui;
+        IExifReader* m_exifReader;
 
         void updatePreview(QWidget *);
         void typeChanged();
