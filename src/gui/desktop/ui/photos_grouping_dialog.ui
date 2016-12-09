@@ -227,6 +227,9 @@
              <height>64</height>
             </size>
            </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
