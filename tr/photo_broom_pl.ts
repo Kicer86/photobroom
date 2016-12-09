@@ -488,7 +488,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+155"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+150"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>

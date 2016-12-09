@@ -98,8 +98,6 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
 
     m_animationGenerator = std::make_unique<AnimationGenerator>(callback, m_tmpLocation.path());
     connect(ui->applyButton, &QPushButton::pressed, this, &PhotosGroupingDialog::makeAnimation);
-
-    typeChanged();
 }
 
 
@@ -118,10 +116,7 @@ void PhotosGroupingDialog::updatePreview(QWidget* preview)
 
 void PhotosGroupingDialog::typeChanged()
 {
-    const int current = ui->groupingType->currentIndex();
 
-    if (current == 0)
-        makeAnimation();
 }
 
 
@@ -162,10 +157,10 @@ QStringList PhotosGroupingDialog::getPhotos() const
 {
     QStringList result;
 
-    for(int r = 0; r < m_model.rowCount(); r++)
+    for(int r = 0; r < m_sortProxy.rowCount(); r++)
     {
-        QStandardItem* pathItem = m_model.item(r, 0);
-        const QVariant pathRaw = pathItem->data(Qt::DisplayRole);
+        const QModelIndex pathItemIdx = m_sortProxy.index(r, 0);
+        const QVariant pathRaw = pathItemIdx.data(Qt::DisplayRole);
         const QString path = pathRaw.toString();
 
         result.append(path);
