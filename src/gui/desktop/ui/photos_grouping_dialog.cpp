@@ -26,7 +26,8 @@ struct AnimationGenerator: QObject
     AnimationGenerator(const std::function<void(QWidget *)>& callback, const QString& location):
         m_callback(callback),
         m_location(location),
-        m_movie()
+        m_movie(),
+        m_baseSize()
     {
     }
 
@@ -35,12 +36,17 @@ struct AnimationGenerator: QObject
     {
         assert(m_location.isEmpty() == false);
 
+        if (m_movie.get() != nullptr)
+            m_movie->stop();
+
+        m_baseSize = QSize();
+
         const QString location = QString("%1/animation.gif").arg(m_location);
 
         QStringList images;
 
         for(const QString& photo: data.photos)
-        {;
+        {
             const QFileInfo fileInfo(photo);
             const QString absoluteFilePath = fileInfo.absoluteFilePath();
 
@@ -67,9 +73,26 @@ struct AnimationGenerator: QObject
         m_callback(label);
     }
 
+    void scalePreview(double scale)
+    {
+        if (m_movie.get() != nullptr)
+        {
+            if (m_baseSize.isValid() == false)
+                m_baseSize = m_movie->frameRect().size();
+
+            const double scaleFactor = scale/100;
+            QSize size = m_baseSize;
+            size.rheight() *= scaleFactor;
+            size.rwidth() *= scaleFactor;
+
+            m_movie->setScaledSize(size);
+        }
+    }
+
     std::function<void(QWidget *)> m_callback;
     const QString m_location;
     std::unique_ptr<QMovie> m_movie;
+    QSize m_baseSize;
 };
 
 
@@ -97,7 +120,9 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1);
 
     m_animationGenerator = std::make_unique<AnimationGenerator>(callback, m_tmpLocation.path());
+
     connect(ui->applyButton, &QPushButton::pressed, this, &PhotosGroupingDialog::makeAnimation);
+    connect(ui->previewScaleSlider, &QSlider::sliderMoved, m_animationGenerator.get(), &AnimationGenerator::scalePreview);
 }
 
 
