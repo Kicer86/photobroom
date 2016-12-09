@@ -478,7 +478,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+50"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
