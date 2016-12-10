@@ -488,7 +488,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+175"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+192"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -514,7 +514,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+73"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+74"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -524,7 +524,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar miniaturki:</translation>
     </message>
     <message>
-        <location line="+142"/>
+        <location line="+143"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>

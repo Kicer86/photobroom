@@ -12,6 +12,7 @@
 
 struct IPhotosManager;
 struct IExifReader;
+struct ITaskExecutor;
 
 namespace Ui
 {
@@ -49,7 +50,7 @@ class PhotosGroupingDialog: public QDialog
         Q_OBJECT
 
     public:
-        explicit PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr> &, IExifReader *, QWidget *parent = 0);
+        explicit PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr> &, IExifReader *, ITaskExecutor *, QWidget *parent = 0);
         PhotosGroupingDialog(const PhotosGroupingDialog &) = delete;
         ~PhotosGroupingDialog();
 
@@ -62,6 +63,7 @@ class PhotosGroupingDialog: public QDialog
         SortingProxy m_sortProxy;
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
+        ITaskExecutor* m_executor;
 
         void updatePreview(QWidget *);
         void typeChanged();

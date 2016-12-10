@@ -7,6 +7,7 @@
 #include <QTemporaryFile>
 
 #include <core/iexif_reader.hpp>
+#include <core/itask_executor.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
@@ -23,11 +24,43 @@ struct AnimationGenerator: QObject
         Data(): fps(0.0), delay(0.0), scale(0.0), photos() {}
     };
 
-    AnimationGenerator(const std::function<void(QWidget *)>& callback, const QString& location):
+    struct GifGenerator: ITaskExecutor::ITask
+    {
+        GifGenerator(const AnimationGenerator::Data& data, const QString& location):
+            m_data(data),
+            m_location(location)
+        {
+        }
+
+        std::string name() const override
+        {
+            return "GifGenerator";
+        }
+
+        void perform() override
+        {
+            QStringList args;
+            args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
+            args << m_data.photos;
+            args << "-loop" << "0";
+            args << "-resize" << QString::number(100/m_data.scale) + "%";
+            args << m_location;
+
+            QProcess convert;
+            convert.start("convert", args);
+            convert.waitForFinished(-1);
+        }
+
+        AnimationGenerator::Data m_data;
+        QString m_location;
+    };
+
+    AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *)>& callback, const QString& location):
         m_callback(callback),
         m_location(location),
         m_movie(),
-        m_baseSize()
+        m_baseSize(),
+        m_executor(executor)
     {
     }
 
@@ -43,26 +76,8 @@ struct AnimationGenerator: QObject
 
         const QString location = QString("%1/animation.gif").arg(m_location);
 
-        QStringList images;
-
-        for(const QString& photo: data.photos)
-        {
-            const QFileInfo fileInfo(photo);
-            const QString absoluteFilePath = fileInfo.absoluteFilePath();
-
-            images.append(absoluteFilePath);
-        }
-
-        QStringList args;
-        args << "-delay" << QString::number(1/data.fps * 100);   // convert fps to 1/100th of a second
-        args << images;
-        args << "-loop" << "0";
-        args << "-resize" << QString::number(100/data.scale) + "%";
-        args << location;
-
-        QProcess convert;
-        convert.start("convert", args);
-        convert.waitForFinished(-1);
+        auto task = std::make_unique<GifGenerator>(data, location);
+        m_executor->add(std::move(task));
 
         m_movie = std::make_unique<QMovie>(location);
         QLabel* label = new QLabel;
@@ -93,17 +108,19 @@ struct AnimationGenerator: QObject
     const QString m_location;
     std::unique_ptr<QMovie> m_movie;
     QSize m_baseSize;
+    ITaskExecutor* m_executor;
 };
 
 
-PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, QWidget *parent):
+PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, ITaskExecutor* executor, QWidget *parent):
     QDialog(parent),
     m_model(),
     m_tmpLocation(),
     m_animationGenerator(),
     m_sortProxy(),
     ui(new Ui::PhotosGroupingDialog),
-    m_exifReader(exifReader)
+    m_exifReader(exifReader),
+    m_executor(executor)
 {
     fillModel(photos);
 
@@ -119,7 +136,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     using namespace std::placeholders;
     auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1);
 
-    m_animationGenerator = std::make_unique<AnimationGenerator>(callback, m_tmpLocation.path());
+    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback, m_tmpLocation.path());
 
     connect(ui->applyButton, &QPushButton::pressed, this, &PhotosGroupingDialog::makeAnimation);
     connect(ui->previewScaleSlider, &QSlider::sliderMoved, m_animationGenerator.get(), &AnimationGenerator::scalePreview);
@@ -187,8 +204,10 @@ QStringList PhotosGroupingDialog::getPhotos() const
         const QModelIndex pathItemIdx = m_sortProxy.index(r, 0);
         const QVariant pathRaw = pathItemIdx.data(Qt::DisplayRole);
         const QString path = pathRaw.toString();
+        const QFileInfo fileInfo(path);
+        const QString absoluteFilePath = fileInfo.absoluteFilePath();
 
-        result.append(path);
+        result.append(absoluteFilePath);
     }
 
     return result;

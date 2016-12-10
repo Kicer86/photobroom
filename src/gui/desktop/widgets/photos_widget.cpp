@@ -54,7 +54,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr),
-    m_manager(nullptr)
+    m_manager(nullptr),
+    m_executor(nullptr)
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
@@ -151,6 +152,7 @@ PhotosWidget::~PhotosWidget()
 void PhotosWidget::set(ITaskExecutor* executor)
 {
     m_thumbnailAcquisitor.set(executor);
+    m_executor = executor;
 }
 
 
@@ -233,7 +235,7 @@ void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
 
         std::shared_ptr<IExifReader> reader = factory.get();
 
-        PhotosGroupingDialog dialog(photos, reader.get());
+        PhotosGroupingDialog dialog(photos, reader.get(), m_executor);
         dialog.exec();
     }
 }
