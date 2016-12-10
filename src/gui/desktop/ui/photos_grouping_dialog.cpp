@@ -8,6 +8,7 @@
 
 #include <core/iexif_reader.hpp>
 #include <core/itask_executor.hpp>
+#include <core/cross_thread_callback.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
@@ -26,9 +27,10 @@ struct AnimationGenerator: QObject
 
     struct GifGenerator: ITaskExecutor::ITask
     {
-        GifGenerator(const AnimationGenerator::Data& data, const QString& location):
+        GifGenerator(const AnimationGenerator::Data& data, const QString& location, const std::function<void(const QString &)>& doneCallback):
             m_data(data),
-            m_location(location)
+            m_location(location),
+            m_doneCallback(doneCallback)
         {
         }
 
@@ -49,10 +51,13 @@ struct AnimationGenerator: QObject
             QProcess convert;
             convert.start("convert", args);
             convert.waitForFinished(-1);
+
+            m_doneCallback(m_location);
         }
 
         AnimationGenerator::Data m_data;
         QString m_location;
+        std::function<void(const QString &)> m_doneCallback;
     };
 
     AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *)>& callback, const QString& location):
@@ -76,16 +81,12 @@ struct AnimationGenerator: QObject
 
         const QString location = QString("%1/animation.gif").arg(m_location);
 
-        auto task = std::make_unique<GifGenerator>(data, location);
+        using namespace std::placeholders;
+        std::function<void(const QString &)> doneFun = std::bind(&AnimationGenerator::done, this, _1);
+        auto doneCallback = cross_thread_function(this, doneFun);
+
+        auto task = std::make_unique<GifGenerator>(data, location, doneCallback);
         m_executor->add(std::move(task));
-
-        m_movie = std::make_unique<QMovie>(location);
-        QLabel* label = new QLabel;
-
-        label->setMovie(m_movie.get());
-        m_movie->start();
-
-        m_callback(label);
     }
 
     void scalePreview(double scale)
@@ -102,6 +103,17 @@ struct AnimationGenerator: QObject
 
             m_movie->setScaledSize(size);
         }
+    }
+
+    void done(const QString& location)
+    {
+        m_movie = std::make_unique<QMovie>(location);
+        QLabel* label = new QLabel;
+
+        label->setMovie(m_movie.get());
+        m_movie->start();
+
+        m_callback(label);
     }
 
     std::function<void(QWidget *)> m_callback;
