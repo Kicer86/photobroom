@@ -3,8 +3,9 @@
 
 #include <QFileInfo>
 #include <QProcess>
+#include <QProgressBar>
 #include <QMovie>
-#include <QTemporaryFile>
+#include <QTemporaryDir>
 
 #include <core/iexif_reader.hpp>
 #include <core/itask_executor.hpp>
@@ -87,6 +88,11 @@ struct AnimationGenerator: QObject
 
         auto task = std::make_unique<GifGenerator>(data, location, doneCallback);
         m_executor->add(std::move(task));
+
+        QProgressBar* progress = new QProgressBar;
+        progress->setRange(0, 0);
+
+        m_callback(progress);
     }
 
     void scalePreview(double scale)
