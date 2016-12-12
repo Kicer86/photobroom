@@ -55,15 +55,18 @@ class PhotosGroupingDialog: public QDialog
 
         PhotosGroupingDialog& operator=(const PhotosGroupingDialog &) = delete;
 
+        QString getRepresentative() const;
+
     private:
         QStandardItemModel m_model;
         std::unique_ptr<AnimationGenerator> m_animationGenerator;
         SortingProxy m_sortProxy;
+        QString m_representativeFile;
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
         ITaskExecutor* m_executor;
 
-        void updatePreview(QWidget *);
+        void updatePreview(QWidget *, const QString &);
         void typeChanged();
         void makeAnimation();
         void fillModel(const std::vector<IPhotoInfo::Ptr> &);

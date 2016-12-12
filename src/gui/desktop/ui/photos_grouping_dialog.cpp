@@ -61,7 +61,7 @@ struct AnimationGenerator: QObject
         std::function<void(const QString &)> m_doneCallback;
     };
 
-    AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *)>& callback):
+    AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *, const QString &)>& callback):
         m_callback(callback),
         m_movie(),
         m_baseSize(),
@@ -92,7 +92,7 @@ struct AnimationGenerator: QObject
         QProgressBar* progress = new QProgressBar;
         progress->setRange(0, 0);
 
-        m_callback(progress);
+        m_callback(progress, QString());
     }
 
     void scalePreview(double scale)
@@ -119,10 +119,10 @@ struct AnimationGenerator: QObject
         label->setMovie(m_movie.get());
         m_movie->start();
 
-        m_callback(label);
+        m_callback(label, location);
     }
 
-    std::function<void(QWidget *)> m_callback;
+    std::function<void(QWidget *, const QString &)> m_callback;
     std::unique_ptr<QMovie> m_movie;
     QSize m_baseSize;
     ITaskExecutor* m_executor;
@@ -134,6 +134,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_model(),
     m_animationGenerator(),
     m_sortProxy(),
+    m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader),
     m_executor(executor)
@@ -150,7 +151,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui->photosView->resizeColumnsToContents();
 
     using namespace std::placeholders;
-    auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1);
+    auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1, _2);
 
     m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback);
 
@@ -165,10 +166,19 @@ PhotosGroupingDialog::~PhotosGroupingDialog()
 }
 
 
-void PhotosGroupingDialog::updatePreview(QWidget* preview)
+QString PhotosGroupingDialog::getRepresentative() const
+{
+    return m_representativeFile;
+}
+
+
+void PhotosGroupingDialog::updatePreview(QWidget* preview, const QString& location)
 {
     if (preview != nullptr)
+    {
         ui->resultPreview->setWidget(preview);
+        m_representativeFile = location;
+    }
 }
 
 
