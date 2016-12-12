@@ -5,11 +5,11 @@
 #include <QProcess>
 #include <QProgressBar>
 #include <QMovie>
-#include <QTemporaryDir>
 
 #include <core/iexif_reader.hpp>
 #include <core/itask_executor.hpp>
 #include <core/cross_thread_callback.hpp>
+#include <system/system.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
@@ -133,7 +133,6 @@ struct AnimationGenerator: QObject
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, ITaskExecutor* executor, QWidget *parent):
     QDialog(parent),
     m_model(),
-    m_tmpLocation(),
     m_animationGenerator(),
     m_sortProxy(),
     ui(new Ui::PhotosGroupingDialog),
@@ -154,7 +153,8 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     using namespace std::placeholders;
     auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1);
 
-    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback, m_tmpLocation.path());
+    const QString tmpPath = System::getApplicationTempDir();
+    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback, tmpPath);
 
     connect(ui->applyButton, &QPushButton::pressed, this, &PhotosGroupingDialog::makeAnimation);
     connect(ui->previewScaleSlider, &QSlider::sliderMoved, m_animationGenerator.get(), &AnimationGenerator::scalePreview);

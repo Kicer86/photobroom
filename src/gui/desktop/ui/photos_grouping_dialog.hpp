@@ -5,7 +5,6 @@
 #include <QDialog>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-#include <QTemporaryDir>
 
 #include <database/iphoto_info.hpp>
 
@@ -58,7 +57,6 @@ class PhotosGroupingDialog: public QDialog
 
     private:
         QStandardItemModel m_model;
-        QTemporaryDir m_tmpLocation;
         std::unique_ptr<AnimationGenerator> m_animationGenerator;
         SortingProxy m_sortProxy;
         Ui::PhotosGroupingDialog *ui;
