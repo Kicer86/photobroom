@@ -236,7 +236,14 @@ void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
         std::shared_ptr<IExifReader> reader = factory.get();
 
         PhotosGroupingDialog dialog(photos, reader.get(), m_executor);
-        dialog.exec();
+        const int status = dialog.exec();
+
+        if (status == QDialog::Accepted)
+        {
+            const QString photo = dialog.getRepresentative();
+
+
+        }
     }
 }
 
