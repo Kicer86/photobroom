@@ -70,6 +70,9 @@ struct AnimationGenerator: QObject
     {
     }
 
+    AnimationGenerator(const AnimationGenerator &) = delete;
+    AnimationGenerator& operator=(const AnimationGenerator &) = delete;
+
 
     void generatePreviewWidget(const Data& data)
     {
