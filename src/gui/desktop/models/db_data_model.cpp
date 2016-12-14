@@ -90,25 +90,6 @@ DBDataModel::~DBDataModel()
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id> &, const QString& representativePath)
-{
-
-}
-
-
-void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
-{
-    m_idxDataManager->setHierarchy(hierarchy);
-}
-
-
-void DBDataModel::deepFetch(const QModelIndex& top)
-{
-    IdxData* idx = m_idxDataManager->getIdxDataFor(top);
-    m_idxDataManager->deepFetch(idx);
-}
-
-
 IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
@@ -123,6 +104,41 @@ const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
 
     return result;
 }
+
+
+const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
+{
+    return m_filters;
+}
+
+
+bool DBDataModel::isEmpty() const
+{
+    IdxData* root = m_idxDataManager->getRoot();
+    const bool result = root->m_children.empty();
+
+    return result;
+}
+
+
+void DBDataModel::deepFetch(const QModelIndex& top)
+{
+    IdxData* idx = m_idxDataManager->getIdxDataFor(top);
+    m_idxDataManager->deepFetch(idx);
+}
+
+
+void DBDataModel::group(const std::vector<Photo::Id> &, const QString& representativePath)
+{
+
+}
+
+
+void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
+{
+    m_idxDataManager->setHierarchy(hierarchy);
+}
+
 
 
 IPhotoInfo* DBDataModel::getPhotoInfo(const QModelIndex& idx) const
@@ -234,21 +250,6 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 void DBDataModel::applyFilters(const SearchExpressionEvaluator::Expression& filters)
 {
     m_idxDataManager->applyFilters(filters);
-}
-
-
-const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
-{
-    return m_filters;
-}
-
-
-bool DBDataModel::isEmpty() const
-{
-    IdxData* root = m_idxDataManager->getRoot();
-    const bool result = root->m_children.empty();
-
-    return result;
 }
 
 
