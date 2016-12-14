@@ -107,8 +107,6 @@ class DBDataModel: public APhotoInfoModel
     protected:
         IdxData* getRootIdxData();
 
-        Database::IDatabase* getDatabase(); //TODO: remove
-
     private:
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;

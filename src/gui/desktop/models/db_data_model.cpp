@@ -252,12 +252,6 @@ IdxData* DBDataModel::getRootIdxData()
 }
 
 
-Database::IDatabase* DBDataModel::getDatabase()
-{
-    return m_database;
-}
-
-
 QModelIndex DBDataModel::createIndex(IdxData* idxData) const
 {
     const QModelIndex idx = idxData->m_level == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
