@@ -90,6 +90,12 @@ DBDataModel::~DBDataModel()
 }
 
 
+void DBDataModel::group(const std::vector<Photo::Id> &, const QString& representativePath)
+{
+
+}
+
+
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
     m_idxDataManager->setHierarchy(hierarchy);
