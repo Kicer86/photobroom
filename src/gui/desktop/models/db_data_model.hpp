@@ -75,20 +75,17 @@ class DBDataModel: public APhotoInfoModel
         DBDataModel& operator=(const DBDataModel& other) = delete;
         bool operator==(const DBDataModel& other) = delete;
 
-        void setHierarchy(const Hierarchy &);
-        void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
-
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
         const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
+        const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
+        bool isEmpty() const;
 
+        void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
+        void setHierarchy(const Hierarchy &);
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
         void setStaticFilters(const std::deque<Database::IFilter::Ptr> &);
         void applyFilters(const SearchExpressionEvaluator::Expression &);
-
-        const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
-
-        bool isEmpty() const;
 
         // APhotoInfoModel:
         virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
