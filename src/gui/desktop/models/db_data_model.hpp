@@ -81,7 +81,8 @@ class DBDataModel: public APhotoInfoModel
         bool isEmpty() const;
 
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
-        void group(const std::vector<Photo::Id> &, const QString& representativePath);
+        void group(const std::vector<Photo::Id> &, const QString& representativePath);     // group set of photos as one with given (external/generated) representative
+        void group(const std::vector<Photo::Id> &, const Photo::Id& representativePhoto);  // group set of photos as one with given (already existing) representative
         void setHierarchy(const Hierarchy &);
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);

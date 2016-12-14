@@ -134,6 +134,12 @@ void DBDataModel::group(const std::vector<Photo::Id> &, const QString& represent
 }
 
 
+void DBDataModel::group(const std::vector<Photo::Id> &, const Photo::Id& representativePhoto)
+{
+
+}
+
+
 void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 {
     m_idxDataManager->setHierarchy(hierarchy);
