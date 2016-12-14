@@ -112,16 +112,39 @@ namespace Database
                     }
         );
 
+        // information about groups of photos
+        TableDefinition
+        table_groups(TAB_GROUPS,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID   },
+                        { "representative_id",  "INTEGER NOT NULL"     },
+                        { "FOREIGN KEY(representative_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                    }
+        );
+
+        // information about groups' members
+        TableDefinition
+        table_groups_members(TAB_GROUPS_MEMBERS,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID   },
+                        { "group_id",  "INTEGER NOT NULL"     },
+                        { "member_id", "INTEGER NOT NULL"     },
+                        { "FOREIGN KEY(group_id) REFERENCES " TAB_GROUPS "(id)", "" },
+                        { "FOREIGN KEY(member_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                    }
+        );
 
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
-            { TAB_VER,        table_versionHistory },
-            { TAB_PHOTOS,     table_photos },
-            { TAB_TAGS,       table_tags },
-            { TAB_THUMBS,     table_thumbnails },
-            { TAB_SHA256SUMS, table_sha256sums },
-            { TAB_FLAGS,      table_flags },
-            { TAB_GEOMETRY,   table_geometry },
+            { TAB_VER,            table_versionHistory },
+            { TAB_PHOTOS,         table_photos },
+            { TAB_TAGS,           table_tags },
+            { TAB_THUMBS,         table_thumbnails },
+            { TAB_SHA256SUMS,     table_sha256sums },
+            { TAB_FLAGS,          table_flags },
+            { TAB_GEOMETRY,       table_geometry },
+            { TAB_GROUPS,         table_groups },
+            { TAB_GROUPS_MEMBERS, table_groups_members },
         };
 }
