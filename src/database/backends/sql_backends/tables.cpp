@@ -127,10 +127,10 @@ namespace Database
         table_groups_members(TAB_GROUPS_MEMBERS,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "group_id",  "INTEGER NOT NULL"     },
-                        { "member_id", "INTEGER NOT NULL"     },
+                        { "group_id", "INTEGER NOT NULL"     },
+                        { "photo_id", "INTEGER NOT NULL"     },
                         { "FOREIGN KEY(group_id) REFERENCES " TAB_GROUPS "(id)", "" },
-                        { "FOREIGN KEY(member_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     }
         );
 
