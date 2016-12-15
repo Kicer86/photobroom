@@ -28,6 +28,7 @@ set(DATABASE_HEADERS
     database_builder.hpp
     database_status.hpp
     filter.hpp
+    group.hpp
     idatabase.hpp
     iphoto_info.hpp
     iphoto_info_cache.hpp

@@ -32,6 +32,7 @@
 #include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
+#include "group.hpp"
 #include "iphoto_info.hpp"
 
 #include "database_export.h"
@@ -129,6 +130,7 @@ namespace Database
         // store data
         [[deprecated]] virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
         virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;
+        virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
         [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
