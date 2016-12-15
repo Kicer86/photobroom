@@ -37,6 +37,7 @@ namespace
     struct IThreadVisitor;
     struct InitTask;
     struct InsertPhotosTask;
+    struct CreateGroupTask;
     struct UpdateTask;
     struct GetAllPhotosTask;
     struct GetPhotoTask;
@@ -68,6 +69,7 @@ namespace
 
         virtual void visit(InitTask *) = 0;
         virtual void visit(InsertPhotosTask *) = 0;
+        virtual void visit(CreateGroupTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
         virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
@@ -116,6 +118,24 @@ namespace
 
         std::set<QString> m_paths;
         std::function<void(bool)> m_callback;
+    };
+
+    struct CreateGroupTask: ThreadBaseTask
+    {
+        CreateGroupTask(const Photo::Id& representative, const std::function<void(Database::Group::Id)>& callback):
+            ThreadBaseTask(),
+            m_representative(representative),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~CreateGroupTask() {}
+
+        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+
+        Photo::Id m_representative;
+        std::function<void(Database::Group::Id)> m_callback;
     };
 
     struct UpdateTask: ThreadBaseTask
@@ -361,6 +381,16 @@ namespace
 
             if (task->m_callback)
                 task->m_callback(status);
+        }
+
+        virtual void visit(CreateGroupTask* task) override
+        {
+            // TODO: implement
+
+            /*
+            if (task->m_callback)
+                task->m_callback(0);
+            */
         }
 
         virtual void visit(UpdateTask* task) override
@@ -664,7 +694,8 @@ namespace Database
 
     void DatabaseThread::createGroup(const Photo::Id& id, const Callback<Group::Id>& callback)
     {
-
+        CreateGroupTask* task = new CreateGroupTask(id, callback);
+        m_impl->addTask(task);
     }
 
 
