@@ -242,7 +242,11 @@ void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
         {
             const QString photo = dialog.getRepresentative();
 
+            std::vector<Photo::Id> photos_ids;
+            for(std::size_t i = 0; i < photos.size(); i++)
+                photos_ids.push_back(photos[i]->getID());
 
+            m_model->group(photos_ids, photo);
         }
     }
 }
