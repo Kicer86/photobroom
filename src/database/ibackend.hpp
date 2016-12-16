@@ -25,11 +25,12 @@
 #include <deque>
 
 #include <core/tag.hpp>
-#include <database/photo_data.hpp>
 
 #include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
+#include "group.hpp"
+#include "photo_data.hpp"
 
 #include "database_export.h"
 
@@ -48,6 +49,9 @@ namespace Database
 
         //add photo to database
         virtual bool addPhotos(std::deque<Photo::Data> &) = 0;
+
+        // create group
+        virtual Group::Id addGroup(const Photo::Id &) = 0;
 
         //update data
         virtual bool update(const Photo::Data &) = 0;

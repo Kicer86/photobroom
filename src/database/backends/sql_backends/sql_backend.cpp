@@ -182,6 +182,7 @@ namespace Database
 
             bool insert(Photo::Data &) const;
             bool insert(std::deque<Photo::Data> &) const;
+            Group::Id addGroup(const Photo::Id& id) const;
             bool update(const Photo::Data &) const;
 
             std::deque<TagValue>  listTagValues(const TagNameInfo& tagName) const;
@@ -639,6 +640,27 @@ namespace Database
     }
 
 
+    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        Group::Id grp_id = 0;
+
+        const QString queryStr = QString("INSERT INTO %1 (representative_id) VALUES(%2);")
+                                    .arg(TAB_GROUPS)
+                                    .arg(id);
+
+        const bool status = m_executor.exec(queryStr, &query);
+
+
+        if (status && query.next())
+            grp_id = query.value(0).toInt();
+
+        return grp_id;
+    }
+
+
     bool ASqlBackend::Data::update(const Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1055,6 +1077,14 @@ namespace Database
         const bool status = m_data->insert(data);
 
         return status;
+    }
+
+
+    Group::Id ASqlBackend::addGroup(const Photo::Id& id)
+    {
+        const Group::Id group = m_data->addGroup(id);
+
+        return group;
     }
 
 
