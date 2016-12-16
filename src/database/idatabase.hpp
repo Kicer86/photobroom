@@ -129,7 +129,7 @@ namespace Database
 
         // store data
         [[deprecated]] virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
-        virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;
+        virtual void store(const std::set< QString >&, const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
