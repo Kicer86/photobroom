@@ -84,7 +84,7 @@ struct AnimationGenerator: QObject
 
         using namespace std::placeholders;
         std::function<void(const QString &)> doneFun = std::bind(&AnimationGenerator::done, this, _1);
-        auto doneCallback = cross_thread_function(this, doneFun);
+        auto doneCallback = make_cross_thread_function(this, doneFun);
 
         auto task = std::make_unique<GifGenerator>(data, location, doneCallback);
         m_executor->add(std::move(task));

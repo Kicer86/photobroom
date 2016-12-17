@@ -77,7 +77,7 @@ void TagValueModel::set(ITagInfoCollector* collector)
 
     using namespace std::placeholders;
     std::function<void(const TagNameInfo &)> callback = std::bind(&TagValueModel::collectorNotification, this, _1);
-    auto mainThreadCallback = cross_thread_function(this, callback);                  // make sure we won't have problems with calls from other threads
+    auto mainThreadCallback = make_cross_thread_function(this, callback);                  // make sure we won't have problems with calls from other threads
 
     m_observerId = m_tagInfoCollector->registerChangeObserver(mainThreadCallback);
 
