@@ -8,7 +8,7 @@
 
 #include <core/iexif_reader.hpp>
 #include <core/itask_executor.hpp>
-#include <core/cross_thread_callback.hpp>
+#include <core/cross_thread_call.hpp>
 #include <system/system.hpp>
 
 #include "ui_photos_grouping_dialog.h"

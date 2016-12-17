@@ -44,7 +44,7 @@ endif()
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
-    cross_thread_callback.hpp
+    cross_thread_call.hpp
     disk_observer.hpp
     file_lock.hpp
     ilogger.hpp

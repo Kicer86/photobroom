@@ -12,7 +12,7 @@
 #include <QTimer>
 
 #include <core/iphotos_manager.hpp>
-#include <core/cross_thread_callback.hpp>
+#include <core/cross_thread_call.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
