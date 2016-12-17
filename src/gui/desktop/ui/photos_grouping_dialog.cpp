@@ -149,6 +149,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui->photosView->setSortingEnabled(true);
     ui->photosView->sortByColumn(0, Qt::AscendingOrder);
     ui->photosView->resizeColumnsToContents();
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
 
     using namespace std::placeholders;
     auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1, _2);
@@ -179,6 +180,8 @@ void PhotosGroupingDialog::updatePreview(QWidget* preview, const QString& locati
         ui->resultPreview->setWidget(preview);
         m_representativeFile = location;
     }
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
 }
 
 
