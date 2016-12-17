@@ -156,7 +156,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
 
     m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback);
 
-    connect(ui->applyButton, &QPushButton::pressed, this, &PhotosGroupingDialog::makeAnimation);
+    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::makeAnimation);
     connect(ui->previewScaleSlider, &QSlider::sliderMoved, m_animationGenerator.get(), &AnimationGenerator::scalePreview);
 }
 
