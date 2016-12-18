@@ -661,7 +661,7 @@ namespace Database
 
 
 
-    void DatabaseThread::set( std::unique_ptr<IPhotoInfoCache>&& cache)
+    void DatabaseThread::set(std::unique_ptr<IPhotoInfoCache>&& cache)
     {
         m_impl->m_cache = std::move(cache);
         m_impl->m_executor.set(m_impl->m_cache.get());
