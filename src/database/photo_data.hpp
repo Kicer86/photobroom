@@ -25,6 +25,7 @@
 #include <core/tag.hpp>
 
 #include "database_export.h"
+#include "group.hpp"
 #include "photo_types.hpp"
 
 
@@ -34,6 +35,7 @@ namespace Photo
     struct DATABASE_EXPORT Data
     {
         Photo::Id            id;
+        Group::Id            group_id;
         Photo::Sha256sum     sha256Sum;
         Tag::TagsList        tags;
         Photo::FlagValues    flags;
