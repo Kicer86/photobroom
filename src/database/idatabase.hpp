@@ -87,7 +87,7 @@ namespace Database
         virtual void got(const IPhotoInfo::List &) = 0;
     };
 
-    [[deprecated]] struct DATABASE_EXPORT AGetPhotoTask
+    struct DATABASE_DEPRECATED_EXPORT AGetPhotoTask
     {
         virtual ~AGetPhotoTask() = default;
 
