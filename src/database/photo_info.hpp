@@ -49,13 +49,12 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         void registerObserver(IObserver *) override;
         void unregisterObserver(IObserver *) override;
 
-        //data initializing
+        //set data
         void setSha256(const Photo::Sha256sum &) override;
         void setGeometry(const QSize &) override;
-
-        //set data
         void setTags(const Tag::TagsList &) override;
         void setTag(const TagNameInfo &, const TagValue &) override;
+        void setGroup(const Group::Id &) override;
 
         //flags
         void markFlag(Photo::FlagsE, int) override;
