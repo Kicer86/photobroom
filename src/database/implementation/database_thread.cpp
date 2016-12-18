@@ -176,10 +176,10 @@ namespace
 
     struct GetPhotoTask: ThreadBaseTask
     {
-        GetPhotoTask(std::unique_ptr<Database::AGetPhotoTask>&& task, const Photo::Id& id):
+        GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)>& callback):
             ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_id(id)
+            m_ids(ids),
+            m_callback(callback)
         {
 
         }
@@ -187,8 +187,8 @@ namespace
         virtual ~GetPhotoTask() {}
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::unique_ptr<Database::AGetPhotoTask> m_task;
-        Photo::Id m_id;
+        std::vector<Photo::Id> m_ids;
+        std::function<void(const std::deque<IPhotoInfo::Ptr> &)> m_callback;
     };
 
     struct GetPhotosTask: ThreadBaseTask
@@ -416,9 +416,15 @@ namespace
 
         virtual void visit(GetPhotoTask* task) override
         {
-            auto photo = getPhotoFor(task->m_id);
+            std::deque<IPhotoInfo::Ptr> photos;
 
-            task->m_task->got(photo);
+            for (const Photo::Id& id: task->m_ids)
+            {
+                IPhotoInfo::Ptr photo = getPhotoFor(id);
+                photos.push_back(photo);
+            }
+
+            task->m_callback(photos);
         }
 
         virtual void visit(GetPhotosTask* task) override
@@ -705,7 +711,15 @@ namespace Database
 
     void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
-        GetPhotoTask* task = new GetPhotoTask(std::move(db_task), id);
+        std::shared_ptr<Database::AGetPhotoTask> db_task_shared(db_task.release());
+
+        auto callback =
+            [db_task_shared](const std::deque<IPhotoInfo::Ptr>& photos)
+            {
+                db_task_shared->got(photos);
+            };
+
+        GetPhotoTask* task = new GetPhotoTask({id}, callback);
         m_impl->addTask(task);
     }
 
@@ -741,6 +755,13 @@ namespace Database
     void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        m_impl->addTask(task);
+    }
+
+
+    void DatabaseThread::getPhotos(const std::vector<Photo::Id>& ids, const Callback<std::deque<IPhotoInfo::Ptr>>& callback)
+    {
+        GetPhotoTask* task = new GetPhotoTask(ids, callback);
         m_impl->addTask(task);
     }
 
