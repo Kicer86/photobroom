@@ -22,11 +22,90 @@
 #include <unordered_map>
 #include <memory>
 
-//#include <database/query_list.hpp>
+#include <core/cross_thread_call.hpp>
 #include <database/filter.hpp>
 
 #include "model_helpers/idx_data.hpp"
 #include "model_helpers/idx_data_manager.hpp"
+
+
+struct DBDataModel::Grouper
+{
+    Grouper(Database::IDatabase* db):
+        m_doneCallback(),
+        m_photos(),
+        m_db(db),
+        m_grp_id(0),
+        m_flags(0)
+    {
+
+    }
+
+    Grouper(const Grouper &) = delete;
+    Grouper& operator=(const Grouper &) = delete;
+
+    void setDoneCallback(const std::function<void()>& doneCallback)
+    {
+        m_doneCallback = doneCallback;
+    }
+
+    void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto)
+    {
+        std::function<void(const Group::Id &)> group_created =
+            std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
+
+        std::function<void(const std::deque<IPhotoInfo::Ptr> &)> photos_received =
+            std::bind(&Grouper::photosReceived, this, std::placeholders::_1);
+
+        m_db->createGroup(representativePhoto, group_created);
+        m_db->getPhotos(photos, photos_received);
+    }
+
+    private:
+        std::function<void()> m_doneCallback;
+        std::deque<IPhotoInfo::Ptr> m_photos;
+        Database::IDatabase* m_db;
+        Group::Id m_grp_id;
+
+        enum Flags
+        {
+            GotGroupId = 1,
+            GotPhotos  = 2,
+        };
+
+        int m_flags;
+
+        void groupCreated(const Group::Id& id)
+        {
+            assert( (m_flags & GotGroupId) == 0);
+
+            m_grp_id = id;
+            m_flags |= GotGroupId;
+
+            gotData();
+        }
+
+        void photosReceived(const std::deque<IPhotoInfo::Ptr>& photos)
+        {
+            assert( (m_flags & GotPhotos) == 0);
+
+            m_photos = photos;
+            m_flags |= GotPhotos;
+
+            gotData();
+        }
+
+        void gotData()
+        {
+            if ( m_flags == (GotGroupId | GotPhotos) )
+            {
+                for(const IPhotoInfo::Ptr& photoInfo: m_photos)
+                    photoInfo->setGroup(m_grp_id);
+
+                m_doneCallback();
+            }
+        }
+};
 
 
 Hierarchy::Level::Level(): tagName(), order()
@@ -78,7 +157,12 @@ const Hierarchy::Level& Hierarchy::getLeafsInfo() const
 //////////////////////////////////////
 
 
-DBDataModel::DBDataModel(QObject* p): APhotoInfoModel(p), m_idxDataManager(new IdxDataManager(this)), m_database(nullptr), m_filters()
+DBDataModel::DBDataModel(QObject* p):
+    APhotoInfoModel(p),
+    m_idxDataManager(new IdxDataManager(this)),
+    m_database(nullptr),
+    m_filters(),
+    m_groupers()
 {
     connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }
@@ -128,15 +212,39 @@ void DBDataModel::deepFetch(const QModelIndex& top)
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id> &, const QString& representativePath)
+void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath)
 {
+    using namespace std::placeholders;
 
+    std::function<void(const std::vector<Photo::Id> &)> store_callback =
+        [this, photos](const std::vector<Photo::Id>& id)
+        {
+            assert(id.size() == 1);
+
+            if (id.empty() == false)
+                group(photos, id.front());
+        };
+
+    auto this_tread_callback = make_cross_thread_function(this, store_callback);
+
+    m_database->store({representativePath}, this_tread_callback);
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id> &, const Photo::Id& representativePhoto)
+void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto)
 {
+    const auto emplaced = m_groupers.emplace( std::make_unique<Grouper>(m_database) );
+    const auto grouperIt = emplaced.first;
+    const std::unique_ptr<Grouper>& grouper = *grouperIt;
 
+    std::function<void()> doneCallbackFun = [this, grouperIt]()
+    {
+        m_groupers.erase(grouperIt);
+    };
+
+    auto doneCallback = make_cross_thread_function(this, doneCallbackFun);
+
+    grouper->create(photos, representativePhoto);
 }
 
 

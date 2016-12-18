@@ -107,9 +107,12 @@ class DBDataModel: public APhotoInfoModel
         IdxData* getRootIdxData();
 
     private:
+        struct Grouper;
+
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
         std::deque<Database::IFilter::Ptr> m_filters;
+        std::set<std::unique_ptr<Grouper>> m_groupers;
 
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;
