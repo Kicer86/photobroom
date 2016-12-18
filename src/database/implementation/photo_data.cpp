@@ -35,6 +35,7 @@ namespace Photo
 
     Data::Data():
         id(),
+        group_id(0),
         sha256Sum(),
         tags(),
         flags(),
