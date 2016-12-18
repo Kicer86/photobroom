@@ -385,12 +385,10 @@ namespace
 
         virtual void visit(CreateGroupTask* task) override
         {
-            // TODO: implement
+            const Group::Id id = m_backend->addGroup(task->m_representative);
 
-            /*
             if (task->m_callback)
-                task->m_callback(0);
-            */
+                task->m_callback(id);
         }
 
         virtual void visit(UpdateTask* task) override
