@@ -2,12 +2,9 @@
 #ifndef GROUP_HPP
 #define GROUP_HPP
 
-namespace Database
+namespace Group
 {
-    namespace Group
-    {
-        typedef int Id;
-    }
+    typedef int Id;
 }
 
 #endif

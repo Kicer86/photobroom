@@ -122,7 +122,7 @@ namespace
 
     struct CreateGroupTask: ThreadBaseTask
     {
-        CreateGroupTask(const Photo::Id& representative, const std::function<void(Database::Group::Id)>& callback):
+        CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
             ThreadBaseTask(),
             m_representative(representative),
             m_callback(callback)
@@ -135,7 +135,7 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         Photo::Id m_representative;
-        std::function<void(Database::Group::Id)> m_callback;
+        std::function<void(Group::Id)> m_callback;
     };
 
     struct UpdateTask: ThreadBaseTask
