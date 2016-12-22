@@ -244,6 +244,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& r
 
     auto doneCallback = make_cross_thread_function(this, doneCallbackFun);
 
+    grouper->setDoneCallback(doneCallback);
     grouper->create(photos, representativePhoto);
 }
 
