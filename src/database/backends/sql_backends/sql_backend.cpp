@@ -672,19 +672,27 @@ namespace Database
     Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
 
         Group::Id grp_id = 0;
 
-        const QString queryStr = QString("INSERT INTO %1 (representative_id) VALUES(%2);")
-                                    .arg(TAB_GROUPS)
-                                    .arg(id);
+        InsertQueryData insertData(TAB_GROUPS);
 
-        const bool status = m_executor.exec(queryStr, &query);
+        insertData.setColumns("id", "representative_id");
+        insertData.setValues(InsertQueryData::Value::Null, id);
 
+        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
 
-        if (status && query.next())
-            grp_id = query.value(0).toInt();
+        bool status = m_executor.exec(query);
+
+        //update id
+        if (status)                                    //Get Id from database after insert
+        {
+            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = photo_id.isValid();
+
+            if (status)
+                grp_id = Photo::Id(photo_id.toInt());
+        }
 
         return grp_id;
     }
