@@ -524,7 +524,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar miniaturki:</translation>
     </message>
     <message>
-        <location line="+143"/>
+        <location line="+144"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>

@@ -221,6 +221,7 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 
 void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
 {
+    // TODO: to extract?
     const std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
 
     QMenu contextMenu;
