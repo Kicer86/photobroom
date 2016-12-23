@@ -55,7 +55,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr),
     m_manager(nullptr),
-    m_executor(nullptr)
+    m_executor(nullptr),
+    m_contextMenu(nullptr)
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
@@ -216,6 +217,12 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 
     if (hintWidget != nullptr)
         m_bottomHintLayout->addWidget(hintWidget);
+}
+
+
+void PhotosWidget::registerContexMenu(QMenu* menu)
+{
+    m_contextMenu = menu;
 }
 
 

@@ -28,6 +28,7 @@
 
 class QAbstractItemModel;
 class QItemSelectionModel;
+class QMenu;
 class QLineEdit;
 class QVBoxLayout;
 
@@ -62,6 +63,7 @@ class PhotosWidget: public QWidget
         QItemSelectionModel* viewSelectionModel();
 
         void setBottomHintWidget(InfoBaloonWidget *);
+        void registerContexMenu(QMenu *);
 
     protected:
         void contextMenuEvent(QContextMenuEvent *) override;
@@ -77,6 +79,7 @@ class PhotosWidget: public QWidget
         QVBoxLayout* m_bottomHintLayout;
         IPhotosManager* m_manager;
         ITaskExecutor* m_executor;
+        QMenu* m_contextMenu;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();
