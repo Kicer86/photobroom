@@ -42,6 +42,7 @@ struct IConfiguration;
 struct IPhotosManager;
 struct ITaskExecutor;
 
+
 class PhotosWidget: public QWidget
 {
         Q_OBJECT
