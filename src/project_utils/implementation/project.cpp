@@ -89,6 +89,12 @@ Project::~Project()
 }
 
 
+bool Project::lockProject()
+{
+    return m_lock.tryLock();
+}
+
+
 Database::IDatabase* Project::getDatabase() const
 {
     return m_database.get();
@@ -98,12 +104,6 @@ Database::IDatabase* Project::getDatabase() const
 const ProjectInfo& Project::getProjectInfo() const
 {
     return m_prjInfo;
-}
-
-
-bool Project::lockProject()
-{
-    return m_lock.tryLock();
 }
 
 

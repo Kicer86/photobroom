@@ -64,10 +64,10 @@ class PROJECT_UTILS_EXPORT Project
 
         Project& operator=(const Project &) = delete;
 
-        Database::IDatabase* getDatabase() const;
-        const ProjectInfo& getProjectInfo() const;
         bool lockProject();
 
+        Database::IDatabase* getDatabase() const;
+        const ProjectInfo& getProjectInfo() const;
         QString makePathRelative(const QString &) const;
 
     private:
