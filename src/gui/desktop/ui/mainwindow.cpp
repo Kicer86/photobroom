@@ -506,7 +506,8 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
 
-    QAction* chosenAction = contextMenu.exec(pos);
+    const QPoint globalPos = photosView->mapToGlobal(pos);
+    QAction* chosenAction = contextMenu.exec(globalPos);
 
     if (chosenAction == groupPhotos)
     {
