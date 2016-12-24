@@ -60,7 +60,7 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     const QDir storagePath(location);
     const QString prjPath = storagePath.absoluteFilePath(prjName + ".bpj");
     const ProjectInfo prjInfo(prjPath);
-    const QString dbDir = prjInfo.getInternalLocation() + "/db";
+    const QString dbDir = prjInfo.getInternalLocation(ProjectInfo::Database);
 
     QDir().mkpath(dbDir);
 

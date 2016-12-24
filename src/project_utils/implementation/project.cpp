@@ -65,9 +65,19 @@ const QString& ProjectInfo::getName() const
 }
 
 
-const QString& ProjectInfo::getInternalLocation() const
+QString ProjectInfo::getInternalLocation(InternalData dataType) const
 {
-    return internalLocation;
+    QString subdir;
+
+    switch(dataType)
+    {
+        case Database:           subdir = "db";    break;
+        case InternalMultimedia: subdir = "media"; break;
+    }
+
+    const QString result = QString("%1/%2").arg(internalLocation).arg(subdir);
+
+    return result;
 }
 
 
