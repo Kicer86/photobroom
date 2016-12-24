@@ -24,11 +24,9 @@
 #include <QTimer>
 
 #include "utils/thumbnail_acquisitor.hpp"
-#include "utils/selection_extractor.hpp"
 
 class QAbstractItemModel;
 class QItemSelectionModel;
-class QMenu;
 class QLineEdit;
 class QVBoxLayout;
 
@@ -60,26 +58,21 @@ class PhotosWidget: public QWidget
         void set(ICompleterFactory *);
         void setModel(DBDataModel *);
 
-        QItemSelectionModel* viewSelectionModel();
+        QItemSelectionModel* viewSelectionModel() const;
+        DBDataModel* getModel() const;
 
         void setBottomHintWidget(InfoBaloonWidget *);
-        void registerContexMenu(QMenu *);
 
-    protected:
-        void contextMenuEvent(QContextMenuEvent *) override;
 
     private:
         QTimer m_timer;
         ThumbnailAcquisitor m_thumbnailAcquisitor;
-        SelectionExtractor m_selectionExtractor;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
         MultiValueLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
-        IPhotosManager* m_manager;
         ITaskExecutor* m_executor;
-        QMenu* m_contextMenu;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();

@@ -28,14 +28,20 @@
        <enum>QTabWidget::South</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="PhotosWidget" name="imagesView">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <attribute name="title">
         <string>Collection</string>
        </attribute>
       </widget>
       <widget class="PhotosWidget" name="newImagesView">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <attribute name="title">
         <string>New photos</string>
        </attribute>
@@ -107,7 +113,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="rightDockWidget">
    <property name="windowTitle">
-    <string>Photo information</string>
+    <string>Photo &amp;information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -116,7 +122,7 @@
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
-    <string>Tasks</string>
+    <string>&amp;Tasks</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>

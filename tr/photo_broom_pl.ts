@@ -194,7 +194,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+50"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -219,24 +219,24 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-40"/>
+        <location line="-43"/>
         <source>Collection</source>
         <translation>Kolekcja</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+58"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <source>Photo &amp;information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tasks</source>
-        <translation>Operacje</translation>
+        <source>&amp;Tasks</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
@@ -299,7 +299,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+235"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+238"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -326,12 +326,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+131"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+135"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+165"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -341,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-69"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -351,7 +351,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+124"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+139"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -412,12 +417,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-158"/>
+        <location line="-197"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="+119"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -514,7 +519,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+75"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+70"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -522,11 +527,6 @@ Kod błędu: %1</translation>
         <location line="+10"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
-    </message>
-    <message>
-        <location line="+150"/>
-        <source>Group</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

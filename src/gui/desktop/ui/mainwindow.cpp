@@ -13,6 +13,7 @@
 
 #include <core/iphotos_manager.hpp>
 #include <core/cross_thread_call.hpp>
+#include <core/exif_reader_factory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
@@ -32,8 +33,10 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
+#include "utils/selection_extractor.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
+#include "ui/photos_grouping_dialog.hpp"
 
 
 namespace
@@ -343,6 +346,10 @@ void MainWindow::setupView()
 
     // connect to tabs
     connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
+
+    // connect to context menu for views
+    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->imagesView, p); });
+    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->newImagesView, p); });
 }
 
 
@@ -483,6 +490,45 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
     // add task for photos modification, so main thread will not be slowed down
     auto task = std::make_unique<StagePhotosTask>(photos);
     m_executor->add(std::move(task));
+}
+
+
+void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
+{
+    DBDataModel* model = photosView->getModel();
+
+    SelectionExtractor selectionExtractor;
+    selectionExtractor.set(photosView->viewSelectionModel());
+    selectionExtractor.set(model);
+
+    const std::vector<IPhotoInfo::Ptr> photos = selectionExtractor.getSelection();
+
+    QMenu contextMenu;
+    QAction* groupPhotos = contextMenu.addAction(tr("Group"));
+
+    QAction* chosenAction = contextMenu.exec(pos);
+
+    if (chosenAction == groupPhotos)
+    {
+        ExifReaderFactory factory;
+        factory.set(m_photosManager);
+
+        std::shared_ptr<IExifReader> reader = factory.get();
+
+        PhotosGroupingDialog dialog(photos, reader.get(), m_executor);
+        const int status = dialog.exec();
+
+        if (status == QDialog::Accepted)
+        {
+            const QString photo = dialog.getRepresentative();
+
+            std::vector<Photo::Id> photos_ids;
+            for(std::size_t i = 0; i < photos.size(); i++)
+                photos_ids.push_back(photos[i]->getID());
+
+            model->group(photos_ids, photo);
+        }
+    }
 }
 
 

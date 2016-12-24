@@ -28,13 +28,11 @@
 
 #include <configuration/iconfiguration.hpp>
 #include <core/base_tags.hpp>
-#include <core/exif_reader_factory.hpp>
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
 #include "multi_value_line_edit.hpp"
 #include "models/db_data_model.hpp"
-#include "ui/photos_grouping_dialog.hpp"
 #include "ui_utils/icompleter_factory.hpp"
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
@@ -48,15 +46,12 @@ PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
     m_thumbnailAcquisitor(),
-    m_selectionExtractor(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr),
-    m_manager(nullptr),
-    m_executor(nullptr),
-    m_contextMenu(nullptr)
+    m_executor(nullptr)
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
@@ -159,7 +154,6 @@ void PhotosWidget::set(ITaskExecutor* executor)
 
 void PhotosWidget::set(IPhotosManager* manager)
 {
-    m_manager = manager;
     m_thumbnailAcquisitor.set(manager);
 }
 
@@ -191,15 +185,18 @@ void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;
     m_view->setModel(m);
-
-    m_selectionExtractor.set(m);
-    m_selectionExtractor.set(viewSelectionModel());
 }
 
 
-QItemSelectionModel* PhotosWidget::viewSelectionModel()
+QItemSelectionModel* PhotosWidget::viewSelectionModel() const
 {
     return m_view->selectionModel();
+}
+
+
+DBDataModel* PhotosWidget::getModel() const
+{
+    return m_model;
 }
 
 
@@ -217,46 +214,6 @@ void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
 
     if (hintWidget != nullptr)
         m_bottomHintLayout->addWidget(hintWidget);
-}
-
-
-void PhotosWidget::registerContexMenu(QMenu* menu)
-{
-    m_contextMenu = menu;
-}
-
-
-void PhotosWidget::contextMenuEvent(QContextMenuEvent* e)
-{
-    // TODO: to extract?
-    const std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
-
-    QMenu contextMenu;
-    QAction* groupPhotos = contextMenu.addAction(tr("Group"));
-
-    QAction* chosenAction = contextMenu.exec(e->globalPos());
-
-    if (chosenAction == groupPhotos)
-    {
-        ExifReaderFactory factory;
-        factory.set(m_manager);
-
-        std::shared_ptr<IExifReader> reader = factory.get();
-
-        PhotosGroupingDialog dialog(photos, reader.get(), m_executor);
-        const int status = dialog.exec();
-
-        if (status == QDialog::Accepted)
-        {
-            const QString photo = dialog.getRepresentative();
-
-            std::vector<Photo::Id> photos_ids;
-            for(std::size_t i = 0; i < photos.size(); i++)
-                photos_ids.push_back(photos[i]->getID());
-
-            m_model->group(photos_ids, photo);
-        }
-    }
 }
 
 
