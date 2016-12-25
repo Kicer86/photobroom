@@ -34,25 +34,29 @@ void Exiv2ExifReader::collect(const QByteArray& data)
 std::string Exiv2ExifReader::read(AExifReader::TagTypes type) const
 {
     std::string result;
-    const Exiv2::ExifData &exifData = m_exif_data->exifData();
 
-    if (exifData.empty() == false)
+    if (m_exif_data.get() != nullptr)
     {
-        Exiv2::ExifData::const_iterator tag_date = exifData.end();
+        const Exiv2::ExifData &exifData = m_exif_data->exifData();
 
-        switch (type)
+        if (exifData.empty() == false)
         {
-            case SequenceNumber:
-                tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Sony1.SequenceNumber"));
-                break;
+            Exiv2::ExifData::const_iterator tag_date = exifData.end();
 
-            case DateTimeOriginal:
-                tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
-                break;
+            switch (type)
+            {
+                case SequenceNumber:
+                    tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Sony1.SequenceNumber"));
+                    break;
+
+                case DateTimeOriginal:
+                    tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+                    break;
+            }
+
+            if (tag_date != exifData.end())
+                result = tag_date->toString();
         }
-
-        if (tag_date != exifData.end())
-            result = tag_date->toString();
     }
 
     return result;
