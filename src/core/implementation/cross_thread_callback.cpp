@@ -18,7 +18,7 @@
  *
  */
 
-#include "cross_thread_callback.hpp"
+#include "cross_thread_call.hpp"
 
 #include <QAbstractEventDispatcher>
 #include <QCoreApplication>

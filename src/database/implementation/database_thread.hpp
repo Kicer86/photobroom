@@ -42,7 +42,8 @@ namespace Database
             virtual ADatabaseSignals* notifier() override;
 
             virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
-            virtual void store(const std::set< QString >&, const std::function<void(bool)>& = std::function<void(bool)>()) override;
+            virtual void store(const std::set< QString >&, const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) override;
+            virtual void createGroup(const Photo::Id & , const Callback<Group::Id> &) override;
 
             virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) override;
             virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) override;
@@ -51,6 +52,7 @@ namespace Database
             virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
             virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque< IFilter::Ptr >&) override;
 
+            virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<std::deque<IPhotoInfo::Ptr>> &) override;
             virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) override;
             virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) override;
             virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;

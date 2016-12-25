@@ -170,6 +170,13 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 }
 
 
+void PhotoInfo::setGroup(const Group::Id& id)
+{
+    m_data->m_data.lock()->group_id = id;
+
+    updated(ChangeReason::GroupUpdated);
+}
+
 
 void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
 {

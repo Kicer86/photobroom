@@ -5,7 +5,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#include <core/tag_feeder_factory.hpp>
+#include <core/exif_reader_factory.hpp>
 #include <core/task_executor.hpp>
 #include <database/iphoto_info.hpp>
 
@@ -40,7 +40,7 @@ class PhotoInfoUpdater final
     private:
         friend struct UpdaterTask;
 
-        TagFeederFactory m_tagFeederFactory;
+        ExifReaderFactory m_exifReaderFactory;
         ITaskExecutor::TaskQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;

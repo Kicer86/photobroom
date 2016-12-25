@@ -38,6 +38,7 @@
 
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
+    m_selectionExtractor(),
     m_selectionModel(nullptr),
     m_dbDataModel(nullptr),
     m_tagsOperator()
@@ -53,6 +54,8 @@ TagsModel::~TagsModel()
 
 void TagsModel::set(QItemSelectionModel* selectionModel)
 {
+    m_selectionExtractor.set(selectionModel);
+
     if (m_selectionModel != nullptr)
         m_selectionModel->disconnect(this);
 
@@ -66,6 +69,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
 
 void TagsModel::set(DBDataModel* dbDataModel)
 {
+    m_selectionExtractor.set(dbDataModel);
     m_dbDataModel = dbDataModel;
 }
 
@@ -96,7 +100,7 @@ void TagsModel::refreshModel()
     {
         clearModel();
 
-        std::vector<IPhotoInfo::Ptr> photos = getPhotosForSelection();
+        std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
         m_tagsOperator->operateOn(photos);
 
         Tag::TagsList tags = getTags();
@@ -126,29 +130,6 @@ void TagsModel::clearModel()
 {
     clear();
     setHorizontalHeaderLabels( {tr("Name"), tr("Value")} );
-}
-
-
-std::vector<IPhotoInfo::Ptr> TagsModel::getPhotosForSelection()
-{
-    std::vector<IPhotoInfo::Ptr> result;
-
-    QItemSelection selection = m_selectionModel->selection();
-
-    for (const QItemSelectionRange& range : selection)
-    {
-        QModelIndexList idxList = range.indexes();
-
-        for (const QModelIndex& idx : idxList)
-        {
-            IPhotoInfo::Ptr photo = m_dbDataModel->getPhoto(idx);
-
-            if (photo.get() != nullptr)
-                result.push_back(photo);
-        }
-    }
-
-    return result;
 }
 
 

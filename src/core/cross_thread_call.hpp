@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef CROSS_THREAD_CALLBACK
-#define CROSS_THREAD_CALLBACK
+#ifndef CROSS_THREAD_CALL
+#define CROSS_THREAD_CALL
 
 // http://stackoverflow.com/questions/21646467/how-to-execute-a-functor-in-a-given-thread-in-qt-gcd-style
 
@@ -36,7 +36,7 @@ namespace FunctorCallConsumer
 }
 
 template<typename... Args>
-std::function<void(Args...)> cross_thread_function(QObject* object, const std::function<void(Args...)>& function, Qt::ConnectionType type = Qt::AutoConnection)
+std::function<void(Args...)> make_cross_thread_function(QObject* object, const std::function<void(Args...)>& function, Qt::ConnectionType type = Qt::AutoConnection)
 {
     std::function<void(Args...)> result = [=](Args... args)
     {

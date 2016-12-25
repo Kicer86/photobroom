@@ -24,6 +24,8 @@
 
 #include <database/iphoto_info.hpp>
 
+#include "utils/selection_extractor.hpp"
+
 struct ITagsOperator;
 class QItemSelectionModel;
 class QItemSelection;
@@ -54,13 +56,13 @@ class TagsModel: public QStandardItemModel
         void addTag(const TagNameInfo &, const TagValue &);
 
     private:
+        SelectionExtractor m_selectionExtractor;
         QItemSelectionModel* m_selectionModel;
         DBDataModel* m_dbDataModel;
         ITagsOperator* m_tagsOperator;
 
         void refreshModel();
         void clearModel();
-        std::vector<IPhotoInfo::Ptr> getPhotosForSelection();
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);

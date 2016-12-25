@@ -1,16 +1,16 @@
 
-#include "tag_feeder_factory.hpp"
+#include "exif_reader_factory.hpp"
 
 #include <thread>
 
-#include "easy_exif_tag_feeder.hpp"
+#include "exiv2_exif_reader.hpp"
 
 #include "tag.hpp"
-#include "itagfeeder.hpp"
+#include "iexif_reader.hpp"
 
 namespace
 {
-    struct NullFeeder: public ITagFeeder
+    struct NullFeeder: public IExifReader
     {
             virtual ~NullFeeder() {}
 
@@ -25,19 +25,19 @@ namespace
 }
 
 
-TagFeederFactory::TagFeederFactory(): m_feeders(), m_photosManager(nullptr)
+ExifReaderFactory::ExifReaderFactory(): m_feeders(), m_photosManager(nullptr)
 {
 
 }
 
 
-void TagFeederFactory::set(IPhotosManager* photosManager)
+void ExifReaderFactory::set(IPhotosManager* photosManager)
 {
     m_photosManager = photosManager;
 }
 
 
-std::shared_ptr<ITagFeeder> TagFeederFactory::get()
+std::shared_ptr<IExifReader> ExifReaderFactory::get()
 {
     //ExifTool may not be thread safe. Prepare separate object for each thread
     const auto id = std::this_thread::get_id();
@@ -45,7 +45,7 @@ std::shared_ptr<ITagFeeder> TagFeederFactory::get()
 
     if (it == m_feeders.end())
     {
-        auto feeder = std::make_shared<EasyExifTagFeeder>(m_photosManager);
+        auto feeder = std::make_shared<Exiv2ExifReader>(m_photosManager);
         auto data = std::make_pair(id, feeder);
         auto in = m_feeders.insert(data);
 

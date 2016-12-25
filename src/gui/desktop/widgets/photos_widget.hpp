@@ -41,6 +41,7 @@ struct IConfiguration;
 struct IPhotosManager;
 struct ITaskExecutor;
 
+
 class PhotosWidget: public QWidget
 {
         Q_OBJECT
@@ -57,9 +58,11 @@ class PhotosWidget: public QWidget
         void set(ICompleterFactory *);
         void setModel(DBDataModel *);
 
-        QItemSelectionModel* viewSelectionModel();
+        QItemSelectionModel* viewSelectionModel() const;
+        DBDataModel* getModel() const;
 
         void setBottomHintWidget(InfoBaloonWidget *);
+
 
     private:
         QTimer m_timer;
@@ -69,6 +72,7 @@ class PhotosWidget: public QWidget
         PhotosItemDelegate* m_delegate;
         MultiValueLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
+        ITaskExecutor* m_executor;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();

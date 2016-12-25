@@ -9,6 +9,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 set(SRC
     aphoto_info_model.cpp
     db_data_model.cpp
+    photo_info_list_model.cpp
     model_helpers/idx_data.cpp
     model_helpers/idx_data_manager.cpp
     model_helpers/idxdata_deepfetcher.cpp
@@ -18,6 +19,7 @@ set(SRC
 set(HEADERS
     aphoto_info_model.hpp
     db_data_model.hpp
+    photo_info_list_model.hpp
     model_types.hpp
     model_helpers/idx_data.hpp
     model_helpers/idx_data_manager.hpp

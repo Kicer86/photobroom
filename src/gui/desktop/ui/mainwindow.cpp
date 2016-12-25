@@ -12,12 +12,14 @@
 #include <QTimer>
 
 #include <core/iphotos_manager.hpp>
-#include <core/cross_thread_callback.hpp>
+#include <core/cross_thread_call.hpp>
+#include <core/exif_reader_factory.hpp>
 #include <configuration/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
+#include <project_utils/misc.hpp>
 #include <project_utils/project.hpp>
 
 #include "config.hpp"
@@ -32,8 +34,10 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
+#include "utils/selection_extractor.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
+#include "ui/photos_grouping_dialog.hpp"
 
 
 namespace
@@ -286,7 +290,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         // make sure openCallback will be called from main thread and will be postponed
         // it is crucial to have m_currentPrj initialised so no direct calls to projectOpened()
         // from ProjectManager::open are allowed
-        auto threadCallback = cross_thread_function(this, openCallback, Qt::QueuedConnection);
+        auto threadCallback = make_cross_thread_function(this, openCallback, Qt::QueuedConnection);
 
         // setup search path prefix
         assert( QDir::searchPaths("prj").isEmpty() == true );
@@ -343,6 +347,10 @@ void MainWindow::setupView()
 
     // connect to tabs
     connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
+
+    // connect to context menu for views
+    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->imagesView, p); });
+    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->newImagesView, p); });
 }
 
 
@@ -483,6 +491,49 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
     // add task for photos modification, so main thread will not be slowed down
     auto task = std::make_unique<StagePhotosTask>(photos);
     m_executor->add(std::move(task));
+}
+
+
+void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
+{
+    DBDataModel* model = photosView->getModel();
+
+    SelectionExtractor selectionExtractor;
+    selectionExtractor.set(photosView->viewSelectionModel());
+    selectionExtractor.set(model);
+
+    const std::vector<IPhotoInfo::Ptr> photos = selectionExtractor.getSelection();
+
+    QMenu contextMenu;
+    QAction* groupPhotos = contextMenu.addAction(tr("Group"));
+
+    const QPoint globalPos = photosView->mapToGlobal(pos);
+    QAction* chosenAction = contextMenu.exec(globalPos);
+
+    if (chosenAction == groupPhotos)
+    {
+        ExifReaderFactory factory;
+        factory.set(m_photosManager);
+
+        std::shared_ptr<IExifReader> reader = factory.get();
+
+        PhotosGroupingDialog dialog(photos, reader.get(), m_executor);
+        const int status = dialog.exec();
+
+        if (status == QDialog::Accepted)
+        {
+            const QString photo = dialog.getRepresentative();
+
+            std::vector<Photo::Id> photos_ids;
+            for(std::size_t i = 0; i < photos.size(); i++)
+                photos_ids.push_back(photos[i]->getID());
+
+            const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
+            const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
+
+            model->group(photos_ids, internalPathDecorated);
+        }
+    }
 }
 
 

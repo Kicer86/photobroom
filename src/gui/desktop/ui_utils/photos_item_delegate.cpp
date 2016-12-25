@@ -1,5 +1,5 @@
 /*
- * ConfigurableTreeItemDelegate - extension of TreeItemDelegate
+ * PhotosItemDelegate - extension of TreeItemDelegate
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,8 +32,7 @@
 
 
 PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* config):
-    TreeItemDelegate(view),
-    m_thumbnailAcquisitor(),
+    LazyTreeItemDelegate(view),
     m_config(config)
 {
     readConfig();
@@ -43,12 +42,6 @@ PhotosItemDelegate::PhotosItemDelegate(ImagesTreeView* view, IConfiguration* con
 PhotosItemDelegate::~PhotosItemDelegate()
 {
 
-}
-
-
-void PhotosItemDelegate::set(IThumbnailAcquisitor* acquisitor)
-{
-    m_thumbnailAcquisitor = acquisitor;
 }
 
 
@@ -63,17 +56,17 @@ void PhotosItemDelegate::set(IConfiguration* config)
 
 void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    TreeItemDelegate::paint(painter, option, index);
+    LazyTreeItemDelegate::paint(painter, option, index);
 
-    // decorate node with its status
-    const QAbstractItemModel* m = index.model();
-
-    //TODO: ugly casting ! Issue #177 on github
-    const DBDataModel* model = down_cast<const DBDataModel *>(m);
     const bool node = (option.features & QStyleOptionViewItem::HasDecoration) == 0;
 
     if (node)
     {
+        // decorate node with its status
+        const QAbstractItemModel* m = index.model();
+
+        //TODO: ugly casting ! Issue #177 on github
+        const DBDataModel* model = down_cast<const DBDataModel *>(m);
         const QVariant statusVariant = model->data(index, DBDataModel::NodeStatus);
 
         assert(statusVariant.canConvert<int>());
@@ -105,20 +98,6 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
             painter->drawText(r.x() + 10, r.y() + 17, state);
         }
     }
-}
-
-
-QImage PhotosItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
-{
-    const QAbstractItemModel* model = idx.model();
-    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
-    const QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
-    const QString photoPath = photoPathRaw.toString();
-
-    const ThumbnailInfo info = {photoPath, size.height()};
-    const QImage image = m_thumbnailAcquisitor->getThumbnail(info);
-
-    return image;
 }
 
 

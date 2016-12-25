@@ -4,15 +4,17 @@ find_package(Qt5Gui REQUIRED)
 find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES
+    implementation/misc.cpp
     implementation/project.cpp
     implementation/project_manager.cpp
-    )
+)
 
 set(PROJECT_UTILS_HEADERS
     iproject_manager.hpp
+    misc.hpp
     project.hpp
     project_manager.hpp
-   )
+)
 
 set(PROJECT_UTILS_MOC )
 

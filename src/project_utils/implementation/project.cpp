@@ -65,9 +65,19 @@ const QString& ProjectInfo::getName() const
 }
 
 
-const QString& ProjectInfo::getInternalLocation() const
+QString ProjectInfo::getInternalLocation(InternalData dataType) const
 {
-    return internalLocation;
+    QString subdir;
+
+    switch(dataType)
+    {
+        case Database:          subdir = "db";         break;
+        case PrivateMultimedia: subdir = "multimedia"; break;
+    }
+
+    const QString result = QString("%1/%2").arg(internalLocation).arg(subdir);
+
+    return result;
 }
 
 
@@ -89,6 +99,12 @@ Project::~Project()
 }
 
 
+bool Project::lockProject()
+{
+    return m_lock.tryLock();
+}
+
+
 Database::IDatabase* Project::getDatabase() const
 {
     return m_database.get();
@@ -98,12 +114,6 @@ Database::IDatabase* Project::getDatabase() const
 const ProjectInfo& Project::getProjectInfo() const
 {
     return m_prjInfo;
-}
-
-
-bool Project::lockProject()
-{
-    return m_lock.tryLock();
 }
 
 

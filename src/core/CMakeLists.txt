@@ -4,6 +4,7 @@ find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core 5.6 REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(EasyExif REQUIRED)
+find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
@@ -12,10 +13,12 @@ include(GenerateExportHeader)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
-    implementation/atagfeeder.cpp
+    implementation/aexif_reader.cpp
     implementation/base_tags.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
+    implementation/exif_reader_factory.cpp
+    implementation/exiv2_exif_reader.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/log_file_rotator.cpp
@@ -24,7 +27,6 @@ set(CORE_SOURCES
     implementation/photos_manager.cpp
     implementation/search_expression_evaluator.cpp
     implementation/tag.cpp
-    implementation/tag_feeder_factory.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
 )
@@ -42,13 +44,13 @@ endif()
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
-    cross_thread_callback.hpp
+    cross_thread_call.hpp
     disk_observer.hpp
     file_lock.hpp
     ilogger.hpp
     ilogger_factory.hpp
     iphotos_manager.hpp
-    itagfeeder.hpp
+    iexif_reader.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
@@ -59,11 +61,12 @@ set(CORE_HEADERS
     search_expression_evaluator.hpp
     status.hpp
     tag.hpp
-    tag_feeder_factory.hpp
+    exif_reader_factory.hpp
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
-    implementation/atagfeeder.hpp
+    implementation/aexif_reader.hpp
+    implementation/exiv2_exif_reader.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
@@ -77,9 +80,6 @@ set(CORE_MOC_FILES disk_observer.hpp)
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
-list(APPEND CORE_SOURCES implementation/easy_exif_tag_feeder.cpp)
-list(APPEND CORE_HEADERS implementation/easy_exif_tag_feeder.hpp)
-
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
@@ -90,6 +90,7 @@ target_link_libraries(core
                             Qt5::Core
                             Qt5::Gui
                             ${EASYEXIF_LIBRARIES}
+                            ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                      )
 
@@ -101,7 +102,8 @@ target_include_directories(core SYSTEM PUBLIC
                                 SYSTEM PRIVATE
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
-                                    ${EASYEXIF_INCLUDE_DIR}
+                                    ${EASYEXIF_INCLUDE_DIRS}
+                                    ${EXIV2_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src

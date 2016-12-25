@@ -19,10 +19,12 @@
 
 #include "photos_widget.hpp"
 
+#include <QMenu>
 #include <QLineEdit>
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QLayoutItem>
+#include <QContextMenuEvent>
 
 #include <configuration/iconfiguration.hpp>
 #include <core/base_tags.hpp>
@@ -48,7 +50,8 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
-    m_bottomHintLayout(nullptr)
+    m_bottomHintLayout(nullptr),
+    m_executor(nullptr)
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
@@ -145,6 +148,7 @@ PhotosWidget::~PhotosWidget()
 void PhotosWidget::set(ITaskExecutor* executor)
 {
     m_thumbnailAcquisitor.set(executor);
+    m_executor = executor;
 }
 
 
@@ -161,7 +165,6 @@ void PhotosWidget::set(IConfiguration* configuration)
     const int spacing = marginEntry.toInt();
 
     m_view->setSpacing(spacing);
-
     m_delegate->set(configuration);
 }
 
@@ -185,9 +188,15 @@ void PhotosWidget::setModel(DBDataModel* m)
 }
 
 
-QItemSelectionModel* PhotosWidget::viewSelectionModel()
+QItemSelectionModel* PhotosWidget::viewSelectionModel() const
 {
     return m_view->selectionModel();
+}
+
+
+DBDataModel* PhotosWidget::getModel() const
+{
+    return m_model;
 }
 
 

@@ -8,9 +8,9 @@
 #include <easyexif/exif.h>
 
 #include "core_export.h"
-#include "atagfeeder.hpp"
+#include "aexif_reader.hpp"
 
-class EasyExifTagFeeder: public ATagFeeder
+class EasyExifTagFeeder: public AExifReader
 {
     public:
         EasyExifTagFeeder(IPhotosManager *);
@@ -19,7 +19,7 @@ class EasyExifTagFeeder: public ATagFeeder
         easyexif::EXIFInfo m_exif_data;
 
         void collect(const QByteArray &) override;
-        std::string get(TagTypes) override;
+        std::string read(TagTypes) override;
 };
 
 #endif

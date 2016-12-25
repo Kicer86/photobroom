@@ -75,20 +75,19 @@ class DBDataModel: public APhotoInfoModel
         DBDataModel& operator=(const DBDataModel& other) = delete;
         bool operator==(const DBDataModel& other) = delete;
 
-        void setHierarchy(const Hierarchy &);
-        void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
-
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
         const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
+        const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
+        bool isEmpty() const;
 
+        void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
+        void group(const std::vector<Photo::Id> &, const QString& representativePath);     // group set of photos as one with given (external/generated) representative
+        void group(const std::vector<Photo::Id> &, const Photo::Id& representativePhoto);  // group set of photos as one with given (already existing) representative
+        void setHierarchy(const Hierarchy &);
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
         void setStaticFilters(const std::deque<Database::IFilter::Ptr> &);
         void applyFilters(const SearchExpressionEvaluator::Expression &);
-
-        const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
-
-        bool isEmpty() const;
 
         // APhotoInfoModel:
         virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
@@ -107,12 +106,13 @@ class DBDataModel: public APhotoInfoModel
     protected:
         IdxData* getRootIdxData();
 
-        Database::IDatabase* getDatabase(); //TODO: remove
-
     private:
+        struct Grouper;
+
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
         std::deque<Database::IFilter::Ptr> m_filters;
+        std::set<std::unique_ptr<Grouper>> m_groupers;
 
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IdxData *) const;

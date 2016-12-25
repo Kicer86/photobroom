@@ -14,6 +14,7 @@ class ConfigDialogManager;
 class LookTabControler;
 class MainTabControler;
 class PhotosAnalyzer;
+class PhotosWidget;
 struct ILoggerFactory;
 struct ITaskExecutor;
 struct IPhotosManager;
@@ -87,6 +88,7 @@ class MainWindow: public QMainWindow
         void setupNewPhotosView();
 
         void markPhotosReviewed(const IPhotoInfo::List &);
+        void showContextMenuFor(PhotosWidget *, const QPoint &);
 
     private slots:
         // album menu

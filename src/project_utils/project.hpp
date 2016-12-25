@@ -37,6 +37,12 @@ namespace Database
 
 struct PROJECT_UTILS_EXPORT ProjectInfo
 {
+        enum InternalData
+        {
+            Database,
+            PrivateMultimedia,
+        };
+
         ProjectInfo(const QString& path);
         ProjectInfo();
 
@@ -45,7 +51,7 @@ struct PROJECT_UTILS_EXPORT ProjectInfo
         const QString& getPath() const;
         const QString& getBaseDir() const;
         const QString& getName() const;
-        const QString& getInternalLocation() const;     // subdirectory of baseDir for internal Photo Broom files (database, log files, etc)
+        QString getInternalLocation(InternalData) const;     // subdirectory of baseDir for internal Photo Broom files (database, log files, etc)
 
     private:
         QString path;
@@ -64,10 +70,10 @@ class PROJECT_UTILS_EXPORT Project
 
         Project& operator=(const Project &) = delete;
 
-        Database::IDatabase* getDatabase() const;
-        const ProjectInfo& getProjectInfo() const;
         bool lockProject();
 
+        Database::IDatabase* getDatabase() const;
+        const ProjectInfo& getProjectInfo() const;
         QString makePathRelative(const QString &) const;
 
     private:

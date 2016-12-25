@@ -182,6 +182,7 @@ namespace Database
 
             bool insert(Photo::Data &) const;
             bool insert(std::deque<Photo::Data> &) const;
+            Group::Id addGroup(const Photo::Id& id) const;
             bool update(const Photo::Data &) const;
 
             std::deque<TagValue>  listTagValues(const TagNameInfo& tagName) const;
@@ -200,10 +201,12 @@ namespace Database
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Data &) const;
+            bool storeGroup(const Photo::Data &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
             ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
+            Group::Id            getGroupFor(const Photo::Id &) const;
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
             std::deque<Photo::Id> fetch(QSqlQuery &) const;
@@ -450,6 +453,9 @@ namespace Database
         if (status)
             status = storeFlags(data);
 
+        if (status)
+            status = storeGroup(data);
+
         return status;
     }
 
@@ -567,6 +573,30 @@ namespace Database
     }
 
 
+    bool ASqlBackend::Data::storeGroup(const Photo::Data& data) const
+    {
+        bool status = true;
+
+        if (data.group_id == 0)
+        {
+            // TODO: remove if exists
+        }
+        else
+        {
+            UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
+            queryInfo.setCondition("photo_id", QString::number(data.id));
+            queryInfo.setColumns("group_id", "photo_id");
+            queryInfo.setValues(QString::number(data.group_id),
+                                QString::number(data.id)
+            );
+
+            status = updateOrInsert(queryInfo);
+        }
+
+        return status;
+    }
+
+
     bool ASqlBackend::Data::insert(Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -639,6 +669,35 @@ namespace Database
     }
 
 
+    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        Group::Id grp_id = 0;
+
+        InsertQueryData insertData(TAB_GROUPS);
+
+        insertData.setColumns("id", "representative_id");
+        insertData.setValues(InsertQueryData::Value::Null, id);
+
+        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
+
+        bool status = m_executor.exec(query);
+
+        //update id
+        if (status)                                    //Get Id from database after insert
+        {
+            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = photo_id.isValid();
+
+            if (status)
+                grp_id = Photo::Id(photo_id.toInt());
+        }
+
+        return grp_id;
+    }
+
+
     bool ASqlBackend::Data::update(const Photo::Data& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -682,6 +741,9 @@ namespace Database
 
             //load flags
             updateFlagsOn(photoData, id);
+
+            // load group
+            photoData.group_id = getGroupFor(id);
         }
 
         return photoData;
@@ -799,6 +861,29 @@ namespace Database
             const QVariant variant = query.value(0);
 
             result->append(variant.toString());
+        }
+
+        return result;
+    }
+
+
+    Group::Id ASqlBackend::Data::getGroupFor(const Photo::Id& id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+        QString queryStr = QString("SELECT group_id FROM %1 WHERE %1.photo_id = '%2'");
+
+        queryStr = queryStr.arg(TAB_GROUPS_MEMBERS);
+        queryStr = queryStr.arg(id.value());
+
+        const bool status = m_executor.exec(queryStr, &query);
+
+        Group::Id result = 0;
+        if (status && query.next())
+        {
+            const QVariant variant = query.value(0);
+
+            result = variant.toInt();
         }
 
         return result;
@@ -1055,6 +1140,14 @@ namespace Database
         const bool status = m_data->insert(data);
 
         return status;
+    }
+
+
+    Group::Id ASqlBackend::addGroup(const Photo::Id& id)
+    {
+        const Group::Id group = m_data->addGroup(id);
+
+        return group;
     }
 
 

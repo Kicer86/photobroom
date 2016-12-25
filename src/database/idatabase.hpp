@@ -32,6 +32,7 @@
 #include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
+#include "group.hpp"
 #include "iphoto_info.hpp"
 
 #include "database_export.h"
@@ -86,11 +87,11 @@ namespace Database
         virtual void got(const IPhotoInfo::List &) = 0;
     };
 
-    struct DATABASE_EXPORT AGetPhotoTask
+    struct DATABASE_DEPRECATED_EXPORT AGetPhotoTask
     {
         virtual ~AGetPhotoTask() = default;
 
-        virtual void got(const IPhotoInfo::Ptr &) = 0;
+        virtual void got(const std::deque<IPhotoInfo::Ptr> &) = 0;
     };
 
     struct DATABASE_EXPORT AGetPhotosCount
@@ -128,7 +129,8 @@ namespace Database
 
         // store data
         [[deprecated]] virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
-        virtual void store( const std::set<QString> &, const std::function<void(bool)> & = std::function<void(bool)>() ) = 0;
+        virtual void store(const std::set< QString >&, const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
+        virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
         [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
@@ -138,6 +140,7 @@ namespace Database
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
+        virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<std::deque<IPhotoInfo::Ptr>> &) = 0;       // get particular photos
         virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) = 0;                              // list all stored tag names
         virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) = 0;  // list all values of provided tag
         virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;       // list all photos matching filter

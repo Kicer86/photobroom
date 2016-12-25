@@ -31,11 +31,17 @@
        <number>0</number>
       </property>
       <widget class="PhotosWidget" name="imagesView">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <attribute name="title">
         <string>Collection</string>
        </attribute>
       </widget>
       <widget class="PhotosWidget" name="newImagesView">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <attribute name="title">
         <string>New photos</string>
        </attribute>

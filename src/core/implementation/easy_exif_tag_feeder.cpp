@@ -8,7 +8,7 @@
 
 EasyExifTagFeeder::EasyExifTagFeeder(IPhotosManager* photosManager): m_exif_data()
 {
-    ATagFeeder::set(photosManager);
+    AExifReader::set(photosManager);
 }
 
 
@@ -21,12 +21,16 @@ void EasyExifTagFeeder::collect(const QByteArray& data)
 }
 
 
-std::string EasyExifTagFeeder::get(TagTypes type)
+std::string EasyExifTagFeeder::read(TagTypes type)
 {
     std::string result;
 
     switch (type)
     {
+        case SequenceNumber:
+            assert(!"unavailable");
+            break;
+
         case DateTimeOriginal:
             result = m_exif_data.DateTimeOriginal;
             break;

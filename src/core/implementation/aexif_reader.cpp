@@ -18,7 +18,7 @@
 *
 */
 
-#include "atagfeeder.hpp"
+#include "aexif_reader.hpp"
 
 #include <QByteArray>
 #include <QStringList>
@@ -29,42 +29,60 @@
 #include "tag.hpp"
 #include "base_tags.hpp"
 
-ATagFeeder::ATagFeeder(): m_photosManager(nullptr)
+AExifReader::AExifReader(IPhotosManager* photosManager): m_photosManager(photosManager)
 {
 
 }
 
 
-ATagFeeder::~ATagFeeder()
+AExifReader::~AExifReader()
 {
 
 }
 
 
-void ATagFeeder::set(IPhotosManager* photosManager)
-{
-    m_photosManager = photosManager;
-}
-
-
-
-Tag::TagsList ATagFeeder::getTagsFor(const QString& path)
+Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
     const QByteArray data = m_photosManager->getPhoto(path);
-
     collect(data);
 
-    Tag::TagsList tagData;
-
-    feedDateAndTime(tagData);
+    const Tag::TagsList tagData = feedDateAndTime();
 
     return tagData;
 }
 
 
-void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
+boost::any AExifReader::get(const QString& path, const IExifReader::ExtraData& type)
 {
-    const std::string dateTimeOrirignal = get(DateTimeOriginal);
+    const QByteArray data = m_photosManager->getPhoto(path);
+
+    collect(data);
+
+    boost::any result;
+
+    switch(type)
+    {
+        case ExtraData::SequenceNumber:
+        {
+            const std::string valueRaw = read(SequenceNumber);
+            const int value = stoi(valueRaw);
+
+            if (value > 0)
+                result = value;
+
+            break;
+        }
+    }
+
+    return result;
+}
+
+
+Tag::TagsList AExifReader::feedDateAndTime() const
+{
+    Tag::TagsList tagData;
+
+    const std::string dateTimeOrirignal = read(DateTimeOriginal);
 
     const QString v(dateTimeOrirignal.c_str());
     const QStringList time_splitted = v.split(" ");
@@ -77,4 +95,6 @@ void ATagFeeder::feedDateAndTime(Tag::TagsList& tagData)
         tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(QDate::fromString(date, "yyyy:MM:dd"));
         tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(QTime::fromString(time, "hh:mm:ss"));
     }
+
+    return tagData;
 }

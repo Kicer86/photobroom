@@ -1,6 +1,6 @@
 
 /*
-* Base for tag feeders
+* Base for exif readers
 * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
 *
 * This program is free software: you can redistribute it and/or modify
@@ -18,43 +18,43 @@
 *
 */
 
-#ifndef A_TAG_FEEDER_HPP
-#define A_TAG_FEEDER_HPP
+#ifndef A_EXIF_READER_HPP
+#define A_EXIF_READER_HPP
 
-#include "itagfeeder.hpp"
+#include "iexif_reader.hpp"
 
 struct IPhotosManager;
 class QByteArray;
 
-class ATagFeeder: public ITagFeeder
+class AExifReader: public IExifReader
 {
     public:
-        ATagFeeder();
-        ATagFeeder(const ATagFeeder &) = delete;
-        virtual ~ATagFeeder();
+        AExifReader(IPhotosManager *);
+        AExifReader (const AExifReader &) = delete;
+        virtual ~AExifReader();
 
-        ATagFeeder& operator=(const ATagFeeder &) = delete;
-
-        void set(IPhotosManager *);
+        AExifReader& operator=(const AExifReader &) = delete;
 
     protected:
         enum TagTypes
         {
+            SequenceNumber,
+
             DateTimeOriginal,
         };
 
         virtual void collect(const QByteArray &) = 0;
-        virtual std::string get(TagTypes) = 0;
+        virtual std::string read (TagTypes) const = 0;
 
     private:
         IPhotosManager* m_photosManager;
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
-        //void update(Tag::TagsList *, const QString& path) override;
+        boost::any get(const QString& path, const ExtraData &) override;
         //
 
-        void feedDateAndTime(Tag::TagsList &);
+        Tag::TagsList feedDateAndTime() const;
 };
 
-#endif // A_TAG_FEEDER_HPP
+#endif // A_EXIF_READER_HPP
