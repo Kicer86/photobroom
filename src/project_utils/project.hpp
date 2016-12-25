@@ -71,7 +71,6 @@ class PROJECT_UTILS_EXPORT Project
         Project& operator=(const Project &) = delete;
 
         bool lockProject();
-        QString insertExternalPhoto(const QString &);         // copies given photo from external location to project's internal location
 
         Database::IDatabase* getDatabase() const;
         const ProjectInfo& getProjectInfo() const;
