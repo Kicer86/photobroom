@@ -14,14 +14,14 @@ QString copyFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString
     const QFileInfo originalFileInfo(path);
     const QString extension = originalFileInfo.completeSuffix();
     const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
-    const QString newFilePath = QString("%1/XXXXXX.%2").arg(mediaLocation).arg(extension);
+    const QString newFilePathPattern = QString("%1/XXXXXX.%2").arg(mediaLocation).arg(extension);
 
     QDir().mkpath(mediaLocation);
 
     QFile originalFile(path);
     originalFile.open(QFile::ReadOnly);
 
-    QTemporaryFile newFile(newFilePath);
+    QTemporaryFile newFile(newFilePathPattern);
     newFile.setAutoRemove(false);
     newFile.open();
 
@@ -38,6 +38,8 @@ QString copyFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString
         work = read == bufferSize;
     }
     while(work);
+
+    const QString newFilePath = newFile.fileName();
 
     return newFilePath;
 }
