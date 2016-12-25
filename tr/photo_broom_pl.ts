@@ -299,7 +299,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+238"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+239"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -331,7 +331,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+169"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -341,7 +341,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-70"/>
+        <location line="-73"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -356,7 +356,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+140"/>
+        <location line="+143"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -417,12 +417,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-198"/>
+        <location line="-201"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+123"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>

@@ -19,6 +19,7 @@
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
+#include <project_utils/misc.hpp>
 #include <project_utils/project.hpp>
 
 #include "config.hpp"
@@ -527,7 +528,10 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             for(std::size_t i = 0; i < photos.size(); i++)
                 photos_ids.push_back(photos[i]->getID());
 
-            model->group(photos_ids, photo);
+            const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
+            const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
+
+            model->group(photos_ids, internalPathDecorated);
         }
     }
 }
