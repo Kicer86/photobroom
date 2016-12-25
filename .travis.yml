@@ -69,11 +69,11 @@ cache:
   - $TRAVIS_BUILD_DIR/usr
 
 before_install:
-    # setup Qt 5.6 which is not in Ubuntu by default. To be removed in the future.
-  - sudo add-apt-repository ppa:beineri/opt-qt561-trusty -y
+    # setup Qt 5.7 which is not in Ubuntu by default. To be removed in the future.
+  - sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y
   - sudo apt-get -qq update
-  - sudo sudo apt-get install -qq qt56base qt56svg
-  - source /opt/qt56/bin/qt56-env.sh
+  - sudo sudo apt-get install -qq qt57base qt57svg
+  - source /opt/qt57/bin/qt57-env.sh
 
 before_script:
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
