@@ -15,8 +15,8 @@ platform:
     - x64
 
 cache:
-    - c:\projects\install
-    - c:\projects\googletest
+    - c:\projects\install      -> appveyor.yml
+    - c:\projects\googletest   -> appveyor.yml
 
 before_build:
     - call appveyor.bat
