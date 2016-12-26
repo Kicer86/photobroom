@@ -7,7 +7,7 @@ include(ExternalProject)
 
 set(INSTALL_LOCATION ${PROJECT_BINARY_DIR}/install CACHE PATH "Installation location")
 set(COMMON_OPTIONS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION})
-set(OPTIONS_TO_INHERITE 
+set(OPTIONS_TO_INHERITE
     CMAKE_AR
     CMAKE_BUILD_TYPE
     CMAKE_CXX_COMPILER
@@ -30,25 +30,25 @@ set(OPTIONS_TO_INHERITE
 foreach(VAR IN LISTS OPTIONS_TO_INHERITE)
     list(APPEND COMMON_OPTIONS -D${VAR}=${${VAR}})
 endforeach()
-                   
+
 option(BUILD_EASYEXIF    "Build easyexif.")
 option(BUILD_JSONCPP     "Build jsoncpp.")
 option(BUILD_OPENLIBRARY "Build openlibrary.")
- 
+
 find_program(GIT_EXECUTABLE git)
-       
+
 # EASYEXIF
-if(BUILD_EASYEXIF)  
+if(BUILD_EASYEXIF)
     ExternalProject_Add(easyexif
         GIT_REPOSITORY https://github.com/mayanklahiri/easyexif.git
         GIT_TAG v1.0
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/easyexif/CMakeLists.txt ${PROJECT_BINARY_DIR}/src/easyexif && ${GIT_EXECUTABLE} add -A ${PROJECT_BINARY_DIR}/src/easyexif
-        PREFIX ${PROJECT_BINARY_DIR} 
+        PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
-       
-       
+
+
 # JSONCPP
 if(BUILD_JSONCPP)
     ExternalProject_Add(jsoncpp
@@ -64,6 +64,15 @@ endif()
 if(BUILD_OPENLIBRARY)
     ExternalProject_Add(openlibrary
         GIT_REPOSITORY https://github.com/Kicer86/openlibrary.git
+        CMAKE_ARGS ${COMMON_OPTIONS}
+        )
+endif()
+
+
+# EXIV2
+if(BUILD_EXIV2)
+    ExternalProject_Add(exiv2
+        GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
