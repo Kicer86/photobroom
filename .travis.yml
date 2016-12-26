@@ -23,7 +23,7 @@ matrix:
                - libboost-all-dev
                - g++-5
                - gcc-5
-               - libexiv2
+               - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++14 support
@@ -36,7 +36,7 @@ matrix:
                - libboost-all-dev
                - g++-5
                - gcc-5
-               - libexiv2
+               - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++14 support
@@ -48,7 +48,7 @@ matrix:
              packages:
                - libboost-all-dev
                - clang-3.6
-               - libexiv2
+               - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-precise-3.6
@@ -61,7 +61,7 @@ matrix:
              packages:
                - libboost-all-dev
                - clang-3.6
-               - libexiv2
+               - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-precise-3.6
