@@ -38,7 +38,7 @@ namespace Database
                    {
                        { "id", "", ColDefinition::Purpose::ID },
                        { "value", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
-                       { "name", "INTEGER NOT NULL"     },
+                       { "name", "INTEGER NOT NULL"        },
                        { "photo_id", "INTEGER NOT NULL"    },
                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""   },
                    },
