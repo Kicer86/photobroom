@@ -19,6 +19,7 @@ cache:
     - c:\projects\googletest   -> appveyor.yml
 
 before_build:
+    - choco upgrade cmake
     - call appveyor.bat
 
 build:
