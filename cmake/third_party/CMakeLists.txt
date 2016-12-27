@@ -72,21 +72,21 @@ endif()
 
 
 # EXIV2
-if(BUILD_EXIV2)    
-    
+if(BUILD_EXIV2)
+
     cmake_minimum_required(VERSION 3.7)
-    
+
     ExternalProject_Add(zlib
         URL http://zlib.net/zlib-1.2.8.tar.xz
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
     )
-    
+
     ExternalProject_Add(expat
         GIT_REPOSITORY git://git.code.sf.net/p/expat/code_git
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS} -DCMAKE_DEBUG_POSTFIX=
-        SOURCE_SUBDIR expat        
+        SOURCE_SUBDIR expat
     )
 
     ExternalProject_Add(exiv2
@@ -95,5 +95,5 @@ if(BUILD_EXIV2)
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS} -DBUILD_tests=FALSE
     )
-    
+
 endif()
