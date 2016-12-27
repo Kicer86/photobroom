@@ -117,8 +117,7 @@ namespace Database
         table_groups(TAB_GROUPS,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "representative_id",  "INTEGER NOT NULL"     },
-                        { "FOREIGN KEY(representative_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                        { "representative_path",  "VARCHAR(1024) NOT NULL"     }
                     }
         );
 
