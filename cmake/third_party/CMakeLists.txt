@@ -34,6 +34,7 @@ endforeach()
 option(BUILD_EASYEXIF    "Build easyexif.")
 option(BUILD_JSONCPP     "Build jsoncpp.")
 option(BUILD_OPENLIBRARY "Build openlibrary.")
+option(BUILD_EXIV2       "Build Exiv2.")
 
 find_program(GIT_EXECUTABLE git)
 
@@ -64,6 +65,7 @@ endif()
 if(BUILD_OPENLIBRARY)
     ExternalProject_Add(openlibrary
         GIT_REPOSITORY https://github.com/Kicer86/openlibrary.git
+        PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
@@ -73,6 +75,7 @@ endif()
 if(BUILD_EXIV2)
     ExternalProject_Add(exiv2
         GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
+        PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
 endif()
