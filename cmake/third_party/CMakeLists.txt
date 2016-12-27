@@ -85,7 +85,7 @@ if(BUILD_EXIV2)
     ExternalProject_Add(expat
         GIT_REPOSITORY git://git.code.sf.net/p/expat/code_git
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS} -DCMAKE_DEBUG_POSTFIX=
+        CMAKE_ARGS ${COMMON_OPTIONS} -DBUILD_tests=FALSE -DCMAKE_DEBUG_POSTFIX=
         SOURCE_SUBDIR expat
     )
 
@@ -93,7 +93,7 @@ if(BUILD_EXIV2)
         DEPENDS zlib expat
         GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
         PREFIX ${PROJECT_BINARY_DIR}
-        CMAKE_ARGS ${COMMON_OPTIONS} -DBUILD_tests=FALSE
+        CMAKE_ARGS ${COMMON_OPTIONS}
     )
 
 endif()
