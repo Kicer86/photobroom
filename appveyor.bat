@@ -9,7 +9,7 @@ if "%platform%"=="Win32" (
     set qt_arch=msvc2015_64
 )
 
-set PATH=C:\Qt\5.6\%qt_arch%\bin;%PATH%
+set PATH=C:\Qt\5.6\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/5.6/%qt_arch%;C:\Libraries\boost;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
@@ -18,7 +18,7 @@ if EXIST c:/projects/install goto :gtest
 rem third party stuff
 mkdir build_third_party
 cd build_third_party
-cmake -G%generator% -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=c:/projects/install/ ../cmake/third_party/
+cmake -G%generator% -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=OFF -DBUILD_JSONCPP=ON -DBUILD_EXIV2=ON -DINSTALL_LOCATION=c:/projects/install/ ../cmake/third_party/
 cmake --build . --config %Configuration%
 cd ..
 
