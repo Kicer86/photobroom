@@ -99,7 +99,7 @@ namespace Database
         table_flags(TAB_FLAGS,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "photo_id",  "INTEGER NOT NULL"     },
+                        { "photo_id",  "INTEGER NOT NULL"    },
                         { FLAG_STAGING_AREA,  "INT NOT NULL" },
                         { FLAG_TAGS_LOADED,   "INT NOT NULL" },
                         { FLAG_SHA256_LOADED, "INT NOT NULL" },
