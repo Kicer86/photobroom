@@ -1305,7 +1305,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         {
             case 1:   // append column 'role' to FLAGS table
                 if (status)
-                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD role INT NOT NULL", &query);
+                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD role INT NOT NULL DEFAULT 0", &query);
 
             case 2:   // current version, break updgrades chain
                 break;
@@ -1319,7 +1319,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         // store new version in db
         if (status && v < db_version)
         {
-            const QString queryStr = QString("UPDATE " TAB_VER " SET version = %1").arg(db_version);
+            const QString queryStr = QString("UPDATE " TAB_VER " SET version = %1 WHERE version = %2").arg(db_version).arg(v);
             status = m_data->m_executor.exec(queryStr, &query);
         }
     }
