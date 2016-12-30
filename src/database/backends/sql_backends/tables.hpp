@@ -25,7 +25,7 @@ namespace Database
 {
     struct TableDefinition;
     extern std::map<std::string, TableDefinition> tables;
-    extern const char db_version[];
+    extern const int db_version;
 }
 
 #endif
