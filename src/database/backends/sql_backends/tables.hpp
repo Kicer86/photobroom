@@ -19,6 +19,7 @@
 #define FLAG_SHA256_LOADED "sha256_loaded"
 #define FLAG_THUMB_LOADED  "thumbnail_loaded"
 #define FLAG_GEOM_LOADED   "geometry_loaded"
+#define FLAG_ROLE          "role"
 
 namespace Database
 {

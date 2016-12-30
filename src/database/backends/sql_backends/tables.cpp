@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const char db_version[] = "1";
+        const char db_version[] = "2";
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -105,6 +105,7 @@ namespace Database
                         { FLAG_SHA256_LOADED, "INT NOT NULL" },
                         { FLAG_THUMB_LOADED,  "INT NOT NULL" },
                         { FLAG_GEOM_LOADED,   "INT NOT NULL" },
+                        { FLAG_ROLE,          "INT NOT NULL" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     },
                     {
