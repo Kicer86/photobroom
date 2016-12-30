@@ -1305,7 +1305,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         {
             case 1:   // append column 'role' to FLAGS table
                 if (status)
-                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD role INT NOT NULL DEFAULT 0", &query);
+                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD " FLAG_ROLE " INT NOT NULL DEFAULT 0", &query);
 
             case 2:   // current version, break updgrades chain
                 break;
