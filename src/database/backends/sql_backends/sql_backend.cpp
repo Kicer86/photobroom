@@ -1301,25 +1301,27 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
     {
         const int v = query.value(0).toInt();
 
-        // More than we expect? Quit with error
-        if (v > 1)
-            status = StatusCodes::BadVersion;
-    }
+        switch (v)
+        {
+            case 1:   // append column 'role' to FLAGS table
+                if (status)
+                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD role INT NOT NULL", &query);
 
-    // database update
-    if (status)
-    {
-        status = m_data->m_executor.exec("SELECT version FROM " TAB_VER ";", &query);
+            case 2:   // current version, break updgrades chain
+                break;
 
-        if (status)
-            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
+            default:
+                // Unknown version? Quit with error
+                status = StatusCodes::BadVersion;
+                break;
+        }
 
-        int v = 0;
-
-        if (status)
-            v = query.value(0).toInt();
-
-        (void) v;
+        // store new version in db
+        if (status && v < db_version)
+        {
+            const QString queryStr = QString("UPDATE " TAB_VER " SET version = %1").arg(db_version);
+            status = m_data->m_executor.exec(queryStr, &query);
+        }
     }
 
     return status;
