@@ -559,13 +559,15 @@ namespace Database
     {
         UpdateQueryData queryInfo(TAB_FLAGS);
         queryInfo.setCondition("photo_id", QString::number(photoData.id));
-        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED, FLAG_ROLE);
         queryInfo.setValues(QString::number(photoData.id),
                              photoData.getFlag(Photo::FlagsE::StagingArea),
                              photoData.getFlag(Photo::FlagsE::ExifLoaded),
                              photoData.getFlag(Photo::FlagsE::Sha256Loaded),
                              photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                             photoData.getFlag(Photo::FlagsE::GeometryLoaded));
+                             photoData.getFlag(Photo::FlagsE::GeometryLoaded),
+                             photoData.getFlag(Photo::FlagsE::Role)
+        );
 
         const bool status = updateOrInsert(queryInfo);
 
@@ -894,7 +896,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded, role FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -917,6 +919,9 @@ namespace Database
 
             variant = query.value(4);
             photoData.flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
+
+            variant = query.value(5);
+            photoData.flags[Photo::FlagsE::Role] = variant.toInt();
         }
     }
 
