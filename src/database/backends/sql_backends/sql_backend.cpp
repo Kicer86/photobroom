@@ -561,12 +561,12 @@ namespace Database
         queryInfo.setCondition("photo_id", QString::number(photoData.id));
         queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED, FLAG_ROLE);
         queryInfo.setValues(QString::number(photoData.id),
-                             photoData.getFlag(Photo::FlagsE::StagingArea),
-                             photoData.getFlag(Photo::FlagsE::ExifLoaded),
-                             photoData.getFlag(Photo::FlagsE::Sha256Loaded),
-                             photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                             photoData.getFlag(Photo::FlagsE::GeometryLoaded),
-                             photoData.getFlag(Photo::FlagsE::Role)
+                            photoData.getFlag(Photo::FlagsE::StagingArea),
+                            photoData.getFlag(Photo::FlagsE::ExifLoaded),
+                            photoData.getFlag(Photo::FlagsE::Sha256Loaded),
+                            photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
+                            photoData.getFlag(Photo::FlagsE::GeometryLoaded),
+                            photoData.getFlag(Photo::FlagsE::Role)
         );
 
         const bool status = updateOrInsert(queryInfo);
