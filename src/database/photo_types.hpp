@@ -44,6 +44,12 @@ namespace Photo
         Role,
     };
 
+    enum class Roles
+    {
+        RegularPhoto,
+        Representative,
+    };
+
     typedef std::map<FlagsE, int> FlagValues;
 
 
