@@ -51,12 +51,16 @@ struct DBDataModel::Grouper
 
     void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto)
     {
+        std::function<void(const std::deque<IPhotoInfo::Ptr> &)> mark_representative =
+            std::bind(&Grouper::markRepresentative, this, std::placeholders::_1);
+
         std::function<void(const Group::Id &)> group_created =
             std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
 
         std::function<void(const std::deque<IPhotoInfo::Ptr> &)> photos_received =
             std::bind(&Grouper::photosReceived, this, std::placeholders::_1);
 
+        m_db->getPhotos( {representativePhoto}, mark_representative);
         m_db->createGroup(representativePhoto, group_created);
         m_db->getPhotos(photos, photos_received);
     }
@@ -69,15 +73,28 @@ struct DBDataModel::Grouper
 
         enum Flags
         {
-            GotGroupId = 1,
-            GotPhotos  = 2,
+            GotGroupId         = 1,
+            GotPhotos          = 2,
+            MarkRepresentative = 4,
         };
 
         int m_flags;
 
+        void markRepresentative(const std::deque<IPhotoInfo::Ptr>& representative)
+        {
+            assert( (m_flags & MarkRepresentative) == 0 );
+            assert(representative.size() == 1);
+
+            representative.front()->markFlag(Photo::FlagsE::Role, static_cast<int>(Photo::Roles::Representative));
+
+            m_flags |= MarkRepresentative;
+
+            gotData();
+        }
+
         void groupCreated(const Group::Id& id)
         {
-            assert( (m_flags & GotGroupId) == 0);
+            assert( (m_flags & GotGroupId) == 0 );
 
             m_grp_id = id;
             m_flags |= GotGroupId;
@@ -87,7 +104,7 @@ struct DBDataModel::Grouper
 
         void photosReceived(const std::deque<IPhotoInfo::Ptr>& photos)
         {
-            assert( (m_flags & GotPhotos) == 0);
+            assert( (m_flags & GotPhotos) == 0 );
 
             m_photos = photos;
             m_flags |= GotPhotos;
@@ -97,7 +114,7 @@ struct DBDataModel::Grouper
 
         void gotData()
         {
-            if ( m_flags == (GotGroupId | GotPhotos) )
+            if ( m_flags == (GotGroupId | GotPhotos | MarkRepresentative) )
             {
                 for(const IPhotoInfo::Ptr& photoInfo: m_photos)
                     photoInfo->setGroup(m_grp_id);
