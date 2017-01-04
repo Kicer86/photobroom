@@ -331,7 +331,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+171"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -346,12 +346,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-97"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+126"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
