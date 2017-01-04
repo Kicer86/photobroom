@@ -757,7 +757,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::getPhotos(const std::vector<Photo::Id>& ids, const Callback<std::deque<IPhotoInfo::Ptr>>& callback)
+    void DatabaseThread::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::deque<IPhotoInfo::Ptr> &>& callback)
     {
         GetPhotoTask* task = new GetPhotoTask(ids, callback);
         m_impl->addTask(task);

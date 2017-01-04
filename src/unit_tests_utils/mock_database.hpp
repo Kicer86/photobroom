@@ -24,7 +24,7 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD2(exec, void(std::unique_ptr<Database::AGetPhotoTask> &&, const Photo::Id &) );
     MOCK_METHOD2(exec, void(std::unique_ptr<Database::AGetPhotosCount> &&, const std::deque<Database::IFilter::Ptr> &) );
 
-    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(std::deque<IPhotoInfo::Ptr>)> &) );
+    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)> &) );
     MOCK_METHOD1(listTagNames, void(const Callback<const std::deque<TagNameInfo> &> & ) );
     MOCK_METHOD2(listTagValues, void( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) );
     MOCK_METHOD2(listPhotos, void(const std::deque<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
