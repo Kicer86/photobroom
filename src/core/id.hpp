@@ -42,6 +42,12 @@ class Id
 
         Id& operator=(const Id &) = default;
 
+        Id& operator=(const T& id)
+        {
+            m_value = id;
+            m_valid = true;
+        }
+
         operator T() const
         {
             assert(m_valid);
