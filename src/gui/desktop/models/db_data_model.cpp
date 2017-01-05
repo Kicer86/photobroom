@@ -51,16 +51,12 @@ struct DBDataModel::Grouper
 
     void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto)
     {
-        std::function<void(const std::deque<IPhotoInfo::Ptr> &)> mark_representative =
-            std::bind(&Grouper::markRepresentative, this, std::placeholders::_1);
-
         std::function<void(const Group::Id &)> group_created =
             std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
 
         std::function<void(const std::deque<IPhotoInfo::Ptr> &)> photos_received =
             std::bind(&Grouper::photosReceived, this, std::placeholders::_1);
 
-        m_db->getPhotos( {representativePhoto}, mark_representative);
         m_db->createGroup(representativePhoto, group_created);
         m_db->getPhotos(photos, photos_received);
     }
@@ -74,23 +70,10 @@ struct DBDataModel::Grouper
         enum Flags
         {
             GotGroupId         = 1,
-            GotPhotos          = 2,
-            MarkRepresentative = 4,
+            GotPhotos          = 2
         };
 
         int m_flags;
-
-        void markRepresentative(const std::deque<IPhotoInfo::Ptr>& representative)
-        {
-            assert( (m_flags & MarkRepresentative) == 0 );
-            assert(representative.size() == 1);
-
-            representative.front()->markFlag(Photo::FlagsE::Role, static_cast<int>(Photo::Roles::Representative));
-
-            m_flags |= MarkRepresentative;
-
-            gotData();
-        }
 
         void groupCreated(const Group::Id& id)
         {
@@ -114,7 +97,7 @@ struct DBDataModel::Grouper
 
         void gotData()
         {
-            if ( m_flags == (GotGroupId | GotPhotos | MarkRepresentative) )
+            if ( m_flags == (GotGroupId | GotPhotos) )
             {
                 for(const IPhotoInfo::Ptr& photoInfo: m_photos)
                     photoInfo->setGroup(m_grp_id);
@@ -244,7 +227,12 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 
     auto this_tread_callback = make_cross_thread_function(this, store_callback);
 
-    m_database->store({representativePath}, this_tread_callback);
+    const Photo::FlagValues flags = {
+            {Photo::FlagsE::Role,        static_cast<int>(Photo::Roles::Representative)},
+            {Photo::FlagsE::StagingArea, 1}
+    };
+
+    m_database->store({representativePath}, flags, this_tread_callback);
 }
 
 
@@ -405,4 +393,3 @@ void DBDataModel::itemDataChanged(IdxData* idxData, const QVector<int>& roles)
 
     emit dataChanged(idx, idx, roles);
 }
-
