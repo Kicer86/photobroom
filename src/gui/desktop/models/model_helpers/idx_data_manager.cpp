@@ -518,7 +518,7 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
     IdxData* parentIdxData = getIdxDataFor(l_task->m_parent);
 
-    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+    std::shared_ptr<std::deque<IdxData *>> leafs = std::make_shared<std::deque<IdxData *>>();
 
     for(IPhotoInfo::Ptr photoInfo: photos)
     {
