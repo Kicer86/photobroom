@@ -46,6 +46,7 @@ set(CORE_HEADERS
     cross_thread_call.hpp
     disk_observer.hpp
     file_lock.hpp
+    id.hpp
     ilogger.hpp
     ilogger_factory.hpp
     iphotos_manager.hpp
