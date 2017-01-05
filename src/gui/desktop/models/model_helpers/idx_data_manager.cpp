@@ -512,7 +512,7 @@ void IdxDataManager::setupRootNode()
 }
 
 
-//called when leafs for particual node have been loaded
+//called when leafs for particular node have been loaded
 void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
 {
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
