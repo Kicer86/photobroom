@@ -42,7 +42,7 @@ namespace Database
             virtual ADatabaseSignals* notifier() override;
 
             virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
-            virtual void store(const std::set< QString >&, const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) override;
+            virtual void store(const std::set<QString> &, const Photo::FlagValues &, const Callback<const std::vector<Photo::Id> &> &) override;
             virtual void createGroup(const Photo::Id & , const Callback<Group::Id> &) override;
 
             virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) override;

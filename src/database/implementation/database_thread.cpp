@@ -104,10 +104,11 @@ namespace
 
     struct InsertPhotosTask: ThreadBaseTask
     {
-        InsertPhotosTask(const std::set<QString>& paths, const std::function<void(const std::vector<Photo::Id> &)>& callback):
+        InsertPhotosTask(const std::set<QString>& paths, const Photo::FlagValues& flags, const std::function<void(const std::vector<Photo::Id> &)>& callback):
             ThreadBaseTask(),
             m_paths(paths),
-            m_callback(callback)
+            m_callback(callback),
+            m_flags(flags)
         {
 
         }
@@ -116,8 +117,9 @@ namespace
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
-        std::set<QString> m_paths;
-        std::function<void(const std::vector<Photo::Id> &)> m_callback;
+        const std::set<QString> m_paths;
+        const std::function<void(const std::vector<Photo::Id> &)> m_callback;
+        const Photo::FlagValues m_flags;
     };
 
     struct CreateGroupTask: ThreadBaseTask
@@ -377,7 +379,7 @@ namespace
 
         virtual void visit(InsertPhotosTask* task) override
         {
-            const std::vector<Photo::Id> result = insertPhotos(task->m_paths);
+            const std::vector<Photo::Id> result = insertPhotos(task->m_paths, task->m_flags);
 
             if (task->m_callback)
                 task->m_callback(result);
@@ -541,7 +543,7 @@ namespace
             return photoPtr;
         }
 
-        std::vector<Photo::Id> insertPhotos(const std::set<QString>& paths)
+        std::vector<Photo::Id> insertPhotos(const std::set<QString>& paths, const Photo::FlagValues& flags)
         {
             std::vector<Photo::Id> result;
 
@@ -551,7 +553,7 @@ namespace
             {
                 Photo::Data data;
                 data.path = path;
-                data.flags[Photo::FlagsE::StagingArea] = 1;
+                data.flags = flags;
 
                 data_set.push_back(data);
             }
@@ -693,9 +695,9 @@ namespace Database
     }
 
 
-    void DatabaseThread::store(const std::set<QString>& paths, const Callback<const std::vector<Photo::Id> &>& callback)
+    void DatabaseThread::store(const std::set<QString>& paths, const Photo::FlagValues& flags, const Callback<const std::vector<Photo::Id> &>& callback)
     {
-        InsertPhotosTask* task = new InsertPhotosTask(paths, callback);
+        InsertPhotosTask* task = new InsertPhotosTask(paths, flags, callback);
         m_impl->addTask(task);
     }
 
