@@ -675,7 +675,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        Group::Id grp_id = 0;
+        Group::Id grp_id;
 
         InsertQueryData insertData(TAB_GROUPS);
 
@@ -689,11 +689,11 @@ namespace Database
         //update id
         if (status)                                    //Get Id from database after insert
         {
-            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = photo_id.isValid();
+            QVariant group_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = group_id.isValid();
 
             if (status)
-                grp_id = Photo::Id(photo_id.toInt());
+                grp_id = Group::Id(group_id.toInt());
         }
 
         return grp_id;
@@ -880,7 +880,7 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
 
-        Group::Id result = 0;
+        Group::Id result;
         if (status && query.next())
         {
             const QVariant variant = query.value(0);
