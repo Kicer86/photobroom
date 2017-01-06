@@ -101,9 +101,9 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+968"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+983"/>
         <source>Unlabeled</source>
-        <translation>Nieopisane</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

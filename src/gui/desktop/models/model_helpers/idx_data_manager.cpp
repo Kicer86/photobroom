@@ -520,7 +520,22 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
 
     std::shared_ptr<std::deque<IdxData *>> leafs = std::make_shared<std::deque<IdxData *>>();
 
+    // search for groups
+    std::map<Group::Id, std::deque<IPhotoInfo::Ptr>> grouped;
+    IPhotoInfo::List ungrouped;
+
     for(IPhotoInfo::Ptr photoInfo: photos)
+    {
+        Group::Id id = photoInfo->data().group_id;
+
+        if (id.valid())
+            grouped[id].push_back(photoInfo);
+        else
+            ungrouped.push_back(photoInfo);
+    }
+
+    // create leafs for ungrouped photos
+    for(IPhotoInfo::Ptr photoInfo: ungrouped)
     {
         IdxData* newItem = new IdxData(this, photoInfo );
         leafs->push_back(newItem);
