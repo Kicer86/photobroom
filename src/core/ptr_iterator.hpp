@@ -9,7 +9,7 @@
 #define PTR_ITERATOR_HPP
 
 template<typename T>
-class ptr_iterator
+class ptr_iterator: public T::const_iterator
 {
     public:
         typedef typename T::iterator::iterator_category iterator_category;
@@ -20,28 +20,6 @@ class ptr_iterator
 
         ptr_iterator(const typename T::const_iterator& iterator): m_ptr_iterator(iterator) {}
         ~ptr_iterator() {}
-
-        ptr_iterator<T>& operator++()
-        {
-            ++m_ptr_iterator;
-
-            return *this;
-        }
-
-        difference_type operator-(const ptr_iterator<T>& other) const
-        {
-            return m_ptr_iterator - other.m_ptr_iterator;
-        }
-
-        bool operator==(const ptr_iterator<T>& other) const
-        {
-            return m_ptr_iterator == other.m_ptr_iterator;
-        }
-
-        bool operator!=(const ptr_iterator<T>& other) const
-        {
-            return m_ptr_iterator != other.m_ptr_iterator;
-        }
 
         const typename T::value_type::element_type* operator*() const
         {
