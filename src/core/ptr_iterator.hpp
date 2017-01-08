@@ -12,6 +12,12 @@ template<typename T>
 class ptr_iterator
 {
     public:
+        typedef typename T::iterator::iterator_category iterator_category;
+        typedef typename T::iterator::value_type        value_type;
+        typedef typename T::iterator::difference_type   difference_type;
+        typedef typename T::iterator::pointer           pointer;
+        typedef typename T::iterator::reference         reference;
+
         ptr_iterator(const typename T::const_iterator& iterator): m_ptr_iterator(iterator) {}
         ~ptr_iterator() {}
 
@@ -22,7 +28,7 @@ class ptr_iterator
             return *this;
         }
 
-        int operator-(const ptr_iterator<T>& other) const
+        difference_type operator-(const ptr_iterator<T>& other) const
         {
             return m_ptr_iterator - other.m_ptr_iterator;
         }
