@@ -1,4 +1,10 @@
 
+/*
+    Wraper for std::map::iterator which itself behaves as iterator over map's keys
+*/
+
+
+
 #ifndef MAP_ITERATOR_HPP
 #define MAP_ITERATOR_HPP
 
