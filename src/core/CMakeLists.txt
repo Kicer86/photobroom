@@ -58,6 +58,7 @@ set(CORE_HEADERS
     logger_factory.hpp
     map_iterator.hpp
     photos_manager.hpp
+    ptr_iterator.hpp
     search_expression_evaluator.hpp
     status.hpp
     tag.hpp
