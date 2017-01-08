@@ -12,7 +12,7 @@ template<typename T>
 class ptr_iterator
 {
     public:
-        ptr_iterator(const typename T::const_iterator& ptr_iterator): m_ptr_iterator(ptr_iterator) {}
+        ptr_iterator(const typename T::const_iterator& iterator): m_ptr_iterator(iterator) {}
         ~ptr_iterator() {}
 
         ptr_iterator<T>& operator++()
