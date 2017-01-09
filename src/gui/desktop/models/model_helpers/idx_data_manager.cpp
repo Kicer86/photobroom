@@ -31,6 +31,7 @@
 
 #include <core/base_tags.hpp>
 #include <core/callback_ptr.hpp>
+#include <core/cross_thread_call.hpp>
 #include <database/iphoto_info.hpp>
 
 #include "idxdata_deepfetcher.hpp"
@@ -170,10 +171,6 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     qRegisterMetaType<std::deque<IPhotoInfo::Ptr>>();
     qRegisterMetaType<Photo::Id>();
     qRegisterMetaType<std::deque<Photo::Id>>();
-
-    //used for transferring event from working thread to main one
-    connect(this, SIGNAL(nodesFetched(IdxData*, std::shared_ptr<std::deque<IdxData*> >)),
-            this, SLOT(insertFetchedNodes(IdxData*, std::shared_ptr<std::deque<IdxData *> >)), Qt::QueuedConnection);
 }
 
 
@@ -293,7 +290,7 @@ IdxData* IdxDataManager::getIdxDataFor(const QModelIndex& obj) const
 }
 
 
-QModelIndex IdxDataManager::getIndex(IdxData* idxData) const
+QModelIndex IdxDataManager::getIndex(IIdxData* idxData) const
 {
     return m_data->m_model->createIndex(idxData);
 }
@@ -328,16 +325,16 @@ IdxData* IdxDataManager::parent(const QModelIndex& child)
 }
 
 
-void IdxDataManager::getPhotosFor(const IdxData* idx, std::vector<IPhotoInfo::Ptr>* result)
+void IdxDataManager::getPhotosFor(const IIdxData* idx, std::vector<IPhotoInfo::Ptr>* result)
 {
-    forIndexChildren(idx, [&] (const IdxData* child)
+    forIndexChildren(idx, [&] (const IIdxData* child)
     {
         if (child->status() == NodeStatus::Fetched)
         {
-            if (child->m_photo.get() == nullptr)
+            if (child->isNode())
                 getPhotosFor(child, result);
             else
-                result->push_back(child->m_photo);
+                result->push_back(child->getPhoto());
         }
         else
             assert(!"load not implemented");
@@ -349,8 +346,8 @@ void IdxDataManager::idxDataCreated(IdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);
 
-    if (idxData->m_photo)
-        m_data->m_photoId2IdxData.lock()->insert( std::make_pair(idxData->m_photo->getID(), idxData) );
+    if (idxData->isPhoto())
+        m_data->m_photoId2IdxData.lock()->insert( std::make_pair(idxData->getPhoto()->getID(), idxData) );
 }
 
 
@@ -358,8 +355,8 @@ void IdxDataManager::idxDataDeleted(IdxData* idxData)
 {
     removeIdxDataFromNotFetched(idxData);
 
-    if (idxData->m_photo)
-        m_data->m_photoId2IdxData.lock()->erase(idxData->m_photo->getID());
+    if (idxData->isPhoto())
+        m_data->m_photoId2IdxData.lock()->erase(idxData->getPhoto()->getID());
 }
 
 
@@ -452,10 +449,10 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 {
     IdxData* idxData = getIdxDataFor(_parent);
 
-    filter->push_back(idxData->m_filter);
+    filter->push_back(idxData->getFilter());
 
     // append parent's filters
-    if (idxData->m_level > 0)
+    if (idxData->getLevel() > 0)
         buildFilterFor(_parent.parent(), filter);
 }
 
@@ -476,7 +473,7 @@ void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filte
 void IdxDataManager::fetchData(const QModelIndex& _parent)
 {
     IdxData* idxData = getIdxDataFor(_parent);
-    const size_t level = idxData->m_level;
+    const size_t level = idxData->getLevel();
 
     assert(idxData->status() == NodeStatus::NotFetched);
     assert(level <= m_data->m_hierarchy.nodeLevels());
@@ -495,7 +492,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 }
 
 
-void IdxDataManager::setupNewNode(IdxData* node, const Database::IFilter::Ptr& filter, const Hierarchy::Level& order) const
+void IdxDataManager::setupNewNode(IIdxData* node, const Database::IFilter::Ptr& filter, const Hierarchy::Level& order) const
 {
     assert(node->isNode());
 
@@ -518,7 +515,7 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
     GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
     IdxData* parentIdxData = getIdxDataFor(l_task->m_parent);
 
-    std::shared_ptr<std::deque<IdxData *>> leafs = std::make_shared<std::deque<IdxData *>>();
+    auto leafs = std::make_shared<std::deque<IIdxData::Ptr>>();
 
     // search for groups
     std::map<Group::Id, std::deque<IPhotoInfo::Ptr>> grouped;
@@ -535,14 +532,14 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
     }
 
     // create leafs for ungrouped photos
-    for(IPhotoInfo::Ptr photoInfo: ungrouped)
-    {
-        IdxData* newItem = new IdxData(this, photoInfo );
-        leafs->push_back(newItem);
-    }
+    for(const IPhotoInfo::Ptr& photoInfo: ungrouped)
+        leafs->push_back( std::make_unique<IdxData>(this, photoInfo) );
 
     //attach nodes to parent node in main thread
-    emit nodesFetched(parentIdxData, leafs);
+    using namespace std::placeholders;
+    std::function<void(IdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)> insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
+    auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
+    nodesFetched(parentIdxData, leafs);
 }
 
 
@@ -551,16 +548,19 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* ta
 {
     if (size > 0)  //there is at least one such a photo? Create extra node
     {
-        std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+        auto leafs = std::make_shared<std::deque<IdxData::Ptr>>();
 
         GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
         QModelIndex _parentIndex = l_task->m_parent;
         IdxData* _parent = getIdxDataFor(_parentIndex);
-        IdxData* node = prepareUniversalNodeFor(_parent);
+        IIdxData::Ptr node = prepareUniversalNodeFor(_parent);
 
-        leafs->push_back(node);
+        leafs->push_back(std::move(node));
 
-        emit nodesFetched(_parent, leafs);
+        using namespace std::placeholders;
+        std::function<void(IdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)>  insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
+        auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
+        nodesFetched(_parent, std::move(leafs));
     }
 }
 
@@ -574,20 +574,23 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
     const QModelIndex& _parent = l_task->m_parent;
     IdxData* parentIdxData = getIdxDataFor(_parent);
 
-    std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
+    auto leafs = std::make_unique<std::deque<IIdxData::Ptr>>();
 
     for(const TagValue& tag: tags)
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
 
-        IdxData* newItem = new IdxData(m_data->m_root->m_model, tag.get());
-        setupNewNode(newItem, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
+        auto newItem = std::make_unique<IdxData>(m_data->m_root->m_model, tag.get());
+        setupNewNode(newItem.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
-        leafs->push_back(newItem);
+        leafs->push_back(std::move(newItem));
     }
 
     //attach nodes to parent node in main thread
-    emit nodesFetched(parentIdxData, leafs);
+    using namespace std::placeholders;
+    std::function<void(IdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)> insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
+    auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
+    nodesFetched(parentIdxData, std::move(leafs));
 }
 
 
@@ -633,9 +636,9 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>& nodes)
+void IdxDataManager::appendIdxData(IdxData* _parent, const std::shared_ptr<std::deque<IIdxData::Ptr>>& nodes)
 {
-    assert(nodes.empty() == false);
+    assert(nodes->empty() == false);
     // We are not expecting any sub-nodes for not fetched nodes.
     // Only fully fetched and being fetched nodes may accept something.
     assert(_parent->status() != NodeStatus::NotFetched);
@@ -649,21 +652,21 @@ void IdxDataManager::appendIdxData(IdxData* _parent, const std::deque<IdxData *>
     //This function should be used only when writing to an empty parent.
     //Reason for it is that addChild does sorting and items may go
     //to other positions than reported by beginInsertRows() and endInsertRows()
-    if(_parent->m_children.empty())
+    if(_parent->getChildren().empty())
     {
-        const int last = static_cast<int>(nodes.size()) - 1;
+        const int last = static_cast<int>(nodes->size()) - 1;
         assert(last >= 0);
 
         m_data->m_model->beginInsertRows(parentIdx, 0, last);
 
-        for(IdxData* newItem: nodes)
-            _parent->addChild(newItem);
+        for(IIdxData::Ptr& newItem: *nodes)
+            _parent->addChild(std::move(newItem));
 
         m_data->m_model->endInsertRows();
     }
     else                                               //model already has something. Add items one by one
-        for(IdxData* idx: nodes)
-            performAdd(_parent, idx);
+        for(IIdxData::Ptr& idx: *nodes)
+            performAdd(_parent, std::move(idx));
 }
 
 
@@ -673,7 +676,7 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     IdxData* currentParent = getCurrentParent(photoInfo);
-    IdxData* newParent = createAncestry(photoInfo);
+    IIdxData* newParent = createAncestry(photoInfo);
     bool position_changed = currentParent != newParent;
 
     if (position_changed)
@@ -701,7 +704,7 @@ IdxData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
+IIdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
@@ -709,7 +712,7 @@ IdxData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
     PhotosMatcher matcher;
     matcher.set(this);
     matcher.set(m_data->m_model);
-    IdxData* _parent = nullptr;
+    IIdxData* _parent = nullptr;
 
     const bool match = matcher.doesMatchModelFilters(photoInfo);
 
@@ -761,16 +764,16 @@ IdxData* IdxDataManager::findIdxDataFor(const Photo::Id& id)
 }
 
 
-IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
+IIdxData* IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
-    IdxData* result = nullptr;
+    IIdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
+    IIdxData* result = nullptr;
 
     const Tag::TagsList& photoTags = photoInfo->getTags();
-    const size_t level = _parent->m_level;
+    const size_t level = _parent->getLevel();
 
     // found parent is not fetched? Quit with null
     if (_parent->status() == NodeStatus::Fetched)
@@ -786,14 +789,11 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
             if (photoTagIt != photoTags.end())
             {
                 const TagValue& tagValue = photoTagIt->second;
-                IdxData* node = new IdxData(this, tagValue.get());
-
+                auto node = std::make_unique<IdxData>(this, tagValue.get());
                 auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName, tagValue);
 
-                setupNewNode(node, filter, m_data->m_hierarchy.getNodeInfo(level + 1));
-                performAdd(_parent, node);
-
-                result = node;
+                setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
+                result = performAdd(_parent, std::move(node));
             }
             else
             {
@@ -806,23 +806,23 @@ IdxData *IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPho
 }
 
 
-IdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
+IIdxData* IdxDataManager::createUniversalAncestor(PhotosMatcher* matcher, const IPhotoInfo::Ptr& photoInfo)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
-    IdxData* universalNode = nullptr;
+    IIdxData* _parent = matcher->findCloserAncestorFor(photoInfo);
+    IIdxData* result = nullptr;
 
     //closer parent is not fetched? Do no create anything for it
     if (_parent->status() == NodeStatus::Fetched)
     {
-        universalNode = prepareUniversalNodeFor(_parent);
+        IIdxData::Ptr universalNode = prepareUniversalNodeFor(_parent);
 
-        performAdd(_parent, universalNode);
+        result = performAdd(_parent, std::move(universalNode));
     }
 
-    return universalNode;
+    return result;
 }
 
 
@@ -832,7 +832,7 @@ void IdxDataManager::removeChildren(IdxData* parent)
 }
 
 
-void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from, IdxData* to)
+void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IIdxData* from, IIdxData* to)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
@@ -842,7 +842,7 @@ void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxData* from
 }
 
 
-void IdxDataManager::performMove(IdxData* item, IdxData* from, IdxData* to)
+void IdxDataManager::performMove(IIdxData* item, IIdxData* from, IIdxData* to)
 {
     QModelIndex fromIdx = getIndex(from);
     QModelIndex toIdx = getIndex(to);
@@ -851,13 +851,13 @@ void IdxDataManager::performMove(IdxData* item, IdxData* from, IdxData* to)
 
     m_data->m_model->beginMoveRows(fromIdx, fromPos, fromPos, toIdx, toPos);
 
-    from->takeChild(item);
-    to->addChild(item);
+    IIdxData::Ptr childPtr = from->takeChild(item);
+    to->addChild( std::move(childPtr) );
 
     m_data->m_model->endMoveRows();
 
     //remove empty parents
-    if (from->m_children.empty())
+    if (from->getChildren().empty())
         performRemove(from);
 }
 
@@ -867,19 +867,15 @@ void IdxDataManager::performRemoveChildren(IdxData* parent)
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     // only root item can be empty
-    assert(parent == m_data->m_root || parent->m_children.empty() == false);
+    assert(parent == m_data->m_root || parent->getChildren().empty() == false);
 
     QModelIndex parentIdx = getIndex(parent);
 
-    // do not work on children directly as we will drop them
-    std::vector<IdxData *> children = parent->m_children;
-
-    if (children.empty() == false)
+    if (parent->getChildren().empty() == false)
     {
-        m_data->m_model->beginRemoveRows(parentIdx, 0, static_cast<int>( children.size() ) - 1);
+        m_data->m_model->beginRemoveRows(parentIdx, 0, static_cast<int>( parent->getChildren().size() ) - 1);
 
-        for(IdxData* c: children)
-            parent->removeChild(c);
+        parent->removeChildren();
 
         m_data->m_model->endRemoveRows();
 
@@ -906,7 +902,7 @@ void IdxDataManager::performRemove(const Photo::Id& id)
 }
 
 
-void IdxDataManager::performRemove(IdxData* item)
+void IdxDataManager::performRemove(IIdxData* item)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
@@ -926,34 +922,38 @@ void IdxDataManager::performRemove(IdxData* item)
         m_data->m_model->endRemoveRows();
 
         //remove empty parents
-        if (_parent->m_children.empty())
+        if (_parent->getChildren().empty())
             performRemove(_parent);
     }
 }
 
 
-void IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxData* to)
+IIdxData* IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IIdxData* to)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IdxData* photoIdxData = findIdxDataFor(photoInfo);
+    // TODO: weirdo
+
+    IIdxData* photoIdxData = findIdxDataFor(photoInfo);
 
     if (photoIdxData == nullptr)
-        photoIdxData = new IdxData(this, photoInfo);
+    {
+        auto newItem = std::make_unique<IdxData>(this, photoInfo);
 
-    performAdd(to, photoIdxData);
+        performAdd(to, std::move(newItem));
+    }
 }
 
 
-void IdxDataManager::performAdd(IdxData* _parent, IdxData* item)
+IIdxData* IdxDataManager::performAdd(IIdxData* _parent, IIdxData::Ptr&& item)
 {
     QModelIndex toIdx = getIndex(_parent);
-    const int toPos = static_cast<int>( _parent->findPositionFor(item) );
+    const int toPos = static_cast<int>( _parent->findPositionFor(item.get()) );
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
-    _parent->addChild(item);
+    _parent->addChild(std::move(item));
 
     m_data->m_model->endInsertRows();
 }
@@ -966,7 +966,7 @@ bool IdxDataManager::sortChildrenOf(IdxData* _parent)
 
     while (dirty)
     {
-        IdxData* child = _parent->findChildWithBadPosition();
+        IIdxData* child = _parent->findChildWithBadPosition();
 
         if (child == nullptr)
             dirty = false;
@@ -978,30 +978,30 @@ bool IdxDataManager::sortChildrenOf(IdxData* _parent)
 }
 
 
-IdxData* IdxDataManager::prepareUniversalNodeFor(IdxData* _parent)
+IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
 {
-    IdxData* node = new IdxData(this, tr("Unlabeled"));
+    IdxData::Ptr node = std::make_unique<IdxData>(this, tr("Unlabeled"));
 
-    const size_t level = _parent->m_level;
+    const size_t level = _parent->getLevel();
     const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
     auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName);
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
     filter->filter = filterTag;
 
-    setupNewNode(node, filter, m_data->m_hierarchy.getNodeInfo(level + 1) );
+    setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1) );
 
     return node;
 }
 
 
-void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IdxData *>>& nodes)
+void IdxDataManager::insertFetchedNodes(IdxData* _parent, const std::shared_ptr<std::deque<IIdxData::Ptr>>& nodes)
 {
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
     if (nodes->empty() == false)
-        appendIdxData(_parent, *nodes.get());
+        appendIdxData(_parent, nodes);
 
     markIdxDataFetched(_parent);
 }

@@ -30,6 +30,8 @@
 
 #include "idx_data_manager.hpp"
 
+#include <core/ptr_iterator.hpp>
+
 
 namespace
 {
@@ -104,7 +106,7 @@ namespace
     {
         IdxDataComparer(const Hierarchy::Level& l): m_level(l), m_comparer(l) {}
 
-        bool operator() (const IdxData* l, const IdxData* r) const
+        bool operator() (const IIdxData* l, const IIdxData* r) const
         {
             assert(l->isNode() == r->isNode());
 
@@ -117,15 +119,15 @@ namespace
             const Hierarchy::Level& m_level;
             Comparer m_comparer;
 
-            bool compareNodes(const IdxData* l, const IdxData* r) const
+            bool compareNodes(const IIdxData* l, const IIdxData* r) const
             {
-                const QVariant l_val = l->m_data[Qt::DisplayRole];
-                const QVariant r_val = r->m_data[Qt::DisplayRole];
+                const QVariant l_val = l->getData(Qt::DisplayRole);
+                const QVariant r_val = r->getData(Qt::DisplayRole);
 
                 return m_comparer(l_val, r_val);
             }
 
-            bool compareLeafs(const IdxData* l, const IdxData* r) const
+            bool compareLeafs(const IIdxData* l, const IIdxData* r) const
             {
                 const QVariant l_val = getValue(l);
                 const QVariant r_val = getValue(r);
@@ -133,9 +135,9 @@ namespace
                 return m_comparer(l_val, r_val);
             }
 
-            QVariant getValue(const IdxData* idx) const
+            QVariant getValue(const IIdxData* idx) const
             {
-                const Tag::TagsList& tags = idx->m_photo->getTags();
+                const Tag::TagsList& tags = idx->getTags();
 
                 const auto& tag = tags.find(m_level.tagName);
 
@@ -188,19 +190,25 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 }
 
 
-long IdxData::findPositionFor(const IdxData* child) const
+long IdxData::findPositionFor(const IIdxData* child) const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
-    const auto pos = std::upper_bound(m_children.cbegin(), m_children.cend(), child, comparer);
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
-    return pos - m_children.cbegin();
+    const auto pos = std::upper_bound(begin, end, child, comparer);
+
+    return pos - begin;
 }
 
 
-long IdxData::getPositionOf(const IdxData* child) const
+long IdxData::getPositionOf(const IIdxData* child) const
 {
-    const auto pos = std::find(m_children.cbegin(), m_children.cend(), child);
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const auto pos = std::find(begin, end, child);
 
     assert(pos != m_children.cend());
 
@@ -208,34 +216,44 @@ long IdxData::getPositionOf(const IdxData* child) const
 }
 
 
-void IdxData::addChild(IdxData* child)
+IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
 {
     assert(isNode());                        // child (leaf) cannot accept any child
-    assert(child->m_parent == nullptr);      // child should not have parent
+    assert(child->parent() == nullptr);      // child should not have parent
 
-    const long pos = findPositionFor(child);
-    m_children.insert(m_children.cbegin() + pos, child);
+    const long pos = findPositionFor(child.get());
     child->setParent(this);
+    m_children.insert(m_children.cbegin() + pos, std::move(child));
+
+    return m_children[pos].get();
 }
 
 
-void IdxData::removeChild(IdxData* child)
+void IdxData::removeChild(IIdxData* child)
 {
-    takeChild(child);
-
-    delete child;
+    takeChild(child);   // take child returns unique_ptr which is not catched here so child will be deleted
 }
 
 
-void IdxData::takeChild(IdxData* child)
+void IdxData::removeChildren()
 {
-    assert(child->m_parent == this);
+    m_children.clear();
+}
+
+
+IIdxData::Ptr IdxData::takeChild(IIdxData* child)
+{
+    assert(child->parent() == this);
     assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
 
     const long pos = getPositionOf(child);
+
+    IIdxData::Ptr childPtr = std::move(m_children[pos]);
     m_children.erase(m_children.cbegin() + pos);
 
-    child->setParent(nullptr);
+    childPtr->setParent(nullptr);
+
+    return childPtr;
 }
 
 
@@ -243,9 +261,6 @@ void IdxData::reset()
 {
     m_model->idxDataReset(this);
     setStatus(NodeStatus::NotFetched);
-
-    for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
-        delete child;
 
     m_children.clear();
     m_photo.reset();
@@ -283,6 +298,44 @@ bool IdxData::isNode() const
 }
 
 
+const std::vector<IIdxData::Ptr> & IdxData::getChildren() const
+{
+    return m_children;
+}
+
+
+QVariant IdxData::getData(int role) const
+{
+    return m_data[role];
+}
+
+
+const Database::IFilter::Ptr& IdxData::getFilter() const
+{
+    return m_filter;
+}
+
+
+std::size_t IdxData::getLevel() const
+{
+    return m_level;
+}
+
+
+IPhotoInfo::Ptr IdxData::getPhoto() const
+{
+    return m_photo;
+}
+
+
+Tag::TagsList IdxData::getTags() const
+{
+    assert(isPhoto());  // TODO: move to base for LeafIdxData/NodeIdxData
+
+    return m_photo->getTags();
+}
+
+
 int IdxData::getRow() const
 {
     assert(m_parent != nullptr);
@@ -302,15 +355,15 @@ NodeStatus IdxData::status() const
 }
 
 
-IdxData* IdxData::findChildWithBadPosition() const
+IIdxData* IdxData::findChildWithBadPosition() const
 {
     IdxDataComparer<RelaxedTagValueComparer> comparer(m_order);
-    IdxData* result = nullptr;
+    IIdxData* result = nullptr;
 
     for(size_t i = 1; i < m_children.size(); i++)
-        if (comparer(m_children[i - 1], m_children[i]) == false)
+        if (comparer(m_children[i - 1].get(), m_children[i].get()) == false)
         {
-            result = m_children[i - 1];
+            result = m_children[i - 1].get();
             break;
         }
 
@@ -322,7 +375,10 @@ bool IdxData::sortingRequired() const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
-    const bool sorted = std::is_sorted(m_children.cbegin(), m_children.cend(), comparer);
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const bool sorted = std::is_sorted(begin, end, comparer);
     const bool required = !sorted;
 
     return required;

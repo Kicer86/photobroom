@@ -32,16 +32,42 @@ class QVariant;
 
 class IdxDataManager;
 
-class IdxData
+struct IIdxData
+{
+    typedef std::unique_ptr<IIdxData> Ptr;
+
+    virtual ~IIdxData() = default;
+
+    virtual void setParent(IdxData *) = 0;
+    virtual IIdxData* addChild(IIdxData::Ptr&& child) = 0;
+    virtual void removeChild(IIdxData* child) = 0;
+    virtual void removeChildren() = 0;
+    virtual IIdxData::Ptr takeChild(IIdxData* child) = 0;
+    virtual void setNodeFilter(const Database::IFilter::Ptr& filter) = 0;
+    virtual void setNodeSorting(const Hierarchy::Level &) = 0;
+
+    virtual long findPositionFor(const IIdxData* child) const = 0;
+    virtual IdxData* parent() const = 0;
+    virtual bool isNode() const = 0;
+    virtual const std::vector<Ptr>& getChildren() const = 0;
+    virtual QVariant getData(int) const = 0;
+    virtual const Database::IFilter::Ptr& getFilter() const = 0;
+    virtual std::size_t getLevel() const = 0;
+    virtual IPhotoInfo::Ptr getPhoto() const = 0;                               // TODO: remove
+    virtual Tag::TagsList getTags() const = 0;
+
+    virtual int getRow() const = 0;
+    virtual int getCol() const = 0;
+    virtual NodeStatus status() const = 0;
+};
+
+
+class IdxData: public IIdxData
 {
     public:
-        std::vector<IdxData *> m_children;
         QMap<int, QVariant> m_data;
-        Database::IFilter::Ptr m_filter;         // define which children match
         Hierarchy::Level m_order;                // defines how to sort children
-        IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         IdxDataManager* m_model;
-        size_t m_level;
 
         // node constructor
         IdxData(IdxDataManager *, const QVariant& name);
@@ -54,29 +80,41 @@ class IdxData
         IdxData(const IdxData &) = delete;
         IdxData& operator=(const IdxData &) = delete;
 
-        void setNodeFilter(const Database::IFilter::Ptr& filter);
-        void setNodeSorting(const Hierarchy::Level &);
-        long findPositionFor(const IdxData* child) const;     // returns position where child matches
-        long getPositionOf(const IdxData* child) const;       // returns position of children
-        void addChild(IdxData* child);
-        void removeChild(IdxData* child);                     // removes child (memory is released)
-        void takeChild(IdxData* child);                       // function acts as removeChild but does not delete children
+        void setNodeFilter(const Database::IFilter::Ptr& filter) override;
+        void setNodeSorting(const Hierarchy::Level &) override;
+        long findPositionFor(const IIdxData* child) const override;     // returns position where child matches
+        long getPositionOf(const IIdxData* child) const;                // returns position of children
+        IIdxData* addChild(IIdxData::Ptr&& child) override;             // returns pointer to child
+        void removeChild(IIdxData* child) override;                     // removes child (memory is released)
+        void removeChildren() override;
+        IIdxData::Ptr takeChild(IIdxData* child) override;              // function acts as removeChild but does not delete children
         void reset();
-        void setParent(IdxData *);
+        void setParent(IdxData *) override;
         void setStatus(NodeStatus);
-        IdxData* parent() const;
+        IdxData* parent() const override;
         bool isPhoto() const;
-        bool isNode() const;
+        bool isNode() const override;
+
+        const std::vector<Ptr>& getChildren() const override;
+        QVariant getData(int) const override;
+        const Database::IFilter::Ptr& getFilter() const override;
+        std::size_t getLevel() const override;
+        IPhotoInfo::Ptr getPhoto() const override;
+        Tag::TagsList getTags() const override;
 
         int getRow() const;
         int getCol() const;
 
-        NodeStatus status() const;
+        NodeStatus status() const override;
 
-        IdxData* findChildWithBadPosition() const;            // returns first child which lies in a wrong place
+        IIdxData* findChildWithBadPosition() const;            // returns first child which lies in a wrong place
         bool sortingRequired() const;
 
     private:
+        std::vector<Ptr> m_children;
+        IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
+        Database::IFilter::Ptr m_filter;         // define which children match
+        size_t m_level;
         IdxData* m_parent;
 
         IdxData(IdxDataManager *);

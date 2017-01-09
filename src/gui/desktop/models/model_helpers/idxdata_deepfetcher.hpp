@@ -34,6 +34,7 @@ class QModelIndex;
 
 class IdxDataManager;
 class IdxData;
+struct IIdxData;
 
 class IdxDataDeepFetcher: public QObject, public ITaskExecutor::ITask
 {
@@ -53,12 +54,12 @@ class IdxDataDeepFetcher: public QObject, public ITaskExecutor::ITask
         IdxDataManager* m_idxDataManager;
         QEventLoopLocker* m_eventLoopLocker;
         std::deque<IdxData *> m_notLoaded;               //nodes not fetched yet
-        std::set<IdxData *> m_inProcess;                 //nodes being fetched at this moment
+        std::set<IIdxData *> m_inProcess;                 //nodes being fetched at this moment
         std::mutex m_idxDataMutex;
         std::condition_variable m_dataNotifier;
 
         void process();
-        void process(IdxData *);
+        void process(IIdxData *);
         void idxDataLoaded(IdxData *);
 
         //ITask:

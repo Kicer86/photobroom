@@ -177,7 +177,7 @@ DBDataModel::~DBDataModel()
 IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    return idxData->m_photo;
+    return idxData->getPhoto();
 }
 
 
@@ -199,7 +199,7 @@ const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 bool DBDataModel::isEmpty() const
 {
     IdxData* root = m_idxDataManager->getRoot();
-    const bool result = root->m_children.empty();
+    const bool result = root->getChildren().empty();
 
     return result;
 }
@@ -264,7 +264,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 IPhotoInfo* DBDataModel::getPhotoInfo(const QModelIndex& idx) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    return idxData->m_photo.get();
+    return idxData->getPhoto().get();
 }
 
 
@@ -310,9 +310,10 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
     QModelIndex idx;
     IdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
 
-    if (urow < pData->m_children.size())             //row out of boundary?
+    if (urow < pData->getChildren().size())             //row out of boundary?
     {
-        IdxData* cData = pData->m_children[urow];
+        const std::vector<IIdxData::Ptr>& children = pData->getChildren();
+        IIdxData* cData = children[urow].get();
         idx = createIndex(row, column, cData);
     }
 
@@ -332,7 +333,7 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
     IdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
-    const size_t count = idxData->m_children.size();
+    const size_t count = idxData->getChildren().size();
 
     assert(count < std::numeric_limits<int>::max());
     return static_cast<int>(count);
@@ -379,10 +380,10 @@ IdxData* DBDataModel::getRootIdxData()
 }
 
 
-QModelIndex DBDataModel::createIndex(IdxData* idxData) const
+QModelIndex DBDataModel::createIndex(IIdxData* idxData) const
 {
-    const QModelIndex idx = idxData->m_level == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
-                                                   createIndex(idxData->getRow(), idxData->getCol(), idxData);
+    const QModelIndex idx = idxData->getLevel() == 0? QModelIndex():          //level 0 == parent of all parents represented by invalid index
+                                                      createIndex(idxData->getRow(), idxData->getCol(), idxData);
     return idx;
 }
 

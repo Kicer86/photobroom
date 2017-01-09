@@ -70,7 +70,7 @@ void IdxDataDeepFetcher::process()
 }
 
 
-void IdxDataDeepFetcher::process(IdxData* idxData)
+void IdxDataDeepFetcher::process(IIdxData* idxData)
 {
     // Make sure status of idxData will not change during switch
     std::unique_lock<std::mutex> lock(m_idxDataMutex);
@@ -87,8 +87,8 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
 
         case NodeStatus::Fetched:
             lock.unlock();                                //we will go recursive now, and we do not need lock anymore in current context
-            for(IdxData* child: idxData->m_children)
-                process(child);
+            for(const IIdxData::Ptr& child: idxData->getChildren())
+                process(child.get());
             break;
 
         case NodeStatus::Fetching:

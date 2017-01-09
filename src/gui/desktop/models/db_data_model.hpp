@@ -28,6 +28,7 @@
 #include "model_types.hpp"
 
 struct ITaskExecutor;
+struct IIdxData;
 class IdxDataManager;
 class IdxData;
 
@@ -115,7 +116,7 @@ class DBDataModel: public APhotoInfoModel
         std::set<std::unique_ptr<Grouper>> m_groupers;
 
         using QAbstractItemModel::createIndex;
-        QModelIndex createIndex(IdxData *) const;
+        QModelIndex createIndex(IIdxData *) const;
 
         void itemDataChanged(IdxData *, const QVector<int> &);
 };
