@@ -18,16 +18,13 @@ class ptr_iterator: public T::const_iterator
         typedef typename T::iterator::pointer           pointer;
         typedef typename T::iterator::reference         reference;
 
-        ptr_iterator(const typename T::const_iterator& iterator): m_ptr_iterator(iterator) {}
+        ptr_iterator(const typename T::const_iterator& iterator): T::const_iterator(iterator) {}
         ~ptr_iterator() {}
 
         const typename T::value_type::element_type* operator*() const
         {
-            return m_ptr_iterator->get();
+            return (*this)->get();
         }
-
-    private:
-        typename T::const_iterator m_ptr_iterator;
 };
 
 #endif
