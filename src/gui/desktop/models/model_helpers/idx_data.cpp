@@ -210,9 +210,9 @@ long IdxData::getPositionOf(const IIdxData* child) const
 
     const auto pos = std::find(begin, end, child);
 
-    assert(pos != m_children.cend());
+    assert(pos != end);
 
-    return pos - m_children.cbegin();
+    return pos - begin;
 }
 
 
