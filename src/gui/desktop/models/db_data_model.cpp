@@ -181,15 +181,6 @@ IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 }
 
 
-const std::vector<IPhotoInfo::Ptr> DBDataModel::getPhotos() const
-{
-    std::vector<IPhotoInfo::Ptr> result;
-    m_idxDataManager->getPhotosFor(m_idxDataManager->getRoot(), &result);
-
-    return result;
-}
-
-
 const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 {
     return m_filters;

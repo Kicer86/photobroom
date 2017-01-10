@@ -77,7 +77,6 @@ class DBDataModel: public APhotoInfoModel
         bool operator==(const DBDataModel& other) = delete;
 
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
         const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
         bool isEmpty() const;
 

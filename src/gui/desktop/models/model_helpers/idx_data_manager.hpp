@@ -60,7 +60,6 @@ public:
     QModelIndex getIndex(IIdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
     IdxData* parent(const QModelIndex& child);
-    void getPhotosFor(const IIdxData* idx, std::vector<IPhotoInfo::Ptr>* result);
 
     //signals from IdxData:
     void idxDataCreated(IdxData *);

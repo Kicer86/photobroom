@@ -325,23 +325,6 @@ IdxData* IdxDataManager::parent(const QModelIndex& child)
 }
 
 
-void IdxDataManager::getPhotosFor(const IIdxData* idx, std::vector<IPhotoInfo::Ptr>* result)
-{
-    forIndexChildren(idx, [&] (const IIdxData* child)
-    {
-        if (child->status() == NodeStatus::Fetched)
-        {
-            if (child->isNode())
-                getPhotosFor(child, result);
-            else
-                result->push_back(child->getPhoto());
-        }
-        else
-            assert(!"load not implemented");
-    });
-}
-
-
 void IdxDataManager::idxDataCreated(IdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);

@@ -53,7 +53,6 @@ struct IIdxData
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
-    virtual IPhotoInfo::Ptr getPhoto() const = 0;                               // TODO: remove
     virtual Tag::TagsList getTags() const = 0;
 
     virtual int getRow() const = 0;
@@ -99,7 +98,7 @@ class IdxData: public IIdxData
         QVariant getData(int) const override;
         const Database::IFilter::Ptr& getFilter() const override;
         std::size_t getLevel() const override;
-        IPhotoInfo::Ptr getPhoto() const override;
+        IPhotoInfo::Ptr getPhoto() const;
         Tag::TagsList getTags() const override;
 
         int getRow() const;
