@@ -104,7 +104,7 @@ class DBDataModel: public APhotoInfoModel
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
     protected:
-        IdxData* getRootIdxData();
+        IIdxData* getRootIdxData();
 
     private:
         struct Grouper;
@@ -117,7 +117,7 @@ class DBDataModel: public APhotoInfoModel
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IIdxData *) const;
 
-        void itemDataChanged(IdxData *, const QVector<int> &);
+        void itemDataChanged(IIdxData *, const QVector<int> &);
 };
 
 #endif // DBDATAMODEL_HPP

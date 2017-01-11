@@ -176,7 +176,7 @@ DBDataModel::~DBDataModel()
 
 IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
-    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
     return idxData->getPhoto();
 }
 
@@ -189,7 +189,7 @@ const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 
 bool DBDataModel::isEmpty() const
 {
-    IdxData* root = m_idxDataManager->getRoot();
+    IIdxData* root = m_idxDataManager->getRoot();
     const bool result = root->getChildren().empty();
 
     return result;
@@ -198,7 +198,7 @@ bool DBDataModel::isEmpty() const
 
 void DBDataModel::deepFetch(const QModelIndex& top)
 {
-    IdxData* idx = m_idxDataManager->getIdxDataFor(top);
+    IIdxData* idx = m_idxDataManager->getIdxDataFor(top);
     m_idxDataManager->deepFetch(idx);
 }
 
@@ -254,7 +254,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 IPhotoInfo* DBDataModel::getPhotoInfo(const QModelIndex& idx) const
 {
-    IdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
     return idxData->getPhoto().get();
 }
 
@@ -285,8 +285,8 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 
     if (v.isNull())
     {
-        IdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
-        v = idxData->m_data[role];
+        IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
+        v = idxData->getData(role);
     }
 
     return v;
@@ -299,7 +299,7 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
     const unsigned int urow = static_cast<unsigned int>(row);
 
     QModelIndex idx;
-    IdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
+    IIdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
 
     if (urow < pData->getChildren().size())             //row out of boundary?
     {
@@ -314,7 +314,7 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
 
 QModelIndex DBDataModel::parent(const QModelIndex& child) const
 {
-    IdxData* idxData = m_idxDataManager->parent(child);
+    IIdxData* idxData = m_idxDataManager->parent(child);
     QModelIndex parentIdx = idxData? createIndex(idxData): QModelIndex();
 
     return parentIdx;
@@ -323,7 +323,7 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
-    IdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
     const size_t count = idxData->getChildren().size();
 
     assert(count < std::numeric_limits<int>::max());
@@ -354,7 +354,7 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 {
     m_filters = filters;
 
-    IdxData* root = m_idxDataManager->getRoot();
+    IIdxData* root = m_idxDataManager->getRoot();
     m_idxDataManager->refetchNode(root);
 }
 
@@ -365,7 +365,7 @@ void DBDataModel::applyFilters(const SearchExpressionEvaluator::Expression& filt
 }
 
 
-IdxData* DBDataModel::getRootIdxData()
+IIdxData* DBDataModel::getRootIdxData()
 {
     return m_idxDataManager->getRoot();
 }
@@ -379,7 +379,7 @@ QModelIndex DBDataModel::createIndex(IIdxData* idxData) const
 }
 
 
-void DBDataModel::itemDataChanged(IdxData* idxData, const QVector<int>& roles)
+void DBDataModel::itemDataChanged(IIdxData* idxData, const QVector<int>& roles)
 {
     const QModelIndex idx = m_idxDataManager->getIndex(idxData);
 

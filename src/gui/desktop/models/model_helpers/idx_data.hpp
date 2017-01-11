@@ -39,25 +39,31 @@ struct IIdxData
     virtual ~IIdxData() = default;
 
     virtual void setParent(IdxData *) = 0;
+    virtual void setStatus(NodeStatus) = 0;
     virtual IIdxData* addChild(IIdxData::Ptr&& child) = 0;
     virtual void removeChild(IIdxData* child) = 0;
     virtual void removeChildren() = 0;
     virtual IIdxData::Ptr takeChild(IIdxData* child) = 0;
+    virtual void reset() = 0;
     virtual void setNodeFilter(const Database::IFilter::Ptr& filter) = 0;
     virtual void setNodeSorting(const Hierarchy::Level &) = 0;
 
     virtual long findPositionFor(const IIdxData* child) const = 0;
     virtual IdxData* parent() const = 0;
-    virtual bool isNode() const = 0;
+    [[deprecated]] virtual bool isNode() const = 0;
     virtual const std::vector<Ptr>& getChildren() const = 0;
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
+    [[deprecated]] virtual IPhotoInfo::Ptr getPhoto() const = 0;
     virtual Tag::TagsList getTags() const = 0;
 
     virtual int getRow() const = 0;
     virtual int getCol() const = 0;
     virtual NodeStatus status() const = 0;
+
+    virtual IIdxData* findChildWithBadPosition() const = 0;
+    virtual bool sortingRequired() const = 0;
 };
 
 
@@ -87,9 +93,9 @@ class IdxData: public IIdxData
         void removeChild(IIdxData* child) override;                     // removes child (memory is released)
         void removeChildren() override;
         IIdxData::Ptr takeChild(IIdxData* child) override;              // function acts as removeChild but does not delete children
-        void reset();
+        void reset() override;
         void setParent(IdxData *) override;
-        void setStatus(NodeStatus);
+        void setStatus(NodeStatus) override;
         IdxData* parent() const override;
         bool isPhoto() const;
         bool isNode() const override;
@@ -101,13 +107,13 @@ class IdxData: public IIdxData
         IPhotoInfo::Ptr getPhoto() const;
         Tag::TagsList getTags() const override;
 
-        int getRow() const;
-        int getCol() const;
+        int getRow() const override;
+        int getCol() const override;
 
         NodeStatus status() const override;
 
-        IIdxData* findChildWithBadPosition() const;            // returns first child which lies in a wrong place
-        bool sortingRequired() const;
+        IIdxData* findChildWithBadPosition() const override;            // returns first child which lies in a wrong place
+        bool sortingRequired() const override;
 
     private:
         std::vector<Ptr> m_children;

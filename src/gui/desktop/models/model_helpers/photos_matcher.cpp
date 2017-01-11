@@ -245,7 +245,7 @@ IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool ex
 {
     const size_t depth = m_idxDataManager->getHierarchy().nodeLevels();
     IIdxData* result = nullptr;
-    IdxData* root = m_idxDataManager->getRoot();
+    IIdxData* root = m_idxDataManager->getRoot();
     std::deque<IIdxData *> toCheck = { root };
     FiltersMatcher matcher;
 
