@@ -70,10 +70,6 @@ struct IIdxData
 class IdxData: public IIdxData
 {
     public:
-        QMap<int, QVariant> m_data;
-        Hierarchy::Level m_order;                // defines how to sort children
-        IdxDataManager* m_model;
-
         // node constructor
         IdxData(IdxDataManager *, const QVariant& name);
 
@@ -116,10 +112,13 @@ class IdxData: public IIdxData
         bool sortingRequired() const override;
 
     private:
+        QMap<int, QVariant> m_data;
+        Hierarchy::Level m_order;                // defines how to sort children
         std::vector<Ptr> m_children;
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         Database::IFilter::Ptr m_filter;         // define which children match
         size_t m_level;
+        IdxDataManager* m_model;
         IdxData* m_parent;
 
         IdxData(IdxDataManager *);
