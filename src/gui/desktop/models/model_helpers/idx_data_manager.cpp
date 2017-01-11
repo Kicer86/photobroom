@@ -563,7 +563,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
 
-        auto newItem = std::make_unique<IdxData>(m_data->m_root->m_model, tag.get());
+        auto newItem = std::make_unique<IdxData>(this, tag.get());
         setupNewNode(newItem.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
         leafs->push_back(std::move(newItem));
