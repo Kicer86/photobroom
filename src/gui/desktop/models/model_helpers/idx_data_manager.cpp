@@ -916,16 +916,17 @@ IIdxData* IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IIdxData*
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    // TODO: weirdo
-
     IIdxData* photoIdxData = findIdxDataFor(photoInfo);
 
-    if (photoIdxData == nullptr)
-    {
-        auto newItem = std::make_unique<IdxData>(this, photoInfo);
+    // TODO: Code above looks weird. Watch for sitution when it returns non null ptr.
+    //       See 2199bc8c8d5c10bf84ed7334ec9a6779be311639 for first change
+    assert(photoIdxData == nullptr);
 
-        performAdd(to, std::move(newItem));
-    }
+    auto newItem = std::make_unique<IdxData>(this, photoInfo);
+
+    IIdxData* item = performAdd(to, std::move(newItem));
+
+    return item;
 }
 
 
@@ -936,9 +937,11 @@ IIdxData* IdxDataManager::performAdd(IIdxData* _parent, IIdxData::Ptr&& item)
 
     m_data->m_model->beginInsertRows(toIdx, toPos, toPos);
 
-    _parent->addChild(std::move(item));
+    IIdxData* addedItem = _parent->addChild(std::move(item));
 
     m_data->m_model->endInsertRows();
+
+    return addedItem;
 }
 
 
