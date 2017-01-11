@@ -391,8 +391,8 @@ IdxData::IdxData(IdxDataManager* model) :
     m_filter(new Database::EmptyFilter),
     m_order(),
     m_photo(nullptr),
-    m_model(model),
     m_level(std::numeric_limits<std::size_t>::max()),
+    m_model(model),
     m_parent(nullptr)
 {
     setStatus(NodeStatus::NotFetched);
