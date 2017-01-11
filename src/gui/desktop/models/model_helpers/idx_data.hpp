@@ -104,7 +104,7 @@ class IdxData: public IIdxData
         QVariant getData(int) const override;
         const Database::IFilter::Ptr& getFilter() const override;
         std::size_t getLevel() const override;
-        IPhotoInfo::Ptr getPhoto() const;
+        IPhotoInfo::Ptr getPhoto() const override;
         Tag::TagsList getTags() const override;
 
         int getRow() const override;
