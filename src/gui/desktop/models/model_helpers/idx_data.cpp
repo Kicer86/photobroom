@@ -154,8 +154,8 @@ namespace
 
                 void visit(const IdxLeafData *) override
                 {
-                    assert(isNode(m_l));
-                    assert(isNode(m_r));
+                    assert(isLeaf(m_l));
+                    assert(isLeaf(m_r));
 
                     const QVariant l_val = getValue(m_l);
                     const QVariant r_val = getValue(m_r);
