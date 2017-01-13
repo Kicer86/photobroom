@@ -413,3 +413,33 @@ void IdxData::init()
 {
     m_model->idxDataCreated(this);
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
+{
+
+}
+
+
+void IdxNodeData::visitMe(IIdxDataVisitor* visitor)
+{
+    visitor->visit(this);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxData(mgr, photo)
+{
+
+}
+
+
+void IdxLeafData::visitMe(IIdxDataVisitor* visitor)
+{
+    visitor->visit(this);
+}
+

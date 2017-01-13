@@ -32,6 +32,9 @@ class QVariant;
 
 class IdxDataManager;
 
+struct IIdxDataVisitor;
+
+
 struct IIdxData
 {
     typedef std::unique_ptr<IIdxData> Ptr;
@@ -66,6 +69,9 @@ struct IIdxData
 
     [[deprecated]] virtual IIdxData* findChildWithBadPosition() const = 0;
     [[deprecated]] virtual bool sortingRequired() const = 0;
+
+    // visitation:
+    virtual void visitMe(IIdxDataVisitor *) = 0;
 };
 
 
@@ -132,12 +138,27 @@ class IdxData: public IIdxData
 class IdxNodeData: public IdxData
 {
     public:
+        IdxNodeData(IdxDataManager *, const QVariant& name);
+        virtual ~IdxNodeData() = default;
+
+        virtual void visitMe(IIdxDataVisitor *);
 };
 
 
 class IdxLeafData: public IdxData
 {
     public:
+        IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        virtual ~IdxLeafData() = default;
+
+        virtual void visitMe(IIdxDataVisitor *);
+};
+
+
+struct IIdxDataVisitor
+{
+    virtual void visit(IdxLeafData *) = 0;
+    virtual void visit(IdxNodeData *) = 0;
 };
 
 #endif // IDXDATA_HPP
