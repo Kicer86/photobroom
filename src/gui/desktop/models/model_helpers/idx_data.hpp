@@ -54,8 +54,6 @@ struct IIdxData
     [[deprecated]] virtual long findPositionFor(const IIdxData* child) const = 0;
     [[deprecated]] virtual long getPositionOf(const IIdxData* child) const = 0;
     virtual IIdxData* parent() const = 0;
-    [[deprecated]] virtual bool isNode() const = 0;
-    [[deprecated]] virtual bool isPhoto() const = 0;
     [[deprecated]] virtual const std::vector<Ptr>& getChildren() const = 0;
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
@@ -71,7 +69,7 @@ struct IIdxData
     [[deprecated]] virtual bool sortingRequired() const = 0;
 
     // visitation:
-    virtual void visitMe(IIdxDataVisitor *) = 0;
+    virtual void visitMe(IIdxDataVisitor *) const = 0;
 };
 
 
@@ -101,8 +99,6 @@ class IdxData: public IIdxData
         void setParent(IIdxData *) override;
         void setStatus(NodeStatus) override;
         IIdxData* parent() const override;
-        bool isPhoto() const override;
-        bool isNode() const override;
 
         const std::vector<Ptr>& getChildren() const override;
         QVariant getData(int) const override;
@@ -141,7 +137,7 @@ class IdxNodeData: public IdxData
         IdxNodeData(IdxDataManager *, const QVariant& name);
         virtual ~IdxNodeData() = default;
 
-        virtual void visitMe(IIdxDataVisitor *);
+        virtual void visitMe(IIdxDataVisitor *) const override;
 };
 
 
@@ -151,7 +147,7 @@ class IdxLeafData: public IdxData
         IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
         virtual ~IdxLeafData() = default;
 
-        virtual void visitMe(IIdxDataVisitor *);
+        virtual void visitMe(IIdxDataVisitor *) const override;
 };
 
 
@@ -159,8 +155,8 @@ struct IIdxDataVisitor
 {
     virtual ~IIdxDataVisitor() = default;
 
-    virtual void visit(IdxLeafData *) = 0;
-    virtual void visit(IdxNodeData *) = 0;
+    virtual void visit(const IdxLeafData *) = 0;
+    virtual void visit(const IdxNodeData *) = 0;
 };
 
 
@@ -177,16 +173,16 @@ class IdxDataTypeVisitor: IIdxDataVisitor
         IdxDataTypeVisitor();
         virtual ~IdxDataTypeVisitor() = default;
 
-        Type typeOf(IIdxData *);
+        Type typeOf(const IIdxData *);
 
     private:
         Type m_type;
 
-        virtual void visit(IdxLeafData *);
-        virtual void visit(IdxNodeData *);
+        virtual void visit(const IdxLeafData *) override;
+        virtual void visit(const IdxNodeData *) override;
 };
 
-bool isNode(IIdxData *);
-bool isLeaf(IIdxData *);
+bool isNode(const IIdxData *);
+bool isLeaf(const IIdxData *);
 
 #endif // IDXDATA_HPP

@@ -104,49 +104,78 @@ namespace
     template<typename Comparer>
     struct IdxDataComparer
     {
-        IdxDataComparer(const Hierarchy::Level& l): m_level(l), m_comparer(l) {}
+        IdxDataComparer(const Hierarchy::Level& l): m_level(l) {}
 
         bool operator() (const IIdxData* l, const IIdxData* r) const
         {
-            assert(l->isNode() == r->isNode());
-
-            const bool result = l->isNode()? compareNodes(l, r): compareLeafs(l, r);
+            const bool result = InternalComparer(m_level, l, r).compare();
 
             return result;
         }
 
         private:
             const Hierarchy::Level& m_level;
-            Comparer m_comparer;
 
-            bool compareNodes(const IIdxData* l, const IIdxData* r) const
+            struct InternalComparer: IIdxDataVisitor
             {
-                const QVariant l_val = l->getData(Qt::DisplayRole);
-                const QVariant r_val = r->getData(Qt::DisplayRole);
+                const IIdxData* m_r;
+                const IIdxData* m_l;
+                Comparer m_comparer;
+                const Hierarchy::Level& m_level;
+                bool m_result;
 
-                return m_comparer(l_val, r_val);
-            }
+                InternalComparer(const Hierarchy::Level& level, const IIdxData* l, const IIdxData* r):
+                    m_l(l),
+                    m_r(r),
+                    m_comparer(level),
+                    m_level(level),
+                    m_result(false)
+                {
 
-            bool compareLeafs(const IIdxData* l, const IIdxData* r) const
-            {
-                const QVariant l_val = getValue(l);
-                const QVariant r_val = getValue(r);
+                }
 
-                return m_comparer(l_val, r_val);
-            }
+                bool compare()
+                {
+                    m_l->visitMe(this);
 
-            QVariant getValue(const IIdxData* idx) const
-            {
-                const Tag::TagsList& tags = idx->getTags();
+                    return m_result;
+                }
 
-                const auto& tag = tags.find(m_level.tagName);
+                void visit(const IdxNodeData *) override
+                {
+                    assert(isNode(m_l));
+                    assert(isNode(m_r));
 
-                QVariant result;
-                if (tag != tags.cend())
-                    result = tag->second.get();
+                    const QVariant l_val = m_l->getData(Qt::DisplayRole);
+                    const QVariant r_val = m_r->getData(Qt::DisplayRole);
 
-                return result;
-            }
+                    m_result = m_comparer(l_val, r_val);
+                }
+
+                void visit(const IdxLeafData *) override
+                {
+                    assert(isNode(m_l));
+                    assert(isNode(m_r));
+
+                    const QVariant l_val = getValue(m_l);
+                    const QVariant r_val = getValue(m_r);
+
+                    m_result = m_comparer(l_val, r_val);
+                }
+
+                QVariant getValue(const IIdxData* idx) const
+                {
+                    const Tag::TagsList& tags = idx->getTags();
+
+                    const auto& tag = tags.find(m_level.tagName);
+
+                    QVariant result;
+                    if (tag != tags.cend())
+                        result = tag->second.get();
+
+                    return result;
+                }
+            };
     };
 }
 
@@ -218,7 +247,7 @@ long IdxData::getPositionOf(const IIdxData* child) const
 
 IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
 {
-    assert(isNode());                        // child (leaf) cannot accept any child
+    assert(isNode(this));                    // child (leaf) cannot accept any child
     assert(child->parent() == nullptr);      // child should not have parent
 
     const long pos = findPositionFor(child.get());
@@ -286,18 +315,6 @@ IIdxData* IdxData::parent() const
 }
 
 
-bool IdxData::isPhoto() const
-{
-    return m_photo.get() != nullptr;
-}
-
-
-bool IdxData::isNode() const
-{
-    return m_photo.get() == nullptr;
-}
-
-
 const std::vector<IIdxData::Ptr> & IdxData::getChildren() const
 {
     return m_children;
@@ -330,7 +347,7 @@ IPhotoInfo::Ptr IdxData::getPhoto() const
 
 Tag::TagsList IdxData::getTags() const
 {
-    assert(isPhoto());  // TODO: move to base for LeafIdxData/NodeIdxData
+    assert(isLeaf(this));  // TODO: move to base for LeafIdxData/NodeIdxData
 
     return m_photo->getTags();
 }
@@ -424,7 +441,7 @@ IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr
 }
 
 
-void IdxNodeData::visitMe(IIdxDataVisitor* visitor)
+void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
 }
@@ -439,7 +456,7 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): Idx
 }
 
 
-void IdxLeafData::visitMe(IIdxDataVisitor* visitor)
+void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
 }
@@ -454,7 +471,7 @@ IdxDataTypeVisitor::IdxDataTypeVisitor(): m_type(Invalid)
 }
 
 
-IdxDataTypeVisitor::Type IdxDataTypeVisitor::typeOf(IIdxData* idxData)
+IdxDataTypeVisitor::Type IdxDataTypeVisitor::typeOf(const IIdxData* idxData)
 {
     m_type = Invalid;
 
@@ -466,20 +483,20 @@ IdxDataTypeVisitor::Type IdxDataTypeVisitor::typeOf(IIdxData* idxData)
 }
 
 
-void IdxDataTypeVisitor::visit(IdxLeafData *)
+void IdxDataTypeVisitor::visit(const IdxLeafData *)
 {
     m_type = Leaf;
 }
 
 
-void IdxDataTypeVisitor::visit(IdxNodeData *)
+void IdxDataTypeVisitor::visit(const IdxNodeData *)
 {
     m_type = Node;
 }
 
 
 template<IdxDataTypeVisitor::Type type>
-bool is(IIdxData* idx)
+bool is(const IIdxData* idx)
 {
     IdxDataTypeVisitor visitor;
 
@@ -490,13 +507,13 @@ bool is(IIdxData* idx)
 }
 
 
-bool isNode(IIdxData* idx)
+bool isNode(const IIdxData* idx)
 {
     return is<IdxDataTypeVisitor::Node>(idx);
 }
 
 
-bool isLeaf(IIdxData* idx)
+bool isLeaf(const IIdxData* idx)
 {
     return is<IdxDataTypeVisitor::Leaf>(idx);
 }

@@ -254,7 +254,7 @@ IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool ex
         IIdxData* check = toCheck.front();
         toCheck.pop_front();
 
-        assert(check->isNode());
+        assert(isNode(check));
 
         const Database::IFilter::Ptr& filter = check->getFilter();
         const bool matches = matcher.doesMatch(photoInfo, filter);

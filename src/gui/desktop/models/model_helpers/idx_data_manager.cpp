@@ -309,7 +309,7 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
         if (idxData->status() != NodeStatus::Fetched)
             status = true;              //data not loaded assume there is something
         else
-            status = idxData->isNode(); //return true for nodes only, not for leafs
+            status = isNode(idxData);   //return true for nodes only, not for leafs
     }
 
     return status;
@@ -329,7 +329,7 @@ void IdxDataManager::idxDataCreated(IIdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);
 
-    if (idxData->isPhoto())
+    if (isLeaf(idxData))
         m_data->m_photoId2IdxData.lock()->insert( std::make_pair(idxData->getPhoto()->getID(), idxData) );
 }
 
@@ -338,7 +338,7 @@ void IdxDataManager::idxDataDeleted(IIdxData* idxData)
 {
     removeIdxDataFromNotFetched(idxData);
 
-    if (idxData->isPhoto())
+    if (isLeaf(idxData))
         m_data->m_photoId2IdxData.lock()->erase(idxData->getPhoto()->getID());
 }
 
@@ -477,7 +477,7 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
 void IdxDataManager::setupNewNode(IIdxData* node, const Database::IFilter::Ptr& filter, const Hierarchy::Level& order) const
 {
-    assert(node->isNode());
+    assert(isNode(node));
 
     node->setNodeFilter(filter);
     node->setNodeSorting(order);
