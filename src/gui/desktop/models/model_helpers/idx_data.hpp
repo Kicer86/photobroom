@@ -126,4 +126,16 @@ class IdxData: public IIdxData
         void init();
 };
 
+
+class IdxNodeData: public IdxData
+{
+    public:
+};
+
+
+class IdxLeafData: public IdxData
+{
+    public:
+};
+
 #endif // IDXDATA_HPP
