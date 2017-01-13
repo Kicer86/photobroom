@@ -157,8 +157,36 @@ class IdxLeafData: public IdxData
 
 struct IIdxDataVisitor
 {
+    virtual ~IIdxDataVisitor() = default;
+
     virtual void visit(IdxLeafData *) = 0;
     virtual void visit(IdxNodeData *) = 0;
 };
+
+
+class IdxDataTypeVisitor: IIdxDataVisitor
+{
+    public:
+        enum Type
+        {
+            Invalid,
+            Leaf,
+            Node,
+        };
+
+        IdxDataTypeVisitor();
+        virtual ~IdxDataTypeVisitor() = default;
+
+        Type typeOf(IIdxData *);
+
+    private:
+        Type m_type;
+
+        virtual void visit(IdxLeafData *);
+        virtual void visit(IdxNodeData *);
+};
+
+bool isNode(IIdxData *);
+bool isLeaf(IIdxData *);
 
 #endif // IDXDATA_HPP

@@ -432,6 +432,7 @@ void IdxNodeData::visitMe(IIdxDataVisitor* visitor)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+
 IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxData(mgr, photo)
 {
 
@@ -443,3 +444,59 @@ void IdxLeafData::visitMe(IIdxDataVisitor* visitor)
     visitor->visit(this);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxDataTypeVisitor::IdxDataTypeVisitor(): m_type(Invalid)
+{
+
+}
+
+
+IdxDataTypeVisitor::Type IdxDataTypeVisitor::typeOf(IIdxData* idxData)
+{
+    m_type = Invalid;
+
+    idxData->visitMe(this);
+
+    assert(m_type != Invalid);
+
+    return m_type;
+}
+
+
+void IdxDataTypeVisitor::visit(IdxLeafData *)
+{
+    m_type = Leaf;
+}
+
+
+void IdxDataTypeVisitor::visit(IdxNodeData *)
+{
+    m_type = Node;
+}
+
+
+template<IdxDataTypeVisitor::Type type>
+bool is(IIdxData* idx)
+{
+    IdxDataTypeVisitor visitor;
+
+    const IdxDataTypeVisitor::Type t = visitor.typeOf(idx);
+    const bool ofType = t == type;
+
+    return ofType;
+}
+
+
+bool isNode(IIdxData* idx)
+{
+    return is<IdxDataTypeVisitor::Node>(idx);
+}
+
+
+bool isLeaf(IIdxData* idx)
+{
+    return is<IdxDataTypeVisitor::Leaf>(idx);
+}
