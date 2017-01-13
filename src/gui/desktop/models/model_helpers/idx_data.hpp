@@ -127,7 +127,6 @@ class IdxData: public IIdxData
 
         IdxData(IdxDataManager *);
         void initLeafData();
-        void init();
 };
 
 

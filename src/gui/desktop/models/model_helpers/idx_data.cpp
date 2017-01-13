@@ -183,8 +183,6 @@ namespace
 IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
-
-    init();
 }
 
 
@@ -194,15 +192,11 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
     setStatus(NodeStatus::Fetched);
 
     initLeafData();
-
-    init();
 }
 
 
 IdxData::~IdxData()
 {
-    m_model->idxDataDeleted(this);
-
     reset();
 }
 
@@ -254,7 +248,10 @@ IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
     child->setParent(this);
     m_children.insert(m_children.cbegin() + pos, std::move(child));
 
-    return m_children[pos].get();
+    IIdxData* item = m_children[pos].get();
+    m_model->idxDataCreated(item);
+
+    return item;
 }
 
 
@@ -290,6 +287,9 @@ void IdxData::reset()
 {
     m_model->idxDataReset(this);
     setStatus(NodeStatus::NotFetched);
+
+    for(IIdxData::Ptr& child: m_children)
+        m_model->idxDataDeleted(child.get());
 
     m_children.clear();
     m_photo.reset();
@@ -423,12 +423,6 @@ void IdxData::initLeafData()
 
     m_data[Qt::DisplayRole] = m_photo->getPath();
     m_data[Qt::DecorationRole] = img;
-}
-
-
-void IdxData::init()
-{
-    m_model->idxDataCreated(this);
 }
 
 
