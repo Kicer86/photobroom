@@ -30,7 +30,6 @@
 struct ITaskExecutor;
 struct IIdxData;
 class IdxDataManager;
-class IdxData;
 
 struct Hierarchy
 {

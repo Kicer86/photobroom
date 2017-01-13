@@ -325,7 +325,7 @@ IIdxData* IdxDataManager::parent(const QModelIndex& child)
 }
 
 
-void IdxDataManager::idxDataCreated(IdxData* idxData)
+void IdxDataManager::idxDataCreated(IIdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);
 
@@ -334,7 +334,7 @@ void IdxDataManager::idxDataCreated(IdxData* idxData)
 }
 
 
-void IdxDataManager::idxDataDeleted(IdxData* idxData)
+void IdxDataManager::idxDataDeleted(IIdxData* idxData)
 {
     removeIdxDataFromNotFetched(idxData);
 
@@ -343,7 +343,7 @@ void IdxDataManager::idxDataDeleted(IdxData* idxData)
 }
 
 
-void IdxDataManager::idxDataReset(IdxData* idxData)
+void IdxDataManager::idxDataReset(IIdxData* idxData)
 {
     addIdxDataToNotFetched(idxData);
 }
@@ -892,7 +892,7 @@ void IdxDataManager::performRemove(IIdxData* item)
 
     if (item != m_data->m_root)   // never drop root
     {
-        IdxData* _parent = item->parent();
+        IIdxData* _parent = item->parent();
         assert(_parent != nullptr);
 
         QModelIndex parentIdx = getIndex(_parent);

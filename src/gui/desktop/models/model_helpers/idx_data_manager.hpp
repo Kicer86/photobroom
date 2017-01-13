@@ -62,9 +62,9 @@ public:
     IIdxData* parent(const QModelIndex& child);
 
     //signals from IdxData:
-    void idxDataCreated(IdxData *);
-    void idxDataDeleted(IdxData *);
-    void idxDataReset(IdxData *);
+    void idxDataCreated(IIdxData *);
+    void idxDataDeleted(IIdxData *);
+    void idxDataReset(IIdxData *);
 
 private:
     Q_OBJECT

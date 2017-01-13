@@ -38,32 +38,34 @@ struct IIdxData
 
     virtual ~IIdxData() = default;
 
-    virtual void setParent(IdxData *) = 0;
+    virtual void setParent(IIdxData *) = 0;
     virtual void setStatus(NodeStatus) = 0;
-    virtual IIdxData* addChild(IIdxData::Ptr&& child) = 0;
-    virtual void removeChild(IIdxData* child) = 0;
-    virtual void removeChildren() = 0;
-    virtual IIdxData::Ptr takeChild(IIdxData* child) = 0;
+    [[deprecated]] virtual IIdxData* addChild(IIdxData::Ptr&& child) = 0;
+    [[deprecated]] virtual void removeChild(IIdxData* child) = 0;
+    [[deprecated]] virtual void removeChildren() = 0;
+    [[deprecated]] virtual IIdxData::Ptr takeChild(IIdxData* child) = 0;
     virtual void reset() = 0;
     virtual void setNodeFilter(const Database::IFilter::Ptr& filter) = 0;
     virtual void setNodeSorting(const Hierarchy::Level &) = 0;
 
-    virtual long findPositionFor(const IIdxData* child) const = 0;
-    virtual IdxData* parent() const = 0;
+    [[deprecated]] virtual long findPositionFor(const IIdxData* child) const = 0;
+    [[deprecated]] virtual long getPositionOf(const IIdxData* child) const = 0;
+    virtual IIdxData* parent() const = 0;
     [[deprecated]] virtual bool isNode() const = 0;
-    virtual const std::vector<Ptr>& getChildren() const = 0;
+    [[deprecated]] virtual bool isPhoto() const = 0;
+    [[deprecated]] virtual const std::vector<Ptr>& getChildren() const = 0;
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
     [[deprecated]] virtual IPhotoInfo::Ptr getPhoto() const = 0;
-    virtual Tag::TagsList getTags() const = 0;
+    [[deprecated]] virtual Tag::TagsList getTags() const = 0;
 
     virtual int getRow() const = 0;
     virtual int getCol() const = 0;
-    virtual NodeStatus status() const = 0;
+    [[deprecated]] virtual NodeStatus status() const = 0;
 
-    virtual IIdxData* findChildWithBadPosition() const = 0;
-    virtual bool sortingRequired() const = 0;
+    [[deprecated]] virtual IIdxData* findChildWithBadPosition() const = 0;
+    [[deprecated]] virtual bool sortingRequired() const = 0;
 };
 
 
@@ -84,16 +86,16 @@ class IdxData: public IIdxData
         void setNodeFilter(const Database::IFilter::Ptr& filter) override;
         void setNodeSorting(const Hierarchy::Level &) override;
         long findPositionFor(const IIdxData* child) const override;     // returns position where child matches
-        long getPositionOf(const IIdxData* child) const;                // returns position of children
+        long getPositionOf(const IIdxData* child) const override;       // returns position of children
         IIdxData* addChild(IIdxData::Ptr&& child) override;             // returns pointer to child
         void removeChild(IIdxData* child) override;                     // removes child (memory is released)
         void removeChildren() override;
         IIdxData::Ptr takeChild(IIdxData* child) override;              // function acts as removeChild but does not delete children
         void reset() override;
-        void setParent(IdxData *) override;
+        void setParent(IIdxData *) override;
         void setStatus(NodeStatus) override;
-        IdxData* parent() const override;
-        bool isPhoto() const;
+        IIdxData* parent() const override;
+        bool isPhoto() const override;
         bool isNode() const override;
 
         const std::vector<Ptr>& getChildren() const override;
@@ -119,7 +121,7 @@ class IdxData: public IIdxData
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         size_t m_level;
         IdxDataManager* m_model;
-        IdxData* m_parent;
+        IIdxData* m_parent;
 
         IdxData(IdxDataManager *);
         void initLeafData();
