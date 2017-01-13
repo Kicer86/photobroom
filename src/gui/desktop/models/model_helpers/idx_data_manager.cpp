@@ -128,7 +128,7 @@ struct IdxDataManager::Data
     void init(IdxDataManager* manager)
     {
         assert(m_root == nullptr);
-        m_root = new IdxData(manager, "");
+        m_root = new IdxNodeData(manager, "");
         m_root->setParent(nullptr);
     }
 
@@ -516,7 +516,7 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
 
     // create leafs for ungrouped photos
     for(const IPhotoInfo::Ptr& photoInfo: ungrouped)
-        leafs->push_back( std::make_unique<IdxData>(this, photoInfo) );
+        leafs->push_back( std::make_unique<IdxLeafData>(this, photoInfo) );
 
     //attach nodes to parent node in main thread
     using namespace std::placeholders;
@@ -563,7 +563,7 @@ void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, c
     {
         auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
 
-        auto newItem = std::make_unique<IdxData>(this, tag.get());
+        auto newItem = std::make_unique<IdxNodeData>(this, tag.get());
         setupNewNode(newItem.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
 
         leafs->push_back(std::move(newItem));
@@ -772,7 +772,7 @@ IIdxData* IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const IPh
             if (photoTagIt != photoTags.end())
             {
                 const TagValue& tagValue = photoTagIt->second;
-                auto node = std::make_unique<IdxData>(this, tagValue.get());
+                auto node = std::make_unique<IdxNodeData>(this, tagValue.get());
                 auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName, tagValue);
 
                 setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
@@ -922,7 +922,7 @@ IIdxData* IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IIdxData*
     //       See 2199bc8c8d5c10bf84ed7334ec9a6779be311639 for first change
     assert(photoIdxData == nullptr);
 
-    auto newItem = std::make_unique<IdxData>(this, photoInfo);
+    auto newItem = std::make_unique<IdxLeafData>(this, photoInfo);
 
     IIdxData* item = performAdd(to, std::move(newItem));
 
@@ -966,7 +966,7 @@ bool IdxDataManager::sortChildrenOf(IIdxData* _parent)
 
 IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
 {
-    IdxData::Ptr node = std::make_unique<IdxData>(this, tr("Unlabeled"));
+    IdxData::Ptr node = std::make_unique<IdxNodeData>(this, tr("Unlabeled"));
 
     const size_t level = _parent->getLevel();
     const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;

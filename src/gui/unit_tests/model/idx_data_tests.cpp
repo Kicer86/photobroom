@@ -21,19 +21,19 @@ class IdxDataTest : public ::testing::Test
 TEST_F(IdxDataTest, IsConstructible)
 {
     EXPECT_NO_THROW({
-        IdxData item(&manager, "");
+        IdxNodeData item(&manager, "");
     });
 }
 
 
 TEST_F(IdxDataTest, addsChildrenAtRightPositions)
 {
-    IdxData root_item(&manager, "root");
+    IdxNodeData root_item(&manager, "root");
 
-    auto child1_ptr = std::make_unique<IdxData>(&manager, "child1");
-    auto child2_ptr = std::make_unique<IdxData>(&manager, "child2");
-    auto child3_ptr = std::make_unique<IdxData>(&manager, "child3");
-    auto child4_ptr = std::make_unique<IdxData>(&manager, "child4");
+    auto child1_ptr = std::make_unique<IdxNodeData>(&manager, "child1");
+    auto child2_ptr = std::make_unique<IdxNodeData>(&manager, "child2");
+    auto child3_ptr = std::make_unique<IdxNodeData>(&manager, "child3");
+    auto child4_ptr = std::make_unique<IdxNodeData>(&manager, "child4");
 
     //place in a "random" order
     IIdxData* child4 = root_item.addChild(std::move(child4_ptr));
@@ -52,12 +52,12 @@ TEST_F(IdxDataTest, addsChildrenAtRightPositions)
 
 TEST_F(IdxDataTest, equalChilrenShouldBeAppended)
 {
-    IdxData root_item(&manager, "root");
+    IdxNodeData root_item(&manager, "root");
 
-    auto child1_ptr = std::make_unique<IdxData>(&manager, "child");
-    auto child2_ptr = std::make_unique<IdxData>(&manager, "child");
-    auto child3_ptr = std::make_unique<IdxData>(&manager, "child");
-    auto child4_ptr = std::make_unique<IdxData>(&manager, "child");
+    auto child1_ptr = std::make_unique<IdxNodeData>(&manager, "child");
+    auto child2_ptr = std::make_unique<IdxNodeData>(&manager, "child");
+    auto child3_ptr = std::make_unique<IdxNodeData>(&manager, "child");
+    auto child4_ptr = std::make_unique<IdxNodeData>(&manager, "child");
 
     IIdxData* child1 = root_item.addChild(std::move(child1_ptr));
     IIdxData* child2 = root_item.addChild(std::move(child2_ptr));
