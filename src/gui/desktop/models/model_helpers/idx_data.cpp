@@ -249,7 +249,7 @@ IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
     m_children.insert(m_children.cbegin() + pos, std::move(child));
 
     IIdxData* item = m_children[pos].get();
-    m_model->idxDataCreated(item);
+    m_manager->idxDataCreated(item);
 
     return item;
 }
@@ -285,11 +285,11 @@ IIdxData::Ptr IdxData::takeChild(IIdxData* child)
 
 void IdxData::reset()
 {
-    m_model->idxDataReset(this);
+    m_manager->idxDataReset(this);
     setStatus(NodeStatus::NotFetched);
 
     for(IIdxData::Ptr& child: m_children)
-        m_model->idxDataDeleted(child.get());
+        m_manager->idxDataDeleted(child.get());
 
     m_children.clear();
     m_photo.reset();
@@ -409,7 +409,7 @@ IdxData::IdxData(IdxDataManager* model) :
     m_order(),
     m_photo(nullptr),
     m_level(std::numeric_limits<std::size_t>::max()),
-    m_model(model),
+    m_manager (model),
     m_parent(nullptr)
 {
     setStatus(NodeStatus::NotFetched);

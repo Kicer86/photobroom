@@ -122,7 +122,7 @@ class IdxData: public IIdxData
         Hierarchy::Level m_order;                // defines how to sort children
         IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         size_t m_level;
-        IdxDataManager* m_model;
+        IdxDataManager* m_manager;
         IIdxData* m_parent;
 
         IdxData(IdxDataManager *);
