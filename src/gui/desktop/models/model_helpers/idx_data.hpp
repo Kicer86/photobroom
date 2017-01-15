@@ -199,10 +199,10 @@ bool isLeaf(const IIdxData *);
 
 
 template<typename C1, typename C2, typename C3>
-class InlineVisitor: IIdxDataVisitor
+class InlineIdxDataVisitor: IIdxDataVisitor
 {
     public:
-        InlineVisitor(C1 c1, C2 c2, C3 c3): m_c1(c1), m_c2(c2), m_c3(c3) {}
+        InlineIdxDataVisitor(C1 c1, C2 c2, C3 c3): m_c1(c1), m_c2(c2), m_c3(c3) {}
 
         void apply(const IIdxData* i)
         {
@@ -233,7 +233,7 @@ class InlineVisitor: IIdxDataVisitor
 template<typename C1, typename C2, typename C3>
 void apply_inline_visitor(IIdxData* i, C1 c1, C2 c2, C3 c3)
 {
-    InlineVisitor<C1, C2, C3> visitor(c1, c2, c3);
+    InlineIdxDataVisitor<C1, C2, C3> visitor(c1, c2, c3);
     visitor.apply(i);
 }
 
