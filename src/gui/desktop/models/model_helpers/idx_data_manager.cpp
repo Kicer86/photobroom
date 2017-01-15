@@ -298,19 +298,16 @@ QModelIndex IdxDataManager::getIndex(IIdxData* idxData) const
 
 bool IdxDataManager::hasChildren(const QModelIndex& _parent)
 {
-    // Always return true for unloaded nodes.
+    // Always return true for nonloaded nodes.
     // This prevents view from calling rowCount() before canFetchMore()
 
     bool status = false;
     IIdxData* idxData = getIdxDataFor(_parent);
 
-    if (m_data->m_database)
-    {
-        if (idxData->status() != NodeStatus::Fetched)
-            status = true;              //data not loaded assume there is something
-        else
-            status = isNode(idxData);   //return true for nodes only, not for leafs
-    }
+    apply_inline_visitor(idxData,
+                         [&status] (const IdxLeafData *)  { status = false; },
+                         [&status] (const IdxNodeData *)  { status = true;  },
+                         [&status] (const IdxGroupData *) { status = false; });
 
     return status;
 }
