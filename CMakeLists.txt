@@ -11,8 +11,12 @@ project(PhotoBroom VERSION 1.2.0)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
+
+if (CMAKE_COMPILER_IS_GNUCC)
+    add_compile_options("-fconcepts")
+endif()
 
 #options for CPack
 set(CPACK_PACKAGE_VENDOR "Michal Walenciak")
