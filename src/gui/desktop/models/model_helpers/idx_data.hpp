@@ -197,4 +197,37 @@ class IdxDataTypeVisitor: IIdxDataVisitor
 bool isNode(const IIdxData *);
 bool isLeaf(const IIdxData *);
 
+
+template<typename C1, typename C2, typename C3>
+class InlineVisitor: IIdxDataVisitor
+{
+    public:
+        InlineVisitor(C1 c1, C2 c2, C3 c3): m_c1(c1), m_c2(c2), m_c3(c3) {}
+
+        void apply(IIdxData* i)
+        {
+            i->visitMe(this);
+        }
+
+    private:
+        C1 m_c1;
+        C2 m_c2;
+        C3 m_c3;
+
+        void visit(const IdxLeafData* i) override
+        {
+            m_c1(i);
+        }
+
+        void visit(const IdxNodeData* i) override
+        {
+            m_c2(i);
+        }
+
+        void visit(const IdxGroupData* i) override
+        {
+            m_c3(i);
+        }
+};
+
 #endif // IDXDATA_HPP
