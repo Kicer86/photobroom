@@ -150,12 +150,23 @@ class IdxLeafData: public IdxData
 };
 
 
+class IdxGroupData: public IdxData
+{
+    public:
+        IdxGroupData(IdxDataManager *, const Photo::Id &);
+        virtual ~IdxGroupData() = default;
+
+        virtual void visitMe(IIdxDataVisitor *) const override;
+};
+
+
 struct IIdxDataVisitor
 {
     virtual ~IIdxDataVisitor() = default;
 
     virtual void visit(const IdxLeafData *) = 0;
     virtual void visit(const IdxNodeData *) = 0;
+    virtual void visit(const IdxGroupData *) = 0;
 };
 
 
@@ -167,6 +178,7 @@ class IdxDataTypeVisitor: IIdxDataVisitor
             Invalid,
             Leaf,
             Node,
+            Group,
         };
 
         IdxDataTypeVisitor();
@@ -179,6 +191,7 @@ class IdxDataTypeVisitor: IIdxDataVisitor
 
         virtual void visit(const IdxLeafData *) override;
         virtual void visit(const IdxNodeData *) override;
+        virtual void visit(const IdxGroupData *) override;
 };
 
 bool isNode(const IIdxData *);

@@ -163,6 +163,11 @@ namespace
                     m_result = m_comparer(l_val, r_val);
                 }
 
+                void visit(const IdxGroupData *) override
+                {
+                    assert(!"not implemented");
+                }
+
                 QVariant getValue(const IIdxData* idx) const
                 {
                     const Tag::TagsList& tags = idx->getTags();
@@ -486,6 +491,12 @@ void IdxDataTypeVisitor::visit(const IdxLeafData *)
 void IdxDataTypeVisitor::visit(const IdxNodeData *)
 {
     m_type = Node;
+}
+
+
+void IdxDataTypeVisitor::visit(const IdxGroupData *)
+{
+    m_type = Group;
 }
 
 
