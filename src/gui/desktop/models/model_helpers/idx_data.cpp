@@ -464,49 +464,14 @@ void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxDataTypeVisitor::IdxDataTypeVisitor(): m_type(Invalid)
+bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 {
+    bool ofType = false;
 
-}
-
-
-IdxDataTypeVisitor::Type IdxDataTypeVisitor::typeOf(const IIdxData* idxData)
-{
-    m_type = Invalid;
-
-    idxData->visitMe(this);
-
-    assert(m_type != Invalid);
-
-    return m_type;
-}
-
-
-void IdxDataTypeVisitor::visit(const IdxLeafData *)
-{
-    m_type = Leaf;
-}
-
-
-void IdxDataTypeVisitor::visit(const IdxNodeData *)
-{
-    m_type = Node;
-}
-
-
-void IdxDataTypeVisitor::visit(const IdxGroupData *)
-{
-    m_type = Group;
-}
-
-
-template<IdxDataTypeVisitor::Type type>
-bool is(const IIdxData* idx)
-{
-    IdxDataTypeVisitor visitor;
-
-    const IdxDataTypeVisitor::Type t = visitor.typeOf(idx);
-    const bool ofType = t == type;
+    apply_inline_visitor(idx,
+                         [&ofType, &states](const IdxLeafData *)  { ofType = *(states.begin() + 0); },
+                         [&ofType, &states](const IdxNodeData *)  { ofType = *(states.begin() + 1); },
+                         [&ofType, &states](const IdxGroupData *) { ofType = *(states.begin() + 2); });
 
     return ofType;
 }
@@ -514,11 +479,15 @@ bool is(const IIdxData* idx)
 
 bool isNode(const IIdxData* idx)
 {
-    return is<IdxDataTypeVisitor::Node>(idx);
+    const bool result = is(idx, {false, true, false});
+
+    return result;
 }
 
 
 bool isLeaf(const IIdxData* idx)
 {
-    return is<IdxDataTypeVisitor::Leaf>(idx);
+    const bool result = is(idx, {true, false, false});
+
+    return result;
 }

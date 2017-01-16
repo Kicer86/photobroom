@@ -170,34 +170,6 @@ struct IIdxDataVisitor
 };
 
 
-class IdxDataTypeVisitor: IIdxDataVisitor
-{
-    public:
-        enum Type
-        {
-            Invalid,
-            Leaf,
-            Node,
-            Group,
-        };
-
-        IdxDataTypeVisitor();
-        virtual ~IdxDataTypeVisitor() = default;
-
-        Type typeOf(const IIdxData *);
-
-    private:
-        Type m_type;
-
-        virtual void visit(const IdxLeafData *) override;
-        virtual void visit(const IdxNodeData *) override;
-        virtual void visit(const IdxGroupData *) override;
-};
-
-bool isNode(const IIdxData *);
-bool isLeaf(const IIdxData *);
-
-
 template<typename LeafFunctor, typename NodeFunctor, typename GroupFunctor>
 class InlineIdxDataVisitor: IIdxDataVisitor
 {
@@ -230,11 +202,17 @@ class InlineIdxDataVisitor: IIdxDataVisitor
         }
 };
 
+
 template<typename LeafFunctor, typename NodeFunctor, typename GroupFunctor>
-void apply_inline_visitor(IIdxData* i, LeafFunctor leaf, NodeFunctor node, GroupFunctor group)
+void apply_inline_visitor(const IIdxData* i, LeafFunctor leaf, NodeFunctor node, GroupFunctor group)
 {
     InlineIdxDataVisitor<LeafFunctor, NodeFunctor, GroupFunctor> visitor(leaf, node, group);
     visitor.apply(i);
 }
+
+
+bool isNode(const IIdxData *);
+bool isLeaf(const IIdxData *);
+
 
 #endif // IDXDATA_HPP
