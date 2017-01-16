@@ -198,11 +198,11 @@ bool isNode(const IIdxData *);
 bool isLeaf(const IIdxData *);
 
 
-template<typename C1, typename C2, typename C3>
+template<typename LeafFunctor, typename NodeFunctor, typename GroupFunctor>
 class InlineIdxDataVisitor: IIdxDataVisitor
 {
     public:
-        InlineIdxDataVisitor(C1 c1, C2 c2, C3 c3): m_c1(c1), m_c2(c2), m_c3(c3) {}
+        InlineIdxDataVisitor(LeafFunctor leaf, NodeFunctor node, GroupFunctor group): m_leaf(leaf), m_node(node), m_group(group) {}
 
         void apply(const IIdxData* i)
         {
@@ -210,30 +210,30 @@ class InlineIdxDataVisitor: IIdxDataVisitor
         }
 
     private:
-        C1 m_c1;
-        C2 m_c2;
-        C3 m_c3;
+        LeafFunctor m_leaf;
+        NodeFunctor m_node;
+        GroupFunctor m_group;
 
         void visit(const IdxLeafData* i) override
         {
-            m_c1(i);
+            m_leaf(i);
         }
 
         void visit(const IdxNodeData* i) override
         {
-            m_c2(i);
+            m_node(i);
         }
 
         void visit(const IdxGroupData* i) override
         {
-            m_c3(i);
+            m_group(i);
         }
 };
 
-template<typename C1, typename C2, typename C3>
-void apply_inline_visitor(IIdxData* i, C1 c1, C2 c2, C3 c3)
+template<typename LeafFunctor, typename NodeFunctor, typename GroupFunctor>
+void apply_inline_visitor(IIdxData* i, LeafFunctor leaf, NodeFunctor node, GroupFunctor group)
 {
-    InlineIdxDataVisitor<C1, C2, C3> visitor(c1, c2, c3);
+    InlineIdxDataVisitor<LeafFunctor, NodeFunctor, GroupFunctor> visitor(leaf, node, group);
     visitor.apply(i);
 }
 
