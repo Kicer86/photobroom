@@ -466,6 +466,8 @@ void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 
 bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 {
+    assert( states.size() == 3);
+
     bool ofType = false;
 
     apply_inline_visitor(idx,
