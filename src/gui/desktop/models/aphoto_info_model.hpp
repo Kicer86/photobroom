@@ -36,6 +36,13 @@ class APhotoInfoModel: public QAbstractItemModel
             LastRole = PhotoPath
         };
 
+        struct PhotoDetails
+        {
+            Photo::Id id;
+            QSize size;
+            QString path;
+        };
+
         APhotoInfoModel(QObject * = 0);
         APhotoInfoModel(const APhotoInfoModel &) = delete;
         ~APhotoInfoModel();
@@ -45,7 +52,7 @@ class APhotoInfoModel: public QAbstractItemModel
         QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
 
     protected:
-        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const = 0;
+        virtual PhotoDetails getPhotoDetails(const QModelIndex &) const = 0;
 };
 
 

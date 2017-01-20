@@ -305,9 +305,8 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
     IIdxData* idxData = getIdxDataFor(_parent);
 
     apply_inline_visitor(idxData,
-                         [&status] (const IdxLeafData *)  { status = false; },
-                         [&status] (const IdxNodeData *)  { status = true;  },
-                         [&status] (const IdxGroupData *) { status = false; });
+                         [&status] (const IdxLeafData *) { status = false; },
+                         [&status] (const IdxNodeData *) { status = true;  });
 
     return status;
 }
@@ -511,9 +510,13 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
             ungrouped.push_back(photoInfo);
     }
 
+    // create groups
+    for(auto it = grouped.begin(); it != grouped.end(); ++it)
+        leafs->push_back( std::make_unique<IdxGroupLeafData>(this, it->first) );
+
     // create leafs for ungrouped photos
     for(const IPhotoInfo::Ptr& photoInfo: ungrouped)
-        leafs->push_back( std::make_unique<IdxLeafData>(this, photoInfo) );
+        leafs->push_back( std::make_unique<IdxRegularLeafData>(this, photoInfo) );
 
     //attach nodes to parent node in main thread
     using namespace std::placeholders;
@@ -919,7 +922,7 @@ IIdxData* IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IIdxData*
     //       See 2199bc8c8d5c10bf84ed7334ec9a6779be311639 for first change
     assert(photoIdxData == nullptr);
 
-    auto newItem = std::make_unique<IdxLeafData>(this, photoInfo);
+    auto newItem = std::make_unique<IdxRegularLeafData>(this, photoInfo);
 
     IIdxData* item = performAdd(to, std::move(newItem));
 

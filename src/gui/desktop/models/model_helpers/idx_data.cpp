@@ -163,11 +163,6 @@ namespace
                     m_result = m_comparer(l_val, r_val);
                 }
 
-                void visit(const IdxGroupData *) override
-                {
-                    assert(!"not implemented");
-                }
-
                 QVariant getValue(const IIdxData* idx) const
                 {
                     const Tag::TagsList& tags = idx->getTags();
@@ -196,7 +191,24 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
     m_photo = photo;
     setStatus(NodeStatus::Fetched);
 
-    initLeafData();
+    QImage img;
+    img.load(":/gui/clock.svg");
+
+    m_data[Qt::DisplayRole] = m_photo->getPath();
+    m_data[Qt::DecorationRole] = img;
+}
+
+
+IdxData::IdxData(IdxDataManager* model, const Photo::Id& id): IdxData(model)
+{
+    m_photo = IPhotoInfo::Ptr();
+    setStatus(NodeStatus::Fetched);
+
+    QImage img;
+    img.load(":/gui/clock.svg");
+
+    m_data[Qt::DisplayRole] = "";
+    m_data[Qt::DecorationRole] = img;
 }
 
 
@@ -421,16 +433,6 @@ IdxData::IdxData(IdxDataManager* model) :
 }
 
 
-void IdxData::initLeafData()
-{
-    QImage img;
-    img.load(":/gui/clock.svg");
-
-    m_data[Qt::DisplayRole] = m_photo->getPath();
-    m_data[Qt::DecorationRole] = img;
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -455,6 +457,12 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): Idx
 }
 
 
+IdxLeafData::IdxLeafData(IdxDataManager* mgr, const Photo::Id& id): IdxData(mgr, id)
+{
+
+}
+
+
 void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
@@ -464,16 +472,80 @@ void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 ///////////////////////////////////////////////////////////////////////////////
 
 
+IdxRegularLeafData::IdxRegularLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxLeafData(mgr, photo)
+{
+
+}
+
+
+IdxRegularLeafData::~IdxRegularLeafData()
+{
+
+}
+
+
+
+Photo::Id IdxRegularLeafData::getMediaId() const
+{
+    return m_photo->getID();
+}
+
+
+QString IdxRegularLeafData::getMediaPath() const
+{
+    return m_photo->getPath();
+}
+
+
+QSize IdxRegularLeafData::getMediaGeometry() const
+{
+    return m_photo->getGeometry();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Id& id): IdxLeafData(mgr, id)
+{
+}
+
+
+IdxGroupLeafData::~IdxGroupLeafData()
+{
+}
+
+
+Photo::Id IdxGroupLeafData::getMediaId() const
+{
+    assert(!"not implemented");
+}
+
+
+QString IdxGroupLeafData::getMediaPath() const
+{
+    assert(!"not implemented");
+}
+
+
+QSize IdxGroupLeafData::getMediaGeometry() const
+{
+    assert(!"not implemented");
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 {
-    assert( states.size() == 3);
+    assert( states.size() == 2);
 
     bool ofType = false;
 
     apply_inline_visitor(idx,
                          [&ofType, &states](const IdxLeafData *)  { ofType = *(states.begin() + 0); },
-                         [&ofType, &states](const IdxNodeData *)  { ofType = *(states.begin() + 1); },
-                         [&ofType, &states](const IdxGroupData *) { ofType = *(states.begin() + 2); });
+                         [&ofType, &states](const IdxNodeData *)  { ofType = *(states.begin() + 1); });
 
     return ofType;
 }
@@ -481,7 +553,7 @@ bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 
 bool isNode(const IIdxData* idx)
 {
-    const bool result = is(idx, {false, true, false});
+    const bool result = is(idx, {false, true});
 
     return result;
 }
@@ -489,7 +561,7 @@ bool isNode(const IIdxData* idx)
 
 bool isLeaf(const IIdxData* idx)
 {
-    const bool result = is(idx, {true, false, false});
+    const bool result = is(idx, {true, false});
 
     return result;
 }

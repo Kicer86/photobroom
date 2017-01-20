@@ -101,10 +101,14 @@ protected:
         submodel.appendRow(top3);
 
         // setup base expectations
+        APhotoInfoModel::PhotoDetails photoDetails;
+        photoDetails.size = img;
+        photoDetails.id = 0;
+        photoDetails.path = "";
+
         using ::testing::Return;
         using ::testing::_;
-        EXPECT_CALL(model, getPhotoInfo(_)).WillRepeatedly(Return(&photoInfo));
-        EXPECT_CALL(photoInfo, getGeometry()).WillRepeatedly(Return(img));
+        EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
         //
     }
 

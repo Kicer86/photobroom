@@ -94,9 +94,9 @@ QVariant PhotoInfoListModel::data(const QModelIndex& _index, int role) const
         {
             case Qt::DisplayRole:
             {
-                IPhotoInfo* photo = getPhotoInfo(_index);
+                const PhotoDetails details = getPhotoDetails(_index);
 
-                result = photo->getPath();
+                result = details.path;
                 break;
             }
 
@@ -111,9 +111,9 @@ QVariant PhotoInfoListModel::data(const QModelIndex& _index, int role) const
 }
 
 
-IPhotoInfo* PhotoInfoListModel::getPhotoInfo(const QModelIndex& index) const
+APhotoInfoModel::PhotoDetails PhotoInfoListModel::getPhotoDetails(const QModelIndex& index) const
 {
-    IPhotoInfo* result = nullptr;
+    PhotoDetails result;
 
     const QModelIndex parent = index.parent();
 
@@ -122,7 +122,11 @@ IPhotoInfo* PhotoInfoListModel::getPhotoInfo(const QModelIndex& index) const
         assert(index.column() == 0);
         assert(index.row() < static_cast<int>(m_photos.size()));
 
-        result = m_photos[index.row()].get();
+        IPhotoInfo* photo = m_photos[index.row()].get();
+
+        result.id = photo->getID();
+        result.path = photo->getPath();
+        result.size = photo->getGeometry();
     }
 
     return result;

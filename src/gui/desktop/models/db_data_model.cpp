@@ -23,6 +23,7 @@
 #include <memory>
 
 #include <core/cross_thread_call.hpp>
+#include <core/down_cast.hpp>
 #include <database/filter.hpp>
 
 #include "model_helpers/idx_data.hpp"
@@ -252,10 +253,20 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 
 
-IPhotoInfo* DBDataModel::getPhotoInfo(const QModelIndex& idx) const
+APhotoInfoModel::PhotoDetails DBDataModel::getPhotoDetails(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    return idxData->getPhoto().get();
+    assert(isLeaf(idxData));
+
+    IdxLeafData* leafIdxData = down_cast<IdxLeafData *>(idxData);
+
+    PhotoDetails result;
+
+    result.id = leafIdxData->getMediaId();
+    result.path = leafIdxData->getMediaPath();
+    result.size = leafIdxData->getMediaGeometry();
+
+    return result;
 }
 
 

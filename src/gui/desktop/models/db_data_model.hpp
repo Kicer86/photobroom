@@ -89,7 +89,7 @@ class DBDataModel: public APhotoInfoModel
         void applyFilters(const SearchExpressionEvaluator::Expression &);
 
         // APhotoInfoModel:
-        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
+        virtual PhotoDetails getPhotoDetails(const QModelIndex &) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;

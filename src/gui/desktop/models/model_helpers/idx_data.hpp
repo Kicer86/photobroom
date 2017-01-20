@@ -81,6 +81,7 @@ class IdxData: public IIdxData
 
         //leaf constructor
         IdxData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        IdxData(IdxDataManager *, const Photo::Id &);
 
         virtual ~IdxData();
 
@@ -115,7 +116,9 @@ class IdxData: public IIdxData
         IIdxData* findChildWithBadPosition() const override;            // returns first child which lies in a wrong place
         bool sortingRequired() const override;
 
-    private:
+    protected:
+        IdxData(IdxDataManager *);
+
         std::vector<Ptr> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;         // define which children match
@@ -124,12 +127,10 @@ class IdxData: public IIdxData
         size_t m_level;
         IdxDataManager* m_manager;
         IIdxData* m_parent;
-
-        IdxData(IdxDataManager *);
-        void initLeafData();
 };
 
 
+// base node
 class IdxNodeData: public IdxData
 {
     public:
@@ -140,23 +141,47 @@ class IdxNodeData: public IdxData
 };
 
 
+// base leaf
 class IdxLeafData: public IdxData
 {
     public:
         IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        IdxLeafData(IdxDataManager *, const Photo::Id &);
         virtual ~IdxLeafData() = default;
 
         virtual void visitMe(IIdxDataVisitor *) const override;
+
+        virtual Photo::Id getMediaId() const = 0;
+        virtual QString getMediaPath() const = 0;
+        virtual QSize getMediaGeometry() const = 0;
 };
 
 
-class IdxGroupData: public IdxData
+// basic leaf imlementation
+class IdxRegularLeafData: public IdxLeafData
 {
     public:
-        IdxGroupData(IdxDataManager *, const Photo::Id &);
-        virtual ~IdxGroupData() = default;
+        IdxRegularLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        virtual ~IdxRegularLeafData();
 
-        virtual void visitMe(IIdxDataVisitor *) const override;
+    private:
+        virtual Photo::Id getMediaId() const override;
+        virtual QString getMediaPath() const override;
+        virtual QSize getMediaGeometry() const override;
+};
+
+
+// group leaf implementation
+class IdxGroupLeafData: public IdxLeafData
+{
+    public:
+        IdxGroupLeafData(IdxDataManager *, const Photo::Id &);
+        virtual ~IdxGroupLeafData();
+
+    private:
+        virtual Photo::Id getMediaId() const override;
+        virtual QString getMediaPath() const override;
+        virtual QSize getMediaGeometry() const override;
 };
 
 
@@ -166,15 +191,14 @@ struct IIdxDataVisitor
 
     virtual void visit(const IdxLeafData *) = 0;
     virtual void visit(const IdxNodeData *) = 0;
-    virtual void visit(const IdxGroupData *) = 0;
 };
 
 
-template<typename LeafFunctor, typename NodeFunctor, typename GroupFunctor>
+template<typename LeafFunctor, typename NodeFunctor>
 class InlineIdxDataVisitor: IIdxDataVisitor
 {
     public:
-        InlineIdxDataVisitor(LeafFunctor leaf, NodeFunctor node, GroupFunctor group): m_leaf(leaf), m_node(node), m_group(group) {}
+        InlineIdxDataVisitor(LeafFunctor leaf, NodeFunctor node): m_leaf(leaf), m_node(node) {}
 
         void apply(const IIdxData* i)
         {
@@ -184,7 +208,6 @@ class InlineIdxDataVisitor: IIdxDataVisitor
     private:
         LeafFunctor m_leaf;
         NodeFunctor m_node;
-        GroupFunctor m_group;
 
         void visit(const IdxLeafData* i) override
         {
@@ -195,18 +218,13 @@ class InlineIdxDataVisitor: IIdxDataVisitor
         {
             m_node(i);
         }
-
-        void visit(const IdxGroupData* i) override
-        {
-            m_group(i);
-        }
 };
 
 
-template<typename LeafFunctor, typename NodeFunctor, typename GroupFunctor>
-void apply_inline_visitor(const IIdxData* i, LeafFunctor leaf, NodeFunctor node, GroupFunctor group)
+template<typename LeafFunctor, typename NodeFunctor>
+void apply_inline_visitor(const IIdxData* i, LeafFunctor leaf, NodeFunctor node)
 {
-    InlineIdxDataVisitor<LeafFunctor, NodeFunctor, GroupFunctor> visitor(leaf, node, group);
+    InlineIdxDataVisitor<LeafFunctor, NodeFunctor> visitor(leaf, node);
     visitor.apply(i);
 }
 
