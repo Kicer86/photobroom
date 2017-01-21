@@ -326,7 +326,10 @@ void IdxDataManager::idxDataCreated(IIdxData* idxData)
     addIdxDataToNotFetched(idxData);
 
     if (isLeaf(idxData))
-        m_data->m_photoId2IdxData.lock()->insert( std::make_pair(idxData->getPhoto()->getID(), idxData) );
+    {
+        IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
+        m_data->m_photoId2IdxData.lock()->insert( std::make_pair(leafData->getMediaId(), idxData) );
+    }
 }
 
 
