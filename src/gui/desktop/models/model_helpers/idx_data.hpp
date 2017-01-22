@@ -59,7 +59,6 @@ struct IIdxData
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
     [[deprecated]] virtual IPhotoInfo::Ptr getPhoto() const = 0;
-    [[deprecated]] virtual Tag::TagsList getTags() const = 0;
 
     virtual int getRow() const = 0;
     virtual int getCol() const = 0;
@@ -106,7 +105,6 @@ class IdxData: public IIdxData
         const Database::IFilter::Ptr& getFilter() const override;
         std::size_t getLevel() const override;
         IPhotoInfo::Ptr getPhoto() const override;
-        Tag::TagsList getTags() const override;
 
         int getRow() const override;
         int getCol() const override;
@@ -154,6 +152,7 @@ class IdxLeafData: public IdxData
         virtual Photo::Id getMediaId() const = 0;
         virtual QString getMediaPath() const = 0;
         virtual QSize getMediaGeometry() const = 0;
+        virtual Tag::TagsList getTags() const = 0;
 };
 
 
@@ -168,6 +167,7 @@ class IdxRegularLeafData: public IdxLeafData
         virtual Photo::Id getMediaId() const override;
         virtual QString getMediaPath() const override;
         virtual QSize getMediaGeometry() const override;
+        virtual Tag::TagsList getTags() const override;
 };
 
 
@@ -184,6 +184,7 @@ class IdxGroupLeafData: public IdxLeafData
         virtual Photo::Id getMediaId() const override;
         virtual QString getMediaPath() const override;
         virtual QSize getMediaGeometry() const override;
+        virtual Tag::TagsList getTags() const override;
 };
 
 

@@ -118,8 +118,8 @@ namespace
 
             struct InternalComparer: IIdxDataVisitor
             {
-                const IIdxData* m_r;
                 const IIdxData* m_l;
+                const IIdxData* m_r;
                 Comparer m_comparer;
                 const Hierarchy::Level& m_level;
                 bool m_result;
@@ -133,6 +133,9 @@ namespace
                 {
 
                 }
+
+                InternalComparer(const InternalComparer &) = delete;
+                InternalComparer& operator=(const InternalComparer &) = delete;
 
                 bool compare()
                 {
@@ -157,15 +160,18 @@ namespace
                     assert(isLeaf(m_l));
                     assert(isLeaf(m_r));
 
-                    const QVariant l_val = getValue(m_l);
-                    const QVariant r_val = getValue(m_r);
+                    const IdxLeafData* leftLeafData = static_cast<const IdxLeafData *>(m_l);
+                    const IdxLeafData* rightLeafData = static_cast<const IdxLeafData *>(m_r);
+
+                    const QVariant l_val = getValue(leftLeafData);
+                    const QVariant r_val = getValue(rightLeafData);
 
                     m_result = m_comparer(l_val, r_val);
                 }
 
-                QVariant getValue(const IIdxData* idx) const
+                QVariant getValue(const IdxLeafData* idx) const
                 {
-                    const Tag::TagsList& tags = idx->getTags();
+                    const Tag::TagsList tags = idx->getTags();
 
                     const auto& tag = tags.find(m_level.tagName);
 
@@ -362,14 +368,6 @@ IPhotoInfo::Ptr IdxData::getPhoto() const
 }
 
 
-Tag::TagsList IdxData::getTags() const
-{
-    assert(isLeaf(this));  // TODO: move to base for LeafIdxData/NodeIdxData
-
-    return m_photo->getTags();
-}
-
-
 int IdxData::getRow() const
 {
     assert(m_parent != nullptr);
@@ -503,6 +501,11 @@ QSize IdxRegularLeafData::getMediaGeometry() const
 }
 
 
+Tag::TagsList IdxRegularLeafData::getTags() const
+{
+    return m_photo->getTags();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -529,6 +532,11 @@ QString IdxGroupLeafData::getMediaPath() const
 
 
 QSize IdxGroupLeafData::getMediaGeometry() const
+{
+    assert(!"not implemented");
+}
+
+Tag::TagsList IdxGroupLeafData::getTags() const
 {
     assert(!"not implemented");
 }
