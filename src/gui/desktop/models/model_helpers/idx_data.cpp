@@ -482,7 +482,6 @@ IdxRegularLeafData::~IdxRegularLeafData()
 }
 
 
-
 Photo::Id IdxRegularLeafData::getMediaId() const
 {
     return m_photo->getID();
@@ -505,6 +504,7 @@ Tag::TagsList IdxRegularLeafData::getTags() const
 {
     return m_photo->getTags();
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
