@@ -527,18 +527,19 @@ Photo::Id IdxGroupLeafData::getMediaId() const
 
 QString IdxGroupLeafData::getMediaPath() const
 {
-    assert(!"not implemented");
+    return "";
 }
 
 
 QSize IdxGroupLeafData::getMediaGeometry() const
 {
-    assert(!"not implemented");
+    return QSize(64, 64);
 }
+
 
 Tag::TagsList IdxGroupLeafData::getTags() const
 {
-    assert(!"not implemented");
+    return Tag::TagsList();
 }
 
 
