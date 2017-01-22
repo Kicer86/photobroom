@@ -199,7 +199,7 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
 }
 
 
-IdxData::IdxData(IdxDataManager* model, const Photo::Id& id): IdxData(model)
+IdxData::IdxData(IdxDataManager* model, const Photo::Id &): IdxData(model)
 {
     m_photo = IPhotoInfo::Ptr();
     setStatus(NodeStatus::Fetched);
@@ -506,7 +506,7 @@ QSize IdxRegularLeafData::getMediaGeometry() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Id& id): IdxLeafData(mgr, id)
+IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Id& id): IdxLeafData(mgr, id), m_id(id)
 {
 }
 
@@ -518,7 +518,7 @@ IdxGroupLeafData::~IdxGroupLeafData()
 
 Photo::Id IdxGroupLeafData::getMediaId() const
 {
-    assert(!"not implemented");
+    return m_id;
 }
 
 

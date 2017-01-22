@@ -179,6 +179,8 @@ class IdxGroupLeafData: public IdxLeafData
         virtual ~IdxGroupLeafData();
 
     private:
+        Photo::Id m_id;
+
         virtual Photo::Id getMediaId() const override;
         virtual QString getMediaPath() const override;
         virtual QSize getMediaGeometry() const override;
