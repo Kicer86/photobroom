@@ -527,13 +527,13 @@ Photo::Id IdxGroupLeafData::getMediaId() const
 
 QString IdxGroupLeafData::getMediaPath() const
 {
-    return "";
+    return ":/gui/clock.svg";
 }
 
 
 QSize IdxGroupLeafData::getMediaGeometry() const
 {
-    return QSize(64, 64);
+    return QSize(128, 128);
 }
 
 
