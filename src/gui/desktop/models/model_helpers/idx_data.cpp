@@ -509,8 +509,12 @@ Tag::TagsList IdxRegularLeafData::getTags() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Id& id): IdxLeafData(mgr, id), m_id(id)
+IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Id& id, const std::deque<IPhotoInfo::Ptr>& photos):
+    IdxLeafData(mgr, id),
+    m_id(id),
+    m_photos(photos)
 {
+    assert(photos.empty() == false);
 }
 
 
@@ -533,13 +537,13 @@ QString IdxGroupLeafData::getMediaPath() const
 
 QSize IdxGroupLeafData::getMediaGeometry() const
 {
-    return QSize(128, 128);
+    return m_photos.front()->getGeometry();
 }
 
 
 Tag::TagsList IdxGroupLeafData::getTags() const
 {
-    return Tag::TagsList();
+    return m_photos.front()->getTags();
 }
 
 

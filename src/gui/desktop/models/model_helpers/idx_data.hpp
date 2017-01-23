@@ -175,11 +175,12 @@ class IdxRegularLeafData: public IdxLeafData
 class IdxGroupLeafData: public IdxLeafData
 {
     public:
-        IdxGroupLeafData(IdxDataManager *, const Photo::Id &);
+        IdxGroupLeafData(IdxDataManager *, const Photo::Id &, const std::deque<IPhotoInfo::Ptr> &);
         virtual ~IdxGroupLeafData();
 
     private:
         Photo::Id m_id;
+        std::deque<IPhotoInfo::Ptr> m_photos;
 
         virtual Photo::Id getMediaId() const override;
         virtual QString getMediaPath() const override;

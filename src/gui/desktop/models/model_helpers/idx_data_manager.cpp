@@ -518,7 +518,7 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
 
     // create groups
     for(auto it = grouped.begin(); it != grouped.end(); ++it)
-        leafs->push_back( std::make_unique<IdxGroupLeafData>(this, it->first) );
+        leafs->push_back( std::make_unique<IdxGroupLeafData>(this, it->first, it->second) );
 
     // create leafs for ungrouped photos
     for(const IPhotoInfo::Ptr& photoInfo: ungrouped)
