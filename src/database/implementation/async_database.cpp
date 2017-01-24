@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct InsertPhotosTask;
     struct CreateGroupTask;
     struct UpdateTask;
     struct GetPhotoTask;
@@ -68,7 +67,6 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(InsertPhotosTask *) = 0;
         virtual void visit(CreateGroupTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
@@ -81,24 +79,6 @@ namespace
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct InsertPhotosTask: ThreadBaseTask
-    {
-        InsertPhotosTask(const std::set<QString>& paths, const std::function<void(const std::vector<Photo::Id> &)>& callback):
-            ThreadBaseTask(),
-            m_paths(paths),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~InsertPhotosTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::set<QString> m_paths;
-        std::function<void(const std::vector<Photo::Id> &)> m_callback;
     };
 
     struct CreateGroupTask: ThreadBaseTask
@@ -332,14 +312,6 @@ namespace
             m_cache = cache;
         }
 
-        virtual void visit(InsertPhotosTask* task) override
-        {
-            const std::vector<Photo::Id> result = insertPhotos(task->m_paths);
-
-            if (task->m_callback)
-                task->m_callback(result);
-        }
-
         virtual void visit(CreateGroupTask* task) override
         {
             const Group::Id id = m_backend->addGroup(task->m_representative);
@@ -562,6 +534,31 @@ namespace
 
         std::unique_ptr<Database::AInitTask> m_task;
         Database::ProjectInfo m_prjInfo;
+    };
+
+
+    struct InsertPhotosTask: ThreadBaseTask
+    {
+        InsertPhotosTask(const std::set<QString>& paths, const std::function<void(const std::vector<Photo::Id> &)>& callback):
+            ThreadBaseTask(),
+            m_paths(paths),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~InsertPhotosTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            const std::vector<Photo::Id> result = executor->insertPhotos(m_paths);
+
+            if (m_callback)
+                m_callback(result);
+        }
+
+        std::set<QString> m_paths;
+        std::function<void(const std::vector<Photo::Id> &)> m_callback;
     };
 
 
