@@ -28,14 +28,14 @@
 namespace Database
 {
 
-    class DatabaseThread: public IDatabase
+    class AsyncDatabase: public IDatabase
     {
         public:
-            DatabaseThread(std::unique_ptr<IBackend> &&);
-            DatabaseThread(const DatabaseThread &) = delete;
-            virtual ~DatabaseThread();
+            AsyncDatabase (std::unique_ptr<IBackend> &&);
+            AsyncDatabase (const AsyncDatabase &) = delete;
+            virtual ~AsyncDatabase();
 
-            DatabaseThread& operator=(const DatabaseThread &) = delete;
+            AsyncDatabase& operator=(const AsyncDatabase &) = delete;
 
             void set(std::unique_ptr<IPhotoInfoCache> &&);
 

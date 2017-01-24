@@ -595,7 +595,7 @@ namespace
 namespace Database
 {
 
-    struct DatabaseThread::Impl
+    struct AsyncDatabase::Impl
     {
         Impl( std::unique_ptr<IBackend>&& backend):
             m_cache(nullptr),
@@ -643,7 +643,7 @@ namespace Database
     };
 
 
-    DatabaseThread::DatabaseThread( std::unique_ptr<IBackend>&& backend ):
+    AsyncDatabase::AsyncDatabase ( std::unique_ptr<IBackend>&& backend ):
         m_impl(nullptr)
     {
         m_impl = std::make_unique<Impl>( std::move(backend));
@@ -651,21 +651,21 @@ namespace Database
     }
 
 
-    DatabaseThread::~DatabaseThread()
+    AsyncDatabase::~AsyncDatabase()
     {
         //terminate thread
         closeConnections();
     }
 
 
-    void DatabaseThread::closeConnections()
+    void AsyncDatabase::closeConnections()
     {
         m_impl->stopExecutor();
     }
 
 
 
-    void DatabaseThread::set(std::unique_ptr<IPhotoInfoCache>&& cache)
+    void AsyncDatabase::set(std::unique_ptr<IPhotoInfoCache>&& cache)
     {
         m_impl->m_cache = std::move(cache);
         m_impl->m_executor.set(m_impl->m_cache.get());
@@ -673,41 +673,41 @@ namespace Database
     }
 
 
-    ADatabaseSignals* DatabaseThread::notifier()
+    ADatabaseSignals* AsyncDatabase::notifier()
     {
         return &m_impl->m_executor;
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+    void AsyncDatabase::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
     {
         InitTask* task = new InitTask(std::move(db_task), prjInfo);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
+    void AsyncDatabase::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
     {
         UpdateTask* task = new UpdateTask(std::move(db_task), photo->data());
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::store(const std::set<QString>& paths, const Callback<const std::vector<Photo::Id> &>& callback)
+    void AsyncDatabase::store(const std::set<QString>& paths, const Callback<const std::vector<Photo::Id> &>& callback)
     {
         InsertPhotosTask* task = new InsertPhotosTask(paths, callback);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::createGroup(const Photo::Id& id, const Callback<Group::Id>& callback)
+    void AsyncDatabase::createGroup(const Photo::Id& id, const Callback<Group::Id>& callback)
     {
         CreateGroupTask* task = new CreateGroupTask(id, callback);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
+    void AsyncDatabase::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
     {
         std::shared_ptr<Database::AGetPhotoTask> db_task_shared(db_task.release());
 
@@ -722,70 +722,70 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AGetPhotosTask>&& db_task, const std::deque<Database::IFilter::Ptr>& filter)
+    void AsyncDatabase::exec(std::unique_ptr<Database::AGetPhotosTask>&& db_task, const std::deque<Database::IFilter::Ptr>& filter)
     {
         GetPhotosTask* task = new GetPhotosTask(std::move(db_task), filter);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr< Database::AGetPhotosTask >&& db_task)
+    void AsyncDatabase::exec(std::unique_ptr< Database::AGetPhotosTask >&& db_task)
     {
         GetAllPhotosTask* task = new GetAllPhotosTask(std::move(db_task));
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info)
+    void AsyncDatabase::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info)
     {
         ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, std::deque<IFilter::Ptr>());
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter)
+    void AsyncDatabase::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter)
     {
         ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, filter);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
+    void AsyncDatabase::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::getPhotos(const std::vector<Photo::Id>& ids, const Callback<std::deque<IPhotoInfo::Ptr>>& callback)
+    void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<std::deque<IPhotoInfo::Ptr>>& callback)
     {
         GetPhotoTask* task = new GetPhotoTask(ids, callback);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
+    void AsyncDatabase::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
     {
         ListTagsTask2* task = new ListTagsTask2(callback);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
+    void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
         ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 
 
-    void DatabaseThread::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
+    void AsyncDatabase::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
         auto task = std::make_unique<GetPhotosTask2>(filter, callback);
         m_impl->addTask(std::move(task));
     }
 
 
-    void DatabaseThread::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
+    void AsyncDatabase::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
     {
         assert(!"bad implementation");
         PerformActionTask* task = new PerformActionTask(filters, actions);
@@ -793,7 +793,7 @@ namespace Database
     }
 
 
-    void DatabaseThread::exec(std::unique_ptr<ADropPhotosTask>&& db_task , const std::deque<IFilter::Ptr>& filters)
+    void AsyncDatabase::exec(std::unique_ptr<ADropPhotosTask>&& db_task , const std::deque<IFilter::Ptr>& filters)
     {
         DropPhotosTask* task = new DropPhotosTask(std::move(db_task), filters);
         m_impl->addTask(task);

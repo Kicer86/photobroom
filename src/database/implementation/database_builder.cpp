@@ -113,7 +113,7 @@ namespace Database
         backend->set(m_impl->m_configuration);
 
         auto cache = std::make_unique<PhotoInfoCache>();
-        auto database = std::make_unique<DatabaseThread>( std::move(backend) );
+        auto database = std::make_unique<AsyncDatabase>( std::move(backend) );
         database->set( std::move(cache) );
 
         auto initTask = std::make_unique<InitTask>(openResult);
