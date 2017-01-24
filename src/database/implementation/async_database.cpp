@@ -35,11 +35,9 @@
 namespace
 {
     struct IThreadVisitor;
-    struct InitTask;
     struct InsertPhotosTask;
     struct CreateGroupTask;
     struct UpdateTask;
-    struct GetAllPhotosTask;
     struct GetPhotoTask;
     struct GetPhotosTask;
     struct GetPhotosTask2;
@@ -51,11 +49,13 @@ namespace
     struct DropPhotosTask;
     struct PerformActionTask;
 
+    struct Executor;
+
     struct IThreadTask
     {
         virtual ~IThreadTask() {}
         virtual void visitMe(IThreadVisitor *) {}
-        virtual void execute(Database::IBackend *) {}
+        virtual void execute(Executor *) {}
     };
 
     struct ThreadBaseTask: IThreadTask
@@ -71,7 +71,6 @@ namespace
         virtual void visit(InsertPhotosTask *) = 0;
         virtual void visit(CreateGroupTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
-        virtual void visit(GetAllPhotosTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(GetPhotosTask2 *) = 0;
@@ -82,28 +81,6 @@ namespace
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct InitTask: ThreadBaseTask
-    {
-        InitTask(std::unique_ptr<Database::AInitTask>&& task, const Database::ProjectInfo& prjInfo):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_prjInfo(prjInfo)
-        {
-
-        }
-
-        virtual ~InitTask() {}
-
-        virtual void execute(Database::IBackend* backend)
-        {
-            Database::BackendStatus status = backend->init(m_prjInfo);
-            m_task->got(status);
-        }
-
-        std::unique_ptr<Database::AInitTask> m_task;
-        Database::ProjectInfo m_prjInfo;
     };
 
     struct InsertPhotosTask: ThreadBaseTask
@@ -159,24 +136,6 @@ namespace
         std::unique_ptr<Database::AStorePhotoTask> m_task;
         Photo::Data m_photoData;
     };
-
-
-    struct GetAllPhotosTask: ThreadBaseTask
-    {
-        GetAllPhotosTask(std::unique_ptr<Database::AGetPhotosTask>&& task):
-            ThreadBaseTask(),
-            m_task(std::move(task))
-        {
-
-        }
-
-        virtual ~GetAllPhotosTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AGetPhotosTask> m_task;
-    };
-
 
     struct GetPhotoTask: ThreadBaseTask
     {
@@ -399,17 +358,6 @@ namespace
             emit photoModified(photoInfo);
         }
 
-        virtual void visit(GetAllPhotosTask* task) override
-        {
-            auto photos = m_backend->getAllPhotos();
-            IPhotoInfo::List photosList;
-
-            for(const Photo::Id& id: photos)
-                photosList.push_back(getPhotoFor(id));
-
-            task->m_task->got(photosList);
-        }
-
         virtual void visit(GetPhotoTask* task) override
         {
             std::deque<IPhotoInfo::Ptr> photos;
@@ -499,7 +447,7 @@ namespace
                 {
                     ThreadBaseTask* baseTask = task->get();
                     baseTask->visitMe(this);
-                    baseTask->execute(m_backend.get());
+                    baseTask->execute(this);
                 }
                 else
                     break;
@@ -576,6 +524,11 @@ namespace
             return result;
         }
 
+        Database::IBackend* getBackend() const
+        {
+            return m_backend.get();
+        }
+
         void addTask(std::unique_ptr<ThreadBaseTask>&& task)
         {
             m_tasks.push(std::move(task));
@@ -586,6 +539,55 @@ namespace
             std::unique_ptr<Database::IBackend> m_backend;
             Database::IPhotoInfoCache* m_cache;
             PhotoInfoStorekeeper* m_storekeeper;
+    };
+
+
+    struct InitTask: ThreadBaseTask
+    {
+        InitTask(std::unique_ptr<Database::AInitTask>&& task, const Database::ProjectInfo& prjInfo):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_prjInfo(prjInfo)
+        {
+
+        }
+
+        virtual ~InitTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            Database::BackendStatus status = executor->getBackend()->init(m_prjInfo);
+            m_task->got(status);
+        }
+
+        std::unique_ptr<Database::AInitTask> m_task;
+        Database::ProjectInfo m_prjInfo;
+    };
+
+
+    struct GetAllPhotosTask: ThreadBaseTask
+    {
+        GetAllPhotosTask(std::unique_ptr<Database::AGetPhotosTask>&& task):
+            ThreadBaseTask(),
+            m_task(std::move(task))
+        {
+
+        }
+
+        virtual ~GetAllPhotosTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            auto photos = executor->getBackend()->getAllPhotos();
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(executor->getPhotoFor(id));
+
+            m_task->got(photosList);
+        }
+
+        std::unique_ptr<Database::AGetPhotosTask> m_task;
     };
 
 }
