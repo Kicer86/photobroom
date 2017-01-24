@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct CreateGroupTask;
     struct UpdateTask;
     struct GetPhotoTask;
     struct GetPhotosTask;
@@ -67,7 +66,6 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(CreateGroupTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
@@ -79,24 +77,6 @@ namespace
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct CreateGroupTask: ThreadBaseTask
-    {
-        CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
-            ThreadBaseTask(),
-            m_representative(representative),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~CreateGroupTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        Photo::Id m_representative;
-        std::function<void(Group::Id)> m_callback;
     };
 
     struct UpdateTask: ThreadBaseTask
@@ -312,14 +292,6 @@ namespace
             m_cache = cache;
         }
 
-        virtual void visit(CreateGroupTask* task) override
-        {
-            const Group::Id id = m_backend->addGroup(task->m_representative);
-
-            if (task->m_callback)
-                task->m_callback(id);
-        }
-
         virtual void visit(UpdateTask* task) override
         {
             const Photo::Data& data = task->m_photoData;
@@ -513,6 +485,29 @@ namespace
             PhotoInfoStorekeeper* m_storekeeper;
     };
 
+    struct CreateGroupTask: ThreadBaseTask
+    {
+        CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
+            ThreadBaseTask(),
+            m_representative(representative),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~CreateGroupTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            const Group::Id id = executor->getBackend()->addGroup(m_representative);
+
+            if (m_callback)
+                m_callback(id);
+        }
+
+        Photo::Id m_representative;
+        std::function<void(Group::Id)> m_callback;
+    };
 
     struct InitTask: ThreadBaseTask
     {
