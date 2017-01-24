@@ -27,7 +27,7 @@
 
 #include <plugins/plugin_loader.hpp>
 
-#include "database_thread.hpp"
+#include "async_database.hpp"
 #include "photo_info_cache.hpp"
 #include "idatabase_plugin.hpp"
 #include "idatabase.hpp"
