@@ -54,7 +54,8 @@ namespace
     struct IThreadTask
     {
         virtual ~IThreadTask() {}
-        virtual void visitMe(IThreadVisitor *) = 0;
+        virtual void visitMe(IThreadVisitor *) {}
+        virtual void execute(Database::IBackend *) {}
     };
 
     struct ThreadBaseTask: IThreadTask
@@ -67,7 +68,6 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(InitTask *) = 0;
         virtual void visit(InsertPhotosTask *) = 0;
         virtual void visit(CreateGroupTask *) = 0;
         virtual void visit(UpdateTask *) = 0;
@@ -96,7 +96,11 @@ namespace
 
         virtual ~InitTask() {}
 
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
+        virtual void execute(Database::IBackend* backend)
+        {
+            Database::BackendStatus status = backend->init(m_prjInfo);
+            m_task->got(status);
+        }
 
         std::unique_ptr<Database::AInitTask> m_task;
         Database::ProjectInfo m_prjInfo;
@@ -369,12 +373,6 @@ namespace
             m_cache = cache;
         }
 
-        virtual void visit(InitTask* task) override
-        {
-            Database::BackendStatus status = m_backend->init(task->m_prjInfo);
-            task->m_task->got(status);
-        }
-
         virtual void visit(InsertPhotosTask* task) override
         {
             const std::vector<Photo::Id> result = insertPhotos(task->m_paths);
@@ -501,6 +499,7 @@ namespace
                 {
                     ThreadBaseTask* baseTask = task->get();
                     baseTask->visitMe(this);
+                    baseTask->execute(m_backend.get());
                 }
                 else
                     break;
