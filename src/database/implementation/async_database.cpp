@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct UpdateTask;
     struct GetPhotoTask;
     struct GetPhotosTask;
     struct GetPhotosTask2;
@@ -66,7 +65,6 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(UpdateTask *) = 0;
         virtual void visit(GetPhotoTask *) = 0;
         virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(GetPhotosTask2 *) = 0;
@@ -77,24 +75,6 @@ namespace
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct UpdateTask: ThreadBaseTask
-    {
-        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_photoData(photoData)
-        {
-
-        }
-
-        virtual ~UpdateTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AStorePhotoTask> m_task;
-        Photo::Data m_photoData;
     };
 
     struct GetPhotoTask: ThreadBaseTask
@@ -290,16 +270,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit(UpdateTask* task) override
-        {
-            const Photo::Data& data = task->m_photoData;
-            const bool status = m_backend->update(data);
-            task->m_task->got(status);
-
-            IPhotoInfo::Ptr photoInfo = getPhotoFor(data.id);
-            emit photoModified(photoInfo);
         }
 
         virtual void visit(GetPhotoTask* task) override
@@ -580,6 +550,31 @@ namespace
         }
 
         std::unique_ptr<Database::AGetPhotosTask> m_task;
+    };
+
+    struct UpdateTask: ThreadBaseTask
+    {
+        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_photoData(photoData)
+        {
+
+        }
+
+        virtual ~UpdateTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            const bool status = executor->getBackend()->update(m_photoData);
+            m_task->got(status);
+
+            IPhotoInfo::Ptr photoInfo = executor->getPhotoFor(m_photoData.id);
+            emit executor->photoModified(photoInfo);
+        }
+
+        std::unique_ptr<Database::AStorePhotoTask> m_task;
+        Photo::Data m_photoData;
     };
 
 }
