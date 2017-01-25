@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct GetPhotosTask;
     struct GetPhotosTask2;
     struct ListTagsTask;
     struct ListTagsTask2;
@@ -64,7 +63,6 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(GetPhotosTask *) = 0;
         virtual void visit(GetPhotosTask2 *) = 0;
         virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagsTask2 *) = 0;
@@ -73,24 +71,6 @@ namespace
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct GetPhotosTask: ThreadBaseTask
-    {
-        GetPhotosTask(std::unique_ptr<Database::AGetPhotosTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_filter(filter)
-        {
-
-        }
-
-        virtual ~GetPhotosTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AGetPhotosTask> m_task;
-        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct GetPhotosTask2: ThreadBaseTask
@@ -251,17 +231,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit(GetPhotosTask* task) override
-        {
-            auto photos = m_backend->getPhotos(task->m_filter);
-            IPhotoInfo::List photosList;
-
-            for(const Photo::Id& id: photos)
-                photosList.push_back(getPhotoFor(id));
-
-            task->m_task->got(photosList);
         }
 
         virtual void visit(GetPhotosTask2* task) override
@@ -524,31 +493,6 @@ namespace
     };
 
 
-    struct GetAllPhotosTask: ThreadBaseTask
-    {
-        GetAllPhotosTask(std::unique_ptr<Database::AGetPhotosTask>&& task):
-            ThreadBaseTask(),
-            m_task(std::move(task))
-        {
-
-        }
-
-        virtual ~GetAllPhotosTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            auto photos = executor->getBackend()->getAllPhotos();
-            IPhotoInfo::List photosList;
-
-            for(const Photo::Id& id: photos)
-                photosList.push_back(executor->getPhotoFor(id));
-
-            m_task->got(photosList);
-        }
-
-        std::unique_ptr<Database::AGetPhotosTask> m_task;
-    };
-
     struct UpdateTask: ThreadBaseTask
     {
         UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
@@ -703,20 +647,6 @@ namespace Database
             };
 
         GetPhotoTask* task = new GetPhotoTask({id}, callback);
-        m_impl->addTask(task);
-    }
-
-
-    void AsyncDatabase::exec(std::unique_ptr<Database::AGetPhotosTask>&& db_task, const std::deque<Database::IFilter::Ptr>& filter)
-    {
-        GetPhotosTask* task = new GetPhotosTask(std::move(db_task), filter);
-        m_impl->addTask(task);
-    }
-
-
-    void AsyncDatabase::exec(std::unique_ptr< Database::AGetPhotosTask >&& db_task)
-    {
-        GetAllPhotosTask* task = new GetAllPhotosTask(std::move(db_task));
         m_impl->addTask(task);
     }
 

@@ -44,23 +44,6 @@ Q_DECLARE_METATYPE(std::deque<IPhotoInfo::Ptr>)
 namespace
 {
 
-    struct GetPhotosTask: Database::AGetPhotosTask
-    {
-        GetPhotosTask(const std::function< void(Database::AGetPhotosTask* , const IPhotoInfo::List&)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
-        GetPhotosTask(const GetPhotosTask &) = delete;
-        virtual ~GetPhotosTask() {}
-
-        GetPhotosTask& operator=(const GetPhotosTask &) = delete;
-
-        virtual void got(const IPhotoInfo::List& photos)
-        {
-            m_tasks_result(this, photos);
-        }
-
-        std::function< void(Database::AGetPhotosTask* , const IPhotoInfo::List&)> m_tasks_result;
-        QModelIndex m_parent;
-    };
-
     struct GetNonmatchingPhotosTask: Database::AGetPhotosCount
     {
         GetNonmatchingPhotosTask(const std::function<void( Database::AGetPhotosCount *, int)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
@@ -401,14 +384,12 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
 
     //prepare task and store it in local list
     using namespace std::placeholders;
-    auto callback = std::bind(&IdxDataManager::gotPhotosForParent, this, _1, _2);
+    auto callback = std::bind(&IdxDataManager::gotPhotosForParent, this, _parent, _1);
     auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AGetPhotosTask *, const IPhotoInfo::List &) >(callback);
-
-    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(safe_callback, _parent));
+        m_data->m_tasksResultsCtrl.make_safe_callback< void(const IPhotoInfo::List &) >(callback);
 
     //send task to execution
-    m_data->m_database->exec(std::move(task), filter);
+    m_data->m_database->listPhotos(filter, safe_callback);
 }
 
 
@@ -513,10 +494,9 @@ void IdxDataManager::setupRootNode()
 
 
 //called when leafs for particual node have been loaded
-void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotPhotosForParent(const QModelIndex& parent, const IPhotoInfo::List& photos)
 {
-    GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
-    IdxData* parentIdxData = getIdxDataFor(l_task->m_parent);
+    IdxData* parentIdxData = getIdxDataFor(parent);
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 

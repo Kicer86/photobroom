@@ -91,7 +91,7 @@ private:
     void setupRootNode();
 
     // database tasks callbacks:
-    void gotPhotosForParent(Database::AGetPhotosTask *, const IPhotoInfo::List& photos);
+    void gotPhotosForParent(const QModelIndex &, const IPhotoInfo::List& photos);
     void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int);
     void gotTagValuesForParent(Database::AListTagValuesTask *, const std::deque<TagValue>& tags);
     //

@@ -46,8 +46,6 @@ namespace Database
             virtual void createGroup(const Photo::Id & , const Callback<Group::Id> &) override;
 
             virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) override;
-            virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) override;
-            virtual void exec(std::unique_ptr<AGetPhotosTask> &&) override;
             virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) override;
             virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
             virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque< IFilter::Ptr >&) override;
