@@ -37,7 +37,7 @@ namespace
     struct IThreadVisitor;
     struct GetPhotosTask;
     struct ListTagsTask;
-    struct ListTagValuesTask2;
+    struct ListTagValuesTask;
     struct AnyPhotoTask;
     struct DropPhotosTask;
     struct PerformActionTask;
@@ -63,7 +63,7 @@ namespace
 
         virtual void visit( GetPhotosTask *) = 0;
         virtual void visit( ListTagsTask *) = 0;
-        virtual void visit(ListTagValuesTask2 *) = 0;
+        virtual void visit( ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
@@ -103,9 +103,9 @@ namespace
         Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
     };
 
-    struct ListTagValuesTask2: ThreadBaseTask
+    struct ListTagValuesTask: ThreadBaseTask
     {
-        ListTagValuesTask2(const TagNameInfo& info,
+        ListTagValuesTask (const TagNameInfo& info,
                            const std::deque<Database::IFilter::Ptr>& filter,
                            const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback):
         ThreadBaseTask(),
@@ -116,7 +116,7 @@ namespace
 
         }
 
-        virtual ~ListTagValuesTask2() {}
+        virtual ~ListTagValuesTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
@@ -210,7 +210,7 @@ namespace
             task->m_callback(result);
         }
 
-        virtual void visit(ListTagValuesTask2* task) override
+        virtual void visit( ListTagValuesTask* task) override
         {
             auto result = m_backend->listTagValues(task->m_info, task->m_filter);
             task->m_callback(task->m_info, result);
@@ -621,13 +621,13 @@ namespace Database
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
-        ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
+        ListTagValuesTask* task = new ListTagValuesTask (info, std::deque<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::deque<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
-        ListTagValuesTask2* task = new ListTagValuesTask2(info, filters, callback);
+        ListTagValuesTask* task = new ListTagValuesTask (info, filters, callback);
         m_impl->addTask(task);
     }
 
