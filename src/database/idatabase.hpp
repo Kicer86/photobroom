@@ -66,27 +66,6 @@ namespace Database
         virtual void got(bool) = 0;
     };
 
-    struct DATABASE_EXPORT AListTagsTask
-    {
-        virtual ~AListTagsTask() = default;
-
-        virtual void got(const std::deque<TagNameInfo> &) = 0;
-    };
-
-    struct DATABASE_EXPORT AListTagValuesTask
-    {
-        virtual ~AListTagValuesTask() = default;
-
-        virtual void got(const std::deque<TagValue> &) = 0;
-    };
-
-    struct DATABASE_EXPORT AGetPhotosTask
-    {
-        virtual ~AGetPhotosTask() = default;
-
-        virtual void got(const IPhotoInfo::List &) = 0;
-    };
-
     struct DATABASE_DEPRECATED_EXPORT AGetPhotoTask
     {
         virtual ~AGetPhotoTask() = default;

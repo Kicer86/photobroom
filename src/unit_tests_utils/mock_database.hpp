@@ -17,10 +17,6 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD2(store, void( const std::set<QString> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
     MOCK_METHOD2(createGroup, void( const Photo::Id &, const std::function<void(Group::Id)> &) );
 
-    MOCK_METHOD2(exec, void(std::unique_ptr<Database::AListTagValuesTask> &&, const TagNameInfo &) );
-    MOCK_METHOD3(exec, void(std::unique_ptr<Database::AListTagValuesTask> &&, const TagNameInfo &, const std::deque<Database::IFilter::Ptr> &) );
-    MOCK_METHOD1(exec, void(std::unique_ptr<Database::AGetPhotosTask> &&) );
-    MOCK_METHOD2(exec, void(std::unique_ptr<Database::AGetPhotosTask> &&, const std::deque<Database::IFilter::Ptr> &) );
     MOCK_METHOD2(exec, void(std::unique_ptr<Database::AGetPhotoTask> &&, const Photo::Id &) );
     MOCK_METHOD2(exec, void(std::unique_ptr<Database::AGetPhotosCount> &&, const std::deque<Database::IFilter::Ptr> &) );
 
