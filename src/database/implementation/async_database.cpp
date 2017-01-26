@@ -37,7 +37,6 @@ namespace
     struct IThreadVisitor;
     struct GetPhotosTask;
     struct ListTagsTask;
-    struct ListTagValuesTask;
     struct ListTagValuesTask2;
     struct AnyPhotoTask;
     struct DropPhotosTask;
@@ -64,7 +63,6 @@ namespace
 
         virtual void visit( GetPhotosTask *) = 0;
         virtual void visit( ListTagsTask *) = 0;
-        virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(ListTagValuesTask2 *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
@@ -103,26 +101,6 @@ namespace
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
         Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
-    };
-
-    struct ListTagValuesTask: ThreadBaseTask
-    {
-        ListTagValuesTask(std::unique_ptr<Database::AListTagValuesTask>&& task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_info(info),
-            m_filter(filter)
-        {
-
-        }
-
-        virtual ~ListTagValuesTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AListTagValuesTask> m_task;
-        TagNameInfo m_info;
-        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct ListTagValuesTask2: ThreadBaseTask
@@ -230,12 +208,6 @@ namespace
         {
             auto result = m_backend->listTags();
             task->m_callback(result);
-        }
-
-        virtual void visit(ListTagValuesTask* task) override
-        {
-            auto result = m_backend->listTagValues(task->m_info, task->m_filter);
-            task->m_task->got(result);
         }
 
         virtual void visit(ListTagValuesTask2* task) override
@@ -627,20 +599,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info)
-    {
-        ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, std::deque<IFilter::Ptr>());
-        m_impl->addTask(task);
-    }
-
-
-    void AsyncDatabase::exec(std::unique_ptr<Database::AListTagValuesTask>&& db_task, const TagNameInfo& info, const std::deque<Database::IFilter::Ptr>& filter)
-    {
-        ListTagValuesTask* task = new ListTagValuesTask(std::move(db_task), info, filter);
-        m_impl->addTask(task);
-    }
-
-
     void AsyncDatabase::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
@@ -657,14 +615,19 @@ namespace Database
 
     void AsyncDatabase::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
     {
-        ListTagsTask* task = new ListTagsTask (callback);
+        ListTagsTask* task = new ListTagsTask(callback);
         m_impl->addTask(task);
     }
-
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
         ListTagValuesTask2* task = new ListTagValuesTask2(info, std::deque<IFilter::Ptr>(), callback);
+        m_impl->addTask(task);
+    }
+
+    void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::deque<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
+    {
+        ListTagValuesTask2* task = new ListTagValuesTask2(info, filters, callback);
         m_impl->addTask(task);
     }
 

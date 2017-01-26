@@ -133,14 +133,13 @@ namespace Database
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
-        [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
-        [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<std::deque<IPhotoInfo::Ptr>> &) = 0;       // get particular photos
         virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) = 0;                              // list all stored tag names
-        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) = 0;  // list all values of provided tag
+        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;    // list all tag values
+        virtual void listTagValues( const TagNameInfo &, const std::deque<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;       // list all photos matching filter
 
         // modify data

@@ -61,25 +61,6 @@ namespace
         QModelIndex m_parent;
     };
 
-    struct ListTagValuesTask: Database::AListTagValuesTask
-    {
-        ListTagValuesTask(const std::function<void(Database::AListTagValuesTask *, const std::deque<TagValue> &)>& tr,
-                        const QModelIndex& parent,
-                        size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
-        ListTagValuesTask(const ListTagValuesTask &) = delete;
-        virtual ~ListTagValuesTask() {}
-
-        ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
-
-        virtual void got(const std::deque<TagValue>& value)
-        {
-            m_tasks_result(this, value);
-        }
-
-        std::function<void(Database::AListTagValuesTask *, const std::deque<TagValue> &)> m_tasks_result;
-        QModelIndex m_parent;
-        size_t m_level;
-    };
 }
 
 
@@ -364,12 +345,11 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildExtraFilters(&filter);
 
         using namespace std::placeholders;
-        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _1, _2);
+        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AListTagValuesTask *, const std::deque<TagValue> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagNameInfo &, const std::deque<TagValue> &) >(callback);
 
-        std::unique_ptr<Database::AListTagValuesTask> task = std::make_unique<ListTagValuesTask>(safe_callback, _parent, level);
-        m_data->m_database->exec(std::move(task), tagNameInfo, filter);
+        m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
     }
     else
         assert(!"should not happend");
@@ -531,13 +511,9 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* ta
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const std::deque<TagValue>& tags)
+void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_t level, const std::deque<TagValue>& tags)
 {
-    ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
-
-    const size_t level = l_task->m_level;
-    const QModelIndex& _parent = l_task->m_parent;
-    IdxData* parentIdxData = getIdxDataFor(_parent);
+    IdxData* parentIdxData = getIdxDataFor(parent);
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
