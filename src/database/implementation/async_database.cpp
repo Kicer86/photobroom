@@ -35,8 +35,8 @@
 namespace
 {
     struct IThreadVisitor;
-    struct GetPhotosTask2;
-    struct ListTagsTask2;
+    struct GetPhotosTask;
+    struct ListTagsTask;
     struct ListTagValuesTask;
     struct ListTagValuesTask2;
     struct AnyPhotoTask;
@@ -62,8 +62,8 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(GetPhotosTask2 *) = 0;
-        virtual void visit(ListTagsTask2 *) = 0;
+        virtual void visit( GetPhotosTask *) = 0;
+        virtual void visit( ListTagsTask *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(ListTagValuesTask2 *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
@@ -71,9 +71,9 @@ namespace
         virtual void visit(PerformActionTask *) = 0;
     };
 
-    struct GetPhotosTask2: ThreadBaseTask
+    struct GetPhotosTask: ThreadBaseTask
     {
-        GetPhotosTask2(const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
+        GetPhotosTask (const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
             ThreadBaseTask(),
             m_filter(filter),
             m_callback(callback)
@@ -81,7 +81,7 @@ namespace
 
         }
 
-        virtual ~GetPhotosTask2() {}
+        virtual ~GetPhotosTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
@@ -89,16 +89,16 @@ namespace
         Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
-    struct ListTagsTask2: ThreadBaseTask
+    struct ListTagsTask: ThreadBaseTask
     {
-        ListTagsTask2(const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
+        ListTagsTask (const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
             ThreadBaseTask(),
             m_callback(callback)
         {
 
         }
 
-        virtual ~ListTagsTask2() {}
+        virtual ~ListTagsTask() {}
 
         virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
 
@@ -215,7 +215,7 @@ namespace
             m_cache = cache;
         }
 
-        virtual void visit(GetPhotosTask2* task) override
+        virtual void visit( GetPhotosTask* task) override
         {
             auto photos = m_backend->getPhotos(task->m_filter);
             IPhotoInfo::List photosList;
@@ -226,7 +226,7 @@ namespace
             task->m_callback(photosList);
         }
 
-        virtual void visit(ListTagsTask2* task) override
+        virtual void visit( ListTagsTask* task) override
         {
             auto result = m_backend->listTags();
             task->m_callback(result);
@@ -657,7 +657,7 @@ namespace Database
 
     void AsyncDatabase::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
     {
-        ListTagsTask2* task = new ListTagsTask2(callback);
+        ListTagsTask* task = new ListTagsTask (callback);
         m_impl->addTask(task);
     }
 
@@ -671,7 +671,7 @@ namespace Database
 
     void AsyncDatabase::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
-        auto task = std::make_unique<GetPhotosTask2>(filter, callback);
+        auto task = std::make_unique<GetPhotosTask>(filter, callback);
         m_impl->addTask(std::move(task));
     }
 
