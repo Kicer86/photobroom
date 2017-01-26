@@ -36,7 +36,6 @@ namespace
 {
     struct IThreadVisitor;
     struct GetPhotosTask2;
-    struct ListTagsTask;
     struct ListTagsTask2;
     struct ListTagValuesTask;
     struct ListTagValuesTask2;
@@ -64,7 +63,6 @@ namespace
         virtual ~IThreadVisitor() {}
 
         virtual void visit(GetPhotosTask2 *) = 0;
-        virtual void visit(ListTagsTask *) = 0;
         virtual void visit(ListTagsTask2 *) = 0;
         virtual void visit(ListTagValuesTask *) = 0;
         virtual void visit(ListTagValuesTask2 *) = 0;
@@ -89,22 +87,6 @@ namespace
 
         std::deque<Database::IFilter::Ptr> m_filter;
         Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
-    };
-
-    struct ListTagsTask: ThreadBaseTask
-    {
-        ListTagsTask(std::unique_ptr<Database::AListTagsTask>&& task):
-            ThreadBaseTask(),
-            m_task(std::move(task))
-        {
-
-        }
-
-        virtual ~ListTagsTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AListTagsTask> m_task;
     };
 
     struct ListTagsTask2: ThreadBaseTask
@@ -242,12 +224,6 @@ namespace
                 photosList.push_back(getPhotoFor(id));
 
             task->m_callback(photosList);
-        }
-
-        virtual void visit(ListTagsTask* task) override
-        {
-            auto result = m_backend->listTags();
-            task->m_task->got(result);
         }
 
         virtual void visit(ListTagsTask2* task) override
