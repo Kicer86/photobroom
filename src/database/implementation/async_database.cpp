@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct AnyPhotoTask;
     struct DropPhotosTask;
     struct PerformActionTask;
 
@@ -58,25 +57,8 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct AnyPhotoTask: ThreadBaseTask
-    {
-        AnyPhotoTask(std::unique_ptr<Database::AGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_filter(filter)
-        {
-
-        }
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::AGetPhotosCount> m_task;
-        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct DropPhotosTask: ThreadBaseTask
@@ -129,12 +111,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit(AnyPhotoTask* task) override
-        {
-            auto result = m_backend->getPhotosCount(task->m_filter);
-            task->m_task->got(result);
         }
 
         virtual void visit(DropPhotosTask* task) override
@@ -254,6 +230,28 @@ namespace
             Database::IPhotoInfoCache* m_cache;
             PhotoInfoStorekeeper* m_storekeeper;
     };
+
+
+    struct AnyPhotoTask: ThreadBaseTask
+    {
+        AnyPhotoTask(std::unique_ptr<Database::AGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
+            ThreadBaseTask(),
+            m_task(std::move(task)),
+            m_filter(filter)
+        {
+
+        }
+
+        virtual void execute(Executor* executor) override
+        {
+            auto result = executor->getBackend()->getPhotosCount(m_filter);
+            m_task->got(result);
+        }
+
+        std::unique_ptr<Database::AGetPhotosCount> m_task;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
 
     struct CreateGroupTask: ThreadBaseTask
     {
