@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct GetPhotosTask;
     struct ListTagsTask;
     struct ListTagValuesTask;
     struct AnyPhotoTask;
@@ -61,30 +60,11 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit( GetPhotosTask *) = 0;
         virtual void visit( ListTagsTask *) = 0;
         virtual void visit( ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct GetPhotosTask: ThreadBaseTask
-    {
-        GetPhotosTask (const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
-            ThreadBaseTask(),
-            m_filter(filter),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~GetPhotosTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::deque<Database::IFilter::Ptr> m_filter;
-        Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
     struct ListTagsTask: ThreadBaseTask
@@ -191,17 +171,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit( GetPhotosTask* task) override
-        {
-            auto photos = m_backend->getPhotos(task->m_filter);
-            IPhotoInfo::List photosList;
-
-            for(const Photo::Id& id: photos)
-                photosList.push_back(getPhotoFor(id));
-
-            task->m_callback(photosList);
         }
 
         virtual void visit( ListTagsTask* task) override
@@ -391,6 +360,34 @@ namespace
 
         std::vector<Photo::Id> m_ids;
         std::function<void(const std::deque<IPhotoInfo::Ptr> &)> m_callback;
+    };
+
+    struct GetPhotosTask: ThreadBaseTask
+    {
+        GetPhotosTask (const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
+            ThreadBaseTask(),
+            m_filter(filter),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~GetPhotosTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            auto photos = executor->getBackend()->getPhotos(m_filter);
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(executor->getPhotoFor(id));
+
+            m_callback(photosList);
+        }
+
+
+        std::deque<Database::IFilter::Ptr> m_filter;
+        Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
     struct InitTask: ThreadBaseTask
