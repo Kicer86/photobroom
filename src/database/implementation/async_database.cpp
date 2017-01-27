@@ -578,21 +578,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::exec(std::unique_ptr<Database::AGetPhotoTask>&& db_task, const Photo::Id& id)
-    {
-        std::shared_ptr<Database::AGetPhotoTask> db_task_shared(db_task.release());
-
-        auto callback =
-            [db_task_shared](const std::deque<IPhotoInfo::Ptr>& photos)
-            {
-                db_task_shared->got(photos);
-            };
-
-        GetPhotoTask* task = new GetPhotoTask({id}, callback);
-        m_impl->addTask(task);
-    }
-
-
     void AsyncDatabase::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
     {
         AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);

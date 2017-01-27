@@ -66,13 +66,6 @@ namespace Database
         virtual void got(bool) = 0;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT AGetPhotoTask
-    {
-        virtual ~AGetPhotoTask() = default;
-
-        virtual void got(const std::deque<IPhotoInfo::Ptr> &) = 0;
-    };
-
     struct DATABASE_EXPORT AGetPhotosCount
     {
         virtual ~AGetPhotosCount() = default;
@@ -112,7 +105,6 @@ namespace Database
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
-        [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
         [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
 
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<std::deque<IPhotoInfo::Ptr>> &) = 0;       // get particular photos
