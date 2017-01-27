@@ -54,8 +54,6 @@ namespace Database
 
             virtual void perform(const std::deque< IFilter::Ptr >&, const std::deque< IAction::Ptr >&) override;
 
-            virtual void exec(std::unique_ptr<ADropPhotosTask> &&, const std::deque< IFilter::Ptr >&) override;
-
             virtual void exec(std::unique_ptr<AInitTask> &&, const ProjectInfo &) override;
             virtual void closeConnections() override;
 

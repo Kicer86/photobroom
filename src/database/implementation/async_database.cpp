@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct DropPhotosTask;
     struct PerformActionTask;
 
     struct Executor;
@@ -57,24 +56,7 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct DropPhotosTask: ThreadBaseTask
-    {
-        DropPhotosTask(std::unique_ptr<Database::ADropPhotosTask>&& task, const std::deque<Database::IFilter::Ptr>& filter):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_filter(filter)
-        {
-
-        }
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::unique_ptr<Database::ADropPhotosTask> m_task;
-        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct PerformActionTask: ThreadBaseTask
@@ -111,15 +93,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit(DropPhotosTask* task) override
-        {
-            auto photos = m_backend->dropPhotos(task->m_filter);
-
-            task->m_task->got(photos);
-
-            emit photosRemoved(photos);
         }
 
         virtual void visit(PerformActionTask* task) override
@@ -256,6 +229,7 @@ namespace
         std::function<void(Group::Id)> m_callback;
     };
 
+
     struct GetPhotoTask: ThreadBaseTask
     {
         GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)>& callback):
@@ -284,6 +258,7 @@ namespace
         std::vector<Photo::Id> m_ids;
         std::function<void(const std::deque<IPhotoInfo::Ptr> &)> m_callback;
     };
+
 
     struct GetPhotosTask: ThreadBaseTask
     {
@@ -615,13 +590,6 @@ namespace Database
     {
         assert(!"bad implementation");
         PerformActionTask* task = new PerformActionTask(filters, actions);
-        m_impl->addTask(task);
-    }
-
-
-    void AsyncDatabase::exec(std::unique_ptr<ADropPhotosTask>&& db_task , const std::deque<IFilter::Ptr>& filters)
-    {
-        DropPhotosTask* task = new DropPhotosTask(std::move(db_task), filters);
         m_impl->addTask(task);
     }
 

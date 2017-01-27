@@ -59,13 +59,6 @@ namespace Database
             void photosRemoved(const std::deque<Photo::Id> &);      // emited after photos removal
     };
 
-    struct DATABASE_EXPORT ADropPhotosTask
-    {
-        virtual ~ADropPhotosTask() = default;
-
-        virtual void got(const std::deque<Photo::Id> &) = 0;
-    };
-
     struct DATABASE_EXPORT AInitTask
     {
         virtual ~AInitTask() = default;
@@ -102,7 +95,6 @@ namespace Database
         virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos
 
         // drop data
-        [[deprecated]] virtual void exec(std::unique_ptr<ADropPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;     // drop photos matching filter
 
         //init backend - connect to database or create new one
         [[deprecated]] virtual void exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;
