@@ -432,9 +432,8 @@ namespace
 
     struct UpdateTask: ThreadBaseTask
     {
-        UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
+        UpdateTask(const Photo::Data& photoData):
             ThreadBaseTask(),
-            m_task(std::move(task)),
             m_photoData(photoData)
         {
 
@@ -445,13 +444,12 @@ namespace
         virtual void execute(Executor* executor) override
         {
             const bool status = executor->getBackend()->update(m_photoData);
-            m_task->got(status);
+            assert(status);
 
             IPhotoInfo::Ptr photoInfo = executor->getPhotoFor(m_photoData.id);
             emit executor->photoModified(photoInfo);
         }
 
-        std::unique_ptr<Database::AStorePhotoTask> m_task;
         Photo::Data m_photoData;
     };
 
@@ -552,9 +550,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::exec(std::unique_ptr<Database::AStorePhotoTask>&& db_task, const IPhotoInfo::Ptr& photo)
+    void AsyncDatabase::update(const IPhotoInfo::Ptr& photoInfo)
     {
-        UpdateTask* task = new UpdateTask(std::move(db_task), photo->data());
+        UpdateTask* task = new UpdateTask(photoInfo->data());
         m_impl->addTask(task);
     }
 

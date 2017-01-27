@@ -25,14 +25,6 @@
 
 #include <idatabase.hpp>
 
-namespace
-{
-    struct Update: Database::AStorePhotoTask
-    {
-        virtual ~Update() {}
-        virtual void got(bool) {}
-    };
-}
 
 struct PhotoInfoCache::Data
 {

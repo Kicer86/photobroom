@@ -13,7 +13,7 @@ struct MockDatabase: Database::IDatabase
 {
     MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
 
-    MOCK_METHOD2(exec, void(std::unique_ptr<Database::AStorePhotoTask> &&, const IPhotoInfo::Ptr &) );
+    MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
     MOCK_METHOD2(store, void( const std::set<QString> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
     MOCK_METHOD2(createGroup, void( const Photo::Id &, const std::function<void(Group::Id)> &) );
 

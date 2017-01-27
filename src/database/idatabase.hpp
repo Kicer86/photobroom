@@ -59,13 +59,6 @@ namespace Database
             void photosRemoved(const std::deque<Photo::Id> &);      // emited after photos removal
     };
 
-    struct DATABASE_EXPORT AStorePhotoTask
-    {
-        virtual ~AStorePhotoTask() = default;
-
-        virtual void got(bool) = 0;
-    };
-
     struct DATABASE_EXPORT ADropPhotosTask
     {
         virtual ~ADropPhotosTask() = default;
@@ -93,7 +86,7 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         // store data
-        [[deprecated]] virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
+        virtual void update(const IPhotoInfo::Ptr &) = 0;
         virtual void store(const std::set< QString >&, const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
