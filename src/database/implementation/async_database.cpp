@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct ListTagsTask;
     struct ListTagValuesTask;
     struct AnyPhotoTask;
     struct DropPhotosTask;
@@ -60,27 +59,10 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit( ListTagsTask *) = 0;
         virtual void visit( ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct ListTagsTask: ThreadBaseTask
-    {
-        ListTagsTask (const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
-            ThreadBaseTask(),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~ListTagsTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
     };
 
     struct ListTagValuesTask: ThreadBaseTask
@@ -171,12 +153,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit( ListTagsTask* task) override
-        {
-            auto result = m_backend->listTags();
-            task->m_callback(result);
         }
 
         virtual void visit( ListTagValuesTask* task) override
@@ -435,6 +411,27 @@ namespace
 
         std::set<QString> m_paths;
         std::function<void(const std::vector<Photo::Id> &)> m_callback;
+    };
+
+
+    struct ListTagsTask: ThreadBaseTask
+    {
+        ListTagsTask (const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
+            ThreadBaseTask(),
+            m_callback(callback)
+        {
+
+        }
+
+        virtual ~ListTagsTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            auto result = executor->getBackend()->listTags();
+            m_callback(result);
+        }
+
+        Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
     };
 
 
