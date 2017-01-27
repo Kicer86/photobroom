@@ -41,29 +41,6 @@ Q_DECLARE_METATYPE(std::shared_ptr<std::deque<IdxData *>>)
 Q_DECLARE_METATYPE(std::deque<IPhotoInfo::Ptr>)
 
 
-namespace
-{
-
-    struct GetNonmatchingPhotosTask: Database::AGetPhotosCount
-    {
-        GetNonmatchingPhotosTask(const std::function<void( Database::AGetPhotosCount *, int)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
-        GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
-        virtual ~GetNonmatchingPhotosTask() {}
-
-        GetNonmatchingPhotosTask& operator=(const GetNonmatchingPhotosTask &) = delete;
-
-        virtual void got(int size)
-        {
-            m_tasks_result(this, size);
-        }
-
-        std::function<void( Database::AGetPhotosCount *, int)> m_tasks_result;
-        QModelIndex m_parent;
-    };
-
-}
-
-
 struct IdxDataManager::Data
 {
     Data(DBDataModel* model):
@@ -398,14 +375,12 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
 
     //prepare task and store it in local list
     using namespace std::placeholders;
-    auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _1, _2);
+    auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _parent, _1);
     auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback< void( Database::AGetPhotosCount * , int ) >(callback);
-
-    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(safe_callback, _parent));
+        m_data->m_tasksResultsCtrl.make_safe_callback<void(int)>(callback);
 
     //send task to execution
-    m_data->m_database->exec(std::move(task), filter);
+    m_data->m_database->countPhotos(filter, safe_callback);
 }
 
 
@@ -492,15 +467,13 @@ void IdxDataManager::gotPhotosForParent(const QModelIndex& parent, const IPhotoI
 
 
 //called when we look for photos which do not have tag required by particular parent
-void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* task, int size)
+void IdxDataManager::gotNonmatchingPhotosForParent(const QModelIndex& parent, int size)
 {
     if (size > 0)  //there is at least one such a photo? Create extra node
     {
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-        GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
-        QModelIndex _parentIndex = l_task->m_parent;
-        IdxData* _parent = getIdxDataFor(_parentIndex);
+        IdxData* _parent = getIdxDataFor(parent);
         IdxData* node = prepareUniversalNodeFor(_parent);
 
         leafs->push_back(node);

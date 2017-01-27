@@ -92,7 +92,7 @@ private:
 
     // database tasks callbacks:
     void gotPhotosForParent(const QModelIndex &, const IPhotoInfo::List& photos);
-    void gotNonmatchingPhotosForParent(Database::AGetPhotosCount*, int);
+    void gotNonmatchingPhotosForParent(const QModelIndex &, int);
     void gotTagValuesForParent(const QModelIndex &, std::size_t, const std::deque<TagValue> &);
     //
 

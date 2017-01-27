@@ -232,27 +232,6 @@ namespace
     };
 
 
-    struct AnyPhotoTask: ThreadBaseTask
-    {
-        AnyPhotoTask(std::unique_ptr<Database::AGetPhotosCount>&& task, const std::deque<Database::IFilter::Ptr>& filter):
-            ThreadBaseTask(),
-            m_task(std::move(task)),
-            m_filter(filter)
-        {
-
-        }
-
-        virtual void execute(Executor* executor) override
-        {
-            auto result = executor->getBackend()->getPhotosCount(m_filter);
-            m_task->got(result);
-        }
-
-        std::unique_ptr<Database::AGetPhotosCount> m_task;
-        std::deque<Database::IFilter::Ptr> m_filter;
-    };
-
-
     struct CreateGroupTask: ThreadBaseTask
     {
         CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
@@ -430,6 +409,27 @@ namespace
     };
 
 
+    struct PhotoCountTask: ThreadBaseTask
+    {
+        PhotoCountTask (const std::deque<Database::IFilter::Ptr>& filter, const std::function<void(int)>& callback):
+            ThreadBaseTask(),
+            m_callback(callback),
+            m_filter(filter)
+        {
+
+        }
+
+        virtual void execute(Executor* executor) override
+        {
+            auto result = executor->getBackend()->getPhotosCount(m_filter);
+            m_callback(result);
+        }
+
+        std::function<void(int)> m_callback;
+        std::deque<Database::IFilter::Ptr> m_filter;
+    };
+
+
     struct UpdateTask: ThreadBaseTask
     {
         UpdateTask(std::unique_ptr<Database::AStorePhotoTask>&& task, const Photo::Data& photoData):
@@ -573,9 +573,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::exec(std::unique_ptr<AGetPhotosCount>&& db_task, const std::deque<IFilter::Ptr>& filters)
+    void AsyncDatabase::countPhotos(const std::deque<IFilter::Ptr>& filters, const Callback<int>& callback)
     {
-        AnyPhotoTask* task = new AnyPhotoTask(std::move(db_task), filters);
+        PhotoCountTask* task = new PhotoCountTask(filters, callback);
         m_impl->addTask(task);
     }
 

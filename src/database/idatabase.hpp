@@ -66,13 +66,6 @@ namespace Database
         virtual void got(bool) = 0;
     };
 
-    struct DATABASE_EXPORT AGetPhotosCount
-    {
-        virtual ~AGetPhotosCount() = default;
-
-        virtual void got(int) = 0;
-    };
-
     struct DATABASE_EXPORT ADropPhotosTask
     {
         virtual ~ADropPhotosTask() = default;
@@ -105,8 +98,7 @@ namespace Database
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
-        [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
-
+        virtual void countPhotos(const std::deque<IFilter::Ptr> &, const Callback<int> &) = 0;                           // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<std::deque<IPhotoInfo::Ptr>> &) = 0;       // get particular photos
         virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) = 0;                              // list all stored tag names
         virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;    // list all tag values
