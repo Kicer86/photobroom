@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct ListTagValuesTask;
     struct AnyPhotoTask;
     struct DropPhotosTask;
     struct PerformActionTask;
@@ -59,32 +58,9 @@ namespace
     {
         virtual ~IThreadVisitor() {}
 
-        virtual void visit( ListTagValuesTask *) = 0;
         virtual void visit(AnyPhotoTask *) = 0;
         virtual void visit(DropPhotosTask *) = 0;
         virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct ListTagValuesTask: ThreadBaseTask
-    {
-        ListTagValuesTask (const TagNameInfo& info,
-                           const std::deque<Database::IFilter::Ptr>& filter,
-                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback):
-        ThreadBaseTask(),
-        m_callback(callback),
-        m_info(info),
-        m_filter(filter)
-        {
-
-        }
-
-        virtual ~ListTagValuesTask() {}
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> m_callback;
-        TagNameInfo m_info;
-        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
     struct AnyPhotoTask: ThreadBaseTask
@@ -153,12 +129,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit( ListTagValuesTask* task) override
-        {
-            auto result = m_backend->listTagValues(task->m_info, task->m_filter);
-            task->m_callback(task->m_info, result);
         }
 
         virtual void visit(AnyPhotoTask* task) override
@@ -411,6 +381,33 @@ namespace
 
         std::set<QString> m_paths;
         std::function<void(const std::vector<Photo::Id> &)> m_callback;
+    };
+
+
+    struct ListTagValuesTask: ThreadBaseTask
+    {
+        ListTagValuesTask (const TagNameInfo& info,
+                           const std::deque<Database::IFilter::Ptr>& filter,
+                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback):
+        ThreadBaseTask(),
+        m_callback(callback),
+        m_info(info),
+        m_filter(filter)
+        {
+
+        }
+
+        virtual ~ListTagValuesTask() {}
+
+        virtual void execute(Executor* executor) override
+        {
+            auto result = executor->getBackend()->listTagValues(m_info, m_filter);
+            m_callback(m_info, result);
+        }
+
+        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> m_callback;
+        TagNameInfo m_info;
+        std::deque<Database::IFilter::Ptr> m_filter;
     };
 
 
