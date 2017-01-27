@@ -290,9 +290,9 @@ namespace
 
     struct InitTask: ThreadBaseTask
     {
-        InitTask(std::unique_ptr<Database::AInitTask>&& task, const Database::ProjectInfo& prjInfo):
+        InitTask(const Database::ProjectInfo& prjInfo, const std::function<void(const Database::BackendStatus &)>& callback):
             ThreadBaseTask(),
-            m_task(std::move(task)),
+            m_callback(callback),
             m_prjInfo(prjInfo)
         {
 
@@ -302,11 +302,11 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            Database::BackendStatus status = executor->getBackend()->init(m_prjInfo);
-            m_task->got(status);
+            const Database::BackendStatus status = executor->getBackend()->init(m_prjInfo);
+            m_callback(status);
         }
 
-        std::unique_ptr<Database::AInitTask> m_task;
+        std::function<void(const Database::BackendStatus &)> m_callback;
         Database::ProjectInfo m_prjInfo;
     };
 
@@ -518,12 +518,11 @@ namespace Database
     }
 
 
-    void AsyncDatabase::exec(std::unique_ptr<Database::AInitTask>&& db_task, const Database::ProjectInfo& prjInfo)
+    void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
-        InitTask* task = new InitTask(std::move(db_task), prjInfo);
+        InitTask* task = new InitTask(prjInfo, callback);
         m_impl->addTask(task);
     }
-
 
     void AsyncDatabase::update(const IPhotoInfo::Ptr& photoInfo)
     {

@@ -59,13 +59,6 @@ namespace Database
             void photosRemoved(const std::deque<Photo::Id> &);      // emited after photos removal
     };
 
-    struct DATABASE_EXPORT AInitTask
-    {
-        virtual ~AInitTask() = default;
-
-        virtual void got(const Database::BackendStatus &) = 0;
-    };
-
     //Database interface.
     //A bridge between clients and backend.
     // TODO: all exec functions should be dropped and dedicated functions should be introduced
@@ -97,7 +90,7 @@ namespace Database
         // drop data
 
         //init backend - connect to database or create new one
-        [[deprecated]] virtual void exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;
+        virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

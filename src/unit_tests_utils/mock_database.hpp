@@ -26,7 +26,7 @@ struct MockDatabase: Database::IDatabase
 
     MOCK_METHOD2(perform, void(const std::deque<Database::IFilter::Ptr> &, const std::deque<Database::IAction::Ptr> &) );
 
-    MOCK_METHOD2(exec, void(std::unique_ptr<Database::AInitTask> &&, const Database::ProjectInfo &) );
+    MOCK_METHOD2(init, void(const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &) );
 
     MOCK_METHOD0(closeConnections, void() );
 };

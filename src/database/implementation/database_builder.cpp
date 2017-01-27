@@ -44,19 +44,6 @@ namespace Database
 
     const char* databaseLocation = "Database::Backend::DataLocation";
 
-    struct InitTask: Database::AInitTask
-    {
-        InitTask(IBuilder::OpenResult openResult): m_openResult(openResult) {}
-
-        virtual ~InitTask() {}
-        virtual void got(const BackendStatus& status) override
-        {
-            m_openResult(status);
-        }
-
-        IBuilder::OpenResult m_openResult;
-    };
-
     struct Builder::Impl
     {
         Impl(const Impl &) = delete;
@@ -114,11 +101,9 @@ namespace Database
 
         auto cache = std::make_unique<PhotoInfoCache>();
         auto database = std::make_unique<AsyncDatabase>( std::move(backend) );
+
         database->set( std::move(cache) );
-
-        auto initTask = std::make_unique<InitTask>(openResult);
-
-        database->exec(std::move(initTask), info);
+        database->init(info, openResult);
 
         // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
         return std::move(database);
