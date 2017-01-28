@@ -34,29 +34,16 @@
 
 namespace
 {
-    struct IThreadVisitor;
 
     struct Executor;
 
     struct IThreadTask
     {
         virtual ~IThreadTask() {}
-        virtual void visitMe(IThreadVisitor *) {}
-        virtual void execute(Executor *) {}
+        virtual void execute(Executor *) = 0;
     };
 
-    struct ThreadBaseTask: IThreadTask
-    {
-        ThreadBaseTask() {}
-        virtual ~ThreadBaseTask() {}
-    };
-
-    struct IThreadVisitor
-    {
-        virtual ~IThreadVisitor() {}
-    };
-
-    struct Executor: IThreadVisitor, Database::ADatabaseSignals
+    struct Executor: Database::ADatabaseSignals
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, PhotoInfoStorekeeper* storekeeper):
             m_tasks(1024),
@@ -81,12 +68,11 @@ namespace
         {
             for(;;)
             {
-                ol::Optional< std::unique_ptr<ThreadBaseTask> > task = m_tasks.pop();
+                ol::Optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();
 
                 if (task)
                 {
-                    ThreadBaseTask* baseTask = task->get();
-                    baseTask->visitMe(this);
+                    IThreadTask* baseTask = task->get();
                     baseTask->execute(this);
                 }
                 else
@@ -169,23 +155,23 @@ namespace
             return m_backend.get();
         }
 
-        void addTask(std::unique_ptr<ThreadBaseTask>&& task)
+        void addTask(std::unique_ptr<IThreadTask>&& task)
         {
             m_tasks.push(std::move(task));
         }
 
         private:
-            ol::TS_Queue<std::unique_ptr<ThreadBaseTask>> m_tasks;
+            ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             std::unique_ptr<Database::IBackend> m_backend;
             Database::IPhotoInfoCache* m_cache;
             PhotoInfoStorekeeper* m_storekeeper;
     };
 
 
-    struct CreateGroupTask: ThreadBaseTask
+    struct CreateGroupTask: IThreadTask
     {
         CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_representative(representative),
             m_callback(callback)
         {
@@ -207,10 +193,10 @@ namespace
     };
 
 
-    struct GetPhotoTask: ThreadBaseTask
+    struct GetPhotoTask: IThreadTask
     {
         GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)>& callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_ids(ids),
             m_callback(callback)
         {
@@ -237,10 +223,10 @@ namespace
     };
 
 
-    struct GetPhotosTask: ThreadBaseTask
+    struct GetPhotosTask: IThreadTask
     {
         GetPhotosTask (const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_filter(filter),
             m_callback(callback)
         {
@@ -265,10 +251,10 @@ namespace
         Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
-    struct InitTask: ThreadBaseTask
+    struct InitTask: IThreadTask
     {
         InitTask(const Database::ProjectInfo& prjInfo, const std::function<void(const Database::BackendStatus &)>& callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_callback(callback),
             m_prjInfo(prjInfo)
         {
@@ -288,10 +274,10 @@ namespace
     };
 
 
-    struct InsertPhotosTask: ThreadBaseTask
+    struct InsertPhotosTask: IThreadTask
     {
         InsertPhotosTask(const std::set<QString>& paths, const std::function<void(const std::vector<Photo::Id> &)>& callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_paths(paths),
             m_callback(callback)
         {
@@ -313,12 +299,12 @@ namespace
     };
 
 
-    struct ListTagValuesTask: ThreadBaseTask
+    struct ListTagValuesTask: IThreadTask
     {
         ListTagValuesTask (const TagNameInfo& info,
                            const std::deque<Database::IFilter::Ptr>& filter,
                            const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback):
-        ThreadBaseTask(),
+        IThreadTask(),
         m_callback(callback),
         m_info(info),
         m_filter(filter)
@@ -340,10 +326,10 @@ namespace
     };
 
 
-    struct ListTagsTask: ThreadBaseTask
+    struct ListTagsTask: IThreadTask
     {
         ListTagsTask (const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_callback(callback)
         {
 
@@ -361,10 +347,10 @@ namespace
     };
 
 
-    struct PhotoCountTask: ThreadBaseTask
+    struct PhotoCountTask: IThreadTask
     {
         PhotoCountTask (const std::deque<Database::IFilter::Ptr>& filter, const std::function<void(int)>& callback):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_callback(callback),
             m_filter(filter)
         {
@@ -382,10 +368,10 @@ namespace
     };
 
 
-    struct UpdateTask: ThreadBaseTask
+    struct UpdateTask: IThreadTask
     {
         UpdateTask(const Photo::Data& photoData):
-            ThreadBaseTask(),
+            IThreadTask(),
             m_photoData(photoData)
         {
 
@@ -424,14 +410,14 @@ namespace Database
         }
 
         //store task to be executed by thread
-        void addTask(ThreadBaseTask* task)
+        void addTask( IThreadTask* task)
         {
             assert(m_working);
-            m_executor.addTask( std::move(std::unique_ptr<ThreadBaseTask>(task)) );
+            m_executor.addTask( std::move(std::unique_ptr<IThreadTask>(task)) );
         }
 
         //store task to be executed by thread
-        void addTask(std::unique_ptr<ThreadBaseTask>&& task)
+        void addTask(std::unique_ptr<IThreadTask>&& task)
         {
             assert(m_working);
             m_executor.addTask(std::move(task));
