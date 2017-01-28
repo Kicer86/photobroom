@@ -59,62 +59,6 @@ namespace Database
             void photosRemoved(const std::deque<Photo::Id> &);      // emited after photos removal
     };
 
-    struct DATABASE_EXPORT AStorePhotoTask
-    {
-        virtual ~AStorePhotoTask() = default;
-
-        virtual void got(bool) = 0;
-    };
-
-    struct DATABASE_EXPORT AListTagsTask
-    {
-        virtual ~AListTagsTask() = default;
-
-        virtual void got(const std::deque<TagNameInfo> &) = 0;
-    };
-
-    struct DATABASE_EXPORT AListTagValuesTask
-    {
-        virtual ~AListTagValuesTask() = default;
-
-        virtual void got(const std::deque<TagValue> &) = 0;
-    };
-
-    struct DATABASE_EXPORT AGetPhotosTask
-    {
-        virtual ~AGetPhotosTask() = default;
-
-        virtual void got(const IPhotoInfo::List &) = 0;
-    };
-
-    struct DATABASE_DEPRECATED_EXPORT AGetPhotoTask
-    {
-        virtual ~AGetPhotoTask() = default;
-
-        virtual void got(const std::deque<IPhotoInfo::Ptr> &) = 0;
-    };
-
-    struct DATABASE_EXPORT AGetPhotosCount
-    {
-        virtual ~AGetPhotosCount() = default;
-
-        virtual void got(int) = 0;
-    };
-
-    struct DATABASE_EXPORT ADropPhotosTask
-    {
-        virtual ~ADropPhotosTask() = default;
-
-        virtual void got(const std::deque<Photo::Id> &) = 0;
-    };
-
-    struct DATABASE_EXPORT AInitTask
-    {
-        virtual ~AInitTask() = default;
-
-        virtual void got(const Database::BackendStatus &) = 0;
-    };
-
     //Database interface.
     //A bridge between clients and backend.
     // TODO: all exec functions should be dropped and dedicated functions should be introduced
@@ -128,7 +72,7 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         // store data
-        [[deprecated]] virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) = 0;
+        virtual void update(const IPhotoInfo::Ptr &) = 0;
         virtual void store(const std::set<QString> &,
                            const Photo::FlagValues &,
                            const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
@@ -136,26 +80,19 @@ namespace Database
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
-        [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) = 0;               //list all values of provided tag
-        [[deprecated]] virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) = 0; //list all values for provided tag used on photos matching provided filter
-        [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosTask> &&) = 0;                                        //list all photos
-        [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;      //list all photos matching filter
-        [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) = 0;                      //get particular photo
-        [[deprecated]] virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque<IFilter::Ptr> &) = 0;     //is there any photo matching filters?
-
+        virtual void countPhotos(const std::deque<IFilter::Ptr> &, const Callback<int> &) = 0;                           // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::deque<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) = 0;                                          // list all stored tag names
-        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) = 0;  // list all values of provided tag
+        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;    // list all tag values
+        virtual void listTagValues( const TagNameInfo &, const std::deque<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
         // modify data
-        virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos
 
         // drop data
-        [[deprecated]] virtual void exec(std::unique_ptr<ADropPhotosTask> &&, const std::deque<IFilter::Ptr> &) = 0;     // drop photos matching filter
 
         //init backend - connect to database or create new one
-        [[deprecated]] virtual void exec(std::unique_ptr<AInitTask> &&, const Database::ProjectInfo &) = 0;
+        virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

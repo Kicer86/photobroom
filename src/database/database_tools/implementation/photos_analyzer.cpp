@@ -21,31 +21,6 @@
 #include "photos_analyzer_p.hpp"
 
 
-///////////////////////////////////////////////////////////////////////////////
-
-
-IncompletePhotos::IncompletePhotos(PhotosAnalyzerImpl* impl): m_analyzerImpl(impl)
-{
-
-}
-
-
-IncompletePhotos::~IncompletePhotos()
-{
-
-}
-
-
-void IncompletePhotos::got(const IPhotoInfo::List& photos)
-{
-    for(const IPhotoInfo::Ptr& photo: photos)
-        m_analyzerImpl->addPhoto(photo);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
 PhotosAnalyzerImpl::PhotosAnalyzerImpl():
     m_updater(),
     m_database(nullptr),
@@ -85,10 +60,13 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
         for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::ThumbnailLoaded, Photo::FlagsE::GeometryLoaded })
             flags_filter->flags[flag] = 0;            //uninitialized
 
-        IncompletePhotos* task = new IncompletePhotos(this);
         const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
 
-        database->exec(std::unique_ptr<IncompletePhotos>(task), filters);
+        database->listPhotos(filters, [this](const IPhotoInfo::List& photos)
+        {
+            for(const IPhotoInfo::Ptr& photo: photos)
+                addPhoto(photo);
+        });
     }
 }
 

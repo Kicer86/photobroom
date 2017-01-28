@@ -45,23 +45,6 @@ namespace
         std::mutex m_data_mutex;
         bool m_got_data;
     };
-
-
-    struct GetPhotos: Database::AGetPhotosTask
-    {
-        GetPhotos(DataReceiver* dr): m_dataReceiver(dr) {}
-        GetPhotos(const GetPhotos &) = delete;
-        virtual ~GetPhotos(){ }
-
-        GetPhotos& operator=(const GetPhotos &) = delete;
-
-        virtual void got(const IPhotoInfo::List& photos) override
-        {
-            m_dataReceiver->got_getPhotos(photos);
-        }
-
-        DataReceiver* m_dataReceiver;
-    };
 }
 
 
@@ -83,12 +66,14 @@ void SynchronousDatabase::set(Database::IDatabase* database)
 }
 
 
-const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque< Database::IFilter::Ptr >& filters)
+const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque<Database::IFilter::Ptr>& filters)
 {
     DataReceiver receiver;
 
-    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotos(&receiver));
-    m_database->exec(std::move(task), filters);
+    using namespace std::placeholders;
+    auto callback = std::bind(&DataReceiver::got_getPhotos, &receiver, _1);
+
+    m_database->listPhotos(filters, callback);
 
     std::unique_lock<std::mutex> lock(receiver.m_data_mutex);
 

@@ -28,40 +28,31 @@
 namespace Database
 {
 
-    class DatabaseThread: public IDatabase
+    class AsyncDatabase: public IDatabase
     {
         public:
-            DatabaseThread(std::unique_ptr<IBackend> &&);
-            DatabaseThread(const DatabaseThread &) = delete;
-            virtual ~DatabaseThread();
+            AsyncDatabase (std::unique_ptr<IBackend> &&);
+            AsyncDatabase (const AsyncDatabase &) = delete;
+            virtual ~AsyncDatabase();
 
-            DatabaseThread& operator=(const DatabaseThread &) = delete;
+            AsyncDatabase& operator=(const AsyncDatabase &) = delete;
 
             void set(std::unique_ptr<IPhotoInfoCache> &&);
 
             virtual ADatabaseSignals* notifier() override;
 
-            virtual void exec(std::unique_ptr<AStorePhotoTask> &&, const IPhotoInfo::Ptr &) override;
-            virtual void store(const std::set<QString> &, const Photo::FlagValues &, const Callback<const std::vector<Photo::Id> &> &) override;
+            virtual void update(const IPhotoInfo::Ptr &) override;
+            virtual void store(const std::set< QString >&, const Photo::FlagValues &, const Callback<const std::vector<Photo::Id> &>&) override;
             virtual void createGroup(const Photo::Id & , const Callback<Group::Id> &) override;
 
-            virtual void exec(std::unique_ptr<AGetPhotoTask> &&, const Photo::Id &) override;
-            virtual void exec(std::unique_ptr<AGetPhotosTask> &&, const std::deque<IFilter::Ptr> &) override;
-            virtual void exec(std::unique_ptr<AGetPhotosTask> &&) override;
-            virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &) override;
-            virtual void exec(std::unique_ptr<AListTagValuesTask> &&, const TagNameInfo &, const std::deque<IFilter::Ptr> &) override;
-            virtual void exec(std::unique_ptr<AGetPhotosCount> &&, const std::deque< IFilter::Ptr >&) override;
-
+            virtual void countPhotos(const std::deque<IFilter::Ptr> &, const Callback<int> &) override;
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::deque<IPhotoInfo::Ptr> &> &) override;
             virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) override;
             virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) override;
+            virtual void listTagValues( const TagNameInfo&, const std::deque<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) override;
             virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
-            virtual void perform(const std::deque< IFilter::Ptr >&, const std::deque< IAction::Ptr >&) override;
-
-            virtual void exec(std::unique_ptr<ADropPhotosTask> &&, const std::deque< IFilter::Ptr >&) override;
-
-            virtual void exec(std::unique_ptr<AInitTask> &&, const ProjectInfo &) override;
+            virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;
 
         private:

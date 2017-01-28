@@ -8,8 +8,8 @@ find_package(Threads REQUIRED)
 
 set(DATABASE_SOURCES
     implementation/action.cpp
+    implementation/async_database.cpp
     implementation/database_builder.cpp
-    implementation/database_thread.cpp
     implementation/filter.cpp
     implementation/photo_data.cpp
     implementation/photo_info.cpp
@@ -38,7 +38,7 @@ set(DATABASE_HEADERS
     photo_types.hpp
     query_list.hpp
     project_info.hpp
-    implementation/database_thread.hpp
+    implementation/async_database.hpp
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp

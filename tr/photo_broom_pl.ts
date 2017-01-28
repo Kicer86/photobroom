@@ -32,7 +32,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+171"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+170"/>
         <source>Collection scan in progress</source>
         <translation>Trwa skanowanie kolekcji</translation>
     </message>
@@ -48,12 +48,12 @@
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
-        <location line="-111"/>
+        <location line="-110"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+120"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
@@ -101,7 +101,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+975"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+904"/>
         <source>Unlabeled</source>
         <translation type="unfinished"></translation>
     </message>
@@ -435,7 +435,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+153"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+131"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
