@@ -103,7 +103,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+904"/>
         <source>Unlabeled</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieopisane</translation>
     </message>
 </context>
 <context>
@@ -231,12 +231,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+20"/>
         <source>Photo information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -353,7 +353,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+126"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+144"/>
@@ -445,62 +445,62 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+14"/>
         <source>Photos grouping tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzie grupowania zdjęć</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Grouping type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodzaj grupowania:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Animation</source>
-        <translation type="unfinished"></translation>
+        <translation>animacja</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Animation speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość animacji:</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>fps</source>
-        <translation type="unfinished"></translation>
+        <translation>fps</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Delay before restart:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opóźnienie pętli:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Scale:</source>
-        <translation type="unfinished"></translation>
+        <translation>Skala:</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podgląd:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+221"/>
         <source>photo path</source>
-        <translation type="unfinished"></translation>
+        <translation>ścieżka zdjęcia</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sequence number</source>
-        <translation type="unfinished"></translation>
+        <translation>numer klatki</translation>
     </message>
 </context>
 <context>
