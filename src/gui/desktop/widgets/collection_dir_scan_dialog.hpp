@@ -32,24 +32,6 @@ class QLabel;
 
 class Project;
 
-namespace
-{
-    struct ListExistingPhotos final: Database::AGetPhotosTask
-    {
-        ListExistingPhotos(const std::function<void(const IPhotoInfo::List& photos)>& callback): m_callback(callback)
-        {
-        }
-
-        void got(const IPhotoInfo::List& photos) override
-        {
-            m_callback(photos);
-        }
-
-        std::function<void(const IPhotoInfo::List& photos)> m_callback;
-    };
-}
-
-
 class CollectionDirScanDialog: public QDialog
 {
         Q_OBJECT

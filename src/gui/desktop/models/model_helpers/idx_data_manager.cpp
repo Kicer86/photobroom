@@ -41,65 +41,6 @@ Q_DECLARE_METATYPE(std::shared_ptr<std::deque<IdxData *>>)
 Q_DECLARE_METATYPE(std::deque<IPhotoInfo::Ptr>)
 
 
-namespace
-{
-
-    struct GetPhotosTask: Database::AGetPhotosTask
-    {
-        GetPhotosTask(const std::function< void(Database::AGetPhotosTask* , const IPhotoInfo::List&)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
-        GetPhotosTask(const GetPhotosTask &) = delete;
-        virtual ~GetPhotosTask() {}
-
-        GetPhotosTask& operator=(const GetPhotosTask &) = delete;
-
-        virtual void got(const IPhotoInfo::List& photos)
-        {
-            m_tasks_result(this, photos);
-        }
-
-        std::function< void(Database::AGetPhotosTask* , const IPhotoInfo::List&)> m_tasks_result;
-        QModelIndex m_parent;
-    };
-
-    struct GetNonmatchingPhotosTask: Database::AGetPhotosCount
-    {
-        GetNonmatchingPhotosTask(const std::function<void( Database::AGetPhotosCount *, int)>& tr, const QModelIndex& parent): m_tasks_result(tr), m_parent(parent) {}
-        GetNonmatchingPhotosTask(const GetNonmatchingPhotosTask &) = delete;
-        virtual ~GetNonmatchingPhotosTask() {}
-
-        GetNonmatchingPhotosTask& operator=(const GetNonmatchingPhotosTask &) = delete;
-
-        virtual void got(int size)
-        {
-            m_tasks_result(this, size);
-        }
-
-        std::function<void( Database::AGetPhotosCount *, int)> m_tasks_result;
-        QModelIndex m_parent;
-    };
-
-    struct ListTagValuesTask: Database::AListTagValuesTask
-    {
-        ListTagValuesTask(const std::function<void(Database::AListTagValuesTask *, const std::deque<TagValue> &)>& tr,
-                        const QModelIndex& parent,
-                        size_t level): m_tasks_result(tr), m_parent(parent), m_level(level) {}
-        ListTagValuesTask(const ListTagValuesTask &) = delete;
-        virtual ~ListTagValuesTask() {}
-
-        ListTagValuesTask& operator=(const ListTagValuesTask &) = delete;
-
-        virtual void got(const std::deque<TagValue>& value)
-        {
-            m_tasks_result(this, value);
-        }
-
-        std::function<void(Database::AListTagValuesTask *, const std::deque<TagValue> &)> m_tasks_result;
-        QModelIndex m_parent;
-        size_t m_level;
-    };
-}
-
-
 struct IdxDataManager::Data
 {
     Data(DBDataModel* model):
@@ -381,12 +322,11 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildExtraFilters(&filter);
 
         using namespace std::placeholders;
-        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _1, _2);
+        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AListTagValuesTask *, const std::deque<TagValue> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagNameInfo &, const std::deque<TagValue> &) >(callback);
 
-        std::unique_ptr<Database::AListTagValuesTask> task = std::make_unique<ListTagValuesTask>(safe_callback, _parent, level);
-        m_data->m_database->exec(std::move(task), tagNameInfo, filter);
+        m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
     }
     else
         assert(!"should not happend");
@@ -401,14 +341,12 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
 
     //prepare task and store it in local list
     using namespace std::placeholders;
-    auto callback = std::bind(&IdxDataManager::gotPhotosForParent, this, _1, _2);
+    auto callback = std::bind(&IdxDataManager::gotPhotosForParent, this, _parent, _1);
     auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback< void(Database::AGetPhotosTask *, const IPhotoInfo::List &) >(callback);
-
-    std::unique_ptr<Database::AGetPhotosTask> task(new GetPhotosTask(safe_callback, _parent));
+        m_data->m_tasksResultsCtrl.make_safe_callback< void(const IPhotoInfo::List &) >(callback);
 
     //send task to execution
-    m_data->m_database->exec(std::move(task), filter);
+    m_data->m_database->listPhotos(filter, safe_callback);
 }
 
 
@@ -437,14 +375,12 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
 
     //prepare task and store it in local list
     using namespace std::placeholders;
-    auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _1, _2);
+    auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _parent, _1);
     auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback< void( Database::AGetPhotosCount * , int ) >(callback);
-
-    std::unique_ptr<Database::AGetPhotosCount> task(new GetNonmatchingPhotosTask(safe_callback, _parent));
+        m_data->m_tasksResultsCtrl.make_safe_callback<void(int)>(callback);
 
     //send task to execution
-    m_data->m_database->exec(std::move(task), filter);
+    m_data->m_database->countPhotos(filter, safe_callback);
 }
 
 
@@ -513,10 +449,9 @@ void IdxDataManager::setupRootNode()
 
 
 //called when leafs for particual node have been loaded
-void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IPhotoInfo::List& photos)
+void IdxDataManager::gotPhotosForParent(const QModelIndex& parent, const IPhotoInfo::List& photos)
 {
-    GetPhotosTask* l_task = static_cast<GetPhotosTask *>(task);
-    IdxData* parentIdxData = getIdxDataFor(l_task->m_parent);
+    IdxData* parentIdxData = getIdxDataFor(parent);
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
@@ -532,15 +467,13 @@ void IdxDataManager::gotPhotosForParent(Database::AGetPhotosTask* task, const IP
 
 
 //called when we look for photos which do not have tag required by particular parent
-void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* task, int size)
+void IdxDataManager::gotNonmatchingPhotosForParent(const QModelIndex& parent, int size)
 {
     if (size > 0)  //there is at least one such a photo? Create extra node
     {
         std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
-        GetNonmatchingPhotosTask* l_task = static_cast<GetNonmatchingPhotosTask *>(task);
-        QModelIndex _parentIndex = l_task->m_parent;
-        IdxData* _parent = getIdxDataFor(_parentIndex);
+        IdxData* _parent = getIdxDataFor(parent);
         IdxData* node = prepareUniversalNodeFor(_parent);
 
         leafs->push_back(node);
@@ -551,13 +484,9 @@ void IdxDataManager::gotNonmatchingPhotosForParent(Database::AGetPhotosCount* ta
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(Database::AListTagValuesTask* task, const std::deque<TagValue>& tags)
+void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_t level, const std::deque<TagValue>& tags)
 {
-    ListTagValuesTask* l_task = static_cast<ListTagValuesTask *>(task);
-
-    const size_t level = l_task->m_level;
-    const QModelIndex& _parent = l_task->m_parent;
-    IdxData* parentIdxData = getIdxDataFor(_parent);
+    IdxData* parentIdxData = getIdxDataFor(parent);
 
     std::shared_ptr<std::deque<IdxData *>> leafs(new std::deque<IdxData *>);
 
