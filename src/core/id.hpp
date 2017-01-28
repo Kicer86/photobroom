@@ -46,6 +46,8 @@ class Id
         {
             m_value = id;
             m_valid = true;
+
+            return *this;
         }
 
         operator T() const
