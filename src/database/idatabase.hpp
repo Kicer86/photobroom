@@ -85,7 +85,6 @@ namespace Database
         virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;       // list all photos matching filter
 
         // modify data
-        virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) = 0;     // perform actions on matching photos
 
         // drop data
 

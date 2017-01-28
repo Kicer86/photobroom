@@ -35,7 +35,6 @@
 namespace
 {
     struct IThreadVisitor;
-    struct PerformActionTask;
 
     struct Executor;
 
@@ -55,23 +54,6 @@ namespace
     struct IThreadVisitor
     {
         virtual ~IThreadVisitor() {}
-
-        virtual void visit(PerformActionTask *) = 0;
-    };
-
-    struct PerformActionTask: ThreadBaseTask
-    {
-        PerformActionTask(const std::deque<Database::IFilter::Ptr>& filter, const std::deque<Database::IAction::Ptr>& action):
-            ThreadBaseTask(),
-            m_filter(filter),
-            m_action(action)
-        {
-        }
-
-        virtual void visitMe(IThreadVisitor* visitor) { visitor->visit(this); }
-
-        std::deque<Database::IFilter::Ptr> m_filter;
-        std::deque<Database::IAction::Ptr> m_action;
     };
 
     struct Executor: IThreadVisitor, Database::ADatabaseSignals
@@ -93,11 +75,6 @@ namespace
         void set(Database::IPhotoInfoCache* cache)
         {
             m_cache = cache;
-        }
-
-        virtual void visit(PerformActionTask* task) override
-        {
-            m_backend->perform(task->m_filter, task->m_action);
         }
 
         void begin()
@@ -582,14 +559,6 @@ namespace Database
     {
         auto task = std::make_unique<GetPhotosTask>(filter, callback);
         m_impl->addTask(std::move(task));
-    }
-
-
-    void AsyncDatabase::perform(const std::deque<IFilter::Ptr>& filters, const std::deque<IAction::Ptr>& actions)
-    {
-        assert(!"bad implementation");
-        PerformActionTask* task = new PerformActionTask(filters, actions);
-        m_impl->addTask(task);
     }
 
 }
