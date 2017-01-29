@@ -10,6 +10,7 @@
 
 #include <type_traits>
 
+#include "iterator_wrapper.hpp"
 
 template<typename T>
 concept bool SmartPointer()
@@ -70,22 +71,16 @@ concept bool SmartPointerContainer()
 
 
 template<SmartPointerContainer T>
-class ptr_iterator: public T::const_iterator
+struct SmartPtrAccessor
 {
-    public:
-        typedef typename T::iterator::iterator_category iterator_category;
-        typedef typename T::iterator::value_type        value_type;
-        typedef typename T::iterator::difference_type   difference_type;
-        typedef typename T::iterator::pointer           pointer;
-        typedef typename T::iterator::reference         reference;
-
-        ptr_iterator(const typename T::const_iterator& iterator): T::const_iterator(iterator) {}
-        ~ptr_iterator() {}
-
-        const typename T::value_type::element_type* operator*() const
-        {
-            return (*this)->get();
-        }
+    typename T::value_type::pointer operator()(const typename T::const_iterator& v) const
+    {
+        return v->get();
+    }
 };
+
+
+template<SmartPointerContainer T>
+using ptr_iterator = iterator_wrapper<typename T::value_type::pointer, typename T::const_iterator, SmartPtrAccessor<T>>;
 
 #endif
