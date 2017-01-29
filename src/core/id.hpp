@@ -61,6 +61,16 @@ class Id
             return !m_valid;
         }
 
+        bool operator!=(const Id& other) const
+        {
+            return m_valid != other.m_valid || m_value != other.m_value;
+        }
+
+        bool operator==(const Id& other) const
+        {
+            return m_valid == other.m_valid && m_value == other.m_value;
+        }
+
         bool valid() const
         {
             return m_valid;
