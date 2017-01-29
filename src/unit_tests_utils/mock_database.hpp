@@ -24,7 +24,7 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD3(listTagValues, void( const TagNameInfo &, const std::deque<Database::IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) );
     MOCK_METHOD2(listPhotos, void(const std::deque<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
 
-    MOCK_METHOD2(perform, void(const std::deque<Database::IFilter::Ptr> &, const std::deque<Database::IAction::Ptr> &) );
+    MOCK_METHOD1(performCustomAction, void(const std::function<void(Database::IBackendOperator *)> &) );
 
     MOCK_METHOD2(init, void(const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &) );
 

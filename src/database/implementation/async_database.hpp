@@ -52,6 +52,8 @@ namespace Database
             virtual void listTagValues( const TagNameInfo&, const std::deque<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) override;
             virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
+            virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) override;
+
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;
 

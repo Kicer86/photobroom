@@ -43,7 +43,7 @@ namespace
         virtual void execute(Executor *) = 0;
     };
 
-    struct Executor: Database::ADatabaseSignals
+    struct Executor: Database::ADatabaseSignals, Database::IBackendOperator
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, PhotoInfoStorekeeper* storekeeper):
             m_tasks(1024),
@@ -190,6 +190,22 @@ namespace
 
         Photo::Id m_representative;
         std::function<void(Group::Id)> m_callback;
+    };
+
+
+    struct CustomAction: IThreadTask
+    {
+        CustomAction(const std::function<void(Database::IBackendOperator *)>& operation): m_operation(operation)
+        {
+
+        }
+
+        virtual void execute(Executor* executor) override
+        {
+            m_operation(executor);
+        }
+
+        std::function<void(Database::IBackendOperator *)> m_operation;
     };
 
 
@@ -546,6 +562,13 @@ namespace Database
     void AsyncDatabase::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
         auto task = std::make_unique<GetPhotosTask>(filter, callback);
+        m_impl->addTask(std::move(task));
+    }
+
+
+    void AsyncDatabase::performCustomAction(const std::function<void(IBackendOperator *)>& action)
+    {
+        auto task = std::make_unique<CustomAction>(action);
         m_impl->addTask(std::move(task));
     }
 

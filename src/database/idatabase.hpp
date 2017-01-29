@@ -59,6 +59,10 @@ namespace Database
             void photosRemoved(const std::deque<Photo::Id> &);      // emited after photos removal
     };
 
+    struct IBackendOperator
+    {
+    };
+
     //Database interface.
     //A bridge between clients and backend.
     // TODO: all exec functions should be dropped and dedicated functions should be introduced
@@ -90,6 +94,9 @@ namespace Database
         // modify data
 
         // drop data
+
+        // other
+        virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
