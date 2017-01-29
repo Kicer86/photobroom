@@ -54,6 +54,7 @@ set(CORE_HEADERS
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
+    iterator_wrapper.hpp
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp
