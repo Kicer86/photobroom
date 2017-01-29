@@ -8,6 +8,7 @@ find_package(OpenLibrary 2.1 REQUIRED utils)
 
 set(SRC
         unit_tests/map_iterator_tests.cpp
+        unit_tests/ptr_iterator_tests.cpp
         unit_tests/tree_tests.cpp
         unit_tests/ts_multi_head_queue_tests.cpp
     )
