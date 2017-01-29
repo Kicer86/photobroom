@@ -17,6 +17,8 @@ concept bool SmartPointer()
 {
     return requires(T p)
     {
+        typename T::pointer;
+
         { p.operator*() };
         { p.get() };
         { std::is_pointer<decltype(*p)>::value == true };
@@ -47,6 +49,7 @@ concept bool Container()
     return requires(T p)
     {
         typename T::const_iterator;
+        typename T::value_type;
 
         requires Iterator<typename T::const_iterator>();
         requires Iterator<typename T::iterator>();
