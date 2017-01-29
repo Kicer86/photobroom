@@ -100,7 +100,14 @@ namespace
             return photoInfo;
         }
 
-        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id)
+        // IBackendOperator
+
+        std::deque<Photo::Id> getPhotos(const std::deque<Database::IFilter::Ptr>& filter) override
+        {
+            return m_backend->getPhotos(filter);
+        }
+
+        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id) override
         {
             IPhotoInfo::Ptr photoPtr = m_cache->find(id);
 
@@ -113,6 +120,8 @@ namespace
 
             return photoPtr;
         }
+
+        //
 
         std::vector<Photo::Id> insertPhotos(const std::set<QString>& paths, const Photo::FlagValues& flags)
         {

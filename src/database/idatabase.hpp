@@ -61,6 +61,10 @@ namespace Database
 
     struct IBackendOperator
     {
+        virtual ~IBackendOperator() = default;
+
+        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;    // find all photos matching filter
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                       // get IPhotoInfo for given id
     };
 
     //Database interface.
