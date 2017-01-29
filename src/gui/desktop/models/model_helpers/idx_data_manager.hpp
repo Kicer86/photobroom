@@ -89,8 +89,10 @@ private:
     void setupNewNode(IIdxData *, const Database::IFilter::Ptr &, const Hierarchy::Level &) const;
     void setupRootNode();
 
+    // database custom actions (runned by database thread)
+    void getPhotosForParent(Database::IBackendOperator *, const QModelIndex &, const std::deque<Database::IFilter::Ptr> &);
+
     // database tasks callbacks:
-    void gotPhotosForParent(const QModelIndex &, const IPhotoInfo::List& photos);
     void gotNonmatchingPhotosForParent(const QModelIndex &, int);
     void gotTagValuesForParent(const QModelIndex &, std::size_t, const std::deque<TagValue> &);
     //

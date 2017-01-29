@@ -321,14 +321,10 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     buildFilterFor(_parent, &filter);
     buildExtraFilters(&filter);
 
-    //prepare task and store it in local list
     using namespace std::placeholders;
-    auto callback = std::bind(&IdxDataManager::gotPhotosForParent, this, _parent, _1);
-    auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback< void(const IPhotoInfo::List &) >(callback);
+    auto action_callback = std::bind(&IdxDataManager::getPhotosForParent, this, _1, _parent, filter);
 
-    //send task to execution
-    m_data->m_database->listPhotos(filter, safe_callback);
+    m_data->m_database->performCustomAction(action_callback);
 }
 
 
@@ -430,39 +426,39 @@ void IdxDataManager::setupRootNode()
 }
 
 
-//called when leafs for particular node have been loaded
-void IdxDataManager::gotPhotosForParent(const QModelIndex& parent, const IPhotoInfo::List& photos)
+void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator, const QModelIndex& parent, const std::deque<Database::IFilter::Ptr>& filter)
 {
-    IIdxData* parentIdxData = getIdxDataFor(parent);
-
+    auto photos = db_operator->getPhotos(filter);
     auto leafs = std::make_shared<std::deque<IIdxData::Ptr>>();
 
-    // search for groups
-    std::map<Group::Id, std::deque<IPhotoInfo::Ptr>> grouped;
-    IPhotoInfo::List ungrouped;
+    Group::Id current_group;
 
-    for(IPhotoInfo::Ptr photoInfo: photos)
+    for(const Photo::Id& id: photos)
     {
-        Group::Id id = photoInfo->data().group_id;
+        IPhotoInfo::Ptr photo = db_operator->getPhotoFor(id);
 
-        if (id.valid())
-            grouped[id].push_back(photoInfo);
+        Group::Id gid = photo->data().group_id;
+
+        if (gid.valid())
+        {
+            if (gid != current_group)
+            {
+                IPhotoInfo::Ptr representative = db_operator->getPhotoFor(gid);
+                leafs->push_back( std::make_unique<IdxGroupLeafData>(this, representative) );
+            }
+        }
         else
-            ungrouped.push_back(photoInfo);
+            leafs->push_back( std::make_unique<IdxRegularLeafData>(this, photo) );
+
+        current_group = gid;
     }
-
-    // create groups
-    for(auto it = grouped.begin(); it != grouped.end(); ++it)
-        leafs->push_back( std::make_unique<IdxGroupLeafData>(this, it->first, it->second) );
-
-    // create leafs for ungrouped photos
-    for(const IPhotoInfo::Ptr& photoInfo: ungrouped)
-        leafs->push_back( std::make_unique<IdxRegularLeafData>(this, photoInfo) );
 
     //attach nodes to parent node in main thread
     using namespace std::placeholders;
     std::function<void(IIdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)> insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
     auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
+
+    IIdxData* parentIdxData = getIdxDataFor(parent);
     nodesFetched(parentIdxData, leafs);
 }
 

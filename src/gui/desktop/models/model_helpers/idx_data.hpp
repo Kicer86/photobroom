@@ -80,7 +80,6 @@ class IdxData: public IIdxData
 
         //leaf constructor
         IdxData(IdxDataManager *, const IPhotoInfo::Ptr &);
-        IdxData(IdxDataManager *, const Photo::Id &);
 
         virtual ~IdxData();
 
@@ -144,7 +143,6 @@ class IdxLeafData: public IdxData
 {
     public:
         IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
-        IdxLeafData(IdxDataManager *, const Photo::Id &);
         virtual ~IdxLeafData() = default;
 
         virtual void visitMe(IIdxDataVisitor *) const override;
@@ -175,7 +173,7 @@ class IdxRegularLeafData: public IdxLeafData
 class IdxGroupLeafData: public IdxLeafData
 {
     public:
-        IdxGroupLeafData(IdxDataManager *, const Photo::Id &, const std::deque<IPhotoInfo::Ptr> &);
+        IdxGroupLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
         virtual ~IdxGroupLeafData();
 
     private:

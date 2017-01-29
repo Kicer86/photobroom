@@ -205,19 +205,6 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
 }
 
 
-IdxData::IdxData(IdxDataManager* model, const Photo::Id &): IdxData(model)
-{
-    m_photo = IPhotoInfo::Ptr();
-    setStatus(NodeStatus::Fetched);
-
-    QImage img;
-    img.load(":/gui/clock.svg");
-
-    m_data[Qt::DisplayRole] = "";
-    m_data[Qt::DecorationRole] = img;
-}
-
-
 IdxData::~IdxData()
 {
     reset();
@@ -455,12 +442,6 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): Idx
 }
 
 
-IdxLeafData::IdxLeafData(IdxDataManager* mgr, const Photo::Id& id): IdxData(mgr, id)
-{
-
-}
-
-
 void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
@@ -509,12 +490,11 @@ Tag::TagsList IdxRegularLeafData::getTags() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Id& id, const std::deque<IPhotoInfo::Ptr>& photos):
-    IdxLeafData(mgr, id),
-    m_id(id),
-    m_photos(photos)
+IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photoInfo):
+    IdxLeafData(mgr, photoInfo),
+    m_photos()
 {
-    assert(photos.empty() == false);
+
 }
 
 
@@ -525,25 +505,25 @@ IdxGroupLeafData::~IdxGroupLeafData()
 
 Photo::Id IdxGroupLeafData::getMediaId() const
 {
-    return m_id;
+    return m_photo->getID();
 }
 
 
 QString IdxGroupLeafData::getMediaPath() const
 {
-    return ":/gui/clock.svg";
+    return m_photo->getPath();
 }
 
 
 QSize IdxGroupLeafData::getMediaGeometry() const
 {
-    return m_photos.front()->getGeometry();
+    return m_photo->getGeometry();
 }
 
 
 Tag::TagsList IdxGroupLeafData::getTags() const
 {
-    return m_photos.front()->getTags();
+    return m_photo->getTags();
 }
 
 
