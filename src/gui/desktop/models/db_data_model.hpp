@@ -28,8 +28,8 @@
 #include "model_types.hpp"
 
 struct ITaskExecutor;
+struct IIdxData;
 class IdxDataManager;
-class IdxData;
 
 struct Hierarchy
 {
@@ -76,7 +76,6 @@ class DBDataModel: public APhotoInfoModel
         bool operator==(const DBDataModel& other) = delete;
 
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::vector<IPhotoInfo::Ptr> getPhotos() const;       //an empty result will be returned when any of nodes is not loaded. Use deepFetch() on main node to load all nodes
         const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
         bool isEmpty() const;
 
@@ -90,7 +89,7 @@ class DBDataModel: public APhotoInfoModel
         void applyFilters(const SearchExpressionEvaluator::Expression &);
 
         // APhotoInfoModel:
-        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
+        virtual PhotoDetails getPhotoDetails(const QModelIndex &) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;
@@ -104,7 +103,7 @@ class DBDataModel: public APhotoInfoModel
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
 
     protected:
-        IdxData* getRootIdxData();
+        IIdxData* getRootIdxData();
 
     private:
         struct Grouper;
@@ -115,9 +114,9 @@ class DBDataModel: public APhotoInfoModel
         std::set<std::unique_ptr<Grouper>> m_groupers;
 
         using QAbstractItemModel::createIndex;
-        QModelIndex createIndex(IdxData *) const;
+        QModelIndex createIndex(IIdxData *) const;
 
-        void itemDataChanged(IdxData *, const QVector<int> &);
+        void itemDataChanged(IIdxData *, const QVector<int> &);
 };
 
 #endif // DBDATAMODEL_HPP

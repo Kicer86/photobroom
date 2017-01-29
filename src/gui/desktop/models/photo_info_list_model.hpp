@@ -47,7 +47,7 @@ class PhotoInfoListModel: public APhotoInfoModel
     protected:
         // APhotoInfoModel overrides:
         virtual QVariant data(const QModelIndex& _index, int role) const override;
-        virtual IPhotoInfo* getPhotoInfo(const QModelIndex &) const override;
+        virtual PhotoDetails getPhotoDetails(const QModelIndex & ) const override;
 
     private:
         std::vector<IPhotoInfo::Ptr> m_photos;

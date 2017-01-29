@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const char db_version[] = "1";
+        const int db_version = 2;
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -38,7 +38,7 @@ namespace Database
                    {
                        { "id", "", ColDefinition::Purpose::ID },
                        { "value", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
-                       { "name", "INTEGER NOT NULL"     },
+                       { "name", "INTEGER NOT NULL"        },
                        { "photo_id", "INTEGER NOT NULL"    },
                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""   },
                    },
@@ -99,12 +99,13 @@ namespace Database
         table_flags(TAB_FLAGS,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "photo_id",  "INTEGER NOT NULL"     },
+                        { "photo_id",  "INTEGER NOT NULL"    },
                         { FLAG_STAGING_AREA,  "INT NOT NULL" },
                         { FLAG_TAGS_LOADED,   "INT NOT NULL" },
                         { FLAG_SHA256_LOADED, "INT NOT NULL" },
                         { FLAG_THUMB_LOADED,  "INT NOT NULL" },
                         { FLAG_GEOM_LOADED,   "INT NOT NULL" },
+                        { FLAG_ROLE,          "INT NOT NULL" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     },
                     {

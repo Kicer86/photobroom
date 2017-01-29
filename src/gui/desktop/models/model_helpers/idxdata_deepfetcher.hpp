@@ -33,7 +33,7 @@ class QEventLoopLocker;
 class QModelIndex;
 
 class IdxDataManager;
-class IdxData;
+struct IIdxData;
 
 class IdxDataDeepFetcher: public QObject, public ITaskExecutor::ITask
 {
@@ -46,27 +46,27 @@ class IdxDataDeepFetcher: public QObject, public ITaskExecutor::ITask
         IdxDataDeepFetcher& operator=(const IdxDataDeepFetcher& other) = delete;
 
         void setModelImpl(IdxDataManager *);
-        void setIdxDataToFetch(IdxData* idx);
+        void setIdxDataToFetch(IIdxData* idx);
         void setEventLoopLocker(QEventLoopLocker *);
 
     private:
         IdxDataManager* m_idxDataManager;
         QEventLoopLocker* m_eventLoopLocker;
-        std::deque<IdxData *> m_notLoaded;               //nodes not fetched yet
-        std::set<IdxData *> m_inProcess;                 //nodes being fetched at this moment
+        std::deque<IIdxData *> m_notLoaded;               //nodes not fetched yet
+        std::set<IIdxData *> m_inProcess;                 //nodes being fetched at this moment
         std::mutex m_idxDataMutex;
         std::condition_variable m_dataNotifier;
 
         void process();
-        void process(IdxData *);
-        void idxDataLoaded(IdxData *);
+        void process(IIdxData *);
+        void idxDataLoaded(IIdxData *);
 
         //ITask:
         virtual std::string name() const override;
         virtual void perform() override;
 
     private slots:
-        void dataChanged(IdxData *, const QVector<int> &);
+        void dataChanged(IIdxData *, const QVector<int> &);
 };
 
 #endif // IDXDATADEEPFETCHER_HPP

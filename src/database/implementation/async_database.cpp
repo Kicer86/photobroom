@@ -43,7 +43,7 @@ namespace
         virtual void execute(Executor *) = 0;
     };
 
-    struct Executor: Database::ADatabaseSignals
+    struct Executor: Database::ADatabaseSignals, Database::IBackendOperator
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, PhotoInfoStorekeeper* storekeeper):
             m_tasks(1024),
@@ -100,7 +100,14 @@ namespace
             return photoInfo;
         }
 
-        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id)
+        // IBackendOperator
+
+        std::deque<Photo::Id> getPhotos(const std::deque<Database::IFilter::Ptr>& filter) override
+        {
+            return m_backend->getPhotos(filter);
+        }
+
+        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id) override
         {
             IPhotoInfo::Ptr photoPtr = m_cache->find(id);
 
@@ -114,7 +121,9 @@ namespace
             return photoPtr;
         }
 
-        std::vector<Photo::Id> insertPhotos(const std::set<QString>& paths)
+        //
+
+        std::vector<Photo::Id> insertPhotos(const std::set<QString>& paths, const Photo::FlagValues& flags)
         {
             std::vector<Photo::Id> result;
 
@@ -124,7 +133,7 @@ namespace
             {
                 Photo::Data data;
                 data.path = path;
-                data.flags[Photo::FlagsE::StagingArea] = 1;
+                data.flags = flags;
 
                 data_set.push_back(data);
             }
@@ -193,6 +202,22 @@ namespace
     };
 
 
+    struct CustomAction: IThreadTask
+    {
+        CustomAction(const std::function<void(Database::IBackendOperator *)>& operation): m_operation(operation)
+        {
+
+        }
+
+        virtual void execute(Executor* executor) override
+        {
+            m_operation(executor);
+        }
+
+        std::function<void(Database::IBackendOperator *)> m_operation;
+    };
+
+
     struct GetPhotoTask: IThreadTask
     {
         GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)>& callback):
@@ -251,6 +276,7 @@ namespace
         Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
+
     struct InitTask: IThreadTask
     {
         InitTask(const Database::ProjectInfo& prjInfo, const std::function<void(const Database::BackendStatus &)>& callback):
@@ -276,10 +302,11 @@ namespace
 
     struct InsertPhotosTask: IThreadTask
     {
-        InsertPhotosTask(const std::set<QString>& paths, const std::function<void(const std::vector<Photo::Id> &)>& callback):
+        InsertPhotosTask(const std::set<QString>& paths, const Photo::FlagValues& flags, const std::function<void(const std::vector<Photo::Id> &)>& callback):
             IThreadTask(),
             m_paths(paths),
-            m_callback(callback)
+            m_callback(callback),
+            m_flags(flags)
         {
 
         }
@@ -288,7 +315,7 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            const std::vector<Photo::Id> result = executor->insertPhotos(m_paths);
+            const std::vector<Photo::Id> result = executor->insertPhotos(m_paths, m_flags);
 
             if (m_callback)
                 m_callback(result);
@@ -296,8 +323,8 @@ namespace
 
         std::set<QString> m_paths;
         std::function<void(const std::vector<Photo::Id> &)> m_callback;
+        const Photo::FlagValues m_flags;
     };
-
 
     struct ListTagValuesTask: IThreadTask
     {
@@ -410,7 +437,7 @@ namespace Database
         }
 
         //store task to be executed by thread
-        void addTask( IThreadTask* task)
+        void addTask(IThreadTask* task)
         {
             assert(m_working);
             m_executor.addTask( std::move(std::unique_ptr<IThreadTask>(task)) );
@@ -480,7 +507,6 @@ namespace Database
         return &m_impl->m_executor;
     }
 
-
     void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
         InitTask* task = new InitTask(prjInfo, callback);
@@ -493,10 +519,9 @@ namespace Database
         m_impl->addTask(task);
     }
 
-
-    void AsyncDatabase::store(const std::set<QString>& paths, const Callback<const std::vector<Photo::Id> &>& callback)
+    void AsyncDatabase::store(const std::set<QString>& paths, const Photo::FlagValues& flags, const Callback<const std::vector<Photo::Id> &>& callback)
     {
-        InsertPhotosTask* task = new InsertPhotosTask(paths, callback);
+        InsertPhotosTask* task = new InsertPhotosTask(paths, flags, callback);
         m_impl->addTask(task);
     }
 
@@ -515,7 +540,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<std::deque<IPhotoInfo::Ptr>>& callback)
+    void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::deque<IPhotoInfo::Ptr> &>& callback)
     {
         GetPhotoTask* task = new GetPhotoTask(ids, callback);
         m_impl->addTask(task);
@@ -528,11 +553,13 @@ namespace Database
         m_impl->addTask(task);
     }
 
+
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
         ListTagValuesTask* task = new ListTagValuesTask (info, std::deque<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
+
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::deque<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
     {
@@ -544,6 +571,13 @@ namespace Database
     void AsyncDatabase::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
         auto task = std::make_unique<GetPhotosTask>(filter, callback);
+        m_impl->addTask(std::move(task));
+    }
+
+
+    void AsyncDatabase::performCustomAction(const std::function<void(IBackendOperator *)>& action)
+    {
+        auto task = std::make_unique<CustomAction>(action);
         m_impl->addTask(std::move(task));
     }
 

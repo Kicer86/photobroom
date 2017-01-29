@@ -559,13 +559,15 @@ namespace Database
     {
         UpdateQueryData queryInfo(TAB_FLAGS);
         queryInfo.setCondition("photo_id", QString::number(photoData.id));
-        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED, FLAG_ROLE);
         queryInfo.setValues(QString::number(photoData.id),
-                             photoData.getFlag(Photo::FlagsE::StagingArea),
-                             photoData.getFlag(Photo::FlagsE::ExifLoaded),
-                             photoData.getFlag(Photo::FlagsE::Sha256Loaded),
-                             photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                             photoData.getFlag(Photo::FlagsE::GeometryLoaded));
+                            photoData.getFlag(Photo::FlagsE::StagingArea),
+                            photoData.getFlag(Photo::FlagsE::ExifLoaded),
+                            photoData.getFlag(Photo::FlagsE::Sha256Loaded),
+                            photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
+                            photoData.getFlag(Photo::FlagsE::GeometryLoaded),
+                            photoData.getFlag(Photo::FlagsE::Role)
+        );
 
         const bool status = updateOrInsert(queryInfo);
 
@@ -673,7 +675,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        Group::Id grp_id = 0;
+        Group::Id grp_id;
 
         InsertQueryData insertData(TAB_GROUPS);
 
@@ -687,11 +689,11 @@ namespace Database
         //update id
         if (status)                                    //Get Id from database after insert
         {
-            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = photo_id.isValid();
+            QVariant group_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = group_id.isValid();
 
             if (status)
-                grp_id = Photo::Id(photo_id.toInt());
+                grp_id = Group::Id(group_id.toInt());
         }
 
         return grp_id;
@@ -878,7 +880,7 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
 
-        Group::Id result = 0;
+        Group::Id result;
         if (status && query.next())
         {
             const QVariant variant = query.value(0);
@@ -894,7 +896,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded, role FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -917,6 +919,9 @@ namespace Database
 
             variant = query.value(4);
             photoData.flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
+
+            variant = query.value(5);
+            photoData.flags[Photo::FlagsE::Role] = variant.toInt();
         }
     }
 
@@ -1301,25 +1306,27 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
     {
         const int v = query.value(0).toInt();
 
-        // More than we expect? Quit with error
-        if (v > 1)
-            status = StatusCodes::BadVersion;
-    }
+        switch (v)
+        {
+            case 1:   // append column 'role' to FLAGS table
+                if (status)
+                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD " FLAG_ROLE " INT NOT NULL DEFAULT 0", &query);
 
-    // database update
-    if (status)
-    {
-        status = m_data->m_executor.exec("SELECT version FROM " TAB_VER ";", &query);
+            case 2:   // current version, break updgrades chain
+                break;
 
-        if (status)
-            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
+            default:
+                // Unknown version? Quit with error
+                status = StatusCodes::BadVersion;
+                break;
+        }
 
-        int v = 0;
-
-        if (status)
-            v = query.value(0).toInt();
-
-        (void) v;
+        // store new version in db
+        if (status && v < db_version)
+        {
+            const QString queryStr = QString("UPDATE " TAB_VER " SET version = %1 WHERE version = %2").arg(db_version).arg(v);
+            status = m_data->m_executor.exec(queryStr, &query);
+        }
     }
 
     return status;

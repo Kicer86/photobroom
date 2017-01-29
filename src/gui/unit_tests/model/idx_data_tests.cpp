@@ -21,25 +21,25 @@ class IdxDataTest : public ::testing::Test
 TEST_F(IdxDataTest, IsConstructible)
 {
     EXPECT_NO_THROW({
-        IdxData item(&manager, "");
+        IdxNodeData item(&manager, "");
     });
 }
 
 
 TEST_F(IdxDataTest, addsChildrenAtRightPositions)
 {
-    IdxData root_item(&manager, "root");
+    IdxNodeData root_item(&manager, "root");
 
-    IdxData* child1 = new IdxData(&manager, "child1");
-    IdxData* child2 = new IdxData(&manager, "child2");
-    IdxData* child3 = new IdxData(&manager, "child3");
-    IdxData* child4 = new IdxData(&manager, "child4");
+    auto child1_ptr = std::make_unique<IdxNodeData>(&manager, "child1");
+    auto child2_ptr = std::make_unique<IdxNodeData>(&manager, "child2");
+    auto child3_ptr = std::make_unique<IdxNodeData>(&manager, "child3");
+    auto child4_ptr = std::make_unique<IdxNodeData>(&manager, "child4");
 
     //place in a "random" order
-    root_item.addChild(child4);
-    root_item.addChild(child2);
-    root_item.addChild(child1);
-    root_item.addChild(child3);
+    IIdxData* child4 = root_item.addChild(std::move(child4_ptr));
+    IIdxData* child2 = root_item.addChild(std::move(child2_ptr));
+    IIdxData* child1 = root_item.addChild(std::move(child1_ptr));
+    IIdxData* child3 = root_item.addChild(std::move(child3_ptr));
 
     EXPECT_EQ( 0, root_item.getPositionOf(child1) );
     EXPECT_EQ( 1, root_item.getPositionOf(child2) );
@@ -52,17 +52,17 @@ TEST_F(IdxDataTest, addsChildrenAtRightPositions)
 
 TEST_F(IdxDataTest, equalChilrenShouldBeAppended)
 {
-    IdxData root_item(&manager, "root");
+    IdxNodeData root_item(&manager, "root");
 
-    IdxData* child1 = new IdxData(&manager, "child");
-    IdxData* child2 = new IdxData(&manager, "child");
-    IdxData* child3 = new IdxData(&manager, "child");
-    IdxData* child4 = new IdxData(&manager, "child");
+    auto child1_ptr = std::make_unique<IdxNodeData>(&manager, "child");
+    auto child2_ptr = std::make_unique<IdxNodeData>(&manager, "child");
+    auto child3_ptr = std::make_unique<IdxNodeData>(&manager, "child");
+    auto child4_ptr = std::make_unique<IdxNodeData>(&manager, "child");
 
-    root_item.addChild(child1);
-    root_item.addChild(child2);
-    root_item.addChild(child3);
-    root_item.addChild(child4);
+    IIdxData* child1 = root_item.addChild(std::move(child1_ptr));
+    IIdxData* child2 = root_item.addChild(std::move(child2_ptr));
+    IIdxData* child3 = root_item.addChild(std::move(child3_ptr));
+    IIdxData* child4 = root_item.addChild(std::move(child4_ptr));
 
     // Placing order should be the same as read order
     // This will guarantee minimal reorganizations in model

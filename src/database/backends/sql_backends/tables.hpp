@@ -19,12 +19,13 @@
 #define FLAG_SHA256_LOADED "sha256_loaded"
 #define FLAG_THUMB_LOADED  "thumbnail_loaded"
 #define FLAG_GEOM_LOADED   "geometry_loaded"
+#define FLAG_ROLE          "role"
 
 namespace Database
 {
     struct TableDefinition;
     extern std::map<std::string, TableDefinition> tables;
-    extern const char db_version[];
+    extern const int db_version;
 }
 
 #endif

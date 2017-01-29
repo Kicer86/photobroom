@@ -49,23 +49,22 @@ public:
     void set(ITaskExecutor *);
 
     void fetchMore(const QModelIndex& _parent);
-    void deepFetch(IdxData* top);
+    void deepFetch(IIdxData* top);
     bool canFetchMore(const QModelIndex& _parent);
     void setDatabase(Database::IDatabase* database);
     void applyFilters(const SearchExpressionEvaluator::Expression &);
-    void refetchNode(IdxData *);
+    void refetchNode(IIdxData *);
 
-    IdxData* getRoot();
-    IdxData* getIdxDataFor(const QModelIndex& obj) const;
-    QModelIndex getIndex(IdxData* idxData) const;
+    IIdxData* getRoot();
+    IIdxData* getIdxDataFor(const QModelIndex& obj) const;
+    QModelIndex getIndex(IIdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
-    IdxData* parent(const QModelIndex& child);
-    void getPhotosFor(const IdxData* idx, std::vector<IPhotoInfo::Ptr>* result);
+    IIdxData* parent(const QModelIndex& child);
 
     //signals from IdxData:
-    void idxDataCreated(IdxData *);
-    void idxDataDeleted(IdxData *);
-    void idxDataReset(IdxData *);
+    void idxDataCreated(IIdxData *);
+    void idxDataDeleted(IIdxData *);
+    void idxDataReset(IIdxData *);
 
 private:
     Q_OBJECT
@@ -74,10 +73,10 @@ private:
     std::unique_ptr<Data> m_data;
 
     template<typename T>
-    void forIndexChildren(const IdxData* index, const T& action)
+    void forIndexChildren(const IIdxData* index, const T& action)
     {
-        for(const IdxData* child: index->m_children)
-            action(child);
+        for(const IIdxData::Ptr& child: index->getChildren())
+            action(child.get());
     }
 
     void fetchTagValuesFor(size_t level, const QModelIndex& _parent);
@@ -87,54 +86,54 @@ private:
     void buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter);
     void buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const;
     void fetchData(const QModelIndex &);
-    void setupNewNode(IdxData *, const Database::IFilter::Ptr &, const Hierarchy::Level &) const;
+    void setupNewNode(IIdxData *, const Database::IFilter::Ptr &, const Hierarchy::Level &) const;
     void setupRootNode();
 
+    // database custom actions (runned by database thread)
+    void getPhotosForParent(Database::IBackendOperator *, const QModelIndex &, const std::deque<Database::IFilter::Ptr> &);
+
     // database tasks callbacks:
-    void gotPhotosForParent(const QModelIndex &, const IPhotoInfo::List& photos);
     void gotNonmatchingPhotosForParent(const QModelIndex &, int);
     void gotTagValuesForParent(const QModelIndex &, std::size_t, const std::deque<TagValue> &);
     //
 
-    void markIdxDataFetched(IdxData *);
-    void markIdxDataBeingFetched(IdxData *);
+    void markIdxDataFetched(IIdxData *);
+    void markIdxDataBeingFetched(IIdxData *);
 
-    void removeIdxDataFromNotFetched(IdxData *);
-    void addIdxDataToNotFetched(IdxData *);
+    void removeIdxDataFromNotFetched(IIdxData *);
+    void addIdxDataToNotFetched(IIdxData *);
 
     void resetModel();
 
     //model manipulations
-    void appendIdxData(IdxData *, const std::deque<IdxData *> &);
+    void appendIdxData(IIdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
-    IdxData* getCurrentParent(const IPhotoInfo::Ptr &);
-    IdxData* createAncestry(const IPhotoInfo::Ptr &);                            //returns direct parent or nullptr if direct parent isn't fetched yet
-    IdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
-    IdxData* findIdxDataFor(const Photo::Id &);
-    IdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
-    IdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo if could be created
-    void removeChildren(IdxData *);                                              // remove all children
-    void performMove(const IPhotoInfo::Ptr &, IdxData *, IdxData *);
-    void performMove(IdxData* item, IdxData* from, IdxData* to);
-    void performRemoveChildren(IdxData *);
+    IIdxData* getCurrentParent(const IPhotoInfo::Ptr &);
+    IIdxData* createAncestry(const IPhotoInfo::Ptr &);                           //returns direct parent or nullptr if direct parent isn't fetched yet
+    IIdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
+    IIdxData* findIdxDataFor(const Photo::Id &);
+    IIdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);    //returns direct parent or nullptr if direct parent isn't fetched yet
+    IIdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &); //returns pointer to universal ancestor for given photo if could be created
+    void removeChildren(IIdxData *);                                             // remove all children
+    void performMove(const IPhotoInfo::Ptr &, IIdxData *, IIdxData *);
+    void performMove(IIdxData* item, IIdxData* from, IIdxData* to);
+    void performRemoveChildren(IIdxData *);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(const Photo::Id &);
-    void performRemove(IdxData *);
-    void performAdd(const IPhotoInfo::Ptr &, IdxData *);
-    void performAdd(IdxData* parent, IdxData* item);
-    bool sortChildrenOf(IdxData *);
+    void performRemove(IIdxData *);
+    IIdxData* performAdd(const IPhotoInfo::Ptr &, IIdxData* parent);
+    IIdxData* performAdd(IIdxData* parent, IIdxData::Ptr&& child);
+    bool sortChildrenOf(IIdxData *);
     //
 
-    IdxData* prepareUniversalNodeFor(IdxData *);                                 //prepares node for photos without tag required by particular parent
+    IIdxData::Ptr prepareUniversalNodeFor(IIdxData *);                           //prepares node for photos without tag required by particular parent
+
+    void insertFetchedNodes(IIdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &);
 
 signals:
-    void dataChanged(IdxData *, const QVector<int> &);
-    void nodesFetched(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
+    void dataChanged(IIdxData *, const QVector<int> &);
 
 private slots:
-    // threads synchronization
-    void insertFetchedNodes(IdxData *, const std::shared_ptr<std::deque<IdxData *>> &);
-
     // database notifications
     void photoChanged(const IPhotoInfo::Ptr &);
     void photosAdded(const std::deque<IPhotoInfo::Ptr> &);

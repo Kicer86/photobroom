@@ -229,43 +229,48 @@ bool PhotosMatcher::doesMatchFilter(const IPhotoInfo::Ptr& photoInfo, const Data
 }
 
 
-IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
+IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     return findParentFor(photoInfo, true);
 }
 
 
-IdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
+IIdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     return findParentFor(photoInfo, false);
 }
 
 
-IdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool exact) const
+IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool exact) const
 {
     const size_t depth = m_idxDataManager->getHierarchy().nodeLevels();
-    IdxData* result = nullptr;
-    IdxData* root = m_idxDataManager->getRoot();
-    std::deque<IdxData *> toCheck = { root };
+    IIdxData* result = nullptr;
+    IIdxData* root = m_idxDataManager->getRoot();
+    std::deque<IIdxData *> toCheck = { root };
     FiltersMatcher matcher;
 
     while (toCheck.empty() == false)
     {
-        IdxData* check = toCheck.front();
+        IIdxData* check = toCheck.front();
         toCheck.pop_front();
 
-        assert(check->isNode());
+        assert(isNode(check));
 
-        const Database::IFilter::Ptr& filter = check->m_filter;
+        const Database::IFilter::Ptr& filter = check->getFilter();
         const bool matches = matcher.doesMatch(photoInfo, filter);
 
-        if (matches)                         //does match - yeah
+        if (matches)                            //does match - yeah
         {
-            if (exact == false)              //for non exact match
+            if (exact == false)                 //for non exact match
                 result = check;
 
-            if (check->m_level < depth)      //go thru children
-                toCheck.insert(toCheck.end(), check->m_children.begin(), check->m_children.end());
+            if (check->getLevel() < depth)      //go thru children
+            {
+                const std::vector<IIdxData::Ptr>& children = check->getChildren();
+
+                for(auto it = children.begin(); it != children.end(); ++it)
+                    toCheck.push_back(it->get());
+            }
             else
             {
                 result = check;              //save result

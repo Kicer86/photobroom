@@ -101,7 +101,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+897"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+900"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -231,12 +231,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+20"/>
         <source>Photo information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -331,7 +331,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+169"/>
+        <location line="+171"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -346,17 +346,17 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-97"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+126"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+143"/>
+        <location line="+144"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -417,12 +417,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-201"/>
+        <location line="-202"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+124"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -445,62 +445,62 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+14"/>
         <source>Photos grouping tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzie grupowania zdjęć</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Grouping type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodzaj grupowania:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Animation</source>
-        <translation type="unfinished"></translation>
+        <translation>animacja</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Animation speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość animacji:</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>fps</source>
-        <translation type="unfinished"></translation>
+        <translation>fps</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Delay before restart:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opóźnienie pętli:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Scale:</source>
-        <translation type="unfinished"></translation>
+        <translation>Skala:</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podgląd:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+221"/>
         <source>photo path</source>
-        <translation type="unfinished"></translation>
+        <translation>ścieżka zdjęcia</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sequence number</source>
-        <translation type="unfinished"></translation>
+        <translation>numer klatki</translation>
     </message>
 </context>
 <context>

@@ -1,5 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
+ * Base DBDataModel's item.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@
 #include <database/iphoto_info.hpp>
 
 #include "idx_data_manager.hpp"
+
+#include <core/ptr_iterator.hpp>
 
 
 namespace
@@ -102,49 +104,84 @@ namespace
     template<typename Comparer>
     struct IdxDataComparer
     {
-        IdxDataComparer(const Hierarchy::Level& l): m_level(l), m_comparer(l) {}
+        IdxDataComparer(const Hierarchy::Level& l): m_level(l) {}
 
-        bool operator() (const IdxData* l, const IdxData* r) const
+        bool operator() (const IIdxData* l, const IIdxData* r) const
         {
-            assert(l->isNode() == r->isNode());
-
-            const bool result = l->isNode()? compareNodes(l, r): compareLeafs(l, r);
+            const bool result = InternalComparer(m_level, l, r).compare();
 
             return result;
         }
 
         private:
             const Hierarchy::Level& m_level;
-            Comparer m_comparer;
 
-            bool compareNodes(const IdxData* l, const IdxData* r) const
+            struct InternalComparer: IIdxDataVisitor
             {
-                const QVariant l_val = l->m_data[Qt::DisplayRole];
-                const QVariant r_val = r->m_data[Qt::DisplayRole];
+                const IIdxData* m_l;
+                const IIdxData* m_r;
+                Comparer m_comparer;
+                const Hierarchy::Level& m_level;
+                bool m_result;
 
-                return m_comparer(l_val, r_val);
-            }
+                InternalComparer(const Hierarchy::Level& level, const IIdxData* l, const IIdxData* r):
+                    m_l(l),
+                    m_r(r),
+                    m_comparer(level),
+                    m_level(level),
+                    m_result(false)
+                {
 
-            bool compareLeafs(const IdxData* l, const IdxData* r) const
-            {
-                const QVariant l_val = getValue(l);
-                const QVariant r_val = getValue(r);
+                }
 
-                return m_comparer(l_val, r_val);
-            }
+                InternalComparer(const InternalComparer &) = delete;
+                InternalComparer& operator=(const InternalComparer &) = delete;
 
-            QVariant getValue(const IdxData* idx) const
-            {
-                const Tag::TagsList& tags = idx->m_photo->getTags();
+                bool compare()
+                {
+                    m_l->visitMe(this);
 
-                const auto& tag = tags.find(m_level.tagName);
+                    return m_result;
+                }
 
-                QVariant result;
-                if (tag != tags.cend())
-                    result = tag->second.get();
+                void visit(const IdxNodeData *) override
+                {
+                    assert(isNode(m_l));
+                    assert(isNode(m_r));
 
-                return result;
-            }
+                    const QVariant l_val = m_l->getData(Qt::DisplayRole);
+                    const QVariant r_val = m_r->getData(Qt::DisplayRole);
+
+                    m_result = m_comparer(l_val, r_val);
+                }
+
+                void visit(const IdxLeafData *) override
+                {
+                    assert(isLeaf(m_l));
+                    assert(isLeaf(m_r));
+
+                    const IdxLeafData* leftLeafData = static_cast<const IdxLeafData *>(m_l);
+                    const IdxLeafData* rightLeafData = static_cast<const IdxLeafData *>(m_r);
+
+                    const QVariant l_val = getValue(leftLeafData);
+                    const QVariant r_val = getValue(rightLeafData);
+
+                    m_result = m_comparer(l_val, r_val);
+                }
+
+                QVariant getValue(const IdxLeafData* idx) const
+                {
+                    const Tag::TagsList tags = idx->getTags();
+
+                    const auto& tag = tags.find(m_level.tagName);
+
+                    QVariant result;
+                    if (tag != tags.cend())
+                        result = tag->second.get();
+
+                    return result;
+                }
+            };
     };
 }
 
@@ -152,8 +189,6 @@ namespace
 IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 {
     m_data[Qt::DisplayRole] = name;
-
-    init();
 }
 
 
@@ -162,16 +197,16 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
     m_photo = photo;
     setStatus(NodeStatus::Fetched);
 
-    initLeafData();
+    QImage img;
+    img.load(":/gui/clock.svg");
 
-    init();
+    m_data[Qt::DisplayRole] = m_photo->getPath();
+    m_data[Qt::DecorationRole] = img;
 }
 
 
 IdxData::~IdxData()
 {
-    m_model->idxDataDeleted(this);
-
     reset();
 }
 
@@ -188,74 +223,93 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 }
 
 
-long IdxData::findPositionFor(const IdxData* child) const
+long IdxData::findPositionFor(const IIdxData* child) const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
-    const auto pos = std::upper_bound(m_children.cbegin(), m_children.cend(), child, comparer);
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
-    return pos - m_children.cbegin();
+    const auto pos = std::upper_bound(begin, end, child, comparer);
+
+    return pos - begin;
 }
 
 
-long IdxData::getPositionOf(const IdxData* child) const
+long IdxData::getPositionOf(const IIdxData* child) const
 {
-    const auto pos = std::find(m_children.cbegin(), m_children.cend(), child);
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
-    assert(pos != m_children.cend());
+    const auto pos = std::find(begin, end, child);
 
-    return pos - m_children.cbegin();
+    assert(pos != end);
+
+    return pos - begin;
 }
 
 
-void IdxData::addChild(IdxData* child)
+IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
 {
-    assert(isNode());                        // child (leaf) cannot accept any child
-    assert(child->m_parent == nullptr);      // child should not have parent
+    assert(isNode(this));                    // child (leaf) cannot accept any child
+    assert(child->parent() == nullptr);      // child should not have parent
 
-    const long pos = findPositionFor(child);
-    m_children.insert(m_children.cbegin() + pos, child);
+    const long pos = findPositionFor(child.get());
     child->setParent(this);
+    m_children.insert(m_children.cbegin() + pos, std::move(child));
+
+    IIdxData* item = m_children[pos].get();
+    m_manager->idxDataCreated(item);
+
+    return item;
 }
 
 
-void IdxData::removeChild(IdxData* child)
+void IdxData::removeChild(IIdxData* child)
 {
-    takeChild(child);
-
-    delete child;
+    takeChild(child);   // take child returns unique_ptr which is not catched here so child will be deleted
 }
 
 
-void IdxData::takeChild(IdxData* child)
+void IdxData::removeChildren()
 {
-    assert(child->m_parent == this);
+    m_children.clear();
+}
+
+
+IIdxData::Ptr IdxData::takeChild(IIdxData* child)
+{
+    assert(child->parent() == this);
     assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
 
     const long pos = getPositionOf(child);
+
+    IIdxData::Ptr childPtr = std::move(m_children[pos]);
     m_children.erase(m_children.cbegin() + pos);
 
-    child->setParent(nullptr);
+    childPtr->setParent(nullptr);
+
+    return childPtr;
 }
 
 
 void IdxData::reset()
 {
-    m_model->idxDataReset(this);
+    m_manager->idxDataReset(this);
     setStatus(NodeStatus::NotFetched);
 
-    for(IdxData* child: m_children)      //TODO: it may be required to move deletion to another thread (slow deletion may impact gui)
-        delete child;
+    for(IIdxData::Ptr& child: m_children)
+        m_manager->idxDataDeleted(child.get());
 
     m_children.clear();
     m_photo.reset();
 }
 
 
-void IdxData::setParent(IdxData* _parent)
+void IdxData::setParent(IIdxData* _parent)
 {
     m_parent = _parent;
-    m_level = _parent ? _parent->m_level + 1 : 0;
+    m_level = _parent ? _parent->getLevel() + 1 : 0;
 }
 
 
@@ -265,21 +319,39 @@ void IdxData::setStatus(NodeStatus status)
 }
 
 
-IdxData* IdxData::parent() const
+IIdxData* IdxData::parent() const
 {
     return m_parent;
 }
 
 
-bool IdxData::isPhoto() const
+const std::vector<IIdxData::Ptr> & IdxData::getChildren() const
 {
-    return m_photo.get() != nullptr;
+    return m_children;
 }
 
 
-bool IdxData::isNode() const
+QVariant IdxData::getData(int role) const
 {
-    return m_photo.get() == nullptr;
+    return m_data[role];
+}
+
+
+const Database::IFilter::Ptr& IdxData::getFilter() const
+{
+    return m_filter;
+}
+
+
+std::size_t IdxData::getLevel() const
+{
+    return m_level;
+}
+
+
+IPhotoInfo::Ptr IdxData::getPhoto() const
+{
+    return m_photo;
 }
 
 
@@ -302,15 +374,15 @@ NodeStatus IdxData::status() const
 }
 
 
-IdxData* IdxData::findChildWithBadPosition() const
+IIdxData* IdxData::findChildWithBadPosition() const
 {
     IdxDataComparer<RelaxedTagValueComparer> comparer(m_order);
-    IdxData* result = nullptr;
+    IIdxData* result = nullptr;
 
     for(size_t i = 1; i < m_children.size(); i++)
-        if (comparer(m_children[i - 1], m_children[i]) == false)
+        if (comparer(m_children[i - 1].get(), m_children[i].get()) == false)
         {
-            result = m_children[i - 1];
+            result = m_children[i - 1].get();
             break;
         }
 
@@ -322,7 +394,10 @@ bool IdxData::sortingRequired() const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
-    const bool sorted = std::is_sorted(m_children.cbegin(), m_children.cend(), comparer);
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const bool sorted = std::is_sorted(begin, end, comparer);
     const bool required = !sorted;
 
     return required;
@@ -335,25 +410,151 @@ IdxData::IdxData(IdxDataManager* model) :
     m_filter(new Database::EmptyFilter),
     m_order(),
     m_photo(nullptr),
-    m_model(model),
     m_level(std::numeric_limits<std::size_t>::max()),
+    m_manager (model),
     m_parent(nullptr)
 {
     setStatus(NodeStatus::NotFetched);
 }
 
 
-void IdxData::initLeafData()
-{
-    QImage img;
-    img.load(":/gui/clock.svg");
+///////////////////////////////////////////////////////////////////////////////
 
-    m_data[Qt::DisplayRole] = m_photo->getPath();
-    m_data[Qt::DecorationRole] = img;
+
+IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
+{
+
 }
 
 
-void IdxData::init()
+void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 {
-    m_model->idxDataCreated(this);
+    visitor->visit(this);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxData(mgr, photo)
+{
+
+}
+
+
+void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
+{
+    visitor->visit(this);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxRegularLeafData::IdxRegularLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxLeafData(mgr, photo)
+{
+
+}
+
+
+IdxRegularLeafData::~IdxRegularLeafData()
+{
+
+}
+
+
+Photo::Id IdxRegularLeafData::getMediaId() const
+{
+    return m_photo->getID();
+}
+
+
+QString IdxRegularLeafData::getMediaPath() const
+{
+    return m_photo->getPath();
+}
+
+
+QSize IdxRegularLeafData::getMediaGeometry() const
+{
+    return m_photo->getGeometry();
+}
+
+
+Tag::TagsList IdxRegularLeafData::getTags() const
+{
+    return m_photo->getTags();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photoInfo):
+    IdxLeafData(mgr, photoInfo),
+    m_photos()
+{
+
+}
+
+
+IdxGroupLeafData::~IdxGroupLeafData()
+{
+}
+
+
+Photo::Id IdxGroupLeafData::getMediaId() const
+{
+    return m_photo->getID();
+}
+
+
+QString IdxGroupLeafData::getMediaPath() const
+{
+    return m_photo->getPath();
+}
+
+
+QSize IdxGroupLeafData::getMediaGeometry() const
+{
+    return m_photo->getGeometry();
+}
+
+
+Tag::TagsList IdxGroupLeafData::getTags() const
+{
+    return m_photo->getTags();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
+{
+    assert( states.size() == 2);
+
+    bool ofType = false;
+
+    apply_inline_visitor(idx,
+                         [&ofType, &states](const IdxLeafData *)  { ofType = *(states.begin() + 0); },
+                         [&ofType, &states](const IdxNodeData *)  { ofType = *(states.begin() + 1); });
+
+    return ofType;
+}
+
+
+bool isNode(const IIdxData* idx)
+{
+    const bool result = is(idx, {false, true});
+
+    return result;
+}
+
+
+bool isLeaf(const IIdxData* idx)
+{
+    const bool result = is(idx, {true, false});
+
+    return result;
 }

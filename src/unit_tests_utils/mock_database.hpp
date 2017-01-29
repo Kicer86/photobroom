@@ -14,17 +14,17 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
 
     MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
-    MOCK_METHOD2(store, void( const std::set<QString> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
+    MOCK_METHOD3(store, void( const std::set<QString> &, const Photo::FlagValues &, const std::function<void(const std::vector<Photo::Id> &)> &) );
     MOCK_METHOD2(createGroup, void( const Photo::Id &, const std::function<void(Group::Id)> &) );
 
     MOCK_METHOD2(countPhotos, void(const std::deque<Database::IFilter::Ptr> &, const std::function<void(int)> &) );
-    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(std::deque<IPhotoInfo::Ptr>)> &) );
+    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)> &) );
     MOCK_METHOD1(listTagNames, void(const Callback<const std::deque<TagNameInfo> &> & ) );
     MOCK_METHOD2(listTagValues, void( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) );
     MOCK_METHOD3(listTagValues, void( const TagNameInfo &, const std::deque<Database::IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) );
     MOCK_METHOD2(listPhotos, void(const std::deque<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
 
-    MOCK_METHOD2(perform, void(const std::deque<Database::IFilter::Ptr> &, const std::deque<Database::IAction::Ptr> &) );
+    MOCK_METHOD1(performCustomAction, void(const std::function<void(Database::IBackendOperator *)> &) );
 
     MOCK_METHOD2(init, void(const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &) );
 

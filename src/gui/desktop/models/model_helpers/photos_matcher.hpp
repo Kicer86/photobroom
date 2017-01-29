@@ -24,8 +24,8 @@
 #include <database/filter.hpp>
 
 class IdxDataManager;
-class IdxData;
 class DBDataModel;
+struct IIdxData;
 
 class PhotosMatcher
 {
@@ -41,14 +41,14 @@ class PhotosMatcher
 
         bool doesMatchModelFilters(const IPhotoInfo::Ptr &) const;
         bool doesMatchFilter(const IPhotoInfo::Ptr &, const Database::IFilter::Ptr &);
-        IdxData* findParentFor(const IPhotoInfo::Ptr &) const;
-        IdxData* findCloserAncestorFor(const IPhotoInfo::Ptr &) const;
+        IIdxData* findParentFor(const IPhotoInfo::Ptr &) const;
+        IIdxData* findCloserAncestorFor(const IPhotoInfo::Ptr &) const;
 
     private:
         IdxDataManager* m_idxDataManager;
         DBDataModel* m_dbDataModel;
 
-        IdxData* findParentFor(const IPhotoInfo::Ptr &, bool) const;
+        IIdxData* findParentFor(const IPhotoInfo::Ptr &, bool) const;
 };
 
 #endif // PHOTOSMATCHER_HPP

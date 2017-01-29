@@ -37,13 +37,13 @@ QVariant APhotoInfoModel::data(const QModelIndex& idx, int role) const
 
     if (role == PhotoPath)
     {
-        IPhotoInfo* photoInfo = getPhotoInfo(idx);
-        result = photoInfo->getPath();
+        const PhotoDetails details = getPhotoDetails(idx);
+        result = details.path;
     }
     else if (role == PhotoGeometry)
     {
-        IPhotoInfo* photoInfo = getPhotoInfo(idx);
-        result = photoInfo->getGeometry();
+        const PhotoDetails details = getPhotoDetails(idx);
+        result = details.size;
     }
 
     return result;

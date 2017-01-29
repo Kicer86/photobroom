@@ -46,7 +46,7 @@ void IdxDataDeepFetcher::setModelImpl(IdxDataManager* modelImpl)
 }
 
 
-void IdxDataDeepFetcher::setIdxDataToFetch(IdxData* idx)
+void IdxDataDeepFetcher::setIdxDataToFetch(IIdxData* idx)
 {
     m_notLoaded.push_back(idx);
 }
@@ -62,7 +62,7 @@ void IdxDataDeepFetcher::process()
 {
     while(m_notLoaded.empty() == false)
     {
-        IdxData* idxData = m_notLoaded.front();
+        IIdxData* idxData = m_notLoaded.front();
         m_notLoaded.pop_front();
 
         process(idxData);
@@ -70,7 +70,7 @@ void IdxDataDeepFetcher::process()
 }
 
 
-void IdxDataDeepFetcher::process(IdxData* idxData)
+void IdxDataDeepFetcher::process(IIdxData* idxData)
 {
     // Make sure status of idxData will not change during switch
     std::unique_lock<std::mutex> lock(m_idxDataMutex);
@@ -87,8 +87,8 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
 
         case NodeStatus::Fetched:
             lock.unlock();                                //we will go recursive now, and we do not need lock anymore in current context
-            for(IdxData* child: idxData->m_children)
-                process(child);
+            for(const IIdxData::Ptr& child: idxData->getChildren())
+                process(child.get());
             break;
 
         case NodeStatus::Fetching:
@@ -100,7 +100,7 @@ void IdxDataDeepFetcher::process(IdxData* idxData)
 }
 
 
-void IdxDataDeepFetcher::idxDataLoaded(IdxData* idx_data)
+void IdxDataDeepFetcher::idxDataLoaded(IIdxData* idx_data)
 {
     // Remove idxData from set of awaiting items.
     // Lock mutex to be sure we won't interference with process()
@@ -144,13 +144,13 @@ void IdxDataDeepFetcher::perform()
 }
 
 
-void IdxDataDeepFetcher::dataChanged(IdxData* idxData, const QVector<int>& roles)
+void IdxDataDeepFetcher::dataChanged(IIdxData* idxData, const QVector<int>& roles)
 {
     auto f = std::find(roles.begin(), roles.end(), DBDataModel::NodeStatus);
 
     if (f != roles.end())
     {
-        const QVariant statusRaw = idxData->m_data[DBDataModel::NodeStatus];
+        const QVariant statusRaw = idxData->getData(DBDataModel::NodeStatus);
         NodeStatus status = static_cast<NodeStatus>(statusRaw.toInt());
 
         if (status == NodeStatus::Fetched)

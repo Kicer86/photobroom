@@ -11,28 +11,13 @@
 
 #include "database_export.h"
 
+#include "core/id.hpp"
+
 namespace Photo
 {
     typedef QByteArray Sha256sum;
 
-    struct DATABASE_EXPORT Id
-    {
-        typedef int type;
-
-        Id();
-        explicit Id(type);
-        Id(const Id &) = default;
-
-        Id& operator=(const Id &) = default;
-        operator type() const;
-        bool operator!() const;
-        bool valid() const;
-        type value() const;
-
-    private:
-        type m_value;
-        bool m_valid;
-    };
+    typedef Id<int> Id;
 
     enum class FlagsE
     {
@@ -41,6 +26,13 @@ namespace Photo
         Sha256Loaded,
         ThumbnailLoaded,
         GeometryLoaded,
+        Role,
+    };
+
+    enum class Roles
+    {
+        RegularPhoto,
+        Representative,
     };
 
     typedef std::map<FlagsE, int> FlagValues;

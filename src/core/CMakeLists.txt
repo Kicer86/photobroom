@@ -46,6 +46,7 @@ set(CORE_HEADERS
     cross_thread_call.hpp
     disk_observer.hpp
     file_lock.hpp
+    id.hpp
     ilogger.hpp
     ilogger_factory.hpp
     iphotos_manager.hpp
@@ -53,10 +54,12 @@ set(CORE_HEADERS
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
+    iterator_wrapper.hpp
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp
     photos_manager.hpp
+    ptr_iterator.hpp
     search_expression_evaluator.hpp
     status.hpp
     tag.hpp
