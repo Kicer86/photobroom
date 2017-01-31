@@ -194,13 +194,12 @@ IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 
 IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(model)
 {
-    m_photo = photo;
     setStatus(NodeStatus::Fetched);
 
     QImage img;
     img.load(":/gui/clock.svg");
 
-    m_data[Qt::DisplayRole] = m_photo->getPath();
+    m_data[Qt::DisplayRole] = photo->getPath();
     m_data[Qt::DecorationRole] = img;
 }
 
@@ -302,7 +301,6 @@ void IdxData::reset()
         m_manager->idxDataDeleted(child.get());
 
     m_children.clear();
-    m_photo.reset();
 }
 
 
@@ -346,12 +344,6 @@ const Database::IFilter::Ptr& IdxData::getFilter() const
 std::size_t IdxData::getLevel() const
 {
     return m_level;
-}
-
-
-IPhotoInfo::Ptr IdxData::getPhoto() const
-{
-    return m_photo;
 }
 
 
@@ -409,7 +401,6 @@ IdxData::IdxData(IdxDataManager* model) :
     m_data(),
     m_filter(new Database::EmptyFilter),
     m_order(),
-    m_photo(nullptr),
     m_level(std::numeric_limits<std::size_t>::max()),
     m_manager (model),
     m_parent(nullptr)
@@ -436,7 +427,9 @@ void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxData(mgr, photo)
+IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo):
+    IdxData(mgr, photo),
+    m_photo(photo)
 {
 
 }
@@ -445,6 +438,36 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): Idx
 void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
+}
+
+
+Photo::Id IdxLeafData::getMediaId() const
+{
+    return m_photo->getID();
+}
+
+
+QString IdxLeafData::getMediaPath() const
+{
+    return m_photo->getPath();
+}
+
+
+QSize IdxLeafData::getMediaGeometry() const
+{
+    return m_photo->getGeometry();
+}
+
+
+Tag::TagsList IdxLeafData::getTags() const
+{
+    return m_photo->getTags();
+}
+
+
+IPhotoInfo::Ptr IdxLeafData::getPhoto() const
+{
+    return m_photo;
 }
 
 
@@ -463,30 +486,6 @@ IdxRegularLeafData::~IdxRegularLeafData()
 }
 
 
-Photo::Id IdxRegularLeafData::getMediaId() const
-{
-    return m_photo->getID();
-}
-
-
-QString IdxRegularLeafData::getMediaPath() const
-{
-    return m_photo->getPath();
-}
-
-
-QSize IdxRegularLeafData::getMediaGeometry() const
-{
-    return m_photo->getGeometry();
-}
-
-
-Tag::TagsList IdxRegularLeafData::getTags() const
-{
-    return m_photo->getTags();
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -500,30 +499,6 @@ IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& p
 
 IdxGroupLeafData::~IdxGroupLeafData()
 {
-}
-
-
-Photo::Id IdxGroupLeafData::getMediaId() const
-{
-    return m_photo->getID();
-}
-
-
-QString IdxGroupLeafData::getMediaPath() const
-{
-    return m_photo->getPath();
-}
-
-
-QSize IdxGroupLeafData::getMediaGeometry() const
-{
-    return m_photo->getGeometry();
-}
-
-
-Tag::TagsList IdxGroupLeafData::getTags() const
-{
-    return m_photo->getTags();
 }
 
 

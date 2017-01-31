@@ -58,7 +58,6 @@ struct IIdxData
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
-    [[deprecated]] virtual IPhotoInfo::Ptr getPhoto() const = 0;
 
     virtual int getRow() const = 0;
     virtual int getCol() const = 0;
@@ -103,7 +102,6 @@ class IdxData: public IIdxData
         QVariant getData(int) const override;
         const Database::IFilter::Ptr& getFilter() const override;
         std::size_t getLevel() const override;
-        IPhotoInfo::Ptr getPhoto() const override;
 
         int getRow() const override;
         int getCol() const override;
@@ -120,7 +118,6 @@ class IdxData: public IIdxData
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;         // define which children match
         Hierarchy::Level m_order;                // defines how to sort children
-        IPhotoInfo::Ptr m_photo;                 // null for nodes, photo for photos
         size_t m_level;
         IdxDataManager* m_manager;
         IIdxData* m_parent;
@@ -147,10 +144,15 @@ class IdxLeafData: public IdxData
 
         virtual void visitMe(IIdxDataVisitor *) const override;
 
-        virtual Photo::Id getMediaId() const = 0;
-        virtual QString getMediaPath() const = 0;
-        virtual QSize getMediaGeometry() const = 0;
-        virtual Tag::TagsList getTags() const = 0;
+        virtual Photo::Id getMediaId() const;
+        virtual QString getMediaPath() const;
+        virtual QSize getMediaGeometry() const;
+        virtual Tag::TagsList getTags() const;
+
+        IPhotoInfo::Ptr getPhoto() const;
+
+    private:
+        IPhotoInfo::Ptr m_photo;
 };
 
 
@@ -160,12 +162,6 @@ class IdxRegularLeafData: public IdxLeafData
     public:
         IdxRegularLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
         virtual ~IdxRegularLeafData();
-
-    private:
-        virtual Photo::Id getMediaId() const override;
-        virtual QString getMediaPath() const override;
-        virtual QSize getMediaGeometry() const override;
-        virtual Tag::TagsList getTags() const override;
 };
 
 
@@ -177,13 +173,7 @@ class IdxGroupLeafData: public IdxLeafData
         virtual ~IdxGroupLeafData();
 
     private:
-        Photo::Id m_id;
         std::deque<IPhotoInfo::Ptr> m_photos;
-
-        virtual Photo::Id getMediaId() const override;
-        virtual QString getMediaPath() const override;
-        virtual QSize getMediaGeometry() const override;
-        virtual Tag::TagsList getTags() const override;
 };
 
 

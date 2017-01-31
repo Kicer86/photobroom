@@ -178,7 +178,11 @@ DBDataModel::~DBDataModel()
 IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    return idxData->getPhoto();
+
+    assert(isLeaf(idxData));
+    IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
+
+    return leafData->getPhoto();
 }
 
 
