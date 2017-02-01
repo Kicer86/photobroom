@@ -61,12 +61,12 @@ std::vector<IPhotoInfo::Ptr> SelectionExtractor::getSelection() const
         QModelIndexList idxList = range.indexes();
 
         for (const QModelIndex& idx : idxList)
-        {
-            IPhotoInfo::Ptr photo = m_photosModel->getPhoto(idx);
+            if (m_photosModel->isLeaf(idx))
+            {
+                IPhotoInfo::Ptr photo = m_photosModel->getPhoto(idx);
 
-            if (photo.get() != nullptr)
                 result.push_back(photo);
-        }
+            }
     }
 
     return result;

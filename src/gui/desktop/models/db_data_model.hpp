@@ -88,6 +88,9 @@ class DBDataModel: public APhotoInfoModel
         void setStaticFilters(const std::deque<Database::IFilter::Ptr> &);
         void applyFilters(const SearchExpressionEvaluator::Expression &);
 
+        bool isNode(const QModelIndex &) const;
+        bool isLeaf(const QModelIndex &) const;
+
         // APhotoInfoModel:
         virtual PhotoDetails getPhotoDetails(const QModelIndex &) const override;
 

@@ -179,7 +179,7 @@ IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
 
-    assert(isLeaf(idxData));
+    assert(::isLeaf(idxData));
     IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
 
     return leafData->getPhoto();
@@ -260,7 +260,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 APhotoInfoModel::PhotoDetails DBDataModel::getPhotoDetails(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    assert(isLeaf(idxData));
+    assert(::isLeaf(idxData));
 
     IdxLeafData* leafIdxData = down_cast<IdxLeafData *>(idxData);
 
@@ -377,6 +377,22 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 void DBDataModel::applyFilters(const SearchExpressionEvaluator::Expression& filters)
 {
     m_idxDataManager->applyFilters(filters);
+}
+
+
+bool DBDataModel::isNode(const QModelIndex& idx) const
+{
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+
+    return ::isNode(idxData);
+}
+
+
+bool DBDataModel::isLeaf(const QModelIndex& idx) const
+{
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+
+    return ::isLeaf(idxData);
 }
 
 
