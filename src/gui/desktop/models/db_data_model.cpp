@@ -192,15 +192,6 @@ const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 }
 
 
-bool DBDataModel::isEmpty() const
-{
-    IIdxData* root = m_idxDataManager->getRoot();
-    const bool result = root->getChildren().empty();
-
-    return result;
-}
-
-
 void DBDataModel::deepFetch(const QModelIndex& top)
 {
     IIdxData* idx = m_idxDataManager->getIdxDataFor(top);

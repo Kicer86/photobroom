@@ -77,7 +77,6 @@ class DBDataModel: public APhotoInfoModel
 
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
         const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
-        bool isEmpty() const;
 
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
         void group(const std::vector<Photo::Id> &, const QString& representativePath);     // group set of photos as one with given (external/generated) representative
