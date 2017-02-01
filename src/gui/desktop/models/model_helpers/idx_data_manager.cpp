@@ -246,8 +246,10 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
     IIdxData* idxData = getIdxDataFor(_parent);
 
     apply_inline_visitor(idxData,
-                         [&status] (const IdxLeafData *) { status = false; },
-                         [&status] (const IdxNodeData *) { status = true;  });
+                         [&status] (const IdxNodeData *)        { status = true;  },
+                         [&status] (const IdxRegularLeafData *) { status = false; },
+                         [&status] (const IdxGroupLeafData *)   { status = false; }
+    );
 
     return status;
 }

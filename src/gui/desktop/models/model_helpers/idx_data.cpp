@@ -144,18 +144,7 @@ namespace
                     return m_result;
                 }
 
-                void visit(const IdxNodeData *) override
-                {
-                    assert(isNode(m_l));
-                    assert(isNode(m_r));
-
-                    const QVariant l_val = m_l->getData(Qt::DisplayRole);
-                    const QVariant r_val = m_r->getData(Qt::DisplayRole);
-
-                    m_result = m_comparer(l_val, r_val);
-                }
-
-                void visit(const IdxLeafData *) override
+                void leaf()
                 {
                     assert(isLeaf(m_l));
                     assert(isLeaf(m_r));
@@ -167,6 +156,32 @@ namespace
                     const QVariant r_val = getValue(rightLeafData);
 
                     m_result = m_comparer(l_val, r_val);
+                }
+
+                void node()
+                {
+                    assert(isNode(m_l));
+                    assert(isNode(m_r));
+
+                    const QVariant l_val = m_l->getData(Qt::DisplayRole);
+                    const QVariant r_val = m_r->getData(Qt::DisplayRole);
+
+                    m_result = m_comparer(l_val, r_val);
+                }
+
+                void visit(const IdxNodeData *) override
+                {
+                    node();
+                }
+
+                void visit(const IdxRegularLeafData *) override
+                {
+                    leaf();
+                }
+
+                void visit(const IdxGroupLeafData *) override
+                {
+                    leaf();
                 }
 
                 QVariant getValue(const IdxLeafData* idx) const
@@ -435,12 +450,6 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo):
 }
 
 
-void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
-{
-    visitor->visit(this);
-}
-
-
 Photo::Id IdxLeafData::getMediaId() const
 {
     return m_photo->getID();
@@ -486,6 +495,12 @@ IdxRegularLeafData::~IdxRegularLeafData()
 }
 
 
+void IdxRegularLeafData::visitMe(IIdxDataVisitor* visitor) const
+{
+    visitor->visit(this);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -502,18 +517,26 @@ IdxGroupLeafData::~IdxGroupLeafData()
 }
 
 
+void IdxGroupLeafData::visitMe(IIdxDataVisitor* visitor) const
+{
+    visitor->visit(this);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
 bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 {
-    assert( states.size() == 2);
+    assert( states.size() == 3);
 
     bool ofType = false;
 
     apply_inline_visitor(idx,
-                         [&ofType, &states](const IdxLeafData *)  { ofType = *(states.begin() + 0); },
-                         [&ofType, &states](const IdxNodeData *)  { ofType = *(states.begin() + 1); });
+                         [&ofType, &states](const IdxNodeData *)        { ofType = *(states.begin() + 0); },
+                         [&ofType, &states](const IdxRegularLeafData *) { ofType = *(states.begin() + 1); },
+                         [&ofType, &states](const IdxGroupLeafData *)   { ofType = *(states.begin() + 2); }
+                        );
 
     return ofType;
 }
@@ -521,7 +544,7 @@ bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 
 bool isNode(const IIdxData* idx)
 {
-    const bool result = is(idx, {false, true});
+    const bool result = is(idx, {true, false, false});
 
     return result;
 }
@@ -529,7 +552,23 @@ bool isNode(const IIdxData* idx)
 
 bool isLeaf(const IIdxData* idx)
 {
-    const bool result = is(idx, {true, false});
+    const bool result = is(idx, {false, true, true});
+
+    return result;
+}
+
+
+bool isRegularLeaf(const IIdxData* idx)
+{
+    const bool result = is(idx, {false, true, false});
+
+    return result;
+}
+
+
+bool isGroupedLeaf(const IIdxData* idx)
+{
+    const bool result = is(idx, {false, false, true});
 
     return result;
 }

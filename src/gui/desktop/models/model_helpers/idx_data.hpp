@@ -131,6 +131,7 @@ class IdxNodeData: public IdxData
         IdxNodeData(IdxDataManager *, const QVariant& name);
         virtual ~IdxNodeData() = default;
 
+    private:
         virtual void visitMe(IIdxDataVisitor *) const override;
 };
 
@@ -141,8 +142,6 @@ class IdxLeafData: public IdxData
     public:
         IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
         virtual ~IdxLeafData() = default;
-
-        virtual void visitMe(IIdxDataVisitor *) const override;
 
         virtual Photo::Id getMediaId() const;
         virtual QString getMediaPath() const;
@@ -162,6 +161,9 @@ class IdxRegularLeafData: public IdxLeafData
     public:
         IdxRegularLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
         virtual ~IdxRegularLeafData();
+
+    private:
+        virtual void visitMe(IIdxDataVisitor *) const override;
 };
 
 
@@ -174,6 +176,8 @@ class IdxGroupLeafData: public IdxLeafData
 
     private:
         std::deque<IPhotoInfo::Ptr> m_photos;
+
+        virtual void visitMe(IIdxDataVisitor *) const override;
 };
 
 
@@ -181,16 +185,25 @@ struct IIdxDataVisitor
 {
     virtual ~IIdxDataVisitor() = default;
 
-    virtual void visit(const IdxLeafData *) = 0;
     virtual void visit(const IdxNodeData *) = 0;
+    virtual void visit(const IdxRegularLeafData *) = 0;
+    virtual void visit(const IdxGroupLeafData *) = 0;
 };
 
 
-template<typename LeafFunctor, typename NodeFunctor>
+template<typename NodeFunctor, typename RegularLeafFunctor, typename GroupLeafFunctor>
 class InlineIdxDataVisitor: IIdxDataVisitor
 {
     public:
-        InlineIdxDataVisitor(LeafFunctor leaf, NodeFunctor node): m_leaf(leaf), m_node(node) {}
+        InlineIdxDataVisitor(NodeFunctor node,
+                             RegularLeafFunctor regular_leaf,
+                             GroupLeafFunctor group_leaf):
+            m_node(node),
+            m_regular_leaf(regular_leaf),
+            m_group_leaf(group_leaf)
+        {
+
+        }
 
         void apply(const IIdxData* i)
         {
@@ -198,25 +211,31 @@ class InlineIdxDataVisitor: IIdxDataVisitor
         }
 
     private:
-        LeafFunctor m_leaf;
         NodeFunctor m_node;
-
-        void visit(const IdxLeafData* i) override
-        {
-            m_leaf(i);
-        }
+        RegularLeafFunctor m_regular_leaf;
+        GroupLeafFunctor m_group_leaf;
 
         void visit(const IdxNodeData* i) override
         {
             m_node(i);
         }
+
+        void visit(const IdxRegularLeafData* i) override
+        {
+            m_regular_leaf(i);
+        }
+
+        void visit(const IdxGroupLeafData* i) override
+        {
+            m_group_leaf(i);
+        }
 };
 
 
-template<typename LeafFunctor, typename NodeFunctor>
-void apply_inline_visitor(const IIdxData* i, LeafFunctor leaf, NodeFunctor node)
+template<typename NodeFunctor, typename RegularLeafFunctor, typename GroupLeafFunctor>
+void apply_inline_visitor(const IIdxData* i, NodeFunctor node, RegularLeafFunctor regular_leaf, GroupLeafFunctor group_leaf)
 {
-    InlineIdxDataVisitor<LeafFunctor, NodeFunctor> visitor(leaf, node);
+    InlineIdxDataVisitor<NodeFunctor, RegularLeafFunctor, GroupLeafFunctor> visitor(node, regular_leaf, group_leaf);
     visitor.apply(i);
 }
 
@@ -224,5 +243,7 @@ void apply_inline_visitor(const IIdxData* i, LeafFunctor leaf, NodeFunctor node)
 bool isNode(const IIdxData *);
 bool isLeaf(const IIdxData *);
 
+bool isRegularLeaf(const IIdxData *);
+bool isGroupedLeaf(const IIdxData *);
 
 #endif // IDXDATA_HPP
