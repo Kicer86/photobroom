@@ -305,7 +305,10 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
     const unsigned int urow = static_cast<unsigned int>(row);
 
     QModelIndex idx;
-    IIdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
+    IIdxData* pDataRaw = m_idxDataManager->getIdxDataFor(_parent);
+
+    assert(::isNode(pDataRaw));
+    IdxNodeData* pData = static_cast<IdxNodeData *>(pDataRaw);
 
     if (urow < pData->getChildren().size())             //row out of boundary?
     {
@@ -330,9 +333,18 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
-    const size_t count = idxData->getChildren().size();
 
-    assert(count < std::numeric_limits<int>::max());
+    std::size_t count = 0;
+
+    if (::isNode(idxData))
+    {
+        IdxNodeData* node = static_cast<IdxNodeData *>(idxData);
+
+        count = node->getChildren().size();
+
+        assert(count < std::numeric_limits<int>::max());
+    }
+
     return static_cast<int>(count);
 }
 
@@ -360,7 +372,7 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 {
     m_filters = filters;
 
-    IIdxData* root = m_idxDataManager->getRoot();
+    IdxNodeData* root = m_idxDataManager->getRoot();
     m_idxDataManager->refetchNode(root);
 }
 

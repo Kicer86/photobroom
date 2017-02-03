@@ -221,7 +221,7 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
 
 IdxData::~IdxData()
 {
-    reset();
+    resetIdx();
 }
 
 
@@ -237,85 +237,10 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 }
 
 
-long IdxData::findPositionFor(const IIdxData* child) const
-{
-    IdxDataComparer<TagValueComparer> comparer(m_order);
-
-    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
-    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
-
-    const auto pos = std::upper_bound(begin, end, child, comparer);
-
-    return pos - begin;
-}
-
-
-long IdxData::getPositionOf(const IIdxData* child) const
-{
-    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
-    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
-
-    const auto pos = std::find(begin, end, child);
-
-    assert(pos != end);
-
-    return pos - begin;
-}
-
-
-IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
-{
-    assert(isNode(this));                    // child (leaf) cannot accept any child
-    assert(child->parent() == nullptr);      // child should not have parent
-
-    const long pos = findPositionFor(child.get());
-    child->setParent(this);
-    m_children.insert(m_children.cbegin() + pos, std::move(child));
-
-    IIdxData* item = m_children[pos].get();
-    m_manager->idxDataCreated(item);
-
-    return item;
-}
-
-
-void IdxData::removeChild(IIdxData* child)
-{
-    takeChild(child);   // take child returns unique_ptr which is not catched here so child will be deleted
-}
-
-
-void IdxData::removeChildren()
-{
-    m_children.clear();
-}
-
-
-IIdxData::Ptr IdxData::takeChild(IIdxData* child)
-{
-    assert(child->parent() == this);
-    assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
-
-    const long pos = getPositionOf(child);
-
-    IIdxData::Ptr childPtr = std::move(m_children[pos]);
-    m_children.erase(m_children.cbegin() + pos);
-
-    childPtr->setParent(nullptr);
-
-    return childPtr;
-}
-
 
 void IdxData::reset()
 {
-    m_manager->idxDataReset(this);
-    setStatus(NodeStatus::NotFetched);
-
-    for(IIdxData::Ptr& child: m_children)
-        m_manager->idxDataDeleted(child.get());
-
-    m_children.clear();
+    resetIdx();
 }
 
 
@@ -335,12 +260,6 @@ void IdxData::setStatus(NodeStatus status)
 IIdxData* IdxData::parent() const
 {
     return m_parent;
-}
-
-
-const std::vector<IIdxData::Ptr> & IdxData::getChildren() const
-{
-    return m_children;
 }
 
 
@@ -365,7 +284,11 @@ std::size_t IdxData::getLevel() const
 int IdxData::getRow() const
 {
     assert(m_parent != nullptr);
-    return static_cast<int>(m_parent->getPositionOf(this));
+    assert(isNode(m_parent));
+
+    IdxNodeData* parentNode = static_cast<IdxNodeData *>(m_parent);
+
+    return static_cast<int>(parentNode->getPositionOf(this));
 }
 
 
@@ -381,7 +304,118 @@ NodeStatus IdxData::status() const
 }
 
 
-IIdxData* IdxData::findChildWithBadPosition() const
+IdxData::IdxData(IdxDataManager* model):
+    m_data(),
+    m_filter(new Database::EmptyFilter),
+    m_order(),
+    m_level(std::numeric_limits<std::size_t>::max()),
+    m_manager (model),
+    m_parent(nullptr)
+{
+    setStatus(NodeStatus::NotFetched);
+}
+
+
+
+void IdxData::resetIdx()
+{
+    m_manager->idxDataReset(this);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
+{
+
+}
+
+
+IdxNodeData::~IdxNodeData()
+{
+    resetNode();
+}
+
+
+IIdxData* IdxNodeData::addChild(IIdxData::Ptr&& child)
+{
+    assert(isNode(this));                    // child (leaf) cannot accept any child
+    assert(child->parent() == nullptr);      // child should not have parent
+
+    const long pos = findPositionFor(child.get());
+    child->setParent(this);
+    m_children.insert(m_children.cbegin() + pos, std::move(child));
+
+    IIdxData* item = m_children[pos].get();
+    m_manager->idxDataCreated(item);
+
+    return item;
+}
+
+
+void IdxNodeData::removeChild(IIdxData* child)
+{
+    takeChild(child);   // take child returns unique_ptr which is not catched here so child will be deleted
+}
+
+
+void IdxNodeData::removeChildren()
+{
+    m_children.clear();
+}
+
+
+IIdxData::Ptr IdxNodeData::takeChild(IIdxData* child)
+{
+    assert(child->parent() == this);
+    assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
+
+    const long pos = getPositionOf(child);
+
+    IIdxData::Ptr childPtr = std::move(m_children[pos]);
+    m_children.erase(m_children.cbegin() + pos);
+
+    childPtr->setParent(nullptr);
+
+    return childPtr;
+}
+
+
+const std::vector<IIdxData::Ptr>& IdxNodeData::getChildren() const
+{
+    return m_children;
+}
+
+
+long IdxNodeData::getPositionOf(const IIdxData* child) const
+{
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const auto pos = std::find(begin, end, child);
+
+    assert(pos != end);
+
+    return pos - begin;
+}
+
+
+long IdxNodeData::findPositionFor(const IIdxData* child) const
+{
+    IdxDataComparer<TagValueComparer> comparer(m_order);
+
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const auto pos = std::upper_bound(begin, end, child, comparer);
+
+    return pos - begin;
+}
+
+
+
+IIdxData* IdxNodeData::findChildWithBadPosition() const
 {
     IdxDataComparer<RelaxedTagValueComparer> comparer(m_order);
     IIdxData* result = nullptr;
@@ -397,7 +431,7 @@ IIdxData* IdxData::findChildWithBadPosition() const
 }
 
 
-bool IdxData::sortingRequired() const
+bool IdxNodeData::sortingRequired() const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
@@ -411,31 +445,28 @@ bool IdxData::sortingRequired() const
 }
 
 
-IdxData::IdxData(IdxDataManager* model) :
-    m_children(),
-    m_data(),
-    m_filter(new Database::EmptyFilter),
-    m_order(),
-    m_level(std::numeric_limits<std::size_t>::max()),
-    m_manager (model),
-    m_parent(nullptr)
+void IdxNodeData::reset()
 {
-    setStatus(NodeStatus::NotFetched);
-}
+    IdxData::reset();
 
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
-{
-
+    resetNode();
 }
 
 
 void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
+}
+
+
+void IdxNodeData::resetNode()
+{
+    setStatus(NodeStatus::NotFetched);
+
+    for(IIdxData::Ptr& child: m_children)
+        m_manager->idxDataDeleted(child.get());
+
+    m_children.clear();
 }
 
 

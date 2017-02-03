@@ -53,13 +53,13 @@ public:
     bool canFetchMore(const QModelIndex& _parent);
     void setDatabase(Database::IDatabase* database);
     void applyFilters(const SearchExpressionEvaluator::Expression &);
-    void refetchNode(IIdxData *);
+    void refetchNode(IdxNodeData *);
 
-    IIdxData* getRoot();
+    IdxNodeData* getRoot();
     IIdxData* getIdxDataFor(const QModelIndex& obj) const;
     QModelIndex getIndex(IIdxData* idxData) const;
     bool hasChildren(const QModelIndex& _parent);
-    IIdxData* parent(const QModelIndex& child);
+    IdxNodeData* parent(const QModelIndex& child);
 
     //signals from IdxData:
     void idxDataCreated(IIdxData *);
@@ -73,9 +73,9 @@ private:
     std::unique_ptr<Data> m_data;
 
     template<typename T>
-    void forIndexChildren(const IIdxData* index, const T& action)
+    void forIndexChildren(const IdxNodeData* node, const T& action)
     {
-        for(const IIdxData::Ptr& child: index->getChildren())
+        for(const IIdxData::Ptr& child: node->getChildren())
             action(child.get());
     }
 
@@ -106,29 +106,29 @@ private:
     void resetModel();
 
     //model manipulations
-    void appendIdxData(IIdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &);
+    void appendIdxData(IdxNodeData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
-    IIdxData* getCurrentParent(const IPhotoInfo::Ptr &);
-    IIdxData* createAncestry(const IPhotoInfo::Ptr &);                           //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxNodeData* getCurrentParent(const IPhotoInfo::Ptr &);
+    IdxNodeData* createAncestry(const IPhotoInfo::Ptr &);                            //returns direct parent or nullptr if direct parent isn't fetched yet
     IIdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
     IIdxData* findIdxDataFor(const Photo::Id &);
-    IIdxData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);    //returns direct parent or nullptr if direct parent isn't fetched yet
-    IIdxData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &); //returns pointer to universal ancestor for given photo if could be created
-    void removeChildren(IIdxData *);                                             // remove all children
-    void performMove(const IPhotoInfo::Ptr &, IIdxData *, IIdxData *);
-    void performMove(IIdxData* item, IIdxData* from, IIdxData* to);
-    void performRemoveChildren(IIdxData *);
+    IdxNodeData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
+    IdxNodeData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo if could be created
+    void removeChildren(IdxNodeData *);                                              // remove all children
+    void performMove(const IPhotoInfo::Ptr &, IdxNodeData *, IdxNodeData *);
+    void performMove(IIdxData* item, IdxNodeData* from, IdxNodeData* to);
+    void performRemoveChildren(IdxNodeData *);
     void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(const Photo::Id &);
     void performRemove(IIdxData *);
-    IIdxData* performAdd(const IPhotoInfo::Ptr &, IIdxData* parent);
-    IIdxData* performAdd(IIdxData* parent, IIdxData::Ptr&& child);
-    bool sortChildrenOf(IIdxData *);
+    IIdxData* performAdd(const IPhotoInfo::Ptr &, IdxNodeData* parent);
+    IIdxData* performAdd(IdxNodeData* parent, IIdxData::Ptr&& child);
+    bool sortChildrenOf(IdxNodeData *);
     //
 
     IIdxData::Ptr prepareUniversalNodeFor(IIdxData *);                           //prepares node for photos without tag required by particular parent
 
-    void insertFetchedNodes(IIdxData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &);
+    void insertFetchedNodes(IdxNodeData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &);
 
 signals:
     void dataChanged(IIdxData *, const QVector<int> &);

@@ -43,18 +43,11 @@ struct IIdxData
 
     virtual void setParent(IIdxData *) = 0;
     virtual void setStatus(NodeStatus) = 0;
-    [[deprecated]] virtual IIdxData* addChild(IIdxData::Ptr&& child) = 0;
-    [[deprecated]] virtual void removeChild(IIdxData* child) = 0;
-    [[deprecated]] virtual void removeChildren() = 0;
-    [[deprecated]] virtual IIdxData::Ptr takeChild(IIdxData* child) = 0;
     virtual void reset() = 0;
     virtual void setNodeFilter(const Database::IFilter::Ptr& filter) = 0;
     virtual void setNodeSorting(const Hierarchy::Level &) = 0;
 
-    [[deprecated]] virtual long findPositionFor(const IIdxData* child) const = 0;
-    [[deprecated]] virtual long getPositionOf(const IIdxData* child) const = 0;
     virtual IIdxData* parent() const = 0;
-    [[deprecated]] virtual const std::vector<Ptr>& getChildren() const = 0;
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
@@ -62,9 +55,6 @@ struct IIdxData
     virtual int getRow() const = 0;
     virtual int getCol() const = 0;
     [[deprecated]] virtual NodeStatus status() const = 0;
-
-    [[deprecated]] virtual IIdxData* findChildWithBadPosition() const = 0;
-    [[deprecated]] virtual bool sortingRequired() const = 0;
 
     // visitation:
     virtual void visitMe(IIdxDataVisitor *) const = 0;
@@ -87,18 +77,11 @@ class IdxData: public IIdxData
 
         void setNodeFilter(const Database::IFilter::Ptr& filter) override;
         void setNodeSorting(const Hierarchy::Level &) override;
-        long findPositionFor(const IIdxData* child) const override;     // returns position where child matches
-        long getPositionOf(const IIdxData* child) const override;       // returns position of children
-        IIdxData* addChild(IIdxData::Ptr&& child) override;             // returns pointer to child
-        void removeChild(IIdxData* child) override;                     // removes child (memory is released)
-        void removeChildren() override;
-        IIdxData::Ptr takeChild(IIdxData* child) override;              // function acts as removeChild but does not delete children
         void reset() override;
         void setParent(IIdxData *) override;
         void setStatus(NodeStatus) override;
         IIdxData* parent() const override;
 
-        const std::vector<Ptr>& getChildren() const override;
         QVariant getData(int) const override;
         const Database::IFilter::Ptr& getFilter() const override;
         std::size_t getLevel() const override;
@@ -108,19 +91,18 @@ class IdxData: public IIdxData
 
         NodeStatus status() const override;
 
-        IIdxData* findChildWithBadPosition() const override;            // returns first child which lies in a wrong place
-        bool sortingRequired() const override;
-
     protected:
         IdxData(IdxDataManager *);
 
-        std::vector<Ptr> m_children;
         QMap<int, QVariant> m_data;
         Database::IFilter::Ptr m_filter;         // define which children match
         Hierarchy::Level m_order;                // defines how to sort children
         size_t m_level;
         IdxDataManager* m_manager;
         IIdxData* m_parent;
+
+    private:
+        void resetIdx();
 };
 
 
@@ -129,10 +111,29 @@ class IdxNodeData: public IdxData
 {
     public:
         IdxNodeData(IdxDataManager *, const QVariant& name);
-        virtual ~IdxNodeData() = default;
+        virtual ~IdxNodeData();
+
+        IIdxData* addChild(IIdxData::Ptr&& child);
+
+        void removeChild(IIdxData* child);                         // removes child (memory is released)
+        void removeChildren();
+        IIdxData::Ptr takeChild(IIdxData* child);                  // function acts as removeChild but does not delete children
+
+        const std::vector<Ptr>& getChildren() const;
+        long getPositionOf(const IIdxData* child) const;           // returns position of children
+        long findPositionFor(const IIdxData* child) const;         // returns position where child matches
+        IIdxData* findChildWithBadPosition() const;                // returns first child which lies in a wrong place
+        bool sortingRequired() const;
+
+        // IdxData:
+        virtual void reset() override;
 
     private:
+        std::vector<Ptr> m_children;
+
         virtual void visitMe(IIdxDataVisitor *) const override;
+
+        void resetNode();
 };
 
 
