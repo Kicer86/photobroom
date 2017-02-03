@@ -258,11 +258,9 @@ bool IdxDataManager::hasChildren(const QModelIndex& _parent)
 IdxNodeData* IdxDataManager::parent(const QModelIndex& child)
 {
     IIdxData* idxData = getIdxDataFor(child);
-    IIdxData* result  = idxData->parent();
+    IdxNodeData* result  = idxData->parent();
 
-    assert(isNode(result));
-
-    return static_cast<IdxNodeData *>(result);
+    return result;
 }
 
 
@@ -626,11 +624,9 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 IdxNodeData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
 {
     IIdxData* item = findIdxDataFor(photoInfo);
-    IIdxData* result = item != nullptr? item->parent(): nullptr;
+    IdxNodeData* result = item != nullptr? item->parent(): nullptr;
 
-    assert(isNode(result));
-
-    return static_cast<IdxNodeData *>(result);
+    return result;
 }
 
 
@@ -845,10 +841,7 @@ void IdxDataManager::performRemove(IIdxData* item)
 
     if (item != m_data->m_root.get())   // never drop root
     {
-        IIdxData* raw_parent = item->parent();
-
-        isNode(raw_parent);
-        IdxNodeData* _parent = static_cast<IdxNodeData *>(raw_parent);
+        IdxNodeData* _parent = item->parent();
 
         assert(_parent != nullptr);
 
