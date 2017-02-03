@@ -244,7 +244,7 @@ void IdxData::reset()
 }
 
 
-void IdxData::setParent(IIdxData* _parent)
+void IdxData::setParent(IdxNodeData* _parent)
 {
     m_parent = _parent;
     m_level = _parent ? _parent->getLevel() + 1 : 0;
@@ -257,7 +257,7 @@ void IdxData::setStatus(NodeStatus status)
 }
 
 
-IIdxData* IdxData::parent() const
+IdxNodeData* IdxData::parent() const
 {
     return m_parent;
 }

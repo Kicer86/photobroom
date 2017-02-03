@@ -34,6 +34,7 @@ class IdxDataManager;
 
 struct IIdxDataVisitor;
 
+class IdxNodeData;
 
 struct IIdxData
 {
@@ -41,13 +42,13 @@ struct IIdxData
 
     virtual ~IIdxData() = default;
 
-    virtual void setParent(IIdxData *) = 0;
+    virtual void setParent(IdxNodeData *) = 0;
     virtual void setStatus(NodeStatus) = 0;
     virtual void reset() = 0;
     virtual void setNodeFilter(const Database::IFilter::Ptr& filter) = 0;
     virtual void setNodeSorting(const Hierarchy::Level &) = 0;
 
-    virtual IIdxData* parent() const = 0;
+    virtual IdxNodeData* parent() const = 0;
     virtual QVariant getData(int) const = 0;
     virtual const Database::IFilter::Ptr& getFilter() const = 0;
     virtual std::size_t getLevel() const = 0;
@@ -78,9 +79,9 @@ class IdxData: public IIdxData
         void setNodeFilter(const Database::IFilter::Ptr& filter) override;
         void setNodeSorting(const Hierarchy::Level &) override;
         void reset() override;
-        void setParent(IIdxData *) override;
+        void setParent(IdxNodeData *) override;
         void setStatus(NodeStatus) override;
-        IIdxData* parent() const override;
+        IdxNodeData* parent() const override;
 
         QVariant getData(int) const override;
         const Database::IFilter::Ptr& getFilter() const override;
@@ -99,7 +100,7 @@ class IdxData: public IIdxData
         Hierarchy::Level m_order;                // defines how to sort children
         size_t m_level;
         IdxDataManager* m_manager;
-        IIdxData* m_parent;
+        IdxNodeData* m_parent;
 
     private:
         void resetIdx();
