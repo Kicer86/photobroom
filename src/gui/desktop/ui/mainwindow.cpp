@@ -460,7 +460,6 @@ void MainWindow::setupReviewedPhotosView()
 {
     auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
     reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
-    reviewed_photos_filter->flags[Photo::FlagsE::Role] = static_cast<int>(Photo::Roles::RegularPhoto);
     std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter};
 
     m_imagesModel->setStaticFilters(reviewedPhotosFilters);
@@ -472,7 +471,6 @@ void MainWindow::setupNewPhotosView()
 {
     auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
     new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
-    new_photos_filter->flags[Photo::FlagsE::Role] = static_cast<int>(Photo::Roles::RegularPhoto);
     std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter};
 
     m_newImagesModel->setStaticFilters(newPhotosFilters);
