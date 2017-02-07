@@ -579,11 +579,7 @@ namespace Database
     {
         bool status = true;
 
-        if (data.group_id == 0)
-        {
-            // TODO: remove if exists
-        }
-        else
+        if (data.group_id.valid())
         {
             UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
             queryInfo.setCondition("photo_id", QString::number(data.id));
@@ -593,6 +589,10 @@ namespace Database
             );
 
             status = updateOrInsert(queryInfo);
+        }
+        else
+        {
+            // TODO: remove media from group
         }
 
         return status;
