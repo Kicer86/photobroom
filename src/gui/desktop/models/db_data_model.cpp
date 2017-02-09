@@ -215,7 +215,6 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
     auto this_tread_callback = make_cross_thread_function(this, store_callback);
 
     const Photo::FlagValues flags = {
-            {Photo::FlagsE::Role,        static_cast<int>(Photo::Roles::Representative)},
             {Photo::FlagsE::StagingArea, 1}
     };
 

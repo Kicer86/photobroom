@@ -94,7 +94,6 @@ namespace Database
                 case Photo::FlagsE::Sha256Loaded:    result = FLAG_SHA256_LOADED; break;
                 case Photo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
                 case Photo::FlagsE::GeometryLoaded:  result = FLAG_GEOM_LOADED;   break;
-                case Photo::FlagsE::Role:            result = FLAG_ROLE;          break;
             }
 
             return result;

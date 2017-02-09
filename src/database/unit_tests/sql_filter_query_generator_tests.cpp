@@ -40,11 +40,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     filter->flags[Photo::FlagsE::ThumbnailLoaded] = 4;
     query = generator.generate(filters);
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
-
-    filter->flags.clear();
-    filter->flags[Photo::FlagsE::Role] = 5;
-    query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.role = '5'", query);
 }
 
 
