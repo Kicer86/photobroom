@@ -212,27 +212,27 @@ namespace Database
                 {
                     case FilterPhotosWithRole::Role::Regular:
                         m_filterResult.conditions.append("photos.id IN "
-                                                        "("
+                                                         "("
                                                             "SELECT groups_members.photo_id FROM groups_members "
                                                             "UNION "
                                                             "SELECT groups.representative_id FROM groups"
-                                                        ")"
+                                                         ")"
                         );
                     break;
 
                     case FilterPhotosWithRole::Role::GroupRepresentative:
                         m_filterResult.conditions.append("photos.id NOT IN "
-                                                        "("
+                                                         "("
                                                             "SELECT groups.representative_id FROM groups"
-                                                        ")"
+                                                         ")"
                         );
                     break;
 
                     case FilterPhotosWithRole::Role::GroupMember:
                         m_filterResult.conditions.append("photos.id NOT IN "
-                                                        "("
+                                                         "("
                                                             "SELECT groups_members.photo_id FROM groups_members"
-                                                        ")"
+                                                         ")"
                         );
                     break;
                 }
@@ -241,27 +241,27 @@ namespace Database
                 {
                     case FilterPhotosWithRole::Role::Regular:
                         m_filterResult.conditions.append("photos.id NOT IN "
-                                                        "("
+                                                         "("
                                                             "SELECT groups_members.photo_id FROM groups_members "
                                                             "UNION "
                                                             "SELECT groups.representative_id FROM groups"
-                                                        ")"
+                                                         ")"
                         );
                     break;
 
                     case FilterPhotosWithRole::Role::GroupRepresentative:
                         m_filterResult.conditions.append("photos.id IN "
-                                                        "("
+                                                         "("
                                                             "SELECT groups.representative_id FROM groups"
-                                                        ")"
+                                                         ")"
                         );
                     break;
 
                     case FilterPhotosWithRole::Role::GroupMember:
                         m_filterResult.conditions.append("photos.id IN "
-                                                        "("
+                                                         "("
                                                             "SELECT groups_members.photo_id FROM groups_members"
-                                                        ")"
+                                                         ")"
                         );
                     break;
                 }
