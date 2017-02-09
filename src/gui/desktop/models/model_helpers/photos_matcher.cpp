@@ -183,9 +183,19 @@ void FiltersMatcher::visit(Database::FilterPhotosWithPath *)
 }
 
 
-void FiltersMatcher::visit(Database::FilterPhotosWithRole *)
+void FiltersMatcher::visit(Database::FilterPhotosWithRole* filter)
 {
-    assert(!"not implemented");
+    switch(filter->m_role)
+    {
+        case Database::FilterPhotosWithRole::Role::Regular:
+        case Database::FilterPhotosWithRole::Role::GroupRepresentative:
+            assert(!"not implemented");
+            break;
+
+        case Database::FilterPhotosWithRole::Role::GroupMember:
+            m_doesMatch = m_photo->data().group_id.valid() != filter->m_not;
+            break;
+    }
 }
 
 
