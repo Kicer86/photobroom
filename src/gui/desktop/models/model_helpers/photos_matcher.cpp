@@ -45,6 +45,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         void visit(Database::FilterPhotosWithId *) override;
         void visit(Database::FilterPhotosMatchingExpression *) override;
         void visit(Database::FilterPhotosWithPath *) override;
+        void visit(Database::FilterPhotosWithRole *) override;
 };
 
 
@@ -177,6 +178,12 @@ void FiltersMatcher::visit(Database::FilterPhotosMatchingExpression *)
 
 
 void FiltersMatcher::visit(Database::FilterPhotosWithPath *)
+{
+    assert(!"not implemented");
+}
+
+
+void FiltersMatcher::visit(Database::FilterPhotosWithRole *)
 {
     assert(!"not implemented");
 }

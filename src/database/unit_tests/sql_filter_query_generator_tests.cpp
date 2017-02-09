@@ -255,3 +255,62 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
               "JOIN (tags) ON (tags.photo_id = photos.id) "
               "WHERE (tags.value LIKE '%Person 1%' OR tags.value LIKE '%Person 2%')", query);
 }
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "WHERE photos.id NOT IN "
+              "("
+                    "SELECT groups_members.photo_id FROM groups_members "
+                    "UNION "
+                    "SELECT groups.representative_id FROM groups"
+              ")", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupRepresentative);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "WHERE photos.id IN "
+              "("
+                    "SELECT groups.representative_id FROM groups"
+              ")", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "WHERE photos.id IN "
+              "("
+                    "SELECT groups_members.photo_id FROM groups_members"
+              ")", query);
+}

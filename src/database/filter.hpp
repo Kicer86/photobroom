@@ -46,6 +46,7 @@ namespace Database
     struct FilterPhotosWithId;
     struct FilterPhotosMatchingExpression;
     struct FilterPhotosWithPath;
+    struct FilterPhotosWithRole;
 
     struct DATABASE_EXPORT IFilter
     {
@@ -67,6 +68,7 @@ namespace Database
         virtual void visit(FilterPhotosWithId *) = 0;
         virtual void visit(FilterPhotosMatchingExpression *) = 0;
         virtual void visit(FilterPhotosWithPath *) = 0;
+        virtual void visit(FilterPhotosWithRole *) = 0;
     };
 
     //filters
@@ -155,6 +157,23 @@ namespace Database
         FILTER_COMMAND();
 
         const QString path;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithRole: IFilter
+    {
+        enum class Role
+        {
+            Regular,
+            GroupRepresentative,
+            GroupMember,
+        };
+
+        FilterPhotosWithRole(Role);
+        virtual ~FilterPhotosWithRole();
+
+        FILTER_COMMAND();
+
+        Role m_role;
     };
 
 }

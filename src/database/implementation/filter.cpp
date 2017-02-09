@@ -123,4 +123,16 @@ namespace Database
 
     }
 
+
+    FilterPhotosWithRole::FilterPhotosWithRole(Database::FilterPhotosWithRole::Role role): m_role(role)
+    {
+
+    }
+
+
+    FilterPhotosWithRole::~FilterPhotosWithRole()
+    {
+
+    }
+
 }
