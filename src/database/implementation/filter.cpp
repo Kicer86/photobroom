@@ -124,7 +124,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithRole::FilterPhotosWithRole(Database::FilterPhotosWithRole::Role role): m_role(role)
+    FilterPhotosWithRole::FilterPhotosWithRole(Database::FilterPhotosWithRole::Role role, bool neg): m_role(role), m_not(neg)
     {
 
     }

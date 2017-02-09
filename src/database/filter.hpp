@@ -168,12 +168,13 @@ namespace Database
             GroupMember,
         };
 
-        FilterPhotosWithRole(Role);
+        FilterPhotosWithRole(Role, bool negation = false);
         virtual ~FilterPhotosWithRole();
 
         FILTER_COMMAND();
 
-        Role m_role;
+        const Role m_role;
+        const bool m_not;
     };
 
 }
