@@ -101,7 +101,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+900"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+918"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -331,7 +331,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+171"/>
+        <location line="+177"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -346,12 +346,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-103"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+132"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>

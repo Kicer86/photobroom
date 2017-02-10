@@ -75,26 +75,29 @@ void IdxDataDeepFetcher::process(IIdxData* idxData)
     // Make sure status of idxData will not change during switch
     std::unique_lock<std::mutex> lock(m_idxDataMutex);
 
-    switch(idxData->status())
+    assert(isNode(idxData));
+    IdxNodeData* node = static_cast<IdxNodeData *>(idxData);
+
+    switch(node->status())
     {
         case NodeStatus::NotFetched:
         {
-            m_inProcess.insert(idxData);
-            QModelIndex idx = m_idxDataManager->getIndex(idxData);
+            m_inProcess.insert(node);
+            QModelIndex idx = m_idxDataManager->getIndex(node);
             m_idxDataManager->fetchMore(idx);
             break;
         }
 
         case NodeStatus::Fetched:
             lock.unlock();                                //we will go recursive now, and we do not need lock anymore in current context
-            for(const IIdxData::Ptr& child: idxData->getChildren())
+            for(const IIdxData::Ptr& child: node->getChildren())
                 process(child.get());
             break;
 
         case NodeStatus::Fetching:
             // Push to m_inProcess queue.
             // m_inProcess is locked by us
-            m_inProcess.insert(idxData);
+            m_inProcess.insert(node);
             break;
     }
 }

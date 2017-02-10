@@ -26,7 +26,6 @@ namespace Photo
         Sha256Loaded,
         ThumbnailLoaded,
         GeometryLoaded,
-        Role,
     };
 
     enum class Roles

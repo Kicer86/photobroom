@@ -76,7 +76,7 @@ namespace Database
     }
 
 
-    FilterNotMatchingFilter::FilterNotMatchingFilter(): filter()
+    FilterNotMatchingFilter::FilterNotMatchingFilter(const IFilter::Ptr& f): filter(f)
     {
 
     }
@@ -119,6 +119,18 @@ namespace Database
 
 
     FilterPhotosWithPath::~FilterPhotosWithPath()
+    {
+
+    }
+
+
+    FilterPhotosWithRole::FilterPhotosWithRole(Database::FilterPhotosWithRole::Role role): m_role(role)
+    {
+
+    }
+
+
+    FilterPhotosWithRole::~FilterPhotosWithRole()
     {
 
     }

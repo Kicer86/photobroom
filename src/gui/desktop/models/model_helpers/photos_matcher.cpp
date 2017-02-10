@@ -45,6 +45,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         void visit(Database::FilterPhotosWithId *) override;
         void visit(Database::FilterPhotosMatchingExpression *) override;
         void visit(Database::FilterPhotosWithPath *) override;
+        void visit(Database::FilterPhotosWithRole *) override;
 };
 
 
@@ -182,6 +183,22 @@ void FiltersMatcher::visit(Database::FilterPhotosWithPath *)
 }
 
 
+void FiltersMatcher::visit(Database::FilterPhotosWithRole* filter)
+{
+    switch(filter->m_role)
+    {
+        case Database::FilterPhotosWithRole::Role::Regular:
+        case Database::FilterPhotosWithRole::Role::GroupRepresentative:
+            assert(!"not implemented");
+            break;
+
+        case Database::FilterPhotosWithRole::Role::GroupMember:
+            m_doesMatch = m_photo->data().group_id.valid();
+            break;
+    }
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -229,32 +246,31 @@ bool PhotosMatcher::doesMatchFilter(const IPhotoInfo::Ptr& photoInfo, const Data
 }
 
 
-IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
+IdxNodeData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     return findParentFor(photoInfo, true);
 }
 
 
-IIdxData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
+IdxNodeData* PhotosMatcher::findCloserAncestorFor(const IPhotoInfo::Ptr& photoInfo) const
 {
     return findParentFor(photoInfo, false);
 }
 
 
-IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool exact) const
+IdxNodeData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool exact) const
 {
     const size_t depth = m_idxDataManager->getHierarchy().nodeLevels();
-    IIdxData* result = nullptr;
-    IIdxData* root = m_idxDataManager->getRoot();
-    std::deque<IIdxData *> toCheck = { root };
+    IdxNodeData* result = nullptr;
+    IdxNodeData* root = m_idxDataManager->getRoot();
+
+    std::deque<IdxNodeData *> toCheck = { root };
     FiltersMatcher matcher;
 
     while (toCheck.empty() == false)
     {
-        IIdxData* check = toCheck.front();
+        IdxNodeData* check = toCheck.front();
         toCheck.pop_front();
-
-        assert(isNode(check));
 
         const Database::IFilter::Ptr& filter = check->getFilter();
         const bool matches = matcher.doesMatch(photoInfo, filter);
@@ -269,7 +285,13 @@ IIdxData* PhotosMatcher::findParentFor(const IPhotoInfo::Ptr& photoInfo, bool ex
                 const std::vector<IIdxData::Ptr>& children = check->getChildren();
 
                 for(auto it = children.begin(); it != children.end(); ++it)
-                    toCheck.push_back(it->get());
+                {
+                    IIdxData* child = it->get();
+                    assert(isNode(child));
+
+                    IdxNodeData* node_child = static_cast<IdxNodeData *>(child);
+                    toCheck.push_back(node_child);
+                }
             }
             else
             {

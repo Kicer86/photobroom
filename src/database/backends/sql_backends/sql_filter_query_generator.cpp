@@ -94,7 +94,6 @@ namespace Database
                 case Photo::FlagsE::Sha256Loaded:    result = FLAG_SHA256_LOADED; break;
                 case Photo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
                 case Photo::FlagsE::GeometryLoaded:  result = FLAG_GEOM_LOADED;   break;
-                case Photo::FlagsE::Role:            result = FLAG_ROLE;          break;
             }
 
             return result;
@@ -204,6 +203,38 @@ namespace Database
         {
             m_filterResult.conditions.append(QString(TAB_PHOTOS ".path = '%1'")
                                              .arg(filter->path));
+        }
+
+        void visit(FilterPhotosWithRole* filter) override
+        {
+            switch(filter->m_role)
+            {
+                case FilterPhotosWithRole::Role::Regular:
+                    m_filterResult.conditions.append("photos.id NOT IN "
+                                                        "("
+                                                        "SELECT groups_members.photo_id FROM groups_members "
+                                                        "UNION "
+                                                        "SELECT groups.representative_id FROM groups"
+                                                        ")"
+                    );
+                break;
+
+                case FilterPhotosWithRole::Role::GroupRepresentative:
+                    m_filterResult.conditions.append("photos.id IN "
+                                                        "("
+                                                        "SELECT groups.representative_id FROM groups"
+                                                        ")"
+                    );
+                break;
+
+                case FilterPhotosWithRole::Role::GroupMember:
+                    m_filterResult.conditions.append("photos.id IN "
+                                                        "("
+                                                        "SELECT groups_members.photo_id FROM groups_members"
+                                                        ")"
+                    );
+                break;
+            }
         }
 
         FilterData m_filterResult;

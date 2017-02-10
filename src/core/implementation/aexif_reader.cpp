@@ -65,10 +65,16 @@ boost::any AExifReader::get(const QString& path, const IExifReader::ExtraData& t
         case ExtraData::SequenceNumber:
         {
             const std::string valueRaw = read(SequenceNumber);
-            const int value = stoi(valueRaw);
 
-            if (value > 0)
-                result = value;
+            try
+            {
+                const int value = stoi(valueRaw);
+
+                if (value > 0)
+                    result = value;
+            }
+            catch(const std::invalid_argument &) {}
+            catch(const std::out_of_range &) {}
 
             break;
         }

@@ -559,14 +559,13 @@ namespace Database
     {
         UpdateQueryData queryInfo(TAB_FLAGS);
         queryInfo.setCondition("photo_id", QString::number(photoData.id));
-        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED, FLAG_ROLE);
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
         queryInfo.setValues(QString::number(photoData.id),
                             photoData.getFlag(Photo::FlagsE::StagingArea),
                             photoData.getFlag(Photo::FlagsE::ExifLoaded),
                             photoData.getFlag(Photo::FlagsE::Sha256Loaded),
                             photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                            photoData.getFlag(Photo::FlagsE::GeometryLoaded),
-                            photoData.getFlag(Photo::FlagsE::Role)
+                            photoData.getFlag(Photo::FlagsE::GeometryLoaded)
         );
 
         const bool status = updateOrInsert(queryInfo);
@@ -579,11 +578,7 @@ namespace Database
     {
         bool status = true;
 
-        if (data.group_id == 0)
-        {
-            // TODO: remove if exists
-        }
-        else
+        if (data.group_id.valid())
         {
             UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
             queryInfo.setCondition("photo_id", QString::number(data.id));
@@ -593,6 +588,10 @@ namespace Database
             );
 
             status = updateOrInsert(queryInfo);
+        }
+        else
+        {
+            // TODO: remove media from group
         }
 
         return status;
@@ -896,7 +895,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded, role FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -919,9 +918,6 @@ namespace Database
 
             variant = query.value(4);
             photoData.flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
-
-            variant = query.value(5);
-            photoData.flags[Photo::FlagsE::Role] = variant.toInt();
         }
     }
 
@@ -1308,11 +1304,9 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
         switch (v)
         {
-            case 1:   // append column 'role' to FLAGS table
-                if (status)
-                    status = m_data->m_executor.exec("ALTER TABLE " TAB_FLAGS " ADD " FLAG_ROLE " INT NOT NULL DEFAULT 0", &query);
+            case 0:
 
-            case 2:   // current version, break updgrades chain
+            case 1:   // current version, break updgrades chain
                 break;
 
             default:

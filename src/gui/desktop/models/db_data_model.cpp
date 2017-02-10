@@ -178,22 +178,17 @@ DBDataModel::~DBDataModel()
 IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    return idxData->getPhoto();
+
+    assert(::isLeaf(idxData));
+    IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
+
+    return leafData->getPhoto();
 }
 
 
 const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 {
     return m_filters;
-}
-
-
-bool DBDataModel::isEmpty() const
-{
-    IIdxData* root = m_idxDataManager->getRoot();
-    const bool result = root->getChildren().empty();
-
-    return result;
 }
 
 
@@ -220,7 +215,6 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
     auto this_tread_callback = make_cross_thread_function(this, store_callback);
 
     const Photo::FlagValues flags = {
-            {Photo::FlagsE::Role,        static_cast<int>(Photo::Roles::Representative)},
             {Photo::FlagsE::StagingArea, 1}
     };
 
@@ -256,7 +250,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 APhotoInfoModel::PhotoDetails DBDataModel::getPhotoDetails(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-    assert(isLeaf(idxData));
+    assert(::isLeaf(idxData));
 
     IdxLeafData* leafIdxData = down_cast<IdxLeafData *>(idxData);
 
@@ -310,7 +304,10 @@ QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) 
     const unsigned int urow = static_cast<unsigned int>(row);
 
     QModelIndex idx;
-    IIdxData* pData = m_idxDataManager->getIdxDataFor(_parent);
+    IIdxData* pDataRaw = m_idxDataManager->getIdxDataFor(_parent);
+
+    assert(::isNode(pDataRaw));
+    IdxNodeData* pData = static_cast<IdxNodeData *>(pDataRaw);
 
     if (urow < pData->getChildren().size())             //row out of boundary?
     {
@@ -335,9 +332,18 @@ QModelIndex DBDataModel::parent(const QModelIndex& child) const
 int DBDataModel::rowCount(const QModelIndex& _parent) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(_parent);
-    const size_t count = idxData->getChildren().size();
 
-    assert(count < std::numeric_limits<int>::max());
+    std::size_t count = 0;
+
+    if (::isNode(idxData))
+    {
+        IdxNodeData* node = static_cast<IdxNodeData *>(idxData);
+
+        count = node->getChildren().size();
+
+        assert(count < std::numeric_limits<int>::max());
+    }
+
     return static_cast<int>(count);
 }
 
@@ -365,7 +371,7 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 {
     m_filters = filters;
 
-    IIdxData* root = m_idxDataManager->getRoot();
+    IdxNodeData* root = m_idxDataManager->getRoot();
     m_idxDataManager->refetchNode(root);
 }
 
@@ -373,6 +379,22 @@ void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& fil
 void DBDataModel::applyFilters(const SearchExpressionEvaluator::Expression& filters)
 {
     m_idxDataManager->applyFilters(filters);
+}
+
+
+bool DBDataModel::isNode(const QModelIndex& idx) const
+{
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+
+    return ::isNode(idxData);
+}
+
+
+bool DBDataModel::isLeaf(const QModelIndex& idx) const
+{
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
+
+    return ::isLeaf(idxData);
 }
 
 

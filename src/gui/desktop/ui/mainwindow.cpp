@@ -459,9 +459,12 @@ void MainWindow::loadRecentCollections()
 void MainWindow::setupReviewedPhotosView()
 {
     auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    auto group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
+    auto not_group_members_filter = std::make_shared<Database::FilterNotMatchingFilter>(group_members_filter);
+
     reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
-    reviewed_photos_filter->flags[Photo::FlagsE::Role] = static_cast<int>(Photo::Roles::RegularPhoto);
-    std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter};
+
+    std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter, not_group_members_filter};
 
     m_imagesModel->setStaticFilters(reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
@@ -471,9 +474,12 @@ void MainWindow::setupReviewedPhotosView()
 void MainWindow::setupNewPhotosView()
 {
     auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    auto group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
+    auto not_group_members_filter = std::make_shared<Database::FilterNotMatchingFilter>(group_members_filter);
+
     new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
-    new_photos_filter->flags[Photo::FlagsE::Role] = static_cast<int>(Photo::Roles::RegularPhoto);
-    std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter};
+
+    std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter, not_group_members_filter};
 
     m_newImagesModel->setStaticFilters(newPhotosFilters);
 

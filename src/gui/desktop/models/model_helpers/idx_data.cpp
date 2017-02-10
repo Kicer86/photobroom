@@ -144,18 +144,7 @@ namespace
                     return m_result;
                 }
 
-                void visit(const IdxNodeData *) override
-                {
-                    assert(isNode(m_l));
-                    assert(isNode(m_r));
-
-                    const QVariant l_val = m_l->getData(Qt::DisplayRole);
-                    const QVariant r_val = m_r->getData(Qt::DisplayRole);
-
-                    m_result = m_comparer(l_val, r_val);
-                }
-
-                void visit(const IdxLeafData *) override
+                void leaf()
                 {
                     assert(isLeaf(m_l));
                     assert(isLeaf(m_r));
@@ -167,6 +156,32 @@ namespace
                     const QVariant r_val = getValue(rightLeafData);
 
                     m_result = m_comparer(l_val, r_val);
+                }
+
+                void node()
+                {
+                    assert(isNode(m_l));
+                    assert(isNode(m_r));
+
+                    const QVariant l_val = m_l->getData(Qt::DisplayRole);
+                    const QVariant r_val = m_r->getData(Qt::DisplayRole);
+
+                    m_result = m_comparer(l_val, r_val);
+                }
+
+                void visit(const IdxNodeData *) override
+                {
+                    node();
+                }
+
+                void visit(const IdxRegularLeafData *) override
+                {
+                    leaf();
+                }
+
+                void visit(const IdxGroupLeafData *) override
+                {
+                    leaf();
                 }
 
                 QVariant getValue(const IdxLeafData* idx) const
@@ -194,20 +209,19 @@ IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 
 IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(model)
 {
-    m_photo = photo;
     setStatus(NodeStatus::Fetched);
 
     QImage img;
     img.load(":/gui/clock.svg");
 
-    m_data[Qt::DisplayRole] = m_photo->getPath();
+    m_data[Qt::DisplayRole] = photo->getPath();
     m_data[Qt::DecorationRole] = img;
 }
 
 
 IdxData::~IdxData()
 {
-    reset();
+    resetIdx();
 }
 
 
@@ -223,90 +237,14 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 }
 
 
-long IdxData::findPositionFor(const IIdxData* child) const
-{
-    IdxDataComparer<TagValueComparer> comparer(m_order);
-
-    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
-    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
-
-    const auto pos = std::upper_bound(begin, end, child, comparer);
-
-    return pos - begin;
-}
-
-
-long IdxData::getPositionOf(const IIdxData* child) const
-{
-    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
-    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
-
-    const auto pos = std::find(begin, end, child);
-
-    assert(pos != end);
-
-    return pos - begin;
-}
-
-
-IIdxData* IdxData::addChild(IIdxData::Ptr&& child)
-{
-    assert(isNode(this));                    // child (leaf) cannot accept any child
-    assert(child->parent() == nullptr);      // child should not have parent
-
-    const long pos = findPositionFor(child.get());
-    child->setParent(this);
-    m_children.insert(m_children.cbegin() + pos, std::move(child));
-
-    IIdxData* item = m_children[pos].get();
-    m_manager->idxDataCreated(item);
-
-    return item;
-}
-
-
-void IdxData::removeChild(IIdxData* child)
-{
-    takeChild(child);   // take child returns unique_ptr which is not catched here so child will be deleted
-}
-
-
-void IdxData::removeChildren()
-{
-    m_children.clear();
-}
-
-
-IIdxData::Ptr IdxData::takeChild(IIdxData* child)
-{
-    assert(child->parent() == this);
-    assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
-
-    const long pos = getPositionOf(child);
-
-    IIdxData::Ptr childPtr = std::move(m_children[pos]);
-    m_children.erase(m_children.cbegin() + pos);
-
-    childPtr->setParent(nullptr);
-
-    return childPtr;
-}
-
 
 void IdxData::reset()
 {
-    m_manager->idxDataReset(this);
-    setStatus(NodeStatus::NotFetched);
-
-    for(IIdxData::Ptr& child: m_children)
-        m_manager->idxDataDeleted(child.get());
-
-    m_children.clear();
-    m_photo.reset();
+    resetIdx();
 }
 
 
-void IdxData::setParent(IIdxData* _parent)
+void IdxData::setParent(IdxNodeData* _parent)
 {
     m_parent = _parent;
     m_level = _parent ? _parent->getLevel() + 1 : 0;
@@ -319,15 +257,9 @@ void IdxData::setStatus(NodeStatus status)
 }
 
 
-IIdxData* IdxData::parent() const
+IdxNodeData* IdxData::parent() const
 {
     return m_parent;
-}
-
-
-const std::vector<IIdxData::Ptr> & IdxData::getChildren() const
-{
-    return m_children;
 }
 
 
@@ -349,16 +281,14 @@ std::size_t IdxData::getLevel() const
 }
 
 
-IPhotoInfo::Ptr IdxData::getPhoto() const
-{
-    return m_photo;
-}
-
-
 int IdxData::getRow() const
 {
     assert(m_parent != nullptr);
-    return static_cast<int>(m_parent->getPositionOf(this));
+    assert(isNode(m_parent));
+
+    IdxNodeData* parentNode = static_cast<IdxNodeData *>(m_parent);
+
+    return static_cast<int>(parentNode->getPositionOf(this));
 }
 
 
@@ -374,7 +304,118 @@ NodeStatus IdxData::status() const
 }
 
 
-IIdxData* IdxData::findChildWithBadPosition() const
+IdxData::IdxData(IdxDataManager* model):
+    m_data(),
+    m_filter(new Database::EmptyFilter),
+    m_order(),
+    m_level(std::numeric_limits<std::size_t>::max()),
+    m_manager (model),
+    m_parent(nullptr)
+{
+    setStatus(NodeStatus::NotFetched);
+}
+
+
+
+void IdxData::resetIdx()
+{
+    m_manager->idxDataReset(this);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
+{
+
+}
+
+
+IdxNodeData::~IdxNodeData()
+{
+    resetNode();
+}
+
+
+IIdxData* IdxNodeData::addChild(IIdxData::Ptr&& child)
+{
+    assert(isNode(this));                    // child (leaf) cannot accept any child
+    assert(child->parent() == nullptr);      // child should not have parent
+
+    const long pos = findPositionFor(child.get());
+    child->setParent(this);
+    m_children.insert(m_children.cbegin() + pos, std::move(child));
+
+    IIdxData* item = m_children[pos].get();
+    m_manager->idxDataCreated(item);
+
+    return item;
+}
+
+
+void IdxNodeData::removeChild(IIdxData* child)
+{
+    takeChild(child);   // take child returns unique_ptr which is not catched here so child will be deleted
+}
+
+
+void IdxNodeData::removeChildren()
+{
+    m_children.clear();
+}
+
+
+IIdxData::Ptr IdxNodeData::takeChild(IIdxData* child)
+{
+    assert(child->parent() == this);
+    assert(static_cast<unsigned int>(child->getRow()) < m_children.size());
+
+    const long pos = getPositionOf(child);
+
+    IIdxData::Ptr childPtr = std::move(m_children[pos]);
+    m_children.erase(m_children.cbegin() + pos);
+
+    childPtr->setParent(nullptr);
+
+    return childPtr;
+}
+
+
+const std::vector<IIdxData::Ptr>& IdxNodeData::getChildren() const
+{
+    return m_children;
+}
+
+
+long IdxNodeData::getPositionOf(const IIdxData* child) const
+{
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const auto pos = std::find(begin, end, child);
+
+    assert(pos != end);
+
+    return pos - begin;
+}
+
+
+long IdxNodeData::findPositionFor(const IIdxData* child) const
+{
+    IdxDataComparer<TagValueComparer> comparer(m_order);
+
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+    const auto pos = std::upper_bound(begin, end, child, comparer);
+
+    return pos - begin;
+}
+
+
+
+IIdxData* IdxNodeData::findChildWithBadPosition() const
 {
     IdxDataComparer<RelaxedTagValueComparer> comparer(m_order);
     IIdxData* result = nullptr;
@@ -390,7 +431,7 @@ IIdxData* IdxData::findChildWithBadPosition() const
 }
 
 
-bool IdxData::sortingRequired() const
+bool IdxNodeData::sortingRequired() const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
@@ -404,26 +445,11 @@ bool IdxData::sortingRequired() const
 }
 
 
-IdxData::IdxData(IdxDataManager* model) :
-    m_children(),
-    m_data(),
-    m_filter(new Database::EmptyFilter),
-    m_order(),
-    m_photo(nullptr),
-    m_level(std::numeric_limits<std::size_t>::max()),
-    m_manager (model),
-    m_parent(nullptr)
+void IdxNodeData::reset()
 {
-    setStatus(NodeStatus::NotFetched);
-}
+    IdxData::reset();
 
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
-{
-
+    resetNode();
 }
 
 
@@ -433,18 +459,55 @@ void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 }
 
 
+void IdxNodeData::resetNode()
+{
+    setStatus(NodeStatus::NotFetched);
+
+    for(IIdxData::Ptr& child: m_children)
+        m_manager->idxDataDeleted(child.get());
+
+    m_children.clear();
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxData(mgr, photo)
+IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo):
+    IdxData(mgr, photo),
+    m_photo(photo)
 {
 
 }
 
 
-void IdxLeafData::visitMe(IIdxDataVisitor* visitor) const
+Photo::Id IdxLeafData::getMediaId() const
 {
-    visitor->visit(this);
+    return m_photo->getID();
+}
+
+
+QString IdxLeafData::getMediaPath() const
+{
+    return m_photo->getPath();
+}
+
+
+QSize IdxLeafData::getMediaGeometry() const
+{
+    return m_photo->getGeometry();
+}
+
+
+Tag::TagsList IdxLeafData::getTags() const
+{
+    return m_photo->getTags();
+}
+
+
+IPhotoInfo::Ptr IdxLeafData::getPhoto() const
+{
+    return m_photo;
 }
 
 
@@ -463,27 +526,9 @@ IdxRegularLeafData::~IdxRegularLeafData()
 }
 
 
-Photo::Id IdxRegularLeafData::getMediaId() const
+void IdxRegularLeafData::visitMe(IIdxDataVisitor* visitor) const
 {
-    return m_photo->getID();
-}
-
-
-QString IdxRegularLeafData::getMediaPath() const
-{
-    return m_photo->getPath();
-}
-
-
-QSize IdxRegularLeafData::getMediaGeometry() const
-{
-    return m_photo->getGeometry();
-}
-
-
-Tag::TagsList IdxRegularLeafData::getTags() const
-{
-    return m_photo->getTags();
+    visitor->visit(this);
 }
 
 
@@ -503,27 +548,9 @@ IdxGroupLeafData::~IdxGroupLeafData()
 }
 
 
-Photo::Id IdxGroupLeafData::getMediaId() const
+void IdxGroupLeafData::visitMe(IIdxDataVisitor* visitor) const
 {
-    return m_photo->getID();
-}
-
-
-QString IdxGroupLeafData::getMediaPath() const
-{
-    return m_photo->getPath();
-}
-
-
-QSize IdxGroupLeafData::getMediaGeometry() const
-{
-    return m_photo->getGeometry();
-}
-
-
-Tag::TagsList IdxGroupLeafData::getTags() const
-{
-    return m_photo->getTags();
+    visitor->visit(this);
 }
 
 
@@ -532,13 +559,15 @@ Tag::TagsList IdxGroupLeafData::getTags() const
 
 bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 {
-    assert( states.size() == 2);
+    assert( states.size() == 3);
 
     bool ofType = false;
 
     apply_inline_visitor(idx,
-                         [&ofType, &states](const IdxLeafData *)  { ofType = *(states.begin() + 0); },
-                         [&ofType, &states](const IdxNodeData *)  { ofType = *(states.begin() + 1); });
+                         [&ofType, &states](const IdxNodeData *)        { ofType = *(states.begin() + 0); },
+                         [&ofType, &states](const IdxRegularLeafData *) { ofType = *(states.begin() + 1); },
+                         [&ofType, &states](const IdxGroupLeafData *)   { ofType = *(states.begin() + 2); }
+                        );
 
     return ofType;
 }
@@ -546,7 +575,7 @@ bool is(const IIdxData* idx, const std::initializer_list<bool>& states)
 
 bool isNode(const IIdxData* idx)
 {
-    const bool result = is(idx, {false, true});
+    const bool result = is(idx, {true, false, false});
 
     return result;
 }
@@ -554,7 +583,23 @@ bool isNode(const IIdxData* idx)
 
 bool isLeaf(const IIdxData* idx)
 {
-    const bool result = is(idx, {true, false});
+    const bool result = is(idx, {false, true, true});
+
+    return result;
+}
+
+
+bool isRegularLeaf(const IIdxData* idx)
+{
+    const bool result = is(idx, {false, true, false});
+
+    return result;
+}
+
+
+bool isGroupedLeaf(const IIdxData* idx)
+{
+    const bool result = is(idx, {false, false, true});
 
     return result;
 }

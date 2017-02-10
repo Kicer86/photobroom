@@ -40,11 +40,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     filter->flags[Photo::FlagsE::ThumbnailLoaded] = 4;
     query = generator.generate(filters);
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
-
-    filter->flags.clear();
-    filter->flags[Photo::FlagsE::Role] = 5;
-    query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.role = '5'", query);
 }
 
 
@@ -72,13 +67,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
-    std::shared_ptr<Database::FilterNotMatchingFilter> filter = std::make_shared<Database::FilterNotMatchingFilter>();
+    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Time));
+    auto filter = std::make_shared<Database::FilterNotMatchingFilter>(sub_filter1);
     filters.push_back(filter);
-
-    std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Time));
-
-    filter->filter = sub_filter1;
 
     const QString query = generator.generate(filters);
 
@@ -259,4 +250,63 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (tags) ON (tags.photo_id = photos.id) "
               "WHERE (tags.value LIKE '%Person 1%' OR tags.value LIKE '%Person 2%')", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "WHERE photos.id NOT IN "
+              "("
+                    "SELECT groups_members.photo_id FROM groups_members "
+                    "UNION "
+                    "SELECT groups.representative_id FROM groups"
+              ")", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupRepresentative);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "WHERE photos.id IN "
+              "("
+                    "SELECT groups.representative_id FROM groups"
+              ")", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::deque<Database::IFilter::Ptr> filters;
+
+    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
+              "WHERE photos.id IN "
+              "("
+                    "SELECT groups_members.photo_id FROM groups_members"
+              ")", query);
 }
