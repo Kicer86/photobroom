@@ -21,7 +21,7 @@ namespace Photo
     struct Data;
 }
 
-class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
+class PhotoInfo final: public IPhotoInfo
 {
     public:
         PhotoInfo(const QString &path);                      //load all data from provided path

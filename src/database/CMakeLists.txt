@@ -34,11 +34,11 @@ set(DATABASE_HEADERS
     iphoto_info_cache.hpp
     photo_data.hpp
     photo_iterator.hpp
-    photo_info.hpp
     photo_types.hpp
     query_list.hpp
     project_info.hpp
     implementation/async_database.hpp
+    implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp

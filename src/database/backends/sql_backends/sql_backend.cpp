@@ -45,9 +45,7 @@
 #include <core/map_iterator.hpp>
 #include <database/action.hpp>
 #include <database/filter.hpp>
-#include <database/iphoto_info_cache.hpp>
 #include <database/project_info.hpp>
-#include <database/photo_info.hpp>
 
 #include "isql_query_constructor.hpp"
 #include "tables.hpp"
