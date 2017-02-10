@@ -207,64 +207,34 @@ namespace Database
 
         void visit(FilterPhotosWithRole* filter) override
         {
-            if (filter->m_not)
-                switch(filter->m_role)
-                {
-                    case FilterPhotosWithRole::Role::Regular:
-                        m_filterResult.conditions.append("photos.id IN "
-                                                         "("
-                                                            "SELECT groups_members.photo_id FROM groups_members "
-                                                            "UNION "
-                                                            "SELECT groups.representative_id FROM groups"
-                                                         ")"
-                        );
-                    break;
+            switch(filter->m_role)
+            {
+                case FilterPhotosWithRole::Role::Regular:
+                    m_filterResult.conditions.append("photos.id NOT IN "
+                                                        "("
+                                                        "SELECT groups_members.photo_id FROM groups_members "
+                                                        "UNION "
+                                                        "SELECT groups.representative_id FROM groups"
+                                                        ")"
+                    );
+                break;
 
-                    case FilterPhotosWithRole::Role::GroupRepresentative:
-                        m_filterResult.conditions.append("photos.id NOT IN "
-                                                         "("
-                                                            "SELECT groups.representative_id FROM groups"
-                                                         ")"
-                        );
-                    break;
+                case FilterPhotosWithRole::Role::GroupRepresentative:
+                    m_filterResult.conditions.append("photos.id IN "
+                                                        "("
+                                                        "SELECT groups.representative_id FROM groups"
+                                                        ")"
+                    );
+                break;
 
-                    case FilterPhotosWithRole::Role::GroupMember:
-                        m_filterResult.conditions.append("photos.id NOT IN "
-                                                         "("
-                                                            "SELECT groups_members.photo_id FROM groups_members"
-                                                         ")"
-                        );
-                    break;
-                }
-            else
-                switch(filter->m_role)
-                {
-                    case FilterPhotosWithRole::Role::Regular:
-                        m_filterResult.conditions.append("photos.id NOT IN "
-                                                         "("
-                                                            "SELECT groups_members.photo_id FROM groups_members "
-                                                            "UNION "
-                                                            "SELECT groups.representative_id FROM groups"
-                                                         ")"
-                        );
-                    break;
-
-                    case FilterPhotosWithRole::Role::GroupRepresentative:
-                        m_filterResult.conditions.append("photos.id IN "
-                                                         "("
-                                                            "SELECT groups.representative_id FROM groups"
-                                                         ")"
-                        );
-                    break;
-
-                    case FilterPhotosWithRole::Role::GroupMember:
-                        m_filterResult.conditions.append("photos.id IN "
-                                                         "("
-                                                            "SELECT groups_members.photo_id FROM groups_members"
-                                                         ")"
-                        );
-                    break;
-                }
+                case FilterPhotosWithRole::Role::GroupMember:
+                    m_filterResult.conditions.append("photos.id IN "
+                                                        "("
+                                                        "SELECT groups_members.photo_id FROM groups_members"
+                                                        ")"
+                    );
+                break;
+            }
         }
 
         FilterData m_filterResult;

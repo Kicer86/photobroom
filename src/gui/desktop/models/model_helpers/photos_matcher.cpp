@@ -193,7 +193,7 @@ void FiltersMatcher::visit(Database::FilterPhotosWithRole* filter)
             break;
 
         case Database::FilterPhotosWithRole::Role::GroupMember:
-            m_doesMatch = m_photo->data().group_id.valid() != filter->m_not;
+            m_doesMatch = m_photo->data().group_id.valid();
             break;
     }
 }

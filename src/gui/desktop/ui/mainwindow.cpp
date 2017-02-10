@@ -459,10 +459,13 @@ void MainWindow::loadRecentCollections()
 void MainWindow::setupReviewedPhotosView()
 {
     auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    auto not_group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember, true);
-    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
+    auto group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
+    auto not_filter = std::make_shared<Database::FilterNotMatchingFilter>();
 
-    std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter, not_group_members_filter};
+    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
+    not_filter->filter = group_members_filter;
+
+    std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter, not_filter};
 
     m_imagesModel->setStaticFilters(reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
@@ -472,10 +475,13 @@ void MainWindow::setupReviewedPhotosView()
 void MainWindow::setupNewPhotosView()
 {
     auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    auto not_group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember, true);
-    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
+    auto group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
+    auto not_filter = std::make_shared<Database::FilterNotMatchingFilter>();
 
-    std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter, not_group_members_filter};
+    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
+    not_filter->filter = group_members_filter;
+
+    std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter, not_filter};
 
     m_newImagesModel->setStaticFilters(newPhotosFilters);
 
