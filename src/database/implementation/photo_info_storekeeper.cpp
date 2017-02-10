@@ -20,6 +20,7 @@
 #include "photo_info_storekeeper.hpp"
 
 #include <database/iphoto_info.hpp>
+#include <database/photo_info.hpp>
 #include <idatabase.hpp>
 
 
@@ -75,7 +76,7 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, IPhotoInfo::Chang
 }
 
 
-void PhotoInfoStorekeeper::photoInfoConstructed(const IPhotoInfo::Ptr& photoInfo)
+void PhotoInfoStorekeeper::photoInfoConstructed(PhotoInfo* photoInfo)
 {
     photoInfo->registerObserver(this);
 }

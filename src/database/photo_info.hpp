@@ -46,8 +46,8 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         bool isExifDataLoaded() const override;              // returns true is exif for this photo was read
 
         //observers
-        void registerObserver(IObserver *) override;
-        void unregisterObserver(IObserver *) override;
+        void registerObserver(IObserver *);
+        void unregisterObserver(IObserver *);
 
         //set data
         void setSha256(const Photo::Sha256sum &) override;

@@ -73,10 +73,6 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual bool isGeometryLoaded() const = 0;              // returns true if geometry is not null
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
-    //observers
-    virtual void registerObserver(IObserver *) = 0;
-    virtual void unregisterObserver(IObserver *) = 0;
-
     //setting data
     virtual void setSha256(const Photo::Sha256sum &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags

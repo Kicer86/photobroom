@@ -32,6 +32,8 @@ namespace Database
     struct IDatabase;
 }
 
+class PhotoInfo;
+
 class PhotoInfoStorekeeper: public IPhotoInfo::IObserver
 {
     public:
@@ -41,7 +43,7 @@ class PhotoInfoStorekeeper: public IPhotoInfo::IObserver
 
         PhotoInfoStorekeeper& operator=(const PhotoInfoStorekeeper& other) = delete;
 
-        void photoInfoConstructed(const IPhotoInfo::Ptr&);
+        void photoInfoConstructed(PhotoInfo *);
         void setDatabase(Database::IDatabase *);
         void setCache(Database::IPhotoInfoCache *);
 
