@@ -344,10 +344,9 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     }
 
     //add anti-filter for last node
-    auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>();
     auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName);
+    auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>(tag_filter);
 
-    node_filter->filter = tag_filter;
     filter.push_back(node_filter);
 
     //model related filters
@@ -922,8 +921,7 @@ IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
     const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
     auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName);
-    auto filter = std::make_shared<Database::FilterNotMatchingFilter>();
-    filter->filter = filterTag;
+    auto filter = std::make_shared<Database::FilterNotMatchingFilter>(filterTag);
 
     setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1) );
 

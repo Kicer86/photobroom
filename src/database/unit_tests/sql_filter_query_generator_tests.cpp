@@ -67,13 +67,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     Database::SqlFilterQueryGenerator generator;
     std::deque<Database::IFilter::Ptr> filters;
 
-    std::shared_ptr<Database::FilterNotMatchingFilter> filter = std::make_shared<Database::FilterNotMatchingFilter>();
+    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Time));
+    auto filter = std::make_shared<Database::FilterNotMatchingFilter>(sub_filter1);
     filters.push_back(filter);
-
-    std::shared_ptr<Database::FilterPhotosWithTag> sub_filter1 =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Time));
-
-    filter->filter = sub_filter1;
 
     const QString query = generator.generate(filters);
 

@@ -121,12 +121,12 @@ namespace Database
 
     struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
     {
-        FilterNotMatchingFilter();
+        FilterNotMatchingFilter(const IFilter::Ptr &);
         virtual ~FilterNotMatchingFilter();
 
         FILTER_COMMAND();
 
-        IFilter::Ptr filter;
+        const IFilter::Ptr filter;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithId: IFilter

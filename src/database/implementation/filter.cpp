@@ -76,7 +76,7 @@ namespace Database
     }
 
 
-    FilterNotMatchingFilter::FilterNotMatchingFilter(): filter()
+    FilterNotMatchingFilter::FilterNotMatchingFilter(const IFilter::Ptr& f): filter(f)
     {
 
     }
