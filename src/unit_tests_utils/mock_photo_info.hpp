@@ -22,9 +22,6 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_CONST_METHOD0(isGeometryLoaded, bool());
     MOCK_CONST_METHOD0(isExifDataLoaded, bool());
 
-    MOCK_METHOD1(registerObserver, void(IObserver *));
-    MOCK_METHOD1(unregisterObserver, void(IObserver *));
-
     MOCK_METHOD1(setSha256, void(const Photo::Sha256sum &));
     MOCK_METHOD1(setTags, void(const Tag::TagsList &));
     MOCK_METHOD2(setTag, void(const TagNameInfo &, const TagValue &));

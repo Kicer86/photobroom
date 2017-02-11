@@ -42,21 +42,6 @@ struct DATABASE_EXPORT IPhotoInfo
     typedef std::shared_ptr<IPhotoInfo> Ptr;
     typedef std::deque<IPhotoInfo::Ptr> List;
 
-    enum class ChangeReason
-    {
-        Sha256Updated,
-        TagsUpdated,
-        GeometryUpdated,
-        FlagsUpdated,
-        GroupUpdated,
-    };
-
-    struct DATABASE_EXPORT IObserver
-    {
-        virtual ~IObserver() = default;
-        virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
-    };
-
     virtual ~IPhotoInfo() = default;
 
     //data getting

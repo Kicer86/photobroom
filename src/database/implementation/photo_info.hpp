@@ -24,6 +24,22 @@ namespace Photo
 class PhotoInfo final: public IPhotoInfo
 {
     public:
+
+        enum class ChangeReason
+        {
+            Sha256Updated,
+            TagsUpdated,
+            GeometryUpdated,
+            FlagsUpdated,
+            GroupUpdated,
+        };
+
+        struct IObserver
+        {
+            virtual ~IObserver() = default;
+            virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
+        };
+
         PhotoInfo(const QString &path);                      //load all data from provided path
         PhotoInfo(const Photo::Data &);
         PhotoInfo(const PhotoInfo &) = delete;
