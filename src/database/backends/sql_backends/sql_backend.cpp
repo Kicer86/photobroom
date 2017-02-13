@@ -872,7 +872,10 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT %1.id, %1.representative_id, %2.photo_id FROM %1 JOIN %2 ON (%1.id = %2.group_id)");
+        QString queryStr = QString("SELECT %1.id, %1.representative_id, %2.photo_id FROM %1 "
+                                   "JOIN %2 ON (%1.id = %2.group_id) "
+                                   "WHERE (%1.representative_id = %3 OR %2.photo_id = %3)"
+        );
 
         queryStr = queryStr.arg(TAB_GROUPS);
         queryStr = queryStr.arg(TAB_GROUPS_MEMBERS);
