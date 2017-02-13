@@ -326,7 +326,9 @@ void IdxData::resetIdx()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name): IdxData(mgr, name)
+IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name):
+    IdxData(mgr, name),
+    m_children()
 {
 
 }

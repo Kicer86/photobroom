@@ -41,6 +41,8 @@ class APhotoInfoModel: public QAbstractItemModel
             Photo::Id id;
             QSize size;
             QString path;
+
+            PhotoDetails(): id(), size(), path() {}
         };
 
         APhotoInfoModel(QObject * = 0);
