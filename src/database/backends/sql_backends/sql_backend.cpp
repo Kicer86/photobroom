@@ -1327,7 +1327,10 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
         {
             case 0:
 
-            case 1:   // current version, break updgrades chain
+            case 1:             // update from 1 to 2
+                // no particular changes required - checkStructure() will add missing TAB_GROUPS and TAB_GROUPS_MEMBERS
+
+            case 2:   // current version, break updgrades chain
                 break;
 
             default:
