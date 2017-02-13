@@ -35,12 +35,12 @@ namespace Photo
 
     Data::Data():
         id(),
-        group_id(),
         sha256Sum(),
         tags(),
         flags(),
         path(),
-        geometry()
+        geometry(),
+        groupInfo()
     {
 
     }

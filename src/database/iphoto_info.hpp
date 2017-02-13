@@ -63,7 +63,7 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags
     virtual void setTag(const TagNameInfo &, const TagValue &) = 0;   // set tag
     virtual void setGeometry(const QSize &) = 0;
-    virtual void setGroup(const Group::Id &) = 0;
+    virtual void setGroup(const GroupInfo &) = 0;
 
     //flags
     virtual void markFlag(Photo::FlagsE, int) = 0;

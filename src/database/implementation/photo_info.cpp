@@ -170,9 +170,9 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 }
 
 
-void PhotoInfo::setGroup(const Group::Id& id)
+void PhotoInfo::setGroup(const GroupInfo& info)
 {
-    m_data->m_data.lock()->group_id = id;
+    m_data->m_data.lock()->groupInfo = info;
 
     updated(ChangeReason::GroupUpdated);
 }

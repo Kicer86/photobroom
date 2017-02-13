@@ -70,7 +70,7 @@ class PhotoInfo final: public IPhotoInfo
         void setGeometry(const QSize &) override;
         void setTags(const Tag::TagsList &) override;
         void setTag(const TagNameInfo &, const TagValue &) override;
-        void setGroup(const Group::Id &) override;
+        void setGroup(const GroupInfo &) override;
 
         //flags
         void markFlag(Photo::FlagsE, int) override;

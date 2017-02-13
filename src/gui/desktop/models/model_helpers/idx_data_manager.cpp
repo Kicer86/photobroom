@@ -438,14 +438,15 @@ void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator,
     {
         IPhotoInfo::Ptr photo = db_operator->getPhotoFor(id);
 
-        Group::Id gid = photo->data().group_id;
+        const Photo::Data pData = photo->data();
+        const Group::Id gid = pData.groupInfo.group_id;
 
         if (gid.valid())
         {
             if (gid != current_group)
             {
-                IPhotoInfo::Ptr representative = db_operator->getPhotoFor(gid);
-                leafs->push_back( std::make_unique<IdxGroupLeafData>(this, representative) );
+                assert(pData.groupInfo.role == GroupInfo::Representative);       // we do not expect members here
+                leafs->push_back( std::make_unique<IdxGroupLeafData>(this, photo) );
             }
         }
         else

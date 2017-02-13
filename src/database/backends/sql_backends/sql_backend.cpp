@@ -204,7 +204,7 @@ namespace Database
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
             ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
-            Group::Id            getGroupFor(const Photo::Id &) const;
+            GroupInfo            getGroupFor(const Photo::Id &) const;
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
             std::deque<Photo::Id> fetch(QSqlQuery &) const;
@@ -576,12 +576,14 @@ namespace Database
     {
         bool status = true;
 
-        if (data.group_id.valid())
+        const GroupInfo& groupInfo = data.groupInfo;
+
+        if (groupInfo.group_id.valid())
         {
             UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
             queryInfo.setCondition("photo_id", QString::number(data.id));
             queryInfo.setColumns("group_id", "photo_id");
-            queryInfo.setValues(QString::number(data.group_id),
+            queryInfo.setValues(QString::number(groupInfo.group_id),
                                 QString::number(data.id)
             );
 
@@ -742,7 +744,7 @@ namespace Database
             updateFlagsOn(photoData, id);
 
             // load group
-            photoData.group_id = getGroupFor(id);
+            photoData.groupInfo = getGroupFor(id);
         }
 
         return photoData;
@@ -866,23 +868,41 @@ namespace Database
     }
 
 
-    Group::Id ASqlBackend::Data::getGroupFor(const Photo::Id& id) const
+    GroupInfo ASqlBackend::Data::getGroupFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT group_id FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT %1.id, %1.representative_id, %2.photo_id FROM %1 JOIN %2 ON (%1.id = %2.group_id)");
 
+        queryStr = queryStr.arg(TAB_GROUPS);
         queryStr = queryStr.arg(TAB_GROUPS_MEMBERS);
         queryStr = queryStr.arg(id.value());
 
         const bool status = m_executor.exec(queryStr, &query);
 
-        Group::Id result;
-        if (status && query.next())
+        GroupInfo result;
+        for(query.next(); status && query.isValid(); query.next())
         {
-            const QVariant variant = query.value(0);
+            const QVariant groupVariant = query.value(0);
+            const QVariant representativeVariant = query.value(1);
+            const QVariant memberVariant = query.value(2);
 
-            result = variant.toInt();
+            const int groupId = groupVariant.toInt();
+            const int representativeId = representativeVariant.toInt();
+            const int memberId = memberVariant.toInt();
+
+            const Group::Id gid(groupId);
+
+            if (id == representativeId)
+            {
+                result = GroupInfo(gid, GroupInfo::Representative);
+                break;
+            }
+            else if (id == memberId)
+            {
+                result = GroupInfo(gid, GroupInfo::Member);
+                break;
+            }
         }
 
         return result;

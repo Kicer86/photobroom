@@ -35,19 +35,19 @@ namespace Photo
     struct DATABASE_EXPORT Data
     {
         Photo::Id            id;
-        Group::Id            group_id;
         Photo::Sha256sum     sha256Sum;
         Tag::TagsList        tags;
         Photo::FlagValues    flags;
         QString              path;
         QSize                geometry;
+        GroupInfo            groupInfo;
 
         int getFlag(const Photo::FlagsE& flag) const;
 
         Data();
         Data(const Data &) = default;
 
-        Data& operator = (const Data &) = default;
+        Data& operator=(const Data &) = default;
     };
 
 }
