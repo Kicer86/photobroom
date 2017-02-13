@@ -15,7 +15,7 @@
 
 class PositionsReseterShould: public ::testing::Test
 {
-public:
+    public:
         PositionsReseterShould():
             testing::Test(),
             icon(),
@@ -46,106 +46,106 @@ public:
         {
         }
 
-protected:
-    virtual void SetUp()
-    {
-        const QSize img(img_w, img_h);
-        const QPixmap pixmap(img);
-        icon = pixmap;
+    protected:
+        virtual void SetUp()
+        {
+            const QSize img(img_w, img_h);
+            const QPixmap pixmap(img);
+            icon = pixmap;
 
-        data.set(&model);
+            data.set(&model);
 
-        mo.reset( new ViewDataModelObserver(&data.getModel(), &model) );
+            mo.reset( new ViewDataModelObserver(&data.getModel(), &model) );
 
-        top = new QStandardItem("Empty");
-        child1 = new QStandardItem(icon, "Empty1");
-        child2 = new QStandardItem(icon, "Empty2");
-        child3 = new QStandardItem(icon, "Empty3");
-        child4 = new QStandardItem(icon, "Empty4");
-        child5 = new QStandardItem(icon, "Empty5");
+            top = new QStandardItem("Empty");
+            child1 = new QStandardItem(icon, "Empty1");
+            child2 = new QStandardItem(icon, "Empty2");
+            child3 = new QStandardItem(icon, "Empty3");
+            child4 = new QStandardItem(icon, "Empty4");
+            child5 = new QStandardItem(icon, "Empty5");
 
-        top2 = new QStandardItem("Empty");
-        child2_1 = new QStandardItem(icon, "Empty1");
-        child2_2 = new QStandardItem(icon, "Empty2");
-        child2_3 = new QStandardItem(icon, "Empty3");
-        child2_4 = new QStandardItem(icon, "Empty4");
-        child2_5 = new QStandardItem(icon, "Empty5");
+            top2 = new QStandardItem("Empty");
+            child2_1 = new QStandardItem(icon, "Empty1");
+            child2_2 = new QStandardItem(icon, "Empty2");
+            child2_3 = new QStandardItem(icon, "Empty3");
+            child2_4 = new QStandardItem(icon, "Empty4");
+            child2_5 = new QStandardItem(icon, "Empty5");
 
-        top3 = new QStandardItem("Empty");
-        child3_1 = new QStandardItem(icon, "Empty1");
-        child3_2 = new QStandardItem(icon, "Empty2");
-        child3_3 = new QStandardItem(icon, "Empty3");
-        child3_4 = new QStandardItem(icon, "Empty4");
-        child3_5 = new QStandardItem(icon, "Empty5");
+            top3 = new QStandardItem("Empty");
+            child3_1 = new QStandardItem(icon, "Empty1");
+            child3_2 = new QStandardItem(icon, "Empty2");
+            child3_3 = new QStandardItem(icon, "Empty3");
+            child3_4 = new QStandardItem(icon, "Empty4");
+            child3_5 = new QStandardItem(icon, "Empty5");
 
-        top->appendRow(child1);
-        top->appendRow(child2);
-        top->appendRow(child3);
-        top->appendRow(child4);
-        top->appendRow(child5);
+            top->appendRow(child1);
+            top->appendRow(child2);
+            top->appendRow(child3);
+            top->appendRow(child4);
+            top->appendRow(child5);
 
-        top2->appendRow(child2_1);
-        top2->appendRow(child2_2);
-        top2->appendRow(child2_3);
-        top2->appendRow(child2_4);
-        top2->appendRow(child2_5);
+            top2->appendRow(child2_1);
+            top2->appendRow(child2_2);
+            top2->appendRow(child2_3);
+            top2->appendRow(child2_4);
+            top2->appendRow(child2_5);
 
-        top3->appendRow(child3_1);
-        top3->appendRow(child3_2);
-        top3->appendRow(child3_3);
-        top3->appendRow(child3_4);
-        top3->appendRow(child3_5);
+            top3->appendRow(child3_1);
+            top3->appendRow(child3_2);
+            top3->appendRow(child3_3);
+            top3->appendRow(child3_4);
+            top3->appendRow(child3_5);
 
-        submodel.appendRow(top);
-        submodel.appendRow(top2);
-        submodel.appendRow(top3);
+            submodel.appendRow(top);
+            submodel.appendRow(top2);
+            submodel.appendRow(top3);
 
-        // setup base expectations
-        APhotoInfoModel::PhotoDetails photoDetails;
-        photoDetails.size = img;
-        photoDetails.id = 0;
-        photoDetails.path = "";
+            // setup base expectations
+            APhotoInfoModel::PhotoDetails photoDetails;
+            photoDetails.size = img;
+            photoDetails.id = 0;
+            photoDetails.path = "";
 
-        using ::testing::Return;
-        using ::testing::_;
-        EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
-        //
-    }
+            using ::testing::Return;
+            using ::testing::_;
+            EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+            //
+        }
 
-    const int img_w = 100;
-    const int img_h = 50;
-    const int canvas_w = 500;
+        const int img_w = 100;
+        const int img_h = 50;
+        const int canvas_w = 500;
 
-    QIcon icon;
+        QIcon icon;
 
-    Data data;
-    MockPhotoInfo photoInfo;
-    MockConfiguration config;
-    QStandardItemModel submodel;
-    MockPhotoInfoModel model;
+        Data data;
+        MockPhotoInfo photoInfo;
+        MockConfiguration config;
+        QStandardItemModel submodel;
+        MockPhotoInfoModel model;
 
-    QStandardItem* top;
-    QStandardItem* child1;
-    QStandardItem* child2;
-    QStandardItem* child3;
-    QStandardItem* child4;
-    QStandardItem* child5;
+        QStandardItem* top;
+        QStandardItem* child1;
+        QStandardItem* child2;
+        QStandardItem* child3;
+        QStandardItem* child4;
+        QStandardItem* child5;
 
-    QStandardItem* top2;
-    QStandardItem* child2_1;
-    QStandardItem* child2_2;
-    QStandardItem* child2_3;
-    QStandardItem* child2_4;
-    QStandardItem* child2_5;
+        QStandardItem* top2;
+        QStandardItem* child2_1;
+        QStandardItem* child2_2;
+        QStandardItem* child2_3;
+        QStandardItem* child2_4;
+        QStandardItem* child2_5;
 
-    QStandardItem* top3;
-    QStandardItem* child3_1;
-    QStandardItem* child3_2;
-    QStandardItem* child3_3;
-    QStandardItem* child3_4;
-    QStandardItem* child3_5;
+        QStandardItem* top3;
+        QStandardItem* child3_1;
+        QStandardItem* child3_2;
+        QStandardItem* child3_3;
+        QStandardItem* child3_4;
+        QStandardItem* child3_5;
 
-    std::unique_ptr<ViewDataModelObserver> mo;
+        std::unique_ptr<ViewDataModelObserver> mo;
 };
 
 
