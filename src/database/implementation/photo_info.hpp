@@ -21,9 +21,25 @@ namespace Photo
     struct Data;
 }
 
-class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
+class PhotoInfo final: public IPhotoInfo
 {
     public:
+
+        enum class ChangeReason
+        {
+            Sha256Updated,
+            TagsUpdated,
+            GeometryUpdated,
+            FlagsUpdated,
+            GroupUpdated,
+        };
+
+        struct IObserver
+        {
+            virtual ~IObserver() = default;
+            virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
+        };
+
         PhotoInfo(const QString &path);                      //load all data from provided path
         PhotoInfo(const Photo::Data &);
         PhotoInfo(const PhotoInfo &) = delete;
@@ -46,15 +62,15 @@ class DATABASE_EXPORT PhotoInfo final: public IPhotoInfo
         bool isExifDataLoaded() const override;              // returns true is exif for this photo was read
 
         //observers
-        void registerObserver(IObserver *) override;
-        void unregisterObserver(IObserver *) override;
+        void registerObserver(IObserver *);
+        void unregisterObserver(IObserver *);
 
         //set data
         void setSha256(const Photo::Sha256sum &) override;
         void setGeometry(const QSize &) override;
         void setTags(const Tag::TagsList &) override;
         void setTag(const TagNameInfo &, const TagValue &) override;
-        void setGroup(const Group::Id &) override;
+        void setGroup(const GroupInfo &) override;
 
         //flags
         void markFlag(Photo::FlagsE, int) override;

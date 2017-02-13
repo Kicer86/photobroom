@@ -139,7 +139,7 @@ void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
     m_data->m_data.lock()->sha256Sum = sha256;
     markFlag(Photo::FlagsE::Sha256Loaded, 1);
 
-    updated(IPhotoInfo::ChangeReason::Sha256Updated);
+    updated(ChangeReason::Sha256Updated);
 }
 
 
@@ -150,7 +150,7 @@ void PhotoInfo::setGeometry(const QSize& geometry)
     m_data->m_data.lock()->geometry = geometry;
     markFlag(Photo::FlagsE::GeometryLoaded, 1);
 
-    updated(IPhotoInfo::ChangeReason::GeometryUpdated);
+    updated(ChangeReason::GeometryUpdated);
 }
 
 
@@ -170,9 +170,9 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 }
 
 
-void PhotoInfo::setGroup(const Group::Id& id)
+void PhotoInfo::setGroup(const GroupInfo& info)
 {
-    m_data->m_data.lock()->group_id = id;
+    m_data->m_data.lock()->groupInfo = info;
 
     updated(ChangeReason::GroupUpdated);
 }

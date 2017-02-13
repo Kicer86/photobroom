@@ -19,7 +19,6 @@
 
 #include "photo_info_storekeeper.hpp"
 
-#include <database/iphoto_info.hpp>
 #include <idatabase.hpp>
 
 
@@ -60,7 +59,7 @@ void PhotoInfoStorekeeper::setCache(Database::IPhotoInfoCache* cache)
 }
 
 
-void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, IPhotoInfo::ChangeReason)
+void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, PhotoInfo::ChangeReason)
 {
     //find photo in cache (alternative is to use std::enable_shared_from_this but is it worth it?)
     const Photo::Id id = photoInfo->getID();
@@ -75,7 +74,7 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, IPhotoInfo::Chang
 }
 
 
-void PhotoInfoStorekeeper::photoInfoConstructed(const IPhotoInfo::Ptr& photoInfo)
+void PhotoInfoStorekeeper::photoInfoConstructed(PhotoInfo* photoInfo)
 {
     photoInfo->registerObserver(this);
 }

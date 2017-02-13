@@ -34,7 +34,7 @@ struct DBDataModel::Grouper
 {
     Grouper(Database::IDatabase* db):
         m_doneCallback(),
-        m_photos(),
+        m_groupMembers(),
         m_db(db),
         m_grp_id(0),
         m_flags(0)
@@ -64,7 +64,7 @@ struct DBDataModel::Grouper
 
     private:
         std::function<void()> m_doneCallback;
-        std::deque<IPhotoInfo::Ptr> m_photos;
+        std::deque<IPhotoInfo::Ptr> m_groupMembers;
         Database::IDatabase* m_db;
         Group::Id m_grp_id;
 
@@ -90,7 +90,7 @@ struct DBDataModel::Grouper
         {
             assert( (m_flags & GotPhotos) == 0 );
 
-            m_photos = photos;
+            m_groupMembers = photos;
             m_flags |= GotPhotos;
 
             gotData();
@@ -100,8 +100,11 @@ struct DBDataModel::Grouper
         {
             if ( m_flags == (GotGroupId | GotPhotos) )
             {
-                for(const IPhotoInfo::Ptr& photoInfo: m_photos)
-                    photoInfo->setGroup(m_grp_id);
+                for(const IPhotoInfo::Ptr& photoInfo: m_groupMembers)
+                {
+                    const GroupInfo groupInfo(m_grp_id, GroupInfo::Member);
+                    photoInfo->setGroup(groupInfo);
+                }
 
                 m_doneCallback();
             }

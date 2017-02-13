@@ -92,10 +92,10 @@ namespace
 
         IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data& data)
         {
-            IPhotoInfo::Ptr photoInfo = std::make_shared<PhotoInfo>(data);
+            auto photoInfo = std::make_shared<PhotoInfo>(data);
 
             m_cache->introduce(photoInfo);
-            m_storekeeper->photoInfoConstructed(photoInfo);
+            m_storekeeper->photoInfoConstructed(photoInfo.get());
 
             return photoInfo;
         }

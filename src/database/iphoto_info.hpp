@@ -42,21 +42,6 @@ struct DATABASE_EXPORT IPhotoInfo
     typedef std::shared_ptr<IPhotoInfo> Ptr;
     typedef std::deque<IPhotoInfo::Ptr> List;
 
-    enum class ChangeReason
-    {
-        Sha256Updated,
-        TagsUpdated,
-        GeometryUpdated,
-        FlagsUpdated,
-        GroupUpdated,
-    };
-
-    struct DATABASE_EXPORT IObserver
-    {
-        virtual ~IObserver() = default;
-        virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
-    };
-
     virtual ~IPhotoInfo() = default;
 
     //data getting
@@ -73,16 +58,12 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual bool isGeometryLoaded() const = 0;              // returns true if geometry is not null
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
-    //observers
-    virtual void registerObserver(IObserver *) = 0;
-    virtual void unregisterObserver(IObserver *) = 0;
-
     //setting data
     virtual void setSha256(const Photo::Sha256sum &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags
     virtual void setTag(const TagNameInfo &, const TagValue &) = 0;   // set tag
     virtual void setGeometry(const QSize &) = 0;
-    virtual void setGroup(const Group::Id &) = 0;
+    virtual void setGroup(const GroupInfo &) = 0;
 
     //flags
     virtual void markFlag(Photo::FlagsE, int) = 0;
