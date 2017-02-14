@@ -29,7 +29,8 @@
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
-    m_thumbnailAcquisitor()
+    m_thumbnailAcquisitor(),
+    m_seriesText("series")
 {
 
 }
@@ -51,11 +52,16 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 {
     const QAbstractItemModel* model = idx.model();
     const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
-    const QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
-    const QString photoPath = photoPathRaw.toString();
+    const APhotoInfoModel::PhotoDetails details = photoInfoModel->getPhotoDetails(idx);
 
-    const ThumbnailInfo info = {photoPath, size.height()};
-    const QImage image = m_thumbnailAcquisitor->getThumbnail(info);
+    const ThumbnailInfo info = {details.path, size.height()};
+    QImage image = m_thumbnailAcquisitor->getThumbnail(info);
+
+    if (details.groupInfo.role == GroupInfo::Representative)
+    {
+        QPainter painter(&image);
+        painter.drawStaticText(0, 0, m_seriesText);
+    }
 
     return image;
 }

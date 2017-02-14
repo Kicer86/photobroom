@@ -124,9 +124,8 @@ APhotoInfoModel::PhotoDetails PhotoInfoListModel::getPhotoDetails(const QModelIn
 
         IPhotoInfo* photo = m_photos[index.row()].get();
 
-        result.id = photo->getID();
-        result.path = photo->getPath();
-        result.size = photo->getGeometry();
+        const auto data = photo->data();
+        result = PhotoDetails(data.id, data.geometry, data.path, data.groupInfo);
     }
 
     return result;
