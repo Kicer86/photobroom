@@ -29,13 +29,6 @@ struct ITaskExecutor;
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        enum Roles
-        {
-            PhotoGeometry = Qt::UserRole,
-            PhotoPath = Qt::UserRole + 1,
-            LastRole = PhotoPath
-        };
-
         struct PhotoDetails
         {
             Photo::Id id;
@@ -60,8 +53,6 @@ class APhotoInfoModel: public QAbstractItemModel
         ~APhotoInfoModel();
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
-
-        QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
 
         virtual PhotoDetails getPhotoDetails(const QModelIndex &) const = 0;
 };

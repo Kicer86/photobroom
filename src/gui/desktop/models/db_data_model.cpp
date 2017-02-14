@@ -290,13 +290,8 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    QVariant v = APhotoInfoModel::data(_index, role);
-
-    if (v.isNull())
-    {
-        IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
-        v = idxData->getData(role);
-    }
+    IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
+    QVariant v = idxData->getData(role);
 
     return v;
 }

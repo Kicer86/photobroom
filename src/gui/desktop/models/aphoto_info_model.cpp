@@ -30,21 +30,3 @@ APhotoInfoModel::~APhotoInfoModel()
 {
 
 }
-
-QVariant APhotoInfoModel::data(const QModelIndex& idx, int role) const
-{
-    QVariant result;
-
-    if (role == PhotoPath)
-    {
-        const PhotoDetails details = getPhotoDetails(idx);
-        result = details.path;
-    }
-    else if (role == PhotoGeometry)
-    {
-        const PhotoDetails details = getPhotoDetails(idx);
-        result = details.size;
-    }
-
-    return result;
-}
