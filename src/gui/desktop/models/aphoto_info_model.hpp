@@ -29,20 +29,23 @@ struct ITaskExecutor;
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        enum Roles
-        {
-            PhotoGeometry = Qt::UserRole,
-            PhotoPath = Qt::UserRole + 1,
-            LastRole = PhotoPath
-        };
-
         struct PhotoDetails
         {
             Photo::Id id;
             QSize size;
             QString path;
+            GroupInfo groupInfo;
 
-            PhotoDetails(): id(), size(), path() {}
+            PhotoDetails(): id(), size(), path(), groupInfo() {}
+
+            PhotoDetails(const Photo::Id& _id, const QSize& _size, const QString& _path, const GroupInfo& _groupInfo):
+                id(_id),
+                size(_size),
+                path(_path),
+                groupInfo(_groupInfo)
+            {
+
+            }
         };
 
         APhotoInfoModel(QObject * = 0);
@@ -51,9 +54,6 @@ class APhotoInfoModel: public QAbstractItemModel
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
-        QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-
-    protected:
         virtual PhotoDetails getPhotoDetails(const QModelIndex &) const = 0;
 };
 

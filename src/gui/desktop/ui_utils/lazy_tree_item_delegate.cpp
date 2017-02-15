@@ -51,11 +51,41 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 {
     const QAbstractItemModel* model = idx.model();
     const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
-    const QVariant photoPathRaw = photoInfoModel->data(idx, APhotoInfoModel::PhotoPath);
-    const QString photoPath = photoPathRaw.toString();
+    const APhotoInfoModel::PhotoDetails details = photoInfoModel->getPhotoDetails(idx);
 
-    const ThumbnailInfo info = {photoPath, size.height()};
-    const QImage image = m_thumbnailAcquisitor->getThumbnail(info);
+    const ThumbnailInfo info = {details.path, size.height()};
+    QImage image = m_thumbnailAcquisitor->getThumbnail(info);
+
+    if (details.groupInfo.role == GroupInfo::Representative)
+    {
+        const QSize canvasSize = image.size();
+        QImage canvas(canvasSize, QImage::Format_ARGB32);
+        canvas.fill(Qt::transparent);
+
+        const QSize layerSize = canvasSize *.9;
+        const QPoint p;
+
+        QRect _1_layer = QRect(p, layerSize);
+        _1_layer.moveTopRight(QPoint(canvasSize.width(), 0));
+
+        QRect _2_layer = QRect(p, layerSize);
+        _2_layer.moveCenter(QPoint(canvasSize.width()/2, canvasSize.height()/2));
+
+        QRect _3_layer = QRect(p, layerSize);
+        _3_layer.moveBottomLeft(QPoint(0, canvasSize.height()));
+
+        QPainter painter(&canvas);
+        painter.setOpacity(0.3);
+        painter.drawImage(_1_layer, image);
+
+        painter.setOpacity(0.60);
+        painter.drawImage(_2_layer, image);
+
+        painter.setOpacity(1.0);
+        painter.drawImage(_3_layer, image);
+
+        image = canvas;
+    }
 
     return image;
 }

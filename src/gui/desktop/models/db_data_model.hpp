@@ -66,7 +66,7 @@ class DBDataModel: public APhotoInfoModel
     public:
         enum Roles
         {
-            NodeStatus = APhotoInfoModel::LastRole + 1,
+            NodeStatus = Qt::UserRole + 1,
         };
 
         DBDataModel(QObject* p = nullptr);

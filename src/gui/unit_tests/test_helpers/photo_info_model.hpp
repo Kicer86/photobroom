@@ -32,6 +32,7 @@ struct MockPhotoInfoModel: PhotoInfoModel
 {
     MockPhotoInfoModel(QAbstractItemModel*, QObject* = 0);
 
+    MOCK_CONST_METHOD2(data, QVariant(const QModelIndex &, int));
     MOCK_CONST_METHOD1(getPhotoDetails, APhotoInfoModel::PhotoDetails(const QModelIndex &));
 };
 
