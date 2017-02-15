@@ -29,8 +29,7 @@
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
-    m_thumbnailAcquisitor(),
-    m_seriesText("series")
+    m_thumbnailAcquisitor()
 {
 
 }
@@ -59,8 +58,33 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 
     if (details.groupInfo.role == GroupInfo::Representative)
     {
-        QPainter painter(&image);
-        painter.drawStaticText(0, 0, m_seriesText);
+        const QSize canvasSize = image.size();
+        QImage canvas(canvasSize, QImage::Format_ARGB32);
+        canvas.fill(Qt::transparent);
+
+        const QSize layerSize = canvasSize *.9;
+        const QPoint p;
+
+        QRect _1_layer = QRect(p, layerSize);
+        _1_layer.moveTopRight(QPoint(canvasSize.width(), 0));
+
+        QRect _2_layer = QRect(p, layerSize);
+        _2_layer.moveCenter(QPoint(canvasSize.width()/2, canvasSize.height()/2));
+
+        QRect _3_layer = QRect(p, layerSize);
+        _3_layer.moveBottomLeft(QPoint(0, canvasSize.height()));
+
+        QPainter painter(&canvas);
+        painter.setOpacity(0.3);
+        painter.drawImage(_1_layer, image);
+
+        painter.setOpacity(0.60);
+        painter.drawImage(_2_layer, image);
+
+        painter.setOpacity(1.0);
+        painter.drawImage(_3_layer, image);
+
+        image = canvas;
     }
 
     return image;

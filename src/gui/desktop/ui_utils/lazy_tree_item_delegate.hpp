@@ -20,8 +20,6 @@
 #ifndef LAZYTREEITEMDELEGATE_HPP
 #define LAZYTREEITEMDELEGATE_HPP
 
-#include <QStaticText>
-
 #include "desktop/views/tree_item_delegate.hpp"
 
 struct IThumbnailAcquisitor;
@@ -42,7 +40,6 @@ class LazyTreeItemDelegate: public TreeItemDelegate
 
     private:
         IThumbnailAcquisitor* m_thumbnailAcquisitor;
-        QStaticText m_seriesText;
 };
 
 #endif // LAZYTREEITEMDELEGATE_HPP
