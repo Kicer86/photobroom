@@ -191,10 +191,15 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            const Group::Id id = executor->getBackend()->addGroup(m_representative);
+            const Group::Id gid = executor->getBackend()->addGroup(m_representative);
+
+            // mark representative as representative
+            IPhotoInfo::Ptr representative = executor->getPhotoFor(m_representative);
+            const GroupInfo grpInfo = GroupInfo( gid, GroupInfo::Representative);
+            representative->setGroup(grpInfo);
 
             if (m_callback)
-                m_callback(id);
+                m_callback( gid );
         }
 
         Photo::Id m_representative;
