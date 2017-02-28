@@ -56,7 +56,7 @@
 #include "database_migrator.hpp"
 
 
-// usefull links
+// useful links
 // about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
 
