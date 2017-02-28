@@ -67,14 +67,15 @@ namespace Database
 
         struct Transaction
         {
-            Transaction(QSqlDatabase& db): m_db(db)
+            Transaction(QSqlDatabase& db): m_db(db), m_began(false), m_finished(false)
             {
 
             }
 
             ~Transaction()
             {
-
+                if (m_finished == false)
+                    rollback();
             }
 
             Transaction(const Transaction &) = delete;
@@ -83,20 +84,37 @@ namespace Database
             BackendStatus begin()
             {
                 const BackendStatus status = m_db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
+                m_began = status;
 
                 return status;
             }
 
             BackendStatus commit()
             {
+                assert(m_began);
+
                 const BackendStatus status = m_db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
+
+                m_finished = true;
+
+                return status;
+            }
+
+            BackendStatus rollback()
+            {
+                assert(m_began);
+
+                const BackendStatus status = m_db.rollback()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
+
+                m_finished = true;
 
                 return status;
             }
 
         private:
             QSqlDatabase& m_db;
-
+            bool m_began;
+            bool m_finished;
         };
 
 
