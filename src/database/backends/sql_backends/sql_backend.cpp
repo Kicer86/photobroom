@@ -74,7 +74,7 @@ namespace Database
 
             ~Transaction()
             {
-                if (m_finished == false)
+                if (m_began && m_finished == false)
                     rollback();
             }
 
