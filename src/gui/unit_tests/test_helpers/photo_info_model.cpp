@@ -21,6 +21,12 @@ PhotoInfoModel::~PhotoInfoModel()
 }
 
 
+QVariant PhotoInfoModel::data(const QModelIndex& _index, int role) const
+{
+    return m_model->data(_index, role);
+}
+
+
 int PhotoInfoModel::columnCount(const QModelIndex& parent) const
 {
     return m_model->columnCount(parent);

@@ -18,6 +18,7 @@ class PhotoInfoModel: public APhotoInfoModel
         PhotoInfoModel& operator=(const PhotoInfoModel &) = delete;
 
         // QAbstractItemModel:
+        virtual QVariant data(const QModelIndex& _index, int role) const override;
         virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
         virtual QModelIndex parent(const QModelIndex& child) const override;
