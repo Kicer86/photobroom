@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.7.3)                           # due to CMAKE_CXX_STANDARD variables (c++17)
+cmake_minimum_required(VERSION 3.1)                           # due to CMAKE_CXX_STANDARD variables
 cmake_policy(SET CMP0048 NEW)
 
 if (NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS "3.3")
@@ -12,11 +12,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
-
-if (CMAKE_COMPILER_IS_GNUCC)
-    add_compile_options("-fconcepts")
-endif()
+set(CMAKE_CXX_STANDARD 14)
 
 #options for CPack
 set(CPACK_PACKAGE_VENDOR "Michal Walenciak")
@@ -30,6 +26,15 @@ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
+include(CheckCXXCompilerFlag)
+
+# enable/disable concepts
+check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
+
+if (CONCEPTS_SUPPORTED)
+    add_compile_options("-fconcepts")
+    add_definitions(-DCONCEPTS_SUPPORTED)
+endif()
 
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
