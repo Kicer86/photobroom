@@ -14,10 +14,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 14)
 
-if (CMAKE_COMPILER_IS_GNUCC)
-    add_compile_options("-fconcepts")
-endif()
-
 #options for CPack
 set(CPACK_PACKAGE_VENDOR "Michal Walenciak")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Photo Broom - tool for managing your photos")
@@ -30,6 +26,15 @@ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
+include(CheckCXXCompilerFlag)
+
+# enable/disable concepts
+check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
+
+if (CONCEPTS_SUPPORTED)
+    add_compile_options("-fconcepts")
+    add_definitions(-DCONCEPTS_SUPPORTED)
+endif()
 
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
