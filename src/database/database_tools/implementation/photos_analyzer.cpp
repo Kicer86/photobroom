@@ -82,7 +82,7 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
         std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
         flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
 
-        for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::ThumbnailLoaded, Photo::FlagsE::GeometryLoaded })
+        for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::GeometryLoaded })
             flags_filter->flags[flag] = 0;            //uninitialized
 
         IncompletePhotos* task = new IncompletePhotos(this);
@@ -125,17 +125,16 @@ Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 
 void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 {
-    if (photo->isFullyInitialized() == false)
-    {
-        if (photo->isSha256Loaded() == false)
-            m_updater.updateSha256(photo);
+    assert(photo->isFullyInitialized() == false);
 
-        if (photo->isGeometryLoaded() == false)
-            m_updater.updateGeometry(photo);
+    if (photo->isSha256Loaded() == false)
+        m_updater.updateSha256(photo);
 
-        if (photo->isExifDataLoaded() == false)
-            m_updater.updateTags(photo);
-    }
+    if (photo->isGeometryLoaded() == false)
+        m_updater.updateGeometry(photo);
+
+    if (photo->isExifDataLoaded() == false)
+        m_updater.updateTags(photo);
 }
 
 
