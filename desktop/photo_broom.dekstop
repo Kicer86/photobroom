@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Type=Application
+Name=Photo Broom
+Comment=Photos database
+TryExec=photo_broom.png
+Exec=photo_broom
+Icon=photo_broom
+Categories=Graphics;Database;
+MimeType=application/x-photobroom;
