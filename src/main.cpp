@@ -7,6 +7,7 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QDir>
 #include <QTimer>
 
 #include <configuration/configuration.hpp>
@@ -20,6 +21,8 @@
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
 
+#include "paths.hpp"
+
 
 int main(int argc, char **argv)
 {
@@ -30,6 +33,9 @@ int main(int argc, char **argv)
 
     const bool status = CrashCatcher::init(argv[0]);
     const QString basePath = System::getApplicationConfigDir();
+
+    // setup internal locations
+    QDir::setSearchPaths("icons", {QString(Paths::icons) + "/svg"});
 
     // perform command line parsing
     QCommandLineParser parser;

@@ -18,7 +18,10 @@ find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_BINARY_DIR}
+)
+
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDES}
                            ${Qt5Core_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
