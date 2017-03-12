@@ -14,7 +14,7 @@
    <string>Photo broom</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../images/images.qrc">
+   <iconset>
     <normaloff>icons:main_ico.svg</normaloff>icons:main_ico.svg</iconset>
   </property>
   <property name="dockOptions">
