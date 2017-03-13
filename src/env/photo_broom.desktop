@@ -3,8 +3,8 @@
 Type=Application
 Name=Photo Broom
 Comment=Photos database
-TryExec=photo_broom.png
+TryExec=photo_broom
 Exec=photo_broom
-Icon=photo_broom
+Icon=photo_broom.svg
 Categories=Graphics;Database;
 MimeType=application/x-photobroom;
