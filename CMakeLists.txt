@@ -108,7 +108,7 @@ if(DOXYGEN)
 endif(DOXYGEN)
 
 #icons
-set(SVG_ICONS images/main_ico.svg)
+set(SVG_ICONS images/photo_broom.svg)
 
 #unit tests
 if(BUILD_TESTS)
