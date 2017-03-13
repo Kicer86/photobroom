@@ -65,12 +65,14 @@ if(UNIX OR CYGWIN)
         set(PATH_PLUGINS  "lib/photo_broom/plugins")
         set(PATH_TR       "share/photo_broom/tr")
         set(PATH_DOCS     "share/photo_broom/docs")
+        set(PATH_ICONS    "share/photo_broom/icons")
 elseif(WIN32)
         set(PATH_BIN      ".")
         set(PATH_LIBS     ".")
         set(PATH_PLUGINS  "plugins")
         set(PATH_TR       "tr")
         set(PATH_DOCS     "docs")
+        set(PATH_ICONS    "icons")
 endif(UNIX OR CYGWIN)
 
 # RPATH
@@ -105,6 +107,9 @@ if(DOXYGEN)
 
 endif(DOXYGEN)
 
+#icons
+set(SVG_ICONS images/photo_broom.svg)
+
 #unit tests
 if(BUILD_TESTS)
     add_custom_target(RunUnitTests ALL
@@ -115,6 +120,9 @@ if(BUILD_TESTS)
                               photos_crawler_tests
                      )
 endif()
+
+#installation steps
+install(FILES ${SVG_ICONS} DESTINATION ${PATH_ICONS}/svg)
 
 #package
 include(CPack)

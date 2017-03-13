@@ -163,4 +163,4 @@ set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY  ${PROJECT_NAME})
 #define Start menu
 set(CPACK_PACKAGE_EXECUTABLES
     photo_broom "Photo Broom"
-   )
+)

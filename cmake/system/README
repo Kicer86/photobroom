@@ -1,0 +1,2 @@
+
+CMake scripts which install system specific files (necessary libraries, resources etc).

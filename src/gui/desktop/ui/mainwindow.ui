@@ -14,8 +14,8 @@
    <string>Photo broom</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../images/images.qrc">
-    <normaloff>:/gui/main_ico.svg</normaloff>:/gui/main_ico.svg</iconset>
+   <iconset>
+    <normaloff>icons:main_ico.svg</normaloff>icons:main_ico.svg</iconset>
   </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
