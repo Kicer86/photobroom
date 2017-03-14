@@ -34,7 +34,7 @@ set(BROOM_SOURCES main.cpp
 if(WIN32)
 
     set(EXE_FLAGS WIN32)
-    configure_file(PhotoBroom.hpp.cmake env/PhotoBroom.hpp @ONLY)
+    configure_file(env/PhotoBroom.hpp.cmake PhotoBroom.hpp @ONLY)
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
     include_directories(${CMAKE_BINARY_DIR}/tools)                                 #for PhotoBroom.rc include files
