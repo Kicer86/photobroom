@@ -20,7 +20,6 @@ cache:
     - c:\program files\cmake   -> appveyor.yml
 
 before_build:
-    - choco upgrade cmake
     - call appveyor.bat
 
 build:
