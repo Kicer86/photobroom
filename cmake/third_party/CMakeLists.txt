@@ -77,13 +77,13 @@ if(BUILD_EXIV2)
     cmake_minimum_required(VERSION 3.7)
 
     ExternalProject_Add(zlib
-        URL http://zlib.net/zlib-1.2.8.tar.xz
+        URL http://zlib.net/zlib-1.2.11.tar.xz
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
     )
 
     ExternalProject_Add(expat
-        GIT_REPOSITORY git://git.code.sf.net/p/expat/code_git
+        GIT_REPOSITORY https://github.com/libexpat/libexpat
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS} -DBUILD_tests=FALSE -DCMAKE_DEBUG_POSTFIX=
         SOURCE_SUBDIR expat
