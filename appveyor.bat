@@ -1,9 +1,9 @@
 
 echo ON
 
-if EXIST c:\program files\cmake\updated goto :setup
+if EXIST "c:\program files\cmake\updated" goto :setup
 choco upgrade cmake
-copy /y nul c:\program files\cmake\updated
+copy /y nul "c:\program files\cmake\updated"
 
 :setup
 
