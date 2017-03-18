@@ -17,6 +17,7 @@ platform:
 cache:
     - c:\projects\install      -> appveyor.yml
     - c:\projects\googletest   -> appveyor.yml
+    - c:\program files\cmake   -> appveyor.yml
 
 before_build:
     - choco upgrade cmake

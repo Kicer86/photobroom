@@ -1,6 +1,13 @@
 
 echo ON
 
+if EXIST c:\program files\cmake\updated goto :setup
+choco upgrade cmake
+copy /y nul c:\program files\cmake\updated
+
+:setup
+
+
 if "%platform%"=="Win32" (
     set generator="Visual Studio 14"
     set qt_arch=msvc2015
