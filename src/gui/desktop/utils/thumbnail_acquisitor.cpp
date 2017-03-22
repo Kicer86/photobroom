@@ -92,7 +92,7 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
             m_awaitingTasks.insert(info);
             result = m_inProgress;
 
-            auto callback =  std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
+            auto callback = std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
             m_generator.generateThumbnail(info, callback);
         }
     }
