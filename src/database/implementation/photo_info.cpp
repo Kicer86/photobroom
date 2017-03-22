@@ -32,8 +32,9 @@ struct PhotoInfo::Data
 };
 
 
-PhotoInfo::PhotoInfo(const Photo::Data& data): m_data(new Data)
+PhotoInfo::PhotoInfo(const Photo::Data& data): m_data(nullptr)
 {
+    m_data = std::make_unique<Data>();
     *m_data->m_data.lock() = data;
 }
 
