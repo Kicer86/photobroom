@@ -45,7 +45,7 @@ class TreeItemDelegate: public QAbstractItemDelegate
         void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
     protected:
-        virtual QImage getImage(const QModelIndex &, const QSize &) const;
+        virtual QImage getImage(const QModelIndex &, const QSize &) const = 0;
 
     private:
         QColor m_backgroundEven;

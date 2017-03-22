@@ -194,26 +194,3 @@ QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 {
     return state & QStyle::State_Open ? QIcon::On : QIcon::Off;
 }
-
-
-QImage TreeItemDelegate::getImage(const QModelIndex& idx, const QSize &) const
-{
-    QImage result;
-
-    const QAbstractItemModel* model = idx.model();
-    const QVariant variant = model->data(idx, Qt::DecorationRole);
-
-    switch (variant.type())
-    {
-        case QVariant::Image:
-            result = qvariant_cast<QImage>(variant);
-            break;
-
-        default:
-            assert(!"unhandled type");
-            result = qvariant_cast<QImage>(variant);
-            break;
-    }
-
-    return result;
-}
