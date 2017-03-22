@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons:main_ico.svg</normaloff>icons:main_ico.svg</iconset>
+    <normaloff>icons:photo_broom.svg</normaloff>icons:photo_broom.svg</iconset>
   </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
