@@ -40,7 +40,6 @@ class PhotoInfo final: public IPhotoInfo
             virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
         };
 
-        PhotoInfo(const QString &path);                      //load all data from provided path
         PhotoInfo(const Photo::Data &);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();

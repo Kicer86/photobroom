@@ -17,7 +17,6 @@
 struct PhotoInfo::Data
 {
     Data():
-        path(),
         m_observers(),
         m_data(),
         m_valid(true)
@@ -27,23 +26,10 @@ struct PhotoInfo::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    ol::ThreadSafeResource<QString> path;
     ol::ThreadSafeResource<std::set<IObserver *>> m_observers;
     ol::ThreadSafeResource<Photo::Data> m_data;
     bool m_valid;
 };
-
-
-PhotoInfo::PhotoInfo(const QString &p): m_data(new Data)
-{
-    *m_data->path.lock() = p;
-
-    const QImageReader reader(p);
-    m_data->m_data.lock()->geometry = reader.size();
-
-    markFlag(Photo::FlagsE::GeometryLoaded, 1);
-    markFlag(Photo::FlagsE::StagingArea, 1);
-}
 
 
 PhotoInfo::PhotoInfo(const Photo::Data& data): m_data(new Data)
