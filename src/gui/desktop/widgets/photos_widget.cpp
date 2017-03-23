@@ -27,6 +27,8 @@
 #include <QContextMenuEvent>
 
 #include <configuration/iconfiguration.hpp>
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <core/base_tags.hpp>
 
 #include "config_keys.hpp"
@@ -46,6 +48,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
     m_thumbnailAcquisitor(),
+    m_thumbnailsLogger(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
@@ -178,6 +181,13 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 
     QCompleter* completer = completerFactory->createCompleter(allTags);
     m_searchExpression->setCompleter(completer);
+}
+
+
+void PhotosWidget::set(ILoggerFactory* loggerFactory)
+{
+    m_thumbnailsLogger = loggerFactory->get("Thumbnails generator");
+    m_thumbnailAcquisitor.set(m_thumbnailsLogger.get());
 }
 
 

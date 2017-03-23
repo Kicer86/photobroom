@@ -50,6 +50,12 @@ void ThumbnailAcquisitor::set(IPhotosManager* manager)
 }
 
 
+void ThumbnailAcquisitor::set(ILogger* logger)
+{
+    m_generator.set(logger);
+}
+
+
 void ThumbnailAcquisitor::setInProgressThumbnail(const QImage& image)
 {
     m_inProgress = image;

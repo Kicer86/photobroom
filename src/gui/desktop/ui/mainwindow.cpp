@@ -211,7 +211,9 @@ void MainWindow::set(ILoggerFactory* lf)
     // Not nice to have setters for views here :/ views will use completer factories immediately after set.
     // So factories need log factory before it.
     ui->imagesView->set(&m_completerFactory);
+    ui->imagesView->set(lf);
     ui->newImagesView->set(&m_completerFactory);
+    ui->newImagesView->set(lf);
     ui->tagEditor->set(&m_completerFactory);
 }
 

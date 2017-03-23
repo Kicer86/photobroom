@@ -299,7 +299,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+239"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+241"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -519,7 +519,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+70"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+73"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
