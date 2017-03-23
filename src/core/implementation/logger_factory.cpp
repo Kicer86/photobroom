@@ -22,14 +22,14 @@
 #include "logger.hpp"
 #include "log_file_rotator.hpp"
 
-LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(ILogger::Severity::Warning)
+LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(ILogger::Severity::Warning), m_outputMutex()
 {
     const QString log_path = path + "/photo_broom.log";
     LogFileRotator().rotate(log_path);
 
     const std::string str_path = log_path.toStdString();
 
-    m_logFile.open(str_path, std::ofstream::out | std::ofstream::app );
+    m_logFile.open(str_path, std::ofstream::out | std::ofstream::app);
 }
 
 
@@ -47,7 +47,7 @@ std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 
 std::unique_ptr<ILogger> LoggerFactory::get(const QStringList& utility) const
 {
-    auto logger = std::make_unique<Logger>(m_logFile, utility, m_logingLevel);
+    auto logger = std::make_unique<Logger>(m_outputMutex, m_logFile, utility, m_logingLevel);
 
     return std::move(logger);
 }

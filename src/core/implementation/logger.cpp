@@ -27,21 +27,20 @@
 #include <QString>
 #include <QFile>
 #include <QTime>
-#include <QTextStream>
 #include <QDir>
-#include <QDebug>
 
 
-Logger::Logger(std::ostream& stream, const QStringList& utility, Severity severity):
+Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QStringList& utility, Severity severity):
     m_utility(utility.join(":")),
     m_severity(severity),
-    m_file(stream)
+    m_file(stream),
+    m_outputMutex(output_mutex)
 {
 
 }
 
 
-Logger::Logger(std::ostream& stream, const QString& utility, Severity severity): Logger(stream, QStringList({utility}), severity)
+Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QString& utility, Severity severity): Logger(output_mutex, stream, QStringList({utility}), severity)
 {
 
 }
@@ -49,6 +48,8 @@ Logger::Logger(std::ostream& stream, const QString& utility, Severity severity):
 
 void Logger::log(ILogger::Severity sev, const std::string& message)
 {
+    std::lock_guard<std::mutex> lock(m_outputMutex);
+
     const QString s = severity(sev);
     const QString m = QString("%1 %2 [%3][%4]: %5")
                         .arg(currentDate())
@@ -57,10 +58,12 @@ void Logger::log(ILogger::Severity sev, const std::string& message)
                         .arg(m_utility)
                         .arg(message.c_str());
 
-    if (sev <= m_severity)
-        m_file << m.toStdString() << "\n";
+    const std::string message_str = m.toStdString();
 
-    qDebug() << m;
+    if (sev <= m_severity)
+        m_file << message_str << "\n";
+
+    std::cout << message_str << std::endl;
 }
 
 
