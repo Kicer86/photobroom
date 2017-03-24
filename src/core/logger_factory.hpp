@@ -21,6 +21,7 @@
 #define LOGGERFACTORY_HPP
 
 #include <fstream>
+#include <mutex>
 
 #include "ilogger_factory.hpp"
 #include "ilogger.hpp"
@@ -43,6 +44,7 @@ class CORE_EXPORT LoggerFactory: public ILoggerFactory
     private:
         mutable std::ofstream m_logFile;
         ILogger::Severity m_logingLevel;
+        mutable std::mutex m_outputMutex;
 };
 
 #endif // LOGGERFACTORY_HPP

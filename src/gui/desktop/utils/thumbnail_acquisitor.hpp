@@ -40,6 +40,7 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
 
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
+        void set(ILogger *);
 
         void setInProgressThumbnail(const QImage &);
         void setObserver(const Observer &);

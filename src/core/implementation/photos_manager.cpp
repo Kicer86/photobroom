@@ -20,11 +20,14 @@
 #include "photos_manager.hpp"
 
 #include <mutex>
+#include <deque>
 
 #include <QCache>
 #include <QDir>
 #include <QFile>
 #include <QImage>
+
+#include <core/ilogger.hpp>
 
 
 struct PhotosManager::Data
@@ -33,15 +36,22 @@ struct PhotosManager::Data
         m_mutex(),
         m_thumbnails_mutex(),
         m_cache(64),
-        m_thumbnails(256)
+        m_thumbnails(256),
+        m_cache_history(),
+        m_logger(nullptr)
     {
 
     }
+
+    Data(const Data &) = delete;
+    Data& operator=(const Data &) = delete;
 
     std::mutex m_mutex;
     std::mutex m_thumbnails_mutex;
     QCache<QString, QByteArray> m_cache;
     QCache< std::pair<QString, int>, QImage> m_thumbnails;
+    std::deque<QString> m_cache_history;
+    ILogger* m_logger;
 };
 
 
@@ -63,6 +73,12 @@ PhotosManager::~PhotosManager()
 }
 
 
+void PhotosManager::set(ILogger* logger)
+{
+    m_data->m_logger = logger;
+}
+
+
 QByteArray PhotosManager::getPhoto(const QString& path) const
 {
     std::lock_guard<std::mutex> lock(m_data->m_mutex);
@@ -73,12 +89,27 @@ QByteArray PhotosManager::getPhoto(const QString& path) const
 
     if (result == nullptr)
     {
+        const bool recently_in_cache = std::find(m_data->m_cache_history.begin(), m_data->m_cache_history.end(), path) != m_data->m_cache_history.end();
+        const std::string debug_message = std::string("Cache miss when looking for ") + path.toStdString() + (recently_in_cache? ". Photo was recently in cache.": ".");
+
+        m_data->m_logger->debug(debug_message);
+
         QFile photo(cleanPath);
         photo.open(QIODevice::ReadOnly);
 
         result = new QByteArray(photo.readAll());
 
         m_data->m_cache.insert(cleanPath, result);
+
+        m_data->m_cache_history.push_back(path);
+        if (m_data->m_cache_history.size() > 1000)
+            m_data->m_cache_history.pop_front();
+    }
+    else
+    {
+        const std::string debug_message = std::string("Cache hit  when looking for ") + path.toStdString();
+
+        m_data->m_logger->debug(debug_message);
     }
 
     return *result;

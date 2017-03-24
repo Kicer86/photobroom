@@ -30,6 +30,8 @@
 
 class QString;
 
+struct ILogger;
+
 class CORE_EXPORT PhotosManager: public IPhotosManager
 {
     public:
@@ -38,6 +40,8 @@ class CORE_EXPORT PhotosManager: public IPhotosManager
         ~PhotosManager();
 
         PhotosManager& operator=(const PhotosManager &) = delete;
+
+        void set(ILogger *);
 
         // IPhotosManager:
         QByteArray getPhoto(const QString& path) const override;

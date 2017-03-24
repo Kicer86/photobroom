@@ -38,6 +38,7 @@ struct ImagesTreeView;
 
 struct ICompleterFactory;
 struct IConfiguration;
+struct ILoggerFactory;
 struct IPhotosManager;
 struct ITaskExecutor;
 
@@ -56,6 +57,7 @@ class PhotosWidget: public QWidget
         void set(IPhotosManager *);
         void set(IConfiguration *);
         void set(ICompleterFactory *);
+        void set(ILoggerFactory *);
         void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel() const;
@@ -63,10 +65,10 @@ class PhotosWidget: public QWidget
 
         void setBottomHintWidget(InfoBaloonWidget *);
 
-
     private:
         QTimer m_timer;
         ThumbnailAcquisitor m_thumbnailAcquisitor;
+        std::unique_ptr<ILogger> m_thumbnailsLogger;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;

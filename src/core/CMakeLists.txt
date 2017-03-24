@@ -25,6 +25,7 @@ set(CORE_SOURCES
     implementation/logger_factory.cpp
     implementation/photos_manager.cpp
     implementation/search_expression_evaluator.cpp
+    implementation/stopwatch.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
@@ -62,6 +63,7 @@ set(CORE_HEADERS
     ptr_iterator.hpp
     search_expression_evaluator.hpp
     status.hpp
+    stopwatch.hpp
     tag.hpp
     exif_reader_factory.hpp
     task_executor.hpp

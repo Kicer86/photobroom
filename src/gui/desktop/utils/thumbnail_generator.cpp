@@ -19,8 +19,10 @@
 
 #include "thumbnail_generator.hpp"
 
-#include <core/task_executor.hpp>
+#include <core/ilogger.hpp>
 #include <core/iphotos_manager.hpp>
+#include <core/stopwatch.hpp>
+#include <core/task_executor.hpp>
 
 namespace
 {
@@ -29,10 +31,12 @@ namespace
     {
         ThumbnailGeneratorTask(const ThumbnailInfo& info,
                                const ThumbnailGenerator::Callback& callback,
-                               IPhotosManager* photosManager):
+                               IPhotosManager* photosManager,
+                               ILogger* logger):
             m_info(info),
             m_callback(callback),
-            m_photosManager(photosManager)
+            m_photosManager(photosManager),
+            m_logger(logger)
         {
 
         }
@@ -49,13 +53,25 @@ namespace
 
         virtual void perform() override
         {
+            Stopwatch stopwatch;
+
+            stopwatch.start();
             QByteArray raw = m_photosManager->getPhoto(m_info.path);
 
             QImage result;
             result.loadFromData(raw);
+            const int photo_read = stopwatch.read(true);
 
             if (result.height() != m_info.height)
                 result = result.scaledToHeight(m_info.height, Qt::SmoothTransformation);
+
+            const int photo_scaling = stopwatch.stop();
+
+            const std::string read_time_message = std::string("photo read time: ") + std::to_string(photo_read) + "ms";
+            m_logger->debug(read_time_message);
+
+            const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
+            m_logger->debug(scaling_time_message);
 
             m_callback(m_info, result);
         }
@@ -63,6 +79,7 @@ namespace
         ThumbnailInfo m_info;
         ThumbnailGenerator::Callback m_callback;
         IPhotosManager* m_photosManager;
+        ILogger* m_logger;
     };
 
 }
@@ -73,7 +90,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 }
 
 
-ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_executor(nullptr), m_photosManager(nullptr)
+ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_executor(nullptr), m_photosManager(nullptr), m_logger(nullptr)
 {
 
 }
@@ -105,9 +122,15 @@ void ThumbnailGenerator::set(IPhotosManager* photosManager)
 }
 
 
+void ThumbnailGenerator::set(ILogger* logger)
+{
+    m_logger = logger;
+}
+
+
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
-    auto task = std::make_unique<ThumbnailGeneratorTask>(info, callback, m_photosManager);
+    auto task = std::make_unique<ThumbnailGeneratorTask>(info, callback, m_photosManager, m_logger);
     m_tasks->push(std::move(task));
 }
 
