@@ -80,22 +80,25 @@ void Gui::run()
     QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
 #endif
 
-    auto logger = m_loggerFactory->get("gui");
+    auto gui_logger = m_loggerFactory->get("Gui");
+    auto photos_manager_logger = m_loggerFactory->get("Photos manager");
 
     const QString tr_path = FileSystem().getTranslationsPath();
-    InfoStream(logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
+    InfoStream( gui_logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
 
     QTranslator translator;
     translator.load("photo_broom_pl", tr_path);
     const bool status = QCoreApplication::installTranslator(&translator);
 
     if (status)
-        logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
+        gui_logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
     else
-        logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
+        gui_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
     Updater updater;
     PhotosManager photosManager;
+
+    photosManager.set(photos_manager_logger.get());
 
     MainWindow mainWindow;
 
