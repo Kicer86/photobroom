@@ -36,7 +36,6 @@ struct PhotosManager::Data
         m_mutex(),
         m_thumbnails_mutex(),
         m_cache(64),
-        m_thumbnails(256),
         m_cache_history(),
         m_logger(nullptr)
     {
@@ -49,7 +48,6 @@ struct PhotosManager::Data
     std::mutex m_mutex;
     std::mutex m_thumbnails_mutex;
     QCache<QString, QByteArray> m_cache;
-    QCache< std::pair<QString, int>, QImage> m_thumbnails;
     std::deque<QString> m_cache_history;
     ILogger* m_logger;
 };
