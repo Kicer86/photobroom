@@ -26,7 +26,7 @@
 #include "itask_executor.hpp"
 #include "ts_multi_head_queue.hpp"
 
-class ILogger;
+struct ILogger;
 
 struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 {
