@@ -62,27 +62,33 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
         QImage canvas(canvasSize, QImage::Format_ARGB32);
         canvas.fill(Qt::transparent);
 
-        const QSize layerSize = canvasSize *.9;
-        const QPoint p;
+        const QSize layerSize = canvasSize *0.9;
+        const QImage layer_image = image.scaled(layerSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-        QRect _1_layer = QRect(p, layerSize);
-        _1_layer.moveTopRight(QPoint(canvasSize.width(), 0));
+        const int layers = 5;
+        const QSize size_diff = canvasSize - layerSize;
+        const QPoint offset = QPoint(size_diff.width(), size_diff.height());
+        const QPoint step = offset / (layers - 1);
 
-        QRect _2_layer = QRect(p, layerSize);
-        _2_layer.moveCenter(QPoint(canvasSize.width()/2, canvasSize.height()/2));
+        const float opacity_min = 0.3;
+        const float opacity_max = 1.0;
+        const float opacity_step = (opacity_max - opacity_min) / layers;
 
-        QRect _3_layer = QRect(p, layerSize);
-        _3_layer.moveBottomLeft(QPoint(0, canvasSize.height()));
-
+        float current_opacity = opacity_min;
+        QPoint current_layer_pos;
         QPainter painter(&canvas);
-        painter.setOpacity(0.3);
-        painter.drawImage(_1_layer, image);
 
-        painter.setOpacity(0.60);
-        painter.drawImage(_2_layer, image);
+        for(int i = 0; i < layers; i++)
+        {
+            QRect current_layer_rect(current_layer_pos, layerSize);
+            current_layer_rect.moveTo(current_layer_pos);
 
-        painter.setOpacity(1.0);
-        painter.drawImage(_3_layer, image);
+            painter.setOpacity(current_opacity);
+            painter.drawImage(current_layer_pos, layer_image);
+
+            current_layer_pos += step;
+            current_opacity += opacity_step;
+        }
 
         image = canvas;
     }
