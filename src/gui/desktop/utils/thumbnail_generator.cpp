@@ -90,7 +90,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 }
 
 
-ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_executor(nullptr), m_photosManager(nullptr), m_logger(nullptr)
+ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_postProcesors(), m_executor(nullptr), m_photosManager(nullptr), m_logger(nullptr)
 {
 
 }
@@ -134,6 +134,11 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     m_tasks->push(std::move(task));
 }
 
+
+void ThumbnailGenerator::registerPostProcesor(const PostProcesor& postprocesor)
+{
+    m_postProcesors.push_back(postprocesor);
+}
 
 
 ThumbnailCache::ThumbnailCache():

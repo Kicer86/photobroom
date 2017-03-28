@@ -46,10 +46,14 @@ class ThumbnailGenerator: public IThumbnailGenerator
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
         void set(ILogger *);
+
+        // IThumbnailGenerator:
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
+        void registerPostProcesor(const PostProcesor &) override;
 
     private:
         ITaskExecutor::TaskQueue m_tasks;
+        std::vector<PostProcesor> m_postProcesors;
         ITaskExecutor* m_executor;
         IPhotosManager* m_photosManager;
         ILogger* m_logger;

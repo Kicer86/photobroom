@@ -54,10 +54,12 @@ struct ThumbnailInfo
 struct IThumbnailGenerator
 {
     typedef std::function<void(const ThumbnailInfo &, const QImage &)> Callback;
+    typedef std::function<QImage(const QByteArray &, const QImage &)> PostProcesor;
 
     virtual ~IThumbnailGenerator() {}
 
     virtual void generateThumbnail(const ThumbnailInfo &, const Callback &) const = 0;
+    virtual void registerPostProcesor(const PostProcesor &) = 0;
 };
 
 
