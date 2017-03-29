@@ -57,6 +57,9 @@ class ThumbnailGenerator: public IThumbnailGenerator
         ITaskExecutor* m_executor;
         IPhotosManager* m_photosManager;
         ILogger* m_logger;
+
+        struct GenerationTask;
+        friend struct GenerationTask;
 };
 
 
