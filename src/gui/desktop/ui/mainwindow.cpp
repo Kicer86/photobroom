@@ -525,9 +525,9 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         ExifReaderFactory factory;
         factory.set(m_photosManager);
 
-        std::shared_ptr<IExifReader> reader = factory.get();
+        IExifReader* reader = factory.get();
 
-        PhotosGroupingDialog dialog(photos, reader.get(), m_executor);
+        PhotosGroupingDialog dialog(photos, reader, m_executor);
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)

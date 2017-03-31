@@ -34,7 +34,7 @@ struct CORE_EXPORT IExifReaderFactory
 {
     virtual ~IExifReaderFactory() = default;
 
-    virtual std::shared_ptr<IExifReader> get() = 0;
+    virtual IExifReader* get() = 0;
 };
 
 #endif

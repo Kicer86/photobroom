@@ -23,10 +23,10 @@ class CORE_EXPORT ExifReaderFactory: public IExifReaderFactory
         void set(IPhotosManager *);
 
         // ITagFeederFactory:
-        std::shared_ptr<IExifReader> get() override;
+        IExifReader* get() override;
 
     private:
-        std::map<std::thread::id, std::shared_ptr<IExifReader>> m_feeders;
+        std::map<std::thread::id, std::unique_ptr<IExifReader>> m_feeders;
         IPhotosManager* m_photosManager;
 };
 

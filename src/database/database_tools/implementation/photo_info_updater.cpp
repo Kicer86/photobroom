@@ -125,7 +125,7 @@ struct TagsCollector: UpdaterTask
     virtual void perform() override
     {
         const QString& path = m_photoInfo->getPath();
-        std::shared_ptr<IExifReader> feeder = m_exifReaderFactory->get();
+        IExifReader* feeder = m_exifReaderFactory->get();
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
         m_photoInfo->setTags(p_tags);

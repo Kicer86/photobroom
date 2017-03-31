@@ -37,7 +37,7 @@ void ExifReaderFactory::set(IPhotosManager* photosManager)
 }
 
 
-std::shared_ptr<IExifReader> ExifReaderFactory::get()
+IExifReader* ExifReaderFactory::get()
 {
     //ExifTool may not be thread safe. Prepare separate object for each thread
     const auto id = std::this_thread::get_id();
@@ -45,12 +45,11 @@ std::shared_ptr<IExifReader> ExifReaderFactory::get()
 
     if (it == m_feeders.end())
     {
-        auto feeder = std::make_shared<Exiv2ExifReader>(m_photosManager);
-        auto data = std::make_pair(id, feeder);
-        auto in = m_feeders.insert(data);
+        auto feeder = std::make_unique<Exiv2ExifReader>(m_photosManager);
+        auto in = m_feeders.emplace(id, std::move(feeder));
 
         it = in.first;
     }
 
-    return it->second;;
+    return it->second.get();
 }
