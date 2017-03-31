@@ -24,6 +24,7 @@
 
 #include <QImage>
 
+#include <core/exif_reader_factory.hpp>
 #include "thumbnail_generator.hpp"
 #include "ithumbnail_acquisitor.hpp"
 
@@ -55,6 +56,7 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
         ThumbnailGenerator m_generator;
         mutable ThumbnailCache m_cache;
         mutable std::set<ThumbnailInfo> m_awaitingTasks;
+        ExifReaderFactory m_exifFactory;
 
         void gotThumbnail(const ThumbnailInfo &, const QImage &) const;
 };

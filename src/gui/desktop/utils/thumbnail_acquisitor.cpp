@@ -26,9 +26,11 @@ ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_cacheAccessMutex(),
     m_generator(),
     m_cache(),
-    m_awaitingTasks()
+    m_awaitingTasks(),
+    m_exifFactory()
 {
-
+    auto exif = m_exifFactory.get();
+    m_generator.set(exif);
 }
 
 

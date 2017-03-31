@@ -130,6 +130,11 @@ void ThumbnailGenerator::set(ILogger* logger)
 }
 
 
+void ThumbnailGenerator::set(IExifReader *)
+{
+}
+
+
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
     auto task = std::make_unique<GenerationTask>(info, callback, this);
