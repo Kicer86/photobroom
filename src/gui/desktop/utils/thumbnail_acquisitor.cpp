@@ -20,6 +20,9 @@
 
 #include "thumbnail_acquisitor.hpp"
 
+#include <core/iexif_reader.hpp>
+
+
 ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_observers(),
     m_inProgress(),
@@ -29,8 +32,7 @@ ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_awaitingTasks(),
     m_exifFactory()
 {
-    auto exif = m_exifFactory.get();
-    m_generator.set(exif);
+
 }
 
 
@@ -49,6 +51,7 @@ void ThumbnailAcquisitor::set(ITaskExecutor* executor)
 void ThumbnailAcquisitor::set(IPhotosManager* manager)
 {
     m_generator.set(manager);
+    m_exifFactory.set(manager);
 }
 
 
@@ -111,14 +114,27 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 
 void ThumbnailAcquisitor::gotThumbnail(const ThumbnailInfo& info, const QImage& image) const
 {
+    const QImage rotated = rotateThumbnail(info.path, image);
+
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
     // It is possible to get thumbnail which was not awaited.
     // m_awaitingTasks could be cleared when generation task was being executed.
     m_awaitingTasks.erase(info);
 
-    m_cache.add(info, image);
+    m_cache.add(info, rotated);
 
     for(const Observer& obs: m_observers)
-        obs(info, image);
+        obs(info, rotated);
+}
+
+
+QImage ThumbnailAcquisitor::rotateThumbnail(const QString& path, const QImage& thumbnail) const
+{
+    IExifReader* reader = m_exifFactory.get();
+
+    const boost::any orientation_raw = reader->get(path, IExifReader::ExtraData::Orientation);
+    const int orientation = boost::any_cast<int>(orientation_raw);
+
+    return thumbnail;
 }
