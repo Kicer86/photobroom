@@ -143,11 +143,57 @@ QImage ThumbnailAcquisitor::rotateThumbnail(const QString& path, const QImage& t
         case 1:
             break;    // nothing to do - no data, or normal orientation
 
+        case 2:
+            rotated = thumbnail.mirrored(true, false);
+            break;
+
+        case 3:
+        {
+            QTransform transform;
+            transform.rotate(180);
+
+            rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
+            break;
+        }
+
+        case 4:
+            rotated = thumbnail.mirrored(false, true);
+            break;
+
+        case 5:
+        {
+            QTransform transform;
+            transform.rotate(270);
+
+            rotated = thumbnail.mirrored(true, false).transformed(transform);
+            break;
+        }
+
         case 6:
         {
             QTransform transform;
             transform.rotate(90);
+
             rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
+            break;
+        }
+
+        case 7:
+        {
+            QTransform transform;
+            transform.rotate(90);
+
+            rotated = thumbnail.mirrored(true, false).transformed(transform);
+            break;
+        }
+
+        case 8:
+        {
+            QTransform transform;
+            transform.rotate(270);
+
+            rotated = thumbnail.transformed(transform);
+            break;
         }
     }
 
