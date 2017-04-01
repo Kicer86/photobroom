@@ -38,9 +38,9 @@ class AExifReader: public IExifReader
     protected:
         enum TagTypes
         {
-            SequenceNumber,
-
             DateTimeOriginal,
+            Orientation,
+            SequenceNumber,
         };
 
         virtual void collect(const QByteArray &) = 0;

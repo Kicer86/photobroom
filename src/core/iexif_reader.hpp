@@ -21,6 +21,7 @@ struct CORE_EXPORT IExifReader
     enum class ExtraData
     {
         SequenceNumber,            // int
+        Orientation,               // int
     };
 
     virtual ~IExifReader() = default;
