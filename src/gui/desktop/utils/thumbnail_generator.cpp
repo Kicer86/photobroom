@@ -61,21 +61,13 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
         if (result.height() != m_info.height)
             result = result.scaledToHeight(m_info.height, Qt::SmoothTransformation);
 
-        const int photo_scaling = stopwatch.read(true);
-
-        for (const auto& postprocesor: m_generator->m_postProcesors)
-            result = postprocesor(raw, result);
-
-        const int photo_postprocess = stopwatch.stop();
+        const int photo_scaling = stopwatch.stop();
 
         const std::string read_time_message = std::string("photo read time: ") + std::to_string(photo_read) + "ms";
         m_generator->m_logger->debug(read_time_message);
 
         const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
         m_generator->m_logger->debug(scaling_time_message);
-
-        const std::string postprocessing_time_message = std::string("photo postprocess time: ") + std::to_string(photo_postprocess) + "ms";
-        m_generator->m_logger->debug(postprocessing_time_message);
 
         m_callback(m_info, result);
     }
@@ -92,7 +84,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 }
 
 
-ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_postProcesors(), m_executor(nullptr), m_photosManager(nullptr), m_logger(nullptr)
+ThumbnailGenerator::ThumbnailGenerator(): m_tasks(), m_executor(nullptr), m_photosManager(nullptr), m_logger(nullptr)
 {
 
 }
@@ -130,21 +122,10 @@ void ThumbnailGenerator::set(ILogger* logger)
 }
 
 
-void ThumbnailGenerator::set(IExifReader *)
-{
-}
-
-
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
     auto task = std::make_unique<GenerationTask>(info, callback, this);
     m_tasks->push(std::move(task));
-}
-
-
-void ThumbnailGenerator::registerPostProcesor(const PostProcesor& postprocesor)
-{
-    m_postProcesors.push_back(postprocesor);
 }
 
 
