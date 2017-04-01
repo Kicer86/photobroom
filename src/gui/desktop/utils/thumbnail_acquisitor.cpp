@@ -136,5 +136,20 @@ QImage ThumbnailAcquisitor::rotateThumbnail(const QString& path, const QImage& t
     const boost::any orientation_raw = reader->get(path, IExifReader::ExtraData::Orientation);
     const int orientation = boost::any_cast<int>(orientation_raw);
 
-    return thumbnail;
+    QImage rotated = thumbnail;
+    switch(orientation)
+    {
+        case 0:
+        case 1:
+            break;    // nothing to do - no data, or normal orientation
+
+        case 6:
+        {
+            QTransform transform;
+            transform.rotate(90);
+            rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
+        }
+    }
+
+    return rotated;
 }
