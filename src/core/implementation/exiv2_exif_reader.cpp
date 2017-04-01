@@ -5,6 +5,16 @@
 
 #include "base_tags.hpp"
 
+namespace
+{
+    const std::map<AExifReader::TagTypes, const char *> exif_name =
+    {
+        { AExifReader::TagTypes::DateTimeOriginal, "Exif.Photo.DateTimeOriginal" },
+        { AExifReader::TagTypes::Orientation,      "Exif.Image.Orientation" },
+        { AExifReader::TagTypes::SequenceNumber,   "Exif.Sony1.SequenceNumber" }
+    };
+}
+
 
 Exiv2ExifReader::Exiv2ExifReader (IPhotosManager* photosManager):
     AExifReader(photosManager),
@@ -41,26 +51,17 @@ std::string Exiv2ExifReader::read(AExifReader::TagTypes type) const
 
         if (exifData.empty() == false)
         {
-            Exiv2::ExifData::const_iterator tag_date = exifData.end();
+            Exiv2::ExifData::const_iterator tag_data = exifData.end();
+            auto exif_name_it = exif_name.find(type);
 
-            switch (type)
+            if (exif_name_it != exif_name.end())
             {
-                case DateTimeOriginal:
-                    tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
-                    break;
-
-                case Orientation:
-                    tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Image.Orientation"));
-                    break;
-
-                case SequenceNumber:
-                    tag_date = exifData.findKey(Exiv2::ExifKey("Exif.Sony1.SequenceNumber"));
-                    break;
-
+                const char* tag_name = exif_name_it->second;
+                tag_data = exifData.findKey(Exiv2::ExifKey(tag_name));
             }
 
-            if (tag_date != exifData.end())
-                result = tag_date->toString();
+            if (tag_data != exifData.end())
+                result = tag_data->toString();
         }
     }
 

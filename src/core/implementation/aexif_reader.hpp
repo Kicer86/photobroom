@@ -35,7 +35,6 @@ class AExifReader: public IExifReader
 
         AExifReader& operator=(const AExifReader &) = delete;
 
-    protected:
         enum TagTypes
         {
             DateTimeOriginal,
@@ -43,6 +42,7 @@ class AExifReader: public IExifReader
             SequenceNumber,
         };
 
+    protected:
         virtual void collect(const QByteArray &) = 0;
         virtual std::string read (TagTypes) const = 0;
 
