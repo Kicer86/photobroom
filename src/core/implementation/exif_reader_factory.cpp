@@ -45,6 +45,8 @@ IExifReader* ExifReaderFactory::get()
 
     if (it == m_feeders.end())
     {
+        assert(m_photosManager != nullptr);
+
         auto feeder = std::make_unique<Exiv2ExifReader>(m_photosManager);
         auto in = m_feeders.emplace(id, std::move(feeder));
 
