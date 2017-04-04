@@ -10,7 +10,7 @@ struct IPhotoInformation
 {
     virtual ~IPhotoInformation() = default;
 
-    virtual QSize size() const = 0;
+    virtual QSize size(const QString &) const = 0;
 };
 
 #endif

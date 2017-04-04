@@ -22,9 +22,27 @@
 
 #include "iphoto_information.hpp"
 
-class PhotoInformation : public IPhotoInformation
-{
+#include "core_export.h"
 
+struct IExifReader;
+
+
+class CORE_EXPORT PhotoInformation: public IPhotoInformation
+{
+    public:
+        PhotoInformation();
+        PhotoInformation(const PhotoInformation &) = delete;
+
+        PhotoInformation& operator=(const PhotoInformation &) = delete;
+
+        virtual ~PhotoInformation();
+
+        void set(IExifReader *);
+
+        virtual QSize size(const QString &) const override;
+
+    private:
+        IExifReader* m_exif;
 };
 
 #endif // PHOTOINFORMATION_H
