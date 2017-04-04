@@ -210,7 +210,7 @@ void PhotosGroupingDialog::fillModel(const std::vector<IPhotoInfo::Ptr>& photos)
     for(const IPhotoInfo::Ptr& photo: photos)
     {
         const QString path = photo->getPath();
-        const boost::any sequence_number = m_exifReader->get(path, IExifReader::ExtraData::SequenceNumber);
+        const boost::any sequence_number = m_exifReader->get(path, IExifReader::TagType::SequenceNumber);
 
         const QString sequence_str = sequence_number.empty()? "-" : QString::number( boost::any_cast<int>(sequence_number));
 

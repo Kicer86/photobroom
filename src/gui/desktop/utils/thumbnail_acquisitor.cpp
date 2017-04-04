@@ -133,7 +133,7 @@ QImage ThumbnailAcquisitor::rotateThumbnail(const QString& path, const QImage& t
 {
     IExifReader* reader = m_exifFactory.get();
 
-    const boost::any orientation_raw = reader->get(path, IExifReader::ExtraData::Orientation);
+    const boost::any orientation_raw = reader->get(path, IExifReader::TagType::Orientation);
     const int orientation = boost::any_cast<int>(orientation_raw);
 
     QImage rotated = thumbnail;
