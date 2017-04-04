@@ -69,7 +69,7 @@ boost::any AExifReader::get(const QString& path, const IExifReader::TagType& typ
             break;
 
         case TagType::Orientation:
-            result = readString(TagType::Orientation);
+            result = readInt(TagType::Orientation);
             break;
 
         case TagType::DateTimeOriginal:
