@@ -27,12 +27,12 @@ std::string EasyExifTagFeeder::read(TagTypes type)
 
     switch (type)
     {
-        case SequenceNumber:
-            assert(!"unavailable");
-            break;
-
         case DateTimeOriginal:
             result = m_exif_data.DateTimeOriginal;
+            break;
+
+        default:
+            assert(!"missing implementation");
             break;
     }
 

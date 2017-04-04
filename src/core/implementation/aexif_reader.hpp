@@ -35,26 +35,21 @@ class AExifReader: public IExifReader
 
         AExifReader& operator=(const AExifReader &) = delete;
 
-        enum TagTypes
-        {
-            DateTimeOriginal,
-            Orientation,
-            SequenceNumber,
-        };
-
     protected:
         virtual void collect(const QByteArray &) = 0;
-        virtual std::string read (TagTypes) const = 0;
+        virtual std::string read(TagType) const = 0;
 
     private:
         IPhotosManager* m_photosManager;
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
-        boost::any get(const QString& path, const ExtraData &) override;
+        boost::any get(const QString& path, const TagType &) override;
         //
 
         Tag::TagsList feedDateAndTime() const;
+        int readInt(const TagType &) const;
+        std::string readString(const TagType &) const;
 };
 
 #endif // A_EXIF_READER_HPP

@@ -7,11 +7,11 @@
 
 namespace
 {
-    const std::map<AExifReader::TagTypes, const char *> exif_name =
+    const std::map<AExifReader::TagType, const char *> exif_name =
     {
-        { AExifReader::TagTypes::DateTimeOriginal, "Exif.Photo.DateTimeOriginal" },
-        { AExifReader::TagTypes::Orientation,      "Exif.Image.Orientation" },
-        { AExifReader::TagTypes::SequenceNumber,   "Exif.Sony1.SequenceNumber" }
+        { AExifReader::TagType::DateTimeOriginal, "Exif.Photo.DateTimeOriginal" },
+        { AExifReader::TagType::Orientation,      "Exif.Image.Orientation" },
+        { AExifReader::TagType::SequenceNumber,   "Exif.Sony1.SequenceNumber" }
     };
 }
 
@@ -41,7 +41,7 @@ void Exiv2ExifReader::collect(const QByteArray& data)
 }
 
 
-std::string Exiv2ExifReader::read(AExifReader::TagTypes type) const
+std::string Exiv2ExifReader::read(AExifReader::TagType type) const
 {
     std::string result;
 
@@ -53,6 +53,8 @@ std::string Exiv2ExifReader::read(AExifReader::TagTypes type) const
         {
             Exiv2::ExifData::const_iterator tag_data = exifData.end();
             auto exif_name_it = exif_name.find(type);
+
+            assert(exif_name_it != exif_name.end());
 
             if (exif_name_it != exif_name.end())
             {
