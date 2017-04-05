@@ -30,7 +30,7 @@
 #include "ithumbnail_generator.hpp"
 
 
-struct IExifReader;
+struct IExifReaderFactory;
 struct IPhotosManager;
 
 
@@ -47,6 +47,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
         void set(ILogger *);
+        void set(IExifReaderFactory *);
 
         // IThumbnailGenerator:
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
@@ -56,6 +57,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
         ITaskExecutor* m_executor;
         IPhotosManager* m_photosManager;
         ILogger* m_logger;
+        IExifReaderFactory* m_exifReaderFactory;
 
         struct GenerationTask;
         friend struct GenerationTask;
