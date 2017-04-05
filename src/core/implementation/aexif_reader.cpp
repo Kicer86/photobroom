@@ -31,7 +31,7 @@
 
 
 
-AExifReader::AExifReader(IPhotosManager* photosManager): m_photosManager(photosManager)
+AExifReader::AExifReader(IPhotosManager* photosManager): m_id(std::this_thread::get_id()), m_photosManager(photosManager)
 {
 
 }
@@ -45,6 +45,8 @@ AExifReader::~AExifReader()
 
 Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
+    assert(m_id == std::this_thread::get_id());
+
     const QByteArray data = m_photosManager->getPhoto(path);
     collect(data);
 
@@ -56,6 +58,8 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 
 boost::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
+    assert(m_id == std::this_thread::get_id());
+
     const QByteArray data = m_photosManager->getPhoto(path);
 
     collect(data);

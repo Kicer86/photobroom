@@ -21,6 +21,8 @@
 #ifndef A_EXIF_READER_HPP
 #define A_EXIF_READER_HPP
 
+#include <thread>
+
 #include "iexif_reader.hpp"
 
 struct IPhotosManager;
@@ -40,6 +42,7 @@ class AExifReader: public IExifReader
         virtual std::string read(TagType) const = 0;
 
     private:
+        std::thread::id m_id;
         IPhotosManager* m_photosManager;
 
         // ITagFeeder:
