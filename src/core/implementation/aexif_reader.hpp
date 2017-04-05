@@ -25,8 +25,10 @@
 
 #include "iexif_reader.hpp"
 
+
 struct IPhotosManager;
 class QByteArray;
+
 
 class AExifReader: public IExifReader
 {
