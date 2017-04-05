@@ -32,7 +32,7 @@ ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_awaitingTasks(),
     m_exifFactory()
 {
-
+    m_generator.set(&m_exifFactory);
 }
 
 
@@ -114,88 +114,14 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 
 void ThumbnailAcquisitor::gotThumbnail(const ThumbnailInfo& info, const QImage& image) const
 {
-    const QImage rotated = rotateThumbnail(info.path, image);
-
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
     // It is possible to get thumbnail which was not awaited.
     // m_awaitingTasks could be cleared when generation task was being executed.
     m_awaitingTasks.erase(info);
 
-    m_cache.add(info, rotated);
+    m_cache.add(info, image);
 
     for(const Observer& obs: m_observers)
-        obs(info, rotated);
-}
-
-
-QImage ThumbnailAcquisitor::rotateThumbnail(const QString& path, const QImage& thumbnail) const
-{
-    IExifReader* reader = m_exifFactory.get();
-
-    const boost::any orientation_raw = reader->get(path, IExifReader::TagType::Orientation);
-    const int orientation = boost::any_cast<int>(orientation_raw);
-
-    QImage rotated = thumbnail;
-    switch(orientation)
-    {
-        case 0:
-        case 1:
-            break;    // nothing to do - no data, or normal orientation
-
-        case 2:
-            rotated = thumbnail.mirrored(true, false);
-            break;
-
-        case 3:
-        {
-            QTransform transform;
-            transform.rotate(180);
-
-            rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
-            break;
-        }
-
-        case 4:
-            rotated = thumbnail.mirrored(false, true);
-            break;
-
-        case 5:
-        {
-            QTransform transform;
-            transform.rotate(270);
-
-            rotated = thumbnail.mirrored(true, false).transformed(transform);
-            break;
-        }
-
-        case 6:
-        {
-            QTransform transform;
-            transform.rotate(90);
-
-            rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
-            break;
-        }
-
-        case 7:
-        {
-            QTransform transform;
-            transform.rotate(90);
-
-            rotated = thumbnail.mirrored(true, false).transformed(transform);
-            break;
-        }
-
-        case 8:
-        {
-            QTransform transform;
-            transform.rotate(270);
-
-            rotated = thumbnail.transformed(transform);
-            break;
-        }
-    }
-
-    return rotated;
+        obs(info, image);
 }

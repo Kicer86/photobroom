@@ -59,7 +59,6 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
         mutable ExifReaderFactory m_exifFactory;
 
         void gotThumbnail(const ThumbnailInfo &, const QImage &) const;
-        QImage rotateThumbnail(const QString &, const QImage &) const;
 };
 
 #endif // THUMBNAILACQUISITOR_HPP
