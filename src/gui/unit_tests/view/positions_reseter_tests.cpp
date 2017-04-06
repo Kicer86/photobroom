@@ -317,7 +317,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
         EXPECT_EQ(true, info1.isPositionValid());            //siblings before changed one should not be reseted
         EXPECT_EQ(true, info2.isPositionValid());
-        EXPECT_EQ(false, info4.isPositionValid());            //siblings after changed one should be reseted
+        EXPECT_EQ(false, info4.isPositionValid());           //siblings after changed one should be reseted
         EXPECT_EQ(false, info5.isPositionValid());
 
         //check sizes - should not be touched
