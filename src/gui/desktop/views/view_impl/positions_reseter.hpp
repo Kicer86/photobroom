@@ -38,7 +38,7 @@ class PositionsReseter
         void invalidateAll() const;
         void itemChanged(const QModelIndex &);
         void itemsChanged(const QItemSelection &);
-        void childrenRemoved(const QModelIndex &, int pos);
+        void childRemoved(const QModelIndex& parent, int pos);
 
     private:
         Data* m_data;

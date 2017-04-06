@@ -238,7 +238,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     model.removeRow(2, top->index());                  // remove central child of first node (0, 1, 2, 3, 4)
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(top->index(), 2);
+    reseter.childRemoved(top->index(), 2);
 
     //expectations
     {
@@ -545,7 +545,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     model.removeRow(0, top->index());
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(top->index(), 0);
+    reseter.childRemoved(top->index(), 0);
 
     //expectations
     {
@@ -602,7 +602,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
     model.removeRow(0, top->index());
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(top->index(), 0);
+    reseter.childRemoved(top->index(), 0);
 
    //expectations
     {
@@ -666,7 +666,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
     model.removeRow(1);
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(QModelIndex(), 1);
+    reseter.childRemoved(QModelIndex(), 1);
 
     //expectations
     {
