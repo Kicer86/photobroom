@@ -201,7 +201,7 @@ void PhotoInfoUpdater::set(IPhotosManager* photosManager)
     m_photosManager = photosManager;
     m_exifReaderFactory.set(photosManager);
 
-    m_photoInformation.set(m_exifReaderFactory.get());
+    m_photoInformation.set(&m_exifReaderFactory);
 }
 
 

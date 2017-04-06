@@ -24,7 +24,7 @@
 
 #include "core_export.h"
 
-struct IExifReader;
+struct IExifReaderFactory;
 
 
 class CORE_EXPORT PhotoInformation: public IPhotoInformation
@@ -37,12 +37,12 @@ class CORE_EXPORT PhotoInformation: public IPhotoInformation
 
         virtual ~PhotoInformation();
 
-        void set(IExifReader *);
+        void set(IExifReaderFactory *);
 
         virtual QSize size(const QString &) const override;
 
     private:
-        IExifReader* m_exif;
+        IExifReaderFactory* m_exif;
 };
 
 #endif // PHOTOINFORMATION_H
