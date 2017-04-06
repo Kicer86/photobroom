@@ -45,6 +45,7 @@ struct AnimationGenerator: QObject
             QStringList args;
             args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
             args << m_data.photos;
+            args << "-auto-orient";
             args << "-loop" << "0";
             args << "-resize" << QString::number(100/m_data.scale) + "%";
             args << m_location;
