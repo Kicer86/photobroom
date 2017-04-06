@@ -310,6 +310,14 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     }
 
     {
+        // child's size should be invalidated
+        const ModelIndexInfo& info3 = *data.cfind(child3->index());
+
+        EXPECT_EQ(true, info3.isPositionValid());
+        EXPECT_EQ(false, info3.isSizeValid());
+    }
+
+    {
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
