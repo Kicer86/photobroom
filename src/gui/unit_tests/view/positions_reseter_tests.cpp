@@ -370,7 +370,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
         const ModelIndexInfo& info = *data.cfind(top->index());
         EXPECT_EQ(true,  info.isPositionValid());            // Node's size should be reseted.
         EXPECT_EQ(false, info.isSizeValid());
-        EXPECT_EQ(false, info.isOverallSizeValid());         // So overall size should.
+        EXPECT_EQ(false, info.isOverallSizeValid());         // So should overall size.
     }
 
 
