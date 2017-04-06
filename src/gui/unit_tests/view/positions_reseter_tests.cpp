@@ -373,7 +373,6 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
         EXPECT_EQ(false, info.isOverallSizeValid());         // So should overall size.
     }
 
-
     {
         //children should not be reseted
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
@@ -592,7 +591,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 }
 
 
-TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedAndChildChanges)
+TEST_F(PositionsReseterShould, NotResetParentOrItsSiblingsWhenParentIsCollapsedAndChildChanges)
 {
     //prepare data
     PositionsCalculator calculator(&data, canvas_w);
