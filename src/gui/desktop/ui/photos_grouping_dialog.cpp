@@ -45,6 +45,7 @@ struct AnimationGenerator: QObject
             QStringList args;
             args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
             args << m_data.photos;
+            args << "-auto-orient";
             args << "-loop" << "0";
             args << "-resize" << QString::number(100/m_data.scale) + "%";
             args << m_location;
@@ -210,7 +211,7 @@ void PhotosGroupingDialog::fillModel(const std::vector<IPhotoInfo::Ptr>& photos)
     for(const IPhotoInfo::Ptr& photo: photos)
     {
         const QString path = photo->getPath();
-        const boost::any sequence_number = m_exifReader->get(path, IExifReader::ExtraData::SequenceNumber);
+        const boost::any sequence_number = m_exifReader->get(path, IExifReader::TagType::SequenceNumber);
 
         const QString sequence_str = sequence_number.empty()? "-" : QString::number( boost::any_cast<int>(sequence_number));
 

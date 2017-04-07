@@ -23,6 +23,7 @@ set(CORE_SOURCES
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
+    implementation/photo_information.cpp
     implementation/photos_manager.cpp
     implementation/search_expression_evaluator.cpp
     implementation/stopwatch.cpp
@@ -50,6 +51,7 @@ set(CORE_HEADERS
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
+    iphoto_information.hpp
     iphotos_manager.hpp
     iexif_reader.hpp
     itask_executor.hpp
@@ -59,6 +61,7 @@ set(CORE_HEADERS
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp
+    photo_information.hpp
     photos_manager.hpp
     ptr_iterator.hpp
     search_expression_evaluator.hpp

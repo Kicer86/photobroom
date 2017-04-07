@@ -7,12 +7,12 @@
 
 #include <QPixmap>
 #include <QImage>
-#include <QImageReader>
-#include <qcryptographichash.h>
+#include <QCryptographicHash>
 
 #include <core/task_executor.hpp>
 #include <core/photos_manager.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/iphoto_information.hpp>
 #include <core/tag.hpp>
 
 
@@ -75,9 +75,11 @@ namespace
     struct GeometryAssigner: UpdaterTask
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
-                       const IPhotoInfo::Ptr& photoInfo):
+                         IPhotoInformation* photoInformation,
+                         const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
-            m_photoInfo(photoInfo)
+            m_photoInfo(photoInfo),
+            m_photoInformation(photoInformation)
         {
         }
 
@@ -92,13 +94,13 @@ namespace
         virtual void perform() override
         {
             const QString path = m_photoInfo->getPath();
-            const QImageReader reader(path);
-            const QSize size = reader.size();
+            const QSize size = m_photoInformation->size(path);
 
             m_photoInfo->setGeometry(size);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
+        IPhotoInformation* m_photoInformation;
     };
 
 }
@@ -125,7 +127,7 @@ struct TagsCollector: UpdaterTask
     virtual void perform() override
     {
         const QString& path = m_photoInfo->getPath();
-        std::shared_ptr<IExifReader> feeder = m_exifReaderFactory->get();
+        IExifReader* feeder = m_exifReaderFactory->get();
         Tag::TagsList p_tags = feeder->getTagsFor(path);
 
         m_photoInfo->setTags(p_tags);
@@ -138,6 +140,7 @@ struct TagsCollector: UpdaterTask
 
 
 PhotoInfoUpdater::PhotoInfoUpdater():
+    m_photoInformation(),
     m_exifReaderFactory(),
     m_taskQueue(),
     m_tasks(),
@@ -166,7 +169,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 
 void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_unique<GeometryAssigner>(this, photoInfo);
+    auto task = std::make_unique<GeometryAssigner>(this, &m_photoInformation, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }
@@ -197,6 +200,8 @@ void PhotoInfoUpdater::set(IPhotosManager* photosManager)
 {
     m_photosManager = photosManager;
     m_exifReaderFactory.set(photosManager);
+
+    m_photoInformation.set(&m_exifReaderFactory);
 }
 
 

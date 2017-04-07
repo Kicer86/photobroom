@@ -7,6 +7,7 @@
 
 #include <core/exif_reader_factory.hpp>
 #include <core/task_executor.hpp>
+#include <core/photo_information.hpp>
 #include <database/iphoto_info.hpp>
 
 struct IPhotosManager;
@@ -40,6 +41,7 @@ class PhotoInfoUpdater final
     private:
         friend struct UpdaterTask;
 
+        PhotoInformation m_photoInformation;
         ExifReaderFactory m_exifReaderFactory;
         ITaskExecutor::TaskQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;

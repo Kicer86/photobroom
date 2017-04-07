@@ -1346,7 +1346,11 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
             case 0:
 
             case 1:             // update from 1 to 2
-                // no particular changes required - checkStructure() will add missing TAB_GROUPS and TAB_GROUPS_MEMBERS
+            {
+                // invalidate geometry table - from version 2 photo orientation will be considered
+                const QString cleanGeometry = QString("UPDATE %1 SET geometry_loaded = 0 WHERE geometry_loaded = 1").arg(TAB_FLAGS);
+                status = m_data->m_executor.exec(cleanGeometry, &query);
+            }
 
             case 2:   // current version, break updgrades chain
                 break;

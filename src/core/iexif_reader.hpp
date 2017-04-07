@@ -18,15 +18,17 @@ class TagDataBase;
 
 struct CORE_EXPORT IExifReader
 {
-    enum class ExtraData
+    enum class TagType
     {
+        DateTimeOriginal,          // string
+        Orientation,               // int
         SequenceNumber,            // int
     };
 
     virtual ~IExifReader() = default;
 
     virtual Tag::TagsList getTagsFor(const QString& path) = 0;            // returns default set of tags
-    virtual boost::any get(const QString& path, const ExtraData &) = 0;   // access to optional data
+    virtual boost::any get(const QString& path, const TagType &) = 0;   // access to optional data
 };
 
 
@@ -34,7 +36,7 @@ struct CORE_EXPORT IExifReaderFactory
 {
     virtual ~IExifReaderFactory() = default;
 
-    virtual std::shared_ptr<IExifReader> get() = 0;
+    virtual IExifReader* get() = 0;
 };
 
 #endif

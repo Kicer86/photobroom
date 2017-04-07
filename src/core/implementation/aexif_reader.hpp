@@ -21,10 +21,14 @@
 #ifndef A_EXIF_READER_HPP
 #define A_EXIF_READER_HPP
 
+#include <thread>
+
 #include "iexif_reader.hpp"
+
 
 struct IPhotosManager;
 class QByteArray;
+
 
 class AExifReader: public IExifReader
 {
@@ -36,25 +40,21 @@ class AExifReader: public IExifReader
         AExifReader& operator=(const AExifReader &) = delete;
 
     protected:
-        enum TagTypes
-        {
-            SequenceNumber,
-
-            DateTimeOriginal,
-        };
-
         virtual void collect(const QByteArray &) = 0;
-        virtual std::string read (TagTypes) const = 0;
+        virtual std::string read(TagType) const = 0;
 
     private:
+        std::thread::id m_id;
         IPhotosManager* m_photosManager;
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
-        boost::any get(const QString& path, const ExtraData &) override;
+        boost::any get(const QString& path, const TagType &) override;
         //
 
         Tag::TagsList feedDateAndTime() const;
+        int readInt(const TagType &) const;
+        std::string readString(const TagType &) const;
 };
 
 #endif // A_EXIF_READER_HPP

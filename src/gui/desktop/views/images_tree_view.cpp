@@ -454,7 +454,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
-    reseter.childrenRemoved(sourceParent, sourceStart);
+    reseter.childRemoved(sourceParent, sourceStart);
 
     // when src and dst parents are the same, watch out!
     // http://doc.qt.io/qt-5/qabstractitemmodel.html#beginMoveRows
@@ -475,7 +475,7 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
-    reseter.childrenRemoved(_parent, first);
+    reseter.childRemoved(_parent, first);
 
     emit refreshView();
 }

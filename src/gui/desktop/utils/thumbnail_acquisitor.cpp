@@ -20,15 +20,19 @@
 
 #include "thumbnail_acquisitor.hpp"
 
+#include <core/iexif_reader.hpp>
+
+
 ThumbnailAcquisitor::ThumbnailAcquisitor():
     m_observers(),
     m_inProgress(),
     m_cacheAccessMutex(),
     m_generator(),
     m_cache(),
-    m_awaitingTasks()
+    m_awaitingTasks(),
+    m_exifFactory()
 {
-
+    m_generator.set(&m_exifFactory);
 }
 
 
@@ -47,6 +51,7 @@ void ThumbnailAcquisitor::set(ITaskExecutor* executor)
 void ThumbnailAcquisitor::set(IPhotosManager* manager)
 {
     m_generator.set(manager);
+    m_exifFactory.set(manager);
 }
 
 

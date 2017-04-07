@@ -105,7 +105,7 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
 }
 
 
-void PositionsReseter::childrenRemoved(const QModelIndex& parent, int pos)
+void PositionsReseter::childRemoved(const QModelIndex& parent, int pos)
 {
     //invalidate parent if expanded
     Data::ModelIndexInfoSet::Model::level_iterator infoIt = m_data->find(parent);

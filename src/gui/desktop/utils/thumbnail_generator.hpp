@@ -1,5 +1,5 @@
 /*
- * Low level thumbnails generator and catcher.
+ * Thumbnail generator.
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@
 #include "ithumbnail_generator.hpp"
 
 
+struct IExifReaderFactory;
 struct IPhotosManager;
 
 
@@ -46,6 +47,9 @@ class ThumbnailGenerator: public IThumbnailGenerator
         void set(ITaskExecutor *);
         void set(IPhotosManager *);
         void set(ILogger *);
+        void set(IExifReaderFactory *);
+
+        // IThumbnailGenerator:
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
 
     private:
@@ -53,6 +57,10 @@ class ThumbnailGenerator: public IThumbnailGenerator
         ITaskExecutor* m_executor;
         IPhotosManager* m_photosManager;
         ILogger* m_logger;
+        IExifReaderFactory* m_exifReaderFactory;
+
+        struct GenerationTask;
+        friend struct GenerationTask;
 };
 
 

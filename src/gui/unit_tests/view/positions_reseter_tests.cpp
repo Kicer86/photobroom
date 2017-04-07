@@ -238,7 +238,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     model.removeRow(2, top->index());                  // remove central child of first node (0, 1, 2, 3, 4)
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(top->index(), 2);
+    reseter.childRemoved(top->index(), 2);
 
     //expectations
     {
@@ -310,6 +310,14 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     }
 
     {
+        // child's size should be invalidated
+        const ModelIndexInfo& info3 = *data.cfind(child3->index());
+
+        EXPECT_EQ(true, info3.isPositionValid());
+        EXPECT_EQ(false, info3.isSizeValid());
+    }
+
+    {
         const ModelIndexInfo& info1 = *data.cfind(child1->index());
         const ModelIndexInfo& info2 = *data.cfind(child2->index());
         const ModelIndexInfo& info4 = *data.cfind(child4->index());
@@ -317,7 +325,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
         EXPECT_EQ(true, info1.isPositionValid());            //siblings before changed one should not be reseted
         EXPECT_EQ(true, info2.isPositionValid());
-        EXPECT_EQ(false, info4.isPositionValid());            //siblings after changed one should be reseted
+        EXPECT_EQ(false, info4.isPositionValid());           //siblings after changed one should be reseted
         EXPECT_EQ(false, info5.isPositionValid());
 
         //check sizes - should not be touched
@@ -370,9 +378,8 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
         const ModelIndexInfo& info = *data.cfind(top->index());
         EXPECT_EQ(true,  info.isPositionValid());            // Node's size should be reseted.
         EXPECT_EQ(false, info.isSizeValid());
-        EXPECT_EQ(false, info.isOverallSizeValid());         // So overall size should.
+        EXPECT_EQ(false, info.isOverallSizeValid());         // So should overall size.
     }
-
 
     {
         //children should not be reseted
@@ -545,7 +552,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     model.removeRow(0, top->index());
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(top->index(), 0);
+    reseter.childRemoved(top->index(), 0);
 
     //expectations
     {
@@ -592,7 +599,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 }
 
 
-TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedAndChildChanges)
+TEST_F(PositionsReseterShould, NotResetParentOrItsSiblingsWhenParentIsCollapsedAndChildChanges)
 {
     //prepare data
     PositionsCalculator calculator(&data, canvas_w);
@@ -602,7 +609,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblignsWhenParentIsCollapsedA
     model.removeRow(0, top->index());
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(top->index(), 0);
+    reseter.childRemoved(top->index(), 0);
 
    //expectations
     {
@@ -666,7 +673,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
     model.removeRow(1);
 
     PositionsReseter reseter(&model, &data);
-    reseter.childrenRemoved(QModelIndex(), 1);
+    reseter.childRemoved(QModelIndex(), 1);
 
     //expectations
     {

@@ -29,7 +29,9 @@
 #include "tag.hpp"
 #include "base_tags.hpp"
 
-AExifReader::AExifReader(IPhotosManager* photosManager): m_photosManager(photosManager)
+
+
+AExifReader::AExifReader(IPhotosManager* photosManager): m_id(std::this_thread::get_id()), m_photosManager(photosManager)
 {
 
 }
@@ -43,6 +45,8 @@ AExifReader::~AExifReader()
 
 Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
+    assert(m_id == std::this_thread::get_id());
+
     const QByteArray data = m_photosManager->getPhoto(path);
     collect(data);
 
@@ -52,8 +56,10 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 }
 
 
-boost::any AExifReader::get(const QString& path, const IExifReader::ExtraData& type)
+boost::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
+    assert(m_id == std::this_thread::get_id());
+
     const QByteArray data = m_photosManager->getPhoto(path);
 
     collect(data);
@@ -62,22 +68,17 @@ boost::any AExifReader::get(const QString& path, const IExifReader::ExtraData& t
 
     switch(type)
     {
-        case ExtraData::SequenceNumber:
-        {
-            const std::string valueRaw = read(SequenceNumber);
-
-            try
-            {
-                const int value = stoi(valueRaw);
-
-                if (value > 0)
-                    result = value;
-            }
-            catch(const std::invalid_argument &) {}
-            catch(const std::out_of_range &) {}
-
+        case TagType::SequenceNumber:
+            result = readInt(TagType::SequenceNumber);
             break;
-        }
+
+        case TagType::Orientation:
+            result = readInt(TagType::Orientation);
+            break;
+
+        case TagType::DateTimeOriginal:
+            result = readString(TagType::DateTimeOriginal);
+            break;
     }
 
     return result;
@@ -88,7 +89,7 @@ Tag::TagsList AExifReader::feedDateAndTime() const
 {
     Tag::TagsList tagData;
 
-    const std::string dateTimeOrirignal = read(DateTimeOriginal);
+    const std::string dateTimeOrirignal = read(TagType::DateTimeOriginal);
 
     const QString v(dateTimeOrirignal.c_str());
     const QStringList time_splitted = v.split(" ");
@@ -103,4 +104,31 @@ Tag::TagsList AExifReader::feedDateAndTime() const
     }
 
     return tagData;
+}
+
+
+int AExifReader::readInt(const TagType& tagType) const
+{
+    int result = 0;
+    const std::string valueRaw = read(tagType);
+
+    try
+    {
+        const int value = stoi(valueRaw);
+
+        if (value > 0)
+            result = value;
+    }
+    catch(const std::invalid_argument &) {}
+    catch(const std::out_of_range &) {}
+
+    return result;
+}
+
+
+std::string AExifReader::readString(const TagType& tagType) const
+{
+    const std::string result = read(tagType);
+
+    return result;
 }
