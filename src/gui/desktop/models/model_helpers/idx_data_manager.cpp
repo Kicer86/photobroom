@@ -458,11 +458,11 @@ void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator,
     //attach nodes to parent node in main thread
     using namespace std::placeholders;
     std::function<void(IdxNodeData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)> insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
-    auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
+    auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);    // call insertFetchedNodesFun from thread owning 'this'
 
     IIdxData* parentIdxData = getIdxDataFor(parent);
 
-    isNode(parentIdxData);
+    assert(isNode(parentIdxData));
     IdxNodeData* parentNode = static_cast<IdxNodeData *>(parentIdxData);
 
     nodesFetched(parentNode, leafs);
