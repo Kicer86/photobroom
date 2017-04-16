@@ -13,7 +13,7 @@ macro(addTestTarget target)
     set(test_bin ${target}_tests)
 
     #add test executables
-    add_executable(${test_bin} ${T_SOURCES})
+    add_executable(${test_bin}_n ${T_SOURCES})
     add_executable(${test_bin}_ub ${T_SOURCES})
 
     addFlags(${test_bin}_ub COMPILE_FLAGS "-fsanitize=undefined "
@@ -41,19 +41,25 @@ macro(addTestTarget target)
     addFlags(${test_bin}_ub LINK_FLAGS "-fsanitize=undefined -fno-sanitize-recover")
 
     #link agains test library
-    target_link_libraries(${test_bin} PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_n PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_ub PRIVATE ${T_LIBRARIES})
 
     #include dirs
-    target_include_directories(${test_bin} ${T_INCLUDES})
+    target_include_directories(${test_bin}_n ${T_INCLUDES})
     target_include_directories(${test_bin}_ub ${T_INCLUDES})
 
     #enable code coverage
-    enableCodeCoverage(${test_bin})
+    enableCodeCoverage(${test_bin}_n)
 
     #add tests
-    add_test(${target} ${test_bin})
+    add_test(${target}_n ${test_bin}_n)
     add_test(${target}_ub ${test_bin}_ub)
+
+    add_custom_target(${test_bin}
+                        DEPENDS
+                            ${test_bin}_n
+                            ${test_bin}_ub
+    )
 
 endmacro(addTestTarget)
 
