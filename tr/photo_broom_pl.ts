@@ -593,7 +593,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+159"/>
         <source>(Empty)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Brak)</translation>
     </message>
 </context>
 <context>
