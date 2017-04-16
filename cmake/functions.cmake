@@ -45,7 +45,7 @@ macro(addTestTarget target)
     addFlags(${test_bin}_mem COMPILE_FLAGS "-fsanitize=leak")
     addFlags(${test_bin}_mem LINK_FLAGS "-fsanitize=leak")
 
-    #link agains test library
+    #link against proper libraries
     target_link_libraries(${test_bin}_n PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_ub PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_mem PRIVATE ${T_LIBRARIES})
