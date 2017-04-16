@@ -156,10 +156,11 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     const QAbstractItemModel* m = index.model();
     const QVariant v = m->data(index, Qt::DisplayRole);
     const QString t = VariantDisplay()(v, option.locale);
+    const QString title = t.isEmpty()? tr("(Empty)"): t;
 
     // title bounding box
     const QRect& rect = option.rect;
-    const QRect boundingRect = painter->boundingRect(rect, Qt::AlignCenter, t);
+    const QRect boundingRect = painter->boundingRect(rect, Qt::AlignCenter, title);
 
     const int margin = 5;
     const int y = rect.height()/2 + rect.top();
@@ -171,7 +172,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     painter->drawLine(right_horizontal_line);
 
     // title
-    painter->drawText(rect, Qt::AlignCenter, t);
+    painter->drawText(rect, Qt::AlignCenter, title);
 }
 
 
