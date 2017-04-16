@@ -19,14 +19,11 @@ set(PROJECT_UTILS_HEADERS
 set(PROJECT_UTILS_MOC )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-include_directories(${CMAKE_SOURCE_DIR}/src
-                    $<TARGET_PROPERTY:plugins,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
+include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 include_directories(SYSTEM
                     ${Qt5Core_INCLUDE_DIRS}
                     ${OPENLIBRARY_INCLUDE_DIRS}
-)
+                   )
 
 qt5_wrap_cpp(PROJECT_UTILS_MOCED ${PROJECT_UTILS_MOC})
 

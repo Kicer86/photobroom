@@ -18,13 +18,6 @@ std::string dump(const tree<T>& tr)
 
 TEST(treeTest, isConstructible)
 {
-
-    signed char a = std::numeric_limits< char >::max();
-    a++;
-
-    int i = INT_MIN;
-    int j = -i;
-
     EXPECT_NO_THROW(
     {
         tree<int> tr;

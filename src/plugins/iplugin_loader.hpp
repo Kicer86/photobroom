@@ -23,8 +23,6 @@
 #include <memory>
 #include <deque>
 
-#include "plugins_export.h"
-
 namespace Database
 {
     struct IPlugin;
@@ -33,9 +31,9 @@ namespace Database
 class QObject;
 class QString;
 
-struct PLUGINS_EXPORT IPluginLoader
+struct IPluginLoader
 {
-    virtual ~IPluginLoader() {}
+    virtual ~IPluginLoader();
 
     virtual Database::IPlugin* getDBPlugin(const QString &) = 0;
     virtual const std::deque<Database::IPlugin *>& getDBPlugins() const = 0;
