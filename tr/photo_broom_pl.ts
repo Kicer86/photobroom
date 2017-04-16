@@ -589,6 +589,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
+    <name>TreeItemDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+159"/>
+        <source>(Empty)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../src/main.cpp" line="+46"/>
