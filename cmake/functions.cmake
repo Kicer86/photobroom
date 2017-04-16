@@ -6,7 +6,7 @@
 macro(addTestTarget target)
 
     #get sources
-    set(multiValueArgs SOURCES LIBRARIES)
+    set(multiValueArgs SOURCES LIBRARIES INCLUDES)
     cmake_parse_arguments(T "" "" "${multiValueArgs}" ${ARGN} )
 
     #test_bin_name
@@ -43,6 +43,10 @@ macro(addTestTarget target)
     #link agains test library
     target_link_libraries(${test_bin} PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_ub PRIVATE ${T_LIBRARIES})
+
+    #include dirs
+    target_include_directories(${test_bin} ${T_INCLUDES})
+    target_include_directories(${test_bin}_ub ${T_INCLUDES})
 
     #enable code coverage
     enableCodeCoverage(${test_bin})
