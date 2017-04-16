@@ -28,6 +28,8 @@ class ImagesTreeView;
 
 class TreeItemDelegate: public QAbstractItemDelegate
 {
+        Q_OBJECT
+
     public:
         TreeItemDelegate(QObject * = nullptr);
         TreeItemDelegate(ImagesTreeView *);

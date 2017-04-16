@@ -31,6 +31,7 @@ set(HEADERS
 set(TO_MOC
     images_tree_view.hpp
     view_impl/view_data_set.hpp
+    tree_item_delegate.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
