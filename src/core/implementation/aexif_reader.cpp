@@ -96,11 +96,17 @@ Tag::TagsList AExifReader::feedDateAndTime() const
 
     if (time_splitted.size() == 2)
     {
-        QString date = time_splitted[0];
-        const QString time = time_splitted[1];
+        QString date_raw = time_splitted[0];
+        const QString time_raw = time_splitted[1];
 
-        tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(QDate::fromString(date, "yyyy:MM:dd"));
-        tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(QTime::fromString(time, "hh:mm:ss"));
+        const QDate date = QDate::fromString(date_raw, "yyyy:MM:dd");
+        const QTime time = QTime::fromString(time_raw, "hh:mm:ss");
+
+        if (date.isValid())
+            tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(date);
+
+        if (time.isValid())
+            tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(time);
     }
 
     return tagData;
