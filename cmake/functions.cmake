@@ -14,10 +14,21 @@ macro(addTestTarget target)
 
     #add test executables
     add_executable(${test_bin}_n ${T_SOURCES})
+    add_executable(${test_bin}_addr ${T_SOURCES})
+    add_executable(${test_bin}_thread ${T_SOURCES})
+    add_executable(${test_bin}_leak ${T_SOURCES})
     add_executable(${test_bin}_ub ${T_SOURCES})
-    add_executable(${test_bin}_mem ${T_SOURCES})
 
     # setup proper flags
+    addFlags(${test_bin}_addr COMPILE_FLAGS "-fsanitize=address")
+    addFlags(${test_bin}_addr LINK_FLAGS "-fsanitize=address")
+
+    addFlags(${test_bin}_thread COMPILE_FLAGS "-fsanitize=thread")
+    addFlags(${test_bin}_thread LINK_FLAGS "-fsanitize=thread")
+
+    addFlags(${test_bin}_leak COMPILE_FLAGS "-fsanitize=leak")
+    addFlags(${test_bin}_leak LINK_FLAGS "-fsanitize=leak")
+
     addFlags(${test_bin}_ub COMPILE_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all"
                                           "-fsanitize-undefined-trap-on-error"
                                           "-fsanitize=shift "
@@ -42,32 +53,37 @@ macro(addTestTarget target)
 
     addFlags(${test_bin}_ub LINK_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all")
 
-    addFlags(${test_bin}_mem COMPILE_FLAGS "-fsanitize=leak")
-    addFlags(${test_bin}_mem LINK_FLAGS "-fsanitize=leak")
-
     #link against proper libraries
     target_link_libraries(${test_bin}_n PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_addr PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_thread PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_leak PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_ub PRIVATE ${T_LIBRARIES})
-    target_link_libraries(${test_bin}_mem PRIVATE ${T_LIBRARIES})
 
     #include dirs
     target_include_directories(${test_bin}_n ${T_INCLUDES})
+    target_include_directories(${test_bin}_addr ${T_INCLUDES})
+    target_include_directories(${test_bin}_thread ${T_INCLUDES})
+    target_include_directories(${test_bin}_leak ${T_INCLUDES})
     target_include_directories(${test_bin}_ub ${T_INCLUDES})
-    target_include_directories(${test_bin}_mem ${T_INCLUDES})
 
     #enable code coverage
     enableCodeCoverage(${test_bin}_n)
 
     #add tests
     add_test(${target}_n ${test_bin}_n)
+    add_test(${target}_addr ${test_bin}_addr)
+    add_test(${target}_thread ${test_bin}_thread)
+    add_test(${target}_leak ${test_bin}_leak)
     add_test(${target}_ub ${test_bin}_ub)
-    add_test(${target}_mem ${test_bin}_mem)
 
     add_custom_target(${test_bin}
                         DEPENDS
                             ${test_bin}_n
+                            ${test_bin}_addr
+                            ${test_bin}_thread
+                            ${test_bin}_leak
                             ${test_bin}_ub
-                            ${test_bin}_mem
     )
 
 endmacro(addTestTarget)
