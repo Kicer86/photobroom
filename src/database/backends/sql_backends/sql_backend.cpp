@@ -346,7 +346,11 @@ namespace Database
                 const QString raw_value = query.value(0).toString();
                 const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
 
-                result.push_back(value);
+                // we do not expect empty values (see storeTags())
+                assert(raw_value.isEmpty() == false);
+
+                if (raw_value.isEmpty() == false)
+                    result.push_back(value);
             }
         }
 
