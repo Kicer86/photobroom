@@ -274,20 +274,24 @@ namespace Database
 
                 const QString value = tagValue.rawValue();
 
-                InsertQueryData queryData(TAB_TAGS);
-                queryData.setColumns("value", "photo_id", "name");
-                queryData.setValues(value, photo_id, name_id);
-
-                if (tag_id == -1)
-                    query = m_backend->getGenericQueryGenerator()->insert(db, queryData);
-                else
+                assert(value.isEmpty() == false);
+                if (value.isEmpty() == false)
                 {
-                    UpdateQueryData updateQueryData(queryData);
-                    updateQueryData.setCondition("id", QString::number(tag_id));
-                    query = m_backend->getGenericQueryGenerator()->update(db, updateQueryData);
-                }
+                    InsertQueryData queryData(TAB_TAGS);
+                    queryData.setColumns("value", "photo_id", "name");
+                    queryData.setValues(value, photo_id, name_id);
 
-                status = m_executor.exec(query);
+                    if (tag_id == -1)
+                        query = m_backend->getGenericQueryGenerator()->insert(db, queryData);
+                    else
+                    {
+                        UpdateQueryData updateQueryData(queryData);
+                        updateQueryData.setCondition("id", QString::number(tag_id));
+                        query = m_backend->getGenericQueryGenerator()->update(db, updateQueryData);
+                    }
+
+                    status = m_executor.exec(query);
+                }
 
                 break;
             }
@@ -346,7 +350,7 @@ namespace Database
                 const QString raw_value = query.value(0).toString();
                 const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
 
-                // we do not expect empty values (see storeTags())
+                // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);
 
                 if (raw_value.isEmpty() == false)
@@ -796,7 +800,7 @@ namespace Database
             const TagNameInfo tagName(tagNameType);
             const TagNameInfo::Type tagType = tagName.getType();
 
-            // storing routine doesn't store empty tags (see storeTags())
+            // storing routine doesn't store empty tags (see store() for tags)
             assert(value.isValid() && value.isNull() == false);
             if (value.isValid() == false || value.isNull())
                 continue;
