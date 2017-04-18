@@ -13,7 +13,7 @@ macro(addTestTarget target)
     set(test_bin ${target}_tests)
 
     #add test executables
-    add_executable(${test_bin}_n ${T_SOURCES})
+    add_executable(${test_bin}_base ${T_SOURCES})
     add_executable(${test_bin}_addr ${T_SOURCES})
     add_executable(${test_bin}_thread ${T_SOURCES})
     add_executable(${test_bin}_leak ${T_SOURCES})
@@ -54,24 +54,24 @@ macro(addTestTarget target)
     addFlags(${test_bin}_ub LINK_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all")
 
     #link against proper libraries
-    target_link_libraries(${test_bin}_n PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_base PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_addr PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_thread PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_leak PRIVATE ${T_LIBRARIES})
     target_link_libraries(${test_bin}_ub PRIVATE ${T_LIBRARIES})
 
     #include dirs
-    target_include_directories(${test_bin}_n ${T_INCLUDES})
+    target_include_directories(${test_bin}_base ${T_INCLUDES})
     target_include_directories(${test_bin}_addr ${T_INCLUDES})
     target_include_directories(${test_bin}_thread ${T_INCLUDES})
     target_include_directories(${test_bin}_leak ${T_INCLUDES})
     target_include_directories(${test_bin}_ub ${T_INCLUDES})
 
     #enable code coverage
-    enableCodeCoverage(${test_bin}_n)
+    enableCodeCoverage(${test_bin}_base)
 
     #add tests
-    add_test(${target}_n ${test_bin}_n)
+    add_test(${target}_base ${test_bin}_base)
     add_test(${target}_addr ${test_bin}_addr)
     add_test(${target}_thread ${test_bin}_thread)
     add_test(${target}_leak ${test_bin}_leak)
@@ -79,7 +79,7 @@ macro(addTestTarget target)
 
     add_custom_target(${test_bin}
                         DEPENDS
-                            ${test_bin}_n
+                            ${test_bin}_base
                             ${test_bin}_addr
                             ${test_bin}_thread
                             ${test_bin}_leak
