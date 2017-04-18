@@ -792,6 +792,11 @@ namespace Database
             const TagNameInfo tagName(tagNameType);
             const TagNameInfo::Type tagType = tagName.getType();
 
+            // storing routine doesn't store empty tags (see storeTags())
+            assert(value.isValid() && value.isNull() == false);
+            if (value.isValid() == false || value.isNull())
+                continue;
+
             TagValue tagValue;
 
             switch(tagType)
