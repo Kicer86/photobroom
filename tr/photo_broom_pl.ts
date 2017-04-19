@@ -576,6 +576,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
+    <name>TagEditorWidget</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/tag_editor/tag_editor_widget.cpp" line="+179"/>
+        <source>Cannot add empty value.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+132"/>

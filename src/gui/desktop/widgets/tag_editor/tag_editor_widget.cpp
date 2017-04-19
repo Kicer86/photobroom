@@ -30,6 +30,7 @@
 
 #include "helpers/tags_view.hpp"
 #include "helpers/tags_model.hpp"
+#include "info_widget.hpp"
 
 
 TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
@@ -42,6 +43,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_addButton(nullptr),
     m_tagValueContainer(nullptr),
     m_tagValueWidget(nullptr),
+    m_hint(nullptr),
     m_tagValueProp(),
     m_tags()
 {
@@ -50,9 +52,13 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagName = new QComboBox(this);
     m_addButton = new QPushButton(QIcon(":/gui/add.svg"), "", this);
     m_tagValueContainer = new QWidget(this);
+    m_hint = new InfoBaloonWidget(this);
 
     m_view->setModel(m_model);
     m_model->set(&m_tagsOperator);
+    m_hint->hide();
+    m_hint->enableAnimations(true);
+    m_hint->autoHide(true);
 
     new QHBoxLayout(m_tagValueContainer);
 
@@ -63,6 +69,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
 
     QVBoxLayout* l = new QVBoxLayout(this);
     l->addWidget(m_view);
+    l->addWidget(m_hint);
     l->addLayout(hl);
 
     connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
@@ -160,9 +167,18 @@ void TagEditorWidget::addButtonPressed()
 
     const QVariant valueRaw = m_tagValueWidget->property(m_tagValueProp);
     const TagValue value = TagValue::fromQVariant(valueRaw);
-    const TagNameInfo& name = m_tags[index];
 
-    m_model->addTag(name, value);
+    if (value.rawValue().isEmpty() == false)
+    {
+        const TagNameInfo& name = m_tags[index];
+
+        m_model->addTag(name, value);
+    }
+    else
+    {
+        m_hint->setText(tr("Cannot add empty value."));
+        m_hint->show();
+    }
 }
 
 

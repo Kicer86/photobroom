@@ -31,9 +31,10 @@ class QComboBox;
 class QLineEdit;
 class QPushButton;
 
+class InfoBaloonWidget;
+class DBDataModel;
 class TagsView;
 class TagsModel;
-class DBDataModel;
 
 namespace Database
 {
@@ -67,6 +68,7 @@ class TagEditorWidget: public QWidget
         QPushButton* m_addButton;
         QWidget* m_tagValueContainer;
         QWidget* m_tagValueWidget;
+        InfoBaloonWidget* m_hint;
         QByteArray m_tagValueProp;
 
         std::vector<TagNameInfo> m_tags;
