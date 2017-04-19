@@ -19,10 +19,12 @@
 
 #include "info_widget.hpp"
 
-
+#include <QPropertyAnimation>
 #include <QVBoxLayout>
 
-InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget): QLabel(parent_widget)
+InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget):
+    QLabel(parent_widget),
+    m_animated(false)
 {
     setMargin(4);
     setFrameStyle(NoFrame);
@@ -42,4 +44,30 @@ InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget): QLabel(parent_widget
 InfoBaloonWidget::~InfoBaloonWidget()
 {
 
+}
+
+
+void InfoBaloonWidget::enableAnimations(bool animate)
+{
+    m_animated = animate;
+}
+
+
+void InfoBaloonWidget::showEvent(QShowEvent* event)
+{
+    if (m_animated)
+    {
+        const QSize sizeHint = this->sizeHint();
+
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "maximumHeight");
+        animation->setDuration(100);
+        animation->setStartValue(0);
+        animation->setEndValue(sizeHint.height());
+
+        animation->start();
+
+        connect(animation, &QAbstractAnimation::finished, animation, &QObject::deleteLater);
+    }
+
+    QLabel::showEvent(event);
 }

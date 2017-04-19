@@ -30,6 +30,14 @@ class InfoBaloonWidget: public QLabel
         ~InfoBaloonWidget();
 
         InfoBaloonWidget& operator=(const InfoBaloonWidget &) = delete;
+
+        void enableAnimations(bool);
+
+        // QWidget:
+        void showEvent(QShowEvent * event) override;
+
+    private:
+        bool m_animated;
 };
 
 #endif // INFOWIDGET_HPP
