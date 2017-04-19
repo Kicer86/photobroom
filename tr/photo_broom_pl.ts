@@ -580,7 +580,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/widgets/tag_editor/tag_editor_widget.cpp" line="+179"/>
         <source>Cannot add empty value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wprowadzić pustej wartości.</translation>
     </message>
 </context>
 <context>
