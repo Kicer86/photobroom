@@ -73,6 +73,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     l->addLayout(hl);
 
     connect(m_model, SIGNAL(modelChanged(bool)), this, SLOT(refreshTagNamesList(bool)));
+    connect(m_model, &TagsModel::emptyValueError, this, &TagEditorWidget::emptyValueError);
     connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addButtonPressed()));
     connect(m_tagName, SIGNAL(currentIndexChanged(int)), this, SLOT( tagNameChanged(int) ));
 
@@ -175,10 +176,7 @@ void TagEditorWidget::addButtonPressed()
         m_model->addTag(name, value);
     }
     else
-    {
-        m_hint->setText(tr("Cannot add empty value."));
-        m_hint->show();
-    }
+        emptyValueError();
 }
 
 
@@ -186,4 +184,11 @@ void TagEditorWidget::tagNameChanged(int idx)
 {
     if (idx >= 0)
         setTagValueWidget( static_cast<size_t>(idx) );
+}
+
+
+void TagEditorWidget::emptyValueError()
+{
+    m_hint->setText(tr("Cannot add empty value."));
+    m_hint->show();
 }

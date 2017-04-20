@@ -61,7 +61,8 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
 
     m_selectionModel = selectionModel;
     connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(refreshModel(QItemSelection, const QItemSelection &)));
-    connect(this, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(updateData(QModelIndex,QModelIndex)));
+    connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
+    connect(this, &TagsModel::emptyValueError, this, static_cast<void (TagsModel::*)()>(&TagsModel::refreshModel), Qt::QueuedConnection);   // refresh model on problems
 
     refreshModel();
 }
@@ -139,10 +140,12 @@ void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
 }
 
 
-void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottomRight)
+void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
     const QItemSelection items(topLeft, bottomRight);
     const QModelIndexList itemsList(items.indexes());
+
+    bool update_failed = false;
 
     for (const QModelIndex& itemIndex: itemsList)
     {
@@ -155,7 +158,13 @@ void TagsModel::updateData(const QModelIndex& topLeft, const QModelIndex& bottom
             const QVariant valueRaw = itemIndex.data();
             const TagValue value = TagValue::fromQVariant(valueRaw);
 
-            m_tagsOperator->updateTag(tagName, value);
+            if (value.rawValue().isEmpty())
+                update_failed = true;
+            else
+                m_tagsOperator->updateTag(tagName, value);
         }
     }
+
+    if (update_failed)
+        emit emptyValueError();
 }
