@@ -66,10 +66,11 @@ class TagsModel: public QStandardItemModel
 
     private slots:
         void refreshModel(const QItemSelection &, const QItemSelection &);
-        void updateData(const QModelIndex &, const QModelIndex &);
+        void syncData(const QModelIndex &, const QModelIndex &);
 
     signals:
         void modelChanged(bool);
+        void emptyValueError();
 };
 
 #endif // TAGSMODEL_HPP

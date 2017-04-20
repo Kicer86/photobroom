@@ -19,10 +19,16 @@
 
 #include "info_widget.hpp"
 
-
+#include <QHideEvent>
+#include <QPropertyAnimation>
 #include <QVBoxLayout>
 
-InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget): QLabel(parent_widget)
+
+InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget):
+    QLabel(parent_widget),
+    m_animationSpeed(100),
+    m_animated(false),
+    m_autoHide(false)
 {
     setMargin(4);
     setFrameStyle(NoFrame);
@@ -42,4 +48,68 @@ InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget): QLabel(parent_widget
 InfoBaloonWidget::~InfoBaloonWidget()
 {
 
+}
+
+
+void InfoBaloonWidget::enableAnimations(bool animate)
+{
+    m_animated = animate;
+}
+
+
+void InfoBaloonWidget::autoHide(bool h)
+{
+    m_autoHide = h;
+}
+
+
+void InfoBaloonWidget::hide()
+{
+    if (m_animated)
+    {
+        const int currentMax = this->maximumHeight();
+
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "maximumHeight");
+        animation->setDuration(m_animationSpeed);
+        animation->setStartValue(currentMax);
+        animation->setEndValue(0);
+
+        animation->start();
+
+        connect(animation, &QAbstractAnimation::finished, animation, &QObject::deleteLater);
+        connect(animation, &QAbstractAnimation::finished, this, &QLabel::hide);
+    }
+    else
+        QLabel::hide();
+}
+
+
+void InfoBaloonWidget::focusOutEvent(QFocusEvent* event)
+{
+    if (m_autoHide)
+        this->hide();
+
+    QLabel::focusOutEvent(event);
+}
+
+
+void InfoBaloonWidget::showEvent(QShowEvent* event)
+{
+    if (m_animated)
+    {
+        const QSize sizeHint = this->sizeHint();
+
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "maximumHeight");
+        animation->setDuration(m_animationSpeed);
+        animation->setStartValue(0);
+        animation->setEndValue(sizeHint.height());
+
+        animation->start();
+
+        connect(animation, &QAbstractAnimation::finished, animation, &QObject::deleteLater);
+
+        setFocus();
+    }
+
+    QLabel::showEvent(event);
 }

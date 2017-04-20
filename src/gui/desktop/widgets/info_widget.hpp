@@ -30,6 +30,20 @@ class InfoBaloonWidget: public QLabel
         ~InfoBaloonWidget();
 
         InfoBaloonWidget& operator=(const InfoBaloonWidget &) = delete;
+
+        void enableAnimations(bool);
+        void autoHide(bool);
+
+        void hide();
+
+        // QWidget:
+        void focusOutEvent(QFocusEvent *) override;
+        void showEvent(QShowEvent *) override;
+
+    private:
+        int m_animationSpeed;
+        bool m_animated;
+        bool m_autoHide;
 };
 
 #endif // INFOWIDGET_HPP
