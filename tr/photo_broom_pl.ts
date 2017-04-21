@@ -358,7 +358,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+1"/>
         <source>Open photo location</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
         <location line="+159"/>
