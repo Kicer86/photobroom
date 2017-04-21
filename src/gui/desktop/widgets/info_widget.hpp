@@ -22,14 +22,14 @@
 
 #include <QLabel>
 
-class InfoBaloonWidget: public QLabel
+class InfoBalloonWidget: public QLabel
 {
     public:
-        InfoBaloonWidget(QWidget* parent = nullptr);
-        InfoBaloonWidget(const InfoBaloonWidget &) = delete;
-        ~InfoBaloonWidget();
+        InfoBalloonWidget (QWidget* parent = nullptr);
+        InfoBalloonWidget (const InfoBalloonWidget &) = delete;
+        ~InfoBalloonWidget();
 
-        InfoBaloonWidget& operator=(const InfoBaloonWidget &) = delete;
+        InfoBalloonWidget& operator=(const InfoBalloonWidget &) = delete;
 
         void enableAnimations(bool);
         void autoHide(bool);

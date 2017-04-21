@@ -209,7 +209,7 @@ DBDataModel* PhotosWidget::getModel() const
 }
 
 
-void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
+void PhotosWidget::setBottomHintWidget( InfoBalloonWidget* hintWidget)
 {
     if (m_bottomHintLayout->count() > 0)
     {

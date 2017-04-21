@@ -486,7 +486,7 @@ void MainWindow::setupNewPhotosView()
 
     m_newImagesModel->setStaticFilters(newPhotosFilters);
 
-    InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
+    InfoBalloonWidget* hint = new InfoBalloonWidget (ui->imagesView);
     const QString message = tr("Above you can view new photos and describe them.");
     const QString link = tr("You can click here when you are done to mark photos as reviewed.");
     hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );

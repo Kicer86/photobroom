@@ -33,7 +33,7 @@ class QVBoxLayout;
 class DBDataModel;
 class PhotosItemDelegate;
 class MultiValueLineEdit;
-class InfoBaloonWidget;
+class InfoBalloonWidget;
 struct ImagesTreeView;
 
 struct ICompleterFactory;
@@ -63,7 +63,7 @@ class PhotosWidget: public QWidget
         QItemSelectionModel* viewSelectionModel() const;
         DBDataModel* getModel() const;
 
-        void setBottomHintWidget(InfoBaloonWidget *);
+        void setBottomHintWidget( InfoBalloonWidget *);
 
     private:
         QTimer m_timer;

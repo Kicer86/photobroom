@@ -24,7 +24,7 @@
 #include <QVBoxLayout>
 
 
-InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget):
+InfoBalloonWidget::InfoBalloonWidget (QWidget* parent_widget):
     QLabel(parent_widget),
     m_animationSpeed(100),
     m_animated(false),
@@ -45,25 +45,25 @@ InfoBaloonWidget::InfoBaloonWidget(QWidget* parent_widget):
 }
 
 
-InfoBaloonWidget::~InfoBaloonWidget()
+InfoBalloonWidget::~InfoBalloonWidget()
 {
 
 }
 
 
-void InfoBaloonWidget::enableAnimations(bool animate)
+void InfoBalloonWidget::enableAnimations(bool animate)
 {
     m_animated = animate;
 }
 
 
-void InfoBaloonWidget::autoHide(bool h)
+void InfoBalloonWidget::autoHide(bool h)
 {
     m_autoHide = h;
 }
 
 
-void InfoBaloonWidget::hide()
+void InfoBalloonWidget::hide()
 {
     if (m_animated)
     {
@@ -84,7 +84,7 @@ void InfoBaloonWidget::hide()
 }
 
 
-void InfoBaloonWidget::focusOutEvent(QFocusEvent* event)
+void InfoBalloonWidget::focusOutEvent(QFocusEvent* event)
 {
     if (m_autoHide)
         this->hide();
@@ -93,7 +93,7 @@ void InfoBaloonWidget::focusOutEvent(QFocusEvent* event)
 }
 
 
-void InfoBaloonWidget::showEvent(QShowEvent* event)
+void InfoBalloonWidget::showEvent(QShowEvent* event)
 {
     if (m_animated)
     {
