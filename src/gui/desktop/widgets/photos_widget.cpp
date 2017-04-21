@@ -24,7 +24,6 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QLayoutItem>
-#include <QContextMenuEvent>
 
 #include <configuration/iconfiguration.hpp>
 #include <core/ilogger.hpp>

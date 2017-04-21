@@ -4,9 +4,10 @@
 #include <functional>
 
 #include <QCloseEvent>
-#include <QMenuBar>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QLayout>
+#include <QMenuBar>
 #include <QMessageBox>
 #include <QPainter>
 #include <QTimer>
@@ -516,6 +517,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
+    QAction* location    = contextMenu.addAction(tr("Open photo location"));
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
@@ -544,6 +546,21 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             model->group(photos_ids, internalPathDecorated);
         }
     }
+    else if (chosenAction == location)
+    {
+        if (photos.empty() == false)
+        {
+            const IPhotoInfo::Ptr& first = photos.front();
+            const QString relative_path = first->getPath();
+            const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+            const QFileInfo photoFileInfo(absolute_path);
+            const QString file_dir = photoFileInfo.path();
+
+            QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+        }
+    }
+    else
+        assert(!"Huh?");
 }
 
 
