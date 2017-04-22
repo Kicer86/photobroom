@@ -32,27 +32,34 @@
 
 namespace FunctorCallConsumer
 {
-    CORE_EXPORT QObject * forThread(QThread*);
+    CORE_EXPORT QObject * forThread(QThread *);
 }
 
 
 template<typename T>
-void call_from_this_thread(QObject* object, const T& functor, Qt::ConnectionType type = Qt::AutoConnection)
+void call_from_this_thread(QObject* object, const T& functor)
 {
     QObject signalSource;
     QObject::connect(&signalSource, &QObject::destroyed,
-                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ functor(); }, type);
+                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ functor(); }, Qt::AutoConnection);
 }
 
 
 template<typename... Args>
-std::function<void(Args...)> make_cross_thread_function(QObject* object, const std::function<void(Args...)>& function, Qt::ConnectionType type = Qt::AutoConnection)
+void call_from_this_thread(QObject* object, const std::function<void(Args...)>& function, Args&&... args)
 {
-    std::function<void(Args...)> result = [=](Args... args)
+    QObject signalSource;
+    QObject::connect(&signalSource, &QObject::destroyed,
+                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); }, Qt::AutoConnection);
+}
+
+
+template<typename... Args>
+std::function<void(Args...)> make_cross_thread_function(QObject* object, const std::function<void(Args...)>& function)
+{
+    std::function<void(Args...)> result = [=](Args&&... args)
     {
-        QObject signalSource;
-        QObject::connect(&signalSource, &QObject::destroyed,
-                         FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); }, type);
+        call_from_this_thread(object, function, args...);
     };
 
     return result;
