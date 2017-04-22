@@ -48,9 +48,7 @@ void call_from_this_thread(QObject* object, const T& functor)
 template<typename... Args>
 void call_from_this_thread(QObject* object, const std::function<void(Args...)>& function, Args&&... args)
 {
-    QObject signalSource;
-    QObject::connect(&signalSource, &QObject::destroyed,
-                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); }, Qt::AutoConnection);
+    call_from_this_thread(object, std::bind(function, args...));
 }
 
 
