@@ -239,7 +239,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Operacje</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -321,7 +321,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-152"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-158"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
