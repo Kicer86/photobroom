@@ -48,7 +48,7 @@ void call_from_this_thread(QObject* object, const T& functor)
 template<typename... Args>
 void call_from_this_thread(QObject* object, const std::function<void(Args...)>& function, Args&&... args)
 {
-    call_from_this_thread(object, std::bind(function, args...));
+    call_from_this_thread(object, std::bind(function, std::forward<Args>(args)...));
 }
 
 
@@ -57,7 +57,7 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const s
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
-        call_from_this_thread(object, function, args...);
+        call_from_this_thread(object, function, std::forward<Args>(args)...);
     };
 
     return result;
