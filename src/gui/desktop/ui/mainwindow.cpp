@@ -66,6 +66,7 @@ namespace
 
 
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
+    m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
