@@ -42,7 +42,7 @@ set(HEADERS
     tag_editor/helpers/tags_operator.hpp
     tag_editor/helpers/tags_view.hpp
     tag_editor/helpers/tags_model.hpp
-    )
+)
 
 #set of file to be moced
 set(TO_MOC
