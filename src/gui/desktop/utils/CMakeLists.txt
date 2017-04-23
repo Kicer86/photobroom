@@ -15,7 +15,7 @@ set(UTILS_SOURCES
     thumbnail_acquisitor.cpp
     thumbnail_generator.cpp
     variant_display.cpp
-    )
+)
 
 set(UTILS_HEADERS
     config_tools.hpp
@@ -33,6 +33,7 @@ set(UTILS_HEADERS
 
 set(UTILS_FILES_TO_MOC
     photos_collector.hpp
+    selection_extractor.hpp
     signal_filter.hpp
 )
 

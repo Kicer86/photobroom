@@ -28,8 +28,10 @@ class QItemSelectionModel;
 
 class DBDataModel;
 
-class SelectionExtractor final
+class SelectionExtractor final: public QObject
 {
+        Q_OBJECT
+
     public:
         SelectionExtractor();
         ~SelectionExtractor();
@@ -45,6 +47,9 @@ class SelectionExtractor final
     private:
         QItemSelectionModel* m_selectionModel;
         DBDataModel* m_photosModel;
+
+    signals:
+        void selectionChanged();
 };
 
 #endif // SELECTIONEXTRACTOR_HPP
