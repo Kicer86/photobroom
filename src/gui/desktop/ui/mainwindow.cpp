@@ -35,7 +35,6 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
-#include "utils/selection_extractor.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
 #include "ui/photos_grouping_dialog.hpp"
@@ -507,13 +506,7 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
 
 void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 {
-    DBDataModel* model = photosView->getModel();
-
-    SelectionExtractor selectionExtractor;
-    selectionExtractor.set(photosView->viewSelectionModel());
-    selectionExtractor.set(model);
-
-    const std::vector<IPhotoInfo::Ptr> photos = selectionExtractor.getSelection();
+    const std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
 
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
@@ -543,6 +536,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
 
+            DBDataModel* model = photosView->getModel();
             model->group(photos_ids, internalPathDecorated);
         }
     }
@@ -760,6 +754,9 @@ void MainWindow::viewChanged(int current)
             break;
     }
 
-    ui->tagEditor->set( selectionModel );
-    ui->tagEditor->set( dataModel );
+    ui->tagEditor->set(selectionModel);
+    ui->tagEditor->set(dataModel);
+
+    m_selectionExtractor.set(selectionModel);
+    m_selectionExtractor.set(dataModel);
 }
