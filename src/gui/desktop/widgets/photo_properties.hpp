@@ -46,6 +46,7 @@ class PhotoProperties: public QWidget
         void set(const SelectionExtractor *);
 
     private:
+        const std::vector<QString> m_units;
         const SelectionExtractor* m_selectionExtractor;
         QLabel* m_locationLabel;
         QLabel* m_sizeLabel;
@@ -57,6 +58,7 @@ class PhotoProperties: public QWidget
         void refreshValues(const std::vector<IPhotoInfo::Ptr> &) const;
 
         QString pathToPrjRelative(const QString &) const;
+        QString sizeHuman(int) const;
 };
 
 #endif // PHOTOPROPERTIES_HPP

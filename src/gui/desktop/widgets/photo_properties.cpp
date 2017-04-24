@@ -45,11 +45,13 @@ namespace
 
         return result;
     }
+
 }
 
 
 PhotoProperties::PhotoProperties(QWidget* p):
     QWidget(p),
+    m_units({tr("bytes"), tr("kB"), tr("MB"), tr("GB")}),
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
@@ -109,6 +111,17 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
 {
     const std::size_t s = photos.size();
 
+    // calcualte photos size
+    std::size_t size = 0;
+    for(std::size_t i = 0; i < s; i++)
+    {
+        const QFileInfo info(photos[i]->getPath());
+        size += info.size();
+    }
+
+    const QString size_human = sizeHuman(size);
+
+    // handle various cases
     if (s == 0)
     {
         m_locationValue->setText("---");
@@ -118,30 +131,25 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     {
         const QString filePath = photos.front()->getPath();
         const QString relativePath = pathToPrjRelative(filePath);
-        const QFileInfo info(filePath);
 
+        // update values
         m_locationValue->setText(relativePath);
-        m_sizeValue->setText(QString::number(info.size()));
+        m_sizeValue->setText(size_human);
     }
     else
     {
+        // 'merge' paths
         QString result = photos.front()->getPath();
 
-        for(std::size_t i = 1; i < photos.size(); i++)
+        for(std::size_t i = 1; i < s; i++)
             result = common(result, photos[i]->getPath());
 
         const QString relative = pathToPrjRelative(result);
         const QString decorated = relative + "...";
 
-        std::size_t size = 0;
-        for(std::size_t i = 0; i < photos.size(); i++)
-        {
-            const QFileInfo info(photos[i]->getPath());
-            size += info.size();
-        }
-
+        // update values
         m_locationValue->setText(decorated);
-        m_sizeValue->setText(QString::number(size));
+        m_sizeValue->setText(size_human);
     }
 }
 
@@ -151,5 +159,19 @@ QString PhotoProperties::pathToPrjRelative(const QString& path) const
     assert(path.left(5) == "prj:/");
 
     const QString result = path.mid(5);
+    return result;
+}
+
+
+QString PhotoProperties::sizeHuman(int size) const
+{
+    double sizeD = size;
+
+    int i = 0;
+    for(; i < 4 && sizeD > 1024; i++)
+        sizeD /= 1024.0;
+
+    const QString result = QString("%1 %2").arg(sizeD, 0, 'f', 2).arg(m_units[i]);
+
     return result;
 }
