@@ -20,6 +20,7 @@
 
 #include "photo_properties.hpp"
 
+#include <QFileInfo>
 #include <QGridLayout>
 #include <QLabel>
 
@@ -51,12 +52,16 @@ PhotoProperties::PhotoProperties(QWidget* p):
     QWidget(p),
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
-    m_locationValue(new QLabel(this))
+    m_sizeLabel(new QLabel(this)),
+    m_locationValue(new QLabel(this)),
+    m_sizeValue(new QLabel(this))
 {
     QGridLayout* l = new QGridLayout(this);
 
     l->addWidget(m_locationLabel, 0, 0);
+    l->addWidget(m_sizeLabel, 1, 0);
     l->addWidget(m_locationValue, 0, 1);
+    l->addWidget(m_sizeValue, 1, 1);
 }
 
 
@@ -88,9 +93,15 @@ void PhotoProperties::refreshLabels(const std::vector<IPhotoInfo::Ptr>& photos) 
     const std::size_t s = photos.size();
 
     if (s < 2)
+    {
         m_locationLabel->setText(tr("Photo location:"));
+        m_sizeLabel->setText(tr("Photo size:"));
+    }
     else
+    {
         m_locationLabel->setText(tr("Photos location:"));
+        m_sizeLabel->setText(tr("Photos size:"));
+    }
 }
 
 
@@ -99,11 +110,18 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     const std::size_t s = photos.size();
 
     if (s == 0)
+    {
         m_locationValue->setText("---");
+        m_sizeValue->setText("---");
+    }
     else if (s == 1)
     {
-        const QString relativePath = pathToPrjRelative(photos.front()->getPath());
+        const QString filePath = photos.front()->getPath();
+        const QString relativePath = pathToPrjRelative(filePath);
+        const QFileInfo info(filePath);
+
         m_locationValue->setText(relativePath);
+        m_sizeValue->setText(QString::number(info.size()));
     }
     else
     {
@@ -114,7 +132,16 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
 
         const QString relative = pathToPrjRelative(result);
         const QString decorated = relative + "...";
+
+        std::size_t size = 0;
+        for(std::size_t i = 0; i < photos.size(); i++)
+        {
+            const QFileInfo info(photos[i]->getPath());
+            size += info.size();
+        }
+
         m_locationValue->setText(decorated);
+        m_sizeValue->setText(QString::number(size));
     }
 }
 
