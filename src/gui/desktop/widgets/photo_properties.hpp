@@ -34,6 +34,8 @@ struct APhotoInfoModel;
 
 class PhotoProperties: public QWidget
 {
+        Q_OBJECT
+
     public:
         PhotoProperties(QWidget * = nullptr);
         PhotoProperties(const PhotoProperties &) = delete;
@@ -41,16 +43,18 @@ class PhotoProperties: public QWidget
 
         PhotoProperties& operator=(const PhotoProperties &) = delete;
 
-        void set(SelectionExtractor *);
+        void set(const SelectionExtractor *);
 
     private:
-        SelectionExtractor* m_selectionExtractor;
+        const SelectionExtractor* m_selectionExtractor;
         QLabel* m_locationLabel;
         QLabel* m_locationValue;
 
-        void refreshView();
+        void refreshView() const;
         void refreshLabels(const std::vector<IPhotoInfo::Ptr> &) const;
         void refreshValues(const std::vector<IPhotoInfo::Ptr> &) const;
+
+        QString pathToPrjRelative(const QString &) const;
 };
 
 #endif // PHOTOPROPERTIES_HPP

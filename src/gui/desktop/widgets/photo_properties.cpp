@@ -20,10 +20,31 @@
 
 #include "photo_properties.hpp"
 
-#include <QLabel>
 #include <QGridLayout>
+#include <QLabel>
+
 
 #include "utils/selection_extractor.hpp"
+
+
+namespace
+{
+    QString common(const QString& s1, const QString& s2)
+    {
+        int p = 0;
+        for(int i = 0; i < std::min(s1.length(), s2.length()); i++)
+        {
+            if (s1[i] == s2[i])
+                p = i + 1;
+            else
+                break;
+        }
+
+        const QString result = s1.left(p);
+
+        return result;
+    }
+}
 
 
 PhotoProperties::PhotoProperties(QWidget* p):
@@ -45,7 +66,7 @@ PhotoProperties::~PhotoProperties()
 }
 
 
-void PhotoProperties::set(SelectionExtractor* selection)
+void PhotoProperties::set(const SelectionExtractor* selection)
 {
     m_selectionExtractor = selection;
 
@@ -53,7 +74,7 @@ void PhotoProperties::set(SelectionExtractor* selection)
 }
 
 
-void PhotoProperties::refreshView()
+void PhotoProperties::refreshView() const
 {
     std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor->getSelection();
 
@@ -80,9 +101,28 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     if (s == 0)
         m_locationValue->setText("---");
     else if (s == 1)
-        m_locationValue->setText(photos.front()->getPath());
+    {
+        const QString relativePath = pathToPrjRelative(photos.front()->getPath());
+        m_locationValue->setText(relativePath);
+    }
     else
     {
-        m_locationValue->setText(photos.front()->getPath());
+        QString result = photos.front()->getPath();
+
+        for(std::size_t i = 1; i < photos.size(); i++)
+            result = common(result, photos[i]->getPath());
+
+        const QString relative = pathToPrjRelative(result);
+        const QString decorated = relative + "...";
+        m_locationValue->setText(decorated);
     }
+}
+
+
+QString PhotoProperties::pathToPrjRelative(const QString& path) const
+{
+    assert(path.left(5) == "prj:/");
+
+    const QString result = path.mid(5);
+    return result;
 }

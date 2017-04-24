@@ -48,11 +48,12 @@ set(HEADERS
 set(TO_MOC
     collection_dir_scan_dialog.hpp
     filters_editor/level_editor.hpp
+    photo_properties.hpp
     photos_widget.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp
-    )
+)
 
 source_group(files .*)
 source_group(filters_editor .*\/filters_editor\/.* )
