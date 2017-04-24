@@ -1,3 +1,4 @@
+
 /*
  * Widget for photo properties
  * Copyright (C) 2017  Michał Walenciak <Kicer86@gmail.com>
@@ -22,15 +23,34 @@
 
 #include <QWidget>
 
-class PhotoProperties : public QWidget
+#include <database/iphoto_info.hpp>
+
+class QLabel;
+class QStackedLayout;
+
+class SelectionExtractor;
+struct APhotoInfoModel;
+
+
+class PhotoProperties: public QWidget
 {
     public:
-        PhotoProperties();
+        PhotoProperties(QWidget * = nullptr);
         PhotoProperties(const PhotoProperties &) = delete;
         ~PhotoProperties();
 
         PhotoProperties& operator=(const PhotoProperties &) = delete;
 
+        void set(SelectionExtractor *);
+
+    private:
+        SelectionExtractor* m_selectionExtractor;
+        QLabel* m_locationLabel;
+        QLabel* m_locationValue;
+
+        void refreshView();
+        void refreshLabels(const std::vector<IPhotoInfo::Ptr> &) const;
+        void refreshValues(const std::vector<IPhotoInfo::Ptr> &) const;
 };
 
 #endif // PHOTOPROPERTIES_HPP

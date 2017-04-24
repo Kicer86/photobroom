@@ -299,7 +299,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+242"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+244"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -435,6 +435,19 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
+    </message>
+</context>
+<context>
+    <name>PhotoProperties</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+70"/>
+        <source>Photo location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Photos location:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

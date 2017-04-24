@@ -20,14 +20,69 @@
 
 #include "photo_properties.hpp"
 
+#include <QLabel>
+#include <QGridLayout>
 
-PhotoProperties::PhotoProperties()
+#include "utils/selection_extractor.hpp"
+
+
+PhotoProperties::PhotoProperties(QWidget* p):
+    QWidget(p),
+    m_selectionExtractor(nullptr),
+    m_locationLabel(new QLabel(this)),
+    m_locationValue(new QLabel(this))
 {
+    QGridLayout* l = new QGridLayout(this);
 
+    l->addWidget(m_locationLabel, 0, 0);
+    l->addWidget(m_locationValue, 0, 1);
 }
 
 
 PhotoProperties::~PhotoProperties()
 {
 
+}
+
+
+void PhotoProperties::set(SelectionExtractor* selection)
+{
+    m_selectionExtractor = selection;
+
+    connect(m_selectionExtractor, &SelectionExtractor::selectionChanged, this, &PhotoProperties::refreshView);
+}
+
+
+void PhotoProperties::refreshView()
+{
+    std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor->getSelection();
+
+    refreshLabels(photos);
+    refreshValues(photos);
+}
+
+
+void PhotoProperties::refreshLabels(const std::vector<IPhotoInfo::Ptr>& photos) const
+{
+    const std::size_t s = photos.size();
+
+    if (s < 2)
+        m_locationLabel->setText(tr("Photo location:"));
+    else
+        m_locationLabel->setText(tr("Photos location:"));
+}
+
+
+void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) const
+{
+    const std::size_t s = photos.size();
+
+    if (s == 0)
+        m_locationValue->setText("---");
+    else if (s == 1)
+        m_locationValue->setText(photos.front()->getPath());
+    else
+    {
+        m_locationValue->setText(photos.front()->getPath());
+    }
 }

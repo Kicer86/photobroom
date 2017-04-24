@@ -104,6 +104,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
+
+    ui->photoPropertiesWidget->set(&m_selectionExtractor);
 }
 
 
