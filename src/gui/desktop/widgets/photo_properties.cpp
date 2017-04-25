@@ -51,7 +51,6 @@ namespace
 
 PhotoProperties::PhotoProperties(QWidget* p):
     QWidget(p),
-    m_units({tr("bytes"), tr("kB"), tr("MB"), tr("GB")}),
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
@@ -165,13 +164,18 @@ QString PhotoProperties::pathToPrjRelative(const QString& path) const
 
 QString PhotoProperties::sizeHuman(int size) const
 {
-    double sizeD = size;
-
     int i = 0;
-    for(; i < 4 && sizeD > 1024; i++)
-        sizeD /= 1024.0;
+    for(; i < 4 && size > 1024; i++)
+        size /= 1024.0;
 
-    const QString result = QString("%1 %2").arg(sizeD, 0, 'f', 2).arg(m_units[i]);
+    QString units;
+    switch (i)
+    {
+        case 0:  units = tr("%n byte(s)",  "", size); break;
+        case 1:  units = tr("%n kbyte(s)", "", size); break;
+        case 2:  units = tr("%n Mbyte(s)", "", size); break;
+        default: units = tr("%n Gbyte(s)", "", size); break;
+    }
 
-    return result;
+    return units;
 }

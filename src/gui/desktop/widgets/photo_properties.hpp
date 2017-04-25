@@ -46,7 +46,6 @@ class PhotoProperties: public QWidget
         void set(const SelectionExtractor *);
 
     private:
-        const std::vector<QString> m_units;
         const SelectionExtractor* m_selectionExtractor;
         QLabel* m_locationLabel;
         QLabel* m_sizeLabel;
