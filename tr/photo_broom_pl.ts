@@ -440,44 +440,60 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoProperties</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+54"/>
-        <source>bytes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>kB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>MB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>GB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+45"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+98"/>
         <source>Photo location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka do zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar zdjęcia:</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Photos location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka do zdjęć:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photos size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar zdjęć:</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+70"/>
+        <source>%n byte(s)</source>
+        <translation>
+            <numerusform>%n bajt</numerusform>
+            <numerusform>%n bajty</numerusform>
+            <numerusform>%n bajtów</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>%n kbyte(s)</source>
+        <translation>
+            <numerusform>%n kbajt</numerusform>
+            <numerusform>%n kbajty</numerusform>
+            <numerusform>%n kbajtów</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>%n Mbyte(s)</source>
+        <translation>
+            <numerusform>%n Mbajt</numerusform>
+            <numerusform>%n Mbajty</numerusform>
+            <numerusform>%n Mbajtów</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>%n Gbyte(s)</source>
+        <translation>
+            <numerusform>%n Gbajt</numerusform>
+            <numerusform>%n Gbajty</numerusform>
+            <numerusform>%n Gbajtów</numerusform>
+        </translation>
     </message>
 </context>
 <context>
