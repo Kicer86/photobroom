@@ -229,17 +229,22 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
+        <location line="+21"/>
+        <source>Photo &amp;information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Tasks</source>
-        <translation>Operacje</translation>
+        <source>&amp;Tasks</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+9"/>
+        <source>Photo p&amp;roperties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -299,7 +304,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+244"/>
+        <location line="+8"/>
+        <source>&amp;Photo properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+245"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -321,12 +331,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-158"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-170"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+135"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+136"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -361,7 +371,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+160"/>
+        <location line="+168"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -422,7 +432,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-213"/>
+        <location line="-221"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>

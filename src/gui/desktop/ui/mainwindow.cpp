@@ -232,6 +232,7 @@ void MainWindow::updateWindowsMenu()
 {
     ui->actionTags_editor->setChecked(ui->tagEditorDockWidget->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
+    ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
 }
 
 
@@ -349,6 +350,7 @@ void MainWindow::setupView()
     // connect to docks
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+    connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 
     // connect to tabs
     connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
@@ -648,6 +650,14 @@ void MainWindow::on_actionTasks_triggered()
     const bool state = ui->actionTasks->isChecked();
 
     ui->tasksDockWidget->setVisible(state);
+}
+
+
+void MainWindow::on_actionPhoto_properties_triggered()
+{
+    const bool state = ui->actionPhoto_properties->isChecked();
+
+    ui->photoPropertiesDockWidget->setVisible(state);
 }
 
 

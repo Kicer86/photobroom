@@ -130,7 +130,10 @@
    </attribute>
    <widget class="TasksViewWidget" name="tasksWidget"/>
   </widget>
-  <widget class="QDockWidget" name="photoDetailsDockWidget">
+  <widget class="QDockWidget" name="photoPropertiesDockWidget">
+   <property name="windowTitle">
+    <string>Photo p&amp;roperties</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
