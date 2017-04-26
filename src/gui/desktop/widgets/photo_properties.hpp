@@ -56,7 +56,6 @@ class PhotoProperties: public QWidget
         void refreshLabels(const std::vector<IPhotoInfo::Ptr> &) const;
         void refreshValues(const std::vector<IPhotoInfo::Ptr> &) const;
 
-        QString pathToPrjRelative(const QString &) const;
         QString sizeHuman(int) const;
 };
 

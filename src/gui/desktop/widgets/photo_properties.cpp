@@ -20,6 +20,7 @@
 
 #include "photo_properties.hpp"
 
+#include <QDir>
 #include <QFileInfo>
 #include <QGridLayout>
 #include <QLabel>
@@ -129,22 +130,25 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     else if (s == 1)
     {
         const QString filePath = photos.front()->getPath();
-        const QString relativePath = pathToPrjRelative(filePath);
+        const QFileInfo filePathInfo(filePath);
 
         // update values
-        m_locationValue->setText(relativePath);
+        m_locationValue->setText(filePathInfo.absoluteFilePath());
         m_sizeValue->setText(size_human);
     }
     else
     {
         // 'merge' paths
-        QString result = photos.front()->getPath();
+        const QFileInfo firstPathInfo(photos.front()->getPath());
+        QString result = firstPathInfo.path();          // do not include file name. It will prevent situations when merged path contains part of file names (if they had common part)
 
         for(std::size_t i = 1; i < s; i++)
-            result = common(result, photos[i]->getPath());
+        {
+            const QFileInfo anotherPhotoPath(photos[i]->getPath());
+            result = common(result, anotherPhotoPath.path());
+        }
 
-        const QString relative = pathToPrjRelative(result);
-        const QString decorated = relative + "...";
+        const QString decorated = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
 
         // update values
         m_locationValue->setText(decorated);
@@ -153,19 +157,10 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
 }
 
 
-QString PhotoProperties::pathToPrjRelative(const QString& path) const
-{
-    assert(path.left(5) == "prj:/");
-
-    const QString result = path.mid(5);
-    return result;
-}
-
-
 QString PhotoProperties::sizeHuman(int size) const
 {
     int i = 0;
-    for(; i < 4 && size > 1024; i++)
+    for(; i < 4 && size > 20480; i++)
         size /= 1024.0;
 
     QString units;
