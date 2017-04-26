@@ -49,8 +49,10 @@ class PhotoProperties: public QWidget
         const SelectionExtractor* m_selectionExtractor;
         QLabel* m_locationLabel;
         QLabel* m_sizeLabel;
+        QLabel* m_geometryLabel;
         QLabel* m_locationValue;
         QLabel* m_sizeValue;
+        QLabel* m_geometryValue;
 
         void refreshView() const;
         void refreshLabels(const std::vector<IPhotoInfo::Ptr> &) const;

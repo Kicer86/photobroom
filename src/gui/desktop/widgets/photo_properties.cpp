@@ -55,8 +55,10 @@ PhotoProperties::PhotoProperties(QWidget* p):
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
+    m_geometryLabel(nullptr),                     // TODO: implement it later
     m_locationValue(new QLabel(this)),
-    m_sizeValue(new QLabel(this))
+    m_sizeValue(new QLabel(this)),
+    m_geometryValue(nullptr)                      // TODO: implement it later
 {
     QGridLayout* l = new QGridLayout(this);
 

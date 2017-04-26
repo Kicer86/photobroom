@@ -440,7 +440,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoProperties</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+99"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+101"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
