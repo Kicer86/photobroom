@@ -231,17 +231,17 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+21"/>
         <source>Photo &amp;information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Photo p&amp;roperties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -306,7 +306,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+8"/>
         <source>&amp;Photo properties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+245"/>
