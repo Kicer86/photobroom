@@ -4,9 +4,10 @@
 #include <functional>
 
 #include <QCloseEvent>
-#include <QMenuBar>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QLayout>
+#include <QMenuBar>
 #include <QMessageBox>
 #include <QPainter>
 #include <QTimer>
@@ -34,7 +35,6 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
-#include "utils/selection_extractor.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
 #include "ui/photos_grouping_dialog.hpp"
@@ -66,6 +66,7 @@ namespace
 
 
 MainWindow::MainWindow(QWidget *p): QMainWindow(p),
+    m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
@@ -103,6 +104,8 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
+
+    ui->photoPropertiesWidget->set(&m_selectionExtractor);
 }
 
 
@@ -227,8 +230,9 @@ void MainWindow::checkVersion()
 
 void MainWindow::updateWindowsMenu()
 {
-    ui->actionTags_editor->setChecked(ui->rightDockWidget->isVisible());
+    ui->actionTags_editor->setChecked(ui->tagEditorDockWidget->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
+    ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
 }
 
 
@@ -292,7 +296,7 @@ void MainWindow::openProject(const ProjectInfo& prjInfo)
         // make sure openCallback will be called from main thread and will be postponed
         // it is crucial to have m_currentPrj initialised so no direct calls to projectOpened()
         // from ProjectManager::open are allowed
-        auto threadCallback = make_cross_thread_function(this, openCallback, Qt::QueuedConnection);
+        auto threadCallback = make_cross_thread_function(this, openCallback);
 
         // setup search path prefix
         assert( QDir::searchPaths("prj").isEmpty() == true );
@@ -344,8 +348,9 @@ void MainWindow::setupView()
     ui->tagEditor->set( m_imagesModel );
 
     // connect to docks
-    connect(ui->rightDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+    connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+    connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 
     // connect to tabs
     connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
@@ -485,7 +490,7 @@ void MainWindow::setupNewPhotosView()
 
     m_newImagesModel->setStaticFilters(newPhotosFilters);
 
-    InfoBaloonWidget* hint = new InfoBaloonWidget(ui->imagesView);
+    InfoBalloonWidget* hint = new InfoBalloonWidget (ui->imagesView);
     const QString message = tr("Above you can view new photos and describe them.");
     const QString link = tr("You can click here when you are done to mark photos as reviewed.");
     hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
@@ -506,16 +511,11 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
 
 void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 {
-    DBDataModel* model = photosView->getModel();
-
-    SelectionExtractor selectionExtractor;
-    selectionExtractor.set(photosView->viewSelectionModel());
-    selectionExtractor.set(model);
-
-    const std::vector<IPhotoInfo::Ptr> photos = selectionExtractor.getSelection();
+    const std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
 
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
+    QAction* location    = contextMenu.addAction(tr("Open photo location"));
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
@@ -541,9 +541,25 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
 
+            DBDataModel* model = photosView->getModel();
             model->group(photos_ids, internalPathDecorated);
         }
     }
+    else if (chosenAction == location)
+    {
+        if (photos.empty() == false)
+        {
+            const IPhotoInfo::Ptr& first = photos.front();
+            const QString relative_path = first->getPath();
+            const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+            const QFileInfo photoFileInfo(absolute_path);
+            const QString file_dir = photoFileInfo.path();
+
+            QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+        }
+    }
+    else
+        assert(!"Huh?");
 }
 
 
@@ -625,7 +641,7 @@ void MainWindow::on_actionTags_editor_triggered()
 {
     const bool state = ui->actionTags_editor->isChecked();
 
-    ui->rightDockWidget->setVisible(state);
+    ui->tagEditorDockWidget->setVisible(state);
 }
 
 
@@ -634,6 +650,14 @@ void MainWindow::on_actionTasks_triggered()
     const bool state = ui->actionTasks->isChecked();
 
     ui->tasksDockWidget->setVisible(state);
+}
+
+
+void MainWindow::on_actionPhoto_properties_triggered()
+{
+    const bool state = ui->actionPhoto_properties->isChecked();
+
+    ui->photoPropertiesDockWidget->setVisible(state);
 }
 
 
@@ -743,6 +767,9 @@ void MainWindow::viewChanged(int current)
             break;
     }
 
-    ui->tagEditor->set( selectionModel );
-    ui->tagEditor->set( dataModel );
+    ui->tagEditor->set(selectionModel);
+    ui->tagEditor->set(dataModel);
+
+    m_selectionExtractor.set(selectionModel);
+    m_selectionExtractor.set(dataModel);
 }

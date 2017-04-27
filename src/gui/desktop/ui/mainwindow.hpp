@@ -8,7 +8,9 @@
 
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
-#include <ui_utils/completer_factory.hpp>
+
+#include "ui_utils/completer_factory.hpp"
+#include "utils/selection_extractor.hpp"
 
 class ConfigDialogManager;
 class LookTabControler;
@@ -52,6 +54,7 @@ class MainWindow: public QMainWindow
         void set(ILoggerFactory *);
 
     private:
+        SelectionExtractor        m_selectionExtractor;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
@@ -108,6 +111,7 @@ class MainWindow: public QMainWindow
         // windows menu
         void on_actionTags_editor_triggered();
         void on_actionTasks_triggered();
+        void on_actionPhoto_properties_triggered();
 
         // settings menu
         void on_actionConfiguration_triggered();

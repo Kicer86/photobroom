@@ -52,7 +52,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_tagName = new QComboBox(this);
     m_addButton = new QPushButton(QIcon(":/gui/add.svg"), "", this);
     m_tagValueContainer = new QWidget(this);
-    m_hint = new InfoBaloonWidget(this);
+    m_hint = new InfoBalloonWidget (this);
 
     m_view->setModel(m_model);
     m_model->set(&m_tagsOperator);

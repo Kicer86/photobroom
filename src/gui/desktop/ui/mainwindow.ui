@@ -103,6 +103,7 @@
     </property>
     <addaction name="actionTags_editor"/>
     <addaction name="actionTasks"/>
+    <addaction name="actionPhoto_properties"/>
    </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
@@ -111,9 +112,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="rightDockWidget">
+  <widget class="QDockWidget" name="tagEditorDockWidget">
    <property name="windowTitle">
-    <string>Photo information</string>
+    <string>Photo &amp;information</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -122,12 +123,21 @@
   </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
-    <string>Tasks</string>
+    <string>&amp;Tasks</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
    <widget class="TasksViewWidget" name="tasksWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="photoPropertiesDockWidget">
+   <property name="windowTitle">
+    <string>Photo p&amp;roperties</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="PhotoProperties" name="photoPropertiesWidget"/>
   </widget>
   <action name="actionNew_collection">
    <property name="text">
@@ -198,6 +208,14 @@
     <string>&amp;Scan collection</string>
    </property>
   </action>
+  <action name="actionPhoto_properties">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Photo properties</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -216,6 +234,11 @@
    <class>PhotosWidget</class>
    <extends>QWidget</extends>
    <header>widgets/photos_widget.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>PhotoProperties</class>
+   <extends>QWidget</extends>
+   <header>widgets/photo_properties.hpp</header>
   </customwidget>
  </customwidgets>
  <resources>

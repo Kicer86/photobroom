@@ -129,3 +129,12 @@ QString Project::makePathRelative(const QString& path) const
     const QString result = "prj:" + path.mid(l);
     return result;
 }
+
+
+QString Project::makePathAbsolute(const QString& relative) const
+{
+    const QFileInfo info(relative);
+    const QString absolute = info.absoluteFilePath();
+
+    return absolute;
+}

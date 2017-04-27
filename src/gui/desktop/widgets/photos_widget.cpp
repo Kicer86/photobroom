@@ -24,7 +24,6 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QLayoutItem>
-#include <QContextMenuEvent>
 
 #include <configuration/iconfiguration.hpp>
 #include <core/ilogger.hpp>
@@ -210,7 +209,7 @@ DBDataModel* PhotosWidget::getModel() const
 }
 
 
-void PhotosWidget::setBottomHintWidget(InfoBaloonWidget* hintWidget)
+void PhotosWidget::setBottomHintWidget( InfoBalloonWidget* hintWidget)
 {
     if (m_bottomHintLayout->count() > 0)
     {

@@ -13,6 +13,7 @@ set(SRCS
     color_pick_button.cpp
     info_widget.cpp
     multi_value_line_edit.cpp
+    photo_properties.cpp
     photos_widget.cpp
     tasks_view_widget.cpp
     filters_editor/level_editor.cpp
@@ -30,6 +31,7 @@ set(HEADERS
     color_pick_button.hpp
     info_widget.hpp
     multi_value_line_edit.hpp
+    photo_properties.hpp
     photos_widget.hpp
     tasks_view_widget.hpp
     filters_editor/level_editor.hpp
@@ -40,17 +42,18 @@ set(HEADERS
     tag_editor/helpers/tags_operator.hpp
     tag_editor/helpers/tags_view.hpp
     tag_editor/helpers/tags_model.hpp
-    )
+)
 
 #set of file to be moced
 set(TO_MOC
     collection_dir_scan_dialog.hpp
     filters_editor/level_editor.hpp
+    photo_properties.hpp
     photos_widget.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp
-    )
+)
 
 source_group(files .*)
 source_group(filters_editor .*\/filters_editor\/.* )

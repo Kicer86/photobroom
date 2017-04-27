@@ -75,6 +75,7 @@ class PROJECT_UTILS_EXPORT Project
         Database::IDatabase* getDatabase() const;
         const ProjectInfo& getProjectInfo() const;
         QString makePathRelative(const QString &) const;
+        QString makePathAbsolute(const QString &) const;
 
     private:
         ProjectInfo m_prjInfo;

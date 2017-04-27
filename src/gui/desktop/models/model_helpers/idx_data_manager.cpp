@@ -456,16 +456,12 @@ void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator,
     }
 
     //attach nodes to parent node in main thread
-    using namespace std::placeholders;
-    std::function<void(IdxNodeData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)> insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
-    auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);    // call insertFetchedNodesFun from thread owning 'this'
-
     IIdxData* parentIdxData = getIdxDataFor(parent);
 
     assert(isNode(parentIdxData));
     IdxNodeData* parentNode = static_cast<IdxNodeData *>(parentIdxData);
 
-    nodesFetched(parentNode, leafs);
+    call_from_this_thread(this, std::bind(&IdxDataManager::insertFetchedNodes, this, parentNode, leafs));  // call insertFetchedNodes from thread owning 'this'
 }
 
 
@@ -484,10 +480,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(const QModelIndex& parent, in
 
         leafs->push_back(std::move(node));
 
-        using namespace std::placeholders;
-        std::function<void(IdxNodeData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)>  insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
-        auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
-        nodesFetched(parent_node, std::move(leafs));
+        call_from_this_thread(this, std::bind(&IdxDataManager::insertFetchedNodes, this, parent_node, std::move(leafs)));
     }
 }
 
@@ -500,7 +493,7 @@ void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_
     assert(isNode(parentIdxData));
     IdxNodeData* parentNode = static_cast<IdxNodeData *>(parentIdxData);
 
-    auto leafs = std::make_unique<std::deque<IIdxData::Ptr>>();
+    auto leafs = std::make_shared<std::deque<IIdxData::Ptr>>();
 
     for(const TagValue& tag: tags)
     {
@@ -513,10 +506,7 @@ void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_
     }
 
     //attach nodes to parent node in main thread
-    using namespace std::placeholders;
-    std::function<void(IdxNodeData *, const std::shared_ptr<std::deque<IIdxData::Ptr>> &)> insertFetchedNodesFun = std::bind(&IdxDataManager::insertFetchedNodes, this, _1, _2);
-    auto nodesFetched = make_cross_thread_function(this, insertFetchedNodesFun);
-    nodesFetched(parentNode, std::move(leafs));
+    call_from_this_thread(this, std::bind(&IdxDataManager::insertFetchedNodes, this, parentNode, std::move(leafs)));
 }
 
 
