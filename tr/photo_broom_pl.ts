@@ -567,7 +567,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+222"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+229"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

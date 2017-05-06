@@ -42,9 +42,15 @@ struct AnimationGenerator: QObject
 
         void perform() override
         {
+            const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+            const QStringList all_but_last = m_data.photos.mid(0, m_data.photos.size() - 1);
+            const QString last = m_data.photos.last();
+
             QStringList args;
             args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
-            args << m_data.photos;
+            args << all_but_last;
+            args << "-delay" << QString::number(last_photo_delay);
+            args << last;
             args << "-auto-orient";
             args << "-loop" << "0";
             args << "-resize" << QString::number(100/m_data.scale) + "%";
@@ -199,6 +205,7 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.photos = getPhotos();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
+    generator_data.delay = ui->delaySpinBox->value();
 
     m_animationGenerator->generatePreviewWidget(generator_data);
 }
