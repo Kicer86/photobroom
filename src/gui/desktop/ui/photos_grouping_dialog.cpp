@@ -146,6 +146,8 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_exifReader(exifReader),
     m_executor(executor)
 {
+    assert(photos.size() >= 2);
+
     fillModel(photos);
 
     ui->setupUi(this);

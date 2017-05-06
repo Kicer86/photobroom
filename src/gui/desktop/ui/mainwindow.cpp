@@ -517,6 +517,9 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
     QAction* location    = contextMenu.addAction(tr("Open photo location"));
 
+    if (photos.size() < 2)
+        groupPhotos->setEnabled(false);
+
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
 
@@ -558,8 +561,6 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
         }
     }
-    else
-        assert(!"Huh?");
 }
 
 
