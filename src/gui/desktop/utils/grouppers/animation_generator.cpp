@@ -29,6 +29,32 @@
 
 namespace
 {
+    template<typename T>
+    void append(QStringList& list, const T& arg)
+    {
+        list << arg;
+    }
+
+    template<typename T, typename ...Args>
+    void append(QStringList& list, const T& arg, Args... args)
+    {
+        list << arg;
+        append(list, args...);
+    }
+
+    template<typename ...Args>
+    bool execute(const QString& executable, Args... args)
+    {
+        QStringList arguments;
+        append(arguments, args...);
+
+        QProcess pr;
+        pr.start(executable, arguments);
+        const bool status = pr.waitForFinished(-1);
+
+        return status;
+    }
+
     struct GifGenerator: ITaskExecutor::ITask
     {
         GifGenerator(const AnimationGenerator::Data& data, const QString& location, const std::function<void(const QString &)>& doneCallback):
@@ -53,23 +79,15 @@ namespace
 
                 // generate .pto file
                 const QString pto_file = System::getTempFilePath() + ".pto";
-                QStringList args;
-                args << "-o" << pto_file;
-                args << m_data.photos;
-
-                QProcess pto_gen;
-                pto_gen.start("pto_gen", args);
-                pto_gen.waitForFinished(-1);
+                execute("pto_gen",
+                        "-o", pto_file,
+                        m_data.photos);
 
                 // find control points
-                args.clear();
-                args << "--fullscale";
-                args << "-o" << pto_file;
-                args << pto_file;
-
-                QProcess cpfind;
-                cpfind.start("cpfind", args);
-                cpfind.waitForFinished(-1);
+                execute("cpfind",
+                        "--fullscale",
+                        "-o", pto_file,
+                        pto_file);
 
                 // generate stabilized images
             }
@@ -79,19 +97,15 @@ namespace
             const QStringList all_but_last = m_data.photos.mid(0, m_data.photos.size() - 1);
             const QString last = m_data.photos.last();
 
-            QStringList args;
-            args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
-            args << all_but_last;
-            args << "-delay" << QString::number(last_photo_delay);
-            args << last;
-            args << "-auto-orient";
-            args << "-loop" << "0";
-            args << "-resize" << QString::number(m_data.scale) + "%";
-            args << m_location;
-
-            QProcess convert;
-            convert.start("convert", args);
-            convert.waitForFinished(-1);
+            execute("convert",
+                    "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
+                    all_but_last,
+                    "-delay", QString::number(last_photo_delay),
+                    last,
+                    "-auto-orient",
+                    "-loop", "0",
+                    "-resize", QString::number(m_data.scale) + "%",
+                    m_location);
 
             m_doneCallback(m_location);
         }
