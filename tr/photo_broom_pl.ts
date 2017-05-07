@@ -522,7 +522,7 @@ Kod błędu: %1</translation>
         <translation>Narzędzie grupowania zdjęć</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+25"/>
         <source>Grouping type:</source>
         <translation>Rodzaj grupowania:</translation>
     </message>
@@ -557,12 +557,12 @@ Kod błędu: %1</translation>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location line="+50"/>
-        <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <location line="+65"/>
+        <source>Generate preview</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+34"/>
         <source>Preview:</source>
         <translation>Podgląd:</translation>
     </message>

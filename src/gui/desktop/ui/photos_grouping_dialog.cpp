@@ -53,7 +53,7 @@ struct AnimationGenerator: QObject
             args << last;
             args << "-auto-orient";
             args << "-loop" << "0";
-            args << "-resize" << QString::number(100/m_data.scale) + "%";
+            args << "-resize" << QString::number(m_data.scale) + "%";
             args << m_location;
 
             QProcess convert;
@@ -154,10 +154,10 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
 
     m_sortProxy.setSourceModel(&m_model);
 
-    ui->photosView->setModel(&m_sortProxy);
-    ui->photosView->setSortingEnabled(true);
-    ui->photosView->sortByColumn(0, Qt::AscendingOrder);
-    ui->photosView->resizeColumnsToContents();
+    ui->photosList->setModel(&m_sortProxy);
+    ui->photosList->setSortingEnabled(true);
+    ui->photosList->sortByColumn(0, Qt::AscendingOrder);
+    ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
 
     using namespace std::placeholders;
