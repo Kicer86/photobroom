@@ -3,6 +3,7 @@
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
                    )
 
 
@@ -15,6 +16,7 @@ set(UTILS_SOURCES
     thumbnail_acquisitor.cpp
     thumbnail_generator.cpp
     variant_display.cpp
+    grouppers/animation_generator.cpp
 )
 
 set(UTILS_HEADERS
@@ -28,6 +30,7 @@ set(UTILS_HEADERS
     thumbnail_acquisitor.hpp
     thumbnail_generator.hpp
     variant_display.hpp
+    grouppers/animation_generator.hpp
 )
 
 
