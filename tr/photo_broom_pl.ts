@@ -559,7 +559,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+65"/>
         <source>Generate preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygeneruj podgląd</translation>
     </message>
     <message>
         <location line="+34"/>
