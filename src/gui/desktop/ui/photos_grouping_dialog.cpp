@@ -83,6 +83,7 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
     generator_data.delay = ui->delaySpinBox->value();
+    generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
     m_animationGenerator->generatePreviewWidget(generator_data);
 }

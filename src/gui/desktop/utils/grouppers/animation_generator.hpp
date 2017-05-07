@@ -36,8 +36,9 @@ struct AnimationGenerator: QObject
         double delay;
         double scale;
         QStringList photos;
+        bool stabilize;
 
-        Data(): fps(0.0), delay(0.0), scale(0.0), photos() {}
+        Data(): fps(0.0), delay(0.0), scale(0.0), photos(), stabilize(false) {}
     };
 
     AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *, const QString &)>& callback);

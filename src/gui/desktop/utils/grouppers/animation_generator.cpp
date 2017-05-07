@@ -45,6 +45,36 @@ namespace
 
         void perform() override
         {
+            // stabilize?
+            if (m_data.stabilize)
+            {
+                // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
+                // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
+
+                // generate .pto file
+                const QString pto_file = System::getTempFilePath() + ".pto";
+                QStringList args;
+                args << "-o" << pto_file;
+                args << m_data.photos;
+
+                QProcess pto_gen;
+                pto_gen.start("pto_gen", args);
+                pto_gen.waitForFinished(-1);
+
+                // find control points
+                args.clear();
+                args << "--fullscale";
+                args << "-o" << pto_file;
+                args << pto_file;
+
+                QProcess cpfind;
+                cpfind.start("cpfind", args);
+                cpfind.waitForFinished(-1);
+
+                // generate stabilized images
+            }
+
+            // generate gif
             const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
             const QStringList all_but_last = m_data.photos.mid(0, m_data.photos.size() - 1);
             const QString last = m_data.photos.last();
