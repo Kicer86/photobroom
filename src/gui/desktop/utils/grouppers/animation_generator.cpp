@@ -27,45 +27,54 @@
 #include <core/cross_thread_call.hpp>
 #include <system/system.hpp>
 
-
-AnimationGenerator::GifGenerator::GifGenerator(const AnimationGenerator::Data& data, const QString& location, const std::function<void(const QString &)>& doneCallback):
-    m_data(data),
-    m_location(location),
-    m_doneCallback(doneCallback)
+namespace
 {
+    struct GifGenerator: ITaskExecutor::ITask
+    {
+        GifGenerator(const AnimationGenerator::Data& data, const QString& location, const std::function<void(const QString &)>& doneCallback):
+            m_data(data),
+            m_location(location),
+            m_doneCallback(doneCallback)
+        {
+        }
+
+        std::string name() const override
+        {
+            return "GifGenerator";
+        }
+
+        void perform() override
+        {
+            const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+            const QStringList all_but_last = m_data.photos.mid(0, m_data.photos.size() - 1);
+            const QString last = m_data.photos.last();
+
+            QStringList args;
+            args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
+            args << all_but_last;
+            args << "-delay" << QString::number(last_photo_delay);
+            args << last;
+            args << "-auto-orient";
+            args << "-loop" << "0";
+            args << "-resize" << QString::number(m_data.scale) + "%";
+            args << m_location;
+
+            QProcess convert;
+            convert.start("convert", args);
+            convert.waitForFinished(-1);
+
+            m_doneCallback(m_location);
+        }
+
+        AnimationGenerator::Data m_data;
+        QString m_location;
+        std::function<void(const QString &)> m_doneCallback;
+    };
 }
 
-
-std::string AnimationGenerator::GifGenerator::name() const
-{
-    return "GifGenerator";
-}
-
-
-void AnimationGenerator::GifGenerator::perform()
-{
-    const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
-    const QStringList all_but_last = m_data.photos.mid(0, m_data.photos.size() - 1);
-    const QString last = m_data.photos.last();
-
-    QStringList args;
-    args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
-    args << all_but_last;
-    args << "-delay" << QString::number(last_photo_delay);
-    args << last;
-    args << "-auto-orient";
-    args << "-loop" << "0";
-    args << "-resize" << QString::number(m_data.scale) + "%";
-    args << m_location;
-
-    QProcess convert;
-    convert.start("convert", args);
-    convert.waitForFinished(-1);
-
-    m_doneCallback(m_location);
-}
 
 ///////////////////////////////////////////////////////////////////////////////
+
 
 AnimationGenerator::AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *, const QString &)>& callback):
     m_callback(callback),

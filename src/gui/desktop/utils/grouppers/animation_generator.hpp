@@ -40,24 +40,11 @@ struct AnimationGenerator: QObject
         Data(): fps(0.0), delay(0.0), scale(0.0), photos() {}
     };
 
-    struct GifGenerator: ITaskExecutor::ITask
-    {
-        GifGenerator(const AnimationGenerator::Data& data, const QString& location, const std::function<void(const QString &)>& doneCallback);
-
-        std::string name() const override;
-        void perform() override;
-
-        AnimationGenerator::Data m_data;
-        QString m_location;
-        std::function<void(const QString &)> m_doneCallback;
-    };
-
     AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *, const QString &)>& callback);
     AnimationGenerator(const AnimationGenerator &) = delete;
     ~AnimationGenerator();
 
     AnimationGenerator& operator=(const AnimationGenerator &) = delete;
-
 
     void generatePreviewWidget(const Data& data);
     void scalePreview(double scale);
