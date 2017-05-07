@@ -181,6 +181,13 @@
                   </item>
                  </layout>
                 </item>
+                <item row="3" column="1">
+                 <widget class="QCheckBox" name="stabilizationCheckBox">
+                  <property name="text">
+                   <string>Stabilize image</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>

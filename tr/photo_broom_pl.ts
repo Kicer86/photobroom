@@ -557,7 +557,12 @@ Kod błędu: %1</translation>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+31"/>
+        <source>Stabilize image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
         <source>Generate preview</source>
         <translation>Wygeneruj podgląd</translation>
     </message>
