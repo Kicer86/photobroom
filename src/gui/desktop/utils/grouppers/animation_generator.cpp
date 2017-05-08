@@ -167,8 +167,8 @@ namespace
                     const QSize img_size = img.size();
 
                     const QPoint& own_offset = avg_points[i];
-                    const QPoint lt(own_offset.x() + max_x, own_offset.y() + max_y);
-                    const QPoint rb(img_size.width() + min_x, img_size.height()+ min_y);
+                    const QPoint lt(-own_offset.x() + max_x, -own_offset.y() + max_y);
+                    const QPoint rb(-own_offset.x() + img_size.width() + min_x, -own_offset.y() + img_size.height() + min_y);
                     const QRect crop(lt, rb);
 
                     QImage cropped = img.copy(crop);
@@ -184,8 +184,8 @@ namespace
 
             // generate gif
             const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
-            const QStringList all_but_last = m_data.photos.mid(0, m_data.photos.size() - 1);
-            const QString last = m_data.photos.last();
+            const QStringList all_but_last = images_to_be_used.mid(0, images_to_be_used.size() - 1);
+            const QString last = images_to_be_used.last();
 
             execute("convert",
                     "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
