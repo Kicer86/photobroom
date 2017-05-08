@@ -19,10 +19,15 @@
 
 #include "animation_generator.hpp"
 
+#include <cmath>
+
+#include <QFile>
 #include <QMovie>
 #include <QLabel>
 #include <QProcess>
 #include <QProgressBar>
+#include <QRegExp>
+#include <QTextStream>
 
 #include <core/cross_thread_call.hpp>
 #include <system/system.hpp>
@@ -72,25 +77,110 @@ namespace
         void perform() override
         {
             // stabilize?
+            QStringList images_to_be_used;
+
             if (m_data.stabilize)
             {
                 // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
                 // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
 
                 // generate .pto file
-                const QString pto_file = System::getTempFilePath() + ".pto";
+                const QString pto_file_path = System::getTempFilePath() + ".pto";
                 execute("pto_gen",
-                        "-o", pto_file,
+                        "-o", pto_file_path,
                         m_data.photos);
 
                 // find control points
                 execute("cpfind",
                         "--fullscale",
-                        "-o", pto_file,
-                        pto_file);
+                        "-o", pto_file_path,
+                        pto_file_path );
 
                 // generate stabilized images
+                QFile pto_file(pto_file_path);
+                pto_file.open(QIODevice::ReadOnly);
+                QTextStream pto_stream(&pto_file);
+
+                std::vector<std::vector<QPoint>> distances;
+                while(pto_stream.atEnd() == false)
+                {
+                    const QString line = pto_stream.readLine();
+
+                    QRegExp regex("^c n0 N(\\d+) x([\\d\\.]+) y([\\d\\.]+) X([\\d\\.]+) Y([\\d\\.]+) t.+$");
+                    if (regex.indexIn(line) != -1)
+                    {
+                        const int right_img = regex.cap(1).toUInt();
+                        const double left_x = regex.cap(2).toDouble();
+                        const double left_y = regex.cap(3).toDouble();
+                        const double right_x = regex.cap(4).toDouble();
+                        const double right_y = regex.cap(5).toDouble();
+
+                        const QPoint distance(left_x - right_x, left_y - right_y);
+
+                        while (distances.size() < static_cast<unsigned int>(right_img + 1))
+                            distances.push_back(std::vector<QPoint>());
+
+                        distances[right_img].push_back(distance);
+                    }
+                }
+
+                std::vector<QPoint> avg_points(distances.size());;
+                for(std::size_t i = 1; i < distances.size(); i++)
+                {
+                    std::vector<QPoint>& points = distances[i];
+                    std::sort(points.begin(), points.end(), [](const QPoint& lhs, const QPoint& rhs)
+                    {
+                        const double lhsLength = std::sqrt(std::pow(lhs.x(), 2) + std::pow(lhs.y(), 2));
+                        const double rhsLength = std::sqrt(std::pow(rhs.x(), 2) + std::pow(rhs.y(), 2));
+
+                        return lhsLength < rhsLength;
+                    });
+
+                    // save average point
+                    const QPoint avg_point = points[points.size() / 2];
+                    avg_points[i] = avg_point;
+                }
+
+                const double max_x = std::max_element(avg_points.begin(), avg_points.end(), [](const QPoint& lhs, const QPoint& rhs)
+                {
+                    return lhs.x() < rhs.x();
+                })->x();
+
+                const double max_y = std::max_element(avg_points.begin(), avg_points.end(), [](const QPoint& lhs, const QPoint& rhs)
+                {
+                    return lhs.y() < rhs.y();
+                })->y();
+
+                const double min_x = std::min_element(avg_points.begin(), avg_points.end(), [](const QPoint& lhs, const QPoint& rhs)
+                {
+                    return lhs.x() < rhs.x();
+                })->x();
+
+                const double min_y = std::min_element(avg_points.begin(), avg_points.end(), [](const QPoint& lhs, const QPoint& rhs)
+                {
+                    return lhs.y() < rhs.y();
+                })->y();
+
+                for(std::size_t i = 0; i < avg_points.size(); i++)
+                {
+                    QImage img(m_data.photos[i]);
+                    const QSize img_size = img.size();
+
+                    const QPoint& own_offset = avg_points[i];
+                    const QPoint lt(own_offset.x() + max_x, own_offset.y() + max_y);
+                    const QPoint rb(img_size.width() + min_x, img_size.height()+ min_y);
+                    const QRect crop(lt, rb);
+
+                    QImage cropped = img.copy(crop);
+
+                    const QString new_img_path = System::getTempFilePath();
+                    cropped.save(new_img_path, "JPEG");
+
+                    images_to_be_used.push_back(new_img_path);
+                }
             }
+            else
+                images_to_be_used = m_data.photos;
 
             // generate gif
             const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
