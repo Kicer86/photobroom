@@ -90,7 +90,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IDatabase> Builder::get(const ProjectInfo& info, OpenResult openResult)
+    std::unique_ptr<IDatabase> Builder::get(const ProjectInfo& info)
     {
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);
@@ -103,7 +103,6 @@ namespace Database
         auto database = std::make_unique<AsyncDatabase>( std::move(backend) );
 
         database->set( std::move(cache) );
-        database->init(info, openResult);
 
         // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
         return std::move(database);

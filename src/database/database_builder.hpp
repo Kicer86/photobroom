@@ -46,7 +46,7 @@ namespace Database
             void set(ILoggerFactory *);
             void set(IConfiguration *);
 
-            virtual std::unique_ptr<IDatabase> get(const ProjectInfo &, OpenResult) override;
+            virtual std::unique_ptr<IDatabase> get(const ProjectInfo &) override;
 
         private:
             struct Impl;

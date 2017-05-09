@@ -32,11 +32,13 @@ struct ProjectInfo;
 
 struct IProjectManager
 {
+    typedef std::function<void(const Database::BackendStatus &)> OpenResult;
+
     virtual ~IProjectManager() = default;
 
     virtual ProjectInfo new_prj(const QString& name, const Database::IPlugin *, const QString& location) = 0;
     [[deprecated]] virtual std::deque<ProjectInfo> listProjects() = 0;
-    virtual std::unique_ptr<Project> open(const ProjectInfo &, const Database::IBuilder::OpenResult &) = 0;
+    virtual std::unique_ptr<Project> open(const ProjectInfo &, const OpenResult &) = 0;
     [[deprecated]] virtual bool remove(const ProjectInfo &) = 0;
 };
 
