@@ -93,6 +93,8 @@ namespace
                 execute("align_image_stack",
                         "-C",
                         "--use-given-order",
+                        "-d", "-i", "-x", "-y", "-z",
+                        "-s", "0",
                         "-a", output_prefix,
                         m_data.photos);
 
