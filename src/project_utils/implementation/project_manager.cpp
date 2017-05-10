@@ -96,7 +96,7 @@ std::deque<ProjectInfo> ProjectManager::listProjects()
 }
 
 
-std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const Database::IBuilder::OpenResult& openResult)
+std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const OpenResult& openResult)
 {
     std::unique_ptr<Project> result = std::make_unique<Project>(nullptr, prjInfo);
 
@@ -116,13 +116,15 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
         prjFile.endGroup();
 
         Database::ProjectInfo dbPrjInfo(location, backend);
-        auto db = m_dbBuilder->get(dbPrjInfo, openResult);
+        auto db = m_dbBuilder->get(dbPrjInfo);
 
         result = std::make_unique<Project>(std::move(db), prjInfo);
 
         const bool lock_status = result->lockProject();
 
-        if (lock_status == false)
+        if (lock_status)
+            result->getDatabase()->init(dbPrjInfo, openResult);
+        else
         {
             openResult(Database::StatusCodes::ProjectLocked);
             result = std::make_unique<Project>(nullptr, prjInfo);

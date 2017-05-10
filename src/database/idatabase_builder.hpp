@@ -37,11 +37,9 @@ namespace Database
 
     struct IBuilder
     {
-        typedef std::function<void(const Database::BackendStatus &)> OpenResult;
-
         virtual ~IBuilder() = default;
 
-        virtual std::unique_ptr<IDatabase> get(const ProjectInfo &, OpenResult) = 0;
+        virtual std::unique_ptr<IDatabase> get(const ProjectInfo &) = 0;
     };
 }
 

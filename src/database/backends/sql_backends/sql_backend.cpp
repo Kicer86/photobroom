@@ -605,16 +605,30 @@ namespace Database
         const GroupInfo& groupInfo = data.groupInfo;
 
         if (groupInfo.group_id.valid())
-        {
-            UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
-            queryInfo.setCondition("photo_id", QString::number(data.id));
-            queryInfo.setColumns("group_id", "photo_id");
-            queryInfo.setValues(QString::number(groupInfo.group_id),
-                                QString::number(data.id)
-            );
+            switch (groupInfo.role)
+            {
+                case GroupInfo::Member:
+                {
+                    UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
+                    queryInfo.setCondition("photo_id", QString::number(data.id));
+                    queryInfo.setColumns("group_id", "photo_id");
+                    queryInfo.setValues(QString::number(groupInfo.group_id),
+                                        QString::number(data.id)
+                    );
 
-            status = updateOrInsert(queryInfo);
-        }
+                    status = updateOrInsert(queryInfo);
+                    break;
+                }
+
+                case GroupInfo::Representative:
+                    // do nothing - Information about representative was stored during group creation.
+                    // Is it nice? What if photo's role changed? TODO: rethink
+                    break;
+
+                case GroupInfo::None:
+                    // do nothink. Do doubts here ;]
+                    break;
+            }
         else
         {
             // TODO: remove media from group
