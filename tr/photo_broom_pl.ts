@@ -562,7 +562,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+28"/>
         <source>Generate preview</source>
         <translation>Wygeneruj podgląd</translation>
     </message>
