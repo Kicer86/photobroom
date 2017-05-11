@@ -559,7 +559,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+31"/>
         <source>Stabilize image</source>
-        <translation type="unfinished"></translation>
+        <translation>Stabilizuj obraz</translation>
     </message>
     <message>
         <location line="+28"/>
