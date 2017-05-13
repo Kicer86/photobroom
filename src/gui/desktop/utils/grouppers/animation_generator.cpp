@@ -50,12 +50,16 @@ namespace
     }
 
     template<typename ...Args>
-    bool execute(const QString& executable, Args... args)
+    bool execute(const QString& executable, const std::function<void(QIODevice &)>& outputDataCallback, Args... args)
     {
         QStringList arguments;
         append(arguments, args...);
 
         QProcess pr;
+
+        if (outputDataCallback)
+            QObject::connect(&pr, &QIODevice::readyRead, std::bind(outputDataCallback, std::ref(pr)));
+
         pr.start(executable, arguments);
         const bool status = pr.waitForFinished(-1);
 
@@ -90,7 +94,27 @@ namespace
                 // generate aligned files
                 const QString output_prefix = System::getTempFilePath() + "_";
 
+                int photos_left = m_data.photos.size();
+
+                auto align_image_stack_output_analizer = [&photos_left](QIODevice& device)
+                {
+                    QRegExp cp_regExp("Creating control points between.*");
+
+                    while(device.bytesAvailable() > 0)
+                    {
+                        const QByteArray line_raw = device.readLine();
+                        const QString line(line_raw);
+
+                        if (cp_regExp.exactMatch(line))
+                        {
+                            photos_left--;
+
+                        }
+                    }
+                };
+
                 execute("align_image_stack",
+                        align_image_stack_output_analizer,
                         "-C",
                         "--use-given-order",
                         "-d", "-i", "-x", "-y", "-z",
@@ -115,6 +139,7 @@ namespace
             const QString last = images_to_be_used.last();
 
             execute("convert",
+                    nullptr,
                     "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
                     all_but_last,
                     "-delay", QString::number(last_photo_delay),
