@@ -180,8 +180,20 @@ void AnimationGenerator::perform()
     const QString last = images_to_be_used.last();
     const QString location = System::getTempFilePath() + ".gif";
 
+    auto convert_output_analizer = [](QIODevice& device)
+    {
+        QRegExp cp_regExp("");
+
+        while(device.bytesAvailable() > 0)
+        {
+            const QByteArray line_raw = device.readLine();
+            const QString line(line_raw);
+        }
+    };
+
     execute("convert",
-            nullptr,
+            convert_output_analizer,
+            "-verbose",
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
             "-delay", QString::number(last_photo_delay),
