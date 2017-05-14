@@ -117,7 +117,6 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
     QProgressBar* bar = new QProgressBar(this);
-    bar->setFormat("%p%");
 
     ui->resultPreview->setWidget(bar);
     m_animationGenerator->generate(generator_data);
