@@ -2,9 +2,12 @@
 #include "photos_grouping_dialog.hpp"
 
 #include <QFileInfo>
+#include <QMovie>
 #include <QProcess>
+#include <QProgressBar>
 
 #include <core/iexif_reader.hpp>
+#include <core/down_cast.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
@@ -15,6 +18,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     QDialog(parent),
     m_model(),
     m_animationGenerator(),
+    m_movie(),
     m_sortProxy(),
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
@@ -35,13 +39,12 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
 
-    using namespace std::placeholders;
-    auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1, _2);
-
-    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback);
+    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor);
 
     connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::makeAnimation);
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved, m_animationGenerator.get(), &AnimationGenerator::scalePreview);
+    connect(m_animationGenerator.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(m_animationGenerator.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(m_animationGenerator.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
 }
 
 
@@ -57,15 +60,43 @@ QString PhotosGroupingDialog::getRepresentative() const
 }
 
 
-void PhotosGroupingDialog::updatePreview(QWidget* preview, const QString& location)
+void PhotosGroupingDialog::generationTitle(const QString& title)
 {
-    if (preview != nullptr)
+    QWidget* progress_widget = ui->resultPreview->widget();
+    QProgressBar* progress = down_cast<QProgressBar *>(progress_widget);
+
+    progress->setFormat(title + " %p%");
+}
+
+
+void PhotosGroupingDialog::generationProgress(int v)
+{
+    QWidget* progress_widget = ui->resultPreview->widget();
+    QProgressBar* progress = down_cast<QProgressBar *>(progress_widget);
+
+    if (v == -1)
+        progress->setMaximum(0);
+    else
     {
-        ui->resultPreview->setWidget(preview);
-        m_representativeFile = location;
+        progress->setMaximum(100);
+        progress->setValue(v);
     }
+}
+
+
+void PhotosGroupingDialog::generationDone(const QString& location)
+{
+    m_representativeFile = location;
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
+
+    m_movie = std::make_unique<QMovie>(location);
+    QLabel* label = new QLabel;
+
+    label->setMovie(m_movie.get());
+    m_movie->start();
+
+    ui->resultPreview->setWidget(label);
 }
 
 
@@ -85,7 +116,11 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.delay = ui->delaySpinBox->value();
     generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
-    m_animationGenerator->generatePreviewWidget(generator_data);
+    QProgressBar* bar = new QProgressBar(this);
+    bar->setFormat("%p%");
+
+    ui->resultPreview->setWidget(bar);
+    m_animationGenerator->generate(generator_data);
 }
 
 

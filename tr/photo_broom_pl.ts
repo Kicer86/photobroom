@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL">
 <context>
+    <name>AnimationGenerator</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+126"/>
+        <source>Stabilizing photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BaseTags</name>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="+67"/>
@@ -572,7 +580,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+107"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+142"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

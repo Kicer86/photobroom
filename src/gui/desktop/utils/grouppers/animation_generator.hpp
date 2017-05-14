@@ -25,36 +25,43 @@
 
 #include <core/itask_executor.hpp>
 
-class QMovie;
 
-
-struct AnimationGenerator: QObject
+class AnimationGenerator: public QObject
 {
-    struct Data
-    {
-        double fps;
-        double delay;
-        double scale;
-        QStringList photos;
-        bool stabilize;
+        Q_OBJECT
 
-        Data(): fps(0.0), delay(0.0), scale(0.0), photos(), stabilize(false) {}
-    };
+    public:
+        struct Data
+        {
+            double fps;
+            double delay;
+            double scale;
+            QStringList photos;
+            bool stabilize;
 
-    AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *, const QString &)>& callback);
-    AnimationGenerator(const AnimationGenerator &) = delete;
-    ~AnimationGenerator();
+            Data(): fps(0.0), delay(0.0), scale(0.0), photos(), stabilize(false) {}
+        };
 
-    AnimationGenerator& operator=(const AnimationGenerator &) = delete;
+        AnimationGenerator(ITaskExecutor* executor);
+        AnimationGenerator(const AnimationGenerator &) = delete;
+        ~AnimationGenerator();
 
-    void generatePreviewWidget(const Data& data);
-    void scalePreview(double scale);
-    void done(const QString& location);
+        AnimationGenerator& operator=(const AnimationGenerator &) = delete;
 
-    std::function<void(QWidget *, const QString &)> m_callback;
-    std::unique_ptr<QMovie> m_movie;
-    QSize m_baseSize;
-    ITaskExecutor* m_executor;
+        void generate(const Data& data);
+
+    signals:
+        void operation(const QString &);
+        void progress(int);
+        void finished(const QString &);
+
+    private:
+        Data m_data;
+        ITaskExecutor* m_executor;
+
+        friend class GifGenerator;
+
+        void perform();
 };
 
 
