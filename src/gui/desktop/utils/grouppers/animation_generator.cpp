@@ -116,6 +116,7 @@ namespace
                 execute("align_image_stack",
                         align_image_stack_output_analizer,
                         "-C",
+                        "-v",                              // for align_image_stack_output_analizer
                         "--use-given-order",
                         "-d", "-i", "-x", "-y", "-z",
                         "-s", "0",
