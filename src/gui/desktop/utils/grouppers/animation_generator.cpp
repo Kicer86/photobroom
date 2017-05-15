@@ -54,6 +54,7 @@ namespace
         append(arguments, args...);
 
         QProcess pr;
+        pr.setProcessChannelMode(QProcess::MergedChannels);
 
         if (outputDataCallback)
             QObject::connect(&pr, &QIODevice::readyRead, std::bind(outputDataCallback, std::ref(pr)));
@@ -120,6 +121,7 @@ void AnimationGenerator::perform()
 {
     // stabilize?
     QStringList images_to_be_used;
+    const int photos_count = m_data.photos.size();
 
     if (m_data.stabilize)
     {
@@ -132,7 +134,6 @@ void AnimationGenerator::perform()
         // generate aligned files
         const QString output_prefix = System::getTempFilePath() + "_";
 
-        int photos_count = m_data.photos.size();
         int photos_done = 0;
 
         auto align_image_stack_output_analizer = [&photos_done, &photos_count, this](QIODevice& device)
@@ -180,20 +181,45 @@ void AnimationGenerator::perform()
     const QString last = images_to_be_used.last();
     const QString location = System::getTempFilePath() + ".gif";
 
-    auto convert_output_analizer = [](QIODevice& device)
+    struct ConversionData
     {
-        QRegExp cp_regExp("");
+        const QRegExp loadImages_regExp = QRegExp("^load image.*");
+        int photos_loaded = 0;
 
+        enum
+        {
+            LoadingImages,
+        } state = LoadingImages;
+
+    } conversion_data;
+
+    auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
+    {
         while(device.bytesAvailable() > 0)
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
+
+            switch (conversion_data.state)
+            {
+                case ConversionData::LoadingImages:
+                {
+                    if (conversion_data.loadImages_regExp.exactMatch(line))
+                    {
+                        conversion_data.photos_loaded++;
+
+                        emit progress(conversion_data.photos_loaded * 100 / photos_count);
+                    }
+                }
+            };
         }
     };
 
+    emit operation(tr("Loading photos for conversion"));
+
     execute("convert",
             convert_output_analizer,
-            "-verbose",
+            "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
             "-delay", QString::number(last_photo_delay),

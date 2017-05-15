@@ -4,8 +4,13 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+126"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+128"/>
         <source>Stabilizing photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+90"/>
+        <source>Loading photos for conversion</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
