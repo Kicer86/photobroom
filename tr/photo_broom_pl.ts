@@ -9,13 +9,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+95"/>
-        <source>Assembling gif file</source>
+        <location line="+46"/>
+        <source>Saving stabilized images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-23"/>
-        <source>Loading photos for conversion</source>
+        <location line="+60"/>
+        <source>Loading photos to be animated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Assembling gif file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

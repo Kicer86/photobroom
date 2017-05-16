@@ -134,22 +134,56 @@ void AnimationGenerator::perform()
         // generate aligned files
         const QString output_prefix = System::getTempFilePath() + "_";
 
-        int photos_done = 0;
-
-        auto align_image_stack_output_analizer = [&photos_done, &photos_count, this](QIODevice& device)
+        struct
         {
-            QRegExp cp_regExp("Creating control points between.*");
+            const QRegExp cp_regExp   = QRegExp("^Creating control points between.*");
+            const QRegExp opt_regExp  = QRegExp("^Optimizing Variables.*");
+            const QRegExp save_regExp = QRegExp("^saving.*");
 
+            int photos_stabilized = 0;
+            int photos_saved = 0;
+
+            enum
+            {
+                StabilizingImages,
+                SavingImages,
+            } state = StabilizingImages;
+
+        } stabilization_data;
+
+        auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
+        {
             while(device.bytesAvailable() > 0 && device.canReadLine())
             {
                 const QByteArray line_raw = device.readLine();
                 const QString line(line_raw);
 
-                if (cp_regExp.exactMatch(line))
+                switch (stabilization_data.state)
                 {
-                    photos_done++;
+                    case stabilization_data.StabilizingImages:
+                        if (stabilization_data.cp_regExp.exactMatch(line))
+                        {
+                            stabilization_data.photos_stabilized++;
 
-                    emit progress(photos_done * 100 / (photos_count - 1));   // there will be n-1 control points groups
+                            emit progress( stabilization_data.photos_stabilized * 100 / (photos_count - 1));   // there will be n-1 control points groups
+                        }
+                        else if (stabilization_data.opt_regExp.exactMatch(line))
+                        {
+                            stabilization_data.state = stabilization_data.SavingImages;
+
+                            emit operation(tr("Saving stabilized images"));
+                        }
+
+                        break;
+
+                    case stabilization_data.SavingImages:
+                        if (stabilization_data.save_regExp.exactMatch(line))
+                        {
+                            stabilization_data.photos_saved++;
+
+                            emit progress( stabilization_data.photos_saved * 100 / photos_count );
+                        }
+                        break;
                 }
             }
         };
@@ -197,7 +231,7 @@ void AnimationGenerator::perform()
 
     } conversion_data;
 
-    emit operation(tr("Loading photos for conversion"));
+    emit operation(tr("Loading photos to be animated"));
 
     auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
     {
