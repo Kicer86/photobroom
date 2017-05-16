@@ -9,7 +9,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
+        <source>Assembling gif file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Loading photos for conversion</source>
         <translation type="unfinished"></translation>
     </message>
@@ -585,7 +590,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+141"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+142"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

@@ -184,11 +184,15 @@ void AnimationGenerator::perform()
     struct
     {
         const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
+        const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
+        const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
         int photos_loaded = 0;
+        int photos_assembled = 0;
 
         enum
         {
             LoadingImages,
+            BuildingGif,
         } state = LoadingImages;
 
     } conversion_data;
@@ -210,6 +214,26 @@ void AnimationGenerator::perform()
 
                         emit progress(conversion_data.photos_loaded * 100 / photos_count);
                     }
+                    else if (conversion_data.mogrify_regExp.exactMatch(line))
+                    {
+                        conversion_data.state = conversion_data.BuildingGif;
+
+                        emit operation(tr("Assembling gif file"));
+                    }
+
+                    break;
+                }
+
+                case conversion_data.BuildingGif:
+                {
+                    if (conversion_data.dither_regExp.exactMatch(line))
+                    {
+                        conversion_data.photos_assembled++;
+
+                        emit progress(conversion_data.photos_assembled * 100 / photos_count);
+                    }
+
+                    break;
                 }
             };
         }
