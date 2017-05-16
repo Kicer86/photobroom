@@ -201,7 +201,7 @@ void AnimationGenerator::perform()
 
     auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
     {
-        while(device.bytesAvailable() > 0)
+        while(device.bytesAvailable() > 0 && device.canReadLine())
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
