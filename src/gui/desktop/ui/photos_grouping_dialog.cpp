@@ -66,6 +66,7 @@ void PhotosGroupingDialog::generationTitle(const QString& title)
     QProgressBar* progress = down_cast<QProgressBar *>(progress_widget);
 
     progress->setFormat(title + " %p%");
+    progress->setValue(0);
 }
 
 
