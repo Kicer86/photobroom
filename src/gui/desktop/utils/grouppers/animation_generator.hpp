@@ -61,7 +61,9 @@ class AnimationGenerator: public QObject
 
         friend class GifGenerator;
 
+        // animation thread
         void perform();
+        QStringList stabilize();
 };
 
 

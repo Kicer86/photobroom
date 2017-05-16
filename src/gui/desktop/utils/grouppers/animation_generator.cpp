@@ -119,95 +119,10 @@ void AnimationGenerator::generate(const Data& data)
 
 void AnimationGenerator::perform()
 {
-    // stabilize?
-    QStringList images_to_be_used;
     const int photos_count = m_data.photos.size();
 
-    if (m_data.stabilize)
-    {
-        emit operation(tr("Stabilizing photos"));
-        emit progress(0);
-        // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
-        // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
-        // http://wiki.panotools.org/Align_image_stack
-
-        // generate aligned files
-        const QString output_prefix = System::getTempFilePath() + "_";
-
-        struct
-        {
-            const QRegExp cp_regExp   = QRegExp("^Creating control points between.*");
-            const QRegExp opt_regExp  = QRegExp("^Optimizing Variables.*");
-            const QRegExp save_regExp = QRegExp("^saving.*");
-
-            int photos_stabilized = 0;
-            int photos_saved = 0;
-
-            enum
-            {
-                StabilizingImages,
-                SavingImages,
-            } state = StabilizingImages;
-
-        } stabilization_data;
-
-        auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
-        {
-            while(device.bytesAvailable() > 0 && device.canReadLine())
-            {
-                const QByteArray line_raw = device.readLine();
-                const QString line(line_raw);
-
-                switch (stabilization_data.state)
-                {
-                    case stabilization_data.StabilizingImages:
-                        if (stabilization_data.cp_regExp.exactMatch(line))
-                        {
-                            stabilization_data.photos_stabilized++;
-
-                            emit progress( stabilization_data.photos_stabilized * 100 / (photos_count - 1));   // there will be n-1 control points groups
-                        }
-                        else if (stabilization_data.opt_regExp.exactMatch(line))
-                        {
-                            stabilization_data.state = stabilization_data.SavingImages;
-
-                            emit operation(tr("Saving stabilized images"));
-                        }
-
-                        break;
-
-                    case stabilization_data.SavingImages:
-                        if (stabilization_data.save_regExp.exactMatch(line))
-                        {
-                            stabilization_data.photos_saved++;
-
-                            emit progress( stabilization_data.photos_saved * 100 / photos_count );
-                        }
-                        break;
-                }
-            }
-        };
-
-        execute("align_image_stack",
-                align_image_stack_output_analizer,
-                "-C",
-                "-v",                              // for align_image_stack_output_analizer
-                "--use-given-order",
-                "-d", "-i", "-x", "-y", "-z",
-                "-s", "0",
-                "-a", output_prefix,
-                m_data.photos);
-
-        const QFileInfo output_prefix_info(output_prefix);
-        QDirIterator filesIterator(output_prefix_info.absolutePath(), {output_prefix_info.fileName() + "*"}, QDir::Files);
-
-        while(filesIterator.hasNext())
-            images_to_be_used.push_back(filesIterator.next());
-
-        std::sort(images_to_be_used.begin(), images_to_be_used.end());
-    }
-    else
-        images_to_be_used = m_data.photos;
+    // stabilize?
+    const QStringList images_to_be_used = m_data.stabilize? stabilize(): m_data.photos;
 
     // generate gif
     const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
@@ -289,3 +204,95 @@ void AnimationGenerator::perform()
 
     emit finished(location);
 }
+
+
+QStringList AnimationGenerator::stabilize()
+{
+    const int photos_count = m_data.photos.size();
+
+    emit operation(tr("Stabilizing photos"));
+    emit progress(0);
+    // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
+    // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
+    // http://wiki.panotools.org/Align_image_stack
+
+    // generate aligned files
+    const QString output_prefix = System::getTempFilePath() + "_";
+
+    struct
+    {
+        const QRegExp cp_regExp   = QRegExp("^Creating control points between.*");
+        const QRegExp opt_regExp  = QRegExp("^Optimizing Variables.*");
+        const QRegExp save_regExp = QRegExp("^saving.*");
+
+        int photos_stabilized = 0;
+        int photos_saved = 0;
+
+        enum
+        {
+            StabilizingImages,
+            SavingImages,
+        } state = StabilizingImages;
+
+    } stabilization_data;
+
+    auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
+    {
+        while(device.bytesAvailable() > 0 && device.canReadLine())
+        {
+            const QByteArray line_raw = device.readLine();
+            const QString line(line_raw);
+
+            switch (stabilization_data.state)
+            {
+                case stabilization_data.StabilizingImages:
+                    if (stabilization_data.cp_regExp.exactMatch(line))
+                    {
+                        stabilization_data.photos_stabilized++;
+
+                        emit progress( stabilization_data.photos_stabilized * 100 / (photos_count - 1));   // there will be n-1 control points groups
+                    }
+                    else if (stabilization_data.opt_regExp.exactMatch(line))
+                    {
+                        stabilization_data.state = stabilization_data.SavingImages;
+
+                        emit operation(tr("Saving stabilized images"));
+                    }
+
+                    break;
+
+                case stabilization_data.SavingImages:
+                    if (stabilization_data.save_regExp.exactMatch(line))
+                    {
+                        stabilization_data.photos_saved++;
+
+                        emit progress( stabilization_data.photos_saved * 100 / photos_count );
+                    }
+                    break;
+            }
+        }
+    };
+
+    execute("align_image_stack",
+            align_image_stack_output_analizer,
+            "-C",
+            "-v",                              // for align_image_stack_output_analizer
+            "--use-given-order",
+            "-d", "-i", "-x", "-y", "-z",
+            "-s", "0",
+            "-a", output_prefix,
+            m_data.photos);
+
+    QStringList stabilized_images;
+
+    const QFileInfo output_prefix_info(output_prefix);
+    QDirIterator filesIterator(output_prefix_info.absolutePath(), {output_prefix_info.fileName() + "*"}, QDir::Files);
+
+    while(filesIterator.hasNext())
+        stabilized_images.push_back(filesIterator.next());
+
+    std::sort(stabilized_images.begin(), stabilized_images.end());
+
+    return stabilized_images;
+}
+
