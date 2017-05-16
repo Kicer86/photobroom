@@ -197,6 +197,8 @@ void AnimationGenerator::perform()
 
     } conversion_data;
 
+    emit operation(tr("Loading photos for conversion"));
+
     auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
     {
         while(device.bytesAvailable() > 0)
@@ -238,8 +240,6 @@ void AnimationGenerator::perform()
             };
         }
     };
-
-    emit operation(tr("Loading photos for conversion"));
 
     execute("convert",
             convert_output_analizer,
