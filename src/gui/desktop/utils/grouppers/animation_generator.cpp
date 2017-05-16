@@ -140,7 +140,7 @@ void AnimationGenerator::perform()
         {
             QRegExp cp_regExp("Creating control points between.*");
 
-            while(device.bytesAvailable() > 0)
+            while(device.bytesAvailable() > 0 && device.canReadLine())
             {
                 const QByteArray line_raw = device.readLine();
                 const QString line(line_raw);
@@ -181,9 +181,9 @@ void AnimationGenerator::perform()
     const QString last = images_to_be_used.last();
     const QString location = System::getTempFilePath() + ".gif";
 
-    struct ConversionData
+    struct
     {
-        const QRegExp loadImages_regExp = QRegExp("^load image.*");
+        const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
         int photos_loaded = 0;
 
         enum
@@ -202,7 +202,7 @@ void AnimationGenerator::perform()
 
             switch (conversion_data.state)
             {
-                case ConversionData::LoadingImages:
+                case conversion_data.LoadingImages:
                 {
                     if (conversion_data.loadImages_regExp.exactMatch(line))
                     {
