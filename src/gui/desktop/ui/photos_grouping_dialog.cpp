@@ -4,7 +4,6 @@
 #include <QFileInfo>
 #include <QMovie>
 #include <QProcess>
-#include <QProgressBar>
 
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
@@ -38,6 +37,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui->photosList->sortByColumn(0, Qt::AscendingOrder);
     ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
+    ui->generationProgressBar->reset();
 
     m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor);
 
@@ -62,25 +62,19 @@ QString PhotosGroupingDialog::getRepresentative() const
 
 void PhotosGroupingDialog::generationTitle(const QString& title)
 {
-    QWidget* progress_widget = ui->resultPreview->widget();
-    QProgressBar* progress = down_cast<QProgressBar *>(progress_widget);
-
-    progress->setFormat(title + " %p%");
-    progress->setValue(0);
+    ui->generationProgressBar->setValue(0);
+    ui->operationName->setText(title);
 }
 
 
 void PhotosGroupingDialog::generationProgress(int v)
 {
-    QWidget* progress_widget = ui->resultPreview->widget();
-    QProgressBar* progress = down_cast<QProgressBar *>(progress_widget);
-
     if (v == -1)
-        progress->setMaximum(0);
+        ui->generationProgressBar->setMaximum(0);
     else
     {
-        progress->setMaximum(100);
-        progress->setValue(v);
+        ui->generationProgressBar->setMaximum(100);
+        ui->generationProgressBar->setValue(v);
     }
 }
 
@@ -98,6 +92,10 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     m_movie->start();
 
     ui->resultPreview->setWidget(label);
+
+    ui->generationProgressBar->reset();
+    ui->generationProgressBar->setDisabled(true);
+    ui->operationName->setText("");
 }
 
 
@@ -117,10 +115,8 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.delay = ui->delaySpinBox->value();
     generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
-    QProgressBar* bar = new QProgressBar(this);
-
-    ui->resultPreview->setWidget(bar);
     m_animationGenerator->generate(generator_data);
+    ui->generationProgressBar->setEnabled(true);
 }
 
 

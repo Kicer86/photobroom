@@ -30,7 +30,7 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <layout class="QVBoxLayout" name="horizontalLayout" stretch="0,0,0,255">
+         <layout class="QVBoxLayout" name="horizontalLayout" stretch="0,0,0,0,255">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
@@ -195,9 +195,16 @@
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <spacer name="horizontalSpacer_3">
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="1">
+             <widget class="QPushButton" name="applyButton">
+              <property name="text">
+               <string>Generate preview</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -209,10 +216,24 @@
               </property>
              </spacer>
             </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QPushButton" name="applyButton">
+             <widget class="QLabel" name="operationName">
               <property name="text">
-               <string>Generate preview</string>
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QProgressBar" name="generationProgressBar">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="value">
+               <number>0</number>
               </property>
              </widget>
             </item>

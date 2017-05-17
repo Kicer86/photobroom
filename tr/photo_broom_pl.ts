@@ -585,17 +585,17 @@ Kod błędu: %1</translation>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+15"/>
         <source>Generate preview</source>
         <translation>Wygeneruj podgląd</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+68"/>
         <source>Preview:</source>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+142"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+138"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
