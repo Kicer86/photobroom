@@ -26,7 +26,7 @@
 #include <core/itask_executor.hpp>
 
 
-class AnimationGenerator: public QObject
+class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 {
         Q_OBJECT
 
@@ -42,13 +42,14 @@ class AnimationGenerator: public QObject
             Data(): fps(0.0), delay(0.0), scale(0.0), photos(), stabilize(false) {}
         };
 
-        AnimationGenerator(ITaskExecutor* executor);
+        AnimationGenerator(const Data& data);
         AnimationGenerator(const AnimationGenerator &) = delete;
         ~AnimationGenerator();
 
         AnimationGenerator& operator=(const AnimationGenerator &) = delete;
 
-        void generate(const Data& data);
+        std::string name() const override;
+        void perform() override;
 
     signals:
         void operation(const QString &);
@@ -57,12 +58,7 @@ class AnimationGenerator: public QObject
 
     private:
         Data m_data;
-        ITaskExecutor* m_executor;
 
-        friend class GifGenerator;
-
-        // animation thread
-        void perform();
         QStringList stabilize();
 };
 

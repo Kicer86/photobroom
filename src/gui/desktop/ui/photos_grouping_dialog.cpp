@@ -16,7 +16,6 @@
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, ITaskExecutor* executor, QWidget *parent):
     QDialog(parent),
     m_model(),
-    m_animationGenerator(),
     m_movie(),
     m_sortProxy(),
     m_representativeFile(),
@@ -39,12 +38,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
 
-    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor);
-
     connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::makeAnimation);
-    connect(m_animationGenerator.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-    connect(m_animationGenerator.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-    connect(m_animationGenerator.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
 }
 
 
@@ -115,7 +109,13 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.delay = ui->delaySpinBox->value();
     generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
-    m_animationGenerator->generate(generator_data);
+    auto animation_task = std::make_unique<AnimationGenerator>(generator_data);
+
+    connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+
+    m_executor->add(std::move(animation_task));
     ui->generationProgressBar->setEnabled(true);
 }
 

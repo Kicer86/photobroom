@@ -66,36 +66,12 @@ namespace
     }
 }
 
-struct GifGenerator: ITaskExecutor::ITask
-{
-    GifGenerator(AnimationGenerator* generator): m_generator(generator)
-    {
-    }
-
-
-    GifGenerator(const GifGenerator &) = delete;
-    GifGenerator& operator=(const GifGenerator &) = delete;
-
-    std::string name() const override
-    {
-        return "GifGenerator";
-    }
-
-    void perform() override
-    {
-        m_generator->perform();
-    }
-
-    AnimationGenerator* m_generator;
-};
-
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-AnimationGenerator::AnimationGenerator(ITaskExecutor* executor):
-    m_data(),
-    m_executor(executor)
+AnimationGenerator::AnimationGenerator(const Data& data):
+    m_data(data)
 {
 }
 
@@ -106,19 +82,15 @@ AnimationGenerator::~AnimationGenerator()
 }
 
 
-void AnimationGenerator::generate(const Data& data)
+std::string AnimationGenerator::name() const
 {
-    m_data = data;
-
-    auto task = std::make_unique<GifGenerator>(this);
-    m_executor->add(std::move(task));
-
-    emit progress(-1);
+    return "GifGenerator";
 }
-
 
 void AnimationGenerator::perform()
 {
+    emit progress(-1);
+
     const int photos_count = m_data.photos.size();
 
     // stabilize?
