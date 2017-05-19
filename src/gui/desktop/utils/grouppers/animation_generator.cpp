@@ -87,6 +87,7 @@ std::string AnimationGenerator::name() const
     return "GifGenerator";
 }
 
+
 void AnimationGenerator::perform()
 {
     emit progress(-1);
@@ -94,90 +95,6 @@ void AnimationGenerator::perform()
     // stabilize?
     const QStringList images_to_be_used = m_data.stabilize? stabilize(): m_data.photos;
     generateGif(images_to_be_used);
-}
-
-void AnimationGenerator::generateGif(const QStringList& photos)
-{
-    // generate gif
-    const int photos_count = m_data.photos.size();
-    const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
-    const QStringList all_but_last = photos.mid(0, photos.size() - 1);
-    const QString last = photos.last();
-    const QString location = System::getTempFilePath() + ".gif";
-
-    struct
-    {
-        const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
-        const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
-        const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
-        int photos_loaded = 0;
-        int photos_assembled = 0;
-
-        enum
-        {
-            LoadingImages,
-            BuildingGif,
-        } state = LoadingImages;
-
-    } conversion_data;
-
-    emit operation(tr("Loading photos to be animated"));
-
-    auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
-    {
-        while(device.bytesAvailable() > 0 && device.canReadLine())
-        {
-            const QByteArray line_raw = device.readLine();
-            const QString line(line_raw);
-
-            switch (conversion_data.state)
-            {
-                case conversion_data.LoadingImages:
-                {
-                    if (conversion_data.loadImages_regExp.exactMatch(line))
-                    {
-                        conversion_data.photos_loaded++;
-
-                        emit progress(conversion_data.photos_loaded * 100 / photos_count);
-                    }
-                    else if (conversion_data.mogrify_regExp.exactMatch(line))
-                    {
-                        conversion_data.state = conversion_data.BuildingGif;
-
-                        emit operation(tr("Assembling gif file"));
-                    }
-
-                    break;
-                }
-
-                case conversion_data.BuildingGif:
-                {
-                    if (conversion_data.dither_regExp.exactMatch(line))
-                    {
-                        conversion_data.photos_assembled++;
-
-                        emit progress(conversion_data.photos_assembled * 100 / photos_count);
-                    }
-
-                    break;
-                }
-            };
-        }
-    };
-
-    execute("convert",
-            convert_output_analizer,
-            "-monitor",                                      // for convert_output_analizer
-            "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
-            all_but_last,
-            "-delay", QString::number(last_photo_delay),
-            last,
-            "-auto-orient",
-            "-loop", "0",
-            "-resize", QString::number(m_data.scale) + "%",
-            location);
-
-    emit finished(location);
 }
 
 
@@ -271,3 +188,87 @@ QStringList AnimationGenerator::stabilize()
     return stabilized_images;
 }
 
+
+void AnimationGenerator::generateGif(const QStringList& photos)
+{
+    // generate gif
+    const int photos_count = m_data.photos.size();
+    const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+    const QStringList all_but_last = photos.mid(0, photos.size() - 1);
+    const QString last = photos.last();
+    const QString location = System::getTempFilePath() + ".gif";
+
+    struct
+    {
+        const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
+        const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
+        const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
+        int photos_loaded = 0;
+        int photos_assembled = 0;
+
+        enum
+        {
+            LoadingImages,
+            BuildingGif,
+        } state = LoadingImages;
+
+    } conversion_data;
+
+    emit operation(tr("Loading photos to be animated"));
+
+    auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
+    {
+        while(device.bytesAvailable() > 0 && device.canReadLine())
+        {
+            const QByteArray line_raw = device.readLine();
+            const QString line(line_raw);
+
+            switch (conversion_data.state)
+            {
+                case conversion_data.LoadingImages:
+                {
+                    if (conversion_data.loadImages_regExp.exactMatch(line))
+                    {
+                        conversion_data.photos_loaded++;
+
+                        emit progress(conversion_data.photos_loaded * 100 / photos_count);
+                    }
+                    else if (conversion_data.mogrify_regExp.exactMatch(line))
+                    {
+                        conversion_data.state = conversion_data.BuildingGif;
+
+                        emit operation(tr("Assembling gif file"));
+                    }
+
+                    break;
+                }
+
+                case conversion_data.BuildingGif:
+                {
+                    if (conversion_data.dither_regExp.exactMatch(line))
+                    {
+                        conversion_data.photos_assembled++;
+
+                        emit progress(conversion_data.photos_assembled * 100 / photos_count);
+                    }
+
+                    break;
+                }
+            };
+        }
+    };
+
+    execute("convert",
+            convert_output_analizer,
+            "-monitor",                                      // for convert_output_analizer
+            "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
+            all_but_last,
+            "-delay", QString::number(last_photo_delay),
+            last,
+            "-auto-orient",
+            "-loop", "0",
+            "-resize", QString::number(m_data.scale) + "%",
+            location);
+
+    emit finished(location);
+}
