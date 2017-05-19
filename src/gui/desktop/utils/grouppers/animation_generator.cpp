@@ -91,15 +91,18 @@ void AnimationGenerator::perform()
 {
     emit progress(-1);
 
-    const int photos_count = m_data.photos.size();
-
     // stabilize?
     const QStringList images_to_be_used = m_data.stabilize? stabilize(): m_data.photos;
+    generateGif(images_to_be_used);
+}
 
+void AnimationGenerator::generateGif(const QStringList& photos)
+{
     // generate gif
+    const int photos_count = m_data.photos.size();
     const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
-    const QStringList all_but_last = images_to_be_used.mid(0, images_to_be_used.size() - 1);
-    const QString last = images_to_be_used.last();
+    const QStringList all_but_last = photos.mid(0, photos.size() - 1);
+    const QString last = photos.last();
     const QString location = System::getTempFilePath() + ".gif";
 
     struct

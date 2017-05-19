@@ -60,6 +60,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
         Data m_data;
 
         QStringList stabilize();
+        void generateGif(const QStringList &);
 };
 
 
