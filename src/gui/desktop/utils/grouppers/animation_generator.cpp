@@ -48,7 +48,10 @@ namespace
     }
 
     template<typename ...Args>
-    bool execute(const QString& executable, const std::function<void(QIODevice &)>& outputDataCallback, Args... args)
+    void execute(const QString& executable,
+                 const std::function<void(QIODevice &)>& outputDataCallback,
+                 const std::function<void(QProcess &)>& launcher,
+                 const Args... args)
     {
         QStringList arguments;
         append(arguments, args...);
@@ -59,10 +62,10 @@ namespace
         if (outputDataCallback)
             QObject::connect(&pr, &QIODevice::readyRead, std::bind(outputDataCallback, std::ref(pr)));
 
-        pr.start(executable, arguments);
-        const bool status = pr.waitForFinished(-1);
+        pr.setProgram(executable);
+        pr.setArguments(arguments);
 
-        return status;
+        launcher(pr);
     }
 }
 
@@ -71,7 +74,9 @@ namespace
 
 
 AnimationGenerator::AnimationGenerator(const Data& data):
-    m_data(data)
+    m_data(data),
+    m_cancelMutex(),
+    m_cancel(false)
 {
 }
 
@@ -95,6 +100,15 @@ void AnimationGenerator::perform()
     // stabilize?
     const QStringList images_to_be_used = m_data.stabilize? stabilize(): m_data.photos;
     generateGif(images_to_be_used);
+}
+
+
+void AnimationGenerator::cancel()
+{
+    std::lock_guard<std::mutex> lock(m_cancelMutex);
+    m_cancel = true;
+
+    emit canceled();
 }
 
 
@@ -167,6 +181,7 @@ QStringList AnimationGenerator::stabilize()
 
     execute("align_image_stack",
             align_image_stack_output_analizer,
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
             "-C",
             "-v",                              // for align_image_stack_output_analizer
             "--use-given-order",
@@ -260,6 +275,7 @@ void AnimationGenerator::generateGif(const QStringList& photos)
 
     execute("convert",
             convert_output_analizer,
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
@@ -271,4 +287,22 @@ void AnimationGenerator::generateGif(const QStringList& photos)
             location);
 
     emit finished(location);
+}
+
+
+void AnimationGenerator::startAndWaitForFinish(QProcess& process)
+{
+    // lock mutex to setup reaction on cancel correctly
+    std::unique_lock<std::mutex> lock(m_cancelMutex);
+
+    if (m_cancel == false)
+    {
+        connect(this, &AnimationGenerator::canceled, &process, &QProcess::terminate);
+
+        process.start();
+
+        lock.unlock();
+
+        process.waitForFinished(-1);
+    }
 }

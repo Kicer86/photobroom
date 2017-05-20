@@ -25,6 +25,7 @@
 
 #include <core/itask_executor.hpp>
 
+class QProcess;
 
 class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 {
@@ -51,6 +52,8 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
         std::string name() const override;
         void perform() override;
 
+        void cancel();
+
     signals:
         void operation(const QString &);
         void progress(int);
@@ -58,9 +61,17 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 
     private:
         Data m_data;
+        std::mutex m_cancelMutex;
+        bool m_cancel;
 
         QStringList stabilize();
         void generateGif(const QStringList &);
+
+        void startAndWaitForFinish(QProcess &);
+
+    // internal signals:
+    signals:
+        void canceled();
 };
 
 
