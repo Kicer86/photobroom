@@ -595,7 +595,17 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+138"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+63"/>
+        <source>Cancel operation?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Do you really want to stop current work and quit?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+99"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

@@ -2,6 +2,7 @@
 #include "photos_grouping_dialog.hpp"
 
 #include <QFileInfo>
+#include <QMessageBox>
 #include <QMovie>
 #include <QProcess>
 
@@ -21,7 +22,8 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader),
-    m_executor(executor)
+    m_executor(executor),
+    m_workInProgress(false)
 {
     assert(photos.size() >= 2);
 
@@ -54,6 +56,23 @@ QString PhotosGroupingDialog::getRepresentative() const
 }
 
 
+void PhotosGroupingDialog::reject()
+{
+    if (m_workInProgress)
+    {
+        const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work and quit?"));
+
+        if (result == QMessageBox::StandardButton::Yes)
+        {
+            emit cancel();
+            QDialog::reject();
+        }
+    }
+    else
+        QDialog::reject();
+}
+
+
 void PhotosGroupingDialog::generationTitle(const QString& title)
 {
     ui->generationProgressBar->setValue(0);
@@ -76,6 +95,7 @@ void PhotosGroupingDialog::generationProgress(int v)
 void PhotosGroupingDialog::generationDone(const QString& location)
 {
     m_representativeFile = location;
+    m_workInProgress = false;
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
 
@@ -90,6 +110,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     ui->generationProgressBar->reset();
     ui->generationProgressBar->setDisabled(true);
     ui->operationName->setText("");
+    ui->applyButton->setEnabled(true);
 }
 
 
@@ -111,12 +132,15 @@ void PhotosGroupingDialog::makeAnimation()
 
     auto animation_task = std::make_unique<AnimationGenerator>(generator_data);
 
+    connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
     connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
     connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
     connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
 
     m_executor->add(std::move(animation_task));
     ui->generationProgressBar->setEnabled(true);
+    ui->applyButton->setEnabled(false);
+    m_workInProgress = true;
 }
 
 

@@ -55,6 +55,8 @@ class PhotosGroupingDialog: public QDialog
 
         QString getRepresentative() const;
 
+        void reject() override;
+
     private:
         QStandardItemModel m_model;
         std::unique_ptr<QMovie> m_movie;
@@ -63,6 +65,7 @@ class PhotosGroupingDialog: public QDialog
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
         ITaskExecutor* m_executor;
+        bool m_workInProgress;
 
         void generationTitle(const QString &);
         void generationProgress(int);
@@ -72,6 +75,10 @@ class PhotosGroupingDialog: public QDialog
         void fillModel(const std::vector<IPhotoInfo::Ptr> &);
 
         QStringList getPhotos() const;
+
+    // internal signals:
+    signals:
+        void cancel();
 };
 
 #endif // PHOTOS_GROUPING_DIALOG_HPP
