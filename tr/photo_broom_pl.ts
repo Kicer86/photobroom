@@ -14,7 +14,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+68"/>
         <source>Loading photos to be animated</source>
         <translation type="unfinished"></translation>
     </message>

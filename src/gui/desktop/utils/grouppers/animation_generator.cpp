@@ -178,6 +178,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
 
                         emit progress( stabilization_data.photos_saved * 100 / photos_count );
                     }
+
                     break;
             }
         }
