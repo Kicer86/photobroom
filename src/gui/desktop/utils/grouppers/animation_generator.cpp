@@ -19,16 +19,12 @@
 
 #include "animation_generator.hpp"
 
-#include <cmath>
-
 #include <QDirIterator>
 #include <QEventLoop>
-#include <QFile>
 #include <QFileInfo>
-#include <QLabel>
 #include <QProcess>
 #include <QRegExp>
-#include <QTextStream>
+#include <QTemporaryDir>
 
 #include <core/cross_thread_call.hpp>
 #include <system/system.hpp>
@@ -98,8 +94,11 @@ void AnimationGenerator::perform()
 {
     emit progress(-1);
 
+    // temporary dir for heavy files, to be removed just after we are done
+    QTemporaryDir work_dir;
+
     // stabilize?
-    const QStringList images_to_be_used = m_data.stabilize? stabilize(): m_data.photos;
+    const QStringList images_to_be_used = m_data.stabilize? stabilize(work_dir.path()): m_data.photos;
 
     // generate gif (if there was no cancel during stabilization)
     const QString gif_path = m_cancel? "": generateGif(images_to_be_used);
@@ -117,7 +116,7 @@ void AnimationGenerator::cancel()
 }
 
 
-QStringList AnimationGenerator::stabilize()
+QStringList AnimationGenerator::stabilize(const QString& work_dir)
 {
     const int photos_count = m_data.photos.size();
 
@@ -128,7 +127,7 @@ QStringList AnimationGenerator::stabilize()
     // http://wiki.panotools.org/Align_image_stack
 
     // generate aligned files
-    const QString output_prefix = System::getTempFilePath() + "_";
+    const QString output_prefix = work_dir + QDir::separator() + "stabilized";
 
     struct
     {

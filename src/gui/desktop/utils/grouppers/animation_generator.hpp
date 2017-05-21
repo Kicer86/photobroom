@@ -64,7 +64,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
         std::mutex m_cancelMutex;
         bool m_cancel;
 
-        QStringList stabilize();
+        QStringList stabilize(const QString &);
         QString generateGif(const QStringList &);
 
         void startAndWaitForFinish(QProcess &);
