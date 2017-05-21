@@ -2,163 +2,45 @@
 #include "photos_grouping_dialog.hpp"
 
 #include <QFileInfo>
-#include <QProcess>
-#include <QProgressBar>
+#include <QMessageBox>
 #include <QMovie>
+#include <QProcess>
 
 #include <core/iexif_reader.hpp>
-#include <core/itask_executor.hpp>
-#include <core/cross_thread_call.hpp>
-#include <system/system.hpp>
+#include <core/down_cast.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
-
-struct AnimationGenerator: QObject
-{
-    struct Data
-    {
-        double fps;
-        double delay;
-        double scale;
-        QStringList photos;
-
-        Data(): fps(0.0), delay(0.0), scale(0.0), photos() {}
-    };
-
-    struct GifGenerator: ITaskExecutor::ITask
-    {
-        GifGenerator(const AnimationGenerator::Data& data, const QString& location, const std::function<void(const QString &)>& doneCallback):
-            m_data(data),
-            m_location(location),
-            m_doneCallback(doneCallback)
-        {
-        }
-
-        std::string name() const override
-        {
-            return "GifGenerator";
-        }
-
-        void perform() override
-        {
-            QStringList args;
-            args << "-delay" << QString::number(1/m_data.fps * 100);   // convert fps to 1/100th of a second
-            args << m_data.photos;
-            args << "-auto-orient";
-            args << "-loop" << "0";
-            args << "-resize" << QString::number(100/m_data.scale) + "%";
-            args << m_location;
-
-            QProcess convert;
-            convert.start("convert", args);
-            convert.waitForFinished(-1);
-
-            m_doneCallback(m_location);
-        }
-
-        AnimationGenerator::Data m_data;
-        QString m_location;
-        std::function<void(const QString &)> m_doneCallback;
-    };
-
-    AnimationGenerator(ITaskExecutor* executor, const std::function<void(QWidget *, const QString &)>& callback):
-        m_callback(callback),
-        m_movie(),
-        m_baseSize(),
-        m_executor(executor)
-    {
-    }
-
-    AnimationGenerator(const AnimationGenerator &) = delete;
-    AnimationGenerator& operator=(const AnimationGenerator &) = delete;
-
-
-    void generatePreviewWidget(const Data& data)
-    {
-        if (m_movie.get() != nullptr)
-            m_movie->stop();
-
-        m_baseSize = QSize();
-
-        const QString location = System::getTempFilePath() + ".gif";
-
-        using namespace std::placeholders;
-        std::function<void(const QString &)> doneFun = std::bind(&AnimationGenerator::done, this, _1);
-        auto doneCallback = make_cross_thread_function(this, doneFun);
-
-        auto task = std::make_unique<GifGenerator>(data, location, doneCallback);
-        m_executor->add(std::move(task));
-
-        QProgressBar* progress = new QProgressBar;
-        progress->setRange(0, 0);
-
-        m_callback(progress, QString());
-    }
-
-    void scalePreview(double scale)
-    {
-        if (m_movie.get() != nullptr)
-        {
-            if (m_baseSize.isValid() == false)
-                m_baseSize = m_movie->frameRect().size();
-
-            const double scaleFactor = scale/100;
-            QSize size = m_baseSize;
-            size.rheight() *= scaleFactor;
-            size.rwidth() *= scaleFactor;
-
-            m_movie->setScaledSize(size);
-        }
-    }
-
-    void done(const QString& location)
-    {
-        m_movie = std::make_unique<QMovie>(location);
-        QLabel* label = new QLabel;
-
-        label->setMovie(m_movie.get());
-        m_movie->start();
-
-        m_callback(label, location);
-    }
-
-    std::function<void(QWidget *, const QString &)> m_callback;
-    std::unique_ptr<QMovie> m_movie;
-    QSize m_baseSize;
-    ITaskExecutor* m_executor;
-};
+#include "utils/grouppers/animation_generator.hpp"
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, ITaskExecutor* executor, QWidget *parent):
     QDialog(parent),
     m_model(),
-    m_animationGenerator(),
+    m_movie(),
     m_sortProxy(),
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader),
-    m_executor(executor)
+    m_executor(executor),
+    m_workInProgress(false)
 {
+    assert(photos.size() >= 2);
+
     fillModel(photos);
 
     ui->setupUi(this);
 
     m_sortProxy.setSourceModel(&m_model);
 
-    ui->photosView->setModel(&m_sortProxy);
-    ui->photosView->setSortingEnabled(true);
-    ui->photosView->sortByColumn(0, Qt::AscendingOrder);
-    ui->photosView->resizeColumnsToContents();
+    ui->photosList->setModel(&m_sortProxy);
+    ui->photosList->setSortingEnabled(true);
+    ui->photosList->sortByColumn(0, Qt::AscendingOrder);
+    ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
+    ui->generationProgressBar->reset();
 
-    using namespace std::placeholders;
-    auto callback = std::bind(&PhotosGroupingDialog::updatePreview, this, _1, _2);
-
-    m_animationGenerator = std::make_unique<AnimationGenerator>(m_executor, callback);
-
-    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::makeAnimation);
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved, m_animationGenerator.get(), &AnimationGenerator::scalePreview);
+    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::applyPressed);
 }
 
 
@@ -174,14 +56,70 @@ QString PhotosGroupingDialog::getRepresentative() const
 }
 
 
-void PhotosGroupingDialog::updatePreview(QWidget* preview, const QString& location)
+void PhotosGroupingDialog::reject()
 {
-    if (preview != nullptr)
+    if (m_workInProgress)
     {
-        ui->resultPreview->setWidget(preview);
-        m_representativeFile = location;
+        const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work and quit?"));
+
+        if (result == QMessageBox::StandardButton::Yes)
+        {
+            emit cancel();
+            QDialog::reject();
+        }
+    }
+    else
+        QDialog::reject();
+}
+
+
+void PhotosGroupingDialog::generationTitle(const QString& title)
+{
+    ui->generationProgressBar->setValue(0);
+    ui->operationName->setText(title);
+}
+
+
+void PhotosGroupingDialog::generationProgress(int v)
+{
+    if (v == -1)
+        ui->generationProgressBar->setMaximum(0);
+    else
+    {
+        ui->generationProgressBar->setMaximum(100);
+        ui->generationProgressBar->setValue(v);
+    }
+}
+
+
+void PhotosGroupingDialog::generationDone(const QString& location)
+{
+    m_representativeFile = location;
+    m_workInProgress = false;
+
+    if (m_representativeFile.isEmpty() == false)
+    {
+        m_movie = std::make_unique<QMovie>(location);
+        QLabel* label = new QLabel;
+
+        label->setMovie(m_movie.get());
+        m_movie->start();
+
+        ui->resultPreview->setWidget(label);
     }
 
+    ui->generationProgressBar->reset();
+    ui->generationProgressBar->setDisabled(true);
+    ui->operationName->setText("");
+    ui->animationOptions->setEnabled(true);
+    ui->applyButton->setText(tr("Generate animation"));
+
+    refreshDialogButtons();
+}
+
+
+void PhotosGroupingDialog::refreshDialogButtons()
+{
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
 }
 
@@ -192,6 +130,20 @@ void PhotosGroupingDialog::typeChanged()
 }
 
 
+void PhotosGroupingDialog::applyPressed()
+{
+    if (m_workInProgress)
+    {
+        const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work?"));
+
+        if (result == QMessageBox::StandardButton::Yes)
+            emit cancel();
+    }
+    else
+        makeAnimation();
+}
+
+
 void PhotosGroupingDialog::makeAnimation()
 {
     AnimationGenerator::Data generator_data;
@@ -199,8 +151,25 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.photos = getPhotos();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
+    generator_data.delay = ui->delaySpinBox->value();
+    generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
-    m_animationGenerator->generatePreviewWidget(generator_data);
+    auto animation_task = std::make_unique<AnimationGenerator>(generator_data);
+
+    connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
+    connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+
+    m_executor->add(std::move(animation_task));
+    ui->generationProgressBar->setEnabled(true);
+    ui->animationOptions->setEnabled(false);
+    ui->applyButton->setText(tr("Cancel generation"));
+    ui->resultPreview->setWidget(new QWidget);
+    m_workInProgress = true;
+    m_representativeFile.clear();
+
+    refreshDialogButtons();
 }
 
 

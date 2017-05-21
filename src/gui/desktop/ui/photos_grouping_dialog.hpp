@@ -18,8 +18,6 @@ namespace Ui
     class PhotosGroupingDialog;
 }
 
-struct AnimationGenerator;
-
 class SortingProxy: public QSortFilterProxyModel
 {
     public:
@@ -57,21 +55,32 @@ class PhotosGroupingDialog: public QDialog
 
         QString getRepresentative() const;
 
+        void reject() override;
+
     private:
         QStandardItemModel m_model;
-        std::unique_ptr<AnimationGenerator> m_animationGenerator;
+        std::unique_ptr<QMovie> m_movie;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
         ITaskExecutor* m_executor;
+        bool m_workInProgress;
 
-        void updatePreview(QWidget *, const QString &);
+        void generationTitle(const QString &);
+        void generationProgress(int);
+        void generationDone(const QString &);
+        void refreshDialogButtons();
         void typeChanged();
+        void applyPressed();
         void makeAnimation();
         void fillModel(const std::vector<IPhotoInfo::Ptr> &);
 
         QStringList getPhotos() const;
+
+    // internal signals:
+    signals:
+        void cancel();
 };
 
 #endif // PHOTOS_GROUPING_DIALOG_HPP

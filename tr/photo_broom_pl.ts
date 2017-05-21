@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL">
 <context>
+    <name>AnimationGenerator</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+123"/>
+        <source>Stabilizing photos</source>
+        <translation>Stabilizowanie zdjęć</translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <source>Saving stabilized images</source>
+        <translation>Zapisywanie wyników</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Loading photos to be animated</source>
+        <translation>Wczytywanie zdjęć</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Assembling gif file</source>
+        <translation>Składanie animacji</translation>
+    </message>
+</context>
+<context>
     <name>BaseTags</name>
     <message>
         <location filename="../src/core/implementation/base_tags.cpp" line="+67"/>
@@ -341,7 +364,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+188"/>
+        <location line="+189"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -351,7 +374,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-85"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -371,7 +394,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+168"/>
+        <location line="+169"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -432,12 +455,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-222"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+136"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -522,7 +545,7 @@ Kod błędu: %1</translation>
         <translation>Narzędzie grupowania zdjęć</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+25"/>
         <source>Grouping type:</source>
         <translation>Rodzaj grupowania:</translation>
     </message>
@@ -557,17 +580,48 @@ Kod błędu: %1</translation>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location line="+50"/>
-        <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <location line="+31"/>
+        <source>Stabilize image</source>
+        <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+15"/>
+        <source>Generate preview</source>
+        <translation>Wygeneruj podgląd</translation>
+    </message>
+    <message>
+        <location line="+68"/>
         <source>Preview:</source>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+222"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+63"/>
+        <location line="+74"/>
+        <source>Cancel operation?</source>
+        <translation>Anulować operację?</translation>
+    </message>
+    <message>
+        <location line="-74"/>
+        <source>Do you really want to stop current work and quit?</source>
+        <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Generate animation</source>
+        <translation>Utwórz animację</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Do you really want to stop current work?</source>
+        <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Cancel generation</source>
+        <translation>Przerwij</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
