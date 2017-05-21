@@ -585,12 +585,7 @@ Kod błędu: %1</translation>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <source>Generate preview</source>
-        <translation>Wygeneruj podgląd</translation>
-    </message>
-    <message>
-        <location line="+68"/>
+        <location line="+83"/>
         <source>Preview:</source>
         <translation>Podgląd:</translation>
     </message>
@@ -606,12 +601,13 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-68"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+52"/>
         <source>Generate animation</source>
         <translation>Utwórz animację</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+22"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
