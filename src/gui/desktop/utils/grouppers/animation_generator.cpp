@@ -22,6 +22,7 @@
 #include <cmath>
 
 #include <QDirIterator>
+#include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
 #include <QLabel>
@@ -99,7 +100,11 @@ void AnimationGenerator::perform()
 
     // stabilize?
     const QStringList images_to_be_used = m_data.stabilize? stabilize(): m_data.photos;
-    generateGif(images_to_be_used);
+
+    // generate gif (if there was no cancel during stabilization)
+    const QString gif_path = m_cancel? "": generateGif(images_to_be_used);
+
+    emit finished(gif_path);
 }
 
 
@@ -204,7 +209,7 @@ QStringList AnimationGenerator::stabilize()
 }
 
 
-void AnimationGenerator::generateGif(const QStringList& photos)
+QString AnimationGenerator::generateGif(const QStringList& photos)
 {
     // generate gif
     const int photos_count = m_data.photos.size();
@@ -286,7 +291,7 @@ void AnimationGenerator::generateGif(const QStringList& photos)
             "-resize", QString::number(m_data.scale) + "%",
             location);
 
-    emit finished(location);
+    return m_cancel? "": location;
 }
 
 
@@ -297,12 +302,13 @@ void AnimationGenerator::startAndWaitForFinish(QProcess& process)
 
     if (m_cancel == false)
     {
+        QEventLoop loop;
+
         connect(this, &AnimationGenerator::canceled, &process, &QProcess::terminate);
+        connect(&process, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
 
         process.start();
-
         lock.unlock();
-
-        process.waitForFinished(-1);
+        loop.exec();
     }
 }

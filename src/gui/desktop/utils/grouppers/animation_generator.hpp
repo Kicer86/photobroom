@@ -65,7 +65,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
         bool m_cancel;
 
         QStringList stabilize();
-        void generateGif(const QStringList &);
+        QString generateGif(const QStringList &);
 
         void startAndWaitForFinish(QProcess &);
 
