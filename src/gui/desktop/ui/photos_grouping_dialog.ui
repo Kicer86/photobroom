@@ -199,7 +199,7 @@
             <item row="0" column="1">
              <widget class="QPushButton" name="applyButton">
               <property name="text">
-               <string>Generate preview</string>
+               <string>Generate animation</string>
               </property>
              </widget>
             </item>

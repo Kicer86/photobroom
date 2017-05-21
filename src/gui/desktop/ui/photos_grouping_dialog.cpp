@@ -112,7 +112,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     ui->generationProgressBar->setDisabled(true);
     ui->operationName->setText("");
     ui->animationOptions->setEnabled(true);
-    ui->applyButton->setText(tr("Generate preview"));
+    ui->applyButton->setText(tr("Generate animation"));
 
     refreshDialogButtons();
 }
