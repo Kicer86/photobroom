@@ -1,7 +1,7 @@
 
 Required tools and libraries:
  - cmake - version 3.0 or later
- - Qt5 - version 5.6 or higher
+ - Qt5 - version 5.7 or higher
  - easyexif*
  - jsoncpp*
  - OpenLibrary*
@@ -15,7 +15,7 @@ Required tools and libraries:
   for download, build and install all marked libraries.
   If you want to use this feature take cmake/third_party directory
   as CMake source dir. Place output dir somewhere outise photo broom sources.
-  
+
   By default none of the marked libraries will be build.
   It is necessary to enable each library manually with particular CMake variable.
 

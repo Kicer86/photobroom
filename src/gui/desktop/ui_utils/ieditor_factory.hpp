@@ -2,7 +2,7 @@
 #ifndef IEDITOR_FACTORY_HPP
 #define IEDITOR_FACTORY_HPP
 
-class TagNameInfo;
+struct TagNameInfo;
 
 struct IEditorFactory
 {
