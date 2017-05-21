@@ -40,7 +40,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
 
-    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::makeAnimation);
+    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::applyPressed);
 }
 
 
@@ -97,26 +97,50 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     m_representativeFile = location;
     m_workInProgress = false;
 
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
+    if (m_representativeFile.isEmpty() == false)
+    {
+        m_movie = std::make_unique<QMovie>(location);
+        QLabel* label = new QLabel;
 
-    m_movie = std::make_unique<QMovie>(location);
-    QLabel* label = new QLabel;
+        label->setMovie(m_movie.get());
+        m_movie->start();
 
-    label->setMovie(m_movie.get());
-    m_movie->start();
-
-    ui->resultPreview->setWidget(label);
+        ui->resultPreview->setWidget(label);
+    }
 
     ui->generationProgressBar->reset();
     ui->generationProgressBar->setDisabled(true);
     ui->operationName->setText("");
-    ui->applyButton->setEnabled(true);
+    ui->animationOptions->setEnabled(true);
+    ui->applyButton->setText(tr("Generate preview"));
+
+    refreshDialogButtons();
+}
+
+
+void PhotosGroupingDialog::refreshDialogButtons()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
 }
 
 
 void PhotosGroupingDialog::typeChanged()
 {
 
+}
+
+
+void PhotosGroupingDialog::applyPressed()
+{
+    if (m_workInProgress)
+    {
+        const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work?"));
+
+        if (result == QMessageBox::StandardButton::Yes)
+            emit cancel();
+    }
+    else
+        makeAnimation();
 }
 
 
@@ -139,8 +163,13 @@ void PhotosGroupingDialog::makeAnimation()
 
     m_executor->add(std::move(animation_task));
     ui->generationProgressBar->setEnabled(true);
-    ui->applyButton->setEnabled(false);
+    ui->animationOptions->setEnabled(false);
+    ui->applyButton->setText(tr("Cancel generation"));
+    ui->resultPreview->setWidget(new QWidget);
     m_workInProgress = true;
+    m_representativeFile.clear();
+
+    refreshDialogButtons();
 }
 
 

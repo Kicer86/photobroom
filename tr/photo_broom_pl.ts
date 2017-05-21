@@ -586,6 +586,7 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+15"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+115"/>
         <source>Generate preview</source>
         <translation>Wygeneruj podgląd</translation>
     </message>
@@ -595,17 +596,28 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+63"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="-52"/>
+        <location line="+74"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-74"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+74"/>
+        <source>Do you really want to stop current work?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Cancel generation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

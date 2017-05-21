@@ -70,7 +70,9 @@ class PhotosGroupingDialog: public QDialog
         void generationTitle(const QString &);
         void generationProgress(int);
         void generationDone(const QString &);
+        void refreshDialogButtons();
         void typeChanged();
+        void applyPressed();
         void makeAnimation();
         void fillModel(const std::vector<IPhotoInfo::Ptr> &);
 
