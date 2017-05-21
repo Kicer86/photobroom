@@ -6,22 +6,22 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+123"/>
         <source>Stabilizing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Saving stabilized images</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie wyników</translation>
     </message>
     <message>
         <location line="+68"/>
         <source>Loading photos to be animated</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie zdjęć</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Assembling gif file</source>
-        <translation type="unfinished"></translation>
+        <translation>Składanie animacji</translation>
     </message>
 </context>
 <context>
@@ -598,27 +598,27 @@ Kod błędu: %1</translation>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+63"/>
         <location line="+74"/>
         <source>Cancel operation?</source>
-        <translation type="unfinished"></translation>
+        <translation>Anulować operację?</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>Do you really want to stop current work and quit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Generate animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz animację</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Do you really want to stop current work?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Cancel generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Przerwij</translation>
     </message>
     <message>
         <location line="+24"/>
