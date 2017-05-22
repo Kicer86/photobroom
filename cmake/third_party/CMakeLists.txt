@@ -95,7 +95,7 @@ if(BUILD_EXIV2)
         GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
-        PATCH_COMMAND ${PATCH_EXECUTABLE} -p0 < ${CMAKE_SOURCE_DIR}/exiv2/debug-build.patch
+        PATCH_COMMAND ${PATCH_EXECUTABLE} -p1 < ${CMAKE_SOURCE_DIR}/exiv2/debug-build.patch
     )
 
 endif()
