@@ -1,18 +1,8 @@
-From 4de472f404f9b6e17a8dd78f139814a6227b836d Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Micha=C5=82=20Walenciak?= <Kicer86@gmail.com>
-Date: Tue, 27 Dec 2016 11:57:25 +0100
-Subject: [PATCH] debug build fix
 
----
- src/CMakeLists.txt | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 7403975..3db8b22 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -284,11 +284,7 @@ ENDIF()
- 
+
  IF( EXIV2_ENABLE_PNG )
      IF( ZLIB_FOUND )
 -        IF( MSVC )
@@ -23,7 +13,3 @@ index 7403975..3db8b22 100644
 +        TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR} ${ZLIB_LIBRARIES} )
      ENDIF()
  ENDIF()
- 
--- 
-2.7.2.windows.1
-
