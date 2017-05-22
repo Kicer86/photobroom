@@ -37,6 +37,7 @@ option(BUILD_OPENLIBRARY "Build openlibrary.")
 option(BUILD_EXIV2       "Build Exiv2.")
 
 find_program(GIT_EXECUTABLE git)
+find_program(PATCH_EXECUTABLE patch)
 
 # EASYEXIF
 if(BUILD_EASYEXIF)
@@ -94,7 +95,7 @@ if(BUILD_EXIV2)
         GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
-        PATCH_COMMAND ${GIT_EXECUTABLE} am < ${CMAKE_SOURCE_DIR}/exiv2/debug-build.patch
+        PATCH_COMMAND ${PATCH_EXECUTABLE} -p0 < ${CMAKE_SOURCE_DIR}/exiv2/debug-build.patch
     )
 
 endif()
