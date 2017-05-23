@@ -81,8 +81,7 @@ namespace Database
 
         // store data
         virtual void update(const IPhotoInfo::Ptr &) = 0;
-        virtual void store(const std::set<QString> &,
-                           const Photo::FlagValues &,
+        virtual void store(const std::deque<Photo::Data> &,              // only path, flags and tags will be used to feed database
                            const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
 
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;

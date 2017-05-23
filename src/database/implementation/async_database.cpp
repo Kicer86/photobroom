@@ -123,21 +123,11 @@ namespace
 
         //
 
-        std::vector<Photo::Id> insertPhotos(const std::set<QString>& paths, const Photo::FlagValues& flags)
+        std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data>& data)
         {
             std::vector<Photo::Id> result;
 
-            std::deque<Photo::Data> data_set;
-
-            for(const QString& path: paths)
-            {
-                Photo::Data data;
-                data.path = path;
-                data.flags = flags;
-
-                data_set.push_back(data);
-            }
-
+            std::deque<Photo::Data> data_set(data.begin(), data.end());
             const bool status = m_backend->addPhotos(data_set);
 
             if (status)
@@ -307,11 +297,10 @@ namespace
 
     struct InsertPhotosTask: IThreadTask
     {
-        InsertPhotosTask(const std::set<QString>& paths, const Photo::FlagValues& flags, const std::function<void(const std::vector<Photo::Id> &)>& callback):
+        InsertPhotosTask(const std::deque<Photo::Data>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
             IThreadTask(),
-            m_paths(paths),
-            m_callback(callback),
-            m_flags(flags)
+            m_data(data),
+            m_callback(callback)
         {
 
         }
@@ -320,15 +309,14 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            const std::vector<Photo::Id> result = executor->insertPhotos(m_paths, m_flags);
+            const std::vector<Photo::Id> result = executor->insertPhotos(m_data);
 
             if (m_callback)
                 m_callback(result);
         }
 
-        std::set<QString> m_paths;
-        std::function<void(const std::vector<Photo::Id> &)> m_callback;
-        const Photo::FlagValues m_flags;
+        const std::deque<Photo::Data> m_data;
+        const std::function<void(const std::vector<Photo::Id> &)> m_callback;
     };
 
     struct ListTagValuesTask: IThreadTask
@@ -442,7 +430,7 @@ namespace Database
         }
 
         //store task to be executed by thread
-        void addTask(IThreadTask* task)
+        void addTask(IThreadTask* task) [[deprecated]]
         {
             assert(m_working);
             m_executor.addTask( std::move(std::unique_ptr<IThreadTask>(task)) );
@@ -524,10 +512,10 @@ namespace Database
         m_impl->addTask(task);
     }
 
-    void AsyncDatabase::store(const std::set<QString>& paths, const Photo::FlagValues& flags, const Callback<const std::vector<Photo::Id> &>& callback)
+    void AsyncDatabase::store(const std::deque<Photo::Data>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
     {
-        InsertPhotosTask* task = new InsertPhotosTask(paths, flags, callback);
-        m_impl->addTask(task);
+        auto task = std::make_unique<InsertPhotosTask>(photos, callback);
+        m_impl->addTask(std::move(task));
     }
 
 

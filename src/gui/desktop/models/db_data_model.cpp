@@ -217,11 +217,11 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 
     auto this_tread_callback = make_cross_thread_function(this, store_callback);
 
-    const Photo::FlagValues flags = {
-            {Photo::FlagsE::StagingArea, 1}
-    };
+    Photo::Data data;
+    data.path = representativePath;
+    data.flags = { {Photo::FlagsE::StagingArea, 1} };
 
-    m_database->store({representativePath}, flags, this_tread_callback);
+    m_database->store({data}, this_tread_callback);
 }
 
 
