@@ -10,10 +10,10 @@ copy /y nul "c:\program files\cmake\updated"
 
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
-    set qt_arch=msvc2015
+    set qt_arch=msvc2017
 ) else (
     set generator="Visual Studio 15 Win64"
-    set qt_arch=msvc2015_64
+    set qt_arch=msvc2017_64
 )
 
 set PATH=C:\Qt\5.7\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
