@@ -3,7 +3,7 @@ version: 1.2.{build}
 
 branches:
   only:
-    - master
+    #- master
     - appveyor
 
 configuration:
@@ -13,6 +13,8 @@ configuration:
 platform:
     - Win32
     - x64
+
+image: Visual Studio 2017
 
 cache:
     - c:\projects\install      -> appveyor.yml, appveyor.bat
