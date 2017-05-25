@@ -113,7 +113,7 @@ set(SVG_ICONS images/photo_broom.svg)
 #unit tests
 if(BUILD_TESTS)
     add_custom_target(RunUnitTests ALL
-                      COMMAND ctest
+                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest
                       DEPENDS core_tests
                               database_tests
                               gui_tests

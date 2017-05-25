@@ -1,0 +1,5 @@
+
+#Qt races
+race:QMetaCallEvent::~QMetaCallEvent()
+race:QCoreApplicationPrivate::cleanupThreadData()
+race:libQt5Core.so
