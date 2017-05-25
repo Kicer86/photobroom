@@ -63,8 +63,9 @@ namespace Database
     {
         virtual ~IBackendOperator() = default;
 
-        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;    // find all photos matching filter
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                       // get IPhotoInfo for given id
+        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;       // find all photos matching filter
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                          // get IPhotoInfo for given id
+        virtual std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data> &) = 0;    // store photo
     };
 
     //Database interface.

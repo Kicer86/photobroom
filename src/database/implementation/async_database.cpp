@@ -121,9 +121,7 @@ namespace
             return photoPtr;
         }
 
-        //
-
-        std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data>& data)
+        std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data>& data) override
         {
             std::vector<Photo::Id> result;
 
@@ -148,6 +146,8 @@ namespace
 
             return result;
         }
+
+        //
 
         Database::IBackend* getBackend() const
         {
