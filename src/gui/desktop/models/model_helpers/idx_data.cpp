@@ -221,7 +221,7 @@ IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(m
 
 IdxData::~IdxData()
 {
-    resetIdx();
+
 }
 
 
@@ -240,7 +240,7 @@ void IdxData::setNodeSorting(const Hierarchy::Level& order)
 
 void IdxData::reset()
 {
-    resetIdx();
+    m_manager->idxDataReset(this);
 }
 
 
@@ -316,13 +316,6 @@ IdxData::IdxData(IdxDataManager* model):
 }
 
 
-
-void IdxData::resetIdx()
-{
-    m_manager->idxDataReset(this);
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -336,7 +329,7 @@ IdxNodeData::IdxNodeData(IdxDataManager* mgr, const QVariant& name):
 
 IdxNodeData::~IdxNodeData()
 {
-    resetNode();
+    m_manager->idxDataDeleted(this);
 }
 
 
@@ -451,24 +444,15 @@ void IdxNodeData::reset()
 {
     IdxData::reset();
 
-    resetNode();
+    setStatus(NodeStatus::NotFetched);
+
+    m_children.clear();
 }
 
 
 void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 {
     visitor->visit(this);
-}
-
-
-void IdxNodeData::resetNode()
-{
-    setStatus(NodeStatus::NotFetched);
-
-    for(IIdxData::Ptr& child: m_children)
-        m_manager->idxDataDeleted(child.get());
-
-    m_children.clear();
 }
 
 
@@ -480,6 +464,12 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo):
     m_photo(photo)
 {
 
+}
+
+
+IdxLeafData::~IdxLeafData()
+{
+    m_manager->idxDataDeleted(this);
 }
 
 

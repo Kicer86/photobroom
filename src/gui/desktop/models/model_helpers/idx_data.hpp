@@ -101,9 +101,6 @@ class IdxData: public IIdxData
         size_t m_level;
         IdxDataManager* m_manager;
         IdxNodeData* m_parent;
-
-    private:
-        void resetIdx();
 };
 
 
@@ -133,8 +130,6 @@ class IdxNodeData: public IdxData
         std::vector<Ptr> m_children;
 
         virtual void visitMe(IIdxDataVisitor *) const override;
-
-        void resetNode();
 };
 
 
@@ -143,7 +138,7 @@ class IdxLeafData: public IdxData
 {
     public:
         IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
-        virtual ~IdxLeafData() = default;
+        virtual ~IdxLeafData();
 
         virtual Photo::Id getMediaId() const;
         virtual QString getMediaPath() const;

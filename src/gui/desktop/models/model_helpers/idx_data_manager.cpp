@@ -276,15 +276,17 @@ void IdxDataManager::idxDataCreated(IIdxData* idxData)
 }
 
 
-void IdxDataManager::idxDataDeleted(IIdxData* idxData)
+void IdxDataManager::idxDataDeleted(IdxLeafData* idxData)
 {
     removeIdxDataFromNotFetched(idxData);
 
-    if (isLeaf(idxData))
-    {
-        IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
-        m_data->m_photoId2IdxData.lock()->erase(leafData->getMediaId());
-    }
+    m_data->m_photoId2IdxData.lock()->erase(idxData->getMediaId());
+}
+
+
+void IdxDataManager::idxDataDeleted(IdxNodeData* idxData)
+{
+    removeIdxDataFromNotFetched(idxData);
 }
 
 

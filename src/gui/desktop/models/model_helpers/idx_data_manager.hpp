@@ -63,7 +63,8 @@ public:
 
     //signals from IdxData:
     void idxDataCreated(IIdxData *);
-    void idxDataDeleted(IIdxData *);
+    void idxDataDeleted(IdxLeafData *);
+    void idxDataDeleted(IdxNodeData *);
     void idxDataReset(IIdxData *);
 
 private:
