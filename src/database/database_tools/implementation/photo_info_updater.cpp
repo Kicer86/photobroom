@@ -128,9 +128,22 @@ struct TagsCollector: UpdaterTask
     {
         const QString& path = m_photoInfo->getPath();
         IExifReader* feeder = m_exifReaderFactory->get();
-        Tag::TagsList p_tags = feeder->getTagsFor(path);
 
-        m_photoInfo->setTags(p_tags);
+        // merge found tags with current tags.
+        const Tag::TagsList new_tags = feeder->getTagsFor(path);
+        const Tag::TagsList cur_tags = m_photoInfo->getTags();
+
+        Tag::TagsList tags = cur_tags;
+
+        for (const auto& entry: new_tags)
+        {
+            auto it = tags.find(entry.first);
+
+            if (it == tags.end())   // no such tag yet?
+                tags.insert(entry);
+        }
+
+        m_photoInfo->setTags(tags);
         m_photoInfo->markFlag(Photo::FlagsE::ExifLoaded, 1);
     }
 
