@@ -445,7 +445,6 @@ void IdxNodeData::reset()
     IdxData::reset();
 
     setStatus(NodeStatus::NotFetched);
-
     m_children.clear();
 }
 
