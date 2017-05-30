@@ -1,6 +1,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QDate>
 #include <QPixmap>
 
 #include <core/base_tags.hpp>
@@ -13,6 +14,19 @@
 
 
 // TODO: tests for IdxDataManager are requiring changes in IdxDataManager (remove dependency to DBDataModel)
+
+using ::testing::_;
+using ::testing::Contains;
+using ::testing::InvokeArgument;
+using ::testing::Return;
+
+MATCHER(IsEmptyFilter, "")
+{
+    Database::IFilter* src = arg.get();
+    Database::EmptyFilter* empty_filter = dynamic_cast<Database::EmptyFilter *>(src);
+
+    return empty_filter != nullptr;
+}
 
 namespace
 {
@@ -35,6 +49,30 @@ TEST(IdxDataManagerShould, BeConstructable)
     });
 }
 
+
+TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
+{
+    MockDatabase db;
+
+    const TagNameInfo dateTag(BaseTagsList::Date);
+    const std::deque<TagValue> dates = { QDate(2017, 05, 30) };
+
+    EXPECT_CALL(db, notifier())
+        .WillRepeatedly(Return(nullptr));
+
+    EXPECT_CALL(db, listTagValues(dateTag, Contains(IsEmptyFilter()), _))
+        .WillOnce(InvokeArgument<2>(dateTag, dates));
+
+    // filter, callback
+    EXPECT_CALL(db, countPhotos(_, _));
+
+    DBDataModel model;
+    model.setDatabase(&db);
+    IdxDataManager manager(&model);
+
+    ASSERT_TRUE(model.canFetchMore(QModelIndex()));
+    model.fetchMore(QModelIndex());
+}
 
 /*
 TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNodes)
