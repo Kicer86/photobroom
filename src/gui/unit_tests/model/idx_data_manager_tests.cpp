@@ -16,7 +16,7 @@
 // TODO: tests for IdxDataManager are requiring changes in IdxDataManager (remove dependency to DBDataModel)
 
 using ::testing::_;
-using ::testing::Contains;
+using ::testing::ElementsAre;
 using ::testing::InvokeArgument;
 using ::testing::Return;
 
@@ -60,7 +60,7 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     EXPECT_CALL(db, notifier())
         .WillRepeatedly(Return(nullptr));
 
-    EXPECT_CALL(db, listTagValues(dateTag, Contains(IsEmptyFilter()), _))
+    EXPECT_CALL(db, listTagValues(dateTag, ElementsAre(IsEmptyFilter()), _))
         .WillOnce(InvokeArgument<2>(dateTag, dates));
 
     // filter, callback
