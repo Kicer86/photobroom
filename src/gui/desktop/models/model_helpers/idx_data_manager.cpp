@@ -180,11 +180,13 @@ void IdxDataManager::setDatabase(Database::IDatabase* database)
 
     m_data->m_database = database;
 
-    if (database != nullptr)
+    Database::ADatabaseSignals* notifier = database == nullptr? nullptr: database->notifier();
+
+    if (notifier != nullptr)
     {
-        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &IdxDataManager::photoChanged);
-        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photosAdded,   this, &IdxDataManager::photosAdded);
-        connect(m_data->m_database->notifier(), &Database::ADatabaseSignals::photosRemoved, this, &IdxDataManager::photosRemoved);
+        connect(notifier, &Database::ADatabaseSignals::photoModified, this, &IdxDataManager::photoChanged);
+        connect(notifier, &Database::ADatabaseSignals::photosAdded,   this, &IdxDataManager::photosAdded);
+        connect(notifier, &Database::ADatabaseSignals::photosRemoved, this, &IdxDataManager::photosRemoved);
     }
 
     resetModel();
@@ -400,6 +402,9 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
 
     const bool leaves_level = level == m_data->m_hierarchy.nodeLevels();   //leaves level is last level of hierarchy
 
+    // mark this node as being fetched, as below we start fetching data
+    markIdxDataBeingFetched(idxData);
+
     if (leaves_level)                  //construct leaves basing on photos
         fetchPhotosFor(_parent);
     else                               //construct nodes basing on tags
@@ -407,8 +412,6 @@ void IdxDataManager::fetchData(const QModelIndex& _parent)
         fetchTagValuesFor(level, _parent);
         checkForNonmatchingPhotos(level, _parent);
     }
-
-    markIdxDataBeingFetched(idxData);
 }
 
 
