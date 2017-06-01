@@ -74,7 +74,7 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     model.fetchMore(QModelIndex());
 }
 
-/*
+
 TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNodes)
 {
     using ::testing::Return;
@@ -83,42 +83,35 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     //construct objects
     DatabaseNotifier notifier;
     MockDatabase database;
-    InternalTaskExecutor executor;
-    Hierarchy hierarchy;
-    PhotosDataModel model;
+    DBDataModel model;
     MockPhotoInfo* photoInfo = new MockPhotoInfo;
     MockPhotoInfo::Ptr photoInfoPtr(photoInfo);
-    IPhotoInfo::Flags photoFlags;
-    IPhotoInfo::Id photoId(1);
+    Photo::FlagValues photoFlags;
+    Photo::Id photoId(1);
     Tag::TagsList photoTags;
     IdxDataManager manager(&model);
 
     //define expectations
     EXPECT_CALL(database, notifier()).WillRepeatedly(Return(&notifier));
-    EXPECT_CALL(*photoInfo, getFlags()).WillRepeatedly(Return(photoFlags));
+    //EXPECT_CALL(*photoInfo, getFlags()).WillRepeatedly(Return(photoFlags));
     EXPECT_CALL(*photoInfo, getID()).WillRepeatedly(Return(photoId));
-    EXPECT_CALL(*photoInfo, getTags()).WillRepeatedly(ReturnRef(photoTags));
+    EXPECT_CALL(*photoInfo, getTags()).WillRepeatedly(Return(photoTags));
 
     //setup data
-    hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending } };
     model.setDatabase(&database);
-    model.setHierarchy(hierarchy);
-    model.set(&executor);
 
     //do test
-    emit notifier.photoAdded(photoInfoPtr);
+    emit notifier.photosAdded( {photoInfoPtr} );
 
     //verification
-    IdxData* root = manager.getRoot();
+    IdxNodeData* root = manager.getRoot();
 
-    EXPECT_EQ(1, root->m_children.size());          //one child
+    ASSERT_EQ(1, root->getChildren().size());          //one child
 
-    IdxData* node_child = root->m_children[0];      //node child
-    EXPECT_EQ(true, node_child->isNode());
-    EXPECT_EQ(1, node_child->m_children.size());
+    ASSERT_TRUE(isNode(root->getChildren()[0].get()));
+    IdxNodeData* node_child = static_cast<IdxNodeData *>(root->getChildren()[0].get());      //node child
+    EXPECT_EQ(1, node_child->getChildren().size());
 
-    IdxData* photo_child = node_child->m_children[0];
-    EXPECT_EQ(true, photo_child->isPhoto());
-    EXPECT_EQ(true, photo_child->m_children.empty());
+    IIdxData* photo_child = node_child->getChildren()[0].get();
+    ASSERT_TRUE(isLeaf(photo_child));
 }
-*/
