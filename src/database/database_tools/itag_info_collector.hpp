@@ -2,6 +2,8 @@
 #ifndef ITAG_INFO_COLLECTOR_HPP
 #define ITAG_INFO_COLLECTOR_HPP
 
+#include <functional>
+
 #include <core/tag.hpp>
 
 

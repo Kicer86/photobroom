@@ -14,7 +14,7 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
 
     MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
-    MOCK_METHOD3(store, void( const std::set<QString> &, const Photo::FlagValues &, const std::function<void(const std::vector<Photo::Id> &)> &) );
+    MOCK_METHOD2(store, void( const std::deque<Photo::Data> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
     MOCK_METHOD2(createGroup, void( const Photo::Id &, const std::function<void(Group::Id)> &) );
 
     MOCK_METHOD2(countPhotos, void(const std::deque<Database::IFilter::Ptr> &, const std::function<void(int)> &) );

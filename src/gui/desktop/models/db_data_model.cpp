@@ -42,6 +42,11 @@ struct DBDataModel::Grouper
 
     }
 
+    ~Grouper()
+    {
+
+    }
+
     Grouper(const Grouper &) = delete;
     Grouper& operator=(const Grouper &) = delete;
 
@@ -204,24 +209,30 @@ void DBDataModel::deepFetch(const QModelIndex& top)
 
 void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath)
 {
-    using namespace std::placeholders;
-
-    std::function<void(const std::vector<Photo::Id> &)> store_callback =
-        [this, photos](const std::vector<Photo::Id>& id)
+    if (photos.empty() == false)
+    {
+        m_database->performCustomAction([photos, representativePath, this](Database::IBackendOperator* backendOperator)
         {
-            assert(id.size() == 1);
+            IPhotoInfo::Ptr firstPhoto = backendOperator->getPhotoFor(photos[0]);
 
-            if (id.empty() == false)
-                group(photos, id.front());
-        };
+            Photo::Data data;
+            data.path = representativePath;
+            data.tags = firstPhoto->getTags();
+            data.flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
 
-    auto this_tread_callback = make_cross_thread_function(this, store_callback);
+            std::vector<Photo::Id> stored = backendOperator->insertPhotos({data});
 
-    const Photo::FlagValues flags = {
-            {Photo::FlagsE::StagingArea, 1}
-    };
+            assert(stored.size() == 1);
 
-    m_database->store({representativePath}, flags, this_tread_callback);
+            if (stored.empty() == false)
+                call_from_this_thread( this,
+                                       std::bind( qOverload<const std::vector<Photo::Id>&, const Photo::Id &>(&DBDataModel::group),
+                                                                                                              this,
+                                                                                                              photos,
+                                                                                                              stored.front())
+                );
+        });
+    }
 }
 
 

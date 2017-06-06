@@ -1,6 +1,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QDate>
 #include <QPixmap>
 
 #include <core/base_tags.hpp>
@@ -13,6 +14,19 @@
 
 
 // TODO: tests for IdxDataManager are requiring changes in IdxDataManager (remove dependency to DBDataModel)
+
+using ::testing::_;
+using ::testing::ElementsAre;
+using ::testing::InvokeArgument;
+using ::testing::Return;
+
+MATCHER(IsEmptyFilter, "")
+{
+    Database::IFilter* src = arg.get();
+    Database::EmptyFilter* empty_filter = dynamic_cast<Database::EmptyFilter *>(src);
+
+    return empty_filter != nullptr;
+}
 
 namespace
 {
@@ -36,6 +50,31 @@ TEST(IdxDataManagerShould, BeConstructable)
 }
 
 
+TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
+{
+    MockDatabase db;
+
+    const TagNameInfo dateTag(BaseTagsList::Date);
+    const std::deque<TagValue> dates = { QDate(2017, 05, 30) };
+
+    EXPECT_CALL(db, notifier())
+        .WillRepeatedly(Return(nullptr));
+
+    EXPECT_CALL(db, listTagValues(dateTag, ElementsAre(IsEmptyFilter()), _))
+        .WillOnce(InvokeArgument<2>(dateTag, dates));
+
+    // filter, callback
+    EXPECT_CALL(db, countPhotos(_, _));
+
+    DBDataModel model;
+    model.setDatabase(&db);
+    IdxDataManager manager(&model);
+
+    ASSERT_TRUE(model.canFetchMore(QModelIndex()));
+    model.fetchMore(QModelIndex());
+}
+
+
 /*
 TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNodes)
 {
@@ -45,42 +84,44 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     //construct objects
     DatabaseNotifier notifier;
     MockDatabase database;
-    InternalTaskExecutor executor;
-    Hierarchy hierarchy;
-    PhotosDataModel model;
+    DBDataModel model;
     MockPhotoInfo* photoInfo = new MockPhotoInfo;
     MockPhotoInfo::Ptr photoInfoPtr(photoInfo);
-    IPhotoInfo::Flags photoFlags;
-    IPhotoInfo::Id photoId(1);
+    Photo::FlagValues photoFlags;
+    Photo::Id photoId(1);
     Tag::TagsList photoTags;
     IdxDataManager manager(&model);
 
     //define expectations
-    EXPECT_CALL(database, notifier()).WillRepeatedly(Return(&notifier));
-    EXPECT_CALL(*photoInfo, getFlags()).WillRepeatedly(Return(photoFlags));
+    const std::deque<TagValue> empty_values;
+
+    ON_CALL(database, notifier()).WillByDefault(Return(&notifier));
+    ON_CALL(database, listTagValues(_, _, _)).WillByDefault(InvokeArgument<2>(TagNameInfo(), empty_values));
+
+    //EXPECT_CALL(*photoInfo, getFlags()).WillRepeatedly(Return(photoFlags));
     EXPECT_CALL(*photoInfo, getID()).WillRepeatedly(Return(photoId));
-    EXPECT_CALL(*photoInfo, getTags()).WillRepeatedly(ReturnRef(photoTags));
+    EXPECT_CALL(*photoInfo, getTags()).WillRepeatedly(Return(photoTags));
 
     //setup data
-    hierarchy.levels = { { BaseTags::get(BaseTagsList::Date), Hierarchy::Level::Order::ascending } };
-    model.setDatabase(&database);
-    model.setHierarchy(hierarchy);
-    model.set(&executor);
+    manager.setDatabase(&database);
+
+    // fetch top nodeg
+    ASSERT_TRUE(manager.canFetchMore(QModelIndex()));
+    manager.fetchMore(QModelIndex());
 
     //do test
-    emit notifier.photoAdded(photoInfoPtr);
+    emit notifier.photosAdded( {photoInfoPtr} );
 
     //verification
-    IdxData* root = manager.getRoot();
+    IdxNodeData* root = manager.getRoot();
 
-    EXPECT_EQ(1, root->m_children.size());          //one child
+    ASSERT_EQ(1, root->getChildren().size());          //one child
 
-    IdxData* node_child = root->m_children[0];      //node child
-    EXPECT_EQ(true, node_child->isNode());
-    EXPECT_EQ(1, node_child->m_children.size());
+    ASSERT_TRUE(isNode(root->getChildren()[0].get()));
+    IdxNodeData* node_child = static_cast<IdxNodeData *>(root->getChildren()[0].get());      //node child
+    EXPECT_EQ(1, node_child->getChildren().size());
 
-    IdxData* photo_child = node_child->m_children[0];
-    EXPECT_EQ(true, photo_child->isPhoto());
-    EXPECT_EQ(true, photo_child->m_children.empty());
+    IIdxData* photo_child = node_child->getChildren()[0].get();
+    ASSERT_TRUE(isLeaf(photo_child));
 }
 */

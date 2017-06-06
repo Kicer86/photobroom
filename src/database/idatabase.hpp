@@ -20,10 +20,11 @@
 #ifndef IDATABASE_HPP
 #define IDATABASE_HPP
 
-#include <string>
-#include <set>
-#include <memory>
 #include <deque>
+#include <functional>
+#include <memory>
+#include <set>
+#include <string>
 
 #include <QObject>
 
@@ -63,8 +64,9 @@ namespace Database
     {
         virtual ~IBackendOperator() = default;
 
-        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;    // find all photos matching filter
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                       // get IPhotoInfo for given id
+        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;       // find all photos matching filter
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                          // get IPhotoInfo for given id
+        virtual std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data> &) = 0;    // store photo
     };
 
     //Database interface.
@@ -81,8 +83,7 @@ namespace Database
 
         // store data
         virtual void update(const IPhotoInfo::Ptr &) = 0;
-        virtual void store(const std::set<QString> &,
-                           const Photo::FlagValues &,
+        virtual void store(const std::deque<Photo::Data> &,              // only path, flags and tags will be used to feed database
                            const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
 
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;

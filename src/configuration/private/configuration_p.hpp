@@ -20,6 +20,7 @@
 #ifndef CONFIGURATIONPRIVATE_HPP
 #define CONFIGURATIONPRIVATE_HPP
 
+#include <functional>
 #include <set>
 
 #include <QTimer>

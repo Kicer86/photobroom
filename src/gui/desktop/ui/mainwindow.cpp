@@ -608,10 +608,18 @@ void MainWindow::on_actionScan_collection_triggered()
 
     if (status == QDialog::Accepted)
     {
-        const std::set<QString>& photos = scanner.newPhotos();
-        const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
+        const std::set<QString>& paths = scanner.newPhotos();
 
-        db->store(photos, flags);
+        std::deque<Photo::Data> photos;
+        for(const QString& path: paths)
+        {
+            Photo::Data data;
+            data.path = path;
+            data.flags = { {Photo::FlagsE::StagingArea, 1} };
+            photos.emplace_back(data);
+        }
+
+        db->store(photos);
     }
 }
 

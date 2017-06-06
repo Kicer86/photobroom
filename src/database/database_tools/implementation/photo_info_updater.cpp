@@ -16,6 +16,8 @@
 #include <core/tag.hpp>
 
 
+// TODO: unit tests
+
 struct UpdaterTask: ITaskExecutor::ITask
 {
     UpdaterTask(PhotoInfoUpdater* updater): m_updater(updater)
