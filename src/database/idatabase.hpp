@@ -20,10 +20,11 @@
 #ifndef IDATABASE_HPP
 #define IDATABASE_HPP
 
-#include <string>
-#include <set>
-#include <memory>
 #include <deque>
+#include <functional>
+#include <memory>
+#include <set>
+#include <string>
 
 #include <QObject>
 
