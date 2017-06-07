@@ -419,7 +419,7 @@ namespace Database
 
     struct AsyncDatabase::Impl
     {
-        Impl( std::unique_ptr<IBackend>&& backend):
+        Impl(std::unique_ptr<IBackend>&& backend):
             m_cache(nullptr),
             m_storekeeper(),
             m_executor(std::move(backend), &m_storekeeper),
