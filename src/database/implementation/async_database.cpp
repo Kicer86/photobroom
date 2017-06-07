@@ -430,7 +430,7 @@ namespace Database
         }
 
         //store task to be executed by thread
-        void addTask(IThreadTask* task) [[deprecated]]
+        [[deprecated]] void addTask(IThreadTask* task)
         {
             assert(m_working);
             m_executor.addTask( std::move(std::unique_ptr<IThreadTask>(task)) );
