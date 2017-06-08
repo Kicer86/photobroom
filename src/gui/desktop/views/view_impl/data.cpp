@@ -477,7 +477,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
 
     PositionsTranslator translator(this);
 
-    auto bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::Model::const_level_iterator& itemIt, const QRect& value)
+    auto lower_bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::Model::const_level_iterator& itemIt, const QRect& value)
     {
         const QRect overallRect = translator.getAbsoluteOverallRect(itemIt);
         const int p1 = overallRect.bottom();
@@ -490,26 +490,26 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
 
     while(true)
     {
-        const bool bound_invalid = bound == last;
+        const bool bound_invalid = lower_bound == last;
         if (bound_invalid)
             break;
 
-        const QRect item_rect = translator.getAbsoluteOverallRect(bound);
+        const QRect item_rect = translator.getAbsoluteOverallRect( lower_bound );
         const bool intersects = rect.intersects(item_rect);
 
         // item itself is visible? Add it
         if (intersects)
         {
-            const QModelIndex modelIdx = get(bound);
+            const QModelIndex modelIdx = get( lower_bound );
             assert(modelIdx.isValid());
 
             result.push_back(modelIdx);
         }
 
         // item's children
-        if (bound.children_count() > 0 && isExpanded(bound))
+        if ( lower_bound.children_count() > 0 && isExpanded( lower_bound ))
         {
-            const std::deque<QModelIndex> children = findInRect(bound.begin(), bound.end(), rect);
+            const std::deque<QModelIndex> children = findInRect( lower_bound.begin(), lower_bound.end(), rect);
 
             result.insert(result.end(), children.begin(), children.end());
         }
@@ -518,7 +518,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
 
         // Current item may be invisible (beyond top line), but its children and next sibling may be visible
         if (nextIsVisible)
-            ++bound;
+            ++lower_bound;
         else
             break;
     }
