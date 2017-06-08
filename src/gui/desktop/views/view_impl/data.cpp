@@ -488,28 +488,30 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
         return cmp_res;
     });
 
+    auto upper_bound = lower_bound;
+
     while(true)
     {
-        const bool bound_invalid = lower_bound == last;
+        const bool bound_invalid = upper_bound == last;
         if (bound_invalid)
             break;
 
-        const QRect item_rect = translator.getAbsoluteOverallRect( lower_bound );
+        const QRect item_rect = translator.getAbsoluteOverallRect( upper_bound );
         const bool intersects = rect.intersects(item_rect);
 
         // item itself is visible? Add it
         if (intersects)
         {
-            const QModelIndex modelIdx = get( lower_bound );
+            const QModelIndex modelIdx = get( upper_bound );
             assert(modelIdx.isValid());
 
             result.push_back(modelIdx);
         }
 
         // item's children
-        if ( lower_bound.children_count() > 0 && isExpanded( lower_bound ))
+        if ( upper_bound.children_count() > 0 && isExpanded( upper_bound ))
         {
-            const std::deque<QModelIndex> children = findInRect( lower_bound.begin(), lower_bound.end(), rect);
+            const std::deque<QModelIndex> children = findInRect( upper_bound.begin(), upper_bound.end(), rect);
 
             result.insert(result.end(), children.begin(), children.end());
         }
@@ -518,7 +520,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
 
         // Current item may be invisible (beyond top line), but its children and next sibling may be visible
         if (nextIsVisible)
-            ++lower_bound;
+            ++upper_bound;
         else
             break;
     }
