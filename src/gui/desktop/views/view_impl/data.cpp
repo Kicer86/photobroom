@@ -477,7 +477,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
 
     PositionsTranslator translator(this);
 
-    auto lower_bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::Model::const_level_iterator& itemIt, const QRect& value)
+    const auto lower_bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::Model::const_level_iterator& itemIt, const QRect& value)
     {
         const QRect overallRect = translator.getAbsoluteOverallRect(itemIt);
         const int p1 = overallRect.bottom();
