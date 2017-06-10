@@ -4,6 +4,10 @@
 
 #include "generic_concepts.hpp"
 
+#ifndef CONCEPTS_SUPPORTED
+#define Container typename
+#endif
+
 template<Container T>
 const typename T::value_type& front(const T& container)
 {
@@ -27,5 +31,9 @@ const T& back(const std::set<T, S, A>& container)
 {
     return *container.rbegin();
 }
+
+#ifndef CONCEPTS_SUPPORTED
+#undef Container
+#endif
 
 #endif
