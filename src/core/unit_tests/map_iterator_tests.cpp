@@ -79,3 +79,81 @@ TEST(map_iteratorTest, equal_operator)
     EXPECT_EQ(iterator, iterator2);
     EXPECT_EQ(iterator, map.cend());
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+TEST(map_value_iteratorTest, constructible)
+{
+    IntCharMap map;
+
+    value_map_iterator<IntCharMap> iterator;
+}
+
+
+TEST(map_value_iteratorTest, assignment)
+{
+    IntCharMap map;
+
+    value_map_iterator<IntCharMap> c_iterator(map.cbegin());
+    value_map_iterator<IntCharMap> iterator(map.begin());
+
+    value_map_iterator<IntCharMap> c_iterator2 = map.cbegin();
+}
+
+
+TEST(map_value_iteratorTest, dereference)
+{
+    IntCharMap map = { {123, 'c'} };
+
+    value_map_iterator<IntCharMap> iterator(map.cbegin());
+
+    const int v = *iterator;
+
+    EXPECT_EQ(v, 'c');
+}
+
+
+TEST(map_value_iteratorTest, preincrementation)
+{
+    IntCharMap map = { {123, 'c'}, {234, 'd'}, {345, 'e'} };
+
+    value_map_iterator<IntCharMap> iterator(map.cbegin());
+
+    const int v1 = *iterator;
+    ++iterator;
+    const int v2 = *iterator;
+    ++iterator;
+    const int v3 = *iterator;
+
+    EXPECT_EQ(v1, 'c');
+    EXPECT_EQ(v2, 'd');
+    EXPECT_EQ(v3, 'e');
+}
+
+
+TEST(map_value_iteratorTest, equal_operator)
+{
+    IntCharMap map = { {123, 'c'}, {234, 'd'}, {345, 'e'} };
+
+    value_map_iterator<IntCharMap> iterator(map.cbegin());
+    value_map_iterator<IntCharMap> iterator2(map.cbegin());
+
+    EXPECT_EQ(iterator, iterator2);
+    EXPECT_EQ(iterator, map.cbegin());
+
+    ++iterator;
+    ++iterator2;
+
+    ++iterator;
+    ++iterator2;
+
+    EXPECT_EQ(iterator, iterator2);
+
+    ++iterator;
+    ++iterator2;
+
+    EXPECT_EQ(iterator, iterator2);
+    EXPECT_EQ(iterator, map.cend());
+}
