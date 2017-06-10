@@ -45,9 +45,11 @@ endif()
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
+    containers_utils.hpp
     cross_thread_call.hpp
     disk_observer.hpp
     file_lock.hpp
+    generic_concepts.hpp
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
