@@ -28,5 +28,4 @@ const T& back(const std::set<T, S, A>& container)
     return *container.rbegin();
 }
 
-
 #endif
