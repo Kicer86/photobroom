@@ -22,13 +22,16 @@
 #include <cassert>
 #include <iostream>
 #include <functional>
+#include <set>
 
 #include <QScrollBar>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QTimer>
 
+#include <core/containers_utils.hpp>
 #include <core/down_cast.hpp>
+#include <core/map_iterator.hpp>
 #include <core/time_guardian.hpp>
 
 #include "models/aphoto_info_model.hpp"
@@ -40,6 +43,20 @@
 
 
 using namespace std::literals::chrono_literals;
+
+namespace
+{
+    struct QModelIndexComparator
+    {
+        bool operator()(const QModelIndex& lhs, const QModelIndex& rhs) const
+        {
+            return  lhs.row() <  rhs.row()
+                || (lhs.row() == rhs.row() && (lhs.column() <  rhs.column()
+                                           || (lhs.column() == rhs.column() && (lhs.internalId() <  rhs.internalId()
+                                                                            || (lhs.internalId() == rhs.internalId() && lhs.model() < rhs.model() )))));
+        }
+    };
+}
 
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr), m_dataDirty(true)
@@ -229,11 +246,12 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
     const QRect treeRect = _rect.translated(getOffset());
 
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
+    const std::deque<QModelIndex> linear_selection = convertToLinearSelection(items);
     QItemSelection selection;
 
     QAbstractItemModel* m = model();
 
-    for (const QModelIndex& item: items)
+    for (const QModelIndex& item: linear_selection)
     {
         Qt::ItemFlags f = m->flags(item);
 
@@ -373,6 +391,41 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
     const std::deque<QModelIndex> result = m_data->findInRect(normalized_rect);
 
     return result;
+}
+
+
+std::deque<QModelIndex> ImagesTreeView::convertToLinearSelection(const std::deque<QModelIndex>& rectangular) const
+{
+    std::map<QModelIndex, std::set<QModelIndex, QModelIndexComparator>> sub_selections;       // selection within parent
+
+    // group selected items by parent
+    for(const QModelIndex& item: rectangular)
+    {
+        assert(item.isValid());
+
+        const QModelIndex parent = item.parent();
+
+        sub_selections[parent].insert(item);
+    }
+
+    std::deque<QModelIndex> linear_selection;
+
+    typedef value_map_iterator<decltype(sub_selections)> ValueIt;
+    for(ValueIt it(sub_selections.begin()); it != ValueIt(sub_selections.end()); ++it)
+    {
+        const std::set<QModelIndex, QModelIndexComparator>& set = *it;
+
+        // indexes are sorted by position (see QModelIndexComparator), so here we can refer to first and last one easily
+        const QModelIndex& first = front(set);
+        const QModelIndex& last  = back(set);
+
+        for(QModelIndex item = first; item != last ; item = item.sibling(item.row() + 1, 0))
+            linear_selection.push_back(item);
+
+        linear_selection.push_back(last);
+    }
+
+    return linear_selection;
 }
 
 
