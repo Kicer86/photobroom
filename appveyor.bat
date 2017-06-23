@@ -21,9 +21,6 @@ set PATH=C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
-dir C:\Qt\%USE_QT_VER%\
-dir C:\Qt\%USE_QT_VER%\%qt_arch%
-
 if EXIST c:/projects/install goto :gtest
 
 rem third party stuff
