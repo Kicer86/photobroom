@@ -721,6 +721,39 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
+    <name>ToolsTab</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+14"/>
+        <source>ToolsTab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>External tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Used for creating animations (gifs) from photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>convert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>align_image_stack</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TreeItemDelegate</name>
     <message>
         <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+159"/>

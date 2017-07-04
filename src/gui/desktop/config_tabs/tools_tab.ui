@@ -68,7 +68,7 @@
   <customwidget>
    <class>QtExtChooseFile</class>
    <extends>QWidget</extends>
-   <header location="global">qtext_choosefile.hpp</header>
+   <header location="global">QtExt/qtext_choosefile.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

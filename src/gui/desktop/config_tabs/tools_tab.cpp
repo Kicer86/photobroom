@@ -15,3 +15,19 @@ ToolsTab::~ToolsTab()
 {
     delete ui;
 }
+
+
+ToolsTabControler::ToolsTabControler()
+{
+}
+
+
+ToolsTabControler::~ToolsTabControler()
+{
+}
+
+
+void ToolsTabControler::set(IConfiguration* config)
+{
+    m_configuration = config;
+}
