@@ -2,7 +2,7 @@
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui 5.5 REQUIRED)
 find_package(Qt5Svg REQUIRED)
-find_package(OpenLibrary REQUIRED putils QtExt)
+find_package(OpenLibrary 2.2 REQUIRED putils QtExt)
 
 include(GenerateExportHeader)
 
