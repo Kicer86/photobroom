@@ -332,7 +332,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+245"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+251"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -364,7 +364,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+190"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -379,12 +379,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="-103"/>
+        <location line="-104"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+127"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -750,6 +750,30 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+3"/>
         <source>align_image_stack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
+        <source>Select executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Executables (*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+2"/>
+        <source>Browse</source>
+        <translation type="unfinished">Przeglądaj</translation>
+    </message>
+</context>
+<context>
+    <name>ToolsTabControler</name>
+    <message>
+        <location line="+40"/>
+        <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
