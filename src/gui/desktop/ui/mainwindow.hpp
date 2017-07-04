@@ -15,6 +15,7 @@
 class ConfigDialogManager;
 class LookTabControler;
 class MainTabControler;
+class ToolsTabControler;
 class PhotosAnalyzer;
 class PhotosWidget;
 struct ILoggerFactory;
@@ -69,6 +70,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabControler> m_mainTabCtrl;
         std::unique_ptr<LookTabControler> m_lookTabCtrl;
+        std::unique_ptr<ToolsTabControler> m_toolsTabCtrl;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
 

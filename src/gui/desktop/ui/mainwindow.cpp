@@ -28,6 +28,7 @@
 #include "config_keys.hpp"
 #include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
+#include "config_tabs/tools_tab.hpp"
 #include "models/db_data_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
@@ -81,6 +82,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabControler),
     m_lookTabCtrl(new LookTabControler),
+    m_toolsTabCtrl(new ToolsTabControler),
     m_recentCollections(),
     m_completerFactory()
 {
@@ -152,9 +154,13 @@ void MainWindow::set(IConfiguration* configuration)
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
 
+    m_configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
+    m_configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
+
     //
     m_mainTabCtrl->set(configuration);
     m_lookTabCtrl->set(configuration);
+    m_toolsTabCtrl->set(configuration);
     m_photosAnalyzer->set(configuration);
     ui->imagesView->set(configuration);
     ui->newImagesView->set(configuration);
@@ -427,6 +433,7 @@ void MainWindow::registerConfigTab()
 {
     m_configDialogManager->registerTab(m_mainTabCtrl.get());
     m_configDialogManager->registerTab(m_lookTabCtrl.get());
+    m_configDialogManager->registerTab(m_toolsTabCtrl.get());
 }
 
 
