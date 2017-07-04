@@ -2,6 +2,8 @@
 #ifndef A_CONFIG_TAB_HPP
 #define A_CONFIG_TAB_HPP
 
+#include <cassert>
+
 #include <ui_utils/iconfig_dialog_manager.hpp>
 
 
@@ -33,6 +35,11 @@ class AConfigTab: public IConfigTab
         IConfiguration* configuration() const
         {
             return m_configuration;
+        }
+
+        T* tabWidget() const
+        {
+            return m_tab;
         }
 
     private:
