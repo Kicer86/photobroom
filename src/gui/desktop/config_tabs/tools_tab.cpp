@@ -22,10 +22,10 @@ ToolsTab::ToolsTab(QWidget *parent) :
                                             tr("Executables (*.*)"));
     };
 
-    ui->aisPath->setButton(tr("Browse"));
-    ui->aisPath->setDialogCallback(chooseExecutable);
-    ui->convertPath->setButton(tr("Browse"));
-    ui->convertPath->setDialogCallback(chooseExecutable);
+    ui->aisPath->setBrowseButtonText(tr("Browse"));
+    ui->aisPath->setBrowseCallback(chooseExecutable);
+    ui->convertPath->setBrowseButtonText(tr("Browse"));
+    ui->convertPath->setBrowseCallback(chooseExecutable);
 }
 
 
