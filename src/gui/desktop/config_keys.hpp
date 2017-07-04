@@ -18,4 +18,10 @@ namespace UpdateConfigKeys
     const char* const lastCheck       = "updater::last_check";
 }
 
+namespace ExternalToolsConfigKeys
+{
+    const char* const aisPath     = "tool_path::align_image_stack";
+    const char* const convertPath = "tool_path::convert";
+}
+
 #endif // CONFIG_KEYS_HPP

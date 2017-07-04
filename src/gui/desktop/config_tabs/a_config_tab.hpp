@@ -13,25 +13,24 @@ template<typename T>
 class AConfigTab: public IConfigTab
 {
     public:
-        AConfigTab(): m_tab(nullptr) {}
+        AConfigTab(): m_tab(nullptr), m_configuration(nullptr) {}
         AConfigTab(const AConfigTab &) = delete;
 
         AConfigTab& operator=(const AConfigTab &) = delete;
 
         void set(IConfiguration* config)
         {
+            assert(m_configuration == nullptr);
             m_configuration = config;
         }
 
-        QWidget* constructTab() override
+    protected:
+        void setTabWidget(T* tab)
         {
             assert(m_tab == nullptr);
-            m_tab = new T;
-
-            return m_tab;
+            m_tab = tab;
         }
 
-    protected:
         IConfiguration* configuration() const
         {
             return m_configuration;

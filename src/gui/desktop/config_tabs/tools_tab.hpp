@@ -4,8 +4,9 @@
 
 #include <QWidget>
 
-#include <ui_utils/iconfig_dialog_manager.hpp>
+#include "a_config_tab.hpp"
 
+class QtExtChooseFile;
 
 namespace Ui
 {
@@ -25,12 +26,15 @@ class ToolsTab : public QWidget
         ToolsTab(const ToolsTab &) = delete;
         ToolsTab& operator=(const ToolsTab &) = delete;
 
+        QtExtChooseFile* aisPath() const;
+        QtExtChooseFile* convertPath() const;
+
     private:
         Ui::ToolsTab *ui;
 };
 
 
-class ToolsTabControler: public QObject, public IConfigTab
+class ToolsTabControler: public QObject, public AConfigTab<ToolsTab>
 {
         Q_OBJECT
 
@@ -38,8 +42,6 @@ class ToolsTabControler: public QObject, public IConfigTab
         ToolsTabControler();
         ToolsTabControler(const ToolsTabControler &) = delete;
         virtual ~ToolsTabControler();
-
-        void set(IConfiguration *);
 
         ToolsTabControler& operator=(const ToolsTabControler &) = delete;
 
@@ -49,10 +51,6 @@ class ToolsTabControler: public QObject, public IConfigTab
         QWidget* constructTab() override;
         void applyConfiguration() override;
         void rejectConfiguration() override;
-
-    private:
-        IConfiguration* m_configuration;
-        ToolsTab* m_tabWidget;
 };
 
 #endif // TOOLS_TAB_HPP
