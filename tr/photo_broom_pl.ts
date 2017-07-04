@@ -753,17 +753,18 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+21"/>
+        <location line="+4"/>
         <source>Select executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Executables (*.*)</source>
+        <location line="-2"/>
+        <source>Applications (*.exe);;All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <location line="+2"/>
         <source>Browse</source>
         <translation type="unfinished">Przeglądaj</translation>
