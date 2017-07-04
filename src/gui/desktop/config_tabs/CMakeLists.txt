@@ -11,6 +11,7 @@ set(CONFIG_TABS_SOURCES
 )
 
 set(CONFIG_TABS_HEADERS
+    a_config_tab.hpp
     look_tab.hpp
     main_tab.hpp
     tools_tab.hpp
