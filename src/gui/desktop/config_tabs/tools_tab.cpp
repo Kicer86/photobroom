@@ -17,9 +17,13 @@ ToolsTab::ToolsTab(QWidget *parent) :
 
     auto chooseExecutable = [this]()
     {
+#ifdef OS_WIN
         return QFileDialog::getOpenFileName(this, tr("Select executable"),
                                             "",
-                                            tr("Executables (*.*)"));
+                                            tr("Applications (*.exe);;All files(*.*)"));
+#else
+        return QFileDialog::getOpenFileName(this, tr("Select executable"), "/usr/bin");
+#endif
     };
 
     ui->aisPath->setBrowseButtonText(tr("Browse"));
