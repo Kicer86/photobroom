@@ -773,7 +773,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>ToolsTabControler</name>
     <message>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>

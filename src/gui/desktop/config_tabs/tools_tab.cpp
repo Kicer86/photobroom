@@ -38,6 +38,7 @@ ToolsTab::~ToolsTab()
     delete ui;
 }
 
+
 QtExtChooseFile* ToolsTab::aisPath() const
 {
     return ui->aisPath;
