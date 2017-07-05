@@ -34,18 +34,18 @@ class MainTab: public QWidget
 };
 
 
-class MainTabControler: public QObject, public IConfigTab
+class MainTabController: public QObject, public IConfigTab
 {
         Q_OBJECT
 
     public:
-        MainTabControler();
-        MainTabControler(const MainTabControler &) = delete;
-        virtual ~MainTabControler();
+        MainTabController();
+        MainTabController(const MainTabController &) = delete;
+        virtual ~MainTabController();
 
         void set(IConfiguration *);
 
-        MainTabControler& operator=(const MainTabControler &) = delete;
+        MainTabController& operator=(const MainTabController &) = delete;
 
         int tabId() const override;
         QString tabName() const override;

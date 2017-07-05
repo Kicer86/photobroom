@@ -80,9 +80,9 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_photosManager(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_configDialogManager(new ConfigDialogManager),
-    m_mainTabCtrl(new MainTabControler),
-    m_lookTabCtrl(new LookTabControler),
-    m_toolsTabCtrl(new ToolsTabControler),
+    m_mainTabCtrl(new MainTabController ),
+    m_lookTabCtrl(new LookTabController ),
+    m_toolsTabCtrl(new ToolsTabController ),
     m_recentCollections(),
     m_completerFactory()
 {

@@ -38,38 +38,38 @@ QComboBox* MainTab::updateFrequency()
 }
 
 
-MainTabControler::MainTabControler(): m_configuration(nullptr), m_tabWidget(nullptr)
+MainTabController::MainTabController(): m_configuration(nullptr), m_tabWidget(nullptr)
 {
 
 }
 
 
-MainTabControler::~MainTabControler()
+MainTabController::~MainTabController()
 {
 
 }
 
 
-void MainTabControler::set(IConfiguration* configuration)
+void MainTabController::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
 }
 
 
 
-int MainTabControler::tabId() const
+int MainTabController::tabId() const
 {
     return 0;
 }
 
 
-QString MainTabControler::tabName() const
+QString MainTabController::tabName() const
 {
     return tr("Main");
 }
 
 
-QWidget* MainTabControler::constructTab()
+QWidget* MainTabController::constructTab()
 {
     m_tabWidget = new MainTab;
 
@@ -83,7 +83,7 @@ QWidget* MainTabControler::constructTab()
 }
 
 
-void MainTabControler::applyConfiguration()
+void MainTabController::applyConfiguration()
 {
     const bool enabled = m_tabWidget->updateCheckBox()->checkState() == Qt::Checked;
     const int frequency = m_tabWidget->updateFrequency()->currentIndex();
@@ -93,7 +93,7 @@ void MainTabControler::applyConfiguration()
 }
 
 
-void MainTabControler::rejectConfiguration()
+void MainTabController::rejectConfiguration()
 {
 
 }

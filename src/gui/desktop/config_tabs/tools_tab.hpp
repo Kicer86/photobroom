@@ -34,16 +34,16 @@ class ToolsTab : public QWidget
 };
 
 
-class ToolsTabControler: public QObject, public AConfigTab<ToolsTab>
+class ToolsTabController: public QObject, public AConfigTab<ToolsTab>
 {
         Q_OBJECT
 
     public:
-        ToolsTabControler();
-        ToolsTabControler(const ToolsTabControler &) = delete;
-        virtual ~ToolsTabControler();
+        ToolsTabController();
+        ToolsTabController(const ToolsTabController &) = delete;
+        virtual ~ToolsTabController();
 
-        ToolsTabControler& operator=(const ToolsTabControler &) = delete;
+        ToolsTabController& operator=(const ToolsTabController &) = delete;
 
         int tabId() const override;
         QString tabName() const override;

@@ -51,29 +51,29 @@ QtExtChooseFile* ToolsTab::convertPath() const
 }
 
 
-ToolsTabControler::ToolsTabControler()
+ToolsTabController::ToolsTabController()
 {
 }
 
 
-ToolsTabControler::~ToolsTabControler()
+ToolsTabController::~ToolsTabController()
 {
 }
 
 
-int ToolsTabControler::tabId() const
+int ToolsTabController::tabId() const
 {
     return 20;
 }
 
 
-QString ToolsTabControler::tabName() const
+QString ToolsTabController::tabName() const
 {
     return tr("External tools");
 }
 
 
-QWidget* ToolsTabControler::constructTab()
+QWidget* ToolsTabController::constructTab()
 {
     ToolsTab* tab = new ToolsTab;
     setTabWidget(tab);
@@ -90,7 +90,7 @@ QWidget* ToolsTabControler::constructTab()
 }
 
 
-void ToolsTabControler::applyConfiguration()
+void ToolsTabController::applyConfiguration()
 {
     ToolsTab* tab = tabWidget();
 
@@ -104,6 +104,6 @@ void ToolsTabControler::applyConfiguration()
 }
 
 
-void ToolsTabControler::rejectConfiguration()
+void ToolsTabController::rejectConfiguration()
 {
 }
