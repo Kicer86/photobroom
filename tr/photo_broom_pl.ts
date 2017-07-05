@@ -161,11 +161,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>LookTabControler</name>
+    <name>LookTabController</name>
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
-        <translation>Wygląd</translation>
+        <translation type="unfinished">Wygląd</translation>
     </message>
 </context>
 <context>
@@ -202,11 +202,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>MainTabControler</name>
+    <name>MainTabController</name>
     <message>
         <location line="+50"/>
         <source>Main</source>
-        <translation>Główne</translation>
+        <translation type="unfinished">Główne</translation>
     </message>
 </context>
 <context>
@@ -590,7 +590,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+63"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+70"/>
         <location line="+74"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -612,7 +612,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Cancel generation</source>
         <translation>Przerwij</translation>
     </message>
@@ -771,7 +771,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
-    <name>ToolsTabControler</name>
+    <name>ToolsTabController</name>
     <message>
         <location line="+41"/>
         <source>External tools</source>
