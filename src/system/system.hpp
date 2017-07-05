@@ -12,7 +12,7 @@ struct SYSTEM_EXPORT System
     static QString getApplicationConfigDir();
     static QString getApplicationTempDir();
     static QString getTempFilePath();
-    static std::string findProgram(const std::string& name);
+    static std::string findProgram(const std::string& name);   // TODO: is is really necessary?
     static std::string userName();
 };
 

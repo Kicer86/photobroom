@@ -34,13 +34,15 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
     public:
         struct Data
         {
+            QString convertPath;
+            QString alignImageStackPath;
+            QStringList photos;
             double fps;
             double delay;
             double scale;
-            QStringList photos;
             bool stabilize;
 
-            Data(): fps(0.0), delay(0.0), scale(0.0), photos(), stabilize(false) {}
+            Data(): convertPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
         };
 
         AnimationGenerator(const Data& data);

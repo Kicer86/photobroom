@@ -13,8 +13,9 @@
 #include "utils/selection_extractor.hpp"
 
 class ConfigDialogManager;
-class LookTabControler;
-class MainTabControler;
+class LookTabController;
+class MainTabController;
+class ToolsTabController;
 class PhotosAnalyzer;
 class PhotosWidget;
 struct ILoggerFactory;
@@ -67,8 +68,9 @@ class MainWindow: public QMainWindow
         IPhotosManager*           m_photosManager;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
-        std::unique_ptr<MainTabControler> m_mainTabCtrl;
-        std::unique_ptr<LookTabControler> m_lookTabCtrl;
+        std::unique_ptr<MainTabController> m_mainTabCtrl;
+        std::unique_ptr<LookTabController> m_lookTabCtrl;
+        std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
 

@@ -6,15 +6,21 @@
 #include <QMovie>
 #include <QProcess>
 
+#include <configuration/configuration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
 #include "utils/grouppers/animation_generator.hpp"
+#include "config_keys.hpp"
 
 
-PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos, IExifReader* exifReader, ITaskExecutor* executor, QWidget *parent):
+PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos,
+                                           IExifReader* exifReader,
+                                           ITaskExecutor* executor,
+                                           IConfiguration* configuration,
+                                           QWidget *parent):
     QDialog(parent),
     m_model(),
     m_movie(),
@@ -23,6 +29,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader),
     m_executor(executor),
+    m_config(configuration),
     m_workInProgress(false)
 {
     assert(photos.size() >= 2);
@@ -148,6 +155,8 @@ void PhotosGroupingDialog::makeAnimation()
 {
     AnimationGenerator::Data generator_data;
 
+    generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
+    generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
     generator_data.photos = getPhotos();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();

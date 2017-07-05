@@ -184,7 +184,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
         }
     };
 
-    execute("align_image_stack",
+    execute(m_data.alignImageStackPath,
             align_image_stack_output_analizer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
             "-C",
@@ -278,7 +278,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
         }
     };
 
-    execute("convert",
+    execute(m_data.convertPath,
             convert_output_analizer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
             "-monitor",                                      // for convert_output_analizer

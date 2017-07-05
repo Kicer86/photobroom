@@ -7,23 +7,28 @@ include_directories(
 set(CONFIG_TABS_SOURCES
     look_tab.cpp
     main_tab.cpp
-    )
+    tools_tab.cpp
+)
 
 set(CONFIG_TABS_HEADERS
+    a_config_tab.hpp
     look_tab.hpp
     main_tab.hpp
-    )
+    tools_tab.hpp
+)
 
 
 set(CONFIG_TABS_FILES_TO_MOC
     look_tab.hpp
     main_tab.hpp
-    )
+    tools_tab.hpp
+)
 
 set(CONFIG_TABS_UI_FILES
     look_tab.ui
     main_tab.ui
-    )
+    tools_tab.ui
+)
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 

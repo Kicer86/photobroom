@@ -41,35 +41,35 @@ QSpinBox* LookTab::spacingSpinBox()
 
 
 
-LookTabControler::LookTabControler(): m_configuration(nullptr), m_tabWidget(nullptr)
+LookTabController::LookTabController(): m_configuration(nullptr), m_tabWidget(nullptr)
 {
 }
 
 
-LookTabControler::~LookTabControler()
+LookTabController::~LookTabController()
 {
 }
 
 
-void LookTabControler::set(IConfiguration* configuration)
+void LookTabController::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
 }
 
 
-int LookTabControler::tabId() const
+int LookTabController::tabId() const
 {
     return 10;
 }
 
 
-QString LookTabControler::tabName() const
+QString LookTabController::tabName() const
 {
     return tr("Look");
 }
 
 
-QWidget* LookTabControler::constructTab()
+QWidget* LookTabController::constructTab()
 {
     m_tabWidget = new LookTab;
 
@@ -87,7 +87,7 @@ QWidget* LookTabControler::constructTab()
 }
 
 
-void LookTabControler::applyConfiguration()
+void LookTabController::applyConfiguration()
 {
     const QColor& even_qcolor = m_tabWidget->colorEvenButton()->getColor();
     const uint32_t even_color = ConfigTools::colorToInt(even_qcolor);
@@ -99,6 +99,6 @@ void LookTabControler::applyConfiguration()
 }
 
 
-void LookTabControler::rejectConfiguration()
+void LookTabController::rejectConfiguration()
 {
 }

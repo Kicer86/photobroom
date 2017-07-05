@@ -161,11 +161,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>LookTabControler</name>
+    <name>LookTabController</name>
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
-        <translation>Wygląd</translation>
+        <translation type="unfinished">Wygląd</translation>
     </message>
 </context>
 <context>
@@ -202,11 +202,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>MainTabControler</name>
+    <name>MainTabController</name>
     <message>
         <location line="+50"/>
         <source>Main</source>
-        <translation>Główne</translation>
+        <translation type="unfinished">Główne</translation>
     </message>
 </context>
 <context>
@@ -332,7 +332,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+245"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+251"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -364,7 +364,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+190"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -379,12 +379,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="-103"/>
+        <location line="-104"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+127"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -590,7 +590,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+63"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+70"/>
         <location line="+74"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -612,7 +612,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Cancel generation</source>
         <translation>Przerwij</translation>
     </message>
@@ -718,6 +718,64 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+0"/>
         <source>Value</source>
         <translation>Wartość</translation>
+    </message>
+</context>
+<context>
+    <name>ToolsTab</name>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+14"/>
+        <source>ToolsTab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>External tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Used for creating animations (gifs) from photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>convert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>align_image_stack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+21"/>
+        <location line="+4"/>
+        <source>Select executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Applications (*.exe);;All files(*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+2"/>
+        <source>Browse</source>
+        <translation type="unfinished">Przeglądaj</translation>
+    </message>
+</context>
+<context>
+    <name>ToolsTabController</name>
+    <message>
+        <location line="+41"/>
+        <source>External tools</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
