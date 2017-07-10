@@ -62,6 +62,7 @@ addTestTarget(gui
                         Qt5::Core
                         Qt5::Gui
                         ${GMOCK_LIBRARY}
+                        ${GTEST_LIBRARY}
                         ${CMAKE_THREAD_LIBS_INIT}
 
                 INCLUDES
