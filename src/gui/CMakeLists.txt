@@ -52,7 +52,6 @@ qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui
             ${GUI_SOURCES}
-            ${GUI_WRAPPED_CPP}
             ${GUI_HEADERS}
             ${GUI_RESOURCES}
             $<TARGET_OBJECTS:gui_config_tabs>
