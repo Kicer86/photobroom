@@ -12,8 +12,8 @@ find_path(GTEST_INCLUDE_DIR gtest/gtest.h
           HINTS ${GTEST_DIR}/include
                 ${GMOCK_DIR}/gtest/include)
 
-find_library(GTEST_LIBRARY      libgtest.a)
-find_library(GTEST_MAIN_LIBRARY libgtest_main.a)
+find_library(GTEST_LIBRARY      gtest)
+find_library(GTEST_MAIN_LIBRARY gtest_main)
 
 set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} )
 
@@ -69,6 +69,6 @@ include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GTEST_FOUND to TRUE
 # if all listed variables are TRUE
 find_package_handle_standard_args(GTest DEFAULT_MSG
-                                  GTEST_INCLUDE_DIR GTEST_BASE_SOURCE GTEST_MAIN_SOURCE)
+                                  GTEST_INCLUDE_DIR GTEST_LIBRARY GTEST_MAIN_LIBRARY)
 
 mark_as_advanced(GTEST_INCLUDE_DIR GTEST_BASE_SOURCE GTEST_MAIN_SOURCE)

@@ -11,8 +11,8 @@
 find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
 
-find_library(GMOCK_LIBRARY      libgmock)
-find_library(GMOCK_MAIN_LIBRARY libgmock_main)
+find_library(GMOCK_LIBRARY      gmock)
+find_library(GMOCK_MAIN_LIBRARY gmock_main)
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR})
 
@@ -76,6 +76,6 @@ include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GMOCK_FOUND to TRUE
 # if all listed variables are TRUE
 find_package_handle_standard_args(GMock DEFAULT_MSG
-                                  GMOCK_INCLUDE_DIR GMOCK_BASE_SOURCE GMOCK_MAIN_SOURCE)
+                                  GMOCK_INCLUDE_DIR GMOCK_LIBRARY GMOCK_MAIN_LIBRARY)
 
 mark_as_advanced(GMOCK_INCLUDE_DIR GMOCK_BASE_SOURCE GMOCK_MAIN_SOURCE)
