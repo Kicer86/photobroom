@@ -16,7 +16,9 @@ find_library(GMOCK_MAIN_LIBRARY gmock_main)
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR})
 
-if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
+option(GMOCK_FORCE_SOURCES "Prefer googlemock sources over existing libraries" ON)
+
+if(GMOCK_INCLUDE_DIR AND (NOT GMOCK_LIBRARY OR GMOCK_FORCE_SOURCES))
 
     if(NOT TARGET gmock)
 
@@ -67,10 +69,10 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
 
     endif(NOT TARGET gmock)
 
-    set(GMOCK_LIBRARY gmock gtest)
-    set(GMOCK_MAIN_LIBRARY gmock-main)
+    set(GMOCK_LIBRARY gmock CACHE STRING "gmock target" FORCE)
+    set(GMOCK_MAIN_LIBRARY gmock-main CACHE STRING "gmock-main target" FORCE)
 
-endif(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
+endif(GMOCK_INCLUDE_DIR AND (NOT GMOCK_LIBRARY OR GMOCK_FORCE_SOURCES))
 
 include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GMOCK_FOUND to TRUE

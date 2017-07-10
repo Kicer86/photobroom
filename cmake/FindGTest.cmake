@@ -17,7 +17,9 @@ find_library(GTEST_MAIN_LIBRARY gtest_main)
 
 set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR} )
 
-if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
+option(GTEST_FORCE_SOURCES "Prefer googletest sources over existing libraries" ON)
+
+if(GTEST_INCLUDE_DIR AND (NOT GTEST_LIBRARY OR GTEST_FORCE_SOURCES))
 
     if(NOT TARGET gtest)
 
@@ -60,10 +62,10 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
 
     endif(NOT TARGET gtest)
 
-    set(GTEST_LIBRARY gtest)
-    set(GTEST_MAIN_LIBRARY gtest-main)
+    set(GTEST_LIBRARY gtest CACHE STRING "gtest target" FORCE)
+    set(GTEST_MAIN_LIBRARY gtest-main CACHE STRING "gtest-main target" FORCE)
 
-endif(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
+endif(GTEST_INCLUDE_DIR AND (NOT GTEST_LIBRARY OR GTEST_FORCE_SOURCES))
 
 include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GTEST_FOUND to TRUE
