@@ -11,8 +11,8 @@
 find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
 
-find_library(GMOCK_LIBRARY      libgmock.a)
-find_library(GMOCK_MAIN_LIBRARY libgmock_main.a)
+find_library(GMOCK_LIBRARY      libgmock)
+find_library(GMOCK_MAIN_LIBRARY libgmock_main)
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR})
 
@@ -21,11 +21,17 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
     if(NOT TARGET gmock)
 
         message("Trying to find GMock sources and register extra targets")
-        find_file(GMOCK_BASE_SOURCE src/gmock-all.cc
-                  HINTS /usr/src/gmock ${GMOCK_DIR})
+        find_file(GMOCK_BASE_SOURCE gmock-all.cc
+                  HINTS /usr/src/gmock
+                        ${GMOCK_DIR}
+                        ${GMOCK_DIR}/src
+        )
 
-        find_file(GMOCK_MAIN_SOURCE src/gmock_main.cc
-                  HINTS /usr/src/gmock ${GMOCK_DIR})
+        find_file(GMOCK_MAIN_SOURCE gmock_main.cc
+                  HINTS /usr/src/gmock
+                        ${GMOCK_DIR}
+                        ${GMOCK_DIR}/src
+        )
 
         if(NOT GMOCK_BASE_SOURCE OR NOT GMOCK_MAIN_SOURCE)
             message(FATAL_ERROR "Could not find base for GMock sources. Set GMOCK_DIR to proper value")

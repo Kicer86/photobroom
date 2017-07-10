@@ -22,17 +22,21 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
     if(NOT TARGET gtest)
 
         message("Trying to find GTest sources and register extra targets")
-        find_file(GTEST_BASE_SOURCE src/gtest-all.cc
+        find_file(GTEST_BASE_SOURCE gtest-all.cc
                   HINTS /usr/src/gtest
+                        /usr/src/gtest/src
                         ${GTEST_DIR}
                         ${GMOCK_DIR}/gtest
-                  )
+                        ${GMOCK_DIR}/gtest/src
+        )
 
-        find_file(GTEST_MAIN_SOURCE src/gtest_main.cc
+        find_file(GTEST_MAIN_SOURCE gtest_main.cc
                   HINTS /usr/src/gtest
+                        /usr/src/gtest/src
                         ${GTEST_DIR}
                         ${GMOCK_DIR}/gtest
-                  )
+                        ${GMOCK_DIR}/gtest/src
+        )
 
         if(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)
             message(FATAL_ERROR "Could not find base for GTest sources. Set GTEST_DIR to proper value")
@@ -42,18 +46,18 @@ if(GTEST_INCLUDE_DIR AND NOT GTEST_LIBRARY)
         add_library(gtest-main STATIC ${GTEST_MAIN_SOURCE})
 
         get_filename_component(gtest_base_dir ${GTEST_BASE_SOURCE} PATH)
-        target_include_directories(gtest      
-                                    PRIVATE 
+        target_include_directories(gtest
+                                    PRIVATE
                                         ${gtest_base_dir}/..
-                                        ${gtest_base_dir}/../include 
+                                        ${gtest_base_dir}/../include
         )
 
-        target_include_directories(gtest-main 
-                                    PRIVATE 
+        target_include_directories(gtest-main
+                                    PRIVATE
                                         ${gtest_base_dir}/..
-                                        ${gtest_base_dir}/../include 
+                                        ${gtest_base_dir}/../include
         )
-                        
+
     endif(NOT TARGET gtest)
 
     set(GTEST_LIBRARY gtest)
