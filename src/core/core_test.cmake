@@ -17,6 +17,7 @@ addTestTarget(core
                     PRIVATE
                         ${GMOCK_MAIN_LIBRARY}
                         ${GMOCK_LIBRARY}
+                        ${GTEST_LIBRARY}
                         ${CMAKE_THREAD_LIBS_INIT}
                 INCLUDES
                     SYSTEM PRIVATE

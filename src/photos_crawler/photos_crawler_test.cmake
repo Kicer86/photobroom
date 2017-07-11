@@ -23,6 +23,7 @@ addTestTarget(photos_crawler
                     Qt5::Core
                     ${GMOCK_MAIN_LIBRARY}
                     ${GMOCK_LIBRARY}
+                    ${GTEST_LIBRARY}
                     ${CMAKE_THREAD_LIBS_INIT}
 
                 INCLUDES

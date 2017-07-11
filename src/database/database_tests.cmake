@@ -39,6 +39,7 @@ addTestTarget(database
                         Qt5::Gui
                         Qt5::Sql
                         ${GMOCK_LIBRARY}
+                        ${GTEST_LIBRARY}
                         ${CMAKE_THREAD_LIBS_INIT}
 
                 INCLUDES

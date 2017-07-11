@@ -11,21 +11,29 @@
 find_path(GMOCK_INCLUDE_DIR gmock/gmock.h
           HINTS ${GMOCK_DIR}/include)
 
-find_library(GMOCK_LIBRARY      libgmock.a)
-find_library(GMOCK_MAIN_LIBRARY libgmock_main.a)
+find_library(GMOCK_LIBRARY      gmock)
+find_library(GMOCK_MAIN_LIBRARY gmock_main)
 
 set(GMOCK_INCLUDE_DIRS ${GMOCK_INCLUDE_DIR})
 
-if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
+option(GMOCK_FORCE_SOURCES "Prefer googlemock sources over existing libraries" ON)
+
+if(GMOCK_INCLUDE_DIR AND (NOT GMOCK_LIBRARY OR GMOCK_FORCE_SOURCES))
 
     if(NOT TARGET gmock)
 
         message("Trying to find GMock sources and register extra targets")
-        find_file(GMOCK_BASE_SOURCE src/gmock-all.cc
-                  HINTS /usr/src/gmock ${GMOCK_DIR})
+        find_file(GMOCK_BASE_SOURCE gmock-all.cc
+                  HINTS /usr/src/gmock
+                        ${GMOCK_DIR}
+                        ${GMOCK_DIR}/src
+        )
 
-        find_file(GMOCK_MAIN_SOURCE src/gmock_main.cc
-                  HINTS /usr/src/gmock ${GMOCK_DIR})
+        find_file(GMOCK_MAIN_SOURCE gmock_main.cc
+                  HINTS /usr/src/gmock
+                        ${GMOCK_DIR}
+                        ${GMOCK_DIR}/src
+        )
 
         if(NOT GMOCK_BASE_SOURCE OR NOT GMOCK_MAIN_SOURCE)
             message(FATAL_ERROR "Could not find base for GMock sources. Set GMOCK_DIR to proper value")
@@ -61,15 +69,15 @@ if(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
 
     endif(NOT TARGET gmock)
 
-    set(GMOCK_LIBRARY gmock gtest)
-    set(GMOCK_MAIN_LIBRARY gmock-main)
+    set(GMOCK_LIBRARY gmock CACHE STRING "gmock target" FORCE)
+    set(GMOCK_MAIN_LIBRARY gmock-main CACHE STRING "gmock-main target" FORCE)
 
-endif(GMOCK_INCLUDE_DIR AND NOT GMOCK_LIBRARY)
+endif(GMOCK_INCLUDE_DIR AND (NOT GMOCK_LIBRARY OR GMOCK_FORCE_SOURCES))
 
 include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set GMOCK_FOUND to TRUE
 # if all listed variables are TRUE
 find_package_handle_standard_args(GMock DEFAULT_MSG
-                                  GMOCK_INCLUDE_DIR GMOCK_BASE_SOURCE GMOCK_MAIN_SOURCE)
+                                  GMOCK_INCLUDE_DIR GMOCK_LIBRARY GMOCK_MAIN_LIBRARY)
 
 mark_as_advanced(GMOCK_INCLUDE_DIR GMOCK_BASE_SOURCE GMOCK_MAIN_SOURCE)
