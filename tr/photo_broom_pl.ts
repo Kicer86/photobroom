@@ -612,12 +612,36 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+25"/>
+        <location line="+8"/>
+        <source>Missing tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-7"/>
+        <source>&apos;convert&apos; tool is neccessary for this operation.
+Please go to settings and setup path to &apos;convert&apos; executable.
+
+&apos;convert&apos; is a tool which is a part of ImageMagick.
+Visit https://www.imagemagick.org/ for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
+Please go to settings and setup path to &apos;align_image_stack&apos; executable.
+
+&apos;align_image_stack&apos; is a tool which is a part of Hugin.
+Visit http://hugin.sourceforge.net/ for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Cancel generation</source>
         <translation>Przerwij</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
