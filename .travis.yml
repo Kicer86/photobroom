@@ -20,7 +20,6 @@ matrix:
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - g++-5
                - gcc-5
                - libexiv2-dev
@@ -33,7 +32,6 @@ matrix:
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - g++-5
                - gcc-5
                - libexiv2-dev
@@ -46,7 +44,6 @@ matrix:
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - clang-3.6
                - libexiv2-dev
              sources:
@@ -59,7 +56,6 @@ matrix:
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - clang-3.6
                - libexiv2-dev
              sources:
