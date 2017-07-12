@@ -87,16 +87,16 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
 
     bool shouldSwap(IExifReader* reader)
     {
-        const boost::any orientation_raw = reader->get(m_info.path, IExifReader::TagType::Orientation);
-        const int orientation = boost::any_cast<int>(orientation_raw);
+        const std::any orientation_raw = reader->get(m_info.path, IExifReader::TagType::Orientation);
+        const int orientation = std::any_cast<int>(orientation_raw);
 
         return orientation > 4;
     }
 
     QImage rotateThumbnail(IExifReader* reader, const QImage& thumbnail) const
     {
-        const boost::any orientation_raw = reader->get(m_info.path, IExifReader::TagType::Orientation);
-        const int orientation = boost::any_cast<int>(orientation_raw);
+        const std::any orientation_raw = reader->get(m_info.path, IExifReader::TagType::Orientation);
+        const int orientation = std::any_cast<int>(orientation_raw);
 
         QImage rotated = thumbnail;
         switch(orientation)
@@ -254,9 +254,9 @@ void ThumbnailCache::add(const ThumbnailInfo& info, const QImage& img)
 }
 
 
-boost::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
+std::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
 {
-    boost::optional<QImage> result;
+    std::optional<QImage> result;
 
     std::lock_guard<std::mutex> lock(m_cacheMutex);
 

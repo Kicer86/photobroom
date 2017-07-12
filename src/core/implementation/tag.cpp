@@ -135,7 +135,7 @@ TagValue::TagValue(TagValue&& other): TagValue()
     m_type = other.m_type;
     other.m_type = Type::Empty;
 
-    boost::swap(m_value, other.m_value);
+    std::swap(m_value, other.m_value);
 }
 
 
@@ -229,7 +229,7 @@ TagValue& TagValue::operator=(TagValue&& other)
     m_type = other.m_type;
     other.m_type = Type::Empty;
 
-    boost::swap(m_value, other.m_value);
+    std::swap(m_value, other.m_value);
 
     return *this;
 }
@@ -407,28 +407,28 @@ bool TagValue::operator<(const TagValue& other) const
 template<>
 bool TagValue::validate<QDate>() const
 {
-    return m_type == Type::Date && m_value.empty() == false && m_value.type() == typeid(QDate);
+    return m_type == Type::Date && m_value.has_value() && m_value.type() == typeid(QDate);
 }
 
 
 template<>
 bool TagValue::validate<QTime>() const
 {
-    return m_type == Type::Time && m_value.empty() == false && m_value.type() == typeid(QTime);
+    return m_type == Type::Time && m_value.has_value() && m_value.type() == typeid(QTime);
 }
 
 
 template<>
 bool TagValue::validate<QString>() const
 {
-    return m_type == Type::String && m_value.empty() == false && m_value.type() == typeid(QString);
+    return m_type == Type::String && m_value.has_value() && m_value.type() == typeid(QString);
 }
 
 
 template<>
 bool TagValue::validate<std::deque<TagValue>>() const
 {
-    return m_type == Type::List && m_value.empty() == false && m_value.type() == typeid(std::deque<TagValue>);
+    return m_type == Type::List && m_value.has_value() && m_value.type() == typeid(std::deque<TagValue>);
 }
 
 

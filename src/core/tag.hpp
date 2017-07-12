@@ -4,12 +4,12 @@
 
 #include <assert.h>
 
+#include <any>
 #include <deque>
 #include <map>
 #include <set>
 #include <memory>
 
-#include <boost/any.hpp>
 
 #include <QString>
 #include <QVariant>
@@ -113,7 +113,7 @@ class CORE_EXPORT TagValue
 
     private:
         Type m_type;
-        boost::any m_value;
+        std::any m_value;
 
         template<typename T>
         bool validate() const;
@@ -123,7 +123,7 @@ class CORE_EXPORT TagValue
         {
             assert( validate<T>() );
 
-            const T* v = boost::any_cast<T>(&m_value);
+            const T* v = std::any_cast<T>(&m_value);
 
             return v;
         }
@@ -133,7 +133,7 @@ class CORE_EXPORT TagValue
         {
             assert( validate<T>() );
 
-            T* v = boost::any_cast<T>(&m_value);
+            T* v = std::any_cast<T>(&m_value);
 
             return v;
         }

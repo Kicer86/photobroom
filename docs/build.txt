@@ -5,7 +5,6 @@ Required tools and libraries:
  - easyexif*
  - jsoncpp*
  - OpenLibrary*
- - Boost
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
@@ -21,13 +20,11 @@ Required tools and libraries:
 
   set BUILD_* variable to ON for library you want to be downloaded.
 
-Tested compilers:
-1. gcc  (Linux and Windows)
-        At least 4.8.0 version is required (due to c++14).
+Tested compilers (with c++17 support):
+1. gcc (Linux and Windows)
 
 2. clang (Linux)
 
-3. VisualStudio 2015
 
 PhotoBroom cannot be run from compilation directory without installing.
 On Linux it will search for plugins in destination (installation) directory.

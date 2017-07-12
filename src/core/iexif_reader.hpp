@@ -2,10 +2,9 @@
 #ifndef CORE_TAG_FEEDER_HPP
 #define CORE_TAG_FEEDER_HPP
 
+#include <any>
 #include <memory>
 #include <string>
-
-#include <boost/any.hpp>
 
 #include "tag.hpp"
 
@@ -27,8 +26,8 @@ struct CORE_EXPORT IExifReader
 
     virtual ~IExifReader() = default;
 
-    virtual Tag::TagsList getTagsFor(const QString& path) = 0;            // returns default set of tags
-    virtual boost::any get(const QString& path, const TagType &) = 0;   // access to optional data
+    virtual Tag::TagsList getTagsFor(const QString& path) = 0;        // returns default set of tags
+    virtual std::any get(const QString& path, const TagType &) = 0;   // access to optional data
 };
 
 

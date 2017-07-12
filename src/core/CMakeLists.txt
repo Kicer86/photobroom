@@ -1,5 +1,4 @@
 
-find_package(Boost REQUIRED)
 find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core 5.6 REQUIRED)
 find_package(Qt5Gui REQUIRED)
@@ -104,7 +103,6 @@ target_link_libraries(core
 
 target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
-                                    ${Boost_INCLUDE_DIRS}
                                 PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 SYSTEM PRIVATE

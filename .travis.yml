@@ -20,52 +20,48 @@ matrix:
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - g++-5
                - gcc-5
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
-          # use compiler which has c++14 support
+          # use compiler which has c++17 support
           env: COMPILER=g++-5 SHARED_BUILD=ON
 
         - compiler: gcc
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - g++-5
                - gcc-5
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
-          # use compiler which has c++14 support
+          # use compiler which has c++17 support
           env: COMPILER=g++-5 SHARED_BUILD=OFF
 
         - compiler: clang
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - clang-3.6
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-precise-3.6
-          # use compiler which has c++14 support
+          # use compiler which has c++17 support
           env: COMPILER=clang++-3.6 SHARED_BUILD=ON
 
         - compiler: clang
           addons:
             apt:
              packages:
-               - libboost-all-dev
                - clang-3.6
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-precise-3.6
-          # use compiler which has c++14 support
+          # use compiler which has c++17 support
           env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
 
 cache:

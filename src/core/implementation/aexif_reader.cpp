@@ -56,7 +56,7 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 }
 
 
-boost::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
+std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
     assert(m_id == std::this_thread::get_id());
 
@@ -64,7 +64,7 @@ boost::any AExifReader::get(const QString& path, const IExifReader::TagType& typ
 
     collect(data);
 
-    boost::any result;
+    std::any result;
 
     switch(type)
     {

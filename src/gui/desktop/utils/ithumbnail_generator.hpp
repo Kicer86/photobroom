@@ -21,11 +21,11 @@
 #define ITHUMBNAILSGENERATOR_HPP
 
 #include <functional>
+#include <optional>
 
 #include <QImage>
 #include <QString>
 
-#include <boost/optional.hpp>
 
 
 struct ThumbnailInfo
@@ -65,7 +65,7 @@ struct IThumbnailCache
 {
     virtual ~IThumbnailCache() {}
 
-    virtual boost::optional<QImage> get(const ThumbnailInfo &) const = 0;
+    virtual std::optional<QImage> get(const ThumbnailInfo &) const = 0;
     virtual void add(const ThumbnailInfo &, const QImage &) = 0;
 };
 

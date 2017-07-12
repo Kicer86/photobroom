@@ -49,7 +49,7 @@ class AExifReader: public IExifReader
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
-        boost::any get(const QString& path, const TagType &) override;
+        std::any get(const QString& path, const TagType &) override;
         //
 
         Tag::TagsList feedDateAndTime() const;

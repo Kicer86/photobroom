@@ -19,9 +19,9 @@
 
 #include "photo_information.hpp"
 
-#include <QImageReader>
+#include <any>
 
-#include <boost/any.hpp>
+#include <QImageReader>
 
 #include "iexif_reader.hpp"
 
@@ -43,8 +43,8 @@ QSize PhotoInformation::size(const QString& path) const
     const QImageReader reader(path);
     QSize size = reader.size();
 
-    const boost::any orientation_raw = exif_reader->get(path, IExifReader::TagType::Orientation);
-    const int orientation = boost::any_cast<int>(orientation_raw);
+    const std::any orientation_raw = exif_reader->get(path, IExifReader::TagType::Orientation);
+    const int orientation = std::any_cast<int>(orientation_raw);
 
     if (orientation > 4) // orientations 5, 6, 7 and 8 require 90⁰ degree rotations which swap dimensions
         size.transpose();
