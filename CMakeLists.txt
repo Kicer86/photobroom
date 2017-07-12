@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.1)                           # due to CMAKE_CXX_STANDARD variables
+cmake_minimum_required(VERSION 3.8)                           # due to CMAKE_CXX_STANDARD variables and c++17 support
 cmake_policy(SET CMP0048 NEW)
 
 if (NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS "3.3")
