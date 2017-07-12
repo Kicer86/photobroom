@@ -254,9 +254,9 @@ void ThumbnailCache::add(const ThumbnailInfo& info, const QImage& img)
 }
 
 
-boost::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
+std::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
 {
-    boost::optional<QImage> result;
+    std::optional<QImage> result;
 
     std::lock_guard<std::mutex> lock(m_cacheMutex);
 

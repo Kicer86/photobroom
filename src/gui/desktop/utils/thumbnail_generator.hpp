@@ -74,7 +74,7 @@ class ThumbnailCache: public IThumbnailCache
         ThumbnailCache& operator=(const ThumbnailCache &) = delete;
 
         void add(const ThumbnailInfo &, const QImage &) override;
-        boost::optional<QImage> get(const ThumbnailInfo &) const override;
+        std::optional<QImage> get(const ThumbnailInfo &) const override;
 
     private:
         mutable std::mutex m_cacheMutex;

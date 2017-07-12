@@ -1,10 +1,6 @@
 
-find_package(Boost REQUIRED)
-
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>)
-
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 set(SRC
     aphoto_info_model.cpp
@@ -38,4 +34,3 @@ qt5_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(gui_models OBJECT ${SRC} ${MOCED} ${HEADERS})
 set_target_properties(gui_models PROPERTIES POSITION_INDEPENDENT_CODE ON)
-target_include_directories(gui_models PUBLIC ${Boost_INCLUDE_DIRS})
