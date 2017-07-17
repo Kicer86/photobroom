@@ -51,7 +51,7 @@ namespace
 
 
 PhotoProperties::PhotoProperties(QWidget* p):
-    QWidget(p),
+    QScrollArea(p),
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
@@ -60,12 +60,16 @@ PhotoProperties::PhotoProperties(QWidget* p):
     m_sizeValue(new QLabel(this)),
     m_geometryValue(nullptr)                      // TODO: implement it later
 {
-    QGridLayout* l = new QGridLayout(this);
+    QWidget* area = new QWidget(this);
+    QGridLayout* l = new QGridLayout(area);
 
     l->addWidget(m_locationLabel, 0, 0);
     l->addWidget(m_sizeLabel, 1, 0);
     l->addWidget(m_locationValue, 0, 1);
     l->addWidget(m_sizeValue, 1, 1);
+
+    setWidgetResizable(true);
+    setWidget(area);
 }
 
 

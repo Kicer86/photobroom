@@ -21,7 +21,7 @@
 #ifndef PHOTOPROPERTIES_HPP
 #define PHOTOPROPERTIES_HPP
 
-#include <QWidget>
+#include <QScrollArea>
 
 #include <database/iphoto_info.hpp>
 
@@ -32,7 +32,7 @@ class SelectionExtractor;
 struct APhotoInfoModel;
 
 
-class PhotoProperties: public QWidget
+class PhotoProperties: public QScrollArea
 {
         Q_OBJECT
 
