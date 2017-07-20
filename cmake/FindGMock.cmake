@@ -25,12 +25,14 @@ if(GMOCK_INCLUDE_DIR AND (NOT GMOCK_LIBRARY OR GMOCK_FORCE_SOURCES))
         message("Trying to find GMock sources and register extra targets")
         find_file(GMOCK_BASE_SOURCE gmock-all.cc
                   HINTS /usr/src/gmock
+                        /usr/src/gmock/src
                         ${GMOCK_DIR}
                         ${GMOCK_DIR}/src
         )
 
         find_file(GMOCK_MAIN_SOURCE gmock_main.cc
                   HINTS /usr/src/gmock
+                        /usr/src/gmock/src
                         ${GMOCK_DIR}
                         ${GMOCK_DIR}/src
         )

@@ -28,16 +28,14 @@ if(GTEST_INCLUDE_DIR AND (NOT GTEST_LIBRARY OR GTEST_FORCE_SOURCES))
                   HINTS /usr/src/gtest
                         /usr/src/gtest/src
                         ${GTEST_DIR}
-                        ${GMOCK_DIR}/gtest
-                        ${GMOCK_DIR}/gtest/src
+                        ${GTEST_DIR}/src
         )
 
         find_file(GTEST_MAIN_SOURCE gtest_main.cc
                   HINTS /usr/src/gtest
                         /usr/src/gtest/src
                         ${GTEST_DIR}
-                        ${GMOCK_DIR}/gtest
-                        ${GMOCK_DIR}/gtest/src
+                        ${GTEST_DIR}/src
         )
 
         if(NOT GTEST_BASE_SOURCE OR NOT GTEST_MAIN_SOURCE)
