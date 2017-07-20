@@ -55,18 +55,21 @@ PhotoProperties::PhotoProperties(QWidget* p):
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
-    m_geometryLabel(nullptr),                     // TODO: implement it later
+    m_geometryLabel(new QLabel(this)),
     m_locationValue(new QLabel(this)),
     m_sizeValue(new QLabel(this)),
-    m_geometryValue(nullptr)                      // TODO: implement it later
+    m_geometryValue(new QLabel(this))
 {
     QWidget* area = new QWidget(this);
     QGridLayout* l = new QGridLayout(area);
 
     l->addWidget(m_locationLabel, 0, 0);
     l->addWidget(m_sizeLabel, 1, 0);
+    l->addWidget(m_geometryLabel, 2, 0);
+
     l->addWidget(m_locationValue, 0, 1);
     l->addWidget(m_sizeValue, 1, 1);
+    l->addWidget(m_geometryValue, 2, 1);
 
     setWidgetResizable(true);
     setWidget(area);
@@ -104,11 +107,13 @@ void PhotoProperties::refreshLabels(const std::vector<IPhotoInfo::Ptr>& photos) 
     {
         m_locationLabel->setText(tr("Photo location:"));
         m_sizeLabel->setText(tr("Photo size:"));
+        m_geometryLabel->setText(tr("Photo geometry:"));
     }
     else
     {
         m_locationLabel->setText(tr("Photos location:"));
         m_sizeLabel->setText(tr("Photos size:"));
+        m_geometryLabel->setText("Photos geometry:");
     }
 }
 
@@ -132,15 +137,20 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     {
         m_locationValue->setText("---");
         m_sizeValue->setText("---");
+        m_geometryValue->setText("---");
     }
     else if (s == 1)
     {
-        const QString filePath = photos.front()->getPath();
+        const IPhotoInfo::Ptr& photo = photos.front();
+        const QString filePath = photo->getPath();
         const QFileInfo filePathInfo(filePath);
+        const QSize geometry = photo->getGeometry();
+        const QString geometry_str = tr("%1x%2").arg(geometry.width()).arg(geometry.height());
 
         // update values
         m_locationValue->setText(filePathInfo.absoluteFilePath());
         m_sizeValue->setText(size_human);
+        m_geometryValue->setText(geometry_str);
     }
     else
     {
@@ -159,6 +169,7 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
         // update values
         m_locationValue->setText(decorated);
         m_sizeValue->setText(size_human);
+        m_geometryValue->setText("---");
     }
 }
 

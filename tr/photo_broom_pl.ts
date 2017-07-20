@@ -473,7 +473,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoProperties</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+105"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+108"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
@@ -481,6 +481,11 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <source>Photo size:</source>
         <translation>Rozmiar zdjęcia:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Photo geometry:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -492,8 +497,13 @@ Kod błędu: %1</translation>
         <source>Photos size:</source>
         <translation>Rozmiar zdjęć:</translation>
     </message>
+    <message>
+        <location line="+33"/>
+        <source>%1x%2</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location line="+64"/>
+        <location line="+38"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n bajt</numerusform>
