@@ -41,9 +41,20 @@ QString FileSystem::getLibrariesPath() const
 }
 
 
-QString FileSystem::commonPath(const QString& p1, const QString& p2) const
+QString FileSystem::commonPath(const QString& p1, const QString& p2 ) const
 {
-    return QString();
+    int p = 0;
+    for(int i = 0; i < std::min( p1.length(), p2.length()); i++)
+    {
+        if ( p1[i] == p2[i])
+            p = i + 1;
+        else
+            break;
+    }
+
+    const QString result = p1.left(p);
+
+    return result;
 }
 
 

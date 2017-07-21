@@ -25,29 +25,9 @@
 #include <QGridLayout>
 #include <QLabel>
 
+#include <system/filesystem.hpp>
 
 #include "utils/selection_extractor.hpp"
-
-
-namespace
-{
-    QString common(const QString& s1, const QString& s2)
-    {
-        int p = 0;
-        for(int i = 0; i < std::min(s1.length(), s2.length()); i++)
-        {
-            if (s1[i] == s2[i])
-                p = i + 1;
-            else
-                break;
-        }
-
-        const QString result = s1.left(p);
-
-        return result;
-    }
-
-}
 
 
 PhotoProperties::PhotoProperties(QWidget* p):
@@ -161,7 +141,7 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
         for(std::size_t i = 1; i < s; i++)
         {
             const QFileInfo anotherPhotoPath(photos[i]->getPath());
-            result = common(result, anotherPhotoPath.path());
+            result = FileSystem().commonPath(result, anotherPhotoPath.path());
         }
 
         const QString decorated = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
