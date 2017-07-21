@@ -43,16 +43,27 @@ QString FileSystem::getLibrariesPath() const
 
 QString FileSystem::commonPath(const QString& p1, const QString& p2 ) const
 {
-    int p = 0;
-    for(int i = 0; i < std::min( p1.length(), p2.length()); i++)
+    int common_part = 0;
+
+    const int min = std::min( p1.length(), p2.length());
+    const int max = std::max( p1.length(), p2.length());
+
+    for(int i = 0; i < min; i++)
     {
         if ( p1[i] == p2[i])
-            p = i + 1;
+        {
+            if (p1[i] == '/'  ||
+                p1[i] == '\\' ||      // QDir::separator could be used here, but we may expect both types (from unit tests for example)
+                i + 1 == max)         // is it end of path?
+            {
+                common_part = i + 1;
+            }
+        }
         else
             break;
     }
 
-    const QString result = p1.left(p);
+    const QString result = p1.left(common_part);
 
     return result;
 }
