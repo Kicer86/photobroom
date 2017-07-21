@@ -23,21 +23,27 @@
 
 #include "paths.hpp"
 
-QString FileSystem::getPluginsPath()
+QString FileSystem::getPluginsPath() const
 {
     return read(Paths::plugins);
 }
 
 
-QString FileSystem::getTranslationsPath()
+QString FileSystem::getTranslationsPath() const
 {
     return read(Paths::translations);
 }
 
 
-QString FileSystem::getLibrariesPath()
+QString FileSystem::getLibrariesPath() const
 {
     return read(Paths::libraries);
+}
+
+
+QString FileSystem::commonPath(const QString& p1, const QString& p2) const
+{
+    return QString();
 }
 
 
