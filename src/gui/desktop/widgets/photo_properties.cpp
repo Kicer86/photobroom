@@ -139,24 +139,22 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     {
         const IPhotoInfo::Ptr& photo = photos.front();
         const QString filePath = photo->getPath();
-        const QFileInfo filePathInfo(filePath);
         const QString geometry = geometryToStr(photo);
 
         // update values
-        m_locationValue->setText(filePathInfo.absoluteFilePath());
+        m_locationValue->setText(filePath);
         m_sizeValue->setText(size_human);
         m_geometryValue->setText(geometry);
     }
     else
     {
         // 'merge' paths
-        const QFileInfo firstPathInfo(photos.front()->getPath());
-        QString result = firstPathInfo.path();          // do not include file name. It will prevent situations when merged path contains part of file names (if they had common part)
+        QString result = photos.front()->getPath();
 
         for(std::size_t i = 1; i < s; i++)
         {
-            const QFileInfo anotherPhotoPath(photos[i]->getPath());
-            result = FileSystem().commonPath(result, anotherPhotoPath.path());
+            const QString anotherPhotoPath = photos[i]->getPath();
+            result = FileSystem().commonPath(result, anotherPhotoPath);
         }
 
         const QString decorated_path = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
