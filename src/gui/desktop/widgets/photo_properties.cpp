@@ -75,6 +75,7 @@ PhotoProperties::PhotoProperties(QWidget* p):
     l->addWidget(m_geometryValue, 2, 1);
 
     l->setColumnStretch(1, 1);
+    l->setRowStretch(3, 1);
 
     setWidgetResizable(true);
     setWidget(area);
