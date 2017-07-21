@@ -68,3 +68,8 @@ if(BUILD_SHARED_LIBS)
     install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
                            LIBRARY DESTINATION ${PATH_LIBS})
 endif()
+
+
+if(BUILD_TESTS)
+    include(system_tests.cmake)
+endif()
