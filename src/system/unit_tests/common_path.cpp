@@ -6,7 +6,7 @@
 
 TEST(FileSystemTest, EqualFilePaths)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("/foo/bar/file.ext", "/foo/bar/file.ext");
 
@@ -16,7 +16,7 @@ TEST(FileSystemTest, EqualFilePaths)
 
 TEST(FileSystemTest, EqualDirPaths)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("/foo/bar/", "/foo/bar/");
 
@@ -26,7 +26,7 @@ TEST(FileSystemTest, EqualDirPaths)
 
 TEST(FileSystemTest, EqualDirPaths2)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("/foo/bar", "/foo/bar");
 
@@ -36,7 +36,7 @@ TEST(FileSystemTest, EqualDirPaths2)
 
 TEST(FileSystemTest, DifferentFileNamesWithCommonPart)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("/foo/bar/file1.png", "/foo/bar/file2.png");
 
@@ -46,7 +46,7 @@ TEST(FileSystemTest, DifferentFileNamesWithCommonPart)
 
 TEST(FileSystemTest, DifferentFileNamesWithoutCommonPart)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("/foo/bar/1.png", "/foo/bar/2.png");
 
@@ -56,7 +56,7 @@ TEST(FileSystemTest, DifferentFileNamesWithoutCommonPart)
 
 TEST(FileSystemTest, SameRelativeFilePath)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("../bar/file.png", "../bar/file.png");
 
@@ -66,7 +66,7 @@ TEST(FileSystemTest, SameRelativeFilePath)
 
 TEST(FileSystemTest, SameRelativeFilePath2)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("file.png", "file.png");
 
@@ -76,7 +76,7 @@ TEST(FileSystemTest, SameRelativeFilePath2)
 
 TEST(FileSystemTest, TotallyDifferentPaths)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("/bar/foo/file.png", "/foo/bar/file.png");
 
@@ -86,7 +86,7 @@ TEST(FileSystemTest, TotallyDifferentPaths)
 
 TEST(FileSystemTest, TotallyDifferentRelativePaths)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("bar/foo/file.png", "foo/bar/file.png");
 
@@ -96,7 +96,7 @@ TEST(FileSystemTest, TotallyDifferentRelativePaths)
 
 TEST(FileSystemTest, DifferentPathsWhichCommonPrefix)
 {
-    FileSystem fs;
+    const FileSystem fs;
 
     const QString common = fs.commonPath("xx:/bar/foo/file.png", "xx:/foo/bar/file.png");
 
