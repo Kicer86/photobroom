@@ -125,4 +125,3 @@ endif()
 if(BUILD_TESTS)
     include(core_test.cmake)
 endif()
-
