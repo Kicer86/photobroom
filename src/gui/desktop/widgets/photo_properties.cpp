@@ -125,7 +125,7 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
         const QString filePath = photo->getPath();
         const QFileInfo filePathInfo(filePath);
         const QSize geometry = photo->getGeometry();
-        const QString geometry_str = tr("%1x%2").arg(geometry.width()).arg(geometry.height());
+        const QString geometry_str = tr("%1×%2").arg(geometry.width()).arg(geometry.height());
 
         // update values
         m_locationValue->setText(filePathInfo.absoluteFilePath());
