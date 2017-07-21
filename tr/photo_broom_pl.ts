@@ -473,7 +473,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoProperties</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+101"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+114"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
@@ -481,6 +481,11 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <source>Photo size:</source>
         <translation>Rozmiar zdjęcia:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Photo geometry:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -493,7 +498,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar zdjęć:</translation>
     </message>
     <message numerus="yes">
-        <location line="+64"/>
+        <location line="+77"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n bajt</numerusform>
@@ -721,6 +726,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+0"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-165"/>
+        <source>%1×%2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

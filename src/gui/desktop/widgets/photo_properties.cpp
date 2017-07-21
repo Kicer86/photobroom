@@ -25,47 +25,60 @@
 #include <QGridLayout>
 #include <QLabel>
 
+#include <system/filesystem.hpp>
 
 #include "utils/selection_extractor.hpp"
 
-
 namespace
 {
-    QString common(const QString& s1, const QString& s2)
+    QString geometryToStr(const QSize& geometry)
     {
-        int p = 0;
-        for(int i = 0; i < std::min(s1.length(), s2.length()); i++)
-        {
-            if (s1[i] == s2[i])
-                p = i + 1;
-            else
-                break;
-        }
-
-        const QString result = s1.left(p);
-
+        const QString result = QObject::tr("%1×%2").arg(geometry.width()).arg(geometry.height());
         return result;
     }
 
+    QString geometryToStr(const IPhotoInfo::Ptr& photoInfo)
+    {
+        const QSize geometry = photoInfo->getGeometry();
+
+        return geometryToStr(geometry);
+    }
+
+    QString cutPrj(const QString& path)
+    {
+        const QString result = path.left(5) == "prj:/"? path.mid(5): path;
+
+        return result;
+    }
 }
 
 
 PhotoProperties::PhotoProperties(QWidget* p):
-    QWidget(p),
+    QScrollArea(p),
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
-    m_geometryLabel(nullptr),                     // TODO: implement it later
+    m_geometryLabel(new QLabel(this)),
     m_locationValue(new QLabel(this)),
     m_sizeValue(new QLabel(this)),
-    m_geometryValue(nullptr)                      // TODO: implement it later
+    m_geometryValue(new QLabel(this))
 {
-    QGridLayout* l = new QGridLayout(this);
+    QWidget* area = new QWidget(this);
+    QGridLayout* l = new QGridLayout(area);
 
     l->addWidget(m_locationLabel, 0, 0);
     l->addWidget(m_sizeLabel, 1, 0);
+    l->addWidget(m_geometryLabel, 2, 0);
+
     l->addWidget(m_locationValue, 0, 1);
     l->addWidget(m_sizeValue, 1, 1);
+    l->addWidget(m_geometryValue, 2, 1);
+
+    l->setColumnStretch(1, 1);
+    l->setRowStretch(3, 1);
+
+    setWidgetResizable(true);
+    setWidget(area);
 }
 
 
@@ -100,11 +113,13 @@ void PhotoProperties::refreshLabels(const std::vector<IPhotoInfo::Ptr>& photos) 
     {
         m_locationLabel->setText(tr("Photo location:"));
         m_sizeLabel->setText(tr("Photo size:"));
+        m_geometryLabel->setText(tr("Photo geometry:"));
     }
     else
     {
         m_locationLabel->setText(tr("Photos location:"));
         m_sizeLabel->setText(tr("Photos size:"));
+        m_geometryLabel->setText("Photos geometry:");
     }
 }
 
@@ -128,33 +143,45 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     {
         m_locationValue->setText("---");
         m_sizeValue->setText("---");
+        m_geometryValue->setText("---");
     }
     else if (s == 1)
     {
-        const QString filePath = photos.front()->getPath();
-        const QFileInfo filePathInfo(filePath);
+        const IPhotoInfo::Ptr& photo = photos.front();
+        const QString filePath = photo->getPath();
+        const QString geometry = geometryToStr(photo);
 
         // update values
-        m_locationValue->setText(filePathInfo.absoluteFilePath());
+        m_locationValue->setText(cutPrj(filePath));
         m_sizeValue->setText(size_human);
+        m_geometryValue->setText(geometry);
     }
     else
     {
         // 'merge' paths
-        const QFileInfo firstPathInfo(photos.front()->getPath());
-        QString result = firstPathInfo.path();          // do not include file name. It will prevent situations when merged path contains part of file names (if they had common part)
+        QString result = photos.front()->getPath();
 
         for(std::size_t i = 1; i < s; i++)
         {
-            const QFileInfo anotherPhotoPath(photos[i]->getPath());
-            result = common(result, anotherPhotoPath.path());
+            const QString anotherPhotoPath = photos[i]->getPath();
+            result = FileSystem().commonPath(result, anotherPhotoPath);
         }
 
-        const QString decorated = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
+        const QString decorated_path = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
+
+        // try to merge geometry
+        const QSize geometry = photos.front()->getGeometry();
+        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const IPhotoInfo::Ptr& photo)
+        {
+            return photo->getGeometry() == geometry;
+        });
+
+        const QString geometryStr = equal? geometryToStr(geometry): "---";
 
         // update values
-        m_locationValue->setText(decorated);
+        m_locationValue->setText(cutPrj(decorated_path));
         m_sizeValue->setText(size_human);
+        m_geometryValue->setText(geometryStr);
     }
 }
 

@@ -23,21 +23,49 @@
 
 #include "paths.hpp"
 
-QString FileSystem::getPluginsPath()
+QString FileSystem::getPluginsPath() const
 {
     return read(Paths::plugins);
 }
 
 
-QString FileSystem::getTranslationsPath()
+QString FileSystem::getTranslationsPath() const
 {
     return read(Paths::translations);
 }
 
 
-QString FileSystem::getLibrariesPath()
+QString FileSystem::getLibrariesPath() const
 {
     return read(Paths::libraries);
+}
+
+
+QString FileSystem::commonPath(const QString& p1, const QString& p2 ) const
+{
+    int common_part = 0;
+
+    const int min = std::min( p1.length(), p2.length());
+    const int max = std::max( p1.length(), p2.length());
+
+    for(int i = 0; i < min; i++)
+    {
+        if ( p1[i] == p2[i])
+        {
+            if (p1[i] == '/'  ||
+                p1[i] == '\\' ||      // QDir::separator could be used here, but we may expect both types (from unit tests for example)
+                i + 1 == max)         // is it end of path?
+            {
+                common_part = i + 1;
+            }
+        }
+        else
+            break;
+    }
+
+    const QString result = p1.left(common_part);
+
+    return result;
 }
 
 
