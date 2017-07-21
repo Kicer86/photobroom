@@ -43,6 +43,13 @@ namespace
 
         return geometryToStr(geometry);
     }
+
+    QString cutPrj(const QString& path)
+    {
+        const QString result = path.left(5) == "prj:/"? path.mid(5): path;
+
+        return result;
+    }
 }
 
 
@@ -142,7 +149,7 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
         const QString geometry = geometryToStr(photo);
 
         // update values
-        m_locationValue->setText(filePath);
+        m_locationValue->setText(cutPrj(filePath));
         m_sizeValue->setText(size_human);
         m_geometryValue->setText(geometry);
     }
@@ -169,7 +176,7 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
         const QString geometryStr = equal? geometryToStr(geometry): "---";
 
         // update values
-        m_locationValue->setText(decorated_path);
+        m_locationValue->setText(cutPrj(decorated_path));
         m_sizeValue->setText(size_human);
         m_geometryValue->setText(geometryStr);
     }
