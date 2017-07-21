@@ -29,6 +29,22 @@
 
 #include "utils/selection_extractor.hpp"
 
+namespace
+{
+    QString geometryToStr(const QSize& geometry)
+    {
+        const QString result = QObject::tr("%1×%2").arg(geometry.width()).arg(geometry.height());
+        return result;
+    }
+
+    QString geometryToStr(const IPhotoInfo::Ptr& photoInfo)
+    {
+        const QSize geometry = photoInfo->getGeometry();
+
+        return geometryToStr(geometry);
+    }
+}
+
 
 PhotoProperties::PhotoProperties(QWidget* p):
     QScrollArea(p),
@@ -124,13 +140,12 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
         const IPhotoInfo::Ptr& photo = photos.front();
         const QString filePath = photo->getPath();
         const QFileInfo filePathInfo(filePath);
-        const QSize geometry = photo->getGeometry();
-        const QString geometry_str = tr("%1×%2").arg(geometry.width()).arg(geometry.height());
+        const QString geometry = geometryToStr(photo);
 
         // update values
         m_locationValue->setText(filePathInfo.absoluteFilePath());
         m_sizeValue->setText(size_human);
-        m_geometryValue->setText(geometry_str);
+        m_geometryValue->setText(geometry);
     }
     else
     {
@@ -144,12 +159,21 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
             result = FileSystem().commonPath(result, anotherPhotoPath.path());
         }
 
-        const QString decorated = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
+        const QString decorated_path = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
+
+        // try to merge geometry
+        const QSize geometry = photos.front()->getGeometry();
+        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const IPhotoInfo::Ptr& photo)
+        {
+            return photo->getGeometry() == geometry;
+        });
+
+        const QString geometryStr = equal? geometryToStr(geometry): "---";
 
         // update values
-        m_locationValue->setText(decorated);
+        m_locationValue->setText(decorated_path);
         m_sizeValue->setText(size_human);
-        m_geometryValue->setText("---");
+        m_geometryValue->setText(geometryStr);
     }
 }
 
