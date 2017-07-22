@@ -1,6 +1,6 @@
 
 #usage:
-#addTestTarget(`target` SOURCES source files TEST_LIBRARY gtest|gmock)
+#addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
 #function will add executable with tests and will register it for ctest.
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
