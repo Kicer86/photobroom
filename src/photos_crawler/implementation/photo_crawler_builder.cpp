@@ -3,8 +3,8 @@
 
 #include "photo_crawler.hpp"
 #include "default_filesystem_scanners/filesystemscanner.hpp"
-#include "default_analyzers/ext_defaultanalyzer.hpp"
 #include "default_analyzers/file_analyzer.hpp"
+#include "default_analyzers/file_extension_analyzer.hpp"
 
 PhotoCrawlerBuilder::PhotoCrawlerBuilder()
 {

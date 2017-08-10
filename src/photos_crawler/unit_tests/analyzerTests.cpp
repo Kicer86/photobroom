@@ -1,6 +1,6 @@
 
-#include "default_analyzers/ext_defaultanalyzer.hpp"
 #include "default_analyzers/file_analyzer.hpp"
+#include "default_analyzers/file_extension_analyzer.hpp"
 
 #include <gtest/gtest.h>
 

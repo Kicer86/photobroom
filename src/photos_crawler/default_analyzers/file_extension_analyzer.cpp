@@ -18,7 +18,7 @@
 */
 
 
-#include "ext_defaultanalyzer.hpp"
+#include "file_extension_analyzer.hpp"
 
 //#include <regex>  doesn't work as expected in gcc 4.7.2
 

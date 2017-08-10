@@ -8,8 +8,8 @@ find_package(GTest REQUIRED)
 
 addTestTarget(photos_crawler
                 SOURCES
-                    default_analyzers/ext_defaultanalyzer.cpp
                     default_analyzers/file_analyzer.cpp
+                    default_analyzers/file_extension_analyzer.cpp
                     implementation/ianalyzer.cpp
                     implementation/ifile_system_scanner.cpp
                     implementation/photo_crawler.cpp
