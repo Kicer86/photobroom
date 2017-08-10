@@ -24,19 +24,19 @@
 
 #include <QFileInfo>
 
-Ext_DefaultAnalyzer::Ext_DefaultAnalyzer(): m_ext_regex("jpe?g", Qt::CaseInsensitive)
+FileExtensionAnalyzer::FileExtensionAnalyzer(): m_ext_regex("jpe?g", Qt::CaseInsensitive)
 {
 
 }
 
 
-Ext_DefaultAnalyzer::~Ext_DefaultAnalyzer()
+FileExtensionAnalyzer::~FileExtensionAnalyzer()
 {
 
 }
 
 
-bool Ext_DefaultAnalyzer::isImage(const QString &file_path)
+bool FileExtensionAnalyzer::isImage(const QString &file_path)
 {
     QFileInfo path(file_path);
     const QString ext = path.suffix();

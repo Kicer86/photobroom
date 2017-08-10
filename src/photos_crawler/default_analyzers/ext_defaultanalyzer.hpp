@@ -26,20 +26,20 @@
 #include "ianalyzer.hpp"
 
 
-class Ext_DefaultAnalyzer : public IAnalyzer
+class FileExtensionAnalyzer : public IAnalyzer
 {
     public:
-        Ext_DefaultAnalyzer();
-        virtual ~Ext_DefaultAnalyzer();
+        FileExtensionAnalyzer();
+        virtual ~FileExtensionAnalyzer();
 
         virtual bool isImage(const QString &) override;
 
     private:
         const QRegExp m_ext_regex;
 
-        Ext_DefaultAnalyzer(const Ext_DefaultAnalyzer &) = delete;
-        virtual Ext_DefaultAnalyzer& operator=(const Ext_DefaultAnalyzer &) = delete;
-        virtual bool operator==(const Ext_DefaultAnalyzer &) const = delete;
+        FileExtensionAnalyzer(const FileExtensionAnalyzer &) = delete;
+        virtual FileExtensionAnalyzer& operator=(const FileExtensionAnalyzer &) = delete;
+        virtual bool operator==(const FileExtensionAnalyzer &) const = delete;
 };
 
 #endif // EXT_JPEGANALYZER_HPP
