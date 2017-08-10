@@ -20,6 +20,10 @@ std::unique_ptr<IAnalyzer> PhotoCrawlerBuilder::buildFullFileAnalyzer()
 
     //add subanalyzers
     analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>("jpe?g") );
+    analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>("png") );
+    analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>("gif") );
+    analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>("tiff?") );
+    analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>("bmp") );
 
     // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
     return std::move(analyzer);
