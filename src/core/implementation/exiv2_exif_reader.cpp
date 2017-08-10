@@ -28,6 +28,8 @@ void Exiv2ExifReader::collect(const QByteArray& data)
 {
     try
     {
+        m_exif_data.reset();
+
         const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
         m_exif_data = Exiv2::ImageFactory::open(udata, data.size());
 
