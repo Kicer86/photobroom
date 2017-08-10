@@ -19,7 +19,7 @@ std::unique_ptr<IAnalyzer> PhotoCrawlerBuilder::buildFullFileAnalyzer()
     auto analyzer = std::make_unique<FileAnalyzer>();
 
     //add subanalyzers
-    analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>() );
+    analyzer->registerAnalyzer( std::make_unique<FileExtensionAnalyzer>("jpe?g") );
 
     // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
     return std::move(analyzer);

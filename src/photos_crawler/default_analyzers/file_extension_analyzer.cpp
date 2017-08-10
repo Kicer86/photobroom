@@ -24,7 +24,7 @@
 
 #include <QFileInfo>
 
-FileExtensionAnalyzer::FileExtensionAnalyzer(): m_ext_regex("jpe?g", Qt::CaseInsensitive)
+FileExtensionAnalyzer::FileExtensionAnalyzer(const QString& regexFilter): m_ext_regex(regexFilter, Qt::CaseInsensitive)
 {
 
 }

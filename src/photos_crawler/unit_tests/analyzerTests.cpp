@@ -8,7 +8,7 @@
 
 TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
 {
-    FileExtensionAnalyzer jpegAnalyzer;
+    FileExtensionAnalyzer jpegAnalyzer("jpe?g");
 
     const bool status1 = jpegAnalyzer.isImage("/home/image.jpg");
     const bool status2 = jpegAnalyzer.isImage("/home/image.jpeg");

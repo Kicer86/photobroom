@@ -29,7 +29,7 @@
 class FileExtensionAnalyzer : public IAnalyzer
 {
     public:
-        FileExtensionAnalyzer();
+        FileExtensionAnalyzer(const QString& regexFilter);
         virtual ~FileExtensionAnalyzer();
 
         virtual bool isImage(const QString &) override;
