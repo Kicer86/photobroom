@@ -12,7 +12,12 @@
 class Exiv2ExifReader: public AExifReader
 {
     public:
-        Exiv2ExifReader (IPhotosManager *);
+        Exiv2ExifReader(IPhotosManager *);
+        Exiv2ExifReader(const Exiv2ExifReader &) = delete;
+        Exiv2ExifReader(Exiv2ExifReader &&) = delete;
+
+        Exiv2ExifReader& operator=(const Exiv2ExifReader &) = delete;
+        Exiv2ExifReader& operator=(Exiv2ExifReader &&) = delete;
 
     private:
         virtual void collect(const QByteArray&) override;
