@@ -8,7 +8,7 @@ class QString;
 
 struct PHOTOS_CRAWLER_EXPORT IAnalyzer
 {
-    virtual ~IAnalyzer();
+    virtual ~IAnalyzer() = default;
 
     virtual bool isImage(const QString &) = 0;
 };

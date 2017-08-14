@@ -14,7 +14,6 @@ set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
     default_analyzers/file_extension_analyzer.cpp
     default_filesystem_scanners/filesystemscanner.cpp
-    implementation/ianalyzer.cpp
     implementation/ifile_system_scanner.cpp
     implementation/photo_crawler.cpp
     implementation/photo_crawler_builder.cpp
