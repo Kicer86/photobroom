@@ -20,7 +20,7 @@ struct FileSystemMock: public IFileSystemScanner
 
 struct AnalyzerMock: public IAnalyzer
 {
-    MOCK_METHOD1(isImage, bool(const QString &));
+    MOCK_METHOD1(isMediaFile, bool(const QString &));
 };
 
 
@@ -33,8 +33,8 @@ TEST(PhotoCrawlerShould, beConstructable)
 
     EXPECT_CALL(*fileSystem, getFilesFor(_, _)).Times(0);
     EXPECT_CALL(*fileSystem, stop()).Times(1);
-    EXPECT_CALL(*analyzer, isImage(_)).Times(0);
-    EXPECT_CALL(*analyzer, isImage(_)).Times(0);
+    EXPECT_CALL(*analyzer, isMediaFile(_)).Times(0);
+    EXPECT_CALL(*analyzer, isMediaFile(_)).Times(0);
 
     PhotoCrawler photo_crawler(std::move(fileSystem), std::move(analyzer));
 }
@@ -69,7 +69,7 @@ TEST(PhotoCrawlerShould, allowToSetRules)
 
     EXPECT_CALL(*fileSystem, getFilesFor(_, _)).Times(0);
     EXPECT_CALL(*fileSystem, stop()).Times(1);
-    EXPECT_CALL(*analyzer, isImage(_)).Times(0);
+    EXPECT_CALL(*analyzer, isMediaFile(_)).Times(0);
 
     PhotoCrawler photo_crawler(std::move(fileSystem), std::move(analyzer));
 

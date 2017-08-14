@@ -10,14 +10,14 @@ TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
 {
     FileExtensionAnalyzer jpegAnalyzer("jpe?g");
 
-    const bool status1 = jpegAnalyzer.isImage("/home/image.jpg");
-    const bool status2 = jpegAnalyzer.isImage("/home/image.jpeg");
-    const bool status3 = jpegAnalyzer.isImage("/home/image.jp");
-    const bool status4 = jpegAnalyzer.isImage("/home/image.png");
-    const bool status5 = jpegAnalyzer.isImage("image.jpg");
-    const bool status6 = jpegAnalyzer.isImage("image.JpeG");
-    const bool status7 = jpegAnalyzer.isImage("image.jpg3");
-    const bool status8 = jpegAnalyzer.isImage("/home/image .jpg");
+    const bool status1 = jpegAnalyzer.isMediaFile("/home/image.jpg");
+    const bool status2 = jpegAnalyzer.isMediaFile("/home/image.jpeg");
+    const bool status3 = jpegAnalyzer.isMediaFile("/home/image.jp");
+    const bool status4 = jpegAnalyzer.isMediaFile("/home/image.png");
+    const bool status5 = jpegAnalyzer.isMediaFile("image.jpg");
+    const bool status6 = jpegAnalyzer.isMediaFile("image.JpeG");
+    const bool status7 = jpegAnalyzer.isMediaFile("image.jpg3");
+    const bool status8 = jpegAnalyzer.isMediaFile("/home/image .jpg");
 
     ASSERT_EQ(true, status1);
     ASSERT_EQ(true, status2);
@@ -38,7 +38,7 @@ struct FakeAnalyzer: public IAnalyzer
     FakeAnalyzer(const FakeAnalyzer &) = delete;
     virtual ~FakeAnalyzer() {}
 
-    virtual bool isImage(const QString &) override
+    virtual bool isMediaFile(const QString &) override
     {
         if (m_counter != nullptr)
             (*m_counter)++;
@@ -67,7 +67,7 @@ TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
     analyzer.registerAnalyzer(std::move(fake2));
     analyzer.registerAnalyzer(std::move(fake3));
 
-    analyzer.isImage("");
+    analyzer.isMediaFile("");
 
     ASSERT_EQ(3, counter);
 }
@@ -85,7 +85,7 @@ TEST(FileAnalyzerShould, ReturnTrueIfAnyOfSubAnalyzersWasPositive)
     analyzer.registerAnalyzer(std::move(fake2));
     analyzer.registerAnalyzer(std::move(fake3));
 
-    const bool status = analyzer.isImage("");
+    const bool status = analyzer.isMediaFile("");
 
     ASSERT_EQ(true, status);
 }
@@ -103,7 +103,7 @@ TEST(FileAnalyzerShould, ReturnFalseWhenNoneOfSubAnalyzersWasPositive)
     analyzer.registerAnalyzer(std::move(fake2));
     analyzer.registerAnalyzer(std::move(fake3));
 
-    const bool status = analyzer.isImage("");
+    const bool status = analyzer.isMediaFile("");
 
     ASSERT_EQ(false, status);
 }

@@ -32,7 +32,7 @@ class FileExtensionAnalyzer : public IAnalyzer
         FileExtensionAnalyzer(const QString& regexFilter);
         virtual ~FileExtensionAnalyzer();
 
-        virtual bool isImage(const QString &) override;
+        virtual bool isMediaFile(const QString &) override;
 
     private:
         const QRegExp m_ext_regex;

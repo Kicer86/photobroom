@@ -36,7 +36,7 @@ FileExtensionAnalyzer::~FileExtensionAnalyzer()
 }
 
 
-bool FileExtensionAnalyzer::isImage(const QString &file_path)
+bool FileExtensionAnalyzer::isMediaFile(const QString &file_path)
 {
     QFileInfo path(file_path);
     const QString ext = path.suffix();

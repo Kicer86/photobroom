@@ -31,13 +31,13 @@ FileAnalyzer::~FileAnalyzer()
 }
 
 
-bool FileAnalyzer::isImage(const QString &path)
+bool FileAnalyzer::isMediaFile(const QString &path)
 {
     bool status = false;
 
     for (std::unique_ptr<IAnalyzer>& analyzer: m_impl->m_analyzers)
     {
-        status = analyzer->isImage(path);
+        status = analyzer->isMediaFile(path);
 
         if (status)
             break;

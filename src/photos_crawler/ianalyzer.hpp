@@ -10,7 +10,7 @@ struct PHOTOS_CRAWLER_EXPORT IAnalyzer
 {
     virtual ~IAnalyzer() = default;
 
-    virtual bool isImage(const QString &) = 0;
+    virtual bool isMediaFile(const QString &) = 0;
 };
 
 #endif
