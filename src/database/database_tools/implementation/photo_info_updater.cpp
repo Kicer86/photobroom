@@ -12,7 +12,7 @@
 #include <core/task_executor.hpp>
 #include <core/photos_manager.hpp>
 #include <core/iexif_reader.hpp>
-#include <core/iphoto_information.hpp>
+#include <core/imedia_information.hpp>
 #include <core/tag.hpp>
 
 
@@ -77,7 +77,7 @@ namespace
     struct GeometryAssigner: UpdaterTask
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
-                         IPhotoInformation* photoInformation,
+                         IMediaInformation* photoInformation,
                          const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo),
@@ -102,7 +102,7 @@ namespace
         }
 
         IPhotoInfo::Ptr m_photoInfo;
-        IPhotoInformation* m_photoInformation;
+        IMediaInformation* m_photoInformation;
     };
 
 }

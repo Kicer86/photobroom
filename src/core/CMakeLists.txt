@@ -52,7 +52,7 @@ set(CORE_HEADERS
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
-    iphoto_information.hpp
+    imedia_information.hpp
     iphotos_manager.hpp
     iexif_reader.hpp
     itask_executor.hpp

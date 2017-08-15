@@ -20,14 +20,14 @@
 #ifndef PHOTOINFORMATION_HPP
 #define PHOTOINFORMATION_HPP
 
-#include "iphoto_information.hpp"
+#include "imedia_information.hpp"
 
 #include "core_export.h"
 
 struct IExifReaderFactory;
 
 
-class CORE_EXPORT PhotoInformation: public IPhotoInformation
+class CORE_EXPORT PhotoInformation: public IMediaInformation
 {
     public:
         PhotoInformation();
