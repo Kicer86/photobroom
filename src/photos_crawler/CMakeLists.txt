@@ -17,7 +17,7 @@ set(ANALYZER_SOURCES
     implementation/ifile_system_scanner.cpp
     implementation/photo_crawler.cpp
     implementation/photo_crawler_builder.cpp
-    )
+)
 
 set(ANALYZER_HEADERS
     default_analyzers/file_analyzer.hpp
@@ -28,13 +28,23 @@ set(ANALYZER_HEADERS
     iphoto_crawler.hpp
     photo_crawler.hpp
     photo_crawler_builder.hpp
-    )
+)
 
 source_group(photos_crawler REGULAR_EXPRESSION .*photos_crawler.* )
 
 add_library(photos_crawler ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
-target_link_libraries(photos_crawler PRIVATE Qt5::Core ${CMAKE_THREAD_LIBS_INIT})
-target_include_directories(photos_crawler PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+target_link_libraries(photos_crawler
+                        PRIVATE
+                            core
+                            Qt5::Core
+                            ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_include_directories(photos_crawler
+                                PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
+                                PRIVATE ${CMAKE_SOURCE_DIR}/src
+)
 
 generate_export_header(photos_crawler)
 hideSymbols(photos_crawler)
