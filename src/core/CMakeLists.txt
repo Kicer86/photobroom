@@ -22,6 +22,7 @@ set(CORE_SOURCES
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
+    implementation/media_types.cpp
     implementation/photo_information.cpp
     implementation/photos_manager.cpp
     implementation/search_expression_evaluator.cpp
@@ -62,6 +63,7 @@ set(CORE_HEADERS
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp
+    media_types.hpp
     photo_information.hpp
     photos_manager.hpp
     ptr_iterator.hpp
