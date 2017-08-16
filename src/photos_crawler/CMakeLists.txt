@@ -12,7 +12,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
-    default_analyzers/file_extension_analyzer.cpp
     default_filesystem_scanners/filesystemscanner.cpp
     implementation/ifile_system_scanner.cpp
     implementation/photo_crawler.cpp
@@ -21,7 +20,6 @@ set(ANALYZER_SOURCES
 
 set(ANALYZER_HEADERS
     default_analyzers/file_analyzer.hpp
-    default_analyzers/file_extension_analyzer.hpp
     default_filesystem_scanners/filesystemscanner.hpp
     ianalyzer.hpp
     ifile_system_scanner.hpp

@@ -1,6 +1,5 @@
 
 #include "default_analyzers/file_analyzer.hpp"
-#include "default_analyzers/file_extension_analyzer.hpp"
 
 #include <gtest/gtest.h>
 
@@ -8,102 +7,23 @@
 
 TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
 {
-    FileExtensionAnalyzer jpegAnalyzer("jpe?g");
+    FileAnalyzer analyzer;
 
-    const bool status1 = jpegAnalyzer.isMediaFile("/home/image.jpg");
-    const bool status2 = jpegAnalyzer.isMediaFile("/home/image.jpeg");
-    const bool status3 = jpegAnalyzer.isMediaFile("/home/image.jp");
-    const bool status4 = jpegAnalyzer.isMediaFile("/home/image.png");
-    const bool status5 = jpegAnalyzer.isMediaFile("image.jpg");
-    const bool status6 = jpegAnalyzer.isMediaFile("image.JpeG");
-    const bool status7 = jpegAnalyzer.isMediaFile("image.jpg3");
-    const bool status8 = jpegAnalyzer.isMediaFile("/home/image .jpg");
+    const bool status1 = analyzer.isMediaFile("/home/image.jpg");
+    const bool status2 = analyzer.isMediaFile("/home/image.jpeg");
+    const bool status3 = analyzer.isMediaFile("/home/image.jp");
+    const bool status4 = analyzer.isMediaFile("/home/image.png");
+    const bool status5 = analyzer.isMediaFile("image.jpg");
+    const bool status6 = analyzer.isMediaFile("image.JpeG");
+    const bool status7 = analyzer.isMediaFile("image.jpg3");
+    const bool status8 = analyzer.isMediaFile("/home/image .jpg");
 
     ASSERT_EQ(true, status1);
     ASSERT_EQ(true, status2);
     ASSERT_EQ(false, status3);
-    ASSERT_EQ(false, status4);
+    ASSERT_EQ(true, status4);
     ASSERT_EQ(true, status5);
     ASSERT_EQ(true, status6);
     ASSERT_EQ(false, status7);
     ASSERT_EQ(true, status8);
-}
-
-/********************************************************************/
-
-struct FakeAnalyzer: public IAnalyzer
-{
-    FakeAnalyzer(bool result = false): m_counter(nullptr), m_result(result) {}
-    FakeAnalyzer(int *counter): m_counter(counter), m_result(false) {}
-    FakeAnalyzer(const FakeAnalyzer &) = delete;
-    virtual ~FakeAnalyzer() {}
-
-    virtual bool isMediaFile(const QString &) override
-    {
-        if (m_counter != nullptr)
-            (*m_counter)++;
-
-        return m_result;
-    }
-
-    FakeAnalyzer& operator=(const FakeAnalyzer &) = delete;
-
-    int *m_counter;
-    bool m_result;
-};
-
-
-TEST(FileAnalyzerShould, CallSubAnalyzersWhenAskedIfIsImage)
-{
-    FileAnalyzer analyzer;
-
-    int counter = 0;
-
-    auto fake1 = std::make_unique<FakeAnalyzer>(&counter);
-    auto fake2 = std::make_unique<FakeAnalyzer>(&counter);
-    auto fake3 = std::make_unique<FakeAnalyzer>(&counter);
-
-    analyzer.registerAnalyzer(std::move(fake1));
-    analyzer.registerAnalyzer(std::move(fake2));
-    analyzer.registerAnalyzer(std::move(fake3));
-
-    analyzer.isMediaFile("");
-
-    ASSERT_EQ(3, counter);
-}
-
-
-TEST(FileAnalyzerShould, ReturnTrueIfAnyOfSubAnalyzersWasPositive)
-{
-    FileAnalyzer analyzer;
-
-    auto fake1 = std::make_unique<FakeAnalyzer>();
-    auto fake2 = std::make_unique<FakeAnalyzer>();
-    auto fake3 = std::make_unique<FakeAnalyzer>(true);
-
-    analyzer.registerAnalyzer(std::move(fake1));
-    analyzer.registerAnalyzer(std::move(fake2));
-    analyzer.registerAnalyzer(std::move(fake3));
-
-    const bool status = analyzer.isMediaFile("");
-
-    ASSERT_EQ(true, status);
-}
-
-
-TEST(FileAnalyzerShould, ReturnFalseWhenNoneOfSubAnalyzersWasPositive)
-{
-    FileAnalyzer analyzer;
-
-    auto fake1 = std::make_unique<FakeAnalyzer>();
-    auto fake2 = std::make_unique<FakeAnalyzer>();
-    auto fake3 = std::make_unique<FakeAnalyzer>();
-
-    analyzer.registerAnalyzer(std::move(fake1));
-    analyzer.registerAnalyzer(std::move(fake2));
-    analyzer.registerAnalyzer(std::move(fake3));
-
-    const bool status = analyzer.isMediaFile("");
-
-    ASSERT_EQ(false, status);
 }
