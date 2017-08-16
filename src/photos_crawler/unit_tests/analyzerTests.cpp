@@ -5,25 +5,32 @@
 
 #include <QString>
 
-TEST(Ext_DefaultAnalyzerShould, ReturnTrueForJpegFiles)
+typedef std::pair<QString, bool> AnalyzerExpectations;
+
+
+struct FileAnalyzerTest: testing::TestWithParam<AnalyzerExpectations> {};
+
+TEST_P(FileAnalyzerTest, ProperExtensionsAreRespected)
 {
     FileAnalyzer analyzer;
 
-    const bool status1 = analyzer.isMediaFile("/home/image.jpg");
-    const bool status2 = analyzer.isMediaFile("/home/image.jpeg");
-    const bool status3 = analyzer.isMediaFile("/home/image.jp");
-    const bool status4 = analyzer.isMediaFile("/home/image.png");
-    const bool status5 = analyzer.isMediaFile("image.jpg");
-    const bool status6 = analyzer.isMediaFile("image.JpeG");
-    const bool status7 = analyzer.isMediaFile("image.jpg3");
-    const bool status8 = analyzer.isMediaFile("/home/image .jpg");
-
-    ASSERT_EQ(true, status1);
-    ASSERT_EQ(true, status2);
-    ASSERT_EQ(false, status3);
-    ASSERT_EQ(true, status4);
-    ASSERT_EQ(true, status5);
-    ASSERT_EQ(true, status6);
-    ASSERT_EQ(false, status7);
-    ASSERT_EQ(true, status8);
+    EXPECT_EQ(GetParam().second, analyzer.isMediaFile(GetParam().first));
 }
+
+INSTANTIATE_TEST_CASE_P(ExtensionsTest,
+                        FileAnalyzerTest,
+                        ::testing::Values(
+                            AnalyzerExpectations{"/home/image.jpg",  true  },
+                            AnalyzerExpectations{"/home/image.jpeg", true  },
+                            AnalyzerExpectations{"/home/image.jp",   false },
+                            AnalyzerExpectations{"/home/image.png",  true  },
+                            AnalyzerExpectations{"image.jpg",        true  },
+                            AnalyzerExpectations{"image.JpeG",       true  },
+                            AnalyzerExpectations{"image.jpg3",       false },
+                            AnalyzerExpectations{"/home/image .jpg", true  },
+                            AnalyzerExpectations{"/home/v .mp4",     true  },
+                            AnalyzerExpectations{".avi",             true  },
+                            AnalyzerExpectations{"mkv",              false },
+                            AnalyzerExpectations{"/home/.mkv",       true  }
+                        )
+);
