@@ -51,7 +51,6 @@ void ThumbnailAcquisitor::set(ITaskExecutor* executor)
 void ThumbnailAcquisitor::set(IPhotosManager* manager)
 {
     m_generator.set(manager);
-    m_exifFactory.set(manager);
 }
 
 

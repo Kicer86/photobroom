@@ -89,12 +89,6 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 }
 
 
-void PhotosAnalyzerImpl::set(IPhotosManager* manager)
-{
-    m_updater.set(manager);
-}
-
-
 Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 {
     return m_database;
@@ -207,12 +201,6 @@ void PhotosAnalyzer::set(IConfiguration* configuration)
 void PhotosAnalyzer::set(ITasksView* tasksView)
 {
     m_data->set(tasksView);
-}
-
-
-void PhotosAnalyzer::set(IPhotosManager* manager)
-{
-    m_data->set(manager);
 }
 
 

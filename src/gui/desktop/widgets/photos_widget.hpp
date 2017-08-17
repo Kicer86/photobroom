@@ -39,7 +39,6 @@ struct ImagesTreeView;
 struct ICompleterFactory;
 struct IConfiguration;
 struct ILoggerFactory;
-struct IPhotosManager;
 struct ITaskExecutor;
 
 
@@ -54,7 +53,6 @@ class PhotosWidget: public QWidget
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
         void set(ITaskExecutor *);
-        void set(IPhotosManager *);
         void set(IConfiguration *);
         void set(ICompleterFactory *);
         void set(ILoggerFactory *);

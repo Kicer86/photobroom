@@ -24,7 +24,6 @@ set(CORE_SOURCES
     implementation/logger_factory.cpp
     implementation/media_types.cpp
     implementation/photo_information.cpp
-    implementation/photos_manager.cpp
     implementation/search_expression_evaluator.cpp
     implementation/stopwatch.cpp
     implementation/tag.cpp
@@ -54,7 +53,6 @@ set(CORE_HEADERS
     ilogger.hpp
     ilogger_factory.hpp
     imedia_information.hpp
-    iphotos_manager.hpp
     iexif_reader.hpp
     itask_executor.hpp
     itasks_view.hpp
@@ -65,7 +63,6 @@ set(CORE_HEADERS
     map_iterator.hpp
     media_types.hpp
     photo_information.hpp
-    photos_manager.hpp
     ptr_iterator.hpp
     search_expression_evaluator.hpp
     status.hpp

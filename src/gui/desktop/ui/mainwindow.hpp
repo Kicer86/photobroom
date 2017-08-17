@@ -20,7 +20,6 @@ class PhotosAnalyzer;
 class PhotosWidget;
 struct ILoggerFactory;
 struct ITaskExecutor;
-struct IPhotosManager;
 struct IPluginLoader;
 struct IProjectManager;
 struct IConfiguration;
@@ -51,7 +50,6 @@ class MainWindow: public QMainWindow
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(IUpdater *);
-        void set(IPhotosManager *);
         void set(ILoggerFactory *);
 
     private:
@@ -65,7 +63,6 @@ class MainWindow: public QMainWindow
         IConfiguration*           m_configuration;
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
-        IPhotosManager*           m_photosManager;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;

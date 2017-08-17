@@ -12,7 +12,7 @@
 class Exiv2ExifReader: public AExifReader
 {
     public:
-        Exiv2ExifReader(IPhotosManager *);
+        Exiv2ExifReader();
         Exiv2ExifReader(const Exiv2ExifReader &) = delete;
         Exiv2ExifReader(Exiv2ExifReader &&) = delete;
 
@@ -20,7 +20,7 @@ class Exiv2ExifReader: public AExifReader
         Exiv2ExifReader& operator=(Exiv2ExifReader &&) = delete;
 
     private:
-        virtual void collect(const QByteArray&) override;
+        virtual void collect(const QString &) override;
         virtual std::string read(TagType) const override;
 
         Exiv2::Image::AutoPtr m_exif_data;

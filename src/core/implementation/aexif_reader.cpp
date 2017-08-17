@@ -25,13 +25,12 @@
 #include <QDate>
 #include <QTime>
 
-#include "photos_manager.hpp"
 #include "tag.hpp"
 #include "base_tags.hpp"
 
 
 
-AExifReader::AExifReader(IPhotosManager* photosManager): m_id(std::this_thread::get_id()), m_photosManager(photosManager)
+AExifReader::AExifReader(): m_id(std::this_thread::get_id())
 {
 
 }
@@ -47,8 +46,7 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
     assert(m_id == std::this_thread::get_id());
 
-    const QByteArray data = m_photosManager->getPhoto(path);
-    collect(data);
+    collect(path);
 
     const Tag::TagsList tagData = feedDateAndTime();
 
@@ -60,9 +58,7 @@ std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
     assert(m_id == std::this_thread::get_id());
 
-    const QByteArray data = m_photosManager->getPhoto(path);
-
-    collect(data);
+    collect(path);
 
     std::any result;
 

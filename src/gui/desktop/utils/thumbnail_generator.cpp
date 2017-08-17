@@ -20,7 +20,6 @@
 #include "thumbnail_generator.hpp"
 
 #include <core/ilogger.hpp>
-#include <core/iphotos_manager.hpp>
 #include <core/stopwatch.hpp>
 #include <core/task_executor.hpp>
 #include <core/iexif_reader.hpp>
@@ -58,10 +57,10 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
         Stopwatch stopwatch;
 
         stopwatch.start();
-        QByteArray raw = m_generator->m_photosManager->getPhoto(m_info.path);
 
-        QImage image;
-        image.loadFromData(raw);
+        QImage image(m_info.path);
+        assert(image.isNull() == false);
+
         const int photo_read = stopwatch.read(true);
 
         if (needs_to_be_rotated)

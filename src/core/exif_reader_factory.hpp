@@ -10,7 +10,6 @@
 
 #include "core_export.h"
 
-struct IPhotosManager;
 
 class CORE_EXPORT ExifReaderFactory: public IExifReaderFactory
 {
@@ -20,14 +19,11 @@ class CORE_EXPORT ExifReaderFactory: public IExifReaderFactory
 
         ExifReaderFactory& operator=(const ExifReaderFactory &) = delete;
 
-        void set(IPhotosManager *);
-
         // ITagFeederFactory:
         IExifReader* get() override;
 
     private:
         std::map<std::thread::id, std::unique_ptr<IExifReader>> m_feeders;
-        IPhotosManager* m_photosManager;
 };
 
 #endif
