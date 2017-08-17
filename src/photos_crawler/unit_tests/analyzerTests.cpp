@@ -19,7 +19,7 @@ TEST_P(FileAnalyzerTest, ProperExtensionsAreRespected)
 
 INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                         FileAnalyzerTest,
-                        ::testing::Values(
+                        testing::Values(
                             AnalyzerExpectations{"/home/image.jpg",  true  },
                             AnalyzerExpectations{"/home/image.jpeg", true  },
                             AnalyzerExpectations{"/home/image.jp",   false },
