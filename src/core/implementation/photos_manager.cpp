@@ -19,6 +19,8 @@
 
 #include "photos_manager.hpp"
 
+#include <cassert>
+#include <cmath>
 #include <mutex>
 #include <deque>
 
@@ -28,14 +30,22 @@
 #include <QImage>
 
 #include <core/ilogger.hpp>
+#include <core/media_types.hpp>
 
+
+namespace
+{
+    constexpr int cache_history_size = 4096;         // entries in history of cached files
+    constexpr int cache_capacity_kB  = 512 * 1024;   // 512 MB of cache
+    constexpr int image_size_kb_warning = 64 * 1024; // 64 MB file is considered big guy
+}
 
 struct PhotosManager::Data
 {
     Data():
         m_mutex(),
         m_thumbnails_mutex(),
-        m_cache(64),
+        m_cache(cache_capacity_kB),
         m_cache_history(),
         m_logger(nullptr)
     {
@@ -79,6 +89,8 @@ void PhotosManager::set(ILogger* logger)
 
 QByteArray PhotosManager::getPhoto(const QString& path) const
 {
+    assert(MediaTypes::isImageFile(path));
+
     std::lock_guard<std::mutex> lock(m_data->m_mutex);
 
     const QString cleanPath = QDir().cleanPath(path);
@@ -96,12 +108,24 @@ QByteArray PhotosManager::getPhoto(const QString& path) const
         photo.open(QIODevice::ReadOnly);
 
         result = new QByteArray(photo.readAll());
+        const int size = result->size();
+        const double size_in_kB = size / 1024.0;
+        const int cache_cost = ceil(size_in_kB);       // make sure there will be no zero cost entries
 
-        m_data->m_cache.insert(cleanPath, result);
+        assert(cache_cost > 0);
+        m_data->m_cache.insert(cleanPath, result, cache_cost);
+
+        if (size_in_kB > image_size_kb_warning)
+        {
+            const std::string warning_message(path.toStdString() + " is too big for cache");
+            m_data->m_logger->warning(warning_message);
+        }
 
         m_data->m_cache_history.push_back(path);
-        if (m_data->m_cache_history.size() > 1000)
+        if (m_data->m_cache_history.size() > cache_history_size)
             m_data->m_cache_history.pop_front();
+
+        assert(m_data->m_cache_history.size() <= cache_history_size);
     }
     else
     {
