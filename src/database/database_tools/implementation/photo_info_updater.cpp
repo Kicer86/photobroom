@@ -86,7 +86,7 @@ namespace
                          const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo),
-            m_photoInformation(photoInformation)
+            m_mediaInformation (photoInformation)
         {
         }
 
@@ -101,13 +101,13 @@ namespace
         virtual void perform() override
         {
             const QString path = m_photoInfo->getPath();
-            const QSize size = m_photoInformation->size(path);
+            const QSize size = m_mediaInformation->size(path);
 
             m_photoInfo->setGeometry(size);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
-        IMediaInformation* m_photoInformation;
+        IMediaInformation* m_mediaInformation;
     };
 
 }
