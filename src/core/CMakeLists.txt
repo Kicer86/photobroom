@@ -19,11 +19,11 @@ set(CORE_SOURCES
     implementation/exiv2_exif_reader.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
+    implementation/image_information.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
     implementation/media_types.cpp
-    implementation/photo_information.cpp
     implementation/search_expression_evaluator.cpp
     implementation/stopwatch.cpp
     implementation/tag.cpp
@@ -54,6 +54,7 @@ set(CORE_HEADERS
     ilogger_factory.hpp
     imedia_information.hpp
     iexif_reader.hpp
+    image_information.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
@@ -62,7 +63,6 @@ set(CORE_HEADERS
     logger_factory.hpp
     map_iterator.hpp
     media_types.hpp
-    photo_information.hpp
     ptr_iterator.hpp
     search_expression_evaluator.hpp
     status.hpp
