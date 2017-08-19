@@ -49,6 +49,12 @@ MediaInformation::~MediaInformation()
 }
 
 
+void MediaInformation::set(IExifReaderFactory* exif)
+{
+    m_impl->m_image_info.set(exif);
+}
+
+
 QSize MediaInformation::size(const QString& path) const
 {
     QSize result;

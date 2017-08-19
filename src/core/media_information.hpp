@@ -24,6 +24,7 @@
 
 #include "imedia_information.hpp"
 
+struct IExifReaderFactory;
 
 class MediaInformation : public IMediaInformation
 {
@@ -37,6 +38,7 @@ class MediaInformation : public IMediaInformation
 
         virtual ~MediaInformation();
 
+        void set(IExifReaderFactory *);
         virtual QSize size(const QString &) const;
 
     private:

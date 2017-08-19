@@ -168,7 +168,7 @@ PhotoInfoUpdater::PhotoInfoUpdater():
     m_finishedTask(),
     m_configuration(nullptr)
 {
-
+    m_mediaInformation.set(&m_exifReaderFactory);
 }
 
 
