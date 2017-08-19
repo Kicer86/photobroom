@@ -1,6 +1,7 @@
 
 find_package(OpenLibrary 2.1 REQUIRED putils)
 find_package(Qt5Core 5.6 REQUIRED)
+find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
@@ -98,9 +99,10 @@ target_link_libraries(core
                             ${OPENLIBRARY_LIBRARIES}
                             Qt5::Core
                             Qt5::Gui
+                            Qt5::Multimedia
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
-                     )
+)
 
 target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
@@ -108,6 +110,7 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 SYSTEM PRIVATE
                                     ${Qt5Gui_INCLUDE_DIRS}
+                                    ${Qt5Multimedia_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EXIV2_INCLUDE_DIRS}
                                 PRIVATE

@@ -19,6 +19,10 @@
 
 #include "video_information.hpp"
 
+#include <QMediaContent>
+#include <QString>
+
+
 VideoInformation::VideoInformation()
 {
 }
@@ -26,5 +30,10 @@ VideoInformation::VideoInformation()
 
 QSize VideoInformation::size(const QString& path) const
 {
-    return QSize();
+    const QUrl url(path);
+    const QMediaContent mediaContent(url);
+    const QMediaResource resource = mediaContent.canonicalResource();
+    const QSize resolution = resource.resolution();
+
+    return resolution;
 }
