@@ -24,6 +24,7 @@ set(CORE_SOURCES
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
+    implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/search_expression_evaluator.cpp
     implementation/stopwatch.cpp
@@ -63,6 +64,7 @@ set(CORE_HEADERS
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp
+    media_information.hpp
     media_types.hpp
     ptr_iterator.hpp
     search_expression_evaluator.hpp
