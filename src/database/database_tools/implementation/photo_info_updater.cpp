@@ -86,7 +86,7 @@ namespace
                          const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo),
-            m_mediaInformation (photoInformation)
+            m_mediaInformation(photoInformation)
         {
         }
 
@@ -160,7 +160,7 @@ struct TagsCollector: UpdaterTask
 
 
 PhotoInfoUpdater::PhotoInfoUpdater():
-    m_photoInformation(),
+    m_mediaInformation(),
     m_exifReaderFactory(),
     m_taskQueue(),
     m_tasks(),
@@ -188,7 +188,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 
 void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_unique<GeometryAssigner>(this, &m_photoInformation, photoInfo);
+    auto task = std::make_unique<GeometryAssigner>(this, &m_mediaInformation, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }

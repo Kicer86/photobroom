@@ -19,13 +19,46 @@
 
 #include "media_information.hpp"
 
-MediaInformation::MediaInformation()
+#include <cassert>
+
+#include "media_types.hpp"
+#include "implementation/image_information.hpp"
+#include "implementation/video_information.hpp"
+
+
+struct MediaInformation::Impl
+{
+    ImageInformation m_image_info;
+    VideoInformation m_video_info;
+
+    Impl(): m_image_info(), m_video_info()
+    {
+
+    }
+};
+
+
+MediaInformation::MediaInformation(): m_impl(std::make_unique<Impl>())
 {
 
 }
 
 
-QSize MediaInformation::size(const QString &) const
+MediaInformation::~MediaInformation()
 {
-    return QSize();
+}
+
+
+QSize MediaInformation::size(const QString& path) const
+{
+    QSize result;
+
+    if (MediaTypes::isImageFile(path))
+        result = m_impl->m_image_info.size(path);
+    else if (MediaTypes::isVideoFile(path))
+        result = m_impl->m_video_info.size(path);
+    else
+        assert(!"unknown file type");
+
+    return result;
 }

@@ -20,6 +20,8 @@
 #ifndef MEDIAINFORMATION_HPP
 #define MEDIAINFORMATION_HPP
 
+#include <memory>
+
 #include "imedia_information.hpp"
 
 
@@ -33,9 +35,13 @@ class MediaInformation : public IMediaInformation
         MediaInformation& operator=(const MediaInformation &) = delete;
         MediaInformation& operator=(MediaInformation &&) = delete;
 
-        virtual ~MediaInformation() = default;
+        virtual ~MediaInformation();
 
         virtual QSize size(const QString &) const;
+
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif // MEDIAINFORMATION_HPP
