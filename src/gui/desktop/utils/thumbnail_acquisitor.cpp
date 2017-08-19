@@ -48,12 +48,6 @@ void ThumbnailAcquisitor::set(ITaskExecutor* executor)
 }
 
 
-void ThumbnailAcquisitor::set(IPhotosManager* manager)
-{
-    m_generator.set(manager);
-}
-
-
 void ThumbnailAcquisitor::set(ILogger* logger)
 {
     m_generator.set(logger);

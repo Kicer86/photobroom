@@ -176,7 +176,6 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 ThumbnailGenerator::ThumbnailGenerator():
     m_tasks(),
     m_executor(nullptr),
-    m_photosManager(nullptr),
     m_logger(nullptr),
     m_exifReaderFactory(nullptr)
 {
@@ -201,12 +200,6 @@ void ThumbnailGenerator::set(ITaskExecutor* executor)
     m_executor = executor;
 
     m_tasks = std::move( m_executor->getCustomTaskQueue() );
-}
-
-
-void ThumbnailGenerator::set(IPhotosManager* photosManager)
-{
-    m_photosManager = photosManager;
 }
 
 

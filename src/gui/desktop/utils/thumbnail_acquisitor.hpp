@@ -40,7 +40,6 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
         ThumbnailAcquisitor& operator=(const ThumbnailAcquisitor &) = delete;
 
         void set(ITaskExecutor *);
-        void set(IPhotosManager *);
         void set(ILogger *);
 
         void setInProgressThumbnail(const QImage &);

@@ -31,7 +31,6 @@
 
 
 struct IExifReaderFactory;
-struct IPhotosManager;
 
 
 class ThumbnailGenerator: public IThumbnailGenerator
@@ -45,7 +44,6 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         void dismissPendingTasks();
         void set(ITaskExecutor *);
-        void set(IPhotosManager *);
         void set(ILogger *);
         void set(IExifReaderFactory *);
 
@@ -55,7 +53,6 @@ class ThumbnailGenerator: public IThumbnailGenerator
     private:
         ITaskExecutor::TaskQueue m_tasks;
         ITaskExecutor* m_executor;
-        IPhotosManager* m_photosManager;
         ILogger* m_logger;
         IExifReaderFactory* m_exifReaderFactory;
 

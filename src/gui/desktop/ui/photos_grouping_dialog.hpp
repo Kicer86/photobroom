@@ -11,7 +11,6 @@
 
 struct IConfiguration;
 struct IExifReader;
-struct IPhotosManager;
 struct ITaskExecutor;
 
 namespace Ui
