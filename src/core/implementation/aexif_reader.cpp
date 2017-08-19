@@ -62,7 +62,10 @@ std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
     assert(m_id == std::this_thread::get_id());
 
-    collect(path);
+    const QFileInfo fileInfo(path);
+    const QString full_path = fileInfo.absoluteFilePath();
+
+    collect(full_path);
 
     std::any result;
 
