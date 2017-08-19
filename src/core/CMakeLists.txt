@@ -56,7 +56,6 @@ set(CORE_HEADERS
     ilogger_factory.hpp
     imedia_information.hpp
     iexif_reader.hpp
-    image_information.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
@@ -74,14 +73,15 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
-    video_information.hpp
     implementation/aexif_reader.hpp
     implementation/exiv2_exif_reader.hpp
+    implementation/image_information.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
     implementation/tree_private.hpp
     implementation/tree_flat_iterator.hpp
+    implementation/video_information.hpp
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)
