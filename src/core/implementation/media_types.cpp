@@ -7,8 +7,8 @@
 
 namespace
 {
-    const QRegExp img_regex("jpe?g|png|tif?f|bmp", Qt::CaseInsensitive);
-    const QRegExp vid_regex("gif|avi|mkv|mpe?g|mp4", Qt::CaseInsensitive);
+    const QRegExp img_regex("jpe?g|png|gif|tif?f|bmp", Qt::CaseInsensitive);
+    const QRegExp vid_regex("avi|mkv|mpe?g|mp4", Qt::CaseInsensitive);
 }
 
 
