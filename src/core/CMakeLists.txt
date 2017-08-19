@@ -29,6 +29,7 @@ set(CORE_SOURCES
     implementation/tag.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
+    implementation/video_information.cpp
 )
 
 
@@ -72,6 +73,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
+    video_information.hpp
     implementation/aexif_reader.hpp
     implementation/exiv2_exif_reader.hpp
     implementation/log_file_rotator.hpp
