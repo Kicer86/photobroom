@@ -21,6 +21,8 @@
 
 #include <cassert>
 
+#include <QFileInfo>
+
 #include "media_types.hpp"
 #include "implementation/image_information.hpp"
 #include "implementation/video_information.hpp"
@@ -57,12 +59,15 @@ void MediaInformation::set(IExifReaderFactory* exif)
 
 QSize MediaInformation::size(const QString& path) const
 {
+    const QFileInfo fileInfo(path);
+    const QString full_path = fileInfo.absoluteFilePath();
+
     QSize result;
 
-    if (MediaTypes::isImageFile(path))
-        result = m_impl->m_image_info.size(path);
-    else if (MediaTypes::isVideoFile(path))
-        result = m_impl->m_video_info.size(path);
+    if (MediaTypes::isImageFile(full_path))
+        result = m_impl->m_image_info.size(full_path);
+    else if (MediaTypes::isVideoFile(full_path))
+        result = m_impl->m_video_info.size(full_path);
     else
         assert(!"unknown file type");
 

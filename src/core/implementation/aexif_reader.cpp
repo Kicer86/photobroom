@@ -21,8 +21,9 @@
 #include "aexif_reader.hpp"
 
 #include <QByteArray>
-#include <QStringList>
 #include <QDate>
+#include <QFileInfo>
+#include <QStringList>
 #include <QTime>
 
 #include "tag.hpp"
@@ -46,7 +47,10 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
     assert(m_id == std::this_thread::get_id());
 
-    collect(path);
+    const QFileInfo fileInfo(path);
+    const QString full_path = fileInfo.absoluteFilePath();
+
+    collect(full_path);
 
     const Tag::TagsList tagData = feedDateAndTime();
 
