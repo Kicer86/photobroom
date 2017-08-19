@@ -56,8 +56,8 @@ class ThumbnailGenerator: public IThumbnailGenerator
         ILogger* m_logger;
         IExifReaderFactory* m_exifReaderFactory;
 
-        struct GenerationTask;
-        friend struct GenerationTask;
+        struct FromImageTask;
+        friend struct FromImageTask;
 };
 
 

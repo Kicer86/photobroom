@@ -25,9 +25,9 @@
 #include <core/iexif_reader.hpp>
 
 
-struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
+struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 {
-    GenerationTask(const ThumbnailInfo& info,
+    FromImageTask(const ThumbnailInfo& info,
                             const ThumbnailGenerator::Callback& callback,
                             const ThumbnailGenerator* generator):
         m_info(info),
@@ -37,10 +37,10 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
 
     }
 
-    virtual ~GenerationTask() {}
+    virtual ~FromImageTask() {}
 
-    GenerationTask(const GenerationTask &) = delete;
-    GenerationTask& operator=(const GenerationTask &) = delete;
+    FromImageTask(const FromImageTask &) = delete;
+    FromImageTask& operator=(const FromImageTask &) = delete;
 
     virtual std::string name() const override
     {
@@ -217,7 +217,7 @@ void ThumbnailGenerator::set(IExifReaderFactory* exifFactory)
 
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
-    auto task = std::make_unique<GenerationTask>(info, callback, this);
+    auto task = std::make_unique<FromImageTask>(info, callback, this);
     m_tasks->push(std::move(task));
 }
 
