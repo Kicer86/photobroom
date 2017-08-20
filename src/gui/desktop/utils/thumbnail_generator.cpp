@@ -79,9 +79,9 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
         const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
         m_generator->m_logger->debug(scaling_time_message);
 
-        image = rotateThumbnail(reader, image );
+        image = rotateThumbnail(reader, image);
 
-        m_callback(m_info, image );
+        m_callback(m_info, image);
     }
 
     bool shouldSwap(IExifReader* reader)
