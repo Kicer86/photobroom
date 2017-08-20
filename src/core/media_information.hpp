@@ -26,7 +26,9 @@
 
 struct IExifReaderFactory;
 
-class MediaInformation : public IMediaInformation
+#include "core_export.h"
+
+class CORE_EXPORT MediaInformation : public IMediaInformation
 {
     public:
         MediaInformation();
