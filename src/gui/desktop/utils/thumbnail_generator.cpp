@@ -28,8 +28,8 @@
 struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 {
     FromImageTask(const ThumbnailInfo& info,
-                            const ThumbnailGenerator::Callback& callback,
-                            const ThumbnailGenerator* generator):
+                  const ThumbnailGenerator::Callback& callback,
+                  const ThumbnailGenerator* generator):
         m_info(info),
         m_callback(callback),
         m_generator(generator)
@@ -176,6 +176,7 @@ struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
 
     void perform() override
     {
+
     }
 };
 
