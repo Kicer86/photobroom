@@ -58,6 +58,9 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         struct FromImageTask;
         friend struct FromImageTask;
+
+        struct FromVideoTask;
+        friend struct FromVideoTask;
 };
 
 

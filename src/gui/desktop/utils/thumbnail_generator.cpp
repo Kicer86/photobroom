@@ -44,7 +44,7 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 
     virtual std::string name() const override
     {
-        return "Photo thumbnail generation";
+        return "Image thumbnail generation";
     }
 
     virtual void perform() override
@@ -164,6 +164,19 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
     ThumbnailInfo m_info;
     ThumbnailGenerator::Callback m_callback;
     const ThumbnailGenerator* m_generator;
+};
+
+
+struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
+{
+    std::string name() const override
+    {
+        return "Video thumbnail generation";
+    }
+
+    void perform() override
+    {
+    }
 };
 
 
