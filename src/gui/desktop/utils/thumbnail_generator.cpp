@@ -19,10 +19,16 @@
 
 #include "thumbnail_generator.hpp"
 
+#include <QFileInfo>
+#include <QProcess>
+#include <QTime>
+#include <QTemporaryFile>
+
+#include <core/iexif_reader.hpp>
 #include <core/ilogger.hpp>
+#include <core/media_types.hpp>
 #include <core/stopwatch.hpp>
 #include <core/task_executor.hpp>
-#include <core/iexif_reader.hpp>
 
 
 struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
@@ -169,6 +175,14 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 
 struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
 {
+    FromVideoTask(const ThumbnailInfo& info,
+                  const ThumbnailGenerator::Callback& callback):
+        m_thumbnailInfo(info),
+        m_callback(callback)
+    {
+
+    }
+
     std::string name() const override
     {
         return "Video thumbnail generation";
@@ -176,8 +190,64 @@ struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
 
     void perform() override
     {
+        const QFileInfo pathInfo(m_thumbnailInfo.path);
+        const QString absolute_path = pathInfo.absoluteFilePath();
 
+        QProcess ffmpeg_process4duration;
+        ffmpeg_process4duration.setProcessChannelMode(QProcess::MergedChannels);
+
+        const QStringList ffmpeg_duration_args = { "-i", absolute_path };
+
+        ffmpeg_process4duration.start("ffmpeg", ffmpeg_duration_args );
+        bool status = ffmpeg_process4duration.waitForFinished();
+
+        if (status)
+        {
+            const QByteArray output = ffmpeg_process4duration.readAll();
+            const QString output_str = output.constData();
+
+            QRegExp duration_regex(".*Duration: ([0-9:\\.]+).*");
+
+            const bool matched = duration_regex.exactMatch(output_str);
+
+            if (matched)
+            {
+                const QStringList captured = duration_regex.capturedTexts();
+                const QString duration_str = captured[1] + "0";                 // convert 100th parts of second to miliseconds
+                const QTime duration_time = QTime::fromString(duration_str, "hh:mm:ss.zzz");
+                const int seconds = QTime(0, 0, 0).secsTo(duration_time);
+
+                QTemporaryFile thumbnail;
+                thumbnail.open();
+
+                const QString thumbnail_path = thumbnail.fileName() + ".jpg";
+
+                QProcess ffmpeg_process4thumbnail;
+                const QStringList ffmpeg_thumbnail_args =
+                {
+                    "-ss", QString::number(seconds / 10),
+                    "-i", absolute_path,
+                    "-vframes", "1",
+                    "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
+                    "-q:v", "2",
+                    thumbnail_path
+                };
+
+                ffmpeg_process4thumbnail.start("ffmpeg", ffmpeg_thumbnail_args );
+                status = ffmpeg_process4thumbnail.waitForFinished();
+
+                if (status)
+                {
+                    const QImage thumbnail_image(thumbnail_path);
+
+                    m_callback(m_thumbnailInfo, thumbnail_image);
+                }
+            }
+        }
     }
+
+    const ThumbnailInfo m_thumbnailInfo;
+    const ThumbnailGenerator::Callback m_callback;
 };
 
 
@@ -231,8 +301,20 @@ void ThumbnailGenerator::set(IExifReaderFactory* exifFactory)
 
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
-    auto task = std::make_unique<FromImageTask>(info, callback, this);
-    m_tasks->push(std::move(task));
+    const QString& path = info.path;
+
+    if (MediaTypes::isImageFile(path))
+    {
+        auto task = std::make_unique<FromImageTask>(info, callback, this);
+        m_tasks->push(std::move(task));
+    }
+    else if (MediaTypes::isVideoFile(path))
+    {
+        auto task = std::make_unique<FromVideoTask>(info, callback);
+        m_tasks->push(std::move(task));
+    }
+    else
+        assert(!"unknown file type");
 }
 
 
