@@ -71,5 +71,7 @@ QSize MediaInformation::size(const QString& path) const
     else
         assert(!"unknown file type");
 
+    assert(result.isValid());
+
     return result;
 }
