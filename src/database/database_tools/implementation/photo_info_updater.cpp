@@ -72,6 +72,7 @@ namespace
             const QByteArray rawHash = hasher.result();
             const QByteArray hexHash = rawHash.toHex();
 
+            assert(hexHash.isEmpty() == false);
             m_photoInfo->setSha256(hexHash);
         }
 
