@@ -15,7 +15,8 @@ include_directories(${CMAKE_BINARY_DIR}
 
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
-                           ${Qt5Gui_INCLUDE_DIRS})
+                           ${Qt5Gui_INCLUDE_DIRS}
+)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -74,8 +75,8 @@ target_link_libraries(gui
                             updater
                             ${OPENLIBRARY_LIBRARIES}
                             Qt5::Gui
-                            Qt5::Widgets
                             Qt5::Svg
+                            Qt5::Widgets
 )
 
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
