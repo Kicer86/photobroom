@@ -29,6 +29,7 @@
 #include <core/media_types.hpp>
 #include <core/stopwatch.hpp>
 #include <core/task_executor.hpp>
+#include <system/system.hpp>
 
 
 struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
@@ -217,14 +218,17 @@ struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
                 const QTime duration_time = QTime::fromString(duration_str, "hh:mm:ss.zzz");
                 const int seconds = QTime(0, 0, 0).secsTo(duration_time);
 
-                QTemporaryFile thumbnail;
-                thumbnail.open();
+                const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
+                QTemporaryFile thumbnail(thumbnail_path_pattern);
+                thumbnail.open();                                // create file
 
-                const QString thumbnail_path = thumbnail.fileName() + ".jpg";
+                const QString thumbnail_path = thumbnail.fileName();
+                thumbnail.close();                               // close but do not delete file. Just make sure it is not locked
 
                 QProcess ffmpeg_process4thumbnail;
                 const QStringList ffmpeg_thumbnail_args =
                 {
+                    "-y",                                        // overwrite file created with QTemporaryFile
                     "-ss", QString::number(seconds / 10),
                     "-i", absolute_path,
                     "-vframes", "1",
