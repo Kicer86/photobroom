@@ -349,10 +349,6 @@ void MainWindow::setupView()
     m_photosAnalyzer->set(ui->tasksWidget);
     QItemSelectionModel* selectionModel = ui->imagesView->viewSelectionModel();
 
-    //setup tags editor
-    ui->tagEditor->set( selectionModel );
-    ui->tagEditor->set( m_imagesModel );
-
     // connect to docks
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
@@ -360,6 +356,9 @@ void MainWindow::setupView()
 
     // connect to tabs
     connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
+
+    // trigger initial setup of tags editor and photo properties dock
+    viewChanged(ui->viewsStack->currentIndex());
 
     // connect to context menu for views
     connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->imagesView, p); });
