@@ -18,6 +18,7 @@ set(CORE_SOURCES
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
     implementation/exiv2_exif_reader.cpp
+    implementation/ffmpeg_video_details_reader.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/image_information.cpp
@@ -50,6 +51,7 @@ set(CORE_HEADERS
     containers_utils.hpp
     cross_thread_call.hpp
     disk_observer.hpp
+    ffmpeg_video_details_reader.hpp
     file_lock.hpp
     generic_concepts.hpp
     id.hpp
