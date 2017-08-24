@@ -18,3 +18,9 @@
  */
 
 #include "ffmpeg_video_details_reader.hpp"
+
+
+FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffmpegPath(ffmpeg)
+{
+
+}

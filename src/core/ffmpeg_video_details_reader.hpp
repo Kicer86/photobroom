@@ -20,8 +20,22 @@
 #ifndef FFMPEGVIDEODETAILSREADER_HPP
 #define FFMPEGVIDEODETAILSREADER_HPP
 
+#include <QString>
+
 class FFMpegVideoDetailsReader
 {
+    public:
+        FFMpegVideoDetailsReader(const QString& ffmpegPath);
+        FFMpegVideoDetailsReader(const FFMpegVideoDetailsReader &) = delete;
+        FFMpegVideoDetailsReader(FFMpegVideoDetailsReader &&) = delete;
+
+        FFMpegVideoDetailsReader& operator=(const FFMpegVideoDetailsReader &) = delete;
+        FFMpegVideoDetailsReader& operator=(FFMpegVideoDetailsReader &&) = delete;
+
+        virtual ~FFMpegVideoDetailsReader() = default;
+
+    private:
+        const QString m_ffmpegPath;
 };
 
 #endif // FFMPEGVIDEODETAILSREADER_HPP
