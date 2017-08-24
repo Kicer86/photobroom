@@ -21,9 +21,9 @@
 
 #include <QFileInfo>
 #include <QProcess>
-#include <QTime>
 #include <QTemporaryFile>
 
+#include <core/ffmpeg_video_details_reader.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
@@ -194,59 +194,35 @@ struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
         const QFileInfo pathInfo(m_thumbnailInfo.path);
         const QString absolute_path = pathInfo.absoluteFilePath();
 
-        QProcess ffmpeg_process4duration;
-        ffmpeg_process4duration.setProcessChannelMode(QProcess::MergedChannels);
+        const FFMpegVideoDetailsReader videoDetailsReader("ffmpeg");      // TODO: read path from config
+        const int seconds = videoDetailsReader.durationOf(absolute_path);
+        const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
+        QTemporaryFile thumbnail(thumbnail_path_pattern);
+        thumbnail.open();                                // create file
 
-        const QStringList ffmpeg_duration_args = { "-i", absolute_path };
+        const QString thumbnail_path = thumbnail.fileName();
+        thumbnail.close();                               // close but do not delete file. Just make sure it is not locked
 
-        ffmpeg_process4duration.start("ffmpeg", ffmpeg_duration_args );
-        bool status = ffmpeg_process4duration.waitForFinished();
+        QProcess ffmpeg_process4thumbnail;
+        const QStringList ffmpeg_thumbnail_args =
+        {
+            "-y",                                        // overwrite file created with QTemporaryFile
+            "-ss", QString::number(seconds / 10),
+            "-i", absolute_path,
+            "-vframes", "1",
+            "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
+            "-q:v", "2",
+            thumbnail_path
+        };
+
+        ffmpeg_process4thumbnail.start("ffmpeg", ffmpeg_thumbnail_args );
+        const bool status = ffmpeg_process4thumbnail.waitForFinished();
 
         if (status)
         {
-            const QByteArray output = ffmpeg_process4duration.readAll();
-            const QString output_str = output.constData();
+            const QImage thumbnail_image(thumbnail_path);
 
-            QRegExp duration_regex(".*Duration: ([0-9:\\.]+).*");
-
-            const bool matched = duration_regex.exactMatch(output_str);
-
-            if (matched)
-            {
-                const QStringList captured = duration_regex.capturedTexts();
-                const QString duration_str = captured[1] + "0";                 // convert 100th parts of second to miliseconds
-                const QTime duration_time = QTime::fromString(duration_str, "hh:mm:ss.zzz");
-                const int seconds = QTime(0, 0, 0).secsTo(duration_time);
-
-                const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
-                QTemporaryFile thumbnail(thumbnail_path_pattern);
-                thumbnail.open();                                // create file
-
-                const QString thumbnail_path = thumbnail.fileName();
-                thumbnail.close();                               // close but do not delete file. Just make sure it is not locked
-
-                QProcess ffmpeg_process4thumbnail;
-                const QStringList ffmpeg_thumbnail_args =
-                {
-                    "-y",                                        // overwrite file created with QTemporaryFile
-                    "-ss", QString::number(seconds / 10),
-                    "-i", absolute_path,
-                    "-vframes", "1",
-                    "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
-                    "-q:v", "2",
-                    thumbnail_path
-                };
-
-                ffmpeg_process4thumbnail.start("ffmpeg", ffmpeg_thumbnail_args );
-                status = ffmpeg_process4thumbnail.waitForFinished();
-
-                if (status)
-                {
-                    const QImage thumbnail_image(thumbnail_path);
-
-                    m_callback(m_thumbnailInfo, thumbnail_image);
-                }
-            }
+            m_callback(m_thumbnailInfo, thumbnail_image);
         }
     }
 
