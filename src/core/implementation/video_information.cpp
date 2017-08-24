@@ -29,8 +29,7 @@ VideoInformation::VideoInformation()
 
 QSize VideoInformation::size(const QString& path) const
 {
-    FFMpegVideoDetailsReader videoDetailsReader("ffmpeg");         // TODO: get path from config
-
+    const FFMpegVideoDetailsReader videoDetailsReader("ffmpeg");         // TODO: get path from config
     const QSize resolution = videoDetailsReader.resolutionOf(path);
 
     return resolution;
