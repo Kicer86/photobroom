@@ -19,8 +19,7 @@
 
 #include "video_information.hpp"
 
-#include <QProcess>
-#include <QString>
+#include "ffmpeg_video_details_reader.hpp"
 
 
 VideoInformation::VideoInformation()
@@ -30,37 +29,9 @@ VideoInformation::VideoInformation()
 
 QSize VideoInformation::size(const QString& path) const
 {
-    QProcess ffmpeg_process;
-    ffmpeg_process.setProcessChannelMode(QProcess::MergedChannels);
+    FFMpegVideoDetailsReader videoDetailsReader("ffmpeg");         // TODO: get path from config
 
-    const QStringList ffmpeg_args = { "-i", path };
+    const QSize resolution = videoDetailsReader.resolutionOf(path);
 
-    ffmpeg_process.start("ffmpeg", ffmpeg_args );
-    bool status = ffmpeg_process.waitForFinished();
-
-    QSize result;
-
-    if (status)
-    {
-        const QByteArray output = ffmpeg_process.readAll();
-        const QString output_str = output.constData();
-
-        QRegExp resolution_regex(".*Stream [^ ]+ Video:.*, ([0-9]+)x([0-9]+).*");
-
-        const bool matched = resolution_regex.exactMatch(output_str);
-
-        if (matched)
-        {
-            const QStringList captured = resolution_regex.capturedTexts();
-            const QString resolution_x_str = captured[1];
-            const QString resolution_y_str = captured[2];
-
-            const int resolution_x = resolution_x_str.toInt();
-            const int resolution_y = resolution_y_str.toInt();
-
-            result = QSize(resolution_x, resolution_y);
-        }
-    }
-
-    return result;
+    return resolution;
 }
