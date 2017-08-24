@@ -21,6 +21,7 @@
 
 #include <QProcess>
 #include <QRegExp>
+#include <QTime>
 
 
 FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffmpegPath(ffmpeg)
@@ -61,7 +62,27 @@ QSize FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
 
 int FFMpegVideoDetailsReader::durationOf(const QString& video_file) const
 {
+    const QStringList output = outputFor(video_file);
 
+    QRegExp duration_regex(".*Duration: ([0-9:\\.]+).*");
+
+    int duration;
+    for(const QString& line: output)
+    {
+        const bool matched = duration_regex.exactMatch(line);
+
+        if (matched)
+        {
+            const QStringList captured = duration_regex.capturedTexts();
+            const QString duration_str = captured[1] + "0";                 // convert 100th parts of second to miliseconds
+            const QTime duration_time = QTime::fromString(duration_str, "hh:mm:ss.zzz");
+            duration = QTime(0, 0, 0).secsTo(duration_time);
+
+            break;
+        }
+    }
+
+    return duration;
 }
 
 
