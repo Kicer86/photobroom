@@ -23,10 +23,12 @@
 #include <QSize>
 #include <QStringList>
 
+#include "core_export.h"
+
 // Class is reetrant.
 // All its methods may take a while as ffmpeg is called inside
 
-class FFMpegVideoDetailsReader
+class CORE_EXPORT FFMpegVideoDetailsReader
 {
     public:
         FFMpegVideoDetailsReader(const QString& ffmpegPath);
