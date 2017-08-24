@@ -20,7 +20,11 @@
 #ifndef FFMPEGVIDEODETAILSREADER_HPP
 #define FFMPEGVIDEODETAILSREADER_HPP
 
-#include <QString>
+#include <QSize>
+#include <QStringList>
+
+// Class is reetrant.
+// All its methods may take a while as ffmpeg is called inside
 
 class FFMpegVideoDetailsReader
 {
@@ -34,8 +38,13 @@ class FFMpegVideoDetailsReader
 
         virtual ~FFMpegVideoDetailsReader() = default;
 
+        QSize resolutionOf(const QString& video_file) const;
+        int durationOf(const QString& video_file) const;        // video duration in seconds
+
     private:
         const QString m_ffmpegPath;
+
+        QStringList outputFor(const QString &) const;
 };
 
 #endif // FFMPEGVIDEODETAILSREADER_HPP

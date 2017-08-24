@@ -19,8 +19,71 @@
 
 #include "ffmpeg_video_details_reader.hpp"
 
+#include <QProcess>
+#include <QRegExp>
+
 
 FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffmpegPath(ffmpeg)
 {
 
+}
+
+
+QSize FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
+{
+    const QStringList output = outputFor(video_file);
+
+    QRegExp resolution_regex(".*Stream [^ ]+ Video:.*, ([0-9]+)x([0-9]+).*");
+
+    QSize result;
+    for(const QString& line: output)
+    {
+        const bool matched = resolution_regex.exactMatch(line);
+
+        if (matched)
+        {
+            const QStringList captured = resolution_regex.capturedTexts();
+            const QString resolution_x_str = captured[1];
+            const QString resolution_y_str = captured[2];
+
+            const int resolution_x = resolution_x_str.toInt();
+            const int resolution_y = resolution_y_str.toInt();
+
+            result = QSize(resolution_x, resolution_y);
+
+            break;
+        }
+    }
+
+    return result;
+}
+
+
+int FFMpegVideoDetailsReader::durationOf(const QString& video_file) const
+{
+
+}
+
+
+QStringList FFMpegVideoDetailsReader::outputFor(const QString& video_file) const
+{
+    QProcess ffmpeg_process;
+    ffmpeg_process.setProcessChannelMode(QProcess::MergedChannels);
+
+    const QStringList ffmpeg_args = { "-i", video_file };
+
+    ffmpeg_process.start(m_ffmpegPath, ffmpeg_args );
+    bool status = ffmpeg_process.waitForFinished();
+
+    QStringList result;
+    if (status)
+    {
+        while(ffmpeg_process.canReadLine())
+        {
+            const QByteArray line = ffmpeg_process.readLine();
+            result.append(line.constData());
+        }
+    }
+
+    return result;
 }
