@@ -4,7 +4,7 @@
 #include <QIcon>
 #include <QStandardItemModel>
 
-#include <configuration/constants.hpp>
+#include <core/constants.hpp>
 
 #include <desktop/views/view_impl/positions_calculator.hpp>
 #include <desktop/views/view_impl/positions_reseter.hpp>

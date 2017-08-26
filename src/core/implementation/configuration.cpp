@@ -18,7 +18,7 @@
  */
 
 #include "configuration.hpp"
-#include "private/configuration_p.hpp"
+#include "implementation/configuration_p.hpp"
 
 #include <fstream>
 

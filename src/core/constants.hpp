@@ -4,12 +4,12 @@
 
 #include <vector>
 
-#include "configuration_export.h"
+#include "core_export.h"
 
 namespace ConfigConsts
 {
 
-    struct CONFIGURATION_EXPORT Constraints
+    struct CORE_EXPORT Constraints
     {
         static const unsigned int database_tag_name_len;
         static const unsigned int database_tag_value_len;

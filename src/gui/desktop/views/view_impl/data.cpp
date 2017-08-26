@@ -27,7 +27,7 @@
 #include <QDebug>
 #include <QModelIndex>
 
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 
 #include "positions_translator.hpp"
 #include "models/aphoto_info_model.hpp"

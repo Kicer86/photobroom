@@ -1,7 +1,7 @@
 
 #include "tables.hpp"
 
-#include <configuration/constants.hpp>
+#include <core/constants.hpp>
 
 #include "table_definition.hpp"
 

@@ -6,7 +6,7 @@
 #include <QMovie>
 #include <QProcess>
 
-#include <configuration/configuration.hpp>
+#include <core/configuration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
 
