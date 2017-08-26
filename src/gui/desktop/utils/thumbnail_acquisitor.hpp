@@ -28,6 +28,8 @@
 #include "thumbnail_generator.hpp"
 #include "ithumbnail_acquisitor.hpp"
 
+struct IConfiguration;
+
 
 class ThumbnailAcquisitor: public IThumbnailAcquisitor
 {
@@ -41,6 +43,7 @@ class ThumbnailAcquisitor: public IThumbnailAcquisitor
 
         void set(ITaskExecutor *);
         void set(ILogger *);
+        void set(IConfiguration *);
 
         void setInProgressThumbnail(const QImage &);
         void setObserver(const Observer &);

@@ -24,9 +24,10 @@
 
 #include "imedia_information.hpp"
 
-struct IExifReaderFactory;
-
 #include "core_export.h"
+
+struct IExifReaderFactory;
+struct IConfiguration;
 
 class CORE_EXPORT MediaInformation : public IMediaInformation
 {
@@ -41,6 +42,8 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
         virtual ~MediaInformation();
 
         void set(IExifReaderFactory *);
+        void set(IConfiguration *);
+
         virtual QSize size(const QString &) const;
 
     private:

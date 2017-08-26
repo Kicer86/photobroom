@@ -23,7 +23,9 @@
 #include <QProcess>
 #include <QTemporaryFile>
 
+#include <core/constants.hpp>
 #include <core/ffmpeg_video_details_reader.hpp>
+#include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
@@ -177,9 +179,11 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
 {
     FromVideoTask(const ThumbnailInfo& info,
-                  const ThumbnailGenerator::Callback& callback):
+                  const ThumbnailGenerator::Callback& callback,
+                  const QString& ffmpegPath):
         m_thumbnailInfo(info),
-        m_callback(callback)
+        m_callback(callback),
+        m_ffmpeg(ffmpegPath)
     {
 
     }
@@ -194,7 +198,7 @@ struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
         const QFileInfo pathInfo(m_thumbnailInfo.path);
         const QString absolute_path = pathInfo.absoluteFilePath();
 
-        const FFMpegVideoDetailsReader videoDetailsReader("ffmpeg");      // TODO: read path from config
+        const FFMpegVideoDetailsReader videoDetailsReader(m_ffmpeg);
         const int seconds = videoDetailsReader.durationOf(absolute_path);
         const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
         QTemporaryFile thumbnail(thumbnail_path_pattern);
@@ -228,6 +232,7 @@ struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
 
     const ThumbnailInfo m_thumbnailInfo;
     const ThumbnailGenerator::Callback m_callback;
+    const QString m_ffmpeg;
 };
 
 
@@ -241,7 +246,8 @@ ThumbnailGenerator::ThumbnailGenerator():
     m_tasks(),
     m_executor(nullptr),
     m_logger(nullptr),
-    m_exifReaderFactory(nullptr)
+    m_exifReaderFactory(nullptr),
+    m_configuration(nullptr)
 {
 
 }
@@ -279,6 +285,12 @@ void ThumbnailGenerator::set(IExifReaderFactory* exifFactory)
 }
 
 
+void ThumbnailGenerator::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
+}
+
+
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
     const QString& path = info.path;
@@ -290,7 +302,10 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     }
     else if (MediaTypes::isVideoFile(path))
     {
-        auto task = std::make_unique<FromVideoTask>(info, callback);
+        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+        const QString ffmpegPath = ffmpegVar.toString();
+
+        auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
         m_tasks->push(std::move(task));
     }
     else

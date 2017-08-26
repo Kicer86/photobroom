@@ -162,6 +162,7 @@ void PhotosWidget::set(IConfiguration* configuration)
 
     m_view->setSpacing(spacing);
     m_delegate->set(configuration);
+    m_thumbnailAcquisitor.set(configuration);
 }
 
 

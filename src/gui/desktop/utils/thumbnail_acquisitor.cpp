@@ -54,6 +54,12 @@ void ThumbnailAcquisitor::set(ILogger* logger)
 }
 
 
+void ThumbnailAcquisitor::set(IConfiguration* config)
+{
+    m_generator.set(config);
+}
+
+
 void ThumbnailAcquisitor::setInProgressThumbnail(const QImage& image)
 {
     m_inProgress = image;

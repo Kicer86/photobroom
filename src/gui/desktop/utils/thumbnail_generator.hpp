@@ -31,6 +31,7 @@
 
 
 struct IExifReaderFactory;
+struct IConfiguration;
 
 
 class ThumbnailGenerator: public IThumbnailGenerator
@@ -46,6 +47,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
         void set(ITaskExecutor *);
         void set(ILogger *);
         void set(IExifReaderFactory *);
+        void set(IConfiguration *);
 
         // IThumbnailGenerator:
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
@@ -55,6 +57,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
         ITaskExecutor* m_executor;
         ILogger* m_logger;
         IExifReaderFactory* m_exifReaderFactory;
+        IConfiguration* m_configuration;
 
         struct FromImageTask;
         friend struct FromImageTask;

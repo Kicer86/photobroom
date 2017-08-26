@@ -57,6 +57,12 @@ void MediaInformation::set(IExifReaderFactory* exif)
 }
 
 
+void MediaInformation::set(IConfiguration* config)
+{
+    m_impl->m_video_info.set(config);
+}
+
+
 QSize MediaInformation::size(const QString& path) const
 {
     const QFileInfo fileInfo(path);

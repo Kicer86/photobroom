@@ -10,10 +10,12 @@
 #include <QPixmap>
 #include <QCryptographicHash>
 
-#include <core/task_executor.hpp>
+
+#include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/imedia_information.hpp>
 #include <core/tag.hpp>
+#include <core/task_executor.hpp>
 
 
 // TODO: unit tests
@@ -166,8 +168,7 @@ PhotoInfoUpdater::PhotoInfoUpdater():
     m_taskQueue(),
     m_tasks(),
     m_tasksMutex(),
-    m_finishedTask(),
-    m_configuration(nullptr)
+    m_finishedTask()
 {
     m_mediaInformation.set(&m_exifReaderFactory);
 }
@@ -212,7 +213,7 @@ void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
 
 void PhotoInfoUpdater::set(IConfiguration* configuration)
 {
-    m_configuration = configuration;
+    m_mediaInformation.set(configuration);
 }
 
 

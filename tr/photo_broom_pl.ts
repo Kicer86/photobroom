@@ -332,7 +332,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+240"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+242"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

@@ -19,17 +19,33 @@
 
 #include "video_information.hpp"
 
+#include <cassert>
+
+#include <QVariant>
+
+#include "constants.hpp"
+#include "iconfiguration.hpp"
 #include "ffmpeg_video_details_reader.hpp"
 
 
-VideoInformation::VideoInformation()
+VideoInformation::VideoInformation(): m_ffmpegPath()
 {
+}
+
+
+void VideoInformation::set(IConfiguration* configuration)
+{
+    const QVariant ffmpegVar = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+
+    m_ffmpegPath = ffmpegVar.toString();
 }
 
 
 QSize VideoInformation::size(const QString& path) const
 {
-    const FFMpegVideoDetailsReader videoDetailsReader("ffmpeg");         // TODO: get path from config
+    assert(m_ffmpegPath.isEmpty() == false);
+
+    const FFMpegVideoDetailsReader videoDetailsReader(m_ffmpegPath);
     const QSize resolution = videoDetailsReader.resolutionOf(path);
 
     return resolution;

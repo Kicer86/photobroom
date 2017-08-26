@@ -45,7 +45,6 @@ class PhotoInfoUpdater final
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
-        IConfiguration* m_configuration;
 
         void taskAdded(UpdaterTask *);
         void taskFinished(UpdaterTask *);

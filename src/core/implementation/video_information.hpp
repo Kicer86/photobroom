@@ -20,7 +20,11 @@
 #ifndef VIDEOINFORMATION_HPP
 #define VIDEOINFORMATION_HPP
 
+#include <QString>
+
 #include "imedia_information.hpp"
+
+struct IConfiguration;
 
 class VideoInformation : public IMediaInformation
 {
@@ -34,7 +38,12 @@ class VideoInformation : public IMediaInformation
 
         virtual ~VideoInformation() = default;
 
+        void set(IConfiguration *);
+
         virtual QSize size(const QString &) const;
+
+    private:
+        QString m_ffmpegPath;
 };
 
 #endif // VIDEOINFORMATION_HPP

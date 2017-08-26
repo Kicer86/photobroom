@@ -19,6 +19,8 @@
 
 #include "ffmpeg_video_details_reader.hpp"
 
+#include <cassert>
+
 #include <QProcess>
 #include <QRegExp>
 #include <QTime>
@@ -26,7 +28,7 @@
 
 FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffmpegPath(ffmpeg)
 {
-
+    assert(ffmpeg.isEmpty() == false);
 }
 
 
