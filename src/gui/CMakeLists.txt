@@ -65,7 +65,6 @@ add_library(gui
 
 target_link_libraries(gui
                         PRIVATE
-                            configuration
                             core
                             database
                             photos_crawler

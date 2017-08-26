@@ -37,10 +37,10 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
-#include <core/disk_observer.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/disk_observer.hpp>
 #include <database/database_builder.hpp>
 #include <system/system.hpp>
 

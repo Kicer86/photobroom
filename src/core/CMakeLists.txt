@@ -4,15 +4,32 @@ find_package(Qt5Core 5.6 REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
+find_package(JsonCpp REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
+
+# check some required things
+include(CheckTypeSize)
+set(CMAKE_REQUIRED_INCLUDES   ${Qt5Core_INCLUDE_DIRS} ${JSONCPP_INCLUDE_DIRS})
+set(CMAKE_EXTRA_INCLUDE_FILES QtGlobal json/config.h)
+set(CMAKE_REQUIRED_LIBRARIES  Qt5::Core)
+
+check_type_size("qlonglong"   QLONGLONG  LANGUAGE CXX)
+check_type_size("Json::Int64" JSON_INT64 LANGUAGE CXX)
+
+if (NOT QLONGLONG EQUAL JSON_INT64)
+    message(FATAL_ERROR "qlonglong and Json::Int64 do not have same size")
+endif()
+##
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CORE_SOURCES
     implementation/aexif_reader.cpp
     implementation/base_tags.cpp
+    implementation/configuration.cpp
+    implementation/constants.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
@@ -44,11 +61,14 @@ endif()
 set(CORE_HEADERS
     base_tags.hpp
     callback_ptr.hpp
+    configuration.hpp
+    constants.hpp
     containers_utils.hpp
     cross_thread_call.hpp
     disk_observer.hpp
     file_lock.hpp
     generic_concepts.hpp
+    iconfiguration.hpp
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
@@ -75,6 +95,7 @@ set(CORE_HEADERS
     tree.hpp
     implementation/aexif_reader.hpp
     implementation/exiv2_exif_reader.hpp
+    implementation/configuration_p.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
@@ -99,6 +120,7 @@ target_link_libraries(core
                             Qt5::Gui
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
+                            ${JSONCPP_LIBRARIES}
                      )
 
 target_include_directories(core SYSTEM PUBLIC
@@ -109,6 +131,7 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EXIV2_INCLUDE_DIRS}
+                                    ${JSONCPP_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src

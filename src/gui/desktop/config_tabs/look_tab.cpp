@@ -1,7 +1,7 @@
 
 #include "look_tab.hpp"
 
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 
 #include "config_keys.hpp"
 #include "ui_look_tab.h"

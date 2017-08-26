@@ -7,7 +7,7 @@
 #include <QString>
 #include <QJsonValue>
 
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 
 struct MockConfiguration: IConfiguration
 {

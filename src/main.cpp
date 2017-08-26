@@ -10,7 +10,7 @@
 #include <QDir>
 #include <QTimer>
 
-#include <configuration/configuration.hpp>
+#include <core/configuration.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>

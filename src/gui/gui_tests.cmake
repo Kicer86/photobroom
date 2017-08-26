@@ -55,7 +55,6 @@ addTestTarget(gui
 
                 LIBRARIES
                      PRIVATE
-                        configuration
                         core
                         database
                         photos_crawler
