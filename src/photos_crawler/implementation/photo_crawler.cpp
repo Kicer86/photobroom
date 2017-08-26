@@ -21,7 +21,7 @@ namespace
 
         virtual void found(const QString& file) override
         {
-            if (m_analyzer->isImage(file))
+            if (m_analyzer->isMediaFile(file))
                 m_notifications->found(file);
         }
 

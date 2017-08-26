@@ -17,7 +17,7 @@
  *
  */
 
-#include "photo_information.hpp"
+#include "image_information.hpp"
 
 #include <any>
 
@@ -26,17 +26,17 @@
 #include "iexif_reader.hpp"
 
 
-PhotoInformation::PhotoInformation(): m_exif(nullptr)
+ImageInformation::ImageInformation(): m_exif(nullptr)
 {
 }
 
 
-PhotoInformation::~PhotoInformation()
+ImageInformation::~ImageInformation()
 {
 }
 
 
-QSize PhotoInformation::size(const QString& path) const
+QSize ImageInformation::size(const QString& path) const
 {
     IExifReader* exif_reader = m_exif->get();
 
@@ -53,7 +53,7 @@ QSize PhotoInformation::size(const QString& path) const
 }
 
 
-void PhotoInformation::set(IExifReaderFactory* exif)
+void ImageInformation::set(IExifReaderFactory* exif)
 {
     m_exif = exif;
 }

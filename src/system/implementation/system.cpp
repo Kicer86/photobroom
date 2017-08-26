@@ -1,6 +1,7 @@
 
 #include "../system.hpp"
 
+#include <QCoreApplication>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 
@@ -29,6 +30,16 @@ QString System::getTempFilePath()
     const QString result = QString("%1/%2").arg(getApplicationTempDir()).arg(v++, 6, 16, QLatin1Char('0'));
 
     return result;
+}
+
+
+QString System::getTempFilePatternFor(const QString& extension)
+{
+    const QString tmp_name = QDir::tempPath() + "/" +
+                             QCoreApplication::applicationName() +
+                             "-XXXXXX." + extension;
+
+    return tmp_name;
 }
 
 

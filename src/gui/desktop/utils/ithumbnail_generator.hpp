@@ -53,6 +53,7 @@ struct ThumbnailInfo
 
 struct IThumbnailGenerator
 {
+    // TODO: ThumbnailInfo here is not necessary. One can use proper std::binding if needs it
     typedef std::function<void(const ThumbnailInfo &, const QImage &)> Callback;
 
     virtual ~IThumbnailGenerator() {}

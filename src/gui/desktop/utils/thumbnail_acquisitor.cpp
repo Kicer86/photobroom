@@ -48,16 +48,15 @@ void ThumbnailAcquisitor::set(ITaskExecutor* executor)
 }
 
 
-void ThumbnailAcquisitor::set(IPhotosManager* manager)
-{
-    m_generator.set(manager);
-    m_exifFactory.set(manager);
-}
-
-
 void ThumbnailAcquisitor::set(ILogger* logger)
 {
     m_generator.set(logger);
+}
+
+
+void ThumbnailAcquisitor::set(IConfiguration* config)
+{
+    m_generator.set(config);
 }
 
 
@@ -86,7 +85,7 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 {
     QImage result;
 
-    std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
+    std::unique_lock<std::mutex> lock(m_cacheAccessMutex);
 
     auto awaiting = m_awaitingTasks.find(info);
 
@@ -103,6 +102,7 @@ QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
             m_awaitingTasks.insert(info);
             result = m_inProgress;
 
+            lock.unlock();   // lock is not needed and can cause deadlock if generator calls ThumbnailAcquisitor::gotThumbnail directly
             auto callback = std::bind(&ThumbnailAcquisitor::gotThumbnail, this, std::placeholders::_1, std::placeholders::_2);
             m_generator.generateThumbnail(info, callback);
         }

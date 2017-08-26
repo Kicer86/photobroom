@@ -28,6 +28,7 @@ class ToolsTab : public QWidget
 
         QtExtChooseFile* aisPath() const;
         QtExtChooseFile* convertPath() const;
+        QtExtChooseFile* ffmpegPath() const;
 
     private:
         Ui::ToolsTab *ui;

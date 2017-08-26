@@ -19,18 +19,26 @@
 
 #include "thumbnail_generator.hpp"
 
+#include <QFileInfo>
+#include <QProcess>
+#include <QTemporaryFile>
+
+#include <core/constants.hpp>
+#include <core/ffmpeg_video_details_reader.hpp>
+#include <core/iconfiguration.hpp>
+#include <core/iexif_reader.hpp>
 #include <core/ilogger.hpp>
-#include <core/iphotos_manager.hpp>
+#include <core/media_types.hpp>
 #include <core/stopwatch.hpp>
 #include <core/task_executor.hpp>
-#include <core/iexif_reader.hpp>
+#include <system/system.hpp>
 
 
-struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
+struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 {
-    GenerationTask(const ThumbnailInfo& info,
-                            const ThumbnailGenerator::Callback& callback,
-                            const ThumbnailGenerator* generator):
+    FromImageTask(const ThumbnailInfo& info,
+                  const ThumbnailGenerator::Callback& callback,
+                  const ThumbnailGenerator* generator):
         m_info(info),
         m_callback(callback),
         m_generator(generator)
@@ -38,14 +46,14 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
 
     }
 
-    virtual ~GenerationTask() {}
+    virtual ~FromImageTask() {}
 
-    GenerationTask(const GenerationTask &) = delete;
-    GenerationTask& operator=(const GenerationTask &) = delete;
+    FromImageTask(const FromImageTask &) = delete;
+    FromImageTask& operator=(const FromImageTask &) = delete;
 
     virtual std::string name() const override
     {
-        return "Photo thumbnail generation";
+        return "Image thumbnail generation";
     }
 
     virtual void perform() override
@@ -58,10 +66,10 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
         Stopwatch stopwatch;
 
         stopwatch.start();
-        QByteArray raw = m_generator->m_photosManager->getPhoto(m_info.path);
 
-        QImage image;
-        image.loadFromData(raw);
+        QImage image(m_info.path);
+        assert(image.isNull() == false);
+
         const int photo_read = stopwatch.read(true);
 
         if (needs_to_be_rotated)
@@ -80,9 +88,9 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
         const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
         m_generator->m_logger->debug(scaling_time_message);
 
-        image = rotateThumbnail(reader, image );
+        image = rotateThumbnail(reader, image);
 
-        m_callback(m_info, image );
+        m_callback(m_info, image);
     }
 
     bool shouldSwap(IExifReader* reader)
@@ -168,6 +176,66 @@ struct ThumbnailGenerator::GenerationTask: TaskExecutor::ITask
 };
 
 
+struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
+{
+    FromVideoTask(const ThumbnailInfo& info,
+                  const ThumbnailGenerator::Callback& callback,
+                  const QString& ffmpegPath):
+        m_thumbnailInfo(info),
+        m_callback(callback),
+        m_ffmpeg(ffmpegPath)
+    {
+
+    }
+
+    std::string name() const override
+    {
+        return "Video thumbnail generation";
+    }
+
+    void perform() override
+    {
+        const QFileInfo pathInfo(m_thumbnailInfo.path);
+        const QString absolute_path = pathInfo.absoluteFilePath();
+
+        const FFMpegVideoDetailsReader videoDetailsReader(m_ffmpeg);
+        const int seconds = videoDetailsReader.durationOf(absolute_path);
+        const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
+        QTemporaryFile thumbnail(thumbnail_path_pattern);
+        thumbnail.open();                                // create file
+
+        const QString thumbnail_path = thumbnail.fileName();
+        thumbnail.close();                               // close but do not delete file. Just make sure it is not locked
+
+        QProcess ffmpeg_process4thumbnail;
+        const QStringList ffmpeg_thumbnail_args =
+        {
+            "-y",                                        // overwrite file created with QTemporaryFile
+            "-ss", QString::number(seconds / 10),
+            "-i", absolute_path,
+            "-vframes", "1",
+            "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
+            "-q:v", "2",
+            thumbnail_path
+        };
+
+        ffmpeg_process4thumbnail.start("ffmpeg", ffmpeg_thumbnail_args );
+        const bool status = ffmpeg_process4thumbnail.waitForFinished();
+
+        if (status)
+        {
+            const QImage thumbnail_image(thumbnail_path);
+
+            m_callback(m_thumbnailInfo, thumbnail_image);
+        }
+    }
+
+    const ThumbnailInfo m_thumbnailInfo;
+    const ThumbnailGenerator::Callback m_callback;
+    const QString m_ffmpeg;
+};
+
+
 uint qHash(const ThumbnailInfo& key, uint seed = 0)
 {
     return qHash(key.path) ^ qHash(key.height) ^ seed;
@@ -175,11 +243,12 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 
 
 ThumbnailGenerator::ThumbnailGenerator():
+    m_videoImage(":/gui/video.svg"),
     m_tasks(),
     m_executor(nullptr),
-    m_photosManager(nullptr),
     m_logger(nullptr),
-    m_exifReaderFactory(nullptr)
+    m_exifReaderFactory(nullptr),
+    m_configuration(nullptr)
 {
 
 }
@@ -205,12 +274,6 @@ void ThumbnailGenerator::set(ITaskExecutor* executor)
 }
 
 
-void ThumbnailGenerator::set(IPhotosManager* photosManager)
-{
-    m_photosManager = photosManager;
-}
-
-
 void ThumbnailGenerator::set(ILogger* logger)
 {
     m_logger = logger;
@@ -223,10 +286,37 @@ void ThumbnailGenerator::set(IExifReaderFactory* exifFactory)
 }
 
 
+void ThumbnailGenerator::set(IConfiguration* configuration)
+{
+    m_configuration = configuration;
+}
+
+
 void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
-    auto task = std::make_unique<GenerationTask>(info, callback, this);
-    m_tasks->push(std::move(task));
+    const QString& path = info.path;
+
+    if (MediaTypes::isImageFile(path))
+    {
+        auto task = std::make_unique<FromImageTask>(info, callback, this);
+        m_tasks->push(std::move(task));
+    }
+    else if (MediaTypes::isVideoFile(path))
+    {
+        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+        const QString ffmpegPath = ffmpegVar.toString();
+        const QFileInfo fileInfo(ffmpegPath);
+
+        if (fileInfo.isExecutable())
+        {
+            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
+            m_tasks->push(std::move(task));
+        }
+        else
+            callback(info, m_videoImage);
+    }
+    else
+        assert(!"unknown file type");
 }
 
 

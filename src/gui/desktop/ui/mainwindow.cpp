@@ -12,7 +12,6 @@
 #include <QPainter>
 #include <QTimer>
 
-#include <core/iphotos_manager.hpp>
 #include <core/constants.hpp>
 #include <core/cross_thread_call.hpp>
 #include <core/exif_reader_factory.hpp>
@@ -78,7 +77,6 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_configuration(nullptr),
     m_updater(nullptr),
     m_executor(nullptr),
-    m_photosManager(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController ),
@@ -155,9 +153,6 @@ void MainWindow::set(IConfiguration* configuration)
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
 
-    m_configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
-    m_configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
-
     //
     m_mainTabCtrl->set(configuration);
     m_lookTabCtrl->set(configuration);
@@ -201,16 +196,6 @@ void MainWindow::set(IUpdater* updater)
             m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
         }
     }
-}
-
-
-void MainWindow::set(IPhotosManager* manager)
-{
-    ui->imagesView->set(manager);
-    ui->newImagesView->set(manager);
-    m_photosAnalyzer->set(manager);
-
-    m_photosManager = manager;
 }
 
 
@@ -533,7 +518,6 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     if (chosenAction == groupPhotos)
     {
         ExifReaderFactory factory;
-        factory.set(m_photosManager);
 
         IExifReader* reader = factory.get();
 

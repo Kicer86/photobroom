@@ -25,7 +25,6 @@
 
 #include "images_tree_view.hpp"
 #include "utils/variant_display.hpp"
-#include <core/iphotos_manager.hpp>
 
 
 TreeItemDelegate::TreeItemDelegate(QObject* p):

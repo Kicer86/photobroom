@@ -26,26 +26,24 @@
 #include "iexif_reader.hpp"
 
 
-struct IPhotosManager;
 class QByteArray;
 
 
 class AExifReader: public IExifReader
 {
     public:
-        AExifReader(IPhotosManager *);
+        AExifReader();
         AExifReader (const AExifReader &) = delete;
         virtual ~AExifReader();
 
         AExifReader& operator=(const AExifReader &) = delete;
 
     protected:
-        virtual void collect(const QByteArray &) = 0;
+        virtual void collect(const QString &) = 0;
         virtual std::string read(TagType) const = 0;
 
     private:
         std::thread::id m_id;
-        IPhotosManager* m_photosManager;
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;

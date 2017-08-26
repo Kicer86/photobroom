@@ -21,17 +21,17 @@
 #include "aexif_reader.hpp"
 
 #include <QByteArray>
-#include <QStringList>
 #include <QDate>
+#include <QFileInfo>
+#include <QStringList>
 #include <QTime>
 
-#include "photos_manager.hpp"
 #include "tag.hpp"
 #include "base_tags.hpp"
 
 
 
-AExifReader::AExifReader(IPhotosManager* photosManager): m_id(std::this_thread::get_id()), m_photosManager(photosManager)
+AExifReader::AExifReader(): m_id(std::this_thread::get_id())
 {
 
 }
@@ -47,8 +47,10 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 {
     assert(m_id == std::this_thread::get_id());
 
-    const QByteArray data = m_photosManager->getPhoto(path);
-    collect(data);
+    const QFileInfo fileInfo(path);
+    const QString full_path = fileInfo.absoluteFilePath();
+
+    collect(full_path);
 
     const Tag::TagsList tagData = feedDateAndTime();
 
@@ -60,9 +62,10 @@ std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
     assert(m_id == std::this_thread::get_id());
 
-    const QByteArray data = m_photosManager->getPhoto(path);
+    const QFileInfo fileInfo(path);
+    const QString full_path = fileInfo.absoluteFilePath();
 
-    collect(data);
+    collect(full_path);
 
     std::any result;
 

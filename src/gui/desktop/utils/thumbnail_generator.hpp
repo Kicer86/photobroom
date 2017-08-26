@@ -31,7 +31,7 @@
 
 
 struct IExifReaderFactory;
-struct IPhotosManager;
+struct IConfiguration;
 
 
 class ThumbnailGenerator: public IThumbnailGenerator
@@ -45,22 +45,26 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         void dismissPendingTasks();
         void set(ITaskExecutor *);
-        void set(IPhotosManager *);
         void set(ILogger *);
         void set(IExifReaderFactory *);
+        void set(IConfiguration *);
 
         // IThumbnailGenerator:
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
 
     private:
+        QImage m_videoImage;
         ITaskExecutor::TaskQueue m_tasks;
         ITaskExecutor* m_executor;
-        IPhotosManager* m_photosManager;
         ILogger* m_logger;
         IExifReaderFactory* m_exifReaderFactory;
+        IConfiguration* m_configuration;
 
-        struct GenerationTask;
-        friend struct GenerationTask;
+        struct FromImageTask;
+        friend struct FromImageTask;
+
+        struct FromVideoTask;
+        friend struct FromVideoTask;
 };
 
 

@@ -154,12 +154,6 @@ void PhotosWidget::set(ITaskExecutor* executor)
 }
 
 
-void PhotosWidget::set(IPhotosManager* manager)
-{
-    m_thumbnailAcquisitor.set(manager);
-}
-
-
 void PhotosWidget::set(IConfiguration* configuration)
 {
     const QVariant marginEntry = configuration->getEntry(ViewConfigKeys::itemsSpacing);
@@ -168,6 +162,7 @@ void PhotosWidget::set(IConfiguration* configuration)
 
     m_view->setSpacing(spacing);
     m_delegate->set(configuration);
+    m_thumbnailAcquisitor.set(configuration);
 }
 
 

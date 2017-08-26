@@ -7,10 +7,9 @@
 
 #include <core/exif_reader_factory.hpp>
 #include <core/task_executor.hpp>
-#include <core/photo_information.hpp>
+#include <core/media_information.hpp>
 #include <database/iphoto_info.hpp>
 
-struct IPhotosManager;
 struct IConfiguration;
 
 struct UpdaterTask;
@@ -32,7 +31,6 @@ class PhotoInfoUpdater final
 
         void set(ITaskExecutor *);
         void set(IConfiguration *);
-        void set(IPhotosManager *);
 
         int tasksInProgress();
         void dropPendingTasks();
@@ -41,14 +39,12 @@ class PhotoInfoUpdater final
     private:
         friend struct UpdaterTask;
 
-        PhotoInformation m_photoInformation;
+        MediaInformation m_mediaInformation;
         ExifReaderFactory m_exifReaderFactory;
         ITaskExecutor::TaskQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
-        IConfiguration* m_configuration;
-        IPhotosManager* m_photosManager;
 
         void taskAdded(UpdaterTask *);
         void taskFinished(UpdaterTask *);

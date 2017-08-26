@@ -5,15 +5,17 @@
 
 #include <memory>
 
-#include <QPixmap>
 #include <QImage>
+#include <QFile>
+#include <QPixmap>
 #include <QCryptographicHash>
 
-#include <core/task_executor.hpp>
-#include <core/photos_manager.hpp>
+
+#include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
-#include <core/iphoto_information.hpp>
+#include <core/imedia_information.hpp>
 #include <core/tag.hpp>
+#include <core/task_executor.hpp>
 
 
 // TODO: unit tests
@@ -43,11 +45,9 @@ namespace
     struct Sha256Assigner: UpdaterTask
     {
         Sha256Assigner(PhotoInfoUpdater* updater,
-                       IPhotosManager* photosManager,
                        const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
-            m_photoInfo(photoInfo),
-            m_photosManager(photosManager)
+            m_photoInfo(photoInfo)
         {
         }
 
@@ -62,26 +62,34 @@ namespace
         virtual void perform() override
         {
             const QString path = m_photoInfo->getPath();
-            const QByteArray data = m_photosManager->getPhoto(path);
-            const QByteArray rawHash = QCryptographicHash::hash(data, QCryptographicHash::Sha256);
+
+            QFile file(path);
+            bool status = file.open(QFile::ReadOnly);
+            assert(status);
+
+            QCryptographicHash hasher(QCryptographicHash::Sha256);
+            status = hasher.addData(&file);
+            assert(status);
+
+            const QByteArray rawHash = hasher.result();
             const QByteArray hexHash = rawHash.toHex();
 
+            assert(hexHash.isEmpty() == false);
             m_photoInfo->setSha256(hexHash);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
-        IPhotosManager* m_photosManager;
     };
 
 
     struct GeometryAssigner: UpdaterTask
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
-                         IPhotoInformation* photoInformation,
+                         IMediaInformation* photoInformation,
                          const IPhotoInfo::Ptr& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo),
-            m_photoInformation(photoInformation)
+            m_mediaInformation(photoInformation)
         {
         }
 
@@ -96,13 +104,13 @@ namespace
         virtual void perform() override
         {
             const QString path = m_photoInfo->getPath();
-            const QSize size = m_photoInformation->size(path);
+            const QSize size = m_mediaInformation->size(path);
 
             m_photoInfo->setGeometry(size);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
-        IPhotoInformation* m_photoInformation;
+        IMediaInformation* m_mediaInformation;
     };
 
 }
@@ -155,16 +163,14 @@ struct TagsCollector: UpdaterTask
 
 
 PhotoInfoUpdater::PhotoInfoUpdater():
-    m_photoInformation(),
+    m_mediaInformation(),
     m_exifReaderFactory(),
     m_taskQueue(),
     m_tasks(),
     m_tasksMutex(),
-    m_finishedTask(),
-    m_configuration(nullptr),
-    m_photosManager(nullptr)
+    m_finishedTask()
 {
-
+    m_mediaInformation.set(&m_exifReaderFactory);
 }
 
 
@@ -176,7 +182,7 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 
 void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_unique<Sha256Assigner>(this, m_photosManager, photoInfo);
+    auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }
@@ -184,7 +190,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 
 void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
 {
-    auto task = std::make_unique<GeometryAssigner>(this, &m_photoInformation, photoInfo);
+    auto task = std::make_unique<GeometryAssigner>(this, &m_mediaInformation, photoInfo);
 
     m_taskQueue->push(std::move(task));
 }
@@ -207,16 +213,7 @@ void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
 
 void PhotoInfoUpdater::set(IConfiguration* configuration)
 {
-    m_configuration = configuration;
-}
-
-
-void PhotoInfoUpdater::set(IPhotosManager* photosManager)
-{
-    m_photosManager = photosManager;
-    m_exifReaderFactory.set(photosManager);
-
-    m_photoInformation.set(&m_exifReaderFactory);
+    m_mediaInformation.set(configuration);
 }
 
 

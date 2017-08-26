@@ -1,6 +1,6 @@
 /*
- * Photos Manager. Loads and caches raw photos data.
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Toolkit for reading information from photos
+ * Copyright (C) 2017  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,38 +17,32 @@
  *
  */
 
-#ifndef PHOTOSMANAGER_HPP
-#define PHOTOSMANAGER_HPP
+#ifndef PHOTOINFORMATION_HPP
+#define PHOTOINFORMATION_HPP
 
-#include <memory>
-
-#include <QByteArray>
+#include "imedia_information.hpp"
 
 #include "core_export.h"
-#include "iphotos_manager.hpp"
+
+struct IExifReaderFactory;
 
 
-class QString;
-
-struct ILogger;
-
-class CORE_EXPORT PhotosManager: public IPhotosManager
+class CORE_EXPORT ImageInformation: public IMediaInformation
 {
     public:
-        PhotosManager();
-        PhotosManager(const PhotosManager &) = delete;
-        ~PhotosManager();
+        ImageInformation();
+        ImageInformation (const ImageInformation &) = delete;
 
-        PhotosManager& operator=(const PhotosManager &) = delete;
+        ImageInformation& operator=(const ImageInformation &) = delete;
 
-        void set(ILogger *);
+        virtual ~ImageInformation();
 
-        // IPhotosManager:
-        QByteArray getPhoto(const QString& path) const override;
+        void set(IExifReaderFactory *);
+
+        virtual QSize size(const QString &) const override;
 
     private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
+        IExifReaderFactory* m_exif;
 };
 
-#endif // PHOTOSMANAGER_HPP
+#endif // PHOTOINFORMATION_H

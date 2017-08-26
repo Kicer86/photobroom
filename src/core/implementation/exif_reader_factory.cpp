@@ -25,15 +25,9 @@ namespace
 }
 
 
-ExifReaderFactory::ExifReaderFactory(): m_feeders(), m_photosManager(nullptr)
+ExifReaderFactory::ExifReaderFactory(): m_feeders()
 {
 
-}
-
-
-void ExifReaderFactory::set(IPhotosManager* photosManager)
-{
-    m_photosManager = photosManager;
 }
 
 
@@ -45,9 +39,7 @@ IExifReader* ExifReaderFactory::get()
 
     if (it == m_feeders.end())
     {
-        assert(m_photosManager != nullptr);
-
-        auto feeder = std::make_unique<Exiv2ExifReader>(m_photosManager);
+        auto feeder = std::make_unique<Exiv2ExifReader>();
         auto in = m_feeders.emplace(id, std::move(feeder));
 
         it = in.first;

@@ -1,5 +1,5 @@
 /*
- * Toolkit for reading information from photos
+ * Toolkit for reading media file size
  * Copyright (C) 2017  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,32 +17,38 @@
  *
  */
 
-#ifndef PHOTOINFORMATION_HPP
-#define PHOTOINFORMATION_HPP
+#ifndef MEDIAINFORMATION_HPP
+#define MEDIAINFORMATION_HPP
 
-#include "iphoto_information.hpp"
+#include <memory>
+
+#include "imedia_information.hpp"
 
 #include "core_export.h"
 
 struct IExifReaderFactory;
+struct IConfiguration;
 
-
-class CORE_EXPORT PhotoInformation: public IPhotoInformation
+class CORE_EXPORT MediaInformation : public IMediaInformation
 {
     public:
-        PhotoInformation();
-        PhotoInformation(const PhotoInformation &) = delete;
+        MediaInformation();
+        MediaInformation(const MediaInformation &) = delete;
+        MediaInformation(MediaInformation &&) = delete;
 
-        PhotoInformation& operator=(const PhotoInformation &) = delete;
+        MediaInformation& operator=(const MediaInformation &) = delete;
+        MediaInformation& operator=(MediaInformation &&) = delete;
 
-        virtual ~PhotoInformation();
+        virtual ~MediaInformation();
 
         void set(IExifReaderFactory *);
+        void set(IConfiguration *);
 
-        virtual QSize size(const QString &) const override;
+        virtual QSize size(const QString &) const;
 
     private:
-        IExifReaderFactory* m_exif;
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
-#endif // PHOTOINFORMATION_H
+#endif // MEDIAINFORMATION_HPP

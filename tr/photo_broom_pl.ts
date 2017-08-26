@@ -332,7 +332,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+252"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+237"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -364,7 +364,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+190"/>
+        <location line="+189"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -374,7 +374,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-84"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -394,7 +394,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+176"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -455,12 +455,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-230"/>
+        <location line="-229"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+144"/>
+        <location line="+143"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -537,7 +537,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+130"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+124"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
@@ -790,6 +790,11 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
+        <source>FFMpeg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
         <location line="+4"/>
         <source>Select executable</source>
@@ -803,6 +808,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+6"/>
         <location line="+2"/>
+        <location line="+2"/>
         <source>Browse</source>
         <translation type="unfinished">Przeglądaj</translation>
     </message>
@@ -810,7 +816,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+41"/>
+        <location line="+47"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>
@@ -818,7 +824,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TreeItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+159"/>
+        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+158"/>
         <source>(Empty)</source>
         <translation>(Brak)</translation>
     </message>

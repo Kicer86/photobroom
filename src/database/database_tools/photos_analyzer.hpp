@@ -26,7 +26,6 @@
 
 #include "database_export.h"
 
-struct IPhotosManager;
 struct ITasksView;
 struct ITaskExecutor;
 struct IConfiguration;
@@ -54,7 +53,6 @@ class DATABASE_EXPORT PhotosAnalyzer: public QObject
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(ITasksView *);
-        void set(IPhotosManager *);
         void stop();
 
     private:

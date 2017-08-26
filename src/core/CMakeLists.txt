@@ -34,18 +34,21 @@ set(CORE_SOURCES
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
     implementation/exiv2_exif_reader.cpp
+    implementation/ffmpeg_video_details_reader.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
+    implementation/image_information.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
-    implementation/photo_information.cpp
-    implementation/photos_manager.cpp
+    implementation/media_information.cpp
+    implementation/media_types.cpp
     implementation/search_expression_evaluator.cpp
     implementation/stopwatch.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
     implementation/time_guardian.cpp
+    implementation/video_information.cpp
 )
 
 
@@ -66,14 +69,14 @@ set(CORE_HEADERS
     containers_utils.hpp
     cross_thread_call.hpp
     disk_observer.hpp
+    ffmpeg_video_details_reader.hpp
     file_lock.hpp
     generic_concepts.hpp
     iconfiguration.hpp
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
-    iphoto_information.hpp
-    iphotos_manager.hpp
+    imedia_information.hpp
     iexif_reader.hpp
     itask_executor.hpp
     itasks_view.hpp
@@ -82,8 +85,8 @@ set(CORE_HEADERS
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp
-    photo_information.hpp
-    photos_manager.hpp
+    media_information.hpp
+    media_types.hpp
     ptr_iterator.hpp
     search_expression_evaluator.hpp
     status.hpp
@@ -94,13 +97,15 @@ set(CORE_HEADERS
     time_guardian.hpp
     tree.hpp
     implementation/aexif_reader.hpp
-    implementation/exiv2_exif_reader.hpp
     implementation/configuration_p.hpp
+    implementation/exiv2_exif_reader.hpp
+    implementation/image_information.hpp
     implementation/log_file_rotator.hpp
     implementation/tree_iterator_base.hpp
     implementation/tree_level_iterator.hpp
     implementation/tree_private.hpp
     implementation/tree_flat_iterator.hpp
+    implementation/video_information.hpp
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)
@@ -121,7 +126,7 @@ target_link_libraries(core
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                             ${JSONCPP_LIBRARIES}
-                     )
+)
 
 target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}

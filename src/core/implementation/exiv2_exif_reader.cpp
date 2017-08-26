@@ -16,28 +16,28 @@ namespace
 }
 
 
-Exiv2ExifReader::Exiv2ExifReader (IPhotosManager* photosManager):
-    AExifReader(photosManager),
+Exiv2ExifReader::Exiv2ExifReader():
     m_exif_data()
 {
 
 }
 
 
-void Exiv2ExifReader::collect(const QByteArray& data)
+void Exiv2ExifReader::collect(const QString& path)
 {
     try
     {
-        const unsigned char* udata = reinterpret_cast<const unsigned char *>(data.constData());
-        m_exif_data = Exiv2::ImageFactory::open(udata, data.size());
+        m_exif_data.reset();
+
+        m_exif_data = Exiv2::ImageFactory::open(path.toStdString());
+
+        assert(m_exif_data.get() != 0);
+        m_exif_data->readMetadata();
     }
     catch (Exiv2::AnyError& error)
     {
         return;
     }
-
-    assert(m_exif_data.get() != 0);
-    m_exif_data->readMetadata();
 }
 
 
