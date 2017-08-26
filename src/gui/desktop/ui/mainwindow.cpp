@@ -153,7 +153,7 @@ void MainWindow::set(IConfiguration* configuration)
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
 
-    // TODO: move to main()
+    // applications
     m_configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
     m_configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
     m_configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
