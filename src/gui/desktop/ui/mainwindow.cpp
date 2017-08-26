@@ -12,9 +12,10 @@
 #include <QPainter>
 #include <QTimer>
 
+#include <core/constants.hpp>
 #include <core/cross_thread_call.hpp>
 #include <core/exif_reader_factory.hpp>
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>

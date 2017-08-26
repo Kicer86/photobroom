@@ -20,7 +20,7 @@
 #ifndef PHOTOSITEMDELEGATE_HPP
 #define PHOTOSITEMDELEGATE_HPP
 
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 
 #include "lazy_tree_item_delegate.hpp"
 

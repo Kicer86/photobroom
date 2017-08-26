@@ -3,7 +3,6 @@ cmake_policy(SET CMP0020 NEW)
 
 configure_file(config.hpp.in ${CMAKE_BINARY_DIR}/config.hpp)
 
-add_subdirectory(configuration)
 add_subdirectory(core)
 add_subdirectory(crash_catcher)
 add_subdirectory(photos_crawler)
@@ -49,7 +48,6 @@ target_link_libraries(photo_broom
                         core
                         crash_catcher
                         database
-                        configuration
                         gui
                         project_utils
                         system

@@ -1,6 +1,6 @@
 
 include_directories(
-                    $<TARGET_PROPERTY:configuration,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 

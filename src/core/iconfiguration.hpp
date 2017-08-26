@@ -23,20 +23,20 @@
 #include <vector>
 #include <string>
 
-#include "configuration_export.h"
+#include "core_export.h"
 
 class QString;
 class QVariant;
 
 
-struct CONFIGURATION_EXPORT IConfigObserver
+struct CORE_EXPORT IConfigObserver
 {
     virtual ~IConfigObserver() = default;
     virtual void configChanged(const QString &, const QVariant &) = 0;
 };
 
 
-struct CONFIGURATION_EXPORT IConfiguration
+struct CORE_EXPORT IConfiguration
 {
     virtual ~IConfiguration() = default;
 

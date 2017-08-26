@@ -7,7 +7,7 @@
 #include <QSqlDatabase>
 #include <QDir>
 
-#include <configuration/iconfiguration.hpp>
+#include <core/iconfiguration.hpp>
 #include <database/database_builder.hpp>
 #include <database/project_info.hpp>
 #include <backends/sql_backends/table_definition.hpp>

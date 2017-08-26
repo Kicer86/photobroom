@@ -21,8 +21,8 @@
 
 #include <QPainter>
 
-#include <configuration/iconfiguration.hpp>
 #include <core/down_cast.hpp>
+#include <core/iconfiguration.hpp>
 
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"

@@ -43,7 +43,7 @@ set(HEADERS
     )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
-target_link_libraries(sql_backend_base PRIVATE database configuration core Qt5::Core Qt5::Sql Qt5::Gui)
+target_link_libraries(sql_backend_base PRIVATE database core Qt5::Core Qt5::Sql Qt5::Gui)
 target_include_directories(sql_backend_base PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base)
