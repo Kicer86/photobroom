@@ -1,3 +1,4 @@
+
 sudo: required
 dist: trusty
 
@@ -20,25 +21,25 @@ matrix:
           addons:
             apt:
              packages:
-               - g++-5
-               - gcc-5
+               - g++-6
+               - gcc-6
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
-          env: COMPILER=g++-5 SHARED_BUILD=ON
+          env: COMPILER=g++-6 SHARED_BUILD=ON
 
         - compiler: gcc
           addons:
             apt:
              packages:
-               - g++-5
-               - gcc-5
+               - g++-6
+               - gcc-6
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
-          env: COMPILER=g++-5 SHARED_BUILD=OFF
+          env: COMPILER=g++-6 SHARED_BUILD=OFF
 
         - compiler: clang
           addons:
@@ -76,12 +77,18 @@ before_install:
   - source /opt/qt57/bin/qt57-env.sh
 
 before_script:
+  # cmake (TODO: remove in the future)
+  - wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh
+  - chmod +x ./cmake-3.9.1-Linux-x86_64.sh
+  - ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license
+  - export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake
+
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         mkdir build_third_party;
         pushd build_third_party;
-        CXX=$COMPILER cmake -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=ON -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/;
+        CXX=$COMPILER $CMAKE_BIN -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=OFF -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/;
         make;
         popd;
     fi
@@ -91,7 +98,7 @@ before_script:
     fi
   # photo broom
   - mkdir build && cd build
-  - CXX=$COMPILER cmake -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
+  - CXX=$COMPILER $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
 
 script:
   - make
