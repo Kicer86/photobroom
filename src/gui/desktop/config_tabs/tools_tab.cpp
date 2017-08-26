@@ -5,8 +5,7 @@
 #include <QFileDialog>
 
 #include <core/iconfiguration.hpp>
-
-#include "config_keys.hpp"
+#include <core/constants.hpp>
 
 
 ToolsTab::ToolsTab(QWidget *parent) :

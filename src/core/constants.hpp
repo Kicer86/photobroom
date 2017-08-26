@@ -16,4 +16,12 @@ namespace ConfigConsts
     };
 
 }
+
+
+namespace ExternalToolsConfigKeys
+{
+    const char* const aisPath     = "tool_path::align_image_stack";
+    const char* const convertPath = "tool_path::convert";
+}
+
 #endif

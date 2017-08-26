@@ -7,13 +7,13 @@
 #include <QProcess>
 
 #include <core/configuration.hpp>
+#include <core/constants.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
 #include "utils/grouppers/animation_generator.hpp"
-#include "config_keys.hpp"
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos,

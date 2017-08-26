@@ -13,6 +13,7 @@
 #include <QTimer>
 
 #include <core/iphotos_manager.hpp>
+#include <core/constants.hpp>
 #include <core/cross_thread_call.hpp>
 #include <core/exif_reader_factory.hpp>
 #include <core/iconfiguration.hpp>

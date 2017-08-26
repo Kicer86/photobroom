@@ -332,7 +332,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+251"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+252"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -790,7 +790,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+21"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
         <location line="+4"/>
         <source>Select executable</source>
         <translation type="unfinished"></translation>
