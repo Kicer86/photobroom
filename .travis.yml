@@ -79,7 +79,8 @@ before_install:
 before_script:
   # cmake (TODO: remove in the future)
   - wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh
-  - . ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license
+  - chmod +x ./cmake-3.9.1-Linux-x86_64.sh
+  - ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license
   - EXPORT CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake
 
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
