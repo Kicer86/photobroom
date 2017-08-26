@@ -53,6 +53,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
         void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
 
     private:
+        QImage m_videoImage;
         ITaskExecutor::TaskQueue m_tasks;
         ITaskExecutor* m_executor;
         ILogger* m_logger;

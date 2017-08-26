@@ -243,6 +243,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 
 
 ThumbnailGenerator::ThumbnailGenerator():
+    m_videoImage(":/gui/video.svg"),
     m_tasks(),
     m_executor(nullptr),
     m_logger(nullptr),
@@ -304,9 +305,15 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     {
         const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
         const QString ffmpegPath = ffmpegVar.toString();
+        const QFileInfo fileInfo(ffmpegPath);
 
-        auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
-        m_tasks->push(std::move(task));
+        if (fileInfo.isExecutable())
+        {
+            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
+            m_tasks->push(std::move(task));
+        }
+        else
+            callback(info, m_videoImage);
     }
     else
         assert(!"unknown file type");

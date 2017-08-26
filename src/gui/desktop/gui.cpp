@@ -2,8 +2,12 @@
 #include "gui.hpp"
 
 #include <QApplication>
+#include <QFileInfo>
+#include <QStandardPaths>
 #include <QTranslator>
 
+#include <core/constants.hpp>
+#include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -85,6 +89,7 @@ void Gui::run()
     const QString tr_path = FileSystem().getTranslationsPath();
     InfoStream( gui_logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
 
+    // translations
     QTranslator translator;
     translator.load("photo_broom_pl", tr_path);
     const bool status = QCoreApplication::installTranslator(&translator);
@@ -94,8 +99,21 @@ void Gui::run()
     else
         gui_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
+    // setup basic configuration
+    m_configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
+    m_configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
+    m_configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
+
+    const QVariant ffmpegPath = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+    const QFileInfo fileInfo(ffmpegPath.toString());
+
+    if (fileInfo.isExecutable() == false)
+        gui_logger->warning("Path to FFMpeg tool is invalid. Thumbnails for video files will not be available.");
+
+    // updater
     Updater updater;
 
+    // main window
     MainWindow mainWindow;
 
     mainWindow.set(m_prjManager);
