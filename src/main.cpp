@@ -26,9 +26,9 @@
 
 int main(int argc, char **argv)
 {
-    Gui gui;
+    Gui gui(argc, argv);
 
-    std::unique_ptr<QCoreApplication> app = gui.init(argc, argv);
+    QCoreApplication* app = gui.getApp();
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
 
     const bool status = CrashCatcher::init(argv[0]);

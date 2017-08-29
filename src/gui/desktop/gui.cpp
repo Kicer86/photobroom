@@ -17,7 +17,13 @@
 #include "ui/mainwindow.hpp"
 
 
-Gui::Gui(): m_prjManager(nullptr), m_pluginLoader(nullptr), m_taskExecutor(nullptr), m_configuration(nullptr), m_loggerFactory(nullptr)
+Gui::Gui(int& argc, char **argv):
+    m_app(new QApplication(argc, argv)),
+    m_prjManager(nullptr),
+    m_pluginLoader(nullptr),
+    m_taskExecutor(nullptr),
+    m_configuration(nullptr),
+    m_loggerFactory(nullptr)
 {
 
 }
@@ -29,9 +35,9 @@ Gui::~Gui()
 }
 
 
-std::unique_ptr<QCoreApplication> Gui::init(int& argc, char** argv)
+QCoreApplication* Gui::getApp()
 {
-    return std::make_unique<QApplication>(argc, argv);
+    return m_app.get();
 }
 
 
@@ -80,7 +86,7 @@ void Gui::run()
 
     // On Windows, add extra location for Qt plugins
 #ifdef OS_WIN
-    QCoreApplication::addLibraryPath(FileSystem().getLibrariesPath());
+    m_app->addLibraryPath(FileSystem().getLibrariesPath());
 #endif
 
     auto gui_logger = m_loggerFactory->get("Gui");
@@ -124,7 +130,7 @@ void Gui::run()
     mainWindow.set(m_loggerFactory);
 
     mainWindow.show();
-    QCoreApplication::exec();
+    m_app->exec();
 
     //stop all tasks
     m_taskExecutor->stop();

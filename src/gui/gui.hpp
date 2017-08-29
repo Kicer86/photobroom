@@ -18,12 +18,12 @@ struct IConfiguration;
 
 struct GUI_EXPORT Gui
 {
-    Gui();
+    Gui(int& argc, char **argv);
     ~Gui();
     Gui(const Gui &) = delete;
     Gui& operator=(const Gui &) = delete;
 
-    std::unique_ptr<QCoreApplication> init(int& argc, char **argv);
+    QCoreApplication* getApp();
     void set(IProjectManager *);
     void set(IPluginLoader *);
     void set(ITaskExecutor *);
@@ -32,6 +32,7 @@ struct GUI_EXPORT Gui
     void run();
 
     private:
+        std::unique_ptr<QCoreApplication> m_app;
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
         ITaskExecutor* m_taskExecutor;
