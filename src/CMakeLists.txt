@@ -34,7 +34,7 @@ set(BROOM_SOURCES main.cpp
 # workaround for a bug https://developercommunity.visualstudio.com/content/problem/74173/cannot-use-some-functionalities-of-qt-framework-be.html
 # also see: https://bugreports.qt.io/browse/QTBUG-61667
 if(MSVC_VERSION)
-    if(MSVC_VERSION >= 1900)
+    if(MSVC_VERSION GREATER_EQUAL 1900)
         add_definitions(-D__cpp_variable_templates)
     endif()
 endif()
