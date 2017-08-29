@@ -33,9 +33,18 @@ set(BROOM_SOURCES main.cpp
 
 # workaround for a bug https://developercommunity.visualstudio.com/content/problem/74173/cannot-use-some-functionalities-of-qt-framework-be.html
 # also see: https://bugreports.qt.io/browse/QTBUG-61667
+#
+# + CMake missing implementations:
+# https://stackoverflow.com/questions/44960715/how-to-enable-stdc17-in-vs2017-with-cmake
 if(MSVC_VERSION)
     if(MSVC_VERSION GREATER_EQUAL 1900)
-        add_definitions(-D__cpp_variable_templates)
+
+        include(CheckCXXCompilerFlag)
+        CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+        if (_cpp_latest_flag_supported)
+            add_compile_options("/std:c++latest")
+        endif()
+
     endif()
 endif()
 
