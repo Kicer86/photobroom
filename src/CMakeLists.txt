@@ -43,8 +43,12 @@ if(MSVC_VERSION)
         CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
         if (_cpp_latest_flag_supported)
             add_compile_options("/std:c++latest")
+            message("Enabling c++latest for Visual Studio")
+        else()
+            message(FATAL_ERROR "Enabling c++latest for Visual Studio is not possible")
         endif()
-
+    else()
+        message(FATAL_ERROR "Visual Studio 2017 is required")
     endif()
 endif()
 
