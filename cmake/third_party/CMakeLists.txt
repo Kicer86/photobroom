@@ -92,7 +92,7 @@ if(BUILD_EXIV2)
 
     ExternalProject_Add(exiv2
         DEPENDS zlib expat
-        GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
+        GIT_REPOSITORY https://github.com/Kicer86/exiv2.git
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
     )
