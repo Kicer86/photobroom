@@ -206,6 +206,9 @@ void DBDataModel::deepFetch(const QModelIndex& top)
     m_idxDataManager->deepFetch(idx);
 }
 
+#ifdef __cpp_variable_templates
+    foo;bar;
+#endif
 
 void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath)
 {
