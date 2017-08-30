@@ -43,7 +43,7 @@ endif()
 # https://stackoverflow.com/questions/44960715/how-to-enable-stdc17-in-vs2017-with-cmake
 if(MSVC_VERSION)
     if(MSVC_VERSION GREATER_EQUAL 1900)
-        add_definitions(-D__cpp_variable_templates)
+        add_definitions(-D__cpp_variable_templates=201304)
 
         include(CheckCXXCompilerFlag)
         CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
