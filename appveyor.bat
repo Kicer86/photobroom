@@ -16,8 +16,9 @@ if "%platform%"=="Win32" (
     set qt_arch=msvc2017_64
 )
 
-set PATH=C:\Qt\5.7\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
-set CMAKE_PREFIX_PATH=C:/Qt/5.7/%qt_arch%;c:/projects/install
+set USE_QT_VER=5.9
+set PATH=C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
+set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
 if EXIST c:/projects/install goto :gtest

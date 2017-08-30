@@ -36,6 +36,28 @@ if (CONCEPTS_SUPPORTED)
     add_definitions(-DCONCEPTS_SUPPORTED)
 endif()
 
+# workaround for a bug https://developercommunity.visualstudio.com/content/problem/74173/cannot-use-some-functionalities-of-qt-framework-be.html
+# also see: https://bugreports.qt.io/browse/QTBUG-61667
+#
+# + CMake missing implementations:
+# https://stackoverflow.com/questions/44960715/how-to-enable-stdc17-in-vs2017-with-cmake
+if(MSVC_VERSION)
+    if(MSVC_VERSION GREATER_EQUAL 1900)
+        add_definitions(-D__cpp_variable_templates=201304)
+
+        include(CheckCXXCompilerFlag)
+        CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+        if (_cpp_latest_flag_supported)
+            add_compile_options("/std:c++latest")
+            message("Enabling c++latest for Visual Studio")
+        else()
+            message(FATAL_ERROR "Enabling c++latest for Visual Studio is not possible")
+        endif()
+    else()
+        message(FATAL_ERROR "Visual Studio 2017 is required")
+    endif()
+endif()
+
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
 option(BUILD_SHARED_LIBS "Global flag to cause add_library to create shared libraries if on.")
