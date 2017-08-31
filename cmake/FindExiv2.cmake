@@ -5,7 +5,7 @@
 
 find_path(EXIV2_INCLUDE_DIR exiv2/exiv2.hpp)
 
-find_library(EXIV2_LIBRARY NAMES exiv2)
+find_library(EXIV2_LIBRARY NAMES exiv2 exiv2d)
 
 set(EXIV2_LIBRARIES ${EXIV2_LIBRARY} )
 set(EXIV2_INCLUDE_DIRS ${EXIV2_INCLUDE_DIR} )
