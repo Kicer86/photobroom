@@ -79,6 +79,7 @@ class ThumbnailCache: public IThumbnailCache
 
         void add(const ThumbnailInfo &, const QImage &) override;
         std::optional<QImage> get(const ThumbnailInfo &) const override;
+        void clear() override;
 
     private:
         mutable std::mutex m_cacheMutex;

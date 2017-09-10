@@ -355,3 +355,10 @@ std::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
 
     return result;
 }
+
+
+void ThumbnailCache::clear()
+{
+    std::lock_guard<std::mutex> lock(m_cacheMutex);
+    m_cache.clear();
+}

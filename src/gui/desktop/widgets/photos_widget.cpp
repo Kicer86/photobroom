@@ -189,6 +189,11 @@ void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;
     m_view->setModel(m);
+
+    connect(m, &DBDataModel::modelReset, [this]()
+    {
+        m_thumbnailAcquisitor.flush();
+    });
 }
 
 

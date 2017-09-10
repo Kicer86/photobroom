@@ -68,6 +68,7 @@ struct IThumbnailCache
 
     virtual std::optional<QImage> get(const ThumbnailInfo &) const = 0;
     virtual void add(const ThumbnailInfo &, const QImage &) = 0;
+    virtual void clear() = 0;
 };
 
 #endif // ITHUMBNAILSGENERATOR_HPP
