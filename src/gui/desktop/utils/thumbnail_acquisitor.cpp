@@ -81,6 +81,14 @@ void ThumbnailAcquisitor::dismissPendingTasks()
 }
 
 
+void ThumbnailAcquisitor::flush()
+{
+    std::unique_lock<std::mutex> lock(m_cacheAccessMutex);
+
+    m_cache.clear();
+}
+
+
 QImage ThumbnailAcquisitor::getThumbnail(const ThumbnailInfo& info) const
 {
     QImage result;
