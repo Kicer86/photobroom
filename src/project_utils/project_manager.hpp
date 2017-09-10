@@ -33,8 +33,10 @@ namespace Database
 }
 
 
-class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
+class PROJECT_UTILS_EXPORT ProjectManager: public QObject, public IProjectManager
 {
+        Q_OBJECT
+
     public:
         ProjectManager();
         ProjectManager(const ProjectManager &) = delete;
@@ -53,6 +55,9 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         Database::IBuilder* m_dbBuilder;
 
         [[deprecated]] QString getPrjStorage() const;
+
+    signals:
+        void projectOpened();
 };
 
 #endif // PROJECTMANAGER_HPP

@@ -123,7 +123,11 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
         const bool lock_status = result->lockProject();
 
         if (lock_status)
-            result->getDatabase()->init(dbPrjInfo, openResult);
+            result->getDatabase()->init(dbPrjInfo, [this, openResult](const Database::BackendStatus& status)
+            {
+                openResult(status);
+                emit this->projectOpened();
+            });
         else
         {
             openResult(Database::StatusCodes::ProjectLocked);
