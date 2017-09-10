@@ -16,7 +16,7 @@ set(PROJECT_UTILS_HEADERS
     project_manager.hpp
 )
 
-set(PROJECT_UTILS_MOC project_manager.hpp)
+set(PROJECT_UTILS_MOC )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
