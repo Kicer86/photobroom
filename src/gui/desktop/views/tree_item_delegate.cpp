@@ -110,11 +110,35 @@ void TreeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
 
 void TreeItemDelegate::paintImage(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    assert(option.rect.size().height() >= option.decorationSize.height());
+    assert(option.rect.size().width() >= option.decorationSize.width());
+
     const QRect& r = option.rect;
     QImage image = getImage(index, option.decorationSize);
-    const QRect imageRect = image.rect();
-    const int h_margin = (r.width()  - imageRect.width())  / 2;
-    const int v_margin = (r.height() - imageRect.height()) / 2;
+
+    // There are three possible options now:
+    // 1. image's rect is less than available area (option.decorationSize)
+    //    - small image or some temporary 'loading in progress' icon
+    //
+    // 2. image is exactly of the same size as available area.
+    //    This is most expected scenario - we have asked for option.decorationSize and we got it.
+    //
+    // 3. image is bigger than we want.
+    //    It may happend if view's tails has different size/proporions that image.
+    //    This should be temporary and view is supposed to fix it
+
+    QRect imageRect = image.rect();
+    int h_margin = (r.width()  - imageRect.width())  / 2;
+    int v_margin = (r.height() - imageRect.height()) / 2;
+
+    if (h_margin < 0 || v_margin < 0)  // case 3.
+    {
+        image = image.scaled(option.decorationSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        imageRect = image.rect();
+        h_margin = (r.width()  - imageRect.width())  / 2;
+        v_margin = (r.height() - imageRect.height()) / 2;
+    }
 
     if ( (option.state & QStyle::State_Enabled) == 0 )
         image = image.convertToFormat(QImage::Format_Grayscale8);

@@ -824,7 +824,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TreeItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+158"/>
+        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+182"/>
         <source>(Empty)</source>
         <translation>(Brak)</translation>
     </message>

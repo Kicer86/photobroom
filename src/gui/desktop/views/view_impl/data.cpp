@@ -211,17 +211,24 @@ QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
     const int w = size.width();
     const int h = size.height();
 
-    const double r = static_cast<double>(w) / h;
+    QSize result(size);
 
-    QSize result(w, h);
-
-    if (h != m_thumbHeight)
+    // is image's size known?
+    if (h > 0)
     {
-        const int t_h = m_thumbHeight;
-        const int t_w = m_thumbHeight * r;
+        const double r = static_cast<double>(w) / h;
 
-        result = QSize(t_w, t_h);
+        if (h != m_thumbHeight)
+        {
+            const int t_h = m_thumbHeight;
+            const int t_w = m_thumbHeight * r;
+
+            result = QSize(t_w, t_h);
+        }
     }
+    else  // unknown image size, use default size
+        result = QSize(m_thumbHeight, m_thumbHeight);
+
     return result;
 }
 
