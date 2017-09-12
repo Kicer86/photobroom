@@ -66,7 +66,6 @@ endif()
 if(BUILD_OPENLIBRARY)
     ExternalProject_Add(openlibrary
         GIT_REPOSITORY https://github.com/Kicer86/openlibrary.git
-        GIT_TAG unique_ptr
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
         )
@@ -94,6 +93,7 @@ if(BUILD_EXIV2)
     ExternalProject_Add(exiv2
         DEPENDS zlib expat
         GIT_REPOSITORY https://github.com/Kicer86/exiv2.git
+        GIT_TAG unique_ptr
         PREFIX ${PROJECT_BINARY_DIR}
         CMAKE_ARGS ${COMMON_OPTIONS}
     )
