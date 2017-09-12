@@ -28,3 +28,6 @@ build:
   project: build/PhotoBroom.sln
   parallel: true
   verbosity: minimal
+
+after_build:
+    - cmake --build ./build --target PACKAGE --config %configuration%
