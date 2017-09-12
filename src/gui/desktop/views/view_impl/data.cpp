@@ -221,7 +221,7 @@ QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
         if (h != m_thumbHeight)
         {
             const int t_h = m_thumbHeight;
-            const int t_w = m_thumbHeight * r;
+            const int t_w = static_cast<int>(m_thumbHeight * r);
 
             result = QSize(t_w, t_h);
         }
@@ -260,7 +260,7 @@ QModelIndex Data::get(ModelIndexInfoSet::Model::const_level_iterator it) const
     if (parent != last)
     {
         QModelIndex parentIdx = get(parent);  // index of parent
-        result = m_model->index(i, 0, parentIdx);
+        result = m_model->index(static_cast<int>(i), 0, parentIdx);
     }
 
     return result;

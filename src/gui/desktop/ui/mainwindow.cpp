@@ -333,7 +333,6 @@ void MainWindow::setupView()
     setupNewPhotosView();
 
     m_photosAnalyzer->set(ui->tasksWidget);
-    QItemSelectionModel* selectionModel = ui->imagesView->viewSelectionModel();
 
     // connect to docks
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
@@ -604,10 +603,10 @@ void MainWindow::on_actionScan_collection_triggered()
         std::deque<Photo::Data> photos;
         for(const QString& path: paths)
         {
-            Photo::Data data;
-            data.path = path;
-            data.flags = { {Photo::FlagsE::StagingArea, 1} };
-            photos.emplace_back(data);
+            Photo::Data photo_data;
+            photo_data.path = path;
+            photo_data.flags = { {Photo::FlagsE::StagingArea, 1} };
+            photos.emplace_back(photo_data);
         }
 
         db->store(photos);

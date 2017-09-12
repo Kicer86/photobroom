@@ -70,8 +70,8 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
         const QPoint offset = QPoint(size_diff.width(), size_diff.height());
         const QPoint step = offset / (layers - 1);
 
-        const float opacity_min = 0.3;
-        const float opacity_max = 1.0;
+        const float opacity_min = 0.3f;
+        const float opacity_max = 1.0f;
         const float opacity_step = (opacity_max - opacity_min) / layers;
 
         float current_opacity = opacity_min;
