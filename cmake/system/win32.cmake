@@ -39,6 +39,7 @@ macro(addDeploymentActions)
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
+    set(libs_exiv2 exiv2)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -68,6 +69,7 @@ macro(addDeploymentActions)
     endif()
 
     install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
+    install_external_lib(NAME "Exiv2"        DLLFILES ${libs_exiv2} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
 
     #Qt5
