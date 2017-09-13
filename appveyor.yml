@@ -35,6 +35,6 @@ build:
 
 after_build:
     - ps: >-
-        If ($env:CONFIGURATION -Match Release) {
+        If ($env:CONFIGURATION -Match "Release") {
             cmake --build . --target PACKAGE --config %configuration%
         }
