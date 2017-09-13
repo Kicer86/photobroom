@@ -69,7 +69,7 @@ macro(addDeploymentActions)
     endif()
 
     install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
-    install_external_lib(NAME "Exiv2"        DLLFILES ${libs_exiv2} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
+    install_external_lib(NAME "Exiv2"        DLLFILES ${libs_exiv2} HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/bin)
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
 
     #Qt5
