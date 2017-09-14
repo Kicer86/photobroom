@@ -18,7 +18,7 @@ function(install_external_lib)
   foreach(lib ${EXTERNAL_LIB_DLLFILES})
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
 
-    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll HINTS ${hints} DOC "DLL file location for package build")
+    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
     if(${LIB_PATH_VAR})
         install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
 
