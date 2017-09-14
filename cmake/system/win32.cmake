@@ -18,7 +18,7 @@ function(install_external_lib)
   foreach(lib ${EXTERNAL_LIB_DLLFILES})
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
 
-    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll HINTS ${hints} DOC "DLL file location for package build")
+    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
     if(${LIB_PATH_VAR})
         install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
 
@@ -39,6 +39,7 @@ macro(addDeploymentActions)
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
+    set(libs_exiv2 exiv2 zlib)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -68,6 +69,7 @@ macro(addDeploymentActions)
     endif()
 
     install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
+    install_external_lib(NAME "Exiv2"        DLLFILES ${libs_exiv2} HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/bin)
     install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
 
     #Qt5
