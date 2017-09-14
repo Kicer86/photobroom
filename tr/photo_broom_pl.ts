@@ -90,16 +90,14 @@
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
 You can watch progress in &apos;Operations&apos; panel.
-When it is done you can review photos by clicking &apos;New photos&apos; tab at the bottom of window.
-</source>
+When it is done you can review photos by clicking &apos;New photos&apos; tab at the bottom of window.</source>
         <translation>
             <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.
-Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.
-</numerusform>
+Możesz je przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
             <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.
 Photo broom rozpocznie teraz proces odczytywania z nich informacji.
 Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.
-Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna. </numerusform>
+Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe zdjęcia&quot; w dolnej częsci okna.</numerusform>
             <numerusform>Zakończono. Znaleziono %n nowych zdjęć.
 Photo broom rozpocznie teraz proces odczytywania z nich informacji.
 Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.
@@ -165,7 +163,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
         <source>Look</source>
-        <translation type="unfinished">Wygląd</translation>
+        <translation>Wygląd</translation>
     </message>
 </context>
 <context>
@@ -206,7 +204,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+50"/>
         <source>Main</source>
-        <translation type="unfinished">Główne</translation>
+        <translation>Główne</translation>
     </message>
 </context>
 <context>
@@ -485,7 +483,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+1"/>
         <source>Photo geometry:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymiary zdjęcia:</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -620,7 +618,7 @@ Kod błędu: %1</translation>
         <location line="+25"/>
         <location line="+8"/>
         <source>Missing tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakujący program</translation>
     </message>
     <message>
         <location line="-7"/>
@@ -629,7 +627,11 @@ Please go to settings and setup path to &apos;convert&apos; executable.
 
 &apos;convert&apos; is a tool which is a part of ImageMagick.
 Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Program &quot;convert&quot; jest wymagany do wykonania tego zadania.
+Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;convert&quot;.
+
+&quot;convert&quot; jest narzędziem dostepnym jako część pakietu ImageMagick.
+Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -638,7 +640,11 @@ Please go to settings and setup path to &apos;align_image_stack&apos; executable
 
 &apos;align_image_stack&apos; is a tool which is a part of Hugin.
 Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Program &quot;align_image_stack&quot; jest wymagany aby ustabilizować animację.
+Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
+
+&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
+Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -733,7 +739,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-165"/>
         <source>%1×%2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1×%2</translation>
     </message>
 </context>
 <context>
@@ -762,17 +768,17 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+14"/>
         <source>ToolsTab</source>
-        <translation type="unfinished"></translation>
+        <translation>ToolsTab</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>External tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Zewnętrzne narzędzia</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Used for creating animations (gifs) from photo series.</source>
-        <translation type="unfinished"></translation>
+        <translation>Potrzeby podczas generowania animacji (gifów) z serii zdjęć.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -782,35 +788,35 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+10"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>align_image_stack</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+10"/>
         <source>FFMpeg</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
         <location line="+4"/>
         <source>Select executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik wykonywalny</translation>
     </message>
     <message>
         <location line="-2"/>
-        <source>Applications (*.exe);;All files(*.*)</source>
-        <translation type="unfinished"></translation>
+        <source>Applications (*.exe);;All files (*.*)</source>
+        <translation>Aplikacje (*.exe);;Wszystkie pliki (*.*)</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+2"/>
         <location line="+2"/>
         <source>Browse</source>
-        <translation type="unfinished">Przeglądaj</translation>
+        <translation>Przeglądaj</translation>
     </message>
 </context>
 <context>
@@ -818,7 +824,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+47"/>
         <source>External tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Zewnętrzne narzędzia</translation>
     </message>
 </context>
 <context>
