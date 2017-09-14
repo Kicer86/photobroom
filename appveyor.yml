@@ -17,9 +17,9 @@ platform:
 image: Visual Studio 2017
 
 cache:
-    - c:\projects\install      -> appveyor.yml, appveyor.bat
-    - c:\projects\googletest   -> appveyor.yml, appveyor.bat
-    - c:\program files\cmake   -> appveyor.yml, appveyor.bat
+    - c:\projects\install      -> appveyor.bat, cmake/third_party/CMakeLists.txt
+    - c:\projects\googletest   -> appveyor.bat, cmake/third_party/CMakeLists.txt
+    - c:\program files\cmake   -> appveyor.bat, cmake/third_party/CMakeLists.txt
 
 artifacts:
   - path: build/PhotoBroom-1.2.0-win64.exe
@@ -34,5 +34,4 @@ build:
   verbosity: minimal
 
 after_build:
-    - echo %CONFIGURATION%
     - if "%CONFIGURATION%" == "Release"  cmake --build . --target PACKAGE --config %configuration%
