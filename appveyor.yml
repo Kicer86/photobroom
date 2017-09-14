@@ -35,4 +35,4 @@ build:
 
 after_build:
     - echo %CONFIGURATION%
-    - if %CONFIGURATION% == "Release"  cmake --build . --target PACKAGE --config %configuration%
+    - if "%CONFIGURATION%" == "Release"  cmake --build . --target PACKAGE --config %configuration%
