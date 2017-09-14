@@ -766,12 +766,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>ToolsTab</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+14"/>
-        <source>ToolsTab</source>
-        <translation>ToolsTab</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+20"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>
@@ -781,24 +776,9 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation>Potrzeby podczas generowania animacji (gifów) z serii zdjęć.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>convert</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>align_image_stack</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>FFMpeg</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
