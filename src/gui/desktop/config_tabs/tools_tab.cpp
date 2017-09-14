@@ -19,7 +19,7 @@ ToolsTab::ToolsTab(QWidget *parent) :
 #ifdef OS_WIN
         return QFileDialog::getOpenFileName(this, tr("Select executable"),
                                             "",
-                                            tr("Applications (*.exe);;All files(*.*)"));
+                                            tr("Applications (*.exe);;All files (*.*)"));
 #else
         return QFileDialog::getOpenFileName(this, tr("Select executable"), "/usr/bin");
 #endif
