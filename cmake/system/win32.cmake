@@ -39,7 +39,7 @@ macro(addDeploymentActions)
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
-    set(libs_exiv2 exiv2 zlib)
+    set(libs_exiv2 exiv2 expat zlib)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
