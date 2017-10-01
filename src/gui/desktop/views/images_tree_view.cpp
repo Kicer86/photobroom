@@ -59,7 +59,12 @@ namespace
 }
 
 
-ImagesTreeView::ImagesTreeView(QWidget* _parent): QAbstractItemView(_parent), m_data(new Data), m_viewStatus(nullptr), m_dataDirty(true)
+ImagesTreeView::ImagesTreeView(QWidget* _parent):
+    QAbstractItemView(_parent),
+    m_data(new Data),
+    m_viewStatus(nullptr),
+    m_previouslySelectedItem(),
+    m_dataDirty(true)
 {
     void (QWidget::*update_fn)() = &QWidget::update;
     auto update_event = std::bind(update_fn, viewport());
@@ -246,7 +251,7 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
     const QRect treeRect = _rect.translated(getOffset());
 
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
-    const std::deque<QModelIndex> linear_selection = convertToLinearSelection(items);
+    const std::deque<QModelIndex> linear_selection = items; //convertToLinearSelection(items);
     QItemSelection selection;
 
     QAbstractItemModel* m = model();
@@ -329,6 +334,35 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 }
 
 
+void ImagesTreeView::mousePressEvent(QMouseEvent* event)
+{
+    const QModelIndex clicked = indexAt(event->pos());
+    const Qt::KeyboardModifiers modifiers = event->modifiers();
+
+    QItemSelectionModel::SelectionFlags flags = selectionCommand(clicked, event);
+    QModelIndex from = clicked;
+    QModelIndex to = clicked;
+
+    if (modifiers & Qt::ShiftModifier)
+        from = m_previouslySelectedItem;
+    //else
+    //    flags |= QItemSelectionModel::Current;
+
+    //if (flags & QItemSelectionModel::Current)
+    if (flags & QItemSelectionModel::Current)
+        selectionModel()->setCurrentIndex(clicked, QItemSelectionModel::NoUpdate);
+
+    // make sure from <= to
+    if ( QModelIndexComparator()(to, from) )
+        std::swap(from, to);
+
+    setSelection(from, to, flags);
+
+    if ( (flags & QItemSelectionModel::Current) == 0)
+        m_previouslySelectedItem = clicked;
+}
+
+
 void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
     QAbstractItemView::mouseReleaseEvent(e);
@@ -392,18 +426,22 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::convertToLinearSelection(const std::deque<QModelIndex>& rectangular) const
+std::deque<QModelIndex> ImagesTreeView::convertToLinearSelection(const QModelIndex& from, const QModelIndex& to) const
 {
     std::map<QModelIndex, std::set<QModelIndex, QModelIndexComparator>> sub_selections;       // selection within parent
 
     // group selected items by parent
-    for(const QModelIndex& item: rectangular)
+    for(QModelIndex item = from; ; item = item.sibling(item.row() + 1, 0))
     {
-        assert(item.isValid());
+        if (item.isValid() == false)
+            break;
 
         const QModelIndex parent = item.parent();
 
         sub_selections[parent].insert(item);
+
+        if (item == to)
+            break;
     }
 
     std::deque<QModelIndex> linear_selection;
@@ -424,6 +462,25 @@ std::deque<QModelIndex> ImagesTreeView::convertToLinearSelection(const std::dequ
     }
 
     return linear_selection;
+}
+
+
+void ImagesTreeView::setSelection(const QModelIndex& from, const QModelIndex& to, QItemSelectionModel::SelectionFlags flags)
+{
+    const std::deque<QModelIndex> linear_selection = convertToLinearSelection(from, to);
+    QItemSelection selection;
+
+    QAbstractItemModel* m = model();
+
+    for (const QModelIndex& item: linear_selection)
+    {
+        Qt::ItemFlags f = m->flags(item);
+
+        if ( (f & Qt::ItemIsSelectable) == Qt::ItemIsSelectable )
+            selection.select(item, item);
+    }
+
+    selectionModel()->select(selection, flags);
 }
 
 
