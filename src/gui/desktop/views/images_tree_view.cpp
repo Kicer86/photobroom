@@ -345,10 +345,7 @@ void ImagesTreeView::mousePressEvent(QMouseEvent* event)
 
     if (modifiers & Qt::ShiftModifier)
         from = m_previouslySelectedItem;
-    //else
-    //    flags |= QItemSelectionModel::Current;
 
-    //if (flags & QItemSelectionModel::Current)
     if (flags & QItemSelectionModel::Current)
         selectionModel()->setCurrentIndex(clicked, QItemSelectionModel::NoUpdate);
 
