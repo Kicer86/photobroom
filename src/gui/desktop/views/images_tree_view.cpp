@@ -64,7 +64,9 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent):
     m_data(new Data),
     m_viewStatus(nullptr),
     m_previouslySelectedItem(),
-    m_dataDirty(true)
+    m_regionSelectionStartPoint(),
+    m_dataDirty(true),
+    m_regionSelectionActive(false)
 {
     void (QWidget::*update_fn)() = &QWidget::update;
     auto update_event = std::bind(update_fn, viewport());
@@ -331,6 +333,35 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
     }
+}
+
+
+void ImagesTreeView::mouseMoveEvent(QMouseEvent* event)
+{
+    const Qt::MouseButtons buttons = event->buttons();
+
+    // handle selection
+    if (buttons & Qt::LeftButton)
+    {
+        const QPoint pos = event->pos();
+
+        if (m_regionSelectionActive == false)
+            m_regionSelectionStartPoint = pos;
+
+        const QRect selectionRect(m_regionSelectionStartPoint, pos);
+        const QModelIndex clicked = indexAt(pos);
+        const QItemSelectionModel::SelectionFlags flags = selectionCommand(clicked, event);
+
+        setSelection(selectionRect, flags);
+
+        m_regionSelectionActive = true;
+    }
+    else if (m_regionSelectionActive)
+    {
+        m_regionSelectionActive = false;
+    }
+    else
+        QAbstractItemView::mouseMoveEvent(event);
 }
 
 

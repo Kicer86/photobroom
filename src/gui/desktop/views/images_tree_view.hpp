@@ -69,6 +69,7 @@ class ImagesTreeView: public QAbstractItemView
     protected:
         // QWidget overrides:
         virtual void paintEvent(QPaintEvent *) override;
+        virtual void mouseMoveEvent(QMouseEvent *) override;
         virtual void mousePressEvent(QMouseEvent *) override;
         virtual void mouseReleaseEvent(QMouseEvent *) override;
         virtual void resizeEvent(QResizeEvent *) override;
@@ -77,7 +78,9 @@ class ImagesTreeView: public QAbstractItemView
         std::unique_ptr<Data> m_data;
         SignalFilter m_viewStatus;
         QModelIndex m_previouslySelectedItem;
+        QPoint m_regionSelectionStartPoint;
         bool m_dataDirty;
+        bool m_regionSelectionActive;
 
         // view stuff
         const QRect getItemRect(const QModelIndex &) const;
