@@ -21,25 +21,25 @@ matrix:
           addons:
             apt:
              packages:
-               - g++-6
-               - gcc-6
+               - g++-7
+               - gcc-7
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
-          env: COMPILER=g++-6 SHARED_BUILD=ON
+          env: COMPILER=g++-7 SHARED_BUILD=ON
 
         - compiler: gcc
           addons:
             apt:
              packages:
-               - g++-6
-               - gcc-6
+               - g++-7
+               - gcc-7
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
-          env: COMPILER=g++-6 SHARED_BUILD=OFF
+          env: COMPILER=g++-7 SHARED_BUILD=OFF
 
         - compiler: clang
           addons:
