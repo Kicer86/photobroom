@@ -45,11 +45,11 @@ matrix:
           addons:
             apt:
              packages:
-               - clang-3.6
+               - llvm-5.0-dev
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
-               - llvm-toolchain-precise-3.6
+               - llvm-toolchain-trusty-5.0
           # use compiler which has c++17 support
           env: COMPILER=clang++-3.6 SHARED_BUILD=ON
 
@@ -57,11 +57,11 @@ matrix:
           addons:
             apt:
              packages:
-               - clang-3.6
+               - llvm-5.0-dev
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
-               - llvm-toolchain-precise-3.6
+               - llvm-toolchain-trusty-5.0
           # use compiler which has c++17 support
           env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
 
