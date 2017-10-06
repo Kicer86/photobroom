@@ -57,6 +57,8 @@ matrix:
           addons:
             apt:
              packages:
+               - g++-7
+               - gcc-7
                - clang-5.0
                - libexiv2-dev
              sources:
