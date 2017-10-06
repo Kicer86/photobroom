@@ -45,25 +45,27 @@ matrix:
           addons:
             apt:
              packages:
-               - clang-3.6
+               - libstdc++-7-dev
+               - clang-5.0
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
-               - llvm-toolchain-precise-3.6
+               - llvm-toolchain-trusty-5.0
           # use compiler which has c++17 support
-          env: COMPILER=clang++-3.6 SHARED_BUILD=ON
+          env: COMPILER=clang++-5.0 SHARED_BUILD=ON
 
         - compiler: clang
           addons:
             apt:
              packages:
-               - clang-3.6
+               - libstdc++-7-dev
+               - clang-5.0
                - libexiv2-dev
              sources:
                - ubuntu-toolchain-r-test
-               - llvm-toolchain-precise-3.6
+               - llvm-toolchain-trusty-5.0
           # use compiler which has c++17 support
-          env: COMPILER=clang++-3.6 SHARED_BUILD=OFF
+          env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
 
 cache:
   directories:
