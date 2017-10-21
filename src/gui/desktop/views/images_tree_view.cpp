@@ -379,6 +379,9 @@ void ImagesTreeView::mousePressEvent(QMouseEvent* event)
     if ( QModelIndexComparator()(to, from) )
         std::swap(from, to);
 
+    if (flags == QItemSelectionModel::NoUpdate)
+        flags = QItemSelectionModel::ClearAndSelect;
+
     setSelection(from, to, flags);
 
     if ( (flags & QItemSelectionModel::Current) == 0)
