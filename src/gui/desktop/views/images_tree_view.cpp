@@ -389,9 +389,7 @@ void ImagesTreeView::mousePressEvent(QMouseEvent* event)
 void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
     if (m_regionSelectionActive)   // finish region selection
-    {
         m_regionSelectionActive = false;
-    }
     else
     {
         QAbstractItemView::mouseReleaseEvent(e);
