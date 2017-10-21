@@ -1,1 +1,2 @@
 http://semver.org/   about versioning
+http://photoqt.org/  check this viewer
