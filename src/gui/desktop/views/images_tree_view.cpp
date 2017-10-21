@@ -356,10 +356,6 @@ void ImagesTreeView::mouseMoveEvent(QMouseEvent* event)
 
         m_regionSelectionActive = true;
     }
-    else if (m_regionSelectionActive)
-    {
-        m_regionSelectionActive = false;
-    }
     else
         QAbstractItemView::mouseMoveEvent(event);
 }
@@ -392,25 +388,32 @@ void ImagesTreeView::mousePressEvent(QMouseEvent* event)
 
 void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
 {
-    QAbstractItemView::mouseReleaseEvent(e);
-
-    QModelIndex item = indexAt(e->pos());
-    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(item);
-
-    if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
+    if (m_regionSelectionActive)   // finish region selection
     {
-        ModelIndexInfo& info = *infoIt;
-        info.expanded = !info.expanded;
+        m_regionSelectionActive = false;
+    }
+    else
+    {
+        QAbstractItemView::mouseReleaseEvent(e);
 
-        QAbstractItemModel* view_model = QAbstractItemView::model();
-        if (view_model->canFetchMore(item))
-            view_model->fetchMore(item);
+        QModelIndex item = indexAt(e->pos());
+        Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(item);
 
-        //reset some positions
-        PositionsReseter reseter(view_model, m_data.get());
-        reseter.itemChanged(item);
+        if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
+        {
+            ModelIndexInfo& info = *infoIt;
+            info.expanded = !info.expanded;
 
-        emit refreshView();
+            QAbstractItemModel* view_model = QAbstractItemView::model();
+            if (view_model->canFetchMore(item))
+                view_model->fetchMore(item);
+
+            //reset some positions
+            PositionsReseter reseter(view_model, m_data.get());
+            reseter.itemChanged(item);
+
+            emit refreshView();
+        }
     }
 }
 
