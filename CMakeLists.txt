@@ -134,6 +134,14 @@ set(SVG_ICONS images/photo_broom.svg)
 
 #unit tests
 if(BUILD_TESTS)
+
+    #disable compilation warnings for googletest
+    foreach(gtest_target gtest gtest-main gmock gmock-main)
+        if(TARGET gtest)
+            disableWarnings(gtest)
+        endif()
+    endforeach()
+
     add_custom_target(RunUnitTests ALL
                       COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest
                       DEPENDS core_tests
