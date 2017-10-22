@@ -107,3 +107,12 @@ macro(addTestTarget target)
     )
 
 endmacro(addTestTarget)
+
+
+function(disableWarnings target)
+
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        target_compile_options(${target} PRIVATE -w)
+    endif()
+
+endfunction(disableWarnings)
