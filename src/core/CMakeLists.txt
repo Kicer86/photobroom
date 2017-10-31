@@ -90,6 +90,7 @@ set(CORE_HEADERS
     media_information.hpp
     media_types.hpp
     ptr_iterator.hpp
+    qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp
     status.hpp
