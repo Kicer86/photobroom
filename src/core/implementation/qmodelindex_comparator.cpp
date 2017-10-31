@@ -10,12 +10,12 @@ namespace
     {
         std::vector<QModelIndex> result;
 
-        if (item.isValid())
-        {
-            const QModelIndex parent = item.parent();
+        const QModelIndex parent = item.parent();
+
+        if (parent.isValid())
             result = getHierarchyOf(parent);
-            result.push_back(parent);
-        }
+
+        result.push_back(item);
 
         return result;
     }
@@ -32,12 +32,8 @@ namespace
 
 bool QModelIndexComparator::operator()(const QModelIndex& lhs, const QModelIndex& rhs) const
 {
-    std::vector<QModelIndex> lhs_hierarchy = getHierarchyOf(lhs);
-    std::vector<QModelIndex> rhs_hierarchy = getHierarchyOf(rhs);
-
-    lhs_hierarchy.push_back(lhs);
-    rhs_hierarchy.push_back(rhs);
-
+    const std::vector<QModelIndex> lhs_hierarchy = getHierarchyOf(lhs);
+    const std::vector<QModelIndex> rhs_hierarchy = getHierarchyOf(rhs);
     const std::size_t s = std::min(lhs_hierarchy.size(), rhs_hierarchy.size());
 
     bool result = false;
