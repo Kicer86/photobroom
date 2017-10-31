@@ -253,7 +253,7 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
     const QRect treeRect = _rect.translated(getOffset());
 
     const std::deque<QModelIndex> items = findItemsIn(treeRect);
-    const std::deque<QModelIndex> linear_selection = items; //convertToLinearSelection(items);
+    const std::deque<QModelIndex> linear_selection = items;
     QItemSelection selection;
 
     QAbstractItemModel* m = model();
