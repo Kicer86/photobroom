@@ -13,6 +13,7 @@ addTestTarget(core
                     unit_tests/map_iterator_tests.cpp
                     unit_tests/ptr_iterator_tests.cpp
                     unit_tests/qmodelindex_comparator_tests.cpp
+                    unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/tree_tests.cpp
                     unit_tests/ts_multi_head_queue_tests.cpp
                 LIBRARIES
