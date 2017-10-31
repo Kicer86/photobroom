@@ -27,7 +27,7 @@ TEST(QModelIndexComparatorTest, childrenOfSameParent)
 
 TEST(QModelIndexComparatorTest, childrenOfDifferentParents)
 {
-    MockQAbstractItemModel model;
+    NiceMock<MockQAbstractItemModel> model;
     QModelIndexComparator comparator;
 
     const QModelIndex top;
