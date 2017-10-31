@@ -1,9 +1,8 @@
 
-#include "qmodelindex_comparator.hpp"
-
 #include <gmock/gmock.h>
 
 #include "unit_tests_utils/mock_qabstractitemmodel.hpp"
+#include "qmodelindex_comparator.hpp"
 
 using testing::_;
 using testing::NiceMock;
