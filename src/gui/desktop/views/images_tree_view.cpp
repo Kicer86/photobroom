@@ -370,7 +370,7 @@ void ImagesTreeView::mousePressEvent(QMouseEvent* event)
     QModelIndex from = clicked;
     QModelIndex to = clicked;
 
-    if (modifiers & Qt::ShiftModifier)
+    if (modifiers & Qt::ShiftModifier && m_previouslySelectedItem.isValid())
         from = m_previouslySelectedItem;
 
     selectionModel()->setCurrentIndex(clicked, QItemSelectionModel::NoUpdate);
