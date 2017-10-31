@@ -4,7 +4,9 @@
 
 class QModelIndex;
 
-struct QModelIndexComparator
+#include "core_export.h"
+
+struct CORE_EXPORT QModelIndexComparator
 {
     bool operator()(const QModelIndex &, const QModelIndex &) const;
 };
