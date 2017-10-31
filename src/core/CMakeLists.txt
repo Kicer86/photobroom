@@ -43,6 +43,7 @@ set(CORE_SOURCES
     implementation/logger_factory.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
+    implementation/qmodelindex_comparator.cpp
     implementation/search_expression_evaluator.cpp
     implementation/stopwatch.cpp
     implementation/tag.cpp

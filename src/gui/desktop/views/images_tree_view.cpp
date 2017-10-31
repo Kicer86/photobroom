@@ -32,6 +32,7 @@
 #include <core/containers_utils.hpp>
 #include <core/down_cast.hpp>
 #include <core/map_iterator.hpp>
+#include <core/qmodelindex_comparator.hpp>
 #include <core/time_guardian.hpp>
 
 #include "models/aphoto_info_model.hpp"
@@ -43,21 +44,6 @@
 
 
 using namespace std::literals::chrono_literals;
-
-namespace
-{
-    struct QModelIndexComparator
-    {
-        bool operator()(const QModelIndex& lhs, const QModelIndex& rhs) const
-        {
-            return  lhs.row() <  rhs.row()
-                || (lhs.row() == rhs.row() && (lhs.column() <  rhs.column()
-                                           || (lhs.column() == rhs.column() && (lhs.internalId() <  rhs.internalId()
-                                                                            || (lhs.internalId() == rhs.internalId() && lhs.model() < rhs.model() )))));
-        }
-    };
-}
-
 
 ImagesTreeView::ImagesTreeView(QWidget* _parent):
     QAbstractItemView(_parent),
