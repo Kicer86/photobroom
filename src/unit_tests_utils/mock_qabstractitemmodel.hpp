@@ -21,4 +21,21 @@ struct MockQAbstractItemModel: QAbstractItemModel
     }
 };
 
+
+struct StubQAbstractItemModel: MockQAbstractItemModel
+{
+    QModelIndex addItem(int r, int c, const QModelIndex& p)
+    {
+        const QModelIndex item = createIndex(r, c, reinterpret_cast<void *>(++i));
+
+        ON_CALL(*this, parent(item))
+            .WillByDefault(testing::Return(p));
+
+        ON_CALL(*this, index(r, c, p))
+            .WillByDefault(testing::Return(item));
+    }
+
+    int i = 0;
+};
+
 #endif
