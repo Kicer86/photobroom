@@ -33,6 +33,8 @@ struct StubQAbstractItemModel: MockQAbstractItemModel
 
         ON_CALL(*this, index(r, c, p))
             .WillByDefault(testing::Return(item));
+
+        return item;
     }
 
     int i = 0;
