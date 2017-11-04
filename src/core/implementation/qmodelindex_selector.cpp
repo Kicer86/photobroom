@@ -1,48 +1,64 @@
 
 #include "qmodelindex_selector.hpp"
 
+#include <cassert>
 #include <map>
 #include <set>
 
-#include "containers_utils.hpp"
 #include "map_iterator.hpp"
 #include "qmodelindex_comparator.hpp"
 
+namespace
+{
+    QModelIndex next(const QModelIndex& item)
+    {
+        const QModelIndex sibling = item.sibling(item.row() + 1, 0);
+
+        return sibling;
+    }
+}
 
 std::vector<QModelIndex> QModelIndexSelector::listAllBetween(const QModelIndex& from, const QModelIndex& to)
 {
-    std::map<QModelIndex, std::set<QModelIndex, QModelIndexComparator>> sub_selections;       // selection within parent
+    std::vector<QModelIndex> result;
 
-    // group selected items by parent
-    for(QModelIndex item = from; ; item = item.sibling(item.row() + 1, 0))
+    QModelIndex item = from;
+
+    while (true)
     {
+        // should not happend, but if it does, do not hang
+        assert(item.isValid());
         if (item.isValid() == false)
             break;
 
-        const QModelIndex parent = item.parent();
+        result.push_back(item);
 
-        sub_selections[parent].insert(item);
-
+        // finish?
         if (item == to)
             break;
+
+        // go to children if possible
+        const QModelIndex child = item.child(0, 0);
+        if (child.isValid())
+        {
+            item = child;
+            continue;
+        }
+
+        // go to sibling if possible
+        const QModelIndex sibling = next(item);
+        if (sibling.isValid())
+        {
+            item = sibling;
+            continue;
+        }
+
+        // no next sibling, no children, go to parent's sibling
+
+        const QModelIndex parent = item.parent();
+        const QModelIndex parents_sibling = next(parent);
+        item = parents_sibling;
     }
 
-    std::vector<QModelIndex> linear_selection;
-
-    typedef value_map_iterator<decltype(sub_selections)> ValueIt;
-    for(ValueIt it(sub_selections.begin()); it != ValueIt(sub_selections.end()); ++it)
-    {
-        const std::set<QModelIndex, QModelIndexComparator>& set = *it;
-
-        // indexes are sorted by position (see QModelIndexComparator), so here we can refer to first and last one easily
-        const QModelIndex& first = front(set);
-        const QModelIndex& last  = back(set);
-
-        for(QModelIndex item = first; item != last ; item = item.sibling(item.row() + 1, 0))
-            linear_selection.push_back(item);
-
-        linear_selection.push_back(last);
-    }
-
-    return linear_selection;
+    return result;
 }
