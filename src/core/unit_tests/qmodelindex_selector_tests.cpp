@@ -10,44 +10,53 @@ using testing::NiceMock;
 using testing::Return;
 
 
-TEST(QModelIndexSelectorTest, childrenOfSameParent)
+struct QModelIndexSelectorTest: testing::Test
 {
+    QModelIndexSelectorTest()
+    {
+        p1 =  model.addItem(1, 0, top);
+        p2 =  model.addItem(2, 0, top);
+
+        c10 = model.addItem(0, 0, p1);
+        c11 = model.addItem(1, 0, p1);
+        c12 = model.addItem(2, 0, p1);
+
+        c20 = model.addItem(0, 0, p2);
+        c21 = model.addItem(1, 0, p2);
+        c22 = model.addItem(2, 0, p2);
+    }
+
+    ~QModelIndexSelectorTest()
+    {
+
+    }
+
     NiceMock<StubQAbstractItemModel> model;
 
-    const QModelIndex top;
-    const QModelIndex c1 = model.addItem(1, 0, top);
-                           model.addItem(2, 0, top);
-    const QModelIndex c2 = model.addItem(3, 0, top);
+    QModelIndex top;
+    QModelIndex p1;
+    QModelIndex p2;
 
-    const auto items = QModelIndexSelector::listAllBetween(c1, c2);
-    const std::size_t s = items.size();
+    QModelIndex c10;
+    QModelIndex c11;
+    QModelIndex c12;
 
-    ASSERT_EQ(s, 3);
-    for (std::size_t i = 0; i < s; i++)
-    {
-        EXPECT_EQ(items[i].row(), i + 1);
-        EXPECT_EQ(items[i].column(), 0);
-    }
+    QModelIndex c20;
+    QModelIndex c21;
+    QModelIndex c22;
+};
+
+
+TEST_F(QModelIndexSelectorTest, childrenOfSameParent)
+{
+    const auto items = QModelIndexSelector::listAllBetween(c10, c12);
+
+    EXPECT_EQ(items, std::vector<QModelIndex>({c10, c11, c12}));
 }
 
 
-
-TEST(QModelIndexSelectorTest, childrenOfDifferentParents)
+TEST_F(QModelIndexSelectorTest, childrenOfDifferentParents)
 {
-    NiceMock<StubQAbstractItemModel> model;
-
-    const QModelIndex top;
-    const QModelIndex p1 =  model.addItem(1, 0, top);
-    const QModelIndex p2 =  model.addItem(2, 0, top);
-
-                            model.addItem(0, 0, p1);
-    const QModelIndex c11 = model.addItem(1, 0, p1);
-    const QModelIndex c12 = model.addItem(2, 0, p1);
-
-    const QModelIndex c20 = model.addItem(0, 0, p2);
-    const QModelIndex c21 = model.addItem(1, 0, p2);
-    const QModelIndex c22 = model.addItem(2, 0, p2);
-
     const auto items = QModelIndexSelector::listAllBetween(c11, c22);
 
     EXPECT_EQ(items, std::vector<QModelIndex>({c11, c12, p2, c20, c21, c22}));
