@@ -6,6 +6,7 @@
 
 #include <gmock/gmock.h>
 
+
 struct MockQAbstractItemModel: QAbstractItemModel
 {
     MOCK_CONST_METHOD3(index, QModelIndex(int, int, const QModelIndex &));
