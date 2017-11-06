@@ -85,7 +85,6 @@ class ImagesTreeView: public QAbstractItemView
         // view stuff
         const QRect getItemRect(const QModelIndex &) const;
         std::deque<QModelIndex> findItemsIn(const QRect &);
-        std::deque<QModelIndex> convertToLinearSelection(const QModelIndex &, const QModelIndex &) const;
 
         void setSelection(const QModelIndex &, const QModelIndex &, QItemSelectionModel::SelectionFlags);
 

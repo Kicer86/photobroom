@@ -33,6 +33,7 @@
 #include <core/down_cast.hpp>
 #include <core/map_iterator.hpp>
 #include <core/qmodelindex_comparator.hpp>
+#include <core/qmodelindex_selector.hpp>
 #include <core/time_guardian.hpp>
 
 #include "models/aphoto_info_model.hpp"
@@ -443,48 +444,9 @@ std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::convertToLinearSelection(const QModelIndex& from, const QModelIndex& to) const
-{
-    std::map<QModelIndex, std::set<QModelIndex, QModelIndexComparator>> sub_selections;       // selection within parent
-
-    // group selected items by parent
-    for(QModelIndex item = from; ; item = item.sibling(item.row() + 1, 0))
-    {
-        if (item.isValid() == false)
-            break;
-
-        const QModelIndex parent = item.parent();
-
-        sub_selections[parent].insert(item);
-
-        if (item == to)
-            break;
-    }
-
-    std::deque<QModelIndex> linear_selection;
-
-    typedef value_map_iterator<decltype(sub_selections)> ValueIt;
-    for(ValueIt it(sub_selections.begin()); it != ValueIt(sub_selections.end()); ++it)
-    {
-        const std::set<QModelIndex, QModelIndexComparator>& set = *it;
-
-        // indexes are sorted by position (see QModelIndexComparator), so here we can refer to first and last one easily
-        const QModelIndex& first = front(set);
-        const QModelIndex& last  = back(set);
-
-        for(QModelIndex item = first; item != last ; item = item.sibling(item.row() + 1, 0))
-            linear_selection.push_back(item);
-
-        linear_selection.push_back(last);
-    }
-
-    return linear_selection;
-}
-
-
 void ImagesTreeView::setSelection(const QModelIndex& from, const QModelIndex& to, QItemSelectionModel::SelectionFlags flags)
 {
-    const std::deque<QModelIndex> linear_selection = convertToLinearSelection(from, to);
+    const std::vector<QModelIndex> linear_selection = QModelIndexSelector::listAllBetween(from, to);
     QItemSelection selection;
 
     QAbstractItemModel* m = model();
