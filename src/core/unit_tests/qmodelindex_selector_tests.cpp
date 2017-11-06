@@ -95,3 +95,11 @@ TEST_F(QModelIndexSelectorTest, childrenOfDifferentParents)
 
     EXPECT_EQ(items, std::vector<QModelIndex>({c11, c12, p2, c20, c21, c22}));
 }
+
+
+TEST_F(QModelIndexSelectorTest, childrenWithChildren)
+{
+    const auto items = QModelIndexSelector::listAllBetween(c31, c32);
+
+    EXPECT_EQ(items, std::vector<QModelIndex>({c31, c310, c311, c312, c32}));
+}
