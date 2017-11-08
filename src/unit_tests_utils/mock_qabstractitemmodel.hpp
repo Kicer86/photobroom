@@ -29,6 +29,20 @@ struct StubQAbstractItemModel: MockQAbstractItemModel
     {
         const QModelIndex item = createIndex(r, c, reinterpret_cast<void *>(++i));
 
+        auto it = m_items.find(p);
+        if (it == m_items.end())
+        {
+            it = m_items.insert(p, 0);
+
+            ON_CALL(*this, rowCount(p))
+                .WillByDefault(testing::ReturnPointee(&(*it)));
+
+            ON_CALL(*this, columnCount(p))
+                .WillByDefault(testing::Return(1));
+        }
+
+        ++(*it);
+
         ON_CALL(*this, parent(item))
             .WillByDefault(testing::Return(p));
 
@@ -38,6 +52,7 @@ struct StubQAbstractItemModel: MockQAbstractItemModel
         return item;
     }
 
+    QHash<QModelIndex, int> m_items;
     int i = 0;
 };
 
