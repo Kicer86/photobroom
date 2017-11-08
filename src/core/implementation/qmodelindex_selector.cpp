@@ -38,10 +38,11 @@ std::vector<QModelIndex> QModelIndexSelector::listAllBetween(const QModelIndex& 
             break;
 
         // go to children if possible
-        const QModelIndex child = item.child(0, 0);
-        if (child.isValid())
+        const QAbstractItemModel* model = item.model();
+        const bool hasChildren = model->hasChildren(item);
+        if (hasChildren)
         {
-            item = child;
+            item = model->index(0, 0, item);
             continue;
         }
 
