@@ -364,6 +364,16 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 }
 
 
+Qt::ItemFlags DBDataModel::flags(const QModelIndex& item) const
+{
+    const Qt::ItemFlags dbf = isLeaf(item)? Qt::ItemNeverHasChildren : Qt::NoItemFlags;
+    const Qt::ItemFlags base_f = QAbstractItemModel::flags(item);
+    const Qt::ItemFlags result = base_f | dbf;
+
+    return result;
+}
+
+
 void DBDataModel::setDatabase(Database::IDatabase* database)
 {
     m_idxDataManager->setDatabase(database);
