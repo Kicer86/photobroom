@@ -103,6 +103,7 @@ class DBDataModel: public APhotoInfoModel
         virtual QModelIndex parent(const QModelIndex& child) const override;
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
+        virtual Qt::ItemFlags flags(const QModelIndex &) const override;
 
     protected:
         IIdxData* getRootIdxData();

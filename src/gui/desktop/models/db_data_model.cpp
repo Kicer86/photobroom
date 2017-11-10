@@ -364,6 +364,17 @@ bool DBDataModel::hasChildren(const QModelIndex& _parent) const
 }
 
 
+Qt::ItemFlags DBDataModel::flags(const QModelIndex& item) const
+{
+    const Qt::ItemFlags leaf_f = isLeaf(item)? Qt::ItemNeverHasChildren : Qt::NoItemFlags;
+    const Qt::ItemFlags base_f = QAbstractItemModel::flags(item);
+    const Qt::ItemFlags node_f = isNode(item)? Qt::ItemIsSelectable: Qt::NoItemFlags;
+    const Qt::ItemFlags result = (base_f | leaf_f) & ~node_f;
+
+    return result;
+}
+
+
 void DBDataModel::setDatabase(Database::IDatabase* database)
 {
     m_idxDataManager->setDatabase(database);
