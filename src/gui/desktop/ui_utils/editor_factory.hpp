@@ -82,7 +82,7 @@ struct ListEditor: QTableWidget
 
         //
         void review();
-        void editorDestroyed(QObject *);
+        void editorDestroyed(QObject *) override;
 };
 
 #endif // EDITORFACTORY_HPP
