@@ -37,7 +37,7 @@ class UPDATER_EXPORT Updater: public IUpdater
 
         Updater& operator=(const Updater &) = delete;
 
-        virtual void getStatus(const StatusCallback &);
+        virtual void getStatus(const StatusCallback &) override;
 
     private:
         std::unique_ptr<UpdaterImpl> m_impl;
