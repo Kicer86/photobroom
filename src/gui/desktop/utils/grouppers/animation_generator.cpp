@@ -70,7 +70,7 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-AnimationGenerator::AnimationGenerator(const Data& data):
+AnimationGenerator::AnimationGenerator(const Data& data, ILogger *):
     m_data(data),
     m_cancelMutex(),
     m_cancel(false)

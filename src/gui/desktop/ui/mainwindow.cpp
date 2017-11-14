@@ -16,6 +16,8 @@
 #include <core/cross_thread_call.hpp>
 #include <core/exif_reader_factory.hpp>
 #include <core/iconfiguration.hpp>
+#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
@@ -75,6 +77,7 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_imagesModel(nullptr),
     m_newImagesModel(nullptr),
     m_configuration(nullptr),
+    m_loggerFactory(nullptr),
     m_updater(nullptr),
     m_executor(nullptr),
     m_photosAnalyzer(new PhotosAnalyzer),
@@ -210,6 +213,8 @@ void MainWindow::set(ILoggerFactory* lf)
     ui->newImagesView->set(&m_completerFactory);
     ui->newImagesView->set(lf);
     ui->tagEditor->set(&m_completerFactory);
+
+    m_loggerFactory = lf;
 }
 
 
@@ -520,7 +525,9 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
         IExifReader* reader = factory.get();
 
-        PhotosGroupingDialog dialog(photos, reader, m_executor, m_configuration);
+        auto logger = m_loggerFactory->get("PhotosGrouping");
+
+        PhotosGroupingDialog dialog(photos, reader, m_executor, m_configuration, logger.get());
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)

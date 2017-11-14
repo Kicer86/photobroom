@@ -20,6 +20,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
                                            IExifReader* exifReader,
                                            ITaskExecutor* executor,
                                            IConfiguration* configuration,
+                                           ILogger* logger,
                                            QWidget *parent):
     QDialog(parent),
     m_model(),
@@ -28,8 +29,9 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader),
-    m_executor(executor),
     m_config(configuration),
+    m_logger(logger),
+    m_executor(executor),
     m_workInProgress(false)
 {
     assert(photos.size() >= 2);
@@ -181,7 +183,7 @@ void PhotosGroupingDialog::makeAnimation()
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
     else
     {
-        auto animation_task = std::make_unique<AnimationGenerator>(generator_data);
+        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger);
 
         connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
         connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);

@@ -27,6 +27,8 @@
 
 class QProcess;
 
+struct ILogger;
+
 class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 {
         Q_OBJECT
@@ -45,7 +47,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
             Data(): convertPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
         };
 
-        AnimationGenerator(const Data& data);
+        AnimationGenerator(const Data& data, ILogger *);
         AnimationGenerator(const AnimationGenerator &) = delete;
         ~AnimationGenerator();
 

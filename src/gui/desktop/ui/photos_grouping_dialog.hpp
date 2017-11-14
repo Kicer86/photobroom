@@ -11,6 +11,7 @@
 
 struct IConfiguration;
 struct IExifReader;
+struct ILogger;
 struct ITaskExecutor;
 
 namespace Ui
@@ -24,7 +25,7 @@ class SortingProxy: public QSortFilterProxyModel
         SortingProxy(QObject* p = nullptr): QSortFilterProxyModel(p) {}
 
     protected:
-        bool lessThan(const QModelIndex& left, const QModelIndex& right) const
+        bool lessThan(const QModelIndex& left, const QModelIndex& right) const override
         {
             if (left.column() == 1)
             {
@@ -51,6 +52,7 @@ class PhotosGroupingDialog: public QDialog
                                       IExifReader *,
                                       ITaskExecutor *,
                                       IConfiguration *,
+                                      ILogger *,
                                       QWidget *parent = 0);
 
         PhotosGroupingDialog(const PhotosGroupingDialog &) = delete;
@@ -69,8 +71,9 @@ class PhotosGroupingDialog: public QDialog
         QString m_representativeFile;
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
-        ITaskExecutor* m_executor;
         IConfiguration* m_config;
+        ILogger* m_logger;
+        ITaskExecutor* m_executor;
         bool m_workInProgress;
 
         void generationTitle(const QString &);
