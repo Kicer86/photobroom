@@ -350,33 +350,38 @@ void ImagesTreeView::mouseMoveEvent(QMouseEvent* event)
 
 void ImagesTreeView::mousePressEvent(QMouseEvent* event)
 {
-    const QModelIndex clicked = indexAt(event->pos());
-
-    if (clicked.flags() & Qt::ItemIsSelectable)
+    if (event->button() == Qt::LeftButton)
     {
-        const Qt::KeyboardModifiers modifiers = event->modifiers();
+        const QModelIndex clicked = indexAt(event->pos());
 
-        QItemSelectionModel::SelectionFlags flags = selectionCommand(clicked, event);
-        QModelIndex from = clicked;
-        QModelIndex to = clicked;
+        if (clicked.flags() & Qt::ItemIsSelectable)
+        {
+            const Qt::KeyboardModifiers modifiers = event->modifiers();
 
-        if (modifiers & Qt::ShiftModifier && m_previouslySelectedItem.isValid())
-            from = m_previouslySelectedItem;
+            QItemSelectionModel::SelectionFlags flags = selectionCommand(clicked, event);
+            QModelIndex from = clicked;
+            QModelIndex to = clicked;
 
-        selectionModel()->setCurrentIndex(clicked, QItemSelectionModel::NoUpdate);
+            if (modifiers & Qt::ShiftModifier && m_previouslySelectedItem.isValid())
+                from = m_previouslySelectedItem;
 
-        // make sure from <= to
-        if ( QModelIndexComparator()(to, from) )
-            std::swap(from, to);
+            selectionModel()->setCurrentIndex(clicked, QItemSelectionModel::NoUpdate);
 
-        if (flags == QItemSelectionModel::NoUpdate)
-            flags = QItemSelectionModel::ClearAndSelect;
+            // make sure from <= to
+            if ( QModelIndexComparator()(to, from) )
+                std::swap(from, to);
 
-        setSelection(from, to, flags);
+            if (flags == QItemSelectionModel::NoUpdate)
+                flags = QItemSelectionModel::ClearAndSelect;
 
-        if ( (flags & QItemSelectionModel::Current) == 0)
-            m_previouslySelectedItem = clicked;
+            setSelection(from, to, flags);
+
+            if ( (flags & QItemSelectionModel::Current) == 0)
+                m_previouslySelectedItem = clicked;
+        }
     }
+    else
+        QAbstractItemView::mousePressEvent(event);
 }
 
 
