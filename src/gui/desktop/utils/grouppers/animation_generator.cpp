@@ -27,6 +27,7 @@
 #include <QTemporaryDir>
 
 #include <core/cross_thread_call.hpp>
+#include <core/ilogger.hpp>
 #include <system/system.hpp>
 
 namespace
@@ -70,9 +71,10 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-AnimationGenerator::AnimationGenerator(const Data& data, ILogger *):
+AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_data(data),
     m_cancelMutex(),
+    m_logger(logger),
     m_cancel(false)
 {
 }
@@ -152,6 +154,9 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
+
+            const QString message = "align_image_stack: " + line.trimmed();
+            m_logger->debug(message.toStdString());
 
             switch (stabilization_data.state)
             {
@@ -242,6 +247,9 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
+
+            const QString message = "convert: " + line.trimmed();
+            m_logger->debug(message.toStdString());
 
             switch (conversion_data.state)
             {

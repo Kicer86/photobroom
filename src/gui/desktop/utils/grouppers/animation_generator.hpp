@@ -66,6 +66,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
     private:
         Data m_data;
         std::mutex m_cancelMutex;
+        ILogger* m_logger;
         bool m_cancel;
 
         QStringList stabilize(const QString &);
