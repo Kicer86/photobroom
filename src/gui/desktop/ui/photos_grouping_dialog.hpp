@@ -69,6 +69,7 @@ class PhotosGroupingDialog: public QDialog
         std::unique_ptr<QMovie> m_movie;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
+        QSize m_baseSize;
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
         IConfiguration* m_config;
@@ -86,6 +87,7 @@ class PhotosGroupingDialog: public QDialog
         void fillModel(const std::vector<IPhotoInfo::Ptr> &);
 
         QStringList getPhotos() const;
+        void scalePreview();
 
     // internal signals:
     signals:

@@ -186,6 +186,7 @@ void PhotosGroupingDialog::makeAnimation()
         auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger);
 
         connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
+        connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
         connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
         connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
@@ -240,4 +241,23 @@ QStringList PhotosGroupingDialog::getPhotos() const
     }
 
     return result;
+}
+
+
+void PhotosGroupingDialog::scalePreview()
+{
+    if (m_movie.get() != nullptr)
+    {
+        if (m_baseSize.isValid() == false)
+            m_baseSize = m_movie->frameRect().size();
+
+        const int scale = ui->previewScaleSlider->value();
+
+        const double scaleFactor = scale/100.0;
+        QSize size = m_baseSize;
+        size.rheight() *= scaleFactor;
+        size.rwidth() *= scaleFactor;
+
+        m_movie->setScaledSize(size);
+    }
 }
