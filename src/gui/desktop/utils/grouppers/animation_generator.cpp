@@ -100,7 +100,9 @@ void AnimationGenerator::perform()
     QTemporaryDir work_dir;
 
     // stabilize?
-    const QStringList images_to_be_used = m_data.stabilize? stabilize(work_dir.path()): m_data.photos;
+    const QStringList images_to_be_used = m_data.stabilize?
+                                          stabilize(work_dir.path()):
+                                          m_data.photos;
 
     // generate gif (if there was no cancel during stabilization)
     const QString gif_path = m_cancel? "": generateGif(images_to_be_used);
