@@ -221,7 +221,8 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
 {
     // generate gif
     const int photos_count = m_data.photos.size();
-    const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+    const double last_photo_exact_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+    const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
     const QString location = System::getTempFilePath() + ".gif";
