@@ -133,8 +133,8 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
 
     struct
     {
-        const QRegExp cp_regExp   = QRegExp("^Creating control points between.*");
-        const QRegExp opt_regExp  = QRegExp("^Optimizing Variables.*");
+        const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
+        const QRegExp run_regExp  = QRegExp("^Run called.*");
         const QRegExp save_regExp = QRegExp("^saving.*");
 
         int photos_stabilized = 0;
@@ -165,9 +165,12 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
                     {
                         stabilization_data.photos_stabilized++;
 
-                        emit progress( stabilization_data.photos_stabilized * 100 / (photos_count - 1));   // there will be n-1 control points groups
+                        const int expected_steps = photos_count - 1 // there will be n-1 control points groups
+                                                   + 4;             // and 4 optimization steps
+
+                        emit progress( stabilization_data.photos_stabilized * 100 / expected_steps);
                     }
-                    else if (stabilization_data.opt_regExp.exactMatch(line))
+                    else if (stabilization_data.run_regExp.exactMatch(line))
                     {
                         stabilization_data.state = stabilization_data.SavingImages;
 
