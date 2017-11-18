@@ -130,6 +130,31 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
     // http://wiki.panotools.org/Align_image_stack
 
+    // align_image_stack doesn't respect photo's rotation
+    // generate rotated copies of original images
+
+    int photo_index = 0;
+    QTemporaryDir dirForRotatedPhotos;
+    QStringList rotated_photos;
+
+    for (const QString& photo: m_data.photos)
+    {
+        const QString location = QString("%1/%2.tiff")
+                                 .arg(dirForRotatedPhotos.path())
+                                 .arg(photo_index);
+
+        execute(m_data.convertPath,
+            [](QIODevice &) {},
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
+            "-monitor",                                      // be verbose
+            photo,
+            "-auto-orient",
+            location);
+
+        rotated_photos << location;
+        photo_index++;
+    }
+
     // generate aligned files
     const QString output_prefix = work_dir + QDir::separator() + "stabilized";
 
@@ -203,7 +228,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
             "-d", "-i", "-x", "-y", "-z",
             "-s", "0",
             "-a", output_prefix,
-            m_data.photos);
+            rotated_photos);
 
     QStringList stabilized_images;
 
