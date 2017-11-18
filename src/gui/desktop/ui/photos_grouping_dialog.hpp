@@ -69,7 +69,7 @@ class PhotosGroupingDialog: public QDialog
         std::unique_ptr<QMovie> m_movie;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
-        QSize m_baseSize;
+        QSize m_baseSize;                // TODO: used in one method only. Extraction?
         Ui::PhotosGroupingDialog *ui;
         IExifReader* m_exifReader;
         IConfiguration* m_config;
