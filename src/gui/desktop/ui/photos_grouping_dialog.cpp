@@ -254,10 +254,10 @@ void PhotosGroupingDialog::scalePreview()
         const int scale = ui->previewScaleSlider->value();
 
         const double scaleFactor = scale/100.0;
-        QSize size = m_baseSize;
+        QSizeF size = m_baseSize;
         size.rheight() *= scaleFactor;
         size.rwidth() *= scaleFactor;
 
-        m_movie->setScaledSize(size);
+        m_movie->setScaledSize(size.toSize());
     }
 }
