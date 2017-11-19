@@ -80,7 +80,6 @@ namespace
             StabilizingImages,
             SavingImages,
         } state = StabilizingImages;
-
     };
 }
 
@@ -153,6 +152,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     int photo_index = 0;
     QTemporaryDir dirForRotatedPhotos;
     QStringList rotated_photos;
+    StabilizationData stabilization_data;
 
     for (const QString& photo: m_data.photos)
     {
@@ -174,8 +174,6 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
 
     // generate aligned files
     const QString output_prefix = work_dir + QDir::separator() + "stabilized";
-
-    StabilizationData stabilization_data;
 
     auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
     {
