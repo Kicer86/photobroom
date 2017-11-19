@@ -341,16 +341,23 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
             convert_output_analizer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-monitor",                                      // for convert_output_analizer
+            "+repage",                                       // [1]
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
             "-delay", QString::number(last_photo_delay),
             last,
             "-auto-orient",
             "-loop", "0",
-            "-resize", QString::number(m_data.scale) + "%",
+            "-scale", QString::number(m_data.scale) + "%",
             location);
 
     return m_cancel? "": location;
+
+    // [1] It seems that align_image_stack may safe information about crop it applied to images.
+    //     convert uses this information(?) and generates gif with frames moved
+    //     from (0, 0) to (cropX, cropY). It results in a black border.
+    //     +repage fixes it (I don't know how does it work exactly. It just does the trick).
+    //     http://www.imagemagick.org/discourse-server/viewtopic.php?t=14556
 }
 
 
