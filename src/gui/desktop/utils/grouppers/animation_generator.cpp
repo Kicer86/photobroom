@@ -341,12 +341,11 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
             convert_output_analizer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-monitor",                                      // for convert_output_analizer
-            "+repage",                                       // [1]
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
-            "+repage",                                       // [1]
             "-delay", QString::number(last_photo_delay),
             last,
+            "+repage",                                       // [1]
             "-auto-orient",
             "-loop", "0",
             "-scale", QString::number(m_data.scale) + "%",
