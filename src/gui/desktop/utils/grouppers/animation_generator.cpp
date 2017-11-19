@@ -72,7 +72,8 @@ namespace
         const QRegExp run_regExp  = QRegExp("^Run called.*");
         const QRegExp save_regExp = QRegExp("^saving.*");
 
-        int photos_stabilized = 0;
+        int stabilization_steps = 0;
+        int stabilization_step = 0;
         int photos_saved = 0;
 
         enum
@@ -154,6 +155,10 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     QStringList rotated_photos;
     StabilizationData stabilization_data;
 
+    stabilization_data.stabilization_steps =  photos_count +   // 'photos_count' photos need orientation fixes
+                                              photos_count - 1 // there will be n-1 control points groups
+                                              + 4;             // and 4 optimization steps
+
     for (const QString& photo: m_data.photos)
     {
         const QString location = QString("%1/%2.tiff")
@@ -170,6 +175,11 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
 
         rotated_photos << location;
         photo_index++;
+
+        stabilization_data.stabilization_step++;
+
+        emit progress( stabilization_data.stabilization_step * 100 /
+                        stabilization_data.stabilization_steps);
     }
 
     // generate aligned files
@@ -190,12 +200,10 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
                 case stabilization_data.StabilizingImages:
                     if (stabilization_data.cp_regExp.exactMatch(line))
                     {
-                        stabilization_data.photos_stabilized++;
+                        stabilization_data.stabilization_step++;
 
-                        const int expected_steps = photos_count - 1 // there will be n-1 control points groups
-                                                   + 4;             // and 4 optimization steps
-
-                        emit progress( stabilization_data.photos_stabilized * 100 / expected_steps);
+                        emit progress( stabilization_data.stabilization_step * 100 /
+                                       stabilization_data.stabilization_steps);
                     }
                     else if (stabilization_data.run_regExp.exactMatch(line))
                     {
