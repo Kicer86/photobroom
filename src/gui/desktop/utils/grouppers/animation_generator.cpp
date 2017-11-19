@@ -65,6 +65,23 @@ namespace
 
         launcher(pr);
     }
+
+    struct StabilizationData
+    {
+        const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
+        const QRegExp run_regExp  = QRegExp("^Run called.*");
+        const QRegExp save_regExp = QRegExp("^saving.*");
+
+        int photos_stabilized = 0;
+        int photos_saved = 0;
+
+        enum
+        {
+            StabilizingImages,
+            SavingImages,
+        } state = StabilizingImages;
+
+    };
 }
 
 
@@ -158,22 +175,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     // generate aligned files
     const QString output_prefix = work_dir + QDir::separator() + "stabilized";
 
-    struct
-    {
-        const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
-        const QRegExp run_regExp  = QRegExp("^Run called.*");
-        const QRegExp save_regExp = QRegExp("^saving.*");
-
-        int photos_stabilized = 0;
-        int photos_saved = 0;
-
-        enum
-        {
-            StabilizingImages,
-            SavingImages,
-        } state = StabilizingImages;
-
-    } stabilization_data;
+    StabilizationData stabilization_data;
 
     auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
     {
