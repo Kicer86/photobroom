@@ -344,6 +344,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
             "+repage",                                       // [1]
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
+            "+repage",                                       // [1]
             "-delay", QString::number(last_photo_delay),
             last,
             "-auto-orient",
