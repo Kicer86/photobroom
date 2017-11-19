@@ -30,6 +30,8 @@
 #include <core/ilogger.hpp>
 #include <system/system.hpp>
 
+using std::placeholders::_1;
+
 namespace
 {
     template<typename T>
@@ -46,7 +48,8 @@ namespace
     }
 
     template<typename ...Args>
-    void execute(const QString& executable,
+    void execute(ILogger* logger,
+                 const QString& executable,
                  const std::function<void(QIODevice &)>& outputDataCallback,
                  const std::function<void(QProcess &)>& launcher,
                  const Args... args)
@@ -62,6 +65,11 @@ namespace
 
         pr.setProgram(executable);
         pr.setArguments(arguments);
+
+        const std::string info_message =
+            QString("Executing %1 %2").arg(executable).arg(arguments.join(" ")).toStdString();
+
+        logger->info(info_message);
 
         launcher(pr);
     }
@@ -165,9 +173,11 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
                                  .arg(dirForRotatedPhotos.path())
                                  .arg(photo_index);
 
-        execute(m_data.convertPath,
+        execute(
+            m_logger,
+            m_data.convertPath,
             [](QIODevice &) {},
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-monitor",                                      // be verbose
             photo,
             "-auto-orient",
@@ -227,9 +237,10 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
         }
     };
 
-    execute(m_data.alignImageStackPath,
+    execute(m_logger,
+            m_data.alignImageStackPath,
             align_image_stack_output_analizer,
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-C",
             "-v",                              // for align_image_stack_output_analizer
             "--use-given-order",
@@ -325,9 +336,10 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
         }
     };
 
-    execute(m_data.convertPath,
+    execute(m_logger,
+            m_data.convertPath,
             convert_output_analizer,
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
