@@ -20,6 +20,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
                                            IExifReader* exifReader,
                                            ITaskExecutor* executor,
                                            IConfiguration* configuration,
+                                           ILogger* logger,
                                            QWidget *parent):
     QDialog(parent),
     m_model(),
@@ -28,8 +29,9 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& p
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
     m_exifReader(exifReader),
-    m_executor(executor),
     m_config(configuration),
+    m_logger(logger),
+    m_executor(executor),
     m_workInProgress(false)
 {
     assert(photos.size() >= 2);
@@ -181,9 +183,10 @@ void PhotosGroupingDialog::makeAnimation()
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
     else
     {
-        auto animation_task = std::make_unique<AnimationGenerator>(generator_data);
+        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger);
 
         connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
+        connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
         connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
         connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
@@ -238,4 +241,23 @@ QStringList PhotosGroupingDialog::getPhotos() const
     }
 
     return result;
+}
+
+
+void PhotosGroupingDialog::scalePreview()
+{
+    if (m_movie.get() != nullptr)
+    {
+        if (m_baseSize.isValid() == false)
+            m_baseSize = m_movie->frameRect().size();
+
+        const int scale = ui->previewScaleSlider->value();
+
+        const double scaleFactor = scale/100.0;
+        QSizeF size = m_baseSize;
+        size.rheight() *= scaleFactor;
+        size.rwidth() *= scaleFactor;
+
+        m_movie->setScaledSize(size.toSize());
+    }
 }

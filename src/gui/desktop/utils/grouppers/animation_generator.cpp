@@ -27,7 +27,10 @@
 #include <QTemporaryDir>
 
 #include <core/cross_thread_call.hpp>
+#include <core/ilogger.hpp>
 #include <system/system.hpp>
+
+using std::placeholders::_1;
 
 namespace
 {
@@ -45,7 +48,8 @@ namespace
     }
 
     template<typename ...Args>
-    void execute(const QString& executable,
+    void execute(ILogger* logger,
+                 const QString& executable,
                  const std::function<void(QIODevice &)>& outputDataCallback,
                  const std::function<void(QProcess &)>& launcher,
                  const Args... args)
@@ -62,17 +66,40 @@ namespace
         pr.setProgram(executable);
         pr.setArguments(arguments);
 
+        const std::string info_message =
+            QString("Executing %1 %2").arg(executable).arg(arguments.join(" ")).toStdString();
+
+        logger->info(info_message);
+
         launcher(pr);
     }
+
+    struct StabilizationData
+    {
+        const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
+        const QRegExp run_regExp  = QRegExp("^Run called.*");
+        const QRegExp save_regExp = QRegExp("^saving.*");
+
+        int stabilization_steps = 0;
+        int stabilization_step = 0;
+        int photos_saved = 0;
+
+        enum
+        {
+            StabilizingImages,
+            SavingImages,
+        } state = StabilizingImages;
+    };
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-AnimationGenerator::AnimationGenerator(const Data& data):
+AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_data(data),
     m_cancelMutex(),
+    m_logger(logger),
     m_cancel(false)
 {
 }
@@ -98,7 +125,9 @@ void AnimationGenerator::perform()
     QTemporaryDir work_dir;
 
     // stabilize?
-    const QStringList images_to_be_used = m_data.stabilize? stabilize(work_dir.path()): m_data.photos;
+    const QStringList images_to_be_used = m_data.stabilize?
+                                          stabilize(work_dir.path()):
+                                          m_data.photos;
 
     // generate gif (if there was no cancel during stabilization)
     const QString gif_path = m_cancel? "": generateGif(images_to_be_used);
@@ -126,25 +155,45 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
     // http://wiki.panotools.org/Align_image_stack
 
+    // align_image_stack doesn't respect photo's rotation
+    // generate rotated copies of original images
+
+    int photo_index = 0;
+    QTemporaryDir dirForRotatedPhotos;
+    QStringList rotated_photos;
+    StabilizationData stabilization_data;
+
+    stabilization_data.stabilization_steps =  photos_count +   // 'photos_count' photos need orientation fixes
+                                              photos_count - 1 // there will be n-1 control points groups
+                                              + 4;             // and 4 optimization steps
+
+    for (const QString& photo: m_data.photos)
+    {
+        const QString location = QString("%1/%2.tiff")
+                                 .arg(dirForRotatedPhotos.path())
+                                 .arg(photo_index);
+
+        execute(
+            m_logger,
+            m_data.convertPath,
+            [](QIODevice &) {},
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
+            "-monitor",                                      // be verbose
+            photo,
+            "-auto-orient",
+            location);
+
+        rotated_photos << location;
+        photo_index++;
+
+        stabilization_data.stabilization_step++;
+
+        emit progress( stabilization_data.stabilization_step * 100 /
+                        stabilization_data.stabilization_steps);
+    }
+
     // generate aligned files
     const QString output_prefix = work_dir + QDir::separator() + "stabilized";
-
-    struct
-    {
-        const QRegExp cp_regExp   = QRegExp("^Creating control points between.*");
-        const QRegExp opt_regExp  = QRegExp("^Optimizing Variables.*");
-        const QRegExp save_regExp = QRegExp("^saving.*");
-
-        int photos_stabilized = 0;
-        int photos_saved = 0;
-
-        enum
-        {
-            StabilizingImages,
-            SavingImages,
-        } state = StabilizingImages;
-
-    } stabilization_data;
 
     auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
     {
@@ -153,16 +202,20 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
 
+            const QString message = "align_image_stack: " + line.trimmed();
+            m_logger->debug(message.toStdString());
+
             switch (stabilization_data.state)
             {
                 case stabilization_data.StabilizingImages:
                     if (stabilization_data.cp_regExp.exactMatch(line))
                     {
-                        stabilization_data.photos_stabilized++;
+                        stabilization_data.stabilization_step++;
 
-                        emit progress( stabilization_data.photos_stabilized * 100 / (photos_count - 1));   // there will be n-1 control points groups
+                        emit progress( stabilization_data.stabilization_step * 100 /
+                                       stabilization_data.stabilization_steps);
                     }
-                    else if (stabilization_data.opt_regExp.exactMatch(line))
+                    else if (stabilization_data.run_regExp.exactMatch(line))
                     {
                         stabilization_data.state = stabilization_data.SavingImages;
 
@@ -184,16 +237,17 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
         }
     };
 
-    execute(m_data.alignImageStackPath,
+    execute(m_logger,
+            m_data.alignImageStackPath,
             align_image_stack_output_analizer,
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-C",
             "-v",                              // for align_image_stack_output_analizer
             "--use-given-order",
             "-d", "-i", "-x", "-y", "-z",
             "-s", "0",
             "-a", output_prefix,
-            m_data.photos);
+            rotated_photos);
 
     QStringList stabilized_images;
 
@@ -213,7 +267,8 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
 {
     // generate gif
     const int photos_count = m_data.photos.size();
-    const int last_photo_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+    const double last_photo_exact_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
+    const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
     const QString location = System::getTempFilePath() + ".gif";
@@ -242,6 +297,9 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
+
+            const QString message = "convert: " + line.trimmed();
+            m_logger->debug(message.toStdString());
 
             switch (conversion_data.state)
             {
@@ -278,20 +336,28 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
         }
     };
 
-    execute(m_data.convertPath,
+    execute(m_logger,
+            m_data.convertPath,
             convert_output_analizer,
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, std::placeholders::_1),
+            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
             "-delay", QString::number(last_photo_delay),
             last,
+            "+repage",                                       // [1]
             "-auto-orient",
             "-loop", "0",
-            "-resize", QString::number(m_data.scale) + "%",
+            "-scale", QString::number(m_data.scale) + "%",
             location);
 
     return m_cancel? "": location;
+
+    // [1] It seems that align_image_stack may safe information about crop it applied to images.
+    //     convert uses this information(?) and generates gif with frames moved
+    //     from (0, 0) to (cropX, cropY). It results in a black border.
+    //     +repage fixes it (I don't know how does it work exactly. It just does the trick).
+    //     http://www.imagemagick.org/discourse-server/viewtopic.php?t=14556
 }
 
 
