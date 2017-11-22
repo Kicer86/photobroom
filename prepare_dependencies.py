@@ -45,7 +45,7 @@ def main(argv):
 
     #parse arguments
     try:
-        opts, args = getopt.getopt(argv[1:], "p:g:h", ["help"])
+        opts, args = getopt.getopt(argv[1:], "c:g:hp:", ["help"])
     except getopt.GetoptError:
         print("Invalid arguments provided")
         usage(name)
