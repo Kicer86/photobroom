@@ -2,12 +2,13 @@
 from sys import argv
 from sys import exit
 import getopt
+import os.path
 
 argc = len(argv)
 
-def usage():
+def usage(name):
     print("Usage:")
-    print("prepare_dependencies.py [options] destination dir")
+    print(name, "[options]", "destination dir")
     print("")
     print("Possible options:")
     print("-p <name>      Download nad install package.")
@@ -15,29 +16,40 @@ def usage():
     print("               exiv2, jsoncpp, openlibrary")
     print("               Option can be reapeted.")
     print("")
-    print("-g <generator>")
+    print("-g <generator> ")
+
+def get_script_name(script_path):
+    script_path = argv[0]
+    script_path_splited = script_path.split(os.path.sep)
+    script_name = script_path_splited[-1]
+
+    return script_name
 
 
 def main(argv):
-    if len(argv) == 0:
-        usage()
+
+    name = get_script_name(argv[0])
+
+    # no arguments? Show usage
+    if len(argv) == 1:
+        usage(name)
+        exit()
+
+    #parse arguments
+    try:
+        opts, args = getopt.getopt(argv[1:], "p:g:h", [])
+    except getopt.GetoptError:
+        usage(name)
         exit(2)
         
-    try:
-        opts, args = getopt.getopt(argv, "p:g:h", [])
-    except getopt.GetoptError:
-        usage()
-        exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            usage()
+            usage(name)
             exit()
         elif opt == "-g":
             print("-g", arg)
         elif opt  == "-p":
             print("-p", arg)
 
-    print("exit")
-
 if __name__ == "__main__":
-   main(argv[1:])
+   main(argv[0:])
