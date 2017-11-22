@@ -6,7 +6,10 @@ import os.path
 import shutil
 
 
-def usage(name):
+def usage():
+
+    name = os.path.basename(argv[0])
+
     print("Usage:")
     print(name, "[options]", "destination dir")
     print("")
@@ -20,15 +23,6 @@ def usage(name):
     print("")
     print("-c <cmake>     Path to cmake. Useful when 'cmake' is not in PATH.")
 
-
-def get_script_name(script_path):
-    script_path = argv[0]
-    script_path_splited = script_path.split(os.path.sep)
-    script_name = script_path_splited[-1]
-
-    return script_name
-
-
 def is_exe(path):
     return os.path.isfile(path) and os.access(path, os.X_OK)
 
@@ -36,24 +30,23 @@ def is_exe(path):
 def main(argv):
 
     cmake = shutil.which('cmake')
-    name = get_script_name(argv[0])
 
     # no arguments? Show usage
     if len(argv) == 1:
-        usage(name)
+        usage()
         exit()
 
-    #parse arguments
+    # parse arguments
     try:
         opts, args = getopt.getopt(argv[1:], "c:g:hp:", ["help"])
     except getopt.GetoptError:
         print("Invalid arguments provided")
-        usage(name)
+        usage()
         exit(2)
 
     for opt, arg in opts:
         if opt in ['-h', '--help']:
-            usage(name)
+            usage()
             exit()
         elif opt == "-g":
             print("-g", arg)
@@ -64,6 +57,12 @@ def main(argv):
 
     if cmake is None or is_exe(cmake) == False:
         print("No valid path to 'cmake' was provided.")
+        exit(2)
+
+    # we expect one argument (desitnation dir) in args
+    if len(args) != 1:
+        print("No desitnation dir was provided")
+        usage()
         exit(2)
 
 
