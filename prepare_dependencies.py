@@ -45,13 +45,14 @@ def main(argv):
 
     #parse arguments
     try:
-        opts, args = getopt.getopt(argv[1:], "p:g:h", [])
+        opts, args = getopt.getopt(argv[1:], "p:g:h", ["help"])
     except getopt.GetoptError:
+        print("Invalid arguments provided")
         usage(name)
         exit(2)
 
     for opt, arg in opts:
-        if opt == '-h':
+        if opt in ['-h', '--help']:
             usage(name)
             exit()
         elif opt == "-g":
