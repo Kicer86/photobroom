@@ -30,6 +30,8 @@ def is_exe(path):
 def main(argv):
 
     cmake = shutil.which('cmake')
+    generator = ""
+    libraries = []
 
     # no arguments? Show usage
     if len(argv) == 1:
@@ -49,9 +51,13 @@ def main(argv):
             usage()
             exit()
         elif opt == "-g":
-            print("-g", arg)
+            generator = arg
         elif opt == "-p":
-            print("-p", arg)
+            if (arg in ['exiv2', 'jsoncpp', 'openlibrary']):
+                libraries.append(arg)
+            else:
+                print("'" + arg + "' is not valid package name.")
+                exit(2)
         elif opt == "-c":
             cmake = arg
 
@@ -60,11 +66,15 @@ def main(argv):
         exit(2)
 
     # we expect one argument (desitnation dir) in args
-    if len(args) != 1:
-        print("No desitnation dir was provided.")
+    if len(args) == 0:
+        print("No destination dir was provided.")
         usage()
         exit(2)
 
+    if len(args) > 1:
+        print("Too many desination dirs. Only one is expected.")
+        usage()
+        exit(2)
 
 if __name__ == "__main__":
    main(argv[0:])
