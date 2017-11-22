@@ -43,7 +43,7 @@ def main(argv):
         opts, args = getopt.getopt(argv[1:], "c:g:hp:", ["help"])
     except getopt.GetoptError:
         print("Invalid arguments provided")
-        usage()
+        print("See -h for help.")
         exit(2)
 
     for opt, arg in opts:
@@ -57,23 +57,25 @@ def main(argv):
                 libraries.append(arg)
             else:
                 print("'" + arg + "' is not valid package name.")
+                print("See -h for help.")
                 exit(2)
         elif opt == "-c":
             cmake = arg
 
     if cmake is None or is_exe(cmake) == False:
         print("No valid path to 'cmake' was provided.")
+        print("See -h for help.")
         exit(2)
 
     # we expect one argument (desitnation dir) in args
     if len(args) == 0:
         print("No destination dir was provided.")
-        usage()
+        print("See -h for help.")
         exit(2)
 
     if len(args) > 1:
         print("Too many desination dirs. Only one is expected.")
-        usage()
+        print("See -h for help.")
         exit(2)
 
 if __name__ == "__main__":
