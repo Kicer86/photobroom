@@ -61,7 +61,7 @@ def main(argv):
 
     # we expect one argument (desitnation dir) in args
     if len(args) != 1:
-        print("No desitnation dir was provided")
+        print("No desitnation dir was provided.")
         usage()
         exit(2)
 
