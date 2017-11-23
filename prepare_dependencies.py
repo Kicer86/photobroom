@@ -48,6 +48,7 @@ def main(argv):
         print("See -h for help.")
         exit(2)
 
+    # collect data
     for opt, arg in opts:
         if opt in ['-h', '--help']:
             usage()
@@ -64,11 +65,6 @@ def main(argv):
         elif opt == "-c":
             cmake = arg
 
-    if cmake is None or is_exe(cmake) == False:
-        print("No valid path to 'cmake' was provided.")
-        print("See -h for help.")
-        exit(2)
-
     # we expect one argument (desitnation dir) in args
     if len(args) == 0:
         print("No destination dir was provided.")
@@ -81,6 +77,12 @@ def main(argv):
         exit(2)
 
     destination_dir = args[0]
+
+    # verify
+    if cmake is None or is_exe(cmake) == False:
+        print("No valid path to 'cmake' was provided.")
+        print("See -h for help.")
+        exit(2)
 
 
 if __name__ == "__main__":
