@@ -23,20 +23,21 @@ def usage():
     print("")
     print("-c <cmake>     Path to cmake. Useful when 'cmake' is not in PATH.")
 
+
 def is_exe(path):
     return os.path.isfile(path) and os.access(path, os.X_OK)
 
 
 def main(argv):
 
-    cmake = shutil.which('cmake')
-    generator = ""
-    libraries = []
-
     # no arguments? Show usage
     if len(argv) == 1:
         usage()
         exit()
+
+    cmake = shutil.which('cmake')
+    generator = ""
+    libraries = []
 
     # parse arguments
     try:
@@ -77,6 +78,7 @@ def main(argv):
         print("Too many desination dirs. Only one is expected.")
         print("See -h for help.")
         exit(2)
+
 
 if __name__ == "__main__":
    main(argv[0:])
