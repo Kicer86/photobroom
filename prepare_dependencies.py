@@ -38,6 +38,7 @@ def main(argv):
     cmake = shutil.which('cmake')
     generator = ""
     libraries = []
+    destination_dir = ""
 
     # parse arguments
     try:
@@ -78,6 +79,8 @@ def main(argv):
         print("Too many desination dirs. Only one is expected.")
         print("See -h for help.")
         exit(2)
+
+    destination_dir = args[0]
 
 
 if __name__ == "__main__":
