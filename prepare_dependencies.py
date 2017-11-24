@@ -52,7 +52,6 @@ def main(argv):
         usage(packages_names)
         exit()
 
-    cmake = shutil.which('cmake')
     libraries = []
     destination_dir = ""
 
@@ -89,12 +88,6 @@ def main(argv):
         exit(2)
 
     destination_dir = args[0]
-
-    # verify
-    if cmake is None or is_exe(cmake) == False:
-        print("No valid path to 'cmake' was provided.")
-        print("See -h for help.")
-        exit(2)
 
 
 if __name__ == "__main__":
