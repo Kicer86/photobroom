@@ -6,7 +6,24 @@ import os.path
 import shutil
 
 
-def usage():
+def read_packages(location):
+    from os import listdir
+    from os.path import isfile, join
+
+    available_packages = {}
+
+    # load packages
+    entries = listdir(location)
+    for entry in entries:
+        full_path = join(location, entry)
+        if entry[-3:] == ".py" and isfile(full_path):
+            file_content = open(full_path).read()
+            exec(file_content)
+
+    return available_packages
+
+
+def usage(avail_packages):
 
     name = os.path.basename(argv[0])
 
@@ -16,7 +33,7 @@ def usage():
     print("Possible options:")
     print("-p <name>      Download nad install package.")
     print("               Possible packages:")
-    print("               exiv2, jsoncpp, openlibrary")
+    print("               " + ", ".join(avail_packages))
     print("               Option can be reapeted.")
     print("")
     print("-g <generator> CMake generator. See cmake --help for possible options.")
@@ -30,9 +47,12 @@ def is_exe(path):
 
 def main(argv):
 
+    #read available packages
+    packages = read_packages("./dependencies")
+
     # no arguments? Show usage
     if len(argv) == 1:
-        usage()
+        usage(packages.keys())
         exit()
 
     cmake = shutil.which('cmake')
@@ -51,7 +71,7 @@ def main(argv):
     # collect data
     for opt, arg in opts:
         if opt in ['-h', '--help']:
-            usage()
+            usage(packages.keys())
             exit()
         elif opt == "-g":
             generator = arg
