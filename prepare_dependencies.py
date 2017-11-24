@@ -43,7 +43,7 @@ def is_exe(path):
 
 def main(argv):
 
-    #read available packages
+    # read available packages
     packages = read_packages("./dependencies")
     packages_names = packages.keys()
 
