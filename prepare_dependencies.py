@@ -89,6 +89,11 @@ def main(argv):
 
     destination_dir = args[0]
 
+    for lib in libraries:
+        print("Building " + lib)
+        if packages[lib]() != 0:
+            break
+
 
 if __name__ == "__main__":
    main(argv[0:])
