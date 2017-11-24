@@ -35,10 +35,6 @@ def usage(avail_packages):
     print("               Possible packages:")
     print("               " + ", ".join(avail_packages))
     print("               Option can be reapeted.")
-    print("")
-    print("-g <generator> CMake generator. See cmake --help for possible options.")
-    print("")
-    print("-c <cmake>     Path to cmake. Useful when 'cmake' is not in PATH.")
 
 
 def is_exe(path):
@@ -49,20 +45,20 @@ def main(argv):
 
     #read available packages
     packages = read_packages("./dependencies")
+    packages_names = packages.keys()
 
     # no arguments? Show usage
     if len(argv) == 1:
-        usage(packages.keys())
+        usage(packages_names)
         exit()
 
     cmake = shutil.which('cmake')
-    generator = ""
     libraries = []
     destination_dir = ""
 
     # parse arguments
     try:
-        opts, args = getopt.getopt(argv[1:], "c:g:hp:", ["help"])
+        opts, args = getopt.getopt(argv[1:], "hp:", ["help"])
     except getopt.GetoptError:
         print("Invalid arguments provided")
         print("See -h for help.")
@@ -71,19 +67,15 @@ def main(argv):
     # collect data
     for opt, arg in opts:
         if opt in ['-h', '--help']:
-            usage(packages.keys())
+            usage(packages_names)
             exit()
-        elif opt == "-g":
-            generator = arg
         elif opt == "-p":
-            if (arg in ['exiv2', 'jsoncpp', 'openlibrary']):
+            if (arg in packages_names):
                 libraries.append(arg)
             else:
                 print("'" + arg + "' is not valid package name.")
                 print("See -h for help.")
                 exit(2)
-        elif opt == "-c":
-            cmake = arg
 
     # we expect one argument (desitnation dir) in args
     if len(args) == 0:
