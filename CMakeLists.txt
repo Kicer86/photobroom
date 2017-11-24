@@ -8,7 +8,7 @@ endif()
 
 project(PhotoBroom VERSION 1.2.0)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_private;${CMAKE_SOURCE_DIR}/cmake)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,7 +25,7 @@ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 #include modules
 include(FeatureSummary)
 include(GenerateExportHeader)
-include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake_private/functions.cmake)
 include(CheckCXXCompilerFlag)
 
 # enable/disable concepts
@@ -112,9 +112,9 @@ add_subdirectory(tools)
 
 #system dependent stuff
 if(UNIX OR CYGWIN)
-    include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
+    include(${PROJECT_SOURCE_DIR}/cmake_private/system/linux.cmake)
 elseif(WIN32)
-    include(${PROJECT_SOURCE_DIR}/cmake/system/win32.cmake)
+    include(${PROJECT_SOURCE_DIR}/cmake_private/system/win32.cmake)
 endif(UNIX OR CYGWIN)
 
 #documentation
