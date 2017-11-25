@@ -88,11 +88,13 @@ def main(argv):
         exit(2)
 
     destination_dir = args[0]
+    cmake_lists_path = os.path.join(destination_dir, "CMakeLists.txt")
 
-    for lib in libraries:
-        print("Building " + lib)
-        if packages[lib]() != 0:
-            break
+    with open(cmake_lists_path, 'w') as cmake_lists_file:
+        for lib in libraries:
+            print("Building " + lib)
+            if packages[lib](cmake_lists_file) != 0:
+                break
 
 
 if __name__ == "__main__":
