@@ -76,7 +76,7 @@ def main(argv):
                 print("See -h for help.")
                 exit(2)
 
-    # we expect one argument (desitnation dir) in args
+    # we expect one argument (destination dir) in args
     if len(args) == 0:
         print("No destination dir was provided.")
         print("See -h for help.")
