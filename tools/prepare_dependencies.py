@@ -1,6 +1,7 @@
 
 from sys import argv
 from sys import exit
+from subprocess import run
 import getopt
 import os.path
 import shutil
@@ -96,13 +97,31 @@ def main(argv):
     cmake_lists_file = open(cmake_lists_path, 'w')
     cmake_lists_file.write(cmake_lists_header)
 
+    current_dir = os.getcwd()
     os.chdir('./dependencies')
     for lib in libraries:
         print("Building " + lib)
         if packages[lib](cmake_lists_file) != 0:
             break
 
+    os.chdir(current_dir)
+
+    cmake_lists_file.close()
+
+    # create build dir
+    build_dir = os.path.join(destination_dir, "build")
+    if not os.path.exists(build_dir):
+        os.makedirs(build_dir)
+
     # run cmake
+    cmake_executable = shutil.which('cmake')
+
+    if is_exe(cmake_executable):
+        result = run([cmake_executable, destination_dir], cwd = build_dir)
+        result = run([cmake_executable, "--build", "."], cwd = build_dir)
+    else:
+        print("Could not find 'cmake' in PATH")
+        exit(2)
 
 
 if __name__ == "__main__":
