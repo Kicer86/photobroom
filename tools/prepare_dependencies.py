@@ -91,9 +91,9 @@ def main(argv):
     destination_dir = args[0]
     cmake_lists_path = os.path.join(destination_dir, "CMakeLists.txt")
 
-    cmake_lists_file = open(cmake_lists_path, 'w')
     cmake_lists_header = open('./templates/dependencies_header.cmake').read()
 
+    cmake_lists_file = open(cmake_lists_path, 'w')
     cmake_lists_file.write(cmake_lists_header)
 
     os.chdir('./dependencies')
