@@ -87,6 +87,7 @@ def main(argv):
         print("See -h for help.")
         exit(2)
 
+    # construct CMakeLists.txt
     destination_dir = args[0]
     cmake_lists_path = os.path.join(destination_dir, "CMakeLists.txt")
 
@@ -100,6 +101,8 @@ def main(argv):
         print("Building " + lib)
         if packages[lib](cmake_lists_file) != 0:
             break
+
+    # run cmake
 
 
 if __name__ == "__main__":
