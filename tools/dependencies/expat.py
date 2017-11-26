@@ -1,6 +1,9 @@
 
+def build_expat(cmake_lists):
 
-def build_expat():
+    cmake_lists_section = open('expat.cmake').read()
+    cmake_lists.write(cmake_lists_section)
+
     return 0
 
 
