@@ -95,6 +95,7 @@ def main(argv):
 
     cmake_lists_file.write(cmake_lists_header)
 
+    os.chdir('./dependencies')
     for lib in libraries:
         print("Building " + lib)
         if packages[lib](cmake_lists_file) != 0:
