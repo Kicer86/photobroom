@@ -24,10 +24,8 @@ set GTEST_PATH=c:\projects\googletest
 if EXIST c:/projects/install goto :gtest
 
 rem third party stuff
-mkdir build_third_party
-cd build_third_party
-cmake -G%generator% -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=OFF -DBUILD_JSONCPP=ON -DBUILD_EXIV2=ON -DINSTALL_LOCATION=c:/projects/install/ ../cmake/third_party/
-cmake --build . --config %Configuration%
+cd tools
+python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -g %generator% c:/projects
 cd ..
 
 rem setup gmock and gtest
