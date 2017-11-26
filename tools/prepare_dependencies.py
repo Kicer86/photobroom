@@ -36,6 +36,8 @@ def usage(avail_packages):
     print("               Possible packages:")
     print("               " + ", ".join(avail_packages))
     print("               Option can be reapeted.")
+    print("-g <generator> Generator to be used by CMake.")
+    print("               See cmake --help, 'Generators' section for more details")
 
 
 def is_exe(path):
@@ -55,10 +57,11 @@ def main(argv):
 
     libraries = []
     destination_dir = ""
+    generator = ""
 
     # parse arguments
     try:
-        opts, args = getopt.getopt(argv[1:], "hp:", ["help"])
+        opts, args = getopt.getopt(argv[1:], "g:hp:", ["help"])
     except getopt.GetoptError:
         print("Invalid arguments provided")
         print("See -h for help.")
@@ -69,6 +72,8 @@ def main(argv):
         if opt in ['-h', '--help']:
             usage(packages_names)
             exit()
+        elif opt == "-g":
+            generator = arg
         elif opt == "-p":
             if (arg in packages_names):
                 libraries.append(arg)
@@ -117,7 +122,14 @@ def main(argv):
     cmake_executable = shutil.which('cmake')
 
     if is_exe(cmake_executable):
-        result = run([cmake_executable, destination_dir], cwd = build_dir)
+
+        cmake_args = [cmake_executable, destination_dir]
+
+        if generator != "":
+            cmake_args.append("-G")
+            cmake_args.append(generator)
+
+        result = run(cmake_args, cwd = build_dir)
         result = run([cmake_executable, "--build", "."], cwd = build_dir)
     else:
         print("Could not find 'cmake' in PATH")
