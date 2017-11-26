@@ -90,11 +90,15 @@ def main(argv):
     destination_dir = args[0]
     cmake_lists_path = os.path.join(destination_dir, "CMakeLists.txt")
 
-    with open(cmake_lists_path, 'w') as cmake_lists_file:
-        for lib in libraries:
-            print("Building " + lib)
-            if packages[lib](cmake_lists_file) != 0:
-                break
+    cmake_lists_file = open(cmake_lists_path, 'w')
+    cmake_lists_header = open('./templates/dependencies_header.cmake').read()
+
+    cmake_lists_file.write(cmake_lists_header)
+
+    for lib in libraries:
+        print("Building " + lib)
+        if packages[lib](cmake_lists_file) != 0:
+            break
 
 
 if __name__ == "__main__":
