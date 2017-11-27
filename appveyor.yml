@@ -26,6 +26,7 @@ artifacts:
     name: PhotoBroom_installer
 
 before_build:
+    - git submodule update --init --recursive
     - call appveyor.bat
 
 build:
