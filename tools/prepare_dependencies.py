@@ -37,8 +37,8 @@ def usage(avail_packages):
     print("                   " + ", ".join(avail_packages))
     print("                   Option can be reapeted.")
     print("-g <generator>     Generator to be used by CMake.")
-    print("                   See cmake --help, 'Generators' section for more details")
-    print("-c <configuration> Build configuration (Release/Debug)")
+    print("                   See cmake --help, 'Generators' section for more details.")
+    print("-c <configuration> Build configuration (Release/Debug). Debug by default.")
 
 
 def is_exe(path):
