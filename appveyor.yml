@@ -17,15 +17,16 @@ platform:
 image: Visual Studio 2017
 
 cache:
-    - c:\projects\install      -> appveyor.bat, cmake/third_party/CMakeLists.txt
-    - c:\projects\googletest   -> appveyor.bat, cmake/third_party/CMakeLists.txt
-    - c:\program files\cmake   -> appveyor.bat, cmake/third_party/CMakeLists.txt
+    - c:\projects\install      -> appveyor.bat, tools/prepare_dependencies.py
+    - c:\projects\googletest   -> appveyor.bat, tools/prepare_dependencies.py
+    - c:\program files\cmake   -> appveyor.bat, tools/prepare_dependencies.py
 
 artifacts:
   - path: build/PhotoBroom-1.2.0-win64.exe
     name: PhotoBroom_installer
 
 before_build:
+    - git submodule update --init --recursive
     - call appveyor.bat
 
 build:

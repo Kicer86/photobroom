@@ -1,8 +1,8 @@
 
 Required tools and libraries:
- - cmake - version 3.0 or later
+ - cmake - version 3.8 or later
  - Qt5 - version 5.7 or higher
- - easyexif*
+ - exiv2*
  - jsoncpp*
  - OpenLibrary*
 
@@ -25,14 +25,16 @@ Tested compilers (with c++17 support):
 
 2. clang (Linux)
 
+3. Visual studio 2017 (Windows)
 
-PhotoBroom cannot be run from compilation directory without installing.
+
+PhotoBroom cannot be run from compilation directory without installation step.
 On Linux it will search for plugins in destination (installation) directory.
 Build 'install' target to install PhotoBroom. Then you can launch it.
 On Windows operating system, PhotoBroom searches for plugins and translations,
 in location relative to exe file.
 
-There is CMake DEVELOPER_BUILD variable available to ease debugging of some features.
+There is CMake DEVELOPER_BUILD variable available to ease debugging.
 On Windows, DEVELOPER_BUILD option will force PhotoBroom to look for plugins and translations in location
 defined by CMAKE_INSTALL_PREFIX (so as it does on Linux) not in build directory.
 
