@@ -10,15 +10,13 @@ Required tools and libraries:
  - KCrash + drkonqi (for crash catching)
  - GMock and GTest  (unit tests)
 
-* For convenience it is possible to use prepared CMake script
-  for download, build and install all marked libraries.
-  If you want to use this feature take cmake/third_party directory
-  as CMake source dir. Place output dir somewhere outise photo broom sources.
-
-  By default none of the marked libraries will be build.
-  It is necessary to enable each library manually with particular CMake variable.
-
-  set BUILD_* variable to ON for library you want to be downloaded.
+* For convenience it is possible to use python script
+  for download, build and install all marked libraries
+  (python 3.5 at least is required).
+  If you want to use it run prepared_dependencies.py from tools directory.
+  Pass --help to get information about usage.
+  Exiv2 requires 'expat' and 'zlib' to build, so these two packages
+  are also available for convenience.
 
 Tested compilers (with c++17 support):
 1. gcc (Linux and Windows)
