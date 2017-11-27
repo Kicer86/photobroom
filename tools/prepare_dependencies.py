@@ -32,12 +32,13 @@ def usage(avail_packages):
     print(name, "[options]", "destination dir")
     print("")
     print("Possible options:")
-    print("-p <name>      Download nad install package.")
-    print("               Possible packages:")
-    print("               " + ", ".join(avail_packages))
-    print("               Option can be reapeted.")
-    print("-g <generator> Generator to be used by CMake.")
-    print("               See cmake --help, 'Generators' section for more details")
+    print("-p <name>          Download nad install package.")
+    print("                   Possible packages:")
+    print("                   " + ", ".join(avail_packages))
+    print("                   Option can be reapeted.")
+    print("-g <generator>     Generator to be used by CMake.")
+    print("                   See cmake --help, 'Generators' section for more details")
+    print("-c <configuration> Build configuration (Release/Debug)")
 
 
 def is_exe(path):
@@ -58,10 +59,11 @@ def main(argv):
     libraries = []
     destination_dir = ""
     generator = ""
+    configuration = "Debug"
 
     # parse arguments
     try:
-        opts, args = getopt.getopt(argv[1:], "g:hp:", ["help"])
+        opts, args = getopt.getopt(argv[1:], "c:g:hp:", ["help"])
     except getopt.GetoptError:
         print("Invalid arguments provided")
         print("See -h for help.")
@@ -72,6 +74,8 @@ def main(argv):
         if opt in ['-h', '--help']:
             usage(packages_names)
             exit()
+        elif opt == "-c":
+            configuration = arg
         elif opt == "-g":
             generator = arg
         elif opt == "-p":
@@ -130,7 +134,7 @@ def main(argv):
             cmake_args.append(generator)
 
         result = run(cmake_args, cwd = build_dir)
-        result = run([cmake_executable, "--build", "."], cwd = build_dir)
+        result = run([cmake_executable, "--build", ".", "--config", configuration], cwd = build_dir)
     else:
         print("Could not find 'cmake' in PATH")
         exit(2)
