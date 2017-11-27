@@ -28,7 +28,6 @@
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 #include <OpenLibrary/putils/ts_resource.hpp>
-#include <OpenLibrary/utils/optional.hpp>
 
 
 ITaskExecutor::ITask::~ITask()
@@ -117,8 +116,8 @@ void TaskExecutor::eat()
 
                 while(true)
                 {
-                    ol::Optional<std::unique_ptr<ITask>> opt_task(m_tasks.pop_for(2000ms));
-                    assert(opt_task.is_initialized() == false || opt_task->get() != nullptr);
+                    std::optional<std::unique_ptr<ITask>> opt_task(m_tasks.pop_for(2000ms));
+                    assert(opt_task.has_value() == false || opt_task->get() != nullptr);
 
                     if (opt_task)
                     {
