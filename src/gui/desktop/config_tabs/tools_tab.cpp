@@ -95,6 +95,13 @@ QWidget* ToolsTabController::constructTab()
     tab->convertPath()->setValue(convertPath);
     tab->ffmpegPath()->setValue(ffmpegPath);
 
+    connect(tab, &QObject::destroyed, [this](QObject* t)
+    {
+        assert(t != nullptr);
+
+        setTabWidget(nullptr);
+    });
+
     return tab;
 }
 

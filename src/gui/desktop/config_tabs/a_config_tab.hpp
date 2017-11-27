@@ -27,7 +27,8 @@ class AConfigTab: public IConfigTab
     protected:
         void setTabWidget(T* tab)
         {
-            assert(m_tab == nullptr);
+            // we either make something null or make null something
+            assert(m_tab == nullptr || tab == nullptr);
             m_tab = tab;
         }
 
