@@ -30,9 +30,6 @@
 #include <mutex>
 
 
-#include <OpenLibrary/utils/optional.hpp>
-
-
 template<typename T>
 class TS_MultiHeadQueue
 {
@@ -171,7 +168,7 @@ class TS_MultiHeadQueue
             return std::move(result);
         }
 
-        ol::Optional<T> pop()
+        std::optional<T> pop()
         {
             // lock non empty producers
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
@@ -180,9 +177,9 @@ class TS_MultiHeadQueue
             return internal_pop();
         }
 
-        ol::Optional<T> pop_for(const std::chrono::milliseconds& timeout)
+        std::optional<T> pop_for(const std::chrono::milliseconds& timeout)
         {
-            ol::Optional<T> result;
+            std::optional<T> result;
 
             // lock non empty producers
             std::unique_lock<std::mutex> lock(m_non_empty_mutex);
@@ -287,9 +284,9 @@ class TS_MultiHeadQueue
             return status;
         }
 
-        ol::Optional<T> internal_pop()
+        std::optional<T> internal_pop()
         {
-            ol::Optional<T> result;
+            std::optional<T> result;
 
             if (m_non_empty.empty() == false)
             {

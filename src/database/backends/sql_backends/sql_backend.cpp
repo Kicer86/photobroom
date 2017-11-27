@@ -36,8 +36,6 @@
 #include <QVariant>
 #include <QPixmap>
 
-#include <OpenLibrary/utils/optional.hpp>
-
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
@@ -221,7 +219,7 @@ namespace Database
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
-            ol::Optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
+            std::optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
             GroupInfo            getGroupFor(const Photo::Id &) const;
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
@@ -776,7 +774,7 @@ namespace Database
                 photoData.geometry = geometry;
 
             //load sha256
-            const ol::Optional<Photo::Sha256sum> sha256 = getSha256For(id);
+            const std::optional<Photo::Sha256sum> sha256 = getSha256For(id);
             if (sha256)
                 photoData.sha256Sum = *sha256;
 
@@ -890,7 +888,7 @@ namespace Database
     }
 
 
-    ol::Optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id) const
+    std::optional<Photo::Sha256sum> ASqlBackend::Data::getSha256For(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -901,7 +899,7 @@ namespace Database
 
         const bool status = m_executor.exec(queryStr, &query);
 
-        ol::Optional<Photo::Sha256sum> result;
+        std::optional<Photo::Sha256sum> result;
         if(status && query.next())
         {
             const QVariant variant = query.value(0);

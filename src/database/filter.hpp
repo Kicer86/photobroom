@@ -25,8 +25,6 @@
 
 #include <QString>
 
-#include <OpenLibrary/utils/optional.hpp>
-
 #include <core/tag.hpp>
 #include <core/search_expression_evaluator.hpp>
 

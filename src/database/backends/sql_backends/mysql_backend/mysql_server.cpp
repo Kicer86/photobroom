@@ -172,12 +172,12 @@ void MySqlServer::set(ILoggerFactory* logger_factory)
 QString MySqlServer::getDaemonPath() const
 {
     //get path to server
-    ol::Optional<QVariant> daemonPath = m_configuration->getEntry(MySQL_daemon);
+    QVariant daemonPath = m_configuration->getEntry(MySQL_daemon);
 
     QString path;
 
-    if (daemonPath)
-        path = daemonPath->toString();
+    if (daemonPath.isNull() == false)
+        path = daemonPath.toString();
 
     if (path.isEmpty())
     {
