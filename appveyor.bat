@@ -7,6 +7,10 @@ copy /y nul "c:\program files\cmake\updated"
 
 :setup
 
+pushd C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include
+wget https://developercommunity.visualstudio.com/storage/attachments/10724-xsmf-controlhdiff.txt
+patch -p0 < 10724-xsmf-controlhdiff.txt
+popd
 
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
