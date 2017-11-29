@@ -8,6 +8,7 @@ appveyor DownloadFile https://developercommunity.visualstudio.com/storage/attach
 patch -l -p0 < 10724-xsmf-controlhdiff.txt
 popd
 
+rem update cmake if needed
 if EXIST "c:\program files\cmake\updated" goto :setup
 choco upgrade cmake
 copy /y nul "c:\program files\cmake\updated"
