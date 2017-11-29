@@ -2,9 +2,8 @@
 echo ON
 
 pushd C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include
-type xsmf_control.h
 appveyor DownloadFile https://developercommunity.visualstudio.com/storage/attachments/10724-xsmf-controlhdiff.txt
-patch -p0 < 10724-xsmf-controlhdiff.txt
+patch -l -p0 < 10724-xsmf-controlhdiff.txt
 popd
 
 if EXIST "c:\program files\cmake\updated" goto :setup
