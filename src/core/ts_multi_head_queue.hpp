@@ -28,6 +28,7 @@
 #include <set>
 #include <memory>
 #include <mutex>
+#include <optional>
 
 
 template<typename T>
