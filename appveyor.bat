@@ -1,6 +1,8 @@
 
 echo ON
 
+rem Patch Visual Studio's files.
+rem https://developercommunity.visualstudio.com/content/problem/74313/compiler-error-in-xsmf-control-with-stdoptional-pa.html
 pushd C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include
 appveyor DownloadFile https://developercommunity.visualstudio.com/storage/attachments/10724-xsmf-controlhdiff.txt
 patch -l -p0 < 10724-xsmf-controlhdiff.txt
