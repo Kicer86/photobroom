@@ -904,7 +904,7 @@ namespace Database
         {
             const QVariant variant = query.value(0);
 
-            result->append(variant.toString());
+            result = variant.toString().toLatin1();
         }
 
         return result;
