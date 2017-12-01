@@ -83,6 +83,10 @@ QWidget* LookTabController::constructTab()
 
     m_tabWidget->colorOddButton()->setColor(odd_qcolor);
 
+    const int items_spacing = m_configuration->getEntry(ViewConfigKeys::itemsSpacing).toInt();
+
+    m_tabWidget->spacingSpinBox()->setValue(items_spacing);
+
     return m_tabWidget;
 }
 
@@ -96,6 +100,9 @@ void LookTabController::applyConfiguration()
     const QColor& odd_qcolor = m_tabWidget->colorOddButton()->getColor();
     const uint32_t odd_color = ConfigTools::colorToInt(odd_qcolor);
     m_configuration->setEntry(ViewConfigKeys::bkg_color_odd, odd_color);
+
+    const int items_spacing = m_tabWidget->spacingSpinBox()->value();
+    m_configuration->setEntry(ViewConfigKeys::itemsSpacing, items_spacing);
 }
 
 

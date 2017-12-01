@@ -37,7 +37,7 @@
 ConfigurationPrivate::ConfigurationPrivate():
     m_json(),
     m_dumpTimer(),
-    m_observers()
+    m_watchers()
 {
     m_dumpTimer.setSingleShot(true);
     m_dumpTimer.setInterval(500);
@@ -102,16 +102,19 @@ void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_
             assert(!"unsupported type");
     });
 
-    for(IConfigObserver* observer: m_observers)
-        observer->configChanged(entry, entry_value);
+    const auto w_it = m_watchers.find(entry);
+
+    if (w_it != m_watchers.end())
+        for (const IConfiguration::Watcher& watcher: w_it->second)
+            watcher(entry, entry_value);
 
     markDataDirty();
 }
 
 
-void ConfigurationPrivate::registerObserver(IConfigObserver* observer)
+void ConfigurationPrivate::watchFor(const QString& key, const IConfiguration::Watcher& watcher)
 {
-    m_observers.insert(observer);
+    m_watchers[key].push_back(watcher);
 }
 
 
@@ -213,7 +216,7 @@ void Configuration::setDefaultValue(const QString& entry, const QVariant& value)
 }
 
 
-void Configuration::registerObserver(IConfigObserver* observer)
+void Configuration::watchFor(const QString& key, const Watcher& watcher)
 {
-    d->registerObserver(observer);
+    d->watchFor(key, watcher);
 }

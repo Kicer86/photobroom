@@ -665,7 +665,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+80"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+84"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>

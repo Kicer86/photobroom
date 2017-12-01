@@ -136,6 +136,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     {
         updateZoomSizeLabel(thumbnailHeight);
         m_view->setThumbnailHeight(thumbnailHeight);
+        m_view->invalidate();
         m_thumbnailAcquisitor.dismissPendingTasks();
     });
 }
@@ -163,6 +164,13 @@ void PhotosWidget::set(IConfiguration* configuration)
     m_view->setSpacing(spacing);
     m_delegate->set(configuration);
     m_thumbnailAcquisitor.set(configuration);
+
+    configuration->watchFor(ViewConfigKeys::itemsSpacing, [this](const QString &, const QVariant& value)
+    {
+        const int spacing = value.toInt();
+        m_view->setSpacing(spacing);
+        m_view->invalidate();
+    });
 }
 
 

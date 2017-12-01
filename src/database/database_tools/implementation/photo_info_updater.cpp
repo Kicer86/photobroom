@@ -219,7 +219,7 @@ void PhotoInfoUpdater::set(IConfiguration* configuration)
 
 int PhotoInfoUpdater::tasksInProgress()
 {
-    return m_tasks.size();
+    return static_cast<int>(m_tasks.size());
 }
 
 

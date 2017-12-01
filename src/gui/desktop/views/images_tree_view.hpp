@@ -47,6 +47,7 @@ class ImagesTreeView: public QAbstractItemView
         void setSpacing(int);
         void setImageMargin(int);
         void setThumbnailHeight(int);
+        void invalidate();                // call it after above methods
 
         int getThumbnailHeight() const;
         QRect childrenSize(const QModelIndex &) const;

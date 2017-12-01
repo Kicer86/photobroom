@@ -92,8 +92,11 @@ void ImagesTreeView::setImageMargin(int margin)
 void ImagesTreeView::setThumbnailHeight(int thumbSize)
 {
     m_data->setThumbnailDesiredHeight(thumbSize);
+}
 
-    //reset all positions
+
+void ImagesTreeView::invalidate()
+{
     PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
