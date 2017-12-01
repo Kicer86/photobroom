@@ -48,7 +48,11 @@ PhotosItemDelegate::~PhotosItemDelegate()
 void PhotosItemDelegate::set(IConfiguration* config)
 {
     m_config = config;
-    m_config->registerObserver(this);
+
+    using namespace std::placeholders;
+    auto watcher = std::bind(&PhotosItemDelegate::configChanged, this, _1, _2);
+    m_config->watchFor(ViewConfigKeys::bkg_color_even, watcher);
+    m_config->watchFor(ViewConfigKeys::bkg_color_odd, watcher);
 
     readConfig();
 }

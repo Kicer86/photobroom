@@ -38,7 +38,6 @@ class CORE_EXPORT Configuration: public IConfiguration
         void setEntry(const QString &, const QVariant &) override;
         void setDefaultValue(const QString &, const QVariant &) override;
         void watchFor(const QString & key, const Watcher &) override;
-        void registerObserver(IConfigObserver*) override;
 
     private:
         class ConfigurationPrivate* const d;

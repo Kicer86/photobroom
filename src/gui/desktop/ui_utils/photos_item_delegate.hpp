@@ -26,7 +26,7 @@
 
 struct IThumbnailAcquisitor;
 
-class PhotosItemDelegate: public LazyTreeItemDelegate, private IConfigObserver
+class PhotosItemDelegate: public LazyTreeItemDelegate
 {
         Q_OBJECT
 
@@ -51,8 +51,7 @@ class PhotosItemDelegate: public LazyTreeItemDelegate, private IConfigObserver
         void setupEvenColor(const QVariant &);
         void setupOddColor(const QVariant &);
 
-        // IConfigObserver:
-        void configChanged(const QString&, const QVariant&) override;
+        void configChanged(const QString&, const QVariant&);
 };
 
 #endif // PHOTOSITEMDELEGATE_HPP
