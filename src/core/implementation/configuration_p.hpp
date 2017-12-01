@@ -45,11 +45,13 @@ class ConfigurationPrivate: public QObject
         void setEntry(const QString &, const QVariant &);
 
         void registerObserver(IConfigObserver *);
+        void watchFor(const QString &, const IConfiguration::Watcher &);
 
     private:
         ol::ThreadSafeResource<Json::Value> m_json;
         QTimer m_dumpTimer;
         std::set<IConfigObserver *> m_observers;
+        std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
 
         void loadData();
         void markDataDirty();

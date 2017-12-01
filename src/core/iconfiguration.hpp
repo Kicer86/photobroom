@@ -20,16 +20,15 @@
 #ifndef ICONFIGURATION_HPP
 #define ICONFIGURATION_HPP
 
-#include <vector>
-#include <string>
-
-#include "core_export.h"
+#include <functional>
 
 class QString;
 class QVariant;
 
+#include "core_export.h"
 
-struct CORE_EXPORT IConfigObserver
+
+struct CORE_DEPRECATED_EXPORT IConfigObserver
 {
     virtual ~IConfigObserver() = default;
     virtual void configChanged(const QString &, const QVariant &) = 0;
@@ -38,6 +37,8 @@ struct CORE_EXPORT IConfigObserver
 
 struct CORE_EXPORT IConfiguration
 {
+    typedef std::function<void(const QString &, const QVariant &)> Watcher;
+
     virtual ~IConfiguration() = default;
 
     virtual QVariant getEntry(const QString &) = 0;
@@ -45,6 +46,7 @@ struct CORE_EXPORT IConfiguration
 
     virtual void setDefaultValue(const QString &, const QVariant &) = 0;
 
+    virtual void watchFor(const QString& key, const Watcher &) = 0;
     virtual void registerObserver(IConfigObserver *) = 0;
 };
 
