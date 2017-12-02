@@ -133,8 +133,8 @@ def main(argv):
             cmake_args.append("-G")
             cmake_args.append(generator)
 
-        result = run(cmake_args, cwd = build_dir)
-        result = run([cmake_executable, "--build", ".", "--config", configuration], cwd = build_dir)
+        call(cmake_args, cwd = build_dir)
+        call([cmake_executable, "--build", ".", "--config", configuration], cwd = build_dir)
     else:
         print("Could not find 'cmake' in PATH")
         exit(2)
