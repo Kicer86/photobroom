@@ -88,10 +88,9 @@ before_script:
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
-        mkdir build_third_party;
-        pushd build_third_party;
+        pushd tools;
         CXX=$COMPILER $CMAKE_BIN -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=OFF -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/;
-        make;
+        python ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr
         popd;
     fi
   # setup gmock and gtest
