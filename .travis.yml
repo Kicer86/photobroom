@@ -93,8 +93,8 @@ before_script:
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         pushd tools;
-        CXX=$COMPILER $CMAKE_BIN -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=OFF -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/;
-        python ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr
+        # CXX=$COMPILER $CMAKE_BIN -DBUILD_OPENLIBRARY=ON -DBUILD_EASYEXIF=OFF -DBUILD_JSONCPP=ON -DINSTALL_LOCATION=$TRAVIS_BUILD_DIR/usr ../cmake/third_party/;
+        python3 ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr
         popd;
     fi
   # setup gmock and gtest
