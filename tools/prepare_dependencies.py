@@ -1,7 +1,7 @@
 
 from sys import argv
 from sys import exit
-from subprocess import run
+from subprocess import call
 import getopt
 import os.path
 import shutil
