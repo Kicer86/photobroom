@@ -4,8 +4,6 @@ dist: trusty
 
 language: cpp
 
-python: "3.5"
-
 branches:
   only:
     - master
@@ -26,6 +24,7 @@ matrix:
                - g++-7
                - gcc-7
                - libexiv2-dev
+               - python3
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
@@ -38,6 +37,7 @@ matrix:
                - g++-7
                - gcc-7
                - libexiv2-dev
+               - python3
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
@@ -50,6 +50,7 @@ matrix:
                - libstdc++-7-dev
                - clang-5.0
                - libexiv2-dev
+               - python3
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-trusty-5.0
@@ -63,6 +64,7 @@ matrix:
                - libstdc++-7-dev
                - clang-5.0
                - libexiv2-dev
+               - python3
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-trusty-5.0
