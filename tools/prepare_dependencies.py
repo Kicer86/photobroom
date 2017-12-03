@@ -99,7 +99,12 @@ def main(argv):
 
     # construct CMakeLists.txt
     destination_dir = args[0]
-    cmake_lists_path = os.path.join(destination_dir, "CMakeLists.txt")
+    work_dir = os.path.join(destination_dir, "_dependencied_dir")
+    
+    if not os.path.exists(work_dir):
+        os.makedirs(work_dir)
+    
+    cmake_lists_path = os.path.join(work_dir, "CMakeLists.txt")
 
     cmake_lists_header = open('./templates/dependencies_header.cmake').read()
 
@@ -118,7 +123,7 @@ def main(argv):
     cmake_lists_file.close()
 
     # create build dir
-    build_dir = os.path.join(destination_dir, "build")
+    build_dir = os.path.join(work_dir, "build")
     if not os.path.exists(build_dir):
         os.makedirs(build_dir)
 
@@ -127,7 +132,7 @@ def main(argv):
 
     if is_exe(cmake_executable):
 
-        cmake_args = [cmake_executable, destination_dir]
+        cmake_args = [cmake_executable, work_dir]
 
         if generator != "":
             cmake_args.append("-G")
