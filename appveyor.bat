@@ -32,7 +32,7 @@ if EXIST c:/projects/install goto :gtest
 
 rem third party stuff
 cd tools
-c:/Python35/python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -g %generator% -c %Configuration% c:/projects
+c:/Python35/python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -g %generator% -c %Configuration% c:/projects/install
 cd ..
 
 rem setup gmock and gtest
