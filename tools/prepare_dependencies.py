@@ -132,7 +132,9 @@ def main(argv):
 
     if is_exe(cmake_executable):
 
-        cmake_args = [cmake_executable, work_dir]
+        cmake_args = [cmake_executable,
+                      "-DINSTALL_DIR=" + destination_dir,
+                      work_dir]
 
         if generator != "":
             cmake_args.append("-G")
