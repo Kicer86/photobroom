@@ -100,10 +100,10 @@ def main(argv):
     # construct CMakeLists.txt
     destination_dir = args[0]
     work_dir = os.path.join(destination_dir, "_dependencied_dir")
-    
+
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
-    
+
     cmake_lists_path = os.path.join(work_dir, "CMakeLists.txt")
 
     cmake_lists_header = open('./templates/dependencies_header.cmake').read()
@@ -133,7 +133,7 @@ def main(argv):
     if is_exe(cmake_executable):
 
         cmake_args = [cmake_executable,
-                      "-DINSTALL_DIR=" + destination_dir,
+                      "-DCMAKE_INSTALL_PREFIX=" + destination_dir,
                       work_dir]
 
         if generator != "":

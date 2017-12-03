@@ -5,7 +5,6 @@ cmake_minimum_required(VERSION 3.0)
 
 include(ExternalProject)
 
-set(INSTALL_LOCATION ${INSTALL_DIR} CACHE PATH "Installation location")
 set(COMMON_OPTIONS -DCMAKE_INSTALL_PREFIX=${INSTALL_LOCATION})
 set(OPTIONS_TO_INHERITE
     CMAKE_AR
