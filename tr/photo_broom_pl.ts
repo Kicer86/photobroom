@@ -357,7 +357,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+134"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+133"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>

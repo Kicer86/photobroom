@@ -301,10 +301,9 @@ void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
         m_currentPrj = m_prjManager->open(prjInfo, threadCallback);
 
         // add project to list of recent projects
-        const bool already_has = m_recentCollections.contains(prjInfo.getPath());
+        m_recentCollections.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
 
-        if (already_has == false)
-            m_recentCollections.append(prjInfo.getPath());
+        m_recentCollections.prepend(prjInfo.getPath());    // add it at the beginning
     }
 }
 
