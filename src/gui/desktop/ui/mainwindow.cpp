@@ -282,13 +282,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
-void MainWindow::openProject(const ProjectInfo& prjInfo)
+void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
 {
     if (prjInfo.isValid())
     {
         closeProject();
 
-        std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
+        std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1, is_new);
 
         // make sure openCallback will be called from main thread and will be postponed
         // it is crucial to have m_currentPrj initialised so no direct calls to projectOpened()
@@ -567,7 +567,7 @@ void MainWindow::on_actionNew_collection_triggered()
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
 
     if (creation_status)
-        openProject(prjCreator.project());
+        openProject(prjCreator.project(), true);
 }
 
 
@@ -673,7 +673,7 @@ void MainWindow::on_actionConfiguration_triggered()
 }
 
 
-void MainWindow::projectOpened(const Database::BackendStatus& status)
+void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_new)
 {
     switch(status.get())
     {
@@ -684,6 +684,9 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
             m_completerFactory.set(db);
+
+            if (is_new)
+                on_actionScan_collection_triggered();
             break;
         }
 

@@ -74,7 +74,7 @@ class MainWindow: public QMainWindow
 
         void closeEvent(QCloseEvent *) override;
 
-        void openProject(const ProjectInfo &);
+        void openProject(const ProjectInfo &, bool = false);
         void closeProject();
         void setupView();
         void updateMenus();
@@ -117,7 +117,7 @@ class MainWindow: public QMainWindow
         void on_actionConfiguration_triggered();
 
         //internal slots
-        void projectOpened(const Database::BackendStatus &);
+        void projectOpened(const Database::BackendStatus &, bool);
 
         //check version
         void checkVersion();
