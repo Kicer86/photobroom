@@ -88,14 +88,6 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
 }
 
 
-std::deque<ProjectInfo> ProjectManager::listProjects()
-{
-    std::deque<ProjectInfo> result;
-
-    return result;
-}
-
-
 std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const OpenResult& openResult)
 {
     std::unique_ptr<Project> result = std::make_unique<Project>(nullptr, prjInfo);
@@ -134,12 +126,6 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
         openResult(Database::StatusCodes::OpenFailed);
 
     return result;
-}
-
-
-bool ProjectManager::remove(const ProjectInfo &)
-{
-    return true;
 }
 
 
