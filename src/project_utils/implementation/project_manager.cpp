@@ -143,20 +143,3 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 
     return std::make_pair(std::move(project), db_status);
 }
-
-
-QString ProjectManager::getPrjStorage() const
-{
-    QString result;
-    const QString path = System::getApplicationConfigDir();
-
-    QDir basePath(path);
-
-    if (basePath.exists("projects") == false)
-        basePath.mkdir("projects");
-
-    if (basePath.cd("projects"))
-        result = basePath.absolutePath();
-
-    return result;
-}

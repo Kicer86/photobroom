@@ -49,8 +49,6 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
     private:
         Database::IBuilder* m_dbBuilder;
-
-        [[deprecated]] QString getPrjStorage() const;
 };
 
 #endif // PROJECTMANAGER_HPP
