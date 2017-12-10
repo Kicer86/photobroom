@@ -45,7 +45,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         ProjectManager& operator=(const ProjectManager &) = delete;
 
         ProjectInfo new_prj(const QString &, const Database::IPlugin *, const QString &) override;
-        std::unique_ptr<Project> open(const ProjectInfo &, const OpenResult &) override;
+        OpenStatus open(const ProjectInfo &) override;
 
     private:
         Database::IBuilder* m_dbBuilder;

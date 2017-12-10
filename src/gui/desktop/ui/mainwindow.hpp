@@ -129,9 +129,6 @@ class MainWindow: public QMainWindow
         void currentVersion(const IUpdater::OnlineVersion &);
         void markNewPhotosAsReviewed();
         void viewChanged(int);
-
-    signals:
-        void projectOpenedSignal(const Database::BackendStatus &);
 };
 
 #endif // MAINWINDOW_HPP

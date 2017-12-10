@@ -330,7 +330,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+242"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+239"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -357,7 +357,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+133"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+129"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
