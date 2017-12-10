@@ -32,7 +32,7 @@ public:
     /**
      * Default constructor
      */
-    CoreFactory(ILoggerFactory *, IExifReaderFactory *, IConfiguration *);
+    CoreFactory(ILoggerFactory *, IExifReaderFactory *, IConfiguration *, ITaskExecutor *);
 
     /**
      * Destructor
@@ -50,10 +50,13 @@ public:
 
     IConfiguration* getConfiguration() override;
 
+    ITaskExecutor * getTaskExecutor() override;
+
 private:
     ILoggerFactory* m_loggerFactory;
     IExifReaderFactory* m_exifReaderFactory;
     IConfiguration* m_configuration;
+    ITaskExecutor* m_taskExecutor;
 };
 
 #endif // COREFACTORY_HPP

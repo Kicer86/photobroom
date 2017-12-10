@@ -22,10 +22,13 @@
 
 CoreFactory::CoreFactory(ILoggerFactory* loggerFactory,
                          IExifReaderFactory* exifReader,
-                         IConfiguration* configuration):
+                         IConfiguration* configuration,
+                         ITaskExecutor* taskExecutor
+                        ):
     m_loggerFactory(loggerFactory),
     m_exifReaderFactory(exifReader),
-    m_configuration(configuration)
+    m_configuration(configuration),
+    m_taskExecutor(taskExecutor)
 {
 
 }
@@ -52,5 +55,11 @@ IExifReaderFactory * CoreFactory::getExifReaderFactory()
 IConfiguration * CoreFactory::getConfiguration()
 {
     return m_configuration;
+}
+
+
+ITaskExecutor * CoreFactory::getTaskExecutor()
+{
+    return m_taskExecutor;
 }
 

@@ -5,6 +5,7 @@
 struct IConfiguration;
 struct IExifReaderFactory;
 struct ILoggerFactory;
+struct ITaskExecutor;
 
 struct ICoreFactory
 {
@@ -13,6 +14,7 @@ struct ICoreFactory
     virtual ILoggerFactory* getLoggerFactory() = 0;
     virtual IExifReaderFactory* getExifReaderFactory() = 0;
     virtual IConfiguration* getConfiguration() = 0;
+    virtual ITaskExecutor* getTaskExecutor() = 0;
 };
 
 #endif
