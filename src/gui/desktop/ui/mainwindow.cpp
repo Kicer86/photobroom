@@ -88,9 +88,6 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_recentCollections(),
     m_completerFactory()
 {
-    qRegisterMetaType<Database::BackendStatus>("Database::BackendStatus");
-    connect(this, SIGNAL(projectOpenedSignal(const Database::BackendStatus &)), this, SLOT(projectOpened(const Database::BackendStatus &)));
-
     ui->setupUi(this);
     setupView();
     updateGui();
@@ -282,29 +279,24 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
-void MainWindow::openProject(const ProjectInfo& prjInfo)
+void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
 {
     if (prjInfo.isValid())
     {
         closeProject();
 
-        std::function<void(const Database::BackendStatus &)> openCallback = std::bind(&MainWindow::projectOpened, this, std::placeholders::_1);
-
-        // make sure openCallback will be called from main thread and will be postponed
-        // it is crucial to have m_currentPrj initialised so no direct calls to projectOpened()
-        // from ProjectManager::open are allowed
-        auto threadCallback = make_cross_thread_function(this, openCallback);
-
         // setup search path prefix
         assert( QDir::searchPaths("prj").isEmpty() == true );
         QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
-        m_currentPrj = m_prjManager->open(prjInfo, threadCallback);
+        auto open_status = m_prjManager->open(prjInfo);
+
+        m_currentPrj = std::move(open_status.first);
+        projectOpened(open_status.second, is_new);
 
         // add project to list of recent projects
-        const bool already_has = m_recentCollections.contains(prjInfo.getPath());
+        m_recentCollections.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
 
-        if (already_has == false)
-            m_recentCollections.append(prjInfo.getPath());
+        m_recentCollections.prepend(prjInfo.getPath());    // add it at the beginning
     }
 }
 
@@ -567,7 +559,7 @@ void MainWindow::on_actionNew_collection_triggered()
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
 
     if (creation_status)
-        openProject(prjCreator.project());
+        openProject(prjCreator.project(), true);
 }
 
 
@@ -673,7 +665,7 @@ void MainWindow::on_actionConfiguration_triggered()
 }
 
 
-void MainWindow::projectOpened(const Database::BackendStatus& status)
+void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_new)
 {
     switch(status.get())
     {
@@ -684,6 +676,10 @@ void MainWindow::projectOpened(const Database::BackendStatus& status)
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
             m_completerFactory.set(db);
+
+            // TODO: I do not like this flag here...
+            if (is_new)
+                on_actionScan_collection_triggered();
             break;
         }
 

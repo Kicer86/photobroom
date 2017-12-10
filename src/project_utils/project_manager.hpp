@@ -45,14 +45,10 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         ProjectManager& operator=(const ProjectManager &) = delete;
 
         ProjectInfo new_prj(const QString &, const Database::IPlugin *, const QString &) override;
-        [[deprecated]] std::deque<ProjectInfo> listProjects() override;
-        std::unique_ptr<Project> open(const ProjectInfo &, const OpenResult &) override;
-        [[deprecated]] bool remove(const ProjectInfo &) override;
+        OpenStatus open(const ProjectInfo &) override;
 
     private:
         Database::IBuilder* m_dbBuilder;
-
-        [[deprecated]] QString getPrjStorage() const;
 };
 
 #endif // PROJECTMANAGER_HPP

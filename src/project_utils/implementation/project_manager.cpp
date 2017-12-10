@@ -88,17 +88,10 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
 }
 
 
-std::deque<ProjectInfo> ProjectManager::listProjects()
+ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 {
-    std::deque<ProjectInfo> result;
-
-    return result;
-}
-
-
-std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const OpenResult& openResult)
-{
-    std::unique_ptr<Project> result = std::make_unique<Project>(nullptr, prjInfo);
+    std::unique_ptr<Project> project = std::make_unique<Project>(nullptr, prjInfo);
+    Database::BackendStatus db_status;
 
     const QString& prjPath = prjInfo.getPath();
     const bool prjFileExists = QFile::exists(prjPath);
@@ -118,43 +111,36 @@ std::unique_ptr<Project> ProjectManager::open(const ProjectInfo& prjInfo, const 
         Database::ProjectInfo dbPrjInfo(location, backend);
         auto db = m_dbBuilder->get(dbPrjInfo);
 
-        result = std::make_unique<Project>(std::move(db), prjInfo);
+        project = std::make_unique<Project>(std::move(db), prjInfo);
 
-        const bool lock_status = result->lockProject();
+        const bool lock_status = project->lockProject();
 
         if (lock_status)
-            result->getDatabase()->init(dbPrjInfo, openResult);
+        {
+            QEventLoop loop;
+
+            project->getDatabase()->init(dbPrjInfo, [&loop, &db_status](const Database::BackendStatus& status)
+            {
+                // this lambda function can be called from an unknown thread (even main thread).
+                // it is not guaranteed that `loop` already works.
+                // Make sure we will quit it by creating a delayed slot call.
+                // TODO: tricky...
+                QObject obj;
+                QObject::connect(&obj, &QObject::destroyed, &loop, &QEventLoop::quit, Qt::QueuedConnection);
+
+                db_status = status;
+            });
+
+            loop.exec();
+        }
         else
         {
-            openResult(Database::StatusCodes::ProjectLocked);
-            result = std::make_unique<Project>(nullptr, prjInfo);
+            db_status = Database::StatusCodes::ProjectLocked;
+            project = std::make_unique<Project>(nullptr, prjInfo);
         }
     }
     else
-        openResult(Database::StatusCodes::OpenFailed);
+        db_status = Database::StatusCodes::OpenFailed;
 
-    return result;
-}
-
-
-bool ProjectManager::remove(const ProjectInfo &)
-{
-    return true;
-}
-
-
-QString ProjectManager::getPrjStorage() const
-{
-    QString result;
-    const QString path = System::getApplicationConfigDir();
-
-    QDir basePath(path);
-
-    if (basePath.exists("projects") == false)
-        basePath.mkdir("projects");
-
-    if (basePath.cd("projects"))
-        result = basePath.absolutePath();
-
-    return result;
+    return std::make_pair(std::move(project), db_status);
 }
