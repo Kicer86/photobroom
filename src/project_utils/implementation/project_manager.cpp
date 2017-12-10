@@ -124,6 +124,7 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
                 // this lambda function can be called from an unknown thread (even main thread).
                 // it is not guaranteed that `loop` already works.
                 // Make sure we will quit it by creating a delayed slot call.
+                // TODO: tricky...
                 QObject obj;
                 QObject::connect(&obj, &QObject::destroyed, &loop, &QEventLoop::quit, Qt::QueuedConnection);
 

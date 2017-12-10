@@ -677,6 +677,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             m_newImagesModel->setDatabase(db);
             m_completerFactory.set(db);
 
+            // TODO: I do not like this flag here...
             if (is_new)
                 on_actionScan_collection_triggered();
             break;
