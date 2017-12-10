@@ -818,7 +818,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+46"/>
+        <location filename="../src/main.cpp" line="+47"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
         <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>
