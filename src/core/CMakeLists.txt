@@ -30,6 +30,7 @@ set(CORE_SOURCES
     implementation/base_tags.cpp
     implementation/configuration.cpp
     implementation/constants.cpp
+    implementation/core_factory.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
@@ -69,6 +70,7 @@ set(CORE_HEADERS
     configuration.hpp
     constants.hpp
     containers_utils.hpp
+    core_factory.hpp
     cross_thread_call.hpp
     disk_observer.hpp
     ffmpeg_video_details_reader.hpp
