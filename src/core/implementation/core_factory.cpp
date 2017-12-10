@@ -16,20 +16,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include "core_factory.hpp"
 
-CoreFactory::CoreFactory(ILoggerFactory* loggerFactory):
-    m_loggerFactory(loggerFactory)
+
+CoreFactory::CoreFactory(ILoggerFactory* loggerFactory,
+                         IExifReaderFactory* exifReader,
+                         IConfiguration* configuration):
+    m_loggerFactory(loggerFactory),
+    m_exifReaderFactory(exifReader),
+    m_configuration(configuration)
 {
 
 }
+
 
 CoreFactory::~CoreFactory()
 {
 
 }
 
+
 ILoggerFactory* CoreFactory::getLoggerFactory()
 {
     return m_loggerFactory;
 }
+
+
+IExifReaderFactory * CoreFactory::getExifReaderFactory()
+{
+    return m_exifReaderFactory;
+}
+
+
+IConfiguration * CoreFactory::getConfiguration()
+{
+    return m_configuration;
+}
+

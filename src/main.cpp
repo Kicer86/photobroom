@@ -11,10 +11,11 @@
 #include <QTimer>
 
 #include <core/configuration.hpp>
+#include <core/core_factory.hpp>
+#include <core/exif_reader_factory.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
-#include <core/core_factory.hpp>
 #include <crash_catcher/crash_catcher.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -108,7 +109,12 @@ int main(int argc, char **argv)
     else
         logger_factory.get("CrashCatcher")->error("Initialization failed");
 
-    CoreFactory coreFactory(&logger_factory);
+    ExifReaderFactory exifReaderFactory;
+
+    CoreFactory coreFactory(&logger_factory,
+                            &exifReaderFactory,
+                            &configuration
+    );
 
     // start gui
     gui.set(&prjManager);
