@@ -75,6 +75,7 @@ set(CORE_HEADERS
     file_lock.hpp
     generic_concepts.hpp
     iconfiguration.hpp
+    icore_factory.hpp
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
