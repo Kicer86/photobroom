@@ -16,6 +16,7 @@
 #include <core/cross_thread_call.hpp>
 #include <core/exif_reader_factory.hpp>
 #include <core/iconfiguration.hpp>
+#include <core/icore_factory.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_builder.hpp>
@@ -68,7 +69,7 @@ namespace
 }
 
 
-MainWindow::MainWindow(QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(ICoreFactory* coreFactory, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -76,11 +77,11 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
     m_newImagesModel(nullptr),
-    m_configuration(nullptr),
-    m_loggerFactory(nullptr),
+    m_configuration(coreFactory->getConfiguration()),
+    m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
-    m_executor(nullptr),
-    m_photosAnalyzer(new PhotosAnalyzer),
+    m_executor(coreFactory->getTaskExecutor()),
+    m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController ),
     m_lookTabCtrl(new LookTabController ),
@@ -88,7 +89,9 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     m_recentCollections(),
     m_completerFactory()
 {
+    // setup
     ui->setupUi(this);
+    setupConfig();
     setupView();
     updateGui();
     registerConfigTab();
@@ -107,6 +110,28 @@ MainWindow::MainWindow(QWidget *p): QMainWindow(p),
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
 
     ui->photoPropertiesWidget->set(&m_selectionExtractor);
+
+    // post construction initialization
+    ui->imagesView->set(m_executor);
+    ui->newImagesView->set(m_executor);
+    m_imagesModel->set(m_executor);
+
+    m_mainTabCtrl->set(m_configuration);
+    m_lookTabCtrl->set(m_configuration);
+    m_toolsTabCtrl->set(m_configuration);
+    ui->imagesView->set(m_configuration);
+    ui->newImagesView->set(m_configuration);
+
+    m_completerFactory.set(m_loggerFactory);
+
+    // TODO: Not nice to have setters for views here :/
+    // Views will use completer factories immediately after set.
+    // So factories need log factory before it.
+    ui->imagesView->set(&m_completerFactory);
+    ui->imagesView->set(m_loggerFactory);
+    ui->newImagesView->set(&m_completerFactory);
+    ui->newImagesView->set(m_loggerFactory);
+    ui->tagEditor->set(&m_completerFactory);
 }
 
 
@@ -128,21 +153,8 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 }
 
 
-void MainWindow::set(ITaskExecutor* taskExecutor)
+void MainWindow::setupConfig()
 {
-    ui->imagesView->set(taskExecutor);
-    ui->newImagesView->set(taskExecutor);
-    m_imagesModel->set(taskExecutor);
-    m_photosAnalyzer->set(taskExecutor);
-
-    m_executor = taskExecutor;
-}
-
-
-void MainWindow::set(IConfiguration* configuration)
-{
-    m_configuration = configuration;
-
     // setup defaults
     m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
     m_configuration->setDefaultValue(UpdateConfigKeys::updateFrequency, 1);
@@ -153,14 +165,6 @@ void MainWindow::set(IConfiguration* configuration)
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
     m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
 
-    //
-    m_mainTabCtrl->set(configuration);
-    m_lookTabCtrl->set(configuration);
-    m_toolsTabCtrl->set(configuration);
-    m_photosAnalyzer->set(configuration);
-    ui->imagesView->set(configuration);
-    ui->newImagesView->set(configuration);
-
     loadGeometry();
     loadRecentCollections();
 }
@@ -169,7 +173,6 @@ void MainWindow::set(IConfiguration* configuration)
 void MainWindow::set(IUpdater* updater)
 {
     m_updater = updater;
-    assert(m_configuration != nullptr);
 
     const bool enabled = m_configuration->getEntry(UpdateConfigKeys::updateEnabled).toBool();
 
@@ -196,22 +199,6 @@ void MainWindow::set(IUpdater* updater)
             m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
         }
     }
-}
-
-
-void MainWindow::set(ILoggerFactory* lf)
-{
-    m_completerFactory.set(lf);
-
-    // Not nice to have setters for views here :/ views will use completer factories immediately after set.
-    // So factories need log factory before it.
-    ui->imagesView->set(&m_completerFactory);
-    ui->imagesView->set(lf);
-    ui->newImagesView->set(&m_completerFactory);
-    ui->newImagesView->set(lf);
-    ui->tagEditor->set(&m_completerFactory);
-
-    m_loggerFactory = lf;
 }
 
 

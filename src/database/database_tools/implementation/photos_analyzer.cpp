@@ -21,8 +21,8 @@
 #include "photos_analyzer_p.hpp"
 
 
-PhotosAnalyzerImpl::PhotosAnalyzerImpl():
-    m_updater(),
+PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactory* coreFactory):
+    m_updater(coreFactory),
     m_database(nullptr),
     m_timer(),
     m_tasksView(nullptr),
@@ -68,18 +68,6 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
                 addPhoto(photo);
         });
     }
-}
-
-
-void PhotosAnalyzerImpl::set(ITaskExecutor* taskExecutor)
-{
-    m_updater.set(taskExecutor);
-}
-
-
-void PhotosAnalyzerImpl::set(IConfiguration* configuration)
-{
-    m_updater.set(configuration);
 }
 
 
@@ -149,7 +137,7 @@ void PhotosAnalyzerImpl::refreshView()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-PhotosAnalyzer::PhotosAnalyzer(): m_data(new PhotosAnalyzerImpl)
+PhotosAnalyzer::PhotosAnalyzer(ICoreFactory* coreFactory): m_data(new PhotosAnalyzerImpl(coreFactory))
 {
 
 }
@@ -183,18 +171,6 @@ void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
 
         connect(notifier, &Database::ADatabaseSignals::photosAdded, this, &PhotosAnalyzer::photosAdded, Qt::DirectConnection);
     }
-}
-
-
-void PhotosAnalyzer::set(ITaskExecutor* taskExecutor)
-{
-    m_data->set(taskExecutor);
-}
-
-
-void PhotosAnalyzer::set(IConfiguration* configuration)
-{
-    m_data->set(configuration);
 }
 
 

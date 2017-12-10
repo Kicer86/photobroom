@@ -39,15 +39,13 @@ class PhotosAnalyzerImpl: public QObject
         Q_OBJECT
 
     public:
-        PhotosAnalyzerImpl();
+        PhotosAnalyzerImpl(ICoreFactory *);
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
         PhotosAnalyzerImpl& operator=(const PhotosAnalyzerImpl&) = delete;
 
         ~PhotosAnalyzerImpl();
 
         void setDatabase(Database::IDatabase* database);
-        void set(ITaskExecutor* taskExecutor);
-        void set(IConfiguration* configuration);
         void set(ITasksView* tasksView);
 
         Database::IDatabase* getDatabase();

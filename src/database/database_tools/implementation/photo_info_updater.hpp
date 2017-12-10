@@ -10,7 +10,7 @@
 #include <core/media_information.hpp>
 #include <database/iphoto_info.hpp>
 
-struct IConfiguration;
+struct ICoreFactory;
 
 struct UpdaterTask;
 
@@ -19,7 +19,7 @@ struct UpdaterTask;
 class PhotoInfoUpdater final
 {
     public:
-        PhotoInfoUpdater();
+        PhotoInfoUpdater(ICoreFactory *);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
@@ -29,9 +29,6 @@ class PhotoInfoUpdater final
         void updateGeometry(const IPhotoInfo::Ptr &);
         void updateTags(const IPhotoInfo::Ptr &);
 
-        void set(ITaskExecutor *);
-        void set(IConfiguration *);
-
         int tasksInProgress();
         void dropPendingTasks();
         void waitForActiveTasks();
@@ -40,11 +37,11 @@ class PhotoInfoUpdater final
         friend struct UpdaterTask;
 
         MediaInformation m_mediaInformation;
-        ExifReaderFactory m_exifReaderFactory;
         ITaskExecutor::TaskQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
+        ICoreFactory* m_coreFactory;
 
         void taskAdded(UpdaterTask *);
         void taskFinished(UpdaterTask *);

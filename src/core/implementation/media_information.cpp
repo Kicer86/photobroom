@@ -23,6 +23,9 @@
 
 #include <QFileInfo>
 
+#include "icore_factory.hpp"
+#include "ilogger_factory.hpp"
+#include "ilogger.hpp"
 #include "media_types.hpp"
 #include "implementation/image_information.hpp"
 #include "implementation/video_information.hpp"
@@ -32,8 +35,9 @@ struct MediaInformation::Impl
 {
     ImageInformation m_image_info;
     VideoInformation m_video_info;
+    std::unique_ptr<ILogger> m_logger;
 
-    Impl(): m_image_info(), m_video_info()
+    Impl(): m_image_info(), m_video_info(), m_logger(nullptr)
     {
 
     }
@@ -51,15 +55,11 @@ MediaInformation::~MediaInformation()
 }
 
 
-void MediaInformation::set(IExifReaderFactory* exif)
+void MediaInformation::set(ICoreFactory* coreFactory)
 {
-    m_impl->m_image_info.set(exif);
-}
-
-
-void MediaInformation::set(IConfiguration* config)
-{
-    m_impl->m_video_info.set(config);
+    m_impl->m_image_info.set(coreFactory->getExifReaderFactory());
+    m_impl->m_video_info.set(coreFactory->getConfiguration());
+    m_impl->m_logger = coreFactory->getLoggerFactory()->get("Media Information");
 }
 
 
@@ -77,7 +77,16 @@ QSize MediaInformation::size(const QString& path) const
     else
         assert(!"unknown file type");
 
-    assert(result.isValid());
+    if (result.isValid() == false)
+    {
+        std::string error = "Could not load image data from '";
+        error += path.toStdString();
+        error += "'. File format unknown or file corrupted";
+
+        m_impl->m_logger->error(error);
+    }
+
+
 
     return result;
 }

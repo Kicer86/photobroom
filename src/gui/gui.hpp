@@ -10,11 +10,9 @@
 
 class QCoreApplication;
 
-struct ILoggerFactory;
-struct ITaskExecutor;
+struct ICoreFactory;
 struct IPluginLoader;
 struct IProjectManager;
-struct IConfiguration;
 
 struct GUI_EXPORT Gui
 {
@@ -26,18 +24,14 @@ struct GUI_EXPORT Gui
     QCoreApplication* getApp();
     void set(IProjectManager *);
     void set(IPluginLoader *);
-    void set(ITaskExecutor *);
-    void set(IConfiguration *);
-    void set(ILoggerFactory *);
+    void set(ICoreFactory *);
     void run();
 
     private:
         std::unique_ptr<QCoreApplication> m_app;
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
-        ITaskExecutor* m_taskExecutor;
-        IConfiguration* m_configuration;
-        ILoggerFactory* m_loggerFactory;
+        ICoreFactory* m_coreFactory;
 };
 
 #endif

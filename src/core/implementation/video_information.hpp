@@ -40,7 +40,7 @@ class VideoInformation : public IMediaInformation
 
         void set(IConfiguration *);
 
-        virtual QSize size(const QString &) const;
+        QSize size(const QString &) const override;
 
     private:
         QString m_ffmpegPath;

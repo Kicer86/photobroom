@@ -113,16 +113,14 @@ int main(int argc, char **argv)
 
     CoreFactory coreFactory(&logger_factory,
                             &exifReaderFactory,
-                            &configuration
+                            &configuration,
+                            &taskExecutor
     );
 
     // start gui
     gui.set(&prjManager);
     gui.set(&pluginLoader);
-    gui.set(&configuration);
-    gui.set(&logger_factory);
-    gui.set(&taskExecutor);
-    gui.set(&logger_factory);
+    gui.set(&coreFactory);
     gui.run();
 
     return 0;

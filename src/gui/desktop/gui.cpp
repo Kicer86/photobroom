@@ -8,6 +8,7 @@
 
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
+#include <core/icore_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -21,9 +22,7 @@ Gui::Gui(int& argc, char **argv):
     m_app(new QApplication(argc, argv)),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
-    m_taskExecutor(nullptr),
-    m_configuration(nullptr),
-    m_loggerFactory(nullptr)
+    m_coreFactory(nullptr)
 {
 
 }
@@ -53,21 +52,9 @@ void Gui::set(IPluginLoader* pluginLoader)
 }
 
 
-void Gui::set(ITaskExecutor* taskExecutor)
+void Gui::set(ICoreFactory* coreFactory)
 {
-    m_taskExecutor = taskExecutor;
-}
-
-
-void Gui::set(IConfiguration* configuration)
-{
-    m_configuration = configuration;
-}
-
-
-void Gui::set(ILoggerFactory* logger_factory)
-{
-    m_loggerFactory = logger_factory;
+    m_coreFactory = coreFactory;
 }
 
 
@@ -75,9 +62,7 @@ void Gui::run()
 {
     assert(m_prjManager != nullptr);
     assert(m_pluginLoader != nullptr);
-    assert(m_taskExecutor != nullptr);
-    assert(m_configuration != nullptr);
-    assert(m_loggerFactory != nullptr);
+    assert(m_coreFactory != nullptr);
 
 #ifdef GUI_STATIC
     // see: http://doc.qt.io/qt-5/resources.html
@@ -89,8 +74,10 @@ void Gui::run()
     m_app->addLibraryPath(FileSystem().getLibrariesPath());
 #endif
 
-    auto gui_logger = m_loggerFactory->get("Gui");
-    auto photos_manager_logger = m_loggerFactory->get("Photos manager");
+    ILoggerFactory* loggerFactory = m_coreFactory->getLoggerFactory();
+
+    auto gui_logger = loggerFactory->get("Gui");
+    auto photos_manager_logger = loggerFactory->get("Photos manager");
 
     const QString tr_path = FileSystem().getTranslationsPath();
     InfoStream( gui_logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
@@ -106,11 +93,12 @@ void Gui::run()
         gui_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
 
     // setup basic configuration
-    m_configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
-    m_configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
-    m_configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
+    IConfiguration* configuration = m_coreFactory->getConfiguration();
+    configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
+    configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
+    configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
 
-    const QVariant ffmpegPath = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+    const QVariant ffmpegPath = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
     const QFileInfo fileInfo(ffmpegPath.toString());
 
     if (fileInfo.isExecutable() == false)
@@ -120,18 +108,16 @@ void Gui::run()
     Updater updater;
 
     // main window
-    MainWindow mainWindow;
+    MainWindow mainWindow(m_coreFactory);
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);
-    mainWindow.set(m_taskExecutor);
-    mainWindow.set(m_configuration);
     mainWindow.set(&updater);
-    mainWindow.set(m_loggerFactory);
 
     mainWindow.show();
     m_app->exec();
 
     //stop all tasks
-    m_taskExecutor->stop();
+    ITaskExecutor* taskExecutor = m_coreFactory->getTaskExecutor();
+    taskExecutor->stop();
 }
