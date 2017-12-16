@@ -39,6 +39,7 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     gui.hpp
     desktop/config_keys.hpp
+    images/images.hpp
 )
 
 set(GUI_RESOURCE_FILES images/images.qrc)
