@@ -486,14 +486,22 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
 
 void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 {
-    const std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
+    const std::vector<IPhotoInfo::Ptr> selected_photos = m_selectionExtractor.getSelection();
+
+    std::vector<IPhotoInfo::Ptr> photos;
+    std::remove_copy_if(selected_photos.cbegin(),
+                        selected_photos.cend(),
+                        std::back_inserter(photos),
+                        [](const IPhotoInfo::Ptr& photo){
+                            return QFile::exists(photo->getPath()) == false;
+                        });
 
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
     QAction* location    = contextMenu.addAction(tr("Open photo location"));
 
-    if (photos.size() < 2)
-        groupPhotos->setEnabled(false);
+    groupPhotos->setEnabled(photos.size() > 1);
+    location->setEnabled(photos.size() > 0);
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);

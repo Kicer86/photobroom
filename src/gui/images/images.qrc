@@ -3,6 +3,7 @@
         <file>add.svg</file>
         <file>checked.svg</file>
         <file>clock.svg</file>
+        <file>error.svg</file>
         <file>video.svg</file>
     </qresource>
 </RCC>

@@ -19,6 +19,7 @@
 
 #include "thumbnail_generator.hpp"
 
+#include <QFile>
 #include <QFileInfo>
 #include <QProcess>
 #include <QTemporaryFile>
@@ -32,6 +33,8 @@
 #include <core/stopwatch.hpp>
 #include <core/task_executor.hpp>
 #include <system/system.hpp>
+
+#include "images/images.hpp"
 
 
 struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
@@ -67,7 +70,9 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 
         stopwatch.start();
 
-        QImage image(m_info.path);
+        QImage image = QFile::exists(m_info.path)?
+            QImage(m_info.path):
+            QImage(Images::error);
         assert(image.isNull() == false);
 
         const int photo_read = stopwatch.read(true);
