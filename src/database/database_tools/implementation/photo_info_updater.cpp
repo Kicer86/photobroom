@@ -10,7 +10,7 @@
 #include <QPixmap>
 #include <QCryptographicHash>
 
-#include <core/icore_factory.hpp>
+#include <core/icore_factory_accessor.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/imedia_information.hpp>

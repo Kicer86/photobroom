@@ -27,7 +27,7 @@
 
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
-#include <core/ilogger_factory_accessor.hpp>
+#include <core/ilogger_factory.hpp>
 #include <core/base_tags.hpp>
 
 #include "config_keys.hpp"

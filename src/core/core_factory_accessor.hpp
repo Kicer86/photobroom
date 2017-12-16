@@ -21,7 +21,7 @@
 
 #include "core_export.h"
 
-#include "icore_factory.hpp"
+#include "icore_factory_accessor.hpp"
 
 /**
  * @todo write docs

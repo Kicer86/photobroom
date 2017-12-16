@@ -8,10 +8,10 @@
 
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
-#include <core/icore_factory.hpp>
+#include <core/icore_factory_accessor.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
-#include <core/ilogger_factory_accessor.hpp>
+#include <core/ilogger_factory.hpp>
 #include <system/filesystem.hpp>
 #include <updater/updater.hpp>
 

@@ -30,7 +30,7 @@ set(CORE_SOURCES
     implementation/base_tags.cpp
     implementation/configuration.cpp
     implementation/constants.cpp
-    implementation/core_factory.cpp
+    implementation/core_factory_accessor.cpp
     implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
@@ -70,14 +70,14 @@ set(CORE_HEADERS
     configuration.hpp
     constants.hpp
     containers_utils.hpp
-    core_factory.hpp
+    core_factory_accessor.hpp
     cross_thread_call.hpp
     disk_observer.hpp
     ffmpeg_video_details_reader.hpp
     file_lock.hpp
     generic_concepts.hpp
     iconfiguration.hpp
-    icore_factory.hpp
+    icore_factory_accessor.hpp
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp

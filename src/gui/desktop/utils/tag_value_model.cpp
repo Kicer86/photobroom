@@ -20,7 +20,7 @@
 #include "tag_value_model.hpp"
 
 #include <core/cross_thread_call.hpp>
-#include <core/ilogger_factory_accessor.hpp>
+#include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
 
