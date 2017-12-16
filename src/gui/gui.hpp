@@ -10,7 +10,7 @@
 
 class QCoreApplication;
 
-struct ICoreFactory;
+struct ICoreFactoryAccessor;
 struct IPluginLoader;
 struct IProjectManager;
 
@@ -24,14 +24,14 @@ struct GUI_EXPORT Gui
     QCoreApplication* getApp();
     void set(IProjectManager *);
     void set(IPluginLoader *);
-    void set(ICoreFactory *);
+    void set( ICoreFactoryAccessor *);
     void run();
 
     private:
         std::unique_ptr<QCoreApplication> m_app;
         IProjectManager* m_prjManager;
         IPluginLoader* m_pluginLoader;
-        ICoreFactory* m_coreFactory;
+        ICoreFactoryAccessor* m_coreFactory;
 };
 
 #endif

@@ -39,7 +39,7 @@ class PhotosAnalyzerImpl: public QObject
         Q_OBJECT
 
     public:
-        PhotosAnalyzerImpl(ICoreFactory *);
+        PhotosAnalyzerImpl(ICoreFactoryAccessor *);
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
         PhotosAnalyzerImpl& operator=(const PhotosAnalyzerImpl&) = delete;
 

@@ -69,7 +69,7 @@ namespace
 }
 
 
-MainWindow::MainWindow(ICoreFactory* coreFactory, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow( ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),

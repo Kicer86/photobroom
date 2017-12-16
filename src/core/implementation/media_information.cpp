@@ -55,7 +55,7 @@ MediaInformation::~MediaInformation()
 }
 
 
-void MediaInformation::set(ICoreFactory* coreFactory)
+void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
 {
     m_impl->m_image_info.set(coreFactory->getExifReaderFactory());
     m_impl->m_video_info.set(coreFactory->getConfiguration());

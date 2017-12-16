@@ -7,9 +7,9 @@ struct IExifReaderFactory;
 struct ILoggerFactory;
 struct ITaskExecutor;
 
-struct ICoreFactory
+struct ICoreFactoryAccessor
 {
-    virtual ~ICoreFactory() = default;
+    virtual ~ICoreFactoryAccessor() = default;
 
     virtual ILoggerFactory* getLoggerFactory() = 0;
     virtual IExifReaderFactory* getExifReaderFactory() = 0;

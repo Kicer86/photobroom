@@ -162,7 +162,7 @@ struct TagsCollector: UpdaterTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactory* coreFactory):
+PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory):
     m_mediaInformation(),
     m_taskQueue(),
     m_tasks(),

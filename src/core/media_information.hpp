@@ -26,7 +26,7 @@
 
 #include "core_export.h"
 
-struct ICoreFactory;
+struct ICoreFactoryAccessor;
 
 class CORE_EXPORT MediaInformation : public IMediaInformation
 {
@@ -40,7 +40,7 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
 
         virtual ~MediaInformation();
 
-        void set(ICoreFactory *);
+        void set( ICoreFactoryAccessor *);
 
         QSize size(const QString &) const override;
 

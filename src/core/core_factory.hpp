@@ -26,7 +26,7 @@
 /**
  * @todo write docs
  */
-class CORE_EXPORT CoreFactory final: public ICoreFactory
+class CORE_EXPORT CoreFactory final: public ICoreFactoryAccessor
 {
 public:
     /**

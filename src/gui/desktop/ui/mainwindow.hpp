@@ -18,7 +18,7 @@ class MainTabController;
 class ToolsTabController;
 class PhotosAnalyzer;
 class PhotosWidget;
-struct ICoreFactory;
+struct ICoreFactoryAccessor;
 struct ILoggerFactory;
 struct ITaskExecutor;
 struct IPluginLoader;
@@ -40,7 +40,7 @@ class MainWindow: public QMainWindow
         Q_OBJECT
 
     public:
-        explicit MainWindow(ICoreFactory *, QWidget *parent = 0);
+        explicit MainWindow( ICoreFactoryAccessor *, QWidget *parent = 0);
         MainWindow(const MainWindow &) = delete;
         virtual ~MainWindow();
 

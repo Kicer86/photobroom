@@ -52,7 +52,7 @@ void Gui::set(IPluginLoader* pluginLoader)
 }
 
 
-void Gui::set(ICoreFactory* coreFactory)
+void Gui::set( ICoreFactoryAccessor* coreFactory)
 {
     m_coreFactory = coreFactory;
 }

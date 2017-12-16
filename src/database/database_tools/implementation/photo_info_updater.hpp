@@ -10,7 +10,7 @@
 #include <core/media_information.hpp>
 #include <database/iphoto_info.hpp>
 
-struct ICoreFactory;
+struct ICoreFactoryAccessor;
 
 struct UpdaterTask;
 
@@ -19,7 +19,7 @@ struct UpdaterTask;
 class PhotoInfoUpdater final
 {
     public:
-        PhotoInfoUpdater(ICoreFactory *);
+        PhotoInfoUpdater( ICoreFactoryAccessor *);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
@@ -41,7 +41,7 @@ class PhotoInfoUpdater final
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
-        ICoreFactory* m_coreFactory;
+        ICoreFactoryAccessor* m_coreFactory;
 
         void taskAdded(UpdaterTask *);
         void taskFinished(UpdaterTask *);

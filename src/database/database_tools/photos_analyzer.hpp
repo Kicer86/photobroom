@@ -27,7 +27,7 @@
 #include "database_export.h"
 
 struct ITasksView;
-struct ICoreFactory;
+struct ICoreFactoryAccessor;
 
 namespace Database
 {
@@ -42,7 +42,7 @@ class DATABASE_EXPORT PhotosAnalyzer: public QObject
 
     public:
 
-        PhotosAnalyzer(ICoreFactory *);
+        PhotosAnalyzer( ICoreFactoryAccessor *);
         PhotosAnalyzer(const PhotosAnalyzer &) = delete;
         ~PhotosAnalyzer();
 
