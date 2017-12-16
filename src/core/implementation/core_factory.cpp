@@ -17,7 +17,7 @@
  */
 
 
-#include "core_factory.hpp"
+#include "core_factory_accessor.hpp"
 
 
 CoreFactoryAccessor::CoreFactoryAccessor (ILoggerFactory* loggerFactory,

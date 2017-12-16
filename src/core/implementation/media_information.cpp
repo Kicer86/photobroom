@@ -24,7 +24,7 @@
 #include <QFileInfo>
 
 #include "icore_factory.hpp"
-#include "ilogger_factory.hpp"
+#include "ilogger_factory_accessor.hpp"
 #include "ilogger.hpp"
 #include "media_types.hpp"
 #include "implementation/image_information.hpp"

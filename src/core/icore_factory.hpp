@@ -1,6 +1,6 @@
 
-#ifndef ICORE_FACTORY_HPP
-#define ICORE_FACTORY_HPP
+#ifndef ICORE_FACTORY_ACCESSOR_HPP
+#define ICORE_FACTORY_ACCESSOR_HPP
 
 struct IConfiguration;
 struct IExifReaderFactory;

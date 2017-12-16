@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef ILOGGERFACTORY_HPP
-#define ILOGGERFACTORY_HPP
+#ifndef ILOGGER_FACTORY_HPP
+#define ILOGGER_FACTORY_HPP
 
 #include <memory>
 #include <vector>

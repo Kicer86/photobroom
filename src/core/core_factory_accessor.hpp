@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COREFACTORY_HPP
-#define COREFACTORY_HPP
+#ifndef COREFACTORYACCESSOR_HPP
+#define COREFACTORYACCESSOR_HPP
 
 #include "core_export.h"
 
@@ -59,4 +59,4 @@ private:
     ITaskExecutor* m_taskExecutor;
 };
 
-#endif // COREFACTORY_HPP
+#endif // COREFACTORYACCESSOR_HPP

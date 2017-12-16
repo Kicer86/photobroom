@@ -23,7 +23,7 @@
 #include <fstream>
 #include <mutex>
 
-#include "ilogger_factory.hpp"
+#include "ilogger_factory_accessor.hpp"
 #include "ilogger.hpp"
 
 #include "core_export.h"

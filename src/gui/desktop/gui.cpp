@@ -11,7 +11,7 @@
 #include <core/icore_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
-#include <core/ilogger_factory.hpp>
+#include <core/ilogger_factory_accessor.hpp>
 #include <system/filesystem.hpp>
 #include <updater/updater.hpp>
 

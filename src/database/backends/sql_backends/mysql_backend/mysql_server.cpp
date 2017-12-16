@@ -39,7 +39,7 @@
 
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
-#include <core/ilogger_factory.hpp>
+#include <core/ilogger_factory_accessor.hpp>
 #include <core/disk_observer.hpp>
 #include <database/database_builder.hpp>
 #include <system/system.hpp>

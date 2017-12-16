@@ -11,7 +11,7 @@
 #include <QTimer>
 
 #include <core/configuration.hpp>
-#include <core/core_factory.hpp>
+#include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
