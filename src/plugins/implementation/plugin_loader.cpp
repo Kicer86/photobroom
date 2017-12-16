@@ -26,7 +26,7 @@
 #include <QPluginLoader>
 
 #include <core/ilogger.hpp>
-#include <core/ilogger_factory.hpp>
+#include <core/ilogger_factory_accessor.hpp>
 #include <core/down_cast.hpp>
 #include <system/filesystem.hpp>
 #include <database/idatabase_plugin.hpp>

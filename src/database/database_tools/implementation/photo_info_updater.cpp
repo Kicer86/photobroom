@@ -10,7 +10,7 @@
 #include <QPixmap>
 #include <QCryptographicHash>
 
-
+#include <core/icore_factory.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/imedia_information.hpp>
@@ -162,15 +162,16 @@ struct TagsCollector: UpdaterTask
 };
 
 
-PhotoInfoUpdater::PhotoInfoUpdater():
+PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory):
     m_mediaInformation(),
-    m_exifReaderFactory(),
     m_taskQueue(),
     m_tasks(),
     m_tasksMutex(),
-    m_finishedTask()
+    m_finishedTask(),
+    m_coreFactory(coreFactory)
 {
-    m_mediaInformation.set(&m_exifReaderFactory);
+    m_taskQueue = m_coreFactory->getTaskExecutor()->getCustomTaskQueue();
+    m_mediaInformation.set(coreFactory);
 }
 
 
@@ -199,21 +200,9 @@ void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
 void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_unique<TagsCollector>(this, photoInfo);
-    task->set(&m_exifReaderFactory);
+    task->set(m_coreFactory->getExifReaderFactory());
 
     m_taskQueue->push(std::move(task));
-}
-
-
-void PhotoInfoUpdater::set(ITaskExecutor* taskExecutor)
-{
-    m_taskQueue = taskExecutor->getCustomTaskQueue();
-}
-
-
-void PhotoInfoUpdater::set(IConfiguration* configuration)
-{
-    m_mediaInformation.set(configuration);
 }
 
 

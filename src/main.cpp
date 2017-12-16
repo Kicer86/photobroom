@@ -11,6 +11,8 @@
 #include <QTimer>
 
 #include <core/configuration.hpp>
+#include <core/core_factory_accessor.hpp>
+#include <core/exif_reader_factory.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
@@ -107,13 +109,18 @@ int main(int argc, char **argv)
     else
         logger_factory.get("CrashCatcher")->error("Initialization failed");
 
+    ExifReaderFactory exifReaderFactory;
+
+    CoreFactoryAccessor coreFactory(&logger_factory,
+                            &exifReaderFactory,
+                            &configuration,
+                            &taskExecutor
+    );
+
     // start gui
     gui.set(&prjManager);
     gui.set(&pluginLoader);
-    gui.set(&configuration);
-    gui.set(&logger_factory);
-    gui.set(&taskExecutor);
-    gui.set(&logger_factory);
+    gui.set(&coreFactory);
     gui.run();
 
     return 0;

@@ -18,6 +18,7 @@ class MainTabController;
 class ToolsTabController;
 class PhotosAnalyzer;
 class PhotosWidget;
+struct ICoreFactoryAccessor;
 struct ILoggerFactory;
 struct ITaskExecutor;
 struct IPluginLoader;
@@ -39,7 +40,7 @@ class MainWindow: public QMainWindow
         Q_OBJECT
 
     public:
-        explicit MainWindow(QWidget *parent = 0);
+        explicit MainWindow( ICoreFactoryAccessor *, QWidget *parent = 0);
         MainWindow(const MainWindow &) = delete;
         virtual ~MainWindow();
 
@@ -47,10 +48,7 @@ class MainWindow: public QMainWindow
 
         void set(IProjectManager *);
         void set(IPluginLoader *);
-        void set(ITaskExecutor *);
-        void set(IConfiguration *);
         void set(IUpdater *);
-        void set(ILoggerFactory *);
 
     private:
         SelectionExtractor        m_selectionExtractor;
@@ -89,6 +87,7 @@ class MainWindow: public QMainWindow
 
         void setupReviewedPhotosView();
         void setupNewPhotosView();
+        void setupConfig();
 
         void markPhotosReviewed(const IPhotoInfo::List &);
         void showContextMenuFor(PhotosWidget *, const QPoint &);
