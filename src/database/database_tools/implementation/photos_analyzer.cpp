@@ -21,7 +21,7 @@
 #include "photos_analyzer_p.hpp"
 
 
-PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactory* coreFactory):
+PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory):
     m_updater(coreFactory),
     m_database(nullptr),
     m_timer(),
@@ -137,7 +137,7 @@ void PhotosAnalyzerImpl::refreshView()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-PhotosAnalyzer::PhotosAnalyzer(ICoreFactory* coreFactory): m_data(new PhotosAnalyzerImpl(coreFactory))
+PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory): m_data(new PhotosAnalyzerImpl(coreFactory))
 {
 
 }

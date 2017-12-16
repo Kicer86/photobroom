@@ -20,7 +20,7 @@
 #include "core_factory.hpp"
 
 
-CoreFactory::CoreFactory(ILoggerFactory* loggerFactory,
+CoreFactoryAccessor::CoreFactoryAccessor (ILoggerFactory* loggerFactory,
                          IExifReaderFactory* exifReader,
                          IConfiguration* configuration,
                          ITaskExecutor* taskExecutor
@@ -34,31 +34,31 @@ CoreFactory::CoreFactory(ILoggerFactory* loggerFactory,
 }
 
 
-CoreFactory::~CoreFactory()
+CoreFactoryAccessor::~CoreFactoryAccessor()
 {
 
 }
 
 
-ILoggerFactory* CoreFactory::getLoggerFactory()
+ILoggerFactory* CoreFactoryAccessor::getLoggerFactory()
 {
     return m_loggerFactory;
 }
 
 
-IExifReaderFactory * CoreFactory::getExifReaderFactory()
+IExifReaderFactory * CoreFactoryAccessor::getExifReaderFactory()
 {
     return m_exifReaderFactory;
 }
 
 
-IConfiguration * CoreFactory::getConfiguration()
+IConfiguration * CoreFactoryAccessor::getConfiguration()
 {
     return m_configuration;
 }
 
 
-ITaskExecutor * CoreFactory::getTaskExecutor()
+ITaskExecutor * CoreFactoryAccessor::getTaskExecutor()
 {
     return m_taskExecutor;
 }

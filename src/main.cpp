@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
     ExifReaderFactory exifReaderFactory;
 
-    CoreFactory coreFactory(&logger_factory,
+    CoreFactoryAccessor coreFactory(&logger_factory,
                             &exifReaderFactory,
                             &configuration,
                             &taskExecutor

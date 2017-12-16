@@ -1,5 +1,5 @@
 /*
- * Simple implementation of ICoreFactory
+ * Simple implementation of ICoreFactoryAccessor
  * Copyright (C) 2017  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,18 +26,18 @@
 /**
  * @todo write docs
  */
-class CORE_EXPORT CoreFactory final: public ICoreFactoryAccessor
+class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
 {
 public:
     /**
      * Default constructor
      */
-    CoreFactory(ILoggerFactory *, IExifReaderFactory *, IConfiguration *, ITaskExecutor *);
+    CoreFactoryAccessor(ILoggerFactory *, IExifReaderFactory *, IConfiguration *, ITaskExecutor *);
 
     /**
      * Destructor
      */
-    ~CoreFactory();
+    ~CoreFactoryAccessor();
 
     /**
      * @todo write docs
