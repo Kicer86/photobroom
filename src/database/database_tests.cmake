@@ -1,5 +1,5 @@
 
-include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake_private/functions.cmake)
 
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)

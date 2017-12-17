@@ -23,7 +23,7 @@ TEST(TS_MultiHeadQueueTest, QuitsWithTimeoutWhenNoDataIncomes)
 
     auto r = q.pop_for(1ms);
 
-    EXPECT_EQ(false, r.is_initialized());
+    EXPECT_EQ(false, r.has_value());
 }
 
 
@@ -53,7 +53,7 @@ TEST(TS_MultiHeadQueueTest, ReturnsWhatProducerGenerated)
 
     r = q.pop_for(1ms);
 
-    EXPECT_EQ(false, r.is_initialized());
+    EXPECT_EQ(false, r.has_value());
 }
 
 
@@ -107,5 +107,5 @@ TEST(TS_MultiHeadQueueTest, ReturnsMixedProductionOfManyProducers)
 
     auto r = q.pop_for(1ms);
 
-    EXPECT_EQ(false, r.is_initialized());
+    EXPECT_EQ(false, r.has_value());
 }

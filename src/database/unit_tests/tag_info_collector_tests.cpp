@@ -34,7 +34,8 @@ TEST(TagInfoCollectorTest, GetWithoutDatabase)
 
     for(const BaseTagsList& tag: tags)
     {
-        const std::deque<TagValue>& values = tagInfoCollector.get(tag);
+        const TagNameInfo info(tag);
+        const std::deque<TagValue>& values = tagInfoCollector.get(info);
 
         EXPECT_EQ(values.empty(), true);
     }

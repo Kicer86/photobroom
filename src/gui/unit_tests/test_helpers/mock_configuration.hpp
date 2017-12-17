@@ -15,7 +15,7 @@ struct MockConfiguration: IConfiguration
 
     MOCK_METHOD2(setEntry, void(const QString &, const QVariant &));
     MOCK_METHOD2(setDefaultValue, void(const QString &, const QVariant &));
-    MOCK_METHOD1(registerObserver, void(IConfigObserver *));
+    MOCK_METHOD2(watchFor, void(const QString &, const Watcher &));
 };
 
 #endif
