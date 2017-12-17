@@ -13,7 +13,7 @@
 class EasyExifTagFeeder: public AExifReader
 {
     public:
-        EasyExifTagFeeder(IPhotosManager *);
+        explicit EasyExifTagFeeder(IPhotosManager *);
 
     private:
         easyexif::EXIFInfo m_exif_data;

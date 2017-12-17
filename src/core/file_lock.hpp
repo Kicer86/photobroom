@@ -28,7 +28,7 @@
 class CORE_EXPORT FileLock
 {
     public:
-        FileLock(const QString& file_path);
+        explicit FileLock(const QString& file_path);
         ~FileLock();
 
         FileLock(const FileLock &) = delete;
