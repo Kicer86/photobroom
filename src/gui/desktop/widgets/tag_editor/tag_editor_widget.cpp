@@ -138,8 +138,9 @@ void TagEditorWidget::refreshTagNamesList(bool selection)
         const auto photos_tags = m_model->getTags();
 
         //remove used tags from list of all tags
-        for(const TagNameInfo& info: all_tags)
+        for(const BaseTagsList& baseTagName: all_tags)
         {
+            const TagNameInfo info(baseTagName);
             const auto it = photos_tags.find(info);
 
             if (it == photos_tags.end())    //not used?

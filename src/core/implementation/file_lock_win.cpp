@@ -29,7 +29,7 @@ namespace
     {
         HANDLE m_file;
 
-        Impl(HANDLE file): m_file(file)
+        explicit Impl(HANDLE file): m_file(file)
         {
 
         }

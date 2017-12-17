@@ -39,7 +39,7 @@ struct CORE_EXPORT TagNameInfo
         };
 
         TagNameInfo();
-        TagNameInfo(const BaseTagsList &);
+        explicit TagNameInfo(const BaseTagsList &);
         TagNameInfo(const TagNameInfo& other);
 
         //operator QString() const;
