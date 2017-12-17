@@ -63,7 +63,7 @@ namespace Database
         if (status && v < 1)
             status = convertToV1();
 
-        return true;
+        return status;
     }
 
 

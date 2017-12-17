@@ -149,7 +149,7 @@ namespace Database
 
     struct DATABASE_EXPORT FilterPhotosWithPath: IFilter
     {
-        FilterPhotosWithPath(const QString &);
+        explicit FilterPhotosWithPath(const QString &);
         virtual ~FilterPhotosWithPath();
 
         FILTER_COMMAND();
@@ -166,7 +166,7 @@ namespace Database
             GroupMember,
         };
 
-        FilterPhotosWithRole(Role);
+        explicit FilterPhotosWithRole(Role);
         virtual ~FilterPhotosWithRole();
 
         FILTER_COMMAND();

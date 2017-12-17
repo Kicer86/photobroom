@@ -19,7 +19,7 @@ struct UpdaterTask;
 class PhotoInfoUpdater final
 {
     public:
-        PhotoInfoUpdater( ICoreFactoryAccessor *);
+        explicit PhotoInfoUpdater(ICoreFactoryAccessor *);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;

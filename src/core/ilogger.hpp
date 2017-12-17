@@ -33,7 +33,7 @@ template<ILogger::Severity severity>
 class LoggerStream: std::stringbuf, public std::ostream
 {
     public:
-        LoggerStream(ILogger* logger): std::stringbuf(), std::ostream(this), m_logger(logger)
+        explicit LoggerStream(ILogger* logger): std::stringbuf(), std::ostream(this), m_logger(logger)
         {
 
         }
