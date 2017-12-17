@@ -11,7 +11,7 @@ set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_hel
 set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idxdata_deepfetcher.cpp PROPERTIES GENERATED TRUE)
 set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp PROPERTIES GENERATED TRUE)
 
-
+message("QQQQQQQQQQQQQQQQQQ ${CMAKE_CURRENT_BINARY_DIR}")
 addTestTarget(gui
                 SOURCES
                     desktop/models/aphoto_info_model.cpp
