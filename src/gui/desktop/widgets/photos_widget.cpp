@@ -32,6 +32,7 @@
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
+#include "images/images.hpp"
 #include "multi_value_line_edit.hpp"
 #include "models/db_data_model.hpp"
 #include "ui_utils/icompleter_factory.hpp"
@@ -57,7 +58,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
 {
     using namespace std::placeholders;
     auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
-    const QImage image(":/gui/clock.svg");
+    const QImage image(Images::clock);
     m_thumbnailAcquisitor.setInProgressThumbnail(image);
     m_thumbnailAcquisitor.setObserver(thumbUpdate);
 
