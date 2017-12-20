@@ -107,6 +107,9 @@ before_script:
   # photo broom
   - mkdir build && cd build
   - CXX=$COMPILER $CMAKE_BIN -GNinja -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
+  # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
 script:
   - ninja
