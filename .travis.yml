@@ -25,6 +25,7 @@ matrix:
                - gcc-7
                - libexiv2-dev
                - python3
+               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
@@ -38,6 +39,7 @@ matrix:
                - gcc-7
                - libexiv2-dev
                - python3
+               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
@@ -51,6 +53,7 @@ matrix:
                - clang-5.0
                - libexiv2-dev
                - python3
+               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-trusty-5.0
@@ -65,6 +68,7 @@ matrix:
                - clang-5.0
                - libexiv2-dev
                - python3
+               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-trusty-5.0
@@ -102,8 +106,11 @@ before_script:
     fi
   # photo broom
   - mkdir build && cd build
-  - CXX=$COMPILER $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
+  - CXX=$COMPILER $CMAKE_BIN -GNinja -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
+  # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
 script:
-  - make
+  - ninja
   - ctest -V
