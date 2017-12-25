@@ -50,6 +50,9 @@ class CompleterFactory: public ICompleterFactory
         QCompleter* createCompleter(const std::set<TagNameInfo> &) override;
 
     private:
+        typedef std::unique_ptr<QAbstractItemModel> ModelPtr;
+        typedef std::pair<ModelPtr, ModelPtr> ModelPair;
+
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagNameInfo>, std::unique_ptr<QAbstractItemModel>> m_tagValueModels;
         ILoggerFactory* m_loggerFactory;
