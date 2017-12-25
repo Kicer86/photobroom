@@ -79,14 +79,14 @@ QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 
 QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos)
 {
-    TagValueModel* model = getModelFor(infos);
+    QAbstractItemModel* model = getModelFor(infos);
 
     QCompleter* result = new QCompleter(model);
     return result;
 }
 
 
-TagValueModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
+QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
 {
     auto it = m_tagValueModels.find(infos);
 
