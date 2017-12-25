@@ -55,7 +55,7 @@ namespace
 
 TagValueModel::TagValueModel(const std::set<TagNameInfo>& infos):
     m_values(),
-    m_tagInfos (infos),
+    m_tagInfos(infos),
     m_tagInfoCollector(nullptr),
     m_loggerFactory(nullptr),
     m_observerId(0)
@@ -123,7 +123,7 @@ void TagValueModel::updateData()
 
     QString combined_name;
 
-    for(const TagNameInfo& info: m_tagInfos )
+    for(const TagNameInfo& info: m_tagInfos)
     {
         const auto& values = m_tagInfoCollector->get(info);
         std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
