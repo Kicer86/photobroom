@@ -25,6 +25,28 @@
 #include <utils/tag_value_model.hpp>
 
 
+namespace
+{
+    class VariantToStringModelProxy final: QAbstractListModel
+    {
+        public:
+            VariantToStringModelProxy(QAbstractItemModel* model):
+                QAbstractListModel(),
+                m_model(model)
+            {
+            }
+
+            ~VariantToStringModelProxy() = default;
+
+
+
+
+        private:
+            QAbstractItemModel* m_model;
+    };
+}
+
+
 CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_loggerFactory(nullptr)
 {
 
