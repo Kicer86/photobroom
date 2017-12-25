@@ -73,6 +73,7 @@ TagValueModel::~TagValueModel()
 
 void TagValueModel::set(ITagInfoCollector* collector)
 {
+    // TODO: consider signal/slot mechanism here
     m_tagInfoCollector = collector;
 
     using namespace std::placeholders;
