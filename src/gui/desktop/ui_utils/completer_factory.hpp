@@ -28,8 +28,6 @@
 
 class QAbstractItemModel;
 
-class TagValueModel;
-
 namespace Database
 {
     struct IDatabase;
@@ -53,7 +51,7 @@ class CompleterFactory: public ICompleterFactory
 
     private:
         TagInfoCollector m_tagInfoCollector;
-        std::map<std::set<TagNameInfo>, std::unique_ptr<TagValueModel>> m_tagValueModels;
+        std::map<std::set<TagNameInfo>, std::unique_ptr<QAbstractItemModel>> m_tagValueModels;
         ILoggerFactory* m_loggerFactory;
 
         QAbstractItemModel* getModelFor(const std::set<TagNameInfo> &);
