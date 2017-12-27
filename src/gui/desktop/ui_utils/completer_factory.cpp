@@ -47,7 +47,7 @@ namespace
                 const QVariant d = m_model->data(index, role);
 
                 const QVariant result = role == Qt::DisplayRole || role == Qt::EditRole?
-                    VariantDisplay()(d, locale):
+                    localize(d, locale):
                     d;
 
                 return result;
