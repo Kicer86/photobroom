@@ -20,9 +20,12 @@
 #include "completer_factory.hpp"
 
 #include <QCompleter>
+#include <QLocale>
 
 #include <database/database_tools/tag_info_collector.hpp>
-#include <utils/tag_value_model.hpp>
+
+#include "utils/tag_value_model.hpp"
+#include "utils/variant_display.hpp"
 
 
 namespace
@@ -38,9 +41,22 @@ namespace
 
             ~VariantToStringModelProxy() = default;
 
-            int rowCount(const QModelIndex &) const override {}
-            QVariant data(const QModelIndex &, int) const override {}
+            QVariant data(const QModelIndex& index, int role) const override
+            {
+                const QLocale locale;
+                const QVariant d = m_model->data(index, role);
 
+                const QVariant result = role == Qt::DisplayRole || role == Qt::EditRole?
+                    VariantDisplay()(d, locale):
+                    d;
+
+                return result;
+            }
+
+            int rowCount(const QModelIndex& parent) const override
+            {
+                return m_model->rowCount(parent);
+            }
 
         private:
             QAbstractItemModel* m_model;
