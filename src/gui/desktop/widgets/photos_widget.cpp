@@ -181,8 +181,11 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 
     for(const BaseTagsList& tagType: allTagTypes)
     {
-        const TagNameInfo tagInfo(tagType);
-        allTags.insert(tagInfo);
+        if (tagType != BaseTagsList::Date)
+        {
+            const TagNameInfo tagInfo(tagType);
+            allTags.insert(tagInfo);
+        }
     }
 
     QCompleter* completer = completerFactory->createCompleter(allTags);
