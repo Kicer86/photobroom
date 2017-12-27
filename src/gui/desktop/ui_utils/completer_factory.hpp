@@ -54,7 +54,7 @@ class CompleterFactory: public ICompleterFactory
         typedef std::pair<ModelPtr, ModelPtr> ModelPair;
 
         TagInfoCollector m_tagInfoCollector;
-        std::map<std::set<TagNameInfo>, std::unique_ptr<QAbstractItemModel>> m_tagValueModels;
+        std::map<std::set<TagNameInfo>, ModelPair> m_tagValueModels;
         ILoggerFactory* m_loggerFactory;
 
         QAbstractItemModel* getModelFor(const std::set<TagNameInfo> &);

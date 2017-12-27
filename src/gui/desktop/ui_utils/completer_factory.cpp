@@ -27,7 +27,7 @@
 
 namespace
 {
-    class VariantToStringModelProxy final: QAbstractListModel
+    class VariantToStringModelProxy final: public QAbstractListModel
     {
         public:
             VariantToStringModelProxy(QAbstractItemModel* model):
@@ -38,7 +38,8 @@ namespace
 
             ~VariantToStringModelProxy() = default;
 
-
+            int rowCount(const QModelIndex &) const override {}
+            QVariant data(const QModelIndex &, int) const override {}
 
 
         private:
@@ -94,14 +95,17 @@ QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& i
     {
         assert(m_loggerFactory != nullptr);
 
-        auto model = std::make_unique<TagValueModel>(infos);
-        model->set(m_loggerFactory);
-        model->set(&m_tagInfoCollector);
+        auto tags_model = std::make_unique<TagValueModel>(infos);
+        tags_model->set(m_loggerFactory);
+        tags_model->set(&m_tagInfoCollector);
 
-        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(model)) );
+        auto proxy_model = std::make_unique<VariantToStringModelProxy>(tags_model.get());
+
+        ModelPair models = ModelPair( std::move(proxy_model), std::move(tags_model) );
+        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
 
         it = insert_it.first;
     }
 
-    return it->second.get();
+    return it->second.first.get();
 }
