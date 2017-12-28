@@ -83,7 +83,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
             "just type <b>John Smith</b> here.\n\n"
             "Your expression doesn't need to be exact.\n"
             "If you type <b>Smith</b> all photos with this word will be found.\n"
-            "Remember that proper informations need to added to photos.\n\n"
+            "Remember that proper informations need to be added to photos.\n\n"
             "If you wish to find photos that match any of a few expressions\n"
             "split expressions with comma.\n\n"
             "Example:\n"
