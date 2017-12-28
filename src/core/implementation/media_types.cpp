@@ -1,6 +1,8 @@
 
 #include "media_types.hpp"
 
+#include <mutex>
+
 #include <QFileInfo>
 #include <QRegExp>
 #include <QString>
@@ -9,6 +11,9 @@ namespace
 {
     const QRegExp img_regex("jpe?g|png|gif|tif?f|bmp", Qt::CaseInsensitive);
     const QRegExp vid_regex("avi|mkv|mpe?g|mp4", Qt::CaseInsensitive);
+
+    std::mutex img_regex_mutex;
+    std::mutex vid_regex_mutex;
 }
 
 
@@ -17,6 +22,8 @@ namespace MediaTypes
 
     bool isImageFile(const QString& file_path)
     {
+        std::lock_guard<std::mutex> lock(img_regex_mutex);
+
         const QFileInfo path(file_path);
         const QString ext = path.suffix();
         const bool matches = img_regex.exactMatch(ext);
@@ -26,6 +33,8 @@ namespace MediaTypes
 
     bool isVideoFile(const QString& file_path)
     {
+        std::lock_guard<std::mutex> lock(vid_regex_mutex);
+
         const QFileInfo path(file_path);
         const QString ext = path.suffix();
         const bool matches = vid_regex.exactMatch(ext);
