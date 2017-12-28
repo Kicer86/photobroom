@@ -178,7 +178,7 @@ void TreeItemDelegate::paintNode(QPainter* painter, const QStyleOptionViewItem& 
     // calculate title position
     const QAbstractItemModel* m = index.model();
     const QVariant v = m->data(index, Qt::DisplayRole);
-    const QString t = VariantDisplay()(v, option.locale);
+    const QString t = localize(v, option.locale);
     const QString title = t.isEmpty()? tr("(Empty)"): t;
 
     // title bounding box

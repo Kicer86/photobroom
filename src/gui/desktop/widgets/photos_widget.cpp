@@ -21,9 +21,10 @@
 
 #include <QMenu>
 #include <QLineEdit>
-#include <QPainter>
-#include <QVBoxLayout>
 #include <QLayoutItem>
+#include <QPainter>
+#include <QShortcut>
+#include <QVBoxLayout>
 
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
@@ -72,6 +73,32 @@ PhotosWidget::PhotosWidget(QWidget* p):
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
     m_searchExpression = new MultiValueLineEdit(expressions_separator, this);
+    m_searchExpression->setClearButtonEnabled(true);
+    m_searchExpression->setToolTip(
+        tr(
+            "<pre>"
+            "Filter photos matching given expression.\n\n"
+            "Expression can be one or more words.\n"
+            "All photos which don't match it will be hidden.\n\n"
+            "Example:\n"
+            "If you want to find photos of John Smith\n"
+            "just type <b>John Smith</b> here.\n\n"
+            "Your expression doesn't need to be exact.\n"
+            "If you type <b>Smith</b> all photos with this word will be found.\n"
+            "Remember that proper informations need to be added to photos.\n\n"
+            "If you wish to find photos that match any of a few expressions\n"
+            "split expressions with comma.\n\n"
+            "Example:\n"
+            "<b>Anderson, Smith</b> will find all photos\n"
+            "described with <b>Anderson</b> or <b>Smith</b>."
+            "</pre>"
+        )
+    );
+
+    QShortcut* searchShortcut = new QShortcut(QKeySequence::Find, this);
+
+    auto focus = std::bind(qOverload<Qt::FocusReason>(&QWidget::setFocus), m_searchExpression, Qt::ShortcutFocusReason);
+    connect(searchShortcut, &QShortcut::activated, focus);
 
     QHBoxLayout* searchLayout = new QHBoxLayout;
     searchLayout->addWidget(searchPrompt);
@@ -182,8 +209,11 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 
     for(const BaseTagsList& tagType: allTagTypes)
     {
-        const TagNameInfo tagInfo(tagType);
-        allTags.insert(tagInfo);
+        if (tagType != BaseTagsList::Date)
+        {
+            const TagNameInfo tagInfo(tagType);
+            allTags.insert(tagInfo);
+        }
     }
 
     QCompleter* completer = completerFactory->createCompleter(allTags);

@@ -25,16 +25,8 @@
 class QVariant;
 class QLocale;
 
-class VariantDisplay
-{
-    public:
-        VariantDisplay();
-        VariantDisplay(const VariantDisplay &) = delete;
-        ~VariantDisplay();
 
-        VariantDisplay& operator=(const VariantDisplay &) = delete;
+QString localize(const QVariant &, const QLocale &);
 
-        QString operator()(const QVariant &, const QLocale &) const;
-};
 
 #endif // VARIANTDISPLAY_HPP

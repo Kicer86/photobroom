@@ -683,7 +683,49 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Szukaj:</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+4"/>
+        <source>&lt;pre&gt;Filter photos matching given expression.
+
+Expression can be one or more words.
+All photos which don&apos;t match it will be hidden.
+
+Example:
+If you want to find photos of John Smith
+just type &lt;b&gt;John Smith&lt;/b&gt; here.
+
+Your expression doesn&apos;t need to be exact.
+If you type &lt;b&gt;Smith&lt;/b&gt; all photos with this word will be found.
+Remember that proper informations need to be added to photos.
+
+If you wish to find photos that match any of a few expressions
+split expressions with comma.
+
+Example:
+&lt;b&gt;Anderson, Smith&lt;/b&gt; will find all photos
+described with &lt;b&gt;Anderson&lt;/b&gt; or &lt;b&gt;Smith&lt;/b&gt;.&lt;/pre&gt;</source>
+        <translation>&lt;pre&gt;Filtrowanie zdjęć na podstawie wyrażenia.
+
+Wyrażenie może się składać z jednego lub kilku słów.
+Wszystkie zdjęcia, które nie będą pasowały, zostaną ukryte.
+
+Przykład:
+Jeśli chcesz znaleźć zdjęcia Jana Nowaka wpisz tutaj
+&lt;b&gt;Jan Nowak&lt;/b&gt;
+
+Wyrażenie nie musi być precyzyjne.
+Jeśli wpiszesz &lt;b&gt;Nowak&lt;/b&gt; wszystkie zdjęcia zawierające
+taką frazę zostaną wyświetlone.
+Pamiętaj, że odpowiednie informacje muszą zostać dodane do zdjęcia.
+
+Jeśli chcesz znaleźć zdjęcia pasujące do jednego z kilku wyrażeń,
+rozdziel je przecinkiem.
+
+Przykład:
+&lt;b&gt;Nowak, Kowalski&lt;/b&gt; znajdzie wszystkie zdjęcia
+zawierające frazę &lt;b&gt;Nowak&lt;/b&gt; lub &lt;b&gt;Kowalski&lt;/b&gt;.&lt;/pre&gt;</translation>
+    </message>
+    <message>
+        <location line="+32"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>

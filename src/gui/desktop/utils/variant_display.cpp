@@ -27,19 +27,7 @@
 #include <QTime>
 
 
-VariantDisplay::VariantDisplay()
-{
-
-}
-
-
-VariantDisplay::~VariantDisplay()
-{
-
-}
-
-
-QString VariantDisplay::operator()(const QVariant& v, const QLocale& l) const
+QString localize(const QVariant& v, const QLocale& l)
 {
     const QVariant::Type type = v.type();
     QString result;

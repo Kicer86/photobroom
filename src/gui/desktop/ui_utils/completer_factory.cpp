@@ -20,9 +20,48 @@
 #include "completer_factory.hpp"
 
 #include <QCompleter>
+#include <QLocale>
 
 #include <database/database_tools/tag_info_collector.hpp>
-#include <utils/tag_value_model.hpp>
+
+#include "utils/tag_value_model.hpp"
+#include "utils/variant_display.hpp"
+
+
+namespace
+{
+    class VariantToStringModelProxy final: public QAbstractListModel
+    {
+        public:
+            VariantToStringModelProxy(QAbstractItemModel* model):
+                QAbstractListModel(),
+                m_model(model)
+            {
+            }
+
+            ~VariantToStringModelProxy() = default;
+
+            QVariant data(const QModelIndex& index, int role) const override
+            {
+                const QLocale locale;
+                const QVariant d = m_model->data(index, role);
+
+                const QVariant result = role == Qt::DisplayRole || role == Qt::EditRole?
+                    localize(d, locale):
+                    d;
+
+                return result;
+            }
+
+            int rowCount(const QModelIndex& parent) const override
+            {
+                return m_model->rowCount(parent);
+            }
+
+        private:
+            QAbstractItemModel* m_model;
+    };
+}
 
 
 CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_loggerFactory(nullptr)
@@ -57,14 +96,14 @@ QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
 
 QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos)
 {
-    TagValueModel* model = getModelFor(infos);
+    QAbstractItemModel* model = getModelFor(infos);
 
     QCompleter* result = new QCompleter(model);
     return result;
 }
 
 
-TagValueModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
+QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
 {
     auto it = m_tagValueModels.find(infos);
 
@@ -72,14 +111,17 @@ TagValueModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
     {
         assert(m_loggerFactory != nullptr);
 
-        auto model = std::make_unique<TagValueModel>(infos);
-        model->set(m_loggerFactory);
-        model->set(&m_tagInfoCollector);
+        auto tags_model = std::make_unique<TagValueModel>(infos);
+        tags_model->set(m_loggerFactory);
+        tags_model->set(&m_tagInfoCollector);
 
-        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(model)) );
+        auto proxy_model = std::make_unique<VariantToStringModelProxy>(tags_model.get());
+
+        ModelPair models = ModelPair( std::move(proxy_model), std::move(tags_model) );
+        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
 
         it = insert_it.first;
     }
 
-    return it->second.get();
+    return it->second.first.get();
 }

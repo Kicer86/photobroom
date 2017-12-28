@@ -329,6 +329,7 @@ namespace Database
 
         // from filtered photos, get info about tags used there
         // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
+        // TODO: consider DISTINCT removal, just do some post process
         QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
 
         queryStr = queryStr.arg(tagName.getTag());
@@ -1020,6 +1021,10 @@ namespace Database
 
             collection.push_back(id);
         }
+
+        // remove duplicates which may appear when query is complex
+        auto last = std::unique(collection.begin(), collection.end());
+        collection.erase(last, collection.end());
 
         return collection;
     }
