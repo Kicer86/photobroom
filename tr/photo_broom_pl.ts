@@ -683,7 +683,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Szukaj:</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>&lt;pre&gt;Filter photos matching given expression.
 
 Expression can be one or more words.

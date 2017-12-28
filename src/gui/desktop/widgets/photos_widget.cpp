@@ -72,6 +72,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     // search panel
     QLabel* searchPrompt = new QLabel(tr("Search:"), this);
     m_searchExpression = new MultiValueLineEdit(expressions_separator, this);
+    m_searchExpression->setClearButtonEnabled(true);
     m_searchExpression->setToolTip(
         tr(
             "<pre>"
