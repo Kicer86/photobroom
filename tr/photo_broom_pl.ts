@@ -695,7 +695,7 @@ just type &lt;b&gt;John Smith&lt;/b&gt; here.
 
 Your expression doesn&apos;t need to be exact.
 If you type &lt;b&gt;Smith&lt;/b&gt; all photos with this word will be found.
-Remember that proper informations need to added to photos.
+Remember that proper informations need to be added to photos.
 
 If you wish to find photos that match any of a few expressions
 split expressions with comma.
