@@ -703,7 +703,26 @@ split expressions with comma.
 Example:
 &lt;b&gt;Anderson, Smith&lt;/b&gt; will find all photos
 described with &lt;b&gt;Anderson&lt;/b&gt; or &lt;b&gt;Smith&lt;/b&gt;.&lt;/pre&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;pre&gt;Filtrowanie zdjęć na podstawie wyrażenia.
+
+Wyrażenie może się składać z jednego lub kilku słów.
+Wszystkie zdjęcia, które nie będą pasowały, zostaną ukryte.
+
+Przykład:
+Jeśli chcesz znaleźć zdjęcia Jana Nowaka wpisz tutaj
+&lt;b&gt;Jan Nowak&lt;/b&gt;
+
+Wyrażenie nie musi być precyzyjne.
+Jeśli wpiszesz &lt;b&gt;Nowak&lt;/b&gt; wszystkie zdjęcia zawierające
+taką frazę zostaną wyświetlone.
+Pamiętaj, że odpowiednie informacje muszą zostać dodane do zdjęcia.
+
+Jeśli chcesz znaleźć zdjęcia pasujące do jednego z kilku wyrażeń,
+rozdziel je przecinkiem.
+
+Przykład:
+&lt;b&gt;Nowak, Kowalski&lt;/b&gt; znajdzie wszystkie zdjęcia
+zawierające frazę &lt;b&gt;Nowak&lt;/b&gt; lub &lt;b&gt;Kowalski&lt;/b&gt;.&lt;/pre&gt;</translation>
     </message>
     <message>
         <location line="+32"/>
