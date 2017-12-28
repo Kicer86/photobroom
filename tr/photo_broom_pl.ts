@@ -683,7 +683,30 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Szukaj:</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+3"/>
+        <source>&lt;pre&gt;Filter photos matching given expression.
+
+Expression can be one or more words.
+All photos which don&apos;t match it will be hidden.
+
+Example:
+If you want to find photos of John Smith
+just type &lt;b&gt;John Smith&lt;/b&gt; here.
+
+Your expression doesn&apos;t need to be exact.
+If you type &lt;b&gt;Smith&lt;/b&gt; all photos with this word will be found.
+Remember that proper informations need to added to photos.
+
+If you wish to find photos that match any of a few expressions
+split expressions with comma.
+
+Example:
+&lt;b&gt;Anderson, Smith&lt;/b&gt; will find all photos
+described with &lt;b&gt;Anderson&lt;/b&gt; or &lt;b&gt;Smith&lt;/b&gt;.&lt;/pre&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>
