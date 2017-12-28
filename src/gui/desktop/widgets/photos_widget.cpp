@@ -21,9 +21,10 @@
 
 #include <QMenu>
 #include <QLineEdit>
-#include <QPainter>
-#include <QVBoxLayout>
 #include <QLayoutItem>
+#include <QPainter>
+#include <QShortcut>
+#include <QVBoxLayout>
 
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
@@ -91,6 +92,11 @@ PhotosWidget::PhotosWidget(QWidget* p):
             "</pre>"
         )
     );
+
+    QShortcut* searchShortcut = new QShortcut(QKeySequence::Find, this);
+
+    auto focus = std::bind(qOverload<Qt::FocusReason>(&QWidget::setFocus), m_searchExpression, Qt::ShortcutFocusReason);
+    connect(searchShortcut, &QShortcut::activated, focus);
 
     QHBoxLayout* searchLayout = new QHBoxLayout;
     searchLayout->addWidget(searchPrompt);

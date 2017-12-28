@@ -678,7 +678,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+72"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+73"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -706,7 +706,7 @@ described with &lt;b&gt;Anderson&lt;/b&gt; or &lt;b&gt;Smith&lt;/b&gt;.&lt;/pre&
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+32"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>
