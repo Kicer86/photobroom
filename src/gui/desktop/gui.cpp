@@ -86,14 +86,25 @@ void Gui::run()
     InfoStream( gui_logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
 
     // translations
-    QTranslator translator;
-    translator.load("photo_broom_pl", tr_path);
-    const bool status = QCoreApplication::installTranslator(&translator);
+    const QLocale locale;
 
-    if (status)
-        gui_logger->log(ILogger::Severity::Info, "Polish translations loaded successfully.");
+    const QString info = QString("System language: %1").arg(locale.name());
+    gui_logger->debug(info.toStdString());
+
+    const auto uiLangs = locale.uiLanguages();
+    const QString uiLangsStr = uiLangs.join(", ");
+    const QString language_details = QString("List of UI langauges: %1").arg(uiLangsStr);
+    gui_logger->debug(language_details.toStdString());
+
+    bool translations_status = false;
+    QTranslator translator;
+    if (translator.load(QLocale(), QLatin1String("photo_broom"), QLatin1String("_"), tr_path))
+        translations_status = QCoreApplication::installTranslator(&translator);
+
+    if (translations_status)
+        gui_logger->log(ILogger::Severity::Info, "Translations loaded successfully.");
     else
-        gui_logger->log(ILogger::Severity::Error, "Could not load Polish translations.");
+        gui_logger->log(ILogger::Severity::Error, "Could not load translations.");
 
     // setup basic configuration
     IConfiguration* configuration = m_coreFactory->getConfiguration();
