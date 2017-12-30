@@ -13,7 +13,10 @@
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <system/filesystem.hpp>
+
+#ifdef UPDATER_ENABLED
 #include <updater/updater.hpp>
+#endif
 
 #include "ui/mainwindow.hpp"
 
@@ -104,15 +107,17 @@ void Gui::run()
     if (fileInfo.isExecutable() == false)
         gui_logger->warning("Path to FFMpeg tool is invalid. Thumbnails for video files will not be available.");
 
-    // updater
-    Updater updater;
-
     // main window
     MainWindow mainWindow(m_coreFactory);
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);
+
+    // updater
+#ifdef UPDATER_ENABLED
+    Updater updater;
     mainWindow.set(&updater);
+#endif
 
     mainWindow.show();
     m_app->exec();

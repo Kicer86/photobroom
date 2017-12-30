@@ -72,7 +72,6 @@ target_link_libraries(gui
                             photos_crawler
                             project_utils
                             system
-                            updater
                             ${OPENLIBRARY_LIBRARIES}
                             Qt5::Gui
                             Qt5::Svg
@@ -80,6 +79,10 @@ target_link_libraries(gui
 )
 
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+if (BUILD_UPDATER)
+    target_link_libraries(gui PRIVATE updater)
+endif()
 
 generate_export_header(gui)
 hideSymbols(gui)

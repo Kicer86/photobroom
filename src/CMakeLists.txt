@@ -11,7 +11,11 @@ add_subdirectory(gui)
 add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(system)
-add_subdirectory(updater)
+
+if (BUILD_UPDATER)
+    add_definitions(-DUPDATER_ENABLED)
+    add_subdirectory(updater)
+endif()
 
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
