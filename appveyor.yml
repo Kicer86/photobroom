@@ -21,7 +21,7 @@ cache:
     - c:\program files\cmake   -> appveyor.bat, tools/prepare_dependencies.py
 
 artifacts:
-  - path: build/PhotoBroom-1.2.0-win64.exe
+  - path: build/PhotoBroom-1.2.1-win64.exe
     name: PhotoBroom_installer
 
 before_build:
