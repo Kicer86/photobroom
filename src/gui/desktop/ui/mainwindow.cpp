@@ -157,7 +157,6 @@ void MainWindow::setupConfig()
 {
     // setup defaults
     m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
-    m_configuration->setDefaultValue(UpdateConfigKeys::updateFrequency, 1);
 
     m_configuration->setDefaultValue(ViewConfigKeys::itemsMargin,    10);
     m_configuration->setDefaultValue(ViewConfigKeys::itemsSpacing,   2);
@@ -178,8 +177,6 @@ void MainWindow::set(IUpdater* updater)
 
     if (enabled)
     {
-        const int frequency = m_configuration->getEntry(UpdateConfigKeys::updateFrequency).toInt() % 3;
-
         const std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
         const QVariant last_raw = m_configuration->getEntry(UpdateConfigKeys::lastCheck);
@@ -188,9 +185,10 @@ void MainWindow::set(IUpdater* updater)
 
         const auto diff = std::chrono::duration_cast<std::chrono::hours>(now - last_check).count();
 
-        const int freqHours[] = {23, 71, 167};
+        // hardcoded refresh frequency - 72 hours
+        const int freqHours = 71;
 
-        if (diff > freqHours[frequency] || diff < 0)    // negative diff may be a result of broken config or changed clock settings
+        if (diff > freqHours || diff < 0)    // negative diff may be a result of broken config or changed clock settings
         {
             QTimer::singleShot(10000, this, &MainWindow::checkVersion);
 

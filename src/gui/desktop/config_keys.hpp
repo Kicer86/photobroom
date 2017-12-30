@@ -13,7 +13,7 @@ namespace ViewConfigKeys
 
 namespace UpdateConfigKeys
 {
-    const char* const updateFrequency = "updater::frequency";
+    [[deprecated]] const char* const updateFrequency = "updater::frequency";
     const char* const updateEnabled   = "updater::enabled";
     const char* const lastCheck       = "updater::last_check";
 }

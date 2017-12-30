@@ -14,9 +14,6 @@ MainTab::MainTab(QWidget *parent) :
     ui(new Ui::MainTab)
 {
     ui->setupUi(this);
-
-    const QStringList checks = { tr("Every day"), tr("Every 3 days"), tr("Every week") };
-    ui->freqComboBox->addItems(checks);
 }
 
 
@@ -29,12 +26,6 @@ MainTab::~MainTab()
 QCheckBox* MainTab::updateCheckBox()
 {
     return ui->updatesCheckBox;
-}
-
-
-QComboBox* MainTab::updateFrequency()
-{
-    return ui->freqComboBox;
 }
 
 
@@ -74,10 +65,8 @@ QWidget* MainTabController::constructTab()
     m_tabWidget = new MainTab;
 
     const auto enabled = m_configuration->getEntry(UpdateConfigKeys::updateEnabled);
-    const auto frequency = m_configuration->getEntry(UpdateConfigKeys::updateFrequency);
 
     m_tabWidget->updateCheckBox()->setChecked(enabled.toBool());
-    m_tabWidget->updateFrequency()->setCurrentIndex(frequency.toInt());
 
     return m_tabWidget;
 }
@@ -86,10 +75,8 @@ QWidget* MainTabController::constructTab()
 void MainTabController::applyConfiguration()
 {
     const bool enabled = m_tabWidget->updateCheckBox()->checkState() == Qt::Checked;
-    const int frequency = m_tabWidget->updateFrequency()->currentIndex();
 
     m_configuration->setEntry(UpdateConfigKeys::updateEnabled, enabled);
-    m_configuration->setEntry(UpdateConfigKeys::updateFrequency, frequency);
 }
 
 

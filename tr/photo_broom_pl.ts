@@ -178,31 +178,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>Check for updates</source>
         <translation>Sprawdzaj aktualizacje</translation>
     </message>
-    <message>
-        <location line="+10"/>
-        <source>Check frequency:</source>
-        <translation>Częstotliwość:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+18"/>
-        <source>Every day</source>
-        <translation>Codziennie</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Every 3 days</source>
-        <translation>Co 3 dni</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Every week</source>
-        <translation>Co tydzień</translation>
-    </message>
 </context>
 <context>
     <name>MainTabController</name>
     <message>
-        <location line="+50"/>
+        <location filename="../src/gui/desktop/config_tabs/main_tab.cpp" line="+59"/>
         <source>Main</source>
         <translation>Główne</translation>
     </message>
@@ -330,7 +310,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
