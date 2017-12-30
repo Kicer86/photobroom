@@ -61,6 +61,7 @@ endif()
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
 option(BUILD_SHARED_LIBS "Global flag to cause add_library to create shared libraries if on.")
+option(BUILD_UPDATER "Enable 'updater' module" WIN32)
 option(DEVELOPER_BUILD "Enable developer build. Enable it to make debugging easier.")
 
 #options description:
