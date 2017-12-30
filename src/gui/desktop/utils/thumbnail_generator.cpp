@@ -73,7 +73,14 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
         QImage image = QFile::exists(m_info.path)?
             QImage(m_info.path):
             QImage(Images::error);
-        assert(image.isNull() == false);
+
+        if (image.isNull())
+        {
+            const QString error = QString("Broken image: %1").arg(m_info.path);
+
+            m_generator->m_logger->error(error.toStdString());
+            image = QImage(Images::error);
+        }
 
         const int photo_read = stopwatch.read(true);
 

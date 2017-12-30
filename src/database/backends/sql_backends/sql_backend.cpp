@@ -1023,6 +1023,7 @@ namespace Database
         }
 
         // remove duplicates which may appear when query is complex
+        std::sort(collection.begin(), collection.end());
         auto last = std::unique(collection.begin(), collection.end());
         collection.erase(last, collection.end());
 

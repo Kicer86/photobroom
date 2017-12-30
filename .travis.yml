@@ -5,9 +5,8 @@ dist: trusty
 language: cpp
 
 branches:
-  only:
-    - master
-    - travis_test
+  except:
+    - appveyor
 
 notifications:
     on_failure: never
