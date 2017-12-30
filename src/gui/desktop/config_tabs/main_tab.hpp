@@ -27,7 +27,6 @@ class MainTab: public QWidget
         MainTab& operator=(const MainTab &) = delete;
 
         QCheckBox* updateCheckBox();
-        QComboBox* updateFrequency();
 
     private:
         Ui::MainTab *ui;
