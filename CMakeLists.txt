@@ -67,6 +67,7 @@ option(DEVELOPER_BUILD "Enable developer build. Enable it to make debugging easi
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
 add_feature_info("Enable developer build" DEVELOPER_BUILD "Enable it to make debugging easier.")
+add_feature_info("Enable 'updater' module" BUILD_UPDATER "Build module responsible for online version check.")
 
 #tests
 if(BUILD_TESTS)
