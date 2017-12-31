@@ -23,10 +23,13 @@ cache:
 
 before_install:
     # setup Qt 5.7 which is not in Ubuntu by default. To be removed in the future.
-  - sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y
-  - sudo apt-get -qq update
-  - sudo sudo apt-get install -qq qt57base qt57svg
-  - source /opt/qt57/bin/qt57-env.sh
+  - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+    else
+        sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y
+        sudo apt-get -qq update
+        sudo apt-get install -qq qt57base qt57svg
+        source /opt/qt57/bin/qt57-env.sh
+    fi
 
 before_script:
   # cmake (TODO: remove in the future)
