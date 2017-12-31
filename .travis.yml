@@ -73,6 +73,10 @@ matrix:
           # use compiler which has c++17 support
           env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
 
+        - os: osx
+          osx_image: xcode9.2
+          env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
+
 cache:
   directories:
   - $TRAVIS_BUILD_DIR/usr
