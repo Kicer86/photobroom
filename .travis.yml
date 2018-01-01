@@ -33,29 +33,6 @@ env:
     - SHARED_BUILD=OFF
 
 matrix:
-    include:
-        # TODO: below env could be used as additional dimension in matrix but there is a feature missing:
-        # https://github.com/travis-ci/travis-ci/issues/1519
-        - compiler: gcc
-          # use compiler which has c++17 support
-          env: COMPILER=g++-7 SHARED_BUILD=ON
-
-        - compiler: gcc
-          # use compiler which has c++17 support
-          env: COMPILER=g++-7 SHARED_BUILD=OFF
-
-        - compiler: clang
-          # use compiler which has c++17 support
-          env: COMPILER=clang++-5.0 SHARED_BUILD=ON
-
-        - compiler: clang
-          # use compiler which has c++17 support
-          env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
-
-        - os: osx
-          osx_image: xcode9.2
-          env: COMPILER=clang++ SHARED_BUILD=OFF
-
     allow_failures:
         - os: osx
 
