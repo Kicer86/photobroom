@@ -34,16 +34,14 @@ before_install:
         sudo apt-get -qq update;
         sudo apt-get install -qq qt57base qt57svg;
         source /opt/qt57/bin/qt57-env.sh;
+        wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh;
+        chmod +x ./cmake-3.9.1-Linux-x86_64.sh;
+        ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
+        export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
         export PYTHON=python3;
     fi
 
 before_script:
-  # cmake (TODO: remove in the future)
-  - wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh
-  - chmod +x ./cmake-3.9.1-Linux-x86_64.sh
-  - ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license
-  - export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake
-
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
