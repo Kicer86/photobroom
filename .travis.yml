@@ -15,7 +15,7 @@ matrix:
     include:
         - os: osx
           osx_image: xcode9.2
-          env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
+          env: COMPILER=clang++ SHARED_BUILD=OFF
 
 cache:
   directories:
