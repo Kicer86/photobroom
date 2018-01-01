@@ -28,13 +28,13 @@ before_install:
         pyenv install 3.5.2;
         pyenv global 3.5.2;
         eval "$(pyenv init -)";
-        PYTHON=python;
+        export PYTHON=python;
     else
         sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y;
         sudo apt-get -qq update;
         sudo apt-get install -qq qt57base qt57svg;
         source /opt/qt57/bin/qt57-env.sh;
-        PYTHON=python3;
+        export PYTHON=python3;
     fi
 
 before_script:
