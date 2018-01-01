@@ -24,6 +24,10 @@ notifications:
     on_failure: never
     on_success: never
 
+os:
+  - linux
+  - osx
+
 compiler:
   - gcc
   - clang
