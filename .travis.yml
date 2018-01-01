@@ -27,12 +27,14 @@ before_install:
         pyenv install 3.5.2;
         pyenv global 3.5.2;
         eval "$(pyenv init -)";
+        PYTHON=python
     else
         # setup Qt 5.7 which is not in Ubuntu by default. To be removed in the future.
         sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y;
         sudo apt-get -qq update;
         sudo apt-get install -qq qt57base qt57svg;
         source /opt/qt57/bin/qt57-env.sh;
+        PYTHON=python3
     fi
 
 before_script:
@@ -46,7 +48,7 @@ before_script:
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         pushd tools;
-        python ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr;
+        $PYTHON ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr;
         popd;
     fi
   # setup gmock and gtest
