@@ -26,6 +26,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
         pyenv install 3.5.2;
+        pyenv local 3.5.2;
         python --version;
     else
         sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y;
