@@ -13,6 +13,12 @@ addons:
             - libexiv2-dev
             - python3
             - ninja-build
+            - g++-7
+            - gcc-7
+            - clang-5.0
+        sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
 
 notifications:
     on_failure: never
@@ -23,48 +29,18 @@ matrix:
         # TODO: below env could be used as additional dimension in matrix but there is a feature missing:
         # https://github.com/travis-ci/travis-ci/issues/1519
         - compiler: gcc
-          addons:
-            apt:
-             packages:
-               - g++-7
-               - gcc-7
-             sources:
-               - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
           env: COMPILER=g++-7 SHARED_BUILD=ON
 
         - compiler: gcc
-          addons:
-            apt:
-             packages:
-               - g++-7
-               - gcc-7
-             sources:
-               - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
           env: COMPILER=g++-7 SHARED_BUILD=OFF
 
         - compiler: clang
-          addons:
-            apt:
-             packages:
-               - libstdc++-7-dev
-               - clang-5.0
-             sources:
-               - ubuntu-toolchain-r-test
-               - llvm-toolchain-trusty-5.0
           # use compiler which has c++17 support
           env: COMPILER=clang++-5.0 SHARED_BUILD=ON
 
         - compiler: clang
-          addons:
-            apt:
-             packages:
-               - libstdc++-7-dev
-               - clang-5.0
-             sources:
-               - ubuntu-toolchain-r-test
-               - llvm-toolchain-trusty-5.0
           # use compiler which has c++17 support
           env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
 
