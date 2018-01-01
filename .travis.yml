@@ -24,6 +24,11 @@ notifications:
     on_failure: never
     on_success: never
 
+compiler:
+  - gcc
+  - clang
+
+
 matrix:
     include:
         # TODO: below env could be used as additional dimension in matrix but there is a feature missing:
