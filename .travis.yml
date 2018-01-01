@@ -24,10 +24,9 @@ cache:
 before_install:
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
-        brew upgrade pyenv;
+        brew upgrade pyenv qt@5.7 ninja;
         pyenv install 3.5.2;
         eval "$(pyenv init -)";
-        brew install qt@5.7;
         export PATH="/usr/local/opt/qt@5.7/bin:$PATH"
         export CMAKE_BIN=cmake;
         export PYTHON=python;
