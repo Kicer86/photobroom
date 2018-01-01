@@ -28,6 +28,9 @@ compiler:
   - gcc
   - clang
 
+env:
+    - SHARED_BUILD=ON
+    - SHARED_BUILD=OFF
 
 matrix:
     include:
