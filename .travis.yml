@@ -28,6 +28,7 @@ before_install:
         pyenv install 3.5.2;
         eval "$(pyenv init -)";
         brew install qt@5.7;
+        export PATH="/usr/local/opt/qt@5.7/bin:$PATH"
         export CMAKE_BIN=cmake;
         export PYTHON=python;
     else
