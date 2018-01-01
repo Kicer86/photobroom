@@ -49,12 +49,6 @@ cache:
   - $TRAVIS_BUILD_DIR/usr
 
 before_install:
-  - if [ "${COMPILER}" = "gcc" ]; then
-        export COMPILER=g++-7
-    else
-        export COMPILER=clang++-5.0;
-    fi
-
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
