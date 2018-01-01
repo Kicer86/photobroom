@@ -26,6 +26,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
         pyenv install 3.5.2;
+        pyenv global 3.5.2;
         eval "$(pyenv init -)";
         brew install qt@5.7
         export PYTHON=python;
