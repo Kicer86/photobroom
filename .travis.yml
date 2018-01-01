@@ -25,7 +25,7 @@ before_install:
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
-        brew install qt@5.7 ninja;
+        brew install qt@5.7 ninja exiv2;
         pyenv install 3.5.2;
         pyenv global 3.5.2;
         eval "$(pyenv init -)";
