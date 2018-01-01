@@ -48,6 +48,7 @@ before_script:
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         pushd tools;
+        $PYTHON --version;
         $PYTHON ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr;
         popd;
     fi
