@@ -37,6 +37,10 @@ env:
     - SHARED_BUILD=OFF
 
 matrix:
+    exclude:
+        - os: osx
+          env: SHARED_BUILD=ON
+
     allow_failures:
         - os: osx
 
