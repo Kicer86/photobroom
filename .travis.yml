@@ -7,6 +7,13 @@ branches:
   except:
     - appveyor
 
+addons:
+    apt:
+        packages:
+            - libexiv2-dev
+            - python3
+            - ninja-build
+
 notifications:
     on_failure: never
     on_success: never
@@ -21,9 +28,6 @@ matrix:
              packages:
                - g++-7
                - gcc-7
-               - libexiv2-dev
-               - python3
-               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
@@ -35,9 +39,6 @@ matrix:
              packages:
                - g++-7
                - gcc-7
-               - libexiv2-dev
-               - python3
-               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
           # use compiler which has c++17 support
@@ -49,9 +50,6 @@ matrix:
              packages:
                - libstdc++-7-dev
                - clang-5.0
-               - libexiv2-dev
-               - python3
-               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-trusty-5.0
@@ -64,9 +62,6 @@ matrix:
              packages:
                - libstdc++-7-dev
                - clang-5.0
-               - libexiv2-dev
-               - python3
-               - ninja-build
              sources:
                - ubuntu-toolchain-r-test
                - llvm-toolchain-trusty-5.0
