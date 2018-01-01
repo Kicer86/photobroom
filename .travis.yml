@@ -13,9 +13,10 @@ notifications:
 
 matrix:
     include:
-        - os: osx
-          osx_image: xcode9.2
-          env: COMPILER=clang++ SHARED_BUILD=OFF
+        allow_failures:
+            - os: osx
+            osx_image: xcode9.2
+            env: COMPILER=clang++ SHARED_BUILD=OFF
 
 cache:
   directories:
