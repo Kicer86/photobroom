@@ -22,7 +22,9 @@
 
 #include <fstream>
 
+#include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QVariant>
 
@@ -147,6 +149,11 @@ void ConfigurationPrivate::saveData()
 {
     const QString path = System::getApplicationConfigDir();
     const QString configFile = path + "/" + "config.json";
+    const QFileInfo configPathInfo(configFile);
+    const QDir configDir(configPathInfo.absolutePath());
+
+    if (configDir.exists() == false)
+        configDir.mkpath(".");
 
     std::ofstream config(configFile.toStdString(), std::ofstream::binary);
 
