@@ -72,6 +72,7 @@ before_install:
     fi
 
 before_script:
+  - echo "CC = $CC"
   - if [ "$CC" = "gcc" ]; then
         export COMPILER=g++-7
     else
