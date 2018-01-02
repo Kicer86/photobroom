@@ -21,7 +21,7 @@ addons:
         sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
-            - beineri/opt-qt571-trusty
+            - sourceline: 'ppa:beineri/opt-qt571-trusty'
 
 notifications:
     on_failure: never
